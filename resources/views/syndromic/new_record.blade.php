@@ -49,8 +49,16 @@
                     </tr>
                   </tbody>
                 </table>
+                <div class="form-group d-none">
+                  <label for="consultation_type"><b class="text-danger">*</b>Consultation Type</label>
+                  <select class="form-control" name="consultation_type" id="consultation_type">
+                    @foreach(App\Models\SyndromicRecords::refConsultationType() as $ref1)
+                    <option value="{{mb_strtoupper($ref1)}}">{{mb_strtoupper($ref1)}}</option>
+                    @endforeach
+                  </select>
+                </div>
                 <div class="form-group">
-                  <label for="checkup_type"><b class="text-danger">*</b>Consultation Type</label>
+                  <label for="checkup_type"><b class="text-danger">*</b>Consultation Source</label>
                   <select class="form-control" name="checkup_type" id="checkup_type" required>
                     <option value="" disabled {{is_null(old('checkup_type')) ? 'selected' : ''}}>Choose...</option>
                     <option value="CHECKUP" {{(old('checkup_type') == 'CHECKUP') ? 'selected' : ''}}>From OPD</option>
@@ -623,9 +631,9 @@
                       <label for="dcnote_assessment">Assessment/Diagnosis Notes</label>
                       <textarea class="form-control" name="dcnote_assessment" id="dcnote_assessment" rows="3" style="text-transform: uppercase;">{{old('dcnote_assessment')}}</textarea>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group d-none">
                       <label for="main_diagnosis"><b class="text-danger">*</b>Main Diagnosis (ICD 10 Code)</label>
-                      <select class="form-control" name="main_diagnosis" id="main_diagnosis" required>
+                      <select class="form-control" name="main_diagnosis" id="main_diagnosis">
                       </select>
                     </div>
                     <div class="form-group">
@@ -637,7 +645,7 @@
                       <textarea class="form-control" name="dcnote_diagprocedure" id="dcnote_diagprocedure" rows="3" style="text-transform: uppercase;">{{old('dcnote_diagprocedure')}}</textarea>
                     </div>
                     <hr>
-                    <div class="form-group">
+                    <div class="form-group d-none">
                       <label for="other_diagnosis">Other Diagnosis (ICD 10 Code)</label>
                       <select class="form-control" name="other_diagnosis[]" id="other_diagnosis" multiple>
                       </select>
@@ -675,7 +683,7 @@
                   </div>
                   <div class="col-md-8">
                     <div class="form-group">
-                      <label for="name_of_physician"><b class="text-danger">*</b>Name of Physician</label>
+                      <label for="name_of_physician"><b class="text-danger">*</b>Name of Attending Physician</label>
                       <select class="form-control" name="name_of_physician" id="name_of_physician">
                         <!--<option {{(is_null(old('name_of_physician'))) ? 'selected' : ''}} value="">None</option>-->
                         @foreach($doclist as $dr)
@@ -686,7 +694,7 @@
                     </div>
                     <div id="ifotherdoctor" class="d-none">
                       <div class="form-group">
-                        <label for="other_doctor"><b class="text-danger">*</b>Other Name of Physician</label>
+                        <label for="other_doctor"><b class="text-danger">*</b>Other Name of Attending Physician</label>
                         <input type="text" class="form-control" name="other_doctor" id="other_doctor" value="{{old('other_doctor')}}" style="text-transform: uppercase;">
                       </div>
                     </div>
@@ -733,6 +741,10 @@
           }, 2000);
           return false;
       }
+  });
+
+  $('#consultation_type').select2({
+    theme: "bootstrap",
   });
 
   $('#main_diagnosis').select2({

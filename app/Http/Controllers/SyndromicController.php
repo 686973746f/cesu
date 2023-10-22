@@ -358,7 +358,7 @@ class SyndromicController extends Controller
             ->with('msgtype', 'warning');
         }
         else {
-            $number_in_line = SyndromicRecords::where('created_by', auth()->user()->id)
+            $number_in_line = SyndromicRecords::where('checkup_type', 'CHECKUP')
             ->whereDate('created_at', date('Y-m-d'))->count() + 1;
 
             return view('syndromic.new_record', [
@@ -511,10 +511,10 @@ class SyndromicController extends Controller
 
                 //'bigmessage' => $r->bigmessage,
                 'dcnote_assessment' => ($r->filled('dcnote_assessment')) ? mb_strtoupper($r->dcnote_assessment) : NULL,
-                'main_diagnosis' => $r->main_diagnosis,
+                'main_diagnosis' => ($r->filled('main_diagnosis')) ? $r->main_diagnosis : NULL,
                 'dcnote_plan' => ($r->filled('dcnote_plan')) ? mb_strtoupper($r->dcnote_plan) : NULL,
                 'dcnote_diagprocedure' => ($r->filled('dcnote_diagprocedure')) ? mb_strtoupper($r->dcnote_diagprocedure) : NULL,
-                'other_diagnosis' => implode(',', $r->other_diagnosis),
+                'other_diagnosis' => ($r->filled('other_diagnosis')) ? implode(',', $r->other_diagnosis) : NULL,
                 'rx' => ($r->filled('rx')) ? mb_strtoupper($r->rx) : NULL,
                 'remarks' => ($r->filled('remarks')) ? mb_strtoupper($r->remarks) : NULL,
 
@@ -956,13 +956,13 @@ class SyndromicController extends Controller
 
                 //'bigmessage' => $r->bigmessage,
                 'dcnote_assessment' => ($r->filled('dcnote_assessment')) ? mb_strtoupper($r->dcnote_assessment) : NULL,
-                'main_diagnosis' => $r->main_diagnosis,
+                'main_diagnosis' => ($r->filled('main_diagnosis')) ? $r->main_diagnosis : NULL,
                 'dcnote_plan' => ($r->filled('dcnote_plan')) ? mb_strtoupper($r->dcnote_plan) : NULL,
                 'dcnote_diagprocedure' => ($r->filled('dcnote_diagprocedure')) ? mb_strtoupper($r->dcnote_diagprocedure) : NULL,
-                'other_diagnosis' => implode(',', $r->other_diagnosis),
+                'other_diagnosis' => ($r->filled('other_diagnosis')) ? implode(',', $r->other_diagnosis) : NULL,
                 'rx' => ($r->filled('rx')) ? mb_strtoupper($r->rx) : NULL,
                 'remarks' => ($r->filled('remarks')) ? mb_strtoupper($r->remarks) : NULL,
-
+                
                 'status' => 'approved',
                 'name_of_physician' => $r->name_of_physician,
                 'other_doctor' => ($r->name_of_physician == 'OTHERS') ? mb_strtoupper($r->other_doctor) : NULL,

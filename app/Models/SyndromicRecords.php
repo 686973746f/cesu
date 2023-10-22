@@ -18,6 +18,7 @@ class SyndromicRecords extends Model
         'line_number',
         'last_checkup_date',
         'consultation_date',
+        'consultation_type',
         'checkup_type',
         'chief_complain',
         'rx_outsidecho',
@@ -151,6 +152,28 @@ class SyndromicRecords extends Model
         'medcert_start_date',
         'medcert_end_date',
     ];
+
+    public static function refConsultationType() {
+        $array = [
+            'Adult Immunization',
+            'Animal Bite',
+            'Child Care',
+            'Child Immunization',
+            'Child Nutrition',
+            'Covid Form',
+            'Dental Care',
+            'Family Planning',
+            'Firecracker Injury',
+            'General',
+            'Injury',
+            'Post Partum',
+            'Prenatal',
+            'Sick Children',
+            'Tuberculosis',
+        ];
+
+        return $array;
+    }
 
     public function syndromic_patient() {
         return $this->belongsTo(SyndromicPatient::class, 'syndromic_patient_id');

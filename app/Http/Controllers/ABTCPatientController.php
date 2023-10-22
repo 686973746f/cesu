@@ -12,6 +12,7 @@ use App\Models\AbtcBakunaRecords;
 use App\Models\AbtcVaccineStocks;
 use Illuminate\Support\Facades\DB;
 use App\Models\AbtcVaccinationSite;
+use App\Models\AbtcVaccineLogs;
 use Illuminate\Support\Facades\Session;
 
 class ABTCPatientController extends Controller
@@ -31,10 +32,13 @@ class ABTCPatientController extends Controller
         else {
             $get_initVaccineList = AbtcVaccineBrand::whereNotIn('id', $init_list)->where('enabled', 1)->get();
         }
+
+        $wastage_submit_check = AbtcVaccineLogs::whereDate('created_at', date('Y-m-d'))->first();
         
         return view('abtc.home', [
             'vslist' => $vslist,
             'get_initVaccineList' => $get_initVaccineList,
+            'wastage_submit_check' => $wastage_submit_check,
         ]);
     }
 
@@ -253,11 +257,9 @@ class ABTCPatientController extends Controller
     }
 
     public function initVaccineBrand(Request $r) {
-        $r->initVaccineBrand;
-
         $update = User::findOrFail(auth()->user()->id);
         
-        $update->abtc_default_vaccinebrand_id = $r->initVaccineBrand;
+        $update->abtc_default_vaccinebrand_id = $r->selected_vaccine;
         $update->abtc_default_vaccinebrand_date = date('Y-m-d');
 
         if($update->isDirty()) {
@@ -271,5 +273,23 @@ class ABTCPatientController extends Controller
 
     public function initVaccineStocks(Request $r) {
         
+    }
+
+    public function initDailyWastage(Request $r) {
+        $check = AbtcVaccineLogs::whereDate('created_at', date('Y-m-d'))->first();
+
+        if(!$check) {
+            $r->user()->abtcvaccinelog()->create([
+                'wastage_dose_count' => $r->wastage_dose_count,
+            ]);
+
+            $stock = AbtcVaccineStocks::where('vaccine_id', auth()->user()->abtc_default_vaccinebrand_id)
+            ->where('branch_id', auth()->user()->abtc_default_vaccinationsite_id)
+            ->decrement('current_stock', ceil($r->wastage_dose_count));
+        }
+
+        return redirect()->route('abtc_home')
+        ->with('msg', 'Daily Wastage was successfully submitted.')
+        ->with('msgtype', 'success');
     }
 }

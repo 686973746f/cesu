@@ -20,6 +20,7 @@ class CreateSyndromicRecordsTable extends Migration
             $table->integer('line_number')->nullable();
             $table->date('last_checkup_date')->nullable();
             $table->dateTime('consultation_date');
+            $table->text('consultation_type')->nullable();
             $table->string('checkup_type')->nullable();
             
             $table->string('chief_complain');
@@ -158,6 +159,7 @@ class CreateSyndromicRecordsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
+            //$table->foreignId('created_on_branch')->nullable()->constrained('pharmacy_branches')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
         });
     }

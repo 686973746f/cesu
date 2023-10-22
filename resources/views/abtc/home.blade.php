@@ -14,6 +14,9 @@
           <div class="d-flex justify-content-between">
             <div><b>ABTC Menu</b></div>
             <div>
+              @if(!$wastage_submit_check)
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#wastage">Input Daily Wastage</button>
+              @endif
               @if(auth()->user()->canaccess_covid == 1)
               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changemenu">Change</button>
               @endif
@@ -341,6 +344,33 @@
   $('#init_vaccinestocks').modal({backdrop: 'static', keyboard: false});
   $('#init_vaccinestocks').modal('show');
 </script>
+@endif
+
+@if(!$wastage_submit_check)
+<form action="{{route('abtc_init_wastage')}}" method="POST">
+  @csrf
+  <div class="modal fade" id="wastage" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Input Unused Bottle/s</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="wastage_dose_count"><b class="text-danger">*</b>Input Wastage (by Dose)</label>
+            <input type="number" step="0.1" class="form-control" name="wastage_dose_count" id="wastage_dose_count" min="0.5" max="30" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
 @endif
 <script>
 

@@ -55,6 +55,7 @@ class CreateSyndromicPatientsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
+            //$table->foreignId('created_on_branch')->nullable()->constrained('pharmacy_branches')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->text('shared_access_list')->nullable();
         });

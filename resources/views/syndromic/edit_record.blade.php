@@ -17,7 +17,7 @@
               <div class="d-flex justify-content-between">
                 <div><b>Edit ITR</b></div>
                 <div>
-                  <a href="{{route('syndromic_newRecord', $d->syndromic_patient->id)}}" class="btn btn-success">New ITR/New Check-up</a>
+                  <a href="{{route('syndromic_newRecord', $d->syndromic_patient->id)}}" class="btn btn-success">New Consultation</a>
                   @if($d->getPharmacyDetails())
                   <a href="{{route('pharmacy_print_patient_card', $d->getPharmacyDetails()->id)}}" class="btn btn-primary">Print Pharmacy Card</a>
                   @endif
@@ -81,7 +81,7 @@
                   </tbody>
                 </table>
                 <div class="form-group">
-                  <label for="checkup_type"><b class="text-danger">*</b>Consultation Type</label>
+                  <label for="checkup_type"><b class="text-danger">*</b>Consultation Source</label>
                   <select class="form-control" name="checkup_type" id="checkup_type" required>
                     <option value="" disabled {{is_null(old('checkup_type', $d->checkup_type)) ? 'selected' : ''}}>Choose...</option>
                     <option value="CHECKUP" {{(old('checkup_type', $d->checkup_type) == 'CHECKUP') ? 'selected' : ''}}>From OPD</option>
@@ -654,9 +654,9 @@
                       <label for="dcnote_assessment">Assessment/Diagnosis Remarks</label>
                       <textarea class="form-control" name="dcnote_assessment" id="dcnote_assessment" rows="3" style="text-transform: uppercase;">{{old('dcnote_assessment', $d->dcnote_assessment)}}</textarea>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group d-none">
                       <label for="main_diagnosis"><b class="text-danger">*</b>Main Diagnosis (ICD 10 Code)</label>
-                      <select class="form-control" name="main_diagnosis" id="main_diagnosis" required>
+                      <select class="form-control" name="main_diagnosis" id="main_diagnosis">
                         @if(!is_null($d->main_diagnosis))
                         <option value="{{$d->main_diagnosis}}" selected>{{$d->getIcd10CodeString($d->main_diagnosis)}}</option>
                         @endif
@@ -671,7 +671,7 @@
                       <textarea class="form-control" name="dcnote_diagprocedure" id="dcnote_diagprocedure" rows="3" style="text-transform: uppercase;">{{old('dcnote_diagprocedure', $d->dcnote_diagprocedure)}}</textarea>
                     </div>
                     <hr>
-                    <div class="form-group">
+                    <div class="form-group d-none">
                       <label for="other_diagnosis">Other Diagnosis (ICD 10 Code)</label>
                       <select class="form-control" name="other_diagnosis[]" id="other_diagnosis" multiple>
                         @if(!is_null($d->other_diagnosis))
@@ -714,7 +714,7 @@
                   </div>
                   <div class="col-md-8">
                     <div class="form-group">
-                      <label for="name_of_physician"><span class="text-danger font-weight-bold">*</span>Name of Physician</label>
+                      <label for="name_of_physician"><span class="text-danger font-weight-bold">*</span>Name of Attending Physician</label>
                       <select class="form-control" name="name_of_physician" id="name_of_physician">
                         @foreach($doclist as $dr)
                         <option value="{{$dr->doctor_name}}" {{(old('name_of_physician', $d->name_of_physician) == $dr->doctor_name) ? 'selected' : ''}} class="{{($dr->dru_name == 'CHO GENERAL TRIAS') ? 'official_drlist' : 'outside_drlist'}}">{{$dr->doctor_name}} ({{$dr->dru_name}})</option>
@@ -724,7 +724,7 @@
                     </div>
                     <div id="ifotherdoctor" class="d-none">
                       <div class="form-group">
-                        <label for="other_doctor"><b class="text-danger">*</b>Other Name of Physician</label>
+                        <label for="other_doctor"><b class="text-danger">*</b>Other Name of Attending Physician</label>
                         <input type="text" class="form-control" name="other_doctor" id="other_doctor" value="{{old('other_doctor')}}" style="text-transform: uppercase;">
                       </div>
                     </div>
@@ -860,28 +860,6 @@
           cache: true
       }
   });
-  
-  /*
-  // Fetch the preselected item, and add to the control
-  var maindiagnosis_select = $('#main_diagnosis');
-  $.ajax({
-      type: 'GET',
-      dataType: 'json',
-      url: "{{route('syndromic_icd10list_getcode', $d->main_diagnosis)}}",
-  }).then(function (data) {
-      // create the option and append to Select2
-      var option = new Option(data.ICD10_CODE + ' - ' + data.ICD10_DESC, data.ICD10_CODE, true, true);
-      maindiagnosis_select.append(option).trigger('change');
-
-      // manually trigger the `select2:select` event
-      maindiagnosis_select.trigger({
-          type: 'select2:select',
-          params: {
-              data: data
-          }
-      });
-  });
-  */
 
   $('#other_diagnosis').select2({
       theme: "bootstrap",
