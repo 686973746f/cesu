@@ -146,7 +146,7 @@ class AbtcStockReport extends Command
                     ->first();
 
                     $temp_array[$ind]['brand_id'] = $get_vbrand->id;
-                    $temp_array[$ind]['bottle_used'] = floor($t['count'] / $get_vbrand->est_maxdose_perbottle);
+                    $temp_array[$ind]['bottle_used'] = ceil($t['count'] / $get_vbrand->est_maxdose_perbottle);
                     $temp_array[$ind]['remaining'] = $get_vstock->current_stock;
 
                     /*
