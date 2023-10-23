@@ -310,6 +310,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(AbtcVaccineLogs::class, 'created_by');
     }
 
+    public function abtcGetDefaultVaccine() {
+        $d = AbtcVaccineBrand::find($this->abtc_default_vaccinebrand_id);
+
+        return $d;
+    }
+
     //perms
     public function getPermissions() {
         return explode(",", $this->permission_list);
