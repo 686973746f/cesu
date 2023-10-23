@@ -6,6 +6,7 @@ use App\Models\Brgy;
 use App\Models\Forms;
 use App\Models\DailyCases;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use App\Mail\CovidReportWordWeekly;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
@@ -35,6 +36,7 @@ class AutoEmailCovidReportWeekly extends Command
     public function __construct()
     {
         parent::__construct();
+        DB::setDefaultConnection('cesureport2');
     }
 
     /**

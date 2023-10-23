@@ -165,6 +165,22 @@
                             <td>{{$ue12}}</td>
                             <td class="font-weight-bold">{{$ue1 + $ue2 + $ue3 + $ue4 + $ue5 + $ue6 + $ue7 + $ue8 + $ue9 + $ue10 + $ue11 + $ue12}}</td>
                         </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
                         <tr class="">
                             <td>< 15 MALE</td>
                             <td>{{$uf_male1}}</td>

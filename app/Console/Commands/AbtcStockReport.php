@@ -7,6 +7,7 @@ use App\Models\AbtcVaccineBrand;
 use App\Models\AbtcBakunaRecords;
 use App\Models\AbtcVaccineStocks;
 use App\Mail\AbtcStockReportEmail;
+use Illuminate\Support\Facades\DB;
 use App\Models\AbtcVaccinationSite;
 use Illuminate\Support\Facades\Mail;
 
@@ -34,6 +35,7 @@ class AbtcStockReport extends Command
     public function __construct()
     {
         parent::__construct();
+        DB::setDefaultConnection('cesureport1');
     }
 
     /**

@@ -9,6 +9,7 @@ use App\Mail\CovidReportWord;
 use App\Mail\DilgReportExcel;
 use App\Mail\CovidReportWordv2;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -39,6 +40,7 @@ class AutoEmailReport extends Command
     public function __construct()
     {
         parent::__construct();
+        DB::setDefaultConnection('cesureport1');
     }
 
     /**
