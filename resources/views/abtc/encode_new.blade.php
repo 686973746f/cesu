@@ -176,13 +176,14 @@
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="mb-3">
                             <label for="d0_date" class="form-label"><strong class="text-danger">*</strong>First Vaccine / Day 0 Date</label>
                             <input type="date" class="form-control" name="d0_date" id="d0_date" min="{{$d->bdate}}" max="{{date('Y-m-d')}}" value="{{old('d0_date')}}" required>
+                            
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="mb-3">
                             <label for="brand_name" class="form-label"><strong class="text-danger">*</strong>Brand Name</label>
                             <select class="form-select" name="brand_name" id="brand_name" required>
@@ -193,7 +194,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="mb-3">
                             <label for="pep_route" class="form-label"><strong class="text-danger">*</strong>Route</label>
                             <select class="form-select" name="pep_route" id="pep_route" required>
@@ -202,7 +203,23 @@
                             </select>
                         </div>
                     </div>
-                    <small class="text-muted">Note: Schedule date for Day 3, Day 7 onwards will be automatically given after you finish the encoding.</small>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                          <label for="d0_vaccinated_inbranch"><strong class="text-danger">*</strong>D0 was vaccinated here?</label>
+                          <select class="form-control" name="d0_vaccinated_inbranch" id="d0_vaccinated_inbranch" required>
+                            <option value="" disabled {{is_null(old('d0_vaccinated_inbranch')) ? 'selected' : ''}}>Choose...</option>
+                            <option value="Y" {{(old('d0_vaccinated_inbranch') == 'Y') ? 'selected' : ''}}>Yes</option>
+                            <option value="N" {{(old('d0_vaccinated_inbranch') == 'N') ? 'selected' : ''}}>No (Other Clinic)</option>
+                          </select>
+                        </div>
+                    </div>
+                    <small class="text-muted">
+                        <ul>
+                            <b class="text-danger">Note:</b>
+                            <li>Input the Actual Day 0 Date regardless if patient was vaccinated here or not.</li>
+                            <li>Dates Day 3, Day 7 onwards will be automatically given after you finish the encoding.</li>
+                        </ul>
+                    </small>
                 </div>
                 <hr>
                 <div class="row">

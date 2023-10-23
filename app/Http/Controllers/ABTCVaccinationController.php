@@ -210,6 +210,7 @@ class ABTCVaccinationController extends Controller
                 'brand_name' => $request->brand_name,
                 'd0_date' => $request->d0_date,
                 'd0_done' => 1,
+                'd0_vaccinated_inbranch' => ($request->d0_vaccinated_inbranch == 'Y') ? 1 : 0,
                 'd0_brand' => $request->brand_name,
                 'd3_date' => $set_d3_date->format('Y-m-d'),
                 'd3_brand' => $request->brand_name,
@@ -658,6 +659,34 @@ class ABTCVaccinationController extends Controller
                 if($request->d0_ostatus == 'C') {
                     $d->d0_done = 1;
                 }
+
+                if($request->d0_vaccinated_inbranch == 'Y') {
+                    $bsearch = AbtcVaccineBrand::where('brand_name', $request->d0_brand)->first();
+                    $stock_search = AbtcVaccineStocks::where('brand_id', $bsearch->id)
+                    ->where('branch_id', auth()->user()->abtc_default_vaccinationsite_id)
+                    ->first();
+
+                    if(Carbon::parse($stock_search->initial_date)->lt(Carbon::parse($request->d0_date))) {
+                        $d->d0_vaccinated_inbranch = 0;
+                    }
+                    else if(Carbon::parse($stock_search->initial_date)->gt(Carbon::parse(date('Y-m-d')))) {
+                        $d->d0_vaccinated_inbranch = 0;
+                    }
+                    else {
+                        $d->d0_vaccinated_inbranch = 1;
+
+                        $stock_search->patient_dosecount_init++;
+            
+                        if($stock_search->patient_dosecount_init == $bsearch->est_maxdose_perbottle) {
+                            $stock_search->current_stock--;
+                            $stock_search->patient_dosecount_init = 0;
+                        }
+
+                        if($stock_search->isDirty()) {
+                            $stock_search->save();
+                        }
+                    }
+                }
             }
 
             $d->d3_date = $request->d3_date;
@@ -670,6 +699,34 @@ class ABTCVaccinationController extends Controller
 
                     if($d->outcome == 'INC' && $d->is_booster == 1) {
                         $d->outcome = 'C';
+                    }
+                }
+
+                if($request->d3_vaccinated_inbranch == 'Y') {
+                    $bsearch = AbtcVaccineBrand::where('brand_name', $request->d3_brand)->first();
+                    $stock_search = AbtcVaccineStocks::where('brand_id', $bsearch->id)
+                    ->where('branch_id', auth()->user()->abtc_default_vaccinationsite_id)
+                    ->first();
+
+                    if(Carbon::parse($stock_search->initial_date)->lt(Carbon::parse($request->d3_date))) {
+                        $d->d3_vaccinated_inbranch = 0;
+                    }
+                    else if(Carbon::parse($stock_search->initial_date)->gt(Carbon::parse(date('Y-m-d')))) {
+                        $d->d3_vaccinated_inbranch = 0;
+                    }
+                    else {
+                        $d->d3_vaccinated_inbranch = 1;
+
+                        $stock_search->patient_dosecount_init++;
+            
+                        if($stock_search->patient_dosecount_init == $bsearch->est_maxdose_perbottle) {
+                            $stock_search->current_stock--;
+                            $stock_search->patient_dosecount_init = 0;
+                        }
+
+                        if($stock_search->isDirty()) {
+                            $stock_search->save();
+                        }
                     }
                 }
             }
@@ -687,6 +744,34 @@ class ABTCVaccinationController extends Controller
 
                         if($d->outcome == 'INC' && $d->is_booster == 0) {
                             $d->outcome = 'C';
+                        }
+                    }
+
+                    if($request->d7_vaccinated_inbranch == 'Y') {
+                        $bsearch = AbtcVaccineBrand::where('brand_name', $request->d7_brand)->first();
+                        $stock_search = AbtcVaccineStocks::where('brand_id', $bsearch->id)
+                        ->where('branch_id', auth()->user()->abtc_default_vaccinationsite_id)
+                        ->first();
+    
+                        if(Carbon::parse($stock_search->initial_date)->lt(Carbon::parse($request->d7_date))) {
+                            $d->d7_vaccinated_inbranch = 0;
+                        }
+                        else if(Carbon::parse($stock_search->initial_date)->gt(Carbon::parse(date('Y-m-d')))) {
+                            $d->d7_vaccinated_inbranch = 0;
+                        }
+                        else {
+                            $d->d7_vaccinated_inbranch = 1;
+    
+                            $stock_search->patient_dosecount_init++;
+                
+                            if($stock_search->patient_dosecount_init == $bsearch->est_maxdose_perbottle) {
+                                $stock_search->current_stock--;
+                                $stock_search->patient_dosecount_init = 0;
+                            }
+    
+                            if($stock_search->isDirty()) {
+                                $stock_search->save();
+                            }
                         }
                     }
                 }
@@ -707,6 +792,34 @@ class ABTCVaccinationController extends Controller
                                 $d->outcome = 'C';
                             }
                         }
+
+                        if($request->d14_vaccinated_inbranch == 'Y') {
+                            $bsearch = AbtcVaccineBrand::where('brand_name', $request->d14_brand)->first();
+                            $stock_search = AbtcVaccineStocks::where('brand_id', $bsearch->id)
+                            ->where('branch_id', auth()->user()->abtc_default_vaccinationsite_id)
+                            ->first();
+        
+                            if(Carbon::parse($stock_search->initial_date)->lt(Carbon::parse($request->d14_date))) {
+                                $d->d14_vaccinated_inbranch = 0;
+                            }
+                            else if(Carbon::parse($stock_search->initial_date)->gt(Carbon::parse(date('Y-m-d')))) {
+                                $d->d14_vaccinated_inbranch = 0;
+                            }
+                            else {
+                                $d->d14_vaccinated_inbranch = 1;
+        
+                                $stock_search->patient_dosecount_init++;
+                    
+                                if($stock_search->patient_dosecount_init == $bsearch->est_maxdose_perbottle) {
+                                    $stock_search->current_stock--;
+                                    $stock_search->patient_dosecount_init = 0;
+                                }
+        
+                                if($stock_search->isDirty()) {
+                                    $stock_search->save();
+                                }
+                            }
+                        }
                     }
                 }
 
@@ -723,6 +836,34 @@ class ABTCVaccinationController extends Controller
 
                         if($d->outcome == 'INC' && $d->is_booster == 0) {
                             $d->outcome = 'C';
+                        }
+                    }
+
+                    if($request->d28_vaccinated_inbranch == 'Y') {
+                        $bsearch = AbtcVaccineBrand::where('brand_name', $request->d28_brand)->first();
+                        $stock_search = AbtcVaccineStocks::where('brand_id', $bsearch->id)
+                        ->where('branch_id', auth()->user()->abtc_default_vaccinationsite_id)
+                        ->first();
+    
+                        if(Carbon::parse($stock_search->initial_date)->lt(Carbon::parse($request->d28_date))) {
+                            $d->d28_vaccinated_inbranch = 0;
+                        }
+                        else if(Carbon::parse($stock_search->initial_date)->gt(Carbon::parse(date('Y-m-d')))) {
+                            $d->d28_vaccinated_inbranch = 0;
+                        }
+                        else {
+                            $d->d28_vaccinated_inbranch = 1;
+    
+                            $stock_search->patient_dosecount_init++;
+                
+                            if($stock_search->patient_dosecount_init == $bsearch->est_maxdose_perbottle) {
+                                $stock_search->current_stock--;
+                                $stock_search->patient_dosecount_init = 0;
+                            }
+    
+                            if($stock_search->isDirty()) {
+                                $stock_search->save();
+                            }
                         }
                     }
                 }
