@@ -49,13 +49,36 @@
                     </tr>
                   </tbody>
                 </table>
-                <div class="form-group d-none">
-                  <label for="consultation_type"><b class="text-danger">*</b>Consultation Type</label>
-                  <select class="form-control" name="consultation_type" id="consultation_type">
-                    @foreach(App\Models\SyndromicRecords::refConsultationType() as $ref1)
-                    <option value="{{mb_strtoupper($ref1)}}">{{mb_strtoupper($ref1)}}</option>
-                    @endforeach
-                  </select>
+                <div class="form-group">
+                  <label class="mr-2"><b class="text-danger">*</b>Consultation Type:</label>
+                  @foreach(App\Models\SyndromicRecords::refConsultationType() as $ind => $ref1)
+                  @php
+                  //Check Status
+                  if($ref1 == 'Prenatal' || $ref1 == 'Post Partum') {
+                    if($patient->gender == 'MALE') {
+                      $get_disabled = true; 
+                    }
+                    else {
+                      $get_disabled = false;
+                    }
+                  }
+                  else if($ref1 == 'Child Care' || $ref1 == 'Child Immunization' || $ref1 == 'Child Nutrition' || $ref1 == 'Sick Children') {
+                    if($patient->getAgeInt() <= 17) {
+                      $get_disabled = false;
+                    }
+                    else {
+                      $get_disabled = true;
+                    }
+                  }
+                  else {
+                    $get_disabled = false;
+                  }
+                  @endphp
+                  <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="type_{{$ind}}" name="consultation_type[]" value="{{mb_strtoupper($ref1)}}" {{($get_disabled) ? 'disabled' : ''}}>
+                      <label class="form-check-label" for="interest1">{{$ref1}}</label>
+                  </div>
+                  @endforeach
                 </div>
                 <div class="form-group">
                   <label for="checkup_type"><b class="text-danger">*</b>Consultation Source</label>
