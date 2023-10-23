@@ -93,6 +93,18 @@ class ABTCReportController extends Controller
                     $q->where('age', '<', 18);
                 })->whereMonth('case_date', $i);
 
+                ${'uf_male'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
+                ->whereHas('patients', function ($q) {
+                    $q->where('age', '<', 15)
+                    ->where('gender', 'MALE');
+                })->whereMonth('case_date', $i);
+
+                ${'uf_female'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
+                ->whereHas('patients', function ($q) {
+                    $q->where('age', '<', 15)
+                    ->where('gender', 'FEMALE');
+                })->whereMonth('case_date', $i);
+
                 ${'er'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
                 ->whereMonth('case_date', $i)
                 ->whereNotNull('rig_date_given');
@@ -131,6 +143,10 @@ class ABTCReportController extends Controller
                     ${'oe'.$i} = ${'oe'.$i}->count();
     
                     ${'ue'.$i} = ${'ue'.$i}->count();
+
+                    ${'uf_male'.$i} = ${'uf_male'.$i}->count();
+                    
+                    ${'uf_female'.$i} = ${'uf_female'.$i}->count();
     
                     ${'er'.$i} = ${'er'.$i}->count();
     
@@ -160,6 +176,10 @@ class ABTCReportController extends Controller
                     ${'oe'.$i} = ${'oe'.$i}->where('vaccination_site_id', $vid)->count();
     
                     ${'ue'.$i} = ${'ue'.$i}->where('vaccination_site_id', $vid)->count();
+
+                    ${'uf_male'.$i} = ${'uf_male'.$i}->where('vaccination_site_id', $vid)->count();
+                    
+                    ${'uf_female'.$i} = ${'uf_female'.$i}->where('vaccination_site_id', $vid)->count();
     
                     ${'er'.$i} = ${'er'.$i}->where('vaccination_site_id', $vid)->count();
     
@@ -188,6 +208,10 @@ class ABTCReportController extends Controller
                 ${'oe'.$i} = 0;
 
                 ${'ue'.$i} = 0;
+
+                ${'uf_male'.$i} = 0;
+
+                ${'uf_female'.$i} = 0;
 
                 ${'er'.$i} = 0;
 
@@ -364,6 +388,30 @@ class ABTCReportController extends Controller
             'cat12' => $cat12,
             'sy' => $sy,
             'vslist' => $vslist,
+            'uf_male1' => $uf_male1,
+            'uf_male2' => $uf_male2,
+            'uf_male3' => $uf_male3,
+            'uf_male4' => $uf_male4,
+            'uf_male5' => $uf_male5,
+            'uf_male6' => $uf_male6,
+            'uf_male7' => $uf_male7,
+            'uf_male8' => $uf_male8,
+            'uf_male9' => $uf_male9,
+            'uf_male10' => $uf_male10,
+            'uf_male11' => $uf_male11,
+            'uf_male12' => $uf_male12,
+            'uf_female1' => $uf_female1,
+            'uf_female2' => $uf_female2,
+            'uf_female3' => $uf_female3,
+            'uf_female4' => $uf_female4,
+            'uf_female5' => $uf_female5,
+            'uf_female6' => $uf_female6,
+            'uf_female7' => $uf_female7,
+            'uf_female8' => $uf_female8,
+            'uf_female9' => $uf_female9,
+            'uf_female10' => $uf_female10,
+            'uf_female11' => $uf_female11,
+            'uf_female12' => $uf_female12,
         ]);
     }
 

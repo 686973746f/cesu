@@ -165,6 +165,38 @@
                             <td>{{$ue12}}</td>
                             <td class="font-weight-bold">{{$ue1 + $ue2 + $ue3 + $ue4 + $ue5 + $ue6 + $ue7 + $ue8 + $ue9 + $ue10 + $ue11 + $ue12}}</td>
                         </tr>
+                        <tr class="">
+                            <td>< 15 MALE</td>
+                            <td>{{$uf_male1}}</td>
+                            <td>{{$uf_male2}}</td>
+                            <td>{{$uf_male3}}</td>
+                            <td>{{$uf_male4}}</td>
+                            <td>{{$uf_male5}}</td>
+                            <td>{{$uf_male6}}</td>
+                            <td>{{$uf_male7}}</td>
+                            <td>{{$uf_male8}}</td>
+                            <td>{{$uf_male9}}</td>
+                            <td>{{$uf_male10}}</td>
+                            <td>{{$uf_male11}}</td>
+                            <td>{{$uf_male12}}</td>
+                            <td class="font-weight-bold">{{$uf_male1 + $uf_male2 + $uf_male3 + $uf_male4 + $uf_male5 + $uf_male6 + $uf_male7 + $uf_male8 + $uf_male9 + $uf_male10 + $uf_male11 + $uf_male12}}</td>
+                        </tr>
+                        <tr class="">
+                            <td>< 15 FEMALE</td>
+                            <td>{{$uf_female1}}</td>
+                            <td>{{$uf_female2}}</td>
+                            <td>{{$uf_female3}}</td>
+                            <td>{{$uf_female4}}</td>
+                            <td>{{$uf_female5}}</td>
+                            <td>{{$uf_female6}}</td>
+                            <td>{{$uf_female7}}</td>
+                            <td>{{$uf_female8}}</td>
+                            <td>{{$uf_female9}}</td>
+                            <td>{{$uf_female10}}</td>
+                            <td>{{$uf_female11}}</td>
+                            <td>{{$uf_female12}}</td>
+                            <td class="font-weight-bold">{{$uf_female1 + $uf_female2 + $uf_female3 + $uf_female4 + $uf_female5 + $uf_female6 + $uf_female7 + $uf_female8 + $uf_female9 + $uf_female10 + $uf_female11 + $uf_female12}}</td>
+                        </tr>
                         <tr>
                             <td></td>
                             <td></td>
