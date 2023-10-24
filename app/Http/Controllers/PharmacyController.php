@@ -2175,6 +2175,7 @@ class PharmacyController extends Controller
             foreach($list_subitem as $key => $si) {
                 $items_list[] = [
                     'name' => $si->pharmacysupplymaster->name,
+                    'category' => $si->pharmacysupplymaster->category,
                     'unit' => $si->pharmacysupplymaster->quantity_type,
                     'current_stock' => $si->displayQty(),
                     'id' => $si->id,
@@ -2296,6 +2297,7 @@ class PharmacyController extends Controller
 
                 $si_array[] = [
                     'name' => $item['name'],
+                    'category' => $item['category'],
                     'unit' => $item['unit'],
                     'id' => $item['id'],
                     'current_stock' => $item['current_stock'],

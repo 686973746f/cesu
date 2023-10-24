@@ -352,6 +352,16 @@ class SyndromicController extends Controller
         ->whereDate('created_at', date('Y-m-d'))
         ->first();
 
+        //GET DEFAULT NATURE
+        $count_previous = SyndromicRecords::where('syndromic_patient_id', $patient->id)->count();
+
+        if($count_previous == 0) {
+            $get_dnature = 'NEW CONSULTATION/CASE';
+        }
+        else {
+            $get_dnature = NULL;
+        }
+
         if($check) {
             return redirect()->back()
             ->with('msg', 'Error: Patient ITR Record that was encoded today already exists in the server.')
@@ -365,6 +375,7 @@ class SyndromicController extends Controller
                 'patient' => $patient,
                 'doclist' => $doclist,
                 'number_in_line' => $number_in_line,
+                'get_dnature' => $get_dnature,
             ]);
         }
     }
@@ -411,6 +422,8 @@ class SyndromicController extends Controller
             $c = $r->user()->syndromicrecord()->create([
                 'checkup_type' => $r->checkup_type,
                 'chief_complain' => mb_strtoupper($r->chief_complain),
+                'nature_of_visit' => $r->nature_of_visit,
+                'consultation_type' => implode(',', $r->consultation_type),
                 'rx_outsidecho' => ($r->checkup_type == 'REQUEST_MEDS') ? 1 : 0,
                 'outsidecho_name' => ($r->checkup_type == 'REQUEST_MEDS' && $r->filled('outsidecho_name')) ? mb_strtoupper($r->outsidecho_name) : NULL,
                 'syndromic_patient_id' => $p->id,
@@ -510,12 +523,13 @@ class SyndromicController extends Controller
                 'outcome_died_date' => ($r->outcome == 'DIED') ? $r->outcome_died_date : NULL,
 
                 //'bigmessage' => $r->bigmessage,
+                'diagnosis_type' => $r->diagnosis_type,
                 'dcnote_assessment' => ($r->filled('dcnote_assessment')) ? mb_strtoupper($r->dcnote_assessment) : NULL,
                 'main_diagnosis' => ($r->filled('main_diagnosis')) ? $r->main_diagnosis : NULL,
                 'dcnote_plan' => ($r->filled('dcnote_plan')) ? mb_strtoupper($r->dcnote_plan) : NULL,
                 'dcnote_diagprocedure' => ($r->filled('dcnote_diagprocedure')) ? mb_strtoupper($r->dcnote_diagprocedure) : NULL,
                 'other_diagnosis' => ($r->filled('other_diagnosis')) ? implode(',', $r->other_diagnosis) : NULL,
-                'rx' => ($r->filled('rx')) ? mb_strtoupper($r->rx) : NULL,
+                //'rx' => ($r->filled('rx')) ? mb_strtoupper($r->rx) : NULL,
                 'remarks' => ($r->filled('remarks')) ? mb_strtoupper($r->remarks) : NULL,
 
                 'status' => 'approved',
@@ -596,6 +610,12 @@ class SyndromicController extends Controller
             }
             else {
                 $create_pharma = PharmacyPatient::findOrFail($pharmacy_check->id);
+            }
+
+            /*
+
+            if($r->prescribe_option == 'Y') {
+                
             }
 
             /*
@@ -825,11 +845,14 @@ class SyndromicController extends Controller
     }
 
     public function viewExistingRecordList($patient_id) {
-        $list = SyndromicRecords::where('syndromic_patient_id', $patient_id)
+        $d = SyndromicPatient::findOrFail($patient_id);
+
+        $list = SyndromicRecords::where('syndromic_patient_id', $d->id)
         ->orderBy('created_at', 'DESC')
         ->get();
 
         return view('syndromic.view_existing_records', [
+            'd' => $d,
             'list' => $list,
         ]);
     }
@@ -857,6 +880,8 @@ class SyndromicController extends Controller
         if($r->submit == 'update') {
             $u = SyndromicRecords::where('id', $d->id)
             ->update([
+                'nature_of_visit' => $r->nature_of_visit,
+                'consultation_type' => implode(',', $r->consultation_type),
                 'checkup_type' => $r->checkup_type,
                 'line_number' => $r->line_number,
                 'chief_complain' => mb_strtoupper($r->chief_complain),
@@ -955,12 +980,13 @@ class SyndromicController extends Controller
                 'outcome_died_date' => ($r->outcome == 'DIED') ? $r->outcome_died_date : NULL,
 
                 //'bigmessage' => $r->bigmessage,
+                'diagnosis_type' => $r->diagnosis_type,
                 'dcnote_assessment' => ($r->filled('dcnote_assessment')) ? mb_strtoupper($r->dcnote_assessment) : NULL,
                 'main_diagnosis' => ($r->filled('main_diagnosis')) ? $r->main_diagnosis : NULL,
                 'dcnote_plan' => ($r->filled('dcnote_plan')) ? mb_strtoupper($r->dcnote_plan) : NULL,
                 'dcnote_diagprocedure' => ($r->filled('dcnote_diagprocedure')) ? mb_strtoupper($r->dcnote_diagprocedure) : NULL,
                 'other_diagnosis' => ($r->filled('other_diagnosis')) ? implode(',', $r->other_diagnosis) : NULL,
-                'rx' => ($r->filled('rx')) ? mb_strtoupper($r->rx) : NULL,
+                //'rx' => ($r->filled('rx')) ? mb_strtoupper($r->rx) : NULL,
                 'remarks' => ($r->filled('remarks')) ? mb_strtoupper($r->remarks) : NULL,
                 
                 'status' => 'approved',

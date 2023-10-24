@@ -20,6 +20,7 @@ class CreateSyndromicRecordsTable extends Migration
             $table->integer('line_number')->nullable();
             $table->date('last_checkup_date')->nullable();
             $table->dateTime('consultation_date');
+            $table->text('nature_of_visit')->nullable();
             $table->text('consultation_type')->nullable();
             $table->string('checkup_type')->nullable();
             
@@ -117,12 +118,16 @@ class CreateSyndromicRecordsTable extends Migration
 
             $table->text('dcnote')->nullable();
             $table->text('dcnote_assessment')->nullable();
+            $table->text('diagnosis_type')->nullable();
             $table->text('dcnote_plan')->nullable();
-            $table->text('main_diagnosis')->nullable(); //icd10 code main
+            $table->text('main_diagnosis')->nullable(); //icd10 code main diagnosis
             $table->text('other_diagnosis');
-            $table->text('dcnote_diagprocedure')->nullable();
+            $table->text('dcnote_diagprocedure')->nullable(); //icd10 other diagnosis
             $table->text('rx')->nullable();
             $table->text('remarks')->nullable();
+
+            $table->string('prescribe_option', 1)->nullable();
+            $table->text('prescription_list')->nullable();
 
             $table->text('name_of_interviewer')->nullable();
             $table->text('name_of_physician')->nullable();

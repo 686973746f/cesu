@@ -28,6 +28,8 @@ class CreatePharmacySupplyMastersTable extends Migration
             $table->integer('self_maxbox_perduration')->nullable();
             $table->integer('self_maxpiece_perduration')->nullable();
             $table->integer('self_duration_days')->nullable();
+
+            $table->text('usage_category')->nullable();
             
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');

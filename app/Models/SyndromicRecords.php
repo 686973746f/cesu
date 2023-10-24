@@ -18,6 +18,7 @@ class SyndromicRecords extends Model
         'line_number',
         'last_checkup_date',
         'consultation_date',
+        'nature_of_visit',
         'consultation_type',
         'checkup_type',
         'chief_complain',
@@ -112,14 +113,17 @@ class SyndromicRecords extends Model
         'date_released',
 
         'dcnote',
+        'diagnosis_type',
         'dcnote_assessment',
+        'main_diagnosis',
         'dcnote_plan',
         'dcnote_diagprocedure',
-        'rx',
+        'other_diagnosis',
+        'rx', //NOT BEING USED ANYMORE
         'remarks',
 
-        'main_diagnosis',
-        'other_diagnosis',
+        'prescribe_option',
+        'prescription_list',
 
         'name_of_interviewer',
         'name_of_physician',

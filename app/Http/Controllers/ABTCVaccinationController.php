@@ -229,22 +229,26 @@ class ABTCVaccinationController extends Controller
                 'remarks' => $request->remarks,
             ]);
 
-            $get_vbrand = AbtcVaccineBrand::where('brand_name', $request->brand_name)->first();
+            if($request->d0_vaccinated_inbranch == 'Y') {
+                $get_vbrand = AbtcVaccineBrand::where('brand_name', $request->brand_name)->first();
 
-            //Init Vaccine Stocks
-            $vstock = AbtcVaccineStocks::where('vaccine_id', $get_vbrand->id)
-            ->where('branch_id', auth()->user()->abtc_default_vaccinationsite_id)
-            ->first();
+                //Init Vaccine Stocks
+                $vstock = AbtcVaccineStocks::where('vaccine_id', $get_vbrand->id)
+                ->where('branch_id', auth()->user()->abtc_default_vaccinationsite_id)
+                ->first();
 
-            $vstock->patient_dosecount_init++;
-            
-            if($vstock->patient_dosecount_init == $get_vbrand->est_maxdose_perbottle) {
-                $vstock->current_stock--;
-                $vstock->patient_dosecount_init = 0;
-            }
+                if($request->d0_date <= $vstock->initial_date) {
+                    $vstock->patient_dosecount_init++;
+                
+                    if($vstock->patient_dosecount_init == $get_vbrand->est_maxdose_perbottle) {
+                        $vstock->current_stock--;
+                        $vstock->patient_dosecount_init = 0;
+                    }
 
-            if($vstock->isDirty()) {
-                $vstock->save();
+                    if($vstock->isDirty()) {
+                        $vstock->save();
+                    }
+                }
             }
 
             return view('abtc.encode_finished', [

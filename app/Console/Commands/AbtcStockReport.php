@@ -9,6 +9,7 @@ use App\Models\AbtcVaccineStocks;
 use App\Mail\AbtcStockReportEmail;
 use Illuminate\Support\Facades\DB;
 use App\Models\AbtcVaccinationSite;
+use App\Models\AbtcVaccineLogs;
 use Illuminate\Support\Facades\Mail;
 
 class AbtcStockReport extends Command
@@ -165,8 +166,10 @@ class AbtcStockReport extends Command
             }
         }
 
+        $wastage_count = AbtcVaccineLogs::whereDate('created_at', date('Y-m-d'))->first();
+
         if(!empty($arr)) {
-            Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new AbtcStockReportEmail($arr));
+            Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new AbtcStockReportEmail($arr, $wastage_count));
         }
     }
 }

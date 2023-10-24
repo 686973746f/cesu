@@ -8,6 +8,11 @@
         <ul>
             <li>Patient Vaccinated: {{$b['count']}}</li>
             <li>Bottles Consumed: {{$b['bottle_used']}}</li>
+            @if($wastage_count)
+            <li>Wastage Input: {{$wastage_count->wastage_dose_count}} {{Str::plural('Bottle', $wastage_count->wastage_dose_count)}}</li>
+            @else
+            <li>Wastage Input: 0</li>
+            @endif
             <li>Stocks Remaining: {{$b['remaining']}}</li>
         </ul>
         <p></p>

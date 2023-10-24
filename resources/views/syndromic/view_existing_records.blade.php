@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="card">
-        <div class="card-header">View Existing ITR Records (from Newest to Oldest)</div>
+        <div class="card-header">Viewing Previous Consulation/s of <b>{{$d->getName()}} (#{{$d->id}})</b> (from Newest to Oldest)</div>
         <div class="card-body">
             <table class="table table-striped table-bordered text-center">
                 <thead class="thead-light">

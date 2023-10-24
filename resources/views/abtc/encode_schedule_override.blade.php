@@ -102,11 +102,17 @@
                                 </td>
                                 <td>
                                     @if($d->d3_done == 0)
-                                    <select class="form-select" name="d3_vaccinated_inbranch" id="d3_vaccinated_inbranch" required>
-                                        <option value="" disabled {{is_null(old('d3_vaccinated_inbranch')) ? 'selected' : ''}}>Choose...</option>
-                                        <option value="Y" {{(old('d3_vaccinated_inbranch') == 'Y') ? 'selected' : ''}}>Yes, Vaccinated here</option>
-                                        <option value="N" {{(old('d3_vaccinated_inbranch') == 'N') ? 'selected' : ''}}>No (Other Clinic)</option>
-                                    </select>
+                                        @if($d->d3_date > date('Y-m-d'))
+                                        <select class="form-select" name="d3_vaccinated_inbranch" id="d3_vaccinated_inbranch" required>
+                                            <option value="N" {{(old('d3_vaccinated_inbranch') == 'N') ? 'selected' : ''}}>No (Other Clinic)</option>
+                                        </select>
+                                        @else
+                                        <select class="form-select" name="d3_vaccinated_inbranch" id="d3_vaccinated_inbranch" required>
+                                            <option value="" disabled {{is_null(old('d3_vaccinated_inbranch')) ? 'selected' : ''}}>Choose...</option>
+                                            <option value="Y" {{(old('d3_vaccinated_inbranch') == 'Y') ? 'selected' : ''}}>Yes, Vaccinated here</option>
+                                            <option value="N" {{(old('d3_vaccinated_inbranch') == 'N') ? 'selected' : ''}}>No (Other Clinic)</option>
+                                        </select>
+                                        @endif
                                     @else
                                     {{($d->d3_vaccinated_inbranch == 1) ? 'Y' : 'N'}}
                                     @endif
@@ -138,11 +144,17 @@
                                 </td>
                                 <td>
                                     @if($d->d7_done == 0)
-                                    <select class="form-select" name="d7_vaccinated_inbranch" id="d7_vaccinated_inbranch" required>
-                                        <option value="" disabled {{is_null(old('d7_vaccinated_inbranch')) ? 'selected' : ''}}>Choose...</option>
-                                        <option value="Y" {{(old('d7_vaccinated_inbranch') == 'Y') ? 'selected' : ''}}>Yes, Vaccinated here</option>
-                                        <option value="N" {{(old('d7_vaccinated_inbranch') == 'N') ? 'selected' : ''}}>No (Other Clinic)</option>
-                                    </select>
+                                        @if($d->d7_date > date('Y-m-d'))
+                                        <select class="form-select" name="d7_vaccinated_inbranch" id="d7_vaccinated_inbranch" required>
+                                            <option value="N" {{(old('d7_vaccinated_inbranch') == 'N') ? 'selected' : ''}}>No (Other Clinic)</option>
+                                        </select>
+                                        @else
+                                        <select class="form-select" name="d7_vaccinated_inbranch" id="d7_vaccinated_inbranch" required>
+                                            <option value="" disabled {{is_null(old('d7_vaccinated_inbranch')) ? 'selected' : ''}}>Choose...</option>
+                                            <option value="Y" {{(old('d7_vaccinated_inbranch') == 'Y') ? 'selected' : ''}}>Yes, Vaccinated here</option>
+                                            <option value="N" {{(old('d7_vaccinated_inbranch') == 'N') ? 'selected' : ''}}>No (Other Clinic)</option>
+                                        </select>
+                                        @endif
                                     @else
                                     {{($d->d7_vaccinated_inbranch == 1) ? 'Y' : 'N'}}
                                     @endif
@@ -174,11 +186,17 @@
                                 </td>
                                 <td>
                                     @if($d->d14_done == 0)
-                                    <select class="form-select" name="d14_vaccinated_inbranch" id="d14_vaccinated_inbranch" required>
-                                        <option value="" disabled {{is_null(old('d14_vaccinated_inbranch')) ? 'selected' : ''}}>Choose...</option>
-                                        <option value="Y" {{(old('d14_vaccinated_inbranch') == 'Y') ? 'selected' : ''}}>Yes, Vaccinated here</option>
-                                        <option value="N" {{(old('d14_vaccinated_inbranch') == 'N') ? 'selected' : ''}}>No (Other Clinic)</option>
-                                    </select>
+                                        @if($d->d14_date > date('Y-m-d'))
+                                        <select class="form-select" name="d14_vaccinated_inbranch" id="d14_vaccinated_inbranch" required>
+                                            <option value="N" {{(old('d14_vaccinated_inbranch') == 'N') ? 'selected' : ''}}>No (Other Clinic)</option>
+                                        </select>
+                                        @else
+                                        <select class="form-select" name="d14_vaccinated_inbranch" id="d14_vaccinated_inbranch" required>
+                                            <option value="" disabled {{is_null(old('d14_vaccinated_inbranch')) ? 'selected' : ''}}>Choose...</option>
+                                            <option value="Y" {{(old('d14_vaccinated_inbranch') == 'Y') ? 'selected' : ''}}>Yes, Vaccinated here</option>
+                                            <option value="N" {{(old('d14_vaccinated_inbranch') == 'N') ? 'selected' : ''}}>No (Other Clinic)</option>
+                                        </select>
+                                        @endif
                                     @else
                                     {{($d->d14_vaccinated_inbranch == 1) ? 'Y' : 'N'}}
                                     @endif
@@ -210,11 +228,17 @@
                                 </td>
                                 <td>
                                     @if($d->d28_done == 0)
-                                    <select class="form-select" name="d28_vaccinated_inbranch" id="d28_vaccinated_inbranch" required>
-                                        <option value="" disabled {{is_null(old('d28_vaccinated_inbranch')) ? 'selected' : ''}}>Choose...</option>
-                                        <option value="Y" {{(old('d28_vaccinated_inbranch') == 'Y') ? 'selected' : ''}}>Yes, Vaccinated here</option>
-                                        <option value="N" {{(old('d28_vaccinated_inbranch') == 'N') ? 'selected' : ''}}>No (Other Clinic)</option>
-                                    </select>
+                                        @if($d->d28_date > date('Y-m-d'))
+                                        <select class="form-select" name="d28_vaccinated_inbranch" id="d28_vaccinated_inbranch" required>
+                                            <option value="N" {{(old('d28_vaccinated_inbranch') == 'N') ? 'selected' : ''}}>No (Other Clinic)</option>
+                                        </select>
+                                        @else
+                                        <select class="form-select" name="d28_vaccinated_inbranch" id="d28_vaccinated_inbranch" required>
+                                            <option value="" disabled {{is_null(old('d28_vaccinated_inbranch')) ? 'selected' : ''}}>Choose...</option>
+                                            <option value="Y" {{(old('d28_vaccinated_inbranch') == 'Y') ? 'selected' : ''}}>Yes, Vaccinated here</option>
+                                            <option value="N" {{(old('d28_vaccinated_inbranch') == 'N') ? 'selected' : ''}}>No (Other Clinic)</option>
+                                        </select>
+                                        @endif
                                     @else
                                     {{($d->d28_vaccinated_inbranch == 1) ? 'Y' : 'N'}}
                                     @endif

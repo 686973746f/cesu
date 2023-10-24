@@ -12,15 +12,17 @@ class AbtcStockReportEmail extends Mailable
     use Queueable, SerializesModels;
 
     public $arr;
+    public $wastage_count;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($arr)
+    public function __construct($arr, $wastage_count)
     {
         $this->arr = $arr;
+        $this->wastage_count = $wastage_count;
     }
 
     /**

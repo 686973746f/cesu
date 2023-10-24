@@ -50,7 +50,17 @@
                   </tbody>
                 </table>
                 <div class="form-group">
-                  <label class="mr-2"><b class="text-danger">*</b>Consultation Type:</label>
+                  <label for="nature_of_visit"><b class="text-danger">*</b>Nature of Visit</label>
+                  <select class="form-control" name="nature_of_visit" id="nature_of_visit" required>
+                    <option value="" disabled {{is_null(old('nature_of_visit', $get_dnature)) ? 'selected' : ''}}>Choose...</option>
+                    <option value="NEW CONSULTATION/CASE" {{(old('nature_of_visit', $get_dnature) == 'NEW CONSULTATION/CASE')}}>NEW CONSULTATION/CASE</option>
+                    <option value="FOLLOW-UP VISIT" {{(old('nature_of_visit', $get_dnature) == 'FOLLOW-UP VISIT')}}>FOLLOW-UP VISIT</option>
+                    <option value="NEW ADMISSION" {{(old('nature_of_visit', $get_dnature) == 'NEW ADMISSION')}}>NEW ADMISSION</option>
+                    <option value="TELECONSULTATION" {{(old('nature_of_visit', $get_dnature) == 'TELECONSULTATION')}}>TELECONSULTATION</option>
+                  </select>
+                </div>
+                <div class="form-group" id="purpose_div">
+                  <label class="mr-2"><b class="text-danger">*</b>Purpose:</label>
                   @foreach(App\Models\SyndromicRecords::refConsultationType() as $ind => $ref1)
                   @php
                   //Check Status
@@ -59,7 +69,12 @@
                       $get_disabled = true; 
                     }
                     else {
-                      $get_disabled = false;
+                      if($patient->getAgeInt() <= 12) {
+                        $get_disabled = true;
+                      }
+                      else {
+                        $get_disabled = false;
+                      }
                     }
                   }
                   else if($ref1 == 'Child Care' || $ref1 == 'Child Immunization' || $ref1 == 'Child Nutrition' || $ref1 == 'Sick Children') {
@@ -70,21 +85,29 @@
                       $get_disabled = true;
                     }
                   }
+                  else if($ref1 == 'Adult Immunization' || $ref1 == 'Family Planning') {
+                    if($patient->getAgeInt() <= 17) {
+                      $get_disabled = true;
+                    }
+                    else {
+                      $get_disabled = false;
+                    }
+                  }
                   else {
                     $get_disabled = false;
                   }
                   @endphp
                   <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="checkbox" id="type_{{$ind}}" name="consultation_type[]" value="{{mb_strtoupper($ref1)}}" {{($get_disabled) ? 'disabled' : ''}}>
-                      <label class="form-check-label" for="interest1">{{$ref1}}</label>
+                      <input class="form-check-input" type="checkbox" id="type_{{$ind}}" name="consultation_type[]" value="{{mb_strtoupper($ref1)}}" {{($get_disabled) ? 'disabled' : ''}} {{in_array(mb_strtoupper($ref1), explode(",", old('consultation_type'))) ? 'checked' : ''}}>
+                      <label class="form-check-label">{{$ref1}}</label>
                   </div>
                   @endforeach
                 </div>
                 <div class="form-group">
-                  <label for="checkup_type"><b class="text-danger">*</b>Consultation Source</label>
+                  <label for="checkup_type"><b class="text-danger">*</b>Mode of Transaction</label>
                   <select class="form-control" name="checkup_type" id="checkup_type" required>
                     <option value="" disabled {{is_null(old('checkup_type')) ? 'selected' : ''}}>Choose...</option>
-                    <option value="CHECKUP" {{(old('checkup_type') == 'CHECKUP') ? 'selected' : ''}}>From OPD</option>
+                    <option value="CHECKUP" {{(old('checkup_type') == 'CHECKUP') ? 'selected' : ''}}>From OPD (Walk-In)</option>
                     <option value="REQUEST_MEDS" {{(old('checkup_type') == 'REQUEST_MEDS') ? 'selected' : ''}}>From Outside (for Pharmacy Medicine Request)</option>
                   </select>
                 </div>
@@ -185,7 +208,7 @@
                 </div>
                 <div class="card mb-3">
                     <div class="card-header"><b>Signs and Symptoms</b> (Please check if applicable)</div>
-                    <div class="card-body">
+                    <div class="card-body" id="sas_checkboxes">
                       <div class="row">
                         <div class="col-md-3">
                           <div class="form-check">
@@ -648,14 +671,24 @@
                     </div>
                 </div>
                 <div class="card mb-3">
-                  <div class="card-header"><b>Doctor's Note</b></div>
+                  <div class="card-header"><b>DOCTOR'S ORDER</b></div>
                   <div class="card-body">
                     <div class="form-group">
-                      <label for="dcnote_assessment">Assessment/Diagnosis Notes</label>
+                      <label for="diagnosis_type"><b class="text-danger">*</b>Diagnosis Type</label>
+                      <select class="form-control" name="diagnosis_type" id="diagnosis_type" required>
+                        <option value="" disabled {{(is_null(old('diagnosis_type'))) ? 'selected' : ''}}>Choose...</option>
+                        <option value="ADMITTING DIAGNOSIS" {{(old('diagnosis_type') == 'ADMITTING DIAGNOSIS') ? 'selected' : ''}}>ADMITTING DIAGNOSIS</option>
+                        <option value="FINAL DIAGNOSIS" {{(old('diagnosis_type') == 'FINAL DIAGNOSIS') ? 'selected' : ''}}>FINAL DIAGNOSIS</option>
+                        <option value="NOT APPLICABLE" {{(old('diagnosis_type') == 'NOT APPLICABLE') ? 'selected' : ''}}>NOT APPLICABLE (N/A)</option>
+                        <option value="WORKING DIAGNOSIS" {{(old('diagnosis_type') == 'WORKING DIAGNOSIS') ? 'selected' : ''}}>WORKING DIAGNOSIS</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="dcnote_assessment">Assessment/Specify Diagnosis</label>
                       <textarea class="form-control" name="dcnote_assessment" id="dcnote_assessment" rows="3" style="text-transform: uppercase;">{{old('dcnote_assessment')}}</textarea>
                     </div>
-                    <div class="form-group d-none">
-                      <label for="main_diagnosis"><b class="text-danger">*</b>Main Diagnosis (ICD 10 Code)</label>
+                    <div class="form-group d-none" id="main_diagdiv">
+                      <label for="main_diagnosis"><b class="text-danger">*</b>A. Main Diagnosis (ICD10)</label>
                       <select class="form-control" name="main_diagnosis" id="main_diagnosis">
                       </select>
                     </div>
@@ -663,13 +696,30 @@
                       <label for="dcnote_plan">Plan of Action / RX</label>
                       <textarea class="form-control" name="dcnote_plan" id="dcnote_plan" rows="3" style="text-transform: uppercase;">{{old('dcnote_plan')}}</textarea>
                     </div>
+                    <!--
+                      <fieldset>
+                        <label class="mr-2">Make Prescription?</label>
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" name="prescribe_option" id="inlineRadio1" value="Y" required>
+                          <label class="form-check-label" for="inlineRadio1">Yes</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" name="prescribe_option" id="inlineRadio2" value="T" required>
+                          <label class="form-check-label" for="inlineRadio2">Transfer to Pharmacy</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" name="prescribe_option" id="inlineRadio3" value="N" required>
+                          <label class="form-check-label" for="inlineRadio3">No</label>
+                        </div>
+                      </fieldset>
+                    -->
                     <div class="form-group">
                       <label for="dcnote_diagprocedure">Diagnostic Procedure</label>
                       <textarea class="form-control" name="dcnote_diagprocedure" id="dcnote_diagprocedure" rows="3" style="text-transform: uppercase;">{{old('dcnote_diagprocedure')}}</textarea>
                     </div>
-                    <hr>
-                    <div class="form-group d-none">
-                      <label for="other_diagnosis">Other Diagnosis (ICD 10 Code)</label>
+                    <div class="form-group d-none" id="other_diagdiv">
+                      <hr>
+                      <label for="other_diagnosis">B. Other Diagnosis (ICD10)</label>
                       <select class="form-control" name="other_diagnosis[]" id="other_diagnosis" multiple>
                       </select>
                     </div>
@@ -707,7 +757,7 @@
                   <div class="col-md-8">
                     <div class="form-group">
                       <label for="name_of_physician"><b class="text-danger">*</b>Name of Attending Physician</label>
-                      <select class="form-control" name="name_of_physician" id="name_of_physician">
+                      <select class="form-control" name="name_of_physician" id="name_of_physician" required>
                         <!--<option {{(is_null(old('name_of_physician'))) ? 'selected' : ''}} value="">None</option>-->
                         @foreach($doclist as $dr)
                         <option value="{{$dr->doctor_name}}" {{(old('name_of_physician', auth()->user()->getItrDefaultDoctor()->doctor_name) == $dr->doctor_name) ? 'selected' : ''}} class="{{($dr->dru_name == 'CHO GENERAL TRIAS') ? 'official_drlist' : 'outside_drlist'}}">{{$dr->doctor_name}} ({{$dr->dru_name}})</option>
@@ -737,6 +787,7 @@
 
 <script>
   function validateForm() {
+      /*
       var checkboxes = document.querySelectorAll('.form-check-input');
       var isChecked = false;
 
@@ -748,6 +799,37 @@
 
       if (!isChecked) {
           alert('Please check at least one (1) symptoms before submitting the form.');
+          return false; // Prevent form submission
+      }
+      */
+
+      var checkboxesInDiv = document.querySelectorAll('#purpose_div input[type="checkbox"]');
+      var checked = false;
+
+      for (var i = 0; i < checkboxesInDiv.length; i++) {
+          if (checkboxesInDiv[i].checked) {
+              checked = true;
+              break;
+          }
+      }
+
+      if (!checked) {
+        alert('Please check at least one (1) PURPOSE before submitting the form.');
+          return false; // Prevent form submission
+      }
+
+      var checkboxesInDiv2 = document.querySelectorAll('#sas_checkboxes input[type="checkbox"]');
+      var checked2 = false;
+
+      for (var i = 0; i < checkboxesInDiv2.length; i++) {
+          if (checkboxesInDiv2[i].checked) {
+              checked2 = true;
+              break;
+          }
+      }
+
+      if (!checked2) {
+          alert('Please check at least one (1) SYMPTOMS before submitting the form.');
           return false; // Prevent form submission
       }
 
@@ -819,6 +901,28 @@
   $('#name_of_physician').select2({
     theme: 'bootstrap',
   });
+
+  $('#diagnosis_type').change(function (e) { 
+    e.preventDefault();
+    if($(this).val() == 'FINAL DIAGNOSIS') {
+      $('#main_diagnosis').prop('required', true);
+      $('#main_diagdiv').removeClass('d-none');
+      
+      $('#other_diagdiv').removeClass('d-none');
+    }
+    else if($(this).val() == 'ADMITTING DIAGNOSIS') {
+      $('#main_diagnosis').prop('required', false);
+      $('#main_diagdiv').addClass('d-none');
+
+      $('#other_diagdiv').removeClass('d-none');
+    }
+    else {
+      $('#main_diagnosis').prop('required', false);
+      $('#main_diagdiv').addClass('d-none');
+
+      $('#other_diagdiv').addClass('d-none');
+    }
+  }).trigger('change');
 
   $('#checkup_type').change(function (e) { 
     e.preventDefault();

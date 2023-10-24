@@ -21,7 +21,7 @@
                     </div>
                     @if($has_record)
                     <hr>
-                    <a href="{{route('syndromic_viewItrList', $d->id)}}" class="btn btn-block btn-outline-primary">View Existing ITR/s of Patient</a>
+                    <a href="{{route('syndromic_viewItrList', $d->id)}}" class="btn btn-block btn-outline-primary">VIEW PREVIOUS CONSULTATION/S</a>
                     @else
                     <a href="{{route('syndromic_newRecord', $d->id)}}" class="btn btn-block btn-outline-success">New ITR</a>
                     @endif
