@@ -137,7 +137,10 @@ class PidsrWndr extends Command
 
             $afp_count = $afp->count();
 
-            $afp_update = $afp->update(['systemsent' => 1]);
+            $afp_update = $afp->update([
+                'systemsent' => 1,
+                'encoded_mw' => (date('W') - 1),
+            ]);
 
             //$aefi_count = 0;
 
@@ -178,7 +181,10 @@ class PidsrWndr extends Command
 
             $aefi_count = $aefi->count();
 
-            $aefi_update = $aefi->update(['systemsent' => 1]);
+            $aefi_update = $aefi->update([
+                'systemsent' => 1,
+                'encoded_mw' => (date('W') - 1),
+            ]);
             
 
             $ant = Anthrax::where('Province', 'CAVITE')
@@ -217,7 +223,10 @@ class PidsrWndr extends Command
 
             $ant_count = $ant->count();
 
-            $ant_update = $ant->update(['systemsent' => 1]);
+            $ant_update = $ant->update([
+                'systemsent' => 1,
+                'encoded_mw' => (date('W') - 1),
+            ]);
 
             $hai_count = 0; 
 
@@ -257,7 +266,10 @@ class PidsrWndr extends Command
 
             $mea_count = $mea->count();
 
-            $mea_update = $mea->update(['systemsent' => 1]);
+            $mea_update = $mea->update([
+                'systemsent' => 1,
+                'encoded_mw' => (date('W') - 1),
+            ]);
 
             $mgc = Meningo::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
@@ -295,7 +307,10 @@ class PidsrWndr extends Command
 
             $mgc_count = $mgc->count();
 
-            $mgc_update = $mgc->update(['systemsent' => 1]);
+            $mgc_update = $mgc->update([
+                'systemsent' => 1,
+                'encoded_mw' => (date('W') - 1),
+            ]);
 
             $nt = Nt::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
@@ -333,7 +348,10 @@ class PidsrWndr extends Command
 
             $nt_count = $nt->count();
 
-            $nt_update = $nt->update(['systemsent' => 1]);
+            $nt_update = $nt->update([
+                'systemsent' => 1,
+                'encoded_mw' => (date('W') - 1),
+            ]);
 
             $psp = Psp::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
@@ -371,7 +389,10 @@ class PidsrWndr extends Command
 
             $psp_count = $psp->count();
 
-            $psp_update = $psp->update(['systemsent' => 1]);
+            $psp_update = $psp->update([
+                'systemsent' => 1,
+                'encoded_mw' => (date('W') - 1),
+            ]);
 
             $rab = Rabies::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
@@ -409,7 +430,10 @@ class PidsrWndr extends Command
 
             $rab_count = $rab->count();
             
-            $rab_update = $rab->update(['systemsent' => 1]);
+            $rab_update = $rab->update([
+                'systemsent' => 1,
+                'encoded_mw' => (date('W') - 1),
+            ]);
             
             $sar_count = 0;
 
@@ -449,7 +473,10 @@ class PidsrWndr extends Command
 
             $abd_count = $abd->count();
 
-            $abd_update = $abd->update(['systemsent' => 1]);
+            $abd_update = $abd->update([
+                'systemsent' => 1,
+                'encoded_mw' => (date('W') - 1),
+            ]);
 
             $aes = Aes::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
@@ -487,7 +514,10 @@ class PidsrWndr extends Command
 
             $aes_count = $aes->count();
 
-            $aes_update = $aes->update(['systemsent' => 1]);
+            $aes_update = $aes->update([
+                'systemsent' => 1,
+                'encoded_mw' => (date('W') - 1),
+            ]);
 
             $ahf = Ahf::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
@@ -525,7 +555,10 @@ class PidsrWndr extends Command
 
             $ahf_count = $ahf->count();
 
-            $ahf_update = $ahf->update(['systemsent' => 1]);
+            $ahf_update = $ahf->update([
+                'systemsent' => 1,
+                'encoded_mw' => (date('W') - 1),
+            ]);
 
             $hep = Hepatitis::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
@@ -563,7 +596,10 @@ class PidsrWndr extends Command
 
             $hep_count = $hep->count();
 
-            $hep_update = $hep->update(['systemsent' => 1]);
+            $hep_update = $hep->update([
+                'systemsent' => 1,
+                'encoded_mw' => (date('W') - 1),
+            ]);
 
             $ame = Ames::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
@@ -601,7 +637,10 @@ class PidsrWndr extends Command
 
             $ame_count = $ame->count();
 
-            $ame_update = $ame->update(['systemsent' => 1]);
+            $ame_update = $ame->update([
+                'systemsent' => 1,
+                'encoded_mw' => (date('W') - 1),
+            ]);
 
             $mgt = Meningitis::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
@@ -639,7 +678,10 @@ class PidsrWndr extends Command
 
             $mgt_count = $mgt->count();
 
-            $mgt_update = $mgt->update(['systemsent' => 1]);
+            $mgt_update = $mgt->update([
+                'systemsent' => 1,
+                'encoded_mw' => (date('W') - 1),
+            ]);
 
             $chi = Chikv::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
@@ -677,7 +719,10 @@ class PidsrWndr extends Command
 
             $chi_count = $chi->count();
 
-            $chi_update = $chi->update(['systemsent' => 1]);
+            $chi_update = $chi->update([
+                'systemsent' => 1,
+                'encoded_mw' => (date('W') - 1),
+            ]);
 
             $cho = Cholera::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
@@ -715,7 +760,10 @@ class PidsrWndr extends Command
 
             $cho_count = $cho->count();
 
-            $cho_update = $cho->update(['systemsent' => 1]);
+            $cho_update = $cho->update([
+                'systemsent' => 1,
+                'encoded_mw' => (date('W') - 1),
+            ]);
 
             $den = Dengue::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
@@ -753,7 +801,10 @@ class PidsrWndr extends Command
 
             $den_count = $den->count();
 
-            $den_update = $den->update(['systemsent' => 1]);
+            $den_update = $den->update([
+                'systemsent' => 1,
+                'encoded_mw' => (date('W') - 1),
+            ]);
 
             $dip = Diph::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
@@ -791,7 +842,10 @@ class PidsrWndr extends Command
 
             $dip_count = $dip->count();
 
-            $dip_update = $dip->update(['systemsent' => 1]);
+            $dip_update = $dip->update([
+                'systemsent' => 1,
+                'encoded_mw' => (date('W') - 1),
+            ]);
 
             $ili = Influenza::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
@@ -829,7 +883,10 @@ class PidsrWndr extends Command
 
             $ili_count = $ili->count();
 
-            $ili_update = $ili->update(['systemsent' => 1]);
+            $ili_update = $ili->update([
+                'systemsent' => 1,
+                'encoded_mw' => (date('W') - 1),
+            ]);
 
             $lep = Leptospirosis::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
@@ -867,7 +924,10 @@ class PidsrWndr extends Command
 
             $lep_count = $lep->count();
 
-            $lep_update = $lep->update(['systemsent' => 1]);
+            $lep_update = $lep->update([
+                'systemsent' => 1,
+                'encoded_mw' => (date('W') - 1),
+            ]);
 
             $mal = Malaria::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
@@ -905,7 +965,10 @@ class PidsrWndr extends Command
 
             $mal_count = $mal->count();
 
-            $mal_update = $mal->update(['systemsent' => 1]);
+            $mal_update = $mal->update([
+                'systemsent' => 1,
+                'encoded_mw' => (date('W') - 1),
+            ]);
 
             $nnt = Nnt::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
@@ -943,7 +1006,10 @@ class PidsrWndr extends Command
 
             $nnt_count = $nnt->count();
 
-            $nnt_update = $nnt->update(['systemsent' => 1]);
+            $nnt_update = $nnt->update([
+                'systemsent' => 1,
+                'encoded_mw' => (date('W') - 1),
+            ]);
 
             $per = Pert::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
@@ -981,7 +1047,10 @@ class PidsrWndr extends Command
 
             $per_count = $per->count();
 
-            $per_update = $per->update(['systemsent' => 1]);
+            $per_update = $per->update([
+                'systemsent' => 1,
+                'encoded_mw' => (date('W') - 1),
+            ]);
 
             $rtv = Rotavirus::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
@@ -1019,7 +1088,10 @@ class PidsrWndr extends Command
 
             $rtv_count = $rtv->count();
 
-            $rtv_update = $rtv->update(['systemsent' => 1]);
+            $rtv_update = $rtv->update([
+                'systemsent' => 1,
+                'encoded_mw' => (date('W') - 1),
+            ]);
 
             $typ = Typhoid::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
@@ -1057,7 +1129,10 @@ class PidsrWndr extends Command
 
             $typ_count = $typ->count();
 
-            $typ_update = $typ->update(['systemsent' => 1]);
+            $typ_update = $typ->update([
+                'systemsent' => 1,
+                'encoded_mw' => (date('W') - 1),
+            ]);
 
             $hfm = Hfmd::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
@@ -1095,7 +1170,10 @@ class PidsrWndr extends Command
 
             $hfm_count = $hfm->count();
 
-            $hfm_update = $hfm->update(['systemsent' => 1]);
+            $hfm_update = $hfm->update([
+                'systemsent' => 1,
+                'encoded_mw' => (date('W') - 1),
+            ]);
 
             //Category 1
             $templateProcessor->setValue('afp', $afp_count);

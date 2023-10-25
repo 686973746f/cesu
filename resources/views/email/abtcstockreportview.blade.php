@@ -40,4 +40,5 @@
             @endif
         @endforeach
     @endforeach
+    <p><b>Note:</b> Vaccine opened and reconstituted beyond six (6) hours are considered vaccine wastage.</p>
 </div>
