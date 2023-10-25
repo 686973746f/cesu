@@ -283,9 +283,11 @@ class ABTCPatientController extends Controller
                 'wastage_dose_count' => $r->wastage_dose_count,
             ]);
 
+            /*
             $stock = AbtcVaccineStocks::where('vaccine_id', auth()->user()->abtc_default_vaccinebrand_id)
             ->where('branch_id', auth()->user()->abtc_default_vaccinationsite_id)
             ->decrement('current_stock', ceil($r->wastage_dose_count));
+            */
         }
 
         return redirect()->route('abtc_home')

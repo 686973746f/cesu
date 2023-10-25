@@ -11,5 +11,6 @@ class AbtcVaccineLogs extends Model
 
     protected $fillable = [
         'wastage_dose_count',
+        'stocks_remaining',
     ];
 }

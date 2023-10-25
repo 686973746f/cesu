@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use Carbon\Carbon;
+use App\Models\AbtcVaccineLogs;
 use Illuminate\Console\Command;
 use App\Models\AbtcVaccineBrand;
 use App\Models\AbtcBakunaRecords;
@@ -9,7 +11,6 @@ use App\Models\AbtcVaccineStocks;
 use App\Mail\AbtcStockReportEmail;
 use Illuminate\Support\Facades\DB;
 use App\Models\AbtcVaccinationSite;
-use App\Models\AbtcVaccineLogs;
 use Illuminate\Support\Facades\Mail;
 
 class AbtcStockReport extends Command
@@ -47,129 +48,110 @@ class AbtcStockReport extends Command
     public function handle()
     {
         $arr = [];
-
+        
         $branches = AbtcVaccinationSite::where('enabled', 1)->get();
+        //$vaccines = AbtcVaccineBrand::where('enabled', 1)->get();
 
+        $today = Carbon::today();
+        //$firstDayOfMonth = Carbon::parse(date('Y-m-01'));
+
+        $proceed_sending = false;
+        
         foreach($branches as $b) {
-            $sdate = date('Y-m-d');
-
-            $plist = AbtcBakunaRecords::where(function ($r) use ($sdate) {
-                $r->where(function ($q) use ($sdate) {
-                    $q->whereDate('d0_date', $sdate)
-                    ->where('d0_done', 1);
-                })->orwhere(function ($q) use ($sdate) {
-                    $q->whereDate('d3_date', $sdate)
-                    ->where('d3_done', 1);
-                })->orWhere(function ($q) use ($sdate) {
-                    $q->whereDate('d7_date', $sdate)
-                    ->where('d7_done', 1);
-                })->orWhere(function ($q) use ($sdate) {
-                    $q->whereDate('d14_date', $sdate)
-                    ->where('d14_done', 1)
-                    ->where('pep_route', 'IM');
-                })->orWhere(function ($q) use ($sdate) {
-                    $q->whereDate('d28_date', $sdate)
-                    ->where('d28_done', 1);
-                });
-            })->where('vaccination_site_id', $b->id)
+            $second_array = [];
+            $vaccines = AbtcVaccineStocks::where('branch_id', $b->id)
+            ->where('initial_stock', '!=', 0)
             ->get();
 
-            if($plist->count() != 0) {
-                $second_array = [];
-                $temp_array = [];
+            foreach($vaccines as $v) {
+                $third_array = [];
+                $stock_remain = $v->initial_stock;
                 
-                foreach($plist as $d) {
-                    if($d->getTodayDose() == 1) {
-                        if($d->d0_vaccinated_inbranch == 1) {
-                            $brand = $d->d0_brand;
-                            $proceed = true;
-                        }
-                        else {
-                            $proceed = false;
+                $firstDayOfMonth = Carbon::parse($v->initial_date);
+
+                for ($sdate = $firstDayOfMonth; $sdate->lte($today); $sdate->addDay()) {
+                    $plist = AbtcBakunaRecords::where(function ($r) use ($sdate, $v) {
+                        $r->where(function ($q) use ($sdate, $v) {
+                            $q->whereDate('d0_date', $sdate->format('Y-m-d'))
+                            ->where('d0_done', 1)
+                            ->where('d0_brand', $v->vaccine->brand_name)
+                            ->where('d0_vaccinated_inbranch', 1);
+                        })->orwhere(function ($q) use ($sdate, $v) {
+                            $q->whereDate('d3_date', $sdate->format('Y-m-d'))
+                            ->where('d3_done', 1)
+                            ->where('d3_brand', $v->vaccine->brand_name)
+                            ->where('d3_vaccinated_inbranch', 1);
+                        })->orWhere(function ($q) use ($sdate, $v) {
+                            $q->whereDate('d7_date', $sdate->format('Y-m-d'))
+                            ->where('d7_done', 1)
+                            ->where('d7_brand', $v->vaccine->brand_name)
+                            ->where('d7_vaccinated_inbranch', 1);
+                        })->orWhere(function ($q) use ($sdate, $v) {
+                            $q->whereDate('d14_date', $sdate->format('Y-m-d'))
+                            ->where('d14_done', 1)
+                            ->where('pep_route', 'IM')
+                            ->where('d14_brand', $v->vaccine->brand_name)
+                            ->where('d14_vaccinated_inbranch', 1);
+                        })->orWhere(function ($q) use ($sdate, $v) {
+                            $q->whereDate('d28_date', $sdate->format('Y-m-d'))
+                            ->where('d28_done', 1)
+                            ->where('d28_brand', $v->vaccine->brand_name)
+                            ->where('d28_vaccinated_inbranch', 1);
+                        });
+                    })
+                    ->where('vaccination_site_id', $v->branch_id)
+                    ->count();
+
+                    $stock_remain -= $plist;
+
+                    $wastage_search = AbtcVaccineLogs::whereDate('created_at', $sdate->format('Y-m-d'))->first();
+                    
+                    if($wastage_search) {
+                        $wastage_count = $wastage_search->wastage_dose_count;
+                        $wastage_search->stocks_remaining = $stock_remain;
+
+                        if($wastage_search->isDirty()) {
+                            $wastage_search->save();
                         }
                     }
-                    else if($d->getTodayDose() == 2) {
-                        if($d->d3_vaccinated_inbranch == 1) {
-                            $brand = $d->d3_brand;
-                            $proceed = true;
-                        }
-                        else {
-                            $proceed = false;
-                        }
-                    }
-                    else if($d->getTodayDose() == 3) {
-                        if($d->d7_vaccinated_inbranch == 1) {
-                            $brand = $d->d7_brand;
-                            $proceed = true;
-                        }
-                        else {
-                            $proceed = false;
-                        }
-                    }
-                    else if($d->getTodayDose() == 4) {
-                        if($d->d14_vaccinated_inbranch == 1) {
-                            $brand = $d->d14_brand;
-                            $proceed = true;
-                        }
-                        else {
-                            $proceed = false;
-                        }
-                    }
-                    else if($d->getTodayDose() == 5) {
-                        if($d->d28_vaccinated_inbranch == 1) {
-                            $brand = $d->d28_brand;
-                            $proceed = true;
-                        }
-                        else {
-                            $proceed = false;
-                        }
+                    else {
+                        $wastage_count = AbtcVaccineLogs::create([
+                            'wastage_dose_count' => 0,
+                            'stocks_remaining' => $stock_remain,
+                        ]);
                     }
 
-                    if($proceed) {
-                        
-                        // Check if the brand already exists in the temp_array
-                        if (isset($temp_array[$brand])) {
-                            // If it exists, increment the count
-                            $temp_array[$brand]['count']++;
-                        } else {
-                            // If it doesn't exist, add it to the temp_array
-                            $temp_array[$brand] = [
-                                'count' => 1,
-                            ];
+                    if($plist != 0) {
+                        if(!$proceed_sending) {
+                            $proceed_sending = true;
                         }
+
+                        $third_array[] = [
+                            'date' => $sdate->format('m/d/Y'),
+                            'count' => $plist,
+                            'used_vials' => ($plist / $v->vaccine->est_maxdose_perbottle),
+                            'wastage_count' => $wastage_count,
+                            'stock_remaining' => $stock_remain,
+                        ];
                     }
                 }
 
-                foreach($temp_array as $ind => $t) {
-                    $get_vbrand = AbtcVaccineBrand::where('brand_name', $ind)->first();
-                    $get_vstock = AbtcVaccineStocks::where('vaccine_id', $get_vbrand->id)
-                    ->where('branch_id', $b->id)
-                    ->first();
-
-                    $temp_array[$ind]['brand_id'] = $get_vbrand->id;
-                    $temp_array[$ind]['bottle_used'] = ceil($t['count'] / $get_vbrand->est_maxdose_perbottle);
-                    $temp_array[$ind]['remaining'] = $get_vstock->current_stock;
-
-                    /*
-                    $temp_array[$ind] = [
-                        'brand_id' => $get_vbrand->id,
-                        'bottle_used' => floor($t['count'] / $get_vbrand->est_maxdose_perbottle),
-                        'remaining' => $get_vstock->current_stock,
-                    ];
-                    */
-                }
-
-                $arr[] = [
-                    'branch' => $b->site_name,
-                    'master_count' => $temp_array,
+                $second_array[] = [
+                    'brand' => $v->vaccine->brand_name,
+                    'third' => $third_array,
                 ];
             }
+
+            $arr[] = [
+                'branch' => $b->site_name,
+                'second' => $second_array,
+            ];
         }
 
-        $wastage_count = AbtcVaccineLogs::whereDate('created_at', date('Y-m-d'))->first();
-
-        if(!empty($arr)) {
-            Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new AbtcStockReportEmail($arr, $wastage_count));
+        //return view('email.abtcstockreportview', ['arr' => $arr]);
+        
+        if($proceed_sending) {
+            Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new AbtcStockReportEmail($arr));
         }
     }
 }

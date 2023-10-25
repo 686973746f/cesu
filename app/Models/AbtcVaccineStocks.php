@@ -17,4 +17,8 @@ class AbtcVaccineStocks extends Model
         'current_stock',
         'patient_dosecount_init',
     ];
+
+    public function vaccine() {
+        return $this->belongsTo(AbtcVaccineBrand::class, 'vaccine_id');
+    }
 }

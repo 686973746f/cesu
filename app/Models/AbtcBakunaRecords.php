@@ -520,4 +520,22 @@ class AbtcBakunaRecords extends Model
             return 5;
         }
     }
+
+    public function getDateWhatDose($date) {
+        if($date == date('Y-m-d', strtotime($this->d0_date))) {
+            return 1;
+        }
+        else if($date == date('Y-m-d', strtotime($this->d3_date))) {
+            return 2;
+        }
+        else if($date == date('Y-m-d', strtotime($this->d7_date))) {
+            return 3;
+        }
+        else if($date == date('Y-m-d', strtotime($this->d14_date))) {
+            return 4;
+        }
+        else if($date == date('Y-m-d', strtotime($this->d28_date))) {
+            return 5;
+        }
+    }
 }
