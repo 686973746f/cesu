@@ -14,7 +14,7 @@ class SyndromicHourlyCaseNotifier extends Command
      *
      * @var string
      */
-    protected $signature = 'syndromicchecker:hourly';
+    protected $signature = 'syndromicchecker:daily';
 
     /**
      * The console command description.

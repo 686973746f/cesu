@@ -115,10 +115,12 @@ class AbtcStockReport extends Command
                         }
                     }
                     else {
-                        $wastage_count = AbtcVaccineLogs::create([
+                        $create_wastage = AbtcVaccineLogs::create([
                             'wastage_dose_count' => 0,
                             'stocks_remaining' => $stock_remain,
                         ]);
+
+                        $wastage_count = $create_wastage->wastage_dose_count;
                     }
 
                     if($plist != 0) {
