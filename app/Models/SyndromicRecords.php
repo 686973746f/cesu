@@ -414,8 +414,10 @@ class SyndromicRecords extends Model
             }
         }
 
-        if($this->fever == 1 && $this->rash == 1 && $this->temperature >= 38) {
-            $list_arr[] = 'HFMD';
+        if($this->fever == 1 || $this->temperature >= 38) {
+            if($this->rash == 1) {
+                $list_arr[] = 'HFMD';
+            }
         }
         
         if($this->fever == 1) {
