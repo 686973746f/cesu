@@ -289,6 +289,13 @@ class ABTCPatientController extends Controller
             ->decrement('current_stock', ceil($r->wastage_dose_count));
             */
         }
+        else {
+            if($check->wastage_dose_count == 0) {
+                $check->wastage_dose_count = $r->wastage_dose_coun;
+
+                $check->save();
+            }
+        }
 
         return redirect()->route('abtc_home')
         ->with('msg', 'Daily Wastage was successfully submitted.')
