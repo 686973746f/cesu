@@ -66,9 +66,14 @@ class AbtcStockReport extends Command
             foreach($vaccines as $v) {
                 $third_array = [];
                 $stock_remain = $v->initial_stock;
-                
-                $firstDayOfMonth = Carbon::parse($v->initial_date);
 
+                if(Carbon::parse($v->initial_date)->month != Carbon::today()->month) {
+                    $firstDayOfMonth = Carbon::parse(date('Y-m-01'));
+                }
+                else {
+                    $firstDayOfMonth = Carbon::parse($v->initial_date);
+                }
+                
                 for ($sdate = $firstDayOfMonth; $sdate->lte($today); $sdate->addDay()) {
                     $plist = AbtcBakunaRecords::where(function ($r) use ($sdate, $v) {
                         $r->where(function ($q) use ($sdate, $v) {
@@ -102,7 +107,7 @@ class AbtcStockReport extends Command
                     ->where('vaccination_site_id', $v->branch_id)
                     ->count();
 
-                    $stock_remain -= $plist;
+                    //$stock_remain -= $plist;
 
                     $wastage_search = AbtcVaccineLogs::whereDate('created_at', $sdate->format('Y-m-d'))
                     ->where('vaccine_id', $v->id)
@@ -110,22 +115,28 @@ class AbtcStockReport extends Command
                     ->first();
                     
                     if($wastage_search) {
-                        $wastage_count = $wastage_search->wastage_dose_count;
-                        $wastage_search->stocks_remaining = $stock_remain;
+                        $prev_log = AbtcVaccineLogs::where('id', '<', $wastage_search->id)
+                        ->latest()
+                        ->first();
+
+                        $wastage_search->stocks_remaining = ($plist - $prev_log->stocks_remaining);
 
                         if($wastage_search->isDirty()) {
                             $wastage_search->save();
                         }
                     }
                     else {
-                        $create_wastage = AbtcVaccineLogs::create([
+                        $prev_log = AbtcVaccineLogs::where('vaccine_id', $v->id)
+                        ->where('branch_id', $b->id)
+                        ->latest()
+                        ->first();
+
+                        $wastage_search = AbtcVaccineLogs::create([
                             'vaccine_id' => $v->id,
                             'branch_id' => $b->id,
                             'wastage_dose_count' => 0,
-                            'stocks_remaining' => $stock_remain,
+                            'stocks_remaining' => ($plist - $prev_log->stocks_remaining),
                         ]);
-
-                        $wastage_count = $create_wastage->wastage_dose_count;
                     }
 
                     if($plist != 0) {
@@ -137,8 +148,8 @@ class AbtcStockReport extends Command
                             'date' => $sdate->format('m/d/Y'),
                             'count' => $plist,
                             'used_vials' => ($plist / $v->vaccine->est_maxdose_perbottle),
-                            'wastage_count' => $wastage_count,
-                            'stock_remaining' => $stock_remain,
+                            'wastage_count' => $wastage_search->wastage_dose_count,
+                            'stock_remaining' => $wastage_search->stocks_remaining,
                         ];
                     }
                 }
