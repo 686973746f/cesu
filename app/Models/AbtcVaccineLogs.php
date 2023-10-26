@@ -10,6 +10,8 @@ class AbtcVaccineLogs extends Model
     use HasFactory;
 
     protected $fillable = [
+        'vaccine_id',
+        'branch_id',
         'wastage_dose_count',
         'stocks_remaining',
     ];

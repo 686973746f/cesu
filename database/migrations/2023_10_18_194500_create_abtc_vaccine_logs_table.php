@@ -15,6 +15,9 @@ class CreateAbtcVaccineLogsTable extends Migration
     {
         Schema::create('abtc_vaccine_logs', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('vaccine_id')->constrained('abtc_vaccine_brands')->onDelete('cascade');
+            $table->foreignId('branch_id')->constrained('abtc_vaccination_sites')->onDelete('cascade');
+
             $table->double('wastage_dose_count');
             $table->double('stocks_remaining');
 

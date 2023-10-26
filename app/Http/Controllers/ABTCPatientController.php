@@ -276,10 +276,15 @@ class ABTCPatientController extends Controller
     }
 
     public function initDailyWastage(Request $r) {
-        $check = AbtcVaccineLogs::whereDate('created_at', date('Y-m-d'))->first();
+        $check = AbtcVaccineLogs::whereDate('created_at', date('Y-m-d'))
+        ->where('vaccine_id', auth()->user()->abtc_default_vaccinebrand_id)
+        ->where('branch_id', auth()->user()->abtc_default_vaccinationsite_id)
+        ->first();
 
         if(!$check) {
             $r->user()->abtcvaccinelog()->create([
+                'vaccine_id' => auth()->user()->abtc_default_vaccinebrand_id,
+                'branch_id' => auth()->user()->abtc_default_vaccinationsite_id,
                 'wastage_dose_count' => $r->wastage_dose_count,
             ]);
 

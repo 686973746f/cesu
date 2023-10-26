@@ -104,7 +104,10 @@ class AbtcStockReport extends Command
 
                     $stock_remain -= $plist;
 
-                    $wastage_search = AbtcVaccineLogs::whereDate('created_at', $sdate->format('Y-m-d'))->first();
+                    $wastage_search = AbtcVaccineLogs::whereDate('created_at', $sdate->format('Y-m-d'))
+                    ->where('vaccine_id', $v->id)
+                    ->where('branch_id', $b->id)
+                    ->first();
                     
                     if($wastage_search) {
                         $wastage_count = $wastage_search->wastage_dose_count;
@@ -116,6 +119,8 @@ class AbtcStockReport extends Command
                     }
                     else {
                         $create_wastage = AbtcVaccineLogs::create([
+                            'vaccine_id' => $v->id,
+                            'branch_id' => $b->id,
                             'wastage_dose_count' => 0,
                             'stocks_remaining' => $stock_remain,
                         ]);
