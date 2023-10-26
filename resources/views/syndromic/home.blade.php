@@ -300,4 +300,35 @@
         </div>
     </div>
 </div>
+
+@if(session('immediate_notifiable') == 1)
+<div class="modal fade border-warning" id="immediate_case" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Immediate Notifiable Disease Detected</h5>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger" role="alert">
+                    Based on the details you encoded, the patient might be suspected to an Immediate Notifiable Disease/s (Category 1). You may inform CESU by sending the details below by screenshot or direct message.
+                </div>
+                <p>Name:</p>
+                <p>Age/Sex:</p>
+                <p>Address:</p>
+                <p></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">I already informed CESU</button>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
+
+<script>
+    @if(session('immediate_notifiable') == 1)
+    $('#selectchoice').modal({backdrop: 'static', keyboard: false});
+    $('#selectchoice').modal('show');
+    @endif
+</script>
 @endsection

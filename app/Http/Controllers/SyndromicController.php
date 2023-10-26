@@ -643,10 +643,19 @@ class SyndromicController extends Controller
             }
             */
 
+            if($c->ifHasImmediateNotifiable()) {
+                $immediatenotifiable = 1;
+            }
+            else {
+                $immediatenotifiable = 0;
+            }
+
             return redirect()->route('syndromic_home')
             ->with('msg', 'Record successfully created.')
             ->with('option_medcert', $c->id)
             ->with('option_pharmacy', $create_pharma->id)
+            ->with('immediate_notifiable', $immediatenotifiable)
+            ->with('fetchr', $c)
             ->with('msgtype', 'success');
         }
         else {

@@ -584,4 +584,19 @@ class SyndromicRecords extends Model
 
         return $d->ICD10_CODE.' - '.$d->ICD10_DESC;
     }
+
+    public function ifHasImmediateNotifiable() {
+        $list = explode(',', $this->getListOfSuspDiseases());
+
+        if(in_array('HFMD', $list) ||
+        in_array('Rabies', $list) ||
+        in_array('Measles', $list) ||
+        in_array('Meningococcal Disease', $list)
+        ) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }

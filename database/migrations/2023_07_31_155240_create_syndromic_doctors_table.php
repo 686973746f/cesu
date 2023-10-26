@@ -17,15 +17,15 @@ class CreateSyndromicDoctorsTable extends Migration
             $table->id();
             $table->string('doctor_name');
             $table->string('dru_name');
-            $table->string('gender')->nullable();
+            $table->string('gender', 1)->nullable();
             $table->date('bdate')->nullable();
             $table->string('position_ref')->nullable();
             $table->string('position')->nullable();
 
             $table->string('hired_by')->nullable();
             $table->string('employment_status')->nullable();
-            $table->string('active_in_service')->default('Y');
-            $table->string('current_user')->nullable();
+            $table->string('active_in_service', 1)->default('Y');
+            $table->string('current_user', 1)->nullable();
 
             $table->string('reg_no')->nullable(); //PRC LICENSE NUMBER
             $table->string('ptr_no')->nullable();
@@ -34,7 +34,7 @@ class CreateSyndromicDoctorsTable extends Migration
             $table->string('s2_license')->nullable();
             $table->string('tin_no')->nullable();
 
-            $table->text('catchment_brgy_list')->nullable();
+            $table->text('catchment_brgy_list')->nullable(); //IF MIDWIFE
             $table->timestamps();
         });
     }

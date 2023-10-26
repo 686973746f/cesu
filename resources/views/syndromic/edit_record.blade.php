@@ -467,7 +467,7 @@
                           <div class="form-check">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="jaundice_yn" id="jaundice_yn" value="checkedValue" {{(old('jaundice_yn') || $d->jaundice == 1) ? 'checked' : ''}}>
-                              Jaundice
+                              Jaundice/Yellow Skin
                             </label>
                           </div>
                           <div id="jaundice_div" class="d-none">
@@ -521,7 +521,7 @@
                           <div class="form-check">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="musclepain_yn" id="musclepain_yn" value="checkedValue" {{(old('musclepain_yn') || $d->musclepain == 1) ? 'checked' : ''}}>
-                              Muscle Pain
+                              Muscle Pain/Body Pain
                             </label>
                           </div>
                           <div id="musclepain_div" class="d-none">

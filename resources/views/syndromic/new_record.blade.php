@@ -436,7 +436,7 @@
                           <div class="form-check">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="jaundice_yn" id="jaundice_yn" value="checkedValue" {{old('jaundice_yn') ? 'checked' : ''}}>
-                              Jaundice
+                              Jaundice/Yellow Skin
                             </label>
                           </div>
                           <div id="jaundice_div" class="d-none">
@@ -490,7 +490,7 @@
                           <div class="form-check">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="musclepain_yn" id="musclepain_yn" value="checkedValue" {{old('musclepain_yn') ? 'checked' : ''}}>
-                              Muscle Pain
+                              Muscle Pain/Body Pain
                             </label>
                           </div>
                           <div id="musclepain_div" class="d-none">
@@ -544,7 +544,7 @@
                           <div class="form-check">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="rash_yn" id="rash_yn" value="checkedValue" {{old('rash_yn') ? 'checked' : ''}}>
-                              Rash
+                              Rashes
                             </label>
                           </div>
                           <div id="rash_div" class="d-none">
