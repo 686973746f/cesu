@@ -71,6 +71,33 @@ ALTER TABLE psp ADD from_edcs TINYINT(1) DEFAULT 0;
 ALTER TABLE rabies ADD from_edcs TINYINT(1) DEFAULT 0;
 ALTER TABLE rotavirus ADD from_edcs TINYINT(1) DEFAULT 0;
 ALTER TABLE typhoid ADD from_edcs TINYINT(1) DEFAULT 0;
+
+UPDATE abd SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
+UPDATE pidsr_AEFI SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
+UPDATE aes SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
+UPDATE afp SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
+UPDATE ahf SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
+UPDATE ames SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
+UPDATE anthrax SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
+UPDATE chikv SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
+UPDATE cholera SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
+UPDATE dengue SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
+UPDATE diph SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
+UPDATE hepatitis SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
+UPDATE hfmd SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
+UPDATE influenza SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
+UPDATE leptospirosis SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
+UPDATE malaria SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
+UPDATE measles SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
+UPDATE meningitis SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
+UPDATE meningo SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
+UPDATE nnt SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
+UPDATE nt SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
+UPDATE pert SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
+UPDATE psp SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
+UPDATE rabies SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
+UPDATE rotavirus SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
+UPDATE typhoid SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
 */
 
 class PIDSRController extends Controller

@@ -47,10 +47,10 @@ class SyndromicHourlyCaseNotifier extends Command
             $get_list = $list->get();
 
             Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new SyndromicEmailSender($get_list));
-        }
 
-        $update = $list->update([
-            'email_notified' => 1,
-        ]);
+            $update = $list->update([
+                'email_notified' => 1,
+            ]);
+        }
     }
 }

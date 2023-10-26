@@ -1265,7 +1265,20 @@ class PidsrImport implements ToCollection, WithStartRow
                     ->whereDate('DateOfEntry', $this->tDate($row[45]))
                     ->first();
 
-                    if($proceed && !($find_name)) {
+                    //Check Symptoms
+                    if($row[35] == 'Y') { //SORE THROAT
+                        if($row[22] == 'Y' || $row[25] == 'Y') { //FEVER AND RASH
+                            $proceed2 = true;
+                        }
+                        else {
+                            $proceed2 = false;
+                        }
+                    }
+                    else {
+                        $proceed2 = false;
+                    }
+
+                    if($proceed && $proceed2 && !($find_name)) {
                         $c = Hfmd::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],

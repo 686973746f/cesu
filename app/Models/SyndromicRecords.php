@@ -414,11 +414,19 @@ class SyndromicRecords extends Model
             }
         }
 
+        if($this->sorethroat == 1) {
+            if($this->fever == 1 || $this->rash == 1) {
+                $list_arr[] = 'HFMD';
+            }
+        }
+
+        /*
         if($this->fever == 1 || $this->temperature >= 38) {
             if($this->rash == 1) {
                 $list_arr[] = 'HFMD';
             }
         }
+        */
         
         if($this->fever == 1) {
             if($this->cough == 1 || $this->sorethroat == 1) {

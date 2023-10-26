@@ -17,8 +17,24 @@ class CreateSyndromicDoctorsTable extends Migration
             $table->id();
             $table->string('doctor_name');
             $table->string('dru_name');
+            $table->string('gender')->nullable();
+            $table->date('bdate')->nullable();
+            $table->string('position_ref')->nullable();
             $table->string('position')->nullable();
-            $table->string('reg_no')->nullable();
+
+            $table->string('hired_by')->nullable();
+            $table->string('employment_status')->nullable();
+            $table->string('active_in_service')->default('Y');
+            $table->string('current_user')->nullable();
+
+            $table->string('reg_no')->nullable(); //PRC LICENSE NUMBER
+            $table->string('ptr_no')->nullable();
+            $table->string('phic_no')->nullable();
+            $table->string('phic_accre_code')->nullable();
+            $table->string('s2_license')->nullable();
+            $table->string('tin_no')->nullable();
+
+            $table->text('catchment_brgy_list')->nullable();
             $table->timestamps();
         });
     }
