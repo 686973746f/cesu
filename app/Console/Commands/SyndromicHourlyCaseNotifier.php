@@ -46,7 +46,7 @@ class SyndromicHourlyCaseNotifier extends Command
         if($list->get()->count() != 0) {
             $get_list = $list->get();
 
-            Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new SyndromicEmailSender($get_list));
+            Mail::to(['hihihisto@gmail.com', 'cesu.gentrias.covid19positive@gmail.com'])->send(new SyndromicEmailSender($get_list));
 
             $update = $list->update([
                 'email_notified' => 1,

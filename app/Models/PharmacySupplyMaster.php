@@ -22,6 +22,8 @@ class PharmacySupplyMaster extends Model
         'maxpiece_perduration',
         'duration_days',
 
+        'usage_category',
+
         'created_by',
     ];
 

@@ -105,6 +105,10 @@ class SyndromicPatient extends Model
         return Carbon::parse($this->attributes['bdate'])->age;
     }
 
+    public function sg() {
+        return substr($this->gender, 0,1);
+    }
+
     public function getContactNumber() {
         if(!is_null($this->contact_number) || !is_null($this->contact_number2)) {
             $txt = $this->contact_number;

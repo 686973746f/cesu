@@ -40,6 +40,7 @@
                                 <th>SKU Code (DOH)</th>
                                 <th>Category</th>
                                 <th>Quantity Type</th>
+                                <th>Usage Category</th>
                                 <th>Date Created / By</th>
                                 <th>Date Updated / By</th>
                             </tr>
@@ -53,6 +54,7 @@
                                 <td class="text-center">{{($i->sku_code_doh) ? $i->sku_code_doh : 'N/A'}}</td>
                                 <td class="text-center">{{$i->category}}</td>
                                 <td class="text-center">{{$i->quantity_type}}</td>
+                                <td class="text-center">{{$i->usage_category}}</td>
                                 <td class="text-center"><small>{{date('m/d/Y h:i A', strtotime($i->created_at))}} / {{$i->user->name}}</small></td>
                                 <td class="text-center"><small>{{($i->getUpdatedBy()) ? date('m/d/Y h:i A', strtotime($i->updated_at)).' / '.$i->getUpdatedBy->name : ''}} </small></td>
                             </tr>

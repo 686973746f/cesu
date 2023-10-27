@@ -1724,6 +1724,7 @@ class PharmacyController extends Controller
                 'description' => $r->description,
                 'quantity_type' => $r->quantity_type,
                 'config_piecePerBox' => $r->config_piecePerBox,
+                'usage_category' => implode(',', $r->usage_category),
 
                 'updated_by' => auth()->user()->id,
             ]);

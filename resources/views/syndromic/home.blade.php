@@ -309,16 +309,19 @@
                 <h5 class="modal-title">Immediate Notifiable Disease Detected</h5>
             </div>
             <div class="modal-body">
-                <div class="alert alert-danger" role="alert">
-                    Based on the details you encoded, the patient might be suspected to an Immediate Notifiable Disease/s (Category 1). You may inform CESU by sending the details below by screenshot or direct message.
+                <div class="alert alert-warning" role="alert">
+                    Based on the details you encoded, the patient might be suspected to a list of Immediate Notifiable Disease/s. <b>Please inform CESU</b> by sending the details below via screenshot or direct message.
                 </div>
-                <p>Name:</p>
-                <p>Age/Sex:</p>
-                <p>Address:</p>
-                <p></p>
+                <p>Name: {{session('fetchr')->syndromic_patient->getName()}}</p>
+                <p>Age/Sex: {{session('fetchr')->syndromic_patient->getAgeInt()}}/{{session('fetchr')->syndromic_patient->sg()}}</p>
+                <p>Address: {{session('fetchr')->syndromic_patient->getFullAddress()}}</p>
+                <p>Contact Number: {{session('fetchr')->syndromic_patient->getContactNumber()}}</p>
+                <p>Consultation Date: {{date('m/d/Y', strtotime(session('fetchr')->consultation_date))}}</p>
+                <p>Symptoms: {{session('fetchr')->listSymptoms()}}</p>
+                <p>List of Suspected Disease/s: {{session('fetchr')->getListOfSuspDiseases()}}</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">I already informed CESU</button>
+                <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">I already informed CESU, Close this window</button>
             </div>
         </div>
     </div>
@@ -327,8 +330,8 @@
 
 <script>
     @if(session('immediate_notifiable') == 1)
-    $('#selectchoice').modal({backdrop: 'static', keyboard: false});
-    $('#selectchoice').modal('show');
+    $('#immediate_case').modal({backdrop: 'static', keyboard: false});
+    $('#immediate_case').modal('show');
     @endif
 </script>
 @endsection

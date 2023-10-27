@@ -82,6 +82,14 @@
                         </div>
                     </div>
                 </div>
+                <div class="form-group">
+                  <label for="usage_category">Usage Category</label>
+                  <select class="form-control" name="usage_category[]" id="usage_category" multiple>
+                    @foreach(App\Models\PharmacyPatient::getReasonList() as $rea)
+                        <option value="{{$rea}}">{{$rea}}</option>
+                    @endforeach
+                  </select>
+                </div>
                 <hr>
                 <div class="card">
                     <div class="card-header">Restriction Duration Settings for Patients</div>
@@ -117,6 +125,10 @@
 </div>
 
 <script>
+    $('#usage_category').select2({
+        theme: 'bootstrap',
+    });
+
     $('#quantity_type').change(function (e) { 
         e.preventDefault();
         if($(this).val() == 'BOX') {

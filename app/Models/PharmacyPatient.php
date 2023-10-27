@@ -106,6 +106,16 @@ class PharmacyPatient extends Model
             'CHEMOTHERAPHY/CANCER',
             'ALLERGY',
             'DIARRHEA',
+            'PREGNANT',
+            'ELECTROLYTES DEFFICIENT',
+            'ASTHMA',
+            'BLEEDING',
+            'ANTICOAGULANT',
+            'FUNGAL INFECTION',
+            'ANTI-AMOEBA',
+            'DIURETIC',
+            'CORTICOSTEROIDS',
+            'ANESTHESIA',
         ];
 
         sort($array);
