@@ -86,7 +86,7 @@
                   <label for="usage_category">Usage Category</label>
                   <select class="form-control" name="usage_category[]" id="usage_category" multiple>
                     @foreach(App\Models\PharmacyPatient::getReasonList() as $rea)
-                        <option value="{{$rea}}" {{(in_array($rea, explode(',', $d->usage_category))) ? 'selected' : ''}}>{{$rea}}</option>
+                        <option value="{{$rea}}" {{(in_array($rea, explode(',', old('usage_category', $d->usage_category)))) ? 'selected' : ''}}>{{$rea}}</option>
                     @endforeach
                   </select>
                 </div>
