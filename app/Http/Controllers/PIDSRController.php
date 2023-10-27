@@ -207,6 +207,17 @@ class PIDSRController extends Controller
                 $arr["mw$i"] = ${'mw'.$i};
             }
         }
+        else if($s == 'RABIES') {
+            for($i=1;$i <= $compa;$i++) {
+                ${'mw'.$i} = Rabies::where('Province', 'CAVITE')
+                ->where('Muncity', 'GENERAL TRIAS')
+                ->where('MorbidityWeek', $i)
+                ->where('Year', $y)
+                ->count();
+
+                $arr["mw$i"] = ${'mw'.$i};
+            }
+        }
         else if($s == 'ABD') {
             for($i=1;$i <= $compa;$i++) {
                 ${'mw'.$i} = Abd::where('Province', 'CAVITE')
