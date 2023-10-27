@@ -116,6 +116,7 @@ class PharmacyPatient extends Model
             'DIURETIC',
             'CORTICOSTEROIDS',
             'ANESTHESIA',
+            'EAR INFECTION',
         ];
 
         sort($array);
