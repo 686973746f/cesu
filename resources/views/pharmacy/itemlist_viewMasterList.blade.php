@@ -110,7 +110,7 @@
                                     <label for="quantity_type"><b class="text-danger">*</b>Main Quantity Type</label>
                                     <select class="form-control" name="quantity_type" id="quantity_type" required>
                                         <option value="BOX">PER BOX</option>
-                                        <option value="BOTTLE">PER PIECE/BOTTLES</option>
+                                        <option value="PIECE">PER PIECE/BOTTLES</option>
                                     </select>
                                 </div>
                             </div>
