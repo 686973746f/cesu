@@ -40,6 +40,8 @@ class SyndromicHourlyCaseNotifier extends Command
      */
     public function handle()
     {
+        $arr = [];
+        
         $list = SyndromicRecords::whereDate('created_at', date('Y-m-d'))
         ->where('email_notified', 0);
 

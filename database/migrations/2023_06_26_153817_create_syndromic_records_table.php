@@ -158,6 +158,7 @@ class CreateSyndromicRecordsTable extends Migration
             $table->text('document_file')->nullable();
             $table->text('qr');
 
+            $table->tinyInteger('is_listed_notifiable')->default(0);
             $table->tinyInteger('email_notified')->default(0);
             $table->tinyInteger('view_notified')->default(0);
             

@@ -133,6 +133,7 @@ class PIDSRController extends Controller
                 ->where('Muncity', 'GENERAL TRIAS')
                 ->where('MorbidityWeek', $i)
                 ->where('Year', $y)
+                ->where('enabled', 1)
                 ->count();
 
                 $arr["mw$i"] = ${'mw'.$i};
@@ -147,6 +148,7 @@ class PIDSRController extends Controller
                 ->where('Muncity', 'GENERAL TRIAS')
                 ->where('MorbidityWeek', $i)
                 ->where('Year', $y)
+                ->where('enabled', 1)
                 ->count();
 
                 $arr["mw$i"] = ${'mw'.$i};
@@ -158,6 +160,7 @@ class PIDSRController extends Controller
                 ->where('Muncity', 'GENERAL TRIAS')
                 ->where('MorbidityWeek', $i)
                 ->where('Year', $y)
+                ->where('enabled', 1)
                 ->count();
 
                 $arr["mw$i"] = ${'mw'.$i};
@@ -169,6 +172,7 @@ class PIDSRController extends Controller
                 ->where('Muncity', 'GENERAL TRIAS')
                 ->where('MorbidityWeek', $i)
                 ->where('Year', $y)
+                ->where('enabled', 1)
                 ->count();
 
                 $arr["mw$i"] = ${'mw'.$i};
@@ -180,6 +184,7 @@ class PIDSRController extends Controller
                 ->where('Muncity', 'GENERAL TRIAS')
                 ->where('MorbidityWeek', $i)
                 ->where('Year', $y)
+                ->where('enabled', 1)
                 ->count();
 
                 $arr["mw$i"] = ${'mw'.$i};
@@ -191,6 +196,7 @@ class PIDSRController extends Controller
                 ->where('Muncity', 'GENERAL TRIAS')
                 ->where('MorbidityWeek', $i)
                 ->where('Year', $y)
+                ->where('enabled', 1)
                 ->count();
 
                 $arr["mw$i"] = ${'mw'.$i};
@@ -202,6 +208,7 @@ class PIDSRController extends Controller
                 ->where('Muncity', 'GENERAL TRIAS')
                 ->where('MorbidityWeek', $i)
                 ->where('Year', $y)
+                ->where('enabled', 1)
                 ->count();
 
                 $arr["mw$i"] = ${'mw'.$i};
@@ -213,6 +220,7 @@ class PIDSRController extends Controller
                 ->where('Muncity', 'GENERAL TRIAS')
                 ->where('MorbidityWeek', $i)
                 ->where('Year', $y)
+                ->where('enabled', 1)
                 ->count();
 
                 $arr["mw$i"] = ${'mw'.$i};
@@ -224,6 +232,7 @@ class PIDSRController extends Controller
                 ->where('Muncity', 'GENERAL TRIAS')
                 ->where('MorbidityWeek', $i)
                 ->where('Year', $y)
+                ->where('enabled', 1)
                 ->count();
 
                 $arr["mw$i"] = ${'mw'.$i};
@@ -235,6 +244,7 @@ class PIDSRController extends Controller
                 ->where('Muncity', 'GENERAL TRIAS')
                 ->where('MorbidityWeek', $i)
                 ->where('Year', $y)
+                ->where('enabled', 1)
                 ->count();
 
                 $arr["mw$i"] = ${'mw'.$i};
@@ -246,6 +256,7 @@ class PIDSRController extends Controller
                 ->where('Muncity', 'GENERAL TRIAS')
                 ->where('MorbidityWeek', $i)
                 ->where('Year', $y)
+                ->where('enabled', 1)
                 ->count();
 
                 $arr["mw$i"] = ${'mw'.$i};
@@ -257,6 +268,7 @@ class PIDSRController extends Controller
                 ->where('Muncity', 'GENERAL TRIAS')
                 ->where('MorbidityWeek', $i)
                 ->where('Year', $y)
+                ->where('enabled', 1)
                 ->count();
 
                 $arr["mw$i"] = ${'mw'.$i};
@@ -268,6 +280,7 @@ class PIDSRController extends Controller
                 ->where('Muncity', 'GENERAL TRIAS')
                 ->where('MorbidityWeek', $i)
                 ->where('Year', $y)
+                ->where('enabled', 1)
                 ->count();
 
                 $arr["mw$i"] = ${'mw'.$i};
@@ -279,6 +292,7 @@ class PIDSRController extends Controller
                 ->where('Muncity', 'GENERAL TRIAS')
                 ->where('MorbidityWeek', $i)
                 ->where('Year', $y)
+                ->where('enabled', 1)
                 ->count();
 
                 $arr["mw$i"] = ${'mw'.$i};
@@ -290,6 +304,7 @@ class PIDSRController extends Controller
                 ->where('Muncity', 'GENERAL TRIAS')
                 ->where('MorbidityWeek', $i)
                 ->where('Year', $y)
+                ->where('enabled', 1)
                 ->count();
 
                 $arr["mw$i"] = ${'mw'.$i};
@@ -301,6 +316,7 @@ class PIDSRController extends Controller
                 ->where('Muncity', 'GENERAL TRIAS')
                 ->where('MorbidityWeek', $i)
                 ->where('Year', $y)
+                ->where('enabled', 1)
                 ->count();
 
                 $arr["mw$i"] = ${'mw'.$i};
@@ -312,6 +328,7 @@ class PIDSRController extends Controller
                 ->where('Muncity', 'GENERAL TRIAS')
                 ->where('MorbidityWeek', $i)
                 ->where('Year', $y)
+                ->where('enabled', 1)
                 ->count();
 
                 $arr["mw$i"] = ${'mw'.$i};
@@ -323,6 +340,7 @@ class PIDSRController extends Controller
                 ->where('Muncity', 'GENERAL TRIAS')
                 ->where('MorbidityWeek', $i)
                 ->where('Year', $y)
+                ->where('enabled', 1)
                 ->count();
 
                 $arr["mw$i"] = ${'mw'.$i};
@@ -334,6 +352,7 @@ class PIDSRController extends Controller
                 ->where('Muncity', 'GENERAL TRIAS')
                 ->where('MorbidityWeek', $i)
                 ->where('Year', $y)
+                ->where('enabled', 1)
                 ->count();
 
                 $arr["mw$i"] = ${'mw'.$i};
@@ -345,6 +364,7 @@ class PIDSRController extends Controller
                 ->where('Muncity', 'GENERAL TRIAS')
                 ->where('MorbidityWeek', $i)
                 ->where('Year', $y)
+                ->where('enabled', 1)
                 ->count();
 
                 $arr["mw$i"] = ${'mw'.$i};
@@ -356,6 +376,7 @@ class PIDSRController extends Controller
                 ->where('Muncity', 'GENERAL TRIAS')
                 ->where('MorbidityWeek', $i)
                 ->where('Year', $y)
+                ->where('enabled', 1)
                 ->count();
 
                 $arr["mw$i"] = ${'mw'.$i};
@@ -367,6 +388,7 @@ class PIDSRController extends Controller
                 ->where('Muncity', 'GENERAL TRIAS')
                 ->where('MorbidityWeek', $i)
                 ->where('Year', $y)
+                ->where('enabled', 1)
                 ->count();
 
                 $arr["mw$i"] = ${'mw'.$i};
@@ -378,6 +400,7 @@ class PIDSRController extends Controller
                 ->where('Muncity', 'GENERAL TRIAS')
                 ->where('MorbidityWeek', $i)
                 ->where('Year', $y)
+                ->where('enabled', 1)
                 ->count();
 
                 $arr["mw$i"] = ${'mw'.$i};
@@ -389,6 +412,7 @@ class PIDSRController extends Controller
                 ->where('Muncity', 'GENERAL TRIAS')
                 ->where('MorbidityWeek', $i)
                 ->where('Year', $y)
+                ->where('enabled', 1)
                 ->count();
 
                 $arr["mw$i"] = ${'mw'.$i};
@@ -400,6 +424,7 @@ class PIDSRController extends Controller
                 ->where('Muncity', 'GENERAL TRIAS')
                 ->where('MorbidityWeek', $i)
                 ->where('Year', $y)
+                ->where('enabled', 1)
                 ->count();
 
                 $arr["mw$i"] = ${'mw'.$i};
