@@ -70,8 +70,8 @@
                         <div class="form-group">
                             <label for="quantity_type"><b class="text-danger">*</b>Quantity Type</label>
                             <select class="form-control" name="quantity_type" id="quantity_type" required>
-                                <option value="BOX" {{(old('category', $d->quantity_type) == 'BOX') ? 'selected' : ''}}>PER BOX</option>
-                                <option value="PIECE" {{(old('category', $d->quantity_type) == 'PIECE') ? 'selected' : ''}}>PER PIECE (BOTTLE)</option>
+                                <option value="BOX" {{(old('quantity_type', $d->quantity_type) == 'BOX') ? 'selected' : ''}}>PER BOX</option>
+                                <option value="PIECE" {{(old('quantity_type', $d->quantity_type) == 'PIECE') ? 'selected' : ''}}>PER PIECE (BOTTLE)</option>
                             </select>
                         </div>
                     </div>
