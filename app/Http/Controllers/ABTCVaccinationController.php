@@ -668,8 +668,8 @@ class ABTCVaccinationController extends Controller
                         $stock_search = AbtcVaccineStocks::where('vaccine_id', $bsearch->id)
                         ->where('branch_id', auth()->user()->abtc_default_vaccinationsite_id)
                         ->first();
-    
-                        if(Carbon::parse($stock_search->initial_date)->lt(Carbon::parse($request->d0_date))) {
+
+                        if(Carbon::parse($request->d0_date)->lt(Carbon::parse($stock_search->initial_date))) {
                             $d->d0_vaccinated_inbranch = 0;
                         }
                         else if(Carbon::parse($stock_search->initial_date)->gt(Carbon::parse(date('Y-m-d')))) {
@@ -710,8 +710,8 @@ class ABTCVaccinationController extends Controller
                         $stock_search = AbtcVaccineStocks::where('vaccine_id', $bsearch->id)
                         ->where('branch_id', auth()->user()->abtc_default_vaccinationsite_id)
                         ->first();
-    
-                        if(Carbon::parse($stock_search->initial_date)->lt(Carbon::parse($request->d3_date))) {
+                        
+                        if(Carbon::parse($request->d3_date)->lt(Carbon::parse($stock_search->initial_date))) {
                             $d->d3_vaccinated_inbranch = 0;
                         }
                         else if(Carbon::parse($stock_search->initial_date)->gt(Carbon::parse(date('Y-m-d')))) {
@@ -755,8 +755,8 @@ class ABTCVaccinationController extends Controller
                             $stock_search = AbtcVaccineStocks::where('vaccine_id', $bsearch->id)
                             ->where('branch_id', auth()->user()->abtc_default_vaccinationsite_id)
                             ->first();
-        
-                            if(Carbon::parse($stock_search->initial_date)->lt(Carbon::parse($request->d7_date))) {
+                            
+                            if(Carbon::parse($request->d7_date)->lt(Carbon::parse($stock_search->initial_date))) {
                                 $d->d7_vaccinated_inbranch = 0;
                             }
                             else if(Carbon::parse($stock_search->initial_date)->gt(Carbon::parse(date('Y-m-d')))) {
@@ -801,8 +801,8 @@ class ABTCVaccinationController extends Controller
                                 $stock_search = AbtcVaccineStocks::where('vaccine_id', $bsearch->id)
                                 ->where('branch_id', auth()->user()->abtc_default_vaccinationsite_id)
                                 ->first();
-            
-                                if(Carbon::parse($stock_search->initial_date)->lt(Carbon::parse($request->d14_date))) {
+                                
+                                if(Carbon::parse($request->d14_date)->lt(Carbon::parse($stock_search->initial_date))) {
                                     $d->d14_vaccinated_inbranch = 0;
                                 }
                                 else if(Carbon::parse($stock_search->initial_date)->gt(Carbon::parse(date('Y-m-d')))) {
@@ -847,8 +847,8 @@ class ABTCVaccinationController extends Controller
                             $stock_search = AbtcVaccineStocks::where('vaccine_id', $bsearch->id)
                             ->where('branch_id', auth()->user()->abtc_default_vaccinationsite_id)
                             ->first();
-        
-                            if(Carbon::parse($stock_search->initial_date)->lt(Carbon::parse($request->d28_date))) {
+                            
+                            if(Carbon::parse($request->d28_date)->lt(Carbon::parse($stock_search->initial_date))) {
                                 $d->d28_vaccinated_inbranch = 0;
                             }
                             else if(Carbon::parse($stock_search->initial_date)->gt(Carbon::parse(date('Y-m-d')))) {
