@@ -1100,6 +1100,8 @@ class VaxcertController extends Controller
         $spreadsheet = IOFactory::load(storage_path('vaslinelist_template.xlsx'));
         $sheet = $spreadsheet->getActiveSheet('VAS Template');
 
+        $bdate = Carbon::parse($r->birthdate);
+
         $c = 2;
         
         //check if dose dates were correct
@@ -1352,7 +1354,28 @@ class VaxcertController extends Controller
             }
 
             if($proceed) {
-                $sheet->setCellValue('A'.$c, $r->category);
+
+                $agevsvdate = $bdate->diffInYears($vbasedate);
+                if($r->category != 'ROPP (12-17 YEARS OLD)' || $r->category != 'ROPP (5-11 YEARS OLD)' || $r->category != 'PEDRIATRIC A3 (12-17 YEARS OLD)' || $r->category != 'PEDRIATRIC A3 (5-11 YEARS OLD)') {
+                    if($agevsvdate >= 12 && $agevsvdate <= 17) {
+                        $set_category = 'ROPP (12-17 YEARS OLD)';
+                        $set_guardian = 'ADD, LATER';
+                    }
+                    else if($agevsvdate >= 5 && $agevsvdate <= 11) {
+                        $set_category = 'ROPP (5-11 YEARS OLD)';
+                        $set_guardian = 'ADD, LATER';
+                    }
+                    else {
+                        $set_category = $r->category;
+                        $set_guardian = NULL;
+                    }
+                }
+                else {
+                    $set_category = $r->category;
+                    $set_guardian = mb_strtoupper($r->guardian_name);
+                }
+
+                $sheet->setCellValue('A'.$c, $set_category);
                 $sheet->setCellValue('B'.$c, $r->filled('comorbidity') ? mb_strtoupper($r->comorbidity) : ''); //COMORBID
                 $sheet->setCellValue('C'.$c, (!is_null($r->unique_person_id)) ? $r->unique_person_id : 'NONE'); //UNIQUE PERSON ID
                 $sheet->setCellValue('D'.$c, $r->pwd); //PWD
@@ -1362,7 +1385,7 @@ class VaxcertController extends Controller
                 $sheet->setCellValue('H'.$c, (!is_null($r->middle_name)) ? $r->middle_name : 'NONE');
                 $sheet->setCellValue('I'.$c, (!is_null($r->suffix)) ? $r->suffix : '');
                 $sheet->setCellValue('J'.$c, substr($r->contact_no, 1));
-                $sheet->setCellValue('K'.$c, mb_strtoupper($r->guardian_name)); //GUARDIAN NAME
+                $sheet->setCellValue('K'.$c, (!is_null($set_guardian)) ? $set_guardian : ''); //GUARDIAN NAME
                 $sheet->setCellValue('L'.$c, $region_code); //REGION
                 $sheet->setCellValue('M'.$c, $prov_code); //PROVINCE
                 $sheet->setCellValue('N'.$c, $mun_code); //MUNCITY
