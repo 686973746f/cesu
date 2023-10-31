@@ -1359,11 +1359,23 @@ class VaxcertController extends Controller
                 if($r->category != 'ROPP (12-17 YEARS OLD)' || $r->category != 'ROPP (5-11 YEARS OLD)' || $r->category != 'PEDRIATRIC A3 (12-17 YEARS OLD)' || $r->category != 'PEDRIATRIC A3 (5-11 YEARS OLD)') {
                     if($agevsvdate >= 12 && $agevsvdate <= 17) {
                         $set_category = 'ROPP (12-17 YEARS OLD)';
-                        $set_guardian = 'ADD, LATER';
+
+                        if($r->fille('guardian_name')) {
+                            $set_guardian = mb_strtoupper($r->guardian_name);
+                        }
+                        else {
+                            $set_guardian = 'ADD, LATER';
+                        }
                     }
                     else if($agevsvdate >= 5 && $agevsvdate <= 11) {
                         $set_category = 'ROPP (5-11 YEARS OLD)';
-                        $set_guardian = 'ADD, LATER';
+
+                        if($r->fille('guardian_name')) {
+                            $set_guardian = mb_strtoupper($r->guardian_name);
+                        }
+                        else {
+                            $set_guardian = 'ADD, LATER';
+                        }
                     }
                     else {
                         $set_category = $r->category;
