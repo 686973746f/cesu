@@ -1360,7 +1360,7 @@ class VaxcertController extends Controller
                     if($agevsvdate >= 12 && $agevsvdate <= 17) {
                         $set_category = 'ROPP (12-17 YEARS OLD)';
 
-                        if($r->fille('guardian_name')) {
+                        if($r->filled('guardian_name')) {
                             $set_guardian = mb_strtoupper($r->guardian_name);
                         }
                         else {
@@ -1370,7 +1370,7 @@ class VaxcertController extends Controller
                     else if($agevsvdate >= 5 && $agevsvdate <= 11) {
                         $set_category = 'ROPP (5-11 YEARS OLD)';
 
-                        if($r->fille('guardian_name')) {
+                        if($r->filled('guardian_name')) {
                             $set_guardian = mb_strtoupper($r->guardian_name);
                         }
                         else {
