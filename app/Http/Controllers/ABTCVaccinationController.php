@@ -665,7 +665,7 @@ class ABTCVaccinationController extends Controller
 
                     if($request->d0_vaccinated_inbranch == 'Y') {
                         $bsearch = AbtcVaccineBrand::where('brand_name', $request->d0_brand)->first();
-                        $stock_search = AbtcVaccineStocks::where('brand_id', $bsearch->id)
+                        $stock_search = AbtcVaccineStocks::where('vaccine_id', $bsearch->id)
                         ->where('branch_id', auth()->user()->abtc_default_vaccinationsite_id)
                         ->first();
     
@@ -707,7 +707,7 @@ class ABTCVaccinationController extends Controller
 
                     if($request->d3_vaccinated_inbranch == 'Y') {
                         $bsearch = AbtcVaccineBrand::where('brand_name', $request->d3_brand)->first();
-                        $stock_search = AbtcVaccineStocks::where('brand_id', $bsearch->id)
+                        $stock_search = AbtcVaccineStocks::where('vaccine_id', $bsearch->id)
                         ->where('branch_id', auth()->user()->abtc_default_vaccinationsite_id)
                         ->first();
     
@@ -752,7 +752,7 @@ class ABTCVaccinationController extends Controller
 
                         if($request->d7_vaccinated_inbranch == 'Y') {
                             $bsearch = AbtcVaccineBrand::where('brand_name', $request->d7_brand)->first();
-                            $stock_search = AbtcVaccineStocks::where('brand_id', $bsearch->id)
+                            $stock_search = AbtcVaccineStocks::where('vaccine_id', $bsearch->id)
                             ->where('branch_id', auth()->user()->abtc_default_vaccinationsite_id)
                             ->first();
         
@@ -798,7 +798,7 @@ class ABTCVaccinationController extends Controller
 
                             if($request->d14_vaccinated_inbranch == 'Y') {
                                 $bsearch = AbtcVaccineBrand::where('brand_name', $request->d14_brand)->first();
-                                $stock_search = AbtcVaccineStocks::where('brand_id', $bsearch->id)
+                                $stock_search = AbtcVaccineStocks::where('vaccine_id', $bsearch->id)
                                 ->where('branch_id', auth()->user()->abtc_default_vaccinationsite_id)
                                 ->first();
             
@@ -844,7 +844,7 @@ class ABTCVaccinationController extends Controller
 
                         if($request->d28_vaccinated_inbranch == 'Y') {
                             $bsearch = AbtcVaccineBrand::where('brand_name', $request->d28_brand)->first();
-                            $stock_search = AbtcVaccineStocks::where('brand_id', $bsearch->id)
+                            $stock_search = AbtcVaccineStocks::where('vaccine_id', $bsearch->id)
                             ->where('branch_id', auth()->user()->abtc_default_vaccinationsite_id)
                             ->first();
         
