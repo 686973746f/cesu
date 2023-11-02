@@ -364,7 +364,7 @@ class AutoEmailCovidDatabase extends Command
             ];
         });
 
-        Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'pesucavite@gmail.com', 'resu4a@gmail.com', 'ludettelontoc@gmail.com', 'macvillaviray.doh@gmail.com', 'cavitecovid19labresults@gmail.com'])->send(new SendCovidDatabase($newlyencoded_count));
+        Mail::to(['cesu.gentrias@gmail.com', 'pesucavite@gmail.com', 'resu4a@gmail.com', 'ludettelontoc@gmail.com', 'macvillaviray.doh@gmail.com', 'cavitecovid19labresults@gmail.com'])->send(new SendCovidDatabase($newlyencoded_count));
 
         File::delete(storage_path('GENTRI_COVID19_DATABASE_'.date('m_d_Y', strtotime('-1 Day')).'.xlsx'));
     }
