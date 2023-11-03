@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Brgy;
 use App\Models\Icd10Code;
+use App\Models\PharmacyCartSub;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -532,6 +533,9 @@ class SyndromicController extends Controller
                 //'rx' => ($r->filled('rx')) ? mb_strtoupper($r->rx) : NULL,
                 'remarks' => ($r->filled('remarks')) ? mb_strtoupper($r->remarks) : NULL,
 
+                'prescribe_option' => $r->prescribe_option,
+                'prescription_list' => ($r->prescribe_option == 'Y') ? implode(',', $r->prescription_list) : NULL,
+
                 'status' => 'approved',
                 'name_of_physician' => $r->name_of_physician,
                 'other_doctor' => ($r->name_of_physician == 'OTHERS') ? mb_strtoupper($r->other_doctor) : NULL,
@@ -612,36 +616,57 @@ class SyndromicController extends Controller
                 $create_pharma = PharmacyPatient::findOrFail($pharmacy_check->id);
             }
 
-            /*
-
             if($r->prescribe_option == 'Y') {
-                
-            }
-
-            /*
-            //PHARMA REASON LIST ALGORITHM
-            $s_prescription = PharmacyPrescription::where('patient_id', $create_pharma->id)
-            ->where('finished', 0)
-            ->update([
-                'finished' => 1,
-            ]);
-
-            //Create Prescription and Automate Reason for Meds
-            $c_prescription = $r->user()->pharmacyprescription()->create([
-                'patient_id' => $create_pharma->id,
-                'concerns_list' => NULL,
-            ]);
-
-            $search_cart = $create_pharma->getPendingCartMain();
-
-            if(!($search_cart)) {
-                $search_cart = request()->user()->pharmacycartmain()->create([
-                    'patient_id' => $create_pharma->id,
-                    'prescription_id' => $c_prescription->id,
-                    'branch_id' => auth()->user()->pharmacy_branch_id,
+                //PHARMA REASON LIST ALGORITHM
+                $s_prescription = PharmacyPrescription::where('patient_id', $create_pharma->id)
+                ->where('finished', 0)
+                ->update([
+                    'finished' => 1,
                 ]);
+
+                //Create Prescription and Automate Reason for Meds
+                $c_prescription = $r->user()->pharmacyprescription()->create([
+                    'patient_id' => $create_pharma->id,
+                    'concerns_list' => NULL,
+                ]);
+
+                $search_cart = $create_pharma->getPendingCartMain();
+                
+                if(!($search_cart)) {
+                    $search_cart = request()->user()->pharmacycartmain()->create([
+                        'patient_id' => $create_pharma->id,
+                        'prescription_id' => $c_prescription->id,
+                        'branch_id' => auth()->user()->pharmacy_branch_id,
+                    ]);
+                }
+
+                $usage_arr_temp = [];
+
+                foreach($r->prescription_list as $psub) {
+                    $csub_store = PharmacyCartSub::create([
+                        'main_cart_id' => $search_cart->id,
+                        'subsupply_id' => $psub,
+                        'qty_to_process' => 0,
+                        'type_to_process' => 'PIECE',
+                    ]);
+
+                    //AUTO ADD PRESCRIPTION USAGE CATEGORY
+
+                    //GET USAGE CATEROGY ARRAY
+                    $sea_subcart = PharmacySupplySub::findOrFail($psub);
+                    foreach(explode(',', $sea_subcart->pharmacysupplymaster->usage_category) as $uc) {
+                        if(!in_array($uc, $usage_arr_temp)) {
+                            $usage_arr_temp[] = $uc;
+                        }
+                    }
+                }
+
+                $upd_prescription = PharmacyPrescription::findOrFail($c_prescription->id);
+                $upd_prescription->concerns_list = implode(',', $usage_arr_temp);
+                if($upd_prescription->isDirty()) {
+                    $upd_prescription->save();   
+                }
             }
-            */
 
             if($c->ifHasImmediateNotifiable()) {
                 $immediatenotifiable = 1;

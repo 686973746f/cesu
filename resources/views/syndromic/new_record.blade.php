@@ -696,23 +696,20 @@
                       <label for="dcnote_plan">Plan of Action / RX</label>
                       <textarea class="form-control" name="dcnote_plan" id="dcnote_plan" rows="3" style="text-transform: uppercase;">{{old('dcnote_plan')}}</textarea>
                     </div>
-                    <!--
-                      <fieldset>
-                        <label class="mr-2">Make Prescription?</label>
-                        <div class="form-check form-check-inline">
-                          <input class="form-check-input" type="radio" name="prescribe_option" id="inlineRadio1" value="Y" required>
-                          <label class="form-check-label" for="inlineRadio1">Yes</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                          <input class="form-check-input" type="radio" name="prescribe_option" id="inlineRadio2" value="T" required>
-                          <label class="form-check-label" for="inlineRadio2">Transfer to Pharmacy</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                          <input class="form-check-input" type="radio" name="prescribe_option" id="inlineRadio3" value="N" required>
-                          <label class="form-check-label" for="inlineRadio3">No</label>
-                        </div>
-                      </fieldset>
-                    -->
+                    <div class="form-group">
+                      <label for="prescribe_option"><b class="text-danger">*</b>Make Prescription?</label>
+                      <select class="form-control" name="prescribe_option[]" id="prescribe_option" required>
+                        <option value="" disabled {{(is_null(old('prescribe_option'))) ? 'selected' : ''}}>Choose...</option>
+                        <option value="Y" {{(old('prescribe_option') == 'Y') ? 'selected' : ''}}>Yes</option>
+                        <option value="T" {{(old('prescribe_option') == 'T') ? 'selected' : ''}}>Transfer to Pharmacy</option>
+                        <option value="N" {{(old('prescribe_option') == 'N') ? 'selected' : ''}}>No</option>
+                      </select>
+                    </div>
+                    <div class="form-group d-none" id="prescription_div">
+                      <label for="prescription_list"><b class="text-danger">*</b>List Prescription</label>
+                      <select class="form-control" name="prescription_list" id="prescription_list" multiple>
+                      </select>
+                    </div>
                     <div class="form-group">
                       <label for="dcnote_diagprocedure">Diagnostic Procedure</label>
                       <textarea class="form-control" name="dcnote_diagprocedure" id="dcnote_diagprocedure" rows="3" style="text-transform: uppercase;">{{old('dcnote_diagprocedure')}}</textarea>
@@ -850,6 +847,40 @@
 
   $('#consultation_type').select2({
     theme: "bootstrap",
+  });
+
+  $('#prescribe_option').change(function (e) { 
+    e.preventDefault();
+    if($(this).val() == 'Y') {
+      $('#prescription_div').removeClass('d-none');
+      $('#prescription_list').prop('required', true);
+    }
+    else {
+      $('#prescription_div').addClass('d-none');
+      $('#prescription_list').prop('required', false);
+    }
+  }).trigger('change');
+
+  $('#prescription_list').select2({
+    theme: "bootstrap",
+    placeholder: 'Search by Medicine Names ...',
+    ajax: {
+          url: "{{route('syndromic_medsList')}}",
+          dataType: 'json',
+          delay: 250,
+          processResults: function (data) {
+              return {
+                  results:  $.map(data, function (item) {
+                      return {
+                          text: item.text,
+                          id: item.id,
+                          value: item.id,
+                      }
+                  })
+              };
+          },
+          cache: true
+      }
   });
 
   $('#main_diagnosis').select2({
