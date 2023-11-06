@@ -594,6 +594,14 @@ class PharmacyController extends Controller
             $subcart_list = PharmacyCartSub::where('main_cart_id', $get_maincart->id)->get();
 
             foreach($subcart_list as $ind => $sc) {
+                //check if from opd first
+                if($sc->qty_to_process == 0) {
+                    $sc->qty_to_process = $r->set_dyn_qty[$ind];
+                    if($sc->isDirty()) {
+                        $sc->save();
+                    }
+                }
+
                 //check if subsupply has enough stocks
                 $subsupply = PharmacySupplySub::findOrFail($sc->subsupply_id);
 

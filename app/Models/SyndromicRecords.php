@@ -125,6 +125,15 @@ class SyndromicRecords extends Model
         'prescribe_option',
         'prescription_list',
 
+        'laboratory_request_list',
+        'imaging_request_list',
+        'alert_list',
+        'alert_ifdisability_list',
+        'alert_description',
+
+        'comorbid_list',
+        'firstdegree_comorbid_list',
+
         'name_of_interviewer',
         'name_of_physician',
         'other_doctor',
@@ -174,6 +183,57 @@ class SyndromicRecords extends Model
             'Prenatal',
             'Sick Children',
             'Tuberculosis',
+        ];
+
+        return $array;
+    }
+
+    public static function refComorbidities() {
+        $array = [
+            'Asthma',
+            'Cancer',
+            'Cardio Vascular',
+            'COPD (Pulmonary Disease)',
+            'Diabetes',
+            'Gastrointestinal (GIT)',
+            'Genito-urinary',
+            'Heart Disease',
+            'Heart Attack',
+            'Hypertension',
+            'Kidney Disease',
+            'Neurological Disease',
+            'Stroke',
+            'Tuberculosis',
+            'Others',
+        ];
+
+        return $array;
+    }
+
+    public static function refAlert() {
+        $array = [
+            'Allergy',
+            'Disability',
+            'Drug',
+            'Handicap',
+            'Impairment',
+            'Others',
+        ];
+
+        return $array;
+    }
+
+    public static function refAlertDisability() {
+        $array = [
+            'Disability due to Chronic Illness',
+            'Hearing Disability',
+            'Learning Disability',
+            'Mental / Intellectual',
+            'Multiple Disabilities',
+            'Orthopedic (Musculoskeletal) Disability',
+            'Psychosocial Disability',
+            'Speech Impairment',
+            'Visual Disability',
         ];
 
         return $array;

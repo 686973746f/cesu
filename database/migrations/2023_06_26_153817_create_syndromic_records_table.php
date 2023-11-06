@@ -129,6 +129,15 @@ class CreateSyndromicRecordsTable extends Migration
             $table->string('prescribe_option', 1)->nullable();
             $table->text('prescription_list')->nullable();
 
+            $table->text('laboratory_request_list')->nullable();
+            $table->text('imaging_request_list')->nullable();
+            $table->text('alert_list')->nullable();
+            $table->text('alert_ifdisability_list')->nullable();
+            $table->text('alert_description')->nullable();
+
+            $table->text('comorbid_list')->nullable();
+            $table->text('firstdegree_comorbid_list')->nullable();
+
             $table->text('name_of_interviewer')->nullable();
             $table->text('name_of_physician')->nullable();
             $table->text('other_doctor')->nullable();

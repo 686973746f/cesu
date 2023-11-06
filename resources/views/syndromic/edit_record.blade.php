@@ -224,7 +224,7 @@
                     <div id="if_hospitalized" class="d-none">
                       <div class="form-group">
                         <label for="hospital_name"><span class="text-danger font-weight-bold">*</span>Name of Hospital</label>
-                        <input type="text" class="form-control" name="hospital_name" id="hospital_name" value="{{old('hospital_name', $d->hospital_name)}}">
+                        <input type="text" class="form-control" name="hospital_name" id="hospital_name" value="{{old('hospital_name', $d->hospital_name)}}" style="text-transform: uppercase;">
                       </div>
                       <div class="form-group">
                         <label for="date_admitted"><span class="text-danger font-weight-bold">*</span>Date Admitted</label>
@@ -702,6 +702,70 @@
                     </div>
                 </div>
                 <div class="card mb-3">
+                  <div class="card-header"><b>Risk Assessment</b></div>
+                  <div class="card-body">
+                    <div class="card mb-3">
+                      <div class="card-header">Comorbidities</div>
+                      <div class="card-body">
+                        @foreach(App\Models\SyndromicRecords::refComorbidities() as $ind => $iref)
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="checkbox" id="como_type{{$ind}}" name="comorbid_list[]" value="{{mb_strtoupper($iref)}}" {{(in_array(mb_strtoupper($iref), explode(",", old('comorbid_list', $d->comorbid_list)))) ? 'checked' : ''}}>
+                          <label class="form-check-label">{{$iref}}</label>
+                        </div>
+                        @endforeach
+                      </div>
+                    </div>
+                    <div id="fam_accord" role="tablist" aria-multiselectable="true">
+                      <div class="card mb-3">
+                        <div class="card-header" role="tab" id="section1HeaderId">
+                          <a data-toggle="collapse" data-parent="#fam_accord" href="#fam1" aria-expanded="true" aria-controls="section1ContentId">
+                            Family History - Does patient have 1st degree relative with comorbidities? Click to specify:
+                          </a>
+                        </div>
+                        <div id="fam1" class="collapse in" role="tabpanel" aria-labelledby="section1HeaderId">
+                          <div class="card-body">
+                            @foreach(App\Models\SyndromicRecords::refComorbidities() as $ind => $iref)
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="como_family_type{{$ind}}" name="firstdegree_comorbid_list[]" value="{{mb_strtoupper($iref)}}" {{(in_array(mb_strtoupper($iref), explode(",", old('firstdegree_comorbid_list', $d->firstdegree_comorbid_list)))) ? 'checked' : ''}}>
+                              <label class="form-check-label">{{$iref}}</label>
+                            </div>
+                            @endforeach
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card">
+                      <div class="card-header">Alert Type</div>
+                      <div class="card-body">
+                        @foreach(App\Models\SyndromicRecords::refAlert() as $ind => $iref)
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="checkbox" id="alert_type{{$ind}}" name="alert_list[]" value="{{mb_strtoupper($iref)}}" {{(in_array(mb_strtoupper($iref), explode(",", old('alert_list', $d->alert_list)))) ? 'checked' : ''}}>
+                          <label class="form-check-label">{{$iref}}</label>
+                        </div>
+                        @endforeach
+
+                        <div id="disability_div" class="d-none">
+                          <div class="card mt-3">
+                            <div class="card-header"><b class="text-danger">*</b>Type of Disability</div>
+                            <div class="card-body">
+                              @foreach(App\Models\SyndromicRecords::refAlertDisability() as $ind => $iref)
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="disability_type{{$ind}}" name="alert_ifdisability_list[]" value="{{mb_strtoupper($iref)}}" {{(in_array(mb_strtoupper($iref), explode(",", old('alert_ifdisability_list', $d->alert_ifdisability_list)))) ? 'checked' : ''}}>
+                                <label class="form-check-label">{{$iref}}</label>
+                              </div>
+                              @endforeach
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group mt-3">
+                          <label for="alert_description">Alert Description</label>
+                          <textarea class="form-control" name="alert_description" id="alert_description" rows="3">{{old('alert_description', $d->alert_description)}}</textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card mb-3">
                   <div class="card-header"><b>DOCTOR'S ORDER</b></div>
                   <div class="card-body">
                     <div class="form-group">
@@ -936,6 +1000,15 @@
           return false;
       }
   });
+
+  $('input[name="alert_list[]"][value="DISABILITY"]').change(function (e) { 
+    e.preventDefault();
+    if ($(this).is(':checked')) {
+      $('#disability_div').removeClass('d-none');
+    } else {
+      $('#disability_div').addClass('d-none');
+    }
+  }).trigger('change');
 
   $('#main_diagnosis').select2({
       theme: "bootstrap",

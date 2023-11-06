@@ -131,7 +131,13 @@
                                     <tr>
                                         <td style="vertical-align: middle;">{{$ind+1}}</td>
                                         <td style="vertical-align: middle;"><b>{{$c->pharmacysub->pharmacysupplymaster->name}}</b></td>
-                                        <td style="vertical-align: middle;">{{$c->qty_to_process}} {{Str::plural($c->type_to_process, $c->qty_to_process)}}</td>
+                                        <td style="vertical-align: middle;">
+                                            @if($c->qty_to_process != 0)
+                                            {{$c->qty_to_process}} {{Str::plural($c->type_to_process, $c->qty_to_process)}}
+                                            @else
+                                            <input type="number" class="form-control" name="set_dyn_qty[]" id="set_dyn_qty" min="1" max="900" placeholder="" required>
+                                            @endif
+                                        </td>
                                         <td style="vertical-align: middle;">
                                             @if($c->displayPrescriptionLimit())
                                             {{$c->displayPrescriptionLimit()}}

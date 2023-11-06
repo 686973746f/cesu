@@ -536,6 +536,13 @@ class SyndromicController extends Controller
                 'prescribe_option' => $r->prescribe_option,
                 'prescription_list' => ($r->prescribe_option == 'Y') ? implode(',', $r->prescription_list) : NULL,
 
+                'comorbid_list' => ($r->filled('comorbid_list')) ? implode(',', $r->comorbid_list) : NULL,
+                'firstdegree_comorbid_list' => ($r->filled('firstdegree_comorbid_list')) ? implode(',', $r->firstdegree_comorbid_list) : NULL,
+
+                'alert_list' => ($r->filled('alert_list')) ? implode(',', $r->alert_list) : NULL,
+                'alert_ifdisability_list' => ($r->filled('alert_ifdisability_list') && in_array('DISABILITY', $r->alert_list)) ? implode(',', $r->alert_ifdisability_list) : NULL,
+                'alert_description' => ($r->filled('alert_description')) ? mb_strtoupper($r->alert_description) : NULL,
+
                 'status' => 'approved',
                 'name_of_physician' => $r->name_of_physician,
                 'other_doctor' => ($r->name_of_physician == 'OTHERS') ? mb_strtoupper($r->other_doctor) : NULL,
@@ -652,7 +659,12 @@ class SyndromicController extends Controller
 
                     //AUTO ADD PRESCRIPTION USAGE CATEGORY
 
-                    //GET USAGE CATEROGY ARRAY
+                    //GET USAGE CATEGORY
+                    
+                    //BASED ON SYMPTOMS
+
+                    //BASED ON COMORBIDS
+                    
                     $sea_subcart = PharmacySupplySub::findOrFail($psub);
                     foreach(explode(',', $sea_subcart->pharmacysupplymaster->usage_category) as $uc) {
                         if(!in_array($uc, $usage_arr_temp)) {
@@ -662,9 +674,9 @@ class SyndromicController extends Controller
                 }
 
                 $upd_prescription = PharmacyPrescription::findOrFail($c_prescription->id);
-                $upd_prescription->concerns_list = implode(',', $usage_arr_temp);
+                $upd_prescription->concerns_list = (!empty($usage_arr_temp)) ? implode(',', $usage_arr_temp) : NULL;
                 if($upd_prescription->isDirty()) {
-                    $upd_prescription->save();   
+                    $upd_prescription->save();
                 }
             }
 
@@ -1022,6 +1034,13 @@ class SyndromicController extends Controller
                 'other_diagnosis' => ($r->filled('other_diagnosis')) ? implode(',', $r->other_diagnosis) : NULL,
                 //'rx' => ($r->filled('rx')) ? mb_strtoupper($r->rx) : NULL,
                 'remarks' => ($r->filled('remarks')) ? mb_strtoupper($r->remarks) : NULL,
+
+                'comorbid_list' => ($r->filled('comorbid_list')) ? implode(',', $r->comorbid_list) : NULL,
+                'firstdegree_comorbid_list' => ($r->filled('firstdegree_comorbid_list')) ? implode(',', $r->firstdegree_comorbid_list) : NULL,
+
+                'alert_list' => ($r->filled('alert_list')) ? implode(',', $r->alert_list) : NULL,
+                'alert_ifdisability_list' => ($r->filled('alert_ifdisability_list') && in_array('DISABILITY', $r->alert_list)) ? implode(',', $r->alert_ifdisability_list) : NULL,
+                'alert_description' => ($r->filled('alert_description')) ? mb_strtoupper($r->alert_description) : NULL,
                 
                 'status' => 'approved',
                 'name_of_physician' => $r->name_of_physician,
