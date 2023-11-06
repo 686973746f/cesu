@@ -648,6 +648,7 @@ class SyndromicController extends Controller
                 }
 
                 $usage_arr_temp = [];
+                $belong_temp = [];
 
                 foreach($r->prescription_list as $psub) {
                     $csub_store = PharmacyCartSub::create([
@@ -662,13 +663,128 @@ class SyndromicController extends Controller
                     //GET USAGE CATEGORY
                     
                     //BASED ON SYMPTOMS
+                    if(in_array('INJURY', $r->consultation_type)) {
+                        array_push($belong_temp, 'ACCIDENT/INJURIES/WOUNDS');
+                    }
 
-                    //BASED ON COMORBIDS
+                    if($p->getAgeInt() <= 11) {
+                        array_push($belong_temp, 'CHILDREN');
+                    }
+
+                    if($r->colds_yn) {
+                        array_push($belong_temp, 'COLDS');
+                    }
+
+                    if(!is_null($r->comorbid_list)) {
+                        if(in_array('DIABETES', $r->comorbid_list)) {
+                            array_push($belong_temp, 'DIABETES');
+                        }
+
+                        if(in_array('HEART DISEASE', $r->comorbid_list) || in_array('HEART ATTACK', $r->comorbid_list) || in_array('HYPERTENSION', $r->comorbid_list)) {
+                            array_push($belong_temp, 'HYPERTENSION/HEART/HIGH CHOLESTEROL');
+                        }
+    
+                        if(in_array('KIDNEY DISEASE', $r->comorbid_list)) {
+                            array_push($belong_temp, 'KIDNEY PROBLEM');
+                        }
+
+                        if(in_array('NEUROLOGICAL DISEASE', $r->comorbid_list)) {
+                            array_push($belong_temp, 'NERVES PROBLEM');
+                        }
+
+                        if(in_array('TUBERCOLOSIS', $r->comorbid_list) || in_array('TUBERCOLOSIS', $r->consultation_type)) {
+                            array_push($belong_temp, 'TB-DOTS');
+                        }
+    
+                        if(in_array('KIDNEY DISEASE', $r->comorbid_list)) {
+                            array_push($belong_temp, 'DIALYSIS');
+                        }
+    
+                        if(in_array('GASTROINTESTINAL (GIT)', $r->comorbid_list)) {
+                            array_push($belong_temp, 'GIT');
+                        }
+    
+                        if(in_array('CANCER', $r->comorbid_list)) {
+                            array_push($belong_temp, 'CHEMOTHERAPHY/CANCER');
+                        }
+
+                        if(in_array('ASTHMA', $r->comorbid_list)) {
+                            array_push($belong_temp, 'ASTHMA');
+                        }
+                    }
                     
+                    if($r->rash_yn) {
+                        array_push($belong_temp, 'DERMA/SKIN PROBLEM');
+                    }
+
+                    if(in_array('FAMILY PLANNING', $r->consultation_type)) {
+                        array_push($belong_temp, 'FAMILY PLANNING');
+                    }
+
+                    if($r->headache_yn || $r->fever_yn) {
+                        array_push($belong_temp, 'FEVER/HEADACHE');
+                    }
+
+                    if($r->jaundice_yn) {
+                        array_push($belong_temp, 'LIVER PROBLEM');
+                    }
+
+                    if($r->musclepain_yn) {
+                        array_push($belong_temp, 'MUSCLE PROBLEM');
+                    }
+
+                    if($r->cough_yn || $r->dyspnea_yn) {
+                        array_push($belong_temp, 'RESPIRATORY PROBLEM');
+                    }
+
+                    if(!is_null($r->alert_list)) {
+                        if(in_array('ALLERGY', $r->alert_list)) {
+                            array_push($belong_temp, 'ALLERGY');
+                        }
+                    }
+
+                    if($r->diarrhea_yn) {
+                        array_push($belong_temp, 'DIARRHEA');
+                    }
+
+                    $empty_cat = [
+                        'IMMUNE DEFICIENCY',
+                        'IMMUNIZATION',
+                        'INFECTION',
+                        'MENTAL HEALTH',
+                        'MICROBIAL INFECTIONS',
+                        'MILD/SEVERE PAIN',
+                        'URIC ACID',
+                        'VERTIGO/DIZZY',
+                        'UTI',
+                        'TOOTH ACHE',
+                        'INSOMIA',
+                        'PREGNANT',
+                        'ELECTROLYTES DEFFICIENT',
+                        'BLEEDING',
+                        'ANTICOAGULANT',
+                        'FUNGAL INFECTION',
+                        'ANTI-AMOEBA',
+                        'DIURETIC',
+                        'CORTICOSTEROIDS',
+                        'ANESTHESIA',
+                        'EAR INFECTION',
+                    ];
+                    
+                    //BASED ON COMORBIDS
                     $sea_subcart = PharmacySupplySub::findOrFail($psub);
-                    foreach(explode(',', $sea_subcart->pharmacysupplymaster->usage_category) as $uc) {
-                        if(!in_array($uc, $usage_arr_temp)) {
-                            $usage_arr_temp[] = $uc;
+                    if(!is_null($sea_subcart->pharmacysupplymaster->usage_category)) {
+                        foreach($belong_temp as $arraya) {
+                            if(in_array($arraya, explode(',', $sea_subcart->pharmacysupplymaster->usage_category)) && !in_array($arraya, $usage_arr_temp)) {
+                                $usage_arr_temp[] = $arraya;
+                            }
+                            else {
+                                foreach($empty_cat as $arrayb) {
+                                    if(in_array($arrayb, explode(',', $sea_subcart->pharmacysupplymaster->usage_category)) && !in_array($arrayb, $usage_arr_temp)) {
+                                        $usage_arr_temp[] = $arrayb;
+                                    }
+                                }
+                            }
                         }
                     }
                 }
