@@ -43,6 +43,15 @@ return [
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
 
+        'odbc' => [
+            'driver' => 'odbc',
+            'dsn' => 'Driver={MICROSOFT ACCESS DRIVER (*.mdb, *.accdb)};Dbq='.storage_path('DENGUE.mdb'),
+            'grammar' => 'DB2',
+            'username' => '',
+            'password' => '',
+            'database' => 'DENGUE'
+        ],
+
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),
