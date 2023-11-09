@@ -8,4 +8,22 @@ use Illuminate\Database\Eloquent\Model;
 class Subdivision extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'displayInList',
+        'brgy_id',
+        'subdName',
+        'type',
+        'total_projectarea',
+        'total_lotsunits',
+        'numof_population',
+        'numof_household',
+        'dilgCustCode',
+        'gps_x',
+        'gps_y',
+    ];
+
+    public function brgy() {
+        return $this->belongsTo(Brgy::class, 'brgy_id');
+    }
 }

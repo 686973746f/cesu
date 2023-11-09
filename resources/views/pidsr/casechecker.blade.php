@@ -57,30 +57,30 @@
             </form>
             @if(isset($list))
             <hr>
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped table-hover" id="list_table">
-                    <thead class="thead-light text-center">
-                        <tr>
-                            <th>#</th>
-                            @foreach($columns as $c)
-                            <th>{{ucfirst($c)}}</th>
-                            @endforeach
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($list as $key => $l)
-                        <tr>
-                            <td class="text-center">{{$key+1}}</td>
-                            @foreach($columns as $c)
-                            <td>{{mb_strtoupper($l->$c)}}</td>
-                            @endforeach
-                            <td><a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'DEL', 'epi_id' => $l->EPIID])}}" class="btn btn-warning" onclick="return confirm('Proceed to disable? The record will not be listed anymore after processing.')">Disable</a></td>
-                        </tr>
+            <table class="table table-bordered table-striped table-hover" id="list_table" style="width:100%">
+                <thead class="thead-light text-center">
+                    <tr>
+                        <th></th>
+                        <th>#</th>
+                        @foreach($columns as $c)
+                        <th>{{ucfirst($c)}}</th>
                         @endforeach
-                    </tbody>
-                </table>
-            </div>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($list as $key => $l)
+                    <tr>
+                        <td></td>
+                        <td class="text-center">{{$key+1}}</td>
+                        @foreach($columns as $c)
+                        <td>{{mb_strtoupper($l->$c)}}</td>
+                        @endforeach
+                        <td><a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'DEL', 'epi_id' => $l->EPIID])}}" class="btn btn-warning" onclick="return confirm('Proceed to disable? The record will not be listed anymore after processing.')">Disable</a></td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
             @endif
         </div>
     </div>
@@ -88,6 +88,7 @@
 
 <script>
     $('#list_table').dataTable({
+        responsive: true,
         fixedHeader: true,
         dom: 'QBfritp',
         buttons: [
