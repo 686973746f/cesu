@@ -88,6 +88,7 @@
 
 <script>
     $('#list_table').dataTable({
+        fixedHeader: true,
         dom: 'QBfritp',
         buttons: [
             'excel', 'copy',
