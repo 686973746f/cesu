@@ -233,6 +233,7 @@ class PidsrWndr extends Command
             $mea = Measles::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
             ->where('systemsent', 0)
+            ->where('match_casedef', 1)
             ->where(function ($q) {
                 $q->where(function ($r) {
                     $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -1137,6 +1138,7 @@ class PidsrWndr extends Command
             $hfm = Hfmd::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
             ->where('systemsent', 0)
+            ->where('match_casedef', 1)
             ->where(function ($q) {
                 $q->where(function ($r) {
                     $r->where('Year', date('Y', strtotime('-1 Week')))

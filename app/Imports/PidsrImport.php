@@ -1268,17 +1268,20 @@ class PidsrImport implements ToCollection, WithStartRow
                     //Check Symptoms
                     if($row[35] == 'Y') { //SORE THROAT
                         if($row[22] == 'Y' || $row[25] == 'Y') { //FEVER AND RASH
-                            $proceed2 = true;
+                            //$proceed2 = true;
+                            $match_casedef = 1;
                         }
                         else {
-                            $proceed2 = false;
+                            //$proceed2 = false;
+                            $match_casedef = 0;
                         }
                     }
                     else {
-                        $proceed2 = false;
+                        //$proceed2 = false;
+                        $match_casedef = 0;
                     }
 
-                    if($proceed && $proceed2 && !($find_name)) {
+                    if($proceed && !($find_name)) {
                         $c = Hfmd::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
@@ -1383,6 +1386,7 @@ class PidsrImport implements ToCollection, WithStartRow
                             'SENT' => $row[100],
                             'ip' => ($row[101] == 'Y') ? 'Y' : 'N',
                             'ipgroup' => ($row[101] == 'Y') ? $row[102] : NULL,
+                            'match_casedef' => $match_casedef,
                         ]);
                     }
                 }
@@ -1687,6 +1691,19 @@ class PidsrImport implements ToCollection, WithStartRow
                     ->whereDate('DateOfEntry', $this->tDate($row[47]))
                     ->first();
 
+                    //check case def
+                    if(!is_null($this->tDate($row[26])) && !is_null($this->tDate($row[65]))) {
+                        if($row[28] == 'Y' || $row[34] == 'Y' || $row[35] == 'Y') {
+                            $match_casedef = 1;
+                        }
+                        else {
+                            $match_casedef = 0;
+                        }
+                    }
+                    else {
+                        $match_casedef = 0;
+                    }
+
                     if($proceed && !($find_name)) {
                         $c = Measles::create([
                         'Icd10Code' => $row[0],
@@ -1811,6 +1828,7 @@ class PidsrImport implements ToCollection, WithStartRow
                         'OnsetToReport' => $row[119],
                         'IP' => ($row[120] == 'Y') ? 'Y' : 'N',
                         'IPgroup' => ($row[120] == 'Y') ? $row[121] : NULL,
+                        'match_casedef' => $match_casedef,
                         ]);
                     }
                 }
