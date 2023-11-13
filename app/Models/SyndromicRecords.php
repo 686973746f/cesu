@@ -164,6 +164,12 @@ class SyndromicRecords extends Model
         'medcert_validity_date',
         'medcert_start_date',
         'medcert_end_date',
+
+        'is_listed_notifiable',
+        'email_notified',
+        'view_notified',
+
+        'sent_pidsr',
     ];
 
     public static function refConsultationType() {

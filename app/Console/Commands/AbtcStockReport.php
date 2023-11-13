@@ -119,7 +119,7 @@ class AbtcStockReport extends Command
                         ->latest()
                         ->first();
 
-                        $wastage_search->stocks_remaining = ($plist - $prev_log->stocks_remaining);
+                        $wastage_search->stocks_remaining = ($prev_log->stocks_remaining - $plist);
 
                         if($wastage_search->isDirty()) {
                             $wastage_search->save();
@@ -135,7 +135,7 @@ class AbtcStockReport extends Command
                             'vaccine_id' => $v->id,
                             'branch_id' => $b->id,
                             'wastage_dose_count' => 0,
-                            'stocks_remaining' => ($plist - $prev_log->stocks_remaining),
+                            'stocks_remaining' => ($prev_log->stocks_remaining - $plist),
                         ]);
                     }
 

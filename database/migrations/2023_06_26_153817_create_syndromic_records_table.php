@@ -167,9 +167,11 @@ class CreateSyndromicRecordsTable extends Migration
             $table->text('document_file')->nullable();
             $table->text('qr');
 
-            $table->tinyInteger('is_listed_notifiable')->default(0);
-            $table->tinyInteger('email_notified')->default(0);
+            $table->tinyInteger('is_listed_notifiable')->default(0); //FOR DAILY EMAIL CHECK
+            $table->tinyInteger('email_notified')->default(0); //ALSO FOR DAILY EMAIL CHECK
             $table->tinyInteger('view_notified')->default(0);
+
+            $table->tinyInteger('sent_pidsr')->default(0); //SENT/IMPORTED TO PIDSR SYSTEM
             
             $table->timestamps();
             $table->softDeletes();
