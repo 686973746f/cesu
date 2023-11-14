@@ -242,11 +242,9 @@
                     <form action="{{route('syndromic_download_opd_excel')}}" method="GET">
                         <div class="card">
                             <div class="card-header text-center" role="tab" id="section1HeaderId">
-                                <h5 class="mb-0">
-                                    <a data-toggle="collapse" data-parent="#accordianId" href="#section1ContentId" aria-expanded="true" aria-controls="section1ContentId">
-                                        Download OPD Excel Masterlist
-                                    </a>
-                                </h5>
+                                <a data-toggle="collapse" data-parent="#accordianId" href="#section1ContentId" aria-expanded="true" aria-controls="section1ContentId">
+                                    Download OPD Excel Masterlist
+                                </a>
                             </div>
                             <div id="section1ContentId" class="collapse in" role="tabpanel" aria-labelledby="section1HeaderId">
                                 <div class="card-body">
@@ -263,6 +261,8 @@
                             </div>
                         </div>
                     </form>
+                    <hr>
+                    <a href="{{route('syndromic_diseasechecker')}}" class="btn btn-primary btn-block">Go to Disease Checker Page</a>
                     <!--
                     <div class="card">
                         <div class="card-header" role="tab" id="section2HeaderId">
