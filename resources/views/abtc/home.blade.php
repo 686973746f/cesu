@@ -305,6 +305,9 @@
               @endforeach
             </select>
           </div>
+          <div class="alert alert-info" role="alert">
+            <b class="text-danger">Note:</b> Kung ang gagamiting Vaccine ay <b>OUT OF STOCK</b> na, paki-coordinate sa System Admin para ma-initialize ang values.
+          </div>
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-success btn-block">Save</button>

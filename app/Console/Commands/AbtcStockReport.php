@@ -107,39 +107,67 @@ class AbtcStockReport extends Command
                     ->where('vaccination_site_id', $v->branch_id)
                     ->count();
 
+                    $gcount = $plist;
+
                     //$stock_remain -= $plist;
 
+                    $plist = ceil($plist / $v->vaccine->est_maxdose_perbottle);
+
                     $wastage_search = AbtcVaccineLogs::whereDate('created_at', $sdate->format('Y-m-d'))
-                    ->where('vaccine_id', $v->id)
+                    ->where('vaccine_id', $v->vaccine->id)
                     ->where('branch_id', $b->id)
                     ->first();
                     
                     if($wastage_search) {
                         $prev_log = AbtcVaccineLogs::where('id', '<', $wastage_search->id)
+                        ->where('vaccine_id', $v->vaccine->id)
+                        ->where('branch_id', $b->id)
                         ->latest()
                         ->first();
 
-                        $wastage_search->stocks_remaining = ($prev_log->stocks_remaining - $plist);
+                        if($prev_log) {
+                            $set_stockremaining = $prev_log->stocks_remaining;
+                        }
+                        else {
+                            $vstock = AbtcVaccineStocks::where('vaccine_id', $v->vaccine->id)
+                            ->where('branch_id', $b->id)
+                            ->first();
+
+                            $set_stockremaining = $vstock->initial_stock;
+                        }
+
+                        $wastage_search->stocks_remaining = $set_stockremaining;
 
                         if($wastage_search->isDirty()) {
                             $wastage_search->save();
                         }
                     }
                     else {
-                        $prev_log = AbtcVaccineLogs::where('vaccine_id', $v->id)
+                        $prev_log = AbtcVaccineLogs::where('vaccine_id', $v->vaccine->id)
                         ->where('branch_id', $b->id)
                         ->latest()
                         ->first();
 
+                        if($prev_log) {
+                            $set_stockremaining = $prev_log->stocks_remaining;
+                        }
+                        else {
+                            $$vstock = AbtcVaccineStocks::where('vaccine_id', $v->vaccine->id)
+                            ->where('branch_id', $b->id)
+                            ->first();
+
+                            $set_stockremaining = $vstock->initial_stock;
+                        }
+
                         $wastage_search = AbtcVaccineLogs::create([
-                            'vaccine_id' => $v->id,
+                            'vaccine_id' => $v->vaccine->id,
                             'branch_id' => $b->id,
                             'wastage_dose_count' => 0,
-                            'stocks_remaining' => ($prev_log->stocks_remaining - $plist),
+                            'stocks_remaining' => ($set_stockremaining - $plist),
                         ]);
                     }
 
-                    if($plist != 0) {
+                    if($gcount != 0) {
                         if(!$proceed_sending) {
                             $proceed_sending = true;
                         }

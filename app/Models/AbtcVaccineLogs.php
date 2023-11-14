@@ -14,5 +14,6 @@ class AbtcVaccineLogs extends Model
         'branch_id',
         'wastage_dose_count',
         'stocks_remaining',
+        'created_at',
     ];
 }
