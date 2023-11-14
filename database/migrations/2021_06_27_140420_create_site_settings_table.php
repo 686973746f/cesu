@@ -51,6 +51,9 @@ class CreateSiteSettingsTable extends Migration
             $table->text('default_dru_citymun')->nullable();
             $table->text('default_dru_citymun_json')->nullable();
 
+            $table->text('default_holiday_dates')->nullable();
+            $table->text('custom_holiday_dates')->nullable();
+
             $table->timestamps();
         });
     }

@@ -1019,6 +1019,14 @@ class PidsrImport implements ToCollection, WithStartRow
                     ->whereDate('DateOfEntry', $this->tDate($row[4]))
                     ->first();
 
+                    //Check Lab Result if Not PCR Positive change to Probable
+                    if($row[22] != 'PCR') {
+                        $change_casedef = 'P';
+                    }
+                    else {
+                        $change_casedef = $row[25];
+                    }
+
                     if($proceed && !($find_name)) {
                         $c = Dengue::create([
                             'Region' => $row[0],
@@ -1046,7 +1054,7 @@ class PidsrImport implements ToCollection, WithStartRow
                             'LabTest' => $row[22],
                             'LabRes' => $row[23],
                             'ClinClass' => $row[24],
-                            'CaseClassification' => $row[25],
+                            'CaseClassification' => $change_casedef,
                             'Outcome' => $row[26],
                             'RegionOfDrU' => $row[27],
                             'EPIID' => $iepiid,

@@ -347,6 +347,9 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessS
 
     Route::post('/syndromic/records/{records_id}/medcert/generate', [SyndromicController::class, 'generateMedCert'])->name('syndromic_generate_medcert');
     Route::get('/syndromic/records/{records_id}/medcert', [SyndromicController::class, 'viewMedCert'])->name('syndromic_view_medcert');
+
+    Route::get('/syndromic/disease_checker', [SyndromicController::class, 'diseaseCheckerMain'])->name('syndromic_diseasechecker');
+    Route::get('/syndromic/disease_checker/{disease}', [SyndromicController::class, 'diseaseCheckerList'])->name('syndromic_diseasechecker_specific');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel3']], function() {

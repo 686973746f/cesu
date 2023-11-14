@@ -1515,4 +1515,12 @@ class SyndromicController extends Controller
 
         return response()->json($list);
     }
+
+    public function diseaseCheckerMain() {
+        return view('syndromic.disease_checker');
+    }
+
+    public function diseaseCheckerList() {
+
+    }
 }

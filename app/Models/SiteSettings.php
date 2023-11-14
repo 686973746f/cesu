@@ -46,5 +46,8 @@ class SiteSettings extends Model
         'default_dru_citymun',
         'default_dru_citymun_json',
         'pidsr_early_sent',
+
+        'default_holiday_dates',
+        'custom_holiday_dates',
     ];
 }
