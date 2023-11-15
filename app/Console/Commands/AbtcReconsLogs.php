@@ -42,7 +42,7 @@ class AbtcReconsLogs extends Command
      */
     public function handle()
     {
-        $branches = AbtcVaccinationSite::where('id', 2)->get();
+        $branches = AbtcVaccinationSite::where('id', 1)->get();
 
         $today = Carbon::parse('2023-11-14');
 
@@ -87,6 +87,8 @@ class AbtcReconsLogs extends Command
                         })
                         ->where('vaccination_site_id', $b->id)
                         ->count();
+
+                        $gcount = $plist;
     
                         if($plist != 0) {
                             $plist = ceil($plist / $v->vaccine->est_maxdose_perbottle);
@@ -144,6 +146,8 @@ class AbtcReconsLogs extends Command
                                 $wastage_search = AbtcVaccineLogs::create([
                                     'vaccine_id' => $v->vaccine->id,
                                     'branch_id' => $b->id,
+                                    'patients_count' => $gcount,
+                                    'vials_used' => $plist,
                                     'wastage_dose_count' => 0,
                                     'stocks_remaining' => ($set_stockremaining - $plist),
                                     'created_at' => $sdate->format('Y-m-d').' 16:00:00',

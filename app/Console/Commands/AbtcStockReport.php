@@ -13,7 +13,7 @@ use App\Models\AbtcVaccinationSite;
 use App\Models\AbtcVaccineBrand;
 use Illuminate\Support\Facades\Mail;
 
-class AbtcStockReport extends Command
+class AbtcStockReportOld extends Command
 {
     /**
      * The name and signature of the console command.
