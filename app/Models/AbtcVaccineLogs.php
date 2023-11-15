@@ -12,6 +12,8 @@ class AbtcVaccineLogs extends Model
     protected $fillable = [
         'vaccine_id',
         'branch_id',
+        'patients_count',
+        'vials_used',
         'wastage_dose_count',
         'stocks_remaining',
         'created_at',

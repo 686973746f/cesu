@@ -44,7 +44,7 @@ class AbtcReconsLogs extends Command
     {
         $branches = AbtcVaccinationSite::where('id', 2)->get();
 
-        $today = Carbon::parse('2023-11-13');
+        $today = Carbon::parse('2023-11-14');
 
         $firstDayOfMonth = Carbon::parse('2023-10-23');
         

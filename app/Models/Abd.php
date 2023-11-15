@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\DohFacility;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Abd extends Model
 {
@@ -17,4 +18,15 @@ class Abd extends Model
     public $incrementing = false;
 
     public $guarded = [];
+
+    public function getEdcsFacilityName() {
+        $s = DohFacility::where('healthfacility_code', $this->edcs_healthFacilityCode)->first();
+
+        if($s) {
+            return $s->facility_name;
+        }
+        else {
+            return 'UNKNOWN';
+        }
+    }
 }

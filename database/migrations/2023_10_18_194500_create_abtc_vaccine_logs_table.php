@@ -18,6 +18,8 @@ class CreateAbtcVaccineLogsTable extends Migration
             $table->foreignId('vaccine_id')->constrained('abtc_vaccine_brands')->onDelete('cascade');
             $table->foreignId('branch_id')->constrained('abtc_vaccination_sites')->onDelete('cascade');
 
+            $table->integer('patients_count');
+            $table->integer('vials_used');
             $table->double('wastage_dose_count');
             $table->double('stocks_remaining');
 

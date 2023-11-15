@@ -64,4 +64,15 @@ class Dengue extends Model
         'ip',
         'ipgroup',
     ];
+
+    public function getEdcsFacilityName() {
+        $s = DohFacility::where('healthfacility_code', $this->edcs_healthFacilityCode)->first();
+
+        if($s) {
+            return $s->facility_name;
+        }
+        else {
+            return 'UNKNOWN';
+        }
+    }
 }
