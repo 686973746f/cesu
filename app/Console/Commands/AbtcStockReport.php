@@ -50,7 +50,7 @@ class AbtcStockReport extends Command
         $today = Carbon::today();
         $get_branches = AbtcVaccinationSite::where('enabled', 1)->get();
         
-        if(!in_array($today->dayOfWeek, [Carbon::SATURDAY, Carbon::SUNDAY])) { //ALSO ADD HOLIDAY LATER
+        if(!in_array($today->dayOfWeek, [Carbon::WEDNESDAY, Carbon::SATURDAY, Carbon::SUNDAY])) { //ALSO ADD HOLIDAY LATER
             //CREATE ROW FIRST
             foreach($get_branches as $branch) {
                 $vaccines = AbtcVaccineStocks::where('branch_id', $branch->id)
