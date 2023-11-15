@@ -10,7 +10,6 @@
     @foreach($arr as $ind => $a)
     <div><b>{{$a['branch']}}</b></div>
         @foreach($a['second'] as $b)
-            @if(!empty($b['third']))
             <div>{{$b['brand']}}</div>
             <table>
                 <thead>
@@ -35,9 +34,6 @@
                 </tbody>
             </table>
             <p></p>
-            @else
-            <div>NO RESULTS FOUND.</div>
-            @endif
         @endforeach
     @endforeach
     <p>
