@@ -150,7 +150,7 @@ class AbtcStockReportOld extends Command
                     if($fetch_logs->count() != 0) {
                         foreach($fetch_logs as $log) {
                             $third_array[] = [
-                                'date' => date('m/d/Y - D', strotime($log->created_at)),
+                                'date' => date('m/d/Y - D', strtotime($log->created_at)),
                                 'count' => $log->patients_count,
                                 'used_vials' => $log->vials_used,
                                 'wastage_count' => $log->wastage_dose_count,
@@ -160,7 +160,7 @@ class AbtcStockReportOld extends Command
                     }
 
                     $second_array[] = [
-                        'brand' => $v->vaccine->brand_name,
+                        'brand' => $v->brand_name,
                         'third' => $third_array,
                     ];
                 }
