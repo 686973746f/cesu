@@ -1517,7 +1517,72 @@ class SyndromicController extends Controller
     }
 
     public function diseaseCheckerMain() {
-        return view('syndromic.disease_checker');
+        if(request()->input('db') && request()->input('year')) {
+
+        }
+        else {
+            $abd_count = 0;
+            $aefi_count = 0;
+            $aes_count = 0;
+            $afp_count = 0;
+            $ahf_count = 0;
+            $ames_count = 0;
+            $anthrax_count = 0;
+            $chikv_count = 0;
+            $cholera_count = 0;
+            $dengue_count = 0;
+            $diph_count = 0;
+            $hepatitis_count = 0;
+            $hfmd_count = 0;
+            $influenza_count = 0;
+            $leptospirosis_count = 0;
+            $malaria_count = 0;
+            $measles_count = 0;
+            $meningitis_count = 0;
+            $meningo_count = 0;
+            $nnt_count = 0;
+            $nt_count = 0;
+            $pert_count = 0;
+            $psp_count = 0;
+            $rabies_count = 0;
+            $rotavirus_count = 0;
+            $typhoid_count = 0;
+            
+            $covid_count = 0;
+
+        }
+        
+
+        return view('syndromic.disease_checker', [
+            'abd_count' => $abd_count,
+            'aefi_count' => $aefi_count,
+            'aes_count' => $aes_count,
+            'afp_count' => $afp_count,
+            'ahf_count' => $ahf_count,
+            'ames_count' => $ames_count,
+            'anthrax_count' => $anthrax_count,
+            'chikv_count' => $chikv_count,
+            'cholera_count' => $cholera_count,
+            'dengue_count' => $dengue_count,
+            'diph_count' => $diph_count,
+            'hepatitis_count' => $hepatitis_count,
+            'hfmd_count' => $hfmd_count,
+            'influenza_count' => $influenza_count,
+            'leptospirosis_count' => $leptospirosis_count,
+            'malaria_count' => $malaria_count,
+            'measles_count' => $measles_count,
+            'meningitis_count' => $meningitis_count,
+            'meningo_count' => $meningo_count,
+            'nnt_count' => $nnt_count,
+            'nt_count' => $nt_count,
+            'pert_count' => $pert_count,
+            'psp_count' => $psp_count,
+            'rabies_count' => $rabies_count,
+            'rotavirus_count' => $rotavirus_count,
+            'typhoid_count' => $typhoid_count,
+            
+            'covid_count' => $covid_count,
+        ]);
     }
 
     public function diseaseCheckerList() {
