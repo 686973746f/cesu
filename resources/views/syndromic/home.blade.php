@@ -318,6 +318,7 @@
                 <p>Contact Number: {{session('fetchr')->syndromic_patient->getContactNumber()}}</p>
                 <p>Consultation Date: {{date('m/d/Y', strtotime(session('fetchr')->consultation_date))}}</p>
                 <p>Symptoms: {{session('fetchr')->listSymptoms()}}</p>
+                <p>Other Symptoms: {{session('fetchr')->other_symptoms_onset_remarks}}</p>
                 <p>List of Suspected Disease/s: {{session('fetchr')->getListOfSuspDiseases()}}</p>
             </div>
             <div class="modal-footer">

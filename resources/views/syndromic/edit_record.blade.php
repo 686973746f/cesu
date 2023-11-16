@@ -1060,6 +1060,18 @@
     theme: 'bootstrap',
   });
 
+  $('#temperature').change(function (e) { 
+    e.preventDefault();
+    if($(this).val() >= 38) {
+      $('#fever_yn').prop('checked', true).trigger('change');
+      $('#fever_yn').prop('disabled', true);
+    }
+    else {
+      $('#fever_yn').prop('checked', false).trigger('change');
+      $('#fever_yn').prop('disabled', false);
+    }
+  }).trigger('change');
+
   $('#diagnosis_type').change(function (e) { 
     e.preventDefault();
     if($(this).val() == 'FINAL DIAGNOSIS') {
@@ -1122,10 +1134,12 @@
     e.preventDefault();
     if($(this).prop('checked')) {
       $('#fever_div').removeClass('d-none');
+      $('#temperature').attr('min', 38);
       //$('#fever_remarks').prop('required', true);
     }
     else {
       $('#fever_div').addClass('d-none');
+      $('#temperature').attr('min', 32);
       //$('#fever_remarks').prop('required', false);
     }
   }).trigger('change');

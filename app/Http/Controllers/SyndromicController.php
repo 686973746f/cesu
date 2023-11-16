@@ -3,19 +3,45 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Abd;
+use App\Models\Aefi;
+use App\Models\Aes;
+use App\Models\Afp;
+use App\Models\Ahf;
+use App\Models\Ames;
+use App\Models\Anthrax;
 use App\Models\Brgy;
-use App\Models\Icd10Code;
-use App\Models\PharmacyCartSub;
+use App\Models\Chikv;
+use App\Models\Cholera;
+use App\Models\Dengue;
+use App\Models\Diph;
+use App\Models\Hepatitis;
+use App\Models\Hfmd;
 use App\Models\User;
+use App\Models\Icd10Code;
+use App\Models\Influenza;
+use App\Models\Leptospirosis;
+use App\Models\Malaria;
+use App\Models\Measles;
+use App\Models\Meningitis;
+use App\Models\Meningo;
+use App\Models\Nnt;
+use App\Models\Nt;
+use App\Models\Pert;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\PharmacyCartSub;
 use App\Models\PharmacyPatient;
-use App\Models\PharmacyPrescription;
-use App\Models\PharmacySupplySub;
 use App\Models\SyndromicDoctor;
 use App\Models\SyndromicPatient;
 use App\Models\SyndromicRecords;
+use App\Models\PharmacySupplySub;
 use Illuminate\Support\Facades\DB;
+use App\Models\PharmacyPrescription;
+use App\Models\Psp;
+use App\Models\Rabies;
+use App\Models\Rotavirus;
+use App\Models\Typhoid;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpWord\TemplateProcessor;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -1531,41 +1557,171 @@ class SyndromicController extends Controller
     }
 
     public function diseaseCheckerMain() {
-        if(request()->input('db') && request()->input('year')) {
+        $sel_db = request()->input('db');
+        $year = request()->input('year');
+        $mw = request()->input('mw');
 
-        }
-        else {
-            $abd_count = 0;
-            $aefi_count = 0;
-            $aes_count = 0;
-            $afp_count = 0;
-            $ahf_count = 0;
-            $ames_count = 0;
-            $anthrax_count = 0;
-            $chikv_count = 0;
-            $cholera_count = 0;
-            $dengue_count = 0;
-            $diph_count = 0;
-            $hepatitis_count = 0;
-            $hfmd_count = 0;
-            $influenza_count = 0;
-            $leptospirosis_count = 0;
-            $malaria_count = 0;
-            $measles_count = 0;
-            $meningitis_count = 0;
-            $meningo_count = 0;
-            $nnt_count = 0;
-            $nt_count = 0;
-            $pert_count = 0;
-            $psp_count = 0;
-            $rabies_count = 0;
-            $rotavirus_count = 0;
-            $typhoid_count = 0;
-            
-            $covid_count = 0;
-
-        }
+        $abd_count = 0;
+        $aefi_count = 0;
+        $aes_count = 0;
+        $afp_count = 0;
+        $ahf_count = 0;
+        $ames_count = 0;
+        $anthrax_count = 0;
+        $chikv_count = 0;
+        $cholera_count = 0;
+        $dengue_count = 0;
+        $diph_count = 0;
+        $hepatitis_count = 0;
+        $hfmd_count = 0;
+        $influenza_count = 0;
+        $leptospirosis_count = 0;
+        $malaria_count = 0;
+        $measles_count = 0;
+        $meningitis_count = 0;
+        $meningo_count = 0;
+        $nnt_count = 0;
+        $nt_count = 0;
+        $pert_count = 0;
+        $psp_count = 0;
+        $rabies_count = 0;
+        $rotavirus_count = 0;
+        $typhoid_count = 0;
         
+        $covid_count = 0;
+
+        if($sel_db && $year) {
+            if($sel_db == 'OPD') {
+                $abd_count = SyndromicRecords::whereYear('created_at', $year)
+                ->whereRaw("FIND_IN_SET('Acute Bloody Diarrhea (ABD)', generated_susdiseaselist)");
+
+                $aefi_count = 0;
+
+                $hfmd_count = SyndromicRecords::whereYear('created_at', $year)
+                ->whereRaw("FIND_IN_SET('HFMD', generated_susdiseaselist)");
+
+                $influenza_count = SyndromicRecords::whereYear('created_at', $year)
+                ->whereRaw("FIND_IN_SET('Influenza-like Illness (ILI)', generated_susdiseaselist)");
+
+                $leptospirosis_count = SyndromicRecords::whereYear('created_at', $year)
+                ->whereRaw("FIND_IN_SET('Leptospirosis', generated_susdiseaselist)");
+
+                /*
+                $leptospirosis_count = SyndromicRecords::whereYear('created_at', $year)
+                ->whereRaw("FIND_IN_SET('Leptospirosis', generated_susdiseaselist)");
+                */
+                
+                $aes_count = SyndromicRecords::whereYear('created_at', $year)
+                ->whereRaw("FIND_IN_SET('Acute Encephalitis', generated_susdiseaselist)");
+                
+                $afp_count = SyndromicRecords::whereYear('created_at', $year)
+                ->whereRaw("FIND_IN_SET('Acute Flaccid Paralysis', generated_susdiseaselist)");
+
+                if($mw) {
+                    $abd_count = $abd_count->whereRaw('WEEK(created_at) = ' . $mw)->count();
+                    $hfmd_count = $hfmd_count->whereRaw('WEEK(created_at) = ' . $mw)->count();
+                    $influenza_count = $influenza_count->whereRaw('WEEK(created_at) = ' . $mw)->count();
+                    $leptospirosis_count = $leptospirosis_count->whereRaw('WEEK(created_at) = ' . $mw)->count();
+                    $aes_count = $aes_count->whereRaw('WEEK(created_at) = ' . $mw)->count();
+                    $afp_count = $afp_count->whereRaw('WEEK(created_at) = ' . $mw)->count();
+                }
+                else {
+                    $abd_count = $abd_count->count();
+                    $hfmd_count = $hfmd_count->count();
+                    $influenza_count = $influenza_count->count();
+                    $leptospirosis_count = $leptospirosis_count->count();
+                    $aes_count = $aes_count->count();
+                    $afp_count = $afp_count->count();
+                }
+            }
+            else {
+                $abd_count = Abd::where('Year', $year)->where('enabled', 1);
+                $aefi_count = Aefi::where('Year', $year)->where('enabled', 1);
+                $aes_count = Aes::where('Year', $year)->where('enabled', 1);
+                $afp_count = Afp::where('Year', $year)->where('enabled', 1);
+                $ahf_count = Ahf::where('Year', $year)->where('enabled', 1);
+                $ames_count = Ames::where('Year', $year)->where('enabled', 1);
+                $anthrax_count = Anthrax::where('Year', $year)->where('enabled', 1);
+                $chikv_count = Chikv::where('Year', $year)->where('enabled', 1);
+                $cholera_count = Cholera::where('Year', $year)->where('enabled', 1);
+                $dengue_count = Dengue::where('Year', $year)->where('enabled', 1);
+                $diph_count = Diph::where('Year', $year)->where('enabled', 1);
+                $hepatitis_count = Hepatitis::where('Year', $year)->where('enabled', 1);
+                $hfmd_count = Hfmd::where('Year', $year)->where('enabled', 1);
+                $influenza_count = Influenza::where('Year', $year)->where('enabled', 1);
+                $leptospirosis_count = Leptospirosis::where('Year', $year)->where('enabled', 1);
+                $malaria_count = Malaria::where('Year', $year)->where('enabled', 1);
+                $measles_count = Measles::where('Year', $year)->where('enabled', 1);
+                $meningitis_count = Meningitis::where('Year', $year)->where('enabled', 1);
+                $meningo_count = Meningo::where('Year', $year)->where('enabled', 1);
+                $nnt_count = Nnt::where('Year', $year)->where('enabled', 1);
+                $nt_count = Nt::where('Year', $year)->where('enabled', 1);
+                $pert_count = Pert::where('Year', $year)->where('enabled', 1);
+                $psp_count = Psp::where('Year', $year)->where('enabled', 1);
+                $rabies_count = Rabies::where('Year', $year)->where('enabled', 1);
+                $rotavirus_count = Rotavirus::where('Year', $year)->where('enabled', 1);
+                $typhoid_count = Typhoid::where('Year', $year)->where('enabled', 1);
+                
+                //$covid_count = Aefi::where('Year', $year)->where('enabled', 1);
+
+                if($mw) {
+                    $abd_count = $abd_count->where('encoded_mw', $mw)->count();
+                    $aefi_count = $aefi_count->where('encoded_mw', $mw)->count();
+                    $aes_count = $aes_count->where('encoded_mw', $mw)->count();
+                    $afp_count = $afp_count->where('encoded_mw', $mw)->count();
+                    $ahf_count = $ahf_count->where('encoded_mw', $mw)->count();
+                    $ames_count = $ames_count->where('encoded_mw', $mw)->count();
+                    $anthrax_count = $anthrax_count->where('encoded_mw', $mw)->count();
+                    $chikv_count = $chikv_count->where('encoded_mw', $mw)->count();
+                    $cholera_count = $cholera_count->where('encoded_mw', $mw)->count();
+                    $dengue_count = $dengue_count->where('encoded_mw', $mw)->count();
+                    $diph_count = $diph_count->where('encoded_mw', $mw)->count();
+                    $hepatitis_count = $hepatitis_count->where('encoded_mw', $mw)->count();
+                    $hfmd_count = $hfmd_count->where('encoded_mw', $mw)->count();
+                    $influenza_count = $influenza_count->where('encoded_mw', $mw)->count();
+                    $leptospirosis_count = $leptospirosis_count->where('encoded_mw', $mw)->count();
+                    $malaria_count = $malaria_count->where('encoded_mw', $mw)->count();
+                    $measles_count = $measles_count->where('encoded_mw', $mw)->count();
+                    $meningitis_count = $meningitis_count->where('encoded_mw', $mw)->count();
+                    $meningo_count = $meningo_count->where('encoded_mw', $mw)->count();
+                    $nnt_count = $nnt_count->where('encoded_mw', $mw)->count();
+                    $nt_count = $nt_count->where('encoded_mw', $mw)->count();
+                    $pert_count = $pert_count->where('encoded_mw', $mw)->count();
+                    $psp_count = $psp_count->where('encoded_mw', $mw)->count();
+                    $rabies_count = $rabies_count->where('encoded_mw', $mw)->count();
+                    $rotavirus_count = $rotavirus_count->where('encoded_mw', $mw)->count();
+                    $typhoid_count = $typhoid_count->where('encoded_mw', $mw)->count();
+                }
+                else {
+                    $abd_count = $abd_count->count();
+                    $aefi_count = $aefi_count->count();
+                    $aes_count = $aes_count->count();
+                    $afp_count = $afp_count->count();
+                    $ahf_count = $ahf_count->count();
+                    $ames_count = $ames_count->count();
+                    $anthrax_count = $anthrax_count->count();
+                    $chikv_count = $chikv_count->count();
+                    $cholera_count = $cholera_count->count();
+                    $dengue_count = $dengue_count->count();
+                    $diph_count = $diph_count->count();
+                    $hepatitis_count = $hepatitis_count->count();
+                    $hfmd_count = $hfmd_count->count();
+                    $influenza_count = $influenza_count->count();
+                    $leptospirosis_count = $leptospirosis_count->count();
+                    $malaria_count = $malaria_count->count();
+                    $measles_count = $measles_count->count();
+                    $meningitis_count = $meningitis_count->count();
+                    $meningo_count = $meningo_count->count();
+                    $nnt_count = $nnt_count->count();
+                    $nt_count = $nt_count->count();
+                    $pert_count = $pert_count->count();
+                    $psp_count = $psp_count->count();
+                    $rabies_count = $rabies_count->count();
+                    $rotavirus_count = $rotavirus_count->count();
+                    $typhoid_count = $typhoid_count->count();
+                }
+            }
+        }
 
         return view('syndromic.disease_checker', [
             'abd_count' => $abd_count,
