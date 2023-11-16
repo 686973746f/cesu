@@ -796,6 +796,13 @@ class SyndromicController extends Controller
                 }
             }
 
+            //UPDATE SUSPECTED DISEASE LIST
+            $fetch_record = SyndromicRecords::find($c->id);
+            $fetch_record->generated_susdiseaselist = ($fetch_record->getListOfSuspDiseases() != 'N/A') ? $fetch_record->getListOfSuspDiseases() : NULL;
+            if($fetch_record->isDirty()) {
+                $fetch_record->save();
+            }
+
             if($c->ifHasImmediateNotifiable()) {
                 $immediatenotifiable = 1;
             }
@@ -1165,6 +1172,13 @@ class SyndromicController extends Controller
 
                 'updated_by' => auth()->user()->id,
             ]);
+
+            //UPDATE SUSPECTED DISEASE LIST BASED ON NEW SYMPTOMS
+            $fetch_record = SyndromicRecords::find($d->id);
+            $fetch_record->generated_susdiseaselist = ($fetch_record->getListOfSuspDiseases() != 'N/A') ? $fetch_record->getListOfSuspDiseases() : NULL;
+            if($fetch_record->isDirty()) {
+                $fetch_record->save();
+            }
 
             $msg = 'Record was updated successfully';
         }

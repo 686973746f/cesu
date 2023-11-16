@@ -138,6 +138,8 @@ class CreateSyndromicRecordsTable extends Migration
             $table->text('comorbid_list')->nullable();
             $table->text('firstdegree_comorbid_list')->nullable();
 
+            $table->text('generated_susdiseaselist')->nullable();
+
             $table->text('name_of_interviewer')->nullable();
             $table->text('name_of_physician')->nullable();
             $table->text('other_doctor')->nullable();

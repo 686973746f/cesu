@@ -1275,7 +1275,7 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     //Check Symptoms
                     if($row[35] == 'Y') { //SORE THROAT
-                        if($row[22] == 'Y' || $row[25] == 'Y') { //FEVER AND RASH
+                        if($row[22] == 'Y' && $row[25] == 'Y') { //FEVER AND RASH
                             //$proceed2 = true;
                             $match_casedef = 1;
                         }

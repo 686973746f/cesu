@@ -108,6 +108,8 @@ class SyndromicRecords extends Model
         'other_symptoms_onset',
         'other_symptoms_onset_remarks',
 
+        'generated_susdiseaselist',
+
         'is_hospitalized',
         'date_admitted',
         'date_released',
@@ -481,7 +483,7 @@ class SyndromicRecords extends Model
         }
 
         if($this->sorethroat == 1) {
-            if($this->fever == 1 || $this->rash == 1) {
+            if($this->fever == 1 && $this->rash == 1) {
                 $list_arr[] = 'HFMD';
             }
         }
