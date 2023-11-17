@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Imports\DohFacilityImport;
+use App\Imports\EdcsImport;
 use Carbon\Carbon;
 use App\Mail\TestMail;
 use Illuminate\Http\Request;
@@ -19,5 +20,6 @@ class TestController extends Controller
 {
     public function index() {
         //CODE HERE
+        Excel::import(new EdcsImport(), storage_path('TEST.xlsx'));
     }
 }

@@ -31,6 +31,7 @@ use App\Models\Rotavirus;
 use App\Models\Meningitis;
 use App\Imports\PidsrImport;
 use App\Imports\RabiesImport;
+use App\Models\DohFacility;
 use App\Models\SiteSettings;
 use Illuminate\Http\Request;
 use App\Models\Leptospirosis;
