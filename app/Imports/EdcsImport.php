@@ -71,7 +71,7 @@ class EdcsImport implements WithMultipleSheets
             'ROTA' => new RotaImport(),
             'TYPHOID' => new TyphoidImport(),
             */
-            'MENINGO' => new MeningoImport(),
+            'NT' => new NtImport(),
         ];
     }
 }
@@ -1883,7 +1883,6 @@ class ChikvImport implements ToModel, WithHeadingRow {
 
 class MeningoImport implements ToModel, WithHeadingRow {
     public function model(array $row) {
-        dd($row);
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
             if(!(Meningo::where('EPIID', $row['epi_id'])->first())) {
                 $birthdate = Carbon::parse(EdcsImport::tDate($row['date_of_birth']));
@@ -1937,16 +1936,12 @@ class MeningoImport implements ToModel, WithHeadingRow {
                         'AgeMons' => $getAgeMonths,
                         'AgeDays' => $getAgeDays,
 
-                        
                         'Occupation' => $row['occupation'],
                         'Workplace' => $row['name_of_workplace'],
                         'WrkplcAddr' => $row['address_of_workplace'],
                         'School' => $row['name_of_school'],
                         'SchlAddr' => $row['address_of_school'],
-                        
-                        
-                        
-                        
+
                         'Admitted' => ($row['patient_admitted'] == 'Yes') ? 1 : 0,
                         'DAdmit' => EdcsImport::tDate($row['date_admittedseenconsult']),
                         'DOnset' => EdcsImport::tDate($row['date_onse_of_illness']),
@@ -2049,6 +2044,7 @@ class MeningoImport implements ToModel, WithHeadingRow {
 
 class NtImport implements ToModel, WithHeadingRow {
     public function model(array $row) {
+        dd($row);
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
             if(!(Nt::where('EPIID', $row['epi_id'])->first())) {
                 $birthdate = Carbon::parse(EdcsImport::tDate($row['date_of_birth']));
@@ -2102,54 +2098,49 @@ class NtImport implements ToModel, WithHeadingRow {
                         'AgeMons' => $getAgeMonths,
                         'AgeDays' => $getAgeDays,
 
-                        'Address' => $row[10],
+                        'Address' => NULL,
                         'Admitted' => ($row['patient_admitted'] == 'Yes') ? 1 : 0,
-                        'DAdmit' => EdcsImport::tDate($row['date_admitted_seen_consult']),
+                        'DAdmit' => EdcsImport::tDate($row['date_admitted_font_stylecolorred_font']),
                         'DONSET' => EdcsImport::tDate($row['date_onse_of_illness']),
-                        'DateOfReport' => $this->tDate($row[22]),
-                        'DateOfInvestigation' => $this->tDate($row[23]),
-                        'Investigator' => $row[24],
-                        'ContactNum' => $row[25],
-                        'First2days' => $row[26],
-                        'After2days' => $row[27],
-                        'FinalDx' => $row[28],
-                        'Trismus' => $row[29],
-                        'ClenFis' => $row[30],
-                        'Opistho' => $row[31],
-                        'StumpInf' => $row[32],
+                        'DateOfReport' => EdcsImport::tDate($row['timestamp']),
+                        'DateOfInvestigation' => EdcsImport::tDate($row['timestamp']),
+                        'Investigator' => $row['user_id'],
+                        'ContactNum' => NULL,
+                        'First2days' => NULL,
+                        'After2days' => NULL,
+                        'FinalDx' => NULL,
+                        'Trismus' => $row['from_3_to_28_days_of_life_does_the_baby_have_convulsions_or_muscles_stiffness_or_fits_trismus'],
+                        'ClenFis' => NULL,
+                        'Opistho' => NULL,
+                        'StumpInf' => $row['was_the_umbilical_stump_infected_bad_smell_pus'],
+                        'ReportToInvestigation' => NULL,
+                        'TotPreg' => $row['no_of_total_pregnancies'],
+                        'Livebirths' => $row['live_births'],
+                        'TTDose' => $row['how_many_doses_of_tetanus_containing_vaccine'],
+                        'LivingKids' => $row['living_children'],
+                        'LastDoseGiven' => EdcsImport::tDate($row['date_last_dose_given']),
+                        'DosesGiven' => $row['how_many_doses_of_tetanus_containing_vaccine'],
+                        'PreVisits' => $row['if_she_received_2_doses_were_they_given_during'],
+                        'ImmunStatRep' => $row['immunizationreported'],
+                        'FirstPV' => EdcsImport::tDate($row['td1']),
+                        'ChldProt' => ($row['is_the_child_protected_at_birth'] == 'Yes') ? 'Y' : 'N',
+                        'PNCHist' => $row['prenatalcarehistory'],
+                        'Reason' => $row['state_reason_for_no_or_late_prenatal'],
+                        'PlaceDel' => $row['placedelivery'],
+                        'OtherPlaceDelivery' => $row['place_of_delivery_others_font_stylecolorred_font'],
+                        'NameAddressHospital' => $row['if_born_in_a_hospitallying_inclinic_give_name_and_address_of_the_hospitallying_inclinic_font_stylecolorred_font'],
+                        'OtherInstrument' => $row['cord_was_cut_using_others_specify_font_stylecolorred_font'],
+                        'DelAttnd' => $row['attendedelivery'],
+                        'OtherAttendant' => $row['who_attended_the_delivery_others_specify_font_stylecolorred_font'],
+                        'CordCut' => ($row['cordcut'] == 'Yes') ? 'Y' : 'N',
+                        'StumpTreat' => ($row['stump'] == 'Yes') ? 'Y' : 'N',
+                        'OtherMaterials' => $row['cord_was_cut_using_others_specify_font_stylecolorred_font'],
+                        'FinalClass' => $row['caseclassification'],
+                        'Outcome' => $row['outcome'],
+                        'DateDied' => EdcsImport::tDate($row['date_died']),
                         
-                        
-                        
-                        'ReportToInvestigation' => (is_null($row[40]) || $row[40] == '') ? 0 : $row[40],
-                        
-                        
-                        'TotPreg' => $row[43],
-                        'Livebirths' => $row[44],
-                        'TTDose' => $row[45],
-                        'LivingKids' => $row[46],
-                        'LastDoseGiven' => $this->tDate($row[47]),
-                        'DosesGiven' => $row[48],
-                        'PreVisits' => $row[49],
-                        'ImmunStatRep' => $row[50],
-                        'FirstPV' => $this->tDate($row[51]),
-                        'ChldProt' => $row[52],
-                        'PNCHist' => $row[53],
-                        'Reason' => $row[54],
-                        'PlaceDel' => $row[55],
-                        'OtherPlaceDelivery' => $row[56],
-                        'NameAddressHospital' => $row[57],
-                        'OtherInstrument' => $row[58],
-                        'DelAttnd' => $row[59],
-                        'OtherAttendant' => $row[60],
-                        'CordCut' => $row[61],
-                        'StumpTreat' => $row[62],
-                        'OtherMaterials' => $row[63],
-                        'FinalClass' => $row[64],
-                        'Outcome' => $row[65],
-                        'DateDied' => $this->tDate($row[66]),
-                        
-                        'Mother' => $row[68],
-                        'DOBtoOnset' => $row[69],
+                        'Mother' => NULL,
+                        'DOBtoOnset' => NULL,
 
                         'DateOfEntry' => EdcsImport::tDate($row['timestamp']),
                         'AdmitToEntry' => NULL,
@@ -2242,13 +2233,13 @@ class PertImport implements ToModel, WithHeadingRow {
                         'AgeDays' => $getAgeDays,
                         
                         'Admitted' => ($row['patient_admitted'] == 'Yes') ? 1 : 0,
-                        'DAdmit' => $this->tDate($row[20]),
-                        'DOnset' => $this->tDate($row[21]),
-                        'DptDoses' => $row[22],
-                        'DateLastDose' => $this->tDate($row[23]),
-                        'CaseClassification' => $row[24],
-                        'Outcome' => $row[25],
-                        'DateDied' => $this->tDate($row[26]),
+                        'DAdmit' => EdcsImport::tDate($row['date_admitted']),
+                        'DOnset' => EdcsImport::tDate($row['date_onse_of_illness']),
+                        'DptDoses' => ($row['pertussis_containing_vaccine_doses'] == 'Yes') ? 'Y' : 'N',
+                        'DateLastDose' => EdcsImport::tDate($row['if_yes_number_of_total_doses_health_facility_font_stylecolorred_font']),
+                        'CaseClassification' => $row['caseclassification'],
+                        'Outcome' => $row['outcome'],
+                        'DateDied' => EdcsImport::tDate($row['date_died']),
 
                         'DateOfEntry' => EdcsImport::tDate($row['timestamp']),
                         'AdmitToEntry' => NULL,
