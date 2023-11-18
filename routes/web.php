@@ -305,6 +305,8 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
     Route::get('/pidsr', [PIDSRController::class, 'home'])->name('pidsr.home');
     Route::get('/pidsr/threshold', [PIDSRController::class, 'threshold_index'])->name('pidsr.threshold');
     Route::get('/pidsr/import', [PIDSRController::class, 'import_start'])->name('pidsr.import');
+    Route::get('/pidsr/import_edcs', [PIDSRController::class, 'edcsImportExcelProcess'])->name('pidsr_import_edcs');
+    
     Route::get('/pidsr/report', [PIDSRController::class, 'report_generate'])->name('pidsr.report');
     Route::get('/pidsr/import/sendmail', [PIDSRController::class, 'manualsend'])->name('pidsr.sendmail');
     Route::get('/pidsr/casechecker', [PIDSRController::class, 'casechecker'])->name('pidsr.casechecker');

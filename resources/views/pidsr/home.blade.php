@@ -168,11 +168,12 @@
                     </button>
             </div>
             <div class="modal-body text-center">
-                <p>Please execute the Batch Script first on "C:\cesu_tools\MDBToExcel" folder before Proceeding.</p>
+                <p>Please execute the Script first on "C:\cesu_tools\MDBToExcel" and "C:\cesu_tools\EDCS_IMPORTER" folder before Proceeding.</p>
             </div>
             <div class="modal-footer">
-                <a href="{{route('pidsr.import')}}?m=1" class="btn btn-primary btn-block">Step 1 - Proceed Importing</a>
-                <a href="{{route('pidsr.sendmail')}}" class="btn btn-primary btn-block">Step 2 - Early Send Email <i>(This process is automatic every Tuesday, 11AM)</i></a>
+                <a href="{{route('pidsr.import')}}?m=1" class="btn btn-primary btn-block">Step 1 - Import MDB</a>
+                <a href="{{route('pidsr_import_edcs')}}" class="btn btn-primary btn-block">Step 2 - Import EDCS Feedback</a>
+                <a href="{{route('pidsr.sendmail')}}" class="btn btn-primary btn-block">Step 3 - Early Send Email <i>(This process is automatic every Tuesday, 11AM)</i></a>
             </div>
         </div>
     </div>

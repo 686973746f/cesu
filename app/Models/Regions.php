@@ -13,6 +13,8 @@ class Regions extends Model
         'regionName',
         'json_code',
         'alt_name',
+        'short_name1',
+        'short_name2',
     ];
 
     public function getPsgcCode() {

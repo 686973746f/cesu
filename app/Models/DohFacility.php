@@ -43,4 +43,10 @@ class DohFacility extends Model
         'licensing_status',
         'validity_date',
     ];
+
+    public function getRegionData() {
+        $f = Regions::where('regionName', $this->address_region)->first();
+
+        return $f;
+    }
 }

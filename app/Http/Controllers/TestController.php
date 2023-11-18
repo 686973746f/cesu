@@ -19,7 +19,6 @@ use Maatwebsite\Excel\Facades\Excel;
 class TestController extends Controller
 {
     public function index() {
-        //CODE HERE
-        Excel::import(new EdcsImport(), storage_path('TEST.xlsx'));
+        
     }
 }

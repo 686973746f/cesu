@@ -20,6 +20,8 @@ class CreateRegionsTable extends Migration
             $table->string('regionName');
             $table->text('json_code')->nullable();
             $table->text('alt_name')->nullable();
+            $table->text('short_name1')->nullable();
+            $table->text('short_name2')->nullable();
         });
     }
 

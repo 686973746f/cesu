@@ -29,11 +29,12 @@ use App\Models\Hepatitis;
 use App\Models\Influenza;
 use App\Models\Rotavirus;
 use App\Models\Meningitis;
-use App\Imports\PidsrImport;
-use App\Imports\RabiesImport;
+use App\Imports\EdcsImport;
 use App\Models\DohFacility;
+use App\Imports\PidsrImport;
 use App\Models\SiteSettings;
 use Illuminate\Http\Request;
+use App\Imports\RabiesImport;
 use App\Models\Leptospirosis;
 use Illuminate\Support\Facades\DB;
 use RebaseData\Converter\Converter;
@@ -582,7 +583,7 @@ class PIDSRController extends Controller
 
         if(request()->input('m')) {
             return redirect()->route('pidsr.home')
-            ->with('msg', 'Import Successful.')
+            ->with('msg', 'MDB Feedback was successfully imported. You may now proceed to Step 2.')
             ->with('msgtype', 'success');
         }
         else {
@@ -1110,7 +1111,7 @@ class PIDSRController extends Controller
         }
         
         return redirect()->route('pidsr.home')
-        ->with('msg', 'Email Sent. Please check your Email.')
+        ->with('msg', 'Weekly Notifiable Diseases Report Mail was sent successfully. Please check your email (cesu.gentrias@gmail.com).')
         ->with('msgtype', 'success');
     }
 
@@ -1589,6 +1590,23 @@ class PIDSRController extends Controller
         }
         else {
             return abort(401);
+        }
+    }
+
+    public function edcsImportExcelProcess() {
+        if(File::exists(storage_path('app/edcs_feedback/feedback.xlsx'))) {
+            Excel::import(new EdcsImport(), storage_path('app/edcs_feedback/feedback.xlsx'));
+
+            File::delete(storage_path('app/edcs_feedback/feedback.xlsx'));
+
+            return redirect()->route('pidsr.home')
+            ->with('msg', 'EDCS Feedback data was imported successfully. You may now proceed to Step 3.')
+            ->with('msgtype', 'success');
+        }
+        else {
+            return redirect()->route('pidsr.home')
+            ->with('msg', 'Error: No EDCS Feeback file found. Make sure that you uploaded it first using the Uploader Program.')
+            ->with('msgtype', 'warning');
         }
     }
 }
