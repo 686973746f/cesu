@@ -41,8 +41,10 @@ use RebaseData\Converter\Converter;
 use RebaseData\InputFile\InputFile;
 use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
+use Rap2hpoutre\FastExcel\FastExcel;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Artisan;
+use OpenSpout\Common\Entity\Style\Style;
 
 /*
 ALL TABLES
@@ -1608,5 +1610,2612 @@ class PIDSRController extends Controller
             ->with('msg', 'Error: No EDCS Feeback file found. Make sure that you uploaded it first using the Uploader Program.')
             ->with('msgtype', 'warning');
         }
+    }
+
+    public function importToFtp() {
+        /*
+        DEBUGGER1
+        $ctxt = "SHOW COLUMNS FROM afp";
+        $c = DB::select($ctxt);
+        $columns = array_map(function ($column) {
+            return $column->Field;
+        }, $c);
+
+        foreach($columns as $c) {
+            echo "'$c' => \$row->".$c.',<br>';
+        }
+
+        */
+        /*
+        DEBUGGER2
+        */
+
+        
+
+        //Delete files in the folder first
+        $folderPath = storage_path('app/pidsr/ftp');
+        if (File::exists($folderPath)) {
+            $files = File::allFiles($folderPath);
+
+            foreach ($files as $file) {
+                File::delete($file);
+            }
+        }
+
+        $afp = Afp::where('Year', 2023)->get();
+        $aefi = Aefi::where('Year', 2023)->get();
+        $anthrax = Anthrax::where('Year', 2023)->get();
+        $measles = Measles::where('Year', 2023)->get();
+        $meningo = Meningo::where('Year', 2023)->get();
+        $nt = Nt::where('Year', 2023)->get();
+        $psp = Psp::where('Year', 2023)->get();
+        $rabies = Afp::where('Year', 2023)->get();
+        $afp = Rabies::where('Year', 2023)->get();
+        $abd = Abd::where('Year', 2023)->get();
+        $aes = Aes::where('Year', 2023)->get();
+        $ahf = Ahf::where('Year', 2023)->get();
+        $hepatitis = Hepatitis::where('Year', 2023)->get();
+        $ames = Ames::where('Year', 2023)->get();
+        $meningitis = Meningitis::where('Year', 2023)->get();
+        $chikv = Chikv::where('Year', 2023)->get();
+        $cholera = Cholera::where('Year', 2023)->get();
+        $dengue = Dengue::where('Year', 2023)->get();
+        $diph = Diph::where('Year', 2023)->get();
+        $ili = Influenza::where('Year', 2023)->get();
+        $lep = Leptospirosis::where('Year', 2023)->get();
+        $malaria = Malaria::where('Year', 2023)->get();
+        $nnt = Nnt::where('Year', 2023)->get();
+        $pert = Pert::where('Year', 2023)->get();
+        $rota = Rotavirus::where('Year', 2023)->get();
+        $typ = Typhoid::where('Year', 2023)->get();
+        $hfmd = Hfmd::where('Year', 2023)->get();
+
+        /*
+        $afp = Afp::where('Province', 'CAVITE')
+        ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
+        ->where(function ($q) {
+            $q->where(function ($r) {
+                $r->where('Year', date('Y', strtotime('-1 Week')))
+                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+            })->orWhere(function ($r) {
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+            });
+        })
+        ->get();
+
+        $aefi = Aefi::where('Province', 'CAVITE')
+        ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
+        ->where(function ($q) {
+            $q->where(function ($r) {
+                $r->where('Year', date('Y', strtotime('-1 Week')))
+                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+            })->orWhere(function ($r) {
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+            });
+        })
+        ->get();
+
+        $anthrax = Anthrax::where('Province', 'CAVITE')
+        ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
+        ->where(function ($q) {
+            $q->where(function ($r) {
+                $r->where('Year', date('Y', strtotime('-1 Week')))
+                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+            })->orWhere(function ($r) {
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+            });
+        })
+        ->get();
+
+        $measles = Measles::where('Province', 'CAVITE')
+        ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
+        ->where('match_casedef', 1)
+        ->where(function ($q) {
+            $q->where(function ($r) {
+                $r->where('Year', date('Y', strtotime('-1 Week')))
+                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+            })->orWhere(function ($r) {
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+            });
+        })
+        ->get();
+
+        $meningo = Meningo::where('Province', 'CAVITE')
+        ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
+        ->where(function ($q) {
+            $q->where(function ($r) {
+                $r->where('Year', date('Y', strtotime('-1 Week')))
+                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+            })->orWhere(function ($r) {
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+            });
+        })
+        ->get();
+
+        $nt = Nt::where('Province', 'CAVITE')
+        ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
+        ->where(function ($q) {
+            $q->where(function ($r) {
+                $r->where('Year', date('Y', strtotime('-1 Week')))
+                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+            })->orWhere(function ($r) {
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+            });
+        })
+        ->get();
+
+        $psp = Psp::where('Province', 'CAVITE')
+        ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
+        ->where(function ($q) {
+            $q->where(function ($r) {
+                $r->where('Year', date('Y', strtotime('-1 Week')))
+                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+            })->orWhere(function ($r) {
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+            });
+        })
+        ->get();
+
+        $rabies = Rabies::where('Province', 'CAVITE')
+        ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
+        ->where(function ($q) {
+            $q->where(function ($r) {
+                $r->where('Year', date('Y', strtotime('-1 Week')))
+                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+            })->orWhere(function ($r) {
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+            });
+        })
+        ->get();
+
+        $abd = Abd::where('Province', 'CAVITE')
+        ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
+        ->where(function ($q) {
+            $q->where(function ($r) {
+                $r->where('Year', date('Y', strtotime('-1 Week')))
+                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+            })->orWhere(function ($r) {
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+            });
+        })
+        ->get();
+
+        $aes = Aes::where('Province', 'CAVITE')
+        ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
+        ->where(function ($q) {
+            $q->where(function ($r) {
+                $r->where('Year', date('Y', strtotime('-1 Week')))
+                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+            })->orWhere(function ($r) {
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+            });
+        })
+        ->get();
+
+        $ahf = Ahf::where('Province', 'CAVITE')
+        ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
+        ->where(function ($q) {
+            $q->where(function ($r) {
+                $r->where('Year', date('Y', strtotime('-1 Week')))
+                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+            })->orWhere(function ($r) {
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+            });
+        })
+        ->get();
+
+        $hepatitis = Hepatitis::where('Province', 'CAVITE')
+        ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
+        ->where(function ($q) {
+            $q->where(function ($r) {
+                $r->where('Year', date('Y', strtotime('-1 Week')))
+                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+            })->orWhere(function ($r) {
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+            });
+        })
+        ->get();
+
+        $ames = Ames::where('Province', 'CAVITE')
+        ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
+        ->where(function ($q) {
+            $q->where(function ($r) {
+                $r->where('Year', date('Y', strtotime('-1 Week')))
+                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+            })->orWhere(function ($r) {
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+            });
+        })
+        ->get();
+
+        $meningitis = Meningitis::where('Province', 'CAVITE')
+        ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
+        ->where(function ($q) {
+            $q->where(function ($r) {
+                $r->where('Year', date('Y', strtotime('-1 Week')))
+                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+            })->orWhere(function ($r) {
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+            });
+        })
+        ->get();
+
+        $chikv = Chikv::where('Province', 'CAVITE')
+        ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
+        ->where(function ($q) {
+            $q->where(function ($r) {
+                $r->where('Year', date('Y', strtotime('-1 Week')))
+                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+            })->orWhere(function ($r) {
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+            });
+        })
+        ->get();
+
+        $cholera = Cholera::where('Province', 'CAVITE')
+        ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
+        ->where(function ($q) {
+            $q->where(function ($r) {
+                $r->where('Year', date('Y', strtotime('-1 Week')))
+                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+            })->orWhere(function ($r) {
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+            });
+        })
+        ->get();
+
+        $dengue = Dengue::where('Province', 'CAVITE')
+        ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
+        ->where(function ($q) {
+            $q->where(function ($r) {
+                $r->where('Year', date('Y', strtotime('-1 Week')))
+                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+            })->orWhere(function ($r) {
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+            });
+        })
+        ->get();
+
+        $diph = Diph::where('Province', 'CAVITE')
+        ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
+        ->where(function ($q) {
+            $q->where(function ($r) {
+                $r->where('Year', date('Y', strtotime('-1 Week')))
+                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+            })->orWhere(function ($r) {
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+            });
+        })
+        ->get();
+
+        $ili = Influenza::where('Province', 'CAVITE')
+        ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
+        ->where(function ($q) {
+            $q->where(function ($r) {
+                $r->where('Year', date('Y', strtotime('-1 Week')))
+                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+            })->orWhere(function ($r) {
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+            });
+        })
+        ->get();
+
+        $lep = Leptospirosis::where('Province', 'CAVITE')
+        ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
+        ->where(function ($q) {
+            $q->where(function ($r) {
+                $r->where('Year', date('Y', strtotime('-1 Week')))
+                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+            })->orWhere(function ($r) {
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+            });
+        })
+        ->get();
+
+        $malaria = Malaria::where('Province', 'CAVITE')
+        ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
+        ->where(function ($q) {
+            $q->where(function ($r) {
+                $r->where('Year', date('Y', strtotime('-1 Week')))
+                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+            })->orWhere(function ($r) {
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+            });
+        })
+        ->get();
+
+        $nnt = Nnt::where('Province', 'CAVITE')
+        ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
+        ->where(function ($q) {
+            $q->where(function ($r) {
+                $r->where('Year', date('Y', strtotime('-1 Week')))
+                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+            })->orWhere(function ($r) {
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+            });
+        })
+        ->get();
+
+        $pert = Pert::where('Province', 'CAVITE')
+        ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
+        ->where(function ($q) {
+            $q->where(function ($r) {
+                $r->where('Year', date('Y', strtotime('-1 Week')))
+                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+            })->orWhere(function ($r) {
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+            });
+        })
+        ->get();
+
+        $rota = Rotavirus::where('Province', 'CAVITE')
+        ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
+        ->where(function ($q) {
+            $q->where(function ($r) {
+                $r->where('Year', date('Y', strtotime('-1 Week')))
+                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+            })->orWhere(function ($r) {
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+            });
+        })
+        ->get();
+
+        $typ = Typhoid::where('Province', 'CAVITE')
+        ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
+        ->where(function ($q) {
+            $q->where(function ($r) {
+                $r->where('Year', date('Y', strtotime('-1 Week')))
+                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+            })->orWhere(function ($r) {
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+            });
+        })
+        ->get();
+
+        $hfmd = Hfmd::where('Province', 'CAVITE')
+        ->where('Muncity', 'GENERAL TRIAS')
+        ->where('systemsent', 0)
+        ->where('match_casedef', 1)
+        ->where(function ($q) {
+            $q->where(function ($r) {
+                $r->where('Year', date('Y', strtotime('-1 Week')))
+                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+            })->orWhere(function ($r) {
+                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+            });
+        })
+        ->get();
+
+        */
+
+        $header_style = (new Style())->setFontBold();
+        $rows_style = (new Style())->setShouldWrapText();
+
+        if($anthrax->count() != 0) {
+            $exp = (new FastExcel($anthrax))
+            ->headerStyle($header_style)
+            ->rowsStyle($rows_style)
+            ->export(storage_path('app/pidsr/ftp/ANTHRAX.xlsx'), function ($row) {
+                return [
+                    'Icd10Code' => $row->Icd10Code,
+                    'RegionOfDrU' => $row->RegionOfDrU,
+                    'ProvOfDRU' => $row->ProvOfDRU,
+                    'MuncityOfDRU' => $row->MuncityOfDRU,
+                    'DRU' => $row->DRU,
+                    'AddressOfDRU' => $row->AddressOfDRU,
+                    'SentinelSite' => $row->SentinelSite,
+                    'PatientNumber' => $row->PatientNumber,
+                    'FirstName' => $row->FirstName,
+                    'FamilyName' => $row->FamilyName,
+                    'FullName' => $row->FullName,
+                    'Region' => $row->Region,
+                    'Province' => $row->Province,
+                    'Muncity' => $row->Muncity,
+                    'Barangay' => $row->Barangay,
+                    'Streetpurok' => $row->Streetpurok,
+                    'Sex' => $row->Sex,
+                    'DOB' => $row->DOB,
+                    'AgeYears' => $row->AgeYears,
+                    'AgeMons' => $row->AgeMons,
+                    'AgeDays' => $row->AgeDays,
+                    'Year' => $row->Year,
+                    'DateOfEntry' => $row->DateOfEntry,
+                    'AdmitToEntry' => $row->AdmitToEntry,
+                    'OnsetToAdmit' => $row->OnsetToAdmit,
+                    'MorbidityMonth' => $row->MorbidityMonth,
+                    'MorbidityWeek' => $row->MorbidityWeek,
+                    'EPIID' => $row->EPIID,
+                    'UniqueKey' => $row->UniqueKey,
+                    'RECSTATUS' => $row->RECSTATUS,
+                    'Occupation' => $row->Occupation,
+                    'Workplace' => $row->Workplace,
+                    'WorkAddress' => $row->WorkAddress,
+                    'DOnset' => $row->DOnset,
+                    'Fever' => $row->Fever,
+                    'Nausea' => $row->Nausea,
+                    'Headache' => $row->Headache,
+                    'DryCough' => $row->DryCough,
+                    'SoreThroat' => $row->SoreThroat,
+                    'TroubleSwallowing' => $row->TroubleSwallowing,
+                    'TroubleBreathing' => $row->TroubleBreathing,
+                    'StomachPain' => $row->StomachPain,
+                    'VomitingBlood' => $row->VomitingBlood,
+                    'BloodyDiarrhea' => $row->BloodyDiarrhea,
+                    'SweatingExcessively' => $row->SweatingExcessively,
+                    'ExtremeTiredness' => $row->ExtremeTiredness,
+                    'PainOrTightChest' => $row->PainOrTightChest,
+                    'SoreMuscles' => $row->SoreMuscles,
+                    'NeckPain' => $row->NeckPain,
+                    'ItchySkin' => $row->ItchySkin,
+                    'BlackScab' => $row->BlackScab,
+                    'SkinLesions' => $row->SkinLesions,
+                    'DescribeLesion' => $row->DescribeLesion,
+                    'OtherSS' => $row->OtherSS,
+                    'Admitted' => $row->Admitted,
+                    'DAdmit' => $row->DAdmit,
+                    'OccupAnimalAgriculture' => $row->OccupAnimalAgriculture,
+                    'ExpToAnthVaccAnimal' => $row->ExpToAnthVaccAnimal,
+                    'ExpToAnimalProducts' => $row->ExpToAnimalProducts,
+                    'ContactLiveDeadAnimal' => $row->ContactLiveDeadAnimal,
+                    'TravelBeyondResidence' => $row->TravelBeyondResidence,
+                    'WorkInLaboratory' => $row->WorkInLaboratory,
+                    'HHMembersExpSimilarSymp' => $row->HHMembersExpSimilarSymp,
+                    'EatenUndercookedMeat' => $row->EatenUndercookedMeat,
+                    'ReceivedLettersPackage' => $row->ReceivedLettersPackage,
+                    'OpenedMailsForOthers' => $row->OpenedMailsForOthers,
+                    'NearOpenedEnveloped' => $row->NearOpenedEnveloped,
+                    'Cutaneous' => $row->Cutaneous,
+                    'CaseClassification' => $row->CaseClassification,
+                    'Outcome' => $row->Outcome,
+                    'DateDied' => $row->DateDied,
+                    'Gastrointestinal' => $row->Gastrointestinal,
+                    'Pulmonary' => $row->Pulmonary,
+                    'Meningeal' => $row->Meningeal,
+                    'UnknownClinicalForm' => $row->UnknownClinicalForm,
+                    'Specimen1' => $row->Specimen1,
+                    'DateSpecimen1Taken' => $row->DateSpecimen1Taken,
+                    'ResultSpecimen1' => $row->ResultSpecimen1,
+                    'DateResult1' => $row->DateResult1,
+                    'SpecifyOrganism1' => $row->SpecifyOrganism1,
+                    'Specimen2' => $row->Specimen2,
+                    'DateSpecimen2Taken' => $row->DateSpecimen2Taken,
+                    'Result2' => $row->Result2,
+                    'SpecifyOrganism2' => $row->SpecifyOrganism2,
+                    'ResultSpecimen2' => $row->ResultSpecimen2,
+                    'DeleteRecord' => $row->DeleteRecord,
+                    'DateResult2' => $row->DateResult2,
+                    'NameOfDru' => $row->NameOfDru,
+                    'District' => $row->District,
+                    'ILHZ' => $row->ILHZ,
+                    'TYPEHOSPITALCLINIC' => $row->TYPEHOSPITALCLINIC,
+                    'SENT' => $row->SENT,
+                    'ip' => $row->ip,
+                    'ipgroup' => $row->ipgroup,
+                ];
+            });
+        }
+        
+        if($measles->count() != 0) {
+            $exp = (new FastExcel($measles))
+            ->headerStyle($header_style)
+            ->rowsStyle($rows_style)
+            ->export(storage_path('app/pidsr/ftp/MEASLES.xlsx'), function ($row) {
+                return [
+                    'Icd10Code' => $row->Icd10Code,
+                    'RegionOfDrU' => $row->RegionOfDrU,
+                    'ProvOfDRU' => $row->ProvOfDRU,
+                    'MuncityOfDRU' => $row->MuncityOfDRU,
+                    'DRU' => $row->DRU,
+                    'AddressOfDRU' => $row->AddressOfDRU,
+                    'PatientNumber' => $row->PatientNumber,
+                    'FirstName' => $row->FirstName,
+                    'FamilyName' => $row->FamilyName,
+                    'FullName' => $row->FullName,
+                    'Address' => $row->Address,
+                    'Region' => $row->Region,
+                    'Province' => $row->Province,
+                    'Muncity' => $row->Muncity,
+                    'Streetpurok' => $row->Streetpurok,
+                    'Sex' => $row->Sex,
+                    'Preggy' => $row->Preggy,
+                    'WkOfPreg' => $row->WkOfPreg,
+                    'DOB' => $row->DOB,
+                    'AgeYears' => $row->AgeYears,
+                    'AgeMons' => $row->AgeMons,
+                    'AgeDays' => $row->AgeDays,
+                    'Admitted' => $row->Admitted,
+                    'DAdmit' => $row->DAdmit,
+                    'DONSET' => $row->DONSET,
+                    'VitaminA' => $row->VitaminA,
+                    'FeverOnset' => $row->FeverOnset,
+                    'MeasVacc' => $row->MeasVacc,
+                    'Cough' => $row->Cough,
+                    'KoplikSpot' => $row->KoplikSpot,
+                    'MVDose' => $row->MVDose,
+                    'MRDose' => $row->MRDose,
+                    'MMRDose' => $row->MMRDose,
+                    'LastVacc' => $row->LastVacc,
+                    'RunnyNose' => $row->RunnyNose,
+                    'RedEyes' => $row->RedEyes,
+                    'ArthritisArthralgia' => $row->ArthritisArthralgia,
+                    'SwoLympNod' => $row->SwoLympNod,
+                    'LympNodLoc' => $row->LympNodLoc,
+                    'OthLocation' => $row->OthLocation,
+                    'OthSymptoms' => $row->OthSymptoms,
+                    'AreThereAny' => $row->AreThereAny,
+                    'Complications' => $row->Complications,
+                    'Reporter' => $row->Reporter,
+                    'Investigator' => $row->Investigator,
+                    'RContactNum' => $row->RContactNum,
+                    'ContactNum' => $row->ContactNum,
+                    'DateOfEntry' => $row->DateOfEntry,
+                    'AdmitToEntry' => $row->AdmitToEntry,
+                    'OnsetToAdmit' => $row->OnsetToAdmit,
+                    'MorbidityMonth' => $row->MorbidityMonth,
+                    'MorbidityWeek' => $row->MorbidityWeek,
+                    'EPIID' => $row->EPIID,
+                    'ReportToInvestigation' => $row->ReportToInvestigation,
+                    'UniqueKey' => $row->UniqueKey,
+                    'RECSTATUS' => $row->RECSTATUS,
+                    'Reasons' => $row->Reasons,
+                    'OtherReasons' => $row->OtherReasons,
+                    'SpecialCampaigns' => $row->SpecialCampaigns,
+                    'Travel' => $row->Travel,
+                    'PlaceTravelled' => $row->PlaceTravelled,
+                    'TravTiming' => $row->TravTiming,
+                    'ProbExposure' => $row->ProbExposure,
+                    'OtherExposure' => $row->OtherExposure,
+                    'OtherCase' => $row->OtherCase,
+                    'RashOnset' => $row->RashOnset,
+                    'WholeBloodColl' => $row->WholeBloodColl,
+                    'DriedBloodColl' => $row->DriedBloodColl,
+                    'OP/NPSwabColl' => $row['OP/NPSwabColl'],
+                    'DateWBtaken' => $row->DateWBtaken,
+                    'DateWBsent' => $row->DateWBsent,
+                    'DateDBtaken' => $row->DateDBtaken,
+                    'DateDBsent' => $row->DateDBsent,
+                    'OPNPSwabtaken' => $row->OPNPSwabtaken,
+                    'OPNPSwabsent' => $row->OPNPSwabsent,
+                    'OPSwabPCRRes' => $row->OPSwabPCRRes,
+                    'OPNpSwabResult' => $row->OPNpSwabResult,
+                    'DateWBRecvd' => $row->DateWBRecvd,
+                    'DateDBRecvd' => $row->DateDBRecvd,
+                    'OPNPSwabRecvd' => $row->OPNPSwabRecvd,
+                    'OraColColl' => $row->OraColColl,
+                    'OraColD8taken' => $row->OraColD8taken,
+                    'OraColD8sent' => $row->OraColD8sent,
+                    'OraColD8Recvd' => $row->OraColD8Recvd,
+                    'OraColPCRRes' => $row->OraColPCRRes,
+                    'FinalClass' => $row->FinalClass,
+                    'InfectionSource' => $row->InfectionSource,
+                    'Outcome' => $row->Outcome,
+                    'FinalDx' => $row->FinalDx,
+                    'Death' => $row->Death,
+                    'DCaseRep' => $row->DCaseRep,
+                    'DCASEINV' => $row->DCASEINV,
+                    'SentinelSite' => $row->SentinelSite,
+                    'Year' => $row->Year,
+                    'DeleteRecord' => $row->DeleteRecord,
+                    'WBRubellaIgM' => $row->WBRubellaIgM,
+                    'WBMeaslesIgM' => $row->WBMeaslesIgM,
+                    'DBMeaslesIgM' => $row->DBMeaslesIgM,
+                    'DBRubellaIgM' => $row->DBRubellaIgM,
+                    'ContactConfirmedCase' => $row->ContactConfirmedCase,
+                    'ContactName' => $row->ContactName,
+                    'ContactPlace' => $row->ContactPlace,
+                    'ContactDate' => $row->ContactDate,
+                    'NameOfDru' => $row->NameOfDru,
+                    'District' => $row->District,
+                    'ILHZ' => $row->ILHZ,
+                    'Barangay' => $row->Barangay,
+                    'TYPEHOSPITALCLINIC' => $row->TYPEHOSPITALCLINIC,
+                    'SENT' => $row->SENT,
+                    'Labcode' => $row->Labcode,
+                    'ContactConfirmedRubella' => $row->ContactConfirmedRubella,
+                    'TravRegion' => $row->TravRegion,
+                    'TravMun' => $row->TravMun,
+                    'TravProv' => $row->TravProv,
+                    'TravBgy' => $row->TravBgy,
+                    'Travelled' => $row->Travelled,
+                    'DateTrav' => $row->DateTrav,
+                    'Report2Inv' => $row->Report2Inv,
+                    'Birth2RashOnset' => $row->Birth2RashOnset,
+                    'OnsetToReport' => $row->OnsetToReport,
+                    'IP' => $row->IP,
+                    'IPgroup' => $row->IPgroup,
+                ];
+            });
+        }
+
+        if($meningo->count() != 0) {
+            $exp = (new FastExcel($meningo))
+            ->headerStyle($header_style)
+            ->rowsStyle($rows_style)
+            ->export(storage_path('app/pidsr/ftp/MENINGO.xlsx'), function ($row) {
+                return [
+                    'Icd10Code' => $row->Icd10Code,
+                    'RegionOfDrU' => $row->RegionOfDrU,
+                    'ProvOfDRU' => $row->ProvOfDRU,
+                    'MuncityOfDRU' => $row->MuncityOfDRU,
+                    'NameOfDru' => $row->NameOfDru,
+                    'DRU' => $row->DRU,
+                    'AddressOfDRU' => $row->AddressOfDRU,
+                    'SentinelSite' => $row->SentinelSite,
+                    'PatientNumber' => $row->PatientNumber,
+                    'FirstName' => $row->FirstName,
+                    'FamilyName' => $row->FamilyName,
+                    'FullName' => $row->FullName,
+                    'Region' => $row->Region,
+                    'Muncity' => $row->Muncity,
+                    'Province' => $row->Province,
+                    'Streetpurok' => $row->Streetpurok,
+                    'Sex' => $row->Sex,
+                    'DOB' => $row->DOB,
+                    'AgeYears' => $row->AgeYears,
+                    'AgeMons' => $row->AgeMons,
+                    'AgeDays' => $row->AgeDays,
+                    'Occupation' => $row->Occupation,
+                    'Workplace' => $row->Workplace,
+                    'WrkplcAddr' => $row->WrkplcAddr,
+                    'SchlAddr' => $row->SchlAddr,
+                    'School' => $row->School,
+                    'Year' => $row->Year,
+                    'DateOfEntry' => $row->DateOfEntry,
+                    'AdmitToEntry' => $row->AdmitToEntry,
+                    'OnsetToAdmit' => $row->OnsetToAdmit,
+                    'MorbidityMonth' => $row->MorbidityMonth,
+                    'MorbidityWeek' => $row->MorbidityWeek,
+                    'EPIID' => $row->EPIID,
+                    'UniqueKey' => $row->UniqueKey,
+                    'RECSTATUS' => $row->RECSTATUS,
+                    'Admitted' => $row->Admitted,
+                    'DAdmit' => $row->DAdmit,
+                    'DOnset' => $row->DOnset,
+                    'Fever' => $row->Fever,
+                    'Seizure' => $row->Seizure,
+                    'Malaise' => $row->Malaise,
+                    'Headache' => $row->Headache,
+                    'StiffNeck' => $row->StiffNeck,
+                    'Cough' => $row->Cough,
+                    'Rash' => $row->Rash,
+                    'Vomiting' => $row->Vomiting,
+                    'SoreThroat' => $row->SoreThroat,
+                    'Petechia' => $row->Petechia,
+                    'SensoriumCh' => $row->SensoriumCh,
+                    'RunnyNose' => $row->RunnyNose,
+                    'Purpura' => $row->Purpura,
+                    'Drowsiness' => $row->Drowsiness,
+                    'Dyspnea' => $row->Dyspnea,
+                    'Othlesions' => $row->Othlesions,
+                    'OtherSS' => $row->OtherSS,
+                    'ClinicalPres' => $row->ClinicalPres,
+                    'CaseClassification' => $row->CaseClassification,
+                    'Outcome' => $row->Outcome,
+                    'DateDied' => $row->DateDied,
+                    'Bld_CSF' => $row->Bld_CSF,
+                    'Antibiotics' => $row->Antibiotics,
+                    'CSFSpecimen' => $row->CSFSpecimen,
+                    'CultureDone' => $row->CultureDone,
+                    'DateCSFTakenCulture' => $row->DateCSFTakenCulture,
+                    'CSFCultureResult' => $row->CSFCultureResult,
+                    'DateCSFCultureResult' => $row->DateCSFCultureResult,
+                    'CSFCultureOrganism' => $row->CSFCultureOrganism,
+                    'LatexAggluDone' => $row->LatexAggluDone,
+                    'DateCSFTakenLatex' => $row->DateCSFTakenLatex,
+                    'CSFLatexResult' => $row->CSFLatexResult,
+                    'DateCSFLatexResult' => $row->DateCSFLatexResult,
+                    'CSFLatexOrganism' => $row->CSFLatexOrganism,
+                    'GramStainDone' => $row->GramStainDone,
+                    'CSFGramStainResult' => $row->CSFGramStainResult,
+                    'DateCSFTakenGramstain' => $row->DateCSFTakenGramstain,
+                    'GramStainOrganism' => $row->GramStainOrganism,
+                    'BloodSpecimen' => $row->BloodSpecimen,
+                    'BloodCultureDone' => $row->BloodCultureDone,
+                    'BloodCultureResult' => $row->BloodCultureResult,
+                    'DateBloodCultureResult' => $row->DateBloodCultureResult,
+                    'DateBloodTakenCulture' => $row->DateBloodTakenCulture,
+                    'BloodCultureOrganism' => $row->BloodCultureOrganism,
+                    'DateCSFGramResult' => $row->DateCSFGramResult,
+                    'Interact' => $row->Interact,
+                    'ContactName' => $row->ContactName,
+                    'SuspName' => $row->SuspName,
+                    'SuspAddress' => $row->SuspAddress,
+                    'PlaceInteract' => $row->PlaceInteract,
+                    'DateInteract' => $row->DateInteract,
+                    'DaysNum' => $row->DaysNum,
+                    'PtTravel' => $row->PtTravel,
+                    'PlacePtTravel' => $row->PlacePtTravel,
+                    'ContactTravel' => $row->ContactTravel,
+                    'PlaceContactTravel' => $row->PlaceContactTravel,
+                    'AttendSocicalGather' => $row->AttendSocicalGather,
+                    'PlaceSocialGather' => $row->PlaceSocialGather,
+                    'PatientURTI' => $row->PatientURTI,
+                    'ContactURTI' => $row->ContactURTI,
+                    'District' => $row->District,
+                    'InterLocal' => $row->InterLocal,
+                    'Barangay' => $row->Barangay,
+                    'TYPEHOSPITALCLINIC' => $row->TYPEHOSPITALCLINIC,
+                    'DELETERECORD' => $row->DELETERECORD,
+                    'SENT' => $row->SENT,
+                    'ip' => $row->ip,
+                    'ipgroup' => $row->ipgroup,
+                ];
+            });
+        }
+
+        if($nt->count() != 0) {
+            $exp = (new FastExcel($nt))
+            ->headerStyle($header_style)
+            ->rowsStyle($rows_style)
+            ->export(storage_path('app/pidsr/ftp/NT.xlsx'), function ($row) {
+                return [
+                    'Icd10Code' => $row->Icd10Code,
+                    'RegionOfDrU' => $row->RegionOfDrU,
+                    'ProvOfDRU' => $row->ProvOfDRU,
+                    'MuncityOfDRU' => $row->MuncityOfDRU,
+                    'DRU' => $row->DRU,
+                    'AddressOfDRU' => $row->AddressOfDRU,
+                    'PatientNumber' => $row->PatientNumber,
+                    'FirstName' => $row->FirstName,
+                    'FamilyName' => $row->FamilyName,
+                    'FullName' => $row->FullName,
+                    'Address' => $row->Address,
+                    'Region' => $row->Region,
+                    'Province' => $row->Province,
+                    'Muncity' => $row->Muncity,
+                    'Streetpurok' => $row->Streetpurok,
+                    'Sex' => $row->Sex,
+                    'DOB' => $row->DOB,
+                    'AgeYears' => $row->AgeYears,
+                    'AgeMons' => $row->AgeMons,
+                    'AgeDays' => $row->AgeDays,
+                    'Admitted' => $row->Admitted,
+                    'DAdmit' => $row->DAdmit,
+                    'DateOfReport' => $row->DateOfReport,
+                    'DateOfInvestigation' => $row->DateOfInvestigation,
+                    'Investigator' => $row->Investigator,
+                    'ContactNum' => $row->ContactNum,
+                    'First2days' => $row->First2days,
+                    'After2days' => $row->After2days,
+                    'FinalDx' => $row->FinalDx,
+                    'Trismus' => $row->Trismus,
+                    'ClenFis' => $row->ClenFis,
+                    'Opistho' => $row->Opistho,
+                    'StumpInf' => $row->StumpInf,
+                    'Year' => $row->Year,
+                    'DateOfEntry' => $row->DateOfEntry,
+                    'AdmitToEntry' => $row->AdmitToEntry,
+                    'OnsetToAdmit' => $row->OnsetToAdmit,
+                    'MorbidityMonth' => $row->MorbidityMonth,
+                    'MorbidityWeek' => $row->MorbidityWeek,
+                    'EPIID' => $row->EPIID,
+                    'ReportToInvestigation' => $row->ReportToInvestigation,
+                    'UniqueKey' => $row->UniqueKey,
+                    'RECSTATUS' => $row->RECSTATUS,
+                    'TotPreg' => $row->TotPreg,
+                    'Livebirths' => $row->Livebirths,
+                    'TTDose' => $row->TTDose,
+                    'LivingKids' => $row->LivingKids,
+                    'LastDoseGiven' => $row->LastDoseGiven,
+                    'DosesGiven' => $row->DosesGiven,
+                    'PreVisits' => $row->PreVisits,
+                    'ImmunStatRep' => $row->ImmunStatRep,
+                    'FirstPV' => $row->FirstPV,
+                    'ChldProt' => $row->ChldProt,
+                    'PNCHist' => $row->PNCHist,
+                    'Reason' => $row->Reason,
+                    'PlaceDel' => $row->PlaceDel,
+                    'OtherPlaceDelivery' => $row->OtherPlaceDelivery,
+                    'NameAddressHospital' => $row->NameAddressHospital,
+                    'OtherInstrument' => $row->OtherInstrument,
+                    'DelAttnd' => $row->DelAttnd,
+                    'OtherAttendant' => $row->OtherAttendant,
+                    'CordCut' => $row->CordCut,
+                    'StumpTreat' => $row->StumpTreat,
+                    'OtherMaterials' => $row->OtherMaterials,
+                    'FinalClass' => $row->FinalClass,
+                    'Outcome' => $row->Outcome,
+                    'DateDied' => $row->DateDied,
+                    'DONSET' => $row->DONSET,
+                    'Mother' => $row->Mother,
+                    'DOBtoOnset' => $row->DOBtoOnset,
+                    'SentinelSite' => $row->SentinelSite,
+                    'DeleteRecord' => $row->DeleteRecord,
+                    'NameOfDru' => $row->NameOfDru,
+                    'District' => $row->District,
+                    'ILHZ' => $row->ILHZ,
+                    'Barangay' => $row->Barangay,
+                    'TYPEHOSPITALCLINIC' => $row->TYPEHOSPITALCLINIC,
+                    'SENT' => $row->SENT,
+                    'ip' => $row->ip,
+                    'ipgroup' => $row->ipgroup,
+                ];
+            });
+        }
+
+        if($psp->count() != 0) {
+            $exp = (new FastExcel($psp))
+            ->headerStyle($header_style)
+            ->rowsStyle($rows_style)
+            ->export(storage_path('app/pidsr/ftp/PSP.xlsx'), function ($row) {
+                return [
+                    'Icd10Code' => $row->Icd10Code,
+                    'RegionOfDrU' => $row->RegionOfDrU,
+                    'ProvOfDRU' => $row->ProvOfDRU,
+                    'MuncityOfDRU' => $row->MuncityOfDRU,
+                    'DRU' => $row->DRU,
+                    'AddressOfDRU' => $row->AddressOfDRU,
+                    'SentinelSite' => $row->SentinelSite,
+                    'PatientNumber' => $row->PatientNumber,
+                    'FirstName' => $row->FirstName,
+                    'FamilyName' => $row->FamilyName,
+                    'FullName' => $row->FullName,
+                    'Region' => $row->Region,
+                    'Province' => $row->Province,
+                    'Muncity' => $row->Muncity,
+                    'Streetpurok' => $row->Streetpurok,
+                    'Sex' => $row->Sex,
+                    'DOB' => $row->DOB,
+                    'AgeYears' => $row->AgeYears,
+                    'AgeMons' => $row->AgeMons,
+                    'AgeDays' => $row->AgeDays,
+                    'Admitted' => $row->Admitted,
+                    'DAdmit' => $row->DAdmit,
+                    'Year' => $row->Year,
+                    'DateOfEntry' => $row->DateOfEntry,
+                    'AdmitToEntry' => $row->AdmitToEntry,
+                    'OnsetToAdmit' => $row->OnsetToAdmit,
+                    'MorbidityMonth' => $row->MorbidityMonth,
+                    'MorbidityWeek' => $row->MorbidityWeek,
+                    'EPIID' => $row->EPIID,
+                    'ReportToInvestigation' => $row->ReportToInvestigation,
+                    'UniqueKey' => $row->UniqueKey,
+                    'RECSTATUS' => $row->RECSTATUS,
+                    'DOnset' => $row->DOnset,
+                    'PlaceHarvested' => $row->PlaceHarvested,
+                    'HHMealShare' => $row->HHMealShare,
+                    'CaseClassification' => $row->CaseClassification,
+                    'Outcome' => $row->Outcome,
+                    'DateDied' => $row->DateDied,
+                    'DeleteRecord' => $row->DeleteRecord,
+                    'NameOfDru' => $row->NameOfDru,
+                    'District' => $row->District,
+                    'ILHZ' => $row->ILHZ,
+                    'Barangay' => $row->Barangay,
+                    'TYPEHOSPITALCLINIC' => $row->TYPEHOSPITALCLINIC,
+                    'SENT' => $row->SENT,
+                    'ip' => $row->ip,
+                    'ipgroup' => $row->ipgroup,
+                ];
+            });
+        }
+
+        if($rabies->count() != 0) {
+            $exp = (new FastExcel($rabies))
+            ->headerStyle($header_style)
+            ->rowsStyle($rows_style)
+            ->export(storage_path('app/pidsr/ftp/RABIES.xlsx'), function ($row) {
+                return [
+                    'Icd10Code' => $row->Icd10Code,
+                    'RegionOfDrU' => $row->RegionOfDrU,
+                    'ProvOfDRU' => $row->ProvOfDRU,
+                    'MuncityOfDRU' => $row->MuncityOfDRU,
+                    'DRU' => $row->DRU,
+                    'AddressOfDRU' => $row->AddressOfDRU,
+                    'SentinelSite' => $row->SentinelSite,
+                    'PatientNumber' => $row->PatientNumber,
+                    'FirstName' => $row->FirstName,
+                    'FamilyName' => $row->FamilyName,
+                    'FullName' => $row->FullName,
+                    'Region' => $row->Region,
+                    'Province' => $row->Province,
+                    'Muncity' => $row->Muncity,
+                    'Streetpurok' => $row->Streetpurok,
+                    'Sex' => $row->Sex,
+                    'DOB' => $row->DOB,
+                    'AgeYears' => $row->AgeYears,
+                    'AgeMons' => $row->AgeMons,
+                    'AgeDays' => $row->AgeDays,
+                    'Weight' => $row->Weight,
+                    'Admitted' => $row->Admitted,
+                    'DAdmit' => $row->DAdmit,
+                    'DOnset' => $row->DOnset,
+                    'Outcome' => $row->Outcome,
+                    'DateDied' => $row->DateDied,
+                    'Year' => $row->Year,
+                    'DateOfEntry' => $row->DateOfEntry,
+                    'AdmitToEntry' => $row->AdmitToEntry,
+                    'OnsetToAdmit' => $row->OnsetToAdmit,
+                    'MorbidityMonth' => $row->MorbidityMonth,
+                    'MorbidityWeek' => $row->MorbidityWeek,
+                    'EPIID' => $row->EPIID,
+                    'UniqueKey' => $row->UniqueKey,
+                    'RECSTATUS' => $row->RECSTATUS,
+                    'PlaceOfIncidence' => $row->PlaceOfIncidence,
+                    'TypeOfExposure' => $row->TypeOfExposure,
+                    'Category' => $row->Category,
+                    'BiteSite' => $row->BiteSite,
+                    'OtherTypeOfExposure' => $row->OtherTypeOfExposure,
+                    'DateBitten' => $row->DateBitten,
+                    'TypeOfAnimal' => $row->TypeOfAnimal,
+                    'OtherTypeOfAnimal' => $row->OtherTypeOfAnimal,
+                    'LabDiagnosis' => $row->LabDiagnosis,
+                    'LabResult' => $row->LabResult,
+                    'AnimalStatus' => $row->AnimalStatus,
+                    'OtherAnimalStatus' => $row->OtherAnimalStatus,
+                    'DateVaccStarted' => $row->DateVaccStarted,
+                    'Vaccine' => $row->Vaccine,
+                    'AdminRoute' => $row->AdminRoute,
+                    'PostExposureComplete' => $row->PostExposureComplete,
+                    'AnimalVaccination' => $row->AnimalVaccination,
+                    'WoundCleaned' => $row->WoundCleaned,
+                    'Rabiesvaccine' => $row->Rabiesvaccine,
+                    'DeleteRecord' => $row->DeleteRecord,
+                    'Outcomeanimal' => $row->Outcomeanimal,
+                    'RIG' => $row->RIG,
+                    'NameOfDru' => $row->NameOfDru,
+                    'District' => $row->District,
+                    'ILHZ' => $row->ILHZ,
+                    'Barangay' => $row->Barangay,
+                    'CASECLASS' => $row->CASECLASS,
+                    'TYPEHOSPITALCLINIC' => $row->TYPEHOSPITALCLINIC,
+                    'SENT' => $row->SENT,
+                    'ip' => $row->ip,
+                    'ipgroup' => $row->ipgroup,
+                ];
+            });
+        }
+
+        if($abd->count() != 0) {
+            $exp = (new FastExcel($abd))
+            ->headerStyle($header_style)
+            ->rowsStyle($rows_style)
+            ->export(storage_path('app/pidsr/ftp/ABD.xlsx'), function ($row) {
+                return [
+                    'Icd10Code' => $row->Icd10Code,
+                    'RegionOFDrU' => $row->RegionOFDrU,
+                    'ProvOfDRU' => $row->ProvOfDRU,
+                    'MuncityOfDRU' => $row->MuncityOfDRU,
+                    'DRU' => $row->DRU,
+                    'AddressOfDRU' => $row->AddressOfDRU,
+                    'PatientNumber' => $row->PatientNumber,
+                    'FullName' => $row->FullName,
+                    'FirstName' => $row->FirstName,
+                    'FamilyName' => $row->FamilyName,
+                    'AgeYears' => $row->AgeYears,
+                    'AgeMons' => $row->AgeMons,
+                    'AgeDays' => $row->AgeDays,
+                    'Sex' => $row->Sex,
+                    'DOB' => $row->DOB,
+                    'Region' => $row->Region,
+                    'Muncity' => $row->Muncity,
+                    'Province' => $row->Province,
+                    'Streetpurok' => $row->Streetpurok,
+                    'Admitted' => $row->Admitted,
+                    'DAdmit' => $row->DAdmit,
+                    'DOnset' => $row->DOnset,
+                    'StoolCulture' => $row->StoolCulture,
+                    'Organism' => $row->Organism,
+                    'Outcome' => $row->Outcome,
+                    'DateDied' => $row->DateDied,
+                    'DateOfEntry' => $row->DateOfEntry,
+                    'AdmitToEntry' => $row->AdmitToEntry,
+                    'OnsetToAdmit' => $row->OnsetToAdmit,
+                    'MorbidityMonth' => $row->MorbidityMonth,
+                    'MorbidityWeek' => $row->MorbidityWeek,
+                    'EPIID' => $row->EPIID,
+                    'UniqueKey' => $row->UniqueKey,
+                    'RECSTATUS' => $row->RECSTATUS,
+                    'SentinelSite' => $row->SentinelSite,
+                    'DeleteRecord' => $row->DeleteRecord,
+                    'Year' => $row->Year,
+                    'NameOfDru' => $row->NameOfDru,
+                    'District' => $row->District,
+                    'InterLocal' => $row->InterLocal,
+                    'Barangay' => $row->Barangay,
+                    'CASECLASS' => $row->CASECLASS,
+                    'TYPEHOSPITALCLINIC' => $row->TYPEHOSPITALCLINIC,
+                    'SENT' => $row->SENT,
+                    'ip' => $row->ip,
+                    'ipgroup' => $row->ipgroup,
+                ];
+            });
+        }
+
+        if($aefi->count() != 0) {
+            $exp = (new FastExcel($aefi))
+            ->headerStyle($header_style)
+            ->rowsStyle($rows_style)
+            ->export(storage_path('app/pidsr/ftp/AEFI.xlsx'), function ($row) {
+                return [
+                    'Kaso' => $row->Kaso,
+                    'NameOfDru' => $row->NameOfDru,
+                    'RegionOFDrU' => $row->RegionOFDrU,
+                    'ProvOfDRU' => $row->ProvOfDRU,
+                    'MuncityOfDRU' => $row->MuncityOfDRU,
+                    'TYPEOFDRU' => $row->TYPEOFDRU,
+                    'SentinelSite' => $row->SentinelSite,
+                    'AddressOfDRU' => $row->AddressOfDRU,
+                    'PatientNumber' => $row->PatientNumber,
+                    'FullName' => $row->FullName,
+                    'FirstName' => $row->FirstName,
+                    'FamilyName' => $row->FamilyName,
+                    'AgeYears' => $row->AgeYears,
+                    'Sex' => $row->Sex,
+                    'Region' => $row->Region,
+                    'Muncity' => $row->Muncity,
+                    'Province' => $row->Province,
+                    'Streetpurok' => $row->Streetpurok,
+                    'Barangay' => $row->Barangay,
+                    'EPIID' => $row->EPIID,
+                    'Donset' => $row->Donset,
+                    'DateInvestigation' => $row->DateInvestigation,
+                    'NameReporter' => $row->NameReporter,
+                    'RepContact' => $row->RepContact,
+                    'NameInvestigator' => $row->NameInvestigator,
+                    'InvestigatorContact' => $row->InvestigatorContact,
+                    'VaccinationCenter' => $row->VaccinationCenter,
+                    'Vacc_Session' => $row->Vacc_Session,
+                    'Vacc_sess_Others' => $row->Vacc_sess_Others,
+                    'Anaphylactoid' => $row->Anaphylactoid,
+                    'Anaphylaxis' => $row->Anaphylaxis,
+                    'BrachialNeuritis' => $row->BrachialNeuritis,
+                    'Diss_BCG_infect' => $row->Diss_BCG_infect,
+                    'Encephalopathy' => $row->Encephalopathy,
+                    'HHE' => $row->HHE,
+                    'InjectSiteAbcess' => $row->InjectSiteAbcess,
+                    'Intussusception' => $row->Intussusception,
+                    'Lymphadenitis' => $row->Lymphadenitis,
+                    'Osteitis' => $row->Osteitis,
+                    'Persistent' => $row->Persistent,
+                    'Seizures' => $row->Seizures,
+                    'Sepsis' => $row->Sepsis,
+                    'Severelocal' => $row->Severelocal,
+                    'Thrombocytopenia' => $row->Thrombocytopenia,
+                    'Outcome' => $row->Outcome,
+                    'OtherOutcome' => $row->OtherOutcome,
+                    'Alivecondition' => $row->Alivecondition,
+                    'Disability' => $row->Disability,
+                    'DateDied' => $row->DateDied,
+                    'HistoryAllergy' => $row->HistoryAllergy,
+                    'Preillness' => $row->Preillness,
+                    'HistHosp' => $row->HistHosp,
+                    'HistTrauma' => $row->HistTrauma,
+                    'CurrPreg' => $row->CurrPreg,
+                    'AOG' => $row->AOG,
+                    'CurrBreastfeeding' => $row->CurrBreastfeeding,
+                    'Delivery' => $row->Delivery,
+                    'NatalHist' => $row->NatalHist,
+                    'AnyCompli' => $row->AnyCompli,
+                    'PtCurrMedic' => $row->PtCurrMedic,
+                    'MedicSpecify' => $row->MedicSpecify,
+                    'FamHist' => $row->FamHist,
+                    'VaccExp' => $row->VaccExp,
+                    'Prev_vacc' => $row->Prev_vacc,
+                    'PtImmunized1' => $row->PtImmunized1,
+                    'PtImmunized2' => $row->PtImmunized2,
+                    'RecomNotfollowed' => $row->RecomNotfollowed,
+                    'VaccAdmin' => $row->VaccAdmin,
+                    'VaccPhysicalCon' => $row->VaccPhysicalCon,
+                    'ErrVaccRecon' => $row->ErrVaccRecon,
+                    'ErrVaccHandle' => $row->ErrVaccHandle,
+                    'VaccAdminIncorrect' => $row->VaccAdminIncorrect,
+                    'NoImmunizedVacc' => $row->NoImmunizedVacc,
+                    'NoIimmunizedVaccSameSession' => $row->NoIimmunizedVaccSameSession,
+                    'NoImmunizedSameBatch' => $row->NoImmunizedSameBatch,
+                    'SameBatchLoc' => $row->SameBatchLoc,
+                    'CasePartCluster' => $row->CasePartCluster,
+                    'NoCasesCluster' => $row->NoCasesCluster,
+                    'CasesSameVial' => $row->CasesSameVial,
+                    'NoVialsUsedCluster' => $row->NoVialsUsedCluster,
+                    'SimilarEventComm' => $row->SimilarEventComm,
+                    'YesDescribe' => $row->YesDescribe,
+                    'NoEventsEpisodes' => $row->NoEventsEpisodes,
+                    'NoVaccinated' => $row->NoVaccinated,
+                    'NoNotVaccinated' => $row->NoNotVaccinated,
+                    'Unknown' => $row->Unknown,
+                    'CausalityAssess' => $row->CausalityAssess,
+                    'DateClass' => $row->DateClass,
+                    'A1' => $row->A1,
+                    'A2' => $row->A2,
+                    'A3' => $row->A3,
+                    'A3Others' => $row->A3Others,
+                    'A4' => $row->A4,
+                    'B1' => $row->B1,
+                    'B2' => $row->B2,
+                    'C1' => $row->C1,
+                    'D' => $row->D,
+                    'TypeofAEFI' => $row->TypeofAEFI,
+                    'SENT' => $row->SENT,
+                    'IP' => $row->IP,
+                    'IPGROUP' => $row->IPGROUP,
+                    'SIgnificantfinding' => $row->SIgnificantfinding,
+                    'OtherSign' => $row->OtherSign,
+                    'OtherSymptoms' => $row->OtherSymptoms,
+                    'ToxicshockSyndrome' => $row->ToxicshockSyndrome,
+                    'Admitted' => $row->Admitted,
+                    'AgeMons' => $row->AgeMons,
+                    'AgeDays' => $row->AgeDays,
+                    'DOB' => $row->DOB,
+                    'HIGHLEVELNOTIFIED' => $row->HIGHLEVELNOTIFIED,
+                    'DAdmit' => $row->DAdmit,
+                    'DONSETTIME' => $row->DONSETTIME,
+                    'MORBIDITYWEEK' => $row->MORBIDITYWEEK,
+                    'MORBIDITYMONTH' => $row->MORBIDITYMONTH,
+                    'YEAR' => $row->YEAR,
+                ];
+            });
+        }
+
+        if($aes->count() != 0) {
+            $exp = (new FastExcel($aes))
+            ->headerStyle($header_style)
+            ->rowsStyle($rows_style)
+            ->export(storage_path('app/pidsr/ftp/AES.xlsx'), function ($row) {
+                return [
+                    'Icd10Code' => $row->Icd10Code,
+                    'RegionOfDrU' => $row->RegionOfDrU,
+                    'ProvOfDRU' => $row->ProvOfDRU,
+                    'MuncityOfDRU' => $row->MuncityOfDRU,
+                    'DRU' => $row->DRU,
+                    'AddressOfDRU' => $row->AddressOfDRU,
+                    'PatientNumber' => $row->PatientNumber,
+                    'FullName' => $row->FullName,
+                    'FirstName' => $row->FirstName,
+                    'FamilyName' => $row->FamilyName,
+                    'AgeYears' => $row->AgeYears,
+                    'AgeMons' => $row->AgeMons,
+                    'AgeDays' => $row->AgeDays,
+                    'Sex' => $row->Sex,
+                    'DOB' => $row->DOB,
+                    'Region' => $row->Region,
+                    'Province' => $row->Province,
+                    'Muncity' => $row->Muncity,
+                    'Streetpurok' => $row->Streetpurok,
+                    'Admitted' => $row->Admitted,
+                    'DAdmit' => $row->DAdmit,
+                    'DOnset' => $row->DOnset,
+                    'LabResult' => $row->LabResult,
+                    'Organism' => $row->Organism,
+                    'Outcome' => $row->Outcome,
+                    'DateDied' => $row->DateDied,
+                    'DateOfEntry' => $row->DateOfEntry,
+                    'AdmitToEntry' => $row->AdmitToEntry,
+                    'OnsetToAdmit' => $row->OnsetToAdmit,
+                    'MorbidityMonth' => $row->MorbidityMonth,
+                    'MorbidityWeek' => $row->MorbidityWeek,
+                    'EPIID' => $row->EPIID,
+                    'UniqueKey' => $row->UniqueKey,
+                    'RECSTATUS' => $row->RECSTATUS,
+                    'SentinelSite' => $row->SentinelSite,
+                    'DeleteRecord' => $row->DeleteRecord,
+                    'Year' => $row->Year,
+                    'NameOfDru' => $row->NameOfDru,
+                    'ILHZ' => $row->ILHZ,
+                    'District' => $row->District,
+                    'Barangay' => $row->Barangay,
+                    'CASECLASS' => $row->CASECLASS,
+                    'TYPEHOSPITALCLINIC' => $row->TYPEHOSPITALCLINIC,
+                    'SENT' => $row->SENT,
+                    'ip' => $row->ip,
+                    'ipgroup' => $row->ipgroup,
+                    'sari' => $row->sari,
+                ];
+            });
+        }
+
+        if($ahf->count() != 0) {
+            $exp = (new FastExcel($ahf))
+            ->headerStyle($header_style)
+            ->rowsStyle($rows_style)
+            ->export(storage_path('app/pidsr/ftp/AHF.xlsx'), function ($row) {
+                return [
+                    'Icd10Code' => $row->Icd10Code,
+                    'RegionOfDrU' => $row->RegionOfDrU,
+                    'ProvOfDRU' => $row->ProvOfDRU,
+                    'MuncityOfDRU' => $row->MuncityOfDRU,
+                    'DRU' => $row->DRU,
+                    'AddressOfDRU' => $row->AddressOfDRU,
+                    'PatientNumber' => $row->PatientNumber,
+                    'FullName' => $row->FullName,
+                    'FirstName' => $row->FirstName,
+                    'FamilyName' => $row->FamilyName,
+                    'AgeYears' => $row->AgeYears,
+                    'AgeMons' => $row->AgeMons,
+                    'AgeDays' => $row->AgeDays,
+                    'Sex' => $row->Sex,
+                    'DOB' => $row->DOB,
+                    'Region' => $row->Region,
+                    'Province' => $row->Province,
+                    'Muncity' => $row->Muncity,
+                    'Streetpurok' => $row->Streetpurok,
+                    'Admitted' => $row->Admitted,
+                    'DAdmit' => $row->DAdmit,
+                    'DOnset' => $row->DOnset,
+                    'PCRRes' => $row->PCRRes,
+                    'PCROrganism' => $row->PCROrganism,
+                    'BloodCultRes' => $row->BloodCultRes,
+                    'CultureOrganism' => $row->CultureOrganism,
+                    'Outcome' => $row->Outcome,
+                    'DateDied' => $row->DateDied,
+                    'DateOfEntry' => $row->DateOfEntry,
+                    'AdmitToEntry' => $row->AdmitToEntry,
+                    'OnsetToAdmit' => $row->OnsetToAdmit,
+                    'MorbidityMonth' => $row->MorbidityMonth,
+                    'MorbidityWeek' => $row->MorbidityWeek,
+                    'EPIID' => $row->EPIID,
+                    'UniqueKey' => $row->UniqueKey,
+                    'RECSTATUS' => $row->RECSTATUS,
+                    'SentinelSite' => $row->SentinelSite,
+                    'DeleteRecord' => $row->DeleteRecord,
+                    'Year' => $row->Year,
+                    'NameOfDru' => $row->NameOfDru,
+                    'District' => $row->District,
+                    'ILHZ' => $row->ILHZ,
+                    'Barangay' => $row->Barangay,
+                    'CASECLASS' => $row->CASECLASS,
+                    'TYPEHOSPITALCLINIC' => $row->TYPEHOSPITALCLINIC,
+                    'SENT' => $row->SENT,
+                    'ip' => $row->ip,
+                    'ipgroup' => $row->ipgroup,
+                ];
+            });
+        }
+
+        if($hepatitis->count() != 0) {
+            $exp = (new FastExcel($hepatitis))
+            ->headerStyle($header_style)
+            ->rowsStyle($rows_style)
+            ->export(storage_path('app/pidsr/ftp/HEPATITIS.xlsx'), function ($row) {
+                return [
+                    'Icd10Code' => $row->Icd10Code,
+                    'RegionOfDrU' => $row->RegionOfDrU,
+                    'ProvOfDRU' => $row->ProvOfDRU,
+                    'MuncityOfDRU' => $row->MuncityOfDRU,
+                    'DRU' => $row->DRU,
+                    'AddressOfDRU' => $row->AddressOfDRU,
+                    'PatientNumber' => $row->PatientNumber,
+                    'FullName' => $row->FullName,
+                    'FirstName' => $row->FirstName,
+                    'FamilyName' => $row->FamilyName,
+                    'AgeYears' => $row->AgeYears,
+                    'AgeMons' => $row->AgeMons,
+                    'AgeDays' => $row->AgeDays,
+                    'Sex' => $row->Sex,
+                    'DOB' => $row->DOB,
+                    'Region' => $row->Region,
+                    'Muncity' => $row->Muncity,
+                    'Province' => $row->Province,
+                    'Streetpurok' => $row->Streetpurok,
+                    'Admitted' => $row->Admitted,
+                    'DAdmit' => $row->DAdmit,
+                    'DOnset' => $row->DOnset,
+                    'Type' => $row->Type,
+                    'LabResult' => $row->LabResult,
+                    'Outcome' => $row->Outcome,
+                    'DateDied' => $row->DateDied,
+                    'TypeOfHepatitis' => $row->TypeOfHepatitis,
+                    'DateOfEntry' => $row->DateOfEntry,
+                    'AdmitToEntry' => $row->AdmitToEntry,
+                    'OnsetToAdmit' => $row->OnsetToAdmit,
+                    'MorbidityMonth' => $row->MorbidityMonth,
+                    'MorbidityWeek' => $row->MorbidityWeek,
+                    'EPIID' => $row->EPIID,
+                    'UniqueKey' => $row->UniqueKey,
+                    'RECSTATUS' => $row->RECSTATUS,
+                    'SentinelSite' => $row->SentinelSite,
+                    'DeleteRecord' => $row->DeleteRecord,
+                    'Year' => $row->Year,
+                    'NameOfDru' => $row->NameOfDru,
+                    'ILHZ' => $row->ILHZ,
+                    'District' => $row->District,
+                    'Barangay' => $row->Barangay,
+                    'CASECLASS' => $row->CASECLASS,
+                    'TYPEHOSPITALCLINIC' => $row->TYPEHOSPITALCLINIC,
+                    'SENT' => $row->SENT,
+                    'ip' => $row->ip,
+                    'ipgroup' => $row->ipgroup,
+                ];
+            });
+        }
+
+        if($ames->count() != 0) {
+            $exp = (new FastExcel($ames))
+            ->headerStyle($header_style)
+            ->rowsStyle($rows_style)
+            ->export(storage_path('app/pidsr/ftp/AMES.xlsx'), function ($row) {
+                return [
+                    'Icd10Code' => $row->Icd10Code,
+                    'RegionOfDrU' => $row->RegionOfDrU,
+                    'ProvOfDRU' => $row->ProvOfDRU,
+                    'MuncityOfDRU' => $row->MuncityOfDRU,
+                    'DRU' => $row->DRU,
+                    'AddressOfDRU' => $row->AddressOfDRU,
+                    'PatientNumber' => $row->PatientNumber,
+                    'FullName' => $row->FullName,
+                    'FirstName' => $row->FirstName,
+                    'FamilyName' => $row->FamilyName,
+                    'AgeYears' => $row->AgeYears,
+                    'AgeMons' => $row->AgeMons,
+                    'AgeDays' => $row->AgeDays,
+                    'Sex' => $row->Sex,
+                    'DOB' => $row->DOB,
+                    'Region' => $row->Region,
+                    'Province' => $row->Province,
+                    'Muncity' => $row->Muncity,
+                    'Streetpurok' => $row->Streetpurok,
+                    'NHTS' => $row->NHTS,
+                    'Admitted' => $row->Admitted,
+                    'DAdmit' => $row->DAdmit,
+                    'DOnset' => $row->DOnset,
+                    'DateRep' => $row->DateRep,
+                    'DateInv' => $row->DateInv,
+                    'Investigator' => $row->Investigator,
+                    'ContactNum' => $row->ContactNum,
+                    'InvDesig' => $row->InvDesig,
+                    'Fever' => $row->Fever,
+                    'BehaviorChng' => $row->BehaviorChng,
+                    'Seizure' => $row->Seizure,
+                    'Stiffneck' => $row->Stiffneck,
+                    'bulgefontanel' => $row->bulgefontanel,
+                    'MenSign' => $row->MenSign,
+                    'ClinDiag' => $row->ClinDiag,
+                    'OtherDiag' => $row->OtherDiag,
+                    'JE' => $row->JE,
+                    'VacJeDate' => $row->VacJeDate,
+                    'JEDose' => $row->JEDose,
+                    'Hib' => $row->Hib,
+                    'VacHibDate' => $row->VacHibDate,
+                    'HibDose' => $row->HibDose,
+                    'PCV10' => $row->PCV10,
+                    'VacPCV10Date' => $row->VacPCV10Date,
+                    'PCV10Dose' => $row->PCV10Dose,
+                    'PCV13' => $row->PCV13,
+                    'VacPCV13Date' => $row->VacPCV13Date,
+                    'PCV13Dose' => $row->PCV13Dose,
+                    'MeningoVacc' => $row->MeningoVacc,
+                    'VacMeningoDate' => $row->VacMeningoDate,
+                    'MeningoVaccDose' => $row->MeningoVaccDose,
+                    'MeasVacc' => $row->MeasVacc,
+                    'VacMeasDate' => $row->VacMeasDate,
+                    'MeasVaccDose' => $row->MeasVaccDose,
+                    'MMR' => $row->MMR,
+                    'VacMMRDate' => $row->VacMMRDate,
+                    'MMRDose' => $row->MMRDose,
+                    'plcDaycare' => $row->plcDaycare,
+                    'plcBrgy' => $row->plcBrgy,
+                    'plcHome' => $row->plcHome,
+                    'plcSchool' => $row->plcSchool,
+                    'plcdormitory' => $row->plcdormitory,
+                    'plcHC' => $row->plcHC,
+                    'plcWorkplace' => $row->plcWorkplace,
+                    'plcOther' => $row->plcOther,
+                    'Travel' => $row->Travel,
+                    'PlaceTravelled' => $row->PlaceTravelled,
+                    'FrmTrvlDate' => $row->FrmTrvlDate,
+                    'ToTrvlDate' => $row->ToTrvlDate,
+                    'CSFColl' => $row->CSFColl,
+                    'D8CSFTaken' => $row->D8CSFTaken,
+                    'TymCSFTaken' => $row->TymCSFTaken,
+                    'D8CSFHospLab' => $row->D8CSFHospLab,
+                    'TymCSFHospLab' => $row->TymCSFHospLab,
+                    'CSFAppearance' => $row->CSFAppearance,
+                    'GramStain' => $row->GramStain,
+                    'GramStainResult' => $row->GramStainResult,
+                    'culture' => $row->culture,
+                    'CultureResult' => $row->CultureResult,
+                    'OtherTest' => $row->OtherTest,
+                    'OtherTestResult' => $row->OtherTestResult,
+                    'D8CSFSentRITM' => $row->D8CSFSentRITM,
+                    'D8CSFReceivedRITM' => $row->D8CSFReceivedRITM,
+                    'CSFSampVol' => $row->CSFSampVol,
+                    'D8CSFTesting' => $row->D8CSFTesting,
+                    'CSFResult' => $row->CSFResult,
+                    'Serum1Col' => $row->Serum1Col,
+                    'D8Serum1Taken' => $row->D8Serum1Taken,
+                    'D8Serum1HospLab' => $row->D8Serum1HospLab,
+                    'D8Serum1Sent' => $row->D8Serum1Sent,
+                    'D8Seruml1Received' => $row->D8Seruml1Received,
+                    'Serum1SampVol' => $row->Serum1SampVol,
+                    'D8Serum1Testing' => $row->D8Serum1Testing,
+                    'Serum1Result' => $row->Serum1Result,
+                    'Serum2Col' => $row->Serum2Col,
+                    'D8Serum2Taken' => $row->D8Serum2Taken,
+                    'D8Serum2HospLab' => $row->D8Serum2HospLab,
+                    'D8Serum2Sent' => $row->D8Serum2Sent,
+                    'D8Serum2Received' => $row->D8Serum2Received,
+                    'Serum2SampVol' => $row->Serum2SampVol,
+                    'D8Serum2testing' => $row->D8Serum2testing,
+                    'Serum2Result' => $row->Serum2Result,
+                    'AESCaseClass' => $row->AESCaseClass,
+                    'BmCaseClass' => $row->BmCaseClass,
+                    'AESOtherAgent' => $row->AESOtherAgent,
+                    'ConfirmBMTest' => $row->ConfirmBMTest,
+                    'FinalDiagnosis' => $row->FinalDiagnosis,
+                    'Outcome' => $row->Outcome,
+                    'DateOfEntry' => $row->DateOfEntry,
+                    'DateDisch' => $row->DateDisch,
+                    'DateDied' => $row->DateDied,
+                    'RecoverSequelae' => $row->RecoverSequelae,
+                    'SequelaeSpecs' => $row->SequelaeSpecs,
+                    'TransTo' => $row->TransTo,
+                    'HAMA' => $row->HAMA,
+                    'AdmitToEntry' => $row->AdmitToEntry,
+                    'OnsetToAdmit' => $row->OnsetToAdmit,
+                    'MorbidityMonth' => $row->MorbidityMonth,
+                    'MorbidityWeek' => $row->MorbidityWeek,
+                    'EPIID' => $row->EPIID,
+                    'UniqueKey' => $row->UniqueKey,
+                    'RECSTATUS' => $row->RECSTATUS,
+                    'SentinelSite' => $row->SentinelSite,
+                    'DeleteRecord' => $row->DeleteRecord,
+                    'Year' => $row->Year,
+                    'NameOfDru' => $row->NameOfDru,
+                    'ILHZ' => $row->ILHZ,
+                    'District' => $row->District,
+                    'Barangay' => $row->Barangay,
+                    'CASECLASS' => $row->CASECLASS,
+                    'TYPEHOSPITALCLINIC' => $row->TYPEHOSPITALCLINIC,
+                    'SENT' => $row->SENT,
+                    'ip' => $row->ip,
+                    'ipgroup' => $row->ipgroup,
+                ];
+            });
+        }
+
+        if($meningitis->count() != 0) {
+            $exp = (new FastExcel($meningitis))
+            ->headerStyle($header_style)
+            ->rowsStyle($rows_style)
+            ->export(storage_path('app/pidsr/ftp/MENINGITIS.xlsx'), function ($row) {
+                return [
+                    'Icd10Code' => $row->Icd10Code,
+                    'RegionOfDrU' => $row->RegionOfDrU,
+                    'MuncityOfDRU' => $row->MuncityOfDRU,
+                    'ProvOfDRU' => $row->ProvOfDRU,
+                    'DRU' => $row->DRU,
+                    'AddressOfDRU' => $row->AddressOfDRU,
+                    'PatientNumber' => $row->PatientNumber,
+                    'FullName' => $row->FullName,
+                    'FirstName' => $row->FirstName,
+                    'FamilyName' => $row->FamilyName,
+                    'AgeYears' => $row->AgeYears,
+                    'AgeMons' => $row->AgeMons,
+                    'AgeDays' => $row->AgeDays,
+                    'Sex' => $row->Sex,
+                    'DOB' => $row->DOB,
+                    'Region' => $row->Region,
+                    'Province' => $row->Province,
+                    'Muncity' => $row->Muncity,
+                    'Streetpurok' => $row->Streetpurok,
+                    'Admitted' => $row->Admitted,
+                    'DAdmit' => $row->DAdmit,
+                    'DOnset' => $row->DOnset,
+                    'Type' => $row->Type,
+                    'Outcome' => $row->Outcome,
+                    'DateDied' => $row->DateDied,
+                    'DateOfEntry' => $row->DateOfEntry,
+                    'AdmitToEntry' => $row->AdmitToEntry,
+                    'OnsetToAdmit' => $row->OnsetToAdmit,
+                    'MorbidityMonth' => $row->MorbidityMonth,
+                    'MorbidityWeek' => $row->MorbidityWeek,
+                    'EPIID' => $row->EPIID,
+                    'UniqueKey' => $row->UniqueKey,
+                    'RECSTATUS' => $row->RECSTATUS,
+                    'LabResult' => $row->LabResult,
+                    'Organism' => $row->Organism,
+                    'SentinelSite' => $row->SentinelSite,
+                    'DeleteRecord' => $row->DeleteRecord,
+                    'Year' => $row->Year,
+                    'NameOfDru' => $row->NameOfDru,
+                    'District' => $row->District,
+                    'ILHZ' => $row->ILHZ,
+                    'Barangay' => $row->Barangay,
+                    'CASECLASS' => $row->CASECLASS,
+                    'TYPEHOSPITALCLINIC' => $row->TYPEHOSPITALCLINIC,
+                    'SENT' => $row->SENT,
+                    'ip' => $row->ip,
+                    'ipgroup' => $row->ipgroup,
+                ];
+            });
+        }
+
+        if($chikv->count() != 0) {
+            $exp = (new FastExcel($chikv))
+            ->headerStyle($header_style)
+            ->rowsStyle($rows_style)
+            ->export(storage_path('app/pidsr/ftp/ChikV.xlsx'), function ($row) {
+                return [
+                    'Region' => $row->Region,
+                    'Province' => $row->Province,
+                    'Muncity' => $row->Muncity,
+                    'Streetpurok' => $row->Streetpurok,
+                    'DateOfEntry' => $row->DateOfEntry,
+                    'DRU' => $row->DRU,
+                    'PatientNumber' => $row->PatientNumber,
+                    'FirstName' => $row->FirstName,
+                    'FamilyName' => $row->FamilyName,
+                    'FullName' => $row->FullName,
+                    'AgeYears' => $row->AgeYears,
+                    'AgeMons' => $row->AgeMons,
+                    'AgeDays' => $row->AgeDays,
+                    'Sex' => $row->Sex,
+                    'AddressOfDRU' => $row->AddressOfDRU,
+                    'ProvOfDRU' => $row->ProvOfDRU,
+                    'MuncityOfDRU' => $row->MuncityOfDRU,
+                    'DOB' => $row->DOB,
+                    'Admitted' => $row->Admitted,
+                    'DAdmit' => $row->DAdmit,
+                    'DOnset' => $row->DOnset,
+                    'CaseClass' => $row->CaseClass,
+                    'DCaseRep' => $row->DCaseRep,
+                    'DCASEINV' => $row->DCASEINV,
+                    'DayswidSymp' => $row->DayswidSymp,
+                    'Fever' => $row->Fever,
+                    'Arthritis' => $row->Arthritis,
+                    'Hands' => $row->Hands,
+                    'Feet' => $row->Feet,
+                    'Ankles' => $row->Ankles,
+                    'OthSite' => $row->OthSite,
+                    'Arthralgia' => $row->Arthralgia,
+                    'PeriEdema' => $row->PeriEdema,
+                    'SkinMani' => $row->SkinMani,
+                    'SkinDesc' => $row->SkinDesc,
+                    'Myalgia' => $row->Myalgia,
+                    'BackPain' => $row->BackPain,
+                    'Headache' => $row->Headache,
+                    'Nausea' => $row->Nausea,
+                    'MucosBleed' => $row->MucosBleed,
+                    'Vomiting' => $row->Vomiting,
+                    'Asthenia' => $row->Asthenia,
+                    'MeningoEncep' => $row->MeningoEncep,
+                    'OthSymptom' => $row->OthSymptom,
+                    'ClinDx' => $row->ClinDx,
+                    'DCollected' => $row->DCollected,
+                    'DSpecSent' => $row->DSpecSent,
+                    'SerIgM' => $row->SerIgM,
+                    'IgM_Res' => $row->IgM_Res,
+                    'DIgMRes' => $row->DIgMRes,
+                    'SerIgG' => $row->SerIgG,
+                    'IgG_Res' => $row->IgG_Res,
+                    'DIgGRes' => $row->DIgGRes,
+                    'RT_PCR' => $row->RT_PCR,
+                    'RT_PCRRes' => $row->RT_PCRRes,
+                    'DRtPCRRes' => $row->DRtPCRRes,
+                    'VirIso' => $row->VirIso,
+                    'VirIsoRes' => $row->VirIsoRes,
+                    'DVirIsoRes' => $row->DVirIsoRes,
+                    'TravHist' => $row->TravHist,
+                    'PlaceofTravel' => $row->PlaceofTravel,
+                    'Residence' => $row->Residence,
+                    'BldTransHist' => $row->BldTransHist,
+                    'Reporter' => $row->Reporter,
+                    'ReporterContNum' => $row->ReporterContNum,
+                    'Outcome' => $row->Outcome,
+                    'RegionOfDrU' => $row->RegionOfDrU,
+                    'EPIID' => $row->EPIID,
+                    'DateDied' => $row->DateDied,
+                    'Icd10Code' => $row->Icd10Code,
+                    'MorbidityMonth' => $row->MorbidityMonth,
+                    'MorbidityWeek' => $row->MorbidityWeek,
+                    'AdmitToEntry' => $row->AdmitToEntry,
+                    'OnsetToAdmit' => $row->OnsetToAdmit,
+                    'SentinelSite' => $row->SentinelSite,
+                    'DeleteRecord' => $row->DeleteRecord,
+                    'Year' => $row->Year,
+                    'Recstatus' => $row->Recstatus,
+                    'UniqueKey' => $row->UniqueKey,
+                    'NameOfDru' => $row->NameOfDru,
+                    'ILHZ' => $row->ILHZ,
+                    'District' => $row->District,
+                    'Barangay' => $row->Barangay,
+                    'TYPEHOSPITALCLINIC' => $row->TYPEHOSPITALCLINIC,
+                    'SENT' => $row->SENT,
+                    'ip' => $row->ip,
+                    'ipgroup' => $row->ipgroup,
+                ];
+            });
+        }
+
+        if($cholera->count() != 0) {
+            $exp = (new FastExcel($cholera))
+            ->headerStyle($header_style)
+            ->rowsStyle($rows_style)
+            ->export(storage_path('app/pidsr/ftp/CHOLERA.xlsx'), function ($row) {
+                return [
+                    'Icd10Code' => $row->Icd10Code,
+                    'RegionOfDrU' => $row->RegionOfDrU,
+                    'ProvOfDRU' => $row->ProvOfDRU,
+                    'MuncityOfDRU' => $row->MuncityOfDRU,
+                    'DRU' => $row->DRU,
+                    'AddressOfDRU' => $row->AddressOfDRU,
+                    'PatientNumber' => $row->PatientNumber,
+                    'FullName' => $row->FullName,
+                    'FirstName' => $row->FirstName,
+                    'FamilyName' => $row->FamilyName,
+                    'AgeYears' => $row->AgeYears,
+                    'AgeMons' => $row->AgeMons,
+                    'AgeDays' => $row->AgeDays,
+                    'Sex' => $row->Sex,
+                    'DOB' => $row->DOB,
+                    'Region' => $row->Region,
+                    'Province' => $row->Province,
+                    'Muncity' => $row->Muncity,
+                    'Streetpurok' => $row->Streetpurok,
+                    'Admitted' => $row->Admitted,
+                    'DAdmit' => $row->DAdmit,
+                    'DOnset' => $row->DOnset,
+                    'StoolCulture' => $row->StoolCulture,
+                    'Organism' => $row->Organism,
+                    'Outcome' => $row->Outcome,
+                    'DateDied' => $row->DateDied,
+                    'DateOfEntry' => $row->DateOfEntry,
+                    'AdmitToEntry' => $row->AdmitToEntry,
+                    'OnsetToAdmit' => $row->OnsetToAdmit,
+                    'MorbidityMonth' => $row->MorbidityMonth,
+                    'MorbidityWeek' => $row->MorbidityWeek,
+                    'EPIID' => $row->EPIID,
+                    'UniqueKey' => $row->UniqueKey,
+                    'RECSTATUS' => $row->RECSTATUS,
+                    'SentinelSite' => $row->SentinelSite,
+                    'DeleteRecord' => $row->DeleteRecord,
+                    'Year' => $row->Year,
+                    'NameOfDru' => $row->NameOfDru,
+                    'District' => $row->District,
+                    'ILHZ' => $row->ILHZ,
+                    'Barangay' => $row->Barangay,
+                    'CASECLASS' => $row->CASECLASS,
+                    'TYPEHOSPITALCLINIC' => $row->TYPEHOSPITALCLINIC,
+                    'SENT' => $row->SENT,
+                    'ip' => $row->ip,
+                    'ipgroup' => $row->ipgroup,
+                ];
+            });
+        }
+
+        if($dengue->count() != 0) {
+            $exp = (new FastExcel($dengue))
+            ->headerStyle($header_style)
+            ->rowsStyle($rows_style)
+            ->export(storage_path('app/pidsr/ftp/DENGUE.xlsx'), function ($row) {
+                return [
+                    'Region' => $row->Region,
+                    'Province' => $row->Province,
+                    'Muncity' => $row->Muncity,
+                    'Streetpurok' => $row->Streetpurok,
+                    'DateOfEntry' => $row->DateOfEntry,
+                    'DRU' => $row->DRU,
+                    'PatientNumber' => $row->PatientNumber,
+                    'FirstName' => $row->FirstName,
+                    'FamilyName' => $row->FamilyName,
+                    'FullName' => $row->FullName,
+                    'AgeYears' => $row->AgeYears,
+                    'AgeMons' => $row->AgeMons,
+                    'AgeDays' => $row->AgeDays,
+                    'Sex' => $row->Sex,
+                    'AddressOfDRU' => $row->AddressOfDRU,
+                    'ProvOfDRU' => $row->ProvOfDRU,
+                    'MuncityOfDRU' => $row->MuncityOfDRU,
+                    'DOB' => $row->DOB,
+                    'Admitted' => $row->Admitted,
+                    'DAdmit' => $row->DAdmit,
+                    'DOnset' => $row->DOnset,
+                    'Type' => $row->Type,
+                    'LabTest' => $row->LabTest,
+                    'LabRes' => $row->LabRes,
+                    'ClinClass' => $row->ClinClass,
+                    'CaseClassification' => $row->CaseClassification,
+                    'Outcome' => $row->Outcome,
+                    'RegionOfDrU' => $row->RegionOfDrU,
+                    'EPIID' => $row->EPIID,
+                    'DateDied' => $row->DateDied,
+                    'Icd10Code' => $row->Icd10Code,
+                    'MorbidityMonth' => $row->MorbidityMonth,
+                    'MorbidityWeek' => $row->MorbidityWeek,
+                    'AdmitToEntry' => $row->AdmitToEntry,
+                    'OnsetToAdmit' => $row->OnsetToAdmit,
+                    'SentinelSite' => $row->SentinelSite,
+                    'DeleteRecord' => $row->DeleteRecord,
+                    'Year' => $row->Year,
+                    'Recstatus' => $row->Recstatus,
+                    'UniqueKey' => $row->UniqueKey,
+                    'NameOfDru' => $row->NameOfDru,
+                    'ILHZ' => $row->ILHZ,
+                    'District' => $row->District,
+                    'Barangay' => $row->Barangay,
+                    'TYPEHOSPITALCLINIC' => $row->TYPEHOSPITALCLINIC,
+                    'SENT' => $row->SENT,
+                    'ip' => $row->ip,
+                    'ipgroup' => $row->ipgroup,
+                ];
+            });
+        }
+
+        if($diph->count() != 0) {
+            $exp = (new FastExcel($diph))
+            ->headerStyle($header_style)
+            ->rowsStyle($rows_style)
+            ->export(storage_path('app/pidsr/ftp/DIPH.xlsx'), function ($row) {
+                return [
+                    'Icd10Code' => $row->Icd10Code,
+                    'RegionOfDrU' => $row->RegionOfDrU,
+                    'ProvOfDRU' => $row->ProvOfDRU,
+                    'MuncityOfDRU' => $row->MuncityOfDRU,
+                    'DRU' => $row->DRU,
+                    'AddressOfDRU' => $row->AddressOfDRU,
+                    'PatientNumber' => $row->PatientNumber,
+                    'FullName' => $row->FullName,
+                    'FirstName' => $row->FirstName,
+                    'FamilyName' => $row->FamilyName,
+                    'AgeYears' => $row->AgeYears,
+                    'AgeMons' => $row->AgeMons,
+                    'AgeDays' => $row->AgeDays,
+                    'Sex' => $row->Sex,
+                    'DOB' => $row->DOB,
+                    'Region' => $row->Region,
+                    'Province' => $row->Province,
+                    'Muncity' => $row->Muncity,
+                    'Streetpurok' => $row->Streetpurok,
+                    'Admitted' => $row->Admitted,
+                    'DAdmit' => $row->DAdmit,
+                    'DOnset' => $row->DOnset,
+                    'DptDoses' => $row->DptDoses,
+                    'DateLastDose' => $row->DateLastDose,
+                    'CaseClassification' => $row->CaseClassification,
+                    'Outcome' => $row->Outcome,
+                    'DateDied' => $row->DateDied,
+                    'DateOfEntry' => $row->DateOfEntry,
+                    'AdmitToEntry' => $row->AdmitToEntry,
+                    'OnsetToAdmit' => $row->OnsetToAdmit,
+                    'MorbidityMonth' => $row->MorbidityMonth,
+                    'MorbidityWeek' => $row->MorbidityWeek,
+                    'EPIID' => $row->EPIID,
+                    'UniqueKey' => $row->UniqueKey,
+                    'RECSTATUS' => $row->RECSTATUS,
+                    'SentinelSite' => $row->SentinelSite,
+                    'DeleteRecord' => $row->DeleteRecord,
+                    'Year' => $row->Year,
+                    'NameOfDru' => $row->NameOfDru,
+                    'District' => $row->District,
+                    'ILHZ' => $row->ILHZ,
+                    'Barangay' => $row->Barangay,
+                    'TYPEHOSPITALCLINIC' => $row->TYPEHOSPITALCLINIC,
+                    'SENT' => $row->SENT,
+                    'ip' => $row->ip,
+                    'ipgroup' => $row->ipgroup,
+                ];
+            });
+        }
+
+        if($ili->count() != 0) {
+            $exp = (new FastExcel($ili))
+            ->headerStyle($header_style)
+            ->rowsStyle($rows_style)
+            ->export(storage_path('app/pidsr/ftp/INFLUENZA.xlsx'), function ($row) {
+                return [
+                    'Icd10Code' => $row->Icd10Code,
+                    'RegionOfDrU' => $row->RegionOfDrU,
+                    'ProvOfDRU' => $row->ProvOfDRU,
+                    'MuncityOfDRU' => $row->MuncityOfDRU,
+                    'DRU' => $row->DRU,
+                    'AddressOfDRU' => $row->AddressOfDRU,
+                    'PatientNumber' => $row->PatientNumber,
+                    'FullName' => $row->FullName,
+                    'FirstName' => $row->FirstName,
+                    'FamilyName' => $row->FamilyName,
+                    'AgeYears' => $row->AgeYears,
+                    'AgeMons' => $row->AgeMons,
+                    'AgeDays' => $row->AgeDays,
+                    'Sex' => $row->Sex,
+                    'DOB' => $row->DOB,
+                    'Region' => $row->Region,
+                    'Muncity' => $row->Muncity,
+                    'Province' => $row->Province,
+                    'Streetpurok' => $row->Streetpurok,
+                    'Admitted' => $row->Admitted,
+                    'DAdmit' => $row->DAdmit,
+                    'DOnset' => $row->DOnset,
+                    'LabResult' => $row->LabResult,
+                    'Outcome' => $row->Outcome,
+                    'DateDied' => $row->DateDied,
+                    'DateOfEntry' => $row->DateOfEntry,
+                    'AdmitToEntry' => $row->AdmitToEntry,
+                    'OnsetToAdmit' => $row->OnsetToAdmit,
+                    'MorbidityMonth' => $row->MorbidityMonth,
+                    'MorbidityWeek' => $row->MorbidityWeek,
+                    'EPIID' => $row->EPIID,
+                    'UniqueKey' => $row->UniqueKey,
+                    'RECSTATUS' => $row->RECSTATUS,
+                    'SentinelSite' => $row->SentinelSite,
+                    'DeleteRecord' => $row->DeleteRecord,
+                    'Year' => $row->Year,
+                    'NameOfDru' => $row->NameOfDru,
+                    'District' => $row->District,
+                    'ILHZ' => $row->ILHZ,
+                    'Barangay' => $row->Barangay,
+                    'CASECLASS' => $row->CASECLASS,
+                    'TYPEHOSPITALCLINIC' => $row->TYPEHOSPITALCLINIC,
+                    'SARI' => $row->SARI,
+                    'Organism' => $row->Organism,
+                    'SENT' => $row->SENT,
+                    'ip' => $row->ip,
+                    'ipgroup' => $row->ipgroup,
+                ];
+            });
+        }
+
+        if($lep->count() != 0) {
+            $exp = (new FastExcel($lep))
+            ->headerStyle($header_style)
+            ->rowsStyle($rows_style)
+            ->export(storage_path('app/pidsr/ftp/LEPTOSPIROSIS.xlsx'), function ($row) {
+                return [
+                    'Icd10Code' => $row->Icd10Code,
+                    'RegionOfDrU' => $row->RegionOfDrU,
+                    'ProvOfDRU' => $row->ProvOfDRU,
+                    'MuncityOfDRU' => $row->MuncityOfDRU,
+                    'DRU' => $row->DRU,
+                    'AddressOfDRU' => $row->AddressOfDRU,
+                    'PatientNumber' => $row->PatientNumber,
+                    'FullName' => $row->FullName,
+                    'FirstName' => $row->FirstName,
+                    'FamilyName' => $row->FamilyName,
+                    'AgeYears' => $row->AgeYears,
+                    'AgeMons' => $row->AgeMons,
+                    'AgeDays' => $row->AgeDays,
+                    'Sex' => $row->Sex,
+                    'DOB' => $row->DOB,
+                    'Region' => $row->Region,
+                    'Province' => $row->Province,
+                    'Muncity' => $row->Muncity,
+                    'Streetpurok' => $row->Streetpurok,
+                    'Admitted' => $row->Admitted,
+                    'DAdmit' => $row->DAdmit,
+                    'DOnset' => $row->DOnset,
+                    'LabRes' => $row->LabRes,
+                    'Serovar' => $row->Serovar,
+                    'CaseClassification' => $row->CaseClassification,
+                    'Outcome' => $row->Outcome,
+                    'DateDied' => $row->DateDied,
+                    'Occupation' => $row->Occupation,
+                    'DateOfEntry' => $row->DateOfEntry,
+                    'AdmitToEntry' => $row->AdmitToEntry,
+                    'OnsetToAdmit' => $row->OnsetToAdmit,
+                    'MorbidityMonth' => $row->MorbidityMonth,
+                    'MorbidityWeek' => $row->MorbidityWeek,
+                    'EPIID' => $row->EPIID,
+                    'UniqueKey' => $row->UniqueKey,
+                    'RECSTATUS' => $row->RECSTATUS,
+                    'SentinelSite' => $row->SentinelSite,
+                    'DeleteRecord' => $row->DeleteRecord,
+                    'Year' => $row->Year,
+                    'NameOfDru' => $row->NameOfDru,
+                    'District' => $row->District,
+                    'ILHZ' => $row->ILHZ,
+                    'Barangay' => $row->Barangay,
+                    'TYPEHOSPITALCLINIC' => $row->TYPEHOSPITALCLINIC,
+                    'SENT' => $row->SENT,
+                    'ip' => $row->ip,
+                    'ipgroup' => $row->ipgroup,
+                ];
+            });
+        }
+
+        if($malaria->count() != 0) {
+            $exp = (new FastExcel($malaria))
+            ->headerStyle($header_style)
+            ->rowsStyle($rows_style)
+            ->export(storage_path('app/pidsr/ftp/MALARIA.xlsx'), function ($row) {
+                return [
+                    'Icd10Code' => $row->Icd10Code,
+                    'RegionOfDrU' => $row->RegionOfDrU,
+                    'ProvOfDRU' => $row->ProvOfDRU,
+                    'MuncityOfDRU' => $row->MuncityOfDRU,
+                    'DRU' => $row->DRU,
+                    'AddressOfDRU' => $row->AddressOfDRU,
+                    'PatientNumber' => $row->PatientNumber,
+                    'FullName' => $row->FullName,
+                    'FirstName' => $row->FirstName,
+                    'FamilyName' => $row->FamilyName,
+                    'AgeYears' => $row->AgeYears,
+                    'AgeMons' => $row->AgeMons,
+                    'AgeDays' => $row->AgeDays,
+                    'Sex' => $row->Sex,
+                    'DOB' => $row->DOB,
+                    'Region' => $row->Region,
+                    'Muncity' => $row->Muncity,
+                    'Province' => $row->Province,
+                    'Streetpurok' => $row->Streetpurok,
+                    'DOnset' => $row->DOnset,
+                    'Parasite' => $row->Parasite,
+                    'Admitted' => $row->Admitted,
+                    'DAdmit' => $row->DAdmit,
+                    'CaseClassification' => $row->CaseClassification,
+                    'Outcome' => $row->Outcome,
+                    'DateDied' => $row->DateDied,
+                    'DateOfEntry' => $row->DateOfEntry,
+                    'AdmitToEntry' => $row->AdmitToEntry,
+                    'OnsetToAdmit' => $row->OnsetToAdmit,
+                    'MorbidityMonth' => $row->MorbidityMonth,
+                    'MorbidityWeek' => $row->MorbidityWeek,
+                    'EPIID' => $row->EPIID,
+                    'UniqueKey' => $row->UniqueKey,
+                    'RECSTATUS' => $row->RECSTATUS,
+                    'TravelHist' => $row->TravelHist,
+                    'Endemicarea' => $row->Endemicarea,
+                    'BldTrans' => $row->BldTrans,
+                    'SentinelSite' => $row->SentinelSite,
+                    'PHILMISSite' => $row->PHILMISSite,
+                    'DeleteRecord' => $row->DeleteRecord,
+                    'Year' => $row->Year,
+                    'NameOfDru' => $row->NameOfDru,
+                    'District' => $row->District,
+                    'ILHZ' => $row->ILHZ,
+                    'Barangay' => $row->Barangay,
+                    'TYPEHOSPITALCLINIC' => $row->TYPEHOSPITALCLINIC,
+                    'SENT' => $row->SENT,
+                    'ip' => $row->ip,
+                    'ipgroup' => $row->ipgroup,
+                ];
+            });
+        }
+
+        if($nnt->count() != 0) {
+            $exp = (new FastExcel($nnt))
+            ->headerStyle($header_style)
+            ->rowsStyle($rows_style)
+            ->export(storage_path('app/pidsr/ftp/NNT.xlsx'), function ($row) {
+                return [
+                    'Icd10Code' => $row->Icd10Code,
+                    'RegionOfDrU' => $row->RegionOfDrU,
+                    'ProvOfDRU' => $row->ProvOfDRU,
+                    'MuncityOfDRU' => $row->MuncityOfDRU,
+                    'DRU' => $row->DRU,
+                    'AddressOfDRU' => $row->AddressOfDRU,
+                    'PatientNumber' => $row->PatientNumber,
+                    'FullName' => $row->FullName,
+                    'FirstName' => $row->FirstName,
+                    'FamilyName' => $row->FamilyName,
+                    'AgeYears' => $row->AgeYears,
+                    'AgeMons' => $row->AgeMons,
+                    'AgeDays' => $row->AgeDays,
+                    'Sex' => $row->Sex,
+                    'DOB' => $row->DOB,
+                    'Region' => $row->Region,
+                    'Province' => $row->Province,
+                    'Muncity' => $row->Muncity,
+                    'Streetpurok' => $row->Streetpurok,
+                    'Admitted' => $row->Admitted,
+                    'DAdmit' => $row->DAdmit,
+                    'DOnset' => $row->DOnset,
+                    'RecentAcuteWound' => $row->RecentAcuteWound,
+                    'WoundSite' => $row->WoundSite,
+                    'WoundType' => $row->WoundType,
+                    'OtherWound' => $row->OtherWound,
+                    'TetanusToxoid' => $row->TetanusToxoid,
+                    'TetanusAntitoxin' => $row->TetanusAntitoxin,
+                    'SkinLesion' => $row->SkinLesion,
+                    'Outcome' => $row->Outcome,
+                    'DateDied' => $row->DateDied,
+                    'DateOfEntry' => $row->DateOfEntry,
+                    'AdmitToEntry' => $row->AdmitToEntry,
+                    'OnsetToAdmit' => $row->OnsetToAdmit,
+                    'MorbidityMonth' => $row->MorbidityMonth,
+                    'MorbidityWeek' => $row->MorbidityWeek,
+                    'EPIID' => $row->EPIID,
+                    'UniqueKey' => $row->UniqueKey,
+                    'RECSTATUS' => $row->RECSTATUS,
+                    'SentinelSite' => $row->SentinelSite,
+                    'DeleteRecord' => $row->DeleteRecord,
+                    'Year' => $row->Year,
+                    'NameOfDru' => $row->NameOfDru,
+                    'District' => $row->District,
+                    'ILHZ' => $row->ILHZ,
+                    'Barangay' => $row->Barangay,
+                    'TYPEHOSPITALCLINIC' => $row->TYPEHOSPITALCLINIC,
+                    'SENT' => $row->SENT,
+                    'ip' => $row->ip,
+                    'ipgroup' => $row->ipgroup,
+                ];
+            });
+        }
+
+        if($pert->count() != 0) {
+            $exp = (new FastExcel($pert))
+            ->headerStyle($header_style)
+            ->rowsStyle($rows_style)
+            ->export(storage_path('app/pidsr/ftp/PERT.xlsx'), function ($row) {
+                return [
+                    'Icd10Code' => $row->Icd10Code,
+                    'RegionOfDrU' => $row->RegionOfDrU,
+                    'ProvOfDRU' => $row->ProvOfDRU,
+                    'MuncityOfDRU' => $row->MuncityOfDRU,
+                    'DRU' => $row->DRU,
+                    'AddressOfDRU' => $row->AddressOfDRU,
+                    'PatientNumber' => $row->PatientNumber,
+                    'FullName' => $row->FullName,
+                    'FirstName' => $row->FirstName,
+                    'FamilyName' => $row->FamilyName,
+                    'AgeYears' => $row->AgeYears,
+                    'AgeMons' => $row->AgeMons,
+                    'AgeDays' => $row->AgeDays,
+                    'Sex' => $row->Sex,
+                    'DOB' => $row->DOB,
+                    'Region' => $row->Region,
+                    'Province' => $row->Province,
+                    'Muncity' => $row->Muncity,
+                    'Streetpurok' => $row->Streetpurok,
+                    'Admitted' => $row->Admitted,
+                    'DAdmit' => $row->DAdmit,
+                    'DOnset' => $row->DOnset,
+                    'DptDoses' => $row->DptDoses,
+                    'DateLastDose' => $row->DateLastDose,
+                    'CaseClassification' => $row->CaseClassification,
+                    'Outcome' => $row->Outcome,
+                    'DateDied' => $row->DateDied,
+                    'DateOfEntry' => $row->DateOfEntry,
+                    'AdmitToEntry' => $row->AdmitToEntry,
+                    'OnsetToAdmit' => $row->OnsetToAdmit,
+                    'MorbidityMonth' => $row->MorbidityMonth,
+                    'MorbidityWeek' => $row->MorbidityWeek,
+                    'EPIID' => $row->EPIID,
+                    'UniqueKey' => $row->UniqueKey,
+                    'RECSTATUS' => $row->RECSTATUS,
+                    'SentinelSite' => $row->SentinelSite,
+                    'DeleteRecord' => $row->DeleteRecord,
+                    'Year' => $row->Year,
+                    'NameOfDru' => $row->NameOfDru,
+                    'District' => $row->District,
+                    'ILHZ' => $row->ILHZ,
+                    'Barangay' => $row->Barangay,
+                    'TYPEHOSPITALCLINIC' => $row->TYPEHOSPITALCLINIC,
+                    'SENT' => $row->SENT,
+                    'ip' => $row->ip,
+                    'ipgroup' => $row->ipgroup,
+                ];
+            });
+        }
+
+        if($rota->count() != 0) {
+            $exp = (new FastExcel($rota))
+            ->headerStyle($header_style)
+            ->rowsStyle($rows_style)
+            ->export(storage_path('app/pidsr/ftp/RotaVirus.xlsx'), function ($row) {
+                return [
+                    'Icd10Code' => $row->Icd10Code,
+                    'RegionOfDrU' => $row->RegionOfDrU,
+                    'ProvOfDRU' => $row->ProvOfDRU,
+                    'MuncityOfDRU' => $row->MuncityOfDRU,
+                    'DRU' => $row->DRU,
+                    'AddressOfDRU' => $row->AddressOfDRU,
+                    'DRUContactNum' => $row->DRUContactNum,
+                    'PatientNumber' => $row->PatientNumber,
+                    'FullName' => $row->FullName,
+                    'FirstName' => $row->FirstName,
+                    'FamilyName' => $row->FamilyName,
+                    'MidName' => $row->MidName,
+                    'AgeYears' => $row->AgeYears,
+                    'AgeMons' => $row->AgeMons,
+                    'AgeDays' => $row->AgeDays,
+                    'Sex' => $row->Sex,
+                    'DOB' => $row->DOB,
+                    'Region' => $row->Region,
+                    'Province' => $row->Province,
+                    'Muncity' => $row->Muncity,
+                    'Streetpurok' => $row->Streetpurok,
+                    'NHTS' => $row->NHTS,
+                    'IVTherapy' => $row->IVTherapy,
+                    'Vomiting' => $row->Vomiting,
+                    'Admitted' => $row->Admitted,
+                    'DAdmit' => $row->DAdmit,
+                    'D_ONSET' => $row->D_ONSET,
+                    'DateRep' => $row->DateRep,
+                    'DateInv' => $row->DateInv,
+                    'Investigator' => $row->Investigator,
+                    'ContactNum' => $row->ContactNum,
+                    'InvDesignation' => $row->InvDesignation,
+                    'Fever' => $row->Fever,
+                    'Temp' => $row->Temp,
+                    'V_ONSET' => $row->V_ONSET,
+                    'AdmDx' => $row->AdmDx,
+                    'FinalDx' => $row->FinalDx,
+                    'DegDehy' => $row->DegDehy,
+                    'DiarrCases' => $row->DiarrCases,
+                    'Community' => $row->Community,
+                    'HHold' => $row->HHold,
+                    'School' => $row->School,
+                    'RotaVirus' => $row->RotaVirus,
+                    'RVDose' => $row->RVDose,
+                    'D8RV1stDose' => $row->D8RV1stDose,
+                    'D8RVLastDose' => $row->D8RVLastDose,
+                    'StoolColl' => $row->StoolColl,
+                    'D8StoolTaken' => $row->D8StoolTaken,
+                    'D8StoolSent' => $row->D8StoolSent,
+                    'D8StoolRecvd' => $row->D8StoolRecvd,
+                    'Amount' => $row->Amount,
+                    'StoolQty' => $row->StoolQty,
+                    'ElisaRes' => $row->ElisaRes,
+                    'D8ElisaRes' => $row->D8ElisaRes,
+                    'PCRRes' => $row->PCRRes,
+                    'OthPCRRes' => $row->OthPCRRes,
+                    'Genotype' => $row->Genotype,
+                    'D8PCRRes' => $row->D8PCRRes,
+                    'SpecCond' => $row->SpecCond,
+                    'DateDisch' => $row->DateDisch,
+                    'Outcome' => $row->Outcome,
+                    'DateDied' => $row->DateDied,
+                    'DateOfEntry' => $row->DateOfEntry,
+                    'AdmitToEntry' => $row->AdmitToEntry,
+                    'OnsetToAdmit' => $row->OnsetToAdmit,
+                    'MorbidityMonth' => $row->MorbidityMonth,
+                    'MorbidityWeek' => $row->MorbidityWeek,
+                    'EPIID' => $row->EPIID,
+                    'UniqueKey' => $row->UniqueKey,
+                    'RECSTATUS' => $row->RECSTATUS,
+                    'SentinelSite' => $row->SentinelSite,
+                    'DeleteRecord' => $row->DeleteRecord,
+                    'Year' => $row->Year,
+                    'NameOfDru' => $row->NameOfDru,
+                    'ILHZ' => $row->ILHZ,
+                    'District' => $row->District,
+                    'Barangay' => $row->Barangay,
+                    'TYPEHOSPITALCLINIC' => $row->TYPEHOSPITALCLINIC,
+                    'SENT' => $row->SENT,
+                    'hospdiarrhea' => $row->hospdiarrhea,
+                    'Datehosp' => $row->Datehosp,
+                    'classification' => $row->classification,
+                    'ip' => $row->ip,
+                    'ipgroup' => $row->ipgroup,
+                ];
+            });
+        }
+
+        if($typ->count() != 0) {
+            $exp = (new FastExcel($typ))
+            ->headerStyle($header_style)
+            ->rowsStyle($rows_style)
+            ->export(storage_path('app/pidsr/ftp/TYPHOID.xlsx'), function ($row) {
+                return [
+                    'Icd10Code' => $row->Icd10Code,
+                    'RegionOfDrU' => $row->RegionOfDrU,
+                    'ProvOfDRU' => $row->ProvOfDRU,
+                    'MuncityOfDRU' => $row->MuncityOfDRU,
+                    'DRU' => $row->DRU,
+                    'AddressOfDRU' => $row->AddressOfDRU,
+                    'PatientNumber' => $row->PatientNumber,
+                    'FullName' => $row->FullName,
+                    'FirstName' => $row->FirstName,
+                    'FamilyName' => $row->FamilyName,
+                    'AgeYears' => $row->AgeYears,
+                    'AgeMons' => $row->AgeMons,
+                    'AgeDays' => $row->AgeDays,
+                    'Sex' => $row->Sex,
+                    'DOB' => $row->DOB,
+                    'Region' => $row->Region,
+                    'Province' => $row->Province,
+                    'Muncity' => $row->Muncity,
+                    'Streetpurok' => $row->Streetpurok,
+                    'Admitted' => $row->Admitted,
+                    'DAdmit' => $row->DAdmit,
+                    'DOnset' => $row->DOnset,
+                    'LabResult' => $row->LabResult,
+                    'Organism' => $row->Organism,
+                    'Outcome' => $row->Outcome,
+                    'DateDied' => $row->DateDied,
+                    'DateOfEntry' => $row->DateOfEntry,
+                    'AdmitToEntry' => $row->AdmitToEntry,
+                    'OnsetToAdmit' => $row->OnsetToAdmit,
+                    'MorbidityMonth' => $row->MorbidityMonth,
+                    'MorbidityWeek' => $row->MorbidityWeek,
+                    'EPIID' => $row->EPIID,
+                    'UniqueKey' => $row->UniqueKey,
+                    'RECSTATUS' => $row->RECSTATUS,
+                    'SentinelSite' => $row->SentinelSite,
+                    'DeleteRecord' => $row->DeleteRecord,
+                    'Year' => $row->Year,
+                    'NameOfDru' => $row->NameOfDru,
+                    'District' => $row->District,
+                    'ILHZ' => $row->ILHZ,
+                    'Barangay' => $row->Barangay,
+                    'CASECLASS' => $row->CASECLASS,
+                    'TYPEHOSPITALCLINIC' => $row->TYPEHOSPITALCLINIC,
+                    'SENT' => $row->SENT,
+                    'ip' => $row->ip,
+                    'ipgroup' => $row->ipgroup,
+                ];
+            });
+        }
+
+        if($hfmd->count() != 0) {
+            $exp = (new FastExcel($hfmd))
+            ->headerStyle($header_style)
+            ->rowsStyle($rows_style)
+            ->export(storage_path('app/pidsr/ftp/HFMD.xlsx'), function ($row) {
+                return [
+                    'Icd10Code' => $row->Icd10Code,
+                    'RegionOfDrU' => $row->RegionOfDrU,
+                    'ProvOfDRU' => $row->ProvOfDRU,
+                    'MuncityOfDRU' => $row->MuncityOfDRU,
+                    'DRU' => $row->DRU,
+                    'AddressOfDRU' => $row->AddressOfDRU,
+                    'PatientNumber' => $row->PatientNumber,
+                    'FirstName' => $row->FirstName,
+                    'FamilyName' => $row->FamilyName,
+                    'FullName' => $row->FullName,
+                    'Region' => $row->Region,
+                    'Province' => $row->Province,
+                    'Muncity' => $row->Muncity,
+                    'Streetpurok' => $row->Streetpurok,
+                    'Sex' => $row->Sex,
+                    'DOB' => $row->DOB,
+                    'AgeYears' => $row->AgeYears,
+                    'AgeMons' => $row->AgeMons,
+                    'AgeDays' => $row->AgeDays,
+                    'Admitted' => $row->Admitted,
+                    'DAdmit' => $row->DAdmit,
+                    'DONSET' => $row->DONSET,
+                    'Fever' => $row->Fever,
+                    'FeverOnset' => $row->FeverOnset,
+                    'RashChar' => $row->RashChar,
+                    'RashSores' => $row->RashSores,
+                    'SoreOnset' => $row->SoreOnset,
+                    'Palms' => $row->Palms,
+                    'Fingers' => $row->Fingers,
+                    'FootSoles' => $row->FootSoles,
+                    'Buttocks' => $row->Buttocks,
+                    'MouthUlcers' => $row->MouthUlcers,
+                    'Pain' => $row->Pain,
+                    'Anorexia' => $row->Anorexia,
+                    'BM' => $row->BM,
+                    'SoreThroat' => $row->SoreThroat,
+                    'NausVom' => $row->NausVom,
+                    'DiffBreath' => $row->DiffBreath,
+                    'Paralysis' => $row->Paralysis,
+                    'MeningLes' => $row->MeningLes,
+                    'OthSymptoms' => $row->OthSymptoms,
+                    'AnyComp' => $row->AnyComp,
+                    'Complic8' => $row->Complic8,
+                    'Investigator' => $row->Investigator,
+                    'ContactNum' => $row->ContactNum,
+                    'DateOfEntry' => $row->DateOfEntry,
+                    'AdmitToEntry' => $row->AdmitToEntry,
+                    'OnsetToAdmit' => $row->OnsetToAdmit,
+                    'MorbidityMonth' => $row->MorbidityMonth,
+                    'MorbidityWeek' => $row->MorbidityWeek,
+                    'EPIID' => $row->EPIID,
+                    'ReportToInvestigation' => $row->ReportToInvestigation,
+                    'UniqueKey' => $row->UniqueKey,
+                    'RECSTATUS' => $row->RECSTATUS,
+                    'Travel' => $row->Travel,
+                    'ProbExposure' => $row->ProbExposure,
+                    'OthExposure' => $row->OthExposure,
+                    'OtherCase' => $row->OtherCase,
+                    'RectalSwabColl' => $row->RectalSwabColl,
+                    'VesicFluidColl' => $row->VesicFluidColl,
+                    'StoolColl' => $row->StoolColl,
+                    'ThroatSwabColl' => $row->ThroatSwabColl,
+                    'DateStooltaken' => $row->DateStooltaken,
+                    'DateStoolsent' => $row->DateStoolsent,
+                    'DateStoolRecvd' => $row->DateStoolRecvd,
+                    'StoolResult' => $row->StoolResult,
+                    'StoolOrg' => $row->StoolOrg,
+                    'StoolResultD8' => $row->StoolResultD8,
+                    'VFSwabtaken' => $row->VFSwabtaken,
+                    'VFSwabsent' => $row->VFSwabsent,
+                    'VFSwabRecvd' => $row->VFSwabRecvd,
+                    'VesicFluidRes' => $row->VesicFluidRes,
+                    'VesicFluidOrg' => $row->VesicFluidOrg,
+                    'VFSwabResultD8' => $row->VFSwabResultD8,
+                    'ThroatSwabtaken' => $row->ThroatSwabtaken,
+                    'ThroatSwabsent' => $row->ThroatSwabsent,
+                    'ThroatSwabRecvd' => $row->ThroatSwabRecvd,
+                    'ThroatSwabResult' => $row->ThroatSwabResult,
+                    'ThroatSwabOrg' => $row->ThroatSwabOrg,
+                    'ThroatSwabResultD8' => $row->ThroatSwabResultD8,
+                    'RectalSwabtaken' => $row->RectalSwabtaken,
+                    'RectalSwabsent' => $row->RectalSwabsent,
+                    'RectalSwabRecvd' => $row->RectalSwabRecvd,
+                    'RectalSwabResult' => $row->RectalSwabResult,
+                    'RectalSwabOrg' => $row->RectalSwabOrg,
+                    'RectalSwabResultD8' => $row->RectalSwabResultD8,
+                    'CaseClass' => $row->CaseClass,
+                    'Outcome' => $row->Outcome,
+                    'WFDiag' => $row->WFDiag,
+                    'Death' => $row->Death,
+                    'DCaseRep' => $row->DCaseRep,
+                    'DCASEINV' => $row->DCASEINV,
+                    'SentinelSite' => $row->SentinelSite,
+                    'Year' => $row->Year,
+                    'DeleteRecord' => $row->DeleteRecord,
+                    'NameOfDru' => $row->NameOfDru,
+                    'District' => $row->District,
+                    'ILHZ' => $row->ILHZ,
+                    'Barangay' => $row->Barangay,
+                    'TYPEHOSPITALCLINIC' => $row->TYPEHOSPITALCLINIC,
+                    'SENT' => $row->SENT,
+                    'ip' => $row->ip,
+                    'ipgroup' => $row->ipgroup,
+                ];
+            });
+        }
+
+        if($afp->count() != 0) {
+            $exp = (new FastExcel($afp))
+            ->headerStyle($header_style)
+            ->rowsStyle($rows_style)
+            ->export(storage_path('app/pidsr/ftp/AFP.xlsx'), function ($row) {
+                return [
+                    'Icd10Code' => $row->Icd10Code,
+                    'RegionOfDrU' => $row->RegionOfDrU,
+                    'ProvOfDRU' => $row->ProvOfDRU,
+                    'MuncityOfDRU' => $row->MuncityOfDRU,
+                    'DRU' => $row->DRU,
+                    'AddressOfDRU' => $row->AddressOfDRU,
+                    'PatientNumber' => $row->PatientNumber,
+                    'FirstName' => $row->FirstName,
+                    'FamilyName' => $row->FamilyName,
+                    'FullName' => $row->FullName,
+                    'Region' => $row->Region,
+                    'Province' => $row->Province,
+                    'Muncity' => $row->Muncity,
+                    'Streetpurok' => $row->Streetpurok,
+                    'Sex' => $row->Sex,
+                    'DOB' => $row->DOB,
+                    'AgeYears' => $row->AgeYears,
+                    'AgeMons' => $row->AgeMons,
+                    'AgeDays' => $row->AgeDays,
+                    'Admitted' => $row->Admitted,
+                    'DAdmit' => $row->DAdmit,
+                    'DateOfReport' => $row->DateOfReport,
+                    'DateOfInvestigation' => $row->DateOfInvestigation,
+                    'DateOfEntry' => $row->DateOfEntry,
+                    'AdmitToEntry' => $row->AdmitToEntry,
+                    'OnsetToAdmit' => $row->OnsetToAdmit,
+                    'MorbidityMonth' => $row->MorbidityMonth,
+                    'MorbidityWeek' => $row->MorbidityWeek,
+                    'EPIID' => $row->EPIID,
+                    'UniqueKey' => $row->UniqueKey,
+                    'RECSTATUS' => $row->RECSTATUS,
+                    'Fever' => $row->Fever,
+                    'DONSETP' => $row->DONSETP,
+                    'RArm' => $row->RArm,
+                    'Cough' => $row->Cough,
+                    'ParalysisAtBirth' => $row->ParalysisAtBirth,
+                    'LArm' => $row->LArm,
+                    'DiarrheaVomiting' => $row->DiarrheaVomiting,
+                    'Asymm' => $row->Asymm,
+                    'RLeg' => $row->RLeg,
+                    'MusclePain' => $row->MusclePain,
+                    'LLeg' => $row->LLeg,
+                    'Mening' => $row->Mening,
+                    'BrthMusc' => $row->BrthMusc,
+                    'NeckMusc' => $row->NeckMusctext,
+                    'Paradev' => $row->Paradev,
+                    'Paradir' => $row->Paradir,
+                    'FacialMusc' => $row->FacialMusc,
+                    'WorkingDiagnosis' => $row->WorkingDiagnosis,
+                    'RASens' => $row->RASens,
+                    'LASens' => $row->LASens,
+                    'RLSens' => $row->RLSens,
+                    'LLSens' => $row->LLSens,
+                    'RARef' => $row->RARef,
+                    'LARef' => $row->LARef,
+                    'RLRef' => $row->RLRef,
+                    'LLRef' => $row->LLRef,
+                    'RAMotor' => $row->RAMotor,
+                    'LAMotor' => $row->LAMotor,
+                    'RLMotor' => $row->RLMotor,
+                    'LLMotor' => $row->LLMotor,
+                    'HxDisorder' => $row->HxDisorder,
+                    'Disorder' => $row->Disorder,
+                    'TravelPrior2Illness' => $row->TravelPrior2Illness,
+                    'PlaceOfTravel' => $row->PlaceOfTravel,
+                    'FrmTrvlDate' => $row->FrmTrvlDate,
+                    'OtherCases' => $row->OtherCases,
+                    'InjTrauAnibite' => $row->InjTrauAnibite,
+                    'SpecifyInjTrauAnibite' => $row->SpecifyInjTrauAnibite,
+                    'Investigator' => $row->Investigator,
+                    'ContactNum' => $row->ContactNum,
+                    'OPVDoses' => $row->OPVDoses,
+                    'DateLastDose' => $row->DateLastDose,
+                    'HotCase' => $row->HotCase,
+                    'FirstStoolSpec' => $row->FirstStoolSpec,
+                    'DStool1Taken' => $row->DStool1Taken,
+                    'DStool2Taken' => $row->DStool2Taken,
+                    'DStool1Sent' => $row->DStool1Sent,
+                    'DStool2Sent' => $row->DStool2Sent,
+                    'Stool1Result' => $row->Stool1Result,
+                    'Stool2Result' => $row->Stool2Result,
+                    'ExpDffup' => $row->ExpDffup,
+                    'ActDffp' => $row->ActDffp,
+                    'PhyExam' => $row->PhyExam,
+                    'ReasonND' => $row->ReasonND,
+                    'DateDied' => $row->DateDied,
+                    'OtherReasonND' => $row->OtherReasonND,
+                    'ResPara' => $row->ResPara,
+                    'ResParaType' => $row->ResParaType,
+                    'Atrophy' => $row->Atrophy,
+                    'RAatrophy' => $row->RAatrophy,
+                    'LAatrophy' => $row->LAatrophy,
+                    'RLatrophy' => $row->RLatrophy,
+                    'LLatrophy' => $row->LLatrophy,
+                    'OthObs' => $row->OthObs,
+                    'FClass' => $row->FClass,
+                    'DateClass' => $row->DateClass,
+                    'VAPP' => $row->VAPP,
+                    'CCriteria' => $row->CCriteria,
+                    'FinalDx' => $row->FinalDx,
+                    'OtherDiagnosis' => $row->OtherDiagnosis,
+                    'ReportToInvestigation' => $row->ReportToInvestigation,
+                    'Stool1CollectSend' => $row->Stool1CollectSend,
+                    'Stool2CollectSend' =>$row->Stool2CollectSend,
+                    'Stool1SentResult' => $row->Stool1SentResult,
+                    'Stool2SentResult' => $row->Stool2SentResult,
+                    'Followupindicator' => $row->Followupindicator,
+                    'Stool1OnsetCollect' => $row->Stool1OnsetCollect,
+                    'Stool2OnsetCollect' => $row->Stool2OnsetCollect,
+                    'LabResultToClassification' => $row->LabResultToClassification,
+                    'Stool1ResultToClassify' => $row->Stool1ResultToClassify,
+                    'Stool2ResultToClassify' => $row->Stool2ResultToClassify,
+                    'ActDffup' => $row->ActDffup,
+                    'DStool1Received' => $row->DStool1Received,
+                    'DStool2Received' => $row->DStool2Received,
+                    'Stool1RecResult' => $row->Stool1RecResult,
+                    'Stool2RecResult' => $row->Stool2RecResult,
+                    'SecndStoolSpec' => $row->SecndStoolSpec,
+                    'DateRep' => $row->DateRep,
+                    'DateInv' => $row->DateInv,
+                    'Year' => $row->Year,
+                    'SentinelSite' => $row->SentinelSite,
+                    'ClinicalSummary' => $row->ClinicalSummary,
+                    'DeleteRecord' => $row->DeleteRecord,
+                    'NameOfDru' => $row->NameOfDru,
+                    'ToTrvldate' => $row->ToTrvldate,
+                    'ILHZ' => $row->ILHZ,
+                    'District' => $row->District,
+                    'Barangay' => $row->Barangay,
+                    'TYPEHOSPITALCLINIC' => $row->TYPEHOSPITALCLINIC,
+                    'OCCUPATION' => $row->OCCUPATION,
+                    'SENT' => $row->SENT,
+                    'ip' => $row->ip,
+                    'ipgroup' => $row->ipgroup,
+                    'Outcome' => $row->Outcome,
+                    'DateOutcomeDied' => $row->DateOutcomeDied,
+                ];
+            });
+        }
+
+        return redirect()->route('pidsr.home')
+        ->with('msg', 'Successfully converted to XLSX for FTP Server. You may now use the SUBMITTER PROGRAM.')
+        ->with('msgtype', 'success');
     }
 }
