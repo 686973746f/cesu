@@ -168,12 +168,17 @@
                     </button>
             </div>
             <div class="modal-body text-center">
-                <p>Please execute the Script first on "C:\cesu_tools\MDBToExcel" and "C:\cesu_tools\EDCS_IMPORTER" folder before Proceeding.</p>
+                <p>Steps are recommended to process every Tuesday, before 11AM.</p>
             </div>
             <div class="modal-footer">
-                <a href="{{route('pidsr.import')}}?m=1" class="btn btn-primary btn-block">Step 1 - Import MDB</a>
-                <a href="{{route('pidsr_import_edcs')}}" class="btn btn-primary btn-block">Step 2 - Import EDCS Feedback</a>
-                <a href="{{route('pidsr.sendmail')}}" class="btn btn-primary btn-block">Step 3 - Early Send Email <i>(This process is automatic every Tuesday, 11AM)</i></a>
+                <p class="text-center">Step 1 - Merge MDB Feedbacks from RESU/PESU & Hospitals to update "Current MDB Folder" using OLD PIDSR Program.</p>
+                <a href="{{route('pidsr.import')}}?m=1" class="btn btn-primary btn-block">Step 2 - Import MDBs to the System</a>
+                <p class="text-center">Step 3 - Use EDCS Excel Importer Tool located at C:\cesu_tools\EDCS_IMPORTER and Select the XLSX file provided by RESU/PESU</p>
+                <a href="{{route('pidsr_import_edcs')}}" class="btn btn-primary btn-block">Step 4 - Import EDCS Feedback to the System</a>
+                <a href="{{route('pidsr_import_ftp')}}" class="btn btn-primary btn-block">Step 5 - Export New Cases to FTP Server</a>
+                <p class="text-center">Step 6 - Use PIDSR & EDCS Submitter Tool located at C:\cesu_tools\EDCS_SUBMITTER</p>
+                <a href="{{route('pidsr.sendmail')}}" class="btn btn-primary btn-block">Step 7 - Early Send Email <i>(This process is automatic every Tuesday, 11AM)</i></a>
+                <p class="text-center">Step 8 - Submit MW({{date('W', strtotime('-1 Week'))}}) Report, make email message to PESU and RESU Email and attach 1. PIDSR weekly Report PDF, 2. ZIP File from the Submitter Tool, 3. SnaX PDF</p>
             </div>
         </div>
     </div>
