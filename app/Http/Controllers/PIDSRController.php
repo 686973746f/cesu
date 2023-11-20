@@ -1643,6 +1643,9 @@ class PIDSRController extends Controller
             }
         }
 
+        /*
+        TEST EXPORT
+
         $afp = Afp::where('Year', 2023)->get();
         $aefi = Aefi::where('Year', 2023)->get();
         $anthrax = Anthrax::where('Year', 2023)->get();
@@ -1670,8 +1673,8 @@ class PIDSRController extends Controller
         $rota = Rotavirus::where('Year', 2023)->get();
         $typ = Typhoid::where('Year', 2023)->get();
         $hfmd = Hfmd::where('Year', 2023)->get();
+        */
 
-        /*
         $afp = Afp::where('Province', 'CAVITE')
         ->where('Muncity', 'GENERAL TRIAS')
         ->where('systemsent', 0)
@@ -2116,8 +2119,6 @@ class PIDSRController extends Controller
         })
         ->get();
 
-        */
-
         $header_style = (new Style())->setFontBold();
         $rows_style = (new Style())->setShouldWrapText();
 
@@ -2137,7 +2138,7 @@ class PIDSRController extends Controller
                     'PatientNumber' => $row->PatientNumber,
                     'FirstName' => $row->FirstName,
                     'FamilyName' => $row->FamilyName,
-                    'FullName' => $row->FullName,
+                    'FullName' => ($row->from_edcs == 1) ? $row->FullName : $row->FamilyName.', '.$row->firstName,
                     'Region' => $row->Region,
                     'Province' => $row->Province,
                     'Muncity' => $row->Muncity,
@@ -2240,7 +2241,7 @@ class PIDSRController extends Controller
                     'PatientNumber' => $row->PatientNumber,
                     'FirstName' => $row->FirstName,
                     'FamilyName' => $row->FamilyName,
-                    'FullName' => $row->FullName,
+                    'FullName' => ($row->from_edcs == 1) ? $row->FullName : $row->FamilyName.', '.$row->firstName,
                     'Address' => $row->Address,
                     'Region' => $row->Region,
                     'Province' => $row->Province,
@@ -2374,7 +2375,7 @@ class PIDSRController extends Controller
                     'PatientNumber' => $row->PatientNumber,
                     'FirstName' => $row->FirstName,
                     'FamilyName' => $row->FamilyName,
-                    'FullName' => $row->FullName,
+                    'FullName' => ($row->from_edcs == 1) ? $row->FullName : $row->FamilyName.', '.$row->firstName,
                     'Region' => $row->Region,
                     'Muncity' => $row->Muncity,
                     'Province' => $row->Province,
@@ -2488,7 +2489,7 @@ class PIDSRController extends Controller
                     'PatientNumber' => $row->PatientNumber,
                     'FirstName' => $row->FirstName,
                     'FamilyName' => $row->FamilyName,
-                    'FullName' => $row->FullName,
+                    'FullName' => ($row->from_edcs == 1) ? $row->FullName : $row->FamilyName.', '.$row->firstName,
                     'Address' => $row->Address,
                     'Region' => $row->Region,
                     'Province' => $row->Province,
@@ -2579,7 +2580,7 @@ class PIDSRController extends Controller
                     'PatientNumber' => $row->PatientNumber,
                     'FirstName' => $row->FirstName,
                     'FamilyName' => $row->FamilyName,
-                    'FullName' => $row->FullName,
+                    'FullName' => ($row->from_edcs == 1) ? $row->FullName : $row->FamilyName.', '.$row->firstName,
                     'Region' => $row->Region,
                     'Province' => $row->Province,
                     'Muncity' => $row->Muncity,
@@ -2636,7 +2637,7 @@ class PIDSRController extends Controller
                     'PatientNumber' => $row->PatientNumber,
                     'FirstName' => $row->FirstName,
                     'FamilyName' => $row->FamilyName,
-                    'FullName' => $row->FullName,
+                    'FullName' => ($row->from_edcs == 1) ? $row->FullName : $row->FamilyName.', '.$row->firstName,
                     'Region' => $row->Region,
                     'Province' => $row->Province,
                     'Muncity' => $row->Muncity,
@@ -2709,7 +2710,7 @@ class PIDSRController extends Controller
                     'DRU' => substr($row->DRU,0,25),
                     'AddressOfDRU' => $row->AddressOfDRU,
                     'PatientNumber' => $row->PatientNumber,
-                    'FullName' => $row->FullName,
+                    'FullName' => ($row->from_edcs == 1) ? $row->FullName : $row->FamilyName.', '.$row->firstName,
                     'FirstName' => $row->FirstName,
                     'FamilyName' => $row->FamilyName,
                     'AgeYears' => $row->AgeYears,
@@ -2767,7 +2768,7 @@ class PIDSRController extends Controller
                     'SentinelSite' => $row->SentinelSite,
                     'AddressOfDRU' => $row->AddressOfDRU,
                     'PatientNumber' => $row->PatientNumber,
-                    'FullName' => $row->FullName,
+                    'FullName' => ($row->from_edcs == 1) ? $row->FullName : $row->FamilyName.', '.$row->firstName,
                     'FirstName' => $row->FirstName,
                     'FamilyName' => $row->FamilyName,
                     'AgeYears' => $row->AgeYears,
@@ -2890,7 +2891,7 @@ class PIDSRController extends Controller
                     'DRU' => substr($row->DRU,0,25),
                     'AddressOfDRU' => $row->AddressOfDRU,
                     'PatientNumber' => $row->PatientNumber,
-                    'FullName' => $row->FullName,
+                    'FullName' => ($row->from_edcs == 1) ? $row->FullName : $row->FamilyName.', '.$row->firstName,
                     'FirstName' => $row->FirstName,
                     'FamilyName' => $row->FamilyName,
                     'AgeYears' => $row->AgeYears,
@@ -2947,7 +2948,7 @@ class PIDSRController extends Controller
                     'DRU' => substr($row->DRU,0,25),
                     'AddressOfDRU' => $row->AddressOfDRU,
                     'PatientNumber' => $row->PatientNumber,
-                    'FullName' => $row->FullName,
+                    'FullName' => ($row->from_edcs == 1) ? $row->FullName : $row->FamilyName.', '.$row->firstName,
                     'FirstName' => $row->FirstName,
                     'FamilyName' => $row->FamilyName,
                     'AgeYears' => $row->AgeYears,
@@ -3005,7 +3006,7 @@ class PIDSRController extends Controller
                     'DRU' => substr($row->DRU,0,25),
                     'AddressOfDRU' => $row->AddressOfDRU,
                     'PatientNumber' => $row->PatientNumber,
-                    'FullName' => $row->FullName,
+                    'FullName' => ($row->from_edcs == 1) ? $row->FullName : $row->FamilyName.', '.$row->firstName,
                     'FirstName' => $row->FirstName,
                     'FamilyName' => $row->FamilyName,
                     'AgeYears' => $row->AgeYears,
@@ -3062,7 +3063,7 @@ class PIDSRController extends Controller
                     'DRU' => substr($row->DRU,0,25),
                     'AddressOfDRU' => $row->AddressOfDRU,
                     'PatientNumber' => $row->PatientNumber,
-                    'FullName' => $row->FullName,
+                    'FullName' => ($row->from_edcs == 1) ? $row->FullName : $row->FamilyName.', '.$row->firstName,
                     'FirstName' => $row->FirstName,
                     'FamilyName' => $row->FamilyName,
                     'AgeYears' => $row->AgeYears,
@@ -3206,7 +3207,7 @@ class PIDSRController extends Controller
                     'DRU' => substr($row->DRU,0,25),
                     'AddressOfDRU' => $row->AddressOfDRU,
                     'PatientNumber' => $row->PatientNumber,
-                    'FullName' => $row->FullName,
+                    'FullName' => ($row->from_edcs == 1) ? $row->FullName : $row->FamilyName.', '.$row->firstName,
                     'FirstName' => $row->FirstName,
                     'FamilyName' => $row->FamilyName,
                     'AgeYears' => $row->AgeYears,
@@ -3265,7 +3266,7 @@ class PIDSRController extends Controller
                     'PatientNumber' => $row->PatientNumber,
                     'FirstName' => $row->FirstName,
                     'FamilyName' => $row->FamilyName,
-                    'FullName' => $row->FullName,
+                    'FullName' => ($row->from_edcs == 1) ? $row->FullName : $row->FamilyName.', '.$row->firstName,
                     'AgeYears' => $row->AgeYears,
                     'AgeMons' => $row->AgeMons,
                     'AgeDays' => $row->AgeDays,
@@ -3360,7 +3361,7 @@ class PIDSRController extends Controller
                     'DRU' => substr($row->DRU,0,25),
                     'AddressOfDRU' => $row->AddressOfDRU,
                     'PatientNumber' => $row->PatientNumber,
-                    'FullName' => $row->FullName,
+                    'FullName' => ($row->from_edcs == 1) ? $row->FullName : $row->FamilyName.', '.$row->firstName,
                     'FirstName' => $row->FirstName,
                     'FamilyName' => $row->FamilyName,
                     'AgeYears' => $row->AgeYears,
@@ -3418,7 +3419,7 @@ class PIDSRController extends Controller
                     'PatientNumber' => $row->PatientNumber,
                     'FirstName' => $row->FirstName,
                     'FamilyName' => $row->FamilyName,
-                    'FullName' => $row->FullName,
+                    'FullName' => ($row->from_edcs == 1) ? $row->FullName : $row->FamilyName.', '.$row->firstName,
                     'AgeYears' => $row->AgeYears,
                     'AgeMons' => $row->AgeMons,
                     'AgeDays' => $row->AgeDays,
@@ -3474,7 +3475,7 @@ class PIDSRController extends Controller
                     'DRU' => substr($row->DRU,0,25),
                     'AddressOfDRU' => $row->AddressOfDRU,
                     'PatientNumber' => $row->PatientNumber,
-                    'FullName' => $row->FullName,
+                    'FullName' => ($row->from_edcs == 1) ? $row->FullName : $row->FamilyName.', '.$row->firstName,
                     'FirstName' => $row->FirstName,
                     'FamilyName' => $row->FamilyName,
                     'AgeYears' => $row->AgeYears,
@@ -3530,7 +3531,7 @@ class PIDSRController extends Controller
                     'DRU' => substr($row->DRU,0,25),
                     'AddressOfDRU' => $row->AddressOfDRU,
                     'PatientNumber' => $row->PatientNumber,
-                    'FullName' => $row->FullName,
+                    'FullName' => ($row->from_edcs == 1) ? $row->FullName : $row->FamilyName.', '.$row->firstName,
                     'FirstName' => $row->FirstName,
                     'FamilyName' => $row->FamilyName,
                     'AgeYears' => $row->AgeYears,
@@ -3587,7 +3588,7 @@ class PIDSRController extends Controller
                     'DRU' => substr($row->DRU,0,25),
                     'AddressOfDRU' => $row->AddressOfDRU,
                     'PatientNumber' => $row->PatientNumber,
-                    'FullName' => $row->FullName,
+                    'FullName' => ($row->from_edcs == 1) ? $row->FullName : $row->FamilyName.', '.$row->firstName,
                     'FirstName' => $row->FirstName,
                     'FamilyName' => $row->FamilyName,
                     'AgeYears' => $row->AgeYears,
@@ -3644,7 +3645,7 @@ class PIDSRController extends Controller
                     'DRU' => substr($row->DRU,0,25),
                     'AddressOfDRU' => $row->AddressOfDRU,
                     'PatientNumber' => $row->PatientNumber,
-                    'FullName' => $row->FullName,
+                    'FullName' => ($row->from_edcs == 1) ? $row->FullName : $row->FamilyName.', '.$row->firstName,
                     'FirstName' => $row->FirstName,
                     'FamilyName' => $row->FamilyName,
                     'AgeYears' => $row->AgeYears,
@@ -3703,7 +3704,7 @@ class PIDSRController extends Controller
                     'DRU' => substr($row->DRU,0,25),
                     'AddressOfDRU' => $row->AddressOfDRU,
                     'PatientNumber' => $row->PatientNumber,
-                    'FullName' => $row->FullName,
+                    'FullName' => ($row->from_edcs == 1) ? $row->FullName : $row->FamilyName.', '.$row->firstName,
                     'FirstName' => $row->FirstName,
                     'FamilyName' => $row->FamilyName,
                     'AgeYears' => $row->AgeYears,
@@ -3763,7 +3764,7 @@ class PIDSRController extends Controller
                     'DRU' => substr($row->DRU,0,25),
                     'AddressOfDRU' => $row->AddressOfDRU,
                     'PatientNumber' => $row->PatientNumber,
-                    'FullName' => $row->FullName,
+                    'FullName' => ($row->from_edcs == 1) ? $row->FullName : $row->FamilyName.', '.$row->firstName,
                     'FirstName' => $row->FirstName,
                     'FamilyName' => $row->FamilyName,
                     'AgeYears' => $row->AgeYears,
@@ -3820,7 +3821,7 @@ class PIDSRController extends Controller
                     'AddressOfDRU' => $row->AddressOfDRU,
                     'DRUContactNum' => $row->DRUContactNum,
                     'PatientNumber' => $row->PatientNumber,
-                    'FullName' => $row->FullName,
+                    'FullName' => ($row->from_edcs == 1) ? $row->FullName : $row->FamilyName.', '.$row->firstName,
                     'FirstName' => $row->FirstName,
                     'FamilyName' => $row->FamilyName,
                     'MidName' => $row->MidName,
@@ -3913,7 +3914,7 @@ class PIDSRController extends Controller
                     'DRU' => substr($row->DRU,0,25),
                     'AddressOfDRU' => $row->AddressOfDRU,
                     'PatientNumber' => $row->PatientNumber,
-                    'FullName' => $row->FullName,
+                    'FullName' => ($row->from_edcs == 1) ? $row->FullName : $row->FamilyName.', '.$row->firstName,
                     'FirstName' => $row->FirstName,
                     'FamilyName' => $row->FamilyName,
                     'AgeYears' => $row->AgeYears,
@@ -3971,7 +3972,7 @@ class PIDSRController extends Controller
                     'PatientNumber' => $row->PatientNumber,
                     'FirstName' => $row->FirstName,
                     'FamilyName' => $row->FamilyName,
-                    'FullName' => $row->FullName,
+                    'FullName' => ($row->from_edcs == 1) ? $row->FullName : $row->FamilyName.', '.$row->firstName,
                     'Region' => $row->Region,
                     'Province' => $row->Province,
                     'Muncity' => $row->Muncity,
@@ -4084,7 +4085,7 @@ class PIDSRController extends Controller
                     'PatientNumber' => $row->PatientNumber,
                     'FirstName' => $row->FirstName,
                     'FamilyName' => $row->FamilyName,
-                    'FullName' => $row->FullName,
+                    'FullName' => ($row->from_edcs == 1) ? $row->FullName : $row->FamilyName.', '.$row->firstName,
                     'Region' => $row->Region,
                     'Province' => $row->Province,
                     'Muncity' => $row->Muncity,
