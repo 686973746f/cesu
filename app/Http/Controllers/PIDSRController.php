@@ -1596,6 +1596,10 @@ class PIDSRController extends Controller
         }
     }
 
+    public function bulkdeleteCases(Request $r) {
+
+    }
+
     public function edcsImportExcelProcess() {
         if(File::exists(storage_path('app/edcs_feedback/feedback.xlsx'))) {
             Excel::import(new EdcsImport(), storage_path('app/edcs_feedback/feedback.xlsx'));
