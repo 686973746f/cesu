@@ -131,6 +131,7 @@ class EdcsImport implements WithMultipleSheets
             'NNT' => new NntImport(),
             'NT' => new NtImport(),
             'PERT' => new PertImport(),
+            //PSP
             'RABIES' => new RabiesImport(),
             'ROTA' => new RotaImport(),
             'TYPHOID' => new TyphoidImport(),
@@ -653,7 +654,7 @@ class HepaImport implements ToModel, WithHeadingRow
 
                 if(!($check1)) {
                     return new Hepatitis([
-                        'Icd10Code' => NULL,
+                        'Icd10Code' => 'B15-17',
                         'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
                         'ProvOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province,
                         'MuncityOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity,
@@ -936,7 +937,7 @@ class LeptoImport implements ToModel, WithHeadingRow
 
                 if(!($check1)) {
                     return new Leptospirosis([
-                        'Icd10Code' => NULL,
+                        'Icd10Code' => 'A27',
                         'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
                         'ProvOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province,
                         'MuncityOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity,
@@ -1039,7 +1040,7 @@ class MeaslesImport implements ToModel, WithHeadingRow
 
                 if(!($check1)) {
                     return new Measles([
-                        'Icd10Code' => NULL,
+                        'Icd10Code' => 'B05',
                         'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
                         'ProvOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province,
                         'MuncityOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity,
@@ -1217,7 +1218,7 @@ class NntImport implements ToModel, WithHeadingRow
 
                 if(!($check1)) {
                     return new Nnt([
-                        'Icd10Code' => NULL,
+                        'Icd10Code' => 'A33',
                         'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
                         'ProvOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province,
                         'MuncityOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity,
@@ -1322,7 +1323,7 @@ class RabiesImport implements ToModel, WithHeadingRow
 
                 if(!($check1)) {
                     return new Rabies([
-                        'Icd10Code' => NULL,
+                        'Icd10Code' => 'A82',
                         'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
                         'ProvOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province,
                         'MuncityOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity,
@@ -1548,8 +1549,6 @@ class RotaImport implements ToModel, WithHeadingRow
 
 class TyphoidImport implements ToModel, WithHeadingRow
 {
-    
-
     public function model(array $row) {
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
             if(!(Typhoid::where('EPIID', $row['epi_id'])->first())) {
@@ -1583,7 +1582,7 @@ class TyphoidImport implements ToModel, WithHeadingRow
 
                 if(!($check1)) {
                     return new Typhoid([
-                        'Icd10Code' => NULL,
+                        'Icd10Code' => 'A01.0',
                         'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
                         'ProvOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province,
                         'MuncityOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity,
@@ -1800,7 +1799,7 @@ class DiphImport implements ToModel, WithHeadingRow {
     
                 if(!($check1)) {
                     return new Diph([
-                        'Icd10Code' => NULL,
+                        'Icd10Code' => 'A36',
                         'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
                         'ProvOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province,
                         'MuncityOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity,
@@ -2041,7 +2040,7 @@ class MeningoImport implements ToModel, WithHeadingRow {
     
                 if(!($check1)) {
                     return new Meningo([
-                        'Icd10Code' => NULL,
+                        'Icd10Code' => 'A39',
                         'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
                         'ProvOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province,
                         'MuncityOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity,
@@ -2205,7 +2204,7 @@ class NtImport implements ToModel, WithHeadingRow {
     
                 if(!($check1)) {
                     return new Nt([
-                        'Icd10Code' => NULL,
+                        'Icd10Code' => 'A35',
                         'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
                         'ProvOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province,
                         'MuncityOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity,
@@ -2340,7 +2339,7 @@ class PertImport implements ToModel, WithHeadingRow {
     
                 if(!($check1)) {
                     return new Pert([
-                        'Icd10Code' => NULL,
+                        'Icd10Code' => 'A37',
                         'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
                         'ProvOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province,
                         'MuncityOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity,
