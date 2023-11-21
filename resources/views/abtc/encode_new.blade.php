@@ -115,8 +115,8 @@
                                 <select class="form-select" name="animal_type" id="animal_type">
                                     <option value="" disabled {{is_null(old('animal_type')) ? 'selected' : ''}}>Choose...</option>
                                     <option value="PD" {{(old('animal_type') == 'PD') ? 'selected' : ''}}>Pet Dog (PD)</option>
-                                    <option value="SD" {{(old('animal_type') == 'SD') ? 'selected' : ''}}>Stray Dog (SD)</option>
                                     <option value="PC" {{(old('animal_type') == 'PC') ? 'selected' : ''}}>Pet Cat (PC)</option>
+                                    <option value="SD" {{(old('animal_type') == 'SD') ? 'selected' : ''}}>Stray Dog (SD)</option>
                                     <option value="SC" {{(old('animal_type') == 'SC') ? 'selected' : ''}}>Stray Cat (SC)</option>
                                     <option value="O" {{(old('animal_type') == 'O') ? 'selected' : ''}}>Others</option>
                                 </select>

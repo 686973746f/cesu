@@ -43,6 +43,13 @@ class CreateRecordsTable extends Migration
             $table->string('address_province');
             $table->string('address_provincejson');
 
+            $table->text('address_lat')->nullable();
+            $table->text('address_lng')->nullable();
+            $table->text('address_region_psgc')->nullable();
+            $table->text('address_province_psgc')->nullable();
+            $table->text('address_muncity_psgc')->nullable();
+            $table->text('address_brgy_psgc')->nullable();
+
             $table->tinyInteger('permaaddressDifferent');
             $table->string('permaaddress_houseno');
             $table->string('permaaddress_street');
@@ -54,6 +61,13 @@ class CreateRecordsTable extends Migration
             $table->string('permamobile')->nullable();
             $table->string('permaphoneno')->nullable();
             $table->string('permaemail')->nullable();
+
+            $table->text('perma_address_lat')->nullable();
+            $table->text('perma_address_lng')->nullable();
+            $table->text('perma_address_region_psgc')->nullable();
+            $table->text('perma_address_province_psgc')->nullable();
+            $table->text('perma_address_muncity_psgc')->nullable();
+            $table->text('perma_address_brgy_psgc')->nullable();
 
             $table->smallInteger('hasOccupation');
             $table->string('occupation')->nullable();
@@ -70,6 +84,13 @@ class CreateRecordsTable extends Migration
             $table->string('occupation_name')->nullable();
             $table->string('occupation_mobile')->nullable();
             $table->string('occupation_email')->nullable();
+
+            $table->text('occupation_address_lat')->nullable();
+            $table->text('occupation_address_lng')->nullable();
+            $table->text('occupation_address_region_psgc')->nullable();
+            $table->text('occupation_address_province_psgc')->nullable();
+            $table->text('occupation_address_muncity_psgc')->nullable();
+            $table->text('occupation_address_brgy_psgc')->nullable();
 
             $table->tinyInteger('if_vaccine_different_brand_dosage')->default(0);
             $table->date('vaccinationDate1')->nullable();

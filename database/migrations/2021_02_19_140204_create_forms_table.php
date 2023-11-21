@@ -260,6 +260,18 @@ class CreateFormsTable extends Migration
             $table->integer('age_years')->nullable();
             $table->integer('age_months')->nullable();
             $table->integer('age_days')->nullable();
+
+            $table->text('tkc_id')->nullable();
+            $table->text('tkc_lgu_id')->nullable();
+            $table->string('tkc_casetracking_status', 1)->nullable();
+            $table->text('tkc_created_by')->nullable();
+            
+            $table->dateTime('tkc_date_verified')->nullable();
+            $table->text('tkc_verified_assessment')->nullable();
+
+            $table->text('tkc_nonhealth_dru')->nullable();
+            $table->text('tkc_sentinel_reporting_unit')->nullable();
+            $table->string('system_isverified', 1)->nullable();
         });
     }
 
