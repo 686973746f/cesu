@@ -61,7 +61,7 @@
                         </div>
                         <div>
                             <label for="case_date" class="form-label"><strong class="text-danger">*</strong>Registration/Case Date</label>
-                            <input type="date" class="form-control" name="case_date" id="case_date" min="{{date('Y-01-01', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}" value="{{old('case_date')}}" required autofocus>
+                            <input type="date" class="form-control" name="case_date" id="case_date" min="{{date('Y-01-01', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}" value="{{old('case_date', date('Y-m-d'))}}" required autofocus>
                             <small class="text-muted">Date patient was first seen, regardless whether patient was given PEP or not.</small>
                         </div>
                     </div>
@@ -206,7 +206,7 @@
                     <div class="col-md-3">
                         <div class="mb-3">
                           <label for="d0_vaccinated_inbranch"><strong class="text-danger">*</strong>D0 was vaccinated here?</label>
-                          <select class="form-control" name="d0_vaccinated_inbranch" id="d0_vaccinated_inbranch" required>
+                          <select class="form-select" name="d0_vaccinated_inbranch" id="d0_vaccinated_inbranch" required>
                             <option value="" disabled {{is_null(old('d0_vaccinated_inbranch')) ? 'selected' : ''}}>Choose...</option>
                             <option value="Y" {{(old('d0_vaccinated_inbranch') == 'Y') ? 'selected' : ''}}>Yes</option>
                             <option value="N" {{(old('d0_vaccinated_inbranch') == 'N') ? 'selected' : ''}}>No (Other Clinic)</option>
@@ -300,6 +300,16 @@
             $('#animal_type').prop('required', true);
             $('#bite_type').prop('required', true);
             $('#category_level').prop('required', true);
+        }
+    }).trigger('change');
+
+    $('#category_level').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 3) {
+            $('#rig_date_given').val("{{date('Y-m-d')}}");
+        }
+        else {
+            $('#rig_date_given').val('');
         }
     }).trigger('change');
 

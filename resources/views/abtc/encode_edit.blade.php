@@ -478,6 +478,18 @@
         }
     }).trigger('change');
 
+    $('#category_level').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 3) {
+            if($('#rig_date_given').val() != "{{date('Y-m-d')}}") {
+                $('#rig_date_given').val("{{date('Y-m-d')}}");
+            }
+        }
+        else {
+            $('#rig_date_given').val('');
+        }
+    }).trigger('change');
+
     $('#animal_type').change(function (e) { 
         e.preventDefault();
         if($(this).val() == 'O') {
