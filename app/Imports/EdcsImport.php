@@ -12,6 +12,7 @@ use App\Models\Diph;
 use App\Models\Hfmd;
 use App\Models\Pert;
 use App\Models\Chikv;
+use App\Models\Cholera;
 use App\Models\Dengue;
 use App\Models\Rabies;
 use App\Models\Measles;
@@ -117,7 +118,7 @@ class EdcsImport implements WithMultipleSheets
             'AMES' => new AmesImport(),
             //'ANTHRAX' => new AfpImport(),
             'CHIKV' => new ChikvImport(),
-            //'CHOLERA' => new AfpImport(),
+            'CHOLERA' => new CholeraImport(),
             'DENGUE' => new DengueImport(),
             'DIPH' => new DiphImport(),
             'HEPA' => new HepaImport(),
@@ -2398,6 +2399,95 @@ class PertImport implements ToModel, WithHeadingRow {
                         'edcs_ageGroup' => isset($row['age_group']) ? $row['age_group'] : NULL,
                         'from_edcs' => 1,
                         
+                    ]);
+                }
+            }
+        }
+    }
+}
+
+class CholeraImport implements ToModel, WithHeadingRow {
+    public function model(array $row) {
+        if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
+            if(!(Cholera::where('EPIID', $row['epi_id'])->first())) {
+                $birthdate = Carbon::parse(EdcsImport::tDate($row['date_of_birth']));
+                $currentDate = Carbon::parse(EdcsImport::tDate($row['timestamp']));
+    
+                $getAgeMonths = $birthdate->diffInMonths($currentDate);
+                $getAgeDays = $birthdate->diffInDays($currentDate);
+    
+                $hfcode = $row['health_facility_code'];
+                $fac_name = $row['facilityname'];
+    
+                //CHECK FOR DUPLICATES
+                $check1 = Cholera::where('FamilyName', $row['last_name'])
+                ->where('FirstName', $row['first_name'])
+                ->whereDate('DOB', EdcsImport::tDate($row['date_of_birth']))
+                ->where('Year', $row['year'])
+                ->where('MorbidityWeek', $row['morbidity_week'])
+                ->first();
+    
+                //GET FULL NAME
+                $getFullName = $row['last_name'].', '.$row['first_name'];
+    
+                if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A') {
+                    $getFullName = $getFullName.' '.$row['middle_name'];
+                }
+    
+                if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A') {
+                    $getFullName = $getFullName.' '.$row['suffix_name'];
+                }
+    
+                if(!($check1)) {
+                    return new Cholera([
+                        'Icd10Code' => 'A00',
+                        'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
+                        'ProvOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province,
+                        'MuncityOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity,
+                        'DRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type,
+                        'NameOfDru' => $row['facilityname'],
+                        'AddressOfDRU' => NULL,
+                        'PatientNumber' => $row['patient_no'],
+                        'FirstName' => $row['first_name'],
+                        'FamilyName' => $row['last_name'],
+                        'FullName' => $getFullName,
+                        'Region' => '04A',
+                        'Province' => 'CAVITE',
+                        'Muncity' => 'GENERAL TRIAS',
+                        'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
+                        'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
+                        'Sex' => strtoupper(substr($row['sex'],0,1)),
+                        'DOB' => EdcsImport::tDate($row['date_of_birth']),
+                        'AgeYears' => $row['age_in_years'],
+                        'AgeMons' => $getAgeMonths,
+                        'AgeDays' => $getAgeDays,
+
+                        'Admitted' => ($row['patient_admitted'] == 'Yes') ? 1 : 0,
+                        'DAdmit' => EdcsImport::tDate($row['date_admitted_font_stylecolorred_font']),
+                        'DOnset' => EdcsImport::tDate($row['date_onse_of_illness']),
+                        'StoolCulture' => NULL,
+                        'Organism' => NULL,
+                        'Outcome' => mb_strtoupper(substr($row['outcome'],0,1)),
+                        'DateDied' => EdcsImport::tDate($row['date_died']),
+                        'CASECLASS' => mb_strtoupper($row['caseclassification'],0,1),
+
+                        'DateOfEntry' => EdcsImport::tDate($row['timestamp']),
+                        'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
+                        'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
+                        'SentinelSite' => NULL,
+                        'DeleteRecord' => NULL,
+                        'District' => 6,
+                        'ILHZ' => 'GENTAMAR',
+                        'SENT' => 'Y',
+                        'ip' => 'N',
+                        'ipgroup' => NULL,
+                        'UniqueKey' => Pert::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
+                        'RECSTATUS' => NULL,
+                        'TYPEHOSPITALCLINIC' => $row['verification_level'],
+                        'MorbidityMonth' => date('m', strtotime(EdcsImport::tDate($row['timestamp']))),
+                        'MorbidityWeek' => $row['morbidity_week'],
+                        'EPIID' => $row['epi_id'],
+                        'Year' => $row['year'],
                     ]);
                 }
             }
