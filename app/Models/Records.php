@@ -101,6 +101,29 @@ class Records extends Model
         'isPriority',
         'isindg',
         'indg_specify',
+
+        'address_lat',
+        'address_lng',
+        'address_region_psgc',
+        'address_province_psgc',
+        'address_muncity_psgc',
+        'address_brgy_psgc',
+
+        'perma_address_lat',
+        'perma_address_lng',
+        'perma_address_region_psgc',
+        'perma_address_province_psgc',
+        'perma_address_muncity_psgc',
+        'perma_address_brgy_psgc',
+        
+        'occupation_address_lat',
+        'occupation_address_lng',
+        'occupation_address_region_psgc',
+        'occupation_address_province_psgc',
+        'occupation_address_muncity_psgc',
+        'occupation_address_brgy_psgc',
+
+        'from_tkc',
     ];
 
     public function getAge() {

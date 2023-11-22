@@ -261,6 +261,7 @@ class CreateFormsTable extends Migration
             $table->integer('age_months')->nullable();
             $table->integer('age_days')->nullable();
 
+            $table->tinyInteger('from_tkc')->default(0);
             $table->text('tkc_id')->nullable();
             $table->text('tkc_lgu_id')->nullable();
             $table->string('tkc_casetracking_status', 1)->nullable();

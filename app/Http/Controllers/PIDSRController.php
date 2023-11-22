@@ -1300,9 +1300,27 @@ class PIDSRController extends Controller
             }, $c);
 
             $query = $query->where('Muncity', 'GENERAL TRIAS')
-            ->where('Province', 'CAVITE')
-            ->where('enabled', 1)
-            ->get();
+            ->where('Province', 'CAVITE');
+
+            if(request()->input('showDisabled')) {
+                //$query = $query->whereIn('enabled', [0,1]);
+            }
+            else {
+                $query = $query->where('enabled', 1);
+            }
+
+            if(request()->input('showNonMatchCaseDef')) {
+                //$query = $query->whereIn('enabled', [0,1]);
+            }
+            else {
+                $query = $query->where('match_casedef', 1);
+            }
+
+            if(request()->input('mw')) {
+                $query = $query->where('encoded_mw', request()->input('mw'));
+            }
+
+            $query = $query->get();
 
             return view('pidsr.casechecker', [
                 'list' => $query,

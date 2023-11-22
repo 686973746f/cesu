@@ -54,6 +54,16 @@
                       <button class="btn btn-primary" type="submit">Submit</button>
                     </div>
                 </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" name="showDisabled" id="showDisabled" value="1" {{(request()->input('showDisabled')) ? 'checked' : ''}}> Show Disabled Cases
+                  </label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label">
+                      <input type="checkbox" class="form-check-input" name="showNonMatchCaseDef" id="showNonMatchCaseDef" value="1" {{(request()->input('showNonMatchCaseDef')) ? 'checked' : ''}}> Show NOT Match on Case Def.
+                    </label>
+                </div>
             </form>
             @if(isset($list))
             <hr>

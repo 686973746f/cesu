@@ -1592,6 +1592,8 @@ class SyndromicController extends Controller
 
         if($sel_db && $year) {
             if($sel_db == 'OPD') {
+                $route = 'syndromic_diseasechecker_specific';
+
                 $abd_count = SyndromicRecords::whereYear('created_at', $year)
                 ->whereRaw("FIND_IN_SET('Acute Bloody Diarrhea (ABD)', generated_susdiseaselist)");
 
@@ -1633,34 +1635,38 @@ class SyndromicController extends Controller
                     $aes_count = $aes_count->count();
                     $afp_count = $afp_count->count();
                 }
+
+                
             }
             else {
-                $abd_count = Abd::where('Year', $year)->where('enabled', 1);
-                $aefi_count = Aefi::where('Year', $year)->where('enabled', 1);
-                $aes_count = Aes::where('Year', $year)->where('enabled', 1);
-                $afp_count = Afp::where('Year', $year)->where('enabled', 1);
-                $ahf_count = Ahf::where('Year', $year)->where('enabled', 1);
-                $ames_count = Ames::where('Year', $year)->where('enabled', 1);
-                $anthrax_count = Anthrax::where('Year', $year)->where('enabled', 1);
-                $chikv_count = Chikv::where('Year', $year)->where('enabled', 1);
-                $cholera_count = Cholera::where('Year', $year)->where('enabled', 1);
-                $dengue_count = Dengue::where('Year', $year)->where('enabled', 1);
-                $diph_count = Diph::where('Year', $year)->where('enabled', 1);
-                $hepatitis_count = Hepatitis::where('Year', $year)->where('enabled', 1);
-                $hfmd_count = Hfmd::where('Year', $year)->where('enabled', 1);
-                $influenza_count = Influenza::where('Year', $year)->where('enabled', 1);
-                $leptospirosis_count = Leptospirosis::where('Year', $year)->where('enabled', 1);
-                $malaria_count = Malaria::where('Year', $year)->where('enabled', 1);
-                $measles_count = Measles::where('Year', $year)->where('enabled', 1);
-                $meningitis_count = Meningitis::where('Year', $year)->where('enabled', 1);
-                $meningo_count = Meningo::where('Year', $year)->where('enabled', 1);
-                $nnt_count = Nnt::where('Year', $year)->where('enabled', 1);
-                $nt_count = Nt::where('Year', $year)->where('enabled', 1);
-                $pert_count = Pert::where('Year', $year)->where('enabled', 1);
-                $psp_count = Psp::where('Year', $year)->where('enabled', 1);
-                $rabies_count = Rabies::where('Year', $year)->where('enabled', 1);
-                $rotavirus_count = Rotavirus::where('Year', $year)->where('enabled', 1);
-                $typhoid_count = Typhoid::where('Year', $year)->where('enabled', 1);
+                $route = 'pidsr.casechecker';
+                
+                $abd_count = Abd::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1);
+                $aefi_count = Aefi::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1);
+                $aes_count = Aes::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1);
+                $afp_count = Afp::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1);
+                $ahf_count = Ahf::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1);
+                $ames_count = Ames::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1);
+                $anthrax_count = Anthrax::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1);
+                $chikv_count = Chikv::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1);
+                $cholera_count = Cholera::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1);
+                $dengue_count = Dengue::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1);
+                $diph_count = Diph::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1);
+                $hepatitis_count = Hepatitis::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1);
+                $hfmd_count = Hfmd::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1);
+                $influenza_count = Influenza::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1);
+                $leptospirosis_count = Leptospirosis::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1);
+                $malaria_count = Malaria::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1);
+                $measles_count = Measles::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1);
+                $meningitis_count = Meningitis::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1);
+                $meningo_count = Meningo::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1);
+                $nnt_count = Nnt::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1);
+                $nt_count = Nt::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1);
+                $pert_count = Pert::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1);
+                $psp_count = Psp::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1);
+                $rabies_count = Rabies::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1);
+                $rotavirus_count = Rotavirus::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1);
+                $typhoid_count = Typhoid::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1);
                 
                 //$covid_count = Aefi::where('Year', $year)->where('enabled', 1);
 
@@ -1752,6 +1758,7 @@ class SyndromicController extends Controller
             'typhoid_count' => $typhoid_count,
             
             'covid_count' => $covid_count,
+            'route' => $route,
         ]);
     }
 
