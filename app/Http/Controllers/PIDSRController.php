@@ -1697,449 +1697,532 @@ class PIDSRController extends Controller
         $hfmd = Hfmd::where('Year', 2023)->get();
         */
 
-        $afp = Afp::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        })
-        ->get();
+        if(request()->input('toggleRebuildMdb')) {
+            $year = request()->input('year');
 
-        $aefi = Aefi::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        })
-        ->get();
+            $afp = Afp::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1)->get();
+            $aefi = Aefi::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1)->get();
+            $anthrax = Anthrax::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1)->get();
+            $measles = Measles::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1)->get();
+            $meningo = Meningo::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1)->get();
+            $nt = Nt::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1)->get();
+            $psp = Psp::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1)->get();
+            $rabies = Afp::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1)->get();
+            $afp = Rabies::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1)->get();
+            $abd = Abd::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1)->get();
+            $aes = Aes::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1)->get();
+            $ahf = Ahf::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1)->get();
+            $hepatitis = Hepatitis::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1)->get();
+            $ames = Ames::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1)->get();
+            $meningitis = Meningitis::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1)->get();
+            $chikv = Chikv::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1)->get();
+            $cholera = Cholera::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1)->get();
+            $dengue = Dengue::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1)->get();
+            $diph = Diph::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1)->get();
+            $ili = Influenza::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1)->get();
+            $lep = Leptospirosis::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1)->get();
+            $malaria = Malaria::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1)->get();
+            $nnt = Nnt::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1)->get();
+            $pert = Pert::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1)->get();
+            $rota = Rotavirus::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1)->get();
+            $typ = Typhoid::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1)->get();
+            $hfmd = Hfmd::where('Year', $year)->where('enabled', 1)->where('match_casedef', 1)->get();
+        }
+        else {
+            $afp = Afp::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            })
+            ->get();
 
-        $anthrax = Anthrax::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        })
-        ->get();
+            $aefi = Aefi::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            })
+            ->get();
 
-        $measles = Measles::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where('match_casedef', 1)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        })
-        ->get();
+            $anthrax = Anthrax::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            })
+            ->get();
 
-        $meningo = Meningo::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        })
-        ->get();
+            $measles = Measles::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            })
+            ->get();
 
-        $nt = Nt::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        })
-        ->get();
+            $meningo = Meningo::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            })
+            ->get();
 
-        $psp = Psp::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        })
-        ->get();
+            $nt = Nt::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            })
+            ->get();
 
-        $rabies = Rabies::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        })
-        ->get();
+            $psp = Psp::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            })
+            ->get();
 
-        $abd = Abd::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        })
-        ->get();
+            $rabies = Rabies::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            })
+            ->get();
 
-        $aes = Aes::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        })
-        ->get();
+            $abd = Abd::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            })
+            ->get();
 
-        $ahf = Ahf::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        })
-        ->get();
+            $aes = Aes::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            })
+            ->get();
 
-        $hepatitis = Hepatitis::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        })
-        ->get();
+            $ahf = Ahf::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            })
+            ->get();
 
-        $ames = Ames::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        })
-        ->get();
+            $hepatitis = Hepatitis::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            })
+            ->get();
 
-        $meningitis = Meningitis::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        })
-        ->get();
+            $ames = Ames::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            })
+            ->get();
 
-        $chikv = Chikv::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        })
-        ->get();
+            $meningitis = Meningitis::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            })
+            ->get();
 
-        $cholera = Cholera::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        })
-        ->get();
+            $chikv = Chikv::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            })
+            ->get();
 
-        $dengue = Dengue::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        })
-        ->get();
+            $cholera = Cholera::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            })
+            ->get();
 
-        $diph = Diph::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        })
-        ->get();
+            $dengue = Dengue::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            })
+            ->get();
 
-        $ili = Influenza::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        })
-        ->get();
+            $diph = Diph::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            })
+            ->get();
 
-        $lep = Leptospirosis::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        })
-        ->get();
+            $ili = Influenza::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            })
+            ->get();
 
-        $malaria = Malaria::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        })
-        ->get();
+            $lep = Leptospirosis::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            })
+            ->get();
 
-        $nnt = Nnt::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        })
-        ->get();
+            $malaria = Malaria::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            })
+            ->get();
 
-        $pert = Pert::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        })
-        ->get();
+            $nnt = Nnt::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            })
+            ->get();
 
-        $rota = Rotavirus::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        })
-        ->get();
+            $pert = Pert::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            })
+            ->get();
 
-        $typ = Typhoid::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        })
-        ->get();
+            $rota = Rotavirus::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            })
+            ->get();
 
-        $hfmd = Hfmd::where('Province', 'CAVITE')
-        ->where('Muncity', 'GENERAL TRIAS')
-        ->where('systemsent', 0)
-        ->where('match_casedef', 1)
-        ->where(function ($q) {
-            $q->where(function ($r) {
-                $r->where('Year', date('Y', strtotime('-1 Week')))
-                ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-            })->orWhere(function ($r) {
-                $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-            });
-        })
-        ->get();
+            $typ = Typhoid::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            })
+            ->get();
+
+            $hfmd = Hfmd::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where(function ($q) {
+                $q->where(function ($r) {
+                    $r->where('Year', date('Y', strtotime('-1 Week')))
+                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
+                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
+                })->orWhere(function ($r) {
+                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
+                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
+                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
+                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
+                });
+            })
+            ->get();
+        }
 
         $header_style = (new Style())->setFontBold();
         $rows_style = (new Style())->setShouldWrapText();
@@ -4238,8 +4321,15 @@ class PIDSRController extends Controller
             });
         }
 
-        return redirect()->route('pidsr.home')
-        ->with('msg', 'Successfully Exported the cases to the FTP Server. You may now use the SUBMITTER PROGRAM Located at C:\cesu_tools\EDCS_SUBMITTER')
-        ->with('msgtype', 'success');
+        if(request()->input('toggleRebuildMdb')) {
+            return redirect()->route('pidsr.home')
+            ->with('msg', 'MDB Rebuild has been successfully initiated. The next step is to use the MDB Rebuilder tool located at C:\cesu_tools\ folder')
+            ->with('msgtype', 'success');   
+        }
+        else {
+            return redirect()->route('pidsr.home')
+            ->with('msg', 'Successfully Exported the cases to the FTP Server. You may now use the SUBMITTER PROGRAM Located at C:\cesu_tools\EDCS_SUBMITTER')
+            ->with('msgtype', 'success');
+        }
     }
 }

@@ -104,6 +104,8 @@ class PidsrWndr extends Command
             $afp = Afp::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
             ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
             ->where(function ($q) {
                 $q->where(function ($r) {
                     $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -147,6 +149,8 @@ class PidsrWndr extends Command
             $aefi = Aefi::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
             ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
             ->where(function ($q) {
                 $q->where(function ($r) {
                     $r->whereYear('DAdmit', date('Y', strtotime('-1 Week')))
@@ -190,6 +194,8 @@ class PidsrWndr extends Command
             $ant = Anthrax::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
             ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
             ->where(function ($q) {
                 $q->where(function ($r) {
                     $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -233,6 +239,7 @@ class PidsrWndr extends Command
             $mea = Measles::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
             ->where('systemsent', 0)
+            ->where('enabled', 1)
             ->where('match_casedef', 1)
             ->where(function ($q) {
                 $q->where(function ($r) {
@@ -275,6 +282,8 @@ class PidsrWndr extends Command
             $mgc = Meningo::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
             ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
             ->where(function ($q) {
                 $q->where(function ($r) {
                     $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -316,6 +325,8 @@ class PidsrWndr extends Command
             $nt = Nt::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
             ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
             ->where(function ($q) {
                 $q->where(function ($r) {
                     $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -357,6 +368,8 @@ class PidsrWndr extends Command
             $psp = Psp::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
             ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
             ->where(function ($q) {
                 $q->where(function ($r) {
                     $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -398,6 +411,8 @@ class PidsrWndr extends Command
             $rab = Rabies::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
             ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
             ->where(function ($q) {
                 $q->where(function ($r) {
                     $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -441,6 +456,8 @@ class PidsrWndr extends Command
             $abd = Abd::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
             ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
             ->where(function ($q) {
                 $q->where(function ($r) {
                     $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -482,6 +499,8 @@ class PidsrWndr extends Command
             $aes = Aes::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
             ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
             ->where(function ($q) {
                 $q->where(function ($r) {
                     $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -523,6 +542,8 @@ class PidsrWndr extends Command
             $ahf = Ahf::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
             ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
             ->where(function ($q) {
                 $q->where(function ($r) {
                     $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -564,6 +585,8 @@ class PidsrWndr extends Command
             $hep = Hepatitis::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
             ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
             ->where(function ($q) {
                 $q->where(function ($r) {
                     $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -605,6 +628,8 @@ class PidsrWndr extends Command
             $ame = Ames::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
             ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
             ->where(function ($q) {
                 $q->where(function ($r) {
                     $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -646,6 +671,8 @@ class PidsrWndr extends Command
             $mgt = Meningitis::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
             ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
             ->where(function ($q) {
                 $q->where(function ($r) {
                     $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -687,6 +714,8 @@ class PidsrWndr extends Command
             $chi = Chikv::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
             ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
             ->where(function ($q) {
                 $q->where(function ($r) {
                     $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -728,6 +757,8 @@ class PidsrWndr extends Command
             $cho = Cholera::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
             ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
             ->where(function ($q) {
                 $q->where(function ($r) {
                     $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -769,6 +800,8 @@ class PidsrWndr extends Command
             $den = Dengue::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
             ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
             ->where(function ($q) {
                 $q->where(function ($r) {
                     $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -810,6 +843,8 @@ class PidsrWndr extends Command
             $dip = Diph::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
             ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
             ->where(function ($q) {
                 $q->where(function ($r) {
                     $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -851,6 +886,8 @@ class PidsrWndr extends Command
             $ili = Influenza::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
             ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
             ->where(function ($q) {
                 $q->where(function ($r) {
                     $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -892,6 +929,8 @@ class PidsrWndr extends Command
             $lep = Leptospirosis::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
             ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
             ->where(function ($q) {
                 $q->where(function ($r) {
                     $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -933,6 +972,8 @@ class PidsrWndr extends Command
             $mal = Malaria::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
             ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
             ->where(function ($q) {
                 $q->where(function ($r) {
                     $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -974,6 +1015,8 @@ class PidsrWndr extends Command
             $nnt = Nnt::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
             ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
             ->where(function ($q) {
                 $q->where(function ($r) {
                     $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -1015,6 +1058,8 @@ class PidsrWndr extends Command
             $per = Pert::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
             ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
             ->where(function ($q) {
                 $q->where(function ($r) {
                     $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -1056,6 +1101,8 @@ class PidsrWndr extends Command
             $rtv = Rotavirus::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
             ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
             ->where(function ($q) {
                 $q->where(function ($r) {
                     $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -1097,6 +1144,8 @@ class PidsrWndr extends Command
             $typ = Typhoid::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
             ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
             ->where(function ($q) {
                 $q->where(function ($r) {
                     $r->where('Year', date('Y', strtotime('-1 Week')))
@@ -1138,6 +1187,7 @@ class PidsrWndr extends Command
             $hfm = Hfmd::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
             ->where('systemsent', 0)
+            ->where('enabled', 1)
             ->where('match_casedef', 1)
             ->where(function ($q) {
                 $q->where(function ($r) {

@@ -72,6 +72,7 @@
                 </button>
             </div>
             <div class="modal-body">
+                @if(request()->input('hidden'))
                 <form action="{{route('pidsr_reset_sent')}}" method="GET">
                     <div class="card">
                         <div class="card-header"><b>Reset Resending</b></div>
@@ -83,6 +84,25 @@
                         </div>
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary btn-block">Process Reset</button>
+                        </div>
+                    </div>
+                </form>
+                @endif
+                <form action="{{route('pidsr_import_ftp')}}" method="GET">
+                    <div class="card">
+                        <div class="card-header"><b>MDB Rebuilder</b></div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="year">Select Year</label>
+                                <select class="form-control" name="year" id="year" required>
+                                    @foreach(range(date('Y'), 2018) as $y)
+                                    <option value="{{$y}}">{{$y}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary btn-block" name="toggleRebuildMdb" value="1">Submit</button>
                         </div>
                     </div>
                 </form>
