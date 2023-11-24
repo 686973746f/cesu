@@ -73,7 +73,7 @@
                         @endif
                         @if(session('type') == 'createRecord')
                         <hr>
-                        Click <a href="/forms/{{session('newid')}}/new">HERE</a> to proceed on creating CIF for the newly added patient.
+                        Click <a href="{{route('forms.new', ['id' => session('newid')])}}">HERE</a> to proceed on creating CIF for the newly added patient.
                         @endif
                     </div>
                     <hr>
