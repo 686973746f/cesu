@@ -445,6 +445,16 @@ class SyndromicController extends Controller
         ->orderBy('consultation_date', 'DESC')
         ->first();
 
+        //PRESCRIPTION OPTION
+        if($r->prescribe_option == 'Y') {
+            if(is_array($r->prescription_list)) {
+                $get_meds = implode(',', $r->prescription_list);
+            }
+            else {
+                $get_meds = $r->prescription_list;
+            }
+        }
+
         if(!$check1) {
             $c = $r->user()->syndromicrecord()->create([
                 'checkup_type' => $r->checkup_type,
@@ -560,7 +570,7 @@ class SyndromicController extends Controller
                 'remarks' => ($r->filled('remarks')) ? mb_strtoupper($r->remarks) : NULL,
 
                 'prescribe_option' => $r->prescribe_option,
-                'prescription_list' => ($r->prescribe_option == 'Y') ? implode(',', $r->prescription_list) : NULL,
+                'prescription_list' => ($r->prescribe_option == 'Y') ? $get_meds : NULL,
 
                 'comorbid_list' => ($r->filled('comorbid_list')) ? implode(',', $r->comorbid_list) : NULL,
                 'firstdegree_comorbid_list' => ($r->filled('firstdegree_comorbid_list')) ? implode(',', $r->firstdegree_comorbid_list) : NULL,
