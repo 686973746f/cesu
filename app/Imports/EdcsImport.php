@@ -1731,8 +1731,8 @@ class DengueImport implements ToModel, WithHeadingRow
                         
                         'MorbidityMonth' => date('m', strtotime(EdcsImport::tDate($row['timestamp']))),
                         'MorbidityWeek' => $row['morbidity_week'],
-                        'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
-                        'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
+                        'AdmitToEntry' => preg_replace('/[^0-9]/', '', $row['timelapse_dateadmittodateencode']),
+                        'OnsetToAdmit' => preg_replace('/[^0-9]/', '', $row['timelapse_dateonsettodateencode']),
                         'SentinelSite' => NULL,
                         'DeleteRecord' => NULL,
                         'Year' => $row['year'],
