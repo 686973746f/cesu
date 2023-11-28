@@ -590,6 +590,164 @@ class ABTCVaccinationController extends Controller
         }
     }
 
+    public function encode_processLate($br_id, $dose) {
+        $get_br = AbtcBakunaRecords::findOrFail($br_id);
+        $now = Carbon::now();
+
+        if(!is_null($get_br->brand_name)) {
+            if($dose == 1) {
+                $date_check = Carbon::parse($get_br->d0_date);
+
+                if($date_check->diffInDays($now) < 3) {
+                    $get_br->d0_date = date('Y-m-d');
+                    $get_br->d0_done = 1;
+                    $get_br->d0_brand = $get_br->brand_name;
+                    $get_br->d0_vaccinated_inbranch = 1;
+                }
+                else {
+                    return abort(401);
+                }
+
+                if($get_br->patient->register_status == 'PENDING') {
+                    $c = AbtcPatient::findOrFail($get_br->patient_id);
+                    
+                    $c->created_by = auth()->user()->id;
+                    $c->register_status = 'VERIFIED';
+                    $c->save();
+                }
+    
+                $msg = 'D0 Late Vaccination was processed successfully.';
+            }
+            else if($dose == 2) {
+                $date_check = Carbon::parse($get_br->d3_date);
+
+                if($date_check->diffInDays($now) < 3) {
+                    $get_br->d3_date = date('Y-m-d');
+                    $get_br->d3_done = 1;
+                    $get_br->d3_brand = $get_br->brand_name;
+                    $get_br->d3_vaccinated_inbranch = 1;
+                }
+                else {
+                    return abort(401);
+                }
+
+                if($get_br->is_booster == 1) {
+                    $get_br->outcome = 'C';
+                    $msg = 'D3 (Booster) Late Vaccination was processed successfully.';
+                }
+                else {
+                    $msg = 'D3 Late Vaccination was processed successfully.';
+    
+                    //Check if delay ang d3 bakuna then move next schedules
+                    /*
+                    if($get_br->d3_date != date('Y-m-d')) {
+                        $ad = Carbon::parse($get_br->d3_date);
+                        $bd = Carbon::parse(date('Y-m-d'));
+    
+                        $date_diff = $ad->diffInDays($bd);
+                        if($date_diff >= 3) {
+                            $get_br->d3_date = date('Y-m-d');
+                            $get_br->d7_date = Carbon::parse($get_br->d7_date)->addDays(4)->format('Y-m-d');
+                            $get_br->d14_date = Carbon::parse($get_br->d14_date)->addDays(4)->format('Y-m-d');
+                            $get_br->d28_date = Carbon::parse($get_br->d28_date)->addDays(4)->format('Y-m-d');
+                        }
+                    }
+                    */
+                }
+            }
+            else if($dose == 3) {
+                $date_check = Carbon::parse($get_br->d7_date);
+
+                if($date_check->diffInDays($now) < 3) {
+                    $get_br->d7_date = date('Y-m-d');
+                    $get_br->d7_done = 1;
+                    $get_br->d7_brand = $get_br->brand_name;
+                    $get_br->d7_vaccinated_inbranch = 1;
+                }
+                else {
+                    return abort(401);
+                }
+
+                $get_br->outcome = 'C';
+
+                $msg = 'D7 Late Vaccination was processed successfully.';
+            }
+            else if($dose == 4 && $get_br->pep_route == 'IM') {
+                $date_check = Carbon::parse($get_br->d14_date);
+
+                if($date_check->diffInDays($now) < 3) {
+                    $get_br->d14_date = date('Y-m-d');
+                    $get_br->d14_done = 1;
+                    $get_br->d14_brand = $get_br->brand_name;
+                    $get_br->d14_vaccinated_inbranch = 1;
+                }
+                else {
+                    return abort(401);
+                }
+
+                $get_br->outcome = 'C';
+                
+                $msg = 'D7 Late Vaccination was processed successfully.';
+            }
+            else if($dose == 5) {
+                $date_check = Carbon::parse($get_br->d28_date);
+
+                if($date_check->diffInDays($now) < 3) {
+                    $get_br->d28_date = date('Y-m-d');
+                    $get_br->d28_done = 1;
+                    $get_br->d28_brand = $get_br->brand_name;
+                    $get_br->d28_vaccinated_inbranch = 1;
+                }
+                else {
+                    return abort(401);
+                }
+                
+                $get_br->outcome = 'C';
+    
+                $msg = 'D28 Late Vaccination was processed successfully.';
+            }
+
+            $get_vbrand = AbtcVaccineBrand::where('brand_name', $get_br->brand_name)->first();
+
+            //Init Vaccine Stocks
+            $vstock = AbtcVaccineStocks::where('vaccine_id', $get_vbrand->id)
+            ->where('branch_id', auth()->user()->abtc_default_vaccinationsite_id)
+            ->first();
+
+            $vstock->patient_dosecount_init++;
+            
+            if($vstock->patient_dosecount_init == $get_vbrand->est_maxdose_perbottle) {
+                $vstock->current_stock--;
+                $vstock->patient_dosecount_init = 0;
+            }
+
+            if($vstock->isDirty()) {
+                $vstock->save();
+            }
+            
+            $get_br->updated_by = auth()->user()->id;
+            $get_br->save();
+
+            if(!(request()->input('fsc'))) {
+                return view('abtc.encode_finished', [
+                    'f' => $get_br,
+                ])
+                ->with('msg', $msg)
+                ->with('dose' , $dose);
+            }
+            else {
+                return redirect()->route('abtc_schedule_index')
+                ->with('msg', 'Patient (#'.$get_br->case_id.') '.$get_br->patient->getName().' latest dose was marked as completed successfully.')
+                ->with('msgtype', 'success');
+            }
+        }
+        else {
+            return redirect()->back()
+            ->with('msg', 'Unable to proceed. Please put Vaccine Brand first, click [Save] then try again.')
+            ->with('msgtype', 'warning');
+        }
+    }
+
     public function qr_quicksearch(Request $request) {
         $sqr = $request->qr;
 
