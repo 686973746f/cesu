@@ -1619,10 +1619,12 @@ class PIDSRController extends Controller
     }
 
     public function edcsImportExcelProcess() {
-        if(File::exists(storage_path('app/edcs_feedback/feedback.xlsx'))) {
-            Excel::import(new EdcsImport(), storage_path('app/edcs_feedback/feedback.xlsx'));
+        $excel_file = storage_path('app/edcs_feedback/feedback.xlsx');
 
-            File::delete(storage_path('app/edcs_feedback/feedback.xlsx'));
+        if(File::exists($excel_file)) {
+            Excel::import(new EdcsImport(), $excel_file);
+
+            File::delete($excel_file);
 
             return redirect()->route('pidsr.home')
             ->with('msg', 'EDCS Feedback data was imported successfully. You may now proceed to Step 3.')
