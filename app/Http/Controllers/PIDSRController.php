@@ -1338,86 +1338,86 @@ class PIDSRController extends Controller
             $action = request()->input('action');
             $epi_id = request()->input('epi_id');
 
-            if($action == "DEL") {
-                if($d == 'ABD') {
-                    $data = Abd::where('EPIID', $epi_id)->first();
-                }
-                else if($d == 'AEFI') {
-                    $data = Aefi::where('EPIID', $epi_id)->first();
-                }
-                else if($d == 'AES') {
-                    $data = Aes::where('EPIID', $epi_id)->first();
-                }
-                else if($d == 'AFP') {
-                    $data = Afp::where('EPIID', $epi_id)->first();
-                }
-                else if($d == 'AHF') {
-                    $data = Ahf::where('EPIID', $epi_id)->first();
-                }
-                else if($d == 'AMES') {
-                    $data = Ames::where('EPIID', $epi_id)->first();
-                }
-                else if($d == 'ANTHRAX') {
-                    $data = Anthrax::where('EPIID', $epi_id)->first();
-                }
-                else if($d == 'CHIKV') {
-                    $data = Chikv::where('EPIID', $epi_id)->first();
-                }
-                else if($d == 'CHOLERA') {
-                    $data = Cholera::where('EPIID', $epi_id)->first();
-                }
-                else if($d == 'DENGUE') {
-                    $data = Dengue::where('EPIID', $epi_id)->first();
-                }
-                else if($d == 'DIPH') {
-                    $data = Diph::where('EPIID', $epi_id)->first();
-                }
-                else if($d == 'HEPATITIS') {
-                    $data = Hepatitis::where('EPIID', $epi_id)->first();
-                }
-                else if($d == 'HFMD') {
-                    $data = Hfmd::where('EPIID', $epi_id)->first();
-                }
-                else if($d == 'INFLUENZA') {
-                    $data = Influenza::where('EPIID', $epi_id)->first();
-                }
-                else if($d == 'LEPTOSPIROSIS') {
-                    $data = Leptospirosis::where('EPIID', $epi_id)->first();
-                }
-                else if($d == 'MALARIA') {
-                    $data = Malaria::where('EPIID', $epi_id)->first();
-                }
-                else if($d == 'MEASLES') {
-                    $data = Measles::where('EPIID', $epi_id)->first();
-                }
-                else if($d == 'MENINGITIS') {
-                    $data = Meningitis::where('EPIID', $epi_id)->first();
-                }
-                else if($d == 'MENINGO') {
-                    $data = Meningo::where('EPIID', $epi_id)->first();
-                }
-                else if($d == 'NNT') {
-                    $data = Nnt::where('EPIID', $epi_id)->first();
-                }
-                else if($d == 'NT') {
-                    $data = Nt::where('EPIID', $epi_id)->first();
-                }
-                else if($d == 'PERT') {
-                    $data = Pert::where('EPIID', $epi_id)->first();
-                }
-                else if($d == 'PSP') {
-                    $data = Psp::where('EPIID', $epi_id)->first();
-                }
-                else if($d == 'RABIES') {
-                    $data = Rabies::where('EPIID', $epi_id)->first();
-                }
-                else if($d == 'ROTAVIRUS') {
-                    $data = Rotavirus::where('EPIID', $epi_id)->first();
-                }
-                else if($d == 'TYPHOID') {
-                    $data = Typhoid::where('EPIID', $epi_id)->first();
-                }
+            if($d == 'ABD') {
+                $data = Abd::where('EPIID', $epi_id)->first();
+            }
+            else if($d == 'AEFI') {
+                $data = Aefi::where('EPIID', $epi_id)->first();
+            }
+            else if($d == 'AES') {
+                $data = Aes::where('EPIID', $epi_id)->first();
+            }
+            else if($d == 'AFP') {
+                $data = Afp::where('EPIID', $epi_id)->first();
+            }
+            else if($d == 'AHF') {
+                $data = Ahf::where('EPIID', $epi_id)->first();
+            }
+            else if($d == 'AMES') {
+                $data = Ames::where('EPIID', $epi_id)->first();
+            }
+            else if($d == 'ANTHRAX') {
+                $data = Anthrax::where('EPIID', $epi_id)->first();
+            }
+            else if($d == 'CHIKV') {
+                $data = Chikv::where('EPIID', $epi_id)->first();
+            }
+            else if($d == 'CHOLERA') {
+                $data = Cholera::where('EPIID', $epi_id)->first();
+            }
+            else if($d == 'DENGUE') {
+                $data = Dengue::where('EPIID', $epi_id)->first();
+            }
+            else if($d == 'DIPH') {
+                $data = Diph::where('EPIID', $epi_id)->first();
+            }
+            else if($d == 'HEPATITIS') {
+                $data = Hepatitis::where('EPIID', $epi_id)->first();
+            }
+            else if($d == 'HFMD') {
+                $data = Hfmd::where('EPIID', $epi_id)->first();
+            }
+            else if($d == 'INFLUENZA') {
+                $data = Influenza::where('EPIID', $epi_id)->first();
+            }
+            else if($d == 'LEPTOSPIROSIS') {
+                $data = Leptospirosis::where('EPIID', $epi_id)->first();
+            }
+            else if($d == 'MALARIA') {
+                $data = Malaria::where('EPIID', $epi_id)->first();
+            }
+            else if($d == 'MEASLES') {
+                $data = Measles::where('EPIID', $epi_id)->first();
+            }
+            else if($d == 'MENINGITIS') {
+                $data = Meningitis::where('EPIID', $epi_id)->first();
+            }
+            else if($d == 'MENINGO') {
+                $data = Meningo::where('EPIID', $epi_id)->first();
+            }
+            else if($d == 'NNT') {
+                $data = Nnt::where('EPIID', $epi_id)->first();
+            }
+            else if($d == 'NT') {
+                $data = Nt::where('EPIID', $epi_id)->first();
+            }
+            else if($d == 'PERT') {
+                $data = Pert::where('EPIID', $epi_id)->first();
+            }
+            else if($d == 'PSP') {
+                $data = Psp::where('EPIID', $epi_id)->first();
+            }
+            else if($d == 'RABIES') {
+                $data = Rabies::where('EPIID', $epi_id)->first();
+            }
+            else if($d == 'ROTAVIRUS') {
+                $data = Rotavirus::where('EPIID', $epi_id)->first();
+            }
+            else if($d == 'TYPHOID') {
+                $data = Typhoid::where('EPIID', $epi_id)->first();
+            }
 
+            if($action == "DEL") {
                 $data->enabled = 0;
 
                 if($data->isDirty()) {
@@ -1425,13 +1425,60 @@ class PIDSRController extends Controller
                 }
 
                 return redirect()->back()
-                ->with('msg', $d.' Case EPI_ID ['.$data->EPIID.'] Patient ['.$data->FullName.'] has been disabled successfully.')
+                ->with('msg', $d.' Case EPI_ID ['.$data->EPIID.'] Patient ['.$data->FullName.'] has been DISABLED successfully.')
                 ->with('msgtype', 'success');
+            }
+            else if($action == 'ENB') {
+                $data->enabled = 1;
+
+                if($data->isDirty()) {
+                    $data->save();
+                }
+
+                return redirect()->back()
+                ->with('msg', $d.' Case EPI_ID ['.$data->EPIID.'] Patient ['.$data->FullName.'] has been ENABLED successfully.')
+                ->with('msgtype', 'success');
+            }
+            else if($action == 'MATCH_CASEDEF') {
+                $data->match_casedef = 1;
+
+                if($data->isDirty()) {
+                    $data->save();
+                }
+
+                return redirect()->back()
+                ->with('msg', $d.' Case EPI_ID ['.$data->EPIID.'] Patient ['.$data->FullName.'] has been marked as MATCHED Case Definition successfully.')
+                ->with('msgtype', 'success');
+            }
+            else if($action == 'NOTMATCH_CASEDEF') {
+                $data->match_casedef = 0;
+
+                if($data->isDirty()) {
+                    $data->save();
+                }
+
+                return redirect()->back()
+                ->with('msg', $d.' Case EPI_ID ['.$data->EPIID.'] Patient ['.$data->FullName.'] has been marked as NOT MATCHED Case Definition successfully.')
+                ->with('msgtype', 'success');
+            }
+            else if($action == 'IDETH') {
+                return redirect()->route('pidsr_casechecker_edit', [
+                    'disease' => $d,
+                    'epi_id' => $data->EPIID,
+                ]);
             }
         }
         else {
             return abort(401);
         }
+    }
+
+    public function caseCheckerEdit($disease, $epi_id) {
+        
+    }
+
+    public function caseCheckerUpdate($disease, $epi_id, Request $r) {
+
     }
 
     public function weeklycaseviewer($year, $mw) {
