@@ -92,7 +92,7 @@
                                     @if($toggleFilterReport == 0)
                                     <small>({{round(($recoveredCount/$totalCasesCount) * 100, 1)}}%)</small>
                                     @else
-                                    <small>({{round(($recoveredCount/$activeCount) * 100, 1)}}%)</small>
+                                    <small>({{($activeCount != 0) ? round(($recoveredCount/$activeCount) * 100, 1) : 0}}%)</small>
                                     @endif
                                 </h4>
                                 <p class="card-text">Total Recoveries</p>
@@ -115,7 +115,7 @@
                                     @if($toggleFilterReport == 0)
                                     <small>({{round(($deathCount/$totalCasesCount) * 100, 1)}}%)</small>
                                     @else
-                                    <small>({{round(($deathCount/$activeCount) * 100, 1)}}%)</small>
+                                    <small>({{($activeCount != 0) ? round(($deathCount/$activeCount) * 100, 1) : 0}}%)</small>
                                     @endif
                                 </h4>
                                 <p class="card-text">Total Deaths</p>
@@ -289,27 +289,27 @@
                                     <tr>
                                         <td scope="row">Asymptomatic</td>
                                         <td>{{number_format($active_asymptomatic_count)}}</td>
-                                        <td>{{round(($active_asymptomatic_count / $activeCount) * 100, 1)}}%</td>
+                                        <td>{{($activeCount != 0) ? round(($active_asymptomatic_count / $activeCount) * 100, 1) : 0}}%</td>
                                     </tr>
                                     <tr>
                                         <td scope="row">Mild</td>
                                         <td>{{number_format($active_mild_count)}}</td>
-                                        <td>{{round(($active_mild_count / $activeCount) * 100, 1)}}%</td>
+                                        <td>{{($activeCount != 0) ? round(($active_mild_count / $activeCount) * 100, 1) : 0}}%</td>
                                     </tr>
                                     <tr>
                                         <td scope="row">Moderate</td>
                                         <td>{{number_format($active_moderate_count)}}</td>
-                                        <td>{{round(($active_moderate_count / $activeCount) * 100, 1)}}%</td>
+                                        <td>{{($activeCount != 0) ? round(($active_moderate_count / $activeCount) * 100, 1) : 0}}%</td>
                                     </tr>
                                     <tr>
                                         <td scope="row">Severe</td>
                                         <td>{{number_format($active_severe_count)}}</td>
-                                        <td>{{round(($active_severe_count / $activeCount) * 100, 1)}}%</td>
+                                        <td>{{($activeCount != 0) ? round(($active_severe_count / $activeCount) * 100, 1) : 0}}%</td>
                                     </tr>
                                     <tr>
                                         <td scope="row">Critical</td>
                                         <td>{{number_format($active_critical_count)}}</td>
-                                        <td>{{round(($active_critical_count / $activeCount) * 100, 1)}}%</td>
+                                        <td>{{($activeCount != 0) ? round(($active_critical_count / $activeCount) * 100, 1) : 0}}%</td>
                                     </tr>
                                 </tbody>
                             </table>
