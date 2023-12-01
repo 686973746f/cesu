@@ -265,7 +265,7 @@
                             <td>{{round(($recoveredCount/$totalCasesCount) * 100, 1)}}%</td>
                             <td>{{round(($deathCount/$totalCasesCount) * 100, 1)}}%</td>
                             <td>{{round(($totalCasesCount/$allCasesCount) * 100, 1)}}%</td>
-                            <td>{{($activeCount != 0) ? round(($hqCount/$activeCount) * 100, 1) ? 0}}%</td>
+                            <td>{{($activeCount != 0) ? round(($hqCount/$activeCount) * 100, 1) : 0}}%</td>
                         </tr>
                     </tbody>
                 </table>
