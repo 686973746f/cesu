@@ -70,7 +70,7 @@
             <table class="table table-bordered table-striped table-hover" id="list_table" style="width:100%">
                 <thead class="thead-light text-center">
                     <tr>
-                        <th></th>
+                        <!-- <th></th> -->
                         <th>#</th>
                         @foreach($columns as $c)
                         <th>{{ucfirst($c)}}</th>
@@ -81,12 +81,23 @@
                 <tbody>
                     @foreach($list as $key => $l)
                     <tr>
-                        <td></td>
+                        <!-- <td></td> -->
                         <td class="text-center">{{$key+1}}</td>
                         @foreach($columns as $c)
                         <td>{{mb_strtoupper($l->$c)}}</td>
                         @endforeach
-                        <td><a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'DEL', 'epi_id' => $l->EPIID])}}" class="btn btn-warning" onclick="return confirm('Proceed to disable? The record will not be listed anymore after processing.')">Disable</a></td>
+                        <td class="text-center">
+                            @if($l->enabled == 1)
+                            <a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'DEL', 'epi_id' => $l->EPIID])}}" class="btn btn-warning mb-3" onclick="return confirm('Proceed to disable? The record will not be listed anymore after processing.')">Disable</a>
+                            @else
+                            <a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'ENB', 'epi_id' => $l->EPIID])}}" class="btn btn-success mb-3" onclick="return confirm('Proceed to enable? The record will return to the official list after processing.')">Enable</a>
+                            @endif
+                            @if($l->match_casedef == 1)
+                            <a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'MATCH_CASEDEF', 'epi_id' => $l->EPIID])}}" class="btn btn-secondary" onclick="return confirm('Proceed to enable? The record will be marked as NOT MATCH in Case Definition after processing.')">NOT MATCH in CaseDef</a>
+                            @else
+                            <a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'NOTMATCH_CASEDEF', 'epi_id' => $l->EPIID])}}" class="btn btn-primary" onclick="return confirm('Proceed to enable? The record will be marked as MATCH in Case Definition after processing.')">MATCH in CaseDef</a>
+                            @endif
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -98,8 +109,8 @@
 
 <script>
     $('#list_table').dataTable({
-        responsive: true,
-        fixedHeader: true,
+        //responsive: true,
+        //fixedHeader: true,
         dom: 'QBfritp',
         buttons: [
             'excel', 'copy',

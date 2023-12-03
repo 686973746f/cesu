@@ -12,9 +12,9 @@ use App\Models\Diph;
 use App\Models\Hfmd;
 use App\Models\Pert;
 use App\Models\Chikv;
-use App\Models\Cholera;
 use App\Models\Dengue;
 use App\Models\Rabies;
+use App\Models\Cholera;
 use App\Models\Measles;
 use App\Models\Meningo;
 use App\Models\Typhoid;
@@ -27,9 +27,10 @@ use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToModel;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\SkipsUnknownSheets;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 
-class EdcsImport implements WithMultipleSheets
+class EdcsImport implements WithMultipleSheets, SkipsUnknownSheets
 {
     public static function tDate($date) {
         if(!is_null($date) && $date != "" && $date != 'N/A') {
@@ -132,11 +133,17 @@ class EdcsImport implements WithMultipleSheets
             'NNT' => new NntImport(),
             'NT' => new NtImport(),
             'PERT' => new PertImport(),
+            'PERTUSSIS' => new PertImport(), //MULTIPLE SHEET
             //PSP
             'RABIES' => new RabiesImport(),
             'ROTA' => new RotaImport(),
             'TYPHOID' => new TyphoidImport(),
         ];
+    }
+
+    public function onUnknownSheet($sheetName)
+    {
+        // E.g. you can log that a sheet was not found.
     }
 }
 
@@ -1731,8 +1738,8 @@ class DengueImport implements ToModel, WithHeadingRow
                         
                         'MorbidityMonth' => date('m', strtotime(EdcsImport::tDate($row['timestamp']))),
                         'MorbidityWeek' => $row['morbidity_week'],
-                        'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
-                        'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
+                        'AdmitToEntry' => preg_replace('/[^0-9]/', '', $row['timelapse_dateadmittodateencode']),
+                        'OnsetToAdmit' => preg_replace('/[^0-9]/', '', $row['timelapse_dateonsettodateencode']),
                         'SentinelSite' => NULL,
                         'DeleteRecord' => NULL,
                         'Year' => $row['year'],

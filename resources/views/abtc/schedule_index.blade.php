@@ -123,9 +123,17 @@
                                     @if($n->ifCanProcessQuickMark() == 'Y')
                                     <a href="{{route('abtc_encode_process', ['br_id' => $n->id, 'dose' => $n->getCurrentDose()])}}?fsc=1" class="btn btn-primary btn-sm" onclick="return confirm('Confirm process. Patient {{$n->patient->getName()}} (#{{$n->case_id}}) should be present. Click OK to proceed.')">Mark as Done</a>
                                     @else
-                                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{$n->ifCanProcessQuickMark()}}">
-                                        <button class="btn btn-primary btn-sm" style="pointer-events: none;" type="button" disabled>Mark as Done</button>
-                                    </span>
+                                        @php
+                                            $now = Carbon\Carbon::now();
+                                            $date_check = Carbon\Carbon::parse($n->getCurrentDoseDate());
+                                        @endphp
+                                        @if($date_check->diffInDays($now) < 3)
+                                        <a href="{{route('abtc_encode_process_late', ['br_id' => $n->id, 'dose' => $n->getCurrentDose()])}}?fsc=1" class="btn btn-primary btn-sm" onclick="return confirm('Confirm process. Patient {{$n->patient->getName()}} (#{{$n->case_id}}) should be present. Click OK to proceed.')">Proceed LATE Vaccination</a>
+                                        @else
+                                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{$n->ifCanProcessQuickMark()}}">
+                                            <button class="btn btn-primary btn-sm" style="pointer-events: none;" type="button" disabled>Mark as Done</button>
+                                        </span>
+                                        @endif
                                     @endif
                                 @endif
                             </td>

@@ -311,6 +311,8 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
     Route::get('/pidsr/report', [PIDSRController::class, 'report_generate'])->name('pidsr.report');
     Route::get('/pidsr/import/sendmail', [PIDSRController::class, 'manualsend'])->name('pidsr.sendmail');
     Route::get('/pidsr/casechecker', [PIDSRController::class, 'casechecker'])->name('pidsr.casechecker');
+    Route::get('/pidsr/casechecker/{disease}/{epi_id}/edit', [PIDSRController::class, 'caseCheckerEdit'])->name('pidsr_casechecker_edit');
+    Route::post('/pidsr/casechecker/{disease}/{epi_id}/update', [PIDSRController::class, 'caseCheckerUpdate'])->name('pidsr_casechecker_update');
     
     Route::get('/pidsr/view/{year}/{mw}', [PIDSRController::class, 'weeklycaseviewer'])->name('pidsr.weeklyviewer');
 });
@@ -404,6 +406,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     Route::post('/abtc/encode/edit/{br_id}/override_schedule', [ABTCVaccinationController::class, 'override_schedule_process'])->name('abtc_override_schedule_process');
 
     Route::get('/abtc/encode/process_vaccination/{br_id}/{dose}', [ABTCVaccinationController::class, 'encode_process'])->name('abtc_encode_process');
+    Route::get('/abtc/encode/process_vaccination/{br_id}/{dose}/late_process', [ABTCVaccinationController::class, 'encode_processLate'])->name('abtc_encode_process_late');
 
     Route::get('/abtc/encode/rebakuna/{patient_id}', [ABTCVaccinationController::class, 'bakuna_again'])->name('abtc_bakuna_again');
     Route::get('/abtc/encode/animaldead/{br_id}', [ABTCVaccinationController::class, 'markdead'])->name('abtc_mark_dead');

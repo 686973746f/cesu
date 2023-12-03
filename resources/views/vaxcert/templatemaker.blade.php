@@ -297,7 +297,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-success btn-block">Generate .XLSX File</button>
+                        <button type="submit" class="btn btn-success btn-block" id="submitbtn">Generate .XLSX File (CTRL + S)</button>
                         <h6 class="text-center mt-3">Next Step: The generated Excel File (.XLSX) should be uploaded into <a href="https://vaslinelist.dict.gov.ph/vas-line-import/approved">VASLL Import Page</a> using the email: <b>cesugentrias.vaxcert@gmail.com</b></h6>
                     </div>
                 </div>
@@ -307,6 +307,18 @@
 </div>
 
 <script>
+    $(document).bind('keydown', function(e) {
+		if(e.ctrlKey && (e.which == 83)) {
+			e.preventDefault();
+			$('#submitbtn').trigger('click');
+			$('#submitbtn').prop('disabled', true);
+			setTimeout(function() {
+				$('#submitbtn').prop('disabled', false);
+			}, 2000);
+			return false;
+		}
+	});
+
     //Select2 Init for Address Bar
     $('#address_region_code, #address_province_code, #address_muncity_code, #dose1_vaccine_manufacturer_name, #dose1_bakuna_center_cbcr_id, #dose2_vaccine_manufacturer_name, #dose2_bakuna_center_cbcr_id, #dose3_vaccine_manufacturer_name, #dose3_bakuna_center_cbcr_id, #dose4_vaccine_manufacturer_name, #dose4_bakuna_center_cbcr_id, #category').select2({
         theme: 'bootstrap',

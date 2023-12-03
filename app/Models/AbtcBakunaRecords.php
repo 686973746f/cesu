@@ -276,6 +276,27 @@ class AbtcBakunaRecords extends Model
         }
     }
 
+    public function getCurrentDoseDate() {
+        if($this->d0_done == 0) {
+            return $this->d0_date;
+        }
+        else if($this->d0_done == 1 && $this->d3_done == 0) {
+            return $this->d3_date;
+        }
+        else if($this->d0_done == 1 && $this->d3_done == 1 && $this->d7_done == 0) {
+            return $this->d7_date;
+        }
+        else if($this->d0_done == 1 && $this->d3_done == 1 && $this->d7_done == 1 && $this->d14_done == 0 && $this->pep_route == 'IM') {
+            return $this->d14_date;
+        }
+        else if($this->d0_done == 1 && $this->d3_done == 1 && $this->d7_done == 1 && $this->d14_done == 1 && $this->d28_done == 0) {
+            return $this->d28_date;
+        }
+        else {
+            return NULL;
+        }
+    }
+
     public function getNumOfCompletedDose() {
         if($this->d0_done == 0) {
             return 0;
