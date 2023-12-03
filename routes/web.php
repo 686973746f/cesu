@@ -428,7 +428,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     Route::get('/abtc/medcert/{br_id}', [ABTCVaccinationController::class, 'medcert'])->name('abtc_medcert');
 
     Route::post('/abtc/xlimport', [ABTCAdminController::class, 'xlimport'])->name('abtc_xlimport');
-    Route::post('/abtc/remaining_pt', [ABTCAdminController::class, 'remainingPt'])->name('abtc_remainingpt');
+    Route::get('/abtc/remaining_pt', [ABTCAdminController::class, 'remainingPt'])->name('abtc_remainingpt');
 });
 
 //FHSIS
