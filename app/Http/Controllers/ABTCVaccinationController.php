@@ -1241,4 +1241,22 @@ class ABTCVaccinationController extends Controller
         $templateProcessor->saveAs('php://output');
         //$templateProcessor->save('php://output');
     }
+
+    public function remainingPt() {
+        $date1 = Carbon::parse(request()->input('date1'));
+        $date2 = Carbon::parse(request()->input('date2'));
+
+        $searc_d3 = AbtcBakunaRecords::where('d0_done', 1)
+        ->whereBetween('d0_date', [$date1->format('Y-m-d'), $date2->format('Y-m-d')])
+        ->where('d3_done', 0)
+        ->get();
+
+        $searc_d7 = AbtcBakunaRecords::where('d0_done', 1)
+        ->whereBetween('d0_date', [$date1->format('Y-m-d'), $date2->format('Y-m-d')])
+        ->where('is_booster', 0)
+        ->where('d7_done', 0)
+        ->get();
+
+        dd($searc_d3.' '.$searc_d7);
+    }
 }
