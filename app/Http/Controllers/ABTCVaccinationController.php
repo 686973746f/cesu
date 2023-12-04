@@ -1405,11 +1405,13 @@ class ABTCVaccinationController extends Controller
         $date2 = Carbon::parse(request()->input('date2'));
 
         $searc_d3 = AbtcBakunaRecords::where('d0_done', 1)
+        ->where('vaccination_site_id', 1)
         ->whereBetween('d0_date', [$date1->format('Y-m-d'), $date2->format('Y-m-d')])
         ->where('d3_done', 0)
         ->count();
 
         $searc_d7 = AbtcBakunaRecords::where('d0_done', 1)
+        ->where('vaccination_site_id', 1)
         ->whereBetween('d0_date', [$date1->format('Y-m-d'), $date2->format('Y-m-d')])
         ->where('is_booster', 0)
         ->where('d7_done', 0)
