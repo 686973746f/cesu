@@ -92,8 +92,7 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     if($sf) {
                         if($sf->FamilyName == $row[9] && $sf->FirstName == $row[8]) {
-                            $iepiid = $row[31];
-                            $proceed = true;
+                            $proceed = false;
                         }
                         else {
                             $iepiid = $row[31].strtoupper(Str::random(3));
@@ -112,7 +111,7 @@ class PidsrImport implements ToCollection, WithStartRow
                     ->first();
 
                     if($proceed && !($find_name)) {
-                        $c = Abd::updateOrCreate(['EPIID' => $iepiid], [
+                        $c = Abd::create([
                             'Icd10Code' => $row[0],
                             'RegionOFDrU' => $row[1],
                             'ProvOfDRU' => $row[2],
@@ -172,8 +171,7 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     if($sf) {
                         if($sf->FamilyName == $row[9] && $sf->FirstName == $row[8]) {
-                            $iepiid = $row[31];
-                            $proceed = true;
+                            $proceed = false;
                         }
                         else {
                             $iepiid = $row[31].strtoupper(Str::random(3));
@@ -192,7 +190,7 @@ class PidsrImport implements ToCollection, WithStartRow
                     ->first();
 
                     if($proceed && !($find_name)) {
-                        $c = Aes::updateOrCreate(['EPIID' => $iepiid], [
+                        $c = Aes::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
                             'ProvOfDRU' => $row[2],
@@ -253,8 +251,7 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     if($sf) {
                         if($sf->FamilyName == $row[8] && $sf->FirstName == $row[7]) {
-                            $iepiid = $row[28];
-                            $proceed = true;
+                            $proceed = false;
                         }
                         else {
                             $iepiid = $row[28].strtoupper(Str::random(3));
@@ -273,7 +270,7 @@ class PidsrImport implements ToCollection, WithStartRow
                     ->first();
 
                     if($proceed && !($find_name)) {
-                        $c = Afp::updateOrCreate(['EPIID' => $iepiid], [
+                        $c = Afp::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
                             'ProvOfDRU' => $row[2],
@@ -423,8 +420,7 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     if($sf) {
                         if($sf->FamilyName == $row[9] && $sf->FirstName == $row[8]) {
-                            $iepiid = $row[33];
-                            $proceed = true;
+                            $proceed = false;
                         }
                         else {
                             $iepiid = $row[33].strtoupper(Str::random(3));
@@ -443,7 +439,7 @@ class PidsrImport implements ToCollection, WithStartRow
                     ->first();
 
                     if($proceed && !($find_name)) {
-                        $c = Ahf::updateOrCreate(['EPIID' => $iepiid], [
+                        $c = Ahf::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
                             'ProvOfDRU' => $row[2],
@@ -505,8 +501,7 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     if($sf) {
                         if($sf->FamilyName == $row[9] && $sf->FirstName == $row[8]) {
-                            $iepiid = $row[119];
-                            $proceed = true;
+                            $proceed = false;
                         }
                         else {
                             $iepiid = $row[119].strtoupper(Str::random(3));
@@ -525,7 +520,7 @@ class PidsrImport implements ToCollection, WithStartRow
                     ->first();
 
                     if($proceed && !($find_name)) {
-                        $c = Ames::updateOrCreate(['EPIID' => $iepiid], [
+                        $c = Ames::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
                             'ProvOfDRU' => $row[2],
@@ -673,8 +668,7 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     if($sf) {
                         if($sf->FamilyName == $row[9] && $sf->FirstName == $row[8]) {
-                            $iepiid = $row[27];
-                            $proceed = true;
+                            $proceed = false;
                         }
                         else {
                             $iepiid = $row[27].strtoupper(Str::random(3));
@@ -695,7 +689,7 @@ class PidsrImport implements ToCollection, WithStartRow
                     $ctr = 0;
 
                     if($proceed && !($find_name)) {
-                        $c = Anthrax::updateOrCreate(['EPIID' => $iepiid], [
+                        $c = Anthrax::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
                             'ProvOfDRU' => $row[2],
@@ -803,8 +797,7 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     if($sf) {
                         if($sf->FamilyName == $row[8] && $sf->FirstName == $row[7]) {
-                            $iepiid = $row[67];
-                            $proceed = true;
+                            $proceed = false;
                         }
                         else {
                             $iepiid = $row[67].strtoupper(Str::random(3));
@@ -825,7 +818,7 @@ class PidsrImport implements ToCollection, WithStartRow
                     ->first();
 
                     if($proceed && !($find_name)) {
-                        $c = Chikv::updateOrCreate(['EPIID' => $iepiid], [
+                        $c = Chikv::create([
                             'Region' => $row[0],
                             'Province' => $row[1],
                             'Muncity' => $row[2],
@@ -926,8 +919,7 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     if($sf) {
                         if($sf->FamilyName == $row[9] && $sf->FirstName == $row[8]) {
-                            $iepiid = $row[31];
-                            $proceed = true;
+                            $proceed = false;
                         }
                         else {
                             $iepiid = $row[31].strtoupper(Str::random(3));
@@ -948,7 +940,7 @@ class PidsrImport implements ToCollection, WithStartRow
                     ->first();
 
                     if($proceed && !($find_name)) {
-                        $c = Cholera::updateOrCreate(['EPIID' => $iepiid], [
+                        $c = Cholera::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
                             'ProvOfDRU' => $row[2],
@@ -1009,8 +1001,7 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     if($sf) {
                         if($sf->FamilyName == $row[8] && $sf->FirstName == $row[7]) {
-                            $iepiid = $row[28];
-                            $proceed = true;
+                            $proceed = false;
                         }
                         else {
                             $iepiid = $row[28].strtoupper(Str::random(3));
@@ -1037,7 +1028,7 @@ class PidsrImport implements ToCollection, WithStartRow
                     }
 
                     if($proceed && !($find_name)) {
-                        $c = Dengue::updateOrCreate(['EPIID' => $iepiid], [
+                        $c = Dengue::create([
                             'Region' => $row[0],
                             'Province' => $row[1],
                             'Muncity' => $row[2],
@@ -1099,8 +1090,7 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     if($sf) {
                         if($sf->FamilyName == $row[9] && $sf->FirstName == $row[8]) {
-                            $iepiid = $row[32];
-                            $proceed = true;
+                            $proceed = false;
                         }
                         else {
                             $iepiid = $row[32].strtoupper(Str::random(3));
@@ -1121,7 +1111,7 @@ class PidsrImport implements ToCollection, WithStartRow
                     ->first();
 
                     if($proceed && !($find_name)) {
-                        $c = Diph::updateOrCreate(['EPIID' => $iepiid], [
+                        $c = Diph::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
                             'ProvOfDRU' => $row[2],
@@ -1181,8 +1171,7 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     if($sf) {
                         if($sf->FamilyName == $row[9] && $sf->FirstName == $row[8]) {
-                            $iepiid = $row[32];
-                            $proceed = true;
+                            $proceed = false;
                         }
                         else {
                             $iepiid = $row[32].strtoupper(Str::random(3));
@@ -1203,7 +1192,7 @@ class PidsrImport implements ToCollection, WithStartRow
                     ->first();
 
                     if($proceed && !($find_name)) {
-                        $c = Hepatitis::updateOrCreate(['EPIID' => $iepiid], [
+                        $c = Hepatitis::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
                             'ProvOfDRU' => $row[2],
@@ -1264,8 +1253,7 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     if($sf) {
                         if($sf->FamilyName == $row[8] && $sf->FirstName == $row[7]) {
-                            $iepiid = $row[50];
-                            $proceed = true;
+                            $proceed = false;
                         }
                         else {
                             $iepiid = $row[50].strtoupper(Str::random(3));
@@ -1302,7 +1290,7 @@ class PidsrImport implements ToCollection, WithStartRow
                     }
 
                     if($proceed && !($find_name)) {
-                        $c = Hfmd::updateOrCreate(['EPIID' => $iepiid], [
+                        $c = Hfmd::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
                             'ProvOfDRU' => $row[2],
@@ -1420,8 +1408,7 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     if($sf) {
                         if($sf->FamilyName == $row[9] && $sf->FirstName == $row[8]) {
-                            $iepiid = $row[30];
-                            $proceed = true;
+                            $proceed = false;
                         }
                         else {
                             $iepiid = $row[30].strtoupper(Str::random(3));
@@ -1442,7 +1429,7 @@ class PidsrImport implements ToCollection, WithStartRow
                     ->first();
 
                     if($proceed && !($find_name)) {
-                        $c = Influenza::updateOrCreate(['EPIID' => $iepiid], [
+                        $c = Influenza::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
                             'ProvOfDRU' => $row[2],
@@ -1503,8 +1490,7 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     if($sf) {
                         if($sf->FamilyName == $row[9] && $sf->FirstName == $row[8]) {
-                            $iepiid = $row[33];
-                            $proceed = true;
+                            $proceed = false;
                         }
                         else {
                             $iepiid = $row[33].strtoupper(Str::random(3));
@@ -1525,7 +1511,7 @@ class PidsrImport implements ToCollection, WithStartRow
                     ->first();
 
                     if($proceed && !($find_name)) {
-                        $c = Leptospirosis::updateOrCreate(['EPIID' => $iepiid], [
+                        $c = Leptospirosis::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
                             'ProvOfDRU' => $row[2],
@@ -1609,8 +1595,7 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     if($sf) {
                         if($sf->FamilyName == $row[9] && $sf->FirstName == $row[8]) {
-                            $iepiid = $row[31];
-                            $proceed = true;
+                            $proceed = false;
                         }
                         else {
                             $iepiid = $row[31].strtoupper(Str::random(3));
@@ -1631,7 +1616,7 @@ class PidsrImport implements ToCollection, WithStartRow
                     ->first();
 
                     if($proceed && !($find_name)) {
-                        $c = Malaria::updateOrCreate(['EPIID' => $iepiid], [
+                        $c = Malaria::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
                             'ProvOfDRU' => $row[2],
@@ -1694,8 +1679,7 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     if($sf) {
                         if($sf->FamilyName == $row[8] && $sf->FirstName == $row[7]) {
-                            $iepiid = $row[52];
-                            $proceed = true;
+                            $proceed = false;
                         }
                         else {
                             $iepiid = $row[52].strtoupper(Str::random(3));
@@ -1729,7 +1713,7 @@ class PidsrImport implements ToCollection, WithStartRow
                     }
 
                     if($proceed && !($find_name)) {
-                        $c = Measles::updateOrCreate(['EPIID' => $iepiid], [
+                        $c = Measles::create([
                         'Icd10Code' => $row[0],
                         'RegionOfDrU' => $row[1],
                         'ProvOfDRU' => $row[2],
@@ -1866,8 +1850,7 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     if($sf) {
                         if($sf->FamilyName == $row[9] && $sf->FirstName == $row[8]) {
-                            $iepiid = $row[30];
-                            $proceed = true;
+                            $proceed = false;
                         }
                         else {
                             $iepiid = $row[30].strtoupper(Str::random(3));
@@ -1886,7 +1869,7 @@ class PidsrImport implements ToCollection, WithStartRow
                     ->first();
 
                     if($proceed && !($find_name)) {
-                        $c = Meningitis::updateOrCreate(['EPIID' => $iepiid], [
+                        $c = Meningitis::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
                             'MuncityOfDRU' => $row[2],
@@ -1947,8 +1930,7 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     if($sf) {
                         if($sf->FamilyName == $row[10] && $sf->FirstName == $row[9]) {
-                            $iepiid = $row[32];
-                            $proceed = true;
+                            $proceed = false;
                         }
                         else {
                             $iepiid = $row[32].strtoupper(Str::random(3));
@@ -1967,7 +1949,7 @@ class PidsrImport implements ToCollection, WithStartRow
                     ->first();
 
                     if($proceed && !($find_name)) {
-                        $c = Meningo::updateOrCreate(['EPIID' => $iepiid], [
+                        $c = Meningo::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
                             'ProvOfDRU' => $row[2],
@@ -2087,8 +2069,7 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     if($sf) {
                         if($sf->FamilyName == $row[9] && $sf->FirstName == $row[8]) {
-                            $iepiid = $row[36];
-                            $proceed = true;
+                            $proceed = false;
                         }
                         else {
                             $iepiid = $row[36].strtoupper(Str::random(3));
@@ -2107,7 +2088,7 @@ class PidsrImport implements ToCollection, WithStartRow
                     ->first();
 
                     if($proceed && !($find_name)) {
-                        $c = Nnt::updateOrCreate(['EPIID' => $iepiid], [
+                        $c = Nnt::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
                             'ProvOfDRU' => $row[2],
@@ -2171,8 +2152,7 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     if($sf) {
                         if($sf->FamilyName == $row[8] && $sf->FirstName == $row[7]) {
-                            $iepiid = $row[39];
-                            $proceed = true;
+                            $proceed = false;
                         }
                         else {
                             $iepiid = $row[39].strtoupper(Str::random(3));
@@ -2191,7 +2171,7 @@ class PidsrImport implements ToCollection, WithStartRow
                     ->first();
 
                     if($proceed && !($find_name)) {
-                        $c = Nt::updateOrCreate(['EPIID' => $iepiid], [
+                        $c = Nt::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
                             'ProvOfDRU' => $row[2],
@@ -2285,8 +2265,7 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     if($sf) {
                         if($sf->FamilyName == $row[9] && $sf->FirstName == $row[8]) {
-                            $iepiid = $row[32];
-                            $proceed = true;
+                            $proceed = false;
                         }
                         else {
                             $iepiid = $row[32].strtoupper(Str::random(3));
@@ -2305,7 +2284,7 @@ class PidsrImport implements ToCollection, WithStartRow
                     ->first();
 
                     if($proceed && !($find_name)) {
-                        $c = Pert::updateOrCreate(['EPIID' => $iepiid], [
+                        $c = Pert::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
                             'ProvOfDRU' => $row[2],
@@ -2365,8 +2344,7 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     if($sf) {
                         if($sf->FamilyName == $row[9] && $sf->FirstName == $row[8]) {
-                            $iepiid = $row[28];
-                            $proceed = true;
+                            $proceed = false;
                         }
                         else {
                             $iepiid = $row[28].strtoupper(Str::random(3));
@@ -2385,7 +2363,7 @@ class PidsrImport implements ToCollection, WithStartRow
                     ->first();
 
                     if($proceed && !($find_name)) {
-                        $c = Psp::updateOrCreate(['EPIID' => $iepiid], [
+                        $c = Psp::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
                             'ProvOfDRU' => $row[2],
@@ -2446,8 +2424,7 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     if($sf) {
                         if($sf->FamilyName == $row[9] && $sf->FirstName == $row[8]) {
-                            $iepiid = $row[32];
-                            $proceed = true;
+                            $proceed = false;
                         }
                         else {
                             $iepiid = $row[32].strtoupper(Str::random(3));
@@ -2466,7 +2443,7 @@ class PidsrImport implements ToCollection, WithStartRow
                     ->first();
 
                     if($proceed && !($find_name)) {
-                        $c = Rabies::updateOrCreate(['EPIID' => $iepiid], [
+                        $c = Rabies::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
                             'ProvOfDRU' => $row[2],
@@ -2546,8 +2523,7 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     if($sf) {
                         if($sf->FamilyName == $row[10] && $sf->FirstName == $row[9]) {
-                            $iepiid = $row[67];
-                            $proceed = true;
+                            $proceed = false;
                         }
                         else {
                             $iepiid = $row[67].strtoupper(Str::random(3));
@@ -2566,7 +2542,7 @@ class PidsrImport implements ToCollection, WithStartRow
                     ->first();
 
                     if($proceed && !($find_name)) {
-                        $c = Rotavirus::updateOrCreate(['EPIID' => $iepiid], [
+                        $c = Rotavirus::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
                             'ProvOfDRU' => $row[2],
@@ -2687,8 +2663,7 @@ class PidsrImport implements ToCollection, WithStartRow
 
                     if($sf) {
                         if($sf->FamilyName == $row[9] && $sf->FirstName == $row[8]) {
-                            $iepiid = $row[31];
-                            $proceed = true;
+                            $proceed = false;
                         }
                         else {
                             $iepiid = $row[31].strtoupper(Str::random(3));
@@ -2707,7 +2682,7 @@ class PidsrImport implements ToCollection, WithStartRow
                     ->first();
 
                     if($proceed && !($find_name)) {
-                        $c = Typhoid::updateOrCreate(['EPIID' => $iepiid], [
+                        $c = Typhoid::create([
                             'Icd10Code' => $row[0],
                             'RegionOfDrU' => $row[1],
                             'ProvOfDRU' => $row[2],
