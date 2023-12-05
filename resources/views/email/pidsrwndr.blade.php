@@ -413,7 +413,7 @@
     <ul>
         <b>Acute Flaccid Paralysis:</b>
         @foreach($afp_list as $brgy => $rows)
-        <li>Acute Flaccid Paralysis <b>(BRGY. {{$brgy}})</b>:</li>
+        <li>Acute Flaccid Paralysis <b>- BRGY. {{$brgy}}</b>:</li>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
@@ -432,7 +432,8 @@
     <ul>
         <b>Adverse Event Following Immunization (AEFI):</b>
         @foreach($aef_list as $brgy => $rows)
-        <li>Adverse Event Following Immunization (AEFI) <b>(BRGY. {{$brgy}})</b>:</li>
+        <li>Adverse Event Following Immunization (AEFI) <b>- BRGY. {{$brgy}}</b>:</li>
+        <div></div>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
@@ -442,6 +443,7 @@
                 <div>{{$p['aefi_type']}} Case</div>
                 <div>Date Admitted: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                <div></div>
             </li>
             @endforeach
         </ul>
@@ -452,7 +454,8 @@
     <ul>
         <b>Anthrax:</b>
         @foreach($ant_list as $brgy => $rows)
-        <li>Acute Flaccid Paralysis <b>(BRGY. {{$brgy}})</b>:</li>
+        <li>Acute Flaccid Paralysis <b>- BRGY. {{$brgy}}</b>:</li>
+        <div></div>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
@@ -461,6 +464,7 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                <div></div>
             </li>
             @endforeach
         </ul>
@@ -471,7 +475,7 @@
     <ul>
         <b>HFMD:</b>
         @foreach($hfm_list as $brgy => $rows)
-        <li>HFMD <b>(BRGY. {{$brgy}})</b>:</li>
+        <li>HFMD <b>- BRGY. {{$brgy}}</b>:</li>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
@@ -490,7 +494,8 @@
     <ul>
         <b>Measles:</b>
         @foreach($mea_list as $brgy => $rows)
-        <li>Measles <b>(BRGY. {{$brgy}})</b>:</li>
+        <li>Measles <b>- BRGY. {{$brgy}}</b>:</li>
+        <div></div>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
@@ -499,6 +504,7 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                <div></div>
             </li>
             @endforeach
         </ul>
@@ -509,7 +515,8 @@
     <ul>
         <b>Meningococcal Disease:</b>
         @foreach($mgc_list as $brgy => $rows)
-        <li>Meningococcal Disease <b>(BRGY. {{$brgy}})</b>:</li>
+        <li>Meningococcal Disease <b>- BRGY. {{$brgy}}</b>:</li>
+        <div></div>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
@@ -518,6 +525,7 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                <div></div>
             </li>
             @endforeach
         </ul>
@@ -528,7 +536,8 @@
     <ul>
         <b>Neonatal Tetanus:</b>
         @foreach($nt_list as $brgy => $rows)
-        <li>Neonatal Tetanus <b>(BRGY. {{$brgy}})</b>:</li>
+        <li>Neonatal Tetanus <b>- BRGY. {{$brgy}}</b>:</li>
+        <div></div>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
@@ -537,6 +546,7 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                <div></div>
             </li>
             @endforeach
         </ul>
@@ -547,7 +557,8 @@
     <ul>
         <b>Paralytic Shellfish Poisoning:</b>
         @foreach($psp_list as $brgy => $rows)
-        <li>Paralytic Shellfish Poisoning <b>(BRGY. {{$brgy}})</b>:</li>
+        <li>Paralytic Shellfish Poisoning <b>- BRGY. {{$brgy}}</b>:</li>
+        <div></div>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
@@ -556,6 +567,7 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                <div></div>
             </li>
             @endforeach
         </ul>
@@ -566,7 +578,8 @@
     <ul>
         <b>Rabies:</b>
         @foreach($rab_list as $brgy => $rows)
-        <li>Rabies <b>(BRGY. {{$brgy}})</b>:</li>
+        <li>Rabies <b>- BRGY. {{$brgy}}</b>:</li>
+        <div></div>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
@@ -575,6 +588,7 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                <div></div>
             </li>
             @endforeach
         </ul>
@@ -591,7 +605,8 @@
     <ul>
         <b>Acute Bloody Diarrhea:</b>
         @foreach($abd_list as $brgy => $rows)
-        <li>Acute Bloody Diarrhea <b>(BRGY. {{$brgy}})</b>:</li>
+        <li>Acute Bloody Diarrhea <b>- BRGY. {{$brgy}}</b>:</li>
+        <div></div>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
@@ -600,6 +615,7 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                <div></div>
             </li>
             @endforeach
         </ul>
@@ -610,7 +626,8 @@
     <ul>
         <b>Acute Encephalitis Syndrome:</b>
         @foreach($aes_list as $brgy => $rows)
-        <li>Acute Encephalitis Syndrome <b>(BRGY. {{$brgy}})</b>:</li>
+        <li>Acute Encephalitis Syndrome <b>- BRGY. {{$brgy}}</b>:</li>
+        <div></div>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
@@ -619,6 +636,7 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                <div></div>
             </li>
             @endforeach
         </ul>
@@ -629,7 +647,8 @@
     <ul>
         <b>Acute Hemorrhagic Fever Syndrome:</b>
         @foreach($ahf_list as $brgy => $rows)
-        <li>Acute Hemorrhagic Fever Syndrome <b>(BRGY. {{$brgy}})</b>:</li>
+        <li>Acute Hemorrhagic Fever Syndrome <b>- BRGY. {{$brgy}}</b>:</li>
+        <div></div>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
@@ -638,6 +657,7 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                <div></div>
             </li>
             @endforeach
         </ul>
@@ -648,7 +668,8 @@
     <ul>
         <b>Acute Viral Hepatitis:</b>
         @foreach($hep_list as $brgy => $rows)
-        <li>Acute Viral Hepatitis <b>(BRGY. {{$brgy}})</b>:</li>
+        <li>Acute Viral Hepatitis <b>- BRGY. {{$brgy}}</b>:</li>
+        <div></div>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
@@ -657,6 +678,7 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                <div></div>
             </li>
             @endforeach
         </ul>
@@ -667,7 +689,8 @@
     <ul>
         <b>AMES:</b>
         @foreach($ame_list as $brgy => $rows)
-        <li>AMES <b>(BRGY. {{$brgy}})</b>:</li>
+        <li>AMES <b>- BRGY. {{$brgy}}</b>:</li>
+        <div></div>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
@@ -676,6 +699,7 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                <div></div>
             </li>
             @endforeach
         </ul>
@@ -686,7 +710,8 @@
     <ul>
         <b>Bacterial Meningitis:</b>
         @foreach($mgt_list as $brgy => $rows)
-        <li>Bacterial Meningitis <b>(BRGY. {{$brgy}})</b>:</li>
+        <li>Bacterial Meningitis <b>- BRGY. {{$brgy}}</b>:</li>
+        <div></div>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
@@ -695,6 +720,7 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                <div></div>
             </li>
             @endforeach
         </ul>
@@ -705,7 +731,8 @@
     <ul>
         <b>Chikungunya:</b>
         @foreach($chi_list as $brgy => $rows)
-        <li>Chikungunya <b>(BRGY. {{$brgy}})</b>:</li>
+        <li>Chikungunya <b>- BRGY. {{$brgy}}</b>:</li>
+        <div></div>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
@@ -714,6 +741,7 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                <div></div>
             </li>
             @endforeach
         </ul>
@@ -724,7 +752,8 @@
     <ul>
         <b>Cholera:</b>
         @foreach($cho_list as $brgy => $rows)
-        <li>Cholera <b>(BRGY. {{$brgy}})</b>:</li>
+        <li>Cholera <b>- BRGY. {{$brgy}}</b>:</li>
+        <div></div>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
@@ -733,6 +762,7 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                <div></div>
             </li>
             @endforeach
         </ul>
@@ -743,7 +773,8 @@
     <ul>
         <b>Dengue:</b>
         @foreach($den_list as $brgy => $rows)
-        <li>Dengue <b>(BRGY. {{$brgy}})</b>:</li>
+        <li>Dengue <b>- BRGY. {{$brgy}}</b>:</li>
+        <div></div>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
@@ -752,6 +783,7 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                <div></div>
             </li>
             @endforeach
         </ul>
@@ -762,7 +794,8 @@
     <ul>
         <b>Diphtheria:</b>
         @foreach($dip_list as $brgy => $rows)
-        <li>Diphtheria <b>(BRGY. {{$brgy}})</b>:</li>
+        <li>Diphtheria <b>- BRGY. {{$brgy}}</b>:</li>
+        <div></div>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
@@ -771,6 +804,7 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                <div></div>
             </li>
             @endforeach
         </ul>
@@ -781,7 +815,8 @@
     <ul>
         <b>Influenza-like Illness:</b>
         @foreach($ili_list as $brgy => $rows)
-        <li>Influenza-like Illness <b>(BRGY. {{$brgy}})</b>:</li>
+        <li>Influenza-like Illness <b>- BRGY. {{$brgy}}</b>:</li>
+        <div></div>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
@@ -790,6 +825,7 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                <div></div>
             </li>
             @endforeach
         </ul>
@@ -800,7 +836,8 @@
     <ul>
         <b>Leptospirosis:</b>
         @foreach($lep_list as $brgy => $rows)
-        <li>Leptospirosis <b>(BRGY. {{$brgy}})</b>:</li>
+        <li>Leptospirosis <b>- BRGY. {{$brgy}}</b>:</li>
+        <div></div>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
@@ -819,7 +856,8 @@
     <ul>
         <b>Malaria:</b>
         @foreach($mal_list as $brgy => $rows)
-        <li>Malaria <b>(BRGY. {{$brgy}})</b>:</li>
+        <li>Malaria <b>- BRGY. {{$brgy}}</b>:</li>
+        <div></div>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
@@ -828,6 +866,7 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                <div></div>
             </li>
             @endforeach
         </ul>
@@ -838,7 +877,8 @@
     <ul>
         <b>Non-Neonatal Tetanus:</b>
         @foreach($nnt_list as $brgy => $rows)
-        <li>Non-Neonatal Tetanus <b>(BRGY. {{$brgy}})</b>:</li>
+        <li>Non-Neonatal Tetanus <b>- BRGY. {{$brgy}}</b>:</li>
+        <div></div>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
@@ -847,6 +887,7 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                <div></div>
             </li>
             @endforeach
         </ul>
@@ -857,7 +898,8 @@
     <ul>
         <b>Pertussis:</b>
         @foreach($per_list as $brgy => $rows)
-        <li>Pertussis <b>(BRGY. {{$brgy}})</b>:</li>
+        <li>Pertussis <b>- BRGY. {{$brgy}}</b>:</li>
+        <div></div>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
@@ -866,6 +908,7 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                <div></div>
             </li>
             @endforeach
         </ul>
@@ -876,7 +919,8 @@
     <ul>
         <b>RotaVirus:</b>
         @foreach($rtv_list as $brgy => $rows)
-        <li>RotaVirus <b>(BRGY. {{$brgy}})</b>:</li>
+        <li>RotaVirus <b>- BRGY. {{$brgy}}</b>:</li>
+        <div></div>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
@@ -885,6 +929,7 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                <div></div>
             </li>
             @endforeach
         </ul>
@@ -895,7 +940,8 @@
     <ul>
         <b>Typhoid and Parathyphoid Fever:</b>
         @foreach($typ_list as $brgy => $rows)
-        <li>Typhoid and Parathyphoid Fever <b>(BRGY. {{$brgy}})</b>:</li>
+        <li>Typhoid and Parathyphoid Fever <b>- BRGY. {{$brgy}}</b>:</li>
+        <div></div>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
@@ -904,6 +950,7 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                <div></div>
             </li>
             @endforeach
         </ul>

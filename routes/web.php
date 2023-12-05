@@ -307,6 +307,9 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
     Route::get('/pidsr/import', [PIDSRController::class, 'import_start'])->name('pidsr.import');
     Route::get('/pidsr/import_edcs', [PIDSRController::class, 'edcsImportExcelProcess'])->name('pidsr_import_edcs');
     Route::get('/pidsr/import_ftp', [PIDSRController::class, 'importToFtp'])->name('pidsr_import_ftp');
+
+    Route::get('/pidsr/notification', [PIDSRController::class, 'notifIndex'])->name('pidsr_notif_index');
+    Route::get('/pidsr/notification/{id}/view', [PIDSRController::class, 'notifView'])->name('pidsr_notif_view');
     
     Route::get('/pidsr/report', [PIDSRController::class, 'report_generate'])->name('pidsr.report');
     Route::get('/pidsr/import/sendmail', [PIDSRController::class, 'manualsend'])->name('pidsr.sendmail');

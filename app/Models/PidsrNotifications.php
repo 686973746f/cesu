@@ -15,4 +15,15 @@ class PidsrNotifications extends Model
         'message',
         'viewedby_id',
     ];
+
+    public function ifRead() {
+        $arr = explode(',', $this->viewedby_id);
+
+        if(in_array(auth()->user()->id, $arr)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }

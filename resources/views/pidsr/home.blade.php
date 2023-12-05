@@ -14,8 +14,9 @@
                     <div class="d-flex justify-content-between">
                       <div><b>PIDSR MENU</b></div>
                       <div>
+                        <a href="{{route('pidsr_notif_index')}}" class="btn btn-primary"><i class="fas fa-bell"></i></i>@if($notif_count != 0)<span class="badge badge-danger ml-1">{{number_format($notif_count)}}</span>@endif</a>
                         @if(auth()->user()->canaccess_covid == 1)
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changemenu">Change</button>
+                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#changemenu">Change</button>
                         @endif
                       </div>
                   </div>

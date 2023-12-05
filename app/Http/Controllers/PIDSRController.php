@@ -37,6 +37,7 @@ use App\Models\SiteSettings;
 use Illuminate\Http\Request;
 use App\Imports\RabiesImport;
 use App\Models\Leptospirosis;
+use App\Models\PidsrNotifications;
 use Illuminate\Support\Facades\DB;
 use RebaseData\Converter\Converter;
 use RebaseData\InputFile\InputFile;
@@ -108,7 +109,13 @@ UPDATE typhoid SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
 class PIDSRController extends Controller
 {
     public function home() {
-        return view('pidsr.home');
+        $id = auth()->user()->id;
+
+        $notif_count = PidsrNotifications::whereRaw("FIND_IN_SET($id, viewedby_id) = 0")->count();
+
+        return view('pidsr.home', [
+            'notif_count' => $notif_count,
+        ]);
     }
 
     public function threshold_index() {
@@ -4380,5 +4387,33 @@ class PIDSRController extends Controller
             ->with('msg', 'Successfully Exported the cases to the FTP Server. You may now use the SUBMITTER PROGRAM Located at C:\cesu_tools\EDCS_SUBMITTER')
             ->with('msgtype', 'success');
         }
+    }
+
+    public function notifIndex() {
+        $notif_list = PidsrNotifications::orderBy('created_at', 'DESC')
+        ->paginate(10);
+
+        return view('pidsr.notif_index', [
+            'notif_list' => $notif_list,
+        ]);
+    }
+
+    public function notifView($id) {
+        $d = PidsrNotifications::findOrFail($id);
+
+        if(!($d->ifRead())) {
+            $temp_array = explode(',', $d->viewedby_id);
+
+            $temp_array[] = auth()->user()->id;
+
+            $d->viewedby_id = implode(',', $temp_array);
+            if($d->isDirty()) {
+                $d->save();
+            }
+        }
+
+        return view('pidsr.notif_view', [
+            'd' => $d,
+        ]);
     }
 }
