@@ -269,7 +269,9 @@ class VpdNotifier extends Command
         $nt_update = $nt_search->update([
             'system_notified' => 1,
         ]);
-        
-        Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new VpdMailer($diph_array, $measles_array, $afp_array, $pert_array, $nnt_array, $nt_array));
+
+        if(!empty($diph_array) || !empty($measles_array) || !empty($afp_array) || !empty($pert_array) || !empty($nnt_array) || !empty($nt_array)) {
+            Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new VpdMailer($diph_array, $measles_array, $afp_array, $pert_array, $nnt_array, $nt_array));
+        }
     }
 }

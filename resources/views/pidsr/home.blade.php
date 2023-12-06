@@ -192,14 +192,15 @@
                 <p>Steps are recommended to process every Tuesday, before 11AM.</p>
             </div>
             <div class="modal-footer">
-                <p class="text-center">Step 1 - Merge MDB Feedbacks from RESU/PESU & Hospitals to update "Current MDB Folder" using OLD PIDSR Program.</p>
-                <a href="{{route('pidsr.import')}}?m=1" class="btn btn-primary btn-block">Step 2 - Import MDBs to the System</a>
-                <p class="text-center">Step 3 - Use EDCS Excel Importer Tool located at C:\cesu_tools\EDCS_IMPORTER and Select the XLSX file provided by RESU/PESU</p>
-                <a href="{{route('pidsr_import_edcs')}}" class="btn btn-primary btn-block">Step 4 - Import EDCS Feedback to the System</a>
-                <a href="{{route('pidsr_import_ftp')}}" class="btn btn-primary btn-block">Step 5 - Export New Cases to FTP Server</a>
-                <p class="text-center">Step 6 - Use PIDSR & EDCS Submitter Tool located at C:\cesu_tools\EDCS_SUBMITTER</p>
-                <a href="{{route('pidsr.sendmail')}}" class="btn btn-primary btn-block">Step 7 - Early Send Email <i>(This process is automatic every Tuesday, 11AM)</i></a>
-                <p class="text-center">Step 8 - Submit MW({{date('W', strtotime('-1 Week'))}}) Report, make email message to PESU and RESU Email and attach 1. PIDSR weekly Report PDF, 2. ZIP File from the Submitter Tool, 3. SnaX PDF</p>
+                <p class="text-center"><b>Step 1</b> - i-Merge ang mga MDB Feedbacks galing sa RESU/PESU + Hospitals gamit ng OLD PIDSR Program.</p>
+                <p class="text-center"><b>Step 2</b> - gamitin ang MDB Importer tool na nasa [C:\cesu_tools\MDBToExcelv2] na Folder. Pindutin ang [Startv2.bat] at antayin matapos ang process.</p>
+                <a href="{{route('pidsr.import')}}?m=1" class="btn btn-primary btn-block"><b>Step 3</b> - Simulan ang pag-import ng Current MDB papunta sa System</a>
+                <p class="text-center"><b>Step 4</b> - gamitin ang EDCS Excel Importer tool na nasa [C:\cesu_tools\EDCS_IMPORTER] at piliin ang Excel File (XLSX) file na galing sa RESU/PESU.</p>
+                <a href="{{route('pidsr_import_edcs')}}" class="btn btn-primary btn-block"><b>Step 5</b> - Simulan ang pag-import ng EDCS Feedbacks papunta sa System</a>
+                <a href="{{route('pidsr_import_ftp')}}" class="btn btn-primary btn-block"><b>Step 6</b> - i-Export ang mga Kaso papunta sa FTP Server</a>
+                <p class="text-center"><b>Step 7</b> - gamitin ang PIDSR & EDCS Submitter Tool na nasa [C:\cesu_tools\EDCS_SUBMITTER], pindutin ang Start.ps1 at antayin matapos ang Powershell process.</p>
+                <a href="{{route('pidsr.sendmail')}}" class="btn btn-primary btn-block"><b>Step 8</b> - i-send ang Email Report</a>
+                <p class="text-center"><b>Step 9</b> - Submit MW({{date('W', strtotime('-1 Week'))}}) Report, make email message to PESU and RESU Email and attach <b>1.</b> PIDSR weekly Report PDF, <b>2.</b> ZIP File from the Submitter Tool, <b>3.</b> SnaX PDF</p>
             </div>
         </div>
     </div>
