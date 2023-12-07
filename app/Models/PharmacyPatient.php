@@ -240,7 +240,7 @@ class PharmacyPatient extends Model
             }
     
             if(!is_null($suffix)) {
-                $suffix = mb_strtoupper(str_replace([' ','-'], '', $suffix));
+                $suffix = mb_strtoupper(str_replace([' ','-','.'], '', $suffix));
     
                 $check = $check->where(DB::raw("REPLACE(REPLACE(REPLACE(suffix,'.',''),'-',''),' ','')"), $suffix)->first();
             }
@@ -279,7 +279,7 @@ class PharmacyPatient extends Model
         }
 
         if(!is_null($suffix)) {
-            $suffix = mb_strtoupper(str_replace([' ','-'], '', $suffix));
+            $suffix = mb_strtoupper(str_replace([' ','-','.'], '', $suffix));
 
             $check = $check->where(DB::raw("REPLACE(REPLACE(REPLACE(suffix,'.',''),'-',''),' ','')"), $suffix)->first();
         }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Imports\DohFacilityImport;
 use App\Imports\EdcsImport;
+use App\Imports\TkcExcelImport;
 use Carbon\Carbon;
 use App\Mail\TestMail;
 use Illuminate\Http\Request;
@@ -20,5 +21,6 @@ use Maatwebsite\Excel\Facades\Excel;
 class TestController extends Controller
 {
     public function index() {
+        Excel::import(new TkcExcelImport(), storage_path('app/tkc/split_files/Chunk_1.xlsx'));
     }
 }

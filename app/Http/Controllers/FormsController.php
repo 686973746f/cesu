@@ -3609,4 +3609,8 @@ class FormsController extends Controller
         ->with('msg', 'CIF Transfer to Other Patient Successful.')
         ->with('msgType', 'success');
     }
+
+    public function tkcImport() {
+        
+    }
 }
