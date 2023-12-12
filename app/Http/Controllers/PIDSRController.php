@@ -482,6 +482,10 @@ class PIDSRController extends Controller
             Excel::import(new PidsrImport('CHIKV'), storage_path('app/pidsr/CHIKV.xlsx'));
         }
 
+        if(File::exists(storage_path('app/pidsr/ChikV.xlsx'))) {
+            Excel::import(new PidsrImport('CHIKV'), storage_path('app/pidsr/ChikV.xlsx'));
+        }
+
         if(File::exists(storage_path('app/pidsr/CHOLERA.xlsx'))) {
             Excel::import(new PidsrImport('CHOLERA'), storage_path('app/pidsr/CHOLERA.xlsx'));
         }
@@ -550,6 +554,10 @@ class PIDSRController extends Controller
             Excel::import(new PidsrImport('ROTAVIRUS'), storage_path('app/pidsr/ROTAVIRUS.xlsx'));
         }
 
+        if(File::exists(storage_path('app/pidsr/RotaVirus.xlsx'))) {
+            Excel::import(new PidsrImport('ROTAVIRUS'), storage_path('app/pidsr/RotaVirus.xlsx'));
+        }
+
         if(File::exists(storage_path('app/pidsr/TYPHOID.xlsx'))) {
             Excel::import(new PidsrImport('TYPHOID'), storage_path('app/pidsr/TYPHOID.xlsx'));
         }
@@ -570,7 +578,14 @@ class PIDSRController extends Controller
         File::delete(storage_path('app/pidsr/AHF.xlsx'));
         File::delete(storage_path('app/pidsr/AMES.xlsx'));
         File::delete(storage_path('app/pidsr/ANTHRAX.xlsx'));
-        File::delete(storage_path('app/pidsr/CHIKV.xlsx'));
+
+        if(File::exists(storage_path('app/pidsr/CHIKV.xlsx'))) {
+            File::delete(storage_path('app/pidsr/CHIKV.xlsx'));
+        }
+        if(File::exists(storage_path('app/pidsr/ChikV.xlsx'))) {
+            File::delete(storage_path('app/pidsr/ChikV.xlsx'));
+        }
+        
         File::delete(storage_path('app/pidsr/CHOLERA.xlsx'));
         File::delete(storage_path('app/pidsr/DENGUE.xlsx'));
         File::delete(storage_path('app/pidsr/DIPH.xlsx'));
@@ -587,7 +602,15 @@ class PIDSRController extends Controller
         File::delete(storage_path('app/pidsr/PERT.xlsx'));
         File::delete(storage_path('app/pidsr/PSP.xlsx'));
         File::delete(storage_path('app/pidsr/RABIES.xlsx'));
-        File::delete(storage_path('app/pidsr/ROTAVIRUS.xlsx'));
+
+        if(File::exists(storage_path('app/pidsr/ROTAVIRUS.xlsx'))) {
+            File::delete(storage_path('app/pidsr/ROTAVIRUS.xlsx'));
+        }
+
+        if(File::exists(storage_path('app/pidsr/RotaVirus.xlsx'))) {
+            File::delete(storage_path('app/pidsr/RotaVirus.xlsx'));
+        }
+        
         File::delete(storage_path('app/pidsr/TYPHOID.xlsx'));
         File::delete(storage_path('app/pidsr/aefi.sql'));
 
