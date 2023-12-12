@@ -1732,7 +1732,7 @@ class DengueImport implements ToModel, WithHeadingRow
                         'LabRes' => NULL,
                         'ClinClass' => $get_classi,
                         'CaseClassification' => mb_strtoupper(substr($row['case_classification'],0,1)),
-                        'Outcome' => mb_strtoupper(substr($row['outcome'],0,1)),
+                        'Outcome' => (isset($row['outcome'])) ? mb_strtoupper(substr($row['outcome'],0,1)) : mb_strtoupper(substr($row['outcome2'],0,1)),
                         'EPIID' => $row['epi_id'],
                         'DateDied' => EdcsImport::tDate($row['date_died']),
                         
@@ -1756,7 +1756,7 @@ class DengueImport implements ToModel, WithHeadingRow
 
                         'middle_name' => ($row['middle_name'] != '' && !is_null($row['middle_name'] && $row['middle_name'] != 'NONE' && $row['middle_name'] != 'N/A') && $row['middle_name'] != 'N/A') ? $row['middle_name'] : NULL,
                         'suffix' => ($row['suffix_name'] != '' && !is_null($row['suffix_name']) && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != 'NONE') ? $row['suffix_name'] : NULL,
-                        'edcs_caseid' => $row['case_id'],
+                        'edcs_caseid' => (isset($row['case_id'])) ? $row['case_id'] : $row['21'],
                         'edcs_healthFacilityCode' => $row['health_facility_code'],
                         'edcs_verificationLevel' => $row['verification_level'],
                         'edcs_investigatorName' => isset($row['name_of_investigator']) ? $row['name_of_investigator'] : NULL,
