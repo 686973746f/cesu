@@ -20,6 +20,8 @@ class CreateBarangayHealthStationsTable extends Migration
             $table->string('assigned_personnel_name')->nullable();
             $table->string('assigned_personnel_position')->nullable();
             $table->string('assigned_personnel_contact_number')->nullable();
+
+            $table->string('sys_code1', 10)->nullable();
             $table->timestamps();
         });
     }

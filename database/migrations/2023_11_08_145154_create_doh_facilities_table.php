@@ -47,6 +47,8 @@ class CreateDohFacilitiesTable extends Migration
             $table->text('bed_capacity')->nullable();
             $table->text('licensing_status')->nullable();
             $table->text('validity_date')->nullable();
+            
+            $table->string('sys_code1', 10)->nullable();
             $table->timestamps();
         });
     }
