@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class BarangayHealthStation extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'brgy_id ',
+        'name',
+        'assigned_personnel_name',
+        'assigned_personnel_position',
+        'assigned_personnel_contact_number',
+        'sys_code1',
+    ];
 }

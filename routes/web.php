@@ -48,6 +48,7 @@ use App\Http\Controllers\ABTCUserSettingsController;
 use App\Http\Controllers\AcceptanceLetterController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\ABTCWalkInRegistrationController;
+use App\Http\Controllers\FwriController;
 use App\Http\Controllers\PharmacyController;
 use App\Http\Controllers\SecondaryTertiaryRecordsController;
 use App\Http\Controllers\SyndromicController;
@@ -592,6 +593,10 @@ Route::get('json/currentDate', [JsonReportController::class, 'currentDate']);
 Route::get('json/mwly', [JsonReportController::class, 'mwly']);
 Route::get('json/mwcy', [JsonReportController::class, 'mwcy']);
 Route::get('json/mwcombine', [JsonReportController::class, 'mwcombine']);
+
+//FIREWORK RELATED INJURY FWRI
+Route::get('fwri/{code}', [FwriController::class, 'index'])->name('fwri_index');
+Route::post('fwri/{code}/add', [FwriController::class, 'store'])->name('fwri_store');
 
 //Route::get('/vaxcert/import', [VaxcertController::class, 'remoteimport'])->name('vaxcert_import');
 
