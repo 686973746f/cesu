@@ -10,6 +10,7 @@ class FwInjury extends Model
     use HasFactory;
 
     protected $fillable = [
+        'reported_by',
         'report_date',
         'facility_code',
         'hospital_name',
@@ -55,9 +56,12 @@ class FwInjury extends Model
         'firework_name',
         'liquor_intoxication',
         'treatment_given',
-        'treatment_given_transferred_hospital',
         'disposition_after_consultation',
         'disposition_after_consultation_transferred_hospital',
+
+        'disposition_after_admission',
+        'disposition_after_admission_transferred_hospital',
+
         'date_died',
         'aware_healtheducation_list',
     ];

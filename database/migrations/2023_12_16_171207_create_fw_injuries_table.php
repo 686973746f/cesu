@@ -70,15 +70,17 @@ class CreateFwInjuriesTable extends Migration
             $table->string('liquor_intoxication', 1)->default('N');
 
             $table->text('treatment_given')->nullable();
-            $table->text('treatment_given_transferred_hospital')->nullable();
             $table->text('disposition_after_consultation')->nullable();
             $table->text('disposition_after_consultation_transferred_hospital')->nullable();
+
+            $table->text('disposition_after_admission')->nullable();
+            $table->text('disposition_after_admission_transferred_hospital')->nullable();
 
             $table->date('date_died')->nullable();
             $table->text('aware_healtheducation_list')->nullable();
 
             $table->timestamps();
-        });
+        }); 
     }
 
     /**

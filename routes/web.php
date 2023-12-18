@@ -597,6 +597,7 @@ Route::get('json/mwcombine', [JsonReportController::class, 'mwcombine']);
 //FIREWORK RELATED INJURY FWRI
 Route::get('fwri/{code}', [FwriController::class, 'index'])->name('fwri_index');
 Route::post('fwri/{code}/add', [FwriController::class, 'store'])->name('fwri_store');
+Route::get('fwri/{code}/success', [FwriController::class, 'success'])->name('fwri_success');
 
 //Route::get('/vaxcert/import', [VaxcertController::class, 'remoteimport'])->name('vaxcert_import');
 
