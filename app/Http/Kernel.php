@@ -78,5 +78,6 @@ class Kernel extends HttpKernel
         'canAccessFhsis' => \App\Http\Middleware\canAccessFhsis::class,
         'canAccessPharmacy' => \App\Http\Middleware\canAccessPharmacy::class,
         'canAccessPharmacyAdminMode' => \App\Http\Middleware\canAccessPharmacyAdminMode::class,
+        'canAccessFwri' => \App\Http\Middleware\canAccessFwri::class,
     ];
 }

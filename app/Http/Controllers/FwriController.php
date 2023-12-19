@@ -115,4 +115,24 @@ class FwriController extends Controller
             'code' => $code,
         ]);
     }
+
+    public function home() {
+        $list = FwInjury::orderBy('created_at', 'DESC')->paginate(10);
+
+        return view('fwri.home', [
+            'list' => $list,
+        ]);
+    }
+
+    public function viewCif($id) {
+
+    }
+
+    public function printCif($id) {
+
+    }
+
+    public function report() {
+
+    }
 }

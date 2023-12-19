@@ -542,6 +542,13 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     Route::post('/pharmacy/prescription/{id}/update', [PharmacyController::class, 'updatePrescription'])->name('pharmacy_update_prescription');
 });
 
+Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessFwri']], function() {
+    Route::get('fwri_admin/home', [FwriController::class, 'home'])->name('fwri_home');
+    Route::get('fwri_admin/{id}/view', [FwriController::class, 'viewCif'])->name('fwri_view');
+    Route::get('fwri_admin/{id}/print', [FwriController::class, 'printCif'])->name('fwri_print');
+    Route::get('fwri_admin/report', [FwriController::class, 'report'])->name('fwri_report');
+});
+
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function() {
     Route::get('/pharmacy/patients/view/{id}/print_card', [PharmacyController::class, 'printPatientCard'])->name('pharmacy_print_patient_card');
 });

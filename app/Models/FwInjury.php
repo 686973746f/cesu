@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class FwInjury extends Model
 {
@@ -65,4 +66,108 @@ class FwInjury extends Model
         'date_died',
         'aware_healtheducation_list',
     ];
+
+    public function getName() {
+        $fullname = $this->lname.", ".$this->fname;
+
+        if(!is_null($this->mname)) {
+            $fullname = $fullname." ".$this->mname;
+        }
+
+        if(!is_null($this->suffix)) {
+            $fullname = $fullname." ".$this->suffix;
+        }
+
+        return $fullname;
+        //return $this->lname.", ".$this->fname.' '.$this->suffix." ".$this->mname;
+    }
+
+    public function getAge() {
+        if(!is_null($this->bdate)) {
+            if(Carbon::parse($this->attributes['bdate'])->age > 0) {
+                return Carbon::parse($this->attributes['bdate'])->age;
+            }
+            else {
+                if (Carbon::parse($this->attributes['bdate'])->diff(\Carbon\Carbon::now())->format('%m') == 0) {
+                    return Carbon::parse($this->attributes['bdate'])->diff(\Carbon\Carbon::now())->format('%d DAYS');
+                }
+                else {
+                    return Carbon::parse($this->attributes['bdate'])->diff(\Carbon\Carbon::now())->format('%m MOS');
+                }
+            }
+        }
+        else {
+            return $this->age;
+        }
+    }
+
+    public function sg() {
+        return substr($this->gender,0,1);
+    }
+
+    public function getAgeInt() {
+        return Carbon::parse($this->bdate)->age;
+    }
+
+    public function getStreetPurok() {
+        if($this->address_houseno && $this->address_street) {
+            $get_txt = $this->address_houseno.', '.$this->address_street;
+        }
+        else if($this->address_houseno || $this->address_street) {
+            if($this->address_houseno) {
+                $get_txt = $this->address_houseno;
+            }
+            else if($this->address_street) {
+                $get_txt = $this->address_street;
+            }
+        }
+        else {
+            $get_txt = 'N/A';
+        }
+        
+        return $get_txt;
+    }
+
+    public function getCompleteAddress() {
+        $get_txt = '';
+
+        if($this->address_houseno || $this->address_street) {
+            $get_txt = $this->getStreetPurok();
+        }
+        
+        $get_txt = $get_txt.' BRGY. '.$this->address_brgy_text.', '.$this->address_muncity_text.', '.$this->address_province_text;
+
+        return $get_txt;
+    }
+
+    public function getInjuryStreetPurok() {
+        if($this->address_houseno && $this->address_street) {
+            $get_txt = $this->address_houseno.', '.$this->address_street;
+        }
+        else if($this->address_houseno || $this->address_street) {
+            if($this->address_houseno) {
+                $get_txt = $this->address_houseno;
+            }
+            else if($this->address_street) {
+                $get_txt = $this->address_street;
+            }
+        }
+        else {
+            $get_txt = 'N/A';
+        }
+        
+        return $get_txt;
+    }
+
+    public function getInjuryAddress() {
+        $get_txt = '';
+
+        if($this->address_houseno || $this->address_street) {
+            $get_txt = $this->getInjuryStreetPurok();
+        }
+        
+        $get_txt = $get_txt.' BRGY. '.$this->address_brgy_text.', '.$this->address_muncity_text.', '.$this->address_province_text;
+
+        return $get_txt;
+    }
 }

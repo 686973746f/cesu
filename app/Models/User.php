@@ -505,6 +505,17 @@ class User extends Authenticatable implements MustVerifyEmail
         }
     }
 
+    public function canAccessFwri() {
+        $plist = $this->getPermissions();
+
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('FWRI', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     public function getItrDefaultDoctor() {
         $f = SyndromicDoctor::findOrFail($this->itr_doctor_id);
 

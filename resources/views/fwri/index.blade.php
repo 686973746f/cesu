@@ -7,6 +7,9 @@
             <div class="card">
                 <div class="card-header"><b>CESU Gen. Trias - Fireworks Related Injury (FWRI) Online Reporting Tool</b></div>
                 <div class="card-body">
+                    <div class="alert alert-info" role="alert">
+                        <b>Note:</b> All fields marked with an asterisk (<b class="text-danger">*</b>) is required to be filled-out.
+                    </div>
                     <div class="card mb-3">
                         <div class="card-header text-center"><b>METADATA</b></div>
                         <div class="card-body">
@@ -166,8 +169,8 @@
                                     <label for="reffered_anotherhospital"><span class="text-danger font-weight-bold">*</span>Referral from another hospital?</label>
                                         <select class="form-control" name="reffered_anotherhospital" id="reffered_anotherhospital" required>
                                             <option value="" disabled {{(is_null(old('reffered_anotherhospital'))) ? 'selected' : ''}}>Choose...</option>
-                                            <option value="Y" {{(old('reffered_anotherhospital') == 'HOME') ? 'selected' : ''}}>Yes</option>
                                             <option value="N" {{(old('reffered_anotherhospital') == 'HOME') ? 'selected' : ''}}>No</option>
+                                            <option value="Y" {{(old('reffered_anotherhospital') == 'HOME') ? 'selected' : ''}}>Yes</option>
                                         </select>
                                     </div>
                                     <div id="ifReferral" class="d-none">
@@ -274,9 +277,9 @@
                                     <label for="nature_injury"><span class="text-danger font-weight-bold">*</span>Nature of Injury</label>
                                         <select class="form-control" name="nature_injury" id="nature_injury" required>
                                             <option value="" disabled {{(is_null(old('nature_injury'))) ? 'selected' : ''}}>Choose...</option>
-                                            <option value="FIREWORKS INJURY" {{(old('nature_injury') == 'FIREWORKS INJURY') ? 'selected' : ''}}>FIREWORKS INJURY</option>
-                                            <option value="FIREWORKS INGESTION" {{(old('nature_injury') == 'FIREWORKS INGESTION') ? 'selected' : ''}}>FIREWORKS INGESTION</option>
-                                            <option value="STRAY BULLET INJURY" {{(old('nature_injury') == 'STRAY BULLET INJURY') ? 'selected' : ''}}>STRAY BULLET INJURY</option>
+                                            <option value="FIREWORKS INJURY" {{(old('nature_injury') == 'FIREWORKS INJURY') ? 'selected' : ''}}>FIREWORKS INJURY/NASUGATAN NG PAPUTOK</option>
+                                            <option value="FIREWORKS INGESTION" {{(old('nature_injury') == 'FIREWORKS INGESTION') ? 'selected' : ''}}>FIREWORKS INGESTION/NAKALUNOK NG PAPUTOK</option>
+                                            <option value="STRAY BULLET INJURY" {{(old('nature_injury') == 'STRAY BULLET INJURY') ? 'selected' : ''}}>STRAY BULLET INJURY/LIGAW NA BALA</option>
                                             <option value="TETANUS" {{(old('nature_injury') == 'TETANUS') ? 'selected' : ''}}>TETANUS</option>
                                         </select>
                                     </div>
@@ -293,7 +296,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                      <label for="complete_diagnosis">Complete Diagnosis</label>
+                                      <label for="complete_diagnosis">Complete Diagnosis <i>(include nature, site, and laterality)</i></label>
                                       <textarea class="form-control" name="complete_diagnosis" id="complete_diagnosis" rows="3">{{old('complete_diagnosis')}}</textarea>
                                     </div>
                                 </div>
