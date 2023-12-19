@@ -12,11 +12,13 @@ class FwriController extends Controller
 {
     public function index($code) {
         $s = BarangayHealthStation::where('sys_code1', $code)->first();
-        $facility_name = $s->name;
-
+        
         if(!($s)) {
             $s = DohFacility::where('sys_code1', $code)->first();
             $facility_name = $s->facility_name;
+        }
+        else {
+            $facility_name = $s->name;
         }
 
         if($s) {
