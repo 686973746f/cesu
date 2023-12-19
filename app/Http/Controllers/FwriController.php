@@ -35,11 +35,13 @@ class FwriController extends Controller
         //SEARCH CODE AND FETCH FACILITY NAME
 
         $s = BarangayHealthStation::where('sys_code1', $code)->first();
-        $facility_name = $s->name;
-
+        
         if(!($s)) {
             $s = DohFacility::where('sys_code1', $code)->first();
             $facility_name = $s->facility_name;
+        }
+        else {
+            $facility_name = $s->name;
         }
 
         if($s) {
