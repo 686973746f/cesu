@@ -7,9 +7,11 @@
             <div class="card">
                 <div class="card-header"><b>View/Edit FWRI Patient</b></div>
                 <div class="card-body">
-                    <div class="alert alert-info" role="alert">
-                        <b>Note:</b> All fields marked with an asterisk (<b class="text-danger">*</b>) is required to be filled-out.
+                    @if(session('msg'))
+                    <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
+                        {{session('msg')}}
                     </div>
+                    @endif
                     <div class="card mb-3">
                         <div class="card-header text-center"><b>METADATA</b></div>
                         <div class="card-body">
