@@ -97,6 +97,14 @@ class ABTCPatientController extends Controller
                 $get_age = $request->age;
             }
 
+            //BLOCK 09999999999
+            if($request->contact_number == '09999999999') {
+                return back()
+                ->withInput()
+                ->with('msg', 'Error: Invalid Contact Number. Please fill-out the contact number correctly and try again.')
+                ->with('msgtype', 'danger');
+            }
+
             $create = $request->user()->abtcpatient()->create([
                 'lname' => mb_strtoupper($request->lname),
                 'fname' => mb_strtoupper($request->fname),

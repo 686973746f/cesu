@@ -5,8 +5,8 @@
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <div><b>Fireworks-Related Injury (FWRI) - Home</b></div>
-                    <div><a href="" class="btn btn-primary">Report</a></div>
+                    <div><b>Fireworks-Related Injury (FWRI) - Home</b> (Total: {{$list->total()}})</div>
+                    <div><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reportMod">Report</button></div>
                 </div>
             </div>
             <div class="card-body">
@@ -45,6 +45,22 @@
                             @endforeach
                         </tbody>
                     </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="reportMod" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Report</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <a href="{{route('fwri_report')}}" class="btn btn-primary btn-block">Open Report Dashboard</a>
                 </div>
             </div>
         </div>

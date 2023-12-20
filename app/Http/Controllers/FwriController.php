@@ -125,6 +125,14 @@ class FwriController extends Controller
     }
 
     public function viewCif($id) {
+        $d = FwInjury::findOrFail($id);
+
+        return view('fwri.viewcif', [
+            'd' => $d,
+        ]);
+    }
+
+    public function updateCif($id, Request $r) {
 
     }
 
@@ -133,6 +141,47 @@ class FwriController extends Controller
     }
 
     public function report() {
+        if(request()->input('forYear')) {
+            $forYear = request()->input('forYear');
 
+            $date1 = date($forYear.'-12-21');
+            $date2 = date(($forYear + 1).'-01-05');
+        }
+        else {
+            $forYear = date('Y');
+
+            $date1 = date('Y-12-21');
+            $date2 = date(($forYear + 1).'-01-05');
+        }
+
+        $init_list = FwInjury::whereBetween('injury_date', [$date1, $date2]);
+
+        $get_total = $init_list->count();
+
+        $get_male = $init_list->where('gender', 'MALE')->count();
+        $get_female = $init_list->where('gender', 'FEMALE')->count();
+
+        //LOOP THROUGH DATES AND GET TOTAL INJURIES
+
+        //PLACE OF OCCURRENCE
+        $p_home = $init_list->where('place_of_occurrence', 'HOME')->count();
+        $p_street = $init_list->where('place_of_occurrence', 'STREET')->count();
+        $p_designated_area = $init_list->where('place_of_occurrence', 'DESIGNATED AREA')->count();
+        $p_others = $init_list->where('place_of_occurrence', 'OTHERS')->count();
+
+        //TYPE
+
+        //DISTINCT FIREWORKS NAME ARRAY
+
+        return view('fwri.report', [
+            'get_total' => $get_total,
+            'get_male' => $get_male,
+            'get_female' => $get_female,
+
+            'p_home' => $p_home,
+            'p_street' => $p_street,
+            'p_designated_area' => $p_designated_area,
+            'p_others' => $p_others,
+        ]);
     }
 }

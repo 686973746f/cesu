@@ -376,7 +376,7 @@
                                 <h5>Encoder</h5>
                                 <hr>
                                 <img src="{{asset('assets/images/SIG_LJCAMINGAY.png')}}" class="img-fluid" style="margin-bottom:-110px;width: 20rem;">
-                                <h5 style="margin-top: 50px;"><b>LESTER E. CAMINGAY</b></h5>
+                                <h5 style="margin-top: 50px;"><b>JOHN LESTER E. CAMINGAY</b></h5>
                                 <h5>Encoder</h5>
                             </div>
                         </div>
@@ -386,8 +386,8 @@
                             <div class="card-header">Approved by</div>
                             <div class="card-body text-center">
                                 <img src="{{asset('assets/images/SIR_LOU_PIRMA.png')}}" class="img-fluid" style="margin-bottom:-120px;width: 30rem;">
-                                <h5><b>LUIS P. BROAS, RN, RPh, MAN</b></h5>
-                                <h5>Nurse II/CESU Head</h5>
+                                <h5><b>LUIS P. BROAS, RN, RPh, MAN, CAE</b></h5>
+                                <h5>Nurse II-CESU Designated Head</h5>
                             </div>
                         </div>
                     </div>
