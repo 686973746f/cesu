@@ -22,6 +22,9 @@
                     </div>
                 </form>
                 <hr>
+                <div class="alert alert-info text-center" role="alert">
+                    <b>Note:</b> Only cases occurred in <b>{{date('F d, Y', strtotime($date1))}}</b> to <b>{{date('F d, Y', strtotime($date2))}}</b> will be counted on this report.
+                </div>
                 <div class="row">
                     <div class="col-md-4">
                         <div class="card text-center">

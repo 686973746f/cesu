@@ -46,6 +46,14 @@ class FwriController extends Controller
             $facility_name = $s->name;
         }
 
+        //CHECK TREATMENT GIVEN
+        if(in_array('NO TREATMENT', $r->treatment_given)) {
+            $tr_given = 'NO TREATMENT';
+        }
+        else {
+            $tr_given = implode(',', $r->treatment_given);
+        }
+
         if($s) {
             $c = FwInjury::create([
                 'reported_by' => mb_strtoupper($r->reported_by),
@@ -92,7 +100,7 @@ class FwriController extends Controller
                 'anatomical_location' => implode(',', $r->anatomical_location),
                 'firework_name' => mb_strtoupper($r->firework_name),
                 'liquor_intoxication' => $r->liquor_intoxication,
-                'treatment_given' => implode(',', $r->treatment_given),
+                'treatment_given' => $tr_given,
                 'disposition_after_consultation' => $r->disposition_after_consultation,
                 'disposition_after_consultation_transferred_hospital' => ($r->disposition_after_consultation == 'TRANSFERRED TO ANOTHER HOSPITAL') ? mb_strtoupper($r->disposition_after_consultation_transferred_hospital) : NULL,
 
@@ -174,6 +182,8 @@ class FwriController extends Controller
         //DISTINCT FIREWORKS NAME ARRAY
 
         return view('fwri.report', [
+            'date1' => $date1,
+            'date2' => $date2,
             'get_total' => $get_total,
             'get_male' => $get_male,
             'get_female' => $get_female,

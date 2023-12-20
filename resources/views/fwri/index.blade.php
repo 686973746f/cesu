@@ -199,68 +199,70 @@
                                     </div>
                                 </div>
                             </div>
-                            <hr>
-                            <h5 class="text-center"><b>ADDRESS WHERE INJURY OCCURRED:</b></h5>
-                            <div id="address_text" class="d-none">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <input type="text" id="injury_address_region_text" name="injury_address_region_text" value="{{old('injury_address_region_text')}}" readonly>
+                            <div class="card mb-3">
+                                <div class="card-header text-center"><b>ADDRESS WHERE INJURY OCCURRED</b></div>
+                                <div class="card-body">
+                                    <div id="address_text" class="d-none">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <input type="text" id="injury_address_region_text" name="injury_address_region_text" value="{{old('injury_address_region_text')}}" readonly>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text" id="injury_address_province_text" name="injury_address_province_text" value="{{old('injury_address_province_text')}}" readonly>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text" id="injury_address_muncity_text" name="injury_address_muncity_text" value="{{old('injury_address_muncity_text')}}" readonly>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <input type="text" id="injury_address_province_text" name="injury_address_province_text" value="{{old('injury_address_province_text')}}" readonly>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                              <label for="injury_address_region_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Injury Occured Region</label>
+                                              <select class="form-control" name="injury_address_region_code" id="injury_address_region_code" required>
+                                              </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="injury_address_province_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Injury Occured Province</label>
+                                                <select class="form-control" name="injury_address_province_code" id="injury_address_province_code" required>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <input type="text" id="injury_address_muncity_text" name="injury_address_muncity_text" value="{{old('injury_address_muncity_text')}}" readonly>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="injury_address_muncity_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Injury Occured City/Municipality</label>
+                                                <select class="form-control" name="injury_address_muncity_code" id="injury_address_muncity_code" required>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="injury_address_brgy_text" class="form-label"><span class="text-danger font-weight-bold">*</span>Injury Occured Barangay</label>
+                                                <select class="form-control" name="injury_address_brgy_text" id="injury_address_brgy_text" required>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="injury_address_houseno" class="form-label"><b class="text-danger">*</b>Injury Occured House No./Lot/Building</label>
+                                                <input type="text" class="form-control" id="injury_address_houseno" name="injury_address_houseno" style="text-transform: uppercase;" value="{{old('injury_address_houseno')}}" pattern="(^[a-zA-Z0-9 ]+$)+" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="injury_address_street" class="form-label"><b class="text-danger">*</b>Injury Occured Street/Subdivision/Purok/Sitio</label>
+                                                <input type="text" class="form-control" id="injury_address_street" name="injury_address_street" style="text-transform: uppercase;" value="{{old('injury_address_street')}}" pattern="(^[a-zA-Z0-9 ]+$)+" required>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                      <label for="injury_address_region_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Injury Occured Region</label>
-                                      <select class="form-control" name="injury_address_region_code" id="injury_address_region_code" required>
-                                      </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="injury_address_province_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Injury Occured Province</label>
-                                        <select class="form-control" name="injury_address_province_code" id="injury_address_province_code" required>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="injury_address_muncity_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Injury Occured City/Municipality</label>
-                                        <select class="form-control" name="injury_address_muncity_code" id="injury_address_muncity_code" required>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="injury_address_brgy_text" class="form-label"><span class="text-danger font-weight-bold">*</span>Injury Occured Barangay</label>
-                                        <select class="form-control" name="injury_address_brgy_text" id="injury_address_brgy_text" required>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="injury_address_houseno" class="form-label"><b class="text-danger">*</b>Injury Occured House No./Lot/Building</label>
-                                        <input type="text" class="form-control" id="injury_address_houseno" name="injury_address_houseno" style="text-transform: uppercase;" value="{{old('injury_address_houseno')}}" pattern="(^[a-zA-Z0-9 ]+$)+" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="injury_address_street" class="form-label"><b class="text-danger">*</b>Injury Occured Street/Subdivision/Purok/Sitio</label>
-                                        <input type="text" class="form-control" id="injury_address_street" name="injury_address_street" style="text-transform: uppercase;" value="{{old('injury_address_street')}}" pattern="(^[a-zA-Z0-9 ]+$)+" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr>
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -287,9 +289,9 @@
                                         <div class="form-group">
                                         <label for="iffw_typeofinjury"><span class="text-danger font-weight-bold">*</span>IF fireworks injury, type of injury (multiple responses)</label>
                                             <select class="form-control" name="iffw_typeofinjury[]" id="iffw_typeofinjury" multiple>
-                                                <option value="BLAST/BURN INJURY WITH AMPUTATION" {{(old('iffw_typeofinjury') == 'BLAST/BURN INJURY WITH AMPUTATION') ? 'selected' : ''}}>BLAST/BURN INJURY WITH AMPUTATION</option>
-                                                <option value="BLAST/BURN INJURY NO AMPUTATION" {{(old('iffw_typeofinjury') == 'BLAST/BURN INJURY NO AMPUTATION') ? 'selected' : ''}}>BLAST/BURN INJURY NO AMPUTATION</option>
-                                                <option value="EYE INJURY" {{(old('iffw_typeofinjury') == 'EYE INJURY') ? 'selected' : ''}}>EYE INJURY</option>
+                                                <option value="BLAST/BURN INJURY WITH AMPUTATION" {{(in_array('BLAST/BURN INJURY WITH AMPUTATION', explode(',', old('iffw_typeofinjury')))) ? 'selected' : ''}}>BLAST/BURN INJURY WITH AMPUTATION</option>
+                                                <option value="BLAST/BURN INJURY NO AMPUTATION" {{(in_array('BLAST/BURN INJURY NO AMPUTATION', explode(',', old('iffw_typeofinjury')))) ? 'selected' : ''}}>BLAST/BURN INJURY NO AMPUTATION</option>
+                                                <option value="EYE INJURY" {{(in_array('EYE INJURY', explode(',', old('iffw_typeofinjury')))) ? 'selected' : ''}}>EYE INJURY</option>
                                             </select>
                                         </div>
                                     </div>
@@ -297,27 +299,27 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                       <label for="complete_diagnosis">Complete Diagnosis <i>(include nature, site, and laterality)</i></label>
-                                      <textarea class="form-control" name="complete_diagnosis" id="complete_diagnosis" rows="3">{{old('complete_diagnosis')}}</textarea>
+                                      <textarea class="form-control" name="complete_diagnosis" id="complete_diagnosis" rows="3" style="text-transform: uppercase;">{{old('complete_diagnosis')}}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                     <label for="anatomical_location"><span class="text-danger font-weight-bold">*</span>Anatomical Location (multiple responses)</label>
                                         <select class="form-control" name="anatomical_location[]" id="anatomical_location" required multiple>
-                                            <option value="HEAD" {{(old('anatomical_location') == 'HEAD') ? 'selected' : ''}}>HEAD</option>
-                                            <option value="EYE" {{(old('anatomical_location') == 'EYE') ? 'selected' : ''}}>EYE</option>
-                                            <option value="NECK" {{(old('anatomical_location') == 'NECK') ? 'selected' : ''}}>NECK</option>
-                                            <option value="CHEST" {{(old('anatomical_location') == 'CHEST') ? 'selected' : ''}}>CHEST</option>
-                                            <option value="BACK" {{(old('anatomical_location') == 'BACK') ? 'selected' : ''}}>BACK</option>
-                                            <option value="ABDOMEN" {{(old('anatomical_location') == 'ABDOMEN') ? 'selected' : ''}}>ABDOMEN</option>
-                                            <option value="PELVIS" {{(old('anatomical_location') == 'PELVIS') ? 'selected' : ''}}>PELVIS</option>
-                                            <option value="THIGH" {{(old('anatomical_location') == 'THIGH') ? 'selected' : ''}}>THIGH</option>
-                                            <option value="BUTTOCKS" {{(old('anatomical_location') == 'BUTTOCKS') ? 'selected' : ''}}>BUTTOCKS</option>
-                                            <option value="LEGS" {{(old('anatomical_location') == 'LEGS') ? 'selected' : ''}}>LEGS</option>
-                                            <option value="KNEE" {{(old('anatomical_location') == 'KNEE') ? 'selected' : ''}}>KNEE</option>
-                                            <option value="FOOT" {{(old('anatomical_location') == 'FOOT') ? 'selected' : ''}}>FOOT</option>
-                                            <option value="FOREARM/ARM" {{(old('anatomical_location') == 'FOREARM/ARM') ? 'selected' : ''}}>FOREARM/ARM</option>
-                                            <option value="HAND" {{(old('anatomical_location') == 'HAND') ? 'selected' : ''}}>HAND</option>
+                                            <option value="HEAD" {{(in_array('HEAD', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>HEAD</option>
+                                            <option value="EYE" {{(in_array('EYE', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>EYE</option>
+                                            <option value="NECK" {{(in_array('NECK', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>NECK</option>
+                                            <option value="CHEST" {{(in_array('CHEST', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>CHEST</option>
+                                            <option value="BACK" {{(in_array('BACK', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>BACK</option>
+                                            <option value="ABDOMEN" {{(in_array('ABDOMEN', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>ABDOMEN</option>
+                                            <option value="PELVIS" {{(in_array('PELVIS', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>PELVIS</option>
+                                            <option value="THIGH" {{(in_array('THIGH', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>THIGH</option>
+                                            <option value="BUTTOCKS" {{(in_array('BUTTOCKS', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>BUTTOCKS</option>
+                                            <option value="LEGS" {{(in_array('LEGS', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>LEGS</option>
+                                            <option value="KNEE" {{(in_array('KNEE', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>KNEE</option>
+                                            <option value="FOOT" {{(in_array('FOOT', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>FOOT</option>
+                                            <option value="FOREARM/ARM" {{(in_array('FOREARM/ARM', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>FOREARM/ARM</option>
+                                            <option value="HAND" {{(in_array('HAND', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>HAND</option>
                                         </select>
                                     </div>
                                 </div>
@@ -332,8 +334,8 @@
                                     <label for="liquor_intoxication"><span class="text-danger font-weight-bold">*</span>Liquor Intoxication?</label>
                                         <select class="form-control" name="liquor_intoxication" id="liquor_intoxication" required>
                                             <option value="" disabled {{(is_null(old('liquor_intoxication'))) ? 'selected' : ''}}>Choose...</option>
-                                            <option value="Y" {{(old('liquor_intoxication') == 'HOME') ? 'selected' : ''}}>Yes</option>
-                                            <option value="N" {{(old('liquor_intoxication') == 'HOME') ? 'selected' : ''}}>No</option>
+                                            <option value="Y" {{(old('liquor_intoxication') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                            <option value="N" {{(old('liquor_intoxication') == 'N') ? 'selected' : ''}}>No</option>
                                         </select>
                                     </div>
                                 </div>
@@ -343,10 +345,10 @@
                                     <div class="form-group">
                                     <label for="treatment_given"><span class="text-danger font-weight-bold">*</span>Treatment Given (multiple responses)</label>
                                         <select class="form-control" name="treatment_given[]" id="treatment_given" multiple required>
-                                            <option value="ATS/TIG" {{(old('treatment_given') == 'ATS/TIG') ? 'selected' : ''}}>ATS/TIG</option>
-                                            <option value="TOXOID" {{(old('treatment_given') == 'TOXOID') ? 'selected' : ''}}>TOXOID</option>
-                                            <option value="NO TREATMENT" {{(old('treatment_given') == 'NO TREATMENT') ? 'selected' : ''}}>NO TREATMENT</option>
-                                            <option value="OTHER" {{(old('treatment_given') == 'OTHER') ? 'selected' : ''}}>OTHER, SPECIFY</option>
+                                            <option value="ATS/TIG" {{(in_array('ATS/TIG', explode(',', old('treatment_given')))) ? 'selected' : ''}}>ATS/TIG</option>
+                                            <option value="TOXOID" {{(in_array('TOXOID', explode(',', old('treatment_given')))) ? 'selected' : ''}}>TOXOID</option>
+                                            <option value="NO TREATMENT" {{(in_array('NO TREATMENT', explode(',', old('treatment_given')))) ? 'selected' : ''}}>NO TREATMENT</option>
+                                            <option value="OTHER" {{(in_array('OTHER', explode(',', old('treatment_given')))) ? 'selected' : ''}}>OTHER, SPECIFY</option>
                                         </select>
                                     </div>
                                 </div>
@@ -399,13 +401,13 @@
                             <div class="form-group">
                             <label for="aware_healtheducation_list"><span class="text-danger font-weight-bold">*</span>Is the patient aware of any health education materials regarding fireworks (multiple responses)</label>
                                 <select class="form-control" name="aware_healtheducation_list[]" id="aware_healtheducation_list" required multiple>
-                                    <option value="TV" {{(old('aware_healtheducation_list') == 'TV') ? 'selected' : ''}}>TV</option>
-                                    <option value="NEWSPAPER/PRINT" {{(old('aware_healtheducation_list') == 'NEWSPAPER/PRINT') ? 'selected' : ''}}>NEWSPAPER/PRINT</option>
-                                    <option value="RADIO" {{(old('aware_healtheducation_list') == 'RADIO') ? 'selected' : ''}}>RADIO</option>
-                                    <option value="POSTER/TARPAULIN" {{(old('aware_healtheducation_list') == 'POSTER/TARPAULIN') ? 'selected' : ''}}>POSTER/TARPAULIN</option>
-                                    <option value="INTERNET/SOCIAL MEDIA" {{(old('aware_healtheducation_list') == 'INTERNET/SOCIAL MEDIA') ? 'selected' : ''}}>INTERNET/SOCIAL MEDIA</option>
-                                    <option value="HEALTH WORKER" {{(old('aware_healtheducation_list') == 'HEALTH WORKER') ? 'selected' : ''}}>HEALTH WORKER</option>
-                                    <option value="NOT AWARE" {{(old('aware_healtheducation_list') == 'NOT AWARE') ? 'selected' : ''}}>NOT AWARE</option>
+                                    <option value="TV" {{(in_array('TV', explode(',', old('aware_healtheducation_list')))) ? 'selected' : ''}}>TV</option>
+                                    <option value="NEWSPAPER/PRINT" {{(in_array('NEWSPAPER/PRINT', explode(',', old('aware_healtheducation_list')))) ? 'selected' : ''}}>NEWSPAPER/PRINT</option>
+                                    <option value="RADIO" {{(in_array('RADIO', explode(',', old('aware_healtheducation_list')))) ? 'selected' : ''}}>RADIO</option>
+                                    <option value="POSTER/TARPAULIN" {{(in_array('POSTER/TARPAULIN', explode(',', old('aware_healtheducation_list')))) ? 'selected' : ''}}>POSTER/TARPAULIN</option>
+                                    <option value="INTERNET/SOCIAL MEDIA" {{(in_array('INTERNET/SOCIAL MEDIA', explode(',', old('aware_healtheducation_list')))) ? 'selected' : ''}}>INTERNET/SOCIAL MEDIA</option>
+                                    <option value="HEALTH WORKER" {{(in_array('HEALTH WORKER', explode(',', old('aware_healtheducation_list')))) ? 'selected' : ''}}>HEALTH WORKER</option>
+                                    <option value="NOT AWARE" {{(in_array('NOT AWARE', explode(',', old('aware_healtheducation_list')))) ? 'selected' : ''}}>NOT AWARE</option>
                                 </select>
                             </div>
                         </div>
