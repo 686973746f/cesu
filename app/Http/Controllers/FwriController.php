@@ -126,7 +126,7 @@ class FwriController extends Controller
                     'disposition_after_admission' => $r->disposition_after_admission,
                     'disposition_after_admission_transferred_hospital' => ($r->disposition_after_admission == 'TRANSFERRED TO ANOTHER HOSPITAL') ? mb_strtoupper($r->disposition_after_admission_transferred_hospital) : NULL,
                     
-                    'date_died' => ($r->disposition_after_admission) ? $r->date_died : NULL,
+                    'date_died' => ($r->disposition_after_admission == 'DIED DURING ADMISSION') ? $r->date_died : NULL,
                     'aware_healtheducation_list' => $get_hel,
                 ]);
 
@@ -233,7 +233,7 @@ class FwriController extends Controller
             'disposition_after_admission' => $r->disposition_after_admission,
             'disposition_after_admission_transferred_hospital' => ($r->disposition_after_admission == 'TRANSFERRED TO ANOTHER HOSPITAL') ? mb_strtoupper($r->disposition_after_admission_transferred_hospital) : NULL,
             
-            'date_died' => ($r->disposition_after_admission) ? $r->date_died : NULL,
+            'date_died' => ($r->disposition_after_admission == 'DIED DURING ADMISSION') ? $r->date_died : NULL,
             'aware_healtheducation_list' => $get_hel,
         ]);
 
