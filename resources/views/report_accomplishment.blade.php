@@ -81,6 +81,7 @@
                         <tr>
                             <th>Month</th>
                             <th>Swab</th>
+                            <th>Antigen</th>
                             <th>Suspected/Probable</th>
                             <th>Confirmed</th>
                             <th>Close Contact</th>
@@ -91,6 +92,7 @@
                         <tr>
                             <td><b>{{$s['month']}}</b></td>
                             <td>{{$s['count']}}</td>
+                            <td>{{$s['antigen_count']}}</td>
                             <td>{{$s['suspro']}}</td>
                             <td>{{$s['confirmed']}}</td>
                             <td>{{$s['cc']}}</td>
