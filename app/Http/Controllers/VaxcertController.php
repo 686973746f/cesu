@@ -772,12 +772,24 @@ class VaxcertController extends Controller
         ->whereMonth('created_at', date('m', strtotime('-1 Month')))
         ->count();
 
+        //MONTHLY VAXCERT NUMBER OF RESOLVED
+        $marray = [];
+
+        for($i=1;$i<=12;$i++) {
+            $gcount = VaxcertConcern::where('status', 'COMPLETED')
+            ->whereMonth('created_at', $i)
+            ->count();
+
+            $marray[] = $gcount;
+        }
+
         return view('vaxcert.report', [
             'get_total' => $get_total,
             'get_total_current_year' => $get_total_current_year,
             'get_total_previous_year' => $get_total_previous_year,
             'get_total_current_month' => $get_total_current_month,
             'get_total_previous_month' => $get_total_previous_month,
+            'marray' => $marray,
         ]);
     }
 
