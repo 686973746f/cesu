@@ -1824,6 +1824,7 @@ class ReportV2Controller extends Controller
                             ->whereBetween('morbidityMonth', ['2021-12-01', '2021-12-31'])
                             ->where('isPresentOnSwabDay', 1)
                             ->count(),
+                    'antigen_count' => 0,
                     'suspro' => 0,
                     'confirmed' => 0,
                     'cc' => 0,
@@ -1839,6 +1840,7 @@ class ReportV2Controller extends Controller
                             ->whereBetween('morbidityMonth', ['2020-12-01', '2020-12-31'])
                             ->where('isPresentOnSwabDay', 1)
                             ->count(),
+                    'antigen_count' => 0,
                     'suspro' => 0,
                     'confirmed' => 0,
                     'cc' => 0,
