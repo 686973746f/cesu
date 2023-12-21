@@ -63,6 +63,9 @@ class Kernel extends ConsoleKernel
         $schedule->command('abtcstockreport:daily')->dailyAt('16:40')->evenInMaintenanceMode();
         
         $schedule->command('pharmacy:check_expiry')->dailyAt('00:00')->evenInMaintenanceMode();
+
+        $schedule->command('fwrireporter:daily')->dailyAt('06:00')->evenInMaintenanceMode();
+        
         //$schedule->command('queue:work')->everyMinute()->withoutOverlapping();
         
         //$schedule->command('autoemailcompositemeasure:on15and30')->monthlyOn(15, '16:05');

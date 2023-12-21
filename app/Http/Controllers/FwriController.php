@@ -74,6 +74,13 @@ class FwriController extends Controller
             }
 
             if($s) {
+                $birthdate = Carbon::parse($r->bdate);
+                $currentDate = Carbon::parse(date('Y-m-d'));
+
+                $get_ageyears = $birthdate->diffInYears($currentDate);
+                $get_agemonths = $birthdate->diffInMonths($currentDate);
+                $get_agedays = $birthdate->diffInDays($currentDate);
+
                 $c = FwInjury::create([
                     'reported_by' => mb_strtoupper($r->reported_by),
                     'report_date' => $r->report_date,
@@ -128,6 +135,10 @@ class FwriController extends Controller
                     
                     'date_died' => ($r->disposition_after_admission == 'DIED DURING ADMISSION') ? $r->date_died : NULL,
                     'aware_healtheducation_list' => $get_hel,
+
+                    'age_years' => $get_ageyears,
+                    'age_months' => $get_agemonths,
+                    'age_days' => $get_agedays,
                 ]);
 
                 return redirect()->route('fwri_success', $code);
@@ -182,6 +193,13 @@ class FwriController extends Controller
             $get_hel = implode(',', $r->aware_healtheducation_list);
         }
 
+        $birthdate = Carbon::parse($r->bdate);
+        $currentDate = Carbon::parse(date('Y-m-d'));
+
+        $get_ageyears = $birthdate->diffInYears($currentDate);
+        $get_agemonths = $birthdate->diffInMonths($currentDate);
+        $get_agedays = $birthdate->diffInDays($currentDate);
+
         $update = FwInjury::where('id', $id)
         ->update([
             'reported_by' => mb_strtoupper($r->reported_by),
@@ -235,6 +253,10 @@ class FwriController extends Controller
             
             'date_died' => ($r->disposition_after_admission == 'DIED DURING ADMISSION') ? $r->date_died : NULL,
             'aware_healtheducation_list' => $get_hel,
+
+            'age_years' => $get_ageyears,
+            'age_months' => $get_agemonths,
+            'age_days' => $get_agedays,
         ]);
 
         return redirect()->back()

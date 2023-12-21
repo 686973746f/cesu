@@ -3,6 +3,11 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Models\Brgy;
+use App\Models\City;
+use App\Models\Regions;
+use App\Models\Provinces;
+use Faker\Provider\sv_SE\Municipality;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -65,6 +70,10 @@ class FwInjury extends Model
 
         'date_died',
         'aware_healtheducation_list',
+        
+        'age_years',
+        'age_months',
+        'age_days',
     ];
 
     public function getName() {
@@ -169,5 +178,23 @@ class FwInjury extends Model
         $get_txt = $get_txt.' BRGY. '.$this->address_brgy_text.', '.$this->address_muncity_text.', '.$this->address_province_text;
 
         return $get_txt;
+    }
+
+    public function getBrgyCode() {
+        $getRegion = Regions::where('regionName', $this->address_region_text)->first();
+
+        $getProvince = Provinces::where('region_id', $getRegion->id)
+        ->where('provinceName', $this->address_muncity_text)
+        ->first();
+
+        $getMuncity = City::where('province_id', $getProvince->id)
+        ->where('cityName', $this->address_muncity_text)
+        ->first();
+
+        $getBrgy = Brgy::where('city_id', $getMuncity->id)
+        ->where('brgyName', $this->injury_address_brgy_text)
+        ->first();
+
+        return $getBrgy->json_code;
     }
 }

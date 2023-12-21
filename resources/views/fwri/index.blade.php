@@ -350,8 +350,8 @@
                                     <div class="form-group">
                                     <label for="treatment_given"><span class="text-danger font-weight-bold">*</span>Treatment Given (multiple responses)</label>
                                         <select class="form-control" name="treatment_given[]" id="treatment_given" multiple required>
-                                            <option value="ATS/TIG" {{(in_array('ATS/TIG', explode(',', old('treatment_given')))) ? 'selected' : ''}}>ATS/TIG</option>
-                                            <option value="TOXOID" {{(in_array('TOXOID', explode(',', old('treatment_given')))) ? 'selected' : ''}}>TOXOID</option>
+                                            <option value="ATS/TIG" {{(in_array('ATS/TIG', explode(',', old('treatment_given')))) ? 'selected' : ''}}>ATS/TIG (ANTI-TETANUS SERUM)</option>
+                                            <option value="TOXOID" {{(in_array('TOXOID', explode(',', old('treatment_given')))) ? 'selected' : ''}}>TETANUS TOXOID</option>
                                             <option value="NO TREATMENT" {{(in_array('NO TREATMENT', explode(',', old('treatment_given')))) ? 'selected' : ''}}>NO TREATMENT</option>
                                             <option value="OTHER" {{(in_array('OTHER', explode(',', old('treatment_given')))) ? 'selected' : ''}}>OTHER, SPECIFY</option>
                                         </select>

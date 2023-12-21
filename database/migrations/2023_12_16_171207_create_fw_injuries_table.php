@@ -79,6 +79,10 @@ class CreateFwInjuriesTable extends Migration
             $table->date('date_died')->nullable();
             $table->text('aware_healtheducation_list')->nullable();
 
+            $table->integer('age_years')->nullable();
+            $table->integer('age_months')->nullable();
+            $table->integer('age_days')->nullable();
+
             $table->timestamps();
         }); 
     }
