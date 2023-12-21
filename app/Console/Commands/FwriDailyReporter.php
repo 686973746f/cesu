@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Mail\FwriDailyMailer;
+use App\Mail\FwriZeroCase;
 use App\Models\BarangayHealthStation;
 use App\Models\DohFacility;
 use Carbon\Carbon;
@@ -258,6 +259,9 @@ class FwriDailyReporter extends Command
                 //DELETE YESTERDAY FILE
                 File::delete(storage_path('app/fwri/CESUGENTRIAS_APIR_LINELIST_'.date('mdY', strtotime('-2 Days')).'.xlsx'));
                 File::delete(storage_path('app/fwri/CESUGENTRIAS_FWRI_LINELIST_'.date('mdY', strtotime('-2 Days')).'.xlsx'));
+            }
+            else {
+                Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new FwriZeroCase());
             }
         }
 

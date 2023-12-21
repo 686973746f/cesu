@@ -64,7 +64,7 @@ class Kernel extends ConsoleKernel
         
         $schedule->command('pharmacy:check_expiry')->dailyAt('00:00')->evenInMaintenanceMode();
 
-        $schedule->command('fwrireporter:daily')->dailyAt('06:00')->evenInMaintenanceMode();
+        $schedule->command('fwrireporter:daily')->dailyAt('05:00')->evenInMaintenanceMode();
         
         //$schedule->command('queue:work')->everyMinute()->withoutOverlapping();
         
