@@ -54,6 +54,32 @@
                     </div>
                 </div>
             </div>
+            <hr>
+            <table class="table table-bordered">
+                <thead class="text-center">
+                    <tr>
+                        <th>January</th>
+                        <th>February</th>
+                        <th>March</th>
+                        <th>April</th>
+                        <th>May</th>
+                        <th>June</th>
+                        <th>July</th>
+                        <th>August</th>
+                        <th>September</th>
+                        <th>October</th>
+                        <th>November</th>
+                        <th>December</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        @foreach($marray as $m)
+                        <td class="text-center">{{$m}}</td>
+                        @endforeach
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

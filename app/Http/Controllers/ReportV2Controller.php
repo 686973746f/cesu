@@ -1759,6 +1759,19 @@ class ReportV2Controller extends Controller
                     ->whereMonth('morbidityMonth', $i)
                     ->where('isPresentOnSwabDay', 1)
                     ->count();
+
+                    $antigen_count = Forms::whereHas('records', function ($q) {
+                        $q->where('records.address_province', 'CAVITE')
+                        ->where('records.address_city', 'GENERAL TRIAS');
+                    })
+                    ->where('status', 'approved')
+                    ->where('drunit', 'CHO GENERAL TRIAS')
+                    ->whereYear('morbidityMonth', date('Y'))
+                    ->whereMonth('morbidityMonth', $i)
+                    ->where('isPresentOnSwabDay', 1)
+                    ->where('testType1', 'ANTIGEN')
+                    ->where('testResult1', '!=', 'PENDING')
+                    ->count();
         
                     $suspro = Forms::whereHas('records', function ($q) {
                         $q->where('records.address_province', 'CAVITE')
@@ -1794,6 +1807,7 @@ class ReportV2Controller extends Controller
                     array_push($swabarr, [
                         'month' => $m,
                         'count' => $count,
+                        'antigen_count' => $antigen_count,
                         'suspro' => $suspro,
                         'confirmed' => $confirmed,
                         'cc' => $cc,
@@ -1810,6 +1824,7 @@ class ReportV2Controller extends Controller
                             ->whereBetween('morbidityMonth', ['2021-12-01', '2021-12-31'])
                             ->where('isPresentOnSwabDay', 1)
                             ->count(),
+                    'antigen_count' => 0,
                     'suspro' => 0,
                     'confirmed' => 0,
                     'cc' => 0,
@@ -1825,6 +1840,7 @@ class ReportV2Controller extends Controller
                             ->whereBetween('morbidityMonth', ['2020-12-01', '2020-12-31'])
                             ->where('isPresentOnSwabDay', 1)
                             ->count(),
+                    'antigen_count' => 0,
                     'suspro' => 0,
                     'confirmed' => 0,
                     'cc' => 0,
