@@ -442,6 +442,31 @@
         </form>
     </div>
 
+    <div class="modal fade" id="facicheck" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Facility Code</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body text-center">
+                    <h5>Good Day.</h5>
+                    <h5>Welcome to CESU Gen. Trias FWRI Online Reporting Tool for City of General Trias, Cavite</h5>
+                    <h5>Please confirm if you used the correct code for your Facility:</h5>
+                    <h4 class="mt-3"><b>Code: {{$code}}</b></h4>
+                    <h4 class="mb-3"><b>Name: {{mb_strtoupper($hospital_name)}}</b></h4>
+                    <h5>If this is your encoding facility, you may now proceed.</h5>
+                    <h5>If NOT, do not proceed and use the right URL Code that was given by CESU Gen. Trias.</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success btn-block" data-dismiss="modal">Proceed</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         $(document).bind('keydown', function(e) {
             if(e.ctrlKey && (e.which == 83)) {
@@ -454,6 +479,9 @@
                 return false;
             }
         });
+
+        $('#facicheck').modal({backdrop: 'static', keyboard: false});
+        $('#facicheck').modal('show');
 
         //Select2 Init for Address Bar
         $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_text, #injury_address_region_code, #injury_address_province_code, #injury_address_muncity_code, #injury_address_brgy_text').select2({
