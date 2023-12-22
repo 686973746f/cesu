@@ -45,6 +45,7 @@ class FwInjury extends Model
         'nameof_hospital',
         'place_of_occurrence',
         'place_of_occurrence_others',
+        'injury_sameadd',
         'injury_address_region_code',
         'injury_address_region_text',
         'injury_address_province_code',

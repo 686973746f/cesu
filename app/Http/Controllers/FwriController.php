@@ -83,6 +83,26 @@ class FwriController extends Controller
                 $get_agemonths = $birthdate->diffInMonths($currentDate);
                 $get_agedays = $birthdate->diffInDays($currentDate);
 
+                //SAME INJURY ADDRESS CHECK
+                if($r->injury_sameadd == 'Y') {
+                    $inj_reg_code = $r->address_region_code;
+                    $inj_reg_text = $r->address_region_text;
+                    $inj_prov_code = $r->address_province_code;
+                    $inj_prov_text = $r->address_province_text;
+                    $inj_munc_code = $r->address_muncity_code;
+                    $inj_munc_text = $r->address_muncity_text;
+                    $inj_brgy = $r->address_brgy_text;
+                }
+                else {
+                    $inj_reg_code = $r->injury_address_region_code;
+                    $inj_reg_text = $r->injury_address_region_text;
+                    $inj_prov_code = $r->injury_address_province_code;
+                    $inj_prov_text = $r->injury_address_province_text;
+                    $inj_munc_code = $r->injury_address_muncity_code;
+                    $inj_munc_text = $r->injury_address_muncity_text;
+                    $inj_brgy = $r->injury_address_brgy_text;
+                }
+
                 $c = FwInjury::create([
                     'reported_by' => mb_strtoupper($r->reported_by),
                     'report_date' => $r->report_date,
@@ -112,14 +132,15 @@ class FwriController extends Controller
                     'nameof_hospital' => ($r->reffered_anotherhospital == 'Y') ? mb_strtoupper($r->nameof_hospital) : NULL,
                     'place_of_occurrence' => $r->reffered_anotherhospital,
                     'place_of_occurrence_others' => ($r->place_of_occurrence_others == 'OTHERS') ? mb_strtoupper($r->place_of_occurrence_others) : NULL,
-                    'injury_address_region_code' => $r->injury_address_region_code,
-                    'injury_address_region_text' => $r->injury_address_region_text,
-                    'injury_address_province_code' => $r->injury_address_province_code,
-                    'injury_address_province_text' => $r->injury_address_province_text,
-                    'injury_address_muncity_code' => $r->injury_address_muncity_code,
-                    'injury_address_muncity_text' => $r->injury_address_muncity_text,
-                    'injury_address_brgy_code' => $r->injury_address_brgy_text,
-                    'injury_address_brgy_text' => $r->injury_address_brgy_text,
+                    'injury_sameadd' => $r->injury_sameadd,
+                    'injury_address_region_code' => $inj_reg_code,
+                    'injury_address_region_text' => $inj_reg_text,
+                    'injury_address_province_code' => $inj_prov_code,
+                    'injury_address_province_text' => $inj_prov_text,
+                    'injury_address_muncity_code' => $inj_munc_code,
+                    'injury_address_muncity_text' => $inj_munc_text,
+                    'injury_address_brgy_code' => $inj_brgy,
+                    'injury_address_brgy_text' => $inj_brgy,
                     'injury_address_street' => ($r->filled('injury_address_street')) ? mb_strtoupper($r->injury_address_street) : NULL,
                     'injury_address_houseno' => ($r->filled('injury_address_houseno')) ? mb_strtoupper($r->injury_address_houseno) : NULL,
                     'involvement_type' => $r->involvement_type,

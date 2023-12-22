@@ -89,63 +89,67 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="address_text" class="d-none">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <input type="text" id="address_region_text" name="address_region_text" value="{{old('address_region_text', $d->address_region_text)}}" readonly>
+                            <div class="card">
+                                <div class="card-header text-center"><b>PATIENT'S CURRENT ADDRESS</b></div>
+                                <div class="card-body">
+                                    <div id="address_text" class="d-none">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <input type="text" id="address_region_text" name="address_region_text" value="{{old('address_region_text', $d->address_region_text)}}" readonly>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text" id="address_province_text" name="address_province_text" value="{{old('address_province_text', $d->address_province_text)}}" readonly>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text" id="address_muncity_text" name="address_muncity_text" value="{{old('address_muncity_text', $d->address_muncity_text)}}" readonly>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <input type="text" id="address_province_text" name="address_province_text" value="{{old('address_province_text', $d->address_province_text)}}" readonly>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                              <label for="address_region_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Region</label>
+                                              <select class="form-control" name="address_region_code" id="address_region_code" required>
+                                              </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="address_province_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Province</label>
+                                                <select class="form-control" name="address_province_code" id="address_province_code" required>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <input type="text" id="address_muncity_text" name="address_muncity_text" value="{{old('address_muncity_text', $d->address_muncity_text)}}" readonly>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="address_muncity_code" class="form-label"><span class="text-danger font-weight-bold">*</span>City/Municipality</label>
+                                                <select class="form-control" name="address_muncity_code" id="address_muncity_code" required>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="address_brgy_text" class="form-label"><span class="text-danger font-weight-bold">*</span>Barangay</label>
+                                                <select class="form-control" name="address_brgy_text" id="address_brgy_text" required>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                      <label for="address_region_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Region</label>
-                                      <select class="form-control" name="address_region_code" id="address_region_code" required>
-                                      </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="address_province_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Province</label>
-                                        <select class="form-control" name="address_province_code" id="address_province_code" required>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="address_muncity_code" class="form-label"><span class="text-danger font-weight-bold">*</span>City/Municipality</label>
-                                        <select class="form-control" name="address_muncity_code" id="address_muncity_code" required>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="address_brgy_text" class="form-label"><span class="text-danger font-weight-bold">*</span>Barangay</label>
-                                        <select class="form-control" name="address_brgy_text" id="address_brgy_text" required>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="address_houseno" class="form-label"><b class="text-danger">*</b>House No./Lot/Building</label>
-                                        <input type="text" class="form-control" id="address_houseno" name="address_houseno" style="text-transform: uppercase;" value="{{old('address_houseno', $d->address_houseno)}}" pattern="(^[a-zA-Z0-9 ]+$)+" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="address_street" class="form-label"><b class="text-danger">*</b>Street/Subdivision/Purok/Sitio</label>
-                                        <input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" value="{{old('address_street', $d->address_street)}}" pattern="(^[a-zA-Z0-9 ]+$)+" required>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="address_houseno" class="form-label"><b class="text-danger">*</b>House No./Lot/Building</label>
+                                                <input type="text" class="form-control" id="address_houseno" name="address_houseno" style="text-transform: uppercase;" value="{{old('address_houseno', $d->address_houseno)}}" pattern="(^[a-zA-Z0-9 ]+$)+" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="address_street" class="form-label"><b class="text-danger">*</b>Street/Subdivision/Purok/Sitio</label>
+                                                <input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" value="{{old('address_street', $d->address_street)}}" pattern="(^[a-zA-Z0-9 ]+$)+" required>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -169,8 +173,8 @@
                                     <div class="form-group">
                                     <label for="reffered_anotherhospital"><span class="text-danger font-weight-bold">*</span>Referral from another hospital?</label>
                                         <select class="form-control" name="reffered_anotherhospital" id="reffered_anotherhospital" required>
-                                            <option value="N" {{(old('reffered_anotherhospital', $d->reffered_anotherhospital) == 'HOME') ? 'selected' : ''}}>No</option>
-                                            <option value="Y" {{(old('reffered_anotherhospital', $d->reffered_anotherhospital) == 'HOME') ? 'selected' : ''}}>Yes</option>
+                                            <option value="N" {{(old('reffered_anotherhospital', $d->reffered_anotherhospital) == 'N') ? 'selected' : ''}}>No</option>
+                                            <option value="Y" {{(old('reffered_anotherhospital', $d->reffered_anotherhospital) == 'Y') ? 'selected' : ''}}>Yes</option>
                                         </select>
                                     </div>
                                     <div id="ifReferral" class="d-none">
@@ -202,62 +206,72 @@
                             <div class="card mb-3">
                                 <div class="card-header"><b>ADDRESS WHERE INJURY OCCURRED</b></div>
                                 <div class="card-body">
-                                    <div id="address_text" class="d-none">
+                                    <div class="form-group">
+                                    <label for="injury_sameadd"><span class="text-danger font-weight-bold">*</span>Place of Injury the same as the Patient's Current Address?</label>
+                                        <select class="form-control" name="injury_sameadd" id="injury_sameadd" required>
+                                            <option value="" disabled {{(is_null(old('injury_sameadd'))) ? 'selected' : ''}}>Choose...</option>
+                                            <option value="Y" {{(old('injury_sameadd') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                            <option value="N" {{(old('injury_sameadd') == 'N') ? 'selected' : ''}}>No</option>
+                                        </select>
+                                    </div>
+                                    <div id="ifDiffInjuryAdd" class="d-none">
+                                        <div id="address_text" class="d-none">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <input type="text" id="injury_address_region_text" name="injury_address_region_text" value="{{old('injury_address_region_text', $d->injury_address_region_text)}}" readonly>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input type="text" id="injury_address_province_text" name="injury_address_province_text" value="{{old('injury_address_province_text', $d->injury_address_province_text)}}" readonly>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input type="text" id="injury_address_muncity_text" name="injury_address_muncity_text" value="{{old('injury_address_muncity_text', $d->injury_address_muncity_text)}}" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <input type="text" id="injury_address_region_text" name="injury_address_region_text" value="{{old('injury_address_region_text', $d->injury_address_region_text)}}" readonly>
+                                                <div class="mb-3">
+                                                  <label for="injury_address_region_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Injury Occured Region</label>
+                                                  <select class="form-control" name="injury_address_region_code" id="injury_address_region_code" required>
+                                                  </select>
+                                                </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <input type="text" id="injury_address_province_text" name="injury_address_province_text" value="{{old('injury_address_province_text', $d->injury_address_province_text)}}" readonly>
+                                                <div class="mb-3">
+                                                    <label for="injury_address_province_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Injury Occured Province</label>
+                                                    <select class="form-control" name="injury_address_province_code" id="injury_address_province_code" required>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="injury_address_muncity_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Injury Occured City/Municipality</label>
+                                                    <select class="form-control" name="injury_address_muncity_code" id="injury_address_muncity_code" required>
+                                                    </select>
+                                                </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <input type="text" id="injury_address_muncity_text" name="injury_address_muncity_text" value="{{old('injury_address_muncity_text', $d->injury_address_muncity_text)}}" readonly>
+                                                <div class="mb-3">
+                                                    <label for="injury_address_brgy_text" class="form-label"><span class="text-danger font-weight-bold">*</span>Injury Occured Barangay</label>
+                                                    <select class="form-control" name="injury_address_brgy_text" id="injury_address_brgy_text" required>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                              <label for="injury_address_region_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Injury Occured Region</label>
-                                              <select class="form-control" name="injury_address_region_code" id="injury_address_region_code" required>
-                                              </select>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="injury_address_houseno" class="form-label"><b class="text-danger">*</b>Injury Occured House No./Lot/Building</label>
+                                                    <input type="text" class="form-control" id="injury_address_houseno" name="injury_address_houseno" style="text-transform: uppercase;" value="{{old('injury_address_houseno', $d->injury_address_houseno)}}" pattern="(^[a-zA-Z0-9 ]+$)+" required>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="injury_address_province_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Injury Occured Province</label>
-                                                <select class="form-control" name="injury_address_province_code" id="injury_address_province_code" required>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="injury_address_muncity_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Injury Occured City/Municipality</label>
-                                                <select class="form-control" name="injury_address_muncity_code" id="injury_address_muncity_code" required>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="injury_address_brgy_text" class="form-label"><span class="text-danger font-weight-bold">*</span>Injury Occured Barangay</label>
-                                                <select class="form-control" name="injury_address_brgy_text" id="injury_address_brgy_text" required>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="injury_address_houseno" class="form-label"><b class="text-danger">*</b>Injury Occured House No./Lot/Building</label>
-                                                <input type="text" class="form-control" id="injury_address_houseno" name="injury_address_houseno" style="text-transform: uppercase;" value="{{old('injury_address_houseno', $d->injury_address_houseno)}}" pattern="(^[a-zA-Z0-9 ]+$)+" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="injury_address_street" class="form-label"><b class="text-danger">*</b>Injury Occured Street/Subdivision/Purok/Sitio</label>
-                                                <input type="text" class="form-control" id="injury_address_street" name="injury_address_street" style="text-transform: uppercase;" value="{{old('injury_address_street', $d->injury_address_street)}}" pattern="(^[a-zA-Z0-9 ]+$)+" required>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="injury_address_street" class="form-label"><b class="text-danger">*</b>Injury Occured Street/Subdivision/Purok/Sitio</label>
+                                                    <input type="text" class="form-control" id="injury_address_street" name="injury_address_street" style="text-transform: uppercase;" value="{{old('injury_address_street', $d->injury_address_street)}}" pattern="(^[a-zA-Z0-9 ]+$)+" required>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -269,7 +283,7 @@
                                     <label for="involvement_type"><span class="text-danger font-weight-bold">*</span>Type of Involvement</label>
                                         <select class="form-control" name="involvement_type" id="involvement_type" required>
                                             <option value="ACTIVE" {{(old('involvement_type', $d->involvement_type) == 'HOME') ? 'selected' : ''}}>ACTIVE (NAGPAPUTOK)</option>
-                                            <option value="PASSIVE" {{(old('involvement_type', $d->involvement_type) == 'STREET') ? 'selected' : ''}}>PASSIVE (NADAMAY LANG)</option>
+                                            <option value="PASSIVE" {{(old('involvement_type', $d->involvement_type) == 'STREET') ? 'selected' : ''}}>PASSIVE (NADAMAY/NAPADAAN LANG)</option>
                                         </select>
                                     </div>
                                 </div>
@@ -345,7 +359,7 @@
                                             <option value="ATS/TIG" {{(in_array('ATS/TIG', explode(',', old('treatment_given', $d->treatment_given)))) ? 'selected' : ''}}>ATS/TIG</option>
                                             <option value="TOXOID" {{(in_array('TOXOID', explode(',', old('treatment_given', $d->treatment_given)))) ? 'selected' : ''}}>TOXOID</option>
                                             <option value="NO TREATMENT" {{(in_array('NO TREATMENT', explode(',', old('treatment_given', $d->treatment_given)))) ? 'selected' : ''}}>NO TREATMENT</option>
-                                            <option value="OTHER" {{(in_array('OTHER', explode(',', old('treatment_given', $d->treatment_given)))) ? 'selected' : ''}}>OTHER, SPECIFY</option>
+                                            <option value="OTHER" {{(in_array('OTHER', explode(',', old('treatment_given', $d->treatment_given)))) ? 'selected' : ''}}>OTHER</option>
                                         </select>
                                     </div>
                                 </div>
@@ -374,11 +388,11 @@
                                     <label for="disposition_after_admission"><span class="text-danger font-weight-bold">*</span>Disposition after admission</label>
                                         <select class="form-control" name="disposition_after_admission" id="disposition_after_admission" required>
                                             <option value="" disabled {{(is_null(old('disposition_after_admission', $d->disposition_after_admission))) ? 'selected' : ''}}>Choose...</option>
-                                            <option value="DISCHARGED IMPROVED" {{(old('disposition_after_admission', $d->disposition_after_admission) == 'DISCHARGED IMPROVED') ? 'selected' : ''}}>DISCHARGED IMPROVED</option>
-                                            <option value="HOME AGAINST MEDICAL ADVICE (HAMA)" {{(old('disposition_after_admission', $d->disposition_after_admission) == 'HOME AGAINST MEDICAL ADVICE (HAMA)') ? 'selected' : ''}}>HOME AGAINST MEDICAL ADVICE (HAMA)</option>
-                                            <option value="ABSCONDED" {{(old('disposition_after_admission', $d->disposition_after_admission) == 'ABSCONDED') ? 'selected' : ''}}>ABSCONDED/UMALIS</option>
-                                            <option value="TRANSFERRED TO ANOTHER HOSPITAL" {{(old('disposition_after_admission', $d->disposition_after_admission) == 'TRANSFERRED TO ANOTHER HOSPITAL') ? 'selected' : ''}}>TRANSFERRED TO ANOTHER HOSPITAL</option>
-                                            <option value="DIED DURING ADMISSION" {{(old('disposition_after_admission', $d->disposition_after_admission) == 'DIED DURING ADMISSION') ? 'selected' : ''}}>DIED DURING ADMISSION</option>
+                                            <option value="DISCHARGED IMPROVED" {{(old('disposition_after_admission', $d->disposition_after_admission) == 'DISCHARGED IMPROVED') ? 'selected' : ''}} id="da_option1">DISCHARGED IMPROVED</option>
+                                            <option value="HOME AGAINST MEDICAL ADVICE (HAMA)" {{(old('disposition_after_admission', $d->disposition_after_admission) == 'HOME AGAINST MEDICAL ADVICE (HAMA)') ? 'selected' : ''}} id="da_option2">HOME AGAINST MEDICAL ADVICE (HAMA)</option>
+                                            <option value="ABSCONDED" {{(old('disposition_after_admission', $d->disposition_after_admission) == 'ABSCONDED') ? 'selected' : ''}} id="da_option3">ABSCONDED/UMALIS</option>
+                                            <option value="TRANSFERRED TO ANOTHER HOSPITAL" {{(old('disposition_after_admission', $d->disposition_after_admission) == 'TRANSFERRED TO ANOTHER HOSPITAL') ? 'selected' : ''}} id="da_option4">TRANSFERRED TO ANOTHER HOSPITAL</option>
+                                            <option value="DIED DURING ADMISSION" {{(old('disposition_after_admission', $d->disposition_after_admission) == 'DIED DURING ADMISSION') ? 'selected' : ''}} id="da_option5">DIED DURING ADMISSION</option>
                                         </select>
                                     </div>
                                     <div id="afterAdmissionDiv" class="d-none">
@@ -731,7 +745,7 @@
             }
             else {
                 $('#ifReferral').addClass('d-none');
-                $('#v').prop('required', false);
+                $('#nameof_hospital').prop('required', false);
             }
         }).trigger('change');
 
@@ -761,13 +775,35 @@
 
         $('#disposition_after_consultation').change(function (e) { 
             e.preventDefault();
-            if($(this).val() == 'FIREWORKS INJURY') {
+            if($(this).val() == 'TRANSFERRED TO ANOTHER HOSPITAL') {
                 $('#afterConsultationDiv').removeClass('d-none');
                 $('#disposition_after_consultation_transferred_hospital').prop('required', true);
+                
+                $('#da_option1').removeClass('d-none');
+                $('#da_option2').removeClass('d-none');
+                $('#da_option3').removeClass('d-none');
+                $('#da_option4').removeClass('d-none');
+                $('#da_option5').removeClass('d-none');
+            }
+            else if($(this).val() == 'DEAD ON ARRIVAL (DOA)' || $(this).val() == 'ER DEATH') {
+                $('#disposition_after_admission').val('DIED DURING ADMISSION');
+                $('#disposition_after_admission').trigger('change');
+                
+                $('#da_option1').addClass('d-none');
+                $('#da_option2').addClass('d-none');
+                $('#da_option3').addClass('d-none');
+                $('#da_option4').addClass('d-none');
+                $('#da_option5').removeClass('d-none');
             }
             else {
                 $('#afterConsultationDiv').addClass('d-none');
                 $('#disposition_after_consultation_transferred_hospital').prop('required', false);
+
+                $('#da_option1').removeClass('d-none');
+                $('#da_option2').removeClass('d-none');
+                $('#da_option3').removeClass('d-none');
+                $('#da_option4').removeClass('d-none');
+                $('#da_option5').removeClass('d-none');
             }
         }).trigger('change');
 
@@ -790,6 +826,30 @@
                 $('#ifDied').addClass('d-none');
                 $('#date_died').prop('required', false);
                 $('#disposition_after_admission_transferred_hospital').prop('required', false);
+            }
+        }).trigger('change');
+
+        $('#injury_sameadd').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == 'N') {
+                $('#ifDiffInjuryAdd').removeClass('d-none');
+
+                $('#injury_address_region_code').prop('required', true);
+                $('#injury_address_province_code').prop('required', true);
+                $('#injury_address_muncity_code').prop('required', true);
+                $('#injury_address_brgy_text').prop('required', true);
+                $('#injury_address_houseno').prop('required', true);
+                $('#injury_address_street').prop('required', true);
+            }
+            else {
+                $('#ifDiffInjuryAdd').addClass('d-none');
+                
+                $('#injury_address_region_code').prop('required', false);
+                $('#injury_address_province_code').prop('required', false);
+                $('#injury_address_muncity_code').prop('required', false);
+                $('#injury_address_brgy_text').prop('required', false);
+                $('#injury_address_houseno').prop('required', false);
+                $('#injury_address_street').prop('required', false);
             }
         }).trigger('change');
     </script>

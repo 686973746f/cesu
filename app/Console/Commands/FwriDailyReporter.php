@@ -159,14 +159,14 @@ class FwriDailyReporter extends Command
                     }
 
                     //$sheet2->setCellValue('A'.$startCell2, '');
-                    $sheet2->setCellValue('A'.$startCell2, $d->id);
-                    $sheet2->setCellValue('B'.$startCell2, '');
-                    $sheet2->setCellValue('C'.$startCell2, '');
-                    $sheet2->setCellValue('D'.$startCell2, '');
-                    $sheet2->setCellValue('E'.$startCell2, date('m/d/Y', strtotime($d->report_date)));
-                    $sheet2->setCellValue('F'.$startCell2, '');
-                    $sheet2->setCellValue('G'.$startCell2, '');
-                    $sheet2->setCellValue('H'.$startCell2, '');
+                    $sheet2->setCellValue('A'.$startCell2, '');
+                    $sheet2->setCellValue('B'.$startCell2, 'Not Validated');
+                    $sheet2->setCellValue('C'.$startCell2, 'Encoded');
+                    $sheet2->setCellValue('D'.$startCell2, $d->hospital_name);
+                    $sheet2->setCellValue('E'.$startCell2, date('Y-m-d', strtotime($d->created_at)));
+                    $sheet2->setCellValue('F'.$startCell2, date('H:i:s', strtotime($d->created_at)));
+                    $sheet2->setCellValue('G'.$startCell2, ''); //REG NO
+                    $sheet2->setCellValue('H'.$startCell2, ''); //TEMPREG NO
                     $sheet2->setCellValue('I'.$startCell2, $d->lname);
                     $sheet2->setCellValue('J'.$startCell2, $d->fname);
                     $sheet2->setCellValue('K'.$startCell2, $d->mname);
@@ -174,23 +174,23 @@ class FwriDailyReporter extends Command
                     $sheet2->setCellValue('M'.$startCell2, $d->age_years);
                     $sheet2->setCellValue('N'.$startCell2, $d->age_months);
                     $sheet2->setCellValue('O'.$startCell2, $d->age_days);
-                    $sheet2->setCellValue('P'.$startCell2, $d->sg());
+                    $sheet2->setCellValue('P'.$startCell2, ucwords(strtolower($d->gender)));
                     $sheet2->setCellValue('Q'.$startCell2, $d->address_province_text);
                     $sheet2->setCellValue('R'.$startCell2, $d->getStreetPurok());
                     $sheet2->setCellValue('S'.$startCell2, $d->address_region_text);
                     $sheet2->setCellValue('T'.$startCell2, $d->address_muncity_text);
                     $sheet2->setCellValue('U'.$startCell2, $d->address_brgy_text);
-                    $sheet2->setCellValue('V'.$startCell2, '');
+                    $sheet2->setCellValue('V'.$startCell2, ''); //NEC DISTRICT
                     $sheet2->setCellValue('W'.$startCell2, $d->contact_number);
                     $sheet2->setCellValue('X'.$startCell2, date('m/d/Y', strtotime($d->injury_date)));
-                    $sheet2->setCellValue('Y'.$startCell2, '');
+                    $sheet2->setCellValue('Y'.$startCell2, $d->injury_address_brgy_text);
                     $sheet2->setCellValue('Z'.$startCell2, date('H:i', strtotime($d->injury_date)));
 
                     $sheet2->setCellValue('AA'.$startCell2, $same_poi);
-                    $sheet2->setCellValue('AB'.$startCell2, $d->injury_address_region_code);
-                    $sheet2->setCellValue('AC'.$startCell2, $d->injury_address_province_code);
-                    $sheet2->setCellValue('AD'.$startCell2, $d->injury_address_muncity_code);
-                    $sheet2->setCellValue('AE'.$startCell2, $d->getBrgyCode());
+                    $sheet2->setCellValue('AB'.$startCell2, $d->injury_address_region_text);
+                    $sheet2->setCellValue('AC'.$startCell2, $d->injury_address_province_text);
+                    $sheet2->setCellValue('AD'.$startCell2, $d->injury_address_muncity_text);
+                    $sheet2->setCellValue('AE'.$startCell2, $d->injury_address_brgy_text);
                     $sheet2->setCellValue('AF'.$startCell2, $d->place_of_occurrence);
                     $sheet2->setCellValue('AG'.$startCell2, $d->place_of_occurrence_others);
                     $sheet2->setCellValue('AH'.$startCell2, date('m/d/Y', strtotime($d->consultation_date)));

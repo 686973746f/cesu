@@ -50,6 +50,8 @@ class CreateFwInjuriesTable extends Migration
             $table->string('place_of_occurrence')->nullable();
             $table->text('place_of_occurrence_others')->nullable();
 
+            $table->string('injury_sameadd', 1)->nullable();
+
             $table->text('injury_address_region_code')->nullable();
             $table->text('injury_address_region_text')->nullable();
             $table->text('injury_address_province_code')->nullable();
