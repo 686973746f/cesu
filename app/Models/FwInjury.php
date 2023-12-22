@@ -19,6 +19,7 @@ class FwInjury extends Model
         'reported_by',
         'report_date',
         'facility_code',
+        'account_type',
         'hospital_name',
         'lname',
         'fname',

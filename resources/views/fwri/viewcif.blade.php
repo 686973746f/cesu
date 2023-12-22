@@ -411,7 +411,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-success btn-block" id="submitBtn">Submit</button>
+                    <button type="submit" class="btn btn-success btn-block" id="submitBtn">Update (CTRL + S)</button>
                     <hr>
                     <h6 class="text-center">DOH-EB-AEHMD-FWRIPIS-2021-0</h6>
                 </div>

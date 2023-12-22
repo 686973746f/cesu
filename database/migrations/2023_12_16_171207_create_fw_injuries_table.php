@@ -17,6 +17,7 @@ class CreateFwInjuriesTable extends Migration
             $table->id();
             $table->date('report_date');
             $table->string('facility_code');
+            $table->string('account_type');
             $table->text('hospital_name');
             $table->string('reported_by');
             $table->string('lname');

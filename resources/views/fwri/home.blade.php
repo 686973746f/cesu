@@ -16,7 +16,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Date Submitted</th>
-                                <th>from Facility</th>
+                                <th>from Facility/Name of Reporter</th>
                                 <th>Name</th>
                                 <th>Age/Sex</th>
                                 <th>Address</th>
@@ -24,6 +24,7 @@
                                 <th>Date Reported</th>
                                 <th>Nature of Injury</th>
                                 <th>Injury Occurred at</th>
+                                <th>Name of Firecracker</th>
                                 <th>Date of Injury</th>
                             </tr>
                         </thead>
@@ -32,7 +33,7 @@
                             <tr>
                                 <td class="text-center"><b>{{$list->lastItem() + $ind}}</b></td>
                                 <td class="text-center">{{date('m/d/Y h:i A', strtotime($d->created_at))}}</td>
-                                <td class="text-center">{{$d->hospital_name}}</td>
+                                <td class="text-center"><small>{{$d->hospital_name}}/{{$d->reported_by}}</small></td>
                                 <td><b><a href="{{route('fwri_view', $d->id)}}">{{$d->getName()}}</a></b></td>
                                 <td class="text-center">{{$d->getAge()}}/{{$d->sg()}}</td>
                                 <td class="text-center"><small>{{$d->getCompleteAddress()}}</small></td>
@@ -40,6 +41,7 @@
                                 <td class="text-center">{{date('m/d/Y', strtotime($d->report_date))}}</td>
                                 <td class="text-center">{{$d->nature_injury}}</td>
                                 <td class="text-center"><small>{{$d->getInjuryAddress()}}</small></td>
+                                <td class="text-center">{{$d->firework_name}}</td>
                                 <td class="text-center">{{date('m/d/Y h:i A', strtotime($d->injury_date))}}</td>
                             </tr>
                             @endforeach
