@@ -41,9 +41,11 @@ class FwriController extends Controller
         if(!($s)) {
             $s = DohFacility::where('sys_code1', $code)->first();
             $facility_name = $s->facility_name;
+            $atype = 'HOSPITAL';
         }
         else {
             $facility_name = $s->name;
+            $atype = 'BHS';
         }
         
         //DUPLICATE CHECKER
@@ -85,6 +87,7 @@ class FwriController extends Controller
                     'reported_by' => mb_strtoupper($r->reported_by),
                     'report_date' => $r->report_date,
                     'facility_code' => $code,
+                    'account_type' => $atype,
                     'hospital_name' => $facility_name,
                     'lname' => mb_strtoupper($r->lname),
                     'fname' => mb_strtoupper($r->fname),
