@@ -120,9 +120,9 @@ class FwriDailyReporter extends Command
                     //SHEET2
 
                     //POI CHECK IF SAME
-                    $address1 = $d->getAddress();
-                    $address2 = $d->getInjuryAddress();
-                    if($address1 == $address2) {
+                    //$address1 = $d->getCompleteAddress();
+                    //$address2 = $d->getInjuryAddress();
+                    if($d->injury_sameadd == 'Y') {
                         $same_poi = 'Y';
                     }
                     else {
