@@ -31,7 +31,7 @@
                         <tbody>
                             @foreach($list as $ind => $d)
                             <tr>
-                                <td class="text-center"><b>{{$list->lastItem() + $ind}}</b></td>
+                                <td class="text-center"><b>{{$list->total() - $ind}}</b></td>
                                 <td class="text-center">{{date('m/d/Y h:i A', strtotime($d->created_at))}}</td>
                                 <td class="text-center"><small>{{$d->hospital_name}}/{{$d->reported_by}}</small></td>
                                 <td><b><a href="{{route('fwri_view', $d->id)}}">{{$d->getName()}}</a></b></td>
