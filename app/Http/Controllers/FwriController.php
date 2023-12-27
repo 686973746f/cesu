@@ -188,7 +188,16 @@ class FwriController extends Controller
     }
 
     public function home() {
-        $list = FwInjury::orderBy('created_at', 'DESC')->paginate(10);
+        if(request()->input('showDisabled')) {
+            $list = FwInjury::where('status', 'DISABLED')
+            ->orderBy('created_at', 'DESC')
+            ->paginate(10);
+        }
+        else {
+            $list = FwInjury::where('status', 'ENABLED')
+            ->orderBy('created_at', 'DESC')
+            ->paginate(10);
+        }
 
         return view('fwri.home', [
             'list' => $list,

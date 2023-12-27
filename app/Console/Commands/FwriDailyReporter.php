@@ -61,7 +61,9 @@ class FwriDailyReporter extends Command
 
         if ($currentDate->greaterThanOrEqualTo($date1) && $currentDate->lessThanOrEqualTo($date2)) {
             //Check if there was reportable cases yesterday
-            $list = FwInjury::whereDate('created_at', date('Y-m-d', strtotime('-1 Day')))->get();
+            $list = FwInjury::whereDate('created_at', date('Y-m-d', strtotime('-1 Day')))
+            ->where('status', 'ENABLED')
+            ->get();
 
             $startCell1 = 8;
             $startCell2 = 2;
