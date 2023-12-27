@@ -123,20 +123,20 @@ class FwriDailyReporter extends Command
                     //$address1 = $d->getCompleteAddress();
                     //$address2 = $d->getInjuryAddress();
                     if($d->injury_sameadd == 'Y') {
-                        $same_poi = 'Y';
+                        $same_poi = 'Yes';
                     }
                     else {
-                        $same_poi = 'N';
+                        $same_poi = 'No';
                     }
 
                     //IF MULTIPLE INJURY
                     $exp_typeOfInjury = explode(',', $d->iffw_typeofinjury);
 
                     if(count($exp_typeOfInjury) > 1) {
-                        $mult_inj = 'Y';
+                        $mult_inj = 'Yes';
                     }
                     else {
-                        $mult_inj = 'N';
+                        $mult_inj = 'No';
                     }
 
                     $exp_aloc = explode(',', $d->anatomical_location);

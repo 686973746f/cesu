@@ -209,9 +209,8 @@
                                     <div class="form-group">
                                     <label for="injury_sameadd"><span class="text-danger font-weight-bold">*</span>Place of Injury the same as the Patient's Current Address?</label>
                                         <select class="form-control" name="injury_sameadd" id="injury_sameadd" required>
-                                            <option value="" disabled {{(is_null(old('injury_sameadd'))) ? 'selected' : ''}}>Choose...</option>
-                                            <option value="Y" {{(old('injury_sameadd') == 'Y') ? 'selected' : ''}}>Yes</option>
-                                            <option value="N" {{(old('injury_sameadd') == 'N') ? 'selected' : ''}}>No</option>
+                                            <option value="Y" {{(old('injury_sameadd', $d->injury_sameadd) == 'Y') ? 'selected' : ''}}>Yes</option>
+                                            <option value="N" {{(old('injury_sameadd', $d->injury_sameadd) == 'N') ? 'selected' : ''}}>No</option>
                                         </select>
                                     </div>
                                     <div id="ifDiffInjuryAdd" class="d-none">
@@ -301,9 +300,9 @@
                                         <div class="form-group">
                                         <label for="iffw_typeofinjury"><span class="text-danger font-weight-bold">*</span>IF fireworks injury, type of injury (multiple responses)</label>
                                             <select class="form-control" name="iffw_typeofinjury[]" id="iffw_typeofinjury" multiple>
-                                                <option value="BLAST/BURN INJURY WITH AMPUTATION" {{(in_array('BLAST/BURN INJURY WITH AMPUTATION', explode(',',old('iffw_typeofinjury', $d->iffw_typeofinjury)))) ? 'selected' : ''}}>BLAST/BURN INJURY WITH AMPUTATION</option>
-                                                <option value="BLAST/BURN INJURY NO AMPUTATION" {{(in_array('BLAST/BURN INJURY NO AMPUTATION', explode(',',old('iffw_typeofinjury', $d->iffw_typeofinjury)))) ? 'selected' : ''}}>BLAST/BURN INJURY NO AMPUTATION</option>
-                                                <option value="EYE INJURY" {{(in_array('EYE INJURY', explode(',',old('iffw_typeofinjury', $d->iffw_typeofinjury)))) ? 'selected' : ''}}>EYE INJURY</option>
+                                                <option value="BLAST/BURN INJURY WITH AMPUTATION" {{(in_array('BLAST/BURN INJURY WITH AMPUTATION', explode(',', $d->iffw_typeofinjury))) ? 'selected' : ''}}>BLAST/BURN INJURY WITH AMPUTATION</option>
+                                                <option value="BLAST/BURN INJURY NO AMPUTATION" {{(in_array('BLAST/BURN INJURY NO AMPUTATION', explode(',', $d->iffw_typeofinjury))) ? 'selected' : ''}}>BLAST/BURN INJURY NO AMPUTATION</option>
+                                                <option value="EYE INJURY" {{(in_array('EYE INJURY', explode(',', $d->iffw_typeofinjury))) ? 'selected' : ''}}>EYE INJURY</option>
                                             </select>
                                         </div>
                                     </div>
@@ -318,20 +317,20 @@
                                     <div class="form-group">
                                     <label for="anatomical_location"><span class="text-danger font-weight-bold">*</span>Anatomical Location (multiple responses)</label>
                                         <select class="form-control" name="anatomical_location[]" id="anatomical_location" required multiple>
-                                            <option value="HEAD" {{(in_array('HEAD', explode(',', old('anatomical_location', $d->anatomical_location)))) ? 'selected' : ''}}>HEAD</option>
-                                            <option value="EYE" {{(in_array('EYE', explode(',', old('anatomical_location', $d->anatomical_location)))) ? 'selected' : ''}}>EYE</option>
-                                            <option value="NECK" {{(in_array('NECK', explode(',', old('anatomical_location', $d->anatomical_location)))) ? 'selected' : ''}}>NECK</option>
-                                            <option value="CHEST" {{(in_array('CHEST', explode(',', old('anatomical_location', $d->anatomical_location)))) ? 'selected' : ''}}>CHEST</option>
-                                            <option value="BACK" {{(in_array('BACK', explode(',', old('anatomical_location', $d->anatomical_location)))) ? 'selected' : ''}}>BACK</option>
-                                            <option value="ABDOMEN" {{(in_array('ABDOMEN', explode(',', old('anatomical_location', $d->anatomical_location)))) ? 'selected' : ''}}>ABDOMEN</option>
-                                            <option value="PELVIS" {{(in_array('PELVIS', explode(',', old('anatomical_location', $d->anatomical_location)))) ? 'selected' : ''}}>PELVIS</option>
-                                            <option value="THIGH" {{(in_array('THIGH', explode(',', old('anatomical_location', $d->anatomical_location)))) ? 'selected' : ''}}>THIGH</option>
-                                            <option value="BUTTOCKS" {{(in_array('BUTTOCKS', explode(',', old('anatomical_location', $d->anatomical_location)))) ? 'selected' : ''}}>BUTTOCKS</option>
-                                            <option value="LEGS" {{(in_array('LEGS', explode(',', old('anatomical_location', $d->anatomical_location)))) ? 'selected' : ''}}>LEGS</option>
-                                            <option value="KNEE" {{(in_array('KNEE', explode(',', old('anatomical_location', $d->anatomical_location)))) ? 'selected' : ''}}>KNEE</option>
-                                            <option value="FOOT" {{(in_array('FOOT', explode(',', old('anatomical_location', $d->anatomical_location)))) ? 'selected' : ''}}>FOOT</option>
-                                            <option value="FOREARM/ARM" {{(in_array('FOREARM/ARM', explode(',', old('anatomical_location', $d->anatomical_location)))) ? 'selected' : ''}}>FOREARM/ARM</option>
-                                            <option value="HAND" {{(in_array('HAND', explode(',', old('anatomical_location', $d->anatomical_location)))) ? 'selected' : ''}}>HAND</option>
+                                            <option value="HEAD" {{(in_array('HEAD', explode(',', $d->anatomical_location))) ? 'selected' : ''}}>HEAD</option>
+                                            <option value="EYE" {{(in_array('EYE', explode(',', $d->anatomical_location))) ? 'selected' : ''}}>EYE</option>
+                                            <option value="NECK" {{(in_array('NECK', explode(',', $d->anatomical_location))) ? 'selected' : ''}}>NECK</option>
+                                            <option value="CHEST" {{(in_array('CHEST', explode(',', $d->anatomical_location))) ? 'selected' : ''}}>CHEST</option>
+                                            <option value="BACK" {{(in_array('BACK', explode(',', $d->anatomical_location))) ? 'selected' : ''}}>BACK</option>
+                                            <option value="ABDOMEN" {{(in_array('ABDOMEN', explode(',', $d->anatomical_location))) ? 'selected' : ''}}>ABDOMEN</option>
+                                            <option value="PELVIS" {{(in_array('PELVIS', explode(',', $d->anatomical_location))) ? 'selected' : ''}}>PELVIS</option>
+                                            <option value="THIGH" {{(in_array('THIGH', explode(',', $d->anatomical_location))) ? 'selected' : ''}}>THIGH</option>
+                                            <option value="BUTTOCKS" {{(in_array('BUTTOCKS', explode(',', $d->anatomical_location))) ? 'selected' : ''}}>BUTTOCKS</option>
+                                            <option value="LEGS" {{(in_array('LEGS', explode(',', $d->anatomical_location))) ? 'selected' : ''}}>LEGS</option>
+                                            <option value="KNEE" {{(in_array('KNEE', explode(',', $d->anatomical_location))) ? 'selected' : ''}}>KNEE</option>
+                                            <option value="FOOT" {{(in_array('FOOT', explode(',', $d->anatomical_location))) ? 'selected' : ''}}>FOOT</option>
+                                            <option value="FOREARM/ARM" {{(in_array('FOREARM/ARM', explode(',', $d->anatomical_location))) ? 'selected' : ''}}>FOREARM/ARM</option>
+                                            <option value="HAND" {{(in_array('HAND', explode(',', $d->anatomical_location))) ? 'selected' : ''}}>HAND</option>
                                         </select>
                                     </div>
                                 </div>
@@ -356,10 +355,10 @@
                                     <div class="form-group">
                                     <label for="treatment_given"><span class="text-danger font-weight-bold">*</span>Treatment Given (multiple responses)</label>
                                         <select class="form-control" name="treatment_given[]" id="treatment_given" multiple required>
-                                            <option value="ATS/TIG" {{(in_array('ATS/TIG', explode(',', old('treatment_given', $d->treatment_given)))) ? 'selected' : ''}}>ATS/TIG</option>
-                                            <option value="TOXOID" {{(in_array('TOXOID', explode(',', old('treatment_given', $d->treatment_given)))) ? 'selected' : ''}}>TOXOID</option>
-                                            <option value="NO TREATMENT" {{(in_array('NO TREATMENT', explode(',', old('treatment_given', $d->treatment_given)))) ? 'selected' : ''}}>NO TREATMENT</option>
-                                            <option value="OTHER" {{(in_array('OTHER', explode(',', old('treatment_given', $d->treatment_given)))) ? 'selected' : ''}}>OTHER</option>
+                                            <option value="ATS/TIG" {{(in_array('ATS/TIG', explode(',', $d->treatment_given))) ? 'selected' : ''}}>ATS/TIG</option>
+                                            <option value="TOXOID" {{(in_array('TOXOID', explode(',', $d->treatment_given))) ? 'selected' : ''}}>TOXOID</option>
+                                            <option value="NO TREATMENT" {{(in_array('NO TREATMENT', explode(',', $d->treatment_given))) ? 'selected' : ''}}>NO TREATMENT</option>
+                                            <option value="OTHER" {{(in_array('OTHER', explode(',', $d->treatment_given))) ? 'selected' : ''}}>OTHER</option>
                                         </select>
                                     </div>
                                 </div>
@@ -412,13 +411,13 @@
                             <div class="form-group">
                             <label for="aware_healtheducation_list"><span class="text-danger font-weight-bold">*</span>Is the patient aware of any health education materials regarding fireworks (multiple responses)</label>
                                 <select class="form-control" name="aware_healtheducation_list[]" id="aware_healtheducation_list" required multiple>
-                                    <option value="TV" {{(in_array('TV', explode(',', old('aware_healtheducation_list', $d->aware_healtheducation_list)))) ? 'selected' : ''}}>TV</option>
-                                    <option value="NEWSPAPER/PRINT" {{(in_array('NEWSPAPER/PRINT', explode(',', old('aware_healtheducation_list', $d->aware_healtheducation_list)))) ? 'selected' : ''}}>NEWSPAPER/PRINT</option>
-                                    <option value="RADIO" {{(in_array('RADIO', explode(',', old('aware_healtheducation_list', $d->aware_healtheducation_list)))) ? 'selected' : ''}}>RADIO</option>
-                                    <option value="POSTER/TARPAULIN" {{(in_array('POSTER/TARPAULIN', explode(',', old('aware_healtheducation_list', $d->aware_healtheducation_list)))) ? 'selected' : ''}}>POSTER/TARPAULIN</option>
-                                    <option value="INTERNET/SOCIAL MEDIA" {{(in_array('INTERNET/SOCIAL MEDIA', explode(',', old('aware_healtheducation_list', $d->aware_healtheducation_list)))) ? 'selected' : ''}}>INTERNET/SOCIAL MEDIA</option>
-                                    <option value="HEALTH WORKER" {{(in_array('HEALTH WORKER', explode(',', old('aware_healtheducation_list', $d->aware_healtheducation_list)))) ? 'selected' : ''}}>HEALTH WORKER</option>
-                                    <option value="NOT AWARE" {{(in_array('NOT AWARE', explode(',', old('aware_healtheducation_list', $d->aware_healtheducation_list)))) ? 'selected' : ''}}>NOT AWARE</option>
+                                    <option value="TV" {{(in_array('TV', explode(',', $d->aware_healtheducation_list))) ? 'selected' : ''}}>TV</option>
+                                    <option value="NEWSPAPER/PRINT" {{(in_array('NEWSPAPER/PRINT', explode(',', $d->aware_healtheducation_list))) ? 'selected' : ''}}>NEWSPAPER/PRINT</option>
+                                    <option value="RADIO" {{(in_array('RADIO', explode(',', $d->aware_healtheducation_list))) ? 'selected' : ''}}>RADIO</option>
+                                    <option value="POSTER/TARPAULIN" {{(in_array('POSTER/TARPAULIN', explode(',', $d->aware_healtheducation_list))) ? 'selected' : ''}}>POSTER/TARPAULIN</option>
+                                    <option value="INTERNET/SOCIAL MEDIA" {{(in_array('INTERNET/SOCIAL MEDIA', explode(',', $d->aware_healtheducation_list))) ? 'selected' : ''}}>INTERNET/SOCIAL MEDIA</option>
+                                    <option value="HEALTH WORKER" {{(in_array('HEALTH WORKER', explode(',', $d->aware_healtheducation_list))) ? 'selected' : ''}}>HEALTH WORKER</option>
+                                    <option value="NOT AWARE" {{(in_array('NOT AWARE', explode(',', $d->aware_healtheducation_list))) ? 'selected' : ''}}>NOT AWARE</option>
                                 </select>
                             </div>
                         </div>
