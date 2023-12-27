@@ -47,7 +47,7 @@ class Kernel extends ConsoleKernel
         //$schedule->command('compositemeasurev2:on15and30')->monthlyOn(15, '16:50');
         //$schedule->command('compositemeasurev2:on15and30')->monthlyOn(date('t'), '16:50');
         //$schedule->command('pidsrwndr:weekly')->weeklyOn(2, '11:00')->evenInMaintenanceMode();
-        $schedule->command('covidvaccinelinelistimporter:weekly')->weeklyOn(1, '22:00')->evenInMaintenanceMode();
+        $schedule->command('covidvaccinelinelistimporter:weekly')->dailyAt('22:00')->evenInMaintenanceMode();
 
         if(date('w', strtotime(date('Y-m-'.date('t')))) == 6 || date('w', strtotime(date('Y-m-'.date('t')))) == 0) {
             $lastDay = strtotime(date('Y-m-' . date('t')));
