@@ -281,8 +281,8 @@
                                     <div class="form-group">
                                     <label for="involvement_type"><span class="text-danger font-weight-bold">*</span>Type of Involvement</label>
                                         <select class="form-control" name="involvement_type" id="involvement_type" required>
-                                            <option value="ACTIVE" {{(old('involvement_type', $d->involvement_type) == 'HOME') ? 'selected' : ''}}>ACTIVE (NAGPAPUTOK)</option>
-                                            <option value="PASSIVE" {{(old('involvement_type', $d->involvement_type) == 'STREET') ? 'selected' : ''}}>PASSIVE (NADAMAY/NAPADAAN LANG)</option>
+                                            <option value="ACTIVE" {{(old('involvement_type', $d->involvement_type) == 'ACTIVE') ? 'selected' : ''}}>ACTIVE (NAGPAPUTOK)</option>
+                                            <option value="PASSIVE" {{(old('involvement_type', $d->involvement_type) == 'PASSIVE') ? 'selected' : ''}}>PASSIVE (NADAMAY/NAPADAAN LANG)</option>
                                         </select>
                                     </div>
                                 </div>
