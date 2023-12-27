@@ -583,6 +583,10 @@ Route::get('/pharmacy/get_card', [PharmacyController::class, 'globalcard'])->nam
 //ABTC QR
 Route::get('/abtc/qr/{qr}', [ABTCWalkInRegistrationController::class, 'qr_process'])->name('abtc_qr_process');
 
+//ABTC SELF-REPORT
+Route::get('/abtc/selfreport', [ABTCWalkInRegistrationController::class, 'selfReportIndex'])->name('abtc_selfreport_index');
+Route::post('/abtc/selfreport', [ABTCWalkInRegistrationController::class, 'selfReportStore'])->name('abtc_selfreport_store');
+
 //SYNDROMIC ONLINE MEDCERT
 Route::get('/medcert/verify/{qr}', [SyndromicController::class, 'medcertOnlineVerify'])->name('medcert_online_verify');
 

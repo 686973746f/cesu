@@ -12,6 +12,13 @@
                         {{session('msg')}}
                     </div>
                     @endif
+                    <div class="form-group">
+                      <label for="status"><b class="text-danger">*</b>Account Status</label>
+                      <select class="form-control" name="status" id="status" required>
+                        <option value="ENABLED" {{(old('status', $d->status) == 'ENABLED') ? 'selected' : ''}}>ENABLED</option>
+                        <option value="FEMALE" {{(old('status', $d->status) == 'DISABLED') ? 'selected' : ''}}>DISABLED</option>
+                      </select>
+                    </div>
                     <div class="card mb-3">
                         <div class="card-header text-center"><b>METADATA</b></div>
                         <div class="card-body">
@@ -419,6 +426,11 @@
                                     <option value="HEALTH WORKER" {{(in_array('HEALTH WORKER', explode(',', $d->aware_healtheducation_list))) ? 'selected' : ''}}>HEALTH WORKER</option>
                                     <option value="NOT AWARE" {{(in_array('NOT AWARE', explode(',', $d->aware_healtheducation_list))) ? 'selected' : ''}}>NOT AWARE</option>
                                 </select>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                              <label for="remarks">Notes/Remarks <i>(Optional)</i></label>
+                              <textarea class="form-control" name="remarks" id="remarks" rows="3" style="text-transform: uppercase;">{{mb_strtoupper(old('remarks', $d->remarks))}}</textarea>
                             </div>
                         </div>
                     </div>

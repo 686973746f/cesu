@@ -16,6 +16,7 @@ class CreateAbtcPatientsTable extends Migration
         Schema::create('abtc_patients', function (Blueprint $table) {
             $table->id();
             $table->string('register_status')->default('VERIFIED');
+            $table->string('referred_from')->nullable();
             $table->tinyInteger('enabled')->default(1);
             $table->string('lname');
             $table->string('fname');

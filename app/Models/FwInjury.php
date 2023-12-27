@@ -76,6 +76,9 @@ class FwInjury extends Model
         'age_years',
         'age_months',
         'age_days',
+
+        'status',
+        'remarks',
     ];
 
     public function getName() {

@@ -356,4 +356,16 @@ class ABTCWalkInRegistrationController extends Controller
             ]);
         }
     }
+
+    public function selfReportIndex() {
+        return view('abtc.selfreport.index');
+    }
+
+    public function selfReportStore(Request $r) {
+        //CREATE PATIENT DETAILS
+
+        //CREATE BAKUNA DETAILS
+
+        //SHOW SUCCESS PAGE
+    }
 }

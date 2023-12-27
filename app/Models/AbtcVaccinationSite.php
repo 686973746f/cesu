@@ -19,5 +19,6 @@ class AbtcVaccinationSite extends Model
         'ff_start',
         'ff_end',
         'new_and_ff_time_same',
+        'facility_type',
     ];
 }

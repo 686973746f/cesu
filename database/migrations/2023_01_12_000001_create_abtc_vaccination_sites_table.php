@@ -24,6 +24,7 @@ class CreateAbtcVaccinationSitesTable extends Migration
             $table->time('ff_start')->nullable();
             $table->time('ff_end')->nullable();
             $table->tinyInteger('new_and_ff_time_same')->default(0);
+            $table->string('facility_type')->nullable();
             $table->timestamps();
         });
     }

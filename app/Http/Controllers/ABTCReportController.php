@@ -134,9 +134,9 @@ class ABTCReportController extends Controller
     
                     ${'f'.$i} = ${'f'.$i}->count();
     
-                    ${'co'.$i} = ${'co'.$i}->count();
+                    ${'co'.$i} = 0;
     
-                    ${'ct'.$i} = ${'ct'.$i}->count();
+                    ${'ct'.$i} = (${'co'.$i}->count() + ${'ct'.$i}->count());
     
                     ${'ch'.$i} = ${'ch'.$i}->count();
     
@@ -167,9 +167,9 @@ class ABTCReportController extends Controller
     
                     ${'f'.$i} = ${'f'.$i}->where('vaccination_site_id', $vid)->count();
     
-                    ${'co'.$i} = ${'co'.$i}->where('vaccination_site_id', $vid)->count();
+                    ${'co'.$i} = 0;
     
-                    ${'ct'.$i} = ${'ct'.$i}->where('vaccination_site_id', $vid)->count();
+                    ${'ct'.$i} = (${'co'.$i}->where('vaccination_site_id', $vid)->count() + ${'ct'.$i}->where('vaccination_site_id', $vid)->count());
     
                     ${'ch'.$i} = ${'ch'.$i}->where('vaccination_site_id', $vid)->count();
     

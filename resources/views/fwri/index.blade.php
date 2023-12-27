@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <form action="{{route('fwri_store', $code)}}" method="POST">
+        <form action="{{route('fwri_store', $code)}}" method="POST" autocomplete="off">
             @csrf
             <div class="card">
                 <div class="card-header"><b>CESU Gen. Trias - Fireworks Related Injury (FWRI) Online Reporting Tool</b></div>
@@ -428,6 +428,11 @@
                                     <option value="HEALTH WORKER" {{(in_array('HEALTH WORKER', explode(',', old('aware_healtheducation_list')))) ? 'selected' : ''}}>HEALTH WORKER</option>
                                     <option value="NOT AWARE" {{(in_array('NOT AWARE', explode(',', old('aware_healtheducation_list')))) ? 'selected' : ''}}>NOT AWARE</option>
                                 </select>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                              <label for="remarks">Notes/Remarks <i>(Optional)</i></label>
+                              <textarea class="form-control" name="remarks" id="remarks" rows="3" style="text-transform: uppercase;">{{mb_strtoupper(old('remarks'))}}</textarea>
                             </div>
                         </div>
                     </div>

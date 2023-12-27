@@ -86,6 +86,8 @@ class CreateFwInjuriesTable extends Migration
             $table->integer('age_months')->nullable();
             $table->integer('age_days')->nullable();
 
+            $table->string('status')->default('ENABLED');
+            $table->text('remarks')->nullable();
             $table->timestamps();
         }); 
     }
