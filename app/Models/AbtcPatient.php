@@ -16,6 +16,7 @@ class AbtcPatient extends Model
     protected $fillable = [
         'register_status',
         'referred_from',
+        'referred_date',
         'enabled',
         'lname',
         'fname',

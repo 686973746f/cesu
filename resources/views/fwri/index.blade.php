@@ -88,7 +88,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="contact_number">Contact Number</label>
+                                        <label for="contact_number"><b class="text-danger">*</b>Contact Number</label>
                                         <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{old('contact_number')}}" pattern="[0-9]{11}" placeholder="09*********" required>
                                     </div>
                                 </div>

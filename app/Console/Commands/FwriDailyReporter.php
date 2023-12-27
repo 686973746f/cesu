@@ -237,7 +237,7 @@ class FwriDailyReporter extends Command
                     $sheet2->setCellValue('BT'.$startCell2, $d->disposition_after_consultation_transferred_hospital);
                     $sheet2->setCellValue('BU'.$startCell2, $d->disposition_after_admission);
                     $sheet2->setCellValue('BV'.$startCell2, $d->disposition_after_admission_transferred_hospital);
-                    $sheet2->setCellValue('BW'.$startCell2, ($d->disposition_after_admission == 'DIED DURING ADMISSION') ? $d->date_died : '');
+                    $sheet2->setCellValue('BW'.$startCell2, ($d->disposition_after_admission == 'DIED DURING ADMISSION') ? date('m/d/Y', strtotime($d->date_died)) : '');
                     $sheet2->setCellValue('BX'.$startCell2, '');
                     $sheet2->setCellValue('BY'.$startCell2, '');
                     $sheet2->setCellValue('BZ'.$startCell2, $facReg);

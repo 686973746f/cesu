@@ -180,7 +180,6 @@
                         <div class="mb-3">
                             <label for="d0_date" class="form-label"><strong class="text-danger">*</strong>First Vaccine / Day 0 Date</label>
                             <input type="date" class="form-control" name="d0_date" id="d0_date" min="{{$d->bdate}}" max="{{date('Y-m-d')}}" value="{{old('d0_date')}}" required>
-                            
                         </div>
                     </div>
                     <div class="col-md-3">

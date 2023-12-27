@@ -362,10 +362,146 @@ class ABTCWalkInRegistrationController extends Controller
     }
 
     public function selfReportStore(Request $r) {
-        //CREATE PATIENT DETAILS
+        $r->validate([
+            'lname' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
+    		'fname' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
+    		'mname' => 'nullable|regex:/^[\pL\s\-]+$/u|max:50',
+        ]);
+        //CHECK IF PATIENT ALREADY EXISTS
 
-        //CREATE BAKUNA DETAILS
+        if(AbtcPatient::ifDuplicateFound($r->lname, $r->fname, $r->mname, $r->suffix, $r->bdate)) {
+            return back()
+            ->withInput()
+            ->with('msg', 'Unable to register new patient. Patient details already exists on the server.')
+            ->with('msgtype', 'danger');
+        }
+        else {
+            $foundunique = false;
 
-        //SHOW SUCCESS PAGE
+            while(!$foundunique) {
+                $for_qr = Str::random(20);
+                
+                $search = AbtcPatient::where('qr', $for_qr)->first();
+                if(!$search) {
+                    $foundunique = true;
+                }
+            }
+
+            $get_age = Carbon::parse($r->bdate)->age;
+
+            //BLOCK 09999999999
+            if($r->contact_number == '09999999999') {
+                return back()
+                ->withInput()
+                ->with('msg', 'Error: Invalid Contact Number. Please fill-out the contact number correctly and try again.')
+                ->with('msgtype', 'danger');
+            }
+
+            //CREATE PATIENT DETAILS
+            $create_patient = AbtcPatient::create([
+                'lname' => mb_strtoupper($r->lname),
+                'fname' => mb_strtoupper($r->fname),
+                'mname' => ($r->filled('mname')) ? mb_strtoupper($r->mname) : NULL,
+                'suffix' => ($r->filled('suffix')) ? mb_strtoupper($r->suffix) : NULL,
+                'bdate' => $r->bdate,
+                //'philhealth' => $r->philhealth,
+                'age' => $get_age,
+                'gender' => $r->gender,
+                'contact_number' => $r->contact_number,
+                'address_region_code' => $r->address_region_code,
+                'address_region_text' => $r->address_region_text,
+                'address_province_code' => $r->address_province_code,
+                'address_province_text' => $r->address_province_text,
+                'address_muncity_code' => $r->address_muncity_code,
+                'address_muncity_text' => $r->address_muncity_text,
+                'address_brgy_code' => $r->address_brgy_text,
+                'address_brgy_text' => $r->address_brgy_text,
+                'address_street' => ($r->filled('address_street')) ? mb_strtoupper($r->address_street) : NULL,
+                'address_houseno' => ($r->filled('address_houseno')) ? mb_strtoupper($r->address_houseno) : NULL,
+    
+                'qr' => $for_qr,
+                'remarks' => ($r->filled('remarks')) ? $r->remarks : NULL,
+                'ip' => request()->ip(),
+            ]);
+
+            //Check if Booster Dose (If May Case na dati)
+            $booster_check = AbtcBakunaRecords::where('patient_id', $create_patient)->where('outcome', 'C')->first();
+            if($booster_check) {
+                $is_booster = 1;
+            }
+            else {
+                //Override Booster
+                if($r->is_booster == 'Y') {
+                    $is_booster = 1;
+                }
+                else {
+                    $is_booster = 0;
+                }
+            }
+
+            if(date('Y', strtotime($r->case_date)) != date('Y')) {
+                $case_id = date('Y', strtotime($r->case_date)).'-'.(AbtcBakunaRecords::whereYear('case_date', date('Y', strtotime($r->case_date)))
+                ->where('vaccination_site_id', $r->vaccination_site_id)
+                ->count() + 1);
+            }
+            else {
+                $case_id = date('Y').'-'.(AbtcBakunaRecords::whereYear('case_date', date('Y'))
+                ->where('vaccination_site_id', $r->vaccination_site_id)
+                ->count() + 1);
+            }
+
+            $is_preexp = 0;
+            $bite_date = $r->bite_date;
+            $case_location = ($r->filled('case_location')) ? mb_strtoupper($r->case_location) : NULL;
+            $if_animal_vaccinated = ($r->if_animal_vaccinated == 'Y') ? 1 : 0;
+            $animal_type = $r->animal_type;
+            $bite_type = $r->bite_type;
+            $category_level = (!is_null($r->rig_date_given)) ? 3 : $r->category_level;
+
+            //CREATE BAKUNA DETAILS
+            $create_record = AbtcBakunaRecords::create([
+                'patient_id' => $create_patient->id,
+                //'vaccination_site_id' => $r->vaccination_site_id,
+                //'case_id' => $case_id,
+                'is_booster' => $is_booster,
+                //'is_preexp' => $is_preexp,
+                'case_date' => $r->case_date,
+                'case_location' => $case_location,
+                'animal_type' => $animal_type,
+                'animal_type_others' => ($r->animal_type == 'O') ? mb_strtoupper($r->animal_type_others) : NULL,
+                'if_animal_vaccinated' => $if_animal_vaccinated,
+                'bite_date' => $bite_date,
+                'bite_type' => $bite_type,
+                'body_site' => ($r->filled('body_site')) ? mb_strtoupper($r->body_site) : NULL,
+                //'category_level' => $category_level,
+                'washing_of_bite' => ($r->washing_of_bite == 'Y') ? 1 : 0,
+                //'rig_date_given' => $r->rig_date_given,
+
+                //'pep_route' => $r->pep_route,
+                //'brand_name' => $r->brand_name,
+                //'d0_date' => $r->d0_date,
+                //'d0_done' => 1,
+                //'d0_vaccinated_inbranch' => ($r->d0_vaccinated_inbranch == 'Y') ? 1 : 0,
+                //'d0_brand' => $r->brand_name,
+                //'d3_date' => $set_d3_date->format('Y-m-d'),
+                //'d3_brand' => $r->brand_name,
+                //'d7_date' => $set_d7_date->format('Y-m-d'),
+                //'d7_brand' => $r->brand_name,
+                //'d14_date' => $set_d14_date->format('Y-m-d'),
+                //'d14_brand' => $r->brand_name,
+                //'d28_date' => $set_d28_date->format('Y-m-d'),
+                //'d28_brand' => $r->brand_name,
+
+                //'outcome' => $r->outcome,
+                //'biting_animal_status' => $r->biting_animal_status,
+
+                //'date_died' => ($r->outcome == 'D') ? $r->date_died : NULL,
+                //'animal_died_date' => ($r->biting_animal_status == 'DEAD') ? $r->animal_died_date : NULL,
+                'remarks' => $r->remarks,
+            ]);
+
+            //SHOW SUCCESS PAGE
+
+        }
     }
 }

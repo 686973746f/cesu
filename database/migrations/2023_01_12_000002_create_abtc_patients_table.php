@@ -17,6 +17,7 @@ class CreateAbtcPatientsTable extends Migration
             $table->id();
             $table->string('register_status')->default('VERIFIED');
             $table->string('referred_from')->nullable();
+            $table->date('referred_date')->nullable();
             $table->tinyInteger('enabled')->default(1);
             $table->string('lname');
             $table->string('fname');

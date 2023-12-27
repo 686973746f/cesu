@@ -164,7 +164,7 @@ class FwriController extends Controller
                     'age_months' => $get_agemonths,
                     'age_days' => $get_agedays,
 
-                    'remarks' => $r->remarks,
+                    'remarks' => (request()->filled('remarks')) ? $r->remarks : NULL,
                 ]);
 
                 return redirect()->route('fwri_success', $code);
@@ -294,7 +294,7 @@ class FwriController extends Controller
             'age_days' => $get_agedays,
 
             'status' => $r->status,
-            'remarks' => $r->remarks,
+            'remarks' => (request()->filled('remarks')) ? mb_strtoupper($r->remarks) : NULL,
         ]);
 
         return redirect()->back()
