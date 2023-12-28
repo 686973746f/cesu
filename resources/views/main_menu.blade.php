@@ -41,7 +41,7 @@
         </div>
     </div>
 </div>
-
+@if($showmodal)
 <div class="modal fade" id="privacymodal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -61,6 +61,7 @@
         </div>
     </div>
 </div>
+@endif
 
 <!--
 <div class="container">
@@ -119,7 +120,9 @@
 -->
 
 <script>
+    @if($showmodal)
     $('#privacymodal').modal({backdrop: 'static', keyboard: false});
     $('#privacymodal').modal('show');
+    @endif
 </script>
 @endsection

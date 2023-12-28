@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Forms;
 use Carbon\CarbonPeriod;
 use App\Models\SelfReports;
@@ -58,7 +59,23 @@ class HomeController extends Controller
         }
         */
 
-        return view('main_menu');
+
+        if(date('Y-m-d') == date('Y-m-d', strtotime(auth()->user()->last_login_date))) {
+            $showmodal = false;
+        }
+        else {
+            $showmodal = true;
+
+            //update last_login_date
+            $u = User::find(auth()->user()->id);
+
+            $u->last_login_date = Carbon::now()->format('Y-m-d H:i:s');
+            $u->save();
+        }
+
+        return view('main_menu', [
+            'showmodal' => $showmodal,
+        ]);
     }
 
     public function covid_home() {

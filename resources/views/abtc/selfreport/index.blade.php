@@ -8,23 +8,23 @@
                 <div class="card-header"><b>CESU General Trias: Rabies Control Program - Online Self-Reporting Tool</b></div>
                 <div class="card-body">
                     <div class="alert alert-primary" role="alert">
-                        <h6 class="text-danger"><b>Note:</b></h6>
-                        <h6>- All fields marked with an asterisks (<b class="text-danger">*</b>) are required fields that must be filled-out.</h6>
-                        <h6>- By filling-out, you must provide your genuine details and you agree to the <b>RA 11332</b> and <b>Data Privacy Act of 2012</b>.</h6>
+                        <p class="text-danger"><b>Note:</b></p>
+                        <p>- All fields marked with an asterisks (<b class="text-danger">*</b>) are required fields that must be filled-out.</p>
+                        <p>- By filling-out, you must provide your genuine details and you agree to the <b>RA 11332 (Mandatory Reporting of Notifiable Diseases and Health Events of Public Health Concern Act)</b> and <b>Data Privacy Act of 2012</b>.</p>
                     </div>
                     <div class="card">
-                        <div class="card-header"><b>REFERRAL DETAILS</b></div>
+                        <div class="card-header"><b>CLINIC/FACILITY DETAILS</b></div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="referred_from"><b class="text-danger">*</b>Name of Referring Veterenary Clinic/Facility</label>
+                                        <label for="referred_from"><b class="text-danger">*</b>Pangalan ng Veterenary Clinic/Facility kung saan ka nanggaling</label>
                                         <input type="text" class="form-control" name="referred_from" id="referred_from" value="{{old('referred_from')}}" style="text-transform: uppercase;" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for=""><b class="text-danger">*</b>Date Visited</label>
+                                        <label for=""><b class="text-danger">*</b>Kailan bumisita doon</label>
                                         <input type="date" class="form-control" name="referred_date" id="referred_date" value="{{old('referred_date', date('Y-m-d'))}}" required>
                                     </div>
                                 </div>                    
@@ -37,19 +37,19 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="lname"><b class="text-danger">*</b>Last Name/Surname</label>
+                                        <label for="lname"><b class="text-danger">*</b>Last Name/Surname/Apelyido</label>
                                         <input type="text" class="form-control" name="lname" id="lname" value="{{old('lname')}}" placeholder="DELA CRUZ" minlength="2" maxlength="50" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="fname"><b class="text-danger">*</b>First Name</label>
+                                        <label for="fname"><b class="text-danger">*</b>First Name/Unang Pangalan</label>
                                         <input type="text" class="form-control" name="fname" id="fname" value="{{old('fname')}}" placeholder="JUAN" minlength="2" maxlength="50" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="mname">Middle Name <i>(If Applicable)</i></label>
+                                        <label for="mname">Middle Name/Gitnang Pangalan <i>(If Applicable)</i></label>
                                         <input type="text" class="form-control" name="mname" id="mname" value="{{old('mname')}}" placeholder="SANCHEZ" minlength="2" maxlength="50" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
                                     </div>
                                 </div>
@@ -63,17 +63,17 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="bdate"><b class="text-danger">*</b>Birthdate</label>
+                                        <label for="bdate"><b class="text-danger">*</b>Araw ng kapanganakan</label>
                                         <input type="date" class="form-control" name="bdate" id="bdate" value="{{old('bdate')}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="gender"><span class="text-danger font-weight-bold">*</span>Sex</label>
+                                        <label for="gender"><span class="text-danger font-weight-bold">*</span>Kasarian</label>
                                           <select class="form-control" name="gender" id="gender" required>
                                               <option value="" disabled {{(is_null(old('gender'))) ? 'selected' : ''}}>Choose...</option>
-                                              <option value="MALE" {{(old('gender') == 'MALE') ? 'selected' : ''}}>Male</option>
-                                              <option value="FEMALE" {{(old('gender') == 'FEMALE') ? 'selected' : ''}}>Female</option>
+                                              <option value="MALE" {{(old('gender') == 'MALE') ? 'selected' : ''}}>Male/Lalaki</option>
+                                              <option value="FEMALE" {{(old('gender') == 'FEMALE') ? 'selected' : ''}}>Female/Babae</option>
                                           </select>
                                     </div>
                                 </div>
@@ -87,6 +87,19 @@
                             <div class="card">
                                 <div class="card-header"><b>CURRENT ADDRESS</b></div>
                                 <div class="card-body">
+                                    <div id="address_text" class="d-none">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <input type="text" id="address_region_text" name="address_region_text" value="{{old('address_region_text')}}" readonly>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text" id="address_province_text" name="address_province_text" value="{{old('address_province_text')}}" readonly>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text" id="address_muncity_text" name="address_muncity_text" value="{{old('address_muncity_text')}}" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -123,13 +136,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="address_houseno" class="form-label"><b class="text-danger">*</b>House No./Lot/Building</label>
-                                                <input type="text" class="form-control" id="address_houseno" name="address_houseno" style="text-transform: uppercase;" value="{{old('address_houseno')}}" pattern="(^[a-zA-Z0-9 ]+$)+" required>
+                                                <input type="text" class="form-control" id="address_houseno" name="address_houseno" style="text-transform: uppercase;" value="{{old('address_houseno')}}" placeholder="S1 B2 L3 PHASE 4" pattern="(^[a-zA-Z0-9 ]+$)+" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="address_street" class="form-label"><b class="text-danger">*</b>Street/Subdivision/Purok/Sitio</label>
-                                                <input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" value="{{old('address_street')}}" pattern="(^[a-zA-Z0-9 ]+$)+" required>
+                                                <input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" value="{{old('address_street')}}" placeholder="SUBDIVISION HOMES" pattern="(^[a-zA-Z0-9 ]+$)+" required>
                                             </div>
                                         </div>
                                     </div>
@@ -143,24 +156,24 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="bite_date" class="form-label"><strong class="text-danger">*</strong>Date of Exposure/Bite Date</label>
+                                        <label for="bite_date" class="form-label"><strong class="text-danger">*</strong>Kailan nakagat/nasugatan</label>
                                         <input type="date" class="form-control" name="bite_date" id="bite_date" min="2000-01-01" max="{{date('Y-m-d')}}" value="{{old('bite_date')}}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="case_location" class="form-label"><b class="text-danger">*</b>Barangay/City (Where biting occured)</label>
+                                        <label for="case_location" class="form-label"><b class="text-danger">*</b>Lugar/Barangay kung saan ka nakagat/nasugatan</label>
                                         <input type="text" class="form-control" name="case_location" id="case_location" value="{{old('case_location')}}" style="text-transform: uppercase;" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="if_animal_vaccinated" class="form-label"><strong class="text-danger">*</strong>Is the animal already vaccinated within the year?</label>
+                                        <label for="if_animal_vaccinated" class="form-label"><strong class="text-danger">*</strong>Bakunado ba ang hayop nitong taon lang?</label>
                                         <select class="form-control" name="if_animal_vaccinated" id="if_animal_vaccinated" required>
                                             <option value="" disabled {{is_null(old('if_animal_vaccinated')) ? 'selected' : ''}}>Choose...</option>
-                                            <option value="N" {{(old('if_animal_vaccinated') == 'N') ? 'selected' : ''}}>No</option>
-                                            <option value="Y" {{(old('if_animal_vaccinated') == 'Y') ? 'selected' : ''}}>Yes</option>
-                                            <option value="U" {{(old('if_animal_vaccinated') == 'U') ? 'selected' : ''}}>Unknown</option>
+                                            <option value="N" {{(old('if_animal_vaccinated') == 'N') ? 'selected' : ''}}>No/Hindi</option>
+                                            <option value="Y" {{(old('if_animal_vaccinated') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
+                                            <option value="U" {{(old('if_animal_vaccinated') == 'U') ? 'selected' : ''}}>Unknown/Hindi matukoy</option>
                                         </select>
                                     </div>
                                 </div>
@@ -168,7 +181,7 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="animal_type" class="form-label"><strong class="text-danger">*</strong>Type of Animal</label>
+                                        <label for="animal_type" class="form-label"><strong class="text-danger">*</strong>Uri ng hayop</label>
                                         <select class="form-control" name="animal_type" id="animal_type" required>
                                             <option value="" disabled {{is_null(old('animal_type')) ? 'selected' : ''}}>Choose...</option>
                                             <option value="PD" {{(old('animal_type') == 'PD') ? 'selected' : ''}}>Pet Dog (PD)/Alagang Aso</option>
@@ -180,14 +193,14 @@
                                     </div>
                                     <div id="ifanimaltype_othersdiv" class="d-none">
                                         <div class="form-group">
-                                            <label for="animal_type_others" class="form-label"><strong class="text-danger">*</strong>Others, Please state Animal</label>
+                                            <label for="animal_type_others" class="form-label"><strong class="text-danger">*</strong>Iba pa, isulat kung anong hayop</label>
                                             <input type="text" class="form-control" name="animal_type_others" id="animal_type_others" value="{{old('animal_type_others')}}" style="text-transform: uppercase;">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="bite_type" class="form-label"><strong class="text-danger">*</strong>Type of Exposure/Uri ng Sugat</label>
+                                        <label for="bite_type" class="form-label"><strong class="text-danger">*</strong>Uri ng Pagkakasugat</label>
                                         <select class="form-control" name="bite_type" id="bite_type" required>
                                             <option value="" disabled {{is_null(old('bite_type')) ? 'selected' : ''}}>Choose...</option>
                                             <option value="B" {{(old('bite_type') == 'B') ? 'selected' : ''}}>Bite/Kagat</option>
@@ -197,7 +210,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="body_site" class="form-label"><b class="text-danger">*</b>Site (Body Parts)</label>
+                                        <label for="body_site" class="form-label"><b class="text-danger">*</b>Parte ng katawan na nasugatan</label>
                                         <input type="text" class="form-control" name="body_site" id="body_site" value="{{old('body_site')}}" style="text-transform: uppercase;" placeholder="ex. daliri, binti, kamay" required>
                                     </div>
                                 </div>
@@ -205,20 +218,28 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="is_booster" class="form-label"><strong class="text-danger">*</strong>Have you completed a Rabies Vaccine Before?/Nakapagpabakuna na ba ng kontra-Rabies dati?</label>
+                                        <label for="is_booster" class="form-label"><strong class="text-danger">*</strong>Nakapagpabakuna na ba ng kontra-Rabies dati?</label>
                                         <select class="form-control" name="is_booster" id="is_booster" required>
                                             <option value="" disabled {{is_null(old('is_booster')) ? 'selected' : ''}}>Choose...</option>
-                                            <option value="Y" {{(old('is_booster') == 'Y') ? 'selected' : ''}}>Yes</option>
-                                            <option value="N" {{(old('is_booster') == 'N') ? 'selected' : ''}}>No</option>
+                                            <option value="Y" {{(old('is_booster') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
+                                            <option value="N" {{(old('is_booster') == 'N') ? 'selected' : ''}}>No/Hindi</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="remarks" class="form-label"><b class="text-danger">*</b>Remarks/Iba pang detalye</label>
-                                        <textarea class="form-control" name="remarks" id="remarks" rows="3" style="text-transform: uppercase;" required>{{old('remarks')}}</textarea>
+                                        <label for="washing_of_bite" class="form-label"><strong class="text-danger">*</strong>Hinugasan ng sabon ang sugat?</label>
+                                        <select class="form-control" name="washing_of_bite" id="washing_of_bite" required>
+                                            <option value="Y" {{(old('washing_of_bite') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
+                                            <option value="N" {{(old('washing_of_bite') == 'N') ? 'selected' : ''}}>No/Hindi</option>
+                                        </select>
                                     </div>
                                 </div>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <label for="remarks" class="form-label"><b class="text-danger">*</b>Remarks/Iba pang detalye</label>
+                                <textarea class="form-control" name="remarks" id="remarks" rows="3" style="text-transform: uppercase;" required>{{old('remarks')}}</textarea>
                             </div>
                         </div>
                     </div>

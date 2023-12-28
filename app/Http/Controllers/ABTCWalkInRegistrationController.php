@@ -399,6 +399,8 @@ class ABTCWalkInRegistrationController extends Controller
 
             //CREATE PATIENT DETAILS
             $create_patient = AbtcPatient::create([
+                'register_status' => 'PENDING_REFERRAL',
+                'enabled' => 0,
                 'lname' => mb_strtoupper($r->lname),
                 'fname' => mb_strtoupper($r->fname),
                 'mname' => ($r->filled('mname')) ? mb_strtoupper($r->mname) : NULL,
@@ -420,8 +422,11 @@ class ABTCWalkInRegistrationController extends Controller
                 'address_houseno' => ($r->filled('address_houseno')) ? mb_strtoupper($r->address_houseno) : NULL,
     
                 'qr' => $for_qr,
-                'remarks' => ($r->filled('remarks')) ? $r->remarks : NULL,
+                'remarks' => ($r->filled('remarks')) ? mb_strtoupper($r->remarks) : NULL,
                 'ip' => request()->ip(),
+                
+                'referred_from' => mb_strtoupper($r->referred_from),
+                'referred_date' => $r->referred_date,
             ]);
 
             //Check if Booster Dose (If May Case na dati)
@@ -450,13 +455,13 @@ class ABTCWalkInRegistrationController extends Controller
                 ->count() + 1);
             }
 
-            $is_preexp = 0;
+            //$is_preexp = 0;
             $bite_date = $r->bite_date;
             $case_location = ($r->filled('case_location')) ? mb_strtoupper($r->case_location) : NULL;
             $if_animal_vaccinated = ($r->if_animal_vaccinated == 'Y') ? 1 : 0;
             $animal_type = $r->animal_type;
             $bite_type = $r->bite_type;
-            $category_level = (!is_null($r->rig_date_given)) ? 3 : $r->category_level;
+            //$category_level = (!is_null($r->rig_date_given)) ? 3 : $r->category_level;
 
             //CREATE BAKUNA DETAILS
             $create_record = AbtcBakunaRecords::create([
@@ -492,16 +497,16 @@ class ABTCWalkInRegistrationController extends Controller
                 //'d28_date' => $set_d28_date->format('Y-m-d'),
                 //'d28_brand' => $r->brand_name,
 
-                //'outcome' => $r->outcome,
-                //'biting_animal_status' => $r->biting_animal_status,
+                'outcome' => 'INC',
+                'biting_animal_status' => 'N/A',
 
                 //'date_died' => ($r->outcome == 'D') ? $r->date_died : NULL,
                 //'animal_died_date' => ($r->biting_animal_status == 'DEAD') ? $r->animal_died_date : NULL,
-                'remarks' => $r->remarks,
+                'remarks' => ($r->filled('remarks')) ? mb_strtoupper($r->remarks) : NULL,
             ]);
 
             //SHOW SUCCESS PAGE
-
+            return view('abtc.selfreport.submit_complete');
         }
     }
 }

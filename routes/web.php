@@ -585,7 +585,7 @@ Route::get('/abtc/qr/{qr}', [ABTCWalkInRegistrationController::class, 'qr_proces
 
 //ABTC SELF-REPORT
 Route::get('/abtc/selfreport', [ABTCWalkInRegistrationController::class, 'selfReportIndex'])->name('abtc_selfreport_index');
-Route::post('/abtc/selfreport', [ABTCWalkInRegistrationController::class, 'selfReportStore'])->name('abtc_selfreport_store');
+Route::post('/abtc/selfreport/store', [ABTCWalkInRegistrationController::class, 'selfReportStore'])->name('abtc_selfreport_store');
 
 //SYNDROMIC ONLINE MEDCERT
 Route::get('/medcert/verify/{qr}', [SyndromicController::class, 'medcertOnlineVerify'])->name('medcert_online_verify');

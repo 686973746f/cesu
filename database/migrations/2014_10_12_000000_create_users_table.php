@@ -44,6 +44,7 @@ class CreateUsersTable extends Migration
             $table->foreignId('abtc_default_vaccinebrand_id')->nullable()->constrained('abtc_vaccine_brands')->onDelete('cascade');
             $table->date('abtc_default_vaccinebrand_date')->nullable();
             $table->text('permission_list')->nullable();
+            $table->timestamp('last_login_date')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
