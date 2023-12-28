@@ -6,10 +6,14 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between">
                     <div><b>Fireworks-Related Injury (FWRI) - Home</b> (Total: {{$list->total()}})</div>
-                    <div><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reportMod">Report</button></div>
+                    <div>
+                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#filterBtn">Filter</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reportMod">Report</button>
+                    </div>
                 </div>
             </div>
             <div class="card-body">
+                @if($list->count() != 0)
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">
                         <thead class="thead-light text-center">
@@ -48,10 +52,13 @@
                         </tbody>
                     </table>
                 </div>
+                @else
+                <p class="text-center">No results found.</p>
+                @endif
             </div>
         </div>
     </div>
-    <!-- Modal -->
+
     <div class="modal fade" id="reportMod" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -67,4 +74,32 @@
             </div>
         </div>
     </div>
+
+    <form action="" method="GET">
+        <div class="modal fade" id="filterBtn" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Filter</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                          <label for="">Select Year</label>
+                          <select class="form-control" name="select_year" id="select_year" required>
+                            @foreach(range(date('Y'), 2019) as $y)
+                            <option value="{{$y}}" {{(request()->input('select_year') == $y) ? 'selected' : ''}}>{{$y}} (Dec. 1, {{$y}} to Jan. 10, {{$y+1}})</option>
+                            @endforeach
+                          </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success btn-block">Filter</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 @endsection

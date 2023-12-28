@@ -190,14 +190,23 @@ class FwriController extends Controller
     public function home() {
         if(request()->input('showDisabled')) {
             $list = FwInjury::where('status', 'DISABLED')
-            ->orderBy('created_at', 'DESC')
-            ->paginate(10);
+            ->orderBy('created_at', 'DESC');
         }
         else {
             $list = FwInjury::where('status', 'ENABLED')
-            ->orderBy('created_at', 'DESC')
-            ->paginate(10);
+            ->orderBy('created_at', 'DESC');
         }
+
+        if(request()->input('select_year')) {
+            $date1 = request()->input('select_year').'-12-01';
+            $date2 = (request()->input('select_year')+1).'-01-05';
+        }
+        else {
+            $date1 = date('Y-12-01');
+            $date2 = (date('Y') +1).'-01-05';
+        }
+
+        $list = $list->whereBetween('created_at', [$date1, $date2])->paginate(10);
 
         return view('fwri.home', [
             'list' => $list,

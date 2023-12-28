@@ -70,6 +70,7 @@ class CreateFwInjuriesTable extends Migration
 
             $table->text('anatomical_location')->nullable();
             $table->text('firework_name')->nullable();
+            $table->string('firework_illegal', 1)->nullable();
             $table->string('liquor_intoxication', 1)->default('N');
 
             $table->text('treatment_given')->nullable();

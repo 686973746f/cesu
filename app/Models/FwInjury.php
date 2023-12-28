@@ -62,6 +62,7 @@ class FwInjury extends Model
         'complete_diagnosis',
         'anatomical_location',
         'firework_name',
+        'firework_illegal',
         'liquor_intoxication',
         'treatment_given',
         'disposition_after_consultation',
