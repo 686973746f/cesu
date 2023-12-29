@@ -268,7 +268,7 @@
                           <div class="form-check">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="cough_yn" id="cough_yn" value="checkedValue" {{old('cough_yn') ? 'checked' : ''}}>
-                              Cough
+                              Ubo/Cough
                             </label>
                           </div>
                           <div id="cough_div" class="d-none">
@@ -286,7 +286,7 @@
                           <div class="form-check">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="colds_yn" id="colds_yn" value="checkedValue" {{old('colds_yn') ? 'checked' : ''}}>
-                              Colds/Coryza
+                              Sipon/Colds (Coryza)
                             </label>
                           </div>
                           <div id="colds_div" class="d-none">
@@ -304,7 +304,7 @@
                           <div class="form-check">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="conjunctivitis_yn" id="conjunctivitis_yn" value="checkedValue" {{old('conjunctivitis_yn') ? 'checked' : ''}}>
-                              Conjunctivitis/Red Eyes
+                              Pamulula ng Mata/Conjunctivitis/Red Eyes
                             </label>
                           </div>
                           <div id="conjunctivitis_div" class="d-none">
@@ -322,14 +322,14 @@
                           <div class="form-check">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="diarrhea_yn" id="diarrhea_yn" value="checkedValue" {{(old('diarrhea_yn')) ? 'checked' : ''}}>
-                              Diarrhea
+                              Pagdudumi/Diarrhea
                             </label>
                           </div>
                           <div id="diarrhea_div" class="d-none">
                             <div class="form-check">
                               <label class="form-check-label">
                                 <input type="checkbox" class="form-check-input" name="bloody_stool" id="bloody_stool" value="checkedValue" {{(old('bloody_stool')) ? 'checked' : ''}}>
-                                Bloody Stool
+                                May dugo ang dumi/Bloody Stool
                               </label>
                             </div>
                             <div class="form-group">
@@ -346,7 +346,7 @@
                           <div class="form-check">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="anorexia_yn" id="anorexia_yn" value="checkedValue" {{old('anorexia_yn') ? 'checked' : ''}}>
-                              Eating Disorder (Anorexia)
+                              Problema sa pagkain/Eating Disorder (Anorexia)
                             </label>
                           </div>
                           <div id="anorexia_div" class="d-none">
@@ -364,7 +364,7 @@
                           <div class="form-check">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="fatigue_yn" id="fatigue_yn" value="checkedValue" {{old('fatigue_yn') ? 'checked' : ''}}>
-                              Fatigue
+                              Pagkapagod/Fatigue
                             </label>
                           </div>
                           <div id="fatigue_div" class="d-none">
@@ -382,7 +382,7 @@
                           <div class="form-check">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="fever_yn" id="fever_yn" value="checkedValue" {{old('fever_yn') ? 'checked' : ''}}>
-                              Fever
+                              Lagnat/Fever
                             </label>
                           </div>
                           <div id="fever_div" class="d-none">
@@ -400,7 +400,7 @@
                           <div class="form-check">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="headache_yn" id="headache_yn" value="checkedValue" {{old('headache_yn') ? 'checked' : ''}}>
-                              Headache
+                              Sakit ng Ulo/Headache
                             </label>
                           </div>
                           <div id="headache_div" class="d-none">
@@ -418,7 +418,7 @@
                             <div class="form-check">
                               <label class="form-check-label">
                                 <input type="checkbox" class="form-check-input" name="jointpain_yn" id="jointpain_yn" value="checkedValue" {{old('jointpain_yn') ? 'checked' : ''}}>
-                                Joint Pain
+                                Sakit sa Kasu-kasuan/Joint Pain
                               </label>
                             </div>
                             <div id="jointpain_div" class="d-none">
@@ -436,7 +436,7 @@
                           <div class="form-check">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="jaundice_yn" id="jaundice_yn" value="checkedValue" {{old('jaundice_yn') ? 'checked' : ''}}>
-                              Jaundice/Yellow Skin
+                              Paninilaw ng Balat/Yellow Skin (Jaundice)
                             </label>
                           </div>
                           <div id="jaundice_div" class="d-none">
@@ -454,7 +454,7 @@
                           <div class="form-check">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="lossofsmell_yn" id="lossofsmell_yn" value="checkedValue" {{old('lossofsmell_yn') ? 'checked' : ''}}>
-                              Loss of Smell (Anosmia)
+                              Walang Pang-amoy/Loss of Smell (Anosmia)
                             </label>
                           </div>
                           <div id="lossofsmell_div" class="d-none">
@@ -472,7 +472,7 @@
                           <div class="form-check">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="lossoftaste_yn" id="lossoftaste_yn" value="checkedValue" {{old('lossoftaste_yn') ? 'checked' : ''}}>
-                              Loss of Taste (Ageusia)
+                              Walang Panlasa/Loss of Taste (Ageusia)
                             </label>
                           </div>
                           <div id="lossoftaste_div" class="d-none">
@@ -490,7 +490,7 @@
                           <div class="form-check">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="musclepain_yn" id="musclepain_yn" value="checkedValue" {{old('musclepain_yn') ? 'checked' : ''}}>
-                              Muscle Pain/Body Pain
+                              Sakit ng Katawan/Muscle Pain/Body Pain
                             </label>
                           </div>
                           <div id="musclepain_div" class="d-none">
@@ -508,7 +508,7 @@
                           <div class="form-check">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="nausea_yn" id="nausea_yn" value="checkedValue" {{old('nausea_yn') ? 'checked' : ''}}>
-                              Nausea
+                              Nahihilo/Nausea
                             </label>
                           </div>
                           <div id="nausea_div" class="d-none">
@@ -526,7 +526,7 @@
                           <div class="form-check">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="paralysis_yn" id="paralysis_yn" value="checkedValue" {{old('paralysis_yn') ? 'checked' : ''}}>
-                              Paralysis
+                              Pagka-paralisa/Paralysis
                             </label>
                           </div>
                           <div id="paralysis_div" class="d-none">
@@ -544,7 +544,7 @@
                           <div class="form-check">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="rash_yn" id="rash_yn" value="checkedValue" {{old('rash_yn') ? 'checked' : ''}}>
-                              Rashes
+                              Pangangati ng Balat/Rashes
                             </label>
                           </div>
                           <div id="rash_div" class="d-none">
@@ -562,7 +562,7 @@
                           <div class="form-check">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="mouthsore_yn" id="mouthsore_yn" value="checkedValue" {{old('mouthsore_yn') ? 'checked' : ''}}>
-                              Sore Mouth
+                              Pananakit ng Bibig/Sore Mouth
                             </label>
                           </div>
                           <div id="mouthsore_div" class="d-none">
@@ -580,7 +580,7 @@
                           <div class="form-check">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="sorethroat_yn" id="sorethroat_yn" value="checkedValue" {{old('sorethroat_yn') ? 'checked' : ''}}>
-                              Sore Throat
+                              Pananakit ng Lalamunan/Sore Throat
                             </label>
                           </div>
                           <div id="sorethroat_div" class="d-none">
@@ -598,7 +598,7 @@
                           <div class="form-check">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="dyspnea_yn" id="dyspnea_yn" value="checkedValue" {{old('dyspnea_yn') ? 'checked' : ''}}>
-                              Shortness of Breath (Dyspnea)
+                              Hirap sa paghinga/Shortness of Breath (Dyspnea)
                             </label>
                           </div>
                           <div id="dyspnea_div" class="d-none">
@@ -616,7 +616,7 @@
                           <div class="form-check">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="vomiting_yn" id="vomiting_yn" value="checkedValue" {{old('vomiting_yn') ? 'checked' : ''}}>
-                              Vomiting
+                              Pagsusuka/Vomiting
                             </label>
                           </div>
                           <div id="vomiting_div" class="d-none">
@@ -634,7 +634,7 @@
                           <div class="form-check">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="weaknessofextremities_yn" id="weaknessofextremities_yn" value="checkedValue" {{old('weaknessofextremities_yn') ? 'checked' : ''}}>
-                              Weakness of Extremities
+                              Panghihina ng kamay at paa/Weakness of Extremities
                             </label>
                           </div>
                           <div id="weaknessofextremities_div" class="d-none">
@@ -652,7 +652,7 @@
                           <div class="form-check">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="other_symptoms_yn" id="other_symptoms_yn" value="checkedValue" {{old('other_symptoms_yn') ? 'checked' : ''}}>
-                              Others
+                              Iba pa/Others
                             </label>
                           </div>
                           <div id="other_symptoms_div" class="d-none">

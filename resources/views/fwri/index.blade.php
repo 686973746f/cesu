@@ -344,8 +344,17 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="firework_name"><b class="text-danger">*</b>Name of Firework</label>
+                                        <label for="firework_name"><b class="text-danger">*</b>Name of Firework/Firecracker</label>
                                         <input type="text" class="form-control" name="firework_name" id="firework_name" value="{{old('firework_name')}}" style="text-transform: uppercase;" required>
+                                    </div>
+                                    <div class="form-group">
+                                    <label for="firework_illegal"><span class="text-danger font-weight-bold">*</span>Is the firework/firecracker used Illegal?</label>
+                                        <select class="form-control" name="firework_illegal" id="firework_illegal" required>
+                                            <option value="" disabled {{(is_null(old('firework_illegal'))) ? 'selected' : ''}}>Choose...</option>
+                                            <option value="Y" {{(old('firework_illegal') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                            <option value="N" {{(old('firework_illegal') == 'N') ? 'selected' : ''}}>No</option>
+                                            <option value="U" {{(old('firework_illegal') == 'U') ? 'selected' : ''}}>Unknown</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -451,19 +460,14 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Confirm Facility Code</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                    <h5 class="modal-title text-center"><b>CESU Gen. Trias: Fireworks-Related Injury (FWRI) Online Reporting Tool for City of General Trias, Cavite</b></h5>
                 </div>
                 <div class="modal-body text-center">
-                    <h5>Good Day.</h5>
-                    <h5>Welcome to CESU Gen. Trias FWRI Online Reporting Tool for City of General Trias, Cavite</h5>
-                    <h5>Please confirm if you used the correct code for your Facility:</h5>
-                    <h4 class="mt-3"><b>Code: {{$code}}</b></h4>
-                    <h4 class="mb-3"><b>Name: {{mb_strtoupper($hospital_name)}}</b></h4>
+                    <h5>Please confirm if you used the correct code for your Facility before encoding:</h5>
+                    <h4 class="mt-3"><b class="text-primary">Code: {{$code}}</b></h4>
+                    <h4 class="mb-3"><b class="text-success">Name: {{mb_strtoupper($hospital_name)}}</b></h4>
                     <h5>If this is your encoding facility, you may now proceed.</h5>
-                    <h5>If NOT, do not proceed and use the right URL Code that was given by CESU Gen. Trias.</h5>
+                    <h5>If NOT, do not proceed, close this form and use the right URL Code that was given by CESU Gen. Trias.</h5>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success btn-block" data-dismiss="modal">Proceed</button>

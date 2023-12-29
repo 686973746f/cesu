@@ -343,8 +343,17 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="firework_name"><b class="text-danger">*</b>Name of Firework</label>
+                                        <label for="firework_name"><b class="text-danger">*</b>Name of Firework/Firecracker</label>
                                         <input type="text" class="form-control" name="firework_name" id="firework_name" value="{{old('firework_name', $d->firework_name)}}" style="text-transform: uppercase;" required>
+                                    </div>
+                                    <div class="form-group">
+                                    <label for="firework_illegal"><span class="text-danger font-weight-bold">*</span>Is the firework/firecracker used Illegal?</label>
+                                        <select class="form-control" name="firework_illegal" id="firework_illegal" required>
+                                            <option value="" disabled {{(is_null(old('firework_illegal'))) ? 'selected' : ''}}>Choose...</option>
+                                            <option value="Y" {{(old('firework_illegal', $d->firework_illegal) == 'Y') ? 'selected' : ''}}>Yes</option>
+                                            <option value="N" {{(old('firework_illegal', $d->firework_illegal) == 'N') ? 'selected' : ''}}>No</option>
+                                            <option value="U" {{(old('firework_illegal', $d->firework_illegal) == 'U') ? 'selected' : ''}}>Unknown</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4">

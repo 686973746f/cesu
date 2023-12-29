@@ -203,4 +203,13 @@ class FwInjury extends Model
 
         return $getBrgy->json_code;
     }
+
+    public function getInjuryAddStr() {
+        if($this->injury_sameadd == 'Y') {
+            return 'SAME AS CURRENT ADDRESS';
+        }
+        else {
+            return $this->getInjuryAddress();
+        }
+    }
 }

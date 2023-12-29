@@ -20,8 +20,8 @@
                             <tr>
                                 <th>#</th>
                                 <th>Date Submitted</th>
-                                <th>from Facility/Name of Reporter</th>
-                                <th>Name</th>
+                                <th>from Facility - Reporter</th>
+                                <th>Patient Name</th>
                                 <th>Age/Sex</th>
                                 <th>Address</th>
                                 <th>Contact Number</th>
@@ -37,14 +37,14 @@
                             <tr>
                                 <td class="text-center"><b>{{$list->total() - $ind}}</b></td>
                                 <td class="text-center">{{date('m/d/Y h:i A', strtotime($d->created_at))}}</td>
-                                <td class="text-center"><small>{{$d->hospital_name}}/{{$d->reported_by}}</small></td>
+                                <td class="text-center"><small>{{$d->hospital_name}} - {{$d->reported_by}}</small></td>
                                 <td><b><a href="{{route('fwri_view', $d->id)}}">{{$d->getName()}}</a></b></td>
                                 <td class="text-center">{{$d->getAge()}}/{{$d->sg()}}</td>
                                 <td class="text-center"><small>{{$d->getCompleteAddress()}}</small></td>
                                 <td class="text-center">{{$d->contact_number}}</td>
                                 <td class="text-center">{{date('m/d/Y', strtotime($d->report_date))}}</td>
                                 <td class="text-center">{{$d->nature_injury}}</td>
-                                <td class="text-center"><small>{{$d->getInjuryAddress()}}</small></td>
+                                <td class="text-center"><small>{{$d->getInjuryAddStr()}}</small></td>
                                 <td class="text-center">{{$d->firework_name}}</td>
                                 <td class="text-center">{{date('m/d/Y h:i A', strtotime($d->injury_date))}}</td>
                             </tr>
