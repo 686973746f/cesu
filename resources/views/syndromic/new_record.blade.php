@@ -214,7 +214,7 @@
                           <div class="form-check">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="abdominalpain_yn" id="abdominalpain_yn" value="checkedValue" {{old('abdominalpain_yn') ? 'checked' : ''}}>
-                              Abdominal Pain
+                              Pananakit ng Tiyan/Abdominal Pain
                             </label>
                           </div>
                           <div id="abdominalpain_div" class="d-none">
@@ -250,7 +250,7 @@
                             <div class="form-check">
                               <label class="form-check-label">
                                 <input type="checkbox" class="form-check-input" name="animalbite_yn" id="animalbite_yn" value="checkedValue" {{old('animalbite_yn') ? 'checked' : ''}}>
-                                Animal Bite
+                                Nakagat ng Hayop/Animal Bite
                               </label>
                             </div>
                             <div id="animalbite_div" class="d-none">
