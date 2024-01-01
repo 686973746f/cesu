@@ -80,6 +80,7 @@ class FwInjury extends Model
 
         'status',
         'remarks',
+        'sent',
     ];
 
     public function getName() {
