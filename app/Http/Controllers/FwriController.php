@@ -189,6 +189,8 @@ class FwriController extends Controller
     }
 
     public function home() {
+        $currentDate = Carbon::now();
+
         if(request()->input('showDisabled')) {
             $list = FwInjury::where('status', 'DISABLED')
             ->orderBy('created_at', 'DESC');
@@ -203,8 +205,14 @@ class FwriController extends Controller
             $date2 = (request()->input('select_year')+1).'-01-05';
         }
         else {
-            $date1 = date('Y-12-01');
-            $date2 = (date('Y') +1).'-01-05';
+            if ($currentDate->month === Carbon::DECEMBER) {
+                $date1 = date('Y-12-01');
+                $date2 = (date('Y') +1).'-01-05';
+            }
+            else {
+                $date1 = date('Y-12-01', strtotime('-1 Year'));
+                $date2 = date('Y-01-05');
+            }            
         }
 
         $list = $list->whereBetween('created_at', [$date1, $date2])->paginate(10);
