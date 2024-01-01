@@ -16,7 +16,7 @@
                       <label for="status"><b class="text-danger">*</b>Account Status</label>
                       <select class="form-control" name="status" id="status" required>
                         <option value="ENABLED" {{(old('status', $d->status) == 'ENABLED') ? 'selected' : ''}}>ENABLED</option>
-                        <option value="FEMALE" {{(old('status', $d->status) == 'DISABLED') ? 'selected' : ''}}>DISABLED</option>
+                        <option value="DISABLED" {{(old('status', $d->status) == 'DISABLED') ? 'selected' : ''}}>DISABLED</option>
                       </select>
                     </div>
                     <div class="card mb-3">
