@@ -7,6 +7,7 @@
                 <div class="d-flex justify-content-between">
                     <div><b>Fireworks-Related Injury (FWRI) - Home</b> (Total: {{$list->total()}})</div>
                     <div>
+                        <a href="{{route('fwri_export')}}" class="btn btn-success">Export</a>
                         <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#filterBtn">Filter</button>
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reportMod">Report</button>
                     </div>
