@@ -548,6 +548,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     Route::post('fwri_admin/{id}/update', [FwriController::class, 'updateCif'])->name('fwri_update');
     Route::get('fwri_admin/{id}/print', [FwriController::class, 'printCif'])->name('fwri_print');
     Route::get('fwri_admin/report', [FwriController::class, 'report'])->name('fwri_report');
+    Route::get('fwri_admin/export', [FwriController::class, 'export'])->name('fwri_export');
 });
 
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function() {

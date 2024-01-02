@@ -351,8 +351,8 @@
                                     <label for="firework_illegal"><span class="text-danger font-weight-bold">*</span>Is the firework/firecracker used Illegal?</label>
                                         <select class="form-control" name="firework_illegal" id="firework_illegal" required>
                                             <option value="" disabled {{(is_null(old('firework_illegal'))) ? 'selected' : ''}}>Choose...</option>
-                                            <option value="Y" {{(old('firework_illegal') == 'Y') ? 'selected' : ''}}>Yes</option>
-                                            <option value="N" {{(old('firework_illegal') == 'N') ? 'selected' : ''}}>No</option>
+                                            <option value="Y" {{(old('firework_illegal') == 'Y') ? 'selected' : ''}}>Yes/Illegal</option>
+                                            <option value="N" {{(old('firework_illegal') == 'N') ? 'selected' : ''}}>No/NOT Illegal</option>
                                             <option value="U" {{(old('firework_illegal') == 'U') ? 'selected' : ''}}>Unknown</option>
                                         </select>
                                     </div>

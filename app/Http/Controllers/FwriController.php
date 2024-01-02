@@ -7,6 +7,8 @@ use App\Models\FwInjury;
 use App\Models\DohFacility;
 use Illuminate\Http\Request;
 use App\Models\BarangayHealthStation;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class FwriController extends Controller
 {
@@ -130,7 +132,7 @@ class FwriController extends Controller
                     'consultation_date' => $r->consultation_date,
                     'reffered_anotherhospital' => $r->reffered_anotherhospital,
                     'nameof_hospital' => ($r->reffered_anotherhospital == 'Y') ? mb_strtoupper($r->nameof_hospital) : NULL,
-                    'place_of_occurrence' => $r->reffered_anotherhospital,
+                    'place_of_occurrence' => $r->place_of_occurrence,
                     'place_of_occurrence_others' => ($r->place_of_occurrence_others == 'OTHERS') ? mb_strtoupper($r->place_of_occurrence_others) : NULL,
                     'injury_sameadd' => $r->injury_sameadd,
                     'injury_address_region_code' => $inj_reg_code,
@@ -189,6 +191,8 @@ class FwriController extends Controller
     }
 
     public function home() {
+        $currentDate = Carbon::now();
+
         if(request()->input('showDisabled')) {
             $list = FwInjury::where('status', 'DISABLED')
             ->orderBy('created_at', 'DESC');
@@ -203,8 +207,14 @@ class FwriController extends Controller
             $date2 = (request()->input('select_year')+1).'-01-05';
         }
         else {
-            $date1 = date('Y-12-01');
-            $date2 = (date('Y') +1).'-01-05';
+            if ($currentDate->month === Carbon::DECEMBER) {
+                $date1 = date('Y-12-01');
+                $date2 = (date('Y') +1).'-01-05';
+            }
+            else {
+                $date1 = date('Y-12-01', strtotime('-1 Year'));
+                $date2 = date('Y-01-05');
+            }            
         }
 
         $list = $list->whereBetween('created_at', [$date1, $date2])->paginate(10);
@@ -270,7 +280,7 @@ class FwriController extends Controller
             'consultation_date' => $r->consultation_date,
             'reffered_anotherhospital' => $r->reffered_anotherhospital,
             'nameof_hospital' => ($r->reffered_anotherhospital == 'Y') ? mb_strtoupper($r->nameof_hospital) : NULL,
-            'place_of_occurrence' => $r->reffered_anotherhospital,
+            'place_of_occurrence' => $r->place_of_occurrence,
             'place_of_occurrence_others' => ($r->place_of_occurrence_others == 'OTHERS') ? mb_strtoupper($r->place_of_occurrence_others) : NULL,
             'injury_sameadd' => $r->injury_sameadd,
             'injury_address_region_code' => $r->injury_address_region_code,
@@ -364,5 +374,82 @@ class FwriController extends Controller
             'p_designated_area' => $p_designated_area,
             'p_others' => $p_others,
         ]);
+    }
+
+    public function export() {
+        $currentDate = Carbon::now();
+        
+        if ($currentDate->month === Carbon::DECEMBER) {
+            $date1 = Carbon::parse(date('Y-12-21'));
+            $date2 = Carbon::parse((date('Y') +1).'-01-05');
+        }
+        else {
+            $date1 = Carbon::parse((date('Y')-1).'-12-21');
+            $date2 = Carbon::parse(date('Y-01-05'));
+        }
+
+        $list = FwInjury::whereBetween('created_at', [$date1, $date2])
+        ->where('status', 'ENABLED')
+        ->get();
+
+        $startCell1 = 8;
+
+        if($list->count() != 0) {
+            $spreadsheet1 = IOFactory::load(storage_path('FWRI1.xlsx'));
+            $sheet1 = $spreadsheet1->getActiveSheet();
+
+            $sheet1->setCellValue('B4', 'DATE: '.date('m/d/Y').' - MunCity: GENERAL TRIAS');
+
+            foreach($list as $d) {
+                if($d->nature_injury == 'FIREWORKS INJURY') {
+                    $getInjuryType = $d->iffw_typeofinjury;
+                }
+                else {
+                    $getInjuryType = $d->nature_injury;
+                }
+
+                //GET DIAGNOSIS
+                if(!is_null($d->complete_diagnosis)) {
+                    $getDiag = $d->complete_diagnosis.' - '.$d->anatomical_location;
+                }
+                else {
+                    $getDiag = $d->anatomical_location;
+                }
+
+                //GET DISPOSITION
+                if($d->disposition_after_admission == 'DIED DURING ADMISSION') {
+                    $getDispo = 'DIED '.date('(m/d/Y)', strtotime($d->date_died));
+                }
+                else {
+                    $getDispo = $d->disposition_after_admission;
+                }
+                
+                $sheet1->setCellValue('B'.$startCell1, $d->getName());
+                $sheet1->setCellValue('C'.$startCell1, $d->getAgeInt().'/'.$d->sg());
+                $sheet1->setCellValue('D'.$startCell1, $d->getCompleteAddress());
+                $sheet1->setCellValue('E'.$startCell1, date('m/d/Y h:i A', strtotime($d->injury_date)).' - '.$d->place_of_occurrence);
+                $sheet1->setCellValue('F'.$startCell1, date('m/d/Y h:i A', strtotime($d->consultation_date)));
+                $sheet1->setCellValue('G'.$startCell1, $d->involvement_type);
+                $sheet1->setCellValue('H'.$startCell1, $getInjuryType);
+                $sheet1->setCellValue('I'.$startCell1, $getDiag);
+                $sheet1->setCellValue('J'.$startCell1, $d->firework_name);
+                $sheet1->setCellValue('K'.$startCell1, $d->liquor_intoxication);
+                $sheet1->setCellValue('L'.$startCell1, $d->treatment_given);
+                $sheet1->setCellValue('M'.$startCell1, $getDispo);
+
+                $startCell1++;
+
+            }
+
+            
+            //$writer1->save(storage_path('app/fwri/CESUGENTRIAS_APIR_LINELIST_'.date('mdY', strtotime('-1 Day')).'.xlsx'));
+
+            $fileName = 'FIREWORKSINJURY_GENTRIAS_'.date('m_d_Y').'.xlsx';
+            ob_clean();
+            $writer1 = new Xlsx($spreadsheet1);
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment; filename="'. urlencode($fileName).'"');
+            $writer1->save('php://output');
+        }
     }
 }

@@ -61,10 +61,10 @@ class FwriDailyReporter extends Command
 
         if ($currentDate->greaterThanOrEqualTo($date1) && $currentDate->lessThanOrEqualTo($date2)) {
             //Check if there was reportable cases yesterday
-            $date1 = date('Y-m-d 05:00:01', strtotime('-1 Day'));
-            $date2 = date('Y-m-d 05:00:00');
+            //$date1_param = date('Y-m-d 05:00:01', strtotime('-1 Day'));
+            //$date2_param = date('Y-m-d 05:00:00');
 
-            $list = FwInjury::whereBetween('created_at', [$date1, $date2])
+            $list = FwInjury::where('sent', 'N')
             ->where('status', 'ENABLED')
             ->get();
 
@@ -250,6 +250,9 @@ class FwriDailyReporter extends Command
 
                     $startCell1++;
                     $startCell2++;
+
+                    $d->sent = 'Y';
+                    $d->save();
                 }
 
                 $writer1 = new Xlsx($spreadsheet1);
