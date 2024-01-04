@@ -557,7 +557,9 @@ class SyndromicRecords extends Model
         }
 
         if($this->fever == 1 && $this->cough == 1) {
-            $list_arr[] = 'COVID-19';
+            //$list_arr[] = 'COVID-19';
+
+            $list_arr[] = 'Influenza-like Illness (ILI)';
         }
         else {
             $covid_count = 0;
@@ -607,7 +609,9 @@ class SyndromicRecords extends Model
             }
 
             if($covid_count >= 3) {
-                $list_arr[] = 'COVID-19';
+                //$list_arr[] = 'COVID-19';
+
+                $list_arr[] = 'Influenza-like Illness (ILI)';
             }
         }
 
