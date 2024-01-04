@@ -133,7 +133,7 @@ class FwriController extends Controller
                     'reffered_anotherhospital' => $r->reffered_anotherhospital,
                     'nameof_hospital' => ($r->reffered_anotherhospital == 'Y') ? mb_strtoupper($r->nameof_hospital) : NULL,
                     'place_of_occurrence' => $r->place_of_occurrence,
-                    'place_of_occurrence_others' => ($r->place_of_occurrence_others == 'OTHERS') ? mb_strtoupper($r->place_of_occurrence_others) : NULL,
+                    'place_of_occurrence_others' => ($r->place_of_occurrence == 'OTHERS') ? mb_strtoupper($r->place_of_occurrence_others) : NULL,
                     'injury_sameadd' => $r->injury_sameadd,
                     'injury_address_region_code' => $inj_reg_code,
                     'injury_address_region_text' => $inj_reg_text,

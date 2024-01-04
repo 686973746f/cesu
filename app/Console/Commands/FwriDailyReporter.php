@@ -65,6 +65,7 @@ class FwriDailyReporter extends Command
             //$date2_param = date('Y-m-d 05:00:00');
 
             $list = FwInjury::where('sent', 'N')
+            ->where('address_muncity_text', 'GENERAL TRIAS')
             ->where('status', 'ENABLED')
             ->get();
 
