@@ -21,6 +21,6 @@ use Maatwebsite\Excel\Facades\Excel;
 class TestController extends Controller
 {
     public function index() {
-        Excel::import(new TkcExcelImport(), storage_path('app/tkc/split_files/Chunk_1.xlsx'));
+        Excel::import(new TkcExcelImport(), storage_path('app/tkc/tkc_feedback.csv'));
     }
 }
