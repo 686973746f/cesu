@@ -53,6 +53,9 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="pagination justify-content-center mt-3">
+                    {{$list->appends(request()->input())->links()}}
+                </div>
                 @else
                 <p class="text-center">No results found.</p>
                 @endif
