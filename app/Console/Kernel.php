@@ -65,6 +65,10 @@ class Kernel extends ConsoleKernel
         $schedule->command('pharmacy:check_expiry')->dailyAt('00:00')->evenInMaintenanceMode();
 
         $schedule->command('fwrireporter:daily')->dailyAt('05:00')->evenInMaintenanceMode();
+
+        $schedule->command('resetcustomholiday:yearly')->yearly()->when(function () {
+            return now()->format('m-d') === '01-01'; // Run on January 1st
+        });
         
         //$schedule->command('queue:work')->everyMinute()->withoutOverlapping();
         

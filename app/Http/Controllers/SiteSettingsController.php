@@ -60,4 +60,31 @@ class SiteSettingsController extends Controller
         ->with('msg', 'Saved.')
         ->with('msgType', 'success');
     }
+
+    public function settingsHome() {
+        return view('sitesettings.home');
+    }
+
+    public function generalSettings() {
+        $d = SiteSettings::findOrFail(1);
+
+        return view('sitesettings.general', [
+            'd' => $d,
+        ]);
+    }
+
+    public function generalSettingsUpdate(Request $r) {
+        $d = SiteSettings::findOrFail(1);
+
+        $d->default_holiday_dates = $r->default_holiday_dates;
+        $d->custom_holiday_dates = $r->custom_holiday_dates;
+
+        if($d->isDirty()) {
+            $d->save();
+        }
+
+        return redirect()->back()
+        ->with('msg', 'Update was successful.')
+        ->with('msgtype', 'success');
+    }
 }

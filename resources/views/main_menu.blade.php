@@ -36,7 +36,7 @@
             @endif
             @if(auth()->user()->isGlobalAdmin())
             <hr>
-            <a href="" class="btn btn-block btn-warning btn-lg">Settings</a>
+            <a href="{{route('settings_home')}}" class="btn btn-block btn-warning btn-lg">Settings</a>
             @endif
         </div>
     </div>

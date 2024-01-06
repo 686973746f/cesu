@@ -291,7 +291,7 @@ class PidsrImport implements ToCollection, WithStartRow
                             'AgeMons' => $row[17],
                             'AgeDays' => $row[18],
                             'Admitted' => $row[19],
-                            'DAdmit' => $row[20],
+                            'DAdmit' => $this->tDate($row[20]),
                             'DateOfReport' => $this->tDate($row[21]),
                             'DateOfInvestigation' => $this->tDate($row[22]),
                             'DateOfEntry' => $this->tDate($row[23]),

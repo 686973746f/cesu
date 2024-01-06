@@ -10,6 +10,7 @@ use App\Models\AbtcVaccineBrand;
 use App\Models\AbtcBakunaRecords;
 use App\Models\AbtcVaccinationSite;
 use App\Models\AbtcVaccineStocks;
+use App\Models\SiteSettings;
 use PhpOffice\PhpWord\TemplateProcessor;
 
 class ABTCVaccinationController extends Controller
@@ -118,10 +119,22 @@ class ABTCVaccinationController extends Controller
                 ->count() + 1);
             }
 
+            $get_siteSettings = SiteSettings::find(1);
+
+            $default_holidays = explode(',', $get_siteSettings->default_holiday_dates);
+            $custom_holidays = explode(',', $get_siteSettings->custom_holiday_dates);
+
+            $combined_holidays = array_merge($default_holidays, $custom_holidays);
+
             //Days Calculation (Skip and Wednesdays, Saturdays and Sundays due to Government Office Hours)
             $base_date = $request->d0_date;
 
             $set_d3_date = Carbon::parse($request->d0_date)->addDays(3);
+
+            //Adjust D3 Date if Holidays
+            while(in_array($set_d3_date->format('m-d'), $combined_holidays)) {
+                $set_d3_date = Carbon::parse($set_d3_date)->addDays(1);
+            }
 
             if($set_d3_date->dayOfWeek == Carbon::WEDNESDAY) {
                 $set_d3_date = Carbon::parse($set_d3_date)->addDays(1);
@@ -131,9 +144,14 @@ class ABTCVaccinationController extends Controller
             }
             else if($set_d3_date->dayOfWeek == Carbon::SUNDAY) {
                 $set_d3_date = Carbon::parse($set_d3_date)->addDays(1);
-            }
+            }         
 
             $set_d7_date = Carbon::parse($request->d0_date)->addDays(7);
+
+            //Adjust D7 Date if Holidays
+            while(in_array($set_d7_date->format('m-d'), $combined_holidays)) {
+                $set_d7_date = Carbon::parse($set_d7_date)->addDays(1);
+            }
 
             if($set_d7_date->dayOfWeek == Carbon::WEDNESDAY) {
                 $set_d7_date = Carbon::parse($set_d7_date)->addDays(1);
@@ -147,6 +165,11 @@ class ABTCVaccinationController extends Controller
 
             $set_d14_date = Carbon::parse($request->d0_date)->addDays(14);
 
+            //Adjust D14 Date if Holidays
+            while(in_array($set_d14_date->format('m-d'), $combined_holidays)) {
+                $set_d14_date = Carbon::parse($set_d14_date)->addDays(1);
+            }
+
             if($set_d14_date->dayOfWeek == Carbon::WEDNESDAY) {
                 $set_d14_date = Carbon::parse($set_d14_date)->addDays(1);
             }
@@ -159,6 +182,11 @@ class ABTCVaccinationController extends Controller
 
             $set_d28_date = Carbon::parse($request->d0_date)->addDays(28);
 
+            //Adjust D3 Date if Holidays
+            while(in_array($set_d28_date->format('m-d'), $combined_holidays)) {
+                $set_d28_date = Carbon::parse($set_d28_date)->addDays(1);
+            }
+
             if($set_d28_date->dayOfWeek == Carbon::WEDNESDAY) {
                 $set_d28_date = Carbon::parse($set_d28_date)->addDays(1);
             }
@@ -168,7 +196,7 @@ class ABTCVaccinationController extends Controller
             else if($set_d28_date->dayOfWeek == Carbon::SUNDAY) {
                 $set_d28_date = Carbon::parse($set_d28_date)->addDays(1);
             }
-
+            
             if($request->is_preexp == 'Y') {
                 $is_preexp = 1;
                 $bite_date = NULL;

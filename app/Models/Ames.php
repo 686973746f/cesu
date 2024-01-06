@@ -18,13 +18,18 @@ class Ames extends Model
     public $guarded = [];
 
     public function getEdcsFacilityName() {
-        $s = DohFacility::where('healthfacility_code', $this->edcs_healthFacilityCode)->first();
+        if(!is_null($this->edcs_healthFacilityCode)) {
+            $s = DohFacility::where('healthfacility_code', $this->edcs_healthFacilityCode)->first();
 
-        if($s) {
-            return $s->facility_name;
+            if($s) {
+                return $s->facility_name;
+            }
+            else {
+                return 'UNKNOWN';
+            }
         }
         else {
-            return 'UNKNOWN';
+            return 'N/A';
         }
     }
 }

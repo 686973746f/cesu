@@ -56,7 +56,7 @@ class FwriDailyReporter extends Command
         }
         else {
             $date1 = Carbon::parse((date('Y')-1).'-12-21');
-            $date2 = Carbon::parse(date('Y-01-05'));
+            $date2 = Carbon::parse(date('Y-01-06'));
         }
 
         if ($currentDate->greaterThanOrEqualTo($date1) && $currentDate->lessThanOrEqualTo($date2)) {
@@ -65,6 +65,7 @@ class FwriDailyReporter extends Command
             //$date2_param = date('Y-m-d 05:00:00');
 
             $list = FwInjury::where('sent', 'N')
+            ->where('address_muncity_text', 'GENERAL TRIAS')
             ->where('status', 'ENABLED')
             ->get();
 

@@ -295,6 +295,9 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin', 
     Route::post('/covid/settings/site', [SiteSettingsController::class, 'update'])->name('ss.update');
     
     //Route::get('/exportcesu', [ReportV2Controller::class, 'exportdb'])->name('edb');
+    Route::get('/init_settings/home', [SiteSettingsController::class, 'settingsHome'])->name('settings_home');
+    Route::get('/init_settings/general', [SiteSettingsController::class, 'generalSettings'])->name('settings_general_view');
+    Route::post('/init_settings/update', [SiteSettingsController::class, 'generalSettingsUpdate'])->name('settings_general_update');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel2']], function() {
@@ -567,6 +570,8 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     Route::post('/pharmacy/branches/{id}/new_transaction', [PharmacyController::class, 'newBranchTransaction'])->name('pharmacy_branch_newtransaction');
     Route::post('/pharmacy/branches/{id}', [PharmacyController::class, 'updateBranch'])->name('pharmacy_update_branch');
 });
+
+
 
 //VAXCERT (WALK IN)
 Route::get('/vaxcert', [VaxcertController::class, 'walkinmenu'])->name('vaxcert_walkin');

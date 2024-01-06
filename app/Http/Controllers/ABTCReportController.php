@@ -71,7 +71,7 @@ class ABTCReportController extends Controller
                     $q->where('gender', 'FEMALE');
                 })->whereMonth('case_date', $i);
 
-                ${'co'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
+                ${'co_legit'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
                 ->whereMonth('case_date', $i)
                 ->where('category_level', '1');
 
@@ -136,7 +136,7 @@ class ABTCReportController extends Controller
     
                     ${'co'.$i} = 0;
     
-                    ${'ct'.$i} = (${'co'.$i}->count() + ${'ct'.$i}->count());
+                    ${'ct'.$i} = (${'co_legit'.$i}->count() + ${'ct'.$i}->count());
     
                     ${'ch'.$i} = ${'ch'.$i}->count();
     
@@ -169,7 +169,7 @@ class ABTCReportController extends Controller
     
                     ${'co'.$i} = 0;
     
-                    ${'ct'.$i} = (${'co'.$i}->where('vaccination_site_id', $vid)->count() + ${'ct'.$i}->where('vaccination_site_id', $vid)->count());
+                    ${'ct'.$i} = (${'co_legit'.$i}->where('vaccination_site_id', $vid)->count() + ${'ct'.$i}->where('vaccination_site_id', $vid)->count());
     
                     ${'ch'.$i} = ${'ch'.$i}->where('vaccination_site_id', $vid)->count();
     
