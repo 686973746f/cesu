@@ -204,16 +204,16 @@ class FwriController extends Controller
 
         if(request()->input('select_year')) {
             $date1 = request()->input('select_year').'-12-01';
-            $date2 = (request()->input('select_year')+1).'-01-05';
+            $date2 = (request()->input('select_year')+1).'-01-06';
         }
         else {
             if ($currentDate->month === Carbon::DECEMBER) {
                 $date1 = date('Y-12-01');
-                $date2 = (date('Y') +1).'-01-05';
+                $date2 = (date('Y') +1).'-01-06';
             }
             else {
                 $date1 = date('Y-12-01', strtotime('-1 Year'));
-                $date2 = date('Y-01-05');
+                $date2 = date('Y-01-06');
             }            
         }
 
@@ -381,11 +381,11 @@ class FwriController extends Controller
         
         if ($currentDate->month === Carbon::DECEMBER) {
             $date1 = Carbon::parse(date('Y-12-21'));
-            $date2 = Carbon::parse((date('Y') +1).'-01-05');
+            $date2 = Carbon::parse((date('Y') +1).'-01-06');
         }
         else {
             $date1 = Carbon::parse((date('Y')-1).'-12-21');
-            $date2 = Carbon::parse(date('Y-01-05'));
+            $date2 = Carbon::parse(date('Y-01-06'));
         }
 
         $list = FwInjury::whereBetween('created_at', [$date1, $date2])
