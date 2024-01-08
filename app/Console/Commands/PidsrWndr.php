@@ -34,11 +34,13 @@ use App\Models\Leptospirosis;
 use PhpOffice\PhpWord\PhpWord;
 use Illuminate\Console\Command;
 use PhpOffice\PhpWord\Settings;
-use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\IOFactory as WordFactory;
+use PhpOffice\PhpSpreadsheet\IOFactory as ExcelFactory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use PhpOffice\PhpWord\TemplateProcessor;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class PidsrWndr extends Command
 {
@@ -1259,17 +1261,52 @@ class PidsrWndr extends Command
             $templateProcessor->setValue('rtv', $rtv_count);
             $templateProcessor->setValue('typ', $typ_count);
 
-
             $templateProcessor->saveAs(public_path('PIDSR_GenTrias_MW'.date('W', strtotime('-1 Week')).'.docx'));
             
-            $phpWord = IOFactory::load(public_path('PIDSR_GenTrias_MW'.date('W', strtotime('-1 Week')).'.docx'));
-            $xmlWriter = IOFactory::createWriter($phpWord, 'PDF');
+            $phpWord = WordFactory::load(public_path('PIDSR_GenTrias_MW'.date('W', strtotime('-1 Week')).'.docx'));
+            $xmlWriter = WordFactory::createWriter($phpWord, 'PDF');
             $xmlWriter->save(public_path('PIDSR_GenTrias_MW'.date('W', strtotime('-1 Week')).'.pdf'));
+
+            //Add new EDCS Excel
+            $spreadsheet = ExcelFactory::load(storage_path('EDCS_SUMMARY.xlsx'));
+            $sheet = $spreadsheet->getActiveSheet();
+
+            $sheet->setCellValue('A13', $afp_count);
+            $sheet->setCellValue('A14', $dip_count);
+            $sheet->setCellValue('A15', $mea_count);
+            $sheet->setCellValue('A16', $nnt_count);
+            $sheet->setCellValue('A17', $nt_count);
+            $sheet->setCellValue('A18', $per_count);
+
+            $sheet->setCellValue('S13', $chi_count);
+            $sheet->setCellValue('S14', $den_count);
+            $sheet->setCellValue('S15', $lep_count);
+            $sheet->setCellValue('S16', $rab_count);
+
+            $sheet->setCellValue('A23', $abd_count);
+            $sheet->setCellValue('A24', $hep_count);
+            $sheet->setCellValue('A25', $cho_count);
+            $sheet->setCellValue('A26', $rtv_count);
+            $sheet->setCellValue('A27', $typ_count);
+
+            $sheet->setCellValue('S23', $ili_count);
+            $sheet->setCellValue('S24', $ame_count);
+            $sheet->setCellValue('S25', $hfm_count);
+            $sheet->setCellValue('S26', $mgc_count);
+            $sheet->setCellValue('S27', $sar_count);
+
+            $sheet->setCellValue('F33', date('m/d/Y'));
+            $sheet->setCellValue('Y6', date('F d, Y').'MW'.date('W', strtotime('-1 Week')));
+
+            $writer = new Xlsx($spreadsheet);
+            $writer->save(public_path('EDCS_SUMMARY_GENERALTRIASCITY_MW'.date('W').'.xlsx'));
 
             Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new PidsrWndrMail($list));
 
             File::delete(public_path('PIDSR_GenTrias_MW'.date('W', strtotime('-2 Weeks')).'.pdf'));
             File::delete(public_path('PIDSR_GenTrias_MW'.date('W', strtotime('-2 Weeks')).'.docx'));
+            
+            File::delete(public_path('EDCS_SUMMARY_GENERALTRIASCITY_MW'.date('W', strtotime('-1 Week')).'.xlsx'));
         }
         else {
             $s->pidsr_early_sent = 0;

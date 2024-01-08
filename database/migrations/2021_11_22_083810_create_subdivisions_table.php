@@ -18,6 +18,7 @@ class CreateSubdivisionsTable extends Migration
             $table->foreignId('brgy_id')->constrained('brgy')->onDelete('cascade');
             $table->tinyInteger('displayInList')->default(1);
             $table->text('subdName');
+            $table->string('subdno')->nullable();
             $table->string('type')->nullable();
             $table->string('total_projectarea')->nullable();
             $table->string('total_lotsunits')->nullable();
