@@ -4626,6 +4626,14 @@ class PIDSRController extends Controller
                 ];
             }
 
+            $brgy_sortedtohighest_array = $brgy_cases_array;
+
+            usort($brgy_sortedtohighest_array, function($a, $b) {
+                return $b['brgy_grand_total_cases'] - $a['brgy_grand_total_cases'];
+            });
+
+            $top10Brgys = array_slice($brgy_sortedtohighest_array, 0, 10);
+
             //GET CLASSIFICATION
             $current_confirmed_grand_total = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('CaseClassification', 'C')->count();
             $current_probable_grand_total = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('CaseClassification', 'P')->count();
@@ -4668,6 +4676,7 @@ class PIDSRController extends Controller
                 'currentmw_array' => $currentmw_array,
                 'epidemicmw_array' => $epidemicmw_array,
                 'alertmw_array' => $alertmw_array,
+                'top10Brgys' => $top10Brgys,
                 'current_confirmed_grand_total' => $current_confirmed_grand_total,
                 'current_probable_grand_total' => $current_probable_grand_total,
                 'current_suspected_grand_total' => $current_suspected_grand_total,

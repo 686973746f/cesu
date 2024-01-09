@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="container">
-    <div class="card">
-        <div class="card-header"><b>SNAX</b></div>
+    <div class="card mb-3">
+        <div class="card-header"><b>Page 1</b></div>
         <div class="card-body">
             <div class="row">
                 <div class="col-md-4">
@@ -106,6 +106,20 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-header"><b>Page 2/3</b></div>
+        <div class="card-body">
+
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-header"><b>Page 3/3</b></div>
+        <div class="card-body">
+
         </div>
     </div>
 </div>
