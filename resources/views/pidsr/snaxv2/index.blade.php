@@ -18,7 +18,19 @@
                     <h6>Email: <a href="">cesu.gentrias@gmail.com</a></h6>
                 </div>
                 <div class="col-md-4">
-
+                    <table class="table table-bordered text-center">
+                        <tbody>
+                            <tr style="background-color: rgba(255, 0, 0, 0.27)">
+                                <td>Surveillance Monitoring Dashboard</td>
+                            </tr>
+                            <tr>
+                                <td><h3><b>{{$flavor_title}}</b></h3></td>
+                            </tr>
+                            <tr>
+                                <td style="background-color: rgba(200, 0, 0, 0.74)" class="text-white"><b>MW {{$sel_mweek}} ()</b></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <hr>
@@ -35,12 +47,61 @@
                 <div class="col-md-6">
                     <h6><b>Distribution of {{$sel_disease}} Cases by Morbidity Week</b></h6>
                     <h6>GENERAL TRIAS, MW{{$sel_mweek}}, {{$sel_year}}</h6>
+                    <h6>N = {{$current_grand_total}}</h6>
                     <canvas id="myChart" width="400" height="400"></canvas>
                 </div>
                 <div class="col-md-6">
-                    <div class="card">
+                    <div class="card" style="background-color: rgba(255, 0, 0, 0.27)">
                         <div class="card-body">
-
+                            <table class="table">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th>Cases & Deaths</th>
+                                        <th>Year</th>
+                                        <th>All Cases</th>
+                                        <th>Deaths</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td rowspan="2"><h6>Morbidity Week</h6>
+                                            <h6>From <b>1</b> to <b class="text-danger">{{$sel_mweek}}</b></h6>
+                                        </td>
+                                        <td class="text-muted text-center">{{$sel_year-1}}</td>
+                                        <td class="text-muted text-center"></td>
+                                        <td class="text-muted text-center"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center"><b>{{$sel_year}}</b></td>
+                                        <td class="text-center"><b>{{$current_grand_total}}</b></td>
+                                        <td class="text-center"><b></b></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th colspan="3" class="text-center" style="background-color: red">Classification of Cases</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Confirmed</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Probable</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Suspect</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

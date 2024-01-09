@@ -4516,6 +4516,8 @@ class PIDSRController extends Controller
             }
 
             //INITIALIZE CURRENT MW
+            $current_grand_total = 0;
+
             for($x=1;$x<=52;$x++) {
                 if($sel_year == date('Y')) {
                     if($x <= date('w')) {
@@ -4529,6 +4531,7 @@ class PIDSRController extends Controller
                     ${'current_mw'.$x} = PidsrThreshold::where('year', $sel_year)->where('disease', mb_strtoupper($sel_disease))->first()->{'mw'.$x};
                 }
                 
+                $current_grand_total += ${'current_mw'.$x};
             }
 
             $year_toggle = 1;
@@ -4605,10 +4608,63 @@ class PIDSRController extends Controller
                 $alertmw_array[] = ${'epidemic_threshold_mw'.$i};
             }
 
+            //TOP 10 BARANGAYS
+            $brgys = Brgy::where('city_id', 1)
+            ->where('displayInList', 1)
+            ->get();
+
+            $brgy_cases_array = [];
+
+            foreach($brgys as $brgy) {
+                $brgy_cases_array[] = [
+                    'brgy_name' => $brgy->brgyName,
+                    'brgy_grand_total_cases' => $modelClass::where('Year', $sel_year)
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('Barangay', $brgy->brgyName)
+                    ->count(), 
+                ];
+            }
+
+            //GET CLASSIFICATION
+            $current_confirmed_grand_total = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('CaseClassification', 'C')->count();
+            $current_probable_grand_total = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('CaseClassification', 'P')->count();
+            $current_suspected_grand_total = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('CaseClassification', 'S')->count();
+
+            $current_suspected_grand_total += $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('CaseClassification', '')->count();
+
+            //AGE GROUP
+            $ag1_male = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>', 50)->where('Sex', 'M')->count();
+            $ag2_male = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 41)->where('AgeYears', '<=', 50)->where('Sex', 'M')->count();
+            $ag3_male = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 31)->where('AgeYears', '<=', 40)->where('Sex', 'M')->count();
+            $ag4_male = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 21)->where('AgeYears', '<=', 30)->where('Sex', 'M')->count();
+            $ag5_male = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 11)->where('AgeYears', '<=', 20)->where('Sex', 'M')->count();
+            $ag6_male = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 1)->where('AgeYears', '<=', 10)->where('Sex', 'M')->count();
+            $ag7_male = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '<', 1)->where('Sex', 'M')->count();
+
+            $ag1_female = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>', 50)->where('Sex', 'F')->count();
+            $ag2_female = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 41)->where('AgeYears', '<=', 50)->where('Sex', 'F')->count();
+            $ag3_female = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 31)->where('AgeYears', '<=', 40)->where('Sex', 'F')->count();
+            $ag4_female = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 21)->where('AgeYears', '<=', 30)->where('Sex', 'F')->count();
+            $ag5_female = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 11)->where('AgeYears', '<=', 20)->where('Sex', 'F')->count();
+            $ag6_female = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 1)->where('AgeYears', '<=', 10)->where('Sex', 'F')->count();
+            $ag7_female = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '<', 1)->where('Sex', 'F')->count();
+
+
+            //Text Flavor
+            if($sel_disease == 'Dengue') {
+                $flavor_title = 'DENGUE FEVER';
+            }
+            else {
+                $flavor_title = strtoupper($sel_disease);
+            }
+
             return view('pidsr.snaxv2.index', [
+                'flavor_title' => $flavor_title,
                 'sel_disease' => $sel_disease,
                 'sel_year' => $sel_year,
                 'sel_mweek' => $sel_week,
+                'current_grand_total' => $current_grand_total,
                 'currentmw_array' => $currentmw_array,
                 'epidemicmw_array' => $epidemicmw_array,
                 'alertmw_array' => $alertmw_array,
