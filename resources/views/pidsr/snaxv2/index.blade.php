@@ -63,15 +63,15 @@
             datasets: [{
                 label: 'Current Year - {{$sel_year}}',
                 data: barData,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)', // Customize bar color
-                borderColor: 'rgba(75, 192, 192, 1)', // Customize border color
+                backgroundColor: 'rgba(255, 236, 0, 1)', // Customize bar color
+                borderColor: 'rgba(0, 0, 0, 1)', // Customize border color
                 borderWidth: 1
             },
             {
                 label: 'Epidemic Threshold',
                 data: lineData,
                 fill: false,
-                borderColor: 'rgba(255, 99, 132, 1)', // Customize line color
+                borderColor: 'rgba(255, 0, 0, 1)', // Customize line color
                 borderWidth: 2,
                 type: 'line',
                 lineTension: 0 // Remove line tension for straight lines
