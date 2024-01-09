@@ -31,6 +31,7 @@
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#thresh">Threshold Count</button>
                     <hr>
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#report">Report</button>
+                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#snax">sNaX v2</button>
                     <hr>
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#export">Import Excel to Database</button>
                     @if(in_array('GLOBAL_ADMIN', auth()->user()->getPermissions()))
@@ -62,6 +63,74 @@
         </div>
     </div>
 </div>
+
+<form action="{{route('pidsr_snaxv2')}}" method="GET">
+    <div class="modal fade" id="snax" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">sNaX v2</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="disease">Select Disease</label>
+                        <select class="form-control" name="disease" id="disease" required>
+                            <optgroup label="Category 1 (Immediately Notifiable)">
+                                <option value="Afp">Acute Flaccid Paralysis (AFP)</option>
+                                <option value="Aefi">Adverse Event Following Immunization (AEFI)</option>
+                                <option value="Anthrax">Anthrax</option>
+                                <option value="Hfmd">Hand, Foot and Mouth Disease (HFMD)</option>
+                                <option value="Measles">Measles</option>
+                                <option value="Meningo">Meningococcal Disease</option>
+                                <option value="Nt">Neonatal Tetanus</option>
+                                <option value="Psp">Paralytic Shellfish Poisoning</option>
+                                <option value="Rabies">Rabies</option>
+                            </optgroup>
+                            <optgroup label="Category 2 (Weekly Notifiable)">
+                                <option value="Abd">Acute Bloody Diarrhea</option>
+                                <option value="Aes">Acute Encephalitis Syndrome</option>
+                                <option value="Ahf">Acute Hemorrhagic-Fever Syndrome</option>
+                                <option value="Hepatitis">Acute Viral Hepatitis</option>
+                                <option value="Ames">AMES</option>
+                                <option value="Meningitis">Bacterial Meningitis</option>
+                                <option value="Chikv">Chikungunya</option>
+                                <option value="Cholera">Cholera</option>
+                                <option value="Dengue">Dengue</option>
+                                <option value="Diph">Diptheria</option>
+                                <option value="Influenza">Influenza-like Illness</option>
+                                <option value="Leptospirosis">Leptospirosis</option>
+                                <option value="Malaria">Malaria</option>
+                                <option value="Nnt">Non-Neonatal Tetanus</option>
+                                <option value="Pert">Pertussis</option>
+                                <option value="Rotavirus">RotaVirus</option>
+                                <option value="Typhoid">Typhoid and Parathypoid Fever</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="year"><b class="text-danger">*</b>Select Year</label>
+                        <select class="form-control" name="year" id="year" required>
+                            @foreach(range(date('Y'), 2018) as $y)
+                            <option value="{{$y}}">{{$y}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="mweek"><b class="text-danger">*</b>Morbidity Week</label>
+                        <input type="text" class="form-control" name="mweek" id="mweek" value="{{date('w')-1}}" min="1" max="53" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
 @if(in_array('GLOBAL_ADMIN', auth()->user()->getPermissions()))
 <div class="modal fade" id="settings" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
@@ -94,7 +163,7 @@
                         <div class="card-header"><b>MDB Rebuilder</b></div>
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="year">Select Year</label>
+                                <label for="year"><b class="text-danger">*</b>Select Year</label>
                                 <select class="form-control" name="year" id="year" required>
                                     @foreach(range(date('Y'), 2018) as $y)
                                     <option value="{{$y}}">{{$y}}</option>

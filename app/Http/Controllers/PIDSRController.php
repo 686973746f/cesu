@@ -4503,17 +4503,119 @@ class PIDSRController extends Controller
         if(request()->input('disease') && request()->input('year') && request()->input('mweek')) {
             $sel_disease = request()->input('disease');
             $sel_year = request()->input('year');
+            $sel_year_minusone = ($sel_year - 1);
+            $sel_year_minusfive = ($sel_year - 5);
             $sel_week = request()->input('mweek');
 
-            if($sel_disease == 'DENGUE') {
-                //GET SUMMARY
+            $modelClass = "App\\Models\\$sel_disease";
 
-                //GET THRESHOLD
-
+            for($i=1;$i<=5;$i++) {
+                for($j=1;$j<=53;$j++) {
+                    ${'year' . $i . '_mw' . $j} = 0;
+                }
             }
-            else {
 
+            //INITIALIZE CURRENT MW
+            for($x=1;$x<=52;$x++) {
+                if($sel_year == date('Y')) {
+                    if($x <= date('w')) {
+                        ${'current_mw'.$x} = $modelClass::where('Year', $sel_year)->where('enabled', 1)->where('match_casedef', 1)->where('MorbidityWeek', $x)->count();
+                    }
+                    else {
+                        ${'current_mw'.$x} = 0;
+                    }
+                }
+                else {
+                    ${'current_mw'.$x} = PidsrThreshold::where('year', $sel_year)->where('disease', mb_strtoupper($sel_disease))->first()->{'mw'.$x};
+                }
+                
             }
+
+            $year_toggle = 1;
+
+            //GET LAST 5 YEARS AND ASSIGN TO VARIABLE
+            foreach(range($sel_year_minusone, $sel_year_minusfive) as $y) {
+                for($j=1;$j<=53;$j++) {
+                    ${'year' . $year_toggle . '_mw' . $j} = PidsrThreshold::where('year', $y)->where('disease', mb_strtoupper($sel_disease))->first()->{'mw'.$j};
+                }
+
+                $year_toggle++;
+            }
+
+            //CREATE EPI THRESHOLD
+
+            //CREATE ALERT AND EPIDEMIC THRESHOLD
+            $year1_mw52_threshold = $year2_mw52;
+            $year2_mw52_threshold = $year3_mw52;
+            $year3_mw52_threshold = $year4_mw52;
+            $year4_mw52_threshold = $year5_mw52;
+            $year5_mw52_threshold = PidsrThreshold::where('year', $sel_year_minusfive-1)->where('disease', mb_strtoupper($sel_disease))->first()->mw52;
+
+            $year1_mw1_threshold = $modelClass::where('Year', $sel_year)->where('enabled', 1)->where('match_casedef', 1)->where('MorbidityWeek', 1)->count();
+            $year2_mw1_threshold = $year1_mw1;
+            $year3_mw1_threshold = $year2_mw1;
+            $year4_mw1_threshold = $year3_mw1;
+            $year5_mw1_threshold = $year4_mw1;
+
+            for($i=1;$i<=52;$i++) {
+                if($i == 1) {
+                    $collect_nums = collect([
+                        $year1_mw52_threshold, $year2_mw52_threshold, $year3_mw52_threshold, $year4_mw52_threshold, $year5_mw52_threshold,
+                        $year1_mw1, $year2_mw1, $year3_mw1, $year4_mw1, $year5_mw1,
+                        $year1_mw2, $year2_mw2, $year3_mw2, $year4_mw2, $year5_mw2,
+                    ]);
+                }
+                else if($i == 52) {
+                    $collect_nums = collect([
+                        $year1_mw1_threshold, $year2_mw1_threshold, $year3_mw1_threshold, $year4_mw1_threshold, $year5_mw1_threshold,
+                        $year1_mw51, $year2_mw51, $year3_mw51, $year4_mw51, $year5_mw51,
+                        $year1_mw52, $year2_mw52, $year3_mw52, $year4_mw52, $year5_mw52,
+                    ]);
+                }
+                else {
+                    $collect_nums = collect([
+                        ${'year1_mw'.$i-1}, ${'year2_mw'.$i-1}, ${'year3_mw'.$i-1}, ${'year4_mw'.$i-1}, ${'year5_mw'.$i-1},
+                        ${'year1_mw'.$i}, ${'year2_mw'.$i}, ${'year3_mw'.$i}, ${'year4_mw'.$i}, ${'year5_mw'.$i},
+                        ${'year1_mw'.$i+1}, ${'year2_mw'.$i+1}, ${'year3_mw'.$i+1}, ${'year4_mw'.$i+1}, ${'year5_mw'.$i+1},
+                    ]);
+                }
+
+                //ALERT THRESHOLD
+                ${'alert_threshold_mw'.$i} = round($collect_nums->avg(), 0);
+                
+                $mean = $collect_nums->avg();
+
+                $squaredDifferences = $collect_nums->map(function ($item) use ($mean) {
+                    return pow($item - $mean, 2);
+                });
+
+                $variance = $squaredDifferences->avg();
+
+                ${'epidemic_threshold_mw'.$i} = round(${'alert_threshold_mw'.$i} + (2 * sqrt($variance)),0);
+            }
+
+            //PUT THRESHOLDS INTO ARRAY
+            $currentmw_array = [];
+            $epidemicmw_array = [];
+            $alertmw_array = [];
+
+            for($i=1;$i<=52;$i++) {
+                $currentmw_array[] = ${'current_mw'.$i};
+                $epidemicmw_array[] = ${'alert_threshold_mw'.$i};
+                $alertmw_array[] = ${'epidemic_threshold_mw'.$i};
+            }
+
+            return view('pidsr.snaxv2.index', [
+                'sel_disease' => $sel_disease,
+                'sel_year' => $sel_year,
+                'sel_mweek' => $sel_week,
+                'currentmw_array' => $currentmw_array,
+                'epidemicmw_array' => $epidemicmw_array,
+                'alertmw_array' => $alertmw_array,
+            ]);
+        }
+        else {
+            return abort(401);
         }
     }
 }
