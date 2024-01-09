@@ -322,6 +322,9 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
     Route::post('/pidsr/casechecker/{disease}/{epi_id}/update', [PIDSRController::class, 'caseCheckerUpdate'])->name('pidsr_casechecker_update');
     
     Route::get('/pidsr/view/{year}/{mw}', [PIDSRController::class, 'weeklycaseviewer'])->name('pidsr.weeklyviewer');
+
+    Route::get('/pidsr/snaxv2', [PIDSRController::class, 'snaxVersionTwoController'])->name('pidsr_snaxv2');
+    Route::get('/pidsr/generate_threshold', [PIDSRController::class, 'generateThreshold'])->name('pidsr_generate_threshold');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessPidsrAdminMode']], function() {

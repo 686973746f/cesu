@@ -38,6 +38,7 @@ use Illuminate\Http\Request;
 use App\Imports\RabiesImport;
 use App\Models\Leptospirosis;
 use App\Models\PidsrNotifications;
+use App\Models\PidsrThreshold;
 use Illuminate\Support\Facades\DB;
 use RebaseData\Converter\Converter;
 use RebaseData\InputFile\InputFile;
@@ -4438,5 +4439,81 @@ class PIDSRController extends Controller
         return view('pidsr.notif_view', [
             'd' => $d,
         ]);
+    }
+
+    public function generateThreshold() {
+        //LIST DISEASES ARRAY
+        $diseases = [
+            'Abd',
+            'Aefi',
+            'Aes',
+            'Afp',
+            'Ahf',
+            'Ames',
+            'Anthrax',
+            'Chikv',
+            'Cholera',
+            'Dengue',
+            'Diph',
+            'Hepatitis',
+            'Hfmd',
+            'Influenza',
+            'Leptospirosis',
+            'Malaria',
+            'Measles',
+            'Meningitis',
+            'Meningo',
+            'Nnt',
+            'Nt',
+            'Pert',
+            'Psp',
+            'Rabies',
+            'Rotavirus',
+            'Typhoid',
+        ];
+
+        foreach($diseases as $d) {
+            $modelClass = "App\\Models\\$d";
+
+            foreach(range(date('Y', strtotime('-1 Year')), 2018) as $y) {
+                //Create Row First if Not Exist
+                $s = PidsrThreshold::where('disease', $d)
+                ->where('year', $y)
+                ->first();
+
+                if(!$s) {
+                    $create_row = PidsrThreshold::create([
+                        'disease' => mb_strtoupper($d),
+                        'year' => $y,
+                    ]);
+                }
+
+                for($i=1;$i<=53;$i++) {
+                    $update = PidsrThreshold::where('year', $y)
+                    ->where('disease', $d)
+                    ->update([
+                        'mw'.$i => $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $y)->where('MorbidityWeek', $i)->count(),
+                    ]);
+                }
+            }
+        }
+    }
+
+    public function snaxVersionTwoController() {
+        if(request()->input('disease') && request()->input('year') && request()->input('mweek')) {
+            $sel_disease = request()->input('disease');
+            $sel_year = request()->input('year');
+            $sel_week = request()->input('mweek');
+
+            if($sel_disease == 'DENGUE') {
+                //GET SUMMARY
+
+                //GET THRESHOLD
+
+            }
+            else {
+
+            }
+        }
     }
 }
