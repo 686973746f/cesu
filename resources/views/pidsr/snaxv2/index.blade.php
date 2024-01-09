@@ -87,18 +87,18 @@
                                 <tbody>
                                     <tr>
                                         <td>Confirmed</td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>{{$current_confirmed_grand_total}}</td>
+                                        <td>{{($current_grand_total != 0) ? ($current_confirmed_grand_total / $current_grand_total) : 0}}%</td>
                                     </tr>
                                     <tr>
                                         <td>Probable</td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>{{$current_probable_grand_total}}</td>
+                                        <td>{{($current_grand_total != 0) ? ($current_probable_grand_total / $current_grand_total) : 0}}%</td>
                                     </tr>
                                     <tr>
                                         <td>Suspect</td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>{{$current_suspected_grand_total}}</td>
+                                        <td>{{($current_grand_total != 0) ? ($current_suspected_grand_total / $current_grand_total) : 0}}%</td>
                                     </tr>
                                 </tbody>
                             </table>

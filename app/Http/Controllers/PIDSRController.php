@@ -4668,6 +4668,9 @@ class PIDSRController extends Controller
                 'currentmw_array' => $currentmw_array,
                 'epidemicmw_array' => $epidemicmw_array,
                 'alertmw_array' => $alertmw_array,
+                'current_confirmed_grand_total' => $current_confirmed_grand_total,
+                'current_probable_grand_total' => $current_probable_grand_total,
+                'current_suspected_grand_total' => $current_suspected_grand_total,
             ]);
         }
         else {
