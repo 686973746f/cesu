@@ -4534,6 +4534,29 @@ class PIDSRController extends Controller
                 $current_grand_total += ${'current_mw'.$x};
             }
 
+            $previous_grand_total = $modelClass::where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where('Year', $sel_year - 1)
+            ->count();
+
+            $hospitalized_count = $modelClass::where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where('Year', $sel_year)
+            ->where('Admitted', 1)
+            ->count();
+
+            $previous_death_count = $modelClass::where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where('Year', $sel_year - 1)
+            ->where('Outcome', 'D')
+            ->count();
+            
+            $death_count = $modelClass::where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where('Year', $sel_year)
+            ->where('Outcome', 'D')
+            ->count();
+
             $year_toggle = 1;
 
             //GET LAST 5 YEARS AND ASSIGN TO VARIABLE
@@ -4552,7 +4575,7 @@ class PIDSRController extends Controller
             $year2_mw52_threshold = $year3_mw52;
             $year3_mw52_threshold = $year4_mw52;
             $year4_mw52_threshold = $year5_mw52;
-            $year5_mw52_threshold = PidsrThreshold::where('year', $sel_year_minusfive-1)->where('disease', mb_strtoupper($sel_disease))->first()->mw52;
+            $year5_mw52_threshold = PidsrThreshold::where('year', $sel_year_minusfive)->where('disease', mb_strtoupper($sel_disease))->first()->mw52;
 
             $year1_mw1_threshold = $modelClass::where('Year', $sel_year)->where('enabled', 1)->where('match_casedef', 1)->where('MorbidityWeek', 1)->count();
             $year2_mw1_threshold = $year1_mw1;
@@ -4610,26 +4633,154 @@ class PIDSRController extends Controller
 
             //TOP 10 BARANGAYS
             $brgys = Brgy::where('city_id', 1)
+            ->orderBy('brgyName', 'ASC')
             ->where('displayInList', 1)
             ->get();
 
             $brgy_cases_array = [];
 
+            $threemws_total = 0;
+            $fourmws_total = 0;
+
             foreach($brgys as $brgy) {
+                if($sel_week == 1) {
+                    $brgy_last3mw = $modelClass::where('Year', $sel_year)
+                    ->where('MorbidityWeek', 1)
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('Barangay', $brgy->brgyName)
+                    ->count();
+                }
+                else if($sel_week == 2) {
+                    $brgy_last3mw = $modelClass::where('Year', $sel_year)
+                    ->whereIn('MorbidityWeek', [1,2])
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('Barangay', $brgy->brgyName)
+                    ->count();
+
+                    
+                }
+                else {
+                    $selrecentmw1 = $sel_week - 2;
+                    $selrecentmw2 = $sel_week - 1;
+
+                    $brgy_last3mw = $modelClass::where('Year', $sel_year)
+                    ->whereIn('MorbidityWeek', [$selrecentmw1, $selrecentmw2, $sel_week])
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('Barangay', $brgy->brgyName)
+                    ->count();
+                }
+
+                //FOR PREVIOUS 4 MWS
+                if($sel_week == 1) {
+                    $brgy_mw1 = 0;
+                    $brgy_mw2 = 0;
+                    $brgy_mw3 = 0;
+                    $brgy_mw4 = $modelClass::where('Year', $sel_year)
+                    ->where('MorbidityWeek', 1)
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('Barangay', $brgy->brgyName)
+                    ->count();
+                }
+                else if($sel_week == 2) {
+                    $brgy_mw1 = 0;
+                    $brgy_mw2 = 0;
+                    $brgy_mw3 = $modelClass::where('Year', $sel_year)
+                    ->where('MorbidityWeek', 2)
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('Barangay', $brgy->brgyName)
+                    ->count();
+                    $brgy_mw4 = $modelClass::where('Year', $sel_year)
+                    ->where('MorbidityWeek', 1)
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('Barangay', $brgy->brgyName)
+                    ->count();
+                }
+                else if($sel_week == 3) {
+                    $brgy_mw1 = 0;
+                    $brgy_mw2 = $modelClass::where('Year', $sel_year)
+                    ->where('MorbidityWeek', 3)
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('Barangay', $brgy->brgyName)
+                    ->count();
+                    $brgy_mw3 = $modelClass::where('Year', $sel_year)
+                    ->where('MorbidityWeek', 2)
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('Barangay', $brgy->brgyName)
+                    ->count();
+                    $brgy_mw4 = $modelClass::where('Year', $sel_year)
+                    ->where('MorbidityWeek', 1)
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('Barangay', $brgy->brgyName)
+                    ->count();
+                }
+                else {
+                    $brgy_mw1 = $modelClass::where('Year', $sel_year)
+                    ->where('MorbidityWeek', $sel_week-3)
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('Barangay', $brgy->brgyName)
+                    ->count();
+                    $brgy_mw2 = $modelClass::where('Year', $sel_year)
+                    ->where('MorbidityWeek', $sel_week-2)
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('Barangay', $brgy->brgyName)
+                    ->count();
+                    $brgy_mw3 = $modelClass::where('Year', $sel_year)
+                    ->where('MorbidityWeek', $sel_week-1)
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('Barangay', $brgy->brgyName)
+                    ->count();
+                    $brgy_mw4 = $modelClass::where('Year', $sel_year)
+                    ->where('MorbidityWeek', $sel_week)
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('Barangay', $brgy->brgyName)
+                    ->count();
+                }
+
                 $brgy_cases_array[] = [
                     'brgy_name' => $brgy->brgyName,
+                    'brgy_last3mw' => $brgy_last3mw,
                     'brgy_grand_total_cases' => $modelClass::where('Year', $sel_year)
                     ->where('enabled', 1)
                     ->where('match_casedef', 1)
                     ->where('Barangay', $brgy->brgyName)
-                    ->count(), 
+                    ->count(),
+                    'brgy_previousyear_total_cases' => $modelClass::where('Year', $sel_year-1)
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('Barangay', $brgy->brgyName)
+                    ->count(),
+                    'brgy_mw1' => $brgy_mw1,
+                    'brgy_mw2' => $brgy_mw2,
+                    'brgy_mw3' => $brgy_mw3,
+                    'brgy_mw4' => $brgy_mw4,
                 ];
+
+                $fourmws_total += $brgy_mw1 + $brgy_mw2 + $brgy_mw3 + $brgy_mw4;
+                $threemws_total += $brgy_mw2 + $brgy_mw3 + $brgy_mw4;
             }
 
             $brgy_sortedtohighest_array = $brgy_cases_array;
+            $brgy_sortedtohighestweek_array = $brgy_cases_array;
 
             usort($brgy_sortedtohighest_array, function($a, $b) {
                 return $b['brgy_grand_total_cases'] - $a['brgy_grand_total_cases'];
+            });
+
+            usort($brgy_sortedtohighestweek_array, function($a, $b) {
+                return $b['brgy_last3mw'] - $a['brgy_last3mw'];
             });
 
             $top10Brgys = array_slice($brgy_sortedtohighest_array, 0, 10);
@@ -4639,25 +4790,78 @@ class PIDSRController extends Controller
             $current_probable_grand_total = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('CaseClassification', 'P')->count();
             $current_suspected_grand_total = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('CaseClassification', 'S')->count();
 
+            $current_confirmed_percent = ($current_grand_total != 0) ? round($current_confirmed_grand_total / $current_grand_total * 100,0) : 0;
+            $current_probable_percent = ($current_grand_total != 0) ? round($current_probable_grand_total / $current_grand_total * 100,0) : 0;
+            $current_suspected_percent = ($current_grand_total != 0) ? round($current_suspected_grand_total / $current_grand_total * 100,0) : 0;
+
             $current_suspected_grand_total += $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('CaseClassification', '')->count();
 
             //AGE GROUP
-            $ag1_male = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>', 50)->where('Sex', 'M')->count();
-            $ag2_male = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 41)->where('AgeYears', '<=', 50)->where('Sex', 'M')->count();
-            $ag3_male = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 31)->where('AgeYears', '<=', 40)->where('Sex', 'M')->count();
-            $ag4_male = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 21)->where('AgeYears', '<=', 30)->where('Sex', 'M')->count();
-            $ag5_male = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 11)->where('AgeYears', '<=', 20)->where('Sex', 'M')->count();
-            $ag6_male = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 1)->where('AgeYears', '<=', 10)->where('Sex', 'M')->count();
-            $ag7_male = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '<', 1)->where('Sex', 'M')->count();
+            $min_age = $modelClass::where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where('Year', $sel_year)
+            ->min('AgeYears');
 
-            $ag1_female = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>', 50)->where('Sex', 'F')->count();
-            $ag2_female = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 41)->where('AgeYears', '<=', 50)->where('Sex', 'F')->count();
-            $ag3_female = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 31)->where('AgeYears', '<=', 40)->where('Sex', 'F')->count();
-            $ag4_female = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 21)->where('AgeYears', '<=', 30)->where('Sex', 'F')->count();
-            $ag5_female = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 11)->where('AgeYears', '<=', 20)->where('Sex', 'F')->count();
-            $ag6_female = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 1)->where('AgeYears', '<=', 10)->where('Sex', 'F')->count();
-            $ag7_female = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '<', 1)->where('Sex', 'F')->count();
+            $max_age = $modelClass::where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where('Year', $sel_year)
+            ->max('AgeYears');
 
+            //GET MEDIAN
+
+            $ages = $modelClass::where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where('Year', $sel_year)
+            ->pluck('AgeYears')
+            ->toArray();
+
+            // Sort the ages
+            sort($ages);
+
+            $count = count($ages);
+            $median_age = 0;
+
+            if ($count % 2 == 0) {
+                // If the count of ages is even, take the average of the middle two values
+                $median_age = ($ages[($count / 2) - 1] + $ages[$count / 2]) / 2;
+            } else {
+                // If the count of ages is odd, take the middle value
+                $median_age = $ages[($count - 1) / 2];
+            }
+
+            $ag_male = [];
+
+            $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>', 50)->where('Sex', 'M')->count() * -1;
+            $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 41)->where('AgeYears', '<=', 50)->where('Sex', 'M')->count() * -1;
+            $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 31)->where('AgeYears', '<=', 40)->where('Sex', 'M')->count() * -1;
+            $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 21)->where('AgeYears', '<=', 30)->where('Sex', 'M')->count() * -1;
+            $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 11)->where('AgeYears', '<=', 20)->where('Sex', 'M')->count() * -1;
+            $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 1)->where('AgeYears', '<=', 10)->where('Sex', 'M')->count() * -1;
+            $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '<', 1)->where('Sex', 'M')->count() * -1;
+
+            $ag_female = [];
+
+            $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>', 50)->where('Sex', 'F')->count();
+            $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 41)->where('AgeYears', '<=', 50)->where('Sex', 'F')->count();
+            $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 31)->where('AgeYears', '<=', 40)->where('Sex', 'F')->count();
+            $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 21)->where('AgeYears', '<=', 30)->where('Sex', 'F')->count();
+            $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 11)->where('AgeYears', '<=', 20)->where('Sex', 'F')->count();
+            $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 1)->where('AgeYears', '<=', 10)->where('Sex', 'F')->count();
+            $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '<', 1)->where('Sex', 'F')->count();
+
+            $male_total = abs(array_sum($ag_male));
+            $female_total = $current_grand_total - $male_total;
+
+            if($male_total > $female_total) {
+                $majority_flavor = 'Males';
+                $majority_count = $male_total;
+                $majority_percent = ($current_grand_total != 0) ? round($male_total / $current_grand_total * 100) : 0;
+            }
+            else {
+                $majority_flavor = 'Females';
+                $majority_count = $female_total;
+                $majority_percent = ($current_grand_total != 0) ? round($female_total / $current_grand_total * 100) : 0;
+            }
 
             //Text Flavor
             if($sel_disease == 'Dengue') {
@@ -4667,23 +4871,71 @@ class PIDSRController extends Controller
                 $flavor_title = strtoupper($sel_disease);
             }
 
+            // Get the start date of the week
+            $startDate = Carbon::now()->isoWeekYear($sel_year)->isoWeek($sel_week)->startOfWeek();
+
+            // Get the end date of the week
+            $endDate = Carbon::now()->isoWeekYear($sel_year)->isoWeek($sel_week)->endOfWeek();
+
             return view('pidsr.snaxv2.index', [
                 'flavor_title' => $flavor_title,
                 'sel_disease' => $sel_disease,
                 'sel_year' => $sel_year,
                 'sel_mweek' => $sel_week,
+                'previous_grand_total' => $previous_grand_total,
                 'current_grand_total' => $current_grand_total,
                 'currentmw_array' => $currentmw_array,
+                'hospitalized_count' => $hospitalized_count,
+                'previous_death_count' => $previous_death_count,
+                'death_count' => $death_count,
                 'epidemicmw_array' => $epidemicmw_array,
                 'alertmw_array' => $alertmw_array,
                 'top10Brgys' => $top10Brgys,
+                'min_age' => $min_age,
+                'max_age' => $max_age,
+                'median_age' => $median_age,
+                'ag_male' => $ag_male,
+                'ag_female' => $ag_female,
+                'male_total' => $male_total,
+                'female_total' => $female_total,
+                'brgy_sortedtohighestweek_array' => $brgy_sortedtohighestweek_array,
                 'current_confirmed_grand_total' => $current_confirmed_grand_total,
                 'current_probable_grand_total' => $current_probable_grand_total,
                 'current_suspected_grand_total' => $current_suspected_grand_total,
+                'current_confirmed_percent' => $current_confirmed_percent,
+                'current_probable_percent' => $current_probable_percent,
+                'current_suspected_percent' => $current_suspected_percent,
+                'brgy_cases_array' => $brgy_cases_array,
+                'startDate' => $startDate,
+                'endDate' => $endDate,
+                'majority_flavor' => $majority_flavor,
+                'majority_count' => $majority_count,
+                'majority_percent' => $majority_percent,
+                'fourmws_total' => $fourmws_total,
+                'threemws_total' => $threemws_total,
+                
             ]);
         }
         else {
             return abort(401);
+        }
+    }
+
+    public static function setBgColor($n) {
+        if($n == 0) {
+            return '';
+        }
+        else if($n == 1) {
+            return 'background-color: rgba(254,255,205,255);font-weight: bold;';
+        }
+        else if($n == 2) {
+            return 'background-color: rgba(255,153,0,255);color: white;font-weight: bold;';
+        }
+        else if($n == 3) {
+            return 'background-color: rgba(255,1,1,255);color: white;font-weight: bold;';
+        }
+        else {
+            return 'background-color: rgba(129,0,1,255);color: white;font-weight: bold;';
         }
     }
 }

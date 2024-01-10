@@ -6,10 +6,12 @@
         <div class="card-header"><b>Page 1</b></div>
         <div class="card-body">
             <div class="row">
-                <div class="col-md-4">
-
+                <div class="col-md-2">
+                    <div class="text-center">
+                        <img src="{{asset('assets/images/cesu_icon.png')}}" style="width: 8rem;" class="img-responsive">
+                    </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <h6>Republic of the Philippines</h6>
                     <h6><b>GENERAL TRIAS CITY HEALTH OFFICE</b></h6>
                     <h6><b>CITY EPIDEMIOLOGY AND SURVEILLANCE UNIT (CESU)</b></h6>
@@ -20,14 +22,14 @@
                 <div class="col-md-4">
                     <table class="table table-bordered text-center">
                         <tbody>
-                            <tr style="background-color: rgba(255, 0, 0, 0.27)">
-                                <td>Surveillance Monitoring Dashboard</td>
+                            <tr style="background-color: rgba(242,221,218,255)">
+                                <td><b>Surveillance Monitoring Dashboard</b></td>
                             </tr>
                             <tr>
                                 <td><h3><b>{{$flavor_title}}</b></h3></td>
                             </tr>
                             <tr>
-                                <td style="background-color: rgba(200, 0, 0, 0.74)" class="text-white"><b>MW {{$sel_mweek}} ()</b></td>
+                                <td style="background-color: rgba(151,55,52,255)" class="text-white"><b>MW {{$sel_mweek}} ({{$startDate->format('M d, Y')}} - {{$endDate->format('M d, Y')}})</b></td>
                             </tr>
                         </tbody>
                     </table>
@@ -36,11 +38,15 @@
             <hr>
             <ul>
                 <h6><b>Summary:</b></h6>
-                <li>There were </li>
-                <li>This year's </li>
-                <li>Of the total cases</li>
-                <li>The Barangay</li>
-                <li>Age ranged</li>
+                <li>There were {{$current_grand_total}} {{Str::plural('case', $current_grand_total)}} of {{$flavor_title}} reported for Morbidity Week 1-{{$sel_mweek}} ({{$startDate->format('M d, Y')}} - {{$endDate->format('M d, Y')}}), with {{$death_count}} {{Str::plural('death', $death_count)}} (CFR {{($current_grand_total != 0) ? round($death_count / $current_grand_total * 100, 2) : 0}}%)</li>
+                @if($current_grand_total < $previous_grand_total)
+                <li>This year's number of cases is {{round(100 - ($current_grand_total / $previous_grand_total * 100))}}% lower compared to the same period last year ({{$previous_grand_total}} cases).</li>
+                @else
+                <li>This year's number of cases is {{(($current_grand_total - $previous_grand_total) / $previous_grand_total) * 100}}% higher compared to the same period  last year ({{$previous_grand_total}} cases).</li>
+                @endif
+                <li>Of the total cases reported this period, {{$hospitalized_count}} ({{($current_grand_total != 0) ? round($hospitalized_count / $current_grand_total * 100) :0}}%) were hospitalized and {{$current_confirmed_grand_total}} ({{($current_grand_total != 0) ? round($current_confirmed_grand_total / $current_grand_total * 100,0) : 0}}%) were laboratory confirmed.</li>
+                <li>The Barangay with mose reported number of cases is {{$top10Brgys[0]['brgy_name']}} ({{$top10Brgys[0]['brgy_grand_total_cases']}} {{Str::plural('case', $top10Brgys[0]['brgy_grand_total_cases'])}} [{{($current_grand_total != 0) ? round($top10Brgys[0]['brgy_grand_total_cases'] / $current_grand_total * 100) : 0}}%])</li>
+                <li>Age ranged from {{$min_age}} to {{$max_age}} years (Median {{$median_age}} {{Str::plural('year', $median_age)}}. Majority of the cases were {{strtolower($majority_flavor)}} ({{$majority_percent}}%).</li>
             </ul>
             <hr>
             <div class="row">
@@ -49,11 +55,15 @@
                     <h6>GENERAL TRIAS, MW{{$sel_mweek}}, {{$sel_year}}</h6>
                     <h6>N = {{$current_grand_total}}</h6>
                     <canvas id="myChart" width="400" height="400"></canvas>
+                    <hr>
+                    <h6><b>Distribution of Dengue Cases by Barangay for the Previous 3 MWs</b></h6>
+                    <h6>GENERAL TRIAS, MW {{$sel_mweek-2}}-{{$sel_mweek}}, {{$sel_year}}</h6>
+                    <h6>N={{$threemws_total}}</h6>
                 </div>
                 <div class="col-md-6">
-                    <div class="card" style="background-color: rgba(255, 0, 0, 0.27)">
+                    <div class="card border-dark" style="background-color: rgba(242,221,218,255)">
                         <div class="card-body">
-                            <table class="table">
+                            <table class="table table-sm">
                                 <thead class="text-center">
                                     <tr>
                                         <th>Cases & Deaths</th>
@@ -64,41 +74,290 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td rowspan="2"><h6>Morbidity Week</h6>
+                                        <td rowspan="3"><h6><b>Morbidity Week</b></h6>
                                             <h6>From <b>1</b> to <b class="text-danger">{{$sel_mweek}}</b></h6>
                                         </td>
                                         <td class="text-muted text-center">{{$sel_year-1}}</td>
-                                        <td class="text-muted text-center"></td>
-                                        <td class="text-muted text-center"></td>
+                                        <td class="text-muted text-center">{{$previous_grand_total}}</td>
+                                        <td class="text-muted text-center"><span class="text-danger">{{$previous_death_count}}</span></td>
                                     </tr>
                                     <tr>
                                         <td class="text-center"><b>{{$sel_year}}</b></td>
                                         <td class="text-center"><b>{{$current_grand_total}}</b></td>
-                                        <td class="text-center"><b></b></td>
+                                        <td class="text-center"><b class="text-danger">{{$death_count}}</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><b>Case Fatality Rate</b></td>
+                                        <td><b><u>{{($current_grand_total != 0) ? round($death_count / $current_grand_total * 100, 2) : 0}}%</u></b></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">Age</td>
+                                        <td class="text-center">{{$min_age}}-{{$max_age}} yrs</td>
+                                        <td class="text-center">(median {{$median_age}})</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">Sex</td>
+                                        <td class="text-center">{{Str::plural($majority_flavor, $majority_count)}}: {{$majority_count}}</td>
+                                        <td class="text-center">({{($current_grand_total != 0) ? round($majority_count / $current_grand_total * 100) : 0}}%)</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">Hospitalized</td>
+                                        <td class="text-center">{{$hospitalized_count}} cases</td>
+                                        <td class="text-center">({{($current_grand_total != 0) ? round($hospitalized_count / $current_grand_total * 100) :0}}%)</td>
                                     </tr>
                                 </tbody>
                             </table>
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th colspan="3" class="text-center" style="background-color: red">Classification of Cases</th>
+                                        <th colspan="3" class="text-center text-white" style="background-color: rgba(151,55,52,255)">Classification of Cases</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>Confirmed</td>
                                         <td>{{$current_confirmed_grand_total}}</td>
-                                        <td>{{($current_grand_total != 0) ? ($current_confirmed_grand_total / $current_grand_total) : 0}}%</td>
+                                        <td>({{$current_confirmed_percent}}%)</td>
                                     </tr>
                                     <tr>
                                         <td>Probable</td>
                                         <td>{{$current_probable_grand_total}}</td>
-                                        <td>{{($current_grand_total != 0) ? ($current_probable_grand_total / $current_grand_total) : 0}}%</td>
+                                        <td>({{$current_probable_percent}}%)</td>
                                     </tr>
                                     <tr>
                                         <td>Suspect</td>
                                         <td>{{$current_suspected_grand_total}}</td>
-                                        <td>{{($current_grand_total != 0) ? ($current_suspected_grand_total / $current_grand_total) : 0}}%</td>
+                                        <td>({{$current_suspected_percent}}%)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <hr>
+                    <h6><b>Top 10 Barangays with Dengue Cases</b></h6>
+                    <h6>GENERAL TRIAS, MW 1-{{$sel_mweek}}, {{$sel_year}}</h6>
+                    <h6>N={{$current_grand_total}}</h6>
+                    <canvas id="topten" width="" height=""></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-header"><b>Page 2/3 - Dengue Monitoring Dashboard</b></div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <table class="table table-bordered table-sm">
+                        <thead class="text-center thead-light">
+                            <tr>
+                                <th rowspan="2">Barangays</th>
+                                <th rowspan="2">
+                                    <h6><b>MWs</b></h6>
+                                    @if($sel_mweek == 1)
+                                    <h6><b>1</b></h6>
+                                    @elseif($sel_mweek == 2)
+                                    <h6><b>1-2</b></h6>
+                                    @else
+                                    <h6><b>{{$sel_mweek-2}}-{{$sel_mweek}}</b></h6>
+                                    @endif
+                                </th>
+                                <th colspan="2">MWs 1-52</th>
+                            </tr>
+                            <tr>
+                                <th>2023</th>
+                                <th class="text-muted">2022</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                            $last3mw_total = 0;
+                            $currentyear_total = 0;
+                            $lastyear_total = 0;
+                            @endphp
+                            @foreach($brgy_sortedtohighestweek_array as $b)
+                            <tr>
+                                <td>{{$b['brgy_name']}}</td>
+                                <td class="text-center" style="{{\App\Http\Controllers\PidsrController::setBgColor($b['brgy_last3mw'])}}">{{$b['brgy_last3mw']}}</td>
+                                <td class="text-center"><b>{{$b['brgy_grand_total_cases']}}</b></td>
+                                <td class="text-center text-muted">{{$b['brgy_previousyear_total_cases']}}</td>
+                            </tr>
+                            @php
+                            $last3mw_total += $b['brgy_last3mw'];
+                            $currentyear_total += $b['brgy_grand_total_cases'];
+                            $lastyear_total += $b['brgy_previousyear_total_cases'];
+                            @endphp
+                            @endforeach
+                            <tr class="text-center">
+                                <td><b>TOTAL</b></td>
+                                <td><b>{{$last3mw_total}}</b></td>
+                                <td><b>{{$currentyear_total}}</b></td>
+                                <td class="text-muted"><b>{{$lastyear_total}}</b></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <h6><b>Proportion of Cases by Case Classification</b></h6>
+                    <h6>GENERAL TRIAS, MW 1-{{$sel_mweek}}, {{$sel_year}}</h6>
+                    <h6>N={{$current_grand_total}}</h6>
+                    <div class="chart-container" style="position: relative; height:60vh; width:80vw">
+                    <canvas id="pieChart"></canvas>
+                    </div>
+                    <hr>
+                    <h6><b>Proportion of Cases by Sex and Age Group</b></h6>
+                    <h6>GENERAL TRIAS, MW 1-{{$sel_mweek}}, {{$sel_year}}</h6>
+                    <h6>N={{$current_grand_total}}</h6>
+                    <canvas id="ageGroup" width="50" height=""></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-header"><b>Page 3/3 - Dengue Monitoring Dashboard</b></div>
+        <div class="card-body">
+            <h6><b>Distribution of Dengue Cases by Barangay for the Previous 4 MWs</b></h6>
+            <h6>GENERAL TRIAS, MW {{$sel_mweek-3}}-{{$sel_mweek}}, {{$sel_year}}</h6>
+            <h6>N={{$fourmws_total}}</h6>
+            <table class="table table-bordered table-sm">
+                <thead class="text-center">
+                    <tr>
+                        <th></th>
+                        @if($sel_mweek == 1)
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>
+                            <h6><small>MW</small></h6>
+                            <h6><b>1</b></h6>
+                        </th>
+                        @elseif($sel_mweek == 2)
+                        <th></th>
+                        <th></th>
+                        <th>
+                            <h6><small>MW</small></h6>
+                            <h6><b>2</b></h6>
+                        </th>
+                        <th>
+                            <h6><small>MW</small></h6>
+                            <h6><b>1</b></h6>
+                        </th>
+                        @elseif($sel_mweek == 3)
+                        <th></th>
+                        <th>
+                            <h6><small>MW</small></h6>
+                            <h6><b>3</b></h6>
+                        </th>
+                        <th>
+                            <h6><small>MW</small></h6>
+                            <h6><b>2</b></h6>
+                        </th>
+                        <th>
+                            <h6><small>MW</small></h6>
+                            <h6><b>1</b></h6>
+                        </th>
+                        @else
+                        <th>
+                            <h6><small>MW</small></h6>
+                            <h6><b>{{$sel_mweek-3}}</b></h6>
+                        </th>
+                        <th>
+                            <h6><small>MW</small></h6>
+                            <h6><b>{{$sel_mweek-2}}</b></h6>
+                        </th>
+                        <th>
+                            <h6><small>MW</small></h6>
+                            <h6><b>{{$sel_mweek-1}}</b></h6>
+                        </th>
+                        <th>
+                            <h6><small>MW</small></h6>
+                            <h6><b>{{$sel_mweek}}</b></h6>
+                        </th>
+                        @endif
+                        
+                        <th>{{$sel_year}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @php
+                    $mw1_total = 0;
+                    $mw2_total = 0;
+                    $mw3_total = 0;
+                    $mw4_total = 0;
+                    $currentyear_total = 0;
+                    @endphp
+                    @foreach($brgy_cases_array as $b)
+                    @php
+
+                    @endphp
+                    <tr>
+                        <td>{{$b['brgy_name']}}</td>
+                        <td class="text-center" style="{{\App\Http\Controllers\PidsrController::setBgColor($b['brgy_mw1'])}}">{{$b['brgy_mw1']}}</td>
+                        <td class="text-center" style="{{\App\Http\Controllers\PidsrController::setBgColor($b['brgy_mw2'])}}">{{$b['brgy_mw2']}}</td>
+                        <td class="text-center" style="{{\App\Http\Controllers\PidsrController::setBgColor($b['brgy_mw3'])}}">{{$b['brgy_mw3']}}</td>
+                        <td class="text-center" style="{{\App\Http\Controllers\PidsrController::setBgColor($b['brgy_mw4'])}}">{{$b['brgy_mw4']}}</td>
+                        <td class="text-center" style="{{\App\Http\Controllers\PidsrController::setBgColor($b['brgy_grand_total_cases'])}}">{{$b['brgy_grand_total_cases']}}</td>
+                    </tr>
+                    @php
+                    $mw1_total += $b['brgy_mw1'];
+                    $mw2_total += $b['brgy_mw2'];
+                    $mw3_total += $b['brgy_mw3'];
+                    $mw4_total += $b['brgy_mw4'];
+                    $currentyear_total += $b['brgy_grand_total_cases'];
+                    @endphp
+                    @endforeach
+                    <tr>
+                        <td><b>TOTAL</b></td>
+                        <td class="text-center" style="{{\App\Http\Controllers\PidsrController::setBgColor($mw1_total)}}"><b>{{$mw1_total}}</b></td>
+                        <td class="text-center" style="{{\App\Http\Controllers\PidsrController::setBgColor($mw2_total)}}"><b>{{$mw2_total}}</b></td>
+                        <td class="text-center" style="{{\App\Http\Controllers\PidsrController::setBgColor($mw3_total)}}"><b>{{$mw3_total}}</b></td>
+                        <td class="text-center" style="{{\App\Http\Controllers\PidsrController::setBgColor($mw4_total)}}"><b>{{$mw4_total}}</b></td>
+                        <td class="text-center" style="{{\App\Http\Controllers\PidsrController::setBgColor($currentyear_total)}}"><b>{{$currentyear_total}}</b></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card border-dark">
+                        <div class="card-body" style="background-color: rgba(238,237,224,255);">
+                            <h6><b>DISCLAIMER:</b> This automated report was made possible using <b class="text-danger">sNaX V2</b> (Simplified Nested Analytics thru Excel). Every effort has been made to provide accurate and updated information, however, errors can still occur. By using the information contained in this report, the reader assumes all risks in connection with such use. The General Trias City Epidemiology and Surveillance Unit (CESU) shall not be held responsible for errors, nor liable for damage(s) resulting from use or reliance upon this material.</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header text-center"><b>REPORT FOR: MW {{$sel_mweek}} ({{$startDate->format('M d, Y')}} - {{$endDate->format('M d, Y')}})</b></div>
+                        <div class="card-body">
+                            <table class="table table-borderless">
+                                <tbody>
+                                    <tr>
+                                        <td>Date Published:</td>
+                                        <td class="text-center"><u>{{date('F d, Y')}}</u></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Prepared by:</td>
+                                        <td>
+                                            <img src="{{asset('assets/images/ANALYN_PIRMA.png')}}" class="img-fluid" style="margin-bottom:-60px;width: 20rem;margin-left:-100px;" id="signature1">
+                                            <h6><b><u>ANALYN C. BARZAGA</u></b></h6>
+                                            <h6><small>PIDSR Encoder</small></h6>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Noted by:</td>
+                                        <td>
+                                            <img src="{{asset('assets/images/SIR_LOU_PIRMA.png')}}" class="img-fluid" style="margin-bottom:-80px;width: 20rem;margin-left:-30px;" id="signature2">
+                                            <h6><b><u>LUIS P. BROAS, RN, RPh, MAN, CAE</u></b></h6>
+                                            <h6><small>Nurse II-CESU Designated Head</small></h6>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Approved by:</td>
+                                        <td>
+                                            <img src="{{asset('assets/images/signatureonly_docathan.png')}}" class="img-fluid" style="margin-bottom:-30px;width:10rem;" id="signature3">
+                                            <h6><b><u>JONATHAN P. LUSECO, MD</u></b></h6>
+                                            <h6><small>City Health Officer II</small></h6>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -108,23 +367,57 @@
             </div>
         </div>
     </div>
-
-    <div class="card mb-3">
-        <div class="card-header"><b>Page 2/3</b></div>
-        <div class="card-body">
-
-        </div>
+    <div class="form-check">
+        <label class="form-check-label">
+          <input type="checkbox" class="form-check-input" name="checker1" id="checker1" value="checkedValue">
+          Signature 1
+        </label>
     </div>
-
-    <div class="card mb-3">
-        <div class="card-header"><b>Page 3/3</b></div>
-        <div class="card-body">
-
-        </div>
+    <div class="form-check">
+        <label class="form-check-label">
+          <input type="checkbox" class="form-check-input" name="checker2" id="checker2" value="checkedValue">
+          Signature 2
+        </label>
+    </div>
+    <div class="form-check">
+        <label class="form-check-label">
+          <input type="checkbox" class="form-check-input" name="checker3" id="checker3" value="checkedValue">
+          Signature 3
+        </label>
     </div>
 </div>
 
 <script>
+    $('#checker1').change(function (e) { 
+        e.preventDefault();
+        if($(this).is(':checked')) {
+            $('#signature1').show();
+        }
+        else {
+            $('#signature1').hide();
+        }
+    }).trigger('change');
+
+    $('#checker2').change(function (e) { 
+        e.preventDefault();
+        if($(this).is(':checked')) {
+            $('#signature2').show();
+        }
+        else {
+            $('#signature2').hide();
+        }
+    }).trigger('change');
+
+    $('#checker3').change(function (e) { 
+        e.preventDefault();
+        if($(this).is(':checked')) {
+            $('#signature3').show();
+        }
+        else {
+            $('#signature3').hide();
+        }
+    }).trigger('change');
+
     var ctx = document.getElementById('myChart').getContext('2d');
 
     var barData = {!! json_encode($currentmw_array) !!};
@@ -169,28 +462,147 @@
             },
         }
     });
+
+    var ctx = document.getElementById('pieChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'pie',
+
+        data: {
+            labels: ['Confirmed, {{$current_confirmed_percent}}% ({{$current_confirmed_grand_total}})', 'Probable, {{$current_probable_percent}}% ({{$current_probable_grand_total}})', 'Suspect, {{$current_suspected_percent}}% ({{$current_suspected_grand_total}})'],
+            datasets: [{
+                label: "My Chart",
+                data: [{{$current_confirmed_grand_total}}, {{$current_probable_grand_total}}, {{$current_suspected_grand_total}}],
+                backgroundColor: ['rgba(148,55,52,255)', 'rgba(119,146,61,255)', 'rgba(166,167,167,255)']
+            }]
+        },
+
+        options: {
+            title: {
+                text: "My Chart",
+                display: true,
+            },
+            events: [],
+            tooltips: {
+                mode: ''
+            },
+            layout: {},
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'left',
+                },
+                datalabels: {
+                display: false
+                }
+            },
+            animation: {}
+        }
+    });
+
+    const labels = [];
+    const data = [];
+
+    @foreach($top10Brgys as $barangay)
+        labels.push("{{ $barangay['brgy_name'] }}");
+        data.push({{ $barangay['brgy_grand_total_cases'] }});
+    @endforeach
+
+    var ctx = document.getElementById('topten').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'bar',
+
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Number of Cases",
+                data: data,
+                backgroundColor: 'rgba(254,192,1,255)', // Customize bar color
+                borderColor: 'rgba(0, 0, 0, 1)', // Customize border color
+                borderWidth: 1,
+            }]
+        },
+
+        options: {
+            indexAxis: 'y',
+            title: {
+                text: "Barangay",
+                display: true,
+            },
+            events: [],
+            tooltips: {
+                mode: ''
+            },
+            plugins: {
+                legend: {
+                    display: false,
+                },
+                datalabels: {
+                    anchor: 'end',
+                    align: 'end',
+                }
+            },
+            layout: {},
+            animation: {}
+        }
+    });
+
+    var male_set = {{json_encode($ag_male)}};
+    var female_set = {{json_encode($ag_female)}};
+
+    var ctx = document.getElementById('ageGroup').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'bar',
+
+        data: {
+            labels: ['50+', '41-50', '31-40', '21-30', '11-20', '1-10', '<1'],
+            datasets: [
+                {
+                    label: "Male",
+                    data: male_set,
+                    backgroundColor: 'rgba(143,181,227,255)', // Customize bar color
+                    borderColor: 'rgba(0, 0, 0, 1)', // Customize border color
+                    borderWidth: 1,
+                },
+                {
+                    label: "Female",
+                    data: female_set,
+                    backgroundColor: 'rgba(230,184,185,255)', // Customize bar color
+                    borderColor: 'rgba(0, 0, 0, 1)', // Customize border color
+                    borderWidth: 1,
+                },
+            ]
+        },
+
+        options: {
+            indexAxis: 'y',
+            title: {
+                text: "Barangay",
+                display: true,
+            },
+            events: [],
+            tooltips: {
+                mode: ''
+            },
+            layout: {},
+            scales: {
+                x: {
+                    stacked: true,
+                },
+                y: {
+                    stacked: true,
+                },
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom',
+                },
+                datalabels: {
+                display: false
+                }
+            },
+            animation: {}
+        }
+    });
 </script>
 @endsection
-
-<!--
-
-    <!DOCTYPE html>
-<html>
-<head>
-    <title>Chart.js Example</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
-    <canvas id="myChart" width="400" height="400"></canvas>
-
-    <script>
-        
-        
-        
-
-        
-    </script>
-</body>
-</html>
-
-!-->
