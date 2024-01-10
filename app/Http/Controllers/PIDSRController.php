@@ -3463,7 +3463,7 @@ class PIDSRController extends Controller
                     'Admitted' => $row->Admitted,
                     'DAdmit' => $row->DAdmit,
                     'DOnset' => $row->DOnset,
-                    'CaseClass' => $row->CaseClass,
+                    'CaseClass' => mb_strtoupper($row->CaseClass),
                     'DCaseRep' => $row->DCaseRep,
                     'DCASEINV' => $row->DCASEINV,
                     'DayswidSymp' => $row->DayswidSymp,
@@ -4234,7 +4234,7 @@ class PIDSRController extends Controller
                     'RectalSwabResult' => $row->RectalSwabResult,
                     'RectalSwabOrg' => $row->RectalSwabOrg,
                     'RectalSwabResultD8' => $row->RectalSwabResultD8,
-                    'CaseClass' => $row->CaseClass,
+                    'CaseClass' => mb_strtoupper($row->CaseClass),
                     'Outcome' => $row->Outcome,
                     'WFDiag' => $row->WFDiag,
                     'Death' => $row->Death,
@@ -4786,15 +4786,48 @@ class PIDSRController extends Controller
             $top10Brgys = array_slice($brgy_sortedtohighest_array, 0, 10);
 
             //GET CLASSIFICATION
-            $current_confirmed_grand_total = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('CaseClassification', 'C')->count();
-            $current_probable_grand_total = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('CaseClassification', 'P')->count();
-            $current_suspected_grand_total = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('CaseClassification', 'S')->count();
+            if($sel_disease == 'Dengue') {
+                $ccstr = 'CaseClassification';
+                
+                $ccsuspected_str = 'S';
+                $ccprobable_str = 'P';
+                $ccconfirmed_str = 'C';
+            }
+            else if($sel_disease == 'Hfmd') {
+                $ccstr = 'CaseClass';
+
+                $ccsuspected_str = 'SUSPECTED CASE OF HFMD';
+                $ccprobable_str = 'PROBABLE CASE OF HFMD';
+                $ccconfirmed_str = 'POSITIVE CASE OF HFMD';
+            }
+            else if($sel_disease == 'Influenza') {
+                $ccstr = 'CASECLASS';
+
+                $ccsuspected_str = 'Suspect';
+                $ccprobable_str = 'Probable';
+                $ccconfirmed_str = 'Confirmed';
+            }
+            else if($sel_disease == 'Measles') {
+                $ccstr = 'FinalClass';
+                
+            }
+            else {
+                $ccstr = 'CaseClassification';
+
+                $ccsuspected_str = 'S';
+                $ccprobable_str = 'P';
+                $ccconfirmed_str = 'C';
+            }
+
+            $current_confirmed_grand_total = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where($ccstr, $ccconfirmed_str)->count();
+            $current_probable_grand_total = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where($ccstr, $ccprobable_str)->count();
+            $current_suspected_grand_total = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where($ccstr, $ccsuspected_str)->count();
 
             $current_confirmed_percent = ($current_grand_total != 0) ? round($current_confirmed_grand_total / $current_grand_total * 100,0) : 0;
             $current_probable_percent = ($current_grand_total != 0) ? round($current_probable_grand_total / $current_grand_total * 100,0) : 0;
             $current_suspected_percent = ($current_grand_total != 0) ? round($current_suspected_grand_total / $current_grand_total * 100,0) : 0;
 
-            $current_suspected_grand_total += $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('CaseClassification', '')->count();
+            $current_suspected_grand_total += $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where($ccstr, '')->count();
 
             //AGE GROUP
             $min_age = $modelClass::where('enabled', 1)
