@@ -21,6 +21,11 @@ use Maatwebsite\Excel\Facades\Excel;
 class TestController extends Controller
 {
     public function index() {
-        Excel::import(new TkcExcelImport(), storage_path('app/tkc/tkc_feedback.csv'));
+        $bdate = Carbon::parse('1999-08-19');
+        $dateOfEntry = Carbon::parse('2021-01-14');
+
+        echo $bdate->diffInYears($dateOfEntry).' years';
+        echo $bdate->diffInMonths($dateOfEntry).' months';
+        echo $bdate->diffInDays($dateOfEntry).' days';
     }
 }

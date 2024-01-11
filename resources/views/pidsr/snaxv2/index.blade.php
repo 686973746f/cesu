@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="card mb-3">
-        <div class="card-header"><b>Page 1</b></div>
+        <div class="card-header"><b>sNaX Version 2 - Page 1/3</b></div>
         <div class="card-body">
             <div class="row">
                 <div class="col-md-2">
@@ -59,6 +59,88 @@
                     <h6><b>Distribution of Dengue Cases by Barangay for the Previous 3 MWs</b></h6>
                     <h6>GENERAL TRIAS, MW {{$sel_mweek-2}}-{{$sel_mweek}}, {{$sel_year}}</h6>
                     <h6>N={{$threemws_total}}</h6>
+                    @php
+                    foreach($brgy_cases_array as $bitem) {
+                        if($bitem['brgy_name'] == 'BACAO II') {
+                            if($bitem['brgy_last3mw'] <= 0) {
+                                $bacao2_color = 'BACAOII_GREY.png';
+                            }
+                            else if($bitem['brgy_last3mw'] == 1) {
+                                $bacao2_color = 'BACAOII_YELLOW.png';
+                            }
+                            else if($bitem['brgy_last3mw'] == 2) {
+                                $bacao2_color = 'BACAOII_ORANGE.png';
+                            }
+                            else if($bitem['brgy_last3mw'] == 3) {
+                                $bacao2_color = 'BACAOII_RED.png';
+                            }
+                            else {
+                                $bacao2_color = 'BACAOII_DARKRED.png';
+                            }
+                        }
+                        else if($bitem['brgy_name'] == 'NAVARRO') {
+                            if($bitem['brgy_last3mw'] <= 0) {
+                                $navarro_color = 'NAVARRO_GREY.png';
+                            }
+                            else if($bitem['brgy_last3mw'] == 1) {
+                                $navarro_color = 'NAVARRO_YELLOW.png';
+                            }
+                            else if($bitem['brgy_last3mw'] == 2) {
+                                $navarro_color = 'NAVARRO_ORANGE.png';
+                            }
+                            else if($bitem['brgy_last3mw'] == 3) {
+                                $navarro_color = 'NAVARRO_RED.png';
+                            }
+                            else {
+                                $navarro_color = 'NAVARRO_DARKRED.png';
+                            }
+                        }
+                        else if($bitem['brgy_name'] == 'SAN FRANCISCO') {
+                            if($bitem['brgy_last3mw'] <= 0) {
+                                $sf_color = 'SF_GREY.png';
+                            }
+                            else if($bitem['brgy_last3mw'] == 1) {
+                                $sf_color = 'SF_YELLOW.png';
+                            }
+                            else if($bitem['brgy_last3mw'] == 2) {
+                                $sf_color = 'SF_ORANGE.png';
+                            }
+                            else if($bitem['brgy_last3mw'] == 3) {
+                                $sf_color = 'SF_RED.png';
+                            }
+                            else {
+                                $sf_color = 'SF_DARKRED.png';
+                            }
+                        }
+                    }
+                    @endphp
+                    <div class="text-center" style="margin-bottom: 200px;">
+                        <img src="{{asset('assets/gentri_maps/'.$bacao2_color)}}" alt="">
+                        <img src="{{asset('assets/gentri_maps/BACAO1_GREY.png')}}" style="margin-bottom: -70px;margin-left:-138px;" alt="">
+                        <img src="{{asset('assets/gentri_maps/TEJERO_GREY.png')}}" style="margin-bottom: -70px;margin-left:-230px;" alt="">
+                        <img src="{{asset('assets/gentri_maps/SANJUAN2_GREY.png')}}" style="margin-bottom: -118px;margin-left:-76px;" alt="">
+                        <img src="{{asset('assets/gentri_maps/'.$navarro_color)}}" style="margin-bottom: -137px;margin-left:30px;" alt="">
+                        <img src="{{asset('assets/gentri_maps/POB_GREY.png')}}" style="margin-bottom: -130px;margin-left:-220px;" alt="">
+                        <img src="{{asset('assets/gentri_maps/SANJUAN1_GREY.png')}}" style="margin-bottom: -155px;margin-left:-78px;" alt="">
+                        <img src="{{asset('assets/gentri_maps/STACLARA_GREY.png')}}" style="margin-bottom: -165px;margin-left:-6px;" alt="">
+                        <img src="{{asset('assets/gentri_maps/PINAGTIPUNAN_GREY.png')}}" style="margin-bottom: -205px;margin-left:-95px;" alt="">
+                        <img src="{{asset('assets/gentri_maps/PASCAM1_GREY.png')}}" style="margin-bottom: -210px;margin-left:-30px;" alt="">
+                        <img src="{{asset('assets/gentri_maps/TAPIA_GREY.png')}}" style="margin-bottom: -270px;margin-left:-250px;" alt="">
+                        <img src="{{asset('assets/gentri_maps/PASCAM2_GREY.png')}}" style="margin-bottom: -255px;margin-left:-40px;" alt="">
+                        <img src="{{asset('assets/gentri_maps/PK1_GREY.png')}}" style="margin-bottom: -330px;margin-left: -300px;" alt="">
+                        <div><img src="{{asset('assets/gentri_maps/SANTIAGO_GREY.png')}}" style="margin-bottom: -280px;margin-left: 240px;" alt=""></div>
+                        <div><img src="{{asset('assets/gentri_maps/BUENA1_GREY.png')}}" style="margin-bottom: -290px;margin-left: 200px;" alt=""></div>
+                        <div><img src="{{asset('assets/gentri_maps/PK2_GREY.png')}}" style="margin-bottom: -255px;margin-left: -20px;" alt=""></div>
+                        <div><img src="{{asset('assets/gentri_maps/BUENA2_GREY.png')}}" style="margin-bottom: -280px;margin-left: 120px;" alt=""></div>
+                        <div><img src="{{asset('assets/gentri_maps/BUENA3_GREY.png')}}" style="margin-bottom: -268px;margin-left: 200px;" alt=""></div>
+                        <div><img src="{{asset('assets/gentri_maps/'.$sf_color)}}" style="margin-bottom: -183px;margin-left: 367px;" alt=""></div>
+                        <div><img src="{{asset('assets/gentri_maps/MANGGAHAN_GREY.png')}}" style="margin-bottom: -220px;margin-left: 250px;" alt=""></div>
+                        <div><img src="{{asset('assets/gentri_maps/BICLATAN_GREY.png')}}" style="margin-bottom: -275px;margin-left: 285px;" alt=""></div>
+                        <div><img src="{{asset('assets/gentri_maps/JAVALERA_GREY.png')}}" style="margin-bottom: -325px;margin-left: 275px;" alt=""></div>
+                        <div><img src="{{asset('assets/gentri_maps/ALINGARO_GREY.png')}}" style="margin-bottom: -375px;margin-left: 200px;" alt=""></div>
+                        <div><img src="{{asset('assets/gentri_maps/PANUNGYANAN_GREY.png')}}" style="margin-bottom: -340px;margin-left: 370px;" alt=""></div>
+                    </div>
+                    
                 </div>
                 <div class="col-md-6">
                     <div class="card border-dark" style="background-color: rgba(242,221,218,255)">
