@@ -107,28 +107,34 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <table class="table">
+                            <table class="table table-sm">
                                 <thead>
                                     <tr>
                                         <th colspan="3" class="text-center text-white" style="background-color: rgba(151,55,52,255)">Classification of Cases</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach($classification_titles as $ind => $cclass)
+                                    @php
+                                    if($cclass == 'S') {
+                                        $cclass_string = 'SUSPECTED';
+                                    }
+                                    else if($cclass == 'P') {
+                                        $cclass_string = 'PROBABLE';
+                                    }
+                                    else if($cclass == 'C') {
+                                        $cclass_string = 'CONFIRMED';
+                                    }
+                                    else {
+                                        $cclass_string = $cclass;
+                                    }
+                                    @endphp
                                     <tr>
-                                        <td>Confirmed</td>
-                                        <td>{{$current_confirmed_grand_total}}</td>
-                                        <td>({{$current_confirmed_percent}}%)</td>
+                                        <td>{{$cclass_string}}</td>
+                                        <td class="text-center">{{$classification_counts[$ind]}}</td>
+                                        <td class="text-center">{{($current_grand_total != 0) ? round($classification_counts[$ind] / $current_grand_total * 100) : 0}}%</td>
                                     </tr>
-                                    <tr>
-                                        <td>Probable</td>
-                                        <td>{{$current_probable_grand_total}}</td>
-                                        <td>({{$current_probable_percent}}%)</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Suspect</td>
-                                        <td>{{$current_suspected_grand_total}}</td>
-                                        <td>({{$current_suspected_percent}}%)</td>
-                                    </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -387,6 +393,29 @@
     </div>
 </div>
 
+@php
+//FOR PIE GRAPH
+$finalpie_titles = [];
+
+foreach($classification_titles as $ind => $ctitle) {
+    if($ctitle == 'S') {
+        $ctitle_str = 'SUSPECTED';
+    }
+    else if($ctitle == 'P') {
+        $ctitle_str = 'PROBABLE';
+    }
+    else if($ctitle == 'C') {
+        $ctitle_str = 'CONFIRMED';
+    }
+    else {
+        $ctitle_str = $ctitle;
+    }
+
+    $cgetpercentage = ($current_grand_total != 0) ? round($classification_counts[$ind] / $current_grand_total * 100) : 0;
+    $finalpie_titles[] = $ctitle_str.', '.$cgetpercentage.'% ('.$classification_counts[$ind].')';
+}
+@endphp
+
 <script>
     $('#checker1').change(function (e) { 
         e.preventDefault();
@@ -463,16 +492,19 @@
         }
     });
 
+    var pieTitles = {!! json_encode($finalpie_titles) !!};
+    var pieDatas = {!! json_encode($classification_counts) !!};
+
     var ctx = document.getElementById('pieChart').getContext('2d');
     var chart = new Chart(ctx, {
         type: 'pie',
 
         data: {
-            labels: ['Confirmed, {{$current_confirmed_percent}}% ({{$current_confirmed_grand_total}})', 'Probable, {{$current_probable_percent}}% ({{$current_probable_grand_total}})', 'Suspect, {{$current_suspected_percent}}% ({{$current_suspected_grand_total}})'],
+            labels: pieTitles,
             datasets: [{
                 label: "My Chart",
-                data: [{{$current_confirmed_grand_total}}, {{$current_probable_grand_total}}, {{$current_suspected_grand_total}}],
-                backgroundColor: ['rgba(148,55,52,255)', 'rgba(119,146,61,255)', 'rgba(166,167,167,255)']
+                data: pieDatas,
+                //backgroundColor: ['rgba(148,55,52,255)', 'rgba(119,146,61,255)', 'rgba(166,167,167,255)']
             }]
         },
 

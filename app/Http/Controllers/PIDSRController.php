@@ -4786,39 +4786,88 @@ class PIDSRController extends Controller
             $top10Brgys = array_slice($brgy_sortedtohighest_array, 0, 10);
 
             //GET CLASSIFICATION
+            $classification_titles = [];
+            $classification_counts = [];
+            $confirmed_titles = [];
+            $current_confirmed_grand_total = 0;
+
             if($sel_disease == 'Dengue') {
                 $ccstr = 'CaseClassification';
+
+                $classification_titles = ['S', 'P', 'C', 'NONE'];
+                $confirmed_titles = ['C'];
                 
+                /*
                 $ccsuspected_str = 'S';
                 $ccprobable_str = 'P';
                 $ccconfirmed_str = 'C';
+                */
             }
             else if($sel_disease == 'Hfmd') {
                 $ccstr = 'CaseClass';
 
+                $classification_titles = ['SUSPECTED CASE OF HFMD', 'PROBABLE CASE OF HFMD', 'CONFIRMED CASE OF HFMD', 'SUSPECTED CASE OF SEVERE ENTEROVIRAL DISEASE', 'CONFIRMED CASE OF SEVERE ENTEROVIRAL DISEASE'];
+                $confirmed_titles = ['CONFIRMED CASE OF HFMD', 'CONFIRMED CASE OF SEVERE ENTEROVIRAL DISEASE'];
+                /*
                 $ccsuspected_str = 'SUSPECTED CASE OF HFMD';
                 $ccprobable_str = 'PROBABLE CASE OF HFMD';
                 $ccconfirmed_str = 'POSITIVE CASE OF HFMD';
+                */
             }
             else if($sel_disease == 'Influenza') {
                 $ccstr = 'CASECLASS';
 
+                $classification_titles = ['Suspect', 'Probable', 'Confirmed', 'NONE'];
+                $confirmed_titles = ['Confirmed'];
+
+                /*
                 $ccsuspected_str = 'Suspect';
                 $ccprobable_str = 'Probable';
                 $ccconfirmed_str = 'Confirmed';
+                */
             }
             else if($sel_disease == 'Measles') {
                 $ccstr = 'FinalClass';
-                
+
+                $classification_titles = ['LABORATORY CONFIRMED MEASLES', 'LABORATORY CONFIRMED RUBELLA', 'EPI-LINKED CONFIRMED MEASLES', 'EPI-LINKED CONFIRMED RUBELLA', 'MEASLES COMPATIBLE', 'NONE'];
+                $confirmed_titles = ['LABORATORY CONFIRMED MEASLES', 'LABORATORY CONFIRMED RUBELLA', 'EPI-LINKED CONFIRMED MEASLES', 'EPI-LINKED CONFIRMED RUBELLA', 'MEASLES COMPATIBLE'];
             }
             else {
                 $ccstr = 'CaseClassification';
 
+                $classification_titles = ['S', 'P', 'C', 'NONE'];
+                $confirmed_titles = ['C'];
+
+                /*
                 $ccsuspected_str = 'S';
                 $ccprobable_str = 'P';
                 $ccconfirmed_str = 'C';
+                */
             }
 
+            //dd($classification_titles);
+
+            foreach($classification_titles as $cclass) {
+                if($cclass == 'NONE') {
+                    $classification_counts[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)
+                    ->where(function ($q) use ($ccstr) {
+                        $q->whereNull($ccstr)
+                        ->orWhere($ccstr, '');
+                    })
+                    ->count();
+                }
+                else {
+                    $ccount = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where($ccstr, $cclass)->count();
+
+                    if(in_array($cclass, $confirmed_titles)) {
+                        $current_confirmed_grand_total += $ccount;
+                    }
+
+                    $classification_counts[] = $ccount;
+                }
+            }
+
+            /*
             $current_confirmed_grand_total = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where($ccstr, $ccconfirmed_str)->count();
             $current_probable_grand_total = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where($ccstr, $ccprobable_str)->count();
             $current_suspected_grand_total = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where($ccstr, $ccsuspected_str)->count();
@@ -4828,6 +4877,7 @@ class PIDSRController extends Controller
             $current_suspected_percent = ($current_grand_total != 0) ? round($current_suspected_grand_total / $current_grand_total * 100,0) : 0;
 
             $current_suspected_grand_total += $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where($ccstr, '')->count();
+            */
 
             //AGE GROUP
             $min_age = $modelClass::where('enabled', 1)
@@ -4933,11 +4983,11 @@ class PIDSRController extends Controller
                 'female_total' => $female_total,
                 'brgy_sortedtohighestweek_array' => $brgy_sortedtohighestweek_array,
                 'current_confirmed_grand_total' => $current_confirmed_grand_total,
-                'current_probable_grand_total' => $current_probable_grand_total,
-                'current_suspected_grand_total' => $current_suspected_grand_total,
-                'current_confirmed_percent' => $current_confirmed_percent,
-                'current_probable_percent' => $current_probable_percent,
-                'current_suspected_percent' => $current_suspected_percent,
+                //'current_probable_grand_total' => $current_probable_grand_total,
+                //'current_suspected_grand_total' => $current_suspected_grand_total,
+                //'current_confirmed_percent' => $current_confirmed_percent,
+                //'current_probable_percent' => $current_probable_percent,
+                //'current_suspected_percent' => $current_suspected_percent,
                 'brgy_cases_array' => $brgy_cases_array,
                 'startDate' => $startDate,
                 'endDate' => $endDate,
@@ -4946,7 +4996,8 @@ class PIDSRController extends Controller
                 'majority_percent' => $majority_percent,
                 'fourmws_total' => $fourmws_total,
                 'threemws_total' => $threemws_total,
-                
+                'classification_titles' => $classification_titles,
+                'classification_counts' => $classification_counts,
             ]);
         }
         else {

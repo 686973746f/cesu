@@ -813,6 +813,9 @@ class HfmdImport implements ToModel, WithHeadingRow
                     else if($row['case_classification'] == 'Confirmed case of Hand, Foot and Mouth Disease') {
                         $get_class = 'CONFIRMED CASE OF HFMD';
                     }
+                    else {
+                        $get_class = mb_strtoupper($row['case_classification']);
+                    }
 
                     return new Hfmd([
                         'Icd10Code' => NULL,
@@ -1040,8 +1043,6 @@ class LeptoImport implements ToModel, WithHeadingRow
 
 class MeaslesImport implements ToModel, WithHeadingRow
 {
-    
-
     public function model(array $row) {
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
             if(!(Measles::where('EPIID', $row['epi_id'])->first())) {
@@ -1161,7 +1162,7 @@ class MeaslesImport implements ToModel, WithHeadingRow
                         'OraColD8sent' => NULL,
                         'OraColD8Recvd' => NULL,
                         'OraColPCRRes' => NULL,
-                        'FinalClass' => $row['final_classification'],
+                        'FinalClass' => !is_null($row['final_classification']) ? mb_strtoupper($row['final_classification']) ? NULL,
                         'InfectionSource' => $row['source_infection'],
                         'Outcome' => mb_strtoupper(substr($row['outcome'],0,1)),
                         'FinalDx' => $row['final_diagnosis'],
