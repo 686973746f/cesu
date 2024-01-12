@@ -98,7 +98,14 @@
                         <div><img src="{{asset('assets/gentri_maps/ALINGARO_'.\App\Http\Controllers\PidsrController::setMapColor(collect($brgy_cases_array)->firstWhere('brgy_name', 'ALINGARO')['brgy_last3mw']))}}" style="margin-bottom: -375px;margin-left: 200px;" alt=""></div>
                         <div><img src="{{asset('assets/gentri_maps/PANUNGYANAN_'.\App\Http\Controllers\PidsrController::setMapColor(collect($brgy_cases_array)->firstWhere('brgy_name', 'PANUNGYANAN')['brgy_last3mw']))}}" style="margin-bottom: -340px;margin-left: 370px;" alt=""></div>
                     </div>
-                    
+                    <div style="margin-top: -150px;margin-left: 30px;">
+                        <h6><b>LEGEND:</b></h6>
+                        <h6><span style="color: rgba(238,236,234,255);">■</span> &nbsp;&nbsp;&nbsp;0 Case</h6>
+                        <h6><span style="color: rgba(254,254,153,255);">■</span> &nbsp;&nbsp;&nbsp;1 Case</h6>
+                        <h6><span style="color: rgba(254,153,50,255);">■</span> &nbsp;&nbsp;&nbsp;2 Cases</h6>
+                        <h6><span style="color: rgba(251,1,0,255);">■</span> &nbsp;&nbsp;&nbsp;3 Cases</h6>
+                        <h6><span style="color: rgba(150,0,50,255);">■</span> &nbsp;&nbsp;&nbsp;>= 4 Cases</h6>
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="card border-dark" style="background-color: rgba(242,221,218,255)">
