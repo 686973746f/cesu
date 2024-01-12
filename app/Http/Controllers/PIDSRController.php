@@ -4960,6 +4960,14 @@ class PIDSRController extends Controller
             // Get the end date of the week
             $endDate = Carbon::now()->isoWeekYear($sel_year)->isoWeek($sel_week)->endOfWeek();
 
+            if($sel_week == 1) {
+                $mWeekCalendarDate = Carbon::parse($sel_year.'-01-01');
+            }
+            else {
+                $mWeekCalendarDate = Carbon::parse($sel_year.'-01-01')->addDays(6 * $sel_week);
+            }
+            
+
             return view('pidsr.snaxv2.index', [
                 'flavor_title' => $flavor_title,
                 'sel_disease' => $sel_disease,
@@ -4998,6 +5006,7 @@ class PIDSRController extends Controller
                 'threemws_total' => $threemws_total,
                 'classification_titles' => $classification_titles,
                 'classification_counts' => $classification_counts,
+                'mWeekCalendarDate' => $mWeekCalendarDate,
             ]);
         }
         else {

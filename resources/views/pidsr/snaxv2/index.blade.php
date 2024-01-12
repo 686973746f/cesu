@@ -29,7 +29,7 @@
                                 <td><h3><b>{{$flavor_title}}</b></h3></td>
                             </tr>
                             <tr>
-                                <td style="background-color: rgba(151,55,52,255)" class="text-white"><b>MW {{$sel_mweek}} ({{$startDate->format('M d, Y')}} - {{$endDate->format('M d, Y')}})</b></td>
+                                <td style="background-color: rgba(151,55,52,255)" class="text-white"><b>MW {{$sel_mweek}} ({{$mWeekCalendarDate->startOfWeek()->format('M d, Y')}} - {{$mWeekCalendarDate->endOfWeek()->format('M d, Y')}})</b></td>
                             </tr>
                         </tbody>
                     </table>
