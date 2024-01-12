@@ -446,10 +446,7 @@ class ABTCReportController extends Controller
                 ->count();
 
                 $less15 = AbtcBakunaRecords::whereHas('patient', function($q) {
-                    $q->where(function ($r) {
-                        $r->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) < 15')
-                        ->orWhere('age', '<', 15);
-                    })
+                    $q->where('age', '<', 15)
                     ->where('register_status', 'VERIFIED');
                 })
                 ->where('vaccination_site_id', $v->id)
@@ -457,10 +454,7 @@ class ABTCReportController extends Controller
                 ->count();
 
                 $great15 = AbtcBakunaRecords::whereHas('patient', function($q) {
-                    $q->where(function ($r) {
-                        $r->whereRaw('TIMESTAMPDIFF(YEAR, bdate, CURDATE()) >= 15')
-                        ->orWhere('age', '>=', 15);
-                    })
+                    $q->where('age', '>=', 15)
                     ->where('register_status', 'VERIFIED');
                 })
                 ->where('vaccination_site_id', $v->id)
