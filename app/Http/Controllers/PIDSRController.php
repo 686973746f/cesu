@@ -5022,4 +5022,22 @@ class PIDSRController extends Controller
             return 'background-color: rgba(129,0,1,255);color: white;font-weight: bold;';
         }
     }
+
+    public static function setMapColor($n) {
+        if($n <= 0) {
+            return 'GREY.png';
+        }
+        else if($n == 1) {
+            return 'YELLOW.png';
+        }
+        else if($n == 2) {
+            return 'ORANGE.png';
+        }
+        else if($n == 3) {
+            return 'RED.png';
+        }
+        else {
+            return 'DARKRED.png';
+        }
+    }
 }

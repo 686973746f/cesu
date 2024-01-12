@@ -120,7 +120,7 @@
                     </div>
                     <div class="form-group">
                         <label for="mweek"><b class="text-danger">*</b>Morbidity Week</label>
-                        <input type="text" class="form-control" name="mweek" id="mweek" value="{{date('w')-1}}" min="1" max="53" required>
+                        <input type="text" class="form-control" name="mweek" id="mweek" value="{{date('W')-1}}" min="1" max="53" required>
                     </div>
                 </div>
                 <div class="modal-footer">

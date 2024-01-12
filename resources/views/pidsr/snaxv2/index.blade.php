@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="card mb-3">
-        <div class="card-header"><b>sNaX Version 2 - Page 1/3</b></div>
+        <div class="card-header bg-transparent"><b>sNaX Version 2 - Page 1/3</b></div>
         <div class="card-body">
             <div class="row">
                 <div class="col-md-2">
@@ -60,85 +60,43 @@
                     <h6>GENERAL TRIAS, MW {{$sel_mweek-2}}-{{$sel_mweek}}, {{$sel_year}}</h6>
                     <h6>N={{$threemws_total}}</h6>
                     @php
-                    foreach($brgy_cases_array as $bitem) {
-                        if($bitem['brgy_name'] == 'BACAO II') {
-                            if($bitem['brgy_last3mw'] <= 0) {
-                                $bacao2_color = 'BACAOII_GREY.png';
-                            }
-                            else if($bitem['brgy_last3mw'] == 1) {
-                                $bacao2_color = 'BACAOII_YELLOW.png';
-                            }
-                            else if($bitem['brgy_last3mw'] == 2) {
-                                $bacao2_color = 'BACAOII_ORANGE.png';
-                            }
-                            else if($bitem['brgy_last3mw'] == 3) {
-                                $bacao2_color = 'BACAOII_RED.png';
-                            }
-                            else {
-                                $bacao2_color = 'BACAOII_DARKRED.png';
-                            }
-                        }
-                        else if($bitem['brgy_name'] == 'NAVARRO') {
-                            if($bitem['brgy_last3mw'] <= 0) {
-                                $navarro_color = 'NAVARRO_GREY.png';
-                            }
-                            else if($bitem['brgy_last3mw'] == 1) {
-                                $navarro_color = 'NAVARRO_YELLOW.png';
-                            }
-                            else if($bitem['brgy_last3mw'] == 2) {
-                                $navarro_color = 'NAVARRO_ORANGE.png';
-                            }
-                            else if($bitem['brgy_last3mw'] == 3) {
-                                $navarro_color = 'NAVARRO_RED.png';
-                            }
-                            else {
-                                $navarro_color = 'NAVARRO_DARKRED.png';
-                            }
-                        }
-                        else if($bitem['brgy_name'] == 'SAN FRANCISCO') {
-                            if($bitem['brgy_last3mw'] <= 0) {
-                                $sf_color = 'SF_GREY.png';
-                            }
-                            else if($bitem['brgy_last3mw'] == 1) {
-                                $sf_color = 'SF_YELLOW.png';
-                            }
-                            else if($bitem['brgy_last3mw'] == 2) {
-                                $sf_color = 'SF_ORANGE.png';
-                            }
-                            else if($bitem['brgy_last3mw'] == 3) {
-                                $sf_color = 'SF_RED.png';
-                            }
-                            else {
-                                $sf_color = 'SF_DARKRED.png';
-                            }
-                        }
-                    }
+                    $pob_count =
+                    collect($brgy_cases_array)->firstWhere('brgy_name', 'ARNALDO POB. (BGY. 7)')['brgy_last3mw'] +
+                    collect($brgy_cases_array)->firstWhere('brgy_name', 'BAGUMBAYAN POB. (BGY. 5)')['brgy_last3mw'] +
+                    collect($brgy_cases_array)->firstWhere('brgy_name', 'CORREGIDOR POB. (BGY. 10)')['brgy_last3mw'] +
+                    collect($brgy_cases_array)->firstWhere('brgy_name', 'DULONG BAYAN POB. (BGY. 3)')['brgy_last3mw'] +
+                    collect($brgy_cases_array)->firstWhere('brgy_name', 'GOV. FERRER POB. (BGY. 1)')['brgy_last3mw'] +
+                    collect($brgy_cases_array)->firstWhere('brgy_name', 'NINETY SIXTH POB. (BGY. 8)')['brgy_last3mw'] +
+                    collect($brgy_cases_array)->firstWhere('brgy_name', 'PRINZA POB. (BGY. 9)')['brgy_last3mw'] +
+                    collect($brgy_cases_array)->firstWhere('brgy_name', 'SAMPALUCAN POB. (BGY. 2)')['brgy_last3mw'] +
+                    collect($brgy_cases_array)->firstWhere('brgy_name', 'SAN GABRIEL POB. (BGY. 4)')['brgy_last3mw'] +
+                    collect($brgy_cases_array)->firstWhere('brgy_name', 'VIBORA POB. (BGY. 6)')['brgy_last3mw'];
                     @endphp
-                    <div class="text-center" style="margin-bottom: 200px;">
-                        <img src="{{asset('assets/gentri_maps/'.$bacao2_color)}}" alt="">
-                        <img src="{{asset('assets/gentri_maps/BACAO1_GREY.png')}}" style="margin-bottom: -70px;margin-left:-138px;" alt="">
-                        <img src="{{asset('assets/gentri_maps/TEJERO_GREY.png')}}" style="margin-bottom: -70px;margin-left:-230px;" alt="">
-                        <img src="{{asset('assets/gentri_maps/SANJUAN2_GREY.png')}}" style="margin-bottom: -118px;margin-left:-76px;" alt="">
-                        <img src="{{asset('assets/gentri_maps/'.$navarro_color)}}" style="margin-bottom: -137px;margin-left:30px;" alt="">
-                        <img src="{{asset('assets/gentri_maps/POB_GREY.png')}}" style="margin-bottom: -130px;margin-left:-220px;" alt="">
-                        <img src="{{asset('assets/gentri_maps/SANJUAN1_GREY.png')}}" style="margin-bottom: -155px;margin-left:-78px;" alt="">
-                        <img src="{{asset('assets/gentri_maps/STACLARA_GREY.png')}}" style="margin-bottom: -165px;margin-left:-6px;" alt="">
-                        <img src="{{asset('assets/gentri_maps/PINAGTIPUNAN_GREY.png')}}" style="margin-bottom: -205px;margin-left:-95px;" alt="">
-                        <img src="{{asset('assets/gentri_maps/PASCAM1_GREY.png')}}" style="margin-bottom: -210px;margin-left:-30px;" alt="">
-                        <img src="{{asset('assets/gentri_maps/TAPIA_GREY.png')}}" style="margin-bottom: -270px;margin-left:-250px;" alt="">
-                        <img src="{{asset('assets/gentri_maps/PASCAM2_GREY.png')}}" style="margin-bottom: -255px;margin-left:-40px;" alt="">
-                        <img src="{{asset('assets/gentri_maps/PK1_GREY.png')}}" style="margin-bottom: -330px;margin-left: -300px;" alt="">
-                        <div><img src="{{asset('assets/gentri_maps/SANTIAGO_GREY.png')}}" style="margin-bottom: -280px;margin-left: 240px;" alt=""></div>
-                        <div><img src="{{asset('assets/gentri_maps/BUENA1_GREY.png')}}" style="margin-bottom: -290px;margin-left: 200px;" alt=""></div>
-                        <div><img src="{{asset('assets/gentri_maps/PK2_GREY.png')}}" style="margin-bottom: -255px;margin-left: -20px;" alt=""></div>
-                        <div><img src="{{asset('assets/gentri_maps/BUENA2_GREY.png')}}" style="margin-bottom: -280px;margin-left: 120px;" alt=""></div>
-                        <div><img src="{{asset('assets/gentri_maps/BUENA3_GREY.png')}}" style="margin-bottom: -268px;margin-left: 200px;" alt=""></div>
-                        <div><img src="{{asset('assets/gentri_maps/'.$sf_color)}}" style="margin-bottom: -183px;margin-left: 367px;" alt=""></div>
-                        <div><img src="{{asset('assets/gentri_maps/MANGGAHAN_GREY.png')}}" style="margin-bottom: -220px;margin-left: 250px;" alt=""></div>
-                        <div><img src="{{asset('assets/gentri_maps/BICLATAN_GREY.png')}}" style="margin-bottom: -275px;margin-left: 285px;" alt=""></div>
-                        <div><img src="{{asset('assets/gentri_maps/JAVALERA_GREY.png')}}" style="margin-bottom: -325px;margin-left: 275px;" alt=""></div>
-                        <div><img src="{{asset('assets/gentri_maps/ALINGARO_GREY.png')}}" style="margin-bottom: -375px;margin-left: 200px;" alt=""></div>
-                        <div><img src="{{asset('assets/gentri_maps/PANUNGYANAN_GREY.png')}}" style="margin-bottom: -340px;margin-left: 370px;" alt=""></div>
+                    <div class="text-center" style="margin-bottom: 200px; margin-left: -100px;">
+                        <img src="{{asset('assets/gentri_maps/BACAO2_'.\App\Http\Controllers\PidsrController::setMapColor(collect($brgy_cases_array)->firstWhere('brgy_name', 'BACAO II')['brgy_last3mw']))}}" alt="">
+                        <img src="{{asset('assets/gentri_maps/BACAO1_'.\App\Http\Controllers\PidsrController::setMapColor(collect($brgy_cases_array)->firstWhere('brgy_name', 'BACAO I')['brgy_last3mw']))}}" style="margin-bottom: -70px;margin-left:-138px;" alt="">
+                        <img src="{{asset('assets/gentri_maps/TEJERO_'.\App\Http\Controllers\PidsrController::setMapColor(collect($brgy_cases_array)->firstWhere('brgy_name', 'TEJERO')['brgy_last3mw']))}}" style="margin-bottom: -70px;margin-left:-230px;" alt="">
+                        <img src="{{asset('assets/gentri_maps/SANJUAN2_'.\App\Http\Controllers\PidsrController::setMapColor(collect($brgy_cases_array)->firstWhere('brgy_name', 'SAN JUAN II')['brgy_last3mw']))}}" style="margin-bottom: -118px;margin-left:-76px;" alt="">
+                        <img src="{{asset('assets/gentri_maps/NAVARRO_'.\App\Http\Controllers\PidsrController::setMapColor(collect($brgy_cases_array)->firstWhere('brgy_name', 'NAVARRO')['brgy_last3mw']))}}" style="margin-bottom: -137px;margin-left:30px;" alt="">
+                        <img src="{{asset('assets/gentri_maps/POB_'.\App\Http\Controllers\PidsrController::setMapColor($pob_count))}}" style="margin-bottom: -130px;margin-left:-220px;" alt="">
+                        <img src="{{asset('assets/gentri_maps/SANJUAN1_'.\App\Http\Controllers\PidsrController::setMapColor(collect($brgy_cases_array)->firstWhere('brgy_name', 'SAN JUAN I')['brgy_last3mw']))}}" style="margin-bottom: -155px;margin-left:-78px;" alt="">
+                        <img src="{{asset('assets/gentri_maps/STACLARA_'.\App\Http\Controllers\PidsrController::setMapColor(collect($brgy_cases_array)->firstWhere('brgy_name', 'SANTA CLARA')['brgy_last3mw']))}}" style="margin-bottom: -165px;margin-left:-6px;" alt="">
+                        <img src="{{asset('assets/gentri_maps/PINAGTIPUNAN_'.\App\Http\Controllers\PidsrController::setMapColor(collect($brgy_cases_array)->firstWhere('brgy_name', 'PINAGTIPUNAN')['brgy_last3mw']))}}" style="margin-bottom: -205px;margin-left:-95px;" alt="">
+                        <img src="{{asset('assets/gentri_maps/PASCAM1_'.\App\Http\Controllers\PidsrController::setMapColor(collect($brgy_cases_array)->firstWhere('brgy_name', 'PASONG CAMACHILE I')['brgy_last3mw']))}}" style="margin-bottom: -210px;margin-left:-30px;" alt="">
+                        <img src="{{asset('assets/gentri_maps/TAPIA_'.\App\Http\Controllers\PidsrController::setMapColor(collect($brgy_cases_array)->firstWhere('brgy_name', 'TAPIA')['brgy_last3mw']))}}" style="margin-bottom: -270px;margin-left:-250px;" alt="">
+                        <img src="{{asset('assets/gentri_maps/PASCAM2_'.\App\Http\Controllers\PidsrController::setMapColor(collect($brgy_cases_array)->firstWhere('brgy_name', 'PASONG CAMACHILE II')['brgy_last3mw']))}}" style="margin-bottom: -255px;margin-left:-40px;" alt="">
+                        <img src="{{asset('assets/gentri_maps/PK1_'.\App\Http\Controllers\PidsrController::setMapColor(collect($brgy_cases_array)->firstWhere('brgy_name', 'PASONG KAWAYAN I')['brgy_last3mw']))}}" style="margin-bottom: -330px;margin-left: -300px;" alt="">
+                        <div><img src="{{asset('assets/gentri_maps/SANTIAGO_'.\App\Http\Controllers\PidsrController::setMapColor(collect($brgy_cases_array)->firstWhere('brgy_name', 'SANTIAGO')['brgy_last3mw']))}}" style="margin-bottom: -280px;margin-left: 240px;" alt=""></div>
+                        <div><img src="{{asset('assets/gentri_maps/BUENA1_'.\App\Http\Controllers\PidsrController::setMapColor(collect($brgy_cases_array)->firstWhere('brgy_name', 'BUENAVISTA I')['brgy_last3mw']))}}" style="margin-bottom: -290px;margin-left: 200px;" alt=""></div>
+                        <div><img src="{{asset('assets/gentri_maps/PK2_'.\App\Http\Controllers\PidsrController::setMapColor(collect($brgy_cases_array)->firstWhere('brgy_name', 'PASONG KAWAYAN II')['brgy_last3mw']))}}" style="margin-bottom: -255px;margin-left: -20px;" alt=""></div>
+                        <div><img src="{{asset('assets/gentri_maps/BUENA2_'.\App\Http\Controllers\PidsrController::setMapColor(collect($brgy_cases_array)->firstWhere('brgy_name', 'BUENAVISTA II')['brgy_last3mw']))}}" style="margin-bottom: -280px;margin-left: 120px;" alt=""></div>
+                        <div><img src="{{asset('assets/gentri_maps/BUENA3_'.\App\Http\Controllers\PidsrController::setMapColor(collect($brgy_cases_array)->firstWhere('brgy_name', 'BUENAVISTA III')['brgy_last3mw']))}}" style="margin-bottom: -268px;margin-left: 200px;" alt=""></div>
+                        <div><img src="{{asset('assets/gentri_maps/SF_'.\App\Http\Controllers\PidsrController::setMapColor(collect($brgy_cases_array)->firstWhere('brgy_name', 'SAN FRANCISCO')['brgy_last3mw']))}}" style="margin-bottom: -183px;margin-left: 367px;" alt=""></div>
+                        <div><img src="{{asset('assets/gentri_maps/MANGGAHAN_'.\App\Http\Controllers\PidsrController::setMapColor(collect($brgy_cases_array)->firstWhere('brgy_name', 'MANGGAHAN')['brgy_last3mw']))}}" style="margin-bottom: -220px;margin-left: 250px;" alt=""></div>
+                        <div><img src="{{asset('assets/gentri_maps/BICLATAN_'.\App\Http\Controllers\PidsrController::setMapColor(collect($brgy_cases_array)->firstWhere('brgy_name', 'BICLATAN')['brgy_last3mw']))}}" style="margin-bottom: -275px;margin-left: 285px;" alt=""></div>
+                        <div><img src="{{asset('assets/gentri_maps/JAVALERA_'.\App\Http\Controllers\PidsrController::setMapColor(collect($brgy_cases_array)->firstWhere('brgy_name', 'JAVALERA')['brgy_last3mw']))}}" style="margin-bottom: -325px;margin-left: 275px;" alt=""></div>
+                        <div><img src="{{asset('assets/gentri_maps/ALINGARO_'.\App\Http\Controllers\PidsrController::setMapColor(collect($brgy_cases_array)->firstWhere('brgy_name', 'ALINGARO')['brgy_last3mw']))}}" style="margin-bottom: -375px;margin-left: 200px;" alt=""></div>
+                        <div><img src="{{asset('assets/gentri_maps/PANUNGYANAN_'.\App\Http\Controllers\PidsrController::setMapColor(collect($brgy_cases_array)->firstWhere('brgy_name', 'PANUNGYANAN')['brgy_last3mw']))}}" style="margin-bottom: -340px;margin-left: 370px;" alt=""></div>
                     </div>
                     
                 </div>
@@ -232,7 +190,12 @@
     </div>
 
     <div class="card mb-3">
-        <div class="card-header"><b>Page 2/3 - Dengue Monitoring Dashboard</b></div>
+        <div class="card-header bg-transparent">
+            <div class="d-flex justify-content-between">
+                <div><b>Page 2/3 - Dengue Monitoring Dashboard</b></div>
+                <div><b>MW {{$sel_mweek}} ({{$startDate->format('M d, Y')}} - {{$endDate->format('M d, Y')}})</b></div>
+            </div>
+        </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
@@ -303,7 +266,12 @@
     </div>
 
     <div class="card mb-3">
-        <div class="card-header"><b>Page 3/3 - Dengue Monitoring Dashboard</b></div>
+        <div class="card-header bg-transparent">
+            <div class="d-flex justify-content-between">
+                <div><b>Page 2/3 - Dengue Monitoring Dashboard</b></div>
+                <div><b>MW {{$sel_mweek}} ({{$startDate->format('M d, Y')}} - {{$endDate->format('M d, Y')}})</b></div>
+            </div>
+        </div>
         <div class="card-body">
             <h6><b>Distribution of Dengue Cases by Barangay for the Previous 4 MWs</b></h6>
             <h6>GENERAL TRIAS, MW {{$sel_mweek-3}}-{{$sel_mweek}}, {{$sel_year}}</h6>
