@@ -275,7 +275,7 @@
     <div class="card mb-3">
         <div class="card-header bg-transparent">
             <div class="d-flex justify-content-between">
-                <div><b>Page 2/3 - Dengue Monitoring Dashboard</b></div>
+                <div><b>Page 3/3 - Dengue Monitoring Dashboard</b></div>
                 <div><b>MW {{$sel_mweek}} ({{$startDate->format('M d, Y')}} - {{$endDate->format('M d, Y')}})</b></div>
             </div>
         </div>
