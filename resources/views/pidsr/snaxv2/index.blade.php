@@ -223,8 +223,8 @@
                                 <th colspan="2">MWs 1-52</th>
                             </tr>
                             <tr>
-                                <th>2023</th>
-                                <th class="text-muted">2022</th>
+                                <th>{{$sel_year}}</th>
+                                <th class="text-muted">{{($sel_year - 1)}}</th>
                             </tr>
                         </thead>
                         <tbody>
