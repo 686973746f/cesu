@@ -4520,7 +4520,7 @@ class PIDSRController extends Controller
 
             for($x=1;$x<=52;$x++) {
                 if($sel_year == date('Y')) {
-                    if($x <= date('w')) {
+                    if($x <= $sel_week) {
                         ${'current_mw'.$x} = $modelClass::where('Year', $sel_year)->where('enabled', 1)->where('match_casedef', 1)->where('MorbidityWeek', $x)->count();
                     }
                     else {
@@ -4755,6 +4755,7 @@ class PIDSRController extends Controller
                     'brgy_grand_total_cases' => $modelClass::where('Year', $sel_year)
                     ->where('enabled', 1)
                     ->where('match_casedef', 1)
+                    ->where('MorbidityWeek', '<=', $sel_week)
                     ->where('Barangay', $brgy->brgyName)
                     ->count(),
                     'brgy_previousyear_total_cases' => $modelClass::where('Year', $sel_year-1)
@@ -4849,7 +4850,10 @@ class PIDSRController extends Controller
 
             foreach($classification_titles as $cclass) {
                 if($cclass == 'NONE') {
-                    $classification_counts[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)
+                    $classification_counts[] = $modelClass::where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('Year', $sel_year)
+                    ->where('MorbidityWeek', '<=', $sel_week)
                     ->where(function ($q) use ($ccstr) {
                         $q->whereNull($ccstr)
                         ->orWhere($ccstr, '');
@@ -4857,7 +4861,12 @@ class PIDSRController extends Controller
                     ->count();
                 }
                 else {
-                    $ccount = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where($ccstr, $cclass)->count();
+                    $ccount = $modelClass::where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('Year', $sel_year)
+                    ->where('MorbidityWeek', '<=', $sel_week)
+                    ->where($ccstr, $cclass)
+                    ->count();
 
                     if(in_array($cclass, $confirmed_titles)) {
                         $current_confirmed_grand_total += $ccount;
@@ -4883,11 +4892,13 @@ class PIDSRController extends Controller
             $min_age = $modelClass::where('enabled', 1)
             ->where('match_casedef', 1)
             ->where('Year', $sel_year)
+            ->where('MorbidityWeek', '<=', $sel_week)
             ->min('AgeYears');
 
             $max_age = $modelClass::where('enabled', 1)
             ->where('match_casedef', 1)
             ->where('Year', $sel_year)
+            ->where('MorbidityWeek', '<=', $sel_week)
             ->max('AgeYears');
 
             //GET MEDIAN
@@ -4895,6 +4906,7 @@ class PIDSRController extends Controller
             $ages = $modelClass::where('enabled', 1)
             ->where('match_casedef', 1)
             ->where('Year', $sel_year)
+            ->where('MorbidityWeek', '<=', $sel_week)
             ->pluck('AgeYears')
             ->toArray();
 
@@ -4914,23 +4926,23 @@ class PIDSRController extends Controller
 
             $ag_male = [];
 
-            $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>', 50)->where('Sex', 'M')->count() * -1;
-            $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 41)->where('AgeYears', '<=', 50)->where('Sex', 'M')->count() * -1;
-            $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 31)->where('AgeYears', '<=', 40)->where('Sex', 'M')->count() * -1;
-            $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 21)->where('AgeYears', '<=', 30)->where('Sex', 'M')->count() * -1;
-            $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 11)->where('AgeYears', '<=', 20)->where('Sex', 'M')->count() * -1;
-            $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 1)->where('AgeYears', '<=', 10)->where('Sex', 'M')->count() * -1;
-            $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '<', 1)->where('Sex', 'M')->count() * -1;
+            $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>', 50)->where('Sex', 'M')->count() * -1;
+            $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 41)->where('AgeYears', '<=', 50)->where('Sex', 'M')->count() * -1;
+            $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 31)->where('AgeYears', '<=', 40)->where('Sex', 'M')->count() * -1;
+            $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 21)->where('AgeYears', '<=', 30)->where('Sex', 'M')->count() * -1;
+            $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 11)->where('AgeYears', '<=', 20)->where('Sex', 'M')->count() * -1;
+            $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 1)->where('AgeYears', '<=', 10)->where('Sex', 'M')->count() * -1;
+            $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '<', 1)->where('Sex', 'M')->count() * -1;
 
             $ag_female = [];
 
-            $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>', 50)->where('Sex', 'F')->count();
-            $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 41)->where('AgeYears', '<=', 50)->where('Sex', 'F')->count();
-            $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 31)->where('AgeYears', '<=', 40)->where('Sex', 'F')->count();
-            $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 21)->where('AgeYears', '<=', 30)->where('Sex', 'F')->count();
-            $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 11)->where('AgeYears', '<=', 20)->where('Sex', 'F')->count();
-            $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '>=', 1)->where('AgeYears', '<=', 10)->where('Sex', 'F')->count();
-            $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('AgeYears', '<', 1)->where('Sex', 'F')->count();
+            $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>', 50)->where('Sex', 'F')->count();
+            $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 41)->where('AgeYears', '<=', 50)->where('Sex', 'F')->count();
+            $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 31)->where('AgeYears', '<=', 40)->where('Sex', 'F')->count();
+            $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 21)->where('AgeYears', '<=', 30)->where('Sex', 'F')->count();
+            $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 11)->where('AgeYears', '<=', 20)->where('Sex', 'F')->count();
+            $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 1)->where('AgeYears', '<=', 10)->where('Sex', 'F')->count();
+            $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '<', 1)->where('Sex', 'F')->count();
 
             $male_total = abs(array_sum($ag_male));
             $female_total = $current_grand_total - $male_total;
@@ -4949,6 +4961,9 @@ class PIDSRController extends Controller
             //Text Flavor
             if($sel_disease == 'Dengue') {
                 $flavor_title = 'DENGUE FEVER';
+            }
+            else if($sel_disease == 'Hfmd') {
+                $flavor_title = 'Hand, Foot and Mouth Disease (HFMD) & Severe Enteroviral Diseases';
             }
             else {
                 $flavor_title = strtoupper($sel_disease);

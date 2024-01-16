@@ -38,7 +38,7 @@
             <hr>
             <ul>
                 <h6><b>Summary:</b></h6>
-                <li>There were {{$current_grand_total}} {{Str::plural('case', $current_grand_total)}} of {{$flavor_title}} reported for Morbidity Week 1-{{$sel_mweek}} ({{$startDate->format('M d, Y')}} - {{$endDate->format('M d, Y')}}), with {{$death_count}} {{Str::plural('death', $death_count)}} (CFR {{($current_grand_total != 0) ? round($death_count / $current_grand_total * 100, 2) : 0}}%)</li>
+                <li>There were {{$current_grand_total}} {{Str::plural('case', $current_grand_total)}} of {{mb_strtoupper($sel_disease)}} reported for Morbidity Week 1-{{$sel_mweek}} ({{$startDate->format('M d, Y')}} - {{$endDate->format('M d, Y')}}), with {{$death_count}} {{Str::plural('death', $death_count)}} (CFR {{($current_grand_total != 0) ? round($death_count / $current_grand_total * 100, 2) : 0}}%)</li>
                 @if($current_grand_total < $previous_grand_total)
                 <li>This year's number of cases is {{round(100 - ($current_grand_total / $previous_grand_total * 100))}}% lower compared to the same period last year ({{$previous_grand_total}} cases).</li>
                 @else
@@ -51,12 +51,12 @@
             <hr>
             <div class="row">
                 <div class="col-md-6">
-                    <h6><b>Distribution of {{$sel_disease}} Cases by Morbidity Week</b></h6>
+                    <h6><b>Distribution of {{mb_strtoupper($sel_disease)}} Cases by Morbidity Week</b></h6>
                     <h6>GENERAL TRIAS, MW{{$sel_mweek}}, {{$sel_year}}</h6>
                     <h6>N = {{$current_grand_total}}</h6>
                     <canvas id="myChart" width="400" height="400"></canvas>
                     <hr>
-                    <h6><b>Distribution of Dengue Cases by Barangay for the Previous 3 MWs</b></h6>
+                    <h6><b>Distribution of {{mb_strtoupper($sel_disease)}} Cases by Barangay for the Previous 3 MWs</b></h6>
                     <h6>GENERAL TRIAS, MW {{$sel_mweek-2}}-{{$sel_mweek}}, {{$sel_year}}</h6>
                     <h6>N={{$threemws_total}}</h6>
                     @php
@@ -187,7 +187,7 @@
                         </div>
                     </div>
                     <hr>
-                    <h6><b>Top 10 Barangays with Dengue Cases</b></h6>
+                    <h6><b>Top 10 Barangays with {{mb_strtoupper($sel_disease)}} Cases</b></h6>
                     <h6>GENERAL TRIAS, MW 1-{{$sel_mweek}}, {{$sel_year}}</h6>
                     <h6>N={{$current_grand_total}}</h6>
                     <canvas id="topten" width="" height=""></canvas>
@@ -199,7 +199,7 @@
     <div class="card mb-3">
         <div class="card-header bg-transparent">
             <div class="d-flex justify-content-between">
-                <div><b>Page 2/3 - Dengue Monitoring Dashboard</b></div>
+                <div><b>Page 2/3 - {{mb_strtoupper($sel_disease)}} Monitoring Dashboard</b></div>
                 <div><b>MW {{$sel_mweek}} ({{$startDate->format('M d, Y')}} - {{$endDate->format('M d, Y')}})</b></div>
             </div>
         </div>
@@ -275,12 +275,12 @@
     <div class="card mb-3">
         <div class="card-header bg-transparent">
             <div class="d-flex justify-content-between">
-                <div><b>Page 3/3 - Dengue Monitoring Dashboard</b></div>
+                <div><b>Page 3/3 - {{mb_strtoupper($sel_disease)}} Monitoring Dashboard</b></div>
                 <div><b>MW {{$sel_mweek}} ({{$startDate->format('M d, Y')}} - {{$endDate->format('M d, Y')}})</b></div>
             </div>
         </div>
         <div class="card-body">
-            <h6><b>Distribution of Dengue Cases by Barangay for the Previous 4 MWs</b></h6>
+            <h6><b>Distribution of {{mb_strtoupper($sel_disease)}} Cases by Barangay for the Previous 4 MWs</b></h6>
             <h6>GENERAL TRIAS, MW {{$sel_mweek-3}}-{{$sel_mweek}}, {{$sel_year}}</h6>
             <h6>N={{$fourmws_total}}</h6>
             <table class="table table-bordered table-sm">
