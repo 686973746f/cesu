@@ -4964,7 +4964,34 @@ class PIDSRController extends Controller
                 $mWeekCalendarDate = Carbon::parse($sel_year.'-01-01');
             }
             else {
+                $getLastWeek = Carbon::parse($sel_year.'-01-01')->addDays(6 * ($sel_week - 1));
+
+                //$getLastWeek->copy()->startOfWeek(Carbon::SUNDAY)
+                //$getLastWeek->copy()->endOfWeek(Carbon::SATURDAY)
+
+                
+
                 $mWeekCalendarDate = Carbon::parse($sel_year.'-01-01')->addDays(6 * $sel_week);
+
+                /*
+                if($get) {
+
+                }
+
+                dd($mWeekCalendarDate->format('l'));
+                */
+
+                if($mWeekCalendarDate->dayOfWeek == Carbon::SATURDAY) {
+                    $mWeekCalendarDate = $mWeekCalendarDate->addDay(1);
+                }
+                else if($mWeekCalendarDate->dayOfWeek == Carbon::SUNDAY) {
+                    $mWeekCalendarDate = $mWeekCalendarDate->addDay(1);
+                }
+
+                //dd($mWeekCalendarDate);
+
+                $startDateBasedOnMw = $mWeekCalendarDate->startOfWeek(Carbon::SUNDAY)->format('M d, Y');
+                $endDateBasedOnMw = $mWeekCalendarDate->startOfWeek(Carbon::SUNDAY)->addDays(6)->format('M d, Y');  
             }
             
 
@@ -5007,6 +5034,8 @@ class PIDSRController extends Controller
                 'classification_titles' => $classification_titles,
                 'classification_counts' => $classification_counts,
                 'mWeekCalendarDate' => $mWeekCalendarDate,
+                'startDateBasedOnMw' => $startDateBasedOnMw,
+                'endDateBasedOnMw' => $endDateBasedOnMw,
             ]);
         }
         else {

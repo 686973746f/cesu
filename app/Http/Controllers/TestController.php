@@ -21,11 +21,7 @@ use Maatwebsite\Excel\Facades\Excel;
 class TestController extends Controller
 {
     public function index() {
-        $bdate = Carbon::parse('1999-08-19');
-        $dateOfEntry = Carbon::parse('2021-01-14');
-
-        echo $bdate->diffInYears($dateOfEntry).' years';
-        echo $bdate->diffInMonths($dateOfEntry).' months';
-        echo $bdate->diffInDays($dateOfEntry).' days';
+        //Carbon::parse('2024-01-01')->next(Carbon::SATURDAY)->format('m/d/Y')
+        dd(Carbon::parse('2024-01-09')->startOfWeek()->format('m/d/Y'));
     }
 }

@@ -1162,7 +1162,7 @@ class MeaslesImport implements ToModel, WithHeadingRow
                         'OraColD8sent' => NULL,
                         'OraColD8Recvd' => NULL,
                         'OraColPCRRes' => NULL,
-                        'FinalClass' => !is_null($row['final_classification']) ? mb_strtoupper($row['final_classification']) ? NULL,
+                        'FinalClass' => !is_null($row['final_classification']) ? mb_strtoupper($row['final_classification']) : NULL,
                         'InfectionSource' => $row['source_infection'],
                         'Outcome' => mb_strtoupper(substr($row['outcome'],0,1)),
                         'FinalDx' => $row['final_diagnosis'],
