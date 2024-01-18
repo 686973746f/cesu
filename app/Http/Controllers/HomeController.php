@@ -9,6 +9,7 @@ use Carbon\CarbonPeriod;
 use App\Models\SelfReports;
 use Illuminate\Http\Request;
 use App\Models\PaSwabDetails;
+use App\Models\VaxcertConcern;
 use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
@@ -73,8 +74,11 @@ class HomeController extends Controller
             $u->save();
         }
 
+        $vaxcert_pending_count = VaxcertConcern::where('status', 'PENDING')->count();
+
         return view('main_menu', [
             'showmodal' => $showmodal,
+            'vaxcert_pending_count' => $vaxcert_pending_count,
         ]);
     }
 
