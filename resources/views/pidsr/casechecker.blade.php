@@ -72,6 +72,7 @@
                     <tr>
                         <!-- <th></th> -->
                         <th>#</th>
+                        <th>Actions</th>
                         @foreach($columns as $c)
                         <th>{{ucfirst($c)}}</th>
                         @endforeach
@@ -83,6 +84,10 @@
                     <tr>
                         <!-- <td></td> -->
                         <td class="text-center">{{$key+1}}</td>
+                        <td class="text-center btn-group">
+                            <a href="" class="btn btn-primary"><i class="fa fa-file" aria-hidden="true"></i></a>
+                            <a href="" class="btn btn-warning"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                        </td>
                         @foreach($columns as $c)
                         <td>{{mb_strtoupper($l->$c)}}</td>
                         @endforeach

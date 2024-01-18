@@ -125,6 +125,11 @@ class EdcsImport implements WithMultipleSheets, SkipsUnknownSheets
     public function sheets(): array
     {
         return [
+            'DENGUE' => new DengueImport(),
+        ];
+
+        /*
+        return [
             'ABD' => new AbdImport(),
             //'AEFI' => new AfpImport(),
             //'AES' => new AfpImport(),
@@ -153,6 +158,7 @@ class EdcsImport implements WithMultipleSheets, SkipsUnknownSheets
             'ROTA' => new RotaImport(),
             'TYPHOID' => new TyphoidImport(),
         ];
+        */
     }
 
     public function onUnknownSheet($sheetName)
@@ -1674,6 +1680,9 @@ class TyphoidImport implements ToModel, WithHeadingRow
                         'edcs_ageGroup' => isset($row['age_group']) ? $row['age_group'] : NULL,
                         'from_edcs' => 1,
                         
+                        'edcs_userid' => $row['user_id'],
+                        'edcs_last_modifiedby' => $row['last_modified_by'],
+                        'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
                     ]);
                 }
             }
@@ -1687,7 +1696,9 @@ class DengueImport implements ToModel, WithHeadingRow
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
             //EdcsImport::tDate($row['date_of_birth'])
 
-            if(!(Dengue::where('EPIID', $row['epi_id'])->first())) {
+            $epiid_check = Dengue::where('EPIID', $row['epi_id'])->first();
+
+            if(!($epiid_check)) {
                 $birthdate = Carbon::parse(EdcsImport::tDate($row['date_of_birth']));
                 $currentDate = Carbon::parse(EdcsImport::tDate($row['timestamp']));
 
@@ -1808,6 +1819,9 @@ class DengueImport implements ToModel, WithHeadingRow
                         'from_edcs' => 1,
                     ]);
                 }
+            }
+            else {
+
             }
         }
     }
