@@ -432,20 +432,20 @@
     </div>
     <div class="form-check">
         <label class="form-check-label">
-          <input type="checkbox" class="form-check-input" name="checker1" id="checker1" value="checkedValue">
-          Signature 1
+          <input type="checkbox" class="form-check-input" name="checker1" id="checker1" value="checkedValue" checked>
+          Signature 1 (Prepared by)
         </label>
     </div>
     <div class="form-check">
         <label class="form-check-label">
-          <input type="checkbox" class="form-check-input" name="checker2" id="checker2" value="checkedValue">
-          Signature 2
+          <input type="checkbox" class="form-check-input" name="checker2" id="checker2" value="checkedValue" checked>
+          Signature 2 (Noted by)
         </label>
     </div>
     <div class="form-check">
         <label class="form-check-label">
-          <input type="checkbox" class="form-check-input" name="checker3" id="checker3" value="checkedValue">
-          Signature 3
+          <input type="checkbox" class="form-check-input" name="checker3" id="checker3" value="checkedValue" checked>
+          Signature 3 (Approved by)
         </label>
     </div>
 </div>

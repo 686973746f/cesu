@@ -4977,24 +4977,47 @@ class PIDSRController extends Controller
 
             if($sel_week == 1) {
                 $mWeekCalendarDate = Carbon::parse($sel_year.'-01-01');
+
+                $startDateBasedOnMw = $mWeekCalendarDate->format('M d, Y');
+
+                if($mWeekCalendarDate->dayOfWeek == Carbon::SATURDAY) {
+                    $endDateBasedOnMw = $mWeekCalendarDate->copy()->next(Carbon::SATURDAY)->format('M d, Y');
+                }
+                else {
+                    $endDateBasedOnMw = $mWeekCalendarDate->copy()->endOfWeek(Carbon::SATURDAY)->format('M d, Y');
+                }
             }
             else {
-                $getLastWeek = Carbon::parse($sel_year.'-01-01')->addDays(6 * ($sel_week - 1));
+                $mWeekCalendarDate = Carbon::parse($sel_year.'-01-01');
 
-                //$getLastWeek->copy()->startOfWeek(Carbon::SUNDAY)
-                //$getLastWeek->copy()->endOfWeek(Carbon::SATURDAY)
+                $startDateBasedOnMw = $mWeekCalendarDate->copy();
 
-                
-
-                $mWeekCalendarDate = Carbon::parse($sel_year.'-01-01')->addDays(6 * $sel_week);
-
-                /*
-                if($get) {
-
+                if($startDateBasedOnMw->dayOfWeek == Carbon::SATURDAY) {
+                    $sel_week_params = $sel_week+1;
+                }
+                else {
+                    $sel_week_params = $sel_week;
                 }
 
-                dd($mWeekCalendarDate->format('l'));
-                */
+                for($i=1;$i<$sel_week_params;$i++) {
+                    $startDateBasedOnMw = $startDateBasedOnMw->next(Carbon::SUNDAY);
+                }
+                $startDateBasedOnMw = $startDateBasedOnMw->copy()->format('M d, Y');
+
+                if($sel_week != 52) {
+                    $endDateBasedOnMw = Carbon::parse($startDateBasedOnMw)->endOfWeek(Carbon::SATURDAY)->format('M d, Y');
+                }
+                else {
+                    $endDateBasedOnMw = Carbon::parse($sel_year.'-12-31')->format('M d, Y');
+                }
+                
+                /*
+                $getLastWeek = Carbon::parse($sel_year.'-01-01')->addDays(6 * ($sel_week - 1));
+
+                $getLastWeekStart = $getLastWeek->copy()->startOfWeek(Carbon::SUNDAY);
+                $getLastWeekEnd = $getLastWeek->copy()->endOfWeek(Carbon::SATURDAY);
+
+                $mWeekCalendarDate = Carbon::parse($sel_year.'-01-01')->addDays(6 * $sel_week);
 
                 if($mWeekCalendarDate->dayOfWeek == Carbon::SATURDAY) {
                     $mWeekCalendarDate = $mWeekCalendarDate->addDay(1);
@@ -5002,11 +5025,16 @@ class PIDSRController extends Controller
                 else if($mWeekCalendarDate->dayOfWeek == Carbon::SUNDAY) {
                     $mWeekCalendarDate = $mWeekCalendarDate->addDay(1);
                 }
+                
+                if($getLastWeekStart->gte($mWeekCalendarDate) && $getLastWeekEnd->lte($mWeekCalendarDate)) {
+                    $mWeekCalendarDate = $mWeekCalendarDate->next(Carbon::MONDAY);
+                }
 
                 //dd($mWeekCalendarDate);
 
                 $startDateBasedOnMw = $mWeekCalendarDate->startOfWeek(Carbon::SUNDAY)->format('M d, Y');
                 $endDateBasedOnMw = $mWeekCalendarDate->startOfWeek(Carbon::SUNDAY)->addDays(6)->format('M d, Y');  
+                */
             }
             
 
