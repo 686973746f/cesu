@@ -127,12 +127,12 @@ class EdcsImport implements WithMultipleSheets, SkipsUnknownSheets
     {
         return [
             'ABD' => new AbdImport(),
-            //'AEFI' => new AfpImport(),
-            //'AES' => new AfpImport(),
+            //'AEFI' => new AfpImport(), => NOT ON EDCS ANYMORE
+            //'AES' => new AfpImport(), => NOW AMES
             'AFP' => new AfpImport(),
-            //'AHF' => new AfpImport(),
+            //'AHF' => new AfpImport(), => NOT ON EDCS ANYMORE
             'AMES' => new AmesImport(),
-            //'ANTHRAX' => new AfpImport(),
+            //'ANTHRAX' => new AfpImport(), => NOT ON EDCS ANYMORE
             'CHIKV' => new ChikvImport(),
             'CHOLERA' => new CholeraImport(),
             'DENGUE' => new DengueImport(),
@@ -143,13 +143,13 @@ class EdcsImport implements WithMultipleSheets, SkipsUnknownSheets
             'LEPTO' => new LeptoImport(),
             //'MALARIA' => new AfpImport(), => NOT ON EDCS ANYMORE
             'MEASLES' => new MeaslesImport(),
-            //'MENINGITIS' => new AfpImport(),
+            //'MENINGITIS' => new AfpImport(), => NOT ON EDCS ANYMORE
             'MENINGO' => new MeningoImport(),
             'NNT' => new NntImport(),
             'NT' => new NtImport(),
             'PERT' => new PertImport(),
             'PERTUSSIS' => new PertImport(), //MULTIPLE SHEET
-            //PSP
+            //PSP => NOT ON EDCS ANYMORE
             'RABIES' => new RabiesImport(),
             'ROTA' => new RotaImport(),
             'TYPHOID' => new TyphoidImport(),
