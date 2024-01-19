@@ -48,11 +48,11 @@ class VpdNotifier extends Command
     {
         /*
         AFP
-        MEASLES
         DIPH
-        PERT
-        NNT
+        MEASLES
         NT
+        NNT
+        PERT
         */
 
         $diph_array = [];

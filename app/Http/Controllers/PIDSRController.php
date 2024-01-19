@@ -105,6 +105,17 @@ UPDATE psp SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
 UPDATE rabies SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
 UPDATE rotavirus SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
 UPDATE typhoid SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
+
+DEBUGGER 1 DEBUG
+$ctxt = "SHOW COLUMNS FROM afp";
+$c = DB::select($ctxt);
+$columns = array_map(function ($column) {
+    return $column->Field;
+}, $c);
+
+foreach($columns as $c) {
+    echo "'$c' => \$row->".$c.',<br>';
+}
 */
 
 class PIDSRController extends Controller
@@ -1717,7 +1728,7 @@ class PIDSRController extends Controller
 
     public function importToFtp() {
         /*
-        DEBUGGER1
+        DEBUGGER 1
         $ctxt = "SHOW COLUMNS FROM afp";
         $c = DB::select($ctxt);
         $columns = array_map(function ($column) {

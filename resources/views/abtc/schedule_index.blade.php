@@ -90,13 +90,20 @@
         <div class="card-header">
             <div class="d-flex justify-content-between">
                 <div><b><span class="text-primary">Follow-up Patients</span> {{(request()->input('d')) ? date('m/d/Y (D)', strtotime(request()->input('d'))) : date('m/d/Y (D)', strtotime(date('Y-m-d')))}}</b></div>
-                <div>Completed: {{$completed_count}} | Pending: {{$ff->count()}}</div>
+                <div>
+                    <div>Completed: {{$completed_count}} | Pending: {{$ff->count()}}</div>
+                    <div>Pending D3 - <span id="putd3here"></span> | Pending D7 - <span id="putd7here"></span> </div>
+                </div>
             </div>
             <div class="text-right">
                 <a href="{{route('abtc_ffsms')}}?d={{$sdate}}">Create SMS Format to Pending List</a>
             </div>
         </div>
         <div class="card-body">
+            @php
+            $d3_total = 0;
+            $d7_total = 0;
+            @endphp
             <div class="table-responsive">
                 <table class="table table-bordered table-striped" id="fftable">
                     <thead class="thead-light text-center">
@@ -150,10 +157,21 @@
                             <td class="text-center">{{$n->getlatestday()}}</td>
                             <td class="text-center"><small>{{date('m/d/Y H:i:s', strtotime($n->created_at))}}</small></td>
                         </tr>
+                        @php
+                        if($n->getlatestday() == 'D3') {
+                            $d3_total++;   
+                        }
+                        else if($n->getlatestday() == 'D7') {
+                            $d7_total++;
+                        }
+                        @endphp
                         @endforeach
                     </tbody>
                 </table>
             </div>
+        </div>
+        <div class="card-footer d-none">
+            D3 - <span id="d3_text">{{$d3_total}}</span> | D7 - <span id="d7_text">{{$d7_total}}</span>
         </div>
     </div>
 </div>
@@ -185,6 +203,9 @@
 </form>
 
 <script>
+    $('#putd3here').text($('#d3_text').text());
+    $('#putd7here').text($('#d7_text').text());
+
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     });
