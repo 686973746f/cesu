@@ -265,7 +265,7 @@ class AbdImport implements ToModel, WithHeadingRow
             if($exist_check) {
                 $old_modified_date = $exist_check->edcs_last_modified_date;
                 $new_modified_date = EdcsImport::tDate($row['last_modified_date']);
-                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gt(Carbon::parse($old_modified_date))) {
+                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
                     $model = $exist_check->update($table_params);
                 }
 
@@ -479,7 +479,7 @@ class AfpImport implements ToModel, WithHeadingRow
             if($exist_check) {
                 $old_modified_date = $exist_check->edcs_last_modified_date;
                 $new_modified_date = EdcsImport::tDate($row['last_modified_date']);
-                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gt(Carbon::parse($old_modified_date))) {
+                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
                     $model = $exist_check->update($table_params);
                 }
 
@@ -691,7 +691,7 @@ class AmesImport implements ToModel, WithHeadingRow
             if($exist_check) {
                 $old_modified_date = $exist_check->edcs_last_modified_date;
                 $new_modified_date = EdcsImport::tDate($row['last_modified_date']);
-                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gt(Carbon::parse($old_modified_date))) {
+                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
                     $model = $exist_check->update($table_params);
                 }
 
@@ -800,7 +800,7 @@ class HepaImport implements ToModel, WithHeadingRow
             if($exist_check) {
                 $old_modified_date = $exist_check->edcs_last_modified_date;
                 $new_modified_date = EdcsImport::tDate($row['last_modified_date']);
-                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gt(Carbon::parse($old_modified_date))) {
+                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
                     $model = $exist_check->update($table_params);
                 }
 
@@ -993,7 +993,7 @@ class HfmdImport implements ToModel, WithHeadingRow
             if($exist_check) {
                 $old_modified_date = $exist_check->edcs_last_modified_date;
                 $new_modified_date = EdcsImport::tDate($row['last_modified_date']);
-                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gt(Carbon::parse($old_modified_date))) {
+                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
                     $model = $exist_check->update($table_params);
                 }
 
@@ -1102,7 +1102,7 @@ class LeptoImport implements ToModel, WithHeadingRow
             if($exist_check) {
                 $old_modified_date = $exist_check->edcs_last_modified_date;
                 $new_modified_date = EdcsImport::tDate($row['last_modified_date']);
-                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gt(Carbon::parse($old_modified_date))) {
+                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
                     $model = $exist_check->update($table_params);
                 }
 
@@ -1286,7 +1286,7 @@ class MeaslesImport implements ToModel, WithHeadingRow
             if($exist_check) {
                 $old_modified_date = $exist_check->edcs_last_modified_date;
                 $new_modified_date = EdcsImport::tDate($row['last_modified_date']);
-                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gt(Carbon::parse($old_modified_date))) {
+                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
                     $model = $exist_check->update($table_params);
                 }
 
@@ -1397,7 +1397,7 @@ class NntImport implements ToModel, WithHeadingRow
             if($exist_check) {
                 $old_modified_date = $exist_check->edcs_last_modified_date;
                 $new_modified_date = EdcsImport::tDate($row['last_modified_date']);
-                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gt(Carbon::parse($old_modified_date))) {
+                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
                     $model = $exist_check->update($table_params);
                 }
 
@@ -1525,7 +1525,7 @@ class RabiesImport implements ToModel, WithHeadingRow
             if($exist_check) {
                 $old_modified_date = $exist_check->edcs_last_modified_date;
                 $new_modified_date = EdcsImport::tDate($row['last_modified_date']);
-                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gt(Carbon::parse($old_modified_date))) {
+                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
                     $model = $exist_check->update($table_params);
                 }
 
@@ -1670,7 +1670,7 @@ class RotaImport implements ToModel, WithHeadingRow
             if($exist_check) {
                 $old_modified_date = $exist_check->edcs_last_modified_date;
                 $new_modified_date = EdcsImport::tDate($row['last_modified_date']);
-                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gt(Carbon::parse($old_modified_date))) {
+                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
                     $model = $exist_check->update($table_params);
                 }
 
@@ -1776,7 +1776,7 @@ class TyphoidImport implements ToModel, WithHeadingRow
             if($exist_check) {
                 $old_modified_date = $exist_check->edcs_last_modified_date;
                 $new_modified_date = EdcsImport::tDate($row['last_modified_date']);
-                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gt(Carbon::parse($old_modified_date))) {
+                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
                     $model = $exist_check->update($table_params);
                 }
 
@@ -1915,7 +1915,7 @@ class DengueImport implements ToModel, WithHeadingRow
             if($exist_check) {
                 $old_modified_date = $exist_check->edcs_last_modified_date;
                 $new_modified_date = EdcsImport::tDate($row['last_modified_date']);
-                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gt(Carbon::parse($old_modified_date))) {
+                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
                     $model = $exist_check->update($table_params);
                 }
 
@@ -2023,7 +2023,7 @@ class DiphImport implements ToModel, WithHeadingRow {
             if($exist_check) {
                 $old_modified_date = $exist_check->edcs_last_modified_date;
                 $new_modified_date = EdcsImport::tDate($row['last_modified_date']);
-                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gt(Carbon::parse($old_modified_date))) {
+                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
                     $model = $exist_check->update($table_params);
                 }
 
@@ -2172,7 +2172,7 @@ class ChikvImport implements ToModel, WithHeadingRow {
             if($exist_check) {
                 $old_modified_date = $exist_check->edcs_last_modified_date;
                 $new_modified_date = EdcsImport::tDate($row['last_modified_date']);
-                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gt(Carbon::parse($old_modified_date))) {
+                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
                     $model = $exist_check->update($table_params);
                 }
 
@@ -2342,7 +2342,7 @@ class MeningoImport implements ToModel, WithHeadingRow {
             if($exist_check) {
                 $old_modified_date = $exist_check->edcs_last_modified_date;
                 $new_modified_date = Meningo::tDate($row['last_modified_date']);
-                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gt(Carbon::parse($old_modified_date))) {
+                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
                     $model = $exist_check->update($table_params);
                 }
 
@@ -2485,7 +2485,7 @@ class NtImport implements ToModel, WithHeadingRow {
             if($exist_check) {
                 $old_modified_date = $exist_check->edcs_last_modified_date;
                 $new_modified_date = EdcsImport::tDate($row['last_modified_date']);
-                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gt(Carbon::parse($old_modified_date))) {
+                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
                     $model = $exist_check->update($table_params);
                 }
 
@@ -2593,7 +2593,7 @@ class PertImport implements ToModel, WithHeadingRow {
             if($exist_check) {
                 $old_modified_date = $exist_check->edcs_last_modified_date;
                 $new_modified_date = EdcsImport::tDate($row['last_modified_date']);
-                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gt(Carbon::parse($old_modified_date))) {
+                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
                     $model = $exist_check->update($table_params);
                 }
 
@@ -2701,7 +2701,7 @@ class CholeraImport implements ToModel, WithHeadingRow {
             if($exist_check) {
                 $old_modified_date = $exist_check->edcs_last_modified_date;
                 $new_modified_date = EdcsImport::tDate($row['last_modified_date']);
-                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gt(Carbon::parse($old_modified_date))) {
+                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
                     $model = $exist_check->update($table_params);
                 }
 
@@ -2810,7 +2810,7 @@ class InfluenzaImport implements ToModel, WithHeadingRow {
             if($exist_check) {
                 $old_modified_date = $exist_check->edcs_last_modified_date;
                 $new_modified_date = EdcsImport::tDate($row['last_modified_date']);
-                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gt(Carbon::parse($old_modified_date))) {
+                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
                     $model = $exist_check->update($table_params);
                 }
 
