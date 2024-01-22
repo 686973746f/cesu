@@ -33,8 +33,10 @@
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#report">Report</button>
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#snax">sNaX v2</button>
                     <hr>
-                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#export">EDCS-IS Daily Import</button>
+                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#dailyexport">EDCS-IS Daily Import</button>
+                    @if($unlockweeklyreport)
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#export">EDCS-IS Weekly Import Task (every Tuesday)</button>
+                    @endif
                     @if(in_array('GLOBAL_ADMIN', auth()->user()->getPermissions()))
                     <button type="button" class="btn btn-secondary btn-block" data-toggle="modal" data-target="#settings">Settings</button>
                     @endif
@@ -249,6 +251,29 @@
     </div>
 </form>
 
+<form action="" method="POST" enctype="multipart/form-data">
+    @csrf
+    <div class="modal fade" id="dailyexport" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+    
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@if($unlockweeklyreport)
 <div class="modal fade" id="export" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -259,7 +284,7 @@
                     </button>
             </div>
             <div class="modal-body text-center">
-                <p>Steps are recommended to process every Tuesday, before 11AM.</p>
+                <p><b class="text-primary">Note:</b> Steps are recommended to process every Tuesday, before 11AM.</p>
             </div>
             <!--
                 <div class="modal-footer">
@@ -275,18 +300,33 @@
                 </div>
             -->
             <div class="modal-footer">
-                <p class="text-center"><b>Step 1</b> - Sa EDCS-IS Website, pumunta sa <img src="{{asset('assets/images/epidemic_prone.jpg')}}" alt=""> at I-filter ang Result sa "Current Address". Piliin ang mga kasong may bilang na lalabas.</p>
-                <p class="text-center"><b>Step 2</b> - Pindutin ang Export icon <img src="{{asset('assets/images/export.png')}}" style="width: 30px;"> at i-save bilang CSV. Ulitin ito sa iba pang mga kaso.</p>
-                <p class="text-center"><b>Step 3</b> - Pumunta sa <img src="{{asset('assets/images/lab_data.jpg')}}" alt=""> at gamitin din ang Export icon <img src="{{asset('assets/images/export.png')}}" style="width: 30px;">, i-save din ito bilang CSV.</p>
-                <p class="text-center"><b>Step 4</b> - Gumawa ng bagong Excel file (.XLSX) at ilagay ang sheet ng mga na-download na CSV na naaayon sa kanilang sheet names.</p>
-                <form action="">
-                    <p class="text-center"><b>Step 5</b> - Select the consolidated Excel file and start the Merging Process.</p>
+                <p><b>Step 1</b> - Sa EDCS-IS Website, pumunta sa <img src="{{asset('assets/images/epidemic_prone.jpg')}}" style="width: 150px;"> at I-filter ang Result sa "Current Address". Piliin ang mga kasong may bilang na lalabas.</p>
+                <p><b>Step 2</b> - Pindutin ang Export icon <img src="{{asset('assets/images/export.png')}}" style="width: 30px;"> at i-save bilang CSV. Ulitin ito sa iba pang mga kaso.</p>
+                <p><b>Step 3</b> - Pumunta sa <img src="{{asset('assets/images/lab_data.jpg')}}" style="width: 150px;"> at gamitin din ang Export icon <img src="{{asset('assets/images/export.png')}}" style="width: 30px;">, i-save din ito bilang CSV.</p>
+                <p><b>Step 4</b> - Gumawa ng bagong Excel file (.XLSX) at ilagay ang sheet ng mga na-download na CSV na naaayon sa kanilang sheet names.</p>
+                <form action="" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <p><b>Step 5</b> - Select the consolidated Excel file and start the Merging Process.</p>
+                    <div class="form-group">
+                      <input type="file" class="form-control-file" name="" id="" placeholder="" aria-describedby="fileHelpId">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onclick="return confirm('Please double check if you selected the correct file. After processing, automated email will be sent at cesu.gentrias@gmail.com. Click OK to Confirm.')">Upload and Start the Merge</button>
+                    <small>Antayin dumating ang Automated Email bago mag-proceed sa next step.</small>
+                    <hr>
                 </form>
-                <a href="{{route('pidsr_import_edcs')}}" class="btn btn-primary btn-block"><b>Step 6</b> - Start the Merging Process</a>
+                <div>
+                    <p><b>Step 6</b> - i-submit ang Report gamit ang Email</p>
+                    <ul>
+                        <li>Subject: CESU General Trias - MW({{date('W', strtotime('-1 Week'))}}) - Year {{date('Y', strtotime('-1 Week'))}}</li>
+                        <li>To: pesucavite@gmail.com; resu4a.edcs@gmail.com</li>
+                        <li>Attach: EDCS Summary Report .XLSX <i>(galing sa Automated Mail)</i>, sNaX Dengue PDF</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
 </div>
+@endif
 
 <form action="{{route('pidsr.report')}}" method="GET">
     <div class="modal fade" id="report" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">

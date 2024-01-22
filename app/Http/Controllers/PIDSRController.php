@@ -125,8 +125,23 @@ class PIDSRController extends Controller
 
         $notif_count = PidsrNotifications::whereRaw("FIND_IN_SET($id, viewedby_id) = 0")->count();
 
+        $now = Carbon::now();
+
+        if($now->dayOfWeek == Carbon::TUESDAY) {
+            $unlockweeklyreport = true;
+        }
+        else {
+            if(auth()->user()->isGlobalAdmin()) {
+                $unlockweeklyreport = true;
+            }
+            else {
+                $unlockweeklyreport = false;
+            }
+        }
+
         return view('pidsr.home', [
             'notif_count' => $notif_count,
+            'unlockweeklyreport' => $unlockweeklyreport,
         ]);
     }
 
