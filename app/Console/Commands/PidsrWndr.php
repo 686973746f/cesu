@@ -143,6 +143,7 @@ class PidsrWndr extends Command
 
             $afp_update = $afp->update([
                 'systemsent' => 1,
+                'notify_email_sent' => 1,
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -189,6 +190,7 @@ class PidsrWndr extends Command
 
             $aefi_update = $aefi->update([
                 'systemsent' => 1,
+                'notify_email_sent' => 1,
                 'encoded_mw' => (date('W') - 1),
             ]);
             
@@ -233,6 +235,7 @@ class PidsrWndr extends Command
 
             $ant_update = $ant->update([
                 'systemsent' => 1,
+                'notify_email_sent' => 1,
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -278,6 +281,7 @@ class PidsrWndr extends Command
 
             $mea_update = $mea->update([
                 'systemsent' => 1,
+                'notify_email_sent' => 1,
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -321,6 +325,7 @@ class PidsrWndr extends Command
 
             $mgc_update = $mgc->update([
                 'systemsent' => 1,
+                'notify_email_sent' => 1,
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -364,6 +369,7 @@ class PidsrWndr extends Command
 
             $nt_update = $nt->update([
                 'systemsent' => 1,
+                'notify_email_sent' => 1,
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -407,6 +413,7 @@ class PidsrWndr extends Command
 
             $psp_update = $psp->update([
                 'systemsent' => 1,
+                'notify_email_sent' => 1,
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -450,6 +457,7 @@ class PidsrWndr extends Command
             
             $rab_update = $rab->update([
                 'systemsent' => 1,
+                'notify_email_sent' => 1,
                 'encoded_mw' => (date('W') - 1),
             ]);
             
@@ -495,6 +503,7 @@ class PidsrWndr extends Command
 
             $abd_update = $abd->update([
                 'systemsent' => 1,
+                'notify_email_sent' => 1,
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -538,6 +547,7 @@ class PidsrWndr extends Command
 
             $aes_update = $aes->update([
                 'systemsent' => 1,
+                'notify_email_sent' => 1,
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -581,6 +591,7 @@ class PidsrWndr extends Command
 
             $ahf_update = $ahf->update([
                 'systemsent' => 1,
+                'notify_email_sent' => 1,
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -624,6 +635,7 @@ class PidsrWndr extends Command
 
             $hep_update = $hep->update([
                 'systemsent' => 1,
+                'notify_email_sent' => 1,
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -667,6 +679,7 @@ class PidsrWndr extends Command
 
             $ame_update = $ame->update([
                 'systemsent' => 1,
+                'notify_email_sent' => 1,
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -710,6 +723,7 @@ class PidsrWndr extends Command
 
             $mgt_update = $mgt->update([
                 'systemsent' => 1,
+                'notify_email_sent' => 1,
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -753,6 +767,7 @@ class PidsrWndr extends Command
 
             $chi_update = $chi->update([
                 'systemsent' => 1,
+                'notify_email_sent' => 1,
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -796,6 +811,7 @@ class PidsrWndr extends Command
 
             $cho_update = $cho->update([
                 'systemsent' => 1,
+                'notify_email_sent' => 1,
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -839,6 +855,7 @@ class PidsrWndr extends Command
 
             $den_update = $den->update([
                 'systemsent' => 1,
+                'notify_email_sent' => 1,
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -882,6 +899,7 @@ class PidsrWndr extends Command
 
             $dip_update = $dip->update([
                 'systemsent' => 1,
+                'notify_email_sent' => 1,
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -925,6 +943,7 @@ class PidsrWndr extends Command
 
             $ili_update = $ili->update([
                 'systemsent' => 1,
+                'notify_email_sent' => 1,
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -968,6 +987,7 @@ class PidsrWndr extends Command
 
             $lep_update = $lep->update([
                 'systemsent' => 1,
+                'notify_email_sent' => 1,
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -1011,6 +1031,7 @@ class PidsrWndr extends Command
 
             $mal_update = $mal->update([
                 'systemsent' => 1,
+                'notify_email_sent' => 1,
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -1054,6 +1075,7 @@ class PidsrWndr extends Command
 
             $nnt_update = $nnt->update([
                 'systemsent' => 1,
+                'notify_email_sent' => 1,
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -1097,6 +1119,7 @@ class PidsrWndr extends Command
 
             $per_update = $per->update([
                 'systemsent' => 1,
+                'notify_email_sent' => 1,
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -1140,6 +1163,7 @@ class PidsrWndr extends Command
 
             $rtv_update = $rtv->update([
                 'systemsent' => 1,
+                'notify_email_sent' => 1,
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -1183,6 +1207,7 @@ class PidsrWndr extends Command
 
             $typ_update = $typ->update([
                 'systemsent' => 1,
+                'notify_email_sent' => 1,
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -1226,6 +1251,7 @@ class PidsrWndr extends Command
 
             $hfm_update = $hfm->update([
                 'systemsent' => 1,
+                'notify_email_sent' => 1,
                 'encoded_mw' => (date('W') - 1),
             ]);
 

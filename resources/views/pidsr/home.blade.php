@@ -28,12 +28,13 @@
                     </div>
                     @endif
                     <a href="{{route('pidsr.casechecker')}}" class="btn btn-primary btn-block">Case Viewer/Checker</a>
-                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#thresh">Threshold Count</button>
+                    <!--<button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#thresh">Threshold Count</button>-->
                     <hr>
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#report">Report</button>
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#snax">sNaX v2</button>
                     <hr>
-                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#export">Import Excel to Database</button>
+                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#export">EDCS-IS Daily Import</button>
+                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#export">EDCS-IS Weekly Import Task (every Tuesday)</button>
                     @if(in_array('GLOBAL_ADMIN', auth()->user()->getPermissions()))
                     <button type="button" class="btn btn-secondary btn-block" data-toggle="modal" data-target="#settings">Settings</button>
                     @endif
@@ -252,7 +253,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Import</h5>
+                <h5 class="modal-title">EDCS-IS Weekly Import Task</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -260,16 +261,28 @@
             <div class="modal-body text-center">
                 <p>Steps are recommended to process every Tuesday, before 11AM.</p>
             </div>
+            <!--
+                <div class="modal-footer">
+                    <p class="text-center"><b>Step 1</b> - i-Merge ang mga MDB Feedbacks galing sa RESU/PESU + Hospitals gamit ng OLD PIDSR Program.</p>
+                    <p class="text-center"><b>Step 2</b> - gamitin ang MDB Importer tool na nasa [C:\cesu_tools\MDBToExcelv2] na Folder. Pindutin ang [Startv2.bat] at antayin matapos ang process.</p>
+                    <a href="{{route('pidsr.import')}}?m=1" class="btn btn-primary btn-block"><b>Step 3</b> - Simulan ang pag-import ng Current MDB papunta sa System</a>
+                    <p class="text-center"><b>Step 4</b> - gamitin ang EDCS Excel Importer tool na nasa [C:\cesu_tools\EDCS_IMPORTER] at piliin ang Excel File (XLSX) file na galing sa RESU/PESU.</p>
+                    <a href="{{route('pidsr_import_edcs')}}" class="btn btn-primary btn-block"><b>Step 5</b> - Simulan ang pag-import ng EDCS Feedbacks papunta sa System</a>
+                    <a href="{{route('pidsr_import_ftp')}}" class="btn btn-primary btn-block"><b>Step 6</b> - i-Export ang mga Kaso papunta sa FTP Server</a>
+                    <p class="text-center"><b>Step 7</b> - gamitin ang PIDSR & EDCS Submitter Tool na nasa [C:\cesu_tools\EDCS_SUBMITTER], pindutin ang Start.ps1 at antayin matapos ang Powershell process.</p>
+                    <a href="{{route('pidsr.sendmail')}}" class="btn btn-primary btn-block"><b>Step 8</b> - i-send ang Email Report</a>
+                    <p class="text-center"><b>Step 9</b> - Submit MW({{date('W', strtotime('-1 Week'))}}) Report, make email message to PESU and RESU Email and attach <b>1.</b> PIDSR weekly Report PDF, <b>2.</b> ZIP File from the Submitter Tool, <b>3.</b> SnaX PDF</p>
+                </div>
+            -->
             <div class="modal-footer">
-                <p class="text-center"><b>Step 1</b> - i-Merge ang mga MDB Feedbacks galing sa RESU/PESU + Hospitals gamit ng OLD PIDSR Program.</p>
-                <p class="text-center"><b>Step 2</b> - gamitin ang MDB Importer tool na nasa [C:\cesu_tools\MDBToExcelv2] na Folder. Pindutin ang [Startv2.bat] at antayin matapos ang process.</p>
-                <a href="{{route('pidsr.import')}}?m=1" class="btn btn-primary btn-block"><b>Step 3</b> - Simulan ang pag-import ng Current MDB papunta sa System</a>
-                <p class="text-center"><b>Step 4</b> - gamitin ang EDCS Excel Importer tool na nasa [C:\cesu_tools\EDCS_IMPORTER] at piliin ang Excel File (XLSX) file na galing sa RESU/PESU.</p>
-                <a href="{{route('pidsr_import_edcs')}}" class="btn btn-primary btn-block"><b>Step 5</b> - Simulan ang pag-import ng EDCS Feedbacks papunta sa System</a>
-                <a href="{{route('pidsr_import_ftp')}}" class="btn btn-primary btn-block"><b>Step 6</b> - i-Export ang mga Kaso papunta sa FTP Server</a>
-                <p class="text-center"><b>Step 7</b> - gamitin ang PIDSR & EDCS Submitter Tool na nasa [C:\cesu_tools\EDCS_SUBMITTER], pindutin ang Start.ps1 at antayin matapos ang Powershell process.</p>
-                <a href="{{route('pidsr.sendmail')}}" class="btn btn-primary btn-block"><b>Step 8</b> - i-send ang Email Report</a>
-                <p class="text-center"><b>Step 9</b> - Submit MW({{date('W', strtotime('-1 Week'))}}) Report, make email message to PESU and RESU Email and attach <b>1.</b> PIDSR weekly Report PDF, <b>2.</b> ZIP File from the Submitter Tool, <b>3.</b> SnaX PDF</p>
+                <p class="text-center"><b>Step 1</b> - Sa EDCS-IS Website, pumunta sa <img src="{{asset('assets/images/epidemic_prone.jpg')}}" alt=""> at I-filter ang Result sa "Current Address". Piliin ang mga kasong may bilang na lalabas.</p>
+                <p class="text-center"><b>Step 2</b> - Pindutin ang Export icon <img src="{{asset('assets/images/export.png')}}" style="width: 30px;"> at i-save bilang CSV. Ulitin ito sa iba pang mga kaso.</p>
+                <p class="text-center"><b>Step 3</b> - Pumunta sa <img src="{{asset('assets/images/lab_data.jpg')}}" alt=""> at gamitin din ang Export icon <img src="{{asset('assets/images/export.png')}}" style="width: 30px;">, i-save din ito bilang CSV.</p>
+                <p class="text-center"><b>Step 4</b> - Gumawa ng bagong Excel file (.XLSX) at ilagay ang sheet ng mga na-download na CSV na naaayon sa kanilang sheet names.</p>
+                <form action="">
+                    <p class="text-center"><b>Step 5</b> - Select the consolidated Excel file and start the Merging Process.</p>
+                </form>
+                <a href="{{route('pidsr_import_edcs')}}" class="btn btn-primary btn-block"><b>Step 6</b> - Start the Merging Process</a>
             </div>
         </div>
     </div>

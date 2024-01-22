@@ -21,6 +21,7 @@ use App\Models\Typhoid;
 use App\Models\Hepatitis;
 use App\Models\Rotavirus;
 use App\Models\DohFacility;
+use App\Models\EdcsLaboratoryData;
 use App\Models\Influenza;
 use Illuminate\Support\Str;
 use App\Models\Leptospirosis;
@@ -153,6 +154,9 @@ class EdcsImport implements WithMultipleSheets, SkipsUnknownSheets
             'RABIES' => new RabiesImport(),
             'ROTA' => new RotaImport(),
             'TYPHOID' => new TyphoidImport(),
+
+            'LABORATORY' => new LaboratoryImport(),
+            'LAB' => new LaboratoryImport(),
         ];
     }
 
@@ -2818,6 +2822,50 @@ class InfluenzaImport implements ToModel, WithHeadingRow {
             }
             else {
                 $model = Influenza::create($table_params);
+            }
+
+            return $model;
+        }
+    }
+}
+
+class LaboratoryImport implements ToModel, WithHeadingRow {
+    public function model(array $row) {
+        if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
+            $table_params = [
+                'lab_id' => $row['id'],
+                'epi_id' => $row['epi_id'],
+                'sent_to_ritm' => $row['specimen_sent_to_ritmsnl'],
+                'specimen_collected_date' => EdcsImport::tDate($row['date_specimen_collected']),
+                'specimen_type' => $row['specimen_type'],
+                'date_sent' => EdcsImport::tDate($row['date_sent']),
+                'date_received' => EdcsImport::tDate($row['date_received']),
+                'result' => $row['laboratory_result'],
+                'test_type' => $row['type_of_test_conducted'],
+                'interpretation' => $row['interpretation'],
+                'user_id' => $row['user_id'],
+                'timestamp' => EdcsImport::tDate($row['timestamp']),
+                'last_modified_by' => $row['last_modified_by'],
+                'last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
+                'user_regcode' => $row['user_regcode'],
+                'user_provcode' => $row['user_provcode'],
+                'user_citycode' => $row['user_citycode'],
+                'hfhudcode' => $row['hfhudcode'],
+            ];
+
+            $exist_check = EdcsLaboratoryData::where('lab_id', $row['id'])->first();
+            
+            if($exist_check) {
+                $old_modified_date = $exist_check->last_modified_date;
+                $new_modified_date = EdcsImport::tDate($row['last_modified_date']);
+                if(is_null($exist_check->last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
+                    $model = $exist_check->update($table_params);
+                }
+
+                $model = $exist_check;
+            }
+            else {
+                $model = EdcsLaboratoryData::create($table_params);
             }
 
             return $model;
