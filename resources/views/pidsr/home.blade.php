@@ -251,7 +251,7 @@
     </div>
 </form>
 
-<form action="" method="POST" enctype="multipart/form-data">
+<form action="{{route('pidsr_dailymerge_start')}}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="modal fade" id="dailyexport" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -263,10 +263,13 @@
                         </button>
                 </div>
                 <div class="modal-body">
-    
+                    <div class="form-group">
+                      <label for=""></label>
+                      <input type="file" class="form-control-file" name="" id="" placeholder="" aria-describedby="fileHelpId">
+                    </div>
                 </div>
                 <div class="modal-footer">
-
+                    <button type="submit" class="btn btn-primary btn-block">Start Merging</button>
                 </div>
             </div>
         </div>
@@ -304,7 +307,7 @@
                 <p><b>Step 2</b> - Pindutin ang Export icon <img src="{{asset('assets/images/export.png')}}" style="width: 30px;"> at i-save bilang CSV. Ulitin ito sa iba pang mga kaso.</p>
                 <p><b>Step 3</b> - Pumunta sa <img src="{{asset('assets/images/lab_data.jpg')}}" style="width: 150px;"> at gamitin din ang Export icon <img src="{{asset('assets/images/export.png')}}" style="width: 30px;">, i-save din ito bilang CSV.</p>
                 <p><b>Step 4</b> - Gumawa ng bagong Excel file (.XLSX) at ilagay ang sheet ng mga na-download na CSV na naaayon sa kanilang sheet names.</p>
-                <form action="" method="POST" enctype="multipart/form-data">
+                <form action="{{route('pidsr_mergev2_start')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <p><b>Step 5</b> - Select the consolidated Excel file and start the Merging Process.</p>
                     <div class="form-group">

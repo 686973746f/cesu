@@ -309,6 +309,8 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
     Route::get('/pidsr', [PIDSRController::class, 'home'])->name('pidsr.home');
     Route::get('/pidsr/threshold', [PIDSRController::class, 'threshold_index'])->name('pidsr.threshold');
     Route::get('/pidsr/import', [PIDSRController::class, 'import_start'])->name('pidsr.import');
+    Route::post('/pidsr/daily_merge', [PIDSRController::class, 'dailyMergeProcess'])->name('pidsr_dailymerge_start');
+    Route::post('/pidsr/mergev2_start', [PIDSRController::class, 'weeklyMergeProcess'])->name('pidsr_mergev2_start');
     Route::get('/pidsr/import_edcs', [PIDSRController::class, 'edcsImportExcelProcess'])->name('pidsr_import_edcs');
     Route::get('/pidsr/import_ftp', [PIDSRController::class, 'importToFtp'])->name('pidsr_import_ftp');
 

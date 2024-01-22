@@ -5147,4 +5147,15 @@ class PIDSRController extends Controller
             return 'DARKRED.png';
         }
     }
+
+    public function dailyMergeProcess(Request $r) {
+        
+    }
+
+    public function weeklyMergeProcess(Request $r) {
+        //Call EdcsImport
+        Excel::import(new EdcsImport(), $excel_file);
+        
+        //Send Automated Email
+    }
 }
