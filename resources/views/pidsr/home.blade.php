@@ -257,15 +257,15 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Modal title</h5>
+                    <h5 class="modal-title">EDCS-IS Daily Import of Cases</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                      <label for=""></label>
-                      <input type="file" class="form-control-file" name="" id="" placeholder="" aria-describedby="fileHelpId">
+                      <label for="excel_file"><b class="text-danger">Select Excel File (.XLSX)</b></label>
+                      <input type="file" class="form-control-file" name="excel_file" id="excel_file" required>
                     </div>
                 </div>
                 <div class="modal-footer">
