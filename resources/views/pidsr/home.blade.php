@@ -79,7 +79,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="disease">Select Disease</label>
+                        <label for="disease"><b class="text-danger">*</b>Select Disease</label>
                         <select class="form-control" name="disease" id="disease" required>
                             <optgroup label="Category 1 (Immediately Notifiable)">
                                 <option value="Afp">Acute Flaccid Paralysis (AFP)</option>
@@ -101,7 +101,7 @@
                                 <option value="Meningitis">Bacterial Meningitis</option>
                                 <option value="Chikv">Chikungunya</option>
                                 <option value="Cholera">Cholera</option>
-                                <option value="Dengue">Dengue</option>
+                                <option value="Dengue" selected>Dengue</option>
                                 <option value="Diph">Diptheria</option>
                                 <option value="Influenza">Influenza-like Illness</option>
                                 <option value="Leptospirosis">Leptospirosis</option>
@@ -115,7 +115,7 @@
                     </div>
                     <div class="form-group">
                         <label for="year"><b class="text-danger">*</b>Select Year</label>
-                        <select class="form-control" name="year" id="year" required>
+                        <select class="form-control" name="year" id="snax_year" required>
                             @foreach(range(date('Y'), 2018) as $y)
                             <option value="{{$y}}">{{$y}}</option>
                             @endforeach
@@ -123,7 +123,7 @@
                     </div>
                     <div class="form-group">
                         <label for="mweek"><b class="text-danger">*</b>Morbidity Week</label>
-                        <input type="text" class="form-control" name="mweek" id="mweek" value="{{date('W')-1}}" min="1" max="53" required>
+                        <input type="number" class="form-control" name="mweek" id="snax_mweek" value="{{date('W')-1}}" min="1" max="53" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -265,11 +265,11 @@
                 <div class="modal-body">
                     <div class="form-group">
                       <label for="excel_file"><b class="text-danger">Select Excel File (.XLSX)</b></label>
-                      <input type="file" class="form-control-file" name="excel_file" id="excel_file" required>
+                      <input type="file" class="form-control-file" name="excel_file" id="excel_file" accept=".xlsx" required>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary btn-block">Start Merging</button>
+                    <button type="submit" class="btn btn-success btn-block">Start Merging</button>
                 </div>
             </div>
         </div>
@@ -313,7 +313,7 @@
                     <div class="form-group">
                       <input type="file" class="form-control-file" name="" id="" placeholder="" aria-describedby="fileHelpId">
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onclick="return confirm('Please double check if you selected the correct file. After processing, automated email will be sent at cesu.gentrias@gmail.com. Click OK to Confirm.')">Upload and Start the Merge</button>
+                    <button type="submit" class="btn btn-primary btn-block" accept=".xlsx" onclick="return confirm('Please double check if you selected the correct file. After processing, automated email will be sent at cesu.gentrias@gmail.com. Click OK to Confirm.')">Upload and Start the Merge</button>
                     <small>Antayin dumating ang Automated Email bago mag-proceed sa next step.</small>
                     <hr>
                 </form>
@@ -438,6 +438,16 @@
             $('#quarter').prop('required', false);
             $('#month').prop('required', false);
             $('#week').prop('required', true);
+        }
+    }).trigger('change');
+
+    $('#snax_year').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == {{date("Y")}}) {
+            $('#snax_mweek').attr('max', {{(int)date('W', strtotime('-1 Week'))}});
+        }
+        else {
+            $('#snax_mweek').attr('max', 52);
         }
     }).trigger('change');
 </script>
