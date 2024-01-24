@@ -56,7 +56,93 @@ class EdcsHourlyCaseEmailer extends Command
         }
         
         if($proceed) {
+            $list = [];
 
+            /*
+            IMMEDIATE NOTIFIABLE:
+            AFP
+            MEASLES
+            MENINGO
+            NEONATAL TETANUS
+            RABIES
+            HFMD
+
+            ABD
+            AMES
+            HEPATITIS
+            CHIKV
+            CHOLERA
+            DENGUE
+            DIPHTHERIA
+            ILI
+            LEPTOSPIROSIS
+            NNT
+            PERTUSSIS
+            ROTAVIRUS
+            TYPHOID
+            */
+
+            $diseases = [
+                'Afp',
+                'Measles',
+                'Meningo',
+                'Nt',
+                'Rabies',
+                'Hfmd',
+            ];
+
+            foreach($diseases as $d) {
+                $modelClass = "App\\Models\\$d";
+
+                $fetch_case = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('notify_email_sent', 0);
+
+                if($fetch_case->count() != 0) {
+                    $l = $fetch_case->get();
+
+                    if($d == 'Afp') {
+                        $get_type = 'Acute Flaccid Paralysis';
+                    }
+                    else if($d == 'Measles') {
+                        $get_type = 'Measles';
+                    }
+                    else if($d == 'Meningo') {
+                        $get_type = 'Meningococcal Disease';
+                    }
+                    else if($d == 'Nt') {
+                        $get_type = 'Neonatal Tetanus';
+                    }
+                    else if($d == 'Rabies') {
+                        $get_type = 'Rabies';
+                    }
+                    else if($d == 'Hfmd') {
+                        $get_type = 'HFMD';
+                    }
+                    else {
+                        $get_type = $d;
+                    }
+
+                    foreach($l as $i) {
+                        array_push($list, [
+                            'type' => $get_type,
+                            'name' => $i->FullName,
+                            'age' => $i->AgeYears,
+                            'sex' => $i->Sex,
+                            'brgy' => $i->Barangay,
+                            'address' => $i->Streetpurok,
+                            'doe' => $i->DateOfEntry,
+                            'dru' => $i->NameOfDru,
+                        ]);
+                    }
+
+                    $update = $fetch_case->update([
+                        'notify_email_sent' => 1,
+                    ]);
+                }
+            }
+
+            
         }
     }
 }

@@ -2836,6 +2836,7 @@ class LaboratoryImport implements ToModel, WithHeadingRow {
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
             $table_params = [
                 'lab_id' => $row['id'],
+                'case_id' => $row['case_id'],
                 'epi_id' => $row['epi_id'],
                 'sent_to_ritm' => $row['specimen_sent_to_ritmsnl'],
                 'specimen_collected_date' => EdcsImport::tDate($row['date_specimen_collected']),

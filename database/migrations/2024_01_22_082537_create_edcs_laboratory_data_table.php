@@ -16,6 +16,7 @@ class CreateEdcsLaboratoryDataTable extends Migration
         Schema::create('edcs_laboratory_data', function (Blueprint $table) {
             $table->id();
             $table->string('lab_id');
+            $table->string('case_id');
             $table->string('epi_id');
             $table->string('sent_to_ritm', 5);
             
@@ -35,7 +36,7 @@ class CreateEdcsLaboratoryDataTable extends Migration
             $table->text('user_regcode');
             $table->text('user_provcode');
             $table->text('user_citycode');
-            $table->text('hfhudcode');
+            $table->text('hfhudcode')->nullable();
             $table->timestamps();
         });
     }

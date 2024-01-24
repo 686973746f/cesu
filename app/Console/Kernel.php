@@ -69,7 +69,13 @@ class Kernel extends ConsoleKernel
         $schedule->command('resetcustomholiday:yearly')->yearly()->when(function () {
             return now()->format('m-d') === '01-01'; // Run on January 1st
         });
-        
+
+        $schedule->command('pidsrgeneratethreshold:yearly')->yearly()->when(function () {
+            return now()->format('m-d') === '01-01'; // Run on January 1st
+        });
+
+        //$schedule->command('edcscaseemailer:hourly')->everyFiveMinutes();
+
         //$schedule->command('queue:work')->everyMinute()->withoutOverlapping();
         
         //$schedule->command('autoemailcompositemeasure:on15and30')->monthlyOn(15, '16:05');

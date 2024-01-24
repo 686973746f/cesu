@@ -94,6 +94,7 @@ class PidsrWndr extends Command
             Settings::setPdfRendererName('MPDF');
             Settings::setPdfRendererPath(base_path() . '/vendor/mpdf/mpdf');
             
+            /*
             $templateProcessor  = new TemplateProcessor(storage_path('WNDR.docx'));
             
             $templateProcessor->setValue('mweek', date('W', strtotime('-1 Week')));
@@ -102,6 +103,7 @@ class PidsrWndr extends Command
             $templateProcessor->setValue('pdate', date('m/d/Y'));
             $templateProcessor->setValue('adate', date('m/d/Y'));
             $templateProcessor->setValue('sdate', date('m/d/Y'));
+            */
 
             $list = [];
 
@@ -1258,6 +1260,7 @@ class PidsrWndr extends Command
             ]);
 
             //Category 1
+            /*
             $templateProcessor->setValue('afp', $afp_count);
             $templateProcessor->setValue('aef', $aefi_count);
             $templateProcessor->setValue('ant', $ant_count);
@@ -1269,8 +1272,10 @@ class PidsrWndr extends Command
             $templateProcessor->setValue('rab', $rab_count);
             $templateProcessor->setValue('sar', 0); //0
             $templateProcessor->setValue('hfm', $hfm_count);
+            */
 
             //Category 2
+            /*
             $templateProcessor->setValue('abd', $abd_count);
             $templateProcessor->setValue('aes', $aes_count);
             $templateProcessor->setValue('ahf', $ahf_count);
@@ -1294,6 +1299,7 @@ class PidsrWndr extends Command
             $phpWord = WordFactory::load(public_path('PIDSR_GenTrias_MW'.date('W', strtotime('-1 Week')).'.docx'));
             $xmlWriter = WordFactory::createWriter($phpWord, 'PDF');
             $xmlWriter->save(public_path('PIDSR_GenTrias_MW'.date('W', strtotime('-1 Week')).'.pdf'));
+            */
 
             //Add new EDCS Excel
             $spreadsheet = ExcelFactory::load(storage_path('EDCS_SUMMARY.xlsx'));
@@ -1324,15 +1330,15 @@ class PidsrWndr extends Command
             $sheet->setCellValue('S27', $sar_count);
 
             $sheet->setCellValue('F33', date('m/d/Y'));
-            $sheet->setCellValue('Y6', date('F d, Y').'MW'.date('W', strtotime('-1 Week')));
+            $sheet->setCellValue('Y6', date('F d, Y').' MW'.date('W', strtotime('-1 Week')));
 
             $writer = new Xlsx($spreadsheet);
             $writer->save(public_path('EDCS_SUMMARY_GENERALTRIASCITY_MW'.date('W').'.xlsx'));
 
             Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new PidsrWndrMail($list));
 
-            File::delete(public_path('PIDSR_GenTrias_MW'.date('W', strtotime('-2 Weeks')).'.pdf'));
-            File::delete(public_path('PIDSR_GenTrias_MW'.date('W', strtotime('-2 Weeks')).'.docx'));
+            //File::delete(public_path('PIDSR_GenTrias_MW'.date('W', strtotime('-2 Weeks')).'.pdf'));
+            //File::delete(public_path('PIDSR_GenTrias_MW'.date('W', strtotime('-2 Weeks')).'.docx'));
             
             File::delete(public_path('EDCS_SUMMARY_GENERALTRIASCITY_MW'.date('W', strtotime('-1 Week')).'.xlsx'));
         }
