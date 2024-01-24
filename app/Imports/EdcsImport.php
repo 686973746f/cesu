@@ -139,8 +139,10 @@ class EdcsImport implements WithMultipleSheets, SkipsUnknownSheets
             'DENGUE' => new DengueImport(),
             'DIPH' => new DiphImport(),
             'HEPA' => new HepaImport(),
+            'HEPATITIS' => new HepaImport(),
             'HFMD' => new HfmdImport(),
             'INFLUENZA' => new InfluenzaImport(),
+            'ILI' => new InfluenzaImport(),
             'LEPTO' => new LeptoImport(),
             //'MALARIA' => new AfpImport(), => NOT ON EDCS ANYMORE
             'MEASLES' => new MeaslesImport(),

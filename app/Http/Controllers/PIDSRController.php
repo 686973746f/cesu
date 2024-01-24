@@ -1159,6 +1159,7 @@ class PIDSRController extends Controller
         }
     }
 
+    /*
     public function manualsend() {
         $s = SiteSettings::find(1);
         
@@ -1174,6 +1175,7 @@ class PIDSRController extends Controller
         ->with('msg', 'Weekly Notifiable Diseases Report Mail was sent successfully. Please check your email (cesu.gentrias@gmail.com).')
         ->with('msgtype', 'success');
     }
+    */
 
     public function report_two() {
         
@@ -5151,6 +5153,11 @@ class PIDSRController extends Controller
     public function dailyMergeProcess(Request $r) {
         //Call EdcsImport
         Excel::import(new EdcsImport(), $r->excel_file);
+        
+
+        return redirect()->back()
+        ->with('msg', 'EDCS Feedback Excel file was imported successfully.')
+        ->with('msgtype', 'success');
     }
 
     public function weeklyMergeProcess(Request $r) {
@@ -5158,6 +5165,10 @@ class PIDSRController extends Controller
         Excel::import(new EdcsImport(), $r->excel_file);
         
         //Send Automated Email
-        
+        Artisan::call('pidsrwndr:weekly');
+
+        return redirect()->back()
+        ->with('msg', 'EDCS Feedback Excel File imported successfully. Please check the Email Report at cesu.gentrias@gmail.com after a few minutes.')
+        ->with('msgtype', 'success');
     }
 }

@@ -88,7 +88,9 @@ class PidsrWndr extends Command
 
         $s = SiteSettings::find(1);
 
-        if($s->pidsr_early_sent == 0) {
+        $always_send = true; //because automation is turned off
+
+        if($always_send) {
             Settings::setPdfRendererName('MPDF');
             Settings::setPdfRendererPath(base_path() . '/vendor/mpdf/mpdf');
             
