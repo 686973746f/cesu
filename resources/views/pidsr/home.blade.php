@@ -311,7 +311,7 @@
                     @csrf
                     <p><b>Step 5</b> - Select the consolidated Excel file and start the Merging Process.</p>
                     <div class="form-group">
-                      <input type="file" class="form-control-file" name="" id="" placeholder="" aria-describedby="fileHelpId">
+                      <input type="file" class="form-control-file" name="excel_file" id="excel_file">
                     </div>
                     <button type="submit" class="btn btn-primary btn-block" accept=".xlsx" onclick="return confirm('Please double check if you selected the correct file. After processing, automated email will be sent at cesu.gentrias@gmail.com. Click OK to Confirm.')">Upload and Start the Merge</button>
                     <small>Antayin dumating ang Automated Email bago mag-proceed sa next step.</small>
