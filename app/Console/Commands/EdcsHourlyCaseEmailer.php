@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\EdcsHourlyCaseCheckerMail;
 
 class EdcsHourlyCaseEmailer extends Command
 {
@@ -59,7 +61,7 @@ class EdcsHourlyCaseEmailer extends Command
             $list = [];
 
             /*
-            IMMEDIATE NOTIFIABLE:
+            IMMEDIATE NOTIFIABLES:
             AFP
             MEASLES
             MENINGO
@@ -67,19 +69,21 @@ class EdcsHourlyCaseEmailer extends Command
             RABIES
             HFMD
 
-            ABD
-            AMES
-            HEPATITIS
-            CHIKV
-            CHOLERA
-            DENGUE
-            DIPHTHERIA
-            ILI
-            LEPTOSPIROSIS
-            NNT
-            PERTUSSIS
-            ROTAVIRUS
-            TYPHOID
+            
+            WEEKLY NOTIFIABLES:
+            Abd
+            Ames
+            Hepatitis
+            Chikv
+            Cholera
+            Dengue
+            Diph
+            Influenza
+            Leptospirosis
+            Nnt
+            Pert
+            Rotavirus
+            Typhoid
             */
 
             $diseases = [
@@ -89,6 +93,20 @@ class EdcsHourlyCaseEmailer extends Command
                 'Nt',
                 'Rabies',
                 'Hfmd',
+
+                'Abd',
+                'Ames',
+                'Hepatitis',
+                'Chikv',
+                'Cholera',
+                'Dengue',
+                'Diph',
+                'Influenza',
+                'Leptospirosis',
+                'Nnt',
+                'Pert',
+                'Rotavirus',
+                'Typhoid',
             ];
 
             foreach($diseases as $d) {
@@ -119,8 +137,44 @@ class EdcsHourlyCaseEmailer extends Command
                     else if($d == 'Hfmd') {
                         $get_type = 'HFMD';
                     }
-                    else {
-                        $get_type = $d;
+                    else if($d == 'Abd') {
+                        $get_type = 'Acute Bloody Diarrhea';
+                    }
+                    else if($d == 'Ames') {
+                        $get_type = 'AMES';
+                    }
+                    else if($d == 'Hepatitis') {
+                        $get_type = 'Acute Viral Hepatitis';
+                    }
+                    else if($d == 'Chikv') {
+                        $get_type = 'Chikungunya';
+                    }
+                    else if($d == 'Cholera') {
+                        $get_type = 'Cholera';
+                    }
+                    else if($d == 'Dengue') {
+                        $get_type = 'Dengue';
+                    }
+                    else if($d == 'Diph') {
+                        $get_type = 'Diphtheria';
+                    }
+                    else if($d == 'Influenza') {
+                        $get_type = 'Influenza-like Illness';
+                    }
+                    else if($d == 'Leptospirosis') {
+                        $get_type = 'Leptospirosis';
+                    }
+                    else if($d == 'Nnt') {
+                        $get_type = 'Non-Neonatal Tetanus';
+                    }
+                    else if($d == 'Pert') {
+                        $get_type = 'Pertussis';
+                    }
+                    else if($d == 'Rotavirus') {
+                        $get_type = 'RotaVirus';
+                    }
+                    else if($d == 'Typhoid') {
+                        $get_type = 'Typhoid and Parathyphoid Fever';
                     }
 
                     foreach($l as $i) {
@@ -142,7 +196,9 @@ class EdcsHourlyCaseEmailer extends Command
                 }
             }
 
-            
+            if(!empty($list)) {
+                Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new EdcsHourlyCaseCheckerMail($list));
+            }
         }
     }
 }

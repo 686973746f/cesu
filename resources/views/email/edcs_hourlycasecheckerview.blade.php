@@ -1,7 +1,7 @@
 <div>
-    <p>Good Day!</p>
-    <p>Please see the attached file for the PIDSR Weekly Notifiable Diseases Report.</p>
-    <br><br>
+    <p>Good Day.</p>
+    <p>Please see the list below for the cases imported from EDCS-IS:</p>
+    <p><b>Note:</b> The list should be informed to their respective barangays for verification and monitoring.</p>
     @php
         $afp_list = [];
         $aef_list = [];
@@ -32,380 +32,272 @@
         $rtv_list = [];
         $typ_list = [];
     @endphp
+
     @foreach($list as $l)
-        @php
-        if($l['type'] == 'Acute Flaccid Paralysis') {
-            $barangay = $l['brgy'];
-            if (!isset($afp_list[$barangay])) {
-                $afp_list[$barangay] = [];
-            }
-
-            $afp_list[$barangay][] = $l;
-
-            //array_push($afp_list, $l);
+    @php
+    if($l['type'] == 'Acute Flaccid Paralysis') {
+        $barangay = $l['brgy'];
+        if (!isset($afp_list[$barangay])) {
+            $afp_list[$barangay] = [];
         }
-        else if($l['type'] == 'AEFI') {
-            $barangay = $l['brgy'];
-            if (!isset($aef_list[$barangay])) {
-                $aef_list[$barangay] = [];
-            }
 
-            $aef_list[$barangay][] = $l;
-            
-            //array_push($aef_list, $l);
+        $afp_list[$barangay][] = $l;
+
+        //array_push($afp_list, $l);
+    }
+    else if($l['type'] == 'AEFI') {
+        $barangay = $l['brgy'];
+        if (!isset($aef_list[$barangay])) {
+            $aef_list[$barangay] = [];
         }
-        else if($l['type'] == 'Anthrax') {
-            $barangay = $l['brgy'];
-            if (!isset($ant_list[$barangay])) {
-                $ant_list[$barangay] = [];
-            }
 
-            $ant_list[$barangay][] = $l;
-
-            //array_push($ant_list, $l);
+        $aef_list[$barangay][] = $l;
+        
+        //array_push($aef_list, $l);
+    }
+    else if($l['type'] == 'Anthrax') {
+        $barangay = $l['brgy'];
+        if (!isset($ant_list[$barangay])) {
+            $ant_list[$barangay] = [];
         }
-        else if($l['type'] == 'Measles') {
-            $barangay = $l['brgy'];
-            if (!isset($mea_list[$barangay])) {
-                $mea_list[$barangay] = [];
-            }
 
-            $mea_list[$barangay][] = $l;
+        $ant_list[$barangay][] = $l;
 
-            //array_push($mea_list, $l);
+        //array_push($ant_list, $l);
+    }
+    else if($l['type'] == 'Measles') {
+        $barangay = $l['brgy'];
+        if (!isset($mea_list[$barangay])) {
+            $mea_list[$barangay] = [];
         }
-        else if($l['type'] == 'Meningococcal Disease') {
-            $barangay = $l['brgy'];
-            if (!isset($mgc_list[$barangay])) {
-                $mgc_list[$barangay] = [];
-            }
 
-            $mgc_list[$barangay][] = $l;
-            
-            //array_push($mgc_list, $l);
+        $mea_list[$barangay][] = $l;
+
+        //array_push($mea_list, $l);
+    }
+    else if($l['type'] == 'Meningococcal Disease') {
+        $barangay = $l['brgy'];
+        if (!isset($mgc_list[$barangay])) {
+            $mgc_list[$barangay] = [];
         }
-        else if($l['type'] == 'Neonatal Tetanus') {
-            $barangay = $l['brgy'];
-            if (!isset($nt_list[$barangay])) {
-                $nt_list[$barangay] = [];
-            }
 
-            $nt_list[$barangay][] = $l;
-
-            //array_push($nt_list, $l);
+        $mgc_list[$barangay][] = $l;
+        
+        //array_push($mgc_list, $l);
+    }
+    else if($l['type'] == 'Neonatal Tetanus') {
+        $barangay = $l['brgy'];
+        if (!isset($nt_list[$barangay])) {
+            $nt_list[$barangay] = [];
         }
-        else if($l['type'] == 'Paralytic Shellfish Poisoning') {
-            $barangay = $l['brgy'];
-            if (!isset($psp_list[$barangay])) {
-                $psp_list[$barangay] = [];
-            }
 
-            $psp_list[$barangay][] = $l;
+        $nt_list[$barangay][] = $l;
 
-            //array_push($psp_list, $l);
+        //array_push($nt_list, $l);
+    }
+    else if($l['type'] == 'Paralytic Shellfish Poisoning') {
+        $barangay = $l['brgy'];
+        if (!isset($psp_list[$barangay])) {
+            $psp_list[$barangay] = [];
         }
-        else if($l['type'] == 'Rabies') {
-            $barangay = $l['brgy'];
-            if (!isset($rab_list[$barangay])) {
-                $rab_list[$barangay] = [];
-            }
 
-            $rab_list[$barangay][] = $l;
+        $psp_list[$barangay][] = $l;
 
-            //array_push($rab_list, $l);
+        //array_push($psp_list, $l);
+    }
+    else if($l['type'] == 'Rabies') {
+        $barangay = $l['brgy'];
+        if (!isset($rab_list[$barangay])) {
+            $rab_list[$barangay] = [];
         }
-        else if($l['type'] == 'Acute Bloody Diarrhea') {
-            $barangay = $l['brgy'];
-            if (!isset($abd_list[$barangay])) {
-                $abd_list[$barangay] = [];
-            }
 
-            $abd_list[$barangay][] = $l;
+        $rab_list[$barangay][] = $l;
 
-            //array_push($abd_list, $l);
+        //array_push($rab_list, $l);
+    }
+    else if($l['type'] == 'Acute Bloody Diarrhea') {
+        $barangay = $l['brgy'];
+        if (!isset($abd_list[$barangay])) {
+            $abd_list[$barangay] = [];
         }
-        else if($l['type'] == 'Acute Encephalitis Syndrome') {
-            $barangay = $l['brgy'];
-            if (!isset($aes_list[$barangay])) {
-                $aes_list[$barangay] = [];
-            }
 
-            $aes_list[$barangay][] = $l;
+        $abd_list[$barangay][] = $l;
 
-            //array_push($aes_list, $l);
+        //array_push($abd_list, $l);
+    }
+    else if($l['type'] == 'Acute Encephalitis Syndrome') {
+        $barangay = $l['brgy'];
+        if (!isset($aes_list[$barangay])) {
+            $aes_list[$barangay] = [];
         }
-        else if($l['type'] == 'Acute Hemorrhagic Fever Syndrome') {
-            $barangay = $l['brgy'];
-            if (!isset($ahf_list[$barangay])) {
-                $ahf_list[$barangay] = [];
-            }
 
-            $ahf_list[$barangay][] = $l;
+        $aes_list[$barangay][] = $l;
 
-            //array_push($ahf_list, $l);
+        //array_push($aes_list, $l);
+    }
+    else if($l['type'] == 'Acute Hemorrhagic Fever Syndrome') {
+        $barangay = $l['brgy'];
+        if (!isset($ahf_list[$barangay])) {
+            $ahf_list[$barangay] = [];
         }
-        else if($l['type'] == 'Acute Viral Hepatitis') {
-            $barangay = $l['brgy'];
-            if (!isset($hep_list[$barangay])) {
-                $hep_list[$barangay] = [];
-            }
 
-            $hep_list[$barangay][] = $l;
+        $ahf_list[$barangay][] = $l;
 
-            //array_push($hep_list, $l);
+        //array_push($ahf_list, $l);
+    }
+    else if($l['type'] == 'Acute Viral Hepatitis') {
+        $barangay = $l['brgy'];
+        if (!isset($hep_list[$barangay])) {
+            $hep_list[$barangay] = [];
         }
-        else if($l['type'] == 'AMES') {
-            $barangay = $l['brgy'];
-            if (!isset($ame_list[$barangay])) {
-                $ame_list[$barangay] = [];
-            }
 
-            $ame_list[$barangay][] = $l;
+        $hep_list[$barangay][] = $l;
 
-            //array_push($ame_list, $l);
+        //array_push($hep_list, $l);
+    }
+    else if($l['type'] == 'AMES') {
+        $barangay = $l['brgy'];
+        if (!isset($ame_list[$barangay])) {
+            $ame_list[$barangay] = [];
         }
-        else if($l['type'] == 'Bacterial Meningitis') {
-            $barangay = $l['brgy'];
-            if (!isset($mgt_list[$barangay])) {
-                $mgt_list[$barangay] = [];
-            }
 
-            $mgt_list[$barangay][] = $l;
+        $ame_list[$barangay][] = $l;
 
-            //array_push($mgt_list, $l);
+        //array_push($ame_list, $l);
+    }
+    else if($l['type'] == 'Bacterial Meningitis') {
+        $barangay = $l['brgy'];
+        if (!isset($mgt_list[$barangay])) {
+            $mgt_list[$barangay] = [];
         }
-        else if($l['type'] == 'Chikungunya') {
-            $barangay = $l['brgy'];
-            if (!isset($chi_list[$barangay])) {
-                $chi_list[$barangay] = [];
-            }
 
-            $chi_list[$barangay][] = $l;
+        $mgt_list[$barangay][] = $l;
 
-            //array_push($chi_list, $l);
+        //array_push($mgt_list, $l);
+    }
+    else if($l['type'] == 'Chikungunya') {
+        $barangay = $l['brgy'];
+        if (!isset($chi_list[$barangay])) {
+            $chi_list[$barangay] = [];
         }
-        else if($l['type'] == 'Cholera') {
-            $barangay = $l['brgy'];
-            if (!isset($cho_list[$barangay])) {
-                $cho_list[$barangay] = [];
-            }
 
-            $cho_list[$barangay][] = $l;
+        $chi_list[$barangay][] = $l;
 
-            //array_push($cho_list, $l);
+        //array_push($chi_list, $l);
+    }
+    else if($l['type'] == 'Cholera') {
+        $barangay = $l['brgy'];
+        if (!isset($cho_list[$barangay])) {
+            $cho_list[$barangay] = [];
         }
-        else if($l['type'] == 'Dengue') {
-            $barangay = $l['brgy'];
-            if (!isset($den_list[$barangay])) {
-                $den_list[$barangay] = [];
-            }
 
-            $den_list[$barangay][] = $l;
+        $cho_list[$barangay][] = $l;
 
-            //array_push($den_list, $l);
+        //array_push($cho_list, $l);
+    }
+    else if($l['type'] == 'Dengue') {
+        $barangay = $l['brgy'];
+        if (!isset($den_list[$barangay])) {
+            $den_list[$barangay] = [];
         }
-        else if($l['type'] == 'Diphtheria') {
-            $barangay = $l['brgy'];
-            if (!isset($dip_list[$barangay])) {
-                $dip_list[$barangay] = [];
-            }
 
-            $dip_list[$barangay][] = $l;
+        $den_list[$barangay][] = $l;
 
-            //array_push($dip_list, $l);
+        //array_push($den_list, $l);
+    }
+    else if($l['type'] == 'Diphtheria') {
+        $barangay = $l['brgy'];
+        if (!isset($dip_list[$barangay])) {
+            $dip_list[$barangay] = [];
         }
-        else if($l['type'] == 'Influenza-like Illness') {
-            $barangay = $l['brgy'];
-            if (!isset($ili_list[$barangay])) {
-                $ili_list[$barangay] = [];
-            }
 
-            $ili_list[$barangay][] = $l;
+        $dip_list[$barangay][] = $l;
 
-            //array_push($ili_list, $l);
+        //array_push($dip_list, $l);
+    }
+    else if($l['type'] == 'Influenza-like Illness') {
+        $barangay = $l['brgy'];
+        if (!isset($ili_list[$barangay])) {
+            $ili_list[$barangay] = [];
         }
-        else if($l['type'] == 'Leptospirosis') {
-            $barangay = $l['brgy'];
-            if (!isset($lep_list[$barangay])) {
-                $lep_list[$barangay] = [];
-            }
 
-            $lep_list[$barangay][] = $l;
+        $ili_list[$barangay][] = $l;
 
-            //array_push($lep_list, $l);
+        //array_push($ili_list, $l);
+    }
+    else if($l['type'] == 'Leptospirosis') {
+        $barangay = $l['brgy'];
+        if (!isset($lep_list[$barangay])) {
+            $lep_list[$barangay] = [];
         }
-        else if($l['type'] == 'Malaria') {
-            $barangay = $l['brgy'];
-            if (!isset($mal_list[$barangay])) {
-                $mal_list[$barangay] = [];
-            }
 
-            $mal_list[$barangay][] = $l;
+        $lep_list[$barangay][] = $l;
 
-            //array_push($mal_list, $l);
+        //array_push($lep_list, $l);
+    }
+    else if($l['type'] == 'Malaria') {
+        $barangay = $l['brgy'];
+        if (!isset($mal_list[$barangay])) {
+            $mal_list[$barangay] = [];
         }
-        else if($l['type'] == 'Non-Neonatal Tetanus') {
-            $barangay = $l['brgy'];
-            if (!isset($nnt_list[$barangay])) {
-                $nnt_list[$barangay] = [];
-            }
 
-            $nnt_list[$barangay][] = $l;
+        $mal_list[$barangay][] = $l;
 
-            //array_push($nnt_list, $l);
+        //array_push($mal_list, $l);
+    }
+    else if($l['type'] == 'Non-Neonatal Tetanus') {
+        $barangay = $l['brgy'];
+        if (!isset($nnt_list[$barangay])) {
+            $nnt_list[$barangay] = [];
         }
-        else if($l['type'] == 'Pertussis') {
-            $barangay = $l['brgy'];
-            if (!isset($per_list[$barangay])) {
-                $per_list[$barangay] = [];
-            }
 
-            $per_list[$barangay][] = $l;
+        $nnt_list[$barangay][] = $l;
 
-            //array_push($per_list, $l);
+        //array_push($nnt_list, $l);
+    }
+    else if($l['type'] == 'Pertussis') {
+        $barangay = $l['brgy'];
+        if (!isset($per_list[$barangay])) {
+            $per_list[$barangay] = [];
         }
-        else if($l['type'] == 'RotaVirus') {
-            $barangay = $l['brgy'];
-            if (!isset($rtv_list[$barangay])) {
-                $rtv_list[$barangay] = [];
-            }
 
-            $rtv_list[$barangay][] = $l;
+        $per_list[$barangay][] = $l;
 
-            //array_push($rtv_list, $l);
+        //array_push($per_list, $l);
+    }
+    else if($l['type'] == 'RotaVirus') {
+        $barangay = $l['brgy'];
+        if (!isset($rtv_list[$barangay])) {
+            $rtv_list[$barangay] = [];
         }
-        else if($l['type'] == 'Typhoid and Parathyphoid Fever') {
-            $barangay = $l['brgy'];
-            if (!isset($typ_list[$barangay])) {
-                $typ_list[$barangay] = [];
-            }
 
-            $typ_list[$barangay][] = $l;
+        $rtv_list[$barangay][] = $l;
 
-            //array_push($typ_list, $l);
+        //array_push($rtv_list, $l);
+    }
+    else if($l['type'] == 'Typhoid and Parathyphoid Fever') {
+        $barangay = $l['brgy'];
+        if (!isset($typ_list[$barangay])) {
+            $typ_list[$barangay] = [];
         }
-        else if($l['type'] == 'Hfmd') {
-            $barangay = $l['brgy'];
-            if (!isset($hfm_list[$barangay])) {
-                $hfm_list[$barangay] = [];
-            }
 
-            $hfm_list[$barangay][] = $l;
+        $typ_list[$barangay][] = $l;
 
-            //array_push($hfm_list, $l);
+        //array_push($typ_list, $l);
+    }
+    else if($l['type'] == 'Hfmd') {
+        $barangay = $l['brgy'];
+        if (!isset($hfm_list[$barangay])) {
+            $hfm_list[$barangay] = [];
         }
-        @endphp
+
+        $hfm_list[$barangay][] = $l;
+
+        //array_push($hfm_list, $l);
+    }
+    @endphp
     @endforeach
 
-    @php
-    /*
-    usort($afp_list, function($a, $b) {
-        return strcmp($a['brgy'], $b['brgy']);
-    });
-
-    usort($aef_list, function($a, $b) {
-        return strcmp($a['brgy'], $b['brgy']);
-    });
-    
-    usort($ant_list, function($a, $b) {
-        return strcmp($a['brgy'], $b['brgy']);
-    });
-
-    usort($mea_list, function($a, $b) {
-        return strcmp($a['brgy'], $b['brgy']);
-    });
-
-    usort($mgc_list, function($a, $b) {
-        return strcmp($a['brgy'], $b['brgy']);
-    });
-
-    usort($nt_list, function($a, $b) {
-        return strcmp($a['brgy'], $b['brgy']);
-    });
-
-    usort($psp_list, function($a, $b) {
-        return strcmp($a['brgy'], $b['brgy']);
-    });
-
-    usort($rab_list, function($a, $b) {
-        return strcmp($a['brgy'], $b['brgy']);
-    });
-
-    usort($abd_list, function($a, $b) {
-        return strcmp($a['brgy'], $b['brgy']);
-    });
-
-    usort($aes_list, function($a, $b) {
-        return strcmp($a['brgy'], $b['brgy']);
-    });
-
-    usort($ahf_list, function($a, $b) {
-        return strcmp($a['brgy'], $b['brgy']);
-    });
-
-    usort($hep_list, function($a, $b) {
-        return strcmp($a['brgy'], $b['brgy']);
-    });
-
-    usort($ame_list, function($a, $b) {
-        return strcmp($a['brgy'], $b['brgy']);
-    });
-
-    usort($mgt_list, function($a, $b) {
-        return strcmp($a['brgy'], $b['brgy']);
-    });
-
-    usort($chi_list, function($a, $b) {
-        return strcmp($a['brgy'], $b['brgy']);
-    });
-
-    usort($cho_list, function($a, $b) {
-        return strcmp($a['brgy'], $b['brgy']);
-    });
-
-    usort($den_list, function($a, $b) {
-        return strcmp($a['brgy'], $b['brgy']);
-    });
-
-    usort($dip_list, function($a, $b) {
-        return strcmp($a['brgy'], $b['brgy']);
-    });
-
-    usort($ili_list, function($a, $b) {
-        return strcmp($a['brgy'], $b['brgy']);
-    });
-
-    usort($lep_list, function($a, $b) {
-        return strcmp($a['brgy'], $b['brgy']);
-    });
-
-    usort($mal_list, function($a, $b) {
-        return strcmp($a['brgy'], $b['brgy']);
-    });
-
-    usort($nnt_list, function($a, $b) {
-        return strcmp($a['brgy'], $b['brgy']);
-    });
-
-    usort($per_list, function($a, $b) {
-        return strcmp($a['brgy'], $b['brgy']);
-    });
-
-    usort($rtv_list, function($a, $b) {
-        return strcmp($a['brgy'], $b['brgy']);
-    });
-
-    usort($typ_list, function($a, $b) {
-        return strcmp($a['brgy'], $b['brgy']);
-    });
-
-    usort($hfm_list, function($a, $b) {
-        return strcmp($a['brgy'], $b['brgy']);
-    });
-    */
-    
-    @endphp
-    
     @if(!empty($afp_list) || !empty($aef_list) || !empty($ant_list) || !empty($hfm_list) || !empty($mea_list) || !empty($mgc_list) || !empty($nt_list) || !empty($psp_list) || !empty($rab_list))
     <p><b>Category I (Immediately Notifiable)</b></p>
     <h2 style="color: red;">MW{{date('W, Y', strtotime('-1 Week'))}}</h2>
@@ -418,7 +310,6 @@
         <ul>
             @foreach($rows as $ind => $p)
             <li>
-                <div>{{$p['early_sent']}}</div>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
@@ -440,34 +331,11 @@
         <ul>
             @foreach($rows as $ind => $p)
             <li>
-                <div>{{$p['early_sent']}}</div>
                 <div>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>{{$p['aefi_type']}} Case</div>
                 <div>Date Admitted: {{date('m/d/Y', strtotime($p['doe']))}}</div>
-                <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
-                <p></p>
-            </li>
-            @endforeach
-        </ul>
-        @endforeach
-    </ul>
-    @endif
-    @if(!empty($ant_list))
-    <ul>
-        <b>Anthrax:</b>
-        @foreach($ant_list as $brgy => $rows)
-        <li>Acute Flaccid Paralysis <b>- BRGY. {{$brgy}}</b>:</li>
-        <p></p>
-        <ul>
-            @foreach($rows as $ind => $p)
-            <li>
-                <div>{{$p['early_sent']}}</div>
-                <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
-                <div>{{$p['age']}}/{{$p['sex']}}</div>
-                <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
-                <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 <p></p>
             </li>
@@ -485,7 +353,6 @@
         <ul>
             @foreach($rows as $ind => $p)
             <li>
-                <div>{{$p['early_sent']}}</div>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
@@ -507,7 +374,6 @@
         <ul>
             @foreach($rows as $ind => $p)
             <li>
-                <div>{{$p['early_sent']}}</div>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
@@ -529,7 +395,6 @@
         <ul>
             @foreach($rows as $ind => $p)
             <li>
-                <div>{{$p['early_sent']}}</div>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
@@ -551,29 +416,6 @@
         <ul>
             @foreach($rows as $ind => $p)
             <li>
-                <div>{{$p['early_sent']}}</div>
-                <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
-                <div>{{$p['age']}}/{{$p['sex']}}</div>
-                <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
-                <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
-                <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
-                <p></p>
-            </li>
-            @endforeach
-        </ul>
-        @endforeach
-    </ul>
-    @endif
-    @if(!empty($psp_list))
-    <ul>
-        <b>Paralytic Shellfish Poisoning:</b>
-        @foreach($psp_list as $brgy => $rows)
-        <li>Paralytic Shellfish Poisoning <b>- BRGY. {{$brgy}}</b>:</li>
-        <p></p>
-        <ul>
-            @foreach($rows as $ind => $p)
-            <li>
-                <div>{{$p['early_sent']}}</div>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
@@ -595,7 +437,6 @@
         <ul>
             @foreach($rows as $ind => $p)
             <li>
-                <div>{{$p['early_sent']}}</div>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
@@ -623,7 +464,6 @@
         <ul>
             @foreach($rows as $ind => $p)
             <li>
-                <div>{{$p['early_sent']}}</div>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
@@ -645,29 +485,6 @@
         <ul>
             @foreach($rows as $ind => $p)
             <li>
-                <div>{{$p['early_sent']}}</div>
-                <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
-                <div>{{$p['age']}}/{{$p['sex']}}</div>
-                <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
-                <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
-                <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
-                <p></p>
-            </li>
-            @endforeach
-        </ul>
-        @endforeach
-    </ul>
-    @endif
-    @if(!empty($ahf_list))
-    <ul>
-        <b>Acute Hemorrhagic Fever Syndrome:</b>
-        @foreach($ahf_list as $brgy => $rows)
-        <li>Acute Hemorrhagic Fever Syndrome <b>- BRGY. {{$brgy}}</b>:</li>
-        <p></p>
-        <ul>
-            @foreach($rows as $ind => $p)
-            <li>
-                <div>{{$p['early_sent']}}</div>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
@@ -710,7 +527,6 @@
         <ul>
             @foreach($rows as $ind => $p)
             <li>
-                <div>{{$p['early_sent']}}</div>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
@@ -732,7 +548,6 @@
         <ul>
             @foreach($rows as $ind => $p)
             <li>
-                <div>{{$p['early_sent']}}</div>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
@@ -754,7 +569,6 @@
         <ul>
             @foreach($rows as $ind => $p)
             <li>
-                <div>{{$p['early_sent']}}</div>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
@@ -776,7 +590,6 @@
         <ul>
             @foreach($rows as $ind => $p)
             <li>
-                <div>{{$p['early_sent']}}</div>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
@@ -798,7 +611,6 @@
         <ul>
             @foreach($rows as $ind => $p)
             <li>
-                <div>{{$p['early_sent']}}</div>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
@@ -820,7 +632,6 @@
         <ul>
             @foreach($rows as $ind => $p)
             <li>
-                <div>{{$p['early_sent']}}</div>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
@@ -835,14 +646,13 @@
     @endif
     @if(!empty($ili_list))
     <ul>
-        <b>Influenza-like Illness:</b>
+        <b>Influenza-like Illness (ILI):</b>
         @foreach($ili_list as $brgy => $rows)
-        <li>Influenza-like Illness <b>- BRGY. {{$brgy}}</b>:</li>
+        <li>Influenza-like Illness (ILI) <b>- BRGY. {{$brgy}}</b>:</li>
         <p></p>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
-                <div>{{$p['early_sent']}}</div>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
@@ -864,29 +674,6 @@
         <ul>
             @foreach($rows as $ind => $p)
             <li>
-                <div>{{$p['early_sent']}}</div>
-                <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
-                <div>{{$p['age']}}/{{$p['sex']}}</div>
-                <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
-                <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
-                <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
-                <p></p>
-            </li>
-            @endforeach
-        </ul>
-        @endforeach
-    </ul>
-    @endif
-    @if(!empty($mal_list))
-    <ul>
-        <b>Malaria:</b>
-        @foreach($mal_list as $brgy => $rows)
-        <li>Malaria <b>- BRGY. {{$brgy}}</b>:</li>
-        <p></p>
-        <ul>
-            @foreach($rows as $ind => $p)
-            <li>
-                <div>{{$p['early_sent']}}</div>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
@@ -908,7 +695,6 @@
         <ul>
             @foreach($rows as $ind => $p)
             <li>
-                <div>{{$p['early_sent']}}</div>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
@@ -930,7 +716,6 @@
         <ul>
             @foreach($rows as $ind => $p)
             <li>
-                <div>{{$p['early_sent']}}</div>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
@@ -952,7 +737,6 @@
         <ul>
             @foreach($rows as $ind => $p)
             <li>
-                <div>{{$p['early_sent']}}</div>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
@@ -974,7 +758,6 @@
         <ul>
             @foreach($rows as $ind => $p)
             <li>
-                <div>{{$p['early_sent']}}</div>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
@@ -989,9 +772,6 @@
     @endif
     
     @endif
-    <p>= = = = =</p>
-    <h3>To view the full details of the patients in this lists, you may visit <b><a href="{{route('pidsr.weeklyviewer', ['year' => date('Y'), 'mw' => date('W', strtotime('-1 Week'))])}}">{{route('pidsr.weeklyviewer', ['year' => date('Y'), 'mw' => date('W', strtotime('-1 Week'))])}}</a></b></h3>
-    <h4>Use the Password: <b>cesugentri@2017</b></h4>
     <p>= = = = =</p>
     <p>Note: Computer Generated file, Do Not Reply. Made possible by Christian James Historillo.</p>
 </div>

@@ -139,6 +139,7 @@ class PidsrWndr extends Command
                         'address' => $i->Streetpurok,
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
+                        'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
                     ]);
                 }
             }
@@ -186,6 +187,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DAdmit,
                         'aefi_type' => $i->Kaso,
                         'dru' => $i->NameOfDru,
+                        'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
                     ]);
                 }
             }
@@ -231,6 +233,7 @@ class PidsrWndr extends Command
                         'address' => $i->Streetpurok,
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
+                        'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
                     ]);
                 }
             }
@@ -277,6 +280,7 @@ class PidsrWndr extends Command
                         'address' => $i->Streetpurok,
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
+                        'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
                     ]);
                 }
             }
@@ -321,6 +325,7 @@ class PidsrWndr extends Command
                         'address' => $i->Streetpurok,
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
+                        'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
                     ]);
                 }
             }
@@ -365,6 +370,7 @@ class PidsrWndr extends Command
                         'address' => $i->Streetpurok,
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
+                        'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
                     ]);
                 }
             }
@@ -409,6 +415,7 @@ class PidsrWndr extends Command
                         'address' => $i->Streetpurok,
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
+                        'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
                     ]);
                 }
             }
@@ -453,6 +460,7 @@ class PidsrWndr extends Command
                         'address' => $i->Streetpurok,
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
+                        'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
                     ]);
                 }
             }
@@ -499,6 +507,7 @@ class PidsrWndr extends Command
                         'address' => $i->Streetpurok,
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
+                        'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
                     ]);
                 }
             }
@@ -543,6 +552,7 @@ class PidsrWndr extends Command
                         'address' => $i->Streetpurok,
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
+                        'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
                     ]);
                 }
             }
@@ -587,6 +597,7 @@ class PidsrWndr extends Command
                         'address' => $i->Streetpurok,
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
+                        'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
                     ]);
                 }
             }
@@ -631,6 +642,7 @@ class PidsrWndr extends Command
                         'address' => $i->Streetpurok,
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
+                        'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
                     ]);
                 }
             }
@@ -675,6 +687,7 @@ class PidsrWndr extends Command
                         'address' => $i->Streetpurok,
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
+                        'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
                     ]);
                 }
             }
@@ -719,6 +732,7 @@ class PidsrWndr extends Command
                         'address' => $i->Streetpurok,
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
+                        'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
                     ]);
                 }
             }
@@ -763,6 +777,7 @@ class PidsrWndr extends Command
                         'address' => $i->Streetpurok,
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
+                        'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
                     ]);
                 }
             }
@@ -807,6 +822,7 @@ class PidsrWndr extends Command
                         'address' => $i->Streetpurok,
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
+                        'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
                     ]);
                 }
             }
@@ -851,6 +867,7 @@ class PidsrWndr extends Command
                         'address' => $i->Streetpurok,
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
+                        'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
                     ]);
                 }
             }
@@ -895,6 +912,7 @@ class PidsrWndr extends Command
                         'address' => $i->Streetpurok,
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
+                        'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
                     ]);
                 }
             }
@@ -939,6 +957,7 @@ class PidsrWndr extends Command
                         'address' => $i->Streetpurok,
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
+                        'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
                     ]);
                 }
             }
@@ -983,6 +1002,7 @@ class PidsrWndr extends Command
                         'address' => $i->Streetpurok,
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
+                        'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
                     ]);
                 }
             }
@@ -1027,6 +1047,7 @@ class PidsrWndr extends Command
                         'address' => $i->Streetpurok,
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
+                        'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
                     ]);
                 }
             }
@@ -1071,6 +1092,7 @@ class PidsrWndr extends Command
                         'address' => $i->Streetpurok,
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
+                        'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
                     ]);
                 }
             }
@@ -1115,6 +1137,7 @@ class PidsrWndr extends Command
                         'address' => $i->Streetpurok,
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
+                        'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
                     ]);
                 }
             }
@@ -1159,6 +1182,7 @@ class PidsrWndr extends Command
                         'address' => $i->Streetpurok,
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
+                        'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
                     ]);
                 }
             }
@@ -1203,6 +1227,7 @@ class PidsrWndr extends Command
                         'address' => $i->Streetpurok,
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
+                        'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
                     ]);
                 }
             }
@@ -1247,6 +1272,7 @@ class PidsrWndr extends Command
                         'address' => $i->Streetpurok,
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
+                        'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
                     ]);
                 }
             }
