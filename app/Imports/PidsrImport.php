@@ -2331,6 +2331,8 @@ class PidsrImport implements ToCollection, WithStartRow
                             'SENT' => $row[43],
                             'ip' => ($row[44] == 'Y') ? 'Y' : 'N',
                             'ipgroup' => ($row[44] == 'Y') ? $row[45] : NULL,
+                            'notify_email_sent' => ($row[37] == date('Y')) ? 0 : 1,
+                            'systemsent' => ($row[37] == date('Y')) ? 0 : 1,
                         ]);
                     }
                 }
