@@ -48,6 +48,7 @@ class EdcsImport implements WithMultipleSheets, SkipsUnknownSheets
         }
     }
 
+    /*
     public static function getMorbMonth($week, $year) {
         $date = Carbon::createFromDate($year, 1, 1);
 
@@ -60,6 +61,11 @@ class EdcsImport implements WithMultipleSheets, SkipsUnknownSheets
         $month = $date->month;
 
         return $month;
+    }
+    */
+
+    public static function getMorbMonth($timestamp) {
+        return Carbon::parse($timestamp)->format('n');
     }
 
     public static function brgySetter($brgy) {
@@ -168,6 +174,11 @@ class EdcsImport implements WithMultipleSheets, SkipsUnknownSheets
     }
 }
 
+/*
+Pano yung late report ng Tuesday 11AM onwards?
+MW should be the same and not modified to advance to next week because pasok pa din naman sa MW reporting period for the particular week
+*/
+
 class AbdImport implements ToModel, WithHeadingRow
 {
     public function model(array $row) {
@@ -233,7 +244,7 @@ class AbdImport implements ToModel, WithHeadingRow
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp']),
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
                 'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
-                'MorbidityMonth' => EdcsImport::getMorbMonth($row['morbidity_week'], $row['year']),
+                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
                 'MorbidityWeek' => $row['morbidity_week'],
                 'EPIID' => $row['epi_id'],
                 'UniqueKey' => Abd::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
@@ -351,7 +362,7 @@ class AfpImport implements ToModel, WithHeadingRow
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp']),
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
                 'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
-                'MorbidityMonth' => EdcsImport::getMorbMonth($row['morbidity_week'], $row['year']),
+                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
                 'MorbidityWeek' => $row['morbidity_week'],
                 'EPIID' => $row['epi_id'],
                 'UniqueKey' => Afp::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
@@ -659,7 +670,7 @@ class AmesImport implements ToModel, WithHeadingRow
                 'HAMA' => NULL,
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
                 'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
-                'MorbidityMonth' => EdcsImport::getMorbMonth($row['morbidity_week'], $row['year']),
+                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
                 'MorbidityWeek' => $row['morbidity_week'],
                 'EPIID' => $row['epi_id'],
                 'UniqueKey' => Ames::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
@@ -768,7 +779,7 @@ class HepaImport implements ToModel, WithHeadingRow
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp']),
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
                 'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
-                'MorbidityMonth' => EdcsImport::getMorbMonth($row['morbidity_week'], $row['year']),
+                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
                 'MorbidityWeek' => $row['morbidity_week'],
                 'EPIID' => $row['epi_id'],
                 'UniqueKey' => Hepatitis::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
@@ -922,7 +933,7 @@ class HfmdImport implements ToModel, WithHeadingRow
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp']),
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
                 'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
-                'MorbidityMonth' => EdcsImport::getMorbMonth($row['morbidity_week'], $row['year']),
+                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
                 'MorbidityWeek' => $row['morbidity_week'],
                 'EPIID' => $row['epi_id'],
                 'ReportToInvestigation' => NULL,
@@ -1071,7 +1082,7 @@ class LeptoImport implements ToModel, WithHeadingRow
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp']),
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
                 'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
-                'MorbidityMonth' => EdcsImport::getMorbMonth($row['morbidity_week'], $row['year']),
+                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
                 'MorbidityWeek' => $row['morbidity_week'],
                 'EPIID' => $row['epi_id'],
                 'UniqueKey' => Leptospirosis::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
@@ -1199,7 +1210,7 @@ class MeaslesImport implements ToModel, WithHeadingRow
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp']),
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
                 'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
-                'MorbidityMonth' => EdcsImport::getMorbMonth($row['morbidity_week'], $row['year']),
+                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
                 'MorbidityWeek' => $row['morbidity_week'],
                 'EPIID' => $row['epi_id'],
                 'ReportToInvestigation' => NULL,
@@ -1367,7 +1378,7 @@ class NntImport implements ToModel, WithHeadingRow
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp']),
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
                 'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
-                'MorbidityMonth' => EdcsImport::getMorbMonth($row['morbidity_week'], $row['year']),
+                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
                 'MorbidityWeek' => $row['morbidity_week'],
                 'EPIID' => $row['epi_id'],
                 'UniqueKey' => Nnt::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
@@ -1474,7 +1485,7 @@ class RabiesImport implements ToModel, WithHeadingRow
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp']),
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
                 'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
-                'MorbidityMonth' => EdcsImport::getMorbMonth($row['morbidity_week'], $row['year']),
+                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
                 'MorbidityWeek' => $row['morbidity_week'],
                 'EPIID' => $row['epi_id'],
                 'UniqueKey' => Rabies::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
@@ -1636,7 +1647,7 @@ class RotaImport implements ToModel, WithHeadingRow
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp']),
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
                 'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
-                'MorbidityMonth' => EdcsImport::getMorbMonth($row['morbidity_week'], $row['year']),
+                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
                 'MorbidityWeek' => $row['morbidity_week'],
                 'EPIID' => $row['epi_id'],
                 'UniqueKey' => Rotavirus::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
@@ -1745,7 +1756,7 @@ class TyphoidImport implements ToModel, WithHeadingRow
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp']),
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
                 'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
-                'MorbidityMonth' => EdcsImport::getMorbMonth($row['morbidity_week'], $row['year']),
+                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
                 'MorbidityWeek' => $row['morbidity_week'],
                 'EPIID' => $row['epi_id'],
                 'UniqueKey' => Typhoid::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
@@ -1883,7 +1894,7 @@ class DengueImport implements ToModel, WithHeadingRow
                 'EPIID' => $row['epi_id'],
                 'DateDied' => EdcsImport::tDate($row['date_died']),
                 
-                'MorbidityMonth' => EdcsImport::getMorbMonth($row['morbidity_week'], $row['year']),
+                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
                 'MorbidityWeek' => $row['morbidity_week'],
                 'AdmitToEntry' => preg_replace('/[^0-9]/', '', $row['timelapse_dateadmittodateencode']),
                 'OnsetToAdmit' => preg_replace('/[^0-9]/', '', $row['timelapse_dateonsettodateencode']),
@@ -2004,7 +2015,7 @@ class DiphImport implements ToModel, WithHeadingRow {
                 'UniqueKey' => Diph::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
                 'RECSTATUS' => NULL,
                 'TYPEHOSPITALCLINIC' => $row['verification_level'],
-                'MorbidityMonth' => EdcsImport::getMorbMonth($row['morbidity_week'], $row['year']),
+                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
                 'MorbidityWeek' => $row['morbidity_week'],
                 'EPIID' => $row['epi_id'],
                 'Year' => $row['year'],
@@ -2153,7 +2164,7 @@ class ChikvImport implements ToModel, WithHeadingRow {
                 'UniqueKey' => Chikv::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
                 'Recstatus' => NULL,
                 'TYPEHOSPITALCLINIC' => $row['verification_level'],
-                'MorbidityMonth' => EdcsImport::getMorbMonth($row['morbidity_week'], $row['year']),
+                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
                 'MorbidityWeek' => $row['morbidity_week'],
                 'EPIID' => $row['epi_id'],
                 'Year' => $row['year'],
@@ -2323,7 +2334,7 @@ class MeningoImport implements ToModel, WithHeadingRow {
                 'UniqueKey' => Meningo::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
                 'RECSTATUS' => NULL,
                 'TYPEHOSPITALCLINIC' => $row['verification_level'],
-                'MorbidityMonth' => EdcsImport::getMorbMonth($row['morbidity_week'], $row['year']),
+                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
                 'MorbidityWeek' => $row['morbidity_week'],
                 'EPIID' => $row['epi_id'],
                 'Year' => $row['year'],
@@ -2466,7 +2477,7 @@ class NtImport implements ToModel, WithHeadingRow {
                 'UniqueKey' => Nt::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
                 'RECSTATUS' => NULL,
                 'TYPEHOSPITALCLINIC' => $row['verification_level'],
-                'MorbidityMonth' => EdcsImport::getMorbMonth($row['morbidity_week'], $row['year']),
+                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
                 'MorbidityWeek' => $row['morbidity_week'],
                 'EPIID' => $row['epi_id'],
                 'Year' => $row['year'],
@@ -2574,7 +2585,7 @@ class PertImport implements ToModel, WithHeadingRow {
                 'UniqueKey' => Pert::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
                 'RECSTATUS' => NULL,
                 'TYPEHOSPITALCLINIC' => $row['verification_level'],
-                'MorbidityMonth' => EdcsImport::getMorbMonth($row['morbidity_week'], $row['year']),
+                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
                 'MorbidityWeek' => $row['morbidity_week'],
                 'EPIID' => $row['epi_id'],
                 'Year' => $row['year'],
@@ -2682,7 +2693,7 @@ class CholeraImport implements ToModel, WithHeadingRow {
                 'UniqueKey' => Pert::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
                 'RECSTATUS' => NULL,
                 'TYPEHOSPITALCLINIC' => $row['verification_level'],
-                'MorbidityMonth' => EdcsImport::getMorbMonth($row['morbidity_week'], $row['year']),
+                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
                 'MorbidityWeek' => $row['morbidity_week'],
                 'EPIID' => $row['epi_id'],
                 'Year' => $row['year'],
@@ -2791,7 +2802,7 @@ class InfluenzaImport implements ToModel, WithHeadingRow {
                 'UniqueKey' => Pert::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
                 'RECSTATUS' => NULL,
                 'TYPEHOSPITALCLINIC' => $row['verification_level'],
-                'MorbidityMonth' => EdcsImport::getMorbMonth($row['morbidity_week'], $row['year']),
+                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
                 'MorbidityWeek' => $row['morbidity_week'],
                 'EPIID' => $row['epi_id'],
                 'Year' => $row['year'],
