@@ -264,7 +264,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                      <label for="excel_file"><b class="text-danger">Select Excel File (.XLSX)</b></label>
+                      <label for="excel_file"><b class="text-danger">*</b>Select Excel File (.XLSX)</label>
                       <input type="file" class="form-control-file" name="excel_file" id="excel_file" accept=".xlsx" required>
                     </div>
                 </div>
@@ -311,9 +311,9 @@
                     @csrf
                     <p><b>Step 5</b> - Select the consolidated Excel file and start the Merging Process.</p>
                     <div class="form-group">
-                      <input type="file" class="form-control-file" name="excel_file" id="excel_file">
+                      <input type="file" class="form-control-file" name="excel_file" id="excel_file" accept=".xlsx" required>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block" accept=".xlsx" onclick="return confirm('Please double check if you selected the correct file. After processing, automated email will be sent at cesu.gentrias@gmail.com. Click OK to Confirm.')">Upload and Start the Merge</button>
+                    <button type="submit" class="btn btn-primary btn-block" onclick="return confirm('Please double check if you selected the correct file. After processing, automated email will be sent at cesu.gentrias@gmail.com. Click OK to Confirm.')">Upload and Start the Merge</button>
                     <small>Antayin dumating ang Automated Email bago mag-proceed sa next step.</small>
                     <hr>
                 </form>

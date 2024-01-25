@@ -36,6 +36,7 @@ use App\Imports\PidsrImport;
 use App\Models\SiteSettings;
 use Illuminate\Http\Request;
 use App\Imports\RabiesImport;
+use App\Models\EdcsLaboratoryData;
 use App\Models\Leptospirosis;
 use App\Models\PidsrNotifications;
 use App\Models\PidsrThreshold;
@@ -5147,6 +5148,18 @@ class PIDSRController extends Controller
         }
         else {
             return 'DARKRED.png';
+        }
+    }
+
+    public static function getLabDetails($epi_id, $case_id) {
+        $d = EdcsLaboratoryData::where('epi_id', $epi_id)
+        ->orWhere('case_id', $case_id)->get();
+
+        if($d->count() != 0) {
+            
+        }
+        else {
+            return NULL;
         }
     }
 
