@@ -5155,12 +5155,7 @@ class PIDSRController extends Controller
         $d = EdcsLaboratoryData::where('epi_id', $epi_id)
         ->orWhere('case_id', $case_id)->get();
 
-        if($d->count() != 0) {
-            
-        }
-        else {
-            return NULL;
-        }
+        return $d;
     }
 
     public function dailyMergeProcess(Request $r) {

@@ -34,13 +34,14 @@ use App\Models\Leptospirosis;
 use PhpOffice\PhpWord\PhpWord;
 use Illuminate\Console\Command;
 use PhpOffice\PhpWord\Settings;
-use PhpOffice\PhpWord\IOFactory as WordFactory;
-use PhpOffice\PhpSpreadsheet\IOFactory as ExcelFactory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use PhpOffice\PhpWord\TemplateProcessor;
+use App\Http\Controllers\PIDSRController;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpWord\IOFactory as WordFactory;
+use PhpOffice\PhpSpreadsheet\IOFactory as ExcelFactory;
 
 class PidsrWndr extends Command
 {
@@ -129,7 +130,23 @@ class PidsrWndr extends Command
                 $l = $afp->get();
                 $get_type = 'Acute Flaccid Paralysis';
 
+                $lab_array = [];
+
                 foreach($l as $i) {
+                    //Check Lab Details
+                    $getLabDetails = PIDSRController::getLabDetails($i->EPIID, $i->edcs_caseid);
+
+                    if($getLabDetails->count() != 0) {
+                        foreach($getLabDetails as $ld) {
+                            $lab_array[] = [
+                                'test_type' => $ld->test_type,
+                                'specimen_type' => $ld->specimen_type,
+                                'date_collected' => Carbon::parse($ld->specimen_collected_date)->format('m/d/Y'),
+                                'result' => $ld->result,
+                            ];
+                        }
+                    }
+
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
@@ -140,6 +157,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'lab_data' => $lab_array,
                     ]);
                 }
             }
@@ -176,7 +194,23 @@ class PidsrWndr extends Command
                 $l = $aefi->get();
                 $get_type = 'AEFI';
 
+                $lab_array = [];
+
                 foreach($l as $i) {
+                    //Check Lab Details
+                    $getLabDetails = PIDSRController::getLabDetails($i->EPIID, $i->edcs_caseid);
+
+                    if($getLabDetails->count() != 0) {
+                        foreach($getLabDetails as $ld) {
+                            $lab_array[] = [
+                                'test_type' => $ld->test_type,
+                                'specimen_type' => $ld->specimen_type,
+                                'date_collected' => Carbon::parse($ld->specimen_collected_date)->format('m/d/Y'),
+                                'result' => $ld->result,
+                            ];
+                        }
+                    }
+
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
@@ -188,6 +222,7 @@ class PidsrWndr extends Command
                         'aefi_type' => $i->Kaso,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'lab_data' => $lab_array,
                     ]);
                 }
             }
@@ -223,7 +258,23 @@ class PidsrWndr extends Command
                 $l = $ant->get();
                 $get_type = 'Anthrax';
 
+                $lab_array = [];
+
                 foreach($l as $i) {
+                    //Check Lab Details
+                    $getLabDetails = PIDSRController::getLabDetails($i->EPIID, $i->edcs_caseid);
+
+                    if($getLabDetails->count() != 0) {
+                        foreach($getLabDetails as $ld) {
+                            $lab_array[] = [
+                                'test_type' => $ld->test_type,
+                                'specimen_type' => $ld->specimen_type,
+                                'date_collected' => Carbon::parse($ld->specimen_collected_date)->format('m/d/Y'),
+                                'result' => $ld->result,
+                            ];
+                        }
+                    }
+
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
@@ -234,6 +285,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'lab_data' => $lab_array,
                     ]);
                 }
             }
@@ -270,7 +322,23 @@ class PidsrWndr extends Command
                 $l = $mea->get();
                 $get_type = 'Measles';
 
+                $lab_array = [];
+
                 foreach($l as $i) {
+                    //Check Lab Details
+                    $getLabDetails = PIDSRController::getLabDetails($i->EPIID, $i->edcs_caseid);
+
+                    if($getLabDetails->count() != 0) {
+                        foreach($getLabDetails as $ld) {
+                            $lab_array[] = [
+                                'test_type' => $ld->test_type,
+                                'specimen_type' => $ld->specimen_type,
+                                'date_collected' => Carbon::parse($ld->specimen_collected_date)->format('m/d/Y'),
+                                'result' => $ld->result,
+                            ];
+                        }
+                    }
+
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
@@ -281,6 +349,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'lab_data' => $lab_array,
                     ]);
                 }
             }
@@ -315,7 +384,23 @@ class PidsrWndr extends Command
                 $l = $mgc->get();
                 $get_type = 'Meningococcal Disease';
 
+                $lab_array = [];
+
                 foreach($l as $i) {
+                    //Check Lab Details
+                    $getLabDetails = PIDSRController::getLabDetails($i->EPIID, $i->edcs_caseid);
+
+                    if($getLabDetails->count() != 0) {
+                        foreach($getLabDetails as $ld) {
+                            $lab_array[] = [
+                                'test_type' => $ld->test_type,
+                                'specimen_type' => $ld->specimen_type,
+                                'date_collected' => Carbon::parse($ld->specimen_collected_date)->format('m/d/Y'),
+                                'result' => $ld->result,
+                            ];
+                        }
+                    }
+
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
@@ -326,6 +411,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'lab_data' => $lab_array,
                     ]);
                 }
             }
@@ -360,7 +446,23 @@ class PidsrWndr extends Command
                 $l = $nt->get();
                 $get_type = 'Neonatal Tetanus';
 
+                $lab_array = [];
+
                 foreach($l as $i) {
+                    //Check Lab Details
+                    $getLabDetails = PIDSRController::getLabDetails($i->EPIID, $i->edcs_caseid);
+
+                    if($getLabDetails->count() != 0) {
+                        foreach($getLabDetails as $ld) {
+                            $lab_array[] = [
+                                'test_type' => $ld->test_type,
+                                'specimen_type' => $ld->specimen_type,
+                                'date_collected' => Carbon::parse($ld->specimen_collected_date)->format('m/d/Y'),
+                                'result' => $ld->result,
+                            ];
+                        }
+                    }
+
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
@@ -371,6 +473,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'lab_data' => $lab_array,
                     ]);
                 }
             }
@@ -405,7 +508,23 @@ class PidsrWndr extends Command
                 $l = $psp->get();
                 $get_type = 'Paralytic Shellfish Poisoning';
 
+                $lab_array = [];
+
                 foreach($l as $i) {
+                    //Check Lab Details
+                    $getLabDetails = PIDSRController::getLabDetails($i->EPIID, $i->edcs_caseid);
+
+                    if($getLabDetails->count() != 0) {
+                        foreach($getLabDetails as $ld) {
+                            $lab_array[] = [
+                                'test_type' => $ld->test_type,
+                                'specimen_type' => $ld->specimen_type,
+                                'date_collected' => Carbon::parse($ld->specimen_collected_date)->format('m/d/Y'),
+                                'result' => $ld->result,
+                            ];
+                        }
+                    }
+
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
@@ -416,6 +535,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'lab_data' => $lab_array,
                     ]);
                 }
             }
@@ -450,7 +570,23 @@ class PidsrWndr extends Command
                 $l = $rab->get();
                 $get_type = 'Rabies';
 
+                $lab_array = [];
+
                 foreach($l as $i) {
+                    //Check Lab Details
+                    $getLabDetails = PIDSRController::getLabDetails($i->EPIID, $i->edcs_caseid);
+
+                    if($getLabDetails->count() != 0) {
+                        foreach($getLabDetails as $ld) {
+                            $lab_array[] = [
+                                'test_type' => $ld->test_type,
+                                'specimen_type' => $ld->specimen_type,
+                                'date_collected' => Carbon::parse($ld->specimen_collected_date)->format('m/d/Y'),
+                                'result' => $ld->result,
+                            ];
+                        }
+                    }
+
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
@@ -461,6 +597,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'lab_data' => $lab_array,
                     ]);
                 }
             }
@@ -497,7 +634,23 @@ class PidsrWndr extends Command
                 $l = $abd->get();
                 $get_type = 'Acute Bloody Diarrhea';
 
+                $lab_array = [];
+
                 foreach($l as $i) {
+                    //Check Lab Details
+                    $getLabDetails = PIDSRController::getLabDetails($i->EPIID, $i->edcs_caseid);
+
+                    if($getLabDetails->count() != 0) {
+                        foreach($getLabDetails as $ld) {
+                            $lab_array[] = [
+                                'test_type' => $ld->test_type,
+                                'specimen_type' => $ld->specimen_type,
+                                'date_collected' => Carbon::parse($ld->specimen_collected_date)->format('m/d/Y'),
+                                'result' => $ld->result,
+                            ];
+                        }
+                    }
+
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
@@ -508,6 +661,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'lab_data' => $lab_array,
                     ]);
                 }
             }
@@ -542,7 +696,23 @@ class PidsrWndr extends Command
                 $l = $aes->get();
                 $get_type = 'Acute Encephalitis Syndrome';
 
+                $lab_array = [];
+
                 foreach($l as $i) {
+                    //Check Lab Details
+                    $getLabDetails = PIDSRController::getLabDetails($i->EPIID, $i->edcs_caseid);
+
+                    if($getLabDetails->count() != 0) {
+                        foreach($getLabDetails as $ld) {
+                            $lab_array[] = [
+                                'test_type' => $ld->test_type,
+                                'specimen_type' => $ld->specimen_type,
+                                'date_collected' => Carbon::parse($ld->specimen_collected_date)->format('m/d/Y'),
+                                'result' => $ld->result,
+                            ];
+                        }
+                    }
+
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
@@ -553,6 +723,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'lab_data' => $lab_array,
                     ]);
                 }
             }
@@ -587,7 +758,23 @@ class PidsrWndr extends Command
                 $l = $ahf->get();
                 $get_type = 'Acute Hemorrhagic Fever Syndrome';
 
+                $lab_array = [];
+
                 foreach($l as $i) {
+                    //Check Lab Details
+                    $getLabDetails = PIDSRController::getLabDetails($i->EPIID, $i->edcs_caseid);
+
+                    if($getLabDetails->count() != 0) {
+                        foreach($getLabDetails as $ld) {
+                            $lab_array[] = [
+                                'test_type' => $ld->test_type,
+                                'specimen_type' => $ld->specimen_type,
+                                'date_collected' => Carbon::parse($ld->specimen_collected_date)->format('m/d/Y'),
+                                'result' => $ld->result,
+                            ];
+                        }
+                    }
+
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
@@ -598,6 +785,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'lab_data' => $lab_array,
                     ]);
                 }
             }
@@ -632,7 +820,23 @@ class PidsrWndr extends Command
                 $l = $hep->get();
                 $get_type = 'Acute Viral Hepatitis';
 
+                $lab_array = [];
+
                 foreach($l as $i) {
+                    //Check Lab Details
+                    $getLabDetails = PIDSRController::getLabDetails($i->EPIID, $i->edcs_caseid);
+
+                    if($getLabDetails->count() != 0) {
+                        foreach($getLabDetails as $ld) {
+                            $lab_array[] = [
+                                'test_type' => $ld->test_type,
+                                'specimen_type' => $ld->specimen_type,
+                                'date_collected' => Carbon::parse($ld->specimen_collected_date)->format('m/d/Y'),
+                                'result' => $ld->result,
+                            ];
+                        }
+                    }
+
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
@@ -643,6 +847,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'lab_data' => $lab_array,
                     ]);
                 }
             }
@@ -677,7 +882,23 @@ class PidsrWndr extends Command
                 $l = $ame->get();
                 $get_type = 'AMES';
 
+                $lab_array = [];
+
                 foreach($l as $i) {
+                    //Check Lab Details
+                    $getLabDetails = PIDSRController::getLabDetails($i->EPIID, $i->edcs_caseid);
+
+                    if($getLabDetails->count() != 0) {
+                        foreach($getLabDetails as $ld) {
+                            $lab_array[] = [
+                                'test_type' => $ld->test_type,
+                                'specimen_type' => $ld->specimen_type,
+                                'date_collected' => Carbon::parse($ld->specimen_collected_date)->format('m/d/Y'),
+                                'result' => $ld->result,
+                            ];
+                        }
+                    }
+
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
@@ -688,6 +909,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'lab_data' => $lab_array,
                     ]);
                 }
             }
@@ -722,7 +944,23 @@ class PidsrWndr extends Command
                 $l = $mgt->get();
                 $get_type = 'Bacterial Meningitis';
 
+                $lab_array = [];
+
                 foreach($l as $i) {
+                    //Check Lab Details
+                    $getLabDetails = PIDSRController::getLabDetails($i->EPIID, $i->edcs_caseid);
+
+                    if($getLabDetails->count() != 0) {
+                        foreach($getLabDetails as $ld) {
+                            $lab_array[] = [
+                                'test_type' => $ld->test_type,
+                                'specimen_type' => $ld->specimen_type,
+                                'date_collected' => Carbon::parse($ld->specimen_collected_date)->format('m/d/Y'),
+                                'result' => $ld->result,
+                            ];
+                        }
+                    }
+
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
@@ -733,6 +971,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'lab_data' => $lab_array,
                     ]);
                 }
             }
@@ -767,7 +1006,23 @@ class PidsrWndr extends Command
                 $l = $chi->get();
                 $get_type = 'Chikungunya';
 
+                $lab_array = [];
+
                 foreach($l as $i) {
+                    //Check Lab Details
+                    $getLabDetails = PIDSRController::getLabDetails($i->EPIID, $i->edcs_caseid);
+
+                    if($getLabDetails->count() != 0) {
+                        foreach($getLabDetails as $ld) {
+                            $lab_array[] = [
+                                'test_type' => $ld->test_type,
+                                'specimen_type' => $ld->specimen_type,
+                                'date_collected' => Carbon::parse($ld->specimen_collected_date)->format('m/d/Y'),
+                                'result' => $ld->result,
+                            ];
+                        }
+                    }
+
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
@@ -778,6 +1033,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'lab_data' => $lab_array,
                     ]);
                 }
             }
@@ -812,7 +1068,23 @@ class PidsrWndr extends Command
                 $l = $cho->get();
                 $get_type = 'Cholera';
 
+                $lab_array = [];
+
                 foreach($l as $i) {
+                    //Check Lab Details
+                    $getLabDetails = PIDSRController::getLabDetails($i->EPIID, $i->edcs_caseid);
+
+                    if($getLabDetails->count() != 0) {
+                        foreach($getLabDetails as $ld) {
+                            $lab_array[] = [
+                                'test_type' => $ld->test_type,
+                                'specimen_type' => $ld->specimen_type,
+                                'date_collected' => Carbon::parse($ld->specimen_collected_date)->format('m/d/Y'),
+                                'result' => $ld->result,
+                            ];
+                        }
+                    }
+
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
@@ -823,6 +1095,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'lab_data' => $lab_array,
                     ]);
                 }
             }
@@ -857,7 +1130,23 @@ class PidsrWndr extends Command
                 $l = $den->get();
                 $get_type = 'Dengue';
 
+                $lab_array = [];
+
                 foreach($l as $i) {
+                    //Check Lab Details
+                    $getLabDetails = PIDSRController::getLabDetails($i->EPIID, $i->edcs_caseid);
+
+                    if($getLabDetails->count() != 0) {
+                        foreach($getLabDetails as $ld) {
+                            $lab_array[] = [
+                                'test_type' => $ld->test_type,
+                                'specimen_type' => $ld->specimen_type,
+                                'date_collected' => Carbon::parse($ld->specimen_collected_date)->format('m/d/Y'),
+                                'result' => $ld->result,
+                            ];
+                        }
+                    }
+
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
@@ -868,6 +1157,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'lab_data' => $lab_array,
                     ]);
                 }
             }
@@ -902,7 +1192,23 @@ class PidsrWndr extends Command
                 $l = $dip->get();
                 $get_type = 'Diphtheria';
 
+                $lab_array = [];
+
                 foreach($l as $i) {
+                    //Check Lab Details
+                    $getLabDetails = PIDSRController::getLabDetails($i->EPIID, $i->edcs_caseid);
+
+                    if($getLabDetails->count() != 0) {
+                        foreach($getLabDetails as $ld) {
+                            $lab_array[] = [
+                                'test_type' => $ld->test_type,
+                                'specimen_type' => $ld->specimen_type,
+                                'date_collected' => Carbon::parse($ld->specimen_collected_date)->format('m/d/Y'),
+                                'result' => $ld->result,
+                            ];
+                        }
+                    }
+
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
@@ -913,6 +1219,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'lab_data' => $lab_array,
                     ]);
                 }
             }
@@ -947,7 +1254,23 @@ class PidsrWndr extends Command
                 $l = $ili->get();
                 $get_type = 'Influenza-like Illness';
 
+                $lab_array = [];
+
                 foreach($l as $i) {
+                    //Check Lab Details
+                    $getLabDetails = PIDSRController::getLabDetails($i->EPIID, $i->edcs_caseid);
+
+                    if($getLabDetails->count() != 0) {
+                        foreach($getLabDetails as $ld) {
+                            $lab_array[] = [
+                                'test_type' => $ld->test_type,
+                                'specimen_type' => $ld->specimen_type,
+                                'date_collected' => Carbon::parse($ld->specimen_collected_date)->format('m/d/Y'),
+                                'result' => $ld->result,
+                            ];
+                        }
+                    }
+
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
@@ -958,6 +1281,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'lab_data' => $lab_array,
                     ]);
                 }
             }
@@ -992,7 +1316,23 @@ class PidsrWndr extends Command
                 $l = $lep->get();
                 $get_type = 'Leptospirosis';
 
+                $lab_array = [];
+
                 foreach($l as $i) {
+                    //Check Lab Details
+                    $getLabDetails = PIDSRController::getLabDetails($i->EPIID, $i->edcs_caseid);
+
+                    if($getLabDetails->count() != 0) {
+                        foreach($getLabDetails as $ld) {
+                            $lab_array[] = [
+                                'test_type' => $ld->test_type,
+                                'specimen_type' => $ld->specimen_type,
+                                'date_collected' => Carbon::parse($ld->specimen_collected_date)->format('m/d/Y'),
+                                'result' => $ld->result,
+                            ];
+                        }
+                    }
+
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
@@ -1003,6 +1343,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'lab_data' => $lab_array,
                     ]);
                 }
             }
@@ -1037,7 +1378,23 @@ class PidsrWndr extends Command
                 $l = $mal->get();
                 $get_type = 'Malaria';
 
+                $lab_array = [];
+
                 foreach($l as $i) {
+                    //Check Lab Details
+                    $getLabDetails = PIDSRController::getLabDetails($i->EPIID, $i->edcs_caseid);
+
+                    if($getLabDetails->count() != 0) {
+                        foreach($getLabDetails as $ld) {
+                            $lab_array[] = [
+                                'test_type' => $ld->test_type,
+                                'specimen_type' => $ld->specimen_type,
+                                'date_collected' => Carbon::parse($ld->specimen_collected_date)->format('m/d/Y'),
+                                'result' => $ld->result,
+                            ];
+                        }
+                    }
+
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
@@ -1048,6 +1405,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'lab_data' => $lab_array,
                     ]);
                 }
             }
@@ -1082,7 +1440,23 @@ class PidsrWndr extends Command
                 $l = $nnt->get();
                 $get_type = 'Non-Neonatal Tetanus';
 
+                $lab_array = [];
+
                 foreach($l as $i) {
+                    //Check Lab Details
+                    $getLabDetails = PIDSRController::getLabDetails($i->EPIID, $i->edcs_caseid);
+
+                    if($getLabDetails->count() != 0) {
+                        foreach($getLabDetails as $ld) {
+                            $lab_array[] = [
+                                'test_type' => $ld->test_type,
+                                'specimen_type' => $ld->specimen_type,
+                                'date_collected' => Carbon::parse($ld->specimen_collected_date)->format('m/d/Y'),
+                                'result' => $ld->result,
+                            ];
+                        }
+                    }
+
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
@@ -1093,6 +1467,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'lab_data' => $lab_array,
                     ]);
                 }
             }
@@ -1127,7 +1502,23 @@ class PidsrWndr extends Command
                 $l = $per->get();
                 $get_type = 'Pertussis';
 
+                $lab_array = [];
+
                 foreach($l as $i) {
+                    //Check Lab Details
+                    $getLabDetails = PIDSRController::getLabDetails($i->EPIID, $i->edcs_caseid);
+
+                    if($getLabDetails->count() != 0) {
+                        foreach($getLabDetails as $ld) {
+                            $lab_array[] = [
+                                'test_type' => $ld->test_type,
+                                'specimen_type' => $ld->specimen_type,
+                                'date_collected' => Carbon::parse($ld->specimen_collected_date)->format('m/d/Y'),
+                                'result' => $ld->result,
+                            ];
+                        }
+                    }
+
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
@@ -1138,6 +1529,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'lab_data' => $lab_array,
                     ]);
                 }
             }
@@ -1172,7 +1564,23 @@ class PidsrWndr extends Command
                 $l = $rtv->get();
                 $get_type = 'RotaVirus';
 
+                $lab_array = [];
+
                 foreach($l as $i) {
+                    //Check Lab Details
+                    $getLabDetails = PIDSRController::getLabDetails($i->EPIID, $i->edcs_caseid);
+
+                    if($getLabDetails->count() != 0) {
+                        foreach($getLabDetails as $ld) {
+                            $lab_array[] = [
+                                'test_type' => $ld->test_type,
+                                'specimen_type' => $ld->specimen_type,
+                                'date_collected' => Carbon::parse($ld->specimen_collected_date)->format('m/d/Y'),
+                                'result' => $ld->result,
+                            ];
+                        }
+                    }
+
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
@@ -1183,6 +1591,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'lab_data' => $lab_array,
                     ]);
                 }
             }
@@ -1217,7 +1626,23 @@ class PidsrWndr extends Command
                 $l = $typ->get();
                 $get_type = 'Typhoid and Parathyphoid Fever';
 
+                $lab_array = [];
+
                 foreach($l as $i) {
+                    //Check Lab Details
+                    $getLabDetails = PIDSRController::getLabDetails($i->EPIID, $i->edcs_caseid);
+
+                    if($getLabDetails->count() != 0) {
+                        foreach($getLabDetails as $ld) {
+                            $lab_array[] = [
+                                'test_type' => $ld->test_type,
+                                'specimen_type' => $ld->specimen_type,
+                                'date_collected' => Carbon::parse($ld->specimen_collected_date)->format('m/d/Y'),
+                                'result' => $ld->result,
+                            ];
+                        }
+                    }
+
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
@@ -1228,6 +1653,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'lab_data' => $lab_array,
                     ]);
                 }
             }
@@ -1262,7 +1688,23 @@ class PidsrWndr extends Command
                 $l = $hfm->get();
                 $get_type = 'Hfmd';
 
+                $lab_array = [];
+
                 foreach($l as $i) {
+                    //Check Lab Details
+                    $getLabDetails = PIDSRController::getLabDetails($i->EPIID, $i->edcs_caseid);
+
+                    if($getLabDetails->count() != 0) {
+                        foreach($getLabDetails as $ld) {
+                            $lab_array[] = [
+                                'test_type' => $ld->test_type,
+                                'specimen_type' => $ld->specimen_type,
+                                'date_collected' => Carbon::parse($ld->specimen_collected_date)->format('m/d/Y'),
+                                'result' => $ld->result,
+                            ];
+                        }
+                    }
+
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
@@ -1273,6 +1715,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'lab_data' => $lab_array,
                     ]);
                 }
             }

@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Http\Controllers\PIDSRController;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
@@ -177,7 +178,23 @@ class EdcsHourlyCaseEmailer extends Command
                         $get_type = 'Typhoid and Parathyphoid Fever';
                     }
 
+                    $lab_array = [];
+
                     foreach($l as $i) {
+                        //Check Lab Details
+                        $getLabDetails = PIDSRController::getLabDetails($i->EPIID, $i->edcs_caseid);
+
+                        if($getLabDetails->count() != 0) {
+                            foreach($getLabDetails as $ld) {
+                                $lab_array[] = [
+                                    'test_type' => $ld->test_type,
+                                    'specimen_type' => $ld->specimen_type,
+                                    'date_collected' => Carbon::parse($ld->specimen_collected_date)->format('m/d/Y'),
+                                    'result' => $ld->result,
+                                ];
+                            }
+                        }
+
                         array_push($list, [
                             'type' => $get_type,
                             'name' => $i->FullName,
@@ -187,6 +204,7 @@ class EdcsHourlyCaseEmailer extends Command
                             'address' => $i->Streetpurok,
                             'doe' => $i->DateOfEntry,
                             'dru' => $i->NameOfDru,
+                            'lab_data' => $lab_array,
                         ]);
                     }
 
