@@ -19,18 +19,19 @@ use App\Models\Measles;
 use App\Models\Meningo;
 use App\Models\Typhoid;
 use App\Models\Hepatitis;
+use App\Models\Influenza;
 use App\Models\Rotavirus;
 use App\Models\DohFacility;
-use App\Models\EdcsLaboratoryData;
-use App\Models\Influenza;
 use Illuminate\Support\Str;
 use App\Models\Leptospirosis;
+use App\Models\EdcsLaboratoryData;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToModel;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\SkipsUnknownSheets;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
+use Maatwebsite\Excel\Concerns\WithGroupedHeadingRow;
 
 class EdcsImport implements WithMultipleSheets, SkipsUnknownSheets
 {
@@ -179,7 +180,7 @@ Pano yung late report ng Tuesday 11AM onwards?
 MW should be the same and not modified to advance to next week because pasok pa din naman sa MW reporting period for the particular week
 */
 
-class AbdImport implements ToModel, WithHeadingRow
+class AbdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 {
     public function model(array $row) {
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
@@ -309,7 +310,7 @@ class AbdImport implements ToModel, WithHeadingRow
     }
 }
 
-class AfpImport implements ToModel, WithHeadingRow
+class AfpImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 {
     public function model(array $row)
     {
@@ -511,7 +512,7 @@ class AfpImport implements ToModel, WithHeadingRow
     }
 }
 
-class AmesImport implements ToModel, WithHeadingRow
+class AmesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 {
     public function model(array $row)
     {
@@ -723,7 +724,7 @@ class AmesImport implements ToModel, WithHeadingRow
     }
 }
 
-class HepaImport implements ToModel, WithHeadingRow
+class HepaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 {
     public function model(array $row) {
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
@@ -832,7 +833,7 @@ class HepaImport implements ToModel, WithHeadingRow
     }
 }
 
-class HfmdImport implements ToModel, WithHeadingRow
+class HfmdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 {
     public function model(array $row) {
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
@@ -1025,7 +1026,7 @@ class HfmdImport implements ToModel, WithHeadingRow
     }
 }
 
-class LeptoImport implements ToModel, WithHeadingRow
+class LeptoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 {
     public function model(array $row) {
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
@@ -1134,7 +1135,7 @@ class LeptoImport implements ToModel, WithHeadingRow
     }
 }
 
-class MeaslesImport implements ToModel, WithHeadingRow
+class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow, WithGroupedHeadingRow
 {
     public function model(array $row) {
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
@@ -1184,9 +1185,10 @@ class MeaslesImport implements ToModel, WithHeadingRow
                 'AgeDays' => $getAgeDays,
                 'Admitted' => ($row['patient_admitted'] == 'Yes') ? 1 : 0,
                 'DAdmit' => EdcsImport::tDate($row['date_admitted_seen_consulted']),
-                'DONSET' => EdcsImport::tDate($row['date_onset']),
+                'DONSET' => EdcsImport::tDate($row['date_onset'][0]),
                 'VitaminA' => ($row['was_the_patient_given_vitamin_a_during_this_illness'] = 'Yes') ? 'Y' : 'N',
-                'FeverOnset' => EdcsImport::tDate($row['date_onset']),
+                'FeverOnset' => EdcsImport::tDate($row['date_onset'][0]),
+                'RashOnset' => EdcsImport::tDate($row['date_onset'][1]),
                 'MeasVacc' => ($row['patient_received_measles_containing_vaccine_mcv_br_if_yes_indicate_the_number_of_doses_whichever_is_applicable'] = 'Yes') ? 'Y' : 'N',
                 'Cough' => ($row['cough'] = 'Yes') ? 'Y' : 'N',
                 'KoplikSpot' => ($row['koplik_sign'] = 'Yes') ? 'Y' : 'N',
@@ -1199,14 +1201,14 @@ class MeaslesImport implements ToModel, WithHeadingRow
                 'ArthritisArthralgia' => ($row['arthralgiaarthritis'] = 'Yes') ? 'Y' : 'N',
                 'SwoLympNod' => ($row['swollen_lymphatic_nodules'] = 'Yes') ? 'Y' : 'N',
                 'LympNodLoc' => $row['swollen_lymphatic_specify'],
-                'OthLocation' => $row['others_specify'],
+                'OthLocation' => $row['others_specify'][0],
                 'OthSymptoms' => $row['other_symptoms'],
                 'AreThereAny' => ($row['are_there_any_complications'] = 'Yes') ? 'Y' : 'N',
                 'Complications' => $row['if_yes_specify'],
                 'Reporter' => $row['name_of_reporter'],
                 'Investigator' => $row['name_of_investigators'],
-                'RContactNum' => $row['contact_nos_1'],
-                'ContactNum' => $row['contact_nos_2'],
+                'RContactNum' => $row['contact_nos_2'] ?? $row['contact_nos'][1] ?? NULL,
+                'ContactNum' => $row['contact_nos_1'] ?? $row['contact_nos'][0] ?? NULL,
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp']),
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
                 'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
@@ -1223,9 +1225,9 @@ class MeaslesImport implements ToModel, WithHeadingRow
                 'PlaceTravelled' => $row['place_of_travel'],
                 'TravTiming' => EdcsImport::tDate($row['date_of_travel']),
                 'ProbExposure' => NULL,
-                'OtherExposure' => NULL,
+                'OtherExposure' => $row['others_specify'][1],
                 'OtherCase' => ($row['are_there_other_known_cases_with_fever_and_rash_regardless_of_presence_of_3_csbr_in_the_community'] = 'Yes') ? 'Y' : 'N',
-                'RashOnset' => EdcsImport::tDate($row['date_onset_3']),
+                
                 'WholeBloodColl' => NULL,
                 'DriedBloodColl' => NULL,
                 'OP/NPSwabColl' => NULL,
@@ -1318,7 +1320,7 @@ class MeaslesImport implements ToModel, WithHeadingRow
     }
 }
 
-class NntImport implements ToModel, WithHeadingRow
+class NntImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 {
     public function model(array $row) {
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
@@ -1429,7 +1431,7 @@ class NntImport implements ToModel, WithHeadingRow
     }
 }
 
-class RabiesImport implements ToModel, WithHeadingRow
+class RabiesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 {
     public function model(array $row) {
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
@@ -1557,7 +1559,7 @@ class RabiesImport implements ToModel, WithHeadingRow
     }
 }
 
-class RotaImport implements ToModel, WithHeadingRow
+class RotaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 {
     public function model(array $row) {
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
@@ -1702,7 +1704,7 @@ class RotaImport implements ToModel, WithHeadingRow
     }
 }
 
-class TyphoidImport implements ToModel, WithHeadingRow
+class TyphoidImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 {
     public function model(array $row) {
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
@@ -1808,7 +1810,7 @@ class TyphoidImport implements ToModel, WithHeadingRow
     }
 }
 
-class DengueImport implements ToModel, WithHeadingRow
+class DengueImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 {
     public function model(array $row) {
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
@@ -1947,7 +1949,7 @@ class DengueImport implements ToModel, WithHeadingRow
     }
 }
 
-class DiphImport implements ToModel, WithHeadingRow {
+class DiphImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
     public function model(array $row) {
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
             $birthdate = Carbon::parse(EdcsImport::tDate($row['date_of_birth']));
@@ -2055,7 +2057,7 @@ class DiphImport implements ToModel, WithHeadingRow {
     }
 }
 
-class ChikvImport implements ToModel, WithHeadingRow {
+class ChikvImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
     public function model(array $row) {
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
             $birthdate = Carbon::parse(EdcsImport::tDate($row['date_of_birth']));
@@ -2204,7 +2206,7 @@ class ChikvImport implements ToModel, WithHeadingRow {
     }
 }
 
-class MeningoImport implements ToModel, WithHeadingRow {
+class MeningoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
     public function model(array $row) {
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
             $birthdate = Carbon::parse(EdcsImport::tDate($row['date_of_birth']));
@@ -2374,7 +2376,7 @@ class MeningoImport implements ToModel, WithHeadingRow {
     }
 }
 
-class NtImport implements ToModel, WithHeadingRow {
+class NtImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
     public function model(array $row) {
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
             $birthdate = Carbon::parse(EdcsImport::tDate($row['date_of_birth']));
@@ -2517,7 +2519,7 @@ class NtImport implements ToModel, WithHeadingRow {
     }
 }
 
-class PertImport implements ToModel, WithHeadingRow {
+class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
     public function model(array $row) {
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
             $birthdate = Carbon::parse(EdcsImport::tDate($row['date_of_birth']));
@@ -2625,7 +2627,7 @@ class PertImport implements ToModel, WithHeadingRow {
     }
 }
 
-class CholeraImport implements ToModel, WithHeadingRow {
+class CholeraImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
     public function model(array $row) {
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
             $birthdate = Carbon::parse(EdcsImport::tDate($row['date_of_birth']));
@@ -2733,7 +2735,7 @@ class CholeraImport implements ToModel, WithHeadingRow {
     }
 }
 
-class InfluenzaImport implements ToModel, WithHeadingRow {
+class InfluenzaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
     public function model(array $row) {
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
             $birthdate = Carbon::parse(EdcsImport::tDate($row['date_of_birth']));
@@ -2842,7 +2844,7 @@ class InfluenzaImport implements ToModel, WithHeadingRow {
     }
 }
 
-class LaboratoryImport implements ToModel, WithHeadingRow {
+class LaboratoryImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
     public function model(array $row) {
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
             $table_params = [
