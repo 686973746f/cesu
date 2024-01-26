@@ -1135,7 +1135,7 @@ class LeptoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
     }
 }
 
-class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow, WithGroupedHeadingRow
+class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 {
     public function model(array $row) {
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
