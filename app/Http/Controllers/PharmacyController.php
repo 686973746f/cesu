@@ -55,7 +55,15 @@ class PharmacyController extends Controller
             ->with('msgtype', 'warning');
         }
 
-        return view('pharmacy.home');
+        //Expiration List
+        $expired_list = PharmacySupplySubStock::whereBetween('expiration_date', [date('Y-m-d'), date('Y-m-t', strtotime('+3 Months'))])
+        ->where('current_box_stock', '>', 0)
+        ->orderBy('expiration_date', 'ASC')
+        ->get();
+
+        return view('pharmacy.home', [
+            'expired_list' => $expired_list,
+        ]);
     }
 
     public function addMasterItem(Request $r) {

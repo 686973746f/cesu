@@ -29,6 +29,19 @@
                     {{session('msg')}}
                 </div>
                 @endif
+                @if($expired_list->count() != 0)
+                <div class="alert alert-warning" role="alert">
+                    <h4><b>Medicine Near Expiration Warning</b></h4>
+                    <h6>Please check the list below:</h6>
+                    <hr>
+                    <ul>
+                        @foreach($expired_list as $ei)
+                        <li><a href="{{route('pharmacy_itemlist_viewitem', $ei->pharmacysub->id)}}"><b>{{$ei->pharmacysub->pharmacysupplymaster->name}}</b></a> - {{$ei->displayQty()}} - Expires in: {{date('M d, Y (D)', strtotime($ei->expiration_date))}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
+
                 <form action="{{route('pharmacy_modify_qr')}}" method="GET" autocomplete="off">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="Search Patient ID | SKU Code | Meds QR" name="code" id="code" autocomplete="off" required autofocus>

@@ -91,8 +91,10 @@
             <div class="d-flex justify-content-between">
                 <div><b><span class="text-primary">Follow-up Patients</span> {{(request()->input('d')) ? date('m/d/Y (D)', strtotime(request()->input('d'))) : date('m/d/Y (D)', strtotime(date('Y-m-d')))}}</b></div>
                 <div>
-                    <div>Completed: {{$completed_count}} | Pending: {{$ff->count()}}</div>
-                    <div>Pending D3 - <span id="putd3here"></span> | Pending D7 - <span id="putd7here"></span> </div>
+                    <div class="mb-3">Completed: {{$completed_count}} | Pending: {{$ff->count()}}</div>
+                    <div>Pending D3 = <span id="putd3here"></span></div>
+                    <div>Pending D7 = <span id="putd7here"></span></div>
+                    <div class="mb-3">Possible D28 = {{$possible_d28_count}}</div>
                 </div>
             </div>
             <div class="text-right">
