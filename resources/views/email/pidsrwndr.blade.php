@@ -424,6 +424,15 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                @if(!empty($p['lab_data']))
+                <div>Laboratory:
+                    <ul>
+                        @foreach($p['lab_data'] as $pl)
+                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <p></p>
             </li>
             @endforeach
@@ -447,6 +456,15 @@
                 <div>{{$p['aefi_type']}} Case</div>
                 <div>Date Admitted: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                @if(!empty($p['lab_data']))
+                <div>Laboratory:
+                    <ul>
+                        @foreach($p['lab_data'] as $pl)
+                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <p></p>
             </li>
             @endforeach
@@ -469,6 +487,15 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                @if(!empty($p['lab_data']))
+                <div>Laboratory:
+                    <ul>
+                        @foreach($p['lab_data'] as $pl)
+                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <p></p>
             </li>
             @endforeach
@@ -491,6 +518,15 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                @if(!empty($p['lab_data']))
+                <div>Laboratory:
+                    <ul>
+                        @foreach($p['lab_data'] as $pl)
+                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <p></p>
             </li>
             @endforeach
@@ -513,6 +549,15 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                @if(!empty($p['lab_data']))
+                <div>Laboratory:
+                    <ul>
+                        @foreach($p['lab_data'] as $pl)
+                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <p></p>
             </li>
             @endforeach
@@ -535,6 +580,15 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                @if(!empty($p['lab_data']))
+                <div>Laboratory:
+                    <ul>
+                        @foreach($p['lab_data'] as $pl)
+                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <p></p>
             </li>
             @endforeach
@@ -557,6 +611,15 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                @if(!empty($p['lab_data']))
+                <div>Laboratory:
+                    <ul>
+                        @foreach($p['lab_data'] as $pl)
+                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <p></p>
             </li>
             @endforeach
@@ -579,6 +642,15 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                @if(!empty($p['lab_data']))
+                <div>Laboratory:
+                    <ul>
+                        @foreach($p['lab_data'] as $pl)
+                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <p></p>
             </li>
             @endforeach
@@ -601,6 +673,15 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                @if(!empty($p['lab_data']))
+                <div>Laboratory:
+                    <ul>
+                        @foreach($p['lab_data'] as $pl)
+                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <p></p>
             </li>
             @endforeach
@@ -629,6 +710,15 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                @if(!empty($p['lab_data']))
+                <div>Laboratory:
+                    <ul>
+                        @foreach($p['lab_data'] as $pl)
+                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <p></p>
             </li>
             @endforeach
@@ -651,6 +741,15 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                @if(!empty($p['lab_data']))
+                <div>Laboratory:
+                    <ul>
+                        @foreach($p['lab_data'] as $pl)
+                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <p></p>
             </li>
             @endforeach
@@ -673,6 +772,15 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                @if(!empty($p['lab_data']))
+                <div>Laboratory:
+                    <ul>
+                        @foreach($p['lab_data'] as $pl)
+                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <p></p>
             </li>
             @endforeach
@@ -694,6 +802,15 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                @if(!empty($p['lab_data']))
+                <div>Laboratory:
+                    <ul>
+                        @foreach($p['lab_data'] as $pl)
+                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <p></p>
             </li>
             @endforeach
@@ -716,6 +833,15 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                @if(!empty($p['lab_data']))
+                <div>Laboratory:
+                    <ul>
+                        @foreach($p['lab_data'] as $pl)
+                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <p></p>
             </li>
             @endforeach
@@ -738,6 +864,15 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                @if(!empty($p['lab_data']))
+                <div>Laboratory:
+                    <ul>
+                        @foreach($p['lab_data'] as $pl)
+                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <p></p>
             </li>
             @endforeach
@@ -760,6 +895,15 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                @if(!empty($p['lab_data']))
+                <div>Laboratory:
+                    <ul>
+                        @foreach($p['lab_data'] as $pl)
+                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <p></p>
             </li>
             @endforeach
@@ -782,6 +926,15 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                @if(!empty($p['lab_data']))
+                <div>Laboratory:
+                    <ul>
+                        @foreach($p['lab_data'] as $pl)
+                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <p></p>
             </li>
             @endforeach
@@ -804,6 +957,15 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                @if(!empty($p['lab_data']))
+                <div>Laboratory:
+                    <ul>
+                        @foreach($p['lab_data'] as $pl)
+                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <p></p>
             </li>
             @endforeach
@@ -826,6 +988,15 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                @if(!empty($p['lab_data']))
+                <div>Laboratory:
+                    <ul>
+                        @foreach($p['lab_data'] as $pl)
+                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <p></p>
             </li>
             @endforeach
@@ -848,6 +1019,15 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                @if(!empty($p['lab_data']))
+                <div>Laboratory:
+                    <ul>
+                        @foreach($p['lab_data'] as $pl)
+                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <p></p>
             </li>
             @endforeach
@@ -870,6 +1050,15 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                @if(!empty($p['lab_data']))
+                <div>Laboratory:
+                    <ul>
+                        @foreach($p['lab_data'] as $pl)
+                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <p></p>
             </li>
             @endforeach
@@ -892,6 +1081,15 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                @if(!empty($p['lab_data']))
+                <div>Laboratory:
+                    <ul>
+                        @foreach($p['lab_data'] as $pl)
+                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <p></p>
             </li>
             @endforeach
@@ -914,6 +1112,15 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                @if(!empty($p['lab_data']))
+                <div>Laboratory:
+                    <ul>
+                        @foreach($p['lab_data'] as $pl)
+                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <p></p>
             </li>
             @endforeach
@@ -936,6 +1143,15 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                @if(!empty($p['lab_data']))
+                <div>Laboratory:
+                    <ul>
+                        @foreach($p['lab_data'] as $pl)
+                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <p></p>
             </li>
             @endforeach
@@ -958,6 +1174,15 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                @if(!empty($p['lab_data']))
+                <div>Laboratory:
+                    <ul>
+                        @foreach($p['lab_data'] as $pl)
+                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <p></p>
             </li>
             @endforeach
@@ -980,6 +1205,15 @@
                 <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                @if(!empty($p['lab_data']))
+                <div>Laboratory:
+                    <ul>
+                        @foreach($p['lab_data'] as $pl)
+                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <p></p>
             </li>
             @endforeach
