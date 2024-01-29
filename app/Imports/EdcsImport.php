@@ -135,6 +135,8 @@ class EdcsImport implements WithMultipleSheets, SkipsUnknownSheets
     {
         return [
             'ABD' => new AbdImport(),
+            'abd_view' => new AbdImport(),
+
             //'AEFI' => new AfpImport(), => NOT ON EDCS ANYMORE
             //'AES' => new AfpImport(), => NOW AMES
             'AFP' => new AfpImport(),
@@ -163,9 +165,11 @@ class EdcsImport implements WithMultipleSheets, SkipsUnknownSheets
             'RABIES' => new RabiesImport(),
             'ROTA' => new RotaImport(),
             'TYPHOID' => new TyphoidImport(),
+            'typhoid_view' => new TyphoidImport(),
 
             'LABORATORY' => new LaboratoryImport(),
             'LAB' => new LaboratoryImport(),
+            'laboratory_view' => new LaboratoryImport(),
         ];
     }
 
@@ -242,10 +246,10 @@ class AbdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'Organism' => NULL,
                 'Outcome' => mb_strtoupper(substr($row['outcome'],0,1)),
                 'DateDied' => EdcsImport::tDate($row['date_died']),
-                'DateOfEntry' => EdcsImport::tDate($row['timestamp']),
+                'DateOfEntry' => date('Y-m-d'), //NO $row['timestamp']
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
                 'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
-                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
+                'MorbidityMonth' => Carbon::parse(date('Y-m-d'))->format('n'), //NO $row['timestamp']
                 'MorbidityWeek' => $row['morbidity_week'],
                 'EPIID' => $row['epi_id'],
                 'UniqueKey' => Abd::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
@@ -257,7 +261,7 @@ class AbdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'District' => 6,
                 'InterLocal' => NULL,
                 
-                'CASECLASS' => $row['case_classi'],
+                'CASECLASS' => substr($row['case_classi'],0,1),
                 'TYPEHOSPITALCLINIC' => $row['verification_level'],
                 'SENT' => 'Y',
                 'ip' => 'N',

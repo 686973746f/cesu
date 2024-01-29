@@ -5179,4 +5179,8 @@ class PIDSRController extends Controller
         ->with('msg', 'EDCS Feedback Excel File imported successfully. Please check the Email Report at cesu.gentrias@gmail.com after a few minutes.')
         ->with('msgtype', 'success');
     }
+
+    public function viewCif($case, $epi_id) {
+        
+    }
 }
