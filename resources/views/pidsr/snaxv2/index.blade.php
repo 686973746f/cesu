@@ -51,12 +51,12 @@
             <hr>
             <div class="row">
                 <div class="col-md-6">
-                    <h6><b>Distribution of {{mb_strtoupper($sel_disease)}} Cases by Morbidity Week</b></h6>
+                    <h5><b>Distribution of {{mb_strtoupper($sel_disease)}} Cases by Morbidity Week</b></h5>
                     <h6>GENERAL TRIAS, MW{{$sel_mweek}}, {{$sel_year}}</h6>
                     <h6>N = {{$current_grand_total}}</h6>
                     <canvas id="myChart" width="400" height="400"></canvas>
                     <hr>
-                    <h6><b>Distribution of {{mb_strtoupper($sel_disease)}} Cases by Barangay for the Previous 3 MWs</b></h6>
+                    <h5><b>Distribution of {{mb_strtoupper($sel_disease)}} Cases by Barangay for the Previous 3 MWs</b></h5>
                     <h6>GENERAL TRIAS, MW {{$sel_mweek-2}}-{{$sel_mweek}}, {{$sel_year}}</h6>
                     <h6>N={{$threemws_total}}</h6>
                     @php
@@ -187,10 +187,12 @@
                         </div>
                     </div>
                     <hr>
-                    <h6><b>Top 10 Barangays with {{mb_strtoupper($sel_disease)}} Cases</b></h6>
+                    <h5><b>Top 10 Barangays with {{mb_strtoupper($sel_disease)}} Cases</b></h5>
                     <h6>GENERAL TRIAS, MW 1-{{$sel_mweek}}, {{$sel_year}}</h6>
                     <h6>N={{$current_grand_total}}</h6>
+                    <div style="height: 500px">
                     <canvas id="topten" width="" height=""></canvas>
+                    </div>
                 </div>
             </div>
         </div>
@@ -256,14 +258,14 @@
                     </table>
                 </div>
                 <div class="col-md-6">
-                    <h6><b>Proportion of Cases by Case Classification</b></h6>
+                    <h5><b>Proportion of Cases by Case Classification</b></h5>
                     <h6>GENERAL TRIAS, MW 1-{{$sel_mweek}}, {{$sel_year}}</h6>
                     <h6>N={{$current_grand_total}}</h6>
                     <div class="chart-container" style="position: relative; height:60vh; width:80vw">
                     <canvas id="pieChart"></canvas>
                     </div>
                     <hr>
-                    <h6><b>Proportion of Cases by Sex and Age Group</b></h6>
+                    <h5><b>Proportion of Cases by Sex and Age Group</b></h5>
                     <h6>GENERAL TRIAS, MW 1-{{$sel_mweek}}, {{$sel_year}}</h6>
                     <h6>N={{$current_grand_total}}</h6>
                     <canvas id="ageGroup" width="50" height=""></canvas>
@@ -280,7 +282,7 @@
             </div>
         </div>
         <div class="card-body">
-            <h6><b>Distribution of {{mb_strtoupper($sel_disease)}} Cases by Barangay for the Previous 4 MWs</b></h6>
+            <h5><b>Distribution of {{mb_strtoupper($sel_disease)}} Cases by Barangay for the Previous 4 MWs</b></h5>
             <h6>GENERAL TRIAS, MW {{$sel_mweek-3}}-{{$sel_mweek}}, {{$sel_year}}</h6>
             <h6>N={{$fourmws_total}}</h6>
             <table class="table table-bordered table-sm">
@@ -597,6 +599,7 @@ foreach($classification_titles as $ind => $ctitle) {
     @endforeach
 
     var ctx = document.getElementById('topten').getContext('2d');
+    
     var chart = new Chart(ctx, {
         type: 'bar',
 
@@ -612,10 +615,21 @@ foreach($classification_titles as $ind => $ctitle) {
         },
 
         options: {
+            responsive: true,
+            maintainAspectRatio: false,
             indexAxis: 'y',
             title: {
                 text: "Barangay",
                 display: true,
+            },
+            scales: {
+                y: {
+                    ticks: {
+                        font: {
+                            size: 16 //this change the font size
+                        }
+                    }
+                }
             },
             events: [],
             tooltips: {
@@ -630,7 +644,11 @@ foreach($classification_titles as $ind => $ctitle) {
                     align: 'end',
                 }
             },
-            layout: {},
+            layout: {
+                padding: {
+                    right: 15,
+                },
+            },
             animation: {}
         }
     });
@@ -663,6 +681,7 @@ foreach($classification_titles as $ind => $ctitle) {
         },
 
         options: {
+            barPercentage: 1.2,
             indexAxis: 'y',
             title: {
                 text: "Barangay",
@@ -690,7 +709,7 @@ foreach($classification_titles as $ind => $ctitle) {
                 display: false
                 }
             },
-            animation: {}
+            animation: {},
         }
     });
 </script>

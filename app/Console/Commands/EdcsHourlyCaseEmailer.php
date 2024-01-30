@@ -201,7 +201,7 @@ class EdcsHourlyCaseEmailer extends Command
                             'age' => $i->AgeYears,
                             'sex' => $i->Sex,
                             'brgy' => $i->Barangay,
-                            'address' => $i->Streetpurok,
+                            'address' => (!is_null($i->Streetpurok)) ? mb_strtoupper($i->Streetpurok) : 'NO ADDRESS ENCODED',
                             'doe' => $i->DateOfEntry,
                             'dru' => $i->NameOfDru,
                             'lab_data' => $lab_array,
