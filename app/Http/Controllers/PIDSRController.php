@@ -1385,6 +1385,7 @@ class PIDSRController extends Controller
             return view('pidsr.casechecker', [
                 'list' => $query,
                 'columns' => $columns,
+                'case_name' => $case,
             ]);
         }
         else {
@@ -5181,6 +5182,106 @@ class PIDSRController extends Controller
     }
 
     public function viewCif($case, $epi_id) {
-        
+        if($case == 'ABD') {
+            $d = 'Abd';
+        }
+        else if($case == 'AEFI') {
+            $d = 'Aefi';
+        }
+        else if($case == 'AES') {
+            $d = 'Aes';
+        }
+        else if($case == 'AFP') {
+            $d = 'Afp';
+        }
+        else if($case == 'AHF') {
+            $d = 'Ahf';
+        }
+        else if($case == 'AMES') {
+            $d = 'Ames';
+        }
+        else if($case == 'ANTHRAX') {
+            $d = 'Anthrax';
+        }
+        else if($case == 'CHIKV') {
+            $d = 'Chikv';
+        }
+        else if($case == 'CHOLERA') {
+            $d = 'Cholera';
+        }
+        else if($case == 'DENGUE') {
+            $d = 'Dengue';
+        }
+        else if($case == 'DIPH') {
+            $d = 'Diph';
+        }
+        else if($case == 'HEPATITIS') {
+            $d = 'Hepatitis';
+        }
+        else if($case == 'HFMD') {
+            $d = 'Hfmd';
+        }
+        else if($case == 'INFLUENZA') {
+            $d = 'Influenza';
+        }
+        else if($case == 'LEPTOSPIROSIS') {
+            $d = 'Leptospirosis';
+        }
+        else if($case == 'MALARIA') {
+            $d = 'Malaria';
+        }
+        else if($case == 'MEASLES') {
+            $d = 'Measles';
+        }
+        else if($case == 'MENINGITIS') {
+            $d = 'MENINGITIS';
+        }
+        else if($case == 'MENINGO') {
+            $d = 'Meningo';
+        }
+        else if($case == 'NNT') {
+            $d = 'Nnt';
+        }
+        else if($case == 'NT') {
+            $d = 'Nt';
+        }
+        else if($case == 'PERT') {
+            $d = 'Pert';
+        }
+        else if($case == 'PSP') {
+            $d = 'Psp';
+        }
+        else if($case == 'RABIES') {
+            $d = 'Rabies';
+        }
+        else if($case == 'ROTAVIRUS') {
+            $d = 'Rotavirus';
+        }
+        else if($case == 'TYPHOID') {
+            $d = 'Typhoid';
+        }
+
+        $modelClass = "App\\Models\\$d";
+
+        $p = $modelClass::where('EPIID', $epi_id)->first();
+
+        if($p) {
+            if($p->from_edcs == 1) {
+                $lab_details = EdcsLaboratoryData::where('epi_id', $epi_id)
+                ->orWhere('case_id', $p->edcs_caseid)
+                ->get();
+            }
+            else {
+                $lab_details = NULL;
+            }
+
+            return view('pidsr.casechecker_viewcif', [
+                'p' => $p,
+                'lab_details' => $lab_details,
+            ]);
+        }
+        else {
+
+        }
     }
 }
