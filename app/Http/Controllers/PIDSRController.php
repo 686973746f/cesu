@@ -5159,10 +5159,58 @@ class PIDSRController extends Controller
         return $d;
     }
 
+    public static function searchConfirmedDengue() {
+        //Params to Check Confirmed Dengue Cases and return it back to Suspected or Probable Based on Conditions
+        $confirmed_dengue = Dengue::where('Year', date('Y'))
+        ->where('enabled', 1)
+        ->where('match_casedef', 1)
+        ->where('CaseClassification', 'C');
+
+        if($confirmed_dengue->get()->count() != 0) {
+            foreach($confirmed_dengue->get() as $cd) {
+                //Search for PCR in Lab Data
+                
+                /*
+                $positive_search = EdcsLaboratoryData::where('case_id', $cd->edcs_caseid)
+                ->where(function ($q) {
+                    $q->where('test_type', 'Virus Isolation')
+                    ->orWhere('test_type', 'Polymerase Chain Reaction');
+                })
+                ->where('result', 'POSITIVE')
+                ->first();
+                */
+
+                $lab_search = EdcsLaboratoryData::where('case_id', $cd->edcs_caseid)->get();
+
+                if($lab_search->count() != 0) {
+                    $positive_search = EdcsLaboratoryData::where('case_id', $cd->edcs_caseid)
+                    ->where(function ($q) {
+                        $q->where('test_type', 'Virus Isolation')
+                        ->orWhere('test_type', 'Polymerase Chain Reaction');
+                    })
+                    ->where('result', 'POSITIVE')
+                    ->first();
+
+                    if(!($positive_search)) {
+                        $cd->CaseClassification = 'P';
+                    }
+                }
+                else {
+                    $cd->CaseClassification = 'S';
+                }
+
+                if($cd->isDirty()) {
+                    $cd->save();
+                }
+            }
+        }
+    }
+
     public function dailyMergeProcess(Request $r) {
         //Call EdcsImport
         Excel::import(new EdcsImport(), $r->excel_file);
-        
+
+        PIDSRController::searchConfirmedDengue();
 
         return redirect()->back()
         ->with('msg', 'EDCS Feedback Excel file was imported successfully.')
@@ -5172,6 +5220,8 @@ class PIDSRController extends Controller
     public function weeklyMergeProcess(Request $r) {
         //Call EdcsImport
         Excel::import(new EdcsImport(), $r->excel_file);
+
+        PIDSRController::searchConfirmedDengue();
         
         //Send Automated Email
         Artisan::call('pidsrwndr:weekly');

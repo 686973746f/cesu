@@ -185,7 +185,9 @@ class EdcsImport implements WithMultipleSheets, SkipsUnknownSheets
             'NNT' => new NntImport(),
             'non_neonatal_view' => new NntImport(),
 
-            //'NT' => new NtImport(),
+            'NT' => new NtImport(),
+            'neonatal_view' => new NtImport(),
+            
             'PERT' => new PertImport(),
             'PERTUSSIS' => new PertImport(), //MULTIPLE SHEET
             'pertussis_view' => new PertImport(),
