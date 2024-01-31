@@ -5205,7 +5205,36 @@ class PIDSRController extends Controller
             }
         }
 
-        //Reverse Search: Search for POSITIVE PCR and Virus Isolation results 
+        //Reverse Search: Search for POSITIVE PCR and Virus Isolation results
+        //Group by case_id first
+        $caseid_groups = EdcsLaboratoryData::where('case_code', 'DENGUE')
+        ->whereYear('timestamp', date('Y'))
+        ->groupBy('case_id')
+        ->pluck('case_id');
+
+        foreach($caseid_groups as $cid) {
+            $confirmed_lab_check = EdcsLaboratoryData::where('case_code', 'DENGUE')
+            ->whereYear('timestamp', date('Y'))
+            ->where('case_id', $cid)
+            ->whereIn('test_type', ['Virus Isolation', 'Polymerase Chain Reaction'])
+            ->where('result', 'POSITIVE')
+            ->first();
+
+            if($confirmed_lab_check) {
+                $d_update = Dengue::where('edcs_caseid', $cid)
+                ->whereIn('CaseClassification', ['S', 'P'])
+                ->update([
+                    'CaseClassification' => 'C',
+                ]);
+            }
+            else {
+                $d_update = Dengue::where('edcs_caseid', $cid)
+                ->where('CaseClassification', 'S')
+                ->update([
+                    'CaseClassification' => 'P',
+                ]);
+            }
+        }
     }
 
     public function dailyMergeProcess(Request $r) {
