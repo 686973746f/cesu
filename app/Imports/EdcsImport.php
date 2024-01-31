@@ -149,7 +149,10 @@ class EdcsImport implements WithMultipleSheets, SkipsUnknownSheets
             'DIPH' => new DiphImport(),
             'HEPA' => new HepaImport(),
             'HEPATITIS' => new HepaImport(),
+
             'HFMD' => new HfmdImport(),
+            'hfmd_view' => new HfmdImport(),
+
             'INFLUENZA' => new InfluenzaImport(),
             'ILI' => new InfluenzaImport(),
             'LEPTO' => new LeptoImport(),
@@ -840,7 +843,7 @@ class HepaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 class HfmdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 {
     public function model(array $row) {
-        if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
+        if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {     
             $birthdate = Carbon::parse(EdcsImport::tDate($row['date_of_birth']));
             $currentDate = Carbon::parse(EdcsImport::tDate($row['timestamp']));
 
@@ -864,7 +867,12 @@ class HfmdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             //CHECK CASE DEF
             if($row['sore_throat'] == 'Yes') {
                 if($row['fever'] == 'Yes' && $row['rash'] == 'Yes') {
-                    $match_casedef = 1;
+                    if($row['rash'] == 'Yes' || $row['maculopapular'] == 'Yes' || $row['papulovesicular'] == 'Yes') {
+                        $match_casedef = 1;
+                    }
+                    else {
+                        $match_casedef = 0;
+                    }
                 }
                 else {
                     $match_casedef = 0;
@@ -916,6 +924,8 @@ class HfmdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'FeverOnset' => EdcsImport::tDate($row['date_onset_of_fever']),
                 'RashChar' => NULL,
                 'RashSores' => ($row['rash'] == 'Yes') ? 'Y' : 'N',
+                'Maculopapular' => ($row['maculopapular'] == 'Yes') ? 'Y' : 'N',
+                'Papulovesicular' => ($row['papulovesicular'] == 'Yes') ? 'Y' : 'N',
                 'SoreOnset' => EdcsImport::tDate($row['date_onset_of_rash']),
                 'Palms' => ($row['palms'] == 'Yes') ? 'Y' : 'N',
                 'Fingers' => ($row['fingers'] == 'Yes') ? 'Y' : 'N',

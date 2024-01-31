@@ -97,9 +97,9 @@
                             <a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'ENB', 'epi_id' => $l->EPIID])}}" class="btn btn-success mb-3" onclick="return confirm('Proceed to enable? The record will return to the official list after processing.')">Enable</a>
                             @endif
                             @if($l->match_casedef == 1)
-                            <a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'MATCH_CASEDEF', 'epi_id' => $l->EPIID])}}" class="btn btn-secondary" onclick="return confirm('Proceed to enable? The record will be marked as NOT MATCH in Case Definition after processing.')">NOT MATCH in CaseDef</a>
+                            <a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'NOTMATCH_CASEDEF', 'epi_id' => $l->EPIID])}}" class="btn btn-secondary" onclick="return confirm('Proceed to enable? The record will be marked as NOT MATCH in Case Definition after processing.')">NOT MATCH in CaseDef</a>
                             @else
-                            <a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'NOTMATCH_CASEDEF', 'epi_id' => $l->EPIID])}}" class="btn btn-primary" onclick="return confirm('Proceed to enable? The record will be marked as MATCH in Case Definition after processing.')">MATCH in CaseDef</a>
+                            <a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'MATCH_CASEDEF', 'epi_id' => $l->EPIID])}}" class="btn btn-primary" onclick="return confirm('Proceed to enable? The record will be marked as MATCH in Case Definition after processing.')">MATCH in CaseDef</a>
                             @endif
                         </td>
                     </tr>
