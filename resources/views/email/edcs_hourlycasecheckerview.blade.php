@@ -285,7 +285,7 @@
 
         //array_push($typ_list, $l);
     }
-    else if($l['type'] == 'Hfmd') {
+    else if($l['type'] == 'HFMD') {
         $barangay = $l['brgy'];
         if (!isset($hfm_list[$barangay])) {
             $hfm_list[$barangay] = [];

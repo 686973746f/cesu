@@ -139,34 +139,64 @@ class EdcsImport implements WithMultipleSheets, SkipsUnknownSheets
 
             //'AEFI' => new AfpImport(), => NOT ON EDCS ANYMORE
             //'AES' => new AfpImport(), => NOW AMES
+
             'AFP' => new AfpImport(),
+            'afp_view' => new AfpImport(),
+
             //'AHF' => new AfpImport(), => NOT ON EDCS ANYMORE
             'AMES' => new AmesImport(),
+            'ames_view' => new AmesImport(),
+
             //'ANTHRAX' => new AfpImport(), => NOT ON EDCS ANYMORE
             'CHIKV' => new ChikvImport(),
+            'chikungunya_view' => new ChikvImport(),
+
             'CHOLERA' => new CholeraImport(),
+            'cholera_view' => new CholeraImport(),
+
             'DENGUE' => new DengueImport(),
+            'dengue_view' => new DengueImport(),
+
             'DIPH' => new DiphImport(),
+            'diph_view' => new DiphImport(),
+
             'HEPA' => new HepaImport(),
             'HEPATITIS' => new HepaImport(),
+            'hepa_view' => new HepaImport(),
 
             'HFMD' => new HfmdImport(),
             'hfmd_view' => new HfmdImport(),
 
             'INFLUENZA' => new InfluenzaImport(),
             'ILI' => new InfluenzaImport(),
+            'ili_view' => new InfluenzaImport(),
+            
             'LEPTO' => new LeptoImport(),
+            'lepto_view' => new LeptoImport(),
+            
             //'MALARIA' => new AfpImport(), => NOT ON EDCS ANYMORE
             'MEASLES' => new MeaslesImport(),
+            'measles_view' => new MeaslesImport(),
+
             //'MENINGITIS' => new AfpImport(), => NOT ON EDCS ANYMORE
             'MENINGO' => new MeningoImport(),
+            'meningo_view' => new MeningoImport(),
+
             'NNT' => new NntImport(),
-            'NT' => new NtImport(),
+            'non_neonatal_view' => new NntImport(),
+
+            //'NT' => new NtImport(),
             'PERT' => new PertImport(),
             'PERTUSSIS' => new PertImport(), //MULTIPLE SHEET
+            'pertussis_view' => new PertImport(),
             //PSP => NOT ON EDCS ANYMORE
+            
             'RABIES' => new RabiesImport(),
+            'rabies_view' => new RabiesImport(),
+
             'ROTA' => new RotaImport(),
+            'rotavirus_view.csv' => new RotaImport(),
+            
             'TYPHOID' => new TyphoidImport(),
             'typhoid_view' => new TyphoidImport(),
 
