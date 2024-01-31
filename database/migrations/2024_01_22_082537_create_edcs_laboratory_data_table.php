@@ -17,6 +17,7 @@ class CreateEdcsLaboratoryDataTable extends Migration
             $table->id();
             $table->string('lab_id');
             $table->string('case_id');
+            $table->string('case_code');
             $table->string('epi_id');
             $table->string('sent_to_ritm', 5);
             

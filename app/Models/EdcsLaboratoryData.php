@@ -12,6 +12,7 @@ class EdcsLaboratoryData extends Model
     protected $fillable = [
         'lab_id',
         'case_id',
+        'case_code',
         'epi_id',
         'sent_to_ritm',
         'specimen_collected_date',
