@@ -193,6 +193,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item2 = Dengue::where('Muncity', $b->city->cityName)
@@ -201,6 +203,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item3 = Dengue::where('Muncity', $b->city->cityName)
@@ -209,6 +213,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item4 = Dengue::where('Muncity', $b->city->cityName)
@@ -217,6 +223,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item5 = Dengue::where('Muncity', $b->city->cityName)
@@ -227,6 +235,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item6 = Dengue::where('Muncity', $b->city->cityName)
@@ -237,6 +247,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     foreach($agebrackets as $ind => $ab) {
@@ -255,6 +267,8 @@ class FhsisAutoM2 extends Command
                         ->where('Year', date('Y'))
                         ->where('MorbidityMonth', date('n'))
                         ->where('Sex', 'M')
+                        ->where('enabled', 1)
+                        ->where('match_casedef', 1)
                         ->count();
 
                         if($ind == 0) {
@@ -270,6 +284,8 @@ class FhsisAutoM2 extends Command
                         ->where('Year', date('Y'))
                         ->where('MorbidityMonth', date('n'))
                         ->where('Sex', 'F')
+                        ->where('enabled', 1)
+                        ->where('match_casedef', 1)
                         ->count();
                     }
 
@@ -279,6 +295,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item36 = Dengue::where('Muncity', $b->city->cityName)
@@ -287,6 +305,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
                 }
                 else if($s == 'COVID') {
@@ -427,6 +447,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item2 = Abd::where('Muncity', $b->city->cityName)
@@ -435,6 +457,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item3 = Abd::where('Muncity', $b->city->cityName)
@@ -443,6 +467,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item4 = Abd::where('Muncity', $b->city->cityName)
@@ -451,6 +477,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item5 = Abd::where('Muncity', $b->city->cityName)
@@ -461,6 +489,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item6 = Abd::where('Muncity', $b->city->cityName)
@@ -471,6 +501,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     foreach($agebrackets as $ind => $ab) {
@@ -489,6 +521,8 @@ class FhsisAutoM2 extends Command
                         ->where('Year', date('Y'))
                         ->where('MorbidityMonth', date('n'))
                         ->where('Sex', 'M')
+                        ->where('enabled', 1)
+                        ->where('match_casedef', 1)
                         ->count();
 
                         if($ind == 0) {
@@ -504,6 +538,8 @@ class FhsisAutoM2 extends Command
                         ->where('Year', date('Y'))
                         ->where('MorbidityMonth', date('n'))
                         ->where('Sex', 'F')
+                        ->where('enabled', 1)
+                        ->where('match_casedef', 1)
                         ->count();
                     }
 
@@ -513,6 +549,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item36 = Abd::where('Muncity', $b->city->cityName)
@@ -521,6 +559,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
                 }
                 else if($s == 'CHOLERA') {
@@ -530,6 +570,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item2 = Cholera::where('Muncity', $b->city->cityName)
@@ -538,6 +580,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item3 = Cholera::where('Muncity', $b->city->cityName)
@@ -546,6 +590,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item4 = Cholera::where('Muncity', $b->city->cityName)
@@ -554,6 +600,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item5 = Cholera::where('Muncity', $b->city->cityName)
@@ -564,6 +612,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item6 = Cholera::where('Muncity', $b->city->cityName)
@@ -574,6 +624,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     foreach($agebrackets as $ind => $ab) {
@@ -592,6 +644,8 @@ class FhsisAutoM2 extends Command
                         ->where('Year', date('Y'))
                         ->where('MorbidityMonth', date('n'))
                         ->where('Sex', 'M')
+                        ->where('enabled', 1)
+                        ->where('match_casedef', 1)
                         ->count();
 
                         if($ind == 0) {
@@ -607,6 +661,8 @@ class FhsisAutoM2 extends Command
                         ->where('Year', date('Y'))
                         ->where('MorbidityMonth', date('n'))
                         ->where('Sex', 'F')
+                        ->where('enabled', 1)
+                        ->where('match_casedef', 1)
                         ->count();
                     }
 
@@ -616,6 +672,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item36 = Cholera::where('Muncity', $b->city->cityName)
@@ -624,6 +682,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
                 }
                 else if($s == 'DIPTHERIA') {
@@ -633,6 +693,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item2 = Diph::where('Muncity', $b->city->cityName)
@@ -641,6 +703,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item3 = Diph::where('Muncity', $b->city->cityName)
@@ -649,6 +713,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item4 = Diph::where('Muncity', $b->city->cityName)
@@ -657,6 +723,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item5 = Diph::where('Muncity', $b->city->cityName)
@@ -667,6 +735,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item6 = Diph::where('Muncity', $b->city->cityName)
@@ -677,6 +747,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     foreach($agebrackets as $ind => $ab) {
@@ -695,6 +767,8 @@ class FhsisAutoM2 extends Command
                         ->where('Year', date('Y'))
                         ->where('MorbidityMonth', date('n'))
                         ->where('Sex', 'M')
+                        ->where('enabled', 1)
+                        ->where('match_casedef', 1)
                         ->count();
 
                         if($ind == 0) {
@@ -710,6 +784,8 @@ class FhsisAutoM2 extends Command
                         ->where('Year', date('Y'))
                         ->where('MorbidityMonth', date('n'))
                         ->where('Sex', 'F')
+                        ->where('enabled', 1)
+                        ->where('match_casedef', 1)
                         ->count();
                     }
 
@@ -719,6 +795,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item36 = Diph::where('Muncity', $b->city->cityName)
@@ -727,6 +805,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
                 }
                 else if($s == 'INFLUENZALIKE') {
@@ -736,6 +816,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item2 = Influenza::where('Muncity', $b->city->cityName)
@@ -744,6 +826,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item3 = Influenza::where('Muncity', $b->city->cityName)
@@ -752,6 +836,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item4 = Influenza::where('Muncity', $b->city->cityName)
@@ -760,6 +846,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item5 = Influenza::where('Muncity', $b->city->cityName)
@@ -770,6 +858,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item6 = Influenza::where('Muncity', $b->city->cityName)
@@ -780,6 +870,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     foreach($agebrackets as $ind => $ab) {
@@ -798,6 +890,8 @@ class FhsisAutoM2 extends Command
                         ->where('Year', date('Y'))
                         ->where('MorbidityMonth', date('n'))
                         ->where('Sex', 'M')
+                        ->where('enabled', 1)
+                        ->where('match_casedef', 1)
                         ->count();
 
                         if($ind == 0) {
@@ -813,6 +907,8 @@ class FhsisAutoM2 extends Command
                         ->where('Year', date('Y'))
                         ->where('MorbidityMonth', date('n'))
                         ->where('Sex', 'F')
+                        ->where('enabled', 1)
+                        ->where('match_casedef', 1)
                         ->count();
                     }
 
@@ -822,6 +918,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item36 = Influenza::where('Muncity', $b->city->cityName)
@@ -830,6 +928,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
                 }
                 else if($s == 'LEPTOSPIROSIS') {
@@ -839,6 +939,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item2 = Leptospirosis::where('Muncity', $b->city->cityName)
@@ -847,6 +949,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item3 = Leptospirosis::where('Muncity', $b->city->cityName)
@@ -855,6 +959,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item4 = Leptospirosis::where('Muncity', $b->city->cityName)
@@ -863,6 +969,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item5 = Leptospirosis::where('Muncity', $b->city->cityName)
@@ -873,6 +981,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item6 = Leptospirosis::where('Muncity', $b->city->cityName)
@@ -883,6 +993,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     foreach($agebrackets as $ind => $ab) {
@@ -901,6 +1013,8 @@ class FhsisAutoM2 extends Command
                         ->where('Year', date('Y'))
                         ->where('MorbidityMonth', date('n'))
                         ->where('Sex', 'M')
+                        ->where('enabled', 1)
+                        ->where('match_casedef', 1)
                         ->count();
 
                         if($ind == 0) {
@@ -916,6 +1030,8 @@ class FhsisAutoM2 extends Command
                         ->where('Year', date('Y'))
                         ->where('MorbidityMonth', date('n'))
                         ->where('Sex', 'F')
+                        ->where('enabled', 1)
+                        ->where('match_casedef', 1)
                         ->count();
                     }
 
@@ -925,6 +1041,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item36 = Leptospirosis::where('Muncity', $b->city->cityName)
@@ -933,6 +1051,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
                 }
                 else if($s == 'MALARIA') {
@@ -942,6 +1062,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item2 = Malaria::where('Muncity', $b->city->cityName)
@@ -950,6 +1072,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item3 = Malaria::where('Muncity', $b->city->cityName)
@@ -958,6 +1082,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item4 = Malaria::where('Muncity', $b->city->cityName)
@@ -966,6 +1092,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item5 = Malaria::where('Muncity', $b->city->cityName)
@@ -976,6 +1104,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item6 = Malaria::where('Muncity', $b->city->cityName)
@@ -986,6 +1116,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     foreach($agebrackets as $ind => $ab) {
@@ -1004,6 +1136,8 @@ class FhsisAutoM2 extends Command
                         ->where('Year', date('Y'))
                         ->where('MorbidityMonth', date('n'))
                         ->where('Sex', 'M')
+                        ->where('enabled', 1)
+                        ->where('match_casedef', 1)
                         ->count();
 
                         if($ind == 0) {
@@ -1019,6 +1153,8 @@ class FhsisAutoM2 extends Command
                         ->where('Year', date('Y'))
                         ->where('MorbidityMonth', date('n'))
                         ->where('Sex', 'F')
+                        ->where('enabled', 1)
+                        ->where('match_casedef', 1)
                         ->count();
                     }
 
@@ -1028,6 +1164,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item36 = Malaria::where('Muncity', $b->city->cityName)
@@ -1036,6 +1174,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
                 }
                 else if($s == 'MEASLES') {
@@ -1045,6 +1185,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item2 = Measles::where('Muncity', $b->city->cityName)
@@ -1053,6 +1195,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item3 = Measles::where('Muncity', $b->city->cityName)
@@ -1061,6 +1205,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item4 = Measles::where('Muncity', $b->city->cityName)
@@ -1069,6 +1215,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item5 = Measles::where('Muncity', $b->city->cityName)
@@ -1079,6 +1227,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item6 = Measles::where('Muncity', $b->city->cityName)
@@ -1089,6 +1239,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     foreach($agebrackets as $ind => $ab) {
@@ -1107,6 +1259,8 @@ class FhsisAutoM2 extends Command
                         ->where('Year', date('Y'))
                         ->where('MorbidityMonth', date('n'))
                         ->where('Sex', 'M')
+                        ->where('enabled', 1)
+                        ->where('match_casedef', 1)
                         ->count();
 
                         if($ind == 0) {
@@ -1122,6 +1276,8 @@ class FhsisAutoM2 extends Command
                         ->where('Year', date('Y'))
                         ->where('MorbidityMonth', date('n'))
                         ->where('Sex', 'F')
+                        ->where('enabled', 1)
+                        ->where('match_casedef', 1)
                         ->count();
                     }
 
@@ -1131,6 +1287,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item36 = Measles::where('Muncity', $b->city->cityName)
@@ -1139,6 +1297,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
                 }
                 else if($s == 'MENINGO') {
@@ -1148,6 +1308,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item2 = Meningo::where('Muncity', $b->city->cityName)
@@ -1156,6 +1318,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item3 = Meningo::where('Muncity', $b->city->cityName)
@@ -1164,6 +1328,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item4 = Meningo::where('Muncity', $b->city->cityName)
@@ -1172,6 +1338,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item5 = Meningo::where('Muncity', $b->city->cityName)
@@ -1182,6 +1350,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item6 = Meningo::where('Muncity', $b->city->cityName)
@@ -1192,6 +1362,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     foreach($agebrackets as $ind => $ab) {
@@ -1210,6 +1382,8 @@ class FhsisAutoM2 extends Command
                         ->where('Year', date('Y'))
                         ->where('MorbidityMonth', date('n'))
                         ->where('Sex', 'M')
+                        ->where('enabled', 1)
+                        ->where('match_casedef', 1)
                         ->count();
 
                         if($ind == 0) {
@@ -1225,6 +1399,8 @@ class FhsisAutoM2 extends Command
                         ->where('Year', date('Y'))
                         ->where('MorbidityMonth', date('n'))
                         ->where('Sex', 'F')
+                        ->where('enabled', 1)
+                        ->where('match_casedef', 1)
                         ->count();
                     }
 
@@ -1234,6 +1410,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item36 = Meningo::where('Muncity', $b->city->cityName)
@@ -1242,6 +1420,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
                 }
                 else if($s == 'NEONATAL_TETANUS') {
@@ -1251,6 +1431,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item2 = Nt::where('Muncity', $b->city->cityName)
@@ -1259,6 +1441,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item3 = Nt::where('Muncity', $b->city->cityName)
@@ -1267,6 +1451,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item4 = Nt::where('Muncity', $b->city->cityName)
@@ -1275,6 +1461,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item5 = Nt::where('Muncity', $b->city->cityName)
@@ -1285,6 +1473,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item6 = Nt::where('Muncity', $b->city->cityName)
@@ -1295,6 +1485,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     foreach($agebrackets as $ind => $ab) {
@@ -1313,6 +1505,8 @@ class FhsisAutoM2 extends Command
                         ->where('Year', date('Y'))
                         ->where('MorbidityMonth', date('n'))
                         ->where('Sex', 'M')
+                        ->where('enabled', 1)
+                        ->where('match_casedef', 1)
                         ->count();
 
                         if($ind == 0) {
@@ -1328,6 +1522,8 @@ class FhsisAutoM2 extends Command
                         ->where('Year', date('Y'))
                         ->where('MorbidityMonth', date('n'))
                         ->where('Sex', 'F')
+                        ->where('enabled', 1)
+                        ->where('match_casedef', 1)
                         ->count();
                     }
 
@@ -1337,6 +1533,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item36 = Nt::where('Muncity', $b->city->cityName)
@@ -1345,6 +1543,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
                 }
                 else if($s == 'NONNEONATAL_TETANUS') {
@@ -1354,6 +1554,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item2 = Nnt::where('Muncity', $b->city->cityName)
@@ -1362,6 +1564,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item3 = Nnt::where('Muncity', $b->city->cityName)
@@ -1370,6 +1574,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item4 = Nnt::where('Muncity', $b->city->cityName)
@@ -1378,6 +1584,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item5 = Nnt::where('Muncity', $b->city->cityName)
@@ -1388,6 +1596,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item6 = Nnt::where('Muncity', $b->city->cityName)
@@ -1398,6 +1608,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     foreach($agebrackets as $ind => $ab) {
@@ -1416,6 +1628,8 @@ class FhsisAutoM2 extends Command
                         ->where('Year', date('Y'))
                         ->where('MorbidityMonth', date('n'))
                         ->where('Sex', 'M')
+                        ->where('enabled', 1)
+                        ->where('match_casedef', 1)
                         ->count();
 
                         if($ind == 0) {
@@ -1431,6 +1645,8 @@ class FhsisAutoM2 extends Command
                         ->where('Year', date('Y'))
                         ->where('MorbidityMonth', date('n'))
                         ->where('Sex', 'F')
+                        ->where('enabled', 1)
+                        ->where('match_casedef', 1)
                         ->count();
                     }
 
@@ -1440,6 +1656,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item36 = Nnt::where('Muncity', $b->city->cityName)
@@ -1448,6 +1666,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
                 }
                 else if($s == 'PARALYRIC_SHELLFISH_POISONING') {
@@ -1457,6 +1677,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item2 = Psp::where('Muncity', $b->city->cityName)
@@ -1465,6 +1687,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item3 = Psp::where('Muncity', $b->city->cityName)
@@ -1473,6 +1697,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item4 = Psp::where('Muncity', $b->city->cityName)
@@ -1481,6 +1707,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item5 = Psp::where('Muncity', $b->city->cityName)
@@ -1491,6 +1719,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item6 = Psp::where('Muncity', $b->city->cityName)
@@ -1501,6 +1731,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     foreach($agebrackets as $ind => $ab) {
@@ -1519,6 +1751,8 @@ class FhsisAutoM2 extends Command
                         ->where('Year', date('Y'))
                         ->where('MorbidityMonth', date('n'))
                         ->where('Sex', 'M')
+                        ->where('enabled', 1)
+                        ->where('match_casedef', 1)
                         ->count();
 
                         if($ind == 0) {
@@ -1534,6 +1768,8 @@ class FhsisAutoM2 extends Command
                         ->where('Year', date('Y'))
                         ->where('MorbidityMonth', date('n'))
                         ->where('Sex', 'F')
+                        ->where('enabled', 1)
+                        ->where('match_casedef', 1)
                         ->count();
                     }
 
@@ -1543,6 +1779,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item36 = Psp::where('Muncity', $b->city->cityName)
@@ -1551,6 +1789,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
                 }
                 else if($s == 'TYPHOID_PARATHYPOID') {
@@ -1560,6 +1800,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item2 = Typhoid::where('Muncity', $b->city->cityName)
@@ -1568,6 +1810,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item3 = Typhoid::where('Muncity', $b->city->cityName)
@@ -1576,6 +1820,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item4 = Typhoid::where('Muncity', $b->city->cityName)
@@ -1584,6 +1830,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item5 = Typhoid::where('Muncity', $b->city->cityName)
@@ -1594,6 +1842,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item6 = Typhoid::where('Muncity', $b->city->cityName)
@@ -1604,6 +1854,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     foreach($agebrackets as $ind => $ab) {
@@ -1622,6 +1874,8 @@ class FhsisAutoM2 extends Command
                         ->where('Year', date('Y'))
                         ->where('MorbidityMonth', date('n'))
                         ->where('Sex', 'M')
+                        ->where('enabled', 1)
+                        ->where('match_casedef', 1)
                         ->count();
 
                         if($ind == 0) {
@@ -1637,6 +1891,8 @@ class FhsisAutoM2 extends Command
                         ->where('Year', date('Y'))
                         ->where('MorbidityMonth', date('n'))
                         ->where('Sex', 'F')
+                        ->where('enabled', 1)
+                        ->where('match_casedef', 1)
                         ->count();
                     }
 
@@ -1646,6 +1902,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item36 = Typhoid::where('Muncity', $b->city->cityName)
@@ -1654,6 +1912,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
                 }
                 else if($s == 'VIRAL_HEPATITIS') {
@@ -1663,6 +1923,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item2 = Hepatitis::where('Muncity', $b->city->cityName)
@@ -1671,6 +1933,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item3 = Hepatitis::where('Muncity', $b->city->cityName)
@@ -1679,6 +1943,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item4 = Hepatitis::where('Muncity', $b->city->cityName)
@@ -1687,6 +1953,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item5 = Hepatitis::where('Muncity', $b->city->cityName)
@@ -1697,6 +1965,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item6 = Hepatitis::where('Muncity', $b->city->cityName)
@@ -1707,6 +1977,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     foreach($agebrackets as $ind => $ab) {
@@ -1725,6 +1997,8 @@ class FhsisAutoM2 extends Command
                         ->where('Year', date('Y'))
                         ->where('MorbidityMonth', date('n'))
                         ->where('Sex', 'M')
+                        ->where('enabled', 1)
+                        ->where('match_casedef', 1)
                         ->count();
 
                         if($ind == 0) {
@@ -1740,6 +2014,8 @@ class FhsisAutoM2 extends Command
                         ->where('Year', date('Y'))
                         ->where('MorbidityMonth', date('n'))
                         ->where('Sex', 'F')
+                        ->where('enabled', 1)
+                        ->where('match_casedef', 1)
                         ->count();
                     }
 
@@ -1749,6 +2025,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item36 = Hepatitis::where('Muncity', $b->city->cityName)
@@ -1757,6 +2035,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
                 }
                 else if($s == 'VIRAL_MENINGITIS') {
@@ -1766,6 +2046,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item2 = Meningitis::where('Muncity', $b->city->cityName)
@@ -1774,6 +2056,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item3 = Meningitis::where('Muncity', $b->city->cityName)
@@ -1782,6 +2066,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item4 = Meningitis::where('Muncity', $b->city->cityName)
@@ -1790,6 +2076,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item5 = Meningitis::where('Muncity', $b->city->cityName)
@@ -1800,6 +2088,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item6 = Meningitis::where('Muncity', $b->city->cityName)
@@ -1810,6 +2100,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     foreach($agebrackets as $ind => $ab) {
@@ -1828,6 +2120,8 @@ class FhsisAutoM2 extends Command
                         ->where('Year', date('Y'))
                         ->where('MorbidityMonth', date('n'))
                         ->where('Sex', 'M')
+                        ->where('enabled', 1)
+                        ->where('match_casedef', 1)
                         ->count();
 
                         if($ind == 0) {
@@ -1843,6 +2137,8 @@ class FhsisAutoM2 extends Command
                         ->where('Year', date('Y'))
                         ->where('MorbidityMonth', date('n'))
                         ->where('Sex', 'F')
+                        ->where('enabled', 1)
+                        ->where('match_casedef', 1)
                         ->count();
                     }
 
@@ -1852,6 +2148,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'M')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
 
                     $item36 = Meningitis::where('Muncity', $b->city->cityName)
@@ -1860,6 +2158,8 @@ class FhsisAutoM2 extends Command
                     ->where('Year', date('Y'))
                     ->where('MorbidityMonth', date('n'))
                     ->where('Sex', 'F')
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
                     ->count();
                 }
 
