@@ -40,7 +40,7 @@ class PidsrWndrMail extends Mailable
 
         return $this->view('email.pidsrwndr')
         ->from('admin@cesugentri.com', 'Christian James Historillo')
-        ->subject('CESU GEN. TRIAS AutoMailer - EDCS Weekly Report for MW'.date('W', strtotime('-1 Week')))
+        ->subject('CESU GEN. TRIAS AutoMailer - EDCS WEEKLY Report for MW'.date('W', strtotime('-1 Week')))
         ->attach(public_path('EDCS_SUMMARY_GENERALTRIASCITY_MW'.date('W').'.xlsx'));
     }
 }

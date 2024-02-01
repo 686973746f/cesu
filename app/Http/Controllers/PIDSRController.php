@@ -5263,8 +5263,30 @@ class PIDSRController extends Controller
     }
 
     public function viewCif($case, $epi_id) {
+        /*
+        Acute Bloody Diarrhea
+        Acute Flaccid Paralysis
+        Acute Meningitis Encephalitis
+        Acute Viral Hepatitis
+        Chikungunya Viral Disease
+        Cholera
+        Dengue
+        Diphteria
+        Hand, Foot & Mouth Disease
+        Influenza-like Illness
+        Leptospirosis
+        Measles
+        Meningococcal Disease
+        Neonatal Tetanus
+        Non-Neonatal Tetanus
+        Pertussis
+        Rabies
+        Rotavirus
+        Typhoid and Paratyphoid Fever
+        */
         if($case == 'ABD') {
             $d = 'Abd';
+            $flavor_title = 'Acute Bloody Diarrhea';
         }
         else if($case == 'AEFI') {
             $d = 'Aefi';
@@ -5274,72 +5296,113 @@ class PIDSRController extends Controller
         }
         else if($case == 'AFP') {
             $d = 'Afp';
+            $flavor_title = 'Acute Flaccid Paralysis';
         }
         else if($case == 'AHF') {
             $d = 'Ahf';
         }
         else if($case == 'AMES') {
             $d = 'Ames';
+
+            $flavor_title = 'Acute Meningitis Encephalitis';
         }
         else if($case == 'ANTHRAX') {
             $d = 'Anthrax';
         }
         else if($case == 'CHIKV') {
             $d = 'Chikv';
+
+            $flavor_title = 'Chikungunya Viral Disease';
         }
         else if($case == 'CHOLERA') {
             $d = 'Cholera';
+
+            $flavor_title = 'Cholera';
         }
         else if($case == 'DENGUE') {
             $d = 'Dengue';
+
+            $flavor_title = 'Dengue';
         }
         else if($case == 'DIPH') {
             $d = 'Diph';
+
+            $flavor_title = 'Diphteria';
         }
         else if($case == 'HEPATITIS') {
             $d = 'Hepatitis';
+
+            $flavor_title = 'Acute Viral Hepatitis';
         }
         else if($case == 'HFMD') {
             $d = 'Hfmd';
+
+            $flavor_title = 'Hand, Foot & Mouth Disease';
         }
         else if($case == 'INFLUENZA') {
             $d = 'Influenza';
+
+            $flavor_title = 'Influenza-like Illness';
         }
         else if($case == 'LEPTOSPIROSIS') {
             $d = 'Leptospirosis';
+
+            $flavor_title = 'Leptospirosis';
         }
         else if($case == 'MALARIA') {
             $d = 'Malaria';
+
+            $flavor_title = 'Malaria';
         }
         else if($case == 'MEASLES') {
             $d = 'Measles';
+
+            $flavor_title = 'Measles';
         }
         else if($case == 'MENINGITIS') {
             $d = 'MENINGITIS';
+
+            $flavor_title = 'Meningitis';
         }
         else if($case == 'MENINGO') {
             $d = 'Meningo';
+
+            $flavor_title = 'Meningococcal Disease';
         }
         else if($case == 'NNT') {
             $d = 'Nnt';
+
+            $flavor_title = 'Non-Neonatal Tetanus';
         }
         else if($case == 'NT') {
             $d = 'Nt';
+
+            $flavor_title = 'Neonatal Tetanus';
         }
         else if($case == 'PERT') {
             $d = 'Pert';
+
+            $flavor_title = 'Pertussis';
         }
         else if($case == 'PSP') {
             $d = 'Psp';
+
+            $flavor_title = 'TEST';
         }
         else if($case == 'RABIES') {
             $d = 'Rabies';
+
+            $flavor_title = 'Rabies';
         }
         else if($case == 'ROTAVIRUS') {
             $d = 'Rotavirus';
+
+            $flavor_title = 'Rotavirus';
         }
         else if($case == 'TYPHOID') {
             $d = 'Typhoid';
+
+            $flavor_title = 'Typhoid and Paratyphoid Fever';
         }
 
         $modelClass = "App\\Models\\$d";
@@ -5350,6 +5413,7 @@ class PIDSRController extends Controller
             if($p->from_edcs == 1) {
                 $lab_details = EdcsLaboratoryData::where('epi_id', $epi_id)
                 ->orWhere('case_id', $p->edcs_caseid)
+                ->orderBy('timestamp', 'DESC')
                 ->get();
             }
             else {
@@ -5358,6 +5422,7 @@ class PIDSRController extends Controller
 
             return view('pidsr.casechecker_viewcif', [
                 'p' => $p,
+                'flavor_title' => $flavor_title,
                 'lab_details' => $lab_details,
             ]);
         }

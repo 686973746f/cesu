@@ -81,7 +81,18 @@
                 </thead>
                 <tbody>
                     @foreach($list as $key => $l)
-                    <tr>
+                    @php
+                    $setBgColor = '';
+
+                    if($l->match_casedef == 0) {
+                        $setBgColor = 'bg-warning';
+                    }
+
+                    if($l->enabled == 0) {
+                        $setBgColor = 'bg-danger text-white';
+                    }
+                    @endphp
+                    <tr class="{{$setBgColor}}">
                         <!-- <td></td> -->
                         <td class="text-center">{{$key+1}}</td>
                         <td class="text-center btn-group">
