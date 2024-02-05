@@ -306,25 +306,25 @@
         <b>Acute Flaccid Paralysis:</b>
         @foreach($afp_list as $brgy => $rows)
         <li>Acute Flaccid Paralysis <b>- BRGY. {{$brgy}}</b>:</li>
-        <p>&nbsp;</p>
+        <br>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
-                <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
+                <div>{{mb_strtoupper($p['address'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 @if(!empty($p['lab_data']))
-                <div>Laboratory:
+                <div>Lab Result/s:
                     <ul>
                         @foreach($p['lab_data'] as $pl)
-                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        <li>* {{$pl['test_type']}} - Collected on: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
                         @endforeach
                     </ul>
                 </div>
                 @endif
-                <p>&nbsp;</p>
+                <br>
             </li>
             @endforeach
         </ul>
@@ -336,26 +336,26 @@
         <b>Adverse Event Following Immunization (AEFI):</b>
         @foreach($aef_list as $brgy => $rows)
         <li>Adverse Event Following Immunization (AEFI) <b>- BRGY. {{$brgy}}</b>:</li>
-        <p>&nbsp;</p>
+        <br>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
                 <div>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
-                <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
+                <div>{{mb_strtoupper($p['address'])}}</div>
                 <div>{{$p['aefi_type']}} Case</div>
                 <div>Date Admitted: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 @if(!empty($p['lab_data']))
-                <div>Laboratory:
+                <div>Lab Result/s:
                     <ul>
                         @foreach($p['lab_data'] as $pl)
-                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        <li>* {{$pl['test_type']}} - Collected on: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
                         @endforeach
                     </ul>
                 </div>
                 @endif
-                <p>&nbsp;</p>
+                <br>
             </li>
             @endforeach
         </ul>
@@ -367,25 +367,25 @@
         <b>HFMD:</b>
         @foreach($hfm_list as $brgy => $rows)
         <li>HFMD <b>- BRGY. {{$brgy}}</b>:</li>
-        <p>&nbsp;</p>
+        <br>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
-                <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
+                <div>{{mb_strtoupper($p['address'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 @if(!empty($p['lab_data']))
-                <div>Laboratory:
+                <div>Lab Result/s:
                     <ul>
                         @foreach($p['lab_data'] as $pl)
-                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        <li>* {{$pl['test_type']}} - Collected on: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
                         @endforeach
                     </ul>
                 </div>
                 @endif
-                <p>&nbsp;</p>
+                <br>
             </li>
             @endforeach
         </ul>
@@ -397,25 +397,25 @@
         <b>Measles:</b>
         @foreach($mea_list as $brgy => $rows)
         <li>Measles <b>- BRGY. {{$brgy}}</b>:</li>
-        <p>&nbsp;</p>
+        <br>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
-                <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
+                <div>{{mb_strtoupper($p['address'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 @if(!empty($p['lab_data']))
-                <div>Laboratory:
+                <div>Lab Result/s:
                     <ul>
                         @foreach($p['lab_data'] as $pl)
-                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        <li>* {{$pl['test_type']}} - Collected on: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
                         @endforeach
                     </ul>
                 </div>
                 @endif
-                <p>&nbsp;</p>
+                <br>
             </li>
             @endforeach
         </ul>
@@ -427,25 +427,25 @@
         <b>Meningococcal Disease:</b>
         @foreach($mgc_list as $brgy => $rows)
         <li>Meningococcal Disease <b>- BRGY. {{$brgy}}</b>:</li>
-        <p>&nbsp;</p>
+        <br>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
-                <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
+                <div>{{mb_strtoupper($p['address'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 @if(!empty($p['lab_data']))
-                <div>Laboratory:
+                <div>Lab Result/s:
                     <ul>
                         @foreach($p['lab_data'] as $pl)
-                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        <li>* {{$pl['test_type']}} - Collected on: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
                         @endforeach
                     </ul>
                 </div>
                 @endif
-                <p>&nbsp;</p>
+                <br>
             </li>
             @endforeach
         </ul>
@@ -457,25 +457,25 @@
         <b>Neonatal Tetanus:</b>
         @foreach($nt_list as $brgy => $rows)
         <li>Neonatal Tetanus <b>- BRGY. {{$brgy}}</b>:</li>
-        <p>&nbsp;</p>
+        <br>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
-                <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
+                <div>{{mb_strtoupper($p['address'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 @if(!empty($p['lab_data']))
-                <div>Laboratory:
+                <div>Lab Result/s:
                     <ul>
                         @foreach($p['lab_data'] as $pl)
-                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        <li>* {{$pl['test_type']}} - Collected on: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
                         @endforeach
                     </ul>
                 </div>
                 @endif
-                <p>&nbsp;</p>
+                <br>
             </li>
             @endforeach
         </ul>
@@ -487,25 +487,25 @@
         <b>Rabies:</b>
         @foreach($rab_list as $brgy => $rows)
         <li>Rabies <b>- BRGY. {{$brgy}}</b>:</li>
-        <p>&nbsp;</p>
+        <br>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
-                <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
+                <div>{{mb_strtoupper($p['address'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 @if(!empty($p['lab_data']))
-                <div>Laboratory:
+                <div>Lab Result/s:
                     <ul>
                         @foreach($p['lab_data'] as $pl)
-                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        <li>* {{$pl['test_type']}} - Collected on: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
                         @endforeach
                     </ul>
                 </div>
                 @endif
-                <p>&nbsp;</p>
+                <br>
             </li>
             @endforeach
         </ul>
@@ -523,25 +523,25 @@
         <b>Acute Bloody Diarrhea:</b>
         @foreach($abd_list as $brgy => $rows)
         <li>Acute Bloody Diarrhea <b>- BRGY. {{$brgy}}</b>:</li>
-        <p>&nbsp;</p>
+        <br>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
-                <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
+                <div>{{mb_strtoupper($p['address'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 @if(!empty($p['lab_data']))
-                <div>Laboratory:
+                <div>Lab Result/s:
                     <ul>
                         @foreach($p['lab_data'] as $pl)
-                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        <li>* {{$pl['test_type']}} - Collected on: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
                         @endforeach
                     </ul>
                 </div>
                 @endif
-                <p>&nbsp;</p>
+                <br>
             </li>
             @endforeach
         </ul>
@@ -553,25 +553,25 @@
         <b>Acute Encephalitis Syndrome:</b>
         @foreach($aes_list as $brgy => $rows)
         <li>Acute Encephalitis Syndrome <b>- BRGY. {{$brgy}}</b>:</li>
-        <p>&nbsp;</p>
+        <br>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
-                <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
+                <div>{{mb_strtoupper($p['address'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 @if(!empty($p['lab_data']))
-                <div>Laboratory:
+                <div>Lab Result/s:
                     <ul>
                         @foreach($p['lab_data'] as $pl)
-                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        <li>* {{$pl['test_type']}} - Collected on: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
                         @endforeach
                     </ul>
                 </div>
                 @endif
-                <p>&nbsp;</p>
+                <br>
             </li>
             @endforeach
         </ul>
@@ -583,25 +583,25 @@
         <b>Acute Viral Hepatitis:</b>
         @foreach($hep_list as $brgy => $rows)
         <li>Acute Viral Hepatitis <b>- BRGY. {{$brgy}}</b>:</li>
-        <p>&nbsp;</p>
+        <br>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
-                <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
+                <div>{{mb_strtoupper($p['address'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 @if(!empty($p['lab_data']))
-                <div>Laboratory:
+                <div>Lab Result/s:
                     <ul>
                         @foreach($p['lab_data'] as $pl)
-                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        <li>* {{$pl['test_type']}} - Collected on: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
                         @endforeach
                     </ul>
                 </div>
                 @endif
-                <p>&nbsp;</p>
+                <br>
             </li>
             @endforeach
         </ul>
@@ -613,25 +613,25 @@
         <b>Acute Meningitis and Encephalitis Syndrome (AMES):</b>
         @foreach($ame_list as $brgy => $rows)
         <li>Acute Meningitis and Encephalitis Syndrome (AMES) <b>- BRGY. {{$brgy}}</b>:</li>
-        <p>&nbsp;</p>
+        <br>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
-                <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
+                <div>{{mb_strtoupper($p['address'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 @if(!empty($p['lab_data']))
-                <div>Laboratory:
+                <div>Lab Result/s:
                     <ul>
                         @foreach($p['lab_data'] as $pl)
-                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        <li>* {{$pl['test_type']}} - Collected on: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
                         @endforeach
                     </ul>
                 </div>
                 @endif
-                <p>&nbsp;</p>
+                <br>
             </li>
             @endforeach
         </ul>
@@ -643,25 +643,25 @@
         <b>Bacterial Meningitis:</b>
         @foreach($mgt_list as $brgy => $rows)
         <li>Bacterial Meningitis <b>- BRGY. {{$brgy}}</b>:</li>
-        <p>&nbsp;</p>
+        <br>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
-                <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
+                <div>{{mb_strtoupper($p['address'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 @if(!empty($p['lab_data']))
-                <div>Laboratory:
+                <div>Lab Result/s:
                     <ul>
                         @foreach($p['lab_data'] as $pl)
-                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        <li>* {{$pl['test_type']}} - Collected on: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
                         @endforeach
                     </ul>
                 </div>
                 @endif
-                <p>&nbsp;</p>
+                <br>
             </li>
             @endforeach
         </ul>
@@ -673,25 +673,25 @@
         <b>Chikungunya:</b>
         @foreach($chi_list as $brgy => $rows)
         <li>Chikungunya <b>- BRGY. {{$brgy}}</b>:</li>
-        <p>&nbsp;</p>
+        <br>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
-                <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
+                <div>{{mb_strtoupper($p['address'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 @if(!empty($p['lab_data']))
-                <div>Laboratory:
+                <div>Lab Result/s:
                     <ul>
                         @foreach($p['lab_data'] as $pl)
-                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        <li>* {{$pl['test_type']}} - Collected on: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
                         @endforeach
                     </ul>
                 </div>
                 @endif
-                <p>&nbsp;</p>
+                <br>
             </li>
             @endforeach
         </ul>
@@ -703,25 +703,25 @@
         <b>Cholera:</b>
         @foreach($cho_list as $brgy => $rows)
         <li>Cholera <b>- BRGY. {{$brgy}}</b>:</li>
-        <p>&nbsp;</p>
+        <br>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
-                <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
+                <div>{{mb_strtoupper($p['address'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 @if(!empty($p['lab_data']))
-                <div>Laboratory:
+                <div>Lab Result/s:
                     <ul>
                         @foreach($p['lab_data'] as $pl)
-                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        <li>* {{$pl['test_type']}} - Collected on: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
                         @endforeach
                     </ul>
                 </div>
                 @endif
-                <p>&nbsp;</p>
+                <br>
             </li>
             @endforeach
         </ul>
@@ -733,25 +733,25 @@
         <b>Dengue:</b>
         @foreach($den_list as $brgy => $rows)
         <li>Dengue <b>- BRGY. {{$brgy}}</b>:</li>
-        <p>&nbsp;</p>
+        <br>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
-                <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
+                <div>{{mb_strtoupper($p['address'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 @if(!empty($p['lab_data']))
-                <div>Laboratory:
+                <div>Lab Result/s:
                     <ul>
                         @foreach($p['lab_data'] as $pl)
-                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        <li>* {{$pl['test_type']}} - Collected on: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
                         @endforeach
                     </ul>
                 </div>
                 @endif
-                <p>&nbsp;</p>
+                <br>
             </li>
             @endforeach
         </ul>
@@ -763,25 +763,25 @@
         <b>Diphtheria:</b>
         @foreach($dip_list as $brgy => $rows)
         <li>Diphtheria <b>- BRGY. {{$brgy}}</b>:</li>
-        <p>&nbsp;</p>
+        <br>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
-                <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
+                <div>{{mb_strtoupper($p['address'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 @if(!empty($p['lab_data']))
-                <div>Laboratory:
+                <div>Lab Result/s:
                     <ul>
                         @foreach($p['lab_data'] as $pl)
-                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        <li>* {{$pl['test_type']}} - Collected on: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
                         @endforeach
                     </ul>
                 </div>
                 @endif
-                <p>&nbsp;</p>
+                <br>
             </li>
             @endforeach
         </ul>
@@ -793,25 +793,25 @@
         <b>Influenza-like Illness (ILI):</b>
         @foreach($ili_list as $brgy => $rows)
         <li>Influenza-like Illness (ILI) <b>- BRGY. {{$brgy}}</b>:</li>
-        <p>&nbsp;</p>
+        <br>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
-                <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
+                <div>{{mb_strtoupper($p['address'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 @if(!empty($p['lab_data']))
-                <div>Laboratory:
+                <div>Lab Result/s:
                     <ul>
                         @foreach($p['lab_data'] as $pl)
-                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        <li>* {{$pl['test_type']}} - Collected on: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
                         @endforeach
                     </ul>
                 </div>
                 @endif
-                <p>&nbsp;</p>
+                <br>
             </li>
             @endforeach
         </ul>
@@ -823,25 +823,25 @@
         <b>Leptospirosis:</b>
         @foreach($lep_list as $brgy => $rows)
         <li>Leptospirosis <b>- BRGY. {{$brgy}}</b>:</li>
-        <p>&nbsp;</p>
+        <br>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
-                <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
+                <div>{{mb_strtoupper($p['address'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 @if(!empty($p['lab_data']))
-                <div>Laboratory:
+                <div>Lab Result/s:
                     <ul>
                         @foreach($p['lab_data'] as $pl)
-                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        <li>* {{$pl['test_type']}} - Collected on: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
                         @endforeach
                     </ul>
                 </div>
                 @endif
-                <p>&nbsp;</p>
+                <br>
             </li>
             @endforeach
         </ul>
@@ -853,25 +853,25 @@
         <b>Non-Neonatal Tetanus:</b>
         @foreach($nnt_list as $brgy => $rows)
         <li>Non-Neonatal Tetanus <b>- BRGY. {{$brgy}}</b>:</li>
-        <p>&nbsp;</p>
+        <br>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
-                <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
+                <div>{{mb_strtoupper($p['address'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 @if(!empty($p['lab_data']))
-                <div>Laboratory:
+                <div>Lab Result/s:
                     <ul>
                         @foreach($p['lab_data'] as $pl)
-                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        <li>* {{$pl['test_type']}} - Collected on: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
                         @endforeach
                     </ul>
                 </div>
                 @endif
-                <p>&nbsp;</p>
+                <br>
             </li>
             @endforeach
         </ul>
@@ -883,25 +883,25 @@
         <b>Pertussis:</b>
         @foreach($per_list as $brgy => $rows)
         <li>Pertussis <b>- BRGY. {{$brgy}}</b>:</li>
-        <p>&nbsp;</p>
+        <br>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
-                <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
+                <div>{{mb_strtoupper($p['address'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 @if(!empty($p['lab_data']))
-                <div>Laboratory:
+                <div>Lab Result/s:
                     <ul>
                         @foreach($p['lab_data'] as $pl)
-                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        <li>* {{$pl['test_type']}} - Collected on: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
                         @endforeach
                     </ul>
                 </div>
                 @endif
-                <p>&nbsp;</p>
+                <br>
             </li>
             @endforeach
         </ul>
@@ -913,25 +913,25 @@
         <b>RotaVirus:</b>
         @foreach($rtv_list as $brgy => $rows)
         <li>RotaVirus <b>- BRGY. {{$brgy}}</b>:</li>
-        <p>&nbsp;</p>
+        <br>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
-                <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
+                <div>{{mb_strtoupper($p['address'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 @if(!empty($p['lab_data']))
-                <div>Laboratory:
+                <div>Lab Result/s:
                     <ul>
                         @foreach($p['lab_data'] as $pl)
-                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        <li>* {{$pl['test_type']}} - Collected on: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
                         @endforeach
                     </ul>
                 </div>
                 @endif
-                <p>&nbsp;</p>
+                <br>
             </li>
             @endforeach
         </ul>
@@ -943,25 +943,25 @@
         <b>Typhoid and Parathyphoid Fever:</b>
         @foreach($typ_list as $brgy => $rows)
         <li>Typhoid and Parathyphoid Fever <b>- BRGY. {{$brgy}}</b>:</li>
-        <p>&nbsp;</p>
+        <br>
         <ul>
             @foreach($rows as $ind => $p)
             <li>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
-                <div>{{mb_strtoupper($p['address'])}}, BRGY. {{mb_strtoupper($p['brgy'])}}</div>
+                <div>{{mb_strtoupper($p['address'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 @if(!empty($p['lab_data']))
-                <div>Laboratory:
+                <div>Lab Result/s:
                     <ul>
                         @foreach($p['lab_data'] as $pl)
-                        <li>{{$pl['test_type']}} - Collected at: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        <li>* {{$pl['test_type']}} - Collected on: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
                         @endforeach
                     </ul>
                 </div>
                 @endif
-                <p>&nbsp;</p>
+                <br>
             </li>
             @endforeach
         </ul>
