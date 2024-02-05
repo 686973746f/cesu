@@ -97,19 +97,23 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-
+                        <div class="form-group">
+                            <label for="outcome"><b class="text-danger">*</b>Pregnancy Outcome</label>
+                            <select class="form-control" name="outcome" id="outcome" required>
+                                <option value="N/A" {{(old('outcome') == 'N/A') ? 'selected' : ''}}>N/A</option>
+                                <option value="ALIVE" {{(old('outcome') == 'ALIVE') ? 'selected' : ''}}>ALIVE</option>
+                                <option value="DIED" {{(old('outcome') == 'DIED') ? 'selected' : ''}}>DIED</option>
+                            </select>
+                            <small>(If the Outcome is death, accomplish MMRWN Report Form and submit to CHO immediately)</small>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="accomplished_by">Name of WHT Member Accomplishing the Form <i>(Please indicate whether TBA or BHW)</i></label>
+                            <input type="text" class="form-control" name="accomplished_by" id="accomplished_by" value="{{old('accomplished_by')}}" style="text-transform: uppercase;">
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="outcome"><b class="text-danger">*</b>Pregnancy Outcome</label>
-                    <select class="form-control" name="outcome" id="outcome" required>
-                        <option value="N/A" {{(old('outcome') == 'N/A') ? 'selected' : ''}}>N/A</option>
-                        <option value="ALIVE" {{(old('outcome') == 'ALIVE') ? 'selected' : ''}}>ALIVE</option>
-                        <option value="DIED" {{(old('outcome') == 'DIED') ? 'selected' : ''}}>DIED</option>
-                    </select>
-                    <small>(If the Outcome is death, accomplish MMRWN Report Form and submit to CHO immediately)</small>
-                </div>
-                
             </div>
             <div class="card-footer">
                 <button type="submit" class="btn btn-success btn-block">Submit</button>

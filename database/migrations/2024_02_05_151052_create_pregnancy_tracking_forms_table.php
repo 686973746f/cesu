@@ -34,6 +34,15 @@ class CreatePregnancyTrackingFormsTable extends Migration
             $table->date('pc_done3')->nullable();
             $table->date('pc_done4')->nullable();
 
+            $table->string('wht_in_charge')->nullable();
+            $table->string('midwife_name')->nullable();
+            $table->string('duty_station')->nullable();
+            $table->string('address1')->nullable();
+
+            $table->string('referral_unit')->nullable();
+            $table->string('address2')->nullable();
+            $table->string('address3')->nullable();
+
             $table->string('outcome')->nullable();
             $table->string('accomplished_by')->nullable();
 

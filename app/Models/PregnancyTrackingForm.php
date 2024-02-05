@@ -25,6 +25,15 @@ class PregnancyTrackingForm extends Model
         'pc_done2',
         'pc_done3',
         'pc_done4',
+
+        'wht_in_charge',
+        'midwife_name',
+        'duty_station',
+        'address1',
+        'referral_unit',
+        'address2',
+        'address3',
+        
         'outcome',
         'accomplished_by',
     ];
