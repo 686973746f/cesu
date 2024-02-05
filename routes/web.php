@@ -50,6 +50,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\ABTCWalkInRegistrationController;
 use App\Http\Controllers\FwriController;
 use App\Http\Controllers\PharmacyController;
+use App\Http\Controllers\PregnancyTrackingController;
 use App\Http\Controllers\SecondaryTertiaryRecordsController;
 use App\Http\Controllers\SyndromicController;
 use App\Http\Controllers\VaxcertController;
@@ -334,6 +335,19 @@ Route::get('/pidsr/viewcif/{case}/{epi_id}', [PIDSRController::class, 'viewCif']
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessPidsrAdminMode']], function() {
     Route::get('/pidsr/casechecker/action', [PIDSRController::class, 'casechecker_action'])->name('pidsr_casechecker_action');
     Route::get('/pidsr/reset_sent', [PIDSRController::class, 'resetSendingStatus'])->name('pidsr_reset_sent');
+});
+
+//PREGNANCY TRACKING
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessPregnancyTracking']], function() {
+    Route::get('/pregnancy_tracking', [PregnancyTrackingController::class, 'index'])->name('ptracking_index');
+
+    Route::get('/pregnancy_tracking/new', [PregnancyTrackingController::class, 'new'])->name('ptracking_new');
+    Route::post('/pregnancy_tracking/store', [PregnancyTrackingController::class, 'store'])->name('ptracking_store');
+
+    Route::get('/pregnancy_tracking/{id}/edit', [PregnancyTrackingController::class, 'edit'])->name('ptracking_edit');
+    Route::post('/pregnancy_tracking/{id}/update', [PregnancyTrackingController::class, 'update'])->name('ptracking_update');
+    
+    Route::post('/pregnancy_tracking/monthly_report', [PregnancyTrackingController::class, 'monthlyreport1'])->name('ptracking_monthlyreport1');
 });
 
 //SYNDROMIC

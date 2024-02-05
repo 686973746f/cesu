@@ -317,6 +317,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $d;
     }
 
+    public function pregnancytrackingform() {
+        return $this->hasMany(PregnancyTrackingForm::class, 'created_by');
+    }
+
     //perms
     public function getPermissions() {
         return explode(",", $this->permission_list);
@@ -510,6 +514,17 @@ class User extends Authenticatable implements MustVerifyEmail
         $plist = $this->getPermissions();
 
         if(in_array('GLOBAL_ADMIN', $plist) || in_array('FWRI', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function canAccessPregnancyTracking() {
+        $plist = $this->getPermissions();
+
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('PREGNANCYTRACKING', $plist)) {
             return true;
         }
         else {
