@@ -210,6 +210,7 @@ class EdcsHourlyCaseEmailer extends Command
 
                     $update = $fetch_case->update([
                         'notify_email_sent' => 1,
+                        'notify_email_sent_datetime' => date('Y-m-d H:i:s'),
                     ]);
                 }
             }

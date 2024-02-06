@@ -374,6 +374,9 @@ class AfpImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 $getFullName = $getFullName.' '.$row['suffix_name'];
             }
 
+            //Check Case Definition
+
+
             $table_params = [
                 'Icd10Code' => NULL,
                 'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
@@ -591,6 +594,18 @@ class AmesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 $getDruFacilityTypeText = EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type;
             }
 
+            $match_casedef = 1;
+
+            //AMES Case Definition
+            if($row['fever'] == 'Yes') {
+                if($row['change_in_mental_status'] == 'Yes' || $row['neck_stiffness'] == 'Yes' || $row['meningeal_signs'] == 'Yes') {
+                    $match_casedef = 1;
+                }
+                else {
+                    $match_casedef = 0;
+                }
+            }
+
             $table_params = [
                 'Icd10Code' => NULL,
                 'RegionOFDrU' => $getDruRegionText,
@@ -737,6 +752,7 @@ class AmesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_contactNo' => isset($row['contact_no']) ? $row['contact_no'] : NULL,
                 'edcs_ageGroup' => isset($row['age_group']) ? $row['age_group'] : NULL,
                 'from_edcs' => 1,
+                'match_casedef' => $match_casedef,
 
                 'edcs_userid' => $row['user_id'],
                 'edcs_last_modifiedby' => $row['last_modified_by'],
@@ -1205,6 +1221,18 @@ class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 $getFullName = $getFullName.' '.$row['suffix_name'];
             }
 
+            $match_casedef = 1;
+
+            //Check Case Definition
+            if(!is_null($row['date_onset'][0]) && !is_null($row['date_onset'][1])) {
+                if($row['cough'] == 'Yes' || $row['runny_nosecoryza'] == 'Yes' || $row['red_eyes_conjunctivitis'] == 'Yes') {
+                    $match_casedef = 1;
+                }
+                else {
+                    $match_casedef = 0;
+                }
+            }
+
             $table_params = [
                 'Icd10Code' => 'B05',
                 'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
@@ -1340,6 +1368,7 @@ class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_contactNo' => isset($row['contact_no']) ? $row['contact_no'] : NULL,
                 'edcs_ageGroup' => isset($row['age_group']) ? $row['age_group'] : NULL,
                 'from_edcs' => 1,
+                'match_casedef' => $match_casedef,
                 
                 'edcs_userid' => $row['user_id'],
                 'edcs_last_modifiedby' => $row['last_modified_by'],
@@ -2017,6 +2046,8 @@ class DiphImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
             if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A') {
                 $getFullName = $getFullName.' '.$row['suffix_name'];
             }
+
+            //Check Case Definition
 
             $table_params = [
                 'Icd10Code' => 'A36',

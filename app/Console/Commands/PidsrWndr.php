@@ -108,6 +108,8 @@ class PidsrWndr extends Command
 
             $list = [];
 
+            /*
+            OLD CODE
             $afp = Afp::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
             ->where('systemsent', 0)
@@ -125,6 +127,15 @@ class PidsrWndr extends Command
                     ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
                 });
             });
+            */
+
+            $afp = Afp::where('Province', 'CAVITE')
+            ->where('Muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where('Year', date('Y', strtotime('-1 Week')))
+            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
 
             if($afp->count() != 0) {
                 $l = $afp->get();
@@ -167,6 +178,7 @@ class PidsrWndr extends Command
             $afp_update = $afp->update([
                 'systemsent' => 1,
                 'notify_email_sent' => 1,
+                'notify_email_sent_datetime' => date('Y-m-d H:i:s'),
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -177,18 +189,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where(function ($q) {
-                $q->where(function ($r) {
-                    $r->whereYear('DAdmit', date('Y', strtotime('-1 Week')))
-                    ->whereMonth('DAdmit', date('n', strtotime('-1 Week')))
-                    ->where(DB::raw("WEEKOFYEAR(DAdmit)"), date('W', strtotime('-1 Week')));
-                })->orWhere(function ($r) {
-                    $r->whereYear('DAdmit', '<=', date('Y', strtotime('-2 Weeks')))
-                    ->whereMonth('DAdmit', '<=', date('n', strtotime('-2 Weeks')))
-                    ->where(DB::raw("WEEKOFYEAR(DAdmit)"), '<=', date('W', strtotime('-2 Weeks')))
-                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-                });
-            });
+            ->where('Year', date('Y', strtotime('-1 Week')))
+            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
 
             if($aefi->count() != 0) {
                 $l = $aefi->get();
@@ -232,6 +234,7 @@ class PidsrWndr extends Command
             $aefi_update = $aefi->update([
                 'systemsent' => 1,
                 'notify_email_sent' => 1,
+                'notify_email_sent_datetime' => date('Y-m-d H:i:s'),
                 'encoded_mw' => (date('W') - 1),
             ]);
             
@@ -241,18 +244,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where(function ($q) {
-                $q->where(function ($r) {
-                    $r->where('Year', date('Y', strtotime('-1 Week')))
-                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-                })->orWhere(function ($r) {
-                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-                });
-            });
+            ->where('Year', date('Y', strtotime('-1 Week')))
+            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
 
             if($ant->count() != 0) {
                 $l = $ant->get();
@@ -295,6 +288,7 @@ class PidsrWndr extends Command
             $ant_update = $ant->update([
                 'systemsent' => 1,
                 'notify_email_sent' => 1,
+                'notify_email_sent_datetime' => date('Y-m-d H:i:s'),
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -305,18 +299,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where(function ($q) {
-                $q->where(function ($r) {
-                    $r->where('Year', date('Y', strtotime('-1 Week')))
-                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-                })->orWhere(function ($r) {
-                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-                });
-            });
+            ->where('Year', date('Y', strtotime('-1 Week')))
+            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
 
             if($mea->count() != 0) {
                 $l = $mea->get();
@@ -359,6 +343,7 @@ class PidsrWndr extends Command
             $mea_update = $mea->update([
                 'systemsent' => 1,
                 'notify_email_sent' => 1,
+                'notify_email_sent_datetime' => date('Y-m-d H:i:s'),
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -367,18 +352,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where(function ($q) {
-                $q->where(function ($r) {
-                    $r->where('Year', date('Y', strtotime('-1 Week')))
-                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-                })->orWhere(function ($r) {
-                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-                });
-            });
+            ->where('Year', date('Y', strtotime('-1 Week')))
+            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
 
             if($mgc->count() != 0) {
                 $l = $mgc->get();
@@ -421,6 +396,7 @@ class PidsrWndr extends Command
             $mgc_update = $mgc->update([
                 'systemsent' => 1,
                 'notify_email_sent' => 1,
+                'notify_email_sent_datetime' => date('Y-m-d H:i:s'),
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -429,18 +405,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where(function ($q) {
-                $q->where(function ($r) {
-                    $r->where('Year', date('Y', strtotime('-1 Week')))
-                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-                })->orWhere(function ($r) {
-                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-                });
-            });
+            ->where('Year', date('Y', strtotime('-1 Week')))
+            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
 
             if($nt->count() != 0) {
                 $l = $nt->get();
@@ -483,6 +449,7 @@ class PidsrWndr extends Command
             $nt_update = $nt->update([
                 'systemsent' => 1,
                 'notify_email_sent' => 1,
+                'notify_email_sent_datetime' => date('Y-m-d H:i:s'),
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -491,18 +458,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where(function ($q) {
-                $q->where(function ($r) {
-                    $r->where('Year', date('Y', strtotime('-1 Week')))
-                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-                })->orWhere(function ($r) {
-                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-                });
-            });
+            ->where('Year', date('Y', strtotime('-1 Week')))
+            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
 
             if($psp->count() != 0) {
                 $l = $psp->get();
@@ -545,6 +502,7 @@ class PidsrWndr extends Command
             $psp_update = $psp->update([
                 'systemsent' => 1,
                 'notify_email_sent' => 1,
+                'notify_email_sent_datetime' => date('Y-m-d H:i:s'),
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -553,18 +511,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where(function ($q) {
-                $q->where(function ($r) {
-                    $r->where('Year', date('Y', strtotime('-1 Week')))
-                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-                })->orWhere(function ($r) {
-                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-                });
-            });
+            ->where('Year', date('Y', strtotime('-1 Week')))
+            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
 
             if($rab->count() != 0) {
                 $l = $rab->get();
@@ -607,6 +555,7 @@ class PidsrWndr extends Command
             $rab_update = $rab->update([
                 'systemsent' => 1,
                 'notify_email_sent' => 1,
+                'notify_email_sent_datetime' => date('Y-m-d H:i:s'),
                 'encoded_mw' => (date('W') - 1),
             ]);
             
@@ -617,18 +566,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where(function ($q) {
-                $q->where(function ($r) {
-                    $r->where('Year', date('Y', strtotime('-1 Week')))
-                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-                })->orWhere(function ($r) {
-                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-                });
-            });
+            ->where('Year', date('Y', strtotime('-1 Week')))
+            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
 
             if($abd->count() != 0) {
                 $l = $abd->get();
@@ -671,6 +610,7 @@ class PidsrWndr extends Command
             $abd_update = $abd->update([
                 'systemsent' => 1,
                 'notify_email_sent' => 1,
+                'notify_email_sent_datetime' => date('Y-m-d H:i:s'),
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -679,18 +619,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where(function ($q) {
-                $q->where(function ($r) {
-                    $r->where('Year', date('Y', strtotime('-1 Week')))
-                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-                })->orWhere(function ($r) {
-                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-                });
-            });
+            ->where('Year', date('Y', strtotime('-1 Week')))
+            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
 
             if($aes->count() != 0) {
                 $l = $aes->get();
@@ -733,6 +663,7 @@ class PidsrWndr extends Command
             $aes_update = $aes->update([
                 'systemsent' => 1,
                 'notify_email_sent' => 1,
+                'notify_email_sent_datetime' => date('Y-m-d H:i:s'),
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -741,18 +672,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where(function ($q) {
-                $q->where(function ($r) {
-                    $r->where('Year', date('Y', strtotime('-1 Week')))
-                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-                })->orWhere(function ($r) {
-                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-                });
-            });
+            ->where('Year', date('Y', strtotime('-1 Week')))
+            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
 
             if($ahf->count() != 0) {
                 $l = $ahf->get();
@@ -795,6 +716,7 @@ class PidsrWndr extends Command
             $ahf_update = $ahf->update([
                 'systemsent' => 1,
                 'notify_email_sent' => 1,
+                'notify_email_sent_datetime' => date('Y-m-d H:i:s'),
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -803,18 +725,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where(function ($q) {
-                $q->where(function ($r) {
-                    $r->where('Year', date('Y', strtotime('-1 Week')))
-                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-                })->orWhere(function ($r) {
-                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-                });
-            });
+            ->where('Year', date('Y', strtotime('-1 Week')))
+            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
 
             if($hep->count() != 0) {
                 $l = $hep->get();
@@ -857,6 +769,7 @@ class PidsrWndr extends Command
             $hep_update = $hep->update([
                 'systemsent' => 1,
                 'notify_email_sent' => 1,
+                'notify_email_sent_datetime' => date('Y-m-d H:i:s'),
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -865,18 +778,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where(function ($q) {
-                $q->where(function ($r) {
-                    $r->where('Year', date('Y', strtotime('-1 Week')))
-                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-                })->orWhere(function ($r) {
-                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-                });
-            });
+            ->where('Year', date('Y', strtotime('-1 Week')))
+            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
 
             if($ame->count() != 0) {
                 $l = $ame->get();
@@ -919,6 +822,7 @@ class PidsrWndr extends Command
             $ame_update = $ame->update([
                 'systemsent' => 1,
                 'notify_email_sent' => 1,
+                'notify_email_sent_datetime' => date('Y-m-d H:i:s'),
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -927,18 +831,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where(function ($q) {
-                $q->where(function ($r) {
-                    $r->where('Year', date('Y', strtotime('-1 Week')))
-                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-                })->orWhere(function ($r) {
-                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-                });
-            });
+            ->where('Year', date('Y', strtotime('-1 Week')))
+            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
             
             if($mgt->count() != 0) {
                 $l = $mgt->get();
@@ -981,6 +875,7 @@ class PidsrWndr extends Command
             $mgt_update = $mgt->update([
                 'systemsent' => 1,
                 'notify_email_sent' => 1,
+                'notify_email_sent_datetime' => date('Y-m-d H:i:s'),
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -989,18 +884,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where(function ($q) {
-                $q->where(function ($r) {
-                    $r->where('Year', date('Y', strtotime('-1 Week')))
-                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-                })->orWhere(function ($r) {
-                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-                });
-            });
+            ->where('Year', date('Y', strtotime('-1 Week')))
+            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
 
             if($chi->count() != 0) {
                 $l = $chi->get();
@@ -1043,6 +928,7 @@ class PidsrWndr extends Command
             $chi_update = $chi->update([
                 'systemsent' => 1,
                 'notify_email_sent' => 1,
+                'notify_email_sent_datetime' => date('Y-m-d H:i:s'),
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -1051,18 +937,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where(function ($q) {
-                $q->where(function ($r) {
-                    $r->where('Year', date('Y', strtotime('-1 Week')))
-                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-                })->orWhere(function ($r) {
-                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-                });
-            });
+            ->where('Year', date('Y', strtotime('-1 Week')))
+            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
 
             if($cho->count() != 0) {
                 $l = $cho->get();
@@ -1105,6 +981,7 @@ class PidsrWndr extends Command
             $cho_update = $cho->update([
                 'systemsent' => 1,
                 'notify_email_sent' => 1,
+                'notify_email_sent_datetime' => date('Y-m-d H:i:s'),
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -1113,18 +990,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where(function ($q) {
-                $q->where(function ($r) {
-                    $r->where('Year', date('Y', strtotime('-1 Week')))
-                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-                })->orWhere(function ($r) {
-                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-                });
-            });
+            ->where('Year', date('Y', strtotime('-1 Week')))
+            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
 
             if($den->count() != 0) {
                 $l = $den->get();
@@ -1167,6 +1034,7 @@ class PidsrWndr extends Command
             $den_update = $den->update([
                 'systemsent' => 1,
                 'notify_email_sent' => 1,
+                'notify_email_sent_datetime' => date('Y-m-d H:i:s'),
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -1175,18 +1043,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where(function ($q) {
-                $q->where(function ($r) {
-                    $r->where('Year', date('Y', strtotime('-1 Week')))
-                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-                })->orWhere(function ($r) {
-                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-                });
-            });
+            ->where('Year', date('Y', strtotime('-1 Week')))
+            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
 
             if($dip->count() != 0) {
                 $l = $dip->get();
@@ -1229,6 +1087,7 @@ class PidsrWndr extends Command
             $dip_update = $dip->update([
                 'systemsent' => 1,
                 'notify_email_sent' => 1,
+                'notify_email_sent_datetime' => date('Y-m-d H:i:s'),
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -1237,18 +1096,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where(function ($q) {
-                $q->where(function ($r) {
-                    $r->where('Year', date('Y', strtotime('-1 Week')))
-                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-                })->orWhere(function ($r) {
-                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-                });
-            });
+            ->where('Year', date('Y', strtotime('-1 Week')))
+            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
 
             if($ili->count() != 0) {
                 $l = $ili->get();
@@ -1291,6 +1140,7 @@ class PidsrWndr extends Command
             $ili_update = $ili->update([
                 'systemsent' => 1,
                 'notify_email_sent' => 1,
+                'notify_email_sent_datetime' => date('Y-m-d H:i:s'),
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -1299,18 +1149,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where(function ($q) {
-                $q->where(function ($r) {
-                    $r->where('Year', date('Y', strtotime('-1 Week')))
-                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-                })->orWhere(function ($r) {
-                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-                });
-            });
+            ->where('Year', date('Y', strtotime('-1 Week')))
+            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
 
             if($lep->count() != 0) {
                 $l = $lep->get();
@@ -1353,6 +1193,7 @@ class PidsrWndr extends Command
             $lep_update = $lep->update([
                 'systemsent' => 1,
                 'notify_email_sent' => 1,
+                'notify_email_sent_datetime' => date('Y-m-d H:i:s'),
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -1361,18 +1202,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where(function ($q) {
-                $q->where(function ($r) {
-                    $r->where('Year', date('Y', strtotime('-1 Week')))
-                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-                })->orWhere(function ($r) {
-                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-                });
-            });
+            ->where('Year', date('Y', strtotime('-1 Week')))
+            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
 
             if($mal->count() != 0) {
                 $l = $mal->get();
@@ -1415,6 +1246,7 @@ class PidsrWndr extends Command
             $mal_update = $mal->update([
                 'systemsent' => 1,
                 'notify_email_sent' => 1,
+                'notify_email_sent_datetime' => date('Y-m-d H:i:s'),
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -1423,18 +1255,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where(function ($q) {
-                $q->where(function ($r) {
-                    $r->where('Year', date('Y', strtotime('-1 Week')))
-                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-                })->orWhere(function ($r) {
-                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-                });
-            });
+            ->where('Year', date('Y', strtotime('-1 Week')))
+            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
 
             if($nnt->count() != 0) {
                 $l = $nnt->get();
@@ -1477,6 +1299,7 @@ class PidsrWndr extends Command
             $nnt_update = $nnt->update([
                 'systemsent' => 1,
                 'notify_email_sent' => 1,
+                'notify_email_sent_datetime' => date('Y-m-d H:i:s'),
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -1485,18 +1308,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where(function ($q) {
-                $q->where(function ($r) {
-                    $r->where('Year', date('Y', strtotime('-1 Week')))
-                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-                })->orWhere(function ($r) {
-                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-                });
-            });
+            ->where('Year', date('Y', strtotime('-1 Week')))
+            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
 
             if($per->count() != 0) {
                 $l = $per->get();
@@ -1539,6 +1352,7 @@ class PidsrWndr extends Command
             $per_update = $per->update([
                 'systemsent' => 1,
                 'notify_email_sent' => 1,
+                'notify_email_sent_datetime' => date('Y-m-d H:i:s'),
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -1547,18 +1361,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where(function ($q) {
-                $q->where(function ($r) {
-                    $r->where('Year', date('Y', strtotime('-1 Week')))
-                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-                })->orWhere(function ($r) {
-                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-                });
-            });
+            ->where('Year', date('Y', strtotime('-1 Week')))
+            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
 
             if($rtv->count() != 0) {
                 $l = $rtv->get();
@@ -1601,6 +1405,7 @@ class PidsrWndr extends Command
             $rtv_update = $rtv->update([
                 'systemsent' => 1,
                 'notify_email_sent' => 1,
+                'notify_email_sent_datetime' => date('Y-m-d H:i:s'),
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -1609,18 +1414,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where(function ($q) {
-                $q->where(function ($r) {
-                    $r->where('Year', date('Y', strtotime('-1 Week')))
-                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-                })->orWhere(function ($r) {
-                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-                });
-            });
+            ->where('Year', date('Y', strtotime('-1 Week')))
+            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
 
             if($typ->count() != 0) {
                 $l = $typ->get();
@@ -1663,6 +1458,7 @@ class PidsrWndr extends Command
             $typ_update = $typ->update([
                 'systemsent' => 1,
                 'notify_email_sent' => 1,
+                'notify_email_sent_datetime' => date('Y-m-d H:i:s'),
                 'encoded_mw' => (date('W') - 1),
             ]);
 
@@ -1671,18 +1467,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where(function ($q) {
-                $q->where(function ($r) {
-                    $r->where('Year', date('Y', strtotime('-1 Week')))
-                    ->where('MorbidityMonth', date('n', strtotime('-1 Week')))
-                    ->where('MorbidityWeek', date('W', strtotime('-1 Week')));
-                })->orWhere(function ($r) {
-                    $r->where('Year', '<=', date('Y', strtotime('-2 Weeks')))
-                    ->where('MorbidityMonth', '<=', date('n', strtotime('-2 Weeks')))
-                    ->where('MorbidityWeek', '<=', date('W', strtotime('-2 Weeks')))
-                    ->where('created_at', '>=', Carbon::now()->previous(Carbon::TUESDAY)->setTime(11,0,0)->toDateString());
-                });
-            });
+            ->where('Year', date('Y', strtotime('-1 Week')))
+            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
 
             if($hfm->count() != 0) {
                 $l = $hfm->get();
@@ -1725,6 +1511,7 @@ class PidsrWndr extends Command
             $hfm_update = $hfm->update([
                 'systemsent' => 1,
                 'notify_email_sent' => 1,
+                'notify_email_sent_datetime' => date('Y-m-d H:i:s'),
                 'encoded_mw' => (date('W') - 1),
             ]);
 
