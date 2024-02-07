@@ -1534,12 +1534,191 @@ class PIDSRController extends Controller
         }
     }
 
+    public static function dbFetcher($case) {
+        if($case == 'ABD') {
+            $d = 'Abd';
+            $flavor_title = 'Acute Bloody Diarrhea';
+        }
+        else if($case == 'AEFI') {
+            $d = 'Aefi';
+        }
+        else if($case == 'AES') {
+            $d = 'Aes';
+        }
+        else if($case == 'AFP') {
+            $d = 'Afp';
+            $flavor_title = 'Acute Flaccid Paralysis';
+        }
+        else if($case == 'AHF') {
+            $d = 'Ahf';
+        }
+        else if($case == 'AMES') {
+            $d = 'Ames';
+
+            $flavor_title = 'Acute Meningitis Encephalitis';
+        }
+        else if($case == 'ANTHRAX') {
+            $d = 'Anthrax';
+        }
+        else if($case == 'CHIKV') {
+            $d = 'Chikv';
+
+            $flavor_title = 'Chikungunya Viral Disease';
+        }
+        else if($case == 'CHOLERA') {
+            $d = 'Cholera';
+
+            $flavor_title = 'Cholera';
+        }
+        else if($case == 'DENGUE') {
+            $d = 'Dengue';
+
+            $flavor_title = 'Dengue';
+        }
+        else if($case == 'DIPH') {
+            $d = 'Diph';
+
+            $flavor_title = 'Diphteria';
+        }
+        else if($case == 'HEPATITIS') {
+            $d = 'Hepatitis';
+
+            $flavor_title = 'Acute Viral Hepatitis';
+        }
+        else if($case == 'HFMD') {
+            $d = 'Hfmd';
+
+            $flavor_title = 'Hand, Foot & Mouth Disease';
+        }
+        else if($case == 'INFLUENZA') {
+            $d = 'Influenza';
+
+            $flavor_title = 'Influenza-like Illness';
+        }
+        else if($case == 'LEPTOSPIROSIS') {
+            $d = 'Leptospirosis';
+
+            $flavor_title = 'Leptospirosis';
+        }
+        else if($case == 'MALARIA') {
+            $d = 'Malaria';
+
+            $flavor_title = 'Malaria';
+        }
+        else if($case == 'MEASLES') {
+            $d = 'Measles';
+
+            $flavor_title = 'Measles';
+        }
+        else if($case == 'MENINGITIS') {
+            $d = 'MENINGITIS';
+
+            $flavor_title = 'Meningitis';
+        }
+        else if($case == 'MENINGO') {
+            $d = 'Meningo';
+
+            $flavor_title = 'Meningococcal Disease';
+        }
+        else if($case == 'NNT') {
+            $d = 'Nnt';
+
+            $flavor_title = 'Non-Neonatal Tetanus';
+        }
+        else if($case == 'NT') {
+            $d = 'Nt';
+
+            $flavor_title = 'Neonatal Tetanus';
+        }
+        else if($case == 'PERT') {
+            $d = 'Pert';
+
+            $flavor_title = 'Pertussis';
+        }
+        else if($case == 'PSP') {
+            $d = 'Psp';
+
+            $flavor_title = 'TEST';
+        }
+        else if($case == 'RABIES') {
+            $d = 'Rabies';
+
+            $flavor_title = 'Rabies';
+        }
+        else if($case == 'ROTAVIRUS') {
+            $d = 'Rotavirus';
+
+            $flavor_title = 'Rotavirus';
+        }
+        else if($case == 'TYPHOID') {
+            $d = 'Typhoid';
+
+            $flavor_title = 'Typhoid and Paratyphoid Fever';
+        }
+
+        $modelClass = "App\\Models\\$d";
+
+        return $modelClass;
+    }
+
     public function caseCheckerEdit($disease, $epi_id) {
+        $modelClass = PIDSRController::dbFetcher($disease);
         
+        $brgy_list = Brgy::where('city_id', 1)
+        ->where('displayInList', 1)
+        ->get();
+
+        $d = $modelClass::where('EPIID', $epi_id)->first();
+
+        if($d) {
+            return view('pidsr.casechecker_edit', [
+                'd' => $d,
+                'disease' => $disease,
+                'brgy_list' => $brgy_list,
+            ]);
+        }
+        else {
+            return abort(401);
+        }
     }
 
     public function caseCheckerUpdate($disease, $epi_id, Request $r) {
+        $modelClass = PIDSRController::dbFetcher($disease);
 
+        $d = $modelClass::where('EPIID', $epi_id)->first();
+
+        if($d) {
+            $d->FamilyName = $r->FamilyName;
+            $d->FirstName = $r->FirstName;
+            $d->middle_name = $r->middle_name;
+            $d->suffix = $r->suffix;
+
+            $d->Streetpurok = $r->Streetpurok;
+            $d->Barangay = $r->Barangay;
+
+            $getFullName = $d->FamilyName.', '.$d->FirstName;
+
+            if($r->filled('middle_name')) {
+                $getFullName = $getFullName.' '.$r->middle_name;
+            }
+
+            if($r->filled('suffix')) {
+                $getFullName = $getFullName.' '.$r->suffix;
+            }
+
+            $d->FullName = $getFullName;
+
+            if($d->isDirty()) {
+                $d->save();
+            }
+
+            return redirect()->back()
+            ->with('msg', 'The record was updated successfully.')
+            ->with('msgtype', 'success');
+        }
+        else {
+            return abort(401);
+        }
     }
 
     public function weeklycaseviewer($year, $mw) {

@@ -97,6 +97,7 @@
                         <td class="text-center">{{$key+1}}</td>
                         <td class="text-center btn-group">
                             <a href="{{route('pidsr_viewcif', [$case_name, $l->EPIID])}}" class="btn btn-primary"><i class="fa fa-file" aria-hidden="true"></i></a>
+                            <a href="{{route('pidsr_casechecker_edit', [$case_name, $l->EPIID])}}" class="btn btn-secondary"><i class="fa fa-cog" aria-hidden="true"></i></a>
                         </td>
                         @foreach($columns as $c)
                         <td>{{mb_strtoupper($l->$c)}}</td>
