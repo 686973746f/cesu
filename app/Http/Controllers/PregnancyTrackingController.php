@@ -35,6 +35,12 @@ class PregnancyTrackingController extends Controller
                 'street_purok' => $r->street_purok,
                 'lmp' => $r->lmp,
                 'edc' => $r->edc,
+
+                'pc_done1_check' => ($r->pc_done1_check) ? 'Y' : 'N',
+                'pc_done2_check' => ($r->pc_done2_check) ? 'Y' : 'N',
+                'pc_done3_check' => ($r->pc_done3_check) ? 'Y' : 'N',
+                'pc_done4_check' => ($r->pc_done4_check) ? 'Y' : 'N',
+                
                 'pc_done1' => $r->pc_done1,
                 'pc_done2' => $r->pc_done2,
                 'pc_done3' => $r->pc_done3,

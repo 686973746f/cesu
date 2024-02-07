@@ -71,26 +71,50 @@
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="pc_done1">Prenatal Care Done 1</label>
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" name="pc_done1_check" id="pc_done1_check" value="Y" {{(old('pc_done1_check')) ? 'checked' : ''}}>
+                            Prenatal Care Done 1
+                          </label>
+                        </div>
+                        <div class="form-group d-none" id="pc_div1">
+                            <label for="pc_done1">Prenatal Care Date 1</label>
                             <input type="date" class="form-control" name="pc_done1" id="pc_done1" value="{{old('pc_done1')}}" max="{{date('Y-m-d')}}">
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="pc_done2">Prenatal Care Done 2</label>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="pc_done2_check" id="pc_done2_check" value="Y" {{(old('pc_done2_check')) ? 'checked' : ''}}>
+                              Prenatal Care Done 2
+                            </label>
+                          </div>
+                        <div class="form-group d-none" id="pc_div2">
+                            <label for="pc_done2">Prenatal Care Date 2</label>
                             <input type="date" class="form-control" name="pc_done2" id="pc_done2" value="{{old('pc_done2')}}" max="{{date('Y-m-d')}}">
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="pc_done3">Prenatal Care Done 3</label>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="pc_done3_check" id="pc_done3_check" value="Y" {{(old('pc_done3_check')) ? 'checked' : ''}}>
+                              Prenatal Care Done 3
+                            </label>
+                          </div>
+                        <div class="form-group d-none" id="pc_div3">
+                            <label for="pc_done3">Prenatal Care Date 3</label>
                             <input type="date" class="form-control" name="pc_done3" id="pc_done3" value="{{old('pc_done3')}}" max="{{date('Y-m-d')}}">
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="pc_done4">Prenatal Care Done 4</label>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="pc_done4_check" id="pc_done4_check" value="Y" {{(old('pc_done4_check')) ? 'checked' : ''}}>
+                              Prenatal Care Done 4
+                            </label>
+                          </div>
+                        <div class="form-group d-none" id="pc_div4">
+                            <label for="pc_done4">Prenatal Care Date 4</label>
                             <input type="date" class="form-control" name="pc_done4" id="pc_done4" value="{{old('pc_done4')}}" max="{{date('Y-m-d')}}">
                         </div>
                     </div>
@@ -126,5 +150,45 @@
     $('#catchment_brgy').select2({
         theme: 'bootstrap',
     });
+
+    $('#pc_done1_check').change(function (e) { 
+        e.preventDefault();
+        if ($(this).prop("checked")) {
+            $('#pc_div1').removeClass('d-none');
+        }
+        else {
+            $('#pc_div1').addClass('d-none');
+        }
+    }).trigger('change');
+
+    $('#pc_done2_check').change(function (e) { 
+        e.preventDefault();
+        if ($(this).prop("checked")) {
+            $('#pc_div2').removeClass('d-none');
+        }
+        else {
+            $('#pc_div2').addClass('d-none');
+        }
+    }).trigger('change');
+
+    $('#pc_done3_check').change(function (e) { 
+        e.preventDefault();
+        if ($(this).prop("checked")) {
+            $('#pc_div3').removeClass('d-none');
+        }
+        else {
+            $('#pc_div3').addClass('d-none');
+        }
+    }).trigger('change');
+
+    $('#pc_done4_check').change(function (e) { 
+        e.preventDefault();
+        if ($(this).prop("checked")) {
+            $('#pc_div4').removeClass('d-none');
+        }
+        else {
+            $('#pc_div4').addClass('d-none');
+        }
+    }).trigger('change');
 </script>
 @endsection

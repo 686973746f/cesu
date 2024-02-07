@@ -21,6 +21,12 @@ class PregnancyTrackingForm extends Model
         'street_purok',
         'lmp',
         'edc',
+
+        'pc_done1_check',
+        'pc_done2_check',
+        'pc_done3_check',
+        'pc_done4_check',
+
         'pc_done1',
         'pc_done2',
         'pc_done3',

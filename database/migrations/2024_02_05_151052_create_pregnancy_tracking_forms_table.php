@@ -29,6 +29,11 @@ class CreatePregnancyTrackingFormsTable extends Migration
 
             $table->string('contact_number')->nullable();
 
+            $table->string('pc_done1_check', 1)->nullable();
+            $table->string('pc_done2_check', 1)->nullable();
+            $table->string('pc_done3_check', 1)->nullable();
+            $table->string('pc_done4_check', 1)->nullable();
+            
             $table->date('pc_done1')->nullable();
             $table->date('pc_done2')->nullable();
             $table->date('pc_done3')->nullable();
