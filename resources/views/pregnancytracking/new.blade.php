@@ -72,8 +72,8 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="pc_done1"><b class="text-danger">*</b>Prenatal Care Done 1</label>
-                            <input type="date" class="form-control" name="pc_done1" id="pc_done1" value="{{old('pc_done1')}}" max="{{date('Y-m-d')}}" required>
+                            <label for="pc_done1">Prenatal Care Done 1</label>
+                            <input type="date" class="form-control" name="pc_done1" id="pc_done1" value="{{old('pc_done1')}}" max="{{date('Y-m-d')}}">
                         </div>
                     </div>
                     <div class="col-md-3">
