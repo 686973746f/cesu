@@ -34,7 +34,7 @@ class PregnancyTrackingController extends Controller
                 'mname' => ($r->filled('mname')) ? mb_strtoupper($r->mname) : NULL,
 
                 'age' => $r->age,
-                'street_purok' => $r->street_purok,
+                'street_purok' => mb_strtoupper($r->street_purok),
                 'lmp' => $r->lmp,
                 'edc' => $r->edc,
 

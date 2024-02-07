@@ -3067,4 +3067,8 @@ class PharmacyController extends Controller
             ];
         });
     }
+
+    public function report2() {
+        return view('pharmacy.report2');
+    }
 }

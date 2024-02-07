@@ -24,7 +24,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="lname"><b class="text-danger">*</b>Last Name</label>
+                            <label for="lname"><b class="text-danger">*</b>Last Name/Surname`</label>
                             <input type="text" class="form-control" name="lname" id="lname" value="{{old('lname')}}" minlength="2" maxlength="50" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required>
                         </div>
                     </div>
@@ -71,7 +71,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <div class="form-check">
+                        <div class="form-check mb-3">
                           <label class="form-check-label">
                             <input type="checkbox" class="form-check-input" name="pc_done1_check" id="pc_done1_check" value="Y" {{(old('pc_done1_check')) ? 'checked' : ''}}>
                             Prenatal Care Done 1
@@ -83,7 +83,7 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="form-check">
+                        <div class="form-check mb-3">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="pc_done2_check" id="pc_done2_check" value="Y" {{(old('pc_done2_check')) ? 'checked' : ''}}>
                               Prenatal Care Done 2
@@ -95,7 +95,7 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="form-check">
+                        <div class="form-check mb-3">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="pc_done3_check" id="pc_done3_check" value="Y" {{(old('pc_done3_check')) ? 'checked' : ''}}>
                               Prenatal Care Done 3
@@ -107,7 +107,7 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="form-check">
+                        <div class="form-check mb-3">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="pc_done4_check" id="pc_done4_check" value="Y" {{(old('pc_done4_check')) ? 'checked' : ''}}>
                               Prenatal Care Done 4

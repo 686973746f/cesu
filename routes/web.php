@@ -547,6 +547,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     Route::post('/pharmacy/item_list/{item_id}/view/update', [PharmacyController::class, 'updateItem'])->name('pharmacy_itemlist_updateitem');
 
     Route::get('/pharmacy/report', [PharmacyController::class, 'viewReport'])->name('pharmacy_viewreport');
+    Route::get('/pharmacy/report2', [PharmacyController::class, 'report2'])->name('pharmacy_viewreport2');
     Route::post('/pharmacy/report/get_medsdispensary', [PharmacyController::class, 'generateMedicineDispensary'])->name('pharmacy_getdispensary');
 
     Route::get('/pharmacy/patients', [PharmacyController::class, 'viewPatientList'])->name('pharmacy_view_patient_list');
