@@ -646,7 +646,7 @@ foreach($classification_titles as $ind => $ctitle) {
             },
             layout: {
                 padding: {
-                    right: 20,
+                    right: 25,
                 },
             },
             animation: {}
