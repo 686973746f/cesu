@@ -347,7 +347,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
     Route::get('/pregnancy_tracking/{id}/edit', [PregnancyTrackingController::class, 'edit'])->name('ptracking_edit');
     Route::post('/pregnancy_tracking/{id}/update', [PregnancyTrackingController::class, 'update'])->name('ptracking_update');
     
-    Route::post('/pregnancy_tracking/monthly_report', [PregnancyTrackingController::class, 'monthlyreport1'])->name('ptracking_monthlyreport1');
+    Route::post('/pregnancy_tracking/monthly_report1', [PregnancyTrackingController::class, 'monthlyreport1'])->name('ptracking_monthlyreport1');
 });
 
 //SYNDROMIC

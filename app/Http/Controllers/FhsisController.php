@@ -30,7 +30,8 @@ class FhsisController extends Controller
 
     public function report() {
         if(request()->input('type') && request()->input('year')) {
-            $bgy_list = FhsisBarangay::orderBy('BGY_DESC', 'ASC')->get();
+            $bgy_list = FhsisBarangay::where('MUN_CODE', 'GENERAL TRIAS')
+            ->orderBy('BGY_DESC', 'ASC')->get();
 
             $mort_final_list = [];
             $morb_final_list = [];
@@ -1310,7 +1311,7 @@ class FhsisController extends Controller
         ini_set('max_execution_time', 9999999999);
 
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            $filePath = 'D:\laragon\www\cesu\storage\app\efhsis\output.sql';
+            $filePath = 'C:\laragon\www\cesu\storage\app\efhsis\output.sql';
         } else {
             $filePath = storage_path('app/efhsis/output.sql');
         }
