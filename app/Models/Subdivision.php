@@ -21,6 +21,7 @@ class Subdivision extends Model
         'dilgCustCode',
         'gps_x',
         'gps_y',
+        'user_id',
     ];
 
     public function brgy() {

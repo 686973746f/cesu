@@ -52,6 +52,7 @@ use App\Http\Controllers\FwriController;
 use App\Http\Controllers\PharmacyController;
 use App\Http\Controllers\PregnancyTrackingController;
 use App\Http\Controllers\SecondaryTertiaryRecordsController;
+use App\Http\Controllers\SubdivisionController;
 use App\Http\Controllers\SyndromicController;
 use App\Http\Controllers\VaxcertController;
 
@@ -233,6 +234,13 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
     Route::get('/dengue/cif/{cif_id}/edit', [DengueController::class, 'edit_cif'])->name('dg.editcif');
     Route::post('/dengue/cif/{cif_id}/update', [DengueController::class, 'update_cif'])->name('dg.updatecif');
     */
+});
+
+//SYSTEM ADMIN
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']], function()
+{
+    Route::get('/admin/settings/subdivision', [SubdivisionController::class, 'index'])->name('subdivision_index');
+    Route::post('/admin/settings/subdivision/import', [SubdivisionController::class, 'import'])->name('subdivision_import');
 });
 
 //COVID ADMIN

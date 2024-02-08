@@ -22,8 +22,8 @@ class CreateSubdivisionsTable extends Migration
             $table->string('type')->nullable();
             $table->string('total_projectarea')->nullable();
             $table->string('total_lotsunits')->nullable();
-            $table->integer('numof_population')->nullable();
-            $table->integer('numof_household')->nullable();
+            $table->string('numof_population')->nullable();
+            $table->string('numof_household')->nullable();
             $table->text('dilgCustCode')->nullable();
             $table->text('gps_x')->nullable();
             $table->text('gps_y')->nullable();
