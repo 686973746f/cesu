@@ -14,7 +14,7 @@
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                       <span class="input-group-text">Select Case and Year</span>
-                    </div>`
+                    </div>
                     <select class="custom-select" name="case" id="case" required>
                         <option disabled {{(is_null(request()->input('case'))) ? 'selected' : ''}}>Select Type...</option>
                         <option value="ABD" {{(request()->input('case') == 'ABD') ? 'selected' : ''}}>ABD</option>

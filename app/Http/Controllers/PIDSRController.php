@@ -140,9 +140,12 @@ class PIDSRController extends Controller
             }
         }
 
+        $forverification_count = count(PIDSRController::getBlankSubdivisions());
+
         return view('pidsr.home', [
             'notif_count' => $notif_count,
             'unlockweeklyreport' => $unlockweeklyreport,
+            'forverification_count' => $forverification_count,
         ]);
     }
 
@@ -1713,9 +1716,16 @@ class PIDSRController extends Controller
                 $d->save();
             }
 
-            return redirect()->back()
-            ->with('msg', 'The record was updated successfully.')
-            ->with('msgtype', 'success');
+            if($r->fromVerifier == 1) {
+                return redirect()->route('pidsr_forvalidation_index')
+                ->with('msg', 'The record was updated successfully.')
+                ->with('msgtype', 'success');
+            }
+            else {
+                return redirect()->back()
+                ->with('msg', 'The record was updated successfully.')
+                ->with('msgtype', 'success');
+            }
         }
         else {
             return abort(401);
@@ -4837,8 +4847,8 @@ class PIDSRController extends Controller
 
             for($i=1;$i<=52;$i++) {
                 $currentmw_array[] = ${'current_mw'.$i};
-                $epidemicmw_array[] = ${'alert_threshold_mw'.$i};
-                $alertmw_array[] = ${'epidemic_threshold_mw'.$i};
+                $epidemicmw_array[] = ${'epidemic_threshold_mw'.$i};
+                $alertmw_array[] = ${'alert_threshold_mw'.$i};
             }
 
             //TOP 10 BARANGAYS
@@ -5609,5 +5619,75 @@ class PIDSRController extends Controller
         else {
 
         }
+    }
+
+    public static function getBlankSubdivisions() {
+        $list = [];
+
+        $diseases = [
+            'Afp',
+            'Measles',
+            'Meningo',
+            'Nt',
+            'Rabies',
+            'Hfmd',
+
+            'Abd',
+            'Ames',
+            'Hepatitis',
+            'Chikv',
+            'Cholera',
+            'Dengue',
+            'Diph',
+            'Influenza',
+            'Leptospirosis',
+            'Nnt',
+            'Pert',
+            'Rotavirus',
+            'Typhoid',
+        ];
+
+        foreach($diseases as $d) {
+            $modelClass = "App\\Models\\$d";
+
+            $case_name = mb_strtoupper($d);
+
+            if(request()->input('year')) {
+                $year = request()->input('year');
+            }
+            else {
+                $year = date('Y');
+            }
+
+            $fetch_case = $modelClass::where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where('Year', $year)
+            ->whereNull('system_subdivision_id')
+            ->orderBy('created_at', 'ASC')
+            ->get();
+
+            foreach($fetch_case as $f) {
+                $list[] = [
+                    'case_name' => $case_name,
+                    'epi_id' => $f->EPIID,
+                    'name' => $f->getName(),
+                    'age' => $f->AgeYears,
+                    'sex' => $f->Sex,
+                    'streetpurok' => (!is_null($f->Streetpurok)) ? $f->Streetpurok : 'N/A',
+                    'brgy' => $f->Barangay,
+                    'timestamp' => Carbon::parse($f->created_at)->format('m/d/Y h:i A'),
+                ];
+            }
+        }
+
+        return $list;
+    }
+
+    public function forValidationIndex() {
+        $get_list = PIDSRController::getBlankSubdivisions();
+
+        return view('pidsr.forvalidation', [
+            'list' => $get_list,
+        ]);
     }
 }

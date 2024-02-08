@@ -338,6 +338,8 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
 
     Route::get('/pidsr/snaxv2', [PIDSRController::class, 'snaxVersionTwoController'])->name('pidsr_snaxv2');
     Route::get('/pidsr/generate_threshold', [PIDSRController::class, 'generateThreshold'])->name('pidsr_generate_threshold');
+
+    Route::get('/pidsr/for_validation', [PIDSRController::class, 'forValidationIndex'])->name('pidsr_forvalidation_index');
 });
 
 Route::get('/pidsr/viewcif/{case}/{epi_id}', [PIDSRController::class, 'viewCif'])->name('pidsr_viewcif');

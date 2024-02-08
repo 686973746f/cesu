@@ -4,6 +4,7 @@
 <div class="container">
     <form action="{{route('pidsr_casechecker_update', [$disease, $d->EPIID])}}" method="POST">
         @csrf
+        <input type="hidden" class="form-control" name="fromVerifier" id="fromVerifier" value="{{(request()->input('fromVerifier')) ? 1 : 0}}">
         <div class="card">
             <div class="card-header"><b>Quick Edit Case</b></div>
             <div class="card-body">
@@ -75,9 +76,25 @@
                         </div>
                     </div>
                 </div>
+                <div class="alert alert-info" role="alert">
+                    <h6><b class="text-danger">Note:</b></h6>
+                    <ul>
+                        <li>Minsan nakasulat sa Street/Purok field yung Hint sa correct na subdivision na ilalagay.</li>
+                        <li>Burahin ang subdivision sa Street/Purok field pagkatapos malipat para sa cleanliness ng data.</li>
+                    </ul>
+                </div>
                 <div class="form-group">
                   <label for="system_remarks">Remarks</label>
                   <textarea class="form-control" name="system_remarks" id="system_remarks" rows="3">{{old('system_remarks', $d->system_remarks)}}</textarea>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-4">
+                        
+                    </div>
+                    <div class="col-md-4">
+
+                    </div>
                 </div>
             </div>
             <div class="card-footer">

@@ -27,4 +27,18 @@ class Nt extends Model
             return 'UNKNOWN';
         }
     }
+
+    public function getName() {
+        $full = $this->FamilyName.', '.$this->FirstName;
+
+        if(!is_null($this->middle_name)) {
+            $full = $full.' '.$this->middle_name;
+        }
+
+        if(!is_null($this->suffix)) {
+            $full = $full.' '.$this->suffix;
+        }
+
+        return $full;
+    }
 }
