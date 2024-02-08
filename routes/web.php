@@ -97,6 +97,8 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function
     
     Route::get('/account/changepw', [ChangePasswordController::class, 'index'])->name('changepw.index');
     Route::post('/account/changepw', [ChangePasswordController::class, 'initChangePw'])->name('changepw.init');
+
+    Route::get('getSubdivisions/{brgy_id}', [SubdivisionController::class, 'getSubdivisions'])->name('getSubdivisions');
 });
 
 //PASWAB INTERNAL
@@ -239,6 +241,11 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
 //SYSTEM ADMIN
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']], function()
 {
+    //Route::get('/exportcesu', [ReportV2Controller::class, 'exportdb'])->name('edb');
+    Route::get('/admin/settings/home', [SiteSettingsController::class, 'settingsHome'])->name('settings_home');
+    Route::get('/admin/settings/general', [SiteSettingsController::class, 'generalSettings'])->name('settings_general_view');
+    Route::post('/admin/settings/update', [SiteSettingsController::class, 'generalSettingsUpdate'])->name('settings_general_update');
+
     Route::get('/admin/settings/subdivision', [SubdivisionController::class, 'index'])->name('subdivision_index');
     Route::post('/admin/settings/subdivision/import', [SubdivisionController::class, 'import'])->name('subdivision_import');
 });
@@ -302,11 +309,6 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin', 
     //Site Settings
     Route::get('/covid/settings/site', [SiteSettingsController::class, 'index'])->name('ss.index');
     Route::post('/covid/settings/site', [SiteSettingsController::class, 'update'])->name('ss.update');
-    
-    //Route::get('/exportcesu', [ReportV2Controller::class, 'exportdb'])->name('edb');
-    Route::get('/init_settings/home', [SiteSettingsController::class, 'settingsHome'])->name('settings_home');
-    Route::get('/init_settings/general', [SiteSettingsController::class, 'generalSettings'])->name('settings_general_view');
-    Route::post('/init_settings/update', [SiteSettingsController::class, 'generalSettingsUpdate'])->name('settings_general_update');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel2']], function() {

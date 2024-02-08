@@ -1694,7 +1694,7 @@ class PIDSRController extends Controller
             $d->suffix = $r->suffix;
 
             $d->Streetpurok = $r->Streetpurok;
-            $d->Barangay = $r->Barangay;
+            $d->Barangay = Brgy::find($r->Barangay)->brgyName;
 
             $getFullName = $d->FamilyName.', '.$d->FirstName;
 
@@ -1707,6 +1707,7 @@ class PIDSRController extends Controller
             }
 
             $d->FullName = $getFullName;
+            $d->system_subdivision_id = $r->system_subdivision_id;
 
             if($d->isDirty()) {
                 $d->save();

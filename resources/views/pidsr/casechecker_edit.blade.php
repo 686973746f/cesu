@@ -52,23 +52,32 @@
                         </div>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label for="Barangay"><b class="text-danger">*</b>Barangay</label>
+                    <select class="form-control" name="Barangay" id="Barangay" required>
+                        @foreach($brgy_list as $b)
+                        <option value="{{$b->id}}" {{($b->brgyName == $d->Barangay) ? 'selected' : ''}}>{{$b->brgyName}}</option>
+                        @endforeach
+                    </select>
+                </div>
                 <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="system_subdivision_id"><b class="text-danger">*</b>Subdivision</label>
+                          <select class="form-control" name="system_subdivision_id" id="system_subdivision_id" required>
+                          </select>
+                        </div>
+                    </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="Streetpurok">Street/Purok</label>
                             <input type="text" class="form-control" value="{{$d->Streetpurok}}" id="Streetpurok" name="Streetpurok">
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                          <label for="Barangay"><b class="text-danger">*</b>Barangay</label>
-                          <select class="form-control" name="Barangay" id="Barangay" required>
-                            @foreach($brgy_list as $b)
-                            <option value="{{$b->brgyName}}" {{($b->brgyName == $d->Barangay) ? 'selected' : ''}}>{{$b->brgyName}}</option>
-                            @endforeach
-                          </select>
-                        </div>
-                    </div>
+                </div>
+                <div class="form-group">
+                  <label for="system_remarks">Remarks</label>
+                  <textarea class="form-control" name="system_remarks" id="system_remarks" rows="3">{{old('system_remarks', $d->system_remarks)}}</textarea>
                 </div>
             </div>
             <div class="card-footer">
@@ -79,8 +88,38 @@
 </div>
 
 <script>
-    $('#Barangay').select2({
-        theme: 'bootstrap',
+    $(document).ready(function() {
+        $('#Barangay').select2({
+            theme: 'bootstrap',
+        });
+
+        $('#Barangay').on('change', function() {
+            var brgy_id = $(this).val();
+            if (brgy_id) {
+                $.ajax({
+                    url: '{{ route("getSubdivisions", ":id") }}'.replace(':id', brgy_id),
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {
+                        $('#system_subdivision_id').empty();
+                        $('#system_subdivision_id').append('<option value="" selected disabled>Choose...</option>');
+                        $.each(data, function(key, value) {
+                            $('#system_subdivision_id').append('<option value="'+ key +'">'+ value +'</option>');
+                        });
+                        $('#system_subdivision_id').select2({
+                            theme: 'bootstrap',
+                        });
+                        var existingSubdivisionId = '{{ $d->system_subdivision_id }}'; // Assuming you pass the existing subdivision ID from the backend
+                        if(existingSubdivisionId) {
+                            $('#system_subdivision_id').val(existingSubdivisionId).trigger('change');
+                        }
+                    }
+                });
+            } else {
+                $('#system_subdivision_id').empty();
+            }
+        }).trigger('change');
     });
+
 </script>
 @endsection

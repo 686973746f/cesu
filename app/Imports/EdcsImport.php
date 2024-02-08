@@ -118,6 +118,44 @@ class EdcsImport implements WithMultipleSheets, SkipsUnknownSheets
         return $get_brgy;
     }
 
+    public static function autoMateSubdivision($brgy) {
+        if($brgy == 'Arnaldo Pob.') {
+            $subd_id = 298;
+        }
+        else if($brgy == 'Bagumbayan Pob.') {
+            $subd_id = 299;
+        }
+        else if($brgy == 'Corregidor Pob.') {
+            $subd_id = 300;
+        }
+        else if($brgy == 'Dulong Bayan Pob.') {
+            $subd_id = 301;
+        }
+        else if($brgy == 'Gov. Ferrer Pob.') {
+            $subd_id = 302;
+        }
+        else if($brgy == 'Ninety Sixth Pob.') {
+            $subd_id = 303;
+        }
+        else if($brgy == 'Prinza Pob.') {
+            $subd_id = 304;
+        }
+        else if($brgy == 'Sampalucan Pob.') {
+            $subd_id = 305;
+        }
+        else if($brgy == 'San Gabriel Pob.') {
+            $subd_id = 306;
+        }
+        else if($brgy == 'Vibora Pob.') {
+            $subd_id = 307;
+        }
+        else {
+            $subd_id = NULL;
+        }
+
+        return $subd_id;
+    }
+
     public static function getEdcsFacilityDetails($code, $fname) {
         $s = DohFacility::where('healthfacility_code', $code)
         ->orWhere('facility_name', $fname)
@@ -315,6 +353,7 @@ class AbdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_userid' => $row['user_id'],
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
+                'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
             ];
 
             $exist_check = Abd::where('EPIID', $row['epi_id'])->first();
@@ -532,6 +571,7 @@ class AfpImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_userid' => $row['user_id'],
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
+                'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
             ];
 
             $exist_check = Afp::where('EPIID', $row['epi_id'])->first();
@@ -757,6 +797,7 @@ class AmesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_userid' => $row['user_id'],
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
+                'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
             ];
 
             $exist_check = Ames::where('EPIID', $row['epi_id'])->first();
@@ -866,6 +907,7 @@ class HepaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_userid' => $row['user_id'],
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
+                'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
             ];
 
             $exist_check = Hepatitis::where('EPIID', $row['epi_id'])->first();
@@ -1066,6 +1108,7 @@ class HfmdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_userid' => $row['user_id'],
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
+                'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
             ];
 
             $exist_check = Hfmd::where('EPIID', $row['epi_id'])->first();
@@ -1175,6 +1218,7 @@ class LeptoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_userid' => $row['user_id'],
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
+                'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
             ];
 
             $exist_check = Leptospirosis::where('EPIID', $row['epi_id'])->first();
@@ -1373,6 +1417,7 @@ class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_userid' => $row['user_id'],
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
+                'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
             ];
 
             $exist_check = Measles::where('EPIID', $row['epi_id'])->first();
@@ -1484,6 +1529,7 @@ class NntImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_userid' => $row['user_id'],
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
+                'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
             ];
 
             $exist_check = Nnt::where('EPIID', $row['epi_id'])->first();
@@ -1612,6 +1658,7 @@ class RabiesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_userid' => $row['user_id'],
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
+                'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
             ];
 
             $exist_check = Rabies::where('EPIID', $row['epi_id'])->first();
@@ -1757,6 +1804,7 @@ class RotaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_userid' => $row['user_id'],
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
+                'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
             ];
 
             $exist_check = Rotavirus::where('EPIID', $row['epi_id'])->first();
@@ -1863,6 +1911,7 @@ class TyphoidImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_userid' => $row['user_id'],
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
+                'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
             ];
 
             $exist_check = Typhoid::where('EPIID', $row['epi_id'])->first();
@@ -2002,6 +2051,7 @@ class DengueImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_userid' => $row['user_id'],
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
+                'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
             ];
 
             $exist_check = Dengue::where('EPIID', $row['epi_id'])->first();
@@ -2112,6 +2162,7 @@ class DiphImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'edcs_userid' => $row['user_id'],
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
+                'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
             ];
 
             $exist_check = Diph::where('EPIID', $row['epi_id'])->first();
@@ -2261,6 +2312,7 @@ class ChikvImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'edcs_userid' => $row['user_id'],
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
+                'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
             ];
 
             $exist_check = Chikv::where('EPIID', $row['epi_id'])->first();
@@ -2431,6 +2483,7 @@ class MeningoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'edcs_userid' => $row['user_id'],
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
+                'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
             ];
 
             $exist_check = Meningo::where('EPIID', $row['epi_id'])->first();
@@ -2574,6 +2627,7 @@ class NtImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'edcs_userid' => $row['user_id'],
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
+                'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
             ];
 
             $exist_check = Nt::where('EPIID', $row['epi_id'])->first();
@@ -2682,6 +2736,7 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'edcs_userid' => $row['user_id'],
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
+                'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
             ];
 
             $exist_check = Pert::where('EPIID', $row['epi_id'])->first();
@@ -2790,6 +2845,7 @@ class CholeraImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'edcs_userid' => $row['user_id'],
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
+                'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
             ];
 
             $exist_check = Cholera::where('EPIID', $row['epi_id'])->first();
@@ -2899,6 +2955,7 @@ class InfluenzaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow 
                 'edcs_userid' => $row['user_id'],
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
+                'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
             ];
             
             $exist_check = Influenza::where('EPIID', $row['epi_id'])->first();
