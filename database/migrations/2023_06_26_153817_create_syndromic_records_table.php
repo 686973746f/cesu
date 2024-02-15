@@ -16,8 +16,7 @@ class CreateSyndromicRecordsTable extends Migration
         Schema::create('syndromic_records', function (Blueprint $table) {
             $table->id();
             $table->foreignId('syndromic_patient_id')->constrained('syndromic_patients')->onDelete('cascade');
-            $table->foreignId('facility_id')->nullable()->constrained('doh_facilities')->onDelete('cascade');
-            $table->foreignId('medical_event_id')->nullable()->constrained('medical_events')->onDelete('cascade');
+            
             $table->text('opdno');
             $table->integer('line_number')->nullable();
             $table->date('last_checkup_date')->nullable();
@@ -180,6 +179,8 @@ class CreateSyndromicRecordsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreignId('facility_id')->nullable()->constrained('doh_facilities')->onDelete('cascade');
+            $table->foreignId('medical_event_id')->nullable()->constrained('medical_events')->onDelete('cascade');
             //$table->foreignId('created_on_branch')->nullable()->constrained('pharmacy_branches')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
         });

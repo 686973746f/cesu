@@ -42,6 +42,9 @@ class DohFacility extends Model
         'bed_capacity',
         'licensing_status',
         'validity_date',
+
+        'sys_code1',
+        'sys_opdaccess_type',
     ];
 
     public function getRegionData() {

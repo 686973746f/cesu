@@ -50,6 +50,10 @@
                   </tbody>
                 </table>
                 <div class="form-group">
+                  <label for=""><b class="text-danger">*</b>Facility/Disease Reporting Unit</label>
+                  <input type="text" class="form-control" value="{{auth()->user()->opdfacility->facility_name}}" readonly>
+                </div>
+                <div class="form-group">
                   <label for="nature_of_visit"><b class="text-danger">*</b>Nature of Visit</label>
                   <select class="form-control" name="nature_of_visit" id="nature_of_visit" required>
                     <option value="" disabled {{is_null(old('nature_of_visit', $get_dnature)) ? 'selected' : ''}}>Choose...</option>

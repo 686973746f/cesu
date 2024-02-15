@@ -322,6 +322,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(PregnancyTrackingForm::class, 'created_by');
     }
 
+    public function opdfacility() {
+        return $this->belongsTo(DohFacility::class, 'itr_facility_id');
+    }
+
     //perms
     public function getPermissions() {
         return explode(",", $this->permission_list);
@@ -400,7 +404,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function canAccessSyndromic() {
         $plist = explode(",", auth()->user()->permission_list);
 
-        if(in_array('GLOBAL_ADMIN', $plist) || in_array('ITR_ADMIN', $plist) || in_array('ITR_ENCODER', $plist) || in_array('ITR_BRGY_ADMIN', $plist) || in_array('ITR_BRGY_ENCODER', $plist)) {
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('ITR_ADMIN', $plist) || in_array('ITR_ENCODER', $plist) || in_array('ITR_BRGY_ADMIN', $plist) || in_array('ITR_BRGY_ENCODER', $plist) || in_array('ITR_HOSPITAL_ENCODER', $plist)) {
             return true;
         }
         else {
@@ -412,6 +416,28 @@ class User extends Authenticatable implements MustVerifyEmail
         $plist = explode(",", auth()->user()->permission_list);
 
         if(in_array('GLOBAL_ADMIN', $plist) || in_array('ITR_ADMIN', $plist) || in_array('ITR_ENCODER', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function isSyndromicBrgyLevelAccess() {
+        $plist = explode(",", auth()->user()->permission_list);
+
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('ITR_ADMIN', $plist) || in_array('ITR_ENCODER', $plist) || in_array('ITR_BRGY_ENCODER', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function isSyndromicHospitalLevelAccess() {
+        $plist = explode(",", auth()->user()->permission_list);
+
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('ITR_ADMIN', $plist) || in_array('ITR_ENCODER', $plist) || in_array('ITR_HOSPITAL_ENCODER', $plist)) {
             return true;
         }
         else {
