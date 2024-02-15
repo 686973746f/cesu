@@ -49,6 +49,7 @@ class CreateDohFacilitiesTable extends Migration
             $table->text('validity_date')->nullable();
             
             $table->string('sys_code1', 10)->nullable();
+            $table->foreignId('pharmacy_branch_id')->nullable()->constrained('pharmacy_branches')->onDelete('cascade');
             $table->timestamps();
         });
     }

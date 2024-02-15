@@ -300,7 +300,7 @@
                         <td class="bg-light">Barangay</td>
                         <td class="text-center">{{$d->address_brgy_text}}</td>
                     </tr>
-                    @if(!is_null($d->itr_id))
+                    @if(!is_null($d->getLatestItr()))
                     <tr>
                         <td class="bg-light">Date of Consultation</td>
                         <td class="text-center">{{date('m/d/Y', strtotime($d->getLatestItr()->consultation_date))}}</td>

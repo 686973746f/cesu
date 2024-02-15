@@ -1155,6 +1155,9 @@ class LeptoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 $getFullName = $getFullName.' '.$row['suffix_name'];
             }
 
+            //Check Case Def
+            //Can't use directly because of 
+
             $table_params = [
                 'Icd10Code' => 'A27',
                 'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
