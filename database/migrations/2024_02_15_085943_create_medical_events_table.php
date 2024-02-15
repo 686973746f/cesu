@@ -17,6 +17,12 @@ class CreateMedicalEventsTable extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
+            $table->string('oneDayEvent', 1)->default('Y');
+            $table->date('date_start');
+            $table->date('date_end')->nullable();
+
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

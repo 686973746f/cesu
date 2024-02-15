@@ -15,6 +15,12 @@ class CreateQesMainsTable extends Migration
     {
         Schema::create('qes_mains', function (Blueprint $table) {
             $table->id();
+            $table->string('status')->default('PENDING');
+            $table->text('name');
+
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreignId('facility_id')->nullable()->constrained('doh_facilities')->onDelete('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

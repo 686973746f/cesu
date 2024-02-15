@@ -15,6 +15,11 @@ class CreateSyndromicRiskAssessmentsTable extends Migration
     {
         Schema::create('syndromic_risk_assessments', function (Blueprint $table) {
             $table->id();
+            
+            
+            
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
