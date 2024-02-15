@@ -296,12 +296,17 @@ class PharmacyPatient extends Model
     }
 
     public function getLatestItr() {
-        $s = SyndromicRecords::where('syndromic_patient_id', $this->itr_id)
-        ->latest()
-        ->first();
+        if(!is_null($this->itr_id)) {
+            $s = SyndromicRecords::where('syndromic_patient_id', $this->itr_id)
+            ->latest()
+            ->first();
 
-        if($s) {
-            return $s;
+            if($s) {
+                return $s;
+            }
+            else {
+                return NULL;
+            }
         }
         else {
             return NULL;

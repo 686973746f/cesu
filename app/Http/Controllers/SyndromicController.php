@@ -457,6 +457,8 @@ class SyndromicController extends Controller
 
         if(!$check1) {
             $c = $r->user()->syndromicrecord()->create([
+                'facility_id' => auth()->user()->itr_facility_id,
+                'medical_event_id' => $r->medical_event_id,
                 'checkup_type' => $r->checkup_type,
                 'chief_complain' => mb_strtoupper($r->chief_complain),
                 'nature_of_visit' => $r->nature_of_visit,

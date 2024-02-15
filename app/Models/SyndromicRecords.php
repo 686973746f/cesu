@@ -14,6 +14,8 @@ class SyndromicRecords extends Model
 
     protected $fillable = [
         'syndromic_patient_id',
+        'facility_id',
+        'medical_event_id',
         'opdno',
         'line_number',
         'last_checkup_date',
