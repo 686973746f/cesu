@@ -426,7 +426,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function isSyndromicBrgyLevelAccess() {
         $plist = explode(",", auth()->user()->permission_list);
 
-        if(in_array('GLOBAL_ADMIN', $plist) || in_array('ITR_ADMIN', $plist) || in_array('ITR_ENCODER', $plist) || in_array('ITR_BRGY_ENCODER', $plist)) {
+        if(in_array('ITR_BRGY_ENCODER', $plist)) {
             return true;
         }
         else {
@@ -437,7 +437,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function isSyndromicHospitalLevelAccess() {
         $plist = explode(",", auth()->user()->permission_list);
 
-        if(in_array('GLOBAL_ADMIN', $plist) || in_array('ITR_ADMIN', $plist) || in_array('ITR_ENCODER', $plist) || in_array('ITR_HOSPITAL_ENCODER', $plist)) {
+        if(in_array('ITR_HOSPITAL_ENCODER', $plist)) {
             return true;
         }
         else {

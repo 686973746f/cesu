@@ -112,7 +112,9 @@
                   <select class="form-control" name="checkup_type" id="checkup_type" required>
                     <option value="" disabled {{is_null(old('checkup_type')) ? 'selected' : ''}}>Choose...</option>
                     <option value="CHECKUP" {{(old('checkup_type') == 'CHECKUP') ? 'selected' : ''}}>From OPD (Walk-In)</option>
+                    @if(auth()->user()->isStaffSyndromic())
                     <option value="REQUEST_MEDS" {{(old('checkup_type') == 'REQUEST_MEDS') ? 'selected' : ''}}>From Outside (for Pharmacy Medicine Request)</option>
+                    @endif
                   </select>
                 </div>
                 <div id="if_noncheckup" class="d-none">
@@ -825,9 +827,15 @@
                       <label for="name_of_physician"><b class="text-danger">*</b>Name of Attending Physician</label>
                       <select class="form-control" name="name_of_physician" id="name_of_physician" required>
                         <!--<option {{(is_null(old('name_of_physician'))) ? 'selected' : ''}} value="">None</option>-->
-                        @foreach($doclist as $dr)
-                        <option value="{{$dr->doctor_name}}" {{(old('name_of_physician', auth()->user()->getItrDefaultDoctor()->doctor_name) == $dr->doctor_name) ? 'selected' : ''}} class="{{($dr->dru_name == 'CHO GENERAL TRIAS') ? 'official_drlist' : 'outside_drlist'}}">{{$dr->doctor_name}} ({{$dr->dru_name}})</option>
-                        @endforeach
+                        @if(auth()->user()->isSyndromicHospitalLevelAccess())
+                          @foreach($doclist as $dr)
+                          <option value="{{$dr->doctor_name}}">{{$dr->doctor_name}}</option>
+                          @endforeach
+                        @else
+                          @foreach($doclist as $dr)
+                          <option value="{{$dr->doctor_name}}" {{(old('name_of_physician', auth()->user()->getItrDefaultDoctor()->doctor_name) == $dr->doctor_name) ? 'selected' : ''}} class="{{($dr->dru_name == 'CHO GENERAL TRIAS') ? 'official_drlist' : 'outside_drlist'}}">{{$dr->doctor_name}} ({{$dr->dru_name}})</option>
+                          @endforeach
+                        @endif
                         <option value="OTHERS" {{old('name_of_physician')}}>OTHERS</option>
                       </select>
                     </div>

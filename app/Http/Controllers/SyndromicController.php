@@ -414,7 +414,12 @@ class SyndromicController extends Controller
     public function newRecord($patient_id) {
         $patient = SyndromicPatient::findOrFail($patient_id);
 
-        $doclist = SyndromicDoctor::get();
+        if(auth()->user()->isSyndromicHospitalLevelAccess()) {
+            $doclist = SyndromicDoctor::where('facility_id', auth()->user()->itr_facility_id)->get();
+        }
+        else {
+            $doclist = SyndromicDoctor::get();
+        }
 
         //check if record exist today
         $check = SyndromicRecords::where('syndromic_patient_id', $patient->id)
@@ -438,6 +443,7 @@ class SyndromicController extends Controller
         }
         else {
             $number_in_line = SyndromicRecords::where('checkup_type', 'CHECKUP')
+            ->where('facility_id', auth()->user()->facility_id)
             ->whereDate('created_at', date('Y-m-d'))->count() + 1;
 
             return view('syndromic.new_record', [
@@ -693,7 +699,7 @@ class SyndromicController extends Controller
                     'from_outside' => ($r->checkup_type == 'REQUEST_MEDS') ? 1: 0,
                     'outside_name' => ($r->checkup_type == 'REQUEST_MEDS' && $r->filled('outsidecho_name')) ? mb_strtoupper($r->outsidecho_name) : NULL,
                     'itr_id' => $p->id,
-                    'pharmacy_branch_id' => auth()->user()->pharmacy_branch_id,
+                    'pharmacy_branch_id' => auth()->user()->opdfacility->pharmacy_branch_id,
                     
                     'is_lgustaff' => $p->is_lgustaff,
                     'lgu_office_name' => $p->lgu_office_name,

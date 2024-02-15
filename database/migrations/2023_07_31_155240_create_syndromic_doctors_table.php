@@ -15,6 +15,7 @@ class CreateSyndromicDoctorsTable extends Migration
     {
         Schema::create('syndromic_doctors', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('facility_id')->nullable()->constrained('doh_facilities')->onDelete('cascade');
             $table->string('doctor_name');
             $table->string('dru_name');
             $table->string('gender', 1)->nullable();
