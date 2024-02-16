@@ -31,7 +31,7 @@
             @if(auth()->user()->canAccessPharmacy())
             <a href="{{route('pharmacy_home')}}" class="btn btn-block btn-primary btn-lg">Pharmacy Inventory System</a>
             @endif
-            @if(auth()->user()->canAccessPharmacy())
+            @if(auth()->user()->canAccessFwri())
             <a href="{{route('fwri_home')}}" class="btn btn-block btn-primary btn-lg">Fireworks-Related Injury (FWRI)</a>
             @endif
             @if(auth()->user()->canAccessPregnancyTracking())
