@@ -51,6 +51,8 @@ class CreateDohFacilitiesTable extends Migration
             $table->string('sys_code1', 10)->nullable();
             $table->string('sys_opdaccess_type')->nullable();
             $table->foreignId('pharmacy_branch_id')->nullable()->constrained('pharmacy_branches')->onDelete('cascade');
+            $table->text('logo_path')->nullable();
+            $table->text('letterhead_path')->nullable();
             $table->timestamps();
         });
     }

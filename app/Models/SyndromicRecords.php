@@ -26,6 +26,11 @@ class SyndromicRecords extends Model
         'chief_complain',
         'rx_outsidecho',
         'outsidecho_name',
+
+        'is_pregnant',
+        'lmp',
+        'edc',
+        
         'temperature',
         'bloodpressure',
         'weight',
@@ -158,6 +163,9 @@ class SyndromicRecords extends Model
         'outcome',
         'outcome_recovered_date',
         'outcome_died_date',
+
+        'procedure_done',
+        'disposition',
 
         'document_file',
 

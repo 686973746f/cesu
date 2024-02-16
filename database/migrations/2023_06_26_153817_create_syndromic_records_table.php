@@ -28,6 +28,11 @@ class CreateSyndromicRecordsTable extends Migration
             $table->string('chief_complain');
             $table->tinyInteger('rx_outsidecho')->default(0);
             $table->text('outsidecho_name')->nullable();
+
+            $table->tinyInteger('is_pregnant')->default(0);
+            $table->date('lmp')->nullable();
+            $table->date('edc')->nullable();
+
             $table->string('temperature');
             $table->string('bloodpressure')->nullable();
             $table->string('weight')->nullable();
@@ -160,6 +165,9 @@ class CreateSyndromicRecordsTable extends Migration
             $table->string('outcome');
             $table->date('outcome_recovered_date')->nullable();
             $table->date('outcome_died_date')->nullable();
+
+            $table->string('procedure_done')->nullable();
+            $table->string('disposition')->nullable();
 
             $table->tinyInteger('medcert_enabled')->default(0);
             $table->date('medcert_generated_date')->nullable();

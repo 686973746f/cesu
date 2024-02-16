@@ -415,10 +415,13 @@ class SyndromicController extends Controller
         $patient = SyndromicPatient::findOrFail($patient_id);
 
         if(auth()->user()->isSyndromicHospitalLevelAccess()) {
-            $doclist = SyndromicDoctor::where('facility_id', auth()->user()->itr_facility_id)->get();
+            $doclist = SyndromicDoctor::where('facility_id', auth()->user()->itr_facility_id)
+            ->where('active_in_service', 'Y')
+            ->get();
         }
         else {
-            $doclist = SyndromicDoctor::get();
+            $doclist = SyndromicDoctor::where('active_in_service', 'Y')
+            ->get();
         }
 
         //check if record exist today
@@ -446,11 +449,23 @@ class SyndromicController extends Controller
             ->where('facility_id', auth()->user()->facility_id)
             ->whereDate('created_at', date('Y-m-d'))->count() + 1;
 
+            //OLD OR NEW
+            $count_consult = SyndromicRecords::where('syndromic_patient_id', $patient->id)
+            ->count();
+
+            if($count_consult <= 0) {
+                $new_patient = true;
+            }
+            else {
+                $new_patient = false;
+            }
+
             return view('syndromic.new_record', [
                 'patient' => $patient,
                 'doclist' => $doclist,
                 'number_in_line' => $number_in_line,
                 'get_dnature' => $get_dnature,
+                'new_patient' => $new_patient,
             ]);
         }
     }
@@ -618,6 +633,9 @@ class SyndromicController extends Controller
                 'other_diagnosis' => ($r->filled('other_diagnosis')) ? implode(',', $r->other_diagnosis) : NULL,
                 //'rx' => ($r->filled('rx')) ? mb_strtoupper($r->rx) : NULL,
                 'remarks' => ($r->filled('remarks')) ? mb_strtoupper($r->remarks) : NULL,
+
+                'procedure_done' => $r->procedure_done,
+                'disposition' => $r->disposition,
 
                 'prescribe_option' => $r->prescribe_option,
                 'prescription_list' => ($r->prescribe_option == 'Y') ? $get_meds : NULL,
@@ -1114,7 +1132,13 @@ class SyndromicController extends Controller
 
     public function viewRecord($record_id) {
         $r = SyndromicRecords::findOrFail($record_id);
-        $doclist = SyndromicDoctor::get();
+        if(auth()->user()->isSyndromicHospitalLevelAccess()) {
+            $doclist = SyndromicDoctor::where('facility_id', auth()->user()->itr_facility_id)
+            ->get();
+        }
+        else {
+            $doclist = SyndromicDoctor::get();
+        }
 
         if($r->syndromic_patient->userHasPermissionToAccess()) {
             return view('syndromic.edit_record', [
@@ -1243,6 +1267,9 @@ class SyndromicController extends Controller
                 'other_diagnosis' => ($r->filled('other_diagnosis')) ? implode(',', $r->other_diagnosis) : NULL,
                 //'rx' => ($r->filled('rx')) ? mb_strtoupper($r->rx) : NULL,
                 'remarks' => ($r->filled('remarks')) ? mb_strtoupper($r->remarks) : NULL,
+
+                'procedure_done' => $r->procedure_done,
+                'disposition' => $r->disposition,
 
                 'comorbid_list' => ($r->filled('comorbid_list')) ? implode(',', $r->comorbid_list) : NULL,
                 'firstdegree_comorbid_list' => ($r->filled('firstdegree_comorbid_list')) ? implode(',', $r->firstdegree_comorbid_list) : NULL,

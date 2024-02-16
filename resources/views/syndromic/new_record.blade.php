@@ -56,11 +56,13 @@
                 <div class="form-group">
                   <label for="nature_of_visit"><b class="text-danger">*</b>Nature of Visit</label>
                   <select class="form-control" name="nature_of_visit" id="nature_of_visit" required>
-                    <option value="" disabled {{is_null(old('nature_of_visit', $get_dnature)) ? 'selected' : ''}}>Choose...</option>
-                    <option value="NEW CONSULTATION/CASE" {{(old('nature_of_visit', $get_dnature) == 'NEW CONSULTATION/CASE')}}>NEW CONSULTATION/CASE</option>
-                    <option value="FOLLOW-UP VISIT" {{(old('nature_of_visit', $get_dnature) == 'FOLLOW-UP VISIT')}}>FOLLOW-UP VISIT</option>
-                    <option value="NEW ADMISSION" {{(old('nature_of_visit', $get_dnature) == 'NEW ADMISSION')}}>NEW ADMISSION</option>
-                    <option value="TELECONSULTATION" {{(old('nature_of_visit', $get_dnature) == 'TELECONSULTATION')}}>TELECONSULTATION</option>
+                    @if($new_patient)
+                    <option value="NEW CONSULTATION/CASE" {{(old('nature_of_visit', $get_dnature) == 'NEW CONSULTATION/CASE')}}>NEW PATIENT</option>
+                    @else
+                    <option value="FOLLOW-UP VISIT" {{(old('nature_of_visit', $get_dnature) == 'FOLLOW-UP VISIT')}}>OLD PATIENT</option>
+                    @endif
+                    <!--<option value="NEW ADMISSION" {{(old('nature_of_visit', $get_dnature) == 'NEW ADMISSION')}}>NEW ADMISSION</option>-->
+                    <!--<option value="TELECONSULTATION" {{(old('nature_of_visit', $get_dnature) == 'TELECONSULTATION')}}>TELECONSULTATION</option>-->
                   </select>
                 </div>
                 <div class="form-group" id="purpose_div">
@@ -132,7 +134,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="consultation_date"><b class="text-danger">*</b>Date and Time of Consultation</label>
+                            <label for="consultation_date"><b class="text-danger">*</b>Date and Time Admitted/Consulted</label>
                             <input type="datetime-local" class="form-control" name="consultation_date" id="consultation_date" value="{{old('consultation_date', date('Y-m-d\TH:i'))}}" required>
                         </div>
                     </div>
@@ -190,7 +192,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label for="is_hospitalized"><span class="text-danger font-weight-bold">*</span>Patient was Admitted?</label>
+                      <label for="is_hospitalized"><span class="text-danger font-weight-bold">*</span>From other hospital?</label>
                       <select class="form-control" name="is_hospitalized" id="is_hospitalized" required>
                         <option value="N" {{(old('is_hospitalized') == 'N') ? 'selected' : ''}}>No</option>
                         <option value="Y" {{(old('is_hospitalized') == 'Y') ? 'selected' : ''}}>Yes</option>
@@ -202,11 +204,11 @@
                         <input type="text" class="form-control" name="hospital_name" id="hospital_name" value="{{old('hospital_name')}}" style="text-transform: uppercase;">
                       </div>
                       <div class="form-group">
-                        <label for="date_admitted"><span class="text-danger font-weight-bold">*</span>Date Admitted</label>
+                        <label for="date_admitted"><span class="text-danger font-weight-bold">*</span>Date Admitted/Consulted</label>
                         <input type="date" class="form-control" name="date_admitted" id="date_admitted" value="{{old('date_admitted')}}" max="{{date('Y-m-d')}}">
                       </div>
                       <div class="form-group">
-                        <label for="date_released">Date Released</label>
+                        <label for="date_released">Date Discharged</label>
                         <input type="date" class="form-control" name="date_released" id="date_released" value="{{old('date_released')}}" max="{{date('Y-m-d')}}">
                       </div>
                     </div>
@@ -746,15 +748,14 @@
                     <div class="form-group">
                       <label for="diagnosis_type"><b class="text-danger">*</b>Diagnosis Type</label>
                       <select class="form-control" name="diagnosis_type" id="diagnosis_type" required>
-                        <option value="" disabled {{(is_null(old('diagnosis_type'))) ? 'selected' : ''}}>Choose...</option>
                         <option value="ADMITTING DIAGNOSIS" {{(old('diagnosis_type') == 'ADMITTING DIAGNOSIS') ? 'selected' : ''}}>ADMITTING DIAGNOSIS</option>
                         <option value="FINAL DIAGNOSIS" {{(old('diagnosis_type') == 'FINAL DIAGNOSIS') ? 'selected' : ''}}>FINAL DIAGNOSIS</option>
                         <option value="NOT APPLICABLE" {{(old('diagnosis_type') == 'NOT APPLICABLE') ? 'selected' : ''}}>NOT APPLICABLE (N/A)</option>
-                        <option value="WORKING DIAGNOSIS" {{(old('diagnosis_type') == 'WORKING DIAGNOSIS') ? 'selected' : ''}}>WORKING DIAGNOSIS</option>
+                        <option value="WORKING DIAGNOSIS" {{(old('diagnosis_type') == 'WORKING DIAGNOSIS') ? 'selected' : (is_null(old('diagnosis_type')) ? 'selected' : '')}}>WORKING DIAGNOSIS</option>
                       </select>
                     </div>
                     <div class="form-group">
-                      <label for="dcnote_assessment">Assessment/Specify Diagnosis</label>
+                      <label for="dcnote_assessment"><b>Assessment/Diagnosis</b></label>
                       <textarea class="form-control" name="dcnote_assessment" id="dcnote_assessment" rows="3" style="text-transform: uppercase;">{{old('dcnote_assessment')}}</textarea>
                     </div>
                     <div class="form-group d-none" id="main_diagdiv">
@@ -791,6 +792,23 @@
                       <select class="form-control" name="other_diagnosis[]" id="other_diagnosis" multiple>
                       </select>
                     </div>
+                    <div class="form-group">
+                      <label for="procedure_done"><b class="text-danger">*</b>Procedure Done</label>
+                      <select class="form-control" name="procedure_done" id="procedure_done" required>
+                        <option value="" disabled {{(is_null(old('procedure_done'))) ? 'selected' : ''}}>Choose...</option>
+                        @if($patient->getAgeInt() >= 20)
+                        <option value="MED CHECKUP" {{(old('procedure_done') == 'MED CHECKUP') ? 'selected' : ''}}>MED CHECKUP</option>
+                        @endif
+                        @if($patient->getAgeInt() <= 19)
+                        <option value="PED CHECKUP" {{(old('procedure_done') == 'PED CHECKUP') ? 'selected' : ''}}>PED CHECKUP</option>
+                        @endif
+                        <option value="SUTURED" {{(old('procedure_done') == 'SUTURED') ? 'selected' : ''}}>SUTURED</option>
+                        <option value="ATS/TT INJ" {{(old('procedure_done') == 'ATS/TT INJ') ? 'selected' : ''}}>ATS/TT INJ</option>
+                        <option value="FOR LABS" {{(old('procedure_done') == 'FOR LABS') ? 'selected' : ''}}>FOR LABS</option>
+                        <option value="PNCU" {{(old('procedure_done') == 'PNCU') ? 'selected' : ''}}>PNCU</option>
+                        <option value="MEDICO LEGAL" {{(old('procedure_done') == 'MEDICO LEGAL') ? 'selected' : ''}}>MEDICO LEGAL</option>
+                      </select>
+                    </div>
                     <!--
                     <div class="form-group">
                       <label for="rx">RX</label>
@@ -807,6 +825,7 @@
                         <option value="ALIVE" {{(old('outcome') == 'ALIVE') ? 'selected' : ''}}>Alive (Active)</option>
                         <option value="RECOVERED" {{(old('outcome') == 'RECOVERED') ? 'selected' : ''}}>Recovered</option>
                         <option value="DIED" {{(old('outcome') == 'DIED') ? 'selected' : ''}}>Died</option>
+                        <option value="DOA" {{(old('outcome') == 'DOA') ? 'selected' : ''}}>Dead on Arrival (DOA)</option>
                       </select>
                     </div>
                     <div id="if_recovered" class="d-none">
@@ -822,9 +841,23 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-8">
+                  <div class="col-md-4">
                     <div class="form-group">
-                      <label for="name_of_physician"><b class="text-danger">*</b>Name of Attending Physician</label>
+                      <label for="disposition"><b class="text-danger">*</b>Disposition</label>
+                      <select class="form-control" name="disposition" id="disposition" required>
+                        <option value="" disabled {{(is_null(old('disposition'))) ? 'selected' : ''}}>Choose...</option>
+                        <option value="SENT HOME" {{(old('disposition') == 'SENT HOME') ? 'selected' : ''}}>SENT HOME</option>
+                        <option value="THOC" {{(old('disposition') == 'THOC') ? 'selected' : ''}}>THOC (Transfer to Hospital of Choice)</option>
+                        <option value="HAMA" {{(old('disposition') == 'HAMA') ? 'selected' : ''}}>HAMA (Home Against Medical Advice)</option>
+                        <option value="ADMITTED" {{(old('disposition') == 'ADMITTED') ? 'selected' : ''}}>ADMITTED</option>
+                        <option value="TB DOTS" {{(old('disposition') == 'TB DOTS') ? 'selected' : ''}}>TB DOTS</option>
+                        <option value="SENT TO JAIL" {{(old('disposition') == 'SENT TO JAIL') ? 'selected' : ''}}>SENT TO JAIL</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="name_of_physician"><b class="text-danger">*</b>Attending Physician</label>
                       <select class="form-control" name="name_of_physician" id="name_of_physician" required>
                         <!--<option {{(is_null(old('name_of_physician'))) ? 'selected' : ''}} value="">None</option>-->
                         @if(auth()->user()->isSyndromicHospitalLevelAccess())
@@ -1389,6 +1422,14 @@
       $('#if_died').removeClass('d-none');
       $('#outcome_recovered_date').prop('required', false);
       $('#outcome_died_date').prop('required', true);
+    }
+    else if($(this).val() == 'DOA') {
+      $('#if_recovered').addClass('d-none');
+      $('#if_died').removeClass('d-none');
+      $('#outcome_recovered_date').prop('required', false);
+      $('#outcome_died_date').prop('required', true);
+      $('#outcome_died_date').prop('readonly', true);
+      $('#outcome_died_date').val('{{date("Y-m-d")}}');
     }
     else {
       $('#if_recovered').addClass('d-none');
