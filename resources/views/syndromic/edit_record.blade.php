@@ -810,6 +810,7 @@
                         @endif
                       </select>
                     </div>
+                    @if(auth()->user()->isSyndromicHospitalLevelAccess())
                     <div class="form-group">
                       <label for="procedure_done"><b class="text-danger">*</b>Procedure Done</label>
                       <select class="form-control" name="procedure_done" id="procedure_done" required>
@@ -826,6 +827,7 @@
                         <option value="MEDICO LEGAL" {{(old('procedure_done', $d->procedure_done) == 'MEDICO LEGAL') ? 'selected' : ''}}>MEDICO LEGAL</option>
                       </select>
                     </div>
+                    @endif
                     <!--
                     <div class="form-group">
                       <label for="rx">RX</label>
@@ -859,6 +861,7 @@
                     </div>
                   </div>
                   <div class="col-md-4">
+                    @if(auth()->user()->isSyndromicHospitalLevelAccess())
                     <div class="form-group">
                       <label for="disposition"><b class="text-danger">*</b>Disposition</label>
                       <select class="form-control" name="disposition" id="disposition" required>
@@ -870,6 +873,7 @@
                         <option value="SENT TO JAIL" {{(old('disposition', $d->disposition) == 'SENT TO JAIL') ? 'selected' : ''}}>SENT TO JAIL</option>
                       </select>
                     </div>
+                    @endif
                   </div>
                   <div class="col-md-4">
                     <div class="form-group">
