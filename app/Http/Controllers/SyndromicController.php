@@ -1887,7 +1887,37 @@ class SyndromicController extends Controller
     }
 
     public function hospDailyReport() {
+        if(request()->input('start') && request()->input('end')) {
+            $date1 = request()->input('start');
+            $date2 = request()->input('end');
 
+            if($date1 == $date2) {
+                $opd_old = SyndromicRecords::whereDate('created_at', $date1);
+                $opd_new = SyndromicRecords::whereDate('created_at', $date1);
+                $opd_police = SyndromicRecords::whereDate('created_at', $date1);
+
+                $opd_inpatient = SyndromicRecords::whereDate('created_at', $date1);
+                $opd_admitted = SyndromicRecords::whereDate('created_at', $date1);
+                $opd_discharged = SyndromicRecords::whereDate('created_at', $date1);
+                $opd_doa = SyndromicRecords::whereDate('created_at', $date1);
+
+                $opd_thoc = SyndromicRecords::whereDate('created_at', $date1);
+
+                //inpatient nagpapatong
+                //add discharged column
+            }
+            else {
+
+            }
+        }
+        else {
+
+        }
+
+        $opd_old = $opd_old->where('nature_of_visit', 'FOLLOW-UP VISIT');
+        $opd_new = $opd_new->where('nature_of_visit', 'NEW CONSULTATION/CASE');
+        $opd_police = $opd_police->where('disposition', 'SENT TO JAIL');
+        
     }
 
     public function hospSummaryReport() {
