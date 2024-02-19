@@ -682,11 +682,11 @@
                   <div class="card-header"><b>Risk Assessment</b></div>
                   <div class="card-body">
                     <div class="card mb-3">
-                      <div class="card-header">Comorbidities</div>
+                      <div class="card-header">Comorbidities/Past Medical History</div>
                       <div class="card-body">
                         @foreach(App\Models\SyndromicRecords::refComorbidities() as $ind => $iref)
                         <div class="form-check form-check-inline">
-                          <input class="form-check-input" type="checkbox" id="como_type{{$ind}}" name="comorbid_list[]" value="{{mb_strtoupper($iref)}}" {{(in_array(mb_strtoupper($iref), explode(",", old('comorbid_list')))) ? 'checked' : ''}}>
+                          <input class="form-check-input" type="checkbox" id="como_type{{$ind}}" name="comorbid_list[]" value="{{mb_strtoupper($iref)}}" {{(in_array(mb_strtoupper($iref), explode(",", old('comorbid_list', $past_comor)))) ? 'checked' : ''}}>
                           <label class="form-check-label">{{$iref}}</label>
                         </div>
                         @endforeach
@@ -703,7 +703,7 @@
                           <div class="card-body">
                             @foreach(App\Models\SyndromicRecords::refComorbidities() as $ind => $iref)
                             <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" id="como_family_type{{$ind}}" name="firstdegree_comorbid_list[]" value="{{mb_strtoupper($iref)}}" {{(in_array(mb_strtoupper($iref), explode(",", old('firstdegree_comorbid_list')))) ? 'checked' : ''}}>
+                              <input class="form-check-input" type="checkbox" id="como_family_type{{$ind}}" name="firstdegree_comorbid_list[]" value="{{mb_strtoupper($iref)}}" {{(in_array(mb_strtoupper($iref), explode(",", old('firstdegree_comorbid_list', $past_comorfirstfam)))) ? 'checked' : ''}}>
                               <label class="form-check-label">{{$iref}}</label>
                             </div>
                             @endforeach

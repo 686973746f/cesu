@@ -430,13 +430,26 @@ class SyndromicController extends Controller
         ->first();
 
         //GET DEFAULT NATURE
-        $count_previous = SyndromicRecords::where('syndromic_patient_id', $patient->id)->count();
+        $count_previous = SyndromicRecords::where('syndromic_patient_id', $patient->id);
 
-        if($count_previous == 0) {
+        $past_comor = [];
+        $past_comorfirstfam = [];
+
+        if($count_previous->count() == 0) {
             $get_dnature = 'NEW CONSULTATION/CASE';
         }
         else {
             $get_dnature = NULL;
+
+            $get_latest_record = $count_previous->latest()->first();
+
+            if(!is_null($get_latest_record->comorbid_list)) {
+                $past_comor = $get_latest_record->comorbid_list;
+            }
+
+            if(!is_null($get_latest_record->firstdegree_comorbid_list)) {
+                $past_comorfirstfam = $get_latest_record->firstdegree_comorbid_list;
+            }
         }
 
         if($check) {
@@ -466,6 +479,8 @@ class SyndromicController extends Controller
                 'number_in_line' => $number_in_line,
                 'get_dnature' => $get_dnature,
                 'new_patient' => $new_patient,
+                'past_comor' => $past_comor,
+                'past_comorfirstfam' => $past_comorfirstfam,
             ]);
         }
     }

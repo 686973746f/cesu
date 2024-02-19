@@ -706,7 +706,7 @@
                   <div class="card-header"><b>Risk Assessment</b></div>
                   <div class="card-body">
                     <div class="card mb-3">
-                      <div class="card-header">Comorbidities</div>
+                      <div class="card-header">Comorbidities/Past Medical History</div>
                       <div class="card-body">
                         @foreach(App\Models\SyndromicRecords::refComorbidities() as $ind => $iref)
                         <div class="form-check form-check-inline">
