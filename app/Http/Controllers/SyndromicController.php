@@ -435,8 +435,8 @@ class SyndromicController extends Controller
         //GET DEFAULT NATURE
         $count_previous = SyndromicRecords::where('syndromic_patient_id', $patient->id);
 
-        $past_comor = [];
-        $past_comorfirstfam = [];
+        $past_comor = '';
+        $past_comorfirstfam = '';
 
         if($count_previous->count() == 0) {
             $get_dnature = 'NEW CONSULTATION/CASE';
@@ -1883,6 +1883,14 @@ class SyndromicController extends Controller
     }
 
     public function diseaseCheckerList() {
+
+    }
+
+    public function hospDailyReport() {
+
+    }
+
+    public function hospSummaryReport() {
 
     }
 }
