@@ -65,6 +65,13 @@
                                 <input type="date" class="form-control" id="bdate" name="bdate" value="{{old('bdate', $d->bdate)}}">
                                 <small>Age: {{$d->getAge()}}</small>
                             </div>
+                            <div class="form-group">
+                                <label for="isph_member"><b class="text-danger">*</b>Philhealth Member/Dependent?</label>
+                                <select class="form-control" name="isph_member" id="isph_member" required>
+                                    <option value="N" {{(old('isph_member') == 'N' || $d->isph_member == 0) ? 'selected' : ''}}>No (NN)</option>
+                                    <option value="Y" {{(old('isph_member') == 'Y' || $d->isph_member == 1) ? 'selected' : ''}}>Yes (NH)</option>
+                                </select>
+                              </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
@@ -73,6 +80,10 @@
                                       <option value="MALE" {{(old('gender', $d->gender) == 'MALE') ? 'selected' : ''}}>Male</option>
                                       <option value="FEMALE" {{(old('gender', $d->gender) == 'FEMALE') ? 'selected' : ''}}>Female</option>
                                   </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="philhealth">Philhealth #</label>
+                                <input type="text" class="form-control" name="philhealth" id="philhealth" value="{{old('philhealth', $d->philhealth)}}">
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -245,6 +256,17 @@
                 return false;
             }
         });
+
+        $('#isph_member').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == 'Y') {
+                $('#philhealth').prop('readonly', false);
+            }
+            else {
+                $('#philhealth').prop('readonly', true);
+                $('#philhealth').val('');
+            }
+        }).trigger('change');
 
         $('#is_lgustaff').change(function (e) { 
             e.preventDefault();

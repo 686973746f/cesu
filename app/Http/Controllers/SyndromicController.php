@@ -375,6 +375,9 @@ class SyndromicController extends Controller
                 'email' => $request->email,
                 'contact_number' => $request->contact_number,
                 'contact_number2' => $request->contact_number2,
+
+                'isph_member' => ($request->isph_member == 'Y') ? 1 : 0,
+                'philhealth' => ($request->filled('philhealth')) ? $request->philhealth : NULL,
     
                 'mother_name' => $request->mother_name,
                 'father_name' => $request->father_name,
@@ -554,6 +557,12 @@ class SyndromicController extends Controller
                 'respiratoryrate' => $r->respiratoryrate,
                 'pulserate' => $r->pulserate,
                 'saturationperioxigen' => $r->saturationperioxigen,
+                'o2sat' => $r->o2sat,
+
+                'is_pregnant' => ($r->is_pregnant == 'Y') ? 1 : 0,
+                'lmp' => ($r->is_pregnant == 'Y') ? $r->lmp : NULL,
+                'edc' => ($r->is_pregnant == 'Y') ? $r->edc : NULL,
+                
                 'fever' => ($r->fever_yn) ? 1 : 0,
                 'fever_onset' => ($r->fever_yn) ? $r->fever_onset : NULL,
                 'fever_remarks' => ($r->fever_yn) ? $r->fever_remarks : NULL,
@@ -1020,6 +1029,9 @@ class SyndromicController extends Controller
                 'contact_number' => $request->contact_number,
                 'contact_number2' => $request->contact_number2,
 
+                'isph_member' => ($request->isph_member == 'Y') ? 1 : 0,
+                'philhealth' => ($request->filled('philhealth')) ? $request->philhealth : NULL,
+
                 'mother_name' => $request->mother_name,
                 'father_name' => $request->father_name,
 
@@ -1188,6 +1200,12 @@ class SyndromicController extends Controller
                 'respiratoryrate' => $r->respiratoryrate,
                 'pulserate' => $r->pulserate,
                 'saturationperioxigen' => $r->saturationperioxigen,
+                'o2sat' => $r->o2sat,
+
+                'is_pregnant' => ($r->is_pregnant == 'Y') ? 1 : 0,
+                'lmp' => ($r->is_pregnant == 'Y') ? $r->lmp : NULL,
+                'edc' => ($r->is_pregnant == 'Y') ? $r->edc : NULL,
+
                 'fever' => ($r->fever_yn) ? 1 : 0,
                 'fever_onset' => ($r->fever_yn) ? $r->fever_onset : NULL,
                 'fever_remarks' => ($r->fever_yn) ? $r->fever_remarks : NULL,

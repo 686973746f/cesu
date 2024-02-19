@@ -24,6 +24,7 @@ class SyndromicPatient extends Model
         'contact_number',
         'contact_number2',
         'email',
+        'isph_member',
         'philhealth',
 
         'spouse_name',

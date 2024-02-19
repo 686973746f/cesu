@@ -25,6 +25,8 @@ class CreateSyndromicPatientsTable extends Migration
             $table->string('contact_number')->nullable();
             $table->string('contact_number2')->nullable();
             $table->string('email')->nullable();
+
+            $table->tinyInteger('isph_member')->nullable();
             $table->string('philhealth')->nullable();
 
             $table->string('spouse_name')->nullable();

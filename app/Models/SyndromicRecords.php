@@ -38,6 +38,8 @@ class SyndromicRecords extends Model
         'respiratoryrate',
         'pulserate',
         'saturationperioxigen',
+        'o2sat',
+        
         'fever',
         'fever_onset',
         'fever_remarks',

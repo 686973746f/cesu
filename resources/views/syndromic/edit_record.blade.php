@@ -199,6 +199,12 @@
                         <label for="pulserate">Pulse Rate (PR)</label>
                         <input type="text" class="form-control" name="pulserate" id="pulserate" value="{{old('pulserate', $d->pulserate)}}">
                       </div>
+                      @if(auth()->user()->isSyndromicHospitalLevelAccess())
+                      <div class="form-group">
+                        <label for="o2sat">O2Sat (%)</label>
+                        <input type="number" class="form-control" name="o2sat" id="o2sat" value="{{old('o2sat', $d->o2sat)}}" min="70" max="100">
+                      </div>
+                      @endif
                         <!--
                         <div class="form-group">
                             <label for="saturationperioxigen">Saturation of Oxygen (SpO2)</label>
@@ -207,6 +213,37 @@
                         -->
                     </div>
                 </div>
+                @if(auth()->user()->isSyndromicHospitalLevelAccess())
+                <div class="row">
+                  <div class="col-md-4">
+                    @if($d->syndromic_patient->gender == 'FEMALE' && $d->syndromic_patient->getAgeInt() > 10)
+                    <div class="form-group">
+                      <label for="is_pregnant"><b class="text-danger">*</b>Pregnant?</label>
+                      <select class="form-control" name="is_pregnant" id="is_pregnant" required>
+                        <option value="N" {{(old('is_pregnant') == 'N' || $d->is_pregnant == 0) ? 'selected' : ''}}>No</option>
+                        <option value="Y" {{(old('is_pregnant') == 'Y' || $d->is_pregnant == 1) ? 'selected' : ''}}>Yes</option>
+                      </select>
+                    </div>
+                    <div id="ifPregnantDiv" class="d-none">
+                      <div class="form-group">
+                        <label for="lmp"><b class="text-danger">*</b>LMP</label>
+                        <input type="date" class="form-control" name="lmp" id="lmp" min="{{date('Y-m-d', strtotime('-12 Months'))}}" max="{{date('Y-m-d')}}" value="{{old('lmp', $d->lmp)}}">
+                      </div>
+                      <div class="form-group">
+                        <label for="edc">EDC</label>
+                        <input type="date" class="form-control" name="edc" id="edc" min="{{date('Y-m-d')}}" max="{{date('Y-m-d', strtotime('+12 Months'))}}" value="{{old('edc', $d->edc)}}">
+                      </div>
+                    </div>
+                    @endif
+                  </div>
+                  <div class="col-md-4">
+
+                  </div>
+                  <div class="col-md-4">
+
+                  </div>
+                </div>
+                @endif
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
@@ -1101,6 +1138,21 @@
     theme: 'bootstrap',
   });
 
+  @if(auth()->user()->isSyndromicHospitalLevelAccess())
+  @if($d->syndromic_patient->gender == 'FEMALE' && $d->syndromic_patient->getAgeInt() > 10)
+  $('#is_pregnant').change(function (e) { 
+    e.preventDefault();
+    if($(this).val() == 'Y') {
+      $('#ifPregnantDiv').removeClass('d-none');
+      $('#lmp').prop('required', true);
+    }
+    else {
+      $('#addClass').removeClass('d-none');
+      $('#lmp').prop('required', false);
+    }
+  }).trigger('change');
+  @endif
+  @endif
   $('#temperature').change(function (e) { 
     e.preventDefault();
     if($(this).val() >= 38) {
