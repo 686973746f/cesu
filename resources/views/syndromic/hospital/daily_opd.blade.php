@@ -5,12 +5,12 @@
     <div class="card">
         <div class="card-header"><b>Daily Reporting Summary</b></div>
         <div class="card-body">
-            <table class="table">
-                <thead>
+            <table class="table table-bordered">
+                <thead class="thead-light text-center">
                     <tr>
                         <th>
-                            <h6>{{date('M d, Y')}}</h6>
-                            <h6>{{date('l')}}</h6>
+                            <h6><b>{{date('M d, Y')}}</b></h6>
+                            <h6><i>{{date('l')}}</i></h6>
                         </th>
                         <th>OPD</th>
                         <th>ER</th>
@@ -19,52 +19,46 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>OLD</td>
-                        <td>{{$opd_old}}</td>
-                        <td></td>
-                        <td></td>
+                        <td><b>OLD</b></td>
+                        <td class="text-center">{{$opd_old}}</td>
+                        <td class="text-center"></td>
+                        <td class="text-center"></td>
                     </tr>
                     <tr>
-                        <td>NEW</td>
-                        <td>{{$opd_new}}</td>
-                        <td></td>
-                        <td></td>
+                        <td><b>NEW</b></td>
+                        <td class="text-center">{{$opd_new}}</td>
+                        <td class="text-center"></td>
+                        <td class="text-center"></td>
                     </tr>
                     <tr>
-                        <td>POLICE</td>
-                        <td>{{$opd_police}}</td>
-                        <td></td>
-                        <td></td>
+                        <td><b>POLICE</b></td>
+                        <td class="text-center">{{$opd_police}}</td>
+                        <td class="text-center"></td>
+                        <td class="text-center"></td>
                     </tr>
                     <tr>
-                        <td>TOTAL</td>
-                        <td>{{$opd_old + $opd_new + $opd_police}}</td>
-                        <td></td>
-                        <td></td>
+                        <td><b>TOTAL</b></td>
+                        <td class="text-center">{{$opd_old + $opd_new + $opd_police}}</td>
+                        <td class="text-center"></td>
+                        <td class="text-center"></td>
                     </tr>
                     <tr>
                         <td>THOC</td>
-                        <td>{{$opd_thoc}}</td>
-                        <td></td>
-                        <td></td>
+                        <td class="text-center">{{$opd_thoc}}</td>
+                        <td class="text-center"></td>
+                        <td class="text-center"></td>
                     </tr>
                     <tr>
                         <td>Admission</td>
-                        <td></td>
+                        <td class="text-center"></td>
                         <td>Discharged</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Admission</td>
-                        <td></td>
-                        <td>Discharged</td>
-                        <td></td>
+                        <td class="text-center"></td>
                     </tr>
                     <tr>
                         <td>In-Patient</td>
-                        <td></td>
+                        <td class="text-center"></td>
                         <td>DOA</td>
-                        <td></td>
+                        <td class="text-center"></td>
                     </tr>
                 </tbody>
             </table>

@@ -32,6 +32,29 @@
                         {{session('msg')}}
                     </div>
                     @endif
+                    @if(auth()->user()->isSyndromicHospitalLevelAccess())
+                    <div class="row">
+                        <div class="col-md-6">
+                            @if(is_null($d->unique_opdnumber))
+                            <div class="form-group">
+                                <label for="unique_opdnumber"><b class="text-danger">*</b>Unique OPD Number</label>
+                                <input type="number" class="form-control" id="unique_opdnumber" name="unique_opdnumber" value="{{old('unique_opdnumber', $d->unique_opdnumber)}}" required>
+                            </div>
+                            @else
+                            <div class="form-group">
+                                <label for=""><b class="text-danger">*</b>Unique OPD Number</label>
+                                <input type="number" class="form-control" value="{{$d->unique_opdnumber}}" disabled>
+                            </div>
+                            @endif
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="id_presented"><b class="text-danger">*</b>ID Presented</label>
+                                <input type="text" class="form-control" name="id_presented" id="id_presented" value="{{old('id_presented', $d->id_presented)}}" required>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
@@ -82,7 +105,7 @@
                                   </select>
                             </div>
                             <div class="form-group">
-                                <label for="philhealth">Philhealth #</label>
+                                <label for="philhealth">Philhealth # (Optional)</label>
                                 <input type="text" class="form-control" name="philhealth" id="philhealth" value="{{old('philhealth', $d->philhealth)}}">
                             </div>
                         </div>

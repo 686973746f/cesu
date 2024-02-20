@@ -362,8 +362,19 @@ class SyndromicController extends Controller
                     $foundunique = true;
                 }
             }
-    
-            $c = $request->user()->syndromicpatient()->create([
+
+            //Check if Unique OPD Number Exist before Proceeding
+            if(auth()->user()->isSyndromicHospitalLevelAccess()) {
+                $ucheck = SyndromicPatient::where('unique_opdnumber', $request->unique_opdnumber)->first();
+
+                if($ucheck) {
+                    return redirect()->back()
+                    ->with('msg', 'Error: Unique OPD Number already used by other patient.')
+                    ->with('msgtype', 'danger');
+                }
+            }
+
+            $values_array = [
                 'lname' => mb_strtoupper($request->lname),
                 'fname' => mb_strtoupper($request->fname),
                 'mname' => ($request->filled('mname')) ? mb_strtoupper($request->mname) : NULL,
@@ -401,7 +412,16 @@ class SyndromicController extends Controller
     
                 'qr' => $qr,
                 'facility_id' => auth()->user()->itr_facility_id,
-            ]);
+            ];
+
+            if(auth()->user()->isSyndromicHospitalLevelAccess()) {
+                $values_array = $values_array + [
+                    'unique_opdnumber' => $request->unique_opdnumber,
+                    'id_presented' => mb_strtoupper($request->id_presented),
+                ];
+            }
+    
+            $c = $request->user()->syndromicpatient()->create($values_array);
     
             return redirect()->route('syndromic_newRecord', $c->id)
             ->with('msg', 'Patient record successfully created. Proceed by completing the ITR of the patient.')
@@ -455,6 +475,16 @@ class SyndromicController extends Controller
             }
         }
 
+        //Make some fields required on hospital accounts
+        if(auth()->user()->isSyndromicHospitalLevelAccess()) {
+            $required_maindiagnosis = true;
+            $required_bp = true;
+        }
+        else {
+            $required_maindiagnosis = false;
+            $required_bp = false;
+        }
+
         if($check) {
             return redirect()->back()
             ->with('msg', 'Error: Patient ITR Record that was encoded today already exists in the server.')
@@ -484,6 +514,9 @@ class SyndromicController extends Controller
                 'new_patient' => $new_patient,
                 'past_comor' => $past_comor,
                 'past_comorfirstfam' => $past_comorfirstfam,
+
+                'required_maindiagnosis' => $required_maindiagnosis,
+                'required_bp' => $required_bp,
             ]);
         }
     }
@@ -1023,8 +1056,28 @@ class SyndromicController extends Controller
                 $sharedAccessList = $getpatient->shared_access_list;
             }
 
-            $u = SyndromicPatient::where('id', $patient_id)
-            ->update([
+            if(auth()->user()->isSyndromicHospitalLevelAccess()) {
+                if(is_null($getpatient->unique_opdnumber)) {
+                    $ucheck = SyndromicPatient::where('unique_opdnumber', $request->unique_opdnumber)->first();
+
+                    if($ucheck) {
+                        return redirect()->back()
+                        ->with('msg', 'Error: Unique OPD Number already used by other patient.')
+                        ->with('msgtype', 'danger');
+                    }
+                    else {
+                        $getpatient->unique_opdnumber = $request->unique_opdnumber;
+                    }
+                }
+
+                $getpatient->id_presented = $request->id_presented;
+
+                if($getpatient->isDirty()) {
+                    $getpatient->save();
+                }
+            }
+
+            $values_array = [
                 'lname' => mb_strtoupper($request->lname),
                 'fname' => mb_strtoupper($request->fname),
                 'mname' => ($request->filled('mname')) ? mb_strtoupper($request->mname) : NULL,
@@ -1062,7 +1115,10 @@ class SyndromicController extends Controller
 
                 'is_lgustaff' => ($request->is_lgustaff == 'Y') ? 1 : 0,
                 'lgu_office_name' => ($request->is_lgustaff == 'Y' && $request->filled('lgu_office_name')) ? mb_strtoupper($request->lgu_office_name) : NULL,
-            ]);
+            ];
+
+            $u = SyndromicPatient::where('id', $patient_id)
+            ->update($values_array);
 
             //Also update Pharmacy Record
             $pharma_record = PharmacyPatient::where('itr_id', $patient_id)->first();
@@ -1175,10 +1231,23 @@ class SyndromicController extends Controller
             $doclist = SyndromicDoctor::get();
         }
 
+        //Make some fields required on hospital accounts
+        if(auth()->user()->isSyndromicHospitalLevelAccess()) {
+            $required_maindiagnosis = true;
+            $required_bp = true;
+        }
+        else {
+            $required_maindiagnosis = false;
+            $required_bp = false;
+        }
+
         if($r->syndromic_patient->userHasPermissionToAccess()) {
             return view('syndromic.edit_record', [
                 'd' => $r,
                 'doclist' => $doclist,
+
+                'required_maindiagnosis' => $required_maindiagnosis,
+                'required_bp' => $required_bp,
             ]);
         }
         else {
@@ -1981,6 +2050,6 @@ class SyndromicController extends Controller
     }
 
     public function hospSummaryReport() {
-        
+
     }
 }

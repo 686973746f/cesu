@@ -51,6 +51,8 @@ class CreateSyndromicPatientsTable extends Migration
             $table->text('lgu_office_name')->nullable();
 
             $table->string('qr');
+            $table->string('unique_opdnumber')->nullable();
+            $table->string('id_presented')->nullable();
             $table->string('id_file')->nullable();
             $table->string('selfie_file')->nullable();
 

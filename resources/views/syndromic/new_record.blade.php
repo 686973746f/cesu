@@ -26,7 +26,7 @@
                     <tr>
                       <td>
                         <div><b>NAME / ID:</b></div>
-                        <div><b><a href="{{route('syndromic_viewPatient', $patient->id)}}">{{$patient->getName()}} <small>(#{{$patient->id}})</small></a></b></div>
+                        <div><b><a href="{{route('syndromic_viewPatient', $patient->id)}}">{{$patient->getName()}} @if(auth()->user()->isSyndromicHospitalLevelAccess())<small>(OPD #{{$patient->unique_opdnumber}})</small>@else<small>(#{{$patient->id}})</small>@endif</a></b></div>
                       </td>
                       <td>
                         <div><b>BIRTHDATE:</b></div>
@@ -109,10 +109,12 @@
                   </div>
                   @endforeach
                 </div>
-                <div class="form-group">
+                <div class="form-group {{(auth()->user()->isSyndromicHospitalLevelAccess()) ? 'd-none' : ''}}">
                   <label for="checkup_type"><b class="text-danger">*</b>Mode of Transaction</label>
                   <select class="form-control" name="checkup_type" id="checkup_type" required>
+                    @if(auth()->user()->isStaffSyndromic())
                     <option value="" disabled {{is_null(old('checkup_type')) ? 'selected' : ''}}>Choose...</option>
+                    @endif
                     <option value="CHECKUP" {{(old('checkup_type') == 'CHECKUP') ? 'selected' : ''}}>From OPD (Walk-In)</option>
                     @if(auth()->user()->isStaffSyndromic())
                     <option value="REQUEST_MEDS" {{(old('checkup_type') == 'REQUEST_MEDS') ? 'selected' : ''}}>From Outside (for Pharmacy Medicine Request)</option>
@@ -146,8 +148,8 @@
                     </div>
                     <div class="col-md-3">
                       <div class="form-group">
-                          <label for="bloodpressure">Blood Pressure (BP)</label>
-                          <input type="text" class="form-control" name="bloodpressure" id="bloodpressure" value="{{old('bloodpressure')}}">
+                          <label for="bloodpressure">@if(auth()->user()->isSyndromicHospitalLevelAccess())<b class="text-danger">*</b>@endif Blood Pressure (BP)</label>
+                          <input type="text" class="form-control" name="bloodpressure" id="bloodpressure" value="{{old('bloodpressure')}}" {{($required_bp) ? 'required' : ''}}>
                       </div>
                     </div>
                 </div>
@@ -793,8 +795,8 @@
                       </select>
                     </div>
                     <div class="form-group">
-                      <label for="dcnote_assessment"><b>Assessment/Diagnosis</b></label>
-                      <textarea class="form-control" name="dcnote_assessment" id="dcnote_assessment" rows="3" style="text-transform: uppercase;">{{old('dcnote_assessment')}}</textarea>
+                      <label for="dcnote_assessment"><b>@if(auth()->user()->isSyndromicHospitalLevelAccess())<b class="text-danger">*</b>@endif Assessment/Diagnosis</b></label>
+                      <textarea class="form-control" name="dcnote_assessment" id="dcnote_assessment" rows="3" style="text-transform: uppercase;" {{($required_maindiagnosis) ? 'required' : ''}}>{{old('dcnote_assessment')}}</textarea>
                     </div>
                     <div class="form-group d-none" id="main_diagdiv">
                       <label for="main_diagnosis"><b class="text-danger">*</b>A. Main Diagnosis (ICD10)</label>

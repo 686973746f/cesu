@@ -57,7 +57,7 @@
                     <tr>
                       <td>
                         <div><b>NAME / ID:</b></div>
-                        <div><b><a href="{{route('syndromic_viewPatient', $d->syndromic_patient->id)}}">{{$d->syndromic_patient->getName()}} <small>(#{{$d->syndromic_patient->id}})</small></a></b></div>
+                        <div><b><a href="{{route('syndromic_viewPatient', $d->syndromic_patient->id)}}">{{$d->syndromic_patient->getName()}} @if(auth()->user()->isSyndromicHospitalLevelAccess())<small>(OPD #{{$d->syndromic_patient->unique_opdnumber}})</small>@else<small>(#{{$d->syndromic_patient->id}})</small>@endif</a></b></div>
                       </td>
                       <td>
                         <div><b>BIRTHDATE:</b></div>
@@ -171,7 +171,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="bloodpressure">Blood Pressure (BP)</label>
-                            <input type="text" class="form-control" name="bloodpressure" id="bloodpressure" value="{{old('bloodpressure', $d->bloodpressure)}}">
+                            <input type="text" class="form-control" name="bloodpressure" id="bloodpressure" value="{{old('bloodpressure', $d->bloodpressure)}}" {{($required_bp) ? 'required' : ''}}>
                         </div>
                     </div>
                 </div>
@@ -818,7 +818,7 @@
                     </div>
                     <div class="form-group">
                       <label for="dcnote_assessment"><b>Assessment/Diagnosis</b></label>
-                      <textarea class="form-control" name="dcnote_assessment" id="dcnote_assessment" rows="3" style="text-transform: uppercase;">{{old('dcnote_assessment', $d->dcnote_assessment)}}</textarea>
+                      <textarea class="form-control" name="dcnote_assessment" id="dcnote_assessment" rows="3" style="text-transform: uppercase;" {{($required_bp) ? 'required' : ''}}>{{old('dcnote_assessment', $d->dcnote_assessment)}}</textarea>
                     </div>
                     <div class="form-group d-none" id="main_diagdiv">
                       <label for="main_diagnosis"><b class="text-danger">*</b>Main Diagnosis (ICD10)</label>

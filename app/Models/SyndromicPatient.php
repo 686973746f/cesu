@@ -46,6 +46,8 @@ class SyndromicPatient extends Model
         'ifminor_resrelation',
         
         'qr',
+        'unique_opdnumber',
+        'id_presented',
         'id_file',
         'selfie_file',
 

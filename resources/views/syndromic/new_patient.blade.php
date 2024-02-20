@@ -15,6 +15,22 @@
                     <div class="alert alert-primary" role="alert">
                         <b class="text-danger">Note:</b> All fields marked with an Asterisk (<b class="text-danger">*</b>) are <b>REQUIRED</b> to be filled-out.
                     </div>
+                    @if(auth()->user()->isSyndromicHospitalLevelAccess())
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="unique_opdnumber"><b class="text-danger">*</b>Unique OPD Number</label>
+                                <input type="number" class="form-control" name="unique_opdnumber" id="unique_opdnumber" value="{{old('unique_opdnumber')}}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="id_presented"><b class="text-danger">*</b>ID Presented</label>
+                                <input type="text" class="form-control" name="id_presented" id="id_presented" value="{{old('id_presented')}}" required>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
@@ -67,7 +83,7 @@
                                   </select>
                             </div>
                             <div class="form-group">
-                              <label for="philhealth">Philhealth #</label>
+                              <label for="philhealth">Philhealth # (Optional)</label>
                               <input type="text" class="form-control" name="philhealth" id="philhealth">
                             </div>
                         </div>
