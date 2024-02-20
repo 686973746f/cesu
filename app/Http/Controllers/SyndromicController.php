@@ -537,7 +537,7 @@ class SyndromicController extends Controller
         }
 
         if(!$check1) {
-            $c = $r->user()->syndromicrecord()->create([
+            $values_array = [
                 'facility_id' => auth()->user()->itr_facility_id,
                 'medical_event_id' => $r->medical_event_id,
                 'checkup_type' => $r->checkup_type,
@@ -557,11 +557,6 @@ class SyndromicController extends Controller
                 'respiratoryrate' => $r->respiratoryrate,
                 'pulserate' => $r->pulserate,
                 'saturationperioxigen' => $r->saturationperioxigen,
-                'o2sat' => $r->o2sat,
-
-                'is_pregnant' => ($r->is_pregnant == 'Y') ? 1 : 0,
-                'lmp' => ($r->is_pregnant == 'Y') ? $r->lmp : NULL,
-                'edc' => ($r->is_pregnant == 'Y') ? $r->edc : NULL,
                 
                 'fever' => ($r->fever_yn) ? 1 : 0,
                 'fever_onset' => ($r->fever_yn) ? $r->fever_onset : NULL,
@@ -658,9 +653,6 @@ class SyndromicController extends Controller
                 //'rx' => ($r->filled('rx')) ? mb_strtoupper($r->rx) : NULL,
                 'remarks' => ($r->filled('remarks')) ? mb_strtoupper($r->remarks) : NULL,
 
-                'procedure_done' => $r->procedure_done,
-                'disposition' => $r->disposition,
-
                 'prescribe_option' => $r->prescribe_option,
                 'prescription_list' => ($r->prescribe_option == 'Y') ? $get_meds : NULL,
 
@@ -689,7 +681,23 @@ class SyndromicController extends Controller
                 'age_days' => $get_agedays,
 
                 'qr' => $for_qr,
-            ]);
+            ];
+
+            if(auth()->user()->isSyndromicHospitalLevelAccess()) {
+                $values_array = $values_array + [
+                    'o2sat' => $r->o2sat,
+                    'is_pregnant' => ($r->is_pregnant == 'Y') ? 1 : 0,
+                    'lmp' => ($r->is_pregnant == 'Y') ? $r->lmp : NULL,
+                    'edc' => ($r->is_pregnant == 'Y') ? $r->edc : NULL,
+
+                    'procedure_done' => $r->procedure_done,
+                    'disposition' => $r->disposition,
+                    'is_discharged' => $r->is_discharged,
+                    'date_discharged' => ($r->is_discharged == 'Y') ? $r->date_discharged : NULL,
+                ];
+            }
+
+            $c = $r->user()->syndromicrecord()->create($values_array);
 
             //Auto Create Pharmacy Account
             $pharmacy_check = PharmacyPatient::where('itr_id', $p->id)->first();
@@ -1184,8 +1192,7 @@ class SyndromicController extends Controller
         $perm_list = explode(",", auth()->user()->permission_list);
         
         if($r->submit == 'update') {
-            $u = SyndromicRecords::where('id', $d->id)
-            ->update([
+            $values_array = [
                 'nature_of_visit' => $r->nature_of_visit,
                 'consultation_type' => implode(',', $r->consultation_type),
                 'checkup_type' => $r->checkup_type,
@@ -1200,11 +1207,6 @@ class SyndromicController extends Controller
                 'respiratoryrate' => $r->respiratoryrate,
                 'pulserate' => $r->pulserate,
                 'saturationperioxigen' => $r->saturationperioxigen,
-                'o2sat' => $r->o2sat,
-
-                'is_pregnant' => ($r->is_pregnant == 'Y') ? 1 : 0,
-                'lmp' => ($r->is_pregnant == 'Y') ? $r->lmp : NULL,
-                'edc' => ($r->is_pregnant == 'Y') ? $r->edc : NULL,
 
                 'fever' => ($r->fever_yn) ? 1 : 0,
                 'fever_onset' => ($r->fever_yn) ? $r->fever_onset : NULL,
@@ -1301,9 +1303,6 @@ class SyndromicController extends Controller
                 //'rx' => ($r->filled('rx')) ? mb_strtoupper($r->rx) : NULL,
                 'remarks' => ($r->filled('remarks')) ? mb_strtoupper($r->remarks) : NULL,
 
-                'procedure_done' => $r->procedure_done,
-                'disposition' => $r->disposition,
-
                 'comorbid_list' => ($r->filled('comorbid_list')) ? implode(',', $r->comorbid_list) : NULL,
                 'firstdegree_comorbid_list' => ($r->filled('firstdegree_comorbid_list')) ? implode(',', $r->firstdegree_comorbid_list) : NULL,
 
@@ -1311,13 +1310,32 @@ class SyndromicController extends Controller
                 'alert_ifdisability_list' => ($r->filled('alert_ifdisability_list') && in_array('DISABILITY', $r->alert_list)) ? implode(',', $r->alert_ifdisability_list) : NULL,
                 'alert_description' => ($r->filled('alert_description')) ? mb_strtoupper($r->alert_description) : NULL,
                 
-                'status' => 'approved',
+                //'status' => 'approved',
                 'name_of_physician' => $r->name_of_physician,
                 'other_doctor' => ($r->name_of_physician == 'OTHERS') ? mb_strtoupper($r->other_doctor) : NULL,
                 'dru_name'=> ($r->name_of_physician != 'OTHERS') ? SyndromicDoctor::where('doctor_name', $r->name_of_physician)->first()->dru_name : NULL,
 
                 'updated_by' => auth()->user()->id,
-            ]);
+            ];
+
+            if(auth()->user()->isSyndromicHospitalLevelAccess()) {
+                $values_array = $values_array + [
+                    'o2sat' => $r->o2sat,
+
+                    'is_pregnant' => ($r->is_pregnant == 'Y') ? 1 : 0,
+                    'lmp' => ($r->is_pregnant == 'Y') ? $r->lmp : NULL,
+                    'edc' => ($r->is_pregnant == 'Y') ? $r->edc : NULL,
+
+                    'procedure_done' => $r->procedure_done,
+                    'disposition' => $r->disposition,
+
+                    'is_discharged' => $r->is_discharged,
+                    'date_discharged' => ($r->is_discharged == 'Y') ? $r->date_discharged : NULL,
+                ];
+            }
+
+            $u = SyndromicRecords::where('id', $d->id)
+            ->update($values_array);
 
             //UPDATE SUSPECTED DISEASE LIST BASED ON NEW SYMPTOMS
             $fetch_record = SyndromicRecords::find($d->id);
@@ -1911,16 +1929,58 @@ class SyndromicController extends Controller
             }
         }
         else {
+            $opd_old = SyndromicRecords::whereDate('created_at', date('Y-m-d'));
+            $opd_new = SyndromicRecords::whereDate('created_at', date('Y-m-d'));
+            $opd_police = SyndromicRecords::whereDate('created_at', date('Y-m-d'));
 
+            $opd_admitted = SyndromicRecords::whereDate('created_at', date('Y-m-d'));
+            $opd_discharged = SyndromicRecords::whereDate('date_discharged', date('Y-m-d'));
+            $opd_doa = SyndromicRecords::whereDate('created_at', date('Y-m-d'));
+
+            $opd_thoc = SyndromicRecords::whereDate('created_at', date('Y-m-d'));
         }
 
-        $opd_old = $opd_old->where('nature_of_visit', 'FOLLOW-UP VISIT');
-        $opd_new = $opd_new->where('nature_of_visit', 'NEW CONSULTATION/CASE');
-        $opd_police = $opd_police->where('disposition', 'SENT TO JAIL');
-        
+        $opd_old = $opd_old->where('nature_of_visit', 'FOLLOW-UP VISIT')
+        ->count();
+
+        $opd_new = $opd_new->where('nature_of_visit', 'NEW CONSULTATION/CASE')
+        ->count();
+
+        $opd_police = $opd_police->where('disposition', 'SENT TO JAIL')
+        ->count();
+
+        $opd_inpatient = SyndromicRecords::where('disposition', 'ADMITTED')
+        ->where('is_discharged', 'N')
+        ->count();
+
+        $opd_admitted = $opd_admitted->where('disposition', 'ADMITTED')
+        ->where('is_discharged', 'N')
+        ->count();
+
+        $opd_discharged = $opd_discharged->where('disposition', 'ADMITTED')
+        ->where('is_discharged', 'Y')
+        ->count();
+
+        $opd_doa = $opd_doa->where('outcome', 'DOA')
+        ->count();
+
+        $opd_thoc = $opd_thoc->where('disposition', 'THOC')
+        ->count();
+
+        return view('syndromic.hospital.daily_opd', [
+            'opd_old' => $opd_old,
+            'opd_new' => $opd_new,
+            'opd_police' => $opd_police,
+
+            'opd_inpatient' => $opd_inpatient,
+            'opd_admitted' => $opd_admitted,
+            'opd_discharged' => $opd_discharged,
+            'opd_doa' => $opd_doa,
+            'opd_thoc' => $opd_thoc,
+        ]);
     }
 
     public function hospSummaryReport() {
-
+        
     }
 }

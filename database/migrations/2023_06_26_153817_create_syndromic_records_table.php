@@ -170,6 +170,8 @@ class CreateSyndromicRecordsTable extends Migration
 
             $table->string('procedure_done')->nullable();
             $table->string('disposition')->nullable();
+            $table->string('is_discharged', 1)->default('N');
+            $table->date('date_discharged')->nullable();
 
             $table->tinyInteger('medcert_enabled')->default(0);
             $table->date('medcert_generated_date')->nullable();

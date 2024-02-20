@@ -858,7 +858,19 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-md-4">
+                  @php
+                  if(auth()->user()->isSyndromicHospitalLevelAccess()) {
+                    $colsize1 = 4;
+                    $colsize2 = 4;
+                    $colsize3 = 4;
+                  }
+                  else {
+                    $colsize1 = 6;
+                    $colsize2 = 4;
+                    $colsize3 = 6;
+                  }
+                  @endphp
+                  <div class="col-md-{{$colsize1}}">
                     <div class="form-group">
                       <label for="outcome"><span class="text-danger font-weight-bold">*</span>Outcome</label>
                       <select class="form-control" name="outcome" id="outcome" required>
@@ -881,8 +893,8 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-4">
-                    @if(auth()->user()->isSyndromicHospitalLevelAccess())
+                  @if(auth()->user()->isSyndromicHospitalLevelAccess())
+                  <div class="col-md-{{$colsize2}}">
                     <div class="form-group">
                       <label for="disposition"><b class="text-danger">*</b>Disposition</label>
                       <select class="form-control" name="disposition" id="disposition" required>
@@ -895,9 +907,24 @@
                         <option value="SENT TO JAIL" {{(old('disposition') == 'SENT TO JAIL') ? 'selected' : ''}}>SENT TO JAIL</option>
                       </select>
                     </div>
-                    @endif
+                    <div id="admitted_div" class="d-none">
+                      <div class="form-group">
+                        <label for="is_discharged"><b class="text-danger">*</b>Discharged?</label>
+                        <select class="form-control" name="is_discharged" id="is_discharged" required>
+                          <option value="N" {{(old('is_discharged') == 'N') ? 'selected' : ''}}>No</option>
+                          <option value="Y"{{(old('is_discharged') == 'Y') ? 'selected' : ''}}>Yes</option>
+                        </select>
+                      </div>
+                      <div id="discharged_div" class="d-none">
+                        <div class="form-group">
+                          <label for="date_discharged"><b class="text-danger">*</b>Date Discharged</label>
+                          <input type="date" class="form-control" name="date_discharged" id="date_discharged" value="{{old('date_discharged')}}" max="{{date('Y-m-d', strtotime('+1 Day'))}}">
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="col-md-4">
+                  @endif
+                  <div class="col-md-{{$colsize3}}">
                     <div class="form-group">
                       <label for="name_of_physician"><b class="text-danger">*</b>Attending Physician</label>
                       <select class="form-control" name="name_of_physician" id="name_of_physician" required>
@@ -1104,6 +1131,32 @@
     }
   }).trigger('change');
   @endif
+  @endif
+
+  @if(auth()->user()->isSyndromicHospitalLevelAccess())
+  $('#disposition').change(function (e) { 
+    e.preventDefault();
+    if($(this).val() == 'ADMITTED') {
+      $('#admitted_div').removeClass('d-none');
+      $('#is_discharged').prop('required', true);
+    }
+    else {
+      $('#admitted_div').addClass('d-none');
+      $('#is_discharged').prop('required', false);
+    }
+  }).trigger('change');
+
+  $('#is_discharged').change(function (e) { 
+    e.preventDefault();
+    if($(this).val() == 'Y') {
+      $('#discharged_div').removeClass('d-none');
+      $('#date_discharged').prop('required', true);
+    }
+    else {
+      $('#discharged_div').addClass('d-none');
+      $('#date_discharged').prop('required', false);
+    }
+  }).trigger('change');
   @endif
 
   $('#temperature').change(function (e) { 
