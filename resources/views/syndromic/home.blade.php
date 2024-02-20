@@ -83,10 +83,11 @@
                             <th>Name</th>
                             <th>Age/Sex</th>
                             <th>Birthdate</th>
-                            <th>House No/Subdivision</th>
-                            <th>Barangay</th>
-                            <th>City/Province</th>
+                            <th>Complete Address</th>
                             <th>Contact Number</th>
+                            <th>Chief Complaint</th>
+                            <th>Diagnosis</th>
+                            <th>Attending Physician</th>
                             <th>List of Suspected Disease/s</th>
                             <th>Encoded At / By</th>
                         </tr>
@@ -99,10 +100,14 @@
                             <td><b><a href="{{route('syndromic_viewRecord', $i->id)}}">{{$i->syndromic_patient->getName()}}</a></b></td>
                             <td class="text-center">{{$i->syndromic_patient->getAge()}} / {{substr($i->syndromic_patient->gender,0,1)}}</td>
                             <td class="text-center">{{date('m/d/Y', strtotime($i->syndromic_patient->bdate))}}</td>
-                            <td class="text-center"><small>{{$i->syndromic_patient->getStreetPurok()}}</small></td>
-                            <td class="text-center">{{$i->syndromic_patient->address_brgy_text}}</td>
-                            <td class="text-center">{{$i->syndromic_patient->address_muncity_text}}, {{$i->syndromic_patient->address_province_text}}</td>
+                            <td class="text-center">
+                                <small>{{$i->syndromic_patient->getStreetPurok()}}</small>
+                                <h6>{{$i->syndromic_patient->address_brgy_text}}</h6>
+                            </td>
                             <td class="text-center">{{$i->syndromic_patient->getContactNumber()}}</td>
+                            <td class="text-center">{{$i->chief_complain}}</td>
+                            <td class="text-center">{{$i->dcnote_assessment}}</td>
+                            <td class="text-center">{{$i->name_of_physician}}</td>
                             <td class="text-center">{{$i->getListOfSuspDiseases()}}</td>
                             <td class="text-center"><small>{{date('m/d/Y h:i A', strtotime($i->created_at))}} / {{$i->user->name}}</small></td>
                         </tr>
