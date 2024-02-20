@@ -80,6 +80,15 @@
                     </tr>
                   </tbody>
                 </table>
+                @if(auth()->user()->isSyndromicHospitalLevelAccess())
+                <div class="form-group">
+                  <label for="hosp_identifier"><b class="text-danger">*</b>Record From</label>
+                  <select class="form-control" name="hosp_identifier" id="hosp_identifier" required>
+                    <option value="OPD" {{(old('hosp_identifier', $d->hosp_identifier) == 'OPD') ? 'selected' : ''}}>OPD</option>
+                    <option value="ER" {{(old('hosp_identifier', $d->hosp_identifier) == 'ER') ? 'selected' : ''}}>ER</option>
+                  </select>
+                </div>
+                @endif
                 <div class="form-group">
                   <label for="nature_of_visit"><b class="text-danger">*</b>Nature of Visit</label>
                   <select class="form-control" name="nature_of_visit" id="nature_of_visit" required>

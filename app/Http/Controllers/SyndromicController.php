@@ -718,6 +718,7 @@ class SyndromicController extends Controller
 
             if(auth()->user()->isSyndromicHospitalLevelAccess()) {
                 $values_array = $values_array + [
+                    'hosp_identifier' => $r->hosp_identifier,
                     'o2sat' => $r->o2sat,
                     'is_pregnant' => ($r->is_pregnant == 'Y') ? 1 : 0,
                     'lmp' => ($r->is_pregnant == 'Y') ? $r->lmp : NULL,
@@ -1389,6 +1390,7 @@ class SyndromicController extends Controller
 
             if(auth()->user()->isSyndromicHospitalLevelAccess()) {
                 $values_array = $values_array + [
+                    'hosp_identifier' => $r->hosp_identifier,
                     'o2sat' => $r->o2sat,
 
                     'is_pregnant' => ($r->is_pregnant == 'Y') ? 1 : 0,
@@ -1974,83 +1976,341 @@ class SyndromicController extends Controller
     }
 
     public function hospDailyReport() {
-        if(request()->input('start') && request()->input('end')) {
-            $date1 = request()->input('start');
-            $date2 = request()->input('end');
-
-            if($date1 == $date2) {
-                $opd_old = SyndromicRecords::whereDate('created_at', $date1);
-                $opd_new = SyndromicRecords::whereDate('created_at', $date1);
-                $opd_police = SyndromicRecords::whereDate('created_at', $date1);
-
-                $opd_inpatient = SyndromicRecords::whereDate('created_at', $date1);
-                $opd_admitted = SyndromicRecords::whereDate('created_at', $date1);
-                $opd_discharged = SyndromicRecords::whereDate('created_at', $date1);
-                $opd_doa = SyndromicRecords::whereDate('created_at', $date1);
-
-                $opd_thoc = SyndromicRecords::whereDate('created_at', $date1);
-
-                //inpatient nagpapatong
-                //add discharged column
-            }
-            else {
-
-            }
+        if(request()->input('d')) {
+            $sdate = request()->input('d');
         }
         else {
-            $opd_old = SyndromicRecords::whereDate('created_at', date('Y-m-d'));
-            $opd_new = SyndromicRecords::whereDate('created_at', date('Y-m-d'));
-            $opd_police = SyndromicRecords::whereDate('created_at', date('Y-m-d'));
-
-            $opd_admitted = SyndromicRecords::whereDate('created_at', date('Y-m-d'));
-            $opd_discharged = SyndromicRecords::whereDate('date_discharged', date('Y-m-d'));
-            $opd_doa = SyndromicRecords::whereDate('created_at', date('Y-m-d'));
-
-            $opd_thoc = SyndromicRecords::whereDate('created_at', date('Y-m-d'));
+            $sdate = date('Y-m-d');
         }
 
+        $opd_old = SyndromicRecords::whereDate('created_at', $sdate);
+        $opd_new = SyndromicRecords::whereDate('created_at', $sdate);
+        $opd_police = SyndromicRecords::whereDate('created_at', $sdate);
+        $opd_thoc = SyndromicRecords::whereDate('created_at', $sdate);
+
+        $er_old = SyndromicRecords::whereDate('created_at', $sdate);
+        $er_new = SyndromicRecords::whereDate('created_at', $sdate);
+        $er_police = SyndromicRecords::whereDate('created_at', $sdate);
+        $er_thoc = SyndromicRecords::whereDate('created_at', $sdate);
+
+        $admission = SyndromicRecords::whereDate('created_at', $sdate);
+        //$inpatient = SyndromicRecords::whereDate('date_discharged', $sdate);
+        $discharged = SyndromicRecords::whereDate('created_at', $sdate);
+        $doa = SyndromicRecords::whereDate('created_at', $sdate);
+
         $opd_old = $opd_old->where('nature_of_visit', 'FOLLOW-UP VISIT')
+        ->where('hosp_identifier', 'OPD')
         ->count();
 
         $opd_new = $opd_new->where('nature_of_visit', 'NEW CONSULTATION/CASE')
+        ->where('hosp_identifier', 'OPD')
         ->count();
 
         $opd_police = $opd_police->where('disposition', 'SENT TO JAIL')
-        ->count();
-
-        $opd_inpatient = SyndromicRecords::where('disposition', 'ADMITTED')
-        ->where('is_discharged', 'N')
-        ->count();
-
-        $opd_admitted = $opd_admitted->where('disposition', 'ADMITTED')
-        ->where('is_discharged', 'N')
-        ->count();
-
-        $opd_discharged = $opd_discharged->where('disposition', 'ADMITTED')
-        ->where('is_discharged', 'Y')
-        ->count();
-
-        $opd_doa = $opd_doa->where('outcome', 'DOA')
+        ->where('hosp_identifier', 'OPD')
         ->count();
 
         $opd_thoc = $opd_thoc->where('disposition', 'THOC')
+        ->where('hosp_identifier', 'OPD')
+        ->count();
+
+        $er_old = $er_old->where('nature_of_visit', 'FOLLOW-UP VISIT')
+        ->where('hosp_identifier', 'ER')
+        ->count();
+
+        $er_new = $er_new->where('nature_of_visit', 'NEW CONSULTATION/CASE')
+        ->where('hosp_identifier', 'ER')
+        ->count();
+
+        $er_police = $er_police->where('disposition', 'SENT TO JAIL')
+        ->where('hosp_identifier', 'ER')
+        ->count();
+
+        $er_thoc = $er_thoc->where('disposition', 'THOC')
+        ->where('hosp_identifier', 'ER')
+        ->count();
+
+        $inpatient = SyndromicRecords::where('disposition', 'ADMITTED')
+        ->where('is_discharged', 'N')
+        ->count();
+
+        $admission = $admission->where('disposition', 'ADMITTED')
+        ->where('is_discharged', 'N')
+        ->count();
+
+        $discharged = $discharged->where('disposition', 'ADMITTED')
+        ->where('is_discharged', 'Y')
+        ->count();
+
+        $doa = $doa->where('outcome', 'DOA')
         ->count();
 
         return view('syndromic.hospital.daily_opd', [
             'opd_old' => $opd_old,
             'opd_new' => $opd_new,
             'opd_police' => $opd_police,
-
-            'opd_inpatient' => $opd_inpatient,
-            'opd_admitted' => $opd_admitted,
-            'opd_discharged' => $opd_discharged,
-            'opd_doa' => $opd_doa,
             'opd_thoc' => $opd_thoc,
+
+            'er_old' => $er_old,
+            'er_new' => $er_new,
+            'er_police' => $er_police,
+            'er_thoc' => $er_thoc,
+
+            'inpatient' => $inpatient,
+            'admission' => $admission,
+            'discharged' => $discharged,
+            'doa' => $doa,
         ]);
     }
 
     public function hospSummaryReport() {
+        if(request()->input('smonth') && request()->input('syear')) {
+            $smonth = request()->input('smonth');
+            $syear = request()->input('syear');
+        }
+        else {
+            $smonth = date('m');
+            $syear = date('Y');
+        }
+
+        $date = Carbon::createFromDate($syear, $smonth, 1);
+        $month_flavor = $date->format('F').' 1 - '.$date->format('t');
+
+        if(request()->input('id')) {
+            $id = request()->input('id');
+
+            if($id != 'OPD' && $id != 'ER') {
+                return abort(401);
+            }
+        }
+        else {
+            return abort(401);
+        }
+
+        $group_diagnosis = SyndromicRecords::where('hosp_identifier', $id)
+        ->whereMonth('created_at', $smonth)
+        ->whereYear('created_at', $syear)
+        ->orderBy('dcnote_assessment', 'ASC')
+        ->groupBy('dcnote_assessment')
+        ->pluck('dcnote_assessment');
+
+        $final_arr = [];
+
+        foreach($group_diagnosis as $g) {
+            $final_arr[] = [
+                'name' => $g,
+
+                'pedia_old_m' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                    $q->where('gender', 'MALE');
+                })
+                ->where('dcnote_assessment', $g)
+                ->where('nature_of_visit', 'FOLLOW-UP VISIT')
+                ->where('age_years', '<=', 19)
+                ->where('hosp_identifier', $id)
+                ->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear)
+                ->count(),
+                
+                'pedia_new_m' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                    $q->where('gender', 'MALE');
+                })
+                ->where('dcnote_assessment', $g)
+                ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
+                ->where('age_years', '<=', 19)
+                ->where('hosp_identifier', $id)
+                ->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear)
+                ->count(),
+
+                'pedia_police_m' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                    $q->where('gender', 'MALE');
+                })
+                ->where('dcnote_assessment', $g)
+                ->where('disposition', 'SENT TO JAIL')
+                ->where('age_years', '<=', 19)
+                ->where('hosp_identifier', $id)
+                ->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear)
+                ->count(),
+
+                'pedia_old_f' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                    $q->where('gender', 'FEMALE');
+                })
+                ->where('dcnote_assessment', $g)
+                ->where('nature_of_visit', 'FOLLOW-UP VISIT')
+                ->where('age_years', '<=', 19)
+                ->where('hosp_identifier', $id)
+                ->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear)
+                ->count(),
+                
+                'pedia_new_f' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                    $q->where('gender', 'FEMALE');
+                })
+                ->where('dcnote_assessment', $g)
+                ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
+                ->where('age_years', '<=', 19)
+                ->where('hosp_identifier', $id)
+                ->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear)
+                ->count(),
+
+                'pedia_police_f' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                    $q->where('gender', 'FEMALE');
+                })
+                ->where('dcnote_assessment', $g)
+                ->where('disposition', 'SENT TO JAIL')
+                ->where('age_years', '<=', 19)
+                ->where('hosp_identifier', $id)
+                ->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear)
+                ->count(),
+
+                'adult_old_m' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                    $q->where('gender', 'MALE');
+                })
+                ->where('dcnote_assessment', $g)
+                ->where('nature_of_visit', 'FOLLOW-UP VISIT')
+                ->whereBetween('age_years', [20,59])
+                ->where('hosp_identifier', $id)
+                ->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear)
+                ->count(),
+                
+                'adult_new_m' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                    $q->where('gender', 'MALE');
+                })
+                ->where('dcnote_assessment', $g)
+                ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
+                ->whereBetween('age_years', [20,59])
+                ->where('hosp_identifier', $id)
+                ->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear)
+                ->count(),
+
+                'adult_police_m' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                    $q->where('gender', 'MALE');
+                })
+                ->where('dcnote_assessment', $g)
+                ->where('disposition', 'SENT TO JAIL')
+                ->whereBetween('age_years', [20,59])
+                ->where('hosp_identifier', $id)
+                ->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear)
+                ->count(),
+
+                'adult_old_f' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                    $q->where('gender', 'FEMALE');
+                })
+                ->where('dcnote_assessment', $g)
+                ->where('nature_of_visit', 'FOLLOW-UP VISIT')
+                ->whereBetween('age_years', [20,59])
+                ->where('hosp_identifier', $id)
+                ->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear)
+                ->count(),
+                
+                'adult_new_f' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                    $q->where('gender', 'FEMALE');
+                })
+                ->where('dcnote_assessment', $g)
+                ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
+                ->whereBetween('age_years', [20,59])
+                ->where('hosp_identifier', $id)
+                ->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear)
+                ->count(),
+
+                'adult_police_f' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                    $q->where('gender', 'FEMALE');
+                })
+                ->where('dcnote_assessment', $g)
+                ->where('disposition', 'SENT TO JAIL')
+                ->whereBetween('age_years', [20,59])
+                ->where('hosp_identifier', $id)
+                ->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear)
+                ->count(),
+
+                'senior_old_m' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                    $q->where('gender', 'MALE');
+                })
+                ->where('dcnote_assessment', $g)
+                ->where('nature_of_visit', 'FOLLOW-UP VISIT')
+                ->where('age_years', '>=', 60)
+                ->where('hosp_identifier', $id)
+                ->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear)
+                ->count(),
+                
+                'senior_new_m' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                    $q->where('gender', 'MALE');
+                })
+                ->where('dcnote_assessment', $g)
+                ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
+                ->where('age_years', '>=', 60)
+                ->where('hosp_identifier', $id)
+                ->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear)
+                ->count(),
+
+                'senior_police_m' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                    $q->where('gender', 'MALE');
+                })
+                ->where('dcnote_assessment', $g)
+                ->where('disposition', 'SENT TO JAIL')
+                ->where('age_years', '>=', 60)
+                ->where('hosp_identifier', $id)
+                ->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear)
+                ->count(),
+
+                'senior_old_f' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                    $q->where('gender', 'FEMALE');
+                })
+                ->where('dcnote_assessment', $g)
+                ->where('nature_of_visit', 'FOLLOW-UP VISIT')
+                ->where('age_years', '>=', 60)
+                ->where('hosp_identifier', $id)
+                ->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear)
+                ->count(),
+                
+                'senior_new_f' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                    $q->where('gender', 'FEMALE');
+                })
+                ->where('dcnote_assessment', $g)
+                ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
+                ->where('age_years', '>=', 60)
+                ->where('hosp_identifier', $id)
+                ->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear)
+                ->count(),
+
+                'senior_police_f' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                    $q->where('gender', 'FEMALE');
+                })
+                ->where('dcnote_assessment', $g)
+                ->where('disposition', 'SENT TO JAIL')
+                ->where('age_years', '>=', 60)
+                ->where('hosp_identifier', $id)
+                ->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear)
+                ->count(),
+            ];
+        }
+
+        return view('syndromic.hospital.opd_summary', [
+            'final_arr' => $final_arr,
+            'month_flavor' => $month_flavor,
+
+            'smonth' => $smonth,
+            'syear' => $syear,
+        ]);
+    }
+
+    public function hospErSummaryReport() {
         
-        return view('syndromic.hospital.opd_summary');
+        return view('syndromic.hospital.er_summary');
     }
 }

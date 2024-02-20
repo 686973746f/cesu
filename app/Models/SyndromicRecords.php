@@ -20,6 +20,7 @@ class SyndromicRecords extends Model
         'line_number',
         'last_checkup_date',
         'consultation_date',
+        'hosp_identifier',
         'nature_of_visit',
         'consultation_type',
         'checkup_type',

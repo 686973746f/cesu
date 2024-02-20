@@ -24,6 +24,8 @@ class CreateSyndromicRecordsTable extends Migration
             $table->text('nature_of_visit')->nullable();
             $table->text('consultation_type')->nullable();
             $table->string('checkup_type')->nullable();
+
+            $table->string('hosp_identifier')->nullable();
             
             $table->string('chief_complain');
             $table->tinyInteger('rx_outsidecho')->default(0);
