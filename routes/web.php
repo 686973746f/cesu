@@ -397,6 +397,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessS
     Route::get('/syndromic/disease_checker/list', [SyndromicController::class, 'diseaseCheckerList'])->name('syndromic_diseasechecker_specific');
 
     Route::get('/syndromic/hospital/daily_summary', [SyndromicController::class, 'hospDailyReport'])->name('opd_hospital_dailysummary');
+    Route::get('/syndromic/hospital/opd_summary', [SyndromicController::class, 'hospSummaryReport'])->name('opd_hospital_opdsummary');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel3']], function() {

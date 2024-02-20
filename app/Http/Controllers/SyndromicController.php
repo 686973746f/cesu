@@ -2050,6 +2050,7 @@ class SyndromicController extends Controller
     }
 
     public function hospSummaryReport() {
-
+        
+        return view('syndromic.hospital.opd_summary');
     }
 }
