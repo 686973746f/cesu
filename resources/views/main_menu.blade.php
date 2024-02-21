@@ -34,6 +34,9 @@
             @if(auth()->user()->canAccessFwri())
             <a href="{{route('fwri_home')}}" class="btn btn-block btn-primary btn-lg">Fireworks-Related Injury (FWRI)</a>
             @endif
+            @if(auth()->user()->canAccessQes())
+            <a href="{{route('qes_home')}}" class="btn btn-block btn-primary btn-lg">QES Module</a>
+            @endif
             @if(auth()->user()->canAccessPregnancyTracking())
             <a href="{{route('ptracking_index')}}" class="btn btn-block btn-primary btn-lg">Pregnancy Tracking</a>
             @endif

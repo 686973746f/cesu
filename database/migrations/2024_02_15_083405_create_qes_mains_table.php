@@ -17,6 +17,10 @@ class CreateQesMainsTable extends Migration
             $table->id();
             $table->string('status')->default('PENDING');
             $table->text('name');
+            $table->text('description')->nullable();
+            $table->date('date_start')->nullable();
+            $table->date('date_end')->nullable();
+            $table->text('remarks')->nullable();
 
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreignId('facility_id')->nullable()->constrained('doh_facilities')->onDelete('cascade');

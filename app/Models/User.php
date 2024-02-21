@@ -322,6 +322,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(PregnancyTrackingForm::class, 'created_by');
     }
 
+    public function qesmain() {
+        return $this->hasMany(QesMain::class, 'created_by');
+    }
+
+    public function qessub() {
+        return $this->hasMany(QesSub::class, 'created_by');
+    }
+
     public function opdfacility() {
         return $this->belongsTo(DohFacility::class, 'itr_facility_id');
     }
@@ -552,6 +560,17 @@ class User extends Authenticatable implements MustVerifyEmail
         $plist = $this->getPermissions();
 
         if(in_array('GLOBAL_ADMIN', $plist) || in_array('PREGNANCYTRACKING', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function canAccessQes() {
+        $plist = $this->getPermissions();
+
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('QES_ENCODER', $plist)) {
             return true;
         }
         else {

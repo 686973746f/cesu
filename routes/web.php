@@ -51,6 +51,7 @@ use App\Http\Controllers\ABTCWalkInRegistrationController;
 use App\Http\Controllers\FwriController;
 use App\Http\Controllers\PharmacyController;
 use App\Http\Controllers\PregnancyTrackingController;
+use App\Http\Controllers\QesController;
 use App\Http\Controllers\SecondaryTertiaryRecordsController;
 use App\Http\Controllers\SubdivisionController;
 use App\Http\Controllers\SyndromicController;
@@ -589,6 +590,17 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     Route::get('fwri_admin/{id}/print', [FwriController::class, 'printCif'])->name('fwri_print');
     Route::get('fwri_admin/report', [FwriController::class, 'report'])->name('fwri_report');
     Route::get('fwri_admin/export', [FwriController::class, 'export'])->name('fwri_export');
+});
+
+//QES DIARRHEA
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessQes']], function() {
+    Route::get('qes', [QesController::class, 'index'])->name('qes_home');
+    Route::post('qes/store_main', [QesController::class, 'storeMain'])->name('qes_store_main');
+    Route::get('qes/{main_id}/view', [QesController::class, 'viewMain'])->name('qes_view_main');
+    Route::get('qes/{main_id}/new_record', [QesController::class, 'newRecord'])->name('qes_new_record');
+    Route::post('qes/{main_id}/store_record', [QesController::class, 'storeRecord'])->name('qes_store_record');
+
+    Route::get('qes/{main_id}/report1', [QesController::class, 'report1'])->name('qes_report1');
 });
 
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function() {

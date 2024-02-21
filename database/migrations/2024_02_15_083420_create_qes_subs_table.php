@@ -15,6 +15,8 @@ class CreateQesSubsTable extends Migration
     {
         Schema::create('qes_subs', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('qes_main_id')->constrained('qes_mains')->onDelete('cascade');
+
             $table->string('lname');
             $table->string('fname');
             $table->string('mname')->nullable();
@@ -37,6 +39,7 @@ class CreateQesSubsTable extends Migration
             $table->string('occupation')->nullable();
             $table->string('placeof_work_school')->nullable();
 
+            $table->string('has_symptoms', 1)->default('N');
             $table->datetime('onset_datetime')->nullable();
             $table->integer('illness_duration')->nullable();
             $table->date('diagnosis_date')->nullable();
@@ -59,7 +62,7 @@ class CreateQesSubsTable extends Migration
             $table->string('yellowish', 1)->default('N');
             $table->string('greenish', 1)->default('N');
             $table->string('others', 1)->default('N');
-            $table->string('others_specify')->nullable();
+            $table->text('others_specify')->nullable();
 
             $table->string('volumeofstool')->nullable();
             $table->string('quantify')->nullable();
@@ -74,10 +77,12 @@ class CreateQesSubsTable extends Migration
             $table->string('question3', 1)->default('N');
             $table->string('question4', 1)->default('N');
             $table->string('question5', 1)->default('N');
-            $table->string('question5_others')->nullable();
+            $table->string('question5_souce')->nullable();
+            $table->text('question5_others')->nullable();
             $table->string('question6', 1)->default('N');
             $table->string('question6_source')->nullable();
             $table->string('question7')->nullable();
+            $table->string('question7_others')->nullable();
             $table->string('question8')->nullable();
             $table->string('question9', 1)->default('N');
             $table->string('question10')->nullable();
@@ -95,6 +100,8 @@ class CreateQesSubsTable extends Migration
 
             $table->text('dinner_names')->nullable();
             $table->text('dinner_datetime')->nullable();
+
+            $table->text('remarks')->nullable();
 
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
