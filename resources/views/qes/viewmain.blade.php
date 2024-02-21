@@ -313,8 +313,8 @@
                         </div>
                         <div id="other_stool_div" class="d-none">
                             <div class="form-group">
-                                <label for="others"><b class="text-danger">*</b>Others, specify</label>
-                                <input type="text" class="form-control" name="others" id="others" value="{{old('others')}}" style="text-transform: uppercase;">
+                                <label for="others_specify"><b class="text-danger">*</b>Others, specify</label>
+                                <input type="text" class="form-control" name="others_specify" id="others_specify" value="{{old('others_specify')}}" style="text-transform: uppercase;">
                             </div>
                         </div>
                         <div class="form-group">
@@ -402,9 +402,9 @@
                             <label for="question6_where"><b class="text-danger">*</b>If yes, source of the ice</label>
                             <select class="form-control" name="question6_where" id="question6_where">
                               <option value="" disabled {{(is_null(old('question6_where'))) ? 'selected' : ''}}>Choose...</option>
-                              <option value="HOMEMADE" {{(old('question6') == 'HOMEMADE') ? 'selected' : ''}}>Homemade</option>
-                              <option value="BOUGHT" {{(old('question6') == 'BOUGHT') ? 'selected' : ''}}>Bought</option>
-                              <option value="OTHERS" {{(old('question6') == 'OTHERS') ? 'selected' : ''}}>Others</option>
+                              <option value="HOMEMADE" {{(old('question6_where') == 'HOMEMADE') ? 'selected' : ''}}>Homemade</option>
+                              <option value="BOUGHT" {{(old('question6_where') == 'BOUGHT') ? 'selected' : ''}}>Bought</option>
+                              <option value="OTHERS" {{(old('question6_where') == 'OTHERS') ? 'selected' : ''}}>Others</option>
                             </select>
                         </div>
                         <div id="question6_where_div" class="d-none">
@@ -467,6 +467,52 @@
                             </select>
                         </div>
                     </div>
+                    <div class="card">
+                        <div class="card-header"><b>AM Snack/s</b></div>
+                        <div class="card-body">
+                            <div id="duplica_am">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                          <label for="">AM Snack Name</label>
+                                          <input type="text"class="form-control" name="am_snacks_names[]" id="am_snacks_names" style="text-transform: uppercase;">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">Time</label>
+                                            <input type="time"class="form-control" name="am_snacks_datetime[]" id="am_snacks_datetime" style="text-transform: uppercase;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button type="button" class="btn btn-success btn-block" id="cloneBtn_am">Add AM Snack</button>
+                        </div>
+                    </div>
+                    <div class="card mt-3">
+                        <div class="card-header"><b>Lunch</b></div>
+                        <div class="card-body">
+                            <div id="duplica_lunch">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                          <label for="">Name of the food</label>
+                                          <input type="text"class="form-control" name="lunch_names[]" id="lunch_names" style="text-transform: uppercase;">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">Time</label>
+                                            <input type="time"class="form-control" name="lunch_datetime[]" id="lunch_datetime" style="text-transform: uppercase;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button type="button" class="btn btn-success btn-block" id="cloneBtn_lunch">Add Lunch</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success btn-block">Save</button>
@@ -477,6 +523,18 @@
 </form>
 
 <script>
+    $(document).ready(function(){
+        $('#cloneBtn_am').click(function(){
+            var clone = $('#duplica_am').clone();
+            $('#duplica_am').after(clone);
+        });
+
+        $('#cloneBtn_lunch').click(function(){
+            var clone = $('#duplica_lunch').clone();
+            $('#duplica_lunch').after(clone);
+        });
+    });
+
     //Select2 Init for Address Bar
     $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_text').select2({
         theme: 'bootstrap',
