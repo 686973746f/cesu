@@ -32,13 +32,17 @@
                         {{session('msg')}}
                     </div>
                     @endif
+                    <div class="form-group">
+                        <label for=""><b class="text-danger">*</b>Facility</label>
+                        <input type="text" class="form-control" name="" id="" value="{{auth()->user()->opdfacility->facility_name}}" readonly>
+                    </div>
                     @if(auth()->user()->isSyndromicHospitalLevelAccess())
                     <div class="row">
                         <div class="col-md-6">
                             @if(is_null($d->unique_opdnumber))
                             <div class="form-group">
-                                <label for="unique_opdnumber"><b class="text-danger">*</b>Unique OPD Number</label>
-                                <input type="number" class="form-control" id="unique_opdnumber" name="unique_opdnumber" value="{{old('unique_opdnumber', $d->unique_opdnumber)}}" required>
+                                <label for="unique_opdnumber"><b class="text-danger">*</b>Hospital/OPD Number</label>
+                                <input type="number" class="form-control" id="unique_opdnumber" name="unique_opdnumber" value="{{old('unique_opdnumber', $d->unique_opdnumber)}}" min="1" required>
                             </div>
                             @else
                             <div class="form-group">
@@ -50,10 +54,11 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="id_presented"><b class="text-danger">*</b>ID Presented</label>
-                                <input type="text" class="form-control" name="id_presented" id="id_presented" value="{{old('id_presented', $d->id_presented)}}" required>
+                                <input type="text" class="form-control" name="id_presented" id="id_presented" value="{{old('id_presented', $d->id_presented)}}" style="text-transform: uppercase;" required>
                             </div>
                         </div>
                     </div>
+                    <hr>
                     @endif
                     <div class="row">
                         <div class="col-md-3">
@@ -250,8 +255,8 @@
                             </div>
                         </div>
                     </div>
-                    <hr>
-                    <div class="form-group">
+                    <div class="form-group {{(auth()->user()->isSyndromicHospitalLevelAccess()) ? 'd-none' : ''}}">
+                        <hr>
                         <label for="is_lgustaff"><b class="text-danger">*</b>Is Patient a LGU/Government Employee?</label>
                         <select class="form-control" name="is_lgustaff" id="is_lgustaff" required>
                             <option value="" {{(is_null(old('is_lgustaff', $d->is_lgustaff))) ? 'selected' : ''}}>Choose...</option>

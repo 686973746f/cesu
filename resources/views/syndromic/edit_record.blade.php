@@ -57,7 +57,7 @@
                     <tr>
                       <td>
                         <div><b>NAME / ID:</b></div>
-                        <div><b><a href="{{route('syndromic_viewPatient', $d->syndromic_patient->id)}}">{{$d->syndromic_patient->getName()}} @if(auth()->user()->isSyndromicHospitalLevelAccess())<small>(OPD #{{$d->syndromic_patient->unique_opdnumber}})</small>@else<small>(#{{$d->syndromic_patient->id}})</small>@endif</a></b></div>
+                        <div><b><a href="{{route('syndromic_viewPatient', $d->syndromic_patient->id)}}">{{$d->syndromic_patient->getName()}} @if($d->isHospitalRecord())<small>(OPD #{{$d->syndromic_patient->unique_opdnumber}})</small>@else<small>(#{{$d->syndromic_patient->id}})</small>@endif</a></b></div>
                       </td>
                       <td>
                         <div><b>BIRTHDATE:</b></div>
@@ -80,7 +80,21 @@
                     </tr>
                   </tbody>
                 </table>
-                @if(auth()->user()->isSyndromicHospitalLevelAccess())
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for=""><b class="text-danger">*</b>Encoded under Facility</label>
+                      <input type="text" class="form-control" name="" id="" value="{{$d->facility->facility_name}}" readonly>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for=""><b class="text-danger">*</b>Nature of Visit</label>
+                      <input type="text" class="form-control" name="" id="" value="{{$d->getHospRecordType()}}" readonly>
+                    </div>
+                  </div>
+                </div>
+                @if($d->isHospitalRecord())
                 <div class="form-group">
                   <label for="hosp_identifier"><b class="text-danger">*</b>Record From</label>
                   <select class="form-control" name="hosp_identifier" id="hosp_identifier" required>
@@ -89,15 +103,6 @@
                   </select>
                 </div>
                 @endif
-                <div class="form-group">
-                  <label for="nature_of_visit"><b class="text-danger">*</b>Nature of Visit</label>
-                  <select class="form-control" name="nature_of_visit" id="nature_of_visit" required>
-                    <option value="NEW CONSULTATION/CASE" {{(old('nature_of_visit', $d->nature_of_visit) == 'NEW CONSULTATION/CASE')}}>NEW PATIENT</option>
-                    <option value="FOLLOW-UP VISIT" {{(old('nature_of_visit', $d->nature_of_visit) == 'FOLLOW-UP VISIT')}}>OLD PATIENT</option>
-                    <!--<option value="NEW ADMISSION" {{(old('nature_of_visit', $d->nature_of_visit) == 'NEW ADMISSION')}}>NEW ADMISSION</option>-->
-                    <!--<option value="TELECONSULTATION" {{(old('nature_of_visit', $d->nature_of_visit) == 'TELECONSULTATION')}}>TELECONSULTATION</option>-->
-                  </select>
-                </div>
                 <div class="form-group" id="purpose_div">
                   <label class="mr-2"><b class="text-danger">*</b>Purpose:</label>
                   @foreach(App\Models\SyndromicRecords::refConsultationType() as $ind => $ref1)
@@ -142,7 +147,7 @@
                   </div>
                   @endforeach
                 </div>
-                <div class="form-group">
+                <div class="form-group {{($d->isHospitalRecord()) ? 'd-none' : ''}}">
                   <label for="checkup_type"><b class="text-danger">*</b>Mode of Transaction</label>
                   <select class="form-control" name="checkup_type" id="checkup_type" required>
                     <option value="" disabled {{is_null(old('checkup_type', $d->checkup_type)) ? 'selected' : ''}}>Choose...</option>
@@ -208,7 +213,7 @@
                         <label for="pulserate">Pulse Rate (PR)</label>
                         <input type="text" class="form-control" name="pulserate" id="pulserate" value="{{old('pulserate', $d->pulserate)}}">
                       </div>
-                      @if(auth()->user()->isSyndromicHospitalLevelAccess())
+                      @if($d->isHospitalRecord())
                       <div class="form-group">
                         <label for="o2sat">O2Sat (%)</label>
                         <input type="number" class="form-control" name="o2sat" id="o2sat" value="{{old('o2sat', $d->o2sat)}}" min="70" max="100">
@@ -222,7 +227,7 @@
                         -->
                     </div>
                 </div>
-                @if(auth()->user()->isSyndromicHospitalLevelAccess())
+                @if($d->isHospitalRecord())
                 <div class="row">
                   <div class="col-md-4">
                     @if($d->syndromic_patient->gender == 'FEMALE' && $d->syndromic_patient->getAgeInt() > 10)
@@ -856,7 +861,7 @@
                         @endif
                       </select>
                     </div>
-                    @if(auth()->user()->isSyndromicHospitalLevelAccess())
+                    @if($d->isHospitalRecord())
                     <div class="form-group">
                       <label for="procedure_done"><b class="text-danger">*</b>Procedure Done</label>
                       <select class="form-control" name="procedure_done" id="procedure_done" required>
@@ -884,7 +889,7 @@
                 </div>
                 <div class="row">
                   @php
-                  if(auth()->user()->isSyndromicHospitalLevelAccess()) {
+                  if($d->isHospitalRecord()) {
                     $colsize1 = 4;
                     $colsize2 = 4;
                     $colsize3 = 4;
@@ -918,7 +923,7 @@
                       </div>
                     </div>
                   </div>
-                  @if(auth()->user()->isSyndromicHospitalLevelAccess())
+                  @if($d->isHospitalRecord())
                   <div class="col-md-{{$colsize2}}">
                     <div class="form-group">
                       <label for="disposition"><b class="text-danger">*</b>Disposition</label>
@@ -952,7 +957,7 @@
                     <div class="form-group">
                       <label for="name_of_physician"><span class="text-danger font-weight-bold">*</span>Attending Physician</label>
                       <select class="form-control" name="name_of_physician" id="name_of_physician">
-                        @if(auth()->user()->isSyndromicHospitalLevelAccess())
+                        @if($d->isHospitalRecord())
                           @foreach($doclist as $dr)
                           <option value="{{$dr->doctor_name}}" {{(old('name_of_physician', $d->name_of_physician) == $dr->doctor_name) ? 'selected' : ''}}>{{$dr->doctor_name}}</option>
                           @endforeach
@@ -993,13 +998,17 @@
                 </div>
               </div>
               <hr>
+              @if($d->hasPermissionToUpdate())
                 <button type="submit" class="btn btn-success btn-block" name="submit" value="update" id="submitBtn">Update (CTRL + S)</button>
+              @else
+              <h6 class="text-center"><b class="text-danger">YOU DON'T HAVE PERMISSION TO UPDATE THIS RECORD.</b></h6>
+              @endif
             </div>
         </div>
     </form>
 </div>
 @if($d->outcome != 'DIED')
-@if(in_array('ITR_ENCODER', auth()->user()->getPermissions()) || in_array('ITR_ADMIN', auth()->user()->getPermissions()) || in_array('GLOBAL_ADMIN', auth()->user()->getPermissions()))
+@if(in_array('ITR_ENCODER', auth()->user()->getPermissions()) || in_array('ITR_ADMIN', auth()->user()->getPermissions()) || in_array('GLOBAL_ADMIN', auth()->user()->getPermissions()) || in_array('ITR_HOSPITAL_ENCODER', auth()->user()->getPermissions()))
 <form action="{{route('syndromic_generate_medcert', $d->id)}}" method="POST">
   @csrf
   <div class="modal fade" id="generateMedCert" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
@@ -1173,7 +1182,7 @@
     theme: 'bootstrap',
   });
 
-  @if(auth()->user()->isSyndromicHospitalLevelAccess())
+  @if($d->isHospitalRecord())
   @if($d->syndromic_patient->gender == 'FEMALE' && $d->syndromic_patient->getAgeInt() > 10)
   $('#is_pregnant').change(function (e) { 
     e.preventDefault();
@@ -1189,7 +1198,7 @@
   @endif
   @endif
 
-  @if(auth()->user()->isSyndromicHospitalLevelAccess())
+  @if($d->isHospitalRecord())
   $('#disposition').change(function (e) { 
     e.preventDefault();
     if($(this).val() == 'ADMITTED') {

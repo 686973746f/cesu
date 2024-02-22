@@ -58,10 +58,24 @@ class SyndromicPatient extends Model
         'lgu_office_name',
 
         'shared_access_list',
+        'facility_id',
     ];
 
     public function user() {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function facility() {
+        return $this->belongsTo(DohFacility::class, 'facility_id');
+    }
+
+    public function isHospitalRecord() {
+        if($this->facility->sys_opdaccess_type == 'HOSP') {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     public function getUpdatedBy() {

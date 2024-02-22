@@ -15,21 +15,26 @@
                     <div class="alert alert-primary" role="alert">
                         <b class="text-danger">Note:</b> All fields marked with an Asterisk (<b class="text-danger">*</b>) are <b>REQUIRED</b> to be filled-out.
                     </div>
+                    <div class="form-group">
+                        <label for=""><b class="text-danger">*</b>Facility</label>
+                        <input type="text" class="form-control" name="" id="" value="{{auth()->user()->opdfacility->facility_name}}" readonly>
+                    </div>
                     @if(auth()->user()->isSyndromicHospitalLevelAccess())
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="unique_opdnumber"><b class="text-danger">*</b>Unique OPD Number</label>
-                                <input type="number" class="form-control" name="unique_opdnumber" id="unique_opdnumber" value="{{old('unique_opdnumber')}}" required>
+                                <label for="unique_opdnumber"><b class="text-danger">*</b>Hospital/OPD Number</label>
+                                <input type="number" class="form-control" name="unique_opdnumber" id="unique_opdnumber" value="{{old('unique_opdnumber')}}" min="1" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="id_presented"><b class="text-danger">*</b>ID Presented</label>
-                                <input type="text" class="form-control" name="id_presented" id="id_presented" value="{{old('id_presented')}}" required>
+                                <input type="text" class="form-control" name="id_presented" id="id_presented" value="{{old('id_presented')}}" style="text-transform: uppercase;" required>
                             </div>
                         </div>
                     </div>
+                    <hr>
                     @endif
                     <div class="row">
                         <div class="col-md-3">
@@ -229,13 +234,12 @@
                             </div>
                         </div>
                     </div>
-                    <hr>
-                    <div class="form-group">
+                    <div class="form-group {{(auth()->user()->isSyndromicHospitalLevelAccess()) ? 'd-none' : ''}}">
+                        <hr>
                         <label for="is_lgustaff"><b class="text-danger">*</b>Is Patient a LGU/Government Employee?</label>
                         <select class="form-control" name="is_lgustaff" id="is_lgustaff" required>
-                            <option value="" {{(is_null(old('is_lgustaff'))) ? 'selected' : ''}}>Choose...</option>
-                            <option value="Y" {{(old('is_lgustaff') == 'Y') ? 'selected' : ''}}>Yes</option>
                             <option value="N" {{(old('is_lgustaff') == 'N') ? 'selected' : ''}}>No</option>
+                            <option value="Y" {{(old('is_lgustaff') == 'Y') ? 'selected' : ''}}>Yes</option>
                         </select>
                     </div>
                     <div class="form-group d-none" id="if_lgustaff">

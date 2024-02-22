@@ -315,6 +315,43 @@ class SyndromicRecords extends Model
         return $this->belongsTo(User::class, 'brgy_verified_by');
     }
 
+    public function facility() {
+        return $this->belongsTo(DohFacility::class, 'facility_id');
+    }
+
+    public function isHospitalRecord() {
+        if($this->facility->sys_opdaccess_type == 'HOSP') {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function isChoRecord() {
+        if($this->facility->sys_opdaccess_type == 'CHO') {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function hasPermissionToUpdate() {
+        if(auth()->user()->isGlobalAdmin()) {
+            return true;
+        }
+        else if($this->facility_id == auth()->user()->itr_facility_id) {
+            return true;
+        }
+        else if($this->created_by == auth()->user()->id) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     /*
     public function canAccessRecord() {
         $perm_list = explode(',', auth()->user()->permission_list);
@@ -664,6 +701,15 @@ class SyndromicRecords extends Model
         }
         else {
             return 'O';
+        }
+    }
+
+    public function getHospRecordType() {
+        if($this->nature_of_visit == 'NEW CONSULTATION/CASE') {
+            return 'NEW RECORD';
+        }
+        else {
+            return 'OLD RECORD';
         }
     }
 

@@ -276,7 +276,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary btn-block">Next</button>
                 </div>
             </div>
         </div>
@@ -293,6 +293,7 @@
                 </button>
             </div>
             <div class="modal-body">
+                @if(!(auth()->user()->isSyndromicHospitalLevelAccess()))
                 <div id="accordianId" role="tablist" aria-multiselectable="true">
                     <form action="{{route('syndromic_download_opd_excel')}}" method="GET">
                         <div class="card">
@@ -316,11 +317,7 @@
                             </div>
                         </div>
                     </form>
-                    <hr>
-                    <a href="{{route('opd_hospital_dailysummary')}}" class="btn btn-primary btn-block">DAILY REPORTING SUMMARY</a>
-                    <a href="{{route('opd_hospital_monthlysummary')}}?id=OPD" class="btn btn-primary btn-block">OPD SUMMARY</a>
-                    <a href="{{route('opd_hospital_monthlysummary')}}?id=ER" class="btn btn-primary btn-block">ER SUMMARY</a>
-                    <a href="{{route('syndromic_diseasechecker')}}" class="btn btn-primary btn-block">Go to Disease Checker Page</a>
+                    
                     <!--
                     <div class="card">
                         <div class="card-header" role="tab" id="section2HeaderId">
@@ -338,6 +335,12 @@
                     </div>
                     -->
                 </div>
+                <hr>
+                <a href="{{route('syndromic_diseasechecker')}}" class="btn btn-primary btn-block">Go to Disease Checker Page</a>
+                @endif
+                <a href="{{route('opd_hospital_dailysummary')}}" class="btn btn-primary btn-block">DAILY REPORTING SUMMARY</a>
+                <a href="{{route('opd_hospital_monthlysummary')}}?id=OPD" class="btn btn-primary btn-block">OPD SUMMARY</a>
+                <a href="{{route('opd_hospital_monthlysummary')}}?id=ER" class="btn btn-primary btn-block">ER SUMMARY</a>
             </div>
         </div>
     </div>

@@ -221,6 +221,7 @@ class SyndromicController extends Controller
         $year = request()->input('year');
 
         $get_records = SyndromicRecords::whereYear('consultation_date', $year)
+        ->where('facility_id', auth()->user()->itr_facility_id)
         ->orderBy('consultation_date', 'DESC')
         ->get();
 
@@ -515,11 +516,12 @@ class SyndromicController extends Controller
         }
         else {
             $number_in_line = SyndromicRecords::where('checkup_type', 'CHECKUP')
-            ->where('facility_id', auth()->user()->facility_id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
             ->whereDate('created_at', date('Y-m-d'))->count() + 1;
 
             //OLD OR NEW
             $count_consult = SyndromicRecords::where('syndromic_patient_id', $patient->id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
             ->count();
 
             if($count_consult <= 0) {
@@ -1080,13 +1082,13 @@ class SyndromicController extends Controller
                 $sharedAccessList = $getpatient->shared_access_list;
             }
 
-            if(auth()->user()->isSyndromicHospitalLevelAccess()) {
+            if($getpatient->isHospitalRecord()) {
                 if(is_null($getpatient->unique_opdnumber)) {
                     $ucheck = SyndromicPatient::where('unique_opdnumber', $request->unique_opdnumber)->first();
 
                     if($ucheck) {
                         return redirect()->back()
-                        ->with('msg', 'Error: Unique OPD Number already used by other patient.')
+                        ->with('msg', 'Error: Hospital Number already used by other patient. Kindly change and try again.')
                         ->with('msgtype', 'danger');
                     }
                     else {
@@ -1289,7 +1291,7 @@ class SyndromicController extends Controller
         
         if($r->submit == 'update') {
             $values_array = [
-                'nature_of_visit' => $r->nature_of_visit,
+                //'nature_of_visit' => $r->nature_of_visit,
                 'consultation_type' => implode(',', $r->consultation_type),
                 'checkup_type' => $r->checkup_type,
                 'line_number' => $r->line_number,
@@ -1414,7 +1416,7 @@ class SyndromicController extends Controller
                 'updated_by' => auth()->user()->id,
             ];
 
-            if(auth()->user()->isSyndromicHospitalLevelAccess()) {
+            if($d->isHospitalRecord()) {
                 $values_array = $values_array + [
                     'hosp_identifier' => $r->hosp_identifier,
                     'o2sat' => $r->o2sat,

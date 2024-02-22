@@ -67,12 +67,12 @@
                   <label for="nature_of_visit"><b class="text-danger">*</b>Nature of Visit</label>
                   <select class="form-control" name="nature_of_visit" id="nature_of_visit" required>
                     @if($new_patient)
-                    <option value="NEW CONSULTATION/CASE" {{(old('nature_of_visit', $get_dnature) == 'NEW CONSULTATION/CASE')}}>NEW PATIENT</option>
+                    <option value="NEW CONSULTATION/CASE" {{(old('nature_of_visit', $get_dnature) == 'NEW CONSULTATION/CASE')}}>NEW RECORD</option>
                       @if(auth()->user()->isSyndromicHospitalLevelAccess())
-                      <option value="FOLLOW-UP VISIT" {{(old('nature_of_visit', $get_dnature) == 'FOLLOW-UP VISIT')}}>OLD PATIENT</option>
+                      <option value="FOLLOW-UP VISIT" {{(old('nature_of_visit', $get_dnature) == 'FOLLOW-UP VISIT')}}>OLD RECORD</option>
                       @endif
                     @else
-                    <option value="FOLLOW-UP VISIT" {{(old('nature_of_visit', $get_dnature) == 'FOLLOW-UP VISIT')}}>OLD PATIENT</option>
+                    <option value="FOLLOW-UP VISIT" {{(old('nature_of_visit', $get_dnature) == 'FOLLOW-UP VISIT')}}>OLD RECORD</option>
                     @endif
                     <!--<option value="NEW ADMISSION" {{(old('nature_of_visit', $get_dnature) == 'NEW ADMISSION')}}>NEW ADMISSION</option>-->
                     <!--<option value="TELECONSULTATION" {{(old('nature_of_visit', $get_dnature) == 'TELECONSULTATION')}}>TELECONSULTATION</option>-->
