@@ -68,6 +68,7 @@ class QesSub extends Model
         'question5_souce',
         'question5_others',
         'question6',
+        'question6_where',
         'question6_source',
         'question7',
         'question7_others',

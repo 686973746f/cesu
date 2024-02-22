@@ -80,6 +80,7 @@ class CreateQesSubsTable extends Migration
             $table->string('question5_souce')->nullable();
             $table->text('question5_others')->nullable();
             $table->string('question6', 1)->default('N');
+            $table->string('question6_where')->nullable();
             $table->string('question6_source')->nullable();
             $table->string('question7')->nullable();
             $table->string('question7_others')->nullable();
