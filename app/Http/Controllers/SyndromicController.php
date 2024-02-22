@@ -389,6 +389,9 @@ class SyndromicController extends Controller
 
                 'isph_member' => ($request->isph_member == 'Y') ? 1 : 0,
                 'philhealth' => ($request->filled('philhealth')) ? $request->philhealth : NULL,
+
+                'occupation' => ($request->filled('occupation')) ? mb_strtoupper($request->occupation) : NULL,
+                'occupation_place' => ($request->filled('occupation') && request()->filled('occupation_place')) ? mb_strtoupper($request->occupation_place) : NULL,
     
                 'mother_name' => $request->mother_name,
                 'father_name' => $request->father_name,
@@ -1094,6 +1097,9 @@ class SyndromicController extends Controller
                 'isph_member' => ($request->isph_member == 'Y') ? 1 : 0,
                 'philhealth' => ($request->filled('philhealth')) ? $request->philhealth : NULL,
 
+                'occupation' => ($request->filled('occupation')) ? mb_strtoupper($request->occupation) : NULL,
+                'occupation_place' => ($request->filled('occupation') && request()->filled('occupation_place')) ? mb_strtoupper($request->occupation_place) : NULL,
+
                 'mother_name' => $request->mother_name,
                 'father_name' => $request->father_name,
 
@@ -1577,8 +1583,8 @@ class SyndromicController extends Controller
         $d->medcert_enabled = 1;
         $d->medcert_generated_date = $r->medcert_generated_date;
         $d->medcert_validity_date = $r->medcert_validity_date;
-        $d->outcome = 'RECOVERED';
-        $d->outcome_recovered_date = $r->medcert_validity_date;
+        //$d->outcome = 'RECOVERED';
+        //$d->outcome_recovered_date = $r->medcert_validity_date;
 
         if($r->filled('medcert_start_date') && $r->filled('medcert_end_date')) {
             $d->medcert_start_date = $r->medcert_start_date;
@@ -1599,8 +1605,8 @@ class SyndromicController extends Controller
             $d->medcert_enabled = 1;
             $d->medcert_generated_date = date('Y-m-d');
             $d->medcert_validity_date = date('Y-m-d');
-            $d->outcome = 'RECOVERED';
-            $d->outcome_recovered_date = date('Y-m-d');
+            //$d->outcome = 'RECOVERED';
+            //$d->outcome_recovered_date = date('Y-m-d');
 
             if($d->isDirty()) {
                 $d->save();

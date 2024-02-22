@@ -22,7 +22,7 @@
                   <a href="{{route('pharmacy_print_patient_card', $d->getPharmacyDetails()->id)}}" class="btn btn-primary">Print Pharmacy Card</a>
                   @endif
                   <a href="{{route('syndromic_downloadItr', $d->id)}}" class="btn btn-primary">Download ITR Form</a>
-                  @if($d->outcome != 'DIED' && auth()->user()->isStaffSyndromic())
+                  @if($d->outcome != 'DIED')
                   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#generateMedCert">Generate Medical Certificate</button>
                   @endif
                 </div>
@@ -1034,11 +1034,6 @@
               </div>
             </div>
           </div>
-          @if($d->outcome != 'RECOVERED')
-          <div class="alert alert-info" role="alert">
-            <b class="text-danger">Note:</b> Generating MedCert will mark the Patient as <b class="text-success">Recovered.</b>
-          </div>
-          @endif
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary btn-block">Generate</button>

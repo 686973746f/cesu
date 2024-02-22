@@ -140,6 +140,21 @@
                     </div>
                     <hr>
                     <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                              <label for="occupation">Occupation</label>
+                              <input type="text" class="form-control" name="occupation" id="occupation" value="{{old('occupation', $d->occupation)}}" style="text-transform: uppercase;">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="occupation_place">Place of Work/School</label>
+                                <input type="text" class="form-control" name="occupation_place" id="occupation_place" value="{{old('occupation_place', $d->occupation_place)}}" style="text-transform: uppercase;">
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                               <label for="mother_name">Mother's Name</label>

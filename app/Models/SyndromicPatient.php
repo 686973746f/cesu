@@ -27,6 +27,9 @@ class SyndromicPatient extends Model
         'isph_member',
         'philhealth',
 
+        'occupation',
+        'occupation_place',
+
         'spouse_name',
         'mother_name',
         'father_name',
