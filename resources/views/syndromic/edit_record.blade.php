@@ -178,7 +178,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="temperature"><span class="text-danger font-weight-bold">*</span>Temperature</label>
+                            <label for="temperature"><span class="text-danger font-weight-bold">*</span>Current Temperature</label>
                             <input type="number" step="0.1" pattern="\d+(\.\d{1})?" class="form-control" name="temperature" id="temperature" value="{{old('temperature', $d->temperature)}}" required>
                         </div>
                     </div>
@@ -1223,18 +1223,6 @@
     }
   }).trigger('change');
   @endif
-  
-  $('#temperature').change(function (e) { 
-    e.preventDefault();
-    if($(this).val() >= 38) {
-      $('#fever_yn').prop('checked', true).trigger('change');
-      $('#fever_yn').prop('disabled', true);
-    }
-    else {
-      $('#fever_yn').prop('checked', false).trigger('change');
-      $('#fever_yn').prop('disabled', false);
-    }
-  }).trigger('change');
 
   $('#diagnosis_type').change(function (e) { 
     e.preventDefault();
@@ -1291,20 +1279,6 @@
     } else {
       $('#ifotherdoctor').addClass('d-none');
       $('#other_doctor').prop('required', false);
-    }
-  }).trigger('change');
-
-  $('#fever_yn').change(function (e) { 
-    e.preventDefault();
-    if($(this).prop('checked')) {
-      $('#fever_div').removeClass('d-none');
-      $('#temperature').attr('min', 38);
-      //$('#fever_remarks').prop('required', true);
-    }
-    else {
-      $('#fever_div').addClass('d-none');
-      $('#temperature').attr('min', 32);
-      //$('#fever_remarks').prop('required', false);
     }
   }).trigger('change');
 
