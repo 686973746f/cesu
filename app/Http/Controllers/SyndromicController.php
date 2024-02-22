@@ -130,6 +130,7 @@ class SyndromicController extends Controller
                     ]);
                 }
                 else {
+                    /*
                     if(!(request()->input('showVerified'))) {
                         $ll = SyndromicRecords::where('brgy_verified', 0)
                         ->where('facility_id', $facility_id)
@@ -142,6 +143,25 @@ class SyndromicController extends Controller
                         ->orderBy('created_at', 'DESC')
                         ->paginate(10);
                     }
+                    */
+
+                    if(request()->input('er_view')) {
+                        $hosp_identifier = 'ER';
+                    }
+                    else {
+                        $hosp_identifier = 'OPD';
+                    }
+
+                    if(request()->input('d')) {
+                        $sdate = request()->input('d');
+                    }
+                    else {
+                        $sdate = date('Y-m-d');
+                    }
+
+                    $ll = SyndromicRecords::where('hosp_identifier', $hosp_identifier)
+                    ->whereDate('created_at', $sdate)
+                    ->paginate(10);
     
                     return view('syndromic.home', [
                         'list' => $ll,
@@ -1583,6 +1603,7 @@ class SyndromicController extends Controller
         $d->medcert_enabled = 1;
         $d->medcert_generated_date = $r->medcert_generated_date;
         $d->medcert_validity_date = $r->medcert_validity_date;
+        $d->medcert_purpose = ($r->filled('medcert_purpose')) ? mb_strtoupper($r->medcert_purpose) : NULL;
         //$d->outcome = 'RECOVERED';
         //$d->outcome_recovered_date = $r->medcert_validity_date;
 

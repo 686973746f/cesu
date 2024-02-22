@@ -56,11 +56,29 @@
     </div>
     @endif
     
-    @if(auth()->user()->isStaffSyndromic() && request()->input('opd_view'))
+    @if(auth()->user()->isStaffSyndromic() && request()->input('opd_view') || auth()->user()->isSyndromicHospitalLevelAccess())
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <div><b>OPD List for {{(!(request()->input('d'))) ? date('F d, Y (D)') : date('F d, Y (D)', strtotime(request()->input('d')))}}</b> - Total: {{$list->total()}} <a href="{{route('syndromic_home')}}" class="btn btn-outline-secondary">Switch to BRGY View</a></div>
+                <div>
+                    <b>@if(request()->input('er_view'))
+                        ER
+                        @else
+                        OPD
+                        @endif - {{(!(request()->input('d'))) ? date('F d, Y (D)') : date('F d, Y (D)', strtotime(request()->input('d')))}}</b> - Total: {{$list->total()}}
+                    @if(auth()->user()->isSyndromicHospitalLevelAccess())
+                        @if(request()->input('er_view'))
+                        <a href="{{route('syndromic_home')}}" class="btn btn-success ml-2">Switch to OPD View</a>
+                        @else
+                        <a href="{{route('syndromic_home')}}?er_view=1" class="btn btn-success ml-2">Switch to ER View</a>
+                        @endif
+                    @else
+                    <a href="{{route('syndromic_home')}}" class="btn btn-outline-secondary ml-2">Switch to BRGY View</a>
+                    @endif
+                </div>
+                <div>
+                    Facility: {{auth()->user()->opdfacility->facility_name}}
+                </div>
             </div>
         </div>
         <div class="card-body">
@@ -78,25 +96,48 @@
                 <table class="table table-bordered table-striped">
                     <thead class="text-center thead-light">
                         <tr>
+                            @if(auth()->user()->isSyndromicHospitalLevelAccess())
+                            <th>No.</th>
+                            <th>Record (New/Old)</th>
+                            <th>Hospital Number</th>
+                            @else
                             <th>Line #</th>
                             <th>OPD No.</th>
-                            <th>Name</th>
+                            @endif
+                            
+                            <th>Full Name</th>
                             <th>Age/Sex</th>
-                            <th>Birthdate</th>
+                            <th>Date of Birth</th>
                             <th>Complete Address</th>
+                            @if(auth()->user()->isStaffSyndromic())
                             <th>Contact Number</th>
+                            @endif
                             <th>Chief Complaint</th>
                             <th>Diagnosis</th>
+                            @if(auth()->user()->isSyndromicHospitalLevelAccess())
+                            <th>Procedure Done</th>
+                            <th>Disposition</th>
+                            <th>Membership</th>
+                            @endif
                             <th>Attending Physician</th>
+                            @if(auth()->user()->isStaffSyndromic())
                             <th>List of Suspected Disease/s</th>
+                            @endif
                             <th>Encoded At / By</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($list as $ind => $i)
                         <tr>
+                            @if(auth()->user()->isSyndromicHospitalLevelAccess())
+                            <td class="text-center">{{$list->firstItem() + $ind}}</td>
+                            <td class="text-center">{{$i->getHospRecordTypeSv()}}</td>
+                            <td class="text-center">{{$i->syndromic_patient->unique_opdnumber}}</td>
+                            @else
                             <td class="text-center"><b>#{{$i->line_number}}</b></td>
                             <td class="text-center">{{$i->opdno}}</td>
+                            @endif
+
                             <td><b><a href="{{route('syndromic_viewRecord', $i->id)}}">{{$i->syndromic_patient->getName()}}</a></b></td>
                             <td class="text-center">{{$i->syndromic_patient->getAge()}} / {{substr($i->syndromic_patient->gender,0,1)}}</td>
                             <td class="text-center">{{date('m/d/Y', strtotime($i->syndromic_patient->bdate))}}</td>
@@ -104,11 +145,20 @@
                                 <small>{{$i->syndromic_patient->getStreetPurok()}}</small>
                                 <h6>{{$i->syndromic_patient->address_brgy_text}}</h6>
                             </td>
+                            @if(auth()->user()->isStaffSyndromic())
                             <td class="text-center">{{$i->syndromic_patient->getContactNumber()}}</td>
+                            @endif
                             <td class="text-center">{{$i->chief_complain}}</td>
                             <td class="text-center">{{$i->dcnote_assessment}}</td>
+                            @if(auth()->user()->isSyndromicHospitalLevelAccess())
+                            <td class="text-center">{{$i->procedure_done}}</td>
+                            <td class="text-center">{{$i->disposition}}</td>
+                            <td class="text-center">{{$i->syndromic_patient->getMembership()}}</td>
+                            @endif
                             <td class="text-center">{{$i->name_of_physician}}</td>
+                            @if(auth()->user()->isStaffSyndromic())
                             <td class="text-center">{{$i->getListOfSuspDiseases()}}</td>
+                            @endif
                             <td class="text-center"><small>{{date('m/d/Y h:i A', strtotime($i->created_at))}} / {{$i->user->name}}</small></td>
                         </tr>
                         @endforeach

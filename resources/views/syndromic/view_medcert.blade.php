@@ -53,16 +53,16 @@
                     <img src="{{asset('assets/images/CHO_LETTERHEAD.png')}}" class="img-fluid" style="margin-top: 0px;">
                 </div>
                 @elseif($d->facility_id == 10525)
-                <div class="row text-center">
-                    <div class="col-4">
+                <div class="d-flex justify-content-between text-center">
+                    <div>
                         <img src="{{asset('assets/images/medicare_logo.png')}}" alt="" style="width: 8rem;">
                     </div>
-                    <div class="col-4">
+                    <div>
                         <h4><b>CITY OF GENERAL TRIAS MEDICARE HOSPITAL</b></h4>
                         <h5>Gen. Trias City, Cavite</h5>
                         <h5>Tel. No. (046) 509-0064</h5>
                     </div>
-                    <div class="col-4">
+                    <div>
                         <img src="{{asset('assets/images/gentri_icon_large.png')}}" alt="" style="width: 8rem;">
                     </div>
                 </div>
@@ -72,7 +72,7 @@
 
                 <p style="font-size: 25px;" class="text-center mb-3"><b>MEDICAL CERTIFICATE</b></p>
                 <div class="text-right mb-3">
-                    <h5>Date: <u>{{date('F d,Y', strtotime($d->medcert_generated_date))}}</u></h5>
+                    <h5>Date: <u>{{date('M. d,Y', strtotime($d->medcert_generated_date))}}</u></h5>
                 </div>
 
                 @if($d->facility_id == 10886)
@@ -105,43 +105,49 @@
                     </div>
                 </div>
                 @elseif($d->facility_id == 10525)
-                <ul class="list-inline h5">
-                    <li class="list-inline-item">Name: <u>{{$d->syndromic_patient->getName()}}</u></li>
-                    <li class="list-inline-item">Age: <u>{{$d->syndromic_patient->getAge()}}</u></li>
-                    <li class="list-inline-item">Sex: <u>{{$d->syndromic_patient->sg()}}</u></li>
-                    <li class="list-inline-item">Civil Status: <u>{{$d->syndromic_patient->cs}}</u></li>
-                </ul>
-                <ul class="list-inline h5">
-                    <li class="list-inline-item">Address: <u>{{$d->syndromic_patient->getFullAddress()}}</u></li>
-                    <li class="list-inline-item">Occupation</li>
-                </ul>
-                <ul class="list-inline h5">
-                    <li class="list-inline-item">Was seen examined / confined on</li>
-                    <li class="list-inline-item"></li>
-                    <li class="list-inline-item">to</li>
-                    <li class="list-inline-item"></li>
-                </ul>
-                <div class="row">
-                    <div class="col-2">
-                        <h5>DIAGNOSIS:</h5>
+                <div class="d-flex justify-content-between h5">
+                    <div>
+                        Name: <u><b>{{$d->syndromic_patient->getName()}}</b></u>
                     </div>
-                    <div class="col-10">
+                    <div>
+                        Age: <u>{{$d->age_years}}</u>
+                    </div>
+                    <div>
+                        Sex: <u>{{$d->syndromic_patient->sg()}}</u>
+                    </div>
+                    <div>
+                        Civil Status: <u>{{$d->syndromic_patient->cs}}</u>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-2">
-                        <h5>TREATMENT:</h5>
-                    </div>
-                    <div class="col-10">
-                    
+                <div class="d-flex justify-content-between h5">
+                    <div>Address: <u>{{$d->syndromic_patient->getFullAddress()}}</u></div>
+                    <div>Occupation: <u>{{(!is_null($d->syndromic_patient->occupation)) ? $d->syndromic_patient->occupation : 'N/A'}}</u></div>
+                </div>
+                <div class="d-flex justify-content-between h5">
+                    <div>Was seen examined / confined on</div>
+                    <div><u>{{$d->getHospMedCertStartDate()}}</u></div>
+                    <div>to</div>
+                    <div><u>{{$d->getHospMedCertEndDate()}}</u></div>
+                </div>
+                <div class="d-flex justify-content-between h5">
+                    <div>DIAGNOSIS:</div>
+                    <div>
+                        <h5>______________________________________________________________________</h5>
+                        <h5>______________________________________________________________________</h5>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-2">
-                        <h5>REMARKS:</h5>
+                <div class="d-flex justify-content-between h5">
+                    <div>TREATMENT:</div>
+                    <div>
+                        <h5>______________________________________________________________________</h5>
+                        <h5>______________________________________________________________________</h5>
                     </div>
-                    <div class="col-10">
-                    
+                </div>
+                <div class="d-flex justify-content-between h5">
+                    <div>REMARKS:</div>
+                    <div>
+                        <h5>______________________________________________________________________</h5>
+                        <h5>______________________________________________________________________</h5>
                     </div>
                 </div>
 
@@ -150,6 +156,7 @@
                     <div class="col-6 text-center">
                         <div>{!! QrCode::size(100)->generate(route('medcert_online_verify', $d->qr)) !!}</div>
                         <div>SCAN TO VERIFY MEDCERT</div>
+                        <div><h6>(Not valid without seal)</h6></div>
                     </div>
                     <div class="col-6 text-center">
                         <h5 style="margin-bottom: 0px;" class="mt-5"><b><u>{{$d->name_of_physician}}</u></b></h5>                                
@@ -161,8 +168,8 @@
                 
                 @endif
 
-                <h4 class="text-center mt-3"><b><span class="text-primary">Let's Join Forces</span> <span class="text-success">For a Healthier</span> <span class="text-success">Gen</span><span class="text-primary">Tri</span></b></h4>
                 @if($d->facility_id == 10886)
+                <h4 class="text-center mt-3"><b><span class="text-primary">Let's Join Forces</span> <span class="text-success">For a Healthier</span> <span class="text-success">Gen</span><span class="text-primary">Tri</span></b></h4>
                 <div class="text-center">
                     <hr>
                     <h6><b>Office of the City Health Officer</b></h6>

@@ -180,6 +180,7 @@ class CreateSyndromicRecordsTable extends Migration
             $table->date('medcert_validity_date')->nullable();
             $table->date('medcert_start_date')->nullable();
             $table->date('medcert_end_date')->nullable();
+            $table->string('medcert_purpose')->nullable();
 
             $table->text('document_file')->nullable();
             $table->text('qr');

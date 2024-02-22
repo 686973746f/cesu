@@ -182,6 +182,7 @@ class SyndromicRecords extends Model
         'medcert_validity_date',
         'medcert_start_date',
         'medcert_end_date',
+        'medcert_purpose',
 
         'is_listed_notifiable',
         'email_notified',
@@ -654,6 +655,43 @@ class SyndromicRecords extends Model
         }
         else {
             return '____________________';
+        }
+    }
+
+    public function getHospRecordTypeSv() {
+        if($this->nature_of_visit == 'NEW CONSULTATION/CASE') {
+            return 'N';
+        }
+        else {
+            return 'O';
+        }
+    }
+
+    public function getHospMedCertStartDate() {
+        if(!is_null($this->medcert_start_date)) {
+            return date('m/d/Y', strtotime($this->medcert_start_date));
+        }
+        else {
+            return date('m/d/Y', strtotime($this->consultation_date));
+        }
+    }
+
+    public function getHospMedCertEndDate() {
+        if(!is_null($this->medcert_start_date)) {
+            return date('m/d/Y', strtotime($this->medcert_start_date));
+        }
+        else {
+            if($this->disposition == 'ADMITTED') {
+                if($this->is_discharged == 'Y') {
+                    return date('m/d/Y', strtotime($this->date_discharged));
+                }
+                else {
+                    return date('m/d/Y');
+                }
+            }
+            else {
+                return date('m/d/Y');
+            }
         }
     }
 

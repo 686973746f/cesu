@@ -115,6 +115,15 @@ class SyndromicPatient extends Model
         return substr($this->gender, 0,1);
     }
 
+    public function getMembership() {
+        if($this->isph_member == 1) {
+            return 'NH';
+        }
+        else {
+            return 'NN';
+        }
+    }
+
     public function getContactNumber() {
         if(!is_null($this->contact_number) || !is_null($this->contact_number2)) {
             $txt = $this->contact_number;

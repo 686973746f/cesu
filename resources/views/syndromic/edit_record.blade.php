@@ -1034,6 +1034,10 @@
               </div>
             </div>
           </div>
+          <div class="form-group">
+            <label for="medcert_purpose">Purpose (Issued upon request of)</label>
+            <input type="text" class="form-control" name="medcert_purpose" id="medcert_purpose">
+          </div>
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary btn-block">Generate</button>

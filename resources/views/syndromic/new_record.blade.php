@@ -68,6 +68,9 @@
                   <select class="form-control" name="nature_of_visit" id="nature_of_visit" required>
                     @if($new_patient)
                     <option value="NEW CONSULTATION/CASE" {{(old('nature_of_visit', $get_dnature) == 'NEW CONSULTATION/CASE')}}>NEW PATIENT</option>
+                      @if(auth()->user()->isSyndromicHospitalLevelAccess())
+                      <option value="FOLLOW-UP VISIT" {{(old('nature_of_visit', $get_dnature) == 'FOLLOW-UP VISIT')}}>OLD PATIENT</option>
+                      @endif
                     @else
                     <option value="FOLLOW-UP VISIT" {{(old('nature_of_visit', $get_dnature) == 'FOLLOW-UP VISIT')}}>OLD PATIENT</option>
                     @endif
