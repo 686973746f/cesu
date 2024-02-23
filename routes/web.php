@@ -54,6 +54,7 @@ use App\Http\Controllers\PregnancyTrackingController;
 use App\Http\Controllers\QesController;
 use App\Http\Controllers\SecondaryTertiaryRecordsController;
 use App\Http\Controllers\SubdivisionController;
+use App\Http\Controllers\SyndromicAdminController;
 use App\Http\Controllers\SyndromicController;
 use App\Http\Controllers\VaxcertController;
 
@@ -401,9 +402,12 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessS
     Route::get('/syndromic/hospital/monthly_summary', [SyndromicController::class, 'hospSummaryReport'])->name('opd_hospital_monthlysummary');
 });
 
-Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel3']], function() {
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isGlobalAdmin']], function() {
     //SYNDROMIC ADMIN
-    
+    Route::get('/syndromic/admin/doctors', [SyndromicAdminController::class, 'doctors_index'])->name('syndromic_admin_doctors_index');
+    Route::post('/syndromic/admin/doctors/store', [SyndromicAdminController::class, 'doctors_store'])->name('syndromic_admin_doctors_store');
+    Route::get('/syndromic/admin/doctors/{id}/edit', [SyndromicAdminController::class, 'doctors_edit'])->name('syndromic_admin_doctors_edit');
+    Route::post('/syndromic/admin/doctors/{id}/update', [SyndromicAdminController::class, 'doctors_update'])->name('syndromic_admin_doctors_update');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel3']], function() {

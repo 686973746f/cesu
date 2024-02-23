@@ -81,5 +81,6 @@ class Kernel extends HttpKernel
         'canAccessFwri' => \App\Http\Middleware\canAccessFwri::class,
         'canAccessPregnancyTracking' => \App\Http\Middleware\canAccessPregnancyTracking::class,
         'canAccessQes' => \App\Http\Middleware\canAccessQes::class,
+        'isGlobalAdmin' => \App\Http\Middleware\isGlobalAdmin::class,
     ];
 }

@@ -356,7 +356,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                
+                <a href="{{route('syndromic_admin_doctors_index')}}" class="btn btn-primary btn-block">Doctors</a>
             </div>
         </div>
     </div>
