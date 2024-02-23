@@ -1287,6 +1287,10 @@ class SyndromicController extends Controller
     public function updateRecord($record_id, Request $r) {
         $d = SyndromicRecords::findOrFail($record_id);
 
+        if(!($d->hasPermissionToUpdate())) {
+            return abort(401);
+        }
+
         $perm_list = explode(",", auth()->user()->permission_list);
         
         if($r->submit == 'update') {

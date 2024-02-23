@@ -402,6 +402,11 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessS
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel3']], function() {
+    //SYNDROMIC ADMIN
+    
+});
+
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel3']], function() {
     //Facility Account Middleware
     Route::get('facility/home', [FacilityController::class, 'index'])->name('facility.home');
     Route::get('facility/{id}/viewPatient', [FacilityController::class, 'viewPatient'])->name('facility.viewdischarge');
