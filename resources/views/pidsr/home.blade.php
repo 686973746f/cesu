@@ -31,6 +31,13 @@
                     <a href="{{route('pidsr_forvalidation_index')}}?year={{date('Y')}}" class="btn btn-primary btn-block">For Validation @if($forverification_count != 0)<span class="badge badge-danger ml-1">{{number_format($forverification_count)}}</span>@endif</a>
                     <!--<button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#thresh">Threshold Count</button>-->
                     <hr>
+                    @if(auth()->user()->canAccessQes())
+                    <a href="{{route('qes_home')}}" class="btn btn-block btn-primary">QES for Diarrhea Cases Module</a>
+                    @endif
+                    @if(auth()->user()->canAccessFwri())
+                    <a href="{{route('fwri_home')}}" class="btn btn-block btn-primary">Fireworks-Related Injury (FWRI)</a>
+                    <hr>
+                    @endif
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#report">Report</button>
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#snax">sNaX v2</button>
                     <hr>

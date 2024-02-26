@@ -107,10 +107,10 @@ class QesController extends Controller
             'volumeofstool' => ($r->has_symptoms == 'Y') ? $r->volumeofstool : NULL,
             'quantify' => ($r->has_symptoms == 'Y') ? $r->quantify : NULL,
 
-            'other_affected_names',
-            'other_affected_ages',
-            'other_affected_sex',
-            'other_affected_donset',
+            //'other_affected_names',
+            //'other_affected_ages',
+            //'other_affected_sex',
+            //'other_affected_donset',
 
             'question1' => $r->question1,
             'question2' => $r->question2,
@@ -129,15 +129,17 @@ class QesController extends Controller
             'question10' => ($r->filled('question10')) ? mb_strtoupper($r->question10) : NULL,
             'question11' => $r->question11,
             'question12' => ($r->question11 == 'Y') ? $r->question12 : NULL,
-            'am_snacks_names',
-            'am_snacks_datetime',
-            'lunch_names',
-            'lunch_datetime',
-            'pm_snacks_names',
-            'pm_snacks_datetime',
-            'dinner_names',
-            'dinner_datetime',
-            'remarks',
+
+            'am_snacks_names' => implode(",", $r->am_snacks_names),
+            'am_snacks_datetime' => implode(",", $r->am_snacks_datetime),
+            'lunch_names' => implode(",", $r->lunch_names),
+            'lunch_datetime' => implode(",", $r->lunch_datetime),
+            'pm_snacks_names' => implode(",", $r->pm_snacks_names),
+            'pm_snacks_datetime' => implode(",", $r->pm_snacks_datetime),
+            'dinner_names' => implode(",", $r->dinner_names),
+            'dinner_datetime' => implode(",", $r->dinner_datetime),
+            
+            'remarks' => ($r->filled('remarks')) ? mb_strtoupper($r->remarks) : NULL,
         ]);
     }
 

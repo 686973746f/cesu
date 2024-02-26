@@ -211,104 +211,104 @@
                             <label for="lbm_3xday"><b class="text-danger">*</b>LBM > 3x/day</label>
                             <select class="form-control" name="lbm_3xday" id="lbm_3xday" required>
                               <option value="" disabled {{(is_null(old('lbm_3xday'))) ? 'selected' : ''}}>Choose...</option>
-                              <option value="N" {{(old('lbm_3xday') == 'N') ? 'selected' : ''}}>No</option>
                               <option value="Y" {{(old('lbm_3xday') == 'Y') ? 'selected' : ''}}>Yes</option>
+                              <option value="N" {{(old('lbm_3xday') == 'N') ? 'selected' : ''}}>No</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="fever"><b class="text-danger">*</b>Fever</label>
                             <select class="form-control" name="fever" id="fever" required>
                               <option value="" disabled {{(is_null(old('fever'))) ? 'selected' : ''}}>Choose...</option>
-                              <option value="N" {{(old('fever') == 'N') ? 'selected' : ''}}>No</option>
                               <option value="Y" {{(old('fever') == 'Y') ? 'selected' : ''}}>Yes</option>
+                              <option value="N" {{(old('fever') == 'N') ? 'selected' : ''}}>No</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="nausea"><b class="text-danger">*</b>Nausea</label>
                             <select class="form-control" name="nausea" id="nausea" required>
                               <option value="" disabled {{(is_null(old('nausea'))) ? 'selected' : ''}}>Choose...</option>
-                              <option value="N" {{(old('nausea') == 'N') ? 'selected' : ''}}>No</option>
                               <option value="Y" {{(old('nausea') == 'Y') ? 'selected' : ''}}>Yes</option>
+                              <option value="N" {{(old('nausea') == 'N') ? 'selected' : ''}}>No</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="vomiting"><b class="text-danger">*</b>Vomiting</label>
                             <select class="form-control" name="vomiting" id="vomiting" required>
                               <option value="" disabled {{(is_null(old('vomiting'))) ? 'selected' : ''}}>Choose...</option>
-                              <option value="N" {{(old('vomiting') == 'N') ? 'selected' : ''}}>No</option>
                               <option value="Y" {{(old('vomiting') == 'Y') ? 'selected' : ''}}>Yes</option>
+                              <option value="N" {{(old('vomiting') == 'N') ? 'selected' : ''}}>No</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="bodyweakness"><b class="text-danger">*</b>Body Weakness</label>
                             <select class="form-control" name="bodyweakness" id="bodyweakness" required>
                               <option value="" disabled {{(is_null(old('bodyweakness'))) ? 'selected' : ''}}>Choose...</option>
-                              <option value="N" {{(old('bodyweakness') == 'N') ? 'selected' : ''}}>No</option>
                               <option value="Y" {{(old('bodyweakness') == 'Y') ? 'selected' : ''}}>Yes</option>
+                              <option value="N" {{(old('bodyweakness') == 'N') ? 'selected' : ''}}>No</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="abdominalcramps"><b class="text-danger">*</b>Abdominal Cramps</label>
                             <select class="form-control" name="abdominalcramps" id="abdominalcramps" required>
                               <option value="" disabled {{(is_null(old('abdominalcramps'))) ? 'selected' : ''}}>Choose...</option>
-                              <option value="N" {{(old('abdominalcramps') == 'N') ? 'selected' : ''}}>No</option>
                               <option value="Y" {{(old('abdominalcramps') == 'Y') ? 'selected' : ''}}>Yes</option>
+                              <option value="N" {{(old('abdominalcramps') == 'N') ? 'selected' : ''}}>No</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="rectalpain"><b class="text-danger">*</b>Rectal Pain</label>
                             <select class="form-control" name="rectalpain" id="rectalpain" required>
                               <option value="" disabled {{(is_null(old('rectalpain'))) ? 'selected' : ''}}>Choose...</option>
-                              <option value="N" {{(old('rectalpain') == 'N') ? 'selected' : ''}}>No</option>
                               <option value="Y" {{(old('rectalpain') == 'Y') ? 'selected' : ''}}>Yes</option>
+                              <option value="N" {{(old('rectalpain') == 'N') ? 'selected' : ''}}>No</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="tenesmus"><b class="text-danger">*</b>Tenesmus <i>(A frequent urge to go to the bathroom without being able to go)</i></label>
                             <select class="form-control" name="tenesmus" id="tenesmus" required>
                               <option value="" disabled {{(is_null(old('tenesmus'))) ? 'selected' : ''}}>Choose...</option>
-                              <option value="N" {{(old('tenesmus') == 'N') ? 'selected' : ''}}>No</option>
                               <option value="Y" {{(old('tenesmus') == 'Y') ? 'selected' : ''}}>Yes</option>
+                              <option value="N" {{(old('tenesmus') == 'N') ? 'selected' : ''}}>No</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="bloodystool"><b class="text-danger">*</b>Bloody Stool</label>
                             <select class="form-control" name="bloodystool" id="bloodystool" required>
                               <option value="" disabled {{(is_null(old('bloodystool'))) ? 'selected' : ''}}>Choose...</option>
-                              <option value="N" {{(old('bloodystool') == 'N') ? 'selected' : ''}}>No</option>
                               <option value="Y" {{(old('bloodystool') == 'Y') ? 'selected' : ''}}>Yes</option>
+                              <option value="N" {{(old('bloodystool') == 'N') ? 'selected' : ''}}>No</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="brownish"><b class="text-danger">*</b>Brownish</label>
                             <select class="form-control" name="brownish" id="brownish" required>
                               <option value="" disabled {{(is_null(old('brownish'))) ? 'selected' : ''}}>Choose...</option>
-                              <option value="N" {{(old('brownish') == 'N') ? 'selected' : ''}}>No</option>
                               <option value="Y" {{(old('brownish') == 'Y') ? 'selected' : ''}}>Yes</option>
+                              <option value="N" {{(old('brownish') == 'N') ? 'selected' : ''}}>No</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="yellowish"><b class="text-danger">*</b>Yellowish</label>
                             <select class="form-control" name="yellowish" id="yellowish" required>
                               <option value="" disabled {{(is_null(old('brownish'))) ? 'selected' : ''}}>Choose...</option>
-                              <option value="N" {{(old('yellowish') == 'N') ? 'selected' : ''}}>No</option>
                               <option value="Y" {{(old('yellowish') == 'Y') ? 'selected' : ''}}>Yes</option>
+                              <option value="N" {{(old('yellowish') == 'N') ? 'selected' : ''}}>No</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="greenish"><b class="text-danger">*</b>Greenish</label>
                             <select class="form-control" name="greenish" id="greenish" required>
                               <option value="" disabled {{(is_null(old('greenish'))) ? 'selected' : ''}}>Choose...</option>
-                              <option value="N" {{(old('greenish') == 'N') ? 'selected' : ''}}>No</option>
                               <option value="Y" {{(old('greenish') == 'Y') ? 'selected' : ''}}>Yes</option>
+                              <option value="N" {{(old('greenish') == 'N') ? 'selected' : ''}}>No</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="others"><b class="text-danger">*</b>Others</label>
                             <select class="form-control" name="others" id="others" required>
                               <option value="" disabled {{(is_null(old('others'))) ? 'selected' : ''}}>Choose...</option>
-                              <option value="N" {{(old('others') == 'N') ? 'selected' : ''}}>No</option>
                               <option value="Y" {{(old('others') == 'Y') ? 'selected' : ''}}>Yes</option>
+                              <option value="N" {{(old('others') == 'N') ? 'selected' : ''}}>No</option>
                             </select>
                         </div>
                         <div id="other_stool_div" class="d-none">
@@ -336,40 +336,40 @@
                         <label for="question1"><b class="text-danger">*</b>1. Before the LBM arises, do you boil your drinking water?</label>
                         <select class="form-control" name="question1" id="question1" required>
                           <option value="" disabled {{(is_null(old('question1'))) ? 'selected' : ''}}>Choose...</option>
-                          <option value="N" {{(old('question1') == 'N') ? 'selected' : ''}}>No</option>
                           <option value="Y" {{(old('question1') == 'Y') ? 'selected' : ''}}>Yes</option>
+                          <option value="N" {{(old('question1') == 'N') ? 'selected' : ''}}>No</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="question2"><b class="text-danger">*</b>2. Do you use chlorine in your drinking water?</label>
                         <select class="form-control" name="question2" id="question2" required>
                           <option value="" disabled {{(is_null(old('question2'))) ? 'selected' : ''}}>Choose...</option>
-                          <option value="N" {{(old('question2') == 'N') ? 'selected' : ''}}>No</option>
                           <option value="Y" {{(old('question2') == 'Y') ? 'selected' : ''}}>Yes</option>
+                          <option value="N" {{(old('question2') == 'N') ? 'selected' : ''}}>No</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="question3"><b class="text-danger">*</b>3. Do you wash your hands before eating?</label>
                         <select class="form-control" name="question3" id="question3" required>
                           <option value="" disabled {{(is_null(old('question3'))) ? 'selected' : ''}}>Choose...</option>
-                          <option value="N" {{(old('question3') == 'N') ? 'selected' : ''}}>No</option>
                           <option value="Y" {{(old('question3') == 'Y') ? 'selected' : ''}}>Yes</option>
+                          <option value="N" {{(old('question3') == 'N') ? 'selected' : ''}}>No</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="question4"><b class="text-danger">*</b>4. Do you wash your hands after using the toilet?</label>
                         <select class="form-control" name="question4" id="question4" required>
                           <option value="" disabled {{(is_null(old('question4'))) ? 'selected' : ''}}>Choose...</option>
-                          <option value="N" {{(old('question4') == 'N') ? 'selected' : ''}}>No</option>
                           <option value="Y" {{(old('question4') == 'Y') ? 'selected' : ''}}>Yes</option>
+                          <option value="N" {{(old('question4') == 'N') ? 'selected' : ''}}>No</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="question5"><b class="text-danger">*</b>5. Do you have your own toilet?</label>
                         <select class="form-control" name="question5" id="question5" required>
                           <option value="" disabled {{(is_null(old('question5'))) ? 'selected' : ''}}>Choose...</option>
-                          <option value="N" {{(old('question5') == 'N') ? 'selected' : ''}}>No</option>
                           <option value="Y" {{(old('question5') == 'Y') ? 'selected' : ''}}>Yes</option>
+                          <option value="N" {{(old('question5') == 'N') ? 'selected' : ''}}>No</option>
                         </select>
                     </div>
                     <div id="q5_div" class="d-none">
@@ -393,8 +393,8 @@
                         <label for="question6"><b class="text-danger">*</b>6. Do you use ice?</label>
                         <select class="form-control" name="question6" id="question6" required>
                           <option value="" disabled {{(is_null(old('question6'))) ? 'selected' : ''}}>Choose...</option>
-                          <option value="N" {{(old('question6') == 'N') ? 'selected' : ''}}>No</option>
                           <option value="Y" {{(old('question6') == 'Y') ? 'selected' : ''}}>Yes</option>
+                          <option value="N" {{(old('question6') == 'N') ? 'selected' : ''}}>No</option>
                         </select>
                     </div>
                     <div id="question6_div" class="d-none">
@@ -441,8 +441,8 @@
                         <label for="question9"><b class="text-danger">*</b>9. Do you attend a party prior to the occurrence of diarrhea?</label>
                         <select class="form-control" name="question9" id="question9" required>
                           <option value="" disabled {{(is_null(old('question9'))) ? 'selected' : ''}}>Choose...</option>
-                          <option value="N" {{(old('question9') == 'N') ? 'selected' : ''}}>No</option>
                           <option value="Y" {{(old('question9') == 'Y') ? 'selected' : ''}}>Yes</option>
+                          <option value="N" {{(old('question9') == 'N') ? 'selected' : ''}}>No</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -453,8 +453,8 @@
                         <label for="question11"><b class="text-danger">*</b>11. Are you a watcher of patient that was confined in the hospital due to diarrhea?</label>
                         <select class="form-control" name="question11" id="question11" required>
                           <option value="" disabled {{(is_null(old('question11'))) ? 'selected' : ''}}>Choose...</option>
-                          <option value="N" {{(old('question11') == 'N') ? 'selected' : ''}}>No</option>
                           <option value="Y" {{(old('question11') == 'Y') ? 'selected' : ''}}>Yes</option>
+                          <option value="N" {{(old('question11') == 'N') ? 'selected' : ''}}>No</option>
                         </select>
                     </div>
                     <div id="question11_div" class="d-none">
@@ -462,8 +462,8 @@
                             <label for="question12"><b class="text-danger">*</b>12. If yes, do you develop diarrhea?</label>
                             <select class="form-control" name="question12" id="question12">
                               <option value="" disabled {{(is_null(old('question12'))) ? 'selected' : ''}}>Choose...</option>
-                              <option value="N" {{(old('question12') == 'N') ? 'selected' : ''}}>No</option>
                               <option value="Y" {{(old('question12') == 'Y') ? 'selected' : ''}}>Yes</option>
+                              <option value="N" {{(old('question12') == 'N') ? 'selected' : ''}}>No</option>
                             </select>
                         </div>
                     </div>
@@ -471,22 +471,25 @@
                         <div class="card-header"><b>AM Snack/s</b></div>
                         <div class="card-body">
                             <div id="duplica_am">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                          <label for="">AM Snack Name</label>
-                                          <input type="text"class="form-control" name="am_snacks_names[]" id="am_snacks_names" style="text-transform: uppercase;">
+                                <div class="mgClone">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                              <label for="">AM Snack Name</label>
+                                              <input type="text" class="form-control am_snacks_names" name="am_snacks_names[]" id="am_snacks_names" style="text-transform: uppercase;">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="">Time</label>
-                                            <input type="time"class="form-control" name="am_snacks_datetime[]" id="am_snacks_datetime" style="text-transform: uppercase;">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="">Time</label>
+                                                <input type="time" class="form-control am_snacks_datetime" name="am_snacks_datetime[]" id="am_snacks_datetime">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            
+                        </div>
+                        <div class="card-footer">
                             <button type="button" class="btn btn-success btn-block" id="cloneBtn_am">Add AM Snack</button>
                         </div>
                     </div>
@@ -494,23 +497,77 @@
                         <div class="card-header"><b>Lunch</b></div>
                         <div class="card-body">
                             <div id="duplica_lunch">
+                                <div class="mgClone">
+                                </div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                           <label for="">Name of the food</label>
-                                          <input type="text"class="form-control" name="lunch_names[]" id="lunch_names" style="text-transform: uppercase;">
+                                          <input type="text" class="form-control lunch_names" name="lunch_names[]" id="lunch_names" style="text-transform: uppercase;">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="">Time</label>
-                                            <input type="time"class="form-control" name="lunch_datetime[]" id="lunch_datetime" style="text-transform: uppercase;">
+                                            <input type="time" class="form-control lunch_datetime" name="lunch_datetime[]" id="lunch_datetime">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             
                             <button type="button" class="btn btn-success btn-block" id="cloneBtn_lunch">Add Lunch</button>
+                        </div>
+                    </div>
+                    <div class="card mt-3">
+                        <div class="card-header"><b>PM Snack/s</b></div>
+                        <div class="card-body">
+                            <div id="duplica_pm">
+                                <div class="mgClone">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                              <label for="">PM Snack Name</label>
+                                              <input type="text" class="form-control pm_snacks_names" name="pm_snacks_names[]" id="pm_snacks_names" style="text-transform: uppercase;">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="">Time</label>
+                                                <input type="time" class="form-control pm_snacks_datetime" name="pm_snacks_datetime[]" id="pm_snacks_datetime">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="button" class="btn btn-success btn-block" id="cloneBtn_pm">Add PM Snack</button>
+                        </div>
+                    </div>
+                    <div class="card mt-3">
+                        <div class="card-header"><b>Dinner</b></div>
+                        <div class="card-body">
+                            <div id="duplica_dinner">
+                                <div class="mgClone">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                              <label for="">Dinner</label>
+                                              <input type="text" class="form-control dinner_names" name="dinner_names[]" id="dinner_names" style="text-transform: uppercase;">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="">Time</label>
+                                                <input type="time" class="form-control dinner_datetime" name="dinner_datetime[]" id="dinner_datetime">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="button" class="btn btn-success btn-block" id="cloneBtn_dinner">Add Dinner</button>
                         </div>
                     </div>
                 </div>
@@ -526,12 +583,47 @@
     $(document).ready(function(){
         $('#cloneBtn_am').click(function(){
             var clone = $('#duplica_am').clone();
+            clone.attr('id', ''); // Remove the ID attribute to prevent duplication
+            clone.find('.mgClone').addClass('mt-3');
+            clone.find('.am_snacks_names').val(''); // Clear input values
+            clone.find('.am_snacks_datetime').val(''); // Clear input values
+            clone.append('<button type="button" class="btn btn-danger btn-block deleteBtn">Delete</button>'); // Add delete button
             $('#duplica_am').after(clone);
         });
 
         $('#cloneBtn_lunch').click(function(){
             var clone = $('#duplica_lunch').clone();
+            clone.attr('id', ''); // Remove the ID attribute to prevent duplication
+            clone.find('.mgClone').addClass('mt-3');
+            clone.find('.lunch_names').val(''); // Clear input values
+            clone.find('.lunch_names_datetime').val(''); // Clear input values
+            clone.append('<button type="button" class="btn btn-danger btn-block deleteBtn">Delete</button>'); // Add delete button
             $('#duplica_lunch').after(clone);
+        });
+
+        $('#cloneBtn_pm').click(function(){
+            var clone = $('#duplica_pm').clone();
+            clone.attr('id', ''); // Remove the ID attribute to prevent duplication
+            clone.find('.mgClone').addClass('mt-3');
+            clone.find('.pm_snacks_names').val(''); // Clear input values
+            clone.find('.pm_snacks_datetime').val(''); // Clear input values
+            clone.append('<button type="button" class="btn btn-danger btn-block deleteBtn">Delete</button>'); // Add delete button
+            $('#duplica_pm').after(clone);
+        });
+
+        $('#cloneBtn_dinner').click(function(){
+            var clone = $('#duplica_dinner').clone();
+            clone.attr('id', ''); // Remove the ID attribute to prevent duplication
+            clone.find('.mgClone').addClass('mt-3');
+            clone.find('.dinner_names').val(''); // Clear input values
+            clone.find('.dinner_datetime').val(''); // Clear input values
+            clone.append('<button type="button" class="btn btn-danger btn-block deleteBtn">Delete</button>'); // Add delete button
+            $('#duplica_dinner').after(clone);
+        });
+
+        $(document).on('click', '.deleteBtn', function(){
+            $(this).prev('.mgClone').remove(); // Remove the closest card-body element
+            $(this).remove();
         });
     });
 

@@ -23,19 +23,13 @@
             <a href="{{(auth()->user()->isStaffSyndromic()) ? route('syndromic_home', ['opd_view' => 1]) : route('syndromic_home')}}" class="btn btn-block btn-primary btn-lg">OPD System</a>
             @endif
             @if(auth()->user()->canAccessPidsr())
-            <a href="{{route('pidsr.home')}}" class="btn btn-block btn-primary btn-lg">PIDSR/EDCS</a>
+            <a href="{{route('pidsr.home')}}" class="btn btn-block btn-primary btn-lg">Integrated PIDSR/EDCS</a>
             @endif
             @if(auth()->user()->canAccessFhsis())
-            <a href="{{route('fhsis_home')}}" class="btn btn-block btn-primary btn-lg">Integrated Electronic Field Health Service Information System (eFHSIS)</a>
+            <a href="{{route('fhsis_home')}}" class="btn btn-block btn-primary btn-lg">Integrated eFHSIS</a>
             @endif
             @if(auth()->user()->canAccessPharmacy())
             <a href="{{route('pharmacy_home')}}" class="btn btn-block btn-primary btn-lg">Pharmacy Inventory System</a>
-            @endif
-            @if(auth()->user()->canAccessFwri())
-            <a href="{{route('fwri_home')}}" class="btn btn-block btn-primary btn-lg">Fireworks-Related Injury (FWRI)</a>
-            @endif
-            @if(auth()->user()->canAccessQes())
-            <a href="{{route('qes_home')}}" class="btn btn-block btn-primary btn-lg">QES Module</a>
             @endif
             @if(auth()->user()->canAccessPregnancyTracking())
             <a href="{{route('ptracking_index')}}" class="btn btn-block btn-primary btn-lg">Pregnancy Tracking</a>
