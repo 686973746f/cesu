@@ -475,9 +475,11 @@ class SyndromicRecords extends Model
             $list_arr[] = 'Acute Encephalitis';
         }
 
+        /*
         if($this->fever == 1 && $this->is_hospitalized == 1 && $this->bloody_stool == 1) {
             $list_arr[] = 'Acute Hemorrhagic Fever Syndrome';
         }
+        */
 
         if($this->jaundice == 1 && $this->fatigue == 1 && $this->weaknessofextremities == 1) {
             $list_arr[] = 'Acute Viral Hepatitis';
@@ -613,7 +615,9 @@ class SyndromicRecords extends Model
         if($this->fever == 1 && $this->cough == 1) {
             //$list_arr[] = 'COVID-19';
 
-            $list_arr[] = 'Influenza-like Illness (ILI)';
+            if(!(in_array('Influenza-like Illness (ILI)', $list_arr))) {
+                $list_arr[] = 'Influenza-like Illness (ILI)';
+            }
         }
         else {
             $covid_count = 0;
@@ -664,8 +668,9 @@ class SyndromicRecords extends Model
 
             if($covid_count >= 3) {
                 //$list_arr[] = 'COVID-19';
-
-                $list_arr[] = 'Influenza-like Illness (ILI)';
+                if(!(in_array('Influenza-like Illness (ILI)', $list_arr))) {
+                    $list_arr[] = 'Influenza-like Illness (ILI)';
+                }
             }
         }
 

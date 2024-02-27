@@ -5256,9 +5256,8 @@ class PIDSRController extends Controller
                 $endDateBasedOnMw = $mWeekCalendarDate->startOfWeek(Carbon::SUNDAY)->addDays(6)->format('M d, Y');  
                 */
             }
-            
 
-            return view('pidsr.snaxv2.index', [
+            $returnVars = [
                 'flavor_title' => $flavor_title,
                 'sel_disease' => $sel_disease,
                 'sel_year' => $sel_year,
@@ -5299,7 +5298,14 @@ class PIDSRController extends Controller
                 'mWeekCalendarDate' => $mWeekCalendarDate,
                 'startDateBasedOnMw' => $startDateBasedOnMw,
                 'endDateBasedOnMw' => $endDateBasedOnMw,
-            ]);
+            ];
+
+            if(request()->input('print')) {
+                return view('pidsr.snaxv2.index_print', $returnVars);
+            }
+            else {
+                return view('pidsr.snaxv2.index', $returnVars);
+            }
         }
         else {
             return abort(401);

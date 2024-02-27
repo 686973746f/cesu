@@ -6,7 +6,7 @@
         @if($d->getListOfSuspDiseases() != 'N/A')
         <li>
             <div><b>{{$d->syndromic_patient->getName()}}</b></div>
-            <div>Age/Gender: </div>
+            <div>Age/Sex: {{$d->syndromic_patient->getAgeInt()}}/{{$d->syndromic_patient->sg()}}</div>
             <div>Contact Number:{{$d->syndromic_patient->getContactNumber()}}</div>
             <div>Address: {{$d->syndromic_patient->getFullAddress()}}</div>
             <div>Symptoms: {{$d->listSymptoms()}}</div>
