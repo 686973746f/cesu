@@ -339,6 +339,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(MedicalEvent::class, 'created_by');
     }
 
+    public function getMedicalEvent() {
+        return $this->belongsTo(MedicalEvent::class, 'itr_medicalevent_id');
+    }
+
     //perms
     public function getPermissions() {
         return explode(",", $this->permission_list);

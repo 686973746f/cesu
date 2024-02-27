@@ -400,6 +400,10 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessS
 
     Route::get('/syndromic/hospital/daily_summary', [SyndromicController::class, 'hospDailyReport'])->name('opd_hospital_dailysummary');
     Route::get('/syndromic/hospital/monthly_summary', [SyndromicController::class, 'hospSummaryReport'])->name('opd_hospital_monthlysummary');
+
+    Route::post('/syndromic/medical_event/store', [SyndromicController::class, 'storeMedicalEvent'])->name('opd_medicalevent_store');
+    Route::post('/syndromic/medical_event/join', [SyndromicController::class, 'joinMedicalEvent'])->name('opd_medicalevent_join');
+    Route::post('/syndromic/medical_event/unjoin', [SyndromicController::class, 'unJoinMedicalEvent'])->name('opd_medicalevent_unjoin');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isGlobalAdmin']], function() {

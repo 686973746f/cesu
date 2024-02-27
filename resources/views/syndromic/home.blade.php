@@ -2,6 +2,12 @@
 
 @section('content')
 <div class="container-fluid">
+    @if(!is_null(auth()->user()->itr_medicalevent_id))
+    <div class="alert alert-info" role="alert">
+        <h5><b>Note: Medical Event Mode Enabled</b></h5>
+        <h6>All patient records that you will encode will automatically link itself on the Channel: {{}}</h6>
+    </div>
+    @endif
     <div class="text-right mb-3">
         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#additr">New Patient</button>
         <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#report">Report</button>
@@ -77,7 +83,17 @@
                     @endif
                 </div>
                 <div>
-                    Facility: {{auth()->user()->opdfacility->facility_name}}
+                    <h6>Facility: {{auth()->user()->opdfacility->facility_name}}</h6>
+                    <!-- Button trigger modal -->
+                    @if(is_null(auth()->user()->itr_medicalevent_id))
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#joinMedicalEvent">Join Medical Event</button>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#newMedicalEvent">New Medical Event</button>
+                    @else
+                        <form action="{{route('opd_medicalevent_unjoin')}}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#newMedicalEvent">Leave Medical Event</button>
+                        </form>
+                    @endif
                 </div>
             </div>
         </div>
@@ -390,10 +406,105 @@
 </div>
 @endif
 
+<form action="{{route('opd_medicalevent_join')}}" method="POST">
+    @csrf
+    <div class="modal fade" id="joinMedicalEvent" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Join Medical Event</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                      <label for="medical_event_id"><b class="text-danger">*</b>Select Medical Event Encoding Channel</label>
+                      <select class="form-control" name="medical_event_id" id="medical_event_id" required>
+                        <option value="" disabled {{(is_null(old('medical_event_id'))) ? 'selected' : ''}}>Choose...</option>
+                        @foreach($medical_event_list as $me)
+                        <option value="{{$me->id}}">{{$me->name}}</option>
+                        @endforeach
+                        
+                      </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-block">Join</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<form action="{{route('opd_medicalevent_store')}}" method="POST">
+    @csrf
+    <div class="modal fade" id="newMedicalEvent" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">New Medical Event</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                      <label for="name"><b class="text-danger">*</b>Event Name</label>
+                      <input type="text" class="form-control" name="name" id="name" placeholder="ex. Medical Mission on brgy X" style="text-transform: uppercase;" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <input type="text" class="form-control" name="description" id="description" style="text-transform: uppercase;">
+                    </div>
+                    <div class="form-group">
+                      <label for="oneDayEvent">One Day Event?</label>
+                      <select class="form-control" name="oneDayEvent" id="oneDayEvent" required>
+                        <option value="" disabled {{(is_null(old('oneDayEvent'))) ? 'selected' : ''}}>Choose...</option>
+                        <option value="Y">Yes</option>
+                        <option value="N">No</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="date_start"><b class="text-danger">*</b>Date Start</label>
+                        <input type="date" class="form-control" name="date_start" id="date_start" value="{{old('date_start', date('Y-m-d'))}}" max="{{date('Y-m-d')}}" required>
+                    </div>
+                    <div id="de_div" class="d-none">
+                        <div class="form-group">
+                            <label for="date_end"><b class="text-danger">*</b>Date End</label>
+                            <input type="date" class="form-control" name="date_end" id="date_end" min="{{date('Y-m-d')}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-block">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
 <script>
     @if(session('immediate_notifiable') == 1)
     $('#immediate_case').modal({backdrop: 'static', keyboard: false});
     $('#immediate_case').modal('show');
     @endif
+
+    $('#medical_event_id').select2({
+        theme: 'bootstrap',
+    });
+
+    $('#oneDayEvent').change(function (e) { 
+        e.preventDefault();
+        
+        if($(this).val() == 'Y') {
+            $('#date_end').prop('required', false);
+            $('#de_div').addClass('d-none');
+        }
+        else {
+            $('#date_end').prop('required', true);
+            $('#de_div').removeClass('d-none');
+        }
+    }).trigger('change');
 </script>
 @endsection

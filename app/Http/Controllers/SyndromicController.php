@@ -23,6 +23,7 @@ use App\Models\Influenza;
 use App\Models\Leptospirosis;
 use App\Models\Malaria;
 use App\Models\Measles;
+use App\Models\MedicalEvent;
 use App\Models\Meningitis;
 use App\Models\Meningo;
 use App\Models\Nnt;
@@ -59,6 +60,9 @@ class SyndromicController extends Controller
         }
         */
 
+        $medicalevent_list = MedicalEvent::where('status', 'ONGOING')
+        ->get();
+
         if(auth()->user()->isStaffSyndromic() && request()->input('opd_view')) {
             //STAFF ACCOUNT OPD VIEW
             if(request()->input('d')) {
@@ -74,9 +78,7 @@ class SyndromicController extends Controller
             ->where('facility_id', auth()->user()->itr_facility_id)
             ->paginate(10);
 
-            return view('syndromic.home', [
-                'list' => $ll,
-            ]);
+            $select_view = 'home';
         }
         else if(auth()->user()->isStaffSyndromic()) {
             //STAFF ACCOUNT BRGY VIEW
@@ -89,9 +91,7 @@ class SyndromicController extends Controller
                 })
                 ->paginate(10);
 
-                return view('syndromic.search_patient', [
-                    'list' => $ll,
-                ]);
+                $select_view = 'search';
             }
             else {
                 if(!(request()->input('showVerified'))) {
@@ -105,9 +105,7 @@ class SyndromicController extends Controller
                     ->paginate(10);
                 }
 
-                return view('syndromic.home', [
-                    'list' => $ll,
-                ]);
+                $select_view = 'home';
             }
         }
         else {
@@ -124,10 +122,8 @@ class SyndromicController extends Controller
                     })
                     ->where('facility_id', $facility_id)
                     ->paginate(10);
-                    
-                    return view('syndromic.search_patient', [
-                        'list' => $ll,
-                    ]);
+
+                    $select_view = 'search';
                 }
                 else {
                     /*
@@ -162,10 +158,8 @@ class SyndromicController extends Controller
                     $ll = SyndromicRecords::where('hosp_identifier', $hosp_identifier)
                     ->whereDate('created_at', $sdate)
                     ->paginate(10);
-    
-                    return view('syndromic.home', [
-                        'list' => $ll,
-                    ]);
+
+                    $select_view = 'home';
                 }
             }
             else {
@@ -181,10 +175,8 @@ class SyndromicController extends Controller
                     ->where('address_muncity_text', auth()->user()->brgy->city->cityName)
                     ->where('address_province_text', auth()->user()->brgy->city->province->provinceName)
                     ->paginate(10);
-                    
-                    return view('syndromic.search_patient', [
-                        'list' => $ll,
-                    ]);
+
+                    $select_view = 'search';
                 }
                 else {
                     if(!(request()->input('showVerified'))) {
@@ -207,13 +199,24 @@ class SyndromicController extends Controller
                         ->orderBy('created_at', 'DESC')
                         ->paginate(10);
                     }
-    
-                    return view('syndromic.home', [
-                        'list' => $ll,
-                    ]);
+
+                    $select_view = 'home';
                 }
             }
             
+        }
+
+        if($select_view == 'home') {
+            return view('syndromic.home', [
+                'list' => $ll,
+                'medical_event_list' => $medicalevent_list,
+            ]);
+        }
+        else {
+            return view('syndromic.search_patient', [
+                'list' => $ll,
+                'medical_event_list' => $medicalevent_list,
+            ]);
         }
     }
 
@@ -2348,10 +2351,21 @@ class SyndromicController extends Controller
     }
 
     public function storeMedicalEvent(Request $r) {
+        $r->user()->medicalevent()->create([
+            'facility_id' => auth()->user()->itr_facility_id,
+            'name' => mb_strtoupper($r->name),
+            'description' => ($r->filled('description')) ? mb_strtoupper($r->description) : NULL,
+            'oneDayEvent' => $r->oneDayEvent,
+            'date_start' => $r->date_start,
+            'date_end' => ($r->oneDayEvent == 'Y') ? $r->date_start : $r->date_end,
+        ]);
 
+        return redirect()->back()
+        ->with('msg', 'Medical Event has been initialized successfully. You may now join if you wish to link records to a Medical Event.')
+        ->with('msgtype', 'success');
     }
 
-    public function enableMedicalEventLink(Request $r) {
+    public function joinMedicalEvent(Request $r) {
         $d = User::findOrFail(auth()->user()->id);
 
         $d->itr_medicalevent_id = $r->medical_event_id;
@@ -2361,11 +2375,21 @@ class SyndromicController extends Controller
         }
 
         return redirect()->back()
-        ->with('msg', 'Medical Event Encoding Toggle has been enabled successfully.')
+        ->with('msg', 'You account has joined the Medical Event. You may now proceed encoding.')
         ->with('msgtype', 'success');
     }
 
-    public function disableMedicalEventLink(Request $r) {
-        
+    public function unJoinMedicalEvent(Request $r) {
+        $d = User::findOrFail(auth()->user()->id);
+
+        $d->itr_medicalevent_id = NULL;
+
+        if($d->isDirty()) {
+            $d->save();
+        }
+
+        return redirect()->back()
+        ->with('msg', 'Your account has left the Medical Event bind.')
+        ->with('msgtype', 'success');
     }
 }
