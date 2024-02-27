@@ -442,7 +442,6 @@
             </div>
         </div>
     </div>
-    @if(!(request()->input('print')))
     <div class="form-check">
         <label class="form-check-label">
           <input type="checkbox" class="form-check-input" name="checker1" id="checker1" value="checkedValue" checked>
@@ -461,7 +460,6 @@
           Signature 3 (Approved by)
         </label>
     </div>
-    @endif
 </div>
 
 @php
