@@ -15,7 +15,9 @@ class CreateMedicalEventsTable extends Migration
     {
         Schema::create('medical_events', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('facility_id')->nullable()->constrained('doh_facilities')->onDelete('cascade');
             $table->string('name');
+            $table->string('status')->default('ONGOING');
             $table->text('description');
             $table->string('oneDayEvent', 1)->default('Y');
             $table->date('date_start');

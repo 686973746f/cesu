@@ -77,6 +77,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'pharmacy_branch_id',
         'itr_facility_id',
+        'itr_medicalevent_id',
         'abtc_default_vaccinationsite_id',
         'abtc_default_vaccinebrand_id',
         'abtc_default_vaccinebrand_date',
@@ -332,6 +333,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function opdfacility() {
         return $this->belongsTo(DohFacility::class, 'itr_facility_id');
+    }
+
+    public function medicalevent() {
+        return $this->hasMany(MedicalEvent::class, 'created_by');
     }
 
     //perms

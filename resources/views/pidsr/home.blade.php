@@ -41,7 +41,9 @@
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#report">Report</button>
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#snax">sNaX v2</button>
                     <hr>
+                    @if(!($unlockweeklyreport))
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#dailyexport">EDCS-IS Daily Import</button>
+                    @endif
                     @if($unlockweeklyreport)
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#export">EDCS-IS Weekly Import Task (every Tuesday)</button>
                     @endif

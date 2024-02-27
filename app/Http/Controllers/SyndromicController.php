@@ -2346,4 +2346,26 @@ class SyndromicController extends Controller
         
         return view('syndromic.hospital.er_summary');
     }
+
+    public function storeMedicalEvent(Request $r) {
+
+    }
+
+    public function enableMedicalEventLink(Request $r) {
+        $d = User::findOrFail(auth()->user()->id);
+
+        $d->itr_medicalevent_id = $r->medical_event_id;
+
+        if($d->isDirty()) {
+            $d->save();
+        }
+
+        return redirect()->back()
+        ->with('msg', 'Medical Event Encoding Toggle has been enabled successfully.')
+        ->with('msgtype', 'success');
+    }
+
+    public function disableMedicalEventLink(Request $r) {
+        
+    }
 }

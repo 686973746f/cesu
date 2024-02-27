@@ -28,6 +28,7 @@ class CreateUsersTable extends Migration
             $table->foreignId('interviewer_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('pharmacy_branch_id')->nullable()->constrained('pharmacy_branches')->onDelete('cascade');
             $table->foreignId('itr_facility_id')->nullable()->constrained('doh_facilities')->onDelete('cascade');
+            $table->foreignId('itr_medicalevent_id')->nullable()->constrained('medical_events')->onDelete('cascade');
             $table->foreignId('itr_doctor_id')->nullable()->constrained('syndromic_doctors')->onDelete('cascade');
             $table->tinyInteger('canAccessLinelist')->default(0);
             $table->tinyInteger('canByPassValidation')->default(0);
