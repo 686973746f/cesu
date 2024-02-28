@@ -169,9 +169,9 @@ class SyndromicRecords extends Model
 
         'procedure_done',
         'disposition',
-
         'is_discharged',
         'date_discharged',
+        'tags',
 
         'document_file',
 

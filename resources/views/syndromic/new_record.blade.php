@@ -169,7 +169,7 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="weight"><b class="text-danger required_before">*</b>Weight (in kilograms)</label>
+                            <label for="weight">Weight (in kilograms)</label>
                             <input type="number" step="0.1" pattern="\d+(\.\d{1})?" class="form-control" name="weight" id="weight" min="1" max="900" value="{{old('weight')}}">
                         </div>
                     </div>

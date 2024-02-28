@@ -506,10 +506,12 @@ class SyndromicController extends Controller
         if(auth()->user()->isSyndromicHospitalLevelAccess()) {
             $required_maindiagnosis = true;
             $required_bp = true;
+            $required_weight = false;
         }
         else {
             $required_maindiagnosis = false;
             $required_bp = false;
+            $required_weight = true;
         }
 
         if($check) {
@@ -545,6 +547,7 @@ class SyndromicController extends Controller
 
                 'required_maindiagnosis' => $required_maindiagnosis,
                 'required_bp' => $required_bp,
+                'required_weight' => $required_weight,
             ]);
         }
     }
