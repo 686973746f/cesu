@@ -4,8 +4,9 @@
 <div class="container-fluid">
     @if(!is_null(auth()->user()->itr_medicalevent_id))
     <div class="alert alert-info" role="alert">
-        <h5><b>Note: Medical Event Mode Enabled</b></h5>
-        <h6>All patient records that you will encode will automatically link itself on the Channel: {{}}</h6>
+        <h5><b><span class="text-danger">NOTE:</span> Medical Event Mode Enabled</b></h5>
+        <hr>
+        <h6>All patient records that you will encode will automatically link itself on the Channel: <b>{{auth()->user()->getMedicalEvent->name}}</b>.</h6>
     </div>
     @endif
     <div class="text-right mb-3">
@@ -91,7 +92,7 @@
                     @else
                         <form action="{{route('opd_medicalevent_unjoin')}}" method="POST">
                             @csrf
-                            <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#newMedicalEvent">Leave Medical Event</button>
+                            <button type="submit" class="btn btn-danger">Leave Medical Event</button>
                         </form>
                     @endif
                 </div>

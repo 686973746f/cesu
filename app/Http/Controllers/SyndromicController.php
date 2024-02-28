@@ -600,7 +600,7 @@ class SyndromicController extends Controller
         if(!$check1) {
             $values_array = [
                 'facility_id' => auth()->user()->itr_facility_id,
-                'medical_event_id' => $r->medical_event_id,
+                'medical_event_id' => (!is_null(auth()->user()->itr_medicalevent_id)) ? auth()->user()->itr_medicalevent_id : NULL,
                 'checkup_type' => $r->checkup_type,
                 'chief_complain' => mb_strtoupper($r->chief_complain),
                 'nature_of_visit' => $r->nature_of_visit,
@@ -2389,7 +2389,7 @@ class SyndromicController extends Controller
         }
 
         return redirect()->back()
-        ->with('msg', 'Your account has left the Medical Event bind.')
+        ->with('msg', 'Your account has left the Medical Event.')
         ->with('msgtype', 'success');
     }
 }

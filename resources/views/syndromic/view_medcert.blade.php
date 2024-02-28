@@ -151,7 +151,7 @@
                     </div>
                 </div>
 
-                <h5 class="ml-5 mt-5 mb-3">Issued upon request of ______________________ for whatever purpose this may server him/her best.</h5>
+                <h5 class="ml-5 mt-5 mb-3">Issued upon request of {{(!is_null($d->medcert_purpose)) ? $d->medcert_purpose : '______________________'}} for whatever purpose this may server him/her best.</h5>
                 <div class="row">
                     <div class="col-6 text-center">
                         <div>{!! QrCode::size(100)->generate(route('medcert_online_verify', $d->qr)) !!}</div>
