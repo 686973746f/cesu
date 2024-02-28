@@ -1225,12 +1225,14 @@ class SyndromicController extends Controller
     }
 
     public function deletePatient($patient_id) {
-        if(auth()->user()->isAdminSyndromic()) {
-            $d = SyndromicPatient::findOrFail($patient_id)->delete();
+        $d = SyndromicPatient::findOrFail($patient_id);
 
+        if($d->hasPermissionToDelete()) {
             //also delete records associated with the patient
             $r = SyndromicRecords::where('syndromic_patient_id', $patient_id)->delete();
 
+            $d->delete();
+            
             return redirect()->route('syndromic_home')
             ->with('msg', 'Patient data was deleted successfully.')
             ->with('msgtype', 'success');
@@ -1486,9 +1488,11 @@ class SyndromicController extends Controller
     }
 
     public function deleteRecord($record_id) {
-        if(auth()->user()->isAdminSyndromic()) {
-            $d = SyndromicRecords::findOrFail($record_id)->delete();
+        $d = SyndromicRecords::findOrFail($record_id);
 
+        if($d->hasPermissionToDelete()) {
+            $d->delete();
+            
             return redirect()->route('syndromic_home')
             ->with('msg', 'Record associated with the patient was deleted successfully.')
             ->with('msgtype', 'success');

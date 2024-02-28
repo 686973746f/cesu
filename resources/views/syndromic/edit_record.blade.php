@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-  @if(auth()->user()->isAdminSyndromic())
+  @if($d->hasPermissionToDelete())
   <div class="text-right mb-3">
     <form action="{{route('syndromic_deleteRecord', $d->id)}}" method="POST">
       @csrf

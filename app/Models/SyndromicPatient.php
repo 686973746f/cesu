@@ -294,6 +294,21 @@ class SyndromicPatient extends Model
         }
     }
 
+    public function hasPermissionToDelete() {
+        if(auth()->user()->isGlobalAdmin()) {
+            return true;
+        }
+        else if($this->created_by == auth()->user()->id) {
+            return true;
+        }
+        else if($this->facility_id == auth()->user()->itr_facility_id) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     public function userHasPermissionToShareAccess() {
         if(in_array('GLOBAL_ADMIN', auth()->user()->getPermissions()) || in_array('ITR_ADMIN', auth()->user()->getPermissions()) || in_array('ITR_ENCODER', auth()->user()->getPermissions())) {
             return true;

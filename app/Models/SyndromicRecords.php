@@ -352,6 +352,21 @@ class SyndromicRecords extends Model
         }
     }
 
+    public function hasPermissionToDelete() {
+        if(auth()->user()->isGlobalAdmin()) {
+            return true;
+        }
+        else if($this->created_by == auth()->user()->id) {
+            return true;
+        }
+        else if($this->facility_id == auth()->user()->itr_facility_id) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     /*
     public function canAccessRecord() {
         $perm_list = explode(',', auth()->user()->permission_list);
