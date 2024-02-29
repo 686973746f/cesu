@@ -85,15 +85,16 @@
                 </div>
                 <div>
                     <h6>Facility: {{auth()->user()->opdfacility->facility_name}}</h6>
-                    <!-- Button trigger modal -->
-                    @if(is_null(auth()->user()->itr_medicalevent_id))
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#joinMedicalEvent">Join Medical Event</button>
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#newMedicalEvent">New Medical Event</button>
-                    @else
-                        <form action="{{route('opd_medicalevent_unjoin')}}" method="POST">
-                            @csrf
-                            <button type="submit" class="btn btn-danger">Leave Medical Event</button>
-                        </form>
+                    @if(auth()->user()->isStaffSyndromic())
+                        @if(is_null(auth()->user()->itr_medicalevent_id))
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#joinMedicalEvent">Join Medical Event</button>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#newMedicalEvent">New Medical Event</button>
+                        @else
+                            <form action="{{route('opd_medicalevent_unjoin')}}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-danger">Leave Medical Event</button>
+                            </form>
+                        @endif
                     @endif
                 </div>
             </div>
