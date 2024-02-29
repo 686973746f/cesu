@@ -2,6 +2,13 @@
 
 @section('content')
 <div class="container">
+    @if(!is_null(auth()->user()->itr_medicalevent_id))
+    <div class="alert alert-info" role="alert">
+        <h5><b><span class="text-danger">NOTE:</span> Medical Event Mode Enabled</b></h5>
+        <hr>
+        <h6>All patient records that you will encode will automatically link itself on the Channel: <b>{{auth()->user()->getMedicalEvent->name}}</b>. If you want to disable tagging, go to OPD homepage and click [Leave Medical Event] button.</h6>
+    </div>
+    @endif
     <form action="{{route('syndromic_storeRecord', $patient->id)}}" method="POST" onsubmit="return validateForm()">
         @csrf
         <div class="card">
@@ -936,6 +943,30 @@
                           <input type="date" class="form-control" name="date_discharged" id="date_discharged" value="{{old('date_discharged')}}" max="{{date('Y-m-d', strtotime('+1 Day'))}}">
                         </div>
                       </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="tags"><b class="text-danger">*</b>Patient Tagging</label>
+                      <select class="form-control" name="tags" id="tags" required>
+                        <option value="" disabled {{(is_null(old('tags'))) ? 'selected' : ''}}>Choose...</option>
+                        <option value="MEDICAL" {{(old('tags') == 'MEDICAL') ? 'selected' : ''}}>Medical</option>
+                        <option value="PEDIATRICS" {{(old('tags') == 'PEDIATRICS') ? 'selected' : ''}}>Pediatrics</option>
+                        <option value="SURGICAL" {{(old('tags') == 'SURGICAL') ? 'selected' : ''}}>Surgical</option>
+                        <option value="OB" {{(old('tags') == 'OB') ? 'selected' : ''}}>OB</option>
+                        <option value="GYNE" {{(old('tags') == 'GYNE') ? 'selected' : ''}}>GYNE</option>
+                        <option value="MEDICAL" {{(old('tags') == 'MEDICAL') ? 'selected' : ''}}>Medical</option>
+                        <option value="MEDICAL" {{(old('tags') == 'MEDICAL') ? 'selected' : ''}}>Medical</option>
+                        <option value="MEDICAL" {{(old('tags') == 'MEDICAL') ? 'selected' : ''}}>Medical</option>
+                        <option value="MEDICAL" {{(old('tags') == 'MEDICAL') ? 'selected' : ''}}>Medical</option>
+                        <option value="MEDICAL" {{(old('tags') == 'MEDICAL') ? 'selected' : ''}}>Medical</option>
+                        <option value="MEDICAL" {{(old('tags') == 'MEDICAL') ? 'selected' : ''}}>Medical</option>
+                        <option value="MEDICAL" {{(old('tags') == 'MEDICAL') ? 'selected' : ''}}>Medical</option>
+                        <option value="MEDICAL" {{(old('tags') == 'MEDICAL') ? 'selected' : ''}}>Medical</option>
+                        <option value="MEDICAL" {{(old('tags') == 'MEDICAL') ? 'selected' : ''}}>Medical</option>
+                        <option value="MEDICAL" {{(old('tags') == 'MEDICAL') ? 'selected' : ''}}>Medical</option>
+                        <option value="MEDICAL" {{(old('tags') == 'MEDICAL') ? 'selected' : ''}}>Medical</option>
+                        <option value="MEDICAL" {{(old('tags') == 'MEDICAL') ? 'selected' : ''}}>Medical</option>
+                        <option value="MEDICAL" {{(old('tags') == 'MEDICAL') ? 'selected' : ''}}>Medical</option>
+                      </select>
                     </div>
                   </div>
                   @endif
