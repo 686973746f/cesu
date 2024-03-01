@@ -47,6 +47,8 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpWord\TemplateProcessor;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
+use function PHPSTORM_META\map;
+
 class SyndromicController extends Controller
 {
     public function index() {
@@ -507,11 +509,19 @@ class SyndromicController extends Controller
             $required_maindiagnosis = true;
             $required_bp = true;
             $required_weight = false;
+            $required_symptoms = true;
         }
         else {
             $required_maindiagnosis = false;
             $required_bp = false;
             $required_weight = true;
+
+            if(!is_null(auth()->user()->itr_medicalevent_id)) {
+                $required_symptoms = false;
+            }
+            else {
+                $required_symptoms = true;
+            }
         }
 
         if($check) {
@@ -548,6 +558,7 @@ class SyndromicController extends Controller
                 'required_maindiagnosis' => $required_maindiagnosis,
                 'required_bp' => $required_bp,
                 'required_weight' => $required_weight,
+                'required_symptoms' => $required_symptoms,
             ]);
         }
     }
@@ -759,6 +770,8 @@ class SyndromicController extends Controller
                     'disposition' => $r->disposition,
                     'is_discharged' => $r->is_discharged,
                     'date_discharged' => ($r->is_discharged == 'Y') ? $r->date_discharged : NULL,
+
+                    'tags' => $r->tags,
                 ];
             }
 
@@ -1442,6 +1455,8 @@ class SyndromicController extends Controller
 
                     'is_discharged' => $r->is_discharged,
                     'date_discharged' => ($r->is_discharged == 'Y') ? $r->date_discharged : NULL,
+
+                    'tags' => $r->tags,
                 ];
             }
 
@@ -2340,6 +2355,79 @@ class SyndromicController extends Controller
                 ->whereMonth('created_at', $smonth)
                 ->whereYear('created_at', $syear)
                 ->count(),
+            ];
+        }
+
+        $opd_master_array = [
+            'MEDICAL',
+            'PEDIATRICS',
+            'SURGICAL',
+            'OB',
+            'GYNE',
+            'GENITO-URINARY',
+            'ORTHO',
+            'ENT',
+            'FAMILY PLANNING',
+            'OPHTHA',
+            'ANIMAL BITE',
+            'MEDICO-LEGAL',
+            'DERMATOLOGY',
+            'DENTAL',
+            'PSYCHIATRY',
+            'DOA',
+            'VA',
+        ];
+
+        $second_array = [];
+
+        foreach($opd_master_array as $o) {
+            if($o == 'MEDICAL') {
+                $pedia_old = 0;
+                $pedia_new = 0;
+                $pedia_police = 0;
+            }
+            else {
+                $pedia_old = SyndromicRecords::where('hosp_identifier', $id)
+                ->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear)
+                ->where('age_years', '<=', 19)
+                ->where('nature_of_visit', 'FOLLOW-UP VISIT')
+                ->where('tags', 'PEDIATRICS')
+                ->count();
+            }
+
+            if($o == 'PEDIATRICS') {
+                $adult_old = 0;
+                $adult_new = 0;
+                $adult_police = 0;
+            }
+            else {
+                
+            }
+
+            if($o == 'MEDICO-LEGAL') {
+
+            }
+            else if($o == 'DOA') {
+
+            }
+            else if($o == 'VA') {
+
+            }
+
+            $second_array[] = [
+                'name' => $o,
+                'pedia_old' => 0,
+                'pedia_new' => 0,
+                'pedia_police' => 0,
+
+                'adult_old' => 0,
+                'adult_new' => 0,
+                'adult_police' => 0,
+
+                'senior_old' => 0,
+                'senior_new' => 0,
+                'senior_police' => 0,
             ];
         }
 

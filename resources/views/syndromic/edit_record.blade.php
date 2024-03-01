@@ -951,6 +951,34 @@
                         </div>
                       </div>
                     </div>
+                    <div class="form-group">
+                      <label for="tags"><b class="text-danger">*</b>Patient Tagging</label>
+                      <select class="form-control" name="tags" id="tags" required>
+                        @if($d->age_years >= 20)
+                        <option value="MEDICAL" {{(old('tags', $d->tags) == 'MEDICAL') ? 'selected' : ''}}>Medical</option>
+                        @endif
+                        @if($d->age_years <= 19)
+                        <option value="PEDIATRICS" {{(old('tags', $d->tags) == 'PEDIATRICS') ? 'selected' : ''}}>Pediatrics</option>
+                        @endif
+                        <option value="SURGICAL" {{(old('tags', $d->tags) == 'SURGICAL') ? 'selected' : ''}}>Surgical</option>
+                        @if($d->syndromic_patient->sg() == 'F')
+                        <option value="OB" {{(old('tags', $d->tags) == 'OB') ? 'selected' : ''}}>OB</option>
+                        <option value="GYNE" {{(old('tags', $d->tags) == 'GYNE') ? 'selected' : ''}}>GYNE</option>
+                        @endif
+                        <option value="GENITO-URINARY" {{(old('tags', $d->tags) == 'GENITO-URINARY') ? 'selected' : ''}}>Genito-Urinary</option>
+                        <option value="ORTHO" {{(old('tags', $d->tags) == 'ORTHO') ? 'selected' : ''}}>Ortho</option>
+                        <option value="ENT" {{(old('tags', $d->tags) == 'ENT') ? 'selected' : ''}}>ENT</option>
+                        <option value="FAMILY PLANNING" {{(old('tags', $d->tags) == 'FAMILY PLANNING') ? 'selected' : ''}}>Family Planning</option>
+                        <option value="OPHTHA" {{(old('tags', $d->tags) == 'OPHTHA') ? 'selected' : ''}}>Ophtha</option>
+                        <option value="ANIMAL BITE" {{(old('tags', $d->tags) == 'ANIMAL BITE') ? 'selected' : ''}}>Animal Bite</option>
+                        <!-- <option value="MEDICO-LEGAL" {{(old('tags', $d->tags) == 'MEDICO-LEGAL') ? 'selected' : ''}}>Medico-Legal</option> -->
+                        <option value="DERMATOLOGY" {{(old('tags', $d->tags) == 'DERMATOLOGY') ? 'selected' : ''}}>Dermatology</option>
+                        <option value="DENTAL" {{(old('tags', $d->tags) == 'DENTAL') ? 'selected' : ''}}>Dental</option>
+                        <option value="PSYCHIATRY" {{(old('tags', $d->tags) == 'PSYCHIATRY') ? 'selected' : ''}}>Psychiatry</option>
+                        <!-- <option value="DOA" {{(old('tags', $d->tags) == 'DOA') ? 'selected' : ''}}>DOA</option> -->
+                        <option value="VA" {{(old('tags', $d->tags) == 'VA') ? 'selected' : ''}}>VA</option>
+                      </select>
+                    </div>
                   </div>
                   @endif
                   <div class="col-md-{{$colsize3}}">

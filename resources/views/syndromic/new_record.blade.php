@@ -85,7 +85,7 @@
                     <!--<option value="TELECONSULTATION" {{(old('nature_of_visit', $get_dnature) == 'TELECONSULTATION')}}>TELECONSULTATION</option>-->
                   </select>
                 </div>
-                <div class="form-group" id="purpose_div">
+                <div class="form-group {{(auth()->user()->isSyndromicHospitalLevelAccess()) ? 'd-none' : ''}}" id="purpose_div">
                   <label class="mr-2"><b class="text-danger">*</b>Purpose:</label>
                   @foreach(App\Models\SyndromicRecords::refConsultationType() as $ind => $ref1)
                   @php
@@ -948,24 +948,29 @@
                       <label for="tags"><b class="text-danger">*</b>Patient Tagging</label>
                       <select class="form-control" name="tags" id="tags" required>
                         <option value="" disabled {{(is_null(old('tags'))) ? 'selected' : ''}}>Choose...</option>
+                        @if($patient->getAgeInt() >= 20)
                         <option value="MEDICAL" {{(old('tags') == 'MEDICAL') ? 'selected' : ''}}>Medical</option>
+                        @endif
+                        @if($patient->getAgeInt() <= 19)
                         <option value="PEDIATRICS" {{(old('tags') == 'PEDIATRICS') ? 'selected' : ''}}>Pediatrics</option>
+                        @endif
                         <option value="SURGICAL" {{(old('tags') == 'SURGICAL') ? 'selected' : ''}}>Surgical</option>
+                        @if($patient->sg() == 'F')
                         <option value="OB" {{(old('tags') == 'OB') ? 'selected' : ''}}>OB</option>
                         <option value="GYNE" {{(old('tags') == 'GYNE') ? 'selected' : ''}}>GYNE</option>
-                        <option value="MEDICAL" {{(old('tags') == 'MEDICAL') ? 'selected' : ''}}>Medical</option>
-                        <option value="MEDICAL" {{(old('tags') == 'MEDICAL') ? 'selected' : ''}}>Medical</option>
-                        <option value="MEDICAL" {{(old('tags') == 'MEDICAL') ? 'selected' : ''}}>Medical</option>
-                        <option value="MEDICAL" {{(old('tags') == 'MEDICAL') ? 'selected' : ''}}>Medical</option>
-                        <option value="MEDICAL" {{(old('tags') == 'MEDICAL') ? 'selected' : ''}}>Medical</option>
-                        <option value="MEDICAL" {{(old('tags') == 'MEDICAL') ? 'selected' : ''}}>Medical</option>
-                        <option value="MEDICAL" {{(old('tags') == 'MEDICAL') ? 'selected' : ''}}>Medical</option>
-                        <option value="MEDICAL" {{(old('tags') == 'MEDICAL') ? 'selected' : ''}}>Medical</option>
-                        <option value="MEDICAL" {{(old('tags') == 'MEDICAL') ? 'selected' : ''}}>Medical</option>
-                        <option value="MEDICAL" {{(old('tags') == 'MEDICAL') ? 'selected' : ''}}>Medical</option>
-                        <option value="MEDICAL" {{(old('tags') == 'MEDICAL') ? 'selected' : ''}}>Medical</option>
-                        <option value="MEDICAL" {{(old('tags') == 'MEDICAL') ? 'selected' : ''}}>Medical</option>
-                        <option value="MEDICAL" {{(old('tags') == 'MEDICAL') ? 'selected' : ''}}>Medical</option>
+                        @endif
+                        <option value="GENITO-URINARY" {{(old('tags') == 'GENITO-URINARY') ? 'selected' : ''}}>Genito-Urinary</option>
+                        <option value="ORTHO" {{(old('tags') == 'ORTHO') ? 'selected' : ''}}>Ortho</option>
+                        <option value="ENT" {{(old('tags') == 'ENT') ? 'selected' : ''}}>Ent</option>
+                        <option value="FAMILY PLANNING" {{(old('tags') == 'FAMILY PLANNING') ? 'selected' : ''}}>Family Planning</option>
+                        <option value="OPHTHA" {{(old('tags') == 'OPHTHA') ? 'selected' : ''}}>Ophtha</option>
+                        <option value="ANIMAL BITE" {{(old('tags') == 'ANIMAL BITE') ? 'selected' : ''}}>Animal Bite</option>
+                        <!-- <option value="MEDICO-LEGAL" {{(old('tags') == 'MEDICO-LEGAL') ? 'selected' : ''}}>Medico-Legal</option> -->
+                        <option value="DERMATOLOGY" {{(old('tags') == 'DERMATOLOGY') ? 'selected' : ''}}>Dermatology</option>
+                        <option value="DENTAL" {{(old('tags') == 'DENTAL') ? 'selected' : ''}}>Dental</option>
+                        <option value="PSYCHIATRY" {{(old('tags') == 'PSYCHIATRY') ? 'selected' : ''}}>Psychiatry</option>
+                        <!-- <option value="DOA" {{(old('tags') == 'DOA') ? 'selected' : ''}}>DOA</option> -->
+                        <option value="VA" {{(old('tags') == 'VA') ? 'selected' : ''}}>VA</option>
                       </select>
                     </div>
                   </div>
@@ -1040,6 +1045,8 @@
           return false; // Prevent form submission
       }
 
+      @if($required_symptoms)
+
       var checkboxesInDiv2 = document.querySelectorAll('#sas_checkboxes input[type="checkbox"]');
       var checked2 = false;
 
@@ -1054,6 +1061,8 @@
           alert('Please check at least one (1) SYMPTOMS before submitting the form.');
           return false; // Prevent form submission
       }
+
+      @endif
 
       return true; // Allow form submission if at least one checkbox is checked
   }
