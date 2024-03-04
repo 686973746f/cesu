@@ -2,52 +2,55 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Nt;
 use Carbon\Carbon;
 use App\Models\Abd;
-use App\Models\Aefi;
 use App\Models\Aes;
 use App\Models\Afp;
 use App\Models\Ahf;
+use App\Models\Nnt;
+use App\Models\Psp;
+use App\Models\Aefi;
 use App\Models\Ames;
-use App\Models\Anthrax;
 use App\Models\Brgy;
-use App\Models\Chikv;
-use App\Models\Cholera;
-use App\Models\Dengue;
 use App\Models\Diph;
-use App\Models\Hepatitis;
 use App\Models\Hfmd;
+use App\Models\Pert;
 use App\Models\User;
-use App\Models\Icd10Code;
-use App\Models\Influenza;
-use App\Models\Leptospirosis;
+use App\Models\Chikv;
+use App\Models\Dengue;
+use App\Models\Rabies;
+use App\Models\Anthrax;
+use App\Models\Cholera;
 use App\Models\Malaria;
 use App\Models\Measles;
-use App\Models\MedicalEvent;
-use App\Models\Meningitis;
 use App\Models\Meningo;
-use App\Models\Nnt;
-use App\Models\Nt;
-use App\Models\Pert;
+use App\Models\Typhoid;
+use App\Models\Hepatitis;
+use App\Models\Icd10Code;
+use App\Models\Influenza;
+use App\Models\Rotavirus;
+use App\Models\Meningitis;
 use Illuminate\Support\Str;
+use App\Models\MedicalEvent;
 use Illuminate\Http\Request;
+use App\Models\Leptospirosis;
 use App\Models\PharmacyCartSub;
 use App\Models\PharmacyPatient;
 use App\Models\SyndromicDoctor;
+use function PHPSTORM_META\map;
 use App\Models\SyndromicPatient;
 use App\Models\SyndromicRecords;
 use App\Models\PharmacySupplySub;
 use Illuminate\Support\Facades\DB;
 use App\Models\PharmacyPrescription;
-use App\Models\Psp;
-use App\Models\Rabies;
-use App\Models\Rotavirus;
-use App\Models\Typhoid;
+use Rap2hpoutre\FastExcel\FastExcel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+
+use OpenSpout\Common\Entity\Style\Style;
 use PhpOffice\PhpWord\TemplateProcessor;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-
-use function PHPSTORM_META\map;
+use Rap2hpoutre\FastExcel\SheetCollection;
 
 class SyndromicController extends Controller
 {
@@ -2512,5 +2515,37 @@ class SyndromicController extends Controller
         return redirect()->back()
         ->with('msg', 'Your account has left the Medical Event.')
         ->with('msgtype', 'success');
+    }
+
+    public function downloadAlphaList() {
+        ini_set('max_execution_time', 900);
+
+        $listQuery = SyndromicPatient::where('facility_id', auth()->user()->itr_facility_id);
+
+        function queryGenerator($listQuery) {
+            foreach ($listQuery->cursor() as $user) {
+                yield $user;
+            }
+        }
+
+        $sheets = new SheetCollection([
+            'ALPHALIST' => queryGenerator($listQuery),
+        ]);
+
+        $header_style = (new Style())->setFontBold();
+        $rows_style = (new Style())->setShouldWrapText();
+
+        return (new FastExcel($sheets))
+        ->headerStyle($header_style)
+        ->download('ALPHALIST.xlsx', function ($form) {
+            return [
+                'PATIENT NUMBER' => $form->unique_opdnumber,
+                'SURNAME' => $form->lname,
+                'GIVEN NAME' => $form->fname,
+                'MIDDLE NAME' => (!is_null($form->mname)) ? $form->mname : 'N/A',
+                'BIRTHDATE' => date('m/d/Y', strtotime($form->bdate)),
+                'ADDRESS' => $form->getFullAddress(),
+            ];
+        });
     }
 }

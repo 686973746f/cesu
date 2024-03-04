@@ -356,6 +356,7 @@
                 <hr>
                 <a href="{{route('syndromic_diseasechecker')}}" class="btn btn-primary btn-block">Go to Disease Checker Page</a>
                 @endif
+                <a href="{{route('opd_hospital_downloadalphalist')}}" class="btn btn-primary btn-block">Download Alphalist</a>
                 <a href="{{route('opd_hospital_dailysummary')}}" class="btn btn-primary btn-block">DAILY REPORTING SUMMARY</a>
                 <a href="{{route('opd_hospital_monthlysummary')}}?id=OPD" class="btn btn-primary btn-block">OPD SUMMARY</a>
                 <a href="{{route('opd_hospital_monthlysummary')}}?id=ER" class="btn btn-primary btn-block">ER SUMMARY</a>
