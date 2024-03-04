@@ -22,7 +22,7 @@
             <div class="col-md-8"></div>
             <div class="col-md-4">
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" name="q" value="{{request()->input('q')}}" placeholder="SEARCH BY SURNAME, NAME / ID" style="text-transform: uppercase;" required>
+                    <input type="text" class="form-control" name="q" value="{{request()->input('q')}}" placeholder="SEARCH BY NAME/ID/HOSP. NUMBER" style="text-transform: uppercase;" required>
                     <div class="input-group-append">
                       <button class="btn btn-secondary" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                     </div>

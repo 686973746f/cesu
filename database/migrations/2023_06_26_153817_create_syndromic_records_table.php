@@ -15,6 +15,8 @@ class CreateSyndromicRecordsTable extends Migration
     {
         Schema::create('syndromic_records', function (Blueprint $table) {
             $table->id();
+            $table->string('status');
+            $table->string('hospital_completion')->nullable();
             $table->foreignId('syndromic_patient_id')->constrained('syndromic_patients')->onDelete('cascade');
             
             $table->text('opdno');
@@ -35,7 +37,7 @@ class CreateSyndromicRecordsTable extends Migration
             $table->date('lmp')->nullable();
             $table->date('edc')->nullable();
 
-            $table->string('temperature');
+            $table->string('temperature')->nullable();
             $table->string('bloodpressure')->nullable();
             $table->string('weight')->nullable();
             $table->string('height')->nullable();
@@ -44,84 +46,84 @@ class CreateSyndromicRecordsTable extends Migration
             $table->string('saturationperioxigen')->nullable();
             $table->string('o2sat')->nullable();
 
-            $table->tinyInteger('fever');
+            $table->tinyInteger('fever')->nullable();
             $table->date('fever_onset')->nullable();
             $table->text('fever_remarks')->nullable();
-            $table->tinyInteger('rash');
+            $table->tinyInteger('rash')->nullable();
             $table->date('rash_onset')->nullable();
             $table->text('rash_remarks')->nullable();
-            $table->tinyInteger('cough');
+            $table->tinyInteger('cough')->nullable();
             $table->date('cough_onset')->nullable();
             $table->text('cough_remarks')->nullable();
-            $table->tinyInteger('colds');
+            $table->tinyInteger('colds')->nullable();
             $table->date('colds_onset')->nullable();
             $table->text('colds_remarks')->nullable();
-            $table->tinyInteger('conjunctivitis');
+            $table->tinyInteger('conjunctivitis')->nullable();
             $table->date('conjunctivitis_onset')->nullable();
             $table->text('conjunctivitis_remarks')->nullable();
-            $table->tinyInteger('mouthsore');
+            $table->tinyInteger('mouthsore')->nullable();
             $table->date('mouthsore_onset')->nullable();
             $table->text('mouthsore_remarks')->nullable();
-            $table->tinyInteger('sorethroat');
+            $table->tinyInteger('sorethroat')->nullable();
             $table->date('sorethroat_onset')->nullable();
             $table->text('sorethroat_remarks')->nullable();
-            $table->tinyInteger('lossoftaste');
+            $table->tinyInteger('lossoftaste')->nullable();
             $table->date('lossoftaste_onset')->nullable();
             $table->text('lossoftaste_remarks')->nullable();
-            $table->tinyInteger('lossofsmell');
+            $table->tinyInteger('lossofsmell')->nullable();
             $table->date('lossofsmell_onset')->nullable();
             $table->text('lossofsmell_remarks')->nullable();
-            $table->tinyInteger('headache');
+            $table->tinyInteger('headache')->nullable();
             $table->date('headache_onset')->nullable();
             $table->text('headache_remarks')->nullable();
-            $table->tinyInteger('jointpain');
+            $table->tinyInteger('jointpain')->nullable();
             $table->date('jointpain_onset')->nullable();
             $table->text('jointpain_remarks')->nullable();
-            $table->tinyInteger('musclepain');
+            $table->tinyInteger('musclepain')->nullable();
             $table->date('musclepain_onset')->nullable();
             $table->text('musclepain_remarks')->nullable();
-            $table->tinyInteger('diarrhea');
-            $table->tinyInteger('bloody_stool');
+            $table->tinyInteger('diarrhea')->nullable();
+            $table->tinyInteger('bloody_stool')->nullable();
             $table->date('diarrhea_onset')->nullable();
             $table->text('diarrhea_remarks')->nullable();
-            $table->tinyInteger('abdominalpain');
+            $table->tinyInteger('abdominalpain')->nullable();
             $table->date('abdominalpain_onset')->nullable();
             $table->text('abdominalpain_remarks')->nullable();
-            $table->tinyInteger('vomiting');
+            $table->tinyInteger('vomiting')->nullable();
             $table->date('vomiting_onset')->nullable();
             $table->text('vomiting_remarks')->nullable();
-            $table->tinyInteger('weaknessofextremities');
+            $table->tinyInteger('weaknessofextremities')->nullable();
             $table->date('weaknessofextremities_onset')->nullable();
             $table->text('weaknessofextremities_remarks')->nullable();
-            $table->tinyInteger('paralysis');
+            $table->tinyInteger('paralysis')->nullable();
             $table->date('paralysis_onset')->nullable();
             $table->text('paralysis_remarks')->nullable();
-            $table->tinyInteger('alteredmentalstatus');
+            $table->tinyInteger('alteredmentalstatus')->nullable();
             $table->date('alteredmentalstatus_onset')->nullable();
             $table->text('alteredmentalstatus_remarks')->nullable();
-            $table->tinyInteger('animalbite');
+            $table->tinyInteger('animalbite')->nullable();
             $table->date('animalbite_onset')->nullable();
             $table->text('animalbite_remarks')->nullable();
-            $table->tinyInteger('anorexia');
+            $table->tinyInteger('anorexia')->nullable();
             $table->date('anorexia_onset')->nullable();
             $table->text('anorexia_remarks')->nullable();
-            $table->tinyInteger('jaundice');
+            $table->tinyInteger('jaundice')->nullable();
             $table->date('jaundice_onset')->nullable();
             $table->text('jaundice_remarks')->nullable();
-            $table->tinyInteger('nausea');
+            $table->tinyInteger('nausea')->nullable();
             $table->date('nausea_onset')->nullable();
             $table->text('nausea_remarks')->nullable();
-            $table->tinyInteger('fatigue');
+            $table->tinyInteger('fatigue')->nullable();
             $table->date('fatigue_onset')->nullable();
             $table->text('fatigue_remarks')->nullable();
-            $table->tinyInteger('dyspnea');
+            $table->tinyInteger('dyspnea')->nullable();
             $table->date('dyspnea_onset')->nullable();
             $table->text('dyspnea_remarks')->nullable();
-            $table->tinyInteger('other_symptoms');
+            $table->tinyInteger('other_symptoms')->nullable();
             $table->date('other_symptoms_onset')->nullable();
             $table->text('other_symptoms_onset_remarks')->nullable();
 
-            $table->tinyInteger('is_hospitalized');
+            $table->tinyInteger('is_hospitalized')->nullable();
             $table->string('hospital_name')->nullable();
             $table->date('date_admitted')->nullable();
             $table->date('date_released')->nullable();
@@ -131,7 +133,7 @@ class CreateSyndromicRecordsTable extends Migration
             $table->text('diagnosis_type')->nullable();
             $table->text('dcnote_plan')->nullable();
             $table->text('main_diagnosis')->nullable(); //icd10 code main diagnosis
-            $table->text('other_diagnosis');
+            $table->text('other_diagnosis')->nullable();
             $table->text('dcnote_diagprocedure')->nullable(); //icd10 other diagnosis
             $table->text('rx')->nullable();
             $table->text('remarks')->nullable();
@@ -154,7 +156,7 @@ class CreateSyndromicRecordsTable extends Migration
             $table->text('name_of_physician')->nullable();
             $table->text('other_doctor')->nullable();
             $table->text('dru_name')->nullable();
-            $table->string('status');
+            
             $table->tinyInteger('brgy_verified')->default(0);
             $table->dateTime('brgy_verified_date')->nullable();
             $table->foreignId('brgy_verified_by')->nullable()->constrained('users')->onDelete('cascade');
@@ -166,7 +168,7 @@ class CreateSyndromicRecordsTable extends Migration
             $table->integer('age_months')->nullable();
             $table->integer('age_days')->nullable();
 
-            $table->string('outcome');
+            $table->string('outcome')->nullable();
             $table->date('outcome_recovered_date')->nullable();
             $table->date('outcome_died_date')->nullable();
 

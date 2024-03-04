@@ -17,13 +17,21 @@
               <div class="d-flex justify-content-between">
                 <div><b>Edit ITR</b></div>
                 <div>
-                  <a href="{{route('syndromic_newRecord', $d->syndromic_patient->id)}}" class="btn btn-success">New Consultation</a>
-                  @if($d->getPharmacyDetails())
-                  <a href="{{route('pharmacy_print_patient_card', $d->getPharmacyDetails()->id)}}" class="btn btn-primary">Print Pharmacy Card</a>
-                  @endif
-                  <a href="{{route('syndromic_downloadItr', $d->id)}}" class="btn btn-primary">Download ITR Form</a>
-                  @if($d->outcome != 'DIED')
-                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#generateMedCert">Generate Medical Certificate</button>
+                  @if($unlocktoolbar)
+                    @if($d->outcome != 'DIED' && $d->outcome != 'DOA')
+                    <a href="{{route('syndromic_newRecord', $d->syndromic_patient->id)}}" class="btn btn-success">New Consultation</a>
+                    @endif
+                    @if($d->getPharmacyDetails())
+                    <a href="{{route('pharmacy_print_patient_card', $d->getPharmacyDetails()->id)}}" class="btn btn-primary">Print Pharmacy Card</a>
+                    @endif
+                    <a href="{{route('syndromic_downloadItr', $d->id)}}" class="btn btn-primary">Download ITR Form</a>
+                    @if($d->outcome != 'DIED')
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#generateMedCert">Generate Medical Certificate</button>
+                    @endif
+                  @else
+                  <div class="alert alert-info" role="alert">
+                    <b>Please complete the consultation details below.</b>
+                  </div>
                   @endif
                 </div>
               </div>
@@ -103,7 +111,7 @@
                   </select>
                 </div>
                 @endif
-                <div class="form-group" id="purpose_div">
+                <div class="form-group {{($d->isHospitalRecord()) ? 'd-none' : ''}}" id="purpose_div">
                   <label class="mr-2"><b class="text-danger">*</b>Purpose:</label>
                   @foreach(App\Models\SyndromicRecords::refConsultationType() as $ind => $ref1)
                   @php
@@ -261,7 +269,7 @@
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label for="chief_complain"><span class="text-danger font-weight-bold">*</span>Chief Complain</label>
+                      <label for="chief_complain"><b><span class="text-danger">*</span>Chief Complain</b></label>
                       <input type="text" class="form-control" name="chief_complain" id="chief_complain" value="{{old('chief_complain', $d->chief_complain)}}" style="text-transform: uppercase;" required>
                     </div>
                   </div>
@@ -823,11 +831,10 @@
                     <div class="form-group">
                       <label for="diagnosis_type"><b class="text-danger">*</b>Diagnosis Type</label>
                       <select class="form-control" name="diagnosis_type" id="diagnosis_type" required>
-                        <option value="" disabled {{(is_null(old('diagnosis_type', $d->diagnosis_type))) ? 'selected' : ''}}>Choose...</option>
+                        <option value="WORKING DIAGNOSIS" {{(old('diagnosis_type', $d->diagnosis_type) == 'WORKING DIAGNOSIS') ? 'selected' : ''}}>WORKING DIAGNOSIS</option>
                         <option value="ADMITTING DIAGNOSIS" {{(old('diagnosis_type', $d->diagnosis_type) == 'ADMITTING DIAGNOSIS') ? 'selected' : ''}}>ADMITTING DIAGNOSIS</option>
                         <option value="FINAL DIAGNOSIS" {{(old('diagnosis_type', $d->diagnosis_type) == 'FINAL DIAGNOSIS') ? 'selected' : ''}}>FINAL DIAGNOSIS</option>
                         <option value="NOT APPLICABLE" {{(old('diagnosis_type', $d->diagnosis_type) == 'NOT APPLICABLE') ? 'selected' : ''}}>NOT APPLICABLE (N/A)</option>
-                        <option value="WORKING DIAGNOSIS" {{(old('diagnosis_type', $d->diagnosis_type) == 'WORKING DIAGNOSIS') ? 'selected' : ''}}>WORKING DIAGNOSIS</option>
                       </select>
                     </div>
                     <div class="form-group">
@@ -865,6 +872,7 @@
                     <div class="form-group">
                       <label for="procedure_done"><b class="text-danger">*</b>Procedure Done</label>
                       <select class="form-control" name="procedure_done" id="procedure_done" required>
+                        <option value="" disabled {{(is_null(old('procedure_done', $d->procedure_done))) ? 'selected' : ''}}>Choose...</option>
                         @if($d->syndromic_patient->getAgeInt() >= 20)
                         <option value="MED CHECKUP" {{(old('procedure_done', $d->procedure_done) == 'MED CHECKUP') ? 'selected' : ''}}>MED CHECKUP</option>
                         @endif
@@ -904,6 +912,9 @@
                     <div class="form-group">
                       <label for="outcome"><span class="text-danger font-weight-bold">*</span>Outcome</label>
                       <select class="form-control" name="outcome" id="outcome" required>
+                        @if($d->isHospitalRecord())
+                        <option value="" disabled {{(is_null(old('outcome', $d->outcome))) ? 'selected' : ''}}>Choose...</option>
+                        @endif
                         <option value="ALIVE" {{(old('outcome', $d->outcome) == 'ALIVE') ? 'selected' : ''}}>Alive (Active)</option>
                         <option value="RECOVERED" {{(old('outcome', $d->outcome) == 'RECOVERED') ? 'selected' : ''}}>Recovered</option>
                         <option value="DIED" {{(old('outcome', $d->outcome) == 'DIED') ? 'selected' : ''}}>Died</option>
@@ -928,6 +939,7 @@
                     <div class="form-group">
                       <label for="disposition"><b class="text-danger">*</b>Disposition</label>
                       <select class="form-control" name="disposition" id="disposition" required>
+                        <option value="" disabled {{(is_null(old('disposition', $d->disposition))) ? 'selected' : ''}}>Choose...</option>
                         <option value="SENT HOME" {{(old('disposition', $d->disposition) == 'SENT HOME') ? 'selected' : ''}}>SENT HOME</option>
                         <option value="THOC" {{(old('disposition', $d->disposition) == 'THOC') ? 'selected' : ''}}>THOC (Transfer to Hospital of Choice)</option>
                         <option value="HAMA" {{(old('disposition', $d->disposition) == 'HAMA') ? 'selected' : ''}}>HAMA (Home Against Medical Advice)</option>
@@ -954,6 +966,7 @@
                     <div class="form-group">
                       <label for="tags"><b class="text-danger">*</b>Patient Tagging</label>
                       <select class="form-control" name="tags" id="tags" required>
+                        <option value="" disabled {{(is_null(old('tags', $d->tags))) ? 'selected' : ''}}>Choose...</option>
                         @if($d->age_years >= 20)
                         <option value="MEDICAL" {{(old('tags', $d->tags) == 'MEDICAL') ? 'selected' : ''}}>Medical</option>
                         @endif
@@ -976,7 +989,7 @@
                         <option value="DENTAL" {{(old('tags', $d->tags) == 'DENTAL') ? 'selected' : ''}}>Dental</option>
                         <option value="PSYCHIATRY" {{(old('tags', $d->tags) == 'PSYCHIATRY') ? 'selected' : ''}}>Psychiatry</option>
                         <!-- <option value="DOA" {{(old('tags', $d->tags) == 'DOA') ? 'selected' : ''}}>DOA</option> -->
-                        <option value="VA" {{(old('tags', $d->tags) == 'VA') ? 'selected' : ''}}>VA</option>
+                        <option value="VA" {{(old('tags', $d->tags) == 'VA') ? 'selected' : ''}}>Vehicular Accident (VA)</option>
                       </select>
                     </div>
                   </div>
@@ -986,6 +999,7 @@
                       <label for="name_of_physician"><span class="text-danger font-weight-bold">*</span>Attending Physician</label>
                       <select class="form-control" name="name_of_physician" id="name_of_physician">
                         @if($d->isHospitalRecord())
+                        <option value="" disabled {{(is_null(old('name_of_physician', $d->name_of_physician))) ? 'selected' : ''}}>Choose...</option>
                           @foreach($doclist as $dr)
                           <option value="{{$dr->doctor_name}}" {{(old('name_of_physician', $d->name_of_physician) == $dr->doctor_name) ? 'selected' : ''}}>{{$dr->doctor_name}}</option>
                           @endforeach
@@ -1011,6 +1025,7 @@
                 </div>
             </div>
             <div class="card-footer">
+              @if(!$d->isHospitalRecord())
               <div class="row">
                 <div class="col-md-6">
                   <button type="submit" name="" id="" class="btn btn-primary btn-block" {{($d->brgy_verified == 1) ? 'disabled' : ''}} name="submit" value="verify_brgy">Mark as Verified (BRGY)</button>
@@ -1026,6 +1041,7 @@
                 </div>
               </div>
               <hr>
+              @endif
               @if($d->hasPermissionToUpdate())
                 <button type="submit" class="btn btn-success btn-block" name="submit" value="update" id="submitBtn">Update (CTRL + S)</button>
               @else
@@ -1121,6 +1137,7 @@
           return false; // Prevent form submission
       }
 
+      @if($required_symptoms)
       var checkboxesInDiv2 = document.querySelectorAll('#sas_checkboxes input[type="checkbox"]');
       var checked2 = false;
 
@@ -1135,6 +1152,7 @@
           alert('Please check at least one (1) SYMPTOMS before submitting the form.');
           return false; // Prevent form submission
       }
+      @endif
 
       return true; // Allow form submission if at least one checkbox is checked
   }

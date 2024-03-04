@@ -176,8 +176,9 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="weight">Weight (in kilograms)</label>
-                            <input type="number" step="0.1" pattern="\d+(\.\d{1})?" class="form-control" name="weight" id="weight" min="1" max="900" value="{{old('weight')}}">
+                            <label for="weight">
+                              @if($required_weight)<b class="text-danger">*</b>@endif Weight (in kilograms)</label>
+                            <input type="number" step="0.1" pattern="\d+(\.\d{1})?" class="form-control" name="weight" id="weight" min="1" max="900" value="{{old('weight')}}" {{($required_weight) ? 'required' : ''}}>
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -246,7 +247,7 @@
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label for="chief_complain"><span class="text-danger font-weight-bold">*</span>Chief Complain</label>
+                      <label for="chief_complain"><b><span class="text-danger">*</span>Chief Complain</b></label>
                       <input type="text" class="form-control" name="chief_complain" id="chief_complain" value="{{old('chief_complain')}}" style="text-transform: uppercase;" required>
                     </div>
                   </div>
@@ -274,6 +275,7 @@
                     </div>
                   </div>
                 </div>
+                @if(!auth()->user()->isSyndromicHospitalLevelAccess())
                 <div class="card mb-3">
                     <div class="card-header"><b>Signs and Symptoms</b> (Please check if applicable)</div>
                     <div class="card-body" id="sas_checkboxes">
@@ -970,7 +972,7 @@
                         <option value="DENTAL" {{(old('tags') == 'DENTAL') ? 'selected' : ''}}>Dental</option>
                         <option value="PSYCHIATRY" {{(old('tags') == 'PSYCHIATRY') ? 'selected' : ''}}>Psychiatry</option>
                         <!-- <option value="DOA" {{(old('tags') == 'DOA') ? 'selected' : ''}}>DOA</option> -->
-                        <option value="VA" {{(old('tags') == 'VA') ? 'selected' : ''}}>VA</option>
+                        <option value="VA" {{(old('tags') == 'VA') ? 'selected' : ''}}>Vehicular Accident (VA)</option>
                       </select>
                     </div>
                   </div>
@@ -1004,6 +1006,7 @@
                   <label for="remarks">Remarks</label>
                   <input type="text" class="form-control" name="remarks" id="remarks" value="{{old('remarks')}}" style="text-transform: uppercase;">
                 </div>
+              @endif
             </div>
             <div class="card-footer">
                 <button type="submit" class="btn btn-success btn-block" id="submitBtn">Save (CTRL + S)</button>
@@ -1242,7 +1245,9 @@
       $('#if_noncheckup').removeClass('d-none');
       $('#outsidecho_name').prop('required', true);
       $('.required_before').addClass('d-none'); //Weight Asterisk
+      @if(auth()->user()->isSyndromicHospitalLevelAccess())
       $('#weight').prop('required', false);
+      @endif
       $('#name_of_physician').val('').trigger('change');
       //$('#name_of_physician').val('OTHERS').trigger('change');
       $('.official_drlist').prop('disabled', true);
@@ -1255,7 +1260,9 @@
       $('#if_noncheckup').addClass('d-none');
       $('#outsidecho_name').prop('required', false);
       $('.required_before').removeClass('d-none'); //Weight Asterisk
+      @if(auth()->user()->isSyndromicHospitalLevelAccess())
       $('#weight').prop('required', true);
+      @endif
       $('.official_drlist').prop('disabled', false);
       $('.outside_drlist').prop('disabled', true);
       //$('#ifotherdoctor').addClass('d-none');
