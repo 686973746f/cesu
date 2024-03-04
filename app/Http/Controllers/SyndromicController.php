@@ -1461,7 +1461,7 @@ class SyndromicController extends Controller
                 'name_of_physician' => $r->name_of_physician,
                 'other_doctor' => ($r->name_of_physician == 'OTHERS') ? mb_strtoupper($r->other_doctor) : NULL,
                 'dru_name'=> ($r->name_of_physician != 'OTHERS') ? SyndromicDoctor::where('doctor_name', $r->name_of_physician)->first()->dru_name : NULL,
-
+                
                 'updated_by' => auth()->user()->id,
             ];
 
@@ -1482,6 +1482,7 @@ class SyndromicController extends Controller
                     'date_discharged' => ($r->is_discharged == 'Y') ? $r->date_discharged : NULL,
 
                     'tags' => $r->tags,
+                    'created_by' => ($r->hospital_completion == 'PART1') ? auth()->user()->id : $r->created_by,
                 ];
             }
 

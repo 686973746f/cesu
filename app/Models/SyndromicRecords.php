@@ -189,6 +189,9 @@ class SyndromicRecords extends Model
         'view_notified',
 
         'sent_pidsr',
+
+        'created_by',
+        'updated_by',
     ];
 
     public static function refConsultationType() {
