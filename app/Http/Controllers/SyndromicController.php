@@ -474,6 +474,24 @@ class SyndromicController extends Controller
             $doclist = SyndromicDoctor::where('facility_id', auth()->user()->itr_facility_id)
             ->where('active_in_service', 'Y')
             ->get();
+
+            //Check if Hospital Number is Initialized First
+            if(is_null($patient->unique_opdnumber)) {
+                return redirect()->back()
+                ->with('msg', 'Error: Patient '.$patient->getName().' does not have Hospital Number initialized yet. Please update the patient details first and then try again.')
+                ->with('msgtype', 'danger');
+            }
+
+            //Check if there are unfinished Consultation Data
+            $check_unfinished = SyndromicRecords::where('syndromic_patient_id', $patient->id)
+            ->where('hospital_completion', 'PART1')
+            ->first();
+
+            if($check_unfinished) {
+                return redirect()->back()
+                ->with('msg', 'Error: There was some unfinished Medical Records linked to the Patient '.$patient->getName().'. Please complete or delete it first then try again.')
+                ->with('msgtype', 'danger');
+            }
         }
         else {
             $doclist = SyndromicDoctor::where('active_in_service', 'Y')

@@ -288,6 +288,9 @@ class SyndromicPatient extends Model
             else if(in_array(auth()->user()->id, explode(",", $this->shared_access_list))) {
                 return true;
             }
+            else if(auth()->user()->itr_facility_id == 10525) {
+                return true;
+            }
             else {
                 return false;
             }

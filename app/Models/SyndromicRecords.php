@@ -13,6 +13,7 @@ class SyndromicRecords extends Model
     use SoftDeletes;
 
     protected $fillable = [
+        'hospital_completion',
         'syndromic_patient_id',
         'facility_id',
         'medical_event_id',
