@@ -60,7 +60,70 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @php
+                    $main_pedia_total = 0;
+                    $main_adult_total = 0;
+                    $main_senior_total = 0;
+                    @endphp
                     @foreach($final_arr as $f)
+                    <tr>
+                        <td>{{$f['name']}}</td>
+                        <td class="text-center">{{$f['pedia_old_m']}}</td>
+                        <td class="text-center">{{$f['pedia_new_m']}}</td>
+                        <td class="text-center">{{$f['pedia_police_m']}}</td>
+                        <td class="text-center">{{$f['pedia_old_f']}}</td>
+                        <td class="text-center">{{$f['pedia_new_f']}}</td>
+                        <td class="text-center">{{$f['pedia_police_f']}}</td>
+                        <td class="text-center">{{$f['adult_old_m']}}</td>
+                        <td class="text-center">{{$f['adult_new_m']}}</td>
+                        <td class="text-center">{{$f['adult_police_m']}}</td>
+                        <td class="text-center">{{$f['adult_old_f']}}</td>
+                        <td class="text-center">{{$f['adult_new_f']}}</td>
+                        <td class="text-center">{{$f['adult_police_f']}}</td>
+                        <td class="text-center">{{$f['senior_old_m']}}</td>
+                        <td class="text-center">{{$f['senior_new_m']}}</td>
+                        <td class="text-center">{{$f['senior_police_m']}}</td>
+                        <td class="text-center">{{$f['senior_old_f']}}</td>
+                        <td class="text-center">{{$f['senior_new_f']}}</td>
+                        <td class="text-center">{{$f['senior_police_f']}}</td>
+                    </tr>
+                        @php
+                        $main_pedia_total += $f['pedia_old_m'] + $f['pedia_new_m'] + $f['pedia_police_m'] + $f['pedia_old_f'] + $f['pedia_new_f'] + $f['pedia_police_f'];
+                        $main_adult_total += $f['adult_old_m'] + $f['adult_new_m'] + $f['adult_police_m'] + $f['adult_old_f'] + $f['adult_new_f'] + $f['adult_police_f'];
+                        $main_senior_total += $f['senior_old_m'] + $f['senior_new_m'] + $f['senior_police_m'] + $f['senior_old_f'] + $f['senior_new_f'] + $f['senior_police_f'];
+                        @endphp
+                    @endforeach
+                    <tr>
+                        <td></td>
+                        <td colspan="5" class="text-right">Pedia Total</td>
+                        <td class="text-center">{{$main_pedia_total}}</td>
+                        <td colspan="5" class="text-right">Adult Total</td>
+                        <td class="text-center">{{$main_adult_total}}</td>
+                        <td colspan="5" class="text-right">Senior Total</td>
+                        <td class="text-center">{{$main_senior_total}}</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    @foreach($second_array as $f)
                     <tr>
                         <td>{{$f['name']}}</td>
                         <td class="text-center">{{$f['pedia_old_m']}}</td>

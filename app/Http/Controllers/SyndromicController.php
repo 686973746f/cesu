@@ -2428,58 +2428,314 @@ class SyndromicController extends Controller
         $second_array = [];
 
         foreach($opd_master_array as $o) {
+            $pedia_old_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'MALE');
+            })
+            ->where('hosp_identifier', $id)
+            ->whereMonth('created_at', $smonth)
+            ->whereYear('created_at', $syear)
+            ->where('age_years', '<=', 19)
+            ->where('nature_of_visit', 'FOLLOW-UP VISIT');
+
+            $pedia_new_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'MALE');
+            })
+            ->where('hosp_identifier', $id)
+            ->whereMonth('created_at', $smonth)
+            ->whereYear('created_at', $syear)
+            ->where('age_years', '<=', 19)
+            ->where('nature_of_visit', 'NEW CONSULTATION/CASE');
+
+            $pedia_police_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'MALE');
+            })
+            ->where('hosp_identifier', $id)
+            ->whereMonth('created_at', $smonth)
+            ->whereYear('created_at', $syear)
+            ->where('age_years', '<=', 19)
+            ->where('tags', $o)
+            ->where('disposition', 'SENT TO JAIL');
+
+            $pedia_old_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'FEMALE');
+            })
+            ->where('hosp_identifier', $id)
+            ->whereMonth('created_at', $smonth)
+            ->whereYear('created_at', $syear)
+            ->where('age_years', '<=', 19)
+            ->where('nature_of_visit', 'FOLLOW-UP VISIT');
+
+            $pedia_new_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'FEMALE');
+            })
+            ->where('hosp_identifier', $id)
+            ->whereMonth('created_at', $smonth)
+            ->whereYear('created_at', $syear)
+            ->where('age_years', '<=', 19)
+            ->where('nature_of_visit', 'NEW CONSULTATION/CASE');
+
+            $pedia_police_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'FEMALE');
+            })
+            ->where('hosp_identifier', $id)
+            ->whereMonth('created_at', $smonth)
+            ->whereYear('created_at', $syear)
+            ->where('age_years', '<=', 19)
+            ->where('disposition', 'SENT TO JAIL');
+
+            //ADULT
+
+            $adult_old_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'MALE');
+            })
+            ->where('hosp_identifier', $id)
+            ->whereMonth('created_at', $smonth)
+            ->whereYear('created_at', $syear)
+            ->whereBetween('age_years', [20,59])
+            ->where('nature_of_visit', 'FOLLOW-UP VISIT');
+
+            $adult_new_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'MALE');
+            })
+            ->where('hosp_identifier', $id)
+            ->whereMonth('created_at', $smonth)
+            ->whereYear('created_at', $syear)
+            ->whereBetween('age_years', [20,59])
+            ->where('nature_of_visit', 'NEW CONSULTATION/CASE');
+
+            $adult_police_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'MALE');
+            })
+            ->where('hosp_identifier', $id)
+            ->whereMonth('created_at', $smonth)
+            ->whereYear('created_at', $syear)
+            ->whereBetween('age_years', [20,59])
+            ->where('tags', $o)
+            ->where('disposition', 'SENT TO JAIL');
+
+            $adult_old_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'FEMALE');
+            })
+            ->where('hosp_identifier', $id)
+            ->whereMonth('created_at', $smonth)
+            ->whereYear('created_at', $syear)
+            ->whereBetween('age_years', [20,59])
+            ->where('nature_of_visit', 'FOLLOW-UP VISIT');
+
+            $adult_new_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'FEMALE');
+            })
+            ->where('hosp_identifier', $id)
+            ->whereMonth('created_at', $smonth)
+            ->whereYear('created_at', $syear)
+            ->whereBetween('age_years', [20,59])
+            ->where('nature_of_visit', 'NEW CONSULTATION/CASE');
+
+            $adult_police_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'FEMALE');
+            })
+            ->where('hosp_identifier', $id)
+            ->whereMonth('created_at', $smonth)
+            ->whereYear('created_at', $syear)
+            ->whereBetween('age_years', [20,59])
+            ->where('disposition', 'SENT TO JAIL');
+
+            //SENIOR
+
+            $senior_old_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'MALE');
+            })
+            ->where('hosp_identifier', $id)
+            ->whereMonth('created_at', $smonth)
+            ->whereYear('created_at', $syear)
+            ->where('age_years', '>=', 60)
+            ->where('nature_of_visit', 'FOLLOW-UP VISIT');
+
+            $senior_new_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'MALE');
+            })
+            ->where('hosp_identifier', $id)
+            ->whereMonth('created_at', $smonth)
+            ->whereYear('created_at', $syear)
+            ->where('age_years', '>=', 60)
+            ->where('nature_of_visit', 'NEW CONSULTATION/CASE');
+
+            $senior_police_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'MALE');
+            })
+            ->where('hosp_identifier', $id)
+            ->whereMonth('created_at', $smonth)
+            ->whereYear('created_at', $syear)
+            ->where('age_years', '>=', 60)
+            ->where('tags', $o)
+            ->where('disposition', 'SENT TO JAIL');
+
+            $senior_old_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'FEMALE');
+            })
+            ->where('hosp_identifier', $id)
+            ->whereMonth('created_at', $smonth)
+            ->whereYear('created_at', $syear)
+            ->where('age_years', '>=', 60)
+            ->where('nature_of_visit', 'FOLLOW-UP VISIT');
+
+            $senior_new_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'FEMALE');
+            })
+            ->where('hosp_identifier', $id)
+            ->whereMonth('created_at', $smonth)
+            ->whereYear('created_at', $syear)
+            ->where('age_years', '>=', 60)
+            ->where('nature_of_visit', 'NEW CONSULTATION/CASE');
+
+            $senior_police_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'FEMALE');
+            })
+            ->where('hosp_identifier', $id)
+            ->whereMonth('created_at', $smonth)
+            ->whereYear('created_at', $syear)
+            ->where('age_years', '>=', 60)
+            ->where('disposition', 'SENT TO JAIL');
+            
             if($o == 'MEDICAL') {
-                $pedia_old = 0;
-                $pedia_new = 0;
-                $pedia_police = 0;
-            }
-            else {
-                $pedia_old = SyndromicRecords::where('hosp_identifier', $id)
-                ->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear)
-                ->where('age_years', '<=', 19)
-                ->where('nature_of_visit', 'FOLLOW-UP VISIT')
-                ->where('tags', 'PEDIATRICS')
-                ->count();
-            }
+                $pedia_old_m = 0;
+                $pedia_old_f = 0;
+                $pedia_new_m = 0;
+                $pedia_new_f = 0;
+                $pedia_police_m = 0;
+                $pedia_police_f = 0;
 
-            if($o == 'PEDIATRICS') {
-                $adult_old = 0;
-                $adult_new = 0;
-                $adult_police = 0;
-            }
-            else {
-                
-            }
+                $adult_old_m = $adult_old_m->where('procedure_done', 'MED CHECKUP')->count();
+                $adult_old_f = $adult_old_f->where('procedure_done', 'MED CHECKUP')->count();
+                $adult_new_m = $adult_new_m->where('procedure_done', 'MED CHECKUP')->count();
+                $adult_new_f = $adult_new_f->where('procedure_done', 'MED CHECKUP')->count();
+                $adult_police_m = $adult_police_m->where('procedure_done', 'MED CHECKUP')->count();
+                $adult_police_f = $adult_police_f->where('procedure_done', 'MED CHECKUP')->count();
 
-            if($o == 'MEDICO-LEGAL') {
+                $senior_old_m = $senior_old_m->where('procedure_done', 'MED CHECKUP')->count();
+                $senior_old_f = $senior_old_f->where('procedure_done', 'MED CHECKUP')->count();
+                $senior_new_m = $senior_new_m->where('procedure_done', 'MED CHECKUP')->count();
+                $senior_new_f = $senior_new_f->where('procedure_done', 'MED CHECKUP')->count();
+                $senior_police_m = $senior_police_m->where('procedure_done', 'MED CHECKUP')->count();
+                $senior_police_f = $senior_police_f->where('procedure_done', 'MED CHECKUP')->count();
+            }
+            else if($o == 'PEDIATRICS') {
+                $pedia_old_m = $pedia_old_m->where('procedure_done', 'PED CHECKUP')->count();
+                $pedia_old_f = $pedia_old_f->where('procedure_done', 'PED CHECKUP')->count();
+                $pedia_new_m = $pedia_new_m->where('procedure_done', 'PED CHECKUP')->count();
+                $pedia_new_f = $pedia_new_f->where('procedure_done', 'PED CHECKUP')->count();
+                $pedia_police_m = $pedia_police_m->where('procedure_done', 'PED CHECKUP')->count();
+                $pedia_police_f = $pedia_police_f->where('procedure_done', 'PED CHECKUP')->count();
 
+                $adult_old_m = 0;
+                $adult_old_f = 0;
+                $adult_new_m = 0;
+                $adult_new_f = 0;
+                $adult_police_m = 0;
+                $adult_police_f = 0;
+
+                $senior_old_m = 0;
+                $senior_old_f = 0;
+                $senior_new_m = 0;
+                $senior_new_f = 0;
+                $senior_police_m = 0;
+                $senior_police_f = 0;
+            }
+            else if($o == 'MEDICO-LEGAL') {
+                $pedia_old_m = $pedia_old_m->where('procedure_done', 'MEDICO LEGAL')->count();
+                $pedia_old_f = $pedia_old_f->where('procedure_done', 'MEDICO LEGAL')->count();
+                $pedia_new_m = $pedia_new_m->where('procedure_done', 'MEDICO LEGAL')->count();
+                $pedia_new_f = $pedia_new_f->where('procedure_done', 'MEDICO LEGAL')->count();
+                $pedia_police_m = $pedia_police_m->where('procedure_done', 'MEDICO LEGAL')->count();
+                $pedia_police_f = $pedia_police_f->where('procedure_done', 'MEDICO LEGAL')->count();
+
+                $adult_old_m = $adult_old_m->where('procedure_done', 'MEDICO LEGAL')->count();
+                $adult_old_f = $adult_old_f->where('procedure_done', 'MEDICO LEGAL')->count();
+                $adult_new_m = $adult_new_m->where('procedure_done', 'MEDICO LEGAL')->count();
+                $adult_new_f = $adult_new_f->where('procedure_done', 'MEDICO LEGAL')->count();
+                $adult_police_m = $adult_police_m->where('procedure_done', 'MEDICO LEGAL')->count();
+                $adult_police_f = $adult_police_f->where('procedure_done', 'MEDICO LEGAL')->count();
+
+                $senior_old_m = $senior_old_m->where('procedure_done', 'MEDICO LEGAL')->count();
+                $senior_old_f = $senior_old_f->where('procedure_done', 'MEDICO LEGAL')->count();
+                $senior_new_m = $senior_new_m->where('procedure_done', 'MEDICO LEGAL')->count();
+                $senior_new_f = $senior_new_f->where('procedure_done', 'MEDICO LEGAL')->count();
+                $senior_police_m = $senior_police_m->where('procedure_done', 'MEDICO LEGAL')->count();
+                $senior_police_f = $senior_police_f->where('procedure_done', 'MEDICO LEGAL')->count();
             }
             else if($o == 'DOA') {
+                $pedia_old_m = $pedia_old_m->where('outcome', 'DOA')->count();
+                $pedia_old_f = $pedia_old_f->where('outcome', 'DOA')->count();
+                $pedia_new_m = $pedia_new_m->where('outcome', 'DOA')->count();
+                $pedia_new_f = $pedia_new_f->where('outcome', 'DOA')->count();
+                $pedia_police_m = $pedia_police_m->where('outcome', 'DOA')->count();
+                $pedia_police_f = $pedia_police_f->where('outcome', 'DOA')->count();
 
+                $adult_old_m = $adult_old_m->where('outcome', 'DOA')->count();
+                $adult_old_f = $adult_old_f->where('outcome', 'DOA')->count();
+                $adult_new_m = $adult_new_m->where('outcome', 'DOA')->count();
+                $adult_new_f = $adult_new_f->where('outcome', 'DOA')->count();
+                $adult_police_m = $adult_police_m->where('outcome', 'DOA')->count();
+                $adult_police_f = $adult_police_f->where('outcome', 'DOA')->count();
+
+                $senior_old_m = $senior_old_m->where('outcome', 'DOA')->count();
+                $senior_old_f = $senior_old_f->where('outcome', 'DOA')->count();
+                $senior_new_m = $senior_new_m->where('outcome', 'DOA')->count();
+                $senior_new_f = $senior_new_f->where('outcome', 'DOA')->count();
+                $senior_police_m = $senior_police_m->where('outcome', 'DOA')->count();
+                $senior_police_f = $senior_police_f->where('outcome', 'DOA')->count();
             }
-            else if($o == 'VA') {
+            else {
+                $pedia_old_m = $pedia_old_m->where('tags', $o)->count();
+                $pedia_old_f = $pedia_old_f->where('tags', $o)->count();
+                $pedia_new_m = $pedia_new_m->where('tags', $o)->count();
+                $pedia_new_f = $pedia_new_f->where('tags', $o)->count();
+                $pedia_police_m = $pedia_police_m->where('tags', $o)->count();
+                $pedia_police_f = $pedia_police_f->where('tags', $o)->count();
 
+                $adult_old_m = $adult_old_m->where('tags', $o)->count();
+                $adult_old_f = $adult_old_f->where('tags', $o)->count();
+                $adult_new_m = $adult_new_m->where('tags', $o)->count();
+                $adult_new_f = $adult_new_f->where('tags', $o)->count();
+                $adult_police_m = $adult_police_m->where('tags', $o)->count();
+                $adult_police_f = $adult_police_f->where('tags', $o)->count();
+
+                $senior_old_m = $senior_old_m->where('tags', $o)->count();
+                $senior_old_f = $senior_old_f->where('tags', $o)->count();
+                $senior_new_m = $senior_new_m->where('tags', $o)->count();
+                $senior_new_f = $senior_new_f->where('tags', $o)->count();
+                $senior_police_m = $senior_police_m->where('tags', $o)->count();
+                $senior_police_f = $senior_police_f->where('tags', $o)->count();
             }
 
             $second_array[] = [
                 'name' => $o,
-                'pedia_old' => 0,
-                'pedia_new' => 0,
-                'pedia_police' => 0,
+                'pedia_old_m' => $pedia_old_m,
+                'pedia_old_f' => $pedia_old_f,
+                'pedia_new_m' => $pedia_new_m,
+                'pedia_new_f' => $pedia_new_f,
+                'pedia_police_m' => $pedia_police_m,
+                'pedia_police_f' => $pedia_police_f,
 
-                'adult_old' => 0,
-                'adult_new' => 0,
-                'adult_police' => 0,
+                'adult_old_m' => $adult_old_m,
+                'adult_old_f' => $adult_old_f,
+                'adult_new_m' => $adult_new_m,
+                'adult_new_f' => $adult_new_f,
+                'adult_police_m' => $adult_police_m,
+                'adult_police_f' => $adult_police_f,
 
-                'senior_old' => 0,
-                'senior_new' => 0,
-                'senior_police' => 0,
+                'senior_old_m' => $senior_old_m,
+                'senior_old_f' => $senior_old_f,
+                'senior_new_m' => $senior_new_m,
+                'senior_new_f' => $senior_new_f,
+                'senior_police_m' => $senior_police_m,
+                'senior_police_f' => $senior_police_f,
             ];
         }
 
         return view('syndromic.hospital.opd_summary', [
             'final_arr' => $final_arr,
+            'second_array' => $second_array,
             'month_flavor' => $month_flavor,
 
             'smonth' => $smonth,
