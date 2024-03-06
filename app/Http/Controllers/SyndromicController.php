@@ -2208,6 +2208,7 @@ class SyndromicController extends Controller
         $group_diagnosis = SyndromicRecords::where('hosp_identifier', $id)
         ->whereMonth('created_at', $smonth)
         ->whereYear('created_at', $syear)
+        ->where('facility_id', auth()->user()->itr_facility_id)
         ->orderBy('dcnote_assessment', 'ASC')
         ->groupBy('dcnote_assessment')
         ->pluck('dcnote_assessment');
@@ -2225,6 +2226,7 @@ class SyndromicController extends Controller
                 ->where('nature_of_visit', 'FOLLOW-UP VISIT')
                 ->where('age_years', '<=', 19)
                 ->where('hosp_identifier', $id)
+                ->where('facility_id', auth()->user()->itr_facility_id)
                 ->whereMonth('created_at', $smonth)
                 ->whereYear('created_at', $syear)
                 ->count(),
@@ -2236,6 +2238,7 @@ class SyndromicController extends Controller
                 ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
                 ->where('age_years', '<=', 19)
                 ->where('hosp_identifier', $id)
+                ->where('facility_id', auth()->user()->itr_facility_id)
                 ->whereMonth('created_at', $smonth)
                 ->whereYear('created_at', $syear)
                 ->count(),
@@ -2247,6 +2250,7 @@ class SyndromicController extends Controller
                 ->where('disposition', 'SENT TO JAIL')
                 ->where('age_years', '<=', 19)
                 ->where('hosp_identifier', $id)
+                ->where('facility_id', auth()->user()->itr_facility_id)
                 ->whereMonth('created_at', $smonth)
                 ->whereYear('created_at', $syear)
                 ->count(),
@@ -2258,6 +2262,7 @@ class SyndromicController extends Controller
                 ->where('nature_of_visit', 'FOLLOW-UP VISIT')
                 ->where('age_years', '<=', 19)
                 ->where('hosp_identifier', $id)
+                ->where('facility_id', auth()->user()->itr_facility_id)
                 ->whereMonth('created_at', $smonth)
                 ->whereYear('created_at', $syear)
                 ->count(),
@@ -2269,6 +2274,7 @@ class SyndromicController extends Controller
                 ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
                 ->where('age_years', '<=', 19)
                 ->where('hosp_identifier', $id)
+                ->where('facility_id', auth()->user()->itr_facility_id)
                 ->whereMonth('created_at', $smonth)
                 ->whereYear('created_at', $syear)
                 ->count(),
@@ -2280,6 +2286,7 @@ class SyndromicController extends Controller
                 ->where('disposition', 'SENT TO JAIL')
                 ->where('age_years', '<=', 19)
                 ->where('hosp_identifier', $id)
+                ->where('facility_id', auth()->user()->itr_facility_id)
                 ->whereMonth('created_at', $smonth)
                 ->whereYear('created_at', $syear)
                 ->count(),
@@ -2291,6 +2298,7 @@ class SyndromicController extends Controller
                 ->where('nature_of_visit', 'FOLLOW-UP VISIT')
                 ->whereBetween('age_years', [20,59])
                 ->where('hosp_identifier', $id)
+                ->where('facility_id', auth()->user()->itr_facility_id)
                 ->whereMonth('created_at', $smonth)
                 ->whereYear('created_at', $syear)
                 ->count(),
@@ -2302,6 +2310,7 @@ class SyndromicController extends Controller
                 ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
                 ->whereBetween('age_years', [20,59])
                 ->where('hosp_identifier', $id)
+                ->where('facility_id', auth()->user()->itr_facility_id)
                 ->whereMonth('created_at', $smonth)
                 ->whereYear('created_at', $syear)
                 ->count(),
@@ -2313,6 +2322,7 @@ class SyndromicController extends Controller
                 ->where('disposition', 'SENT TO JAIL')
                 ->whereBetween('age_years', [20,59])
                 ->where('hosp_identifier', $id)
+                ->where('facility_id', auth()->user()->itr_facility_id)
                 ->whereMonth('created_at', $smonth)
                 ->whereYear('created_at', $syear)
                 ->count(),
@@ -2335,6 +2345,7 @@ class SyndromicController extends Controller
                 ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
                 ->whereBetween('age_years', [20,59])
                 ->where('hosp_identifier', $id)
+                ->where('facility_id', auth()->user()->itr_facility_id)
                 ->whereMonth('created_at', $smonth)
                 ->whereYear('created_at', $syear)
                 ->count(),
@@ -2346,6 +2357,7 @@ class SyndromicController extends Controller
                 ->where('disposition', 'SENT TO JAIL')
                 ->whereBetween('age_years', [20,59])
                 ->where('hosp_identifier', $id)
+                ->where('facility_id', auth()->user()->itr_facility_id)
                 ->whereMonth('created_at', $smonth)
                 ->whereYear('created_at', $syear)
                 ->count(),
@@ -2357,6 +2369,7 @@ class SyndromicController extends Controller
                 ->where('nature_of_visit', 'FOLLOW-UP VISIT')
                 ->where('age_years', '>=', 60)
                 ->where('hosp_identifier', $id)
+                ->where('facility_id', auth()->user()->itr_facility_id)
                 ->whereMonth('created_at', $smonth)
                 ->whereYear('created_at', $syear)
                 ->count(),
@@ -2368,6 +2381,7 @@ class SyndromicController extends Controller
                 ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
                 ->where('age_years', '>=', 60)
                 ->where('hosp_identifier', $id)
+                ->where('facility_id', auth()->user()->itr_facility_id)
                 ->whereMonth('created_at', $smonth)
                 ->whereYear('created_at', $syear)
                 ->count(),
@@ -2379,6 +2393,7 @@ class SyndromicController extends Controller
                 ->where('disposition', 'SENT TO JAIL')
                 ->where('age_years', '>=', 60)
                 ->where('hosp_identifier', $id)
+                ->where('facility_id', auth()->user()->itr_facility_id)
                 ->whereMonth('created_at', $smonth)
                 ->whereYear('created_at', $syear)
                 ->count(),
@@ -2390,6 +2405,7 @@ class SyndromicController extends Controller
                 ->where('nature_of_visit', 'FOLLOW-UP VISIT')
                 ->where('age_years', '>=', 60)
                 ->where('hosp_identifier', $id)
+                ->where('facility_id', auth()->user()->itr_facility_id)
                 ->whereMonth('created_at', $smonth)
                 ->whereYear('created_at', $syear)
                 ->count(),
@@ -2401,6 +2417,7 @@ class SyndromicController extends Controller
                 ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
                 ->where('age_years', '>=', 60)
                 ->where('hosp_identifier', $id)
+                ->where('facility_id', auth()->user()->itr_facility_id)
                 ->whereMonth('created_at', $smonth)
                 ->whereYear('created_at', $syear)
                 ->count(),
@@ -2412,6 +2429,7 @@ class SyndromicController extends Controller
                 ->where('disposition', 'SENT TO JAIL')
                 ->where('age_years', '>=', 60)
                 ->where('hosp_identifier', $id)
+                ->where('facility_id', auth()->user()->itr_facility_id)
                 ->whereMonth('created_at', $smonth)
                 ->whereYear('created_at', $syear)
                 ->count(),
@@ -2445,6 +2463,7 @@ class SyndromicController extends Controller
                 $q->where('gender', 'MALE');
             })
             ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
             ->whereMonth('created_at', $smonth)
             ->whereYear('created_at', $syear)
             ->where('age_years', '<=', 19)
@@ -2454,6 +2473,7 @@ class SyndromicController extends Controller
                 $q->where('gender', 'MALE');
             })
             ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
             ->whereMonth('created_at', $smonth)
             ->whereYear('created_at', $syear)
             ->where('age_years', '<=', 19)
@@ -2463,6 +2483,7 @@ class SyndromicController extends Controller
                 $q->where('gender', 'MALE');
             })
             ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
             ->whereMonth('created_at', $smonth)
             ->whereYear('created_at', $syear)
             ->where('age_years', '<=', 19)
@@ -2473,6 +2494,7 @@ class SyndromicController extends Controller
                 $q->where('gender', 'FEMALE');
             })
             ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
             ->whereMonth('created_at', $smonth)
             ->whereYear('created_at', $syear)
             ->where('age_years', '<=', 19)
@@ -2482,6 +2504,7 @@ class SyndromicController extends Controller
                 $q->where('gender', 'FEMALE');
             })
             ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
             ->whereMonth('created_at', $smonth)
             ->whereYear('created_at', $syear)
             ->where('age_years', '<=', 19)
@@ -2491,6 +2514,7 @@ class SyndromicController extends Controller
                 $q->where('gender', 'FEMALE');
             })
             ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
             ->whereMonth('created_at', $smonth)
             ->whereYear('created_at', $syear)
             ->where('age_years', '<=', 19)
@@ -2502,6 +2526,7 @@ class SyndromicController extends Controller
                 $q->where('gender', 'MALE');
             })
             ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
             ->whereMonth('created_at', $smonth)
             ->whereYear('created_at', $syear)
             ->whereBetween('age_years', [20,59])
@@ -2511,6 +2536,7 @@ class SyndromicController extends Controller
                 $q->where('gender', 'MALE');
             })
             ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
             ->whereMonth('created_at', $smonth)
             ->whereYear('created_at', $syear)
             ->whereBetween('age_years', [20,59])
@@ -2520,6 +2546,7 @@ class SyndromicController extends Controller
                 $q->where('gender', 'MALE');
             })
             ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
             ->whereMonth('created_at', $smonth)
             ->whereYear('created_at', $syear)
             ->whereBetween('age_years', [20,59])
@@ -2530,6 +2557,7 @@ class SyndromicController extends Controller
                 $q->where('gender', 'FEMALE');
             })
             ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
             ->whereMonth('created_at', $smonth)
             ->whereYear('created_at', $syear)
             ->whereBetween('age_years', [20,59])
@@ -2539,6 +2567,7 @@ class SyndromicController extends Controller
                 $q->where('gender', 'FEMALE');
             })
             ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
             ->whereMonth('created_at', $smonth)
             ->whereYear('created_at', $syear)
             ->whereBetween('age_years', [20,59])
@@ -2548,6 +2577,7 @@ class SyndromicController extends Controller
                 $q->where('gender', 'FEMALE');
             })
             ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
             ->whereMonth('created_at', $smonth)
             ->whereYear('created_at', $syear)
             ->whereBetween('age_years', [20,59])
@@ -2559,6 +2589,7 @@ class SyndromicController extends Controller
                 $q->where('gender', 'MALE');
             })
             ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
             ->whereMonth('created_at', $smonth)
             ->whereYear('created_at', $syear)
             ->where('age_years', '>=', 60)
@@ -2568,6 +2599,7 @@ class SyndromicController extends Controller
                 $q->where('gender', 'MALE');
             })
             ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
             ->whereMonth('created_at', $smonth)
             ->whereYear('created_at', $syear)
             ->where('age_years', '>=', 60)
@@ -2577,6 +2609,7 @@ class SyndromicController extends Controller
                 $q->where('gender', 'MALE');
             })
             ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
             ->whereMonth('created_at', $smonth)
             ->whereYear('created_at', $syear)
             ->where('age_years', '>=', 60)
@@ -2587,6 +2620,7 @@ class SyndromicController extends Controller
                 $q->where('gender', 'FEMALE');
             })
             ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
             ->whereMonth('created_at', $smonth)
             ->whereYear('created_at', $syear)
             ->where('age_years', '>=', 60)
@@ -2596,6 +2630,7 @@ class SyndromicController extends Controller
                 $q->where('gender', 'FEMALE');
             })
             ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
             ->whereMonth('created_at', $smonth)
             ->whereYear('created_at', $syear)
             ->where('age_years', '>=', 60)
@@ -2605,6 +2640,7 @@ class SyndromicController extends Controller
                 $q->where('gender', 'FEMALE');
             })
             ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
             ->whereMonth('created_at', $smonth)
             ->whereYear('created_at', $syear)
             ->where('age_years', '>=', 60)
