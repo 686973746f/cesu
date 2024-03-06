@@ -2345,6 +2345,8 @@ class SyndromicController extends Controller
                 ->where('hospital_completion', 'PART2')
                 ->whereBetween('age_years', [20,59])
                 ->where('hosp_identifier', $id)
+                ->where('facility_id', auth()->user()->itr_facility_id)
+                ->where('hospital_completion', 'PART2')
                 ->whereMonth('created_at', $smonth)
                 ->whereYear('created_at', $syear)
                 ->count(),
