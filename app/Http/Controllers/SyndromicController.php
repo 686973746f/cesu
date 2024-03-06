@@ -2693,10 +2693,7 @@ class SyndromicController extends Controller
                 $pedia_police_f = 0;
 
                 $adult_old_m = $adult_old_m->where('procedure_done', 'MED CHECKUP')->count();
-                $adult_old_f = $adult_old_f->where('procedure_done', 'MED CHECKUP')->pluck('id');
-
-                dd($adult_old_f);
-
+                $adult_old_f = $adult_old_f->where('procedure_done', 'MED CHECKUP')->count();
                 $adult_new_m = $adult_new_m->where('procedure_done', 'MED CHECKUP')->count();
                 $adult_new_f = $adult_new_f->where('procedure_done', 'MED CHECKUP')->count();
                 $adult_police_m = $adult_police_m->where('procedure_done', 'MED CHECKUP')->count();
