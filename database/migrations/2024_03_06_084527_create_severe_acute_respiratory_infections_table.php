@@ -115,6 +115,27 @@ class CreateSevereAcuteRespiratoryInfectionsTable extends Migration
             $table->text('specify_antivirals')->nullable();
             $table->string('fluid_theraphy')->nullable();
             $table->text('specify_fluidtherapy')->nullable();
+            $table->string('oxygen')->nullable();
+            $table->text('specify_oxygen')->nullable();
+            $table->string('intubation')->nullable();
+            $table->text('specify_intubation')->nullable();
+            $table->string('bacterialtesting')->nullable();
+            $table->text('specify_bacterialtesting')->nullable();
+            $table->string('othertherapeutic')->nullable();
+            $table->text('specify_othertherapeutic')->nullable();
+
+            $table->text('final_diagnosis')->nullable();
+            $table->string('outcome')->nullable();
+            $table->date('date_discharged')->nullable();
+            $table->date('date_died')->nullable();
+            $table->text('case_classification')->nullable();
+
+            $table->string('year')->nullable();
+            $table->string('morbidity_month')->nullable();
+            $table->string('morbidity_week')->nullable();
+
+            $table->string('admit_to_entry')->nullable();
+            $table->string('onset_to_admit')->nullable();
 
             $table->tinyInteger('systemsent', 1)->default(0);
             $table->tinyInteger('enabled', 1)->default(1);

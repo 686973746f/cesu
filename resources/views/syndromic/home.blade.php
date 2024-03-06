@@ -38,17 +38,17 @@
         <hr>
             @if(session('p')->userHasPermissionToAccess())
                 <div class="alert alert-primary" role="alert">
-                    <div><b>Full Name: </b> <b><u>{{$p->getName()}}</u></b></div>
+                    <div><b>Full Name: </b> <a href="{{route('syndromic_viewPatient', session('p')->id)}}"><b><u>{{$p->getName()}}</u></b></a> <= Click to View/Edit Patient Profile</div>
                     <div><b>Birthdate: </b> {{date('m/d/Y', strtotime($p->bdate))}}</div>
                     <div><b>Age/Sex:</b> {{$p->getAge()}} / {{substr($p->gender, 0,1)}}</div>
                     <div><b>Address: </b> {{$p->getFullAddress()}}</div>
                     <div><b>Date Encoded / By: </b> {{date('m/d/Y h:i A', strtotime($p->created_at))}} by {{$p->user->name}}</div>
                     @if($p->getLastCheckup())
                     <hr>
-                    <div><b>Last Consultation ID / Date: </b> <b><a href="{{route('syndromic_viewRecord', $p->getLastCheckup()->id)}}">{{$p->getLastCheckup()->opdno}}</a></b> / {{date('m/d/Y', strtotime($p->getLastCheckup()->consultation_date))}}</div>
+                    <div><b>Last Consultation ID: </b> <b><a href="{{route('syndromic_viewRecord', $p->getLastCheckup()->id)}}">{{$p->getLastCheckup()->opdno}}</a></b> <= Click to View Previous Consultation</div>
+                    <div><b>Date:</b> {{date('M. d, Y - D', strtotime($p->getLastCheckup()->consultation_date))}} ({{Carbon\Carbon::parse($p->getLastCheckup()->consultation_date)->diffForHumans()}})</div>
+                    <div><b>Facility: </b> {{$p->getLastCheckup()->facility->facility_name}}</div>
                     @endif
-                    <hr>
-                    > To view/update the Patient details, click <a href="{{route('syndromic_viewPatient', session('p')->id)}}">HERE</a>
                 </div>
             </div>
             @else

@@ -29,14 +29,17 @@
                             <h6><b>Geriatric</b></h6>
                             <h6><i>(60 AND ABOVE)</i></h6>
                         </th>
+                        <th rowspan="3">
+                            TOTAL
+                        </th>
                     </tr>
                     <tr>
-                        <th colspan="3">M</th>
-                        <th colspan="3">F</th>
-                        <th colspan="3">M</th>
-                        <th colspan="3">F</th>
-                        <th colspan="3">M</th>
-                        <th colspan="3">F</th>
+                        <th colspan="3" class="text-primary">M</th>
+                        <th colspan="3" class="text-danger">F</th>
+                        <th colspan="3" class="text-primary">M</th>
+                        <th colspan="3" class="text-danger">F</th>
+                        <th colspan="3" class="text-primary">M</th>
+                        <th colspan="3" class="text-danger">F</th>
                     </tr>
                     <tr>
                         <th colspan="1">O</th>
@@ -61,6 +64,25 @@
                 </thead>
                 <tbody>
                     @php
+                    $pedia_old_m_total = 0;
+                    $pedia_new_m_total = 0;
+                    $pedia_police_m_total = 0;
+                    $pedia_old_f_total = 0;
+                    $pedia_new_f_total = 0;
+                    $pedia_police_f_total = 0;
+                    $adult_old_m_total = 0;
+                    $adult_new_m_total = 0;
+                    $adult_police_m_total = 0;
+                    $adult_old_f_total = 0;
+                    $adult_new_f_total = 0;
+                    $adult_police_f_total = 0;
+                    $senior_old_m_total = 0;
+                    $senior_new_m_total = 0;
+                    $senior_police_m_total = 0;
+                    $senior_old_f_total = 0;
+                    $senior_new_f_total = 0;
+                    $senior_police_f_total = 0;
+
                     $main_pedia_total = 0;
                     $main_adult_total = 0;
                     $main_senior_total = 0;
@@ -86,21 +108,83 @@
                         <td class="text-center">{{$f['senior_old_f']}}</td>
                         <td class="text-center">{{$f['senior_new_f']}}</td>
                         <td class="text-center">{{$f['senior_police_f']}}</td>
+                        <td class="text-center">
+                            <b>{{$f['pedia_old_m'] +
+                                $f['pedia_new_m'] +
+                                $f['pedia_police_m'] +
+                                $f['pedia_old_f'] +
+                                $f['pedia_new_f'] +
+                                $f['pedia_police_f'] +
+                                $f['adult_old_m'] +
+                                $f['adult_new_m'] +
+                                $f['adult_police_m'] +
+                                $f['adult_old_f'] +
+                                $f['adult_new_f'] +
+                                $f['adult_police_f'] +
+                                $f['senior_old_m'] +
+                                $f['senior_new_m'] +
+                                $f['senior_police_m'] +
+                                $f['senior_old_f'] +
+                                $f['senior_new_f'] +
+                                $f['senior_police_f']}}</b>
+                        </td>
                     </tr>
                         @php
+                        $pedia_old_m_total += $f['pedia_old_m'];
+                        $pedia_new_m_total += $f['pedia_new_m'];
+                        $pedia_police_m_total += $f['pedia_police_m'];
+                        $pedia_old_f_total += $f['pedia_old_f'];
+                        $pedia_new_f_total += $f['pedia_new_f'];
+                        $pedia_police_f_total += $f['pedia_police_f'];
+                        $adult_old_m_total += $f['adult_old_m'];
+                        $adult_new_m_total += $f['adult_new_m'];
+                        $adult_police_m_total += $f['adult_police_m'];
+                        $adult_old_f_total += $f['adult_old_f'];
+                        $adult_new_f_total += $f['adult_new_f'];
+                        $adult_police_f_total += $f['adult_police_f'];
+                        $senior_old_m_total += $f['senior_old_m'];
+                        $senior_new_m_total += $f['senior_new_m'];
+                        $senior_police_m_total += $f['senior_police_m'];
+                        $senior_old_f_total += $f['senior_old_f'];
+                        $senior_new_f_total += $f['senior_new_f'];
+                        $senior_police_f_total += $f['senior_police_f'];
+
                         $main_pedia_total += $f['pedia_old_m'] + $f['pedia_new_m'] + $f['pedia_police_m'] + $f['pedia_old_f'] + $f['pedia_new_f'] + $f['pedia_police_f'];
                         $main_adult_total += $f['adult_old_m'] + $f['adult_new_m'] + $f['adult_police_m'] + $f['adult_old_f'] + $f['adult_new_f'] + $f['adult_police_f'];
                         $main_senior_total += $f['senior_old_m'] + $f['senior_new_m'] + $f['senior_police_m'] + $f['senior_old_f'] + $f['senior_new_f'] + $f['senior_police_f'];
                         @endphp
                     @endforeach
+                    <tr class="font-weight-bold bg-light">
+                        <td class="text-right">TOTAL</td>
+                        <td class="text-center">{{$pedia_old_m_total}}</td>
+                        <td class="text-center">{{$pedia_new_m_total}}</td>
+                        <td class="text-center">{{$pedia_police_m_total}}</td>
+                        <td class="text-center">{{$pedia_old_f_total}}</td>
+                        <td class="text-center">{{$pedia_new_f_total}}</td>
+                        <td class="text-center">{{$pedia_police_f_total}}</td>
+                        <td class="text-center">{{$adult_old_m_total}}</td>
+                        <td class="text-center">{{$adult_new_m_total}}</td>
+                        <td class="text-center">{{$adult_police_m_total}}</td>
+                        <td class="text-center">{{$adult_old_f_total}}</td>
+                        <td class="text-center">{{$adult_new_f_total}}</td>
+                        <td class="text-center">{{$adult_police_f_total}}</td>
+                        <td class="text-center">{{$senior_old_m_total}}</td>
+                        <td class="text-center">{{$senior_new_m_total}}</td>
+                        <td class="text-center">{{$senior_police_m_total}}</td>
+                        <td class="text-center">{{$senior_old_f_total}}</td>
+                        <td class="text-center">{{$senior_new_f_total}}</td>
+                        <td class="text-center">{{$senior_police_f_total}}</td>
+                        <td class="text-center text-danger">{{$main_pedia_total + $main_adult_total + $main_senior_total}}</td>
+                    </tr>
                     <tr>
                         <td></td>
-                        <td colspan="5" class="text-right"><b>Pedia Total</b></td>
+                        <td colspan="5" class="text-right"><b>PEDIA</b></td>
                         <td class="text-center"><b>{{$main_pedia_total}}</b></td>
-                        <td colspan="5" class="text-right"><b>Adult Total</b></td>
+                        <td colspan="5" class="text-right"><b>ADULT</b></td>
                         <td class="text-center"><b>{{$main_adult_total}}</b></td>
-                        <td colspan="5" class="text-right"><b>Senior Total</b></td>
+                        <td colspan="5" class="text-right"><b>SENIOR</b></td>
                         <td class="text-center"><b>{{$main_senior_total}}</b></td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td></td>
@@ -122,7 +206,32 @@
                         <td></td>
                         <td></td>
                         <td></td>
+                        <td></td>
                     </tr>
+                    @php
+                    $pedia_old_m_total = 0;
+                    $pedia_new_m_total = 0;
+                    $pedia_police_m_total = 0;
+                    $pedia_old_f_total = 0;
+                    $pedia_new_f_total = 0;
+                    $pedia_police_f_total = 0;
+                    $adult_old_m_total = 0;
+                    $adult_new_m_total = 0;
+                    $adult_police_m_total = 0;
+                    $adult_old_f_total = 0;
+                    $adult_new_f_total = 0;
+                    $adult_police_f_total = 0;
+                    $senior_old_m_total = 0;
+                    $senior_new_m_total = 0;
+                    $senior_police_m_total = 0;
+                    $senior_old_f_total = 0;
+                    $senior_new_f_total = 0;
+                    $senior_police_f_total = 0;
+
+                    $main_pedia_total = 0;
+                    $main_adult_total = 0;
+                    $main_senior_total = 0;
+                    @endphp
                     @foreach($second_array as $f)
                     <tr>
                         <td>{{$f['name']}}</td>
@@ -144,8 +253,74 @@
                         <td class="text-center {{($f['name'] == 'PEDIATRICS') ? 'bg-secondary' : ''}}">{{($f['name'] != 'PEDIATRICS') ? $f['senior_old_f'] : ''}}</td>
                         <td class="text-center {{($f['name'] == 'PEDIATRICS') ? 'bg-secondary' : ''}}">{{($f['name'] != 'PEDIATRICS') ? $f['senior_new_f'] : ''}}</td>
                         <td class="text-center {{($f['name'] == 'PEDIATRICS') ? 'bg-secondary' : ''}}">{{($f['name'] != 'PEDIATRICS') ? $f['senior_police_f'] : ''}}</td>
+                        <td class="text-center">
+                            <b>{{$f['pedia_old_m'] +
+                                $f['pedia_new_m'] +
+                                $f['pedia_police_m'] +
+                                $f['pedia_old_f'] +
+                                $f['pedia_new_f'] +
+                                $f['pedia_police_f'] +
+                                $f['adult_old_m'] +
+                                $f['adult_new_m'] +
+                                $f['adult_police_m'] +
+                                $f['adult_old_f'] +
+                                $f['adult_new_f'] +
+                                $f['adult_police_f'] +
+                                $f['senior_old_m'] +
+                                $f['senior_new_m'] +
+                                $f['senior_police_m'] +
+                                $f['senior_old_f'] +
+                                $f['senior_new_f'] +
+                                $f['senior_police_f']}}</b>
+                        </td>
                     </tr>
+                        @php
+                        $pedia_old_m_total += $f['pedia_old_m'];
+                        $pedia_new_m_total += $f['pedia_new_m'];
+                        $pedia_police_m_total += $f['pedia_police_m'];
+                        $pedia_old_f_total += $f['pedia_old_f'];
+                        $pedia_new_f_total += $f['pedia_new_f'];
+                        $pedia_police_f_total += $f['pedia_police_f'];
+                        $adult_old_m_total += $f['adult_old_m'];
+                        $adult_new_m_total += $f['adult_new_m'];
+                        $adult_police_m_total += $f['adult_police_m'];
+                        $adult_old_f_total += $f['adult_old_f'];
+                        $adult_new_f_total += $f['adult_new_f'];
+                        $adult_police_f_total += $f['adult_police_f'];
+                        $senior_old_m_total += $f['senior_old_m'];
+                        $senior_new_m_total += $f['senior_new_m'];
+                        $senior_police_m_total += $f['senior_police_m'];
+                        $senior_old_f_total += $f['senior_old_f'];
+                        $senior_new_f_total += $f['senior_new_f'];
+                        $senior_police_f_total += $f['senior_police_f'];
+
+                        $main_pedia_total += $f['pedia_old_m'] + $f['pedia_new_m'] + $f['pedia_police_m'] + $f['pedia_old_f'] + $f['pedia_new_f'] + $f['pedia_police_f'];
+                        $main_adult_total += $f['adult_old_m'] + $f['adult_new_m'] + $f['adult_police_m'] + $f['adult_old_f'] + $f['adult_new_f'] + $f['adult_police_f'];
+                        $main_senior_total += $f['senior_old_m'] + $f['senior_new_m'] + $f['senior_police_m'] + $f['senior_old_f'] + $f['senior_new_f'] + $f['senior_police_f'];
+                        @endphp
                     @endforeach
+                    <tr class="font-weight-bold bg-light">
+                        <td class="text-right">TOTAL</td>
+                        <td class="text-center">{{$pedia_old_m_total}}</td>
+                        <td class="text-center">{{$pedia_new_m_total}}</td>
+                        <td class="text-center">{{$pedia_police_m_total}}</td>
+                        <td class="text-center">{{$pedia_old_f_total}}</td>
+                        <td class="text-center">{{$pedia_new_f_total}}</td>
+                        <td class="text-center">{{$pedia_police_f_total}}</td>
+                        <td class="text-center">{{$adult_old_m_total}}</td>
+                        <td class="text-center">{{$adult_new_m_total}}</td>
+                        <td class="text-center">{{$adult_police_m_total}}</td>
+                        <td class="text-center">{{$adult_old_f_total}}</td>
+                        <td class="text-center">{{$adult_new_f_total}}</td>
+                        <td class="text-center">{{$adult_police_f_total}}</td>
+                        <td class="text-center">{{$senior_old_m_total}}</td>
+                        <td class="text-center">{{$senior_new_m_total}}</td>
+                        <td class="text-center">{{$senior_police_m_total}}</td>
+                        <td class="text-center">{{$senior_old_f_total}}</td>
+                        <td class="text-center">{{$senior_new_f_total}}</td>
+                        <td class="text-center">{{$senior_police_f_total}}</td>
+                        <td class="text-center text-danger">{{$main_pedia_total + $main_adult_total + $main_senior_total}}</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
