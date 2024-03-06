@@ -537,13 +537,14 @@ class SyndromicController extends Controller
         else {
             $required_maindiagnosis = false;
             $required_bp = false;
-            $required_weight = true;
 
             if(!is_null(auth()->user()->itr_medicalevent_id)) {
                 $required_symptoms = false;
+                $required_weight = false;
             }
             else {
                 $required_symptoms = true;
+                $required_weight = true;
             }
         }
 

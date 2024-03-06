@@ -111,12 +111,13 @@ class CreateSevereAcuteRespiratoryInfectionsTable extends Migration
             $table->string('pregnancy')->nullable();
             $table->string('antibiotics')->nullable();
             $table->text('specify_antibiotics')->nullable();
+            $table->string('antivirals')->nullable();
+            $table->text('specify_antivirals')->nullable();
+            $table->string('fluid_theraphy')->nullable();
+            $table->text('specify_fluidtherapy')->nullable();
+
             $table->tinyInteger('systemsent', 1)->default(0);
             $table->tinyInteger('enabled', 1)->default(1);
-            
-            
-            
-            
             $table->text('edcs_investigatorName')->nullable();
             $table->text('edcs_contactNo')->nullable();
             $table->text('edcs_ageGroup')->nullable();
