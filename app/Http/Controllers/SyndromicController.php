@@ -651,7 +651,7 @@ class SyndromicController extends Controller
                 'consultation_date' => $r->consultation_date,
                 'temperature' => $r->temperature,
                 'bloodpressure' => $r->filled('bloodpressure') ? $r->bloodpressure : NULL,
-                'weight' => $r->weight,
+                'weight' => ($r->filled('weight')) ? $r->weight : NULL,
                 'respiratoryrate' => $r->respiratoryrate,
                 'pulserate' => $r->pulserate,
                 'saturationperioxigen' => $r->saturationperioxigen,
@@ -1312,6 +1312,7 @@ class SyndromicController extends Controller
             $required_symptoms = true;
             $required_maindiagnosis = true;
             $required_bp = true;
+            $required_weight = false;
 
             if($r->hospital_completion == 'PART1') {
                 $unlocktoolbar = false;
@@ -1330,6 +1331,7 @@ class SyndromicController extends Controller
 
             $required_maindiagnosis = false;
             $required_bp = false;
+            $required_weight = true;
 
             $unlocktoolbar = true;
         }

@@ -177,7 +177,11 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="weight">
-                              @if($required_weight)<b class="text-danger">*</b>@endif Weight (in kilograms)</label>
+                              @if($required_weight)
+                              <b class="text-danger">*</b>
+                              @endif
+                              Weight (in kilograms)
+                            </label>
                             <input type="number" step="0.1" pattern="\d+(\.\d{1})?" class="form-control" name="weight" id="weight" min="1" max="900" value="{{old('weight')}}" {{($required_weight) ? 'required' : ''}}>
                         </div>
                     </div>
@@ -1245,7 +1249,7 @@
       $('#if_noncheckup').removeClass('d-none');
       $('#outsidecho_name').prop('required', true);
       $('.required_before').addClass('d-none'); //Weight Asterisk
-      @if(auth()->user()->isSyndromicHospitalLevelAccess())
+      @if($required_weight)
       $('#weight').prop('required', false);
       @endif
       $('#name_of_physician').val('').trigger('change');
@@ -1260,7 +1264,7 @@
       $('#if_noncheckup').addClass('d-none');
       $('#outsidecho_name').prop('required', false);
       $('.required_before').removeClass('d-none'); //Weight Asterisk
-      @if(auth()->user()->isSyndromicHospitalLevelAccess())
+      @if($required_weight)
       $('#weight').prop('required', true);
       @endif
       $('.official_drlist').prop('disabled', false);

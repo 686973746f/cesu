@@ -200,8 +200,12 @@
                 <div class="row">
                     <div class="col-md-3">
                       <div class="form-group">
-                          <label for="weight"><b class="text-danger required_before">*</b>Weight (in kilograms)</label>
-                          <input type="number" step="0.1" pattern="\d+(\.\d{1})?" class="form-control" name="weight" id="weight" value="{{old('weight', $d->weight)}}" required>
+                          <label for="weight">
+                            @if($required_weight)
+                            <b class="text-danger required_before">*</b>
+                            @endif
+                            Weight (in kilograms)</label>
+                          <input type="number" step="0.1" pattern="\d+(\.\d{1})?" class="form-control" name="weight" id="weight" value="{{old('weight', $d->weight)}}" {{($required_weight) ? 'required' : ''}}>
                       </div>
                     </div>
                     <div class="col-md-3">
@@ -1298,7 +1302,9 @@
       $('#if_noncheckup').removeClass('d-none');
       $('#outsidecho_name').prop('required', true);
       $('.required_before').addClass('d-none'); //Weight Asterisk
+      @if($required_weight)
       $('#weight').prop('required', false);
+      @endif
       //$('#name_of_physician').val('').trigger('change');
       //$('#name_of_physician').val('OTHERS').trigger('change');
       $('.official_drlist').prop('disabled', true);
@@ -1309,7 +1315,9 @@
       $('#if_noncheckup').addClass('d-none');
       $('#outsidecho_name').prop('required', false);
       $('.required_before').removeClass('d-none'); //Weight Asterisk
+      @if($required_weight)
       $('#weight').prop('required', true);
+      @endif
       $('.official_drlist').prop('disabled', false);
       $('.outside_drlist').prop('disabled', true);
       //$('#ifotherdoctor').addClass('d-none');
