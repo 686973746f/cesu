@@ -985,6 +985,7 @@
                     <div class="form-group">
                       <label for="name_of_physician"><b class="text-danger">*</b>Attending Physician</label>
                       <select class="form-control" name="name_of_physician" id="name_of_physician" required>
+                        <option value="" disabled {{(is_null(old('name_of_physician'))) ? 'selected' : ''}}>Choose...</option>
                         <!--<option {{(is_null(old('name_of_physician'))) ? 'selected' : ''}} value="">None</option>-->
                         @if(auth()->user()->isSyndromicHospitalLevelAccess())
                           @foreach($doclist as $dr)
@@ -992,7 +993,7 @@
                           @endforeach
                         @else
                           @foreach($doclist as $dr)
-                          <option value="{{$dr->doctor_name}}" {{(old('name_of_physician', auth()->user()->getItrDefaultDoctor()->doctor_name) == $dr->doctor_name) ? 'selected' : ''}} class="{{($dr->dru_name == 'CHO GENERAL TRIAS') ? 'official_drlist' : 'outside_drlist'}}">{{$dr->doctor_name}} ({{$dr->dru_name}})</option>
+                          <option value="{{$dr->doctor_name}}" {{(old('name_of_physician', (auth()->user()->getItrDefaultDoctor()) ? auth()->user()->getItrDefaultDoctor()->doctor_name : NULL) == $dr->doctor_name) ? 'selected' : ''}} class="{{($dr->dru_name == 'CHO GENERAL TRIAS') ? 'official_drlist' : 'outside_drlist'}}">{{$dr->doctor_name}} ({{$dr->dru_name}})</option>
                           @endforeach
                         @endif
                         <option value="OTHERS" {{old('name_of_physician')}}>OTHERS</option>

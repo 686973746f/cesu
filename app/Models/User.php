@@ -588,9 +588,14 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function getItrDefaultDoctor() {
-        $f = SyndromicDoctor::findOrFail($this->itr_doctor_id);
+        $f = SyndromicDoctor::where('id', $this->itr_doctor_id)->first();
 
-        return $f;
+        if($f) {
+            return $f;
+        }
+        else {
+            return NULL;
+        }
     }
     
     public function ifInitAbtcVaccineBrandDaily() {
