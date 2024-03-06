@@ -86,7 +86,7 @@ class CreateSevereAcuteRespiratoryInfectionsTable extends Migration
             $table->string('requires_hospital_admission')->nullable();
             $table->text('others')->nullable();
 
-            $table->string('sorethroat')->nullable();
+            $table->string('any_twomonthstofiveyears_age_withcoughordob')->nullable();
             $table->string('sorethroat')->nullable();
             $table->string('sorethroat')->nullable();
             $table->string('sorethroat')->nullable();
