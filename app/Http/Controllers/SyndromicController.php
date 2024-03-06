@@ -2692,6 +2692,7 @@ class SyndromicController extends Controller
                 $pedia_police_m = 0;
                 $pedia_police_f = 0;
 
+                /*
                 $adult_old_m = $adult_old_m->where('procedure_done', 'MED CHECKUP')->count();
                 $adult_old_f = $adult_old_f->where('procedure_done', 'MED CHECKUP')->count();
                 $adult_new_m = $adult_new_m->where('procedure_done', 'MED CHECKUP')->count();
@@ -2705,14 +2706,38 @@ class SyndromicController extends Controller
                 $senior_new_f = $senior_new_f->where('procedure_done', 'MED CHECKUP')->count();
                 $senior_police_m = $senior_police_m->where('procedure_done', 'MED CHECKUP')->count();
                 $senior_police_f = $senior_police_f->where('procedure_done', 'MED CHECKUP')->count();
+                */
+
+                $adult_old_m = $adult_old_m->where('tags', 'MEDICAL')->count();
+                $adult_old_f = $adult_old_f->where('tags', 'MEDICAL')->count();
+                $adult_new_m = $adult_new_m->where('tags', 'MEDICAL')->count();
+                $adult_new_f = $adult_new_f->where('tags', 'MEDICAL')->count();
+                $adult_police_m = $adult_police_m->where('tags', 'MEDICAL')->count();
+                $adult_police_f = $adult_police_f->where('tags', 'MEDICAL')->count();
+
+                $senior_old_m = $senior_old_m->where('tags', 'MEDICAL')->count();
+                $senior_old_f = $senior_old_f->where('tags', 'MEDICAL')->count();
+                $senior_new_m = $senior_new_m->where('tags', 'MEDICAL')->count();
+                $senior_new_f = $senior_new_f->where('tags', 'MEDICAL')->count();
+                $senior_police_m = $senior_police_m->where('tags', 'MEDICAL')->count();
+                $senior_police_f = $senior_police_f->where('tags', 'MEDICAL')->count();
             }
             else if($o == 'PEDIATRICS') {
+                /*
                 $pedia_old_m = $pedia_old_m->where('procedure_done', 'PED CHECKUP')->count();
                 $pedia_old_f = $pedia_old_f->where('procedure_done', 'PED CHECKUP')->count();
                 $pedia_new_m = $pedia_new_m->where('procedure_done', 'PED CHECKUP')->count();
                 $pedia_new_f = $pedia_new_f->where('procedure_done', 'PED CHECKUP')->count();
                 $pedia_police_m = $pedia_police_m->where('procedure_done', 'PED CHECKUP')->count();
                 $pedia_police_f = $pedia_police_f->where('procedure_done', 'PED CHECKUP')->count();
+                */
+
+                $pedia_old_m = $pedia_old_m->where('tags', 'PEDIATRICS')->count();
+                $pedia_old_f = $pedia_old_f->where('tags', 'PEDIATRICS')->count();
+                $pedia_new_m = $pedia_new_m->where('tags', 'PEDIATRICS')->count();
+                $pedia_new_f = $pedia_new_f->where('tags', 'PEDIATRICS')->count();
+                $pedia_police_m = $pedia_police_m->where('tags', 'PEDIATRICS')->count();
+                $pedia_police_f = $pedia_police_f->where('tags', 'PEDIATRICS')->count();
 
                 $adult_old_m = 0;
                 $adult_old_f = 0;
