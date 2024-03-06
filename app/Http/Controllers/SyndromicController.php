@@ -1503,7 +1503,7 @@ class SyndromicController extends Controller
                     'date_discharged' => ($r->is_discharged == 'Y') ? $r->date_discharged : NULL,
 
                     'tags' => $r->tags,
-                    'created_by' => ($r->hospital_completion == 'PART1') ? auth()->user()->id : $r->created_by,
+                    'created_by' => ($r->hospital_completion == 'PART1') ? auth()->user()->id : $d->created_by,
                 ];
             }
 
