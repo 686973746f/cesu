@@ -1481,7 +1481,7 @@ class SyndromicController extends Controller
                 //'status' => 'approved',
                 'name_of_physician' => $r->name_of_physician,
                 'other_doctor' => ($r->name_of_physician == 'OTHERS') ? mb_strtoupper($r->other_doctor) : NULL,
-                'dru_name'=> ($r->name_of_physician != 'OTHERS') ? SyndromicDoctor::where('doctor_name', $r->name_of_physician)->first()->dru_name : NULL,
+                'dru_name' => ($r->name_of_physician != 'OTHERS') ? SyndromicDoctor::where('doctor_name', $r->name_of_physician)->first()->dru_name : NULL,
                 
                 'updated_by' => auth()->user()->id,
             ];

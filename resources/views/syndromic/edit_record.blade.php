@@ -997,7 +997,7 @@
                   <div class="col-md-{{$colsize3}}">
                     <div class="form-group">
                       <label for="name_of_physician"><span class="text-danger font-weight-bold">*</span>Attending Physician</label>
-                      <select class="form-control" name="name_of_physician" id="name_of_physician">
+                      <select class="form-control" name="name_of_physician" id="name_of_physician" required>
                         @if($d->isHospitalRecord())
                         <option value="" disabled {{(is_null(old('name_of_physician', $d->name_of_physician))) ? 'selected' : ''}}>Choose...</option>
                           @foreach($doclist as $dr)

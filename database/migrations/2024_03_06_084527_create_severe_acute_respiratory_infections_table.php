@@ -87,12 +87,30 @@ class CreateSevereAcuteRespiratoryInfectionsTable extends Migration
             $table->text('others')->nullable();
 
             $table->string('any_twomonthstofiveyears_age_withcoughordob')->nullable();
-            $table->string('sorethroat')->nullable();
-            $table->string('sorethroat')->nullable();
-            $table->string('sorethroat')->nullable();
-            $table->string('sorethroat')->nullable();
-            $table->string('sorethroat')->nullable();
+            $table->string('bftsixtybreaths_infants')->nullable();
+            $table->string('bftfiftybreaths_twototwelvemonths')->nullable();
+            $table->string('bftfortybreaths_onetofiveyo')->nullable();
+            $table->string('requires_hospital_admission2')->nullable();
+            $table->string('any_twomonthstofiveyears_age_withcoughordob2')->nullable();
 
+            $table->string('unabletodrinkorbreastfeed')->nullable();
+            $table->string('vomitseverything')->nullable();
+            $table->string('convulsions')->nullable();
+            $table->string('lethargic_unconscious')->nullable();
+            $table->string('stridor')->nullable();
+            $table->string('requires_hospital_admission3')->nullable();
+
+            $table->string('asthma')->nullable();
+            $table->string('chroniccardiacdisease')->nullable();
+            $table->string('chronicliverdisesae')->nullable();
+            $table->string('chronicneurological')->nullable();
+            $table->string('chronicrenal')->nullable();
+            $table->string('diabetes')->nullable();
+            $table->string('haematologicdisorders')->nullable();
+            $table->string('immunodeficiencydiseases')->nullable();
+            $table->string('pregnancy')->nullable();
+            $table->string('antibiotics')->nullable();
+            $table->text('specify_antibiotics')->nullable();
             $table->tinyInteger('systemsent', 1)->default(0);
             $table->tinyInteger('enabled', 1)->default(1);
             
