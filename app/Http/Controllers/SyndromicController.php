@@ -399,7 +399,7 @@ class SyndromicController extends Controller
 
                 if($ucheck) {
                     return redirect()->back()
-                    ->with('msg', 'Error: Unique OPD Number already used by other patient.')
+                    ->with('msg', 'Error: Unique Hospital Number already used by other patient.')
                     ->with('msgtype', 'danger');
                 }
             }
@@ -1195,7 +1195,7 @@ class SyndromicController extends Controller
 
             if(auth()->user()->isSyndromicHospitalLevelAccess()) {
                 $values_array = $values_array + [
-                    'unique_opdnumber' => $request->unique_opdnumber,
+                    'unique_opdnumber' => (is_null($getpatient->unique_opdnumber)) ? $request->unique_opdnumber : $getpatient->unique_opdnumber,
                     'id_presented' => mb_strtoupper($request->id_presented),
                 ];
             }

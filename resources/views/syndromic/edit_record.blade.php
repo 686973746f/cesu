@@ -65,7 +65,7 @@
                     <tr>
                       <td>
                         <div><b>NAME / ID:</b></div>
-                        <div><b><a href="{{route('syndromic_viewPatient', $d->syndromic_patient->id)}}">{{$d->syndromic_patient->getName()}} @if($d->isHospitalRecord())<small>(OPD #{{$d->syndromic_patient->unique_opdnumber}})</small>@else<small>(#{{$d->syndromic_patient->id}})</small>@endif</a></b></div>
+                        <div><b><a href="{{route('syndromic_viewPatient', $d->syndromic_patient->id)}}">{{$d->syndromic_patient->getName()}} @if($d->isHospitalRecord())<small>(Hospital No. {{$d->syndromic_patient->unique_opdnumber}})</small>@else<small>(#{{$d->syndromic_patient->id}})</small>@endif</a></b></div>
                       </td>
                       <td>
                         <div><b>BIRTHDATE:</b></div>
