@@ -1191,6 +1191,13 @@ class SyndromicController extends Controller
                 'lgu_office_name' => ($request->is_lgustaff == 'Y' && $request->filled('lgu_office_name')) ? mb_strtoupper($request->lgu_office_name) : NULL,
             ];
 
+            if(auth()->user()->isSyndromicHospitalLevelAccess()) {
+                $values_array = $values_array + [
+                    'unique_opdnumber' => $request->unique_opdnumber,
+                    'id_presented' => mb_strtoupper($request->id_presented),
+                ];
+            }
+
             $u = SyndromicPatient::where('id', $patient_id)
             ->update($values_array);
 

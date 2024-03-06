@@ -45,8 +45,7 @@
                     <div><b>Date Encoded / By: </b> {{date('m/d/Y h:i A', strtotime($p->created_at))}} by {{$p->user->name}}</div>
                     @if($p->getLastCheckup())
                     <hr>
-                    <div><b>OPD No.: </b> <b><a href="{{route('syndromic_viewRecord', $p->getLastCheckup()->id)}}">{{$p->getLastCheckup()->opdno}}</a></b></div>
-                    <div><b>Date of Last Checkup: </b> {{date('m/d/Y', strtotime($p->getLastCheckup()->consultation_date))}}</div>
+                    <div><b>Last Consultation ID / Date: </b> <b><a href="{{route('syndromic_viewRecord', $p->getLastCheckup()->id)}}">{{$p->getLastCheckup()->opdno}}</a></b> / {{date('m/d/Y', strtotime($p->getLastCheckup()->consultation_date))}}</div>
                     @endif
                     <hr>
                     > To view/update the Patient details, click <a href="{{route('syndromic_viewPatient', session('p')->id)}}">HERE</a>
