@@ -478,7 +478,7 @@ class SyndromicController extends Controller
             //Check if Hospital Number is Initialized First
             if(is_null($patient->unique_opdnumber)) {
                 return redirect()->back()
-                ->with('msg', 'Error: Patient '.$patient->getName().' does not have Hospital Number initialized yet. Please update the patient details first and then try again.')
+                ->with('msg', 'Error: Patient '.$patient->getName().' does not have Hospital Number initialized yet. Please update the patient details first by clicking his/her name below and then try again.')
                 ->with('msgtype', 'danger');
             }
 
