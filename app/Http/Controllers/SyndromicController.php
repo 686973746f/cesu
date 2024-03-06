@@ -2342,7 +2342,6 @@ class SyndromicController extends Controller
                 })
                 ->where('dcnote_assessment', $g)
                 ->where('nature_of_visit', 'FOLLOW-UP VISIT')
-                ->where('hospital_completion', 'PART2')
                 ->whereBetween('age_years', [20,59])
                 ->where('hosp_identifier', $id)
                 ->where('facility_id', auth()->user()->itr_facility_id)
