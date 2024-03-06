@@ -603,6 +603,7 @@ class SyndromicController extends Controller
         $getopd_num = date('Y').'-'.$patient_yearcount;
 
         $check1 = SyndromicRecords::where('syndromic_patient_id', $p->id)
+        ->where('facility_id', auth()->user()->itr_facility_id)
         ->whereDate('created_at', date('Y-m-d'))
         ->first();
 
