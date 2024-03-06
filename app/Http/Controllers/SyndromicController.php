@@ -1345,6 +1345,7 @@ class SyndromicController extends Controller
                 'required_bp' => $required_bp,
                 'unlocktoolbar' => $unlocktoolbar,
                 'required_symptoms' => $required_symptoms,
+                'required_weight' => $required_weight,
             ]);
         }
         else {
