@@ -355,13 +355,19 @@
                       </select>
                     </div>
                     <div id="ifMonthly" class="d-none">
-                        <div class="form-group">
-                            <label for="syear"><b class="text-danger">*</b>Year</label>
-                            <input type="number" class="form-control" name="syear" id="syear" value="{{(request()->input('syear')) ? request()->input('syear') : date('Y')}}">
-                        </div>
-                        <div class="form-group">
-                            <label for="smonth"><b class="text-danger">*</b>Month</label>
-                            <input type="number" class="form-control" name="smonth" id="smonth" value="{{(request()->input('smonth')) ? request()->input('smonth') : date('m')}}">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="syear"><b class="text-danger">*</b>Year</label>
+                                    <input type="number" class="form-control" name="syear" id="syear" value="{{(request()->input('syear')) ? request()->input('syear') : date('Y')}}">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="smonth"><b class="text-danger">*</b>Month</label>
+                                    <input type="number" class="form-control" name="smonth" id="smonth" value="{{(request()->input('smonth')) ? request()->input('smonth') : date('m')}}">
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div id="ifDaily" class="d-none">
