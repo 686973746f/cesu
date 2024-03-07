@@ -987,9 +987,9 @@
                       <select class="form-control" name="name_of_physician" id="name_of_physician" required>
                         <option value="" disabled {{(is_null(old('name_of_physician'))) ? 'selected' : ''}}>Choose...</option>
                         <!--<option {{(is_null(old('name_of_physician'))) ? 'selected' : ''}} value="">None</option>-->
-                        @if(auth()->user()->isSyndromicHospitalLevelAccess())
+                        @if(auth()->user()->isSyndromicHospitalLevelAccess() || !is_null(auth()->user()->itr_medicalevent_id))
                           @foreach($doclist as $dr)
-                          <option value="{{$dr->doctor_name}}">{{$dr->doctor_name}}</option>
+                          <option value="{{$dr->doctor_name}}" {{(old('name_of_physician') == $dr->doctor_name) ? 'selected' : ''}}>{{$dr->doctor_name}}</option>
                           @endforeach
                         @else
                           @foreach($doclist as $dr)
