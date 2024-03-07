@@ -339,7 +339,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                      <label for="id">Type</label>
+                      <label for="id"><b class="text-danger">*</b>Type</label>
                       <select class="form-control" name="id" id="id" required>
                         <option value="" disabled {{(is_null(request()->input('id'))) ? 'selected' : ''}}>Choose...</option>
                         <option value="OPD" {{(request()->input('id') == 'OPD') ? 'selected' : ''}}>OPD</option>
@@ -347,12 +347,28 @@
                       </select>
                     </div>
                     <div class="form-group">
-                      <label for="">Year</label>
-                      <input type="number" class="form-control" name="syear" id="syear" value="{{(request()->input('syear')) ? request()->input('syear') : date('Y')}}" required>
+                      <label for="type"><b class="text-danger">*</b>Scope</label>
+                      <select class="form-control" name="type" id="type" required>
+                        <option value="" disabled selected>Choose...</option>
+                        <option value="Monthly">Monthly</option>
+                        <option value="Daily">Daily</option>
+                      </select>
                     </div>
-                    <div class="form-group">
-                        <label for="">Month</label>
-                        <input type="number" class="form-control" name="smonth" id="smonth" value="{{(request()->input('smonth')) ? request()->input('smonth') : date('m')}}" required>
+                    <div id="ifMonthly" class="d-none">
+                        <div class="form-group">
+                            <label for="syear"><b class="text-danger">*</b>Year</label>
+                            <input type="number" class="form-control" name="syear" id="syear" value="{{(request()->input('syear')) ? request()->input('syear') : date('Y')}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="smonth"><b class="text-danger">*</b>Month</label>
+                            <input type="number" class="form-control" name="smonth" id="smonth" value="{{(request()->input('smonth')) ? request()->input('smonth') : date('m')}}">
+                        </div>
+                    </div>
+                    <div id="ifDaily" class="d-none">
+                        <div class="form-group">
+                          <label for="sdate"><b class="text-danger">*</b>Select Date</label>
+                          <input type="date" class="form-control" name="sdate" id="sdate" max="{{date('Y-m-d')}}" value="{{date('Y-m-d')}}">
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -362,4 +378,36 @@
         </div>
     </div>
 </form>
+
+<script>
+    $('#type').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'Monthly') {
+            $('#ifMonthly').removeClass('d-none');
+
+            $('#syear').prop('required', true);
+            $('#smonth').prop('required', true);
+
+            $('#ifDaily').addClass('d-none');
+            $('#sdate').prop('required', false);
+        }
+        else if ($(this).val() == 'Daily') {
+            $('#ifMonthly').addClass('d-none');
+
+            $('#syear').prop('required', false);
+            $('#smonth').prop('required', false);
+
+            $('#ifDaily').removeClass('d-none');
+            $('#sdate').prop('required', true);
+        }
+        else {
+            $('#ifMonthly').addClass('d-none');
+            $('#ifDaily').addClass('d-none');
+
+            $('#syear').prop('required', false);
+            $('#smonth').prop('required', false);
+            $('#sdate').prop('required', false);
+        }
+    }).trigger('change');
+</script>
 @endsection

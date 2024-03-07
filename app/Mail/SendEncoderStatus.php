@@ -7,6 +7,7 @@ use App\Models\Forms;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use App\Models\AbtcBakunaRecords;
+use App\Models\SyndromicRecords;
 use App\Models\VaxcertConcern;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -139,6 +140,10 @@ class SendEncoderStatus extends Mailable
             ->whereDate('updated_at', date('Y-m-d'))
             ->count();
 
+            $opd_count = SyndromicRecords::where('created_by', $item->id)
+            ->whereDate('created_at', date('Y-m-d'))
+            ->count();
+
             array_push($arr, [
                 'name' => $item->name,
                 'suspected_count' => $suspected_count,
@@ -147,6 +152,7 @@ class SendEncoderStatus extends Mailable
                 'negative_count' => $negative_count,
                 'abtc_count' => $abtc_count,
                 'vaxcert_count' => $vaxcert_count,
+                'opd_count' => $opd_count,
             ]);
         }
         

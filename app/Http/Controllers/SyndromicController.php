@@ -2217,242 +2217,289 @@ class SyndromicController extends Controller
         $final_arr = [];
 
         foreach($group_diagnosis as $g) {
+            $pedia_old_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'MALE');
+            })
+            ->where('dcnote_assessment', $g)
+            ->where('nature_of_visit', 'FOLLOW-UP VISIT')
+            ->where('age_years', '<=', 19)
+            ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
+            ->where('hospital_completion', 'PART2');
+            
+            $pedia_new_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'MALE');
+            })
+            ->where('dcnote_assessment', $g)
+            ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
+            ->where('age_years', '<=', 19)
+            ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
+            ->where('hospital_completion', 'PART2');
+
+            $pedia_police_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'MALE');
+            })
+            ->where('dcnote_assessment', $g)
+            ->where('disposition', 'SENT TO JAIL')
+            ->where('age_years', '<=', 19)
+            ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
+            ->where('hospital_completion', 'PART2');
+            
+            $pedia_old_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'FEMALE');
+            })
+            ->where('dcnote_assessment', $g)
+            ->where('nature_of_visit', 'FOLLOW-UP VISIT')
+            ->where('age_years', '<=', 19)
+            ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
+            ->where('hospital_completion', 'PART2');
+
+            $pedia_new_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'FEMALE');
+            })
+            ->where('dcnote_assessment', $g)
+            ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
+            ->where('age_years', '<=', 19)
+            ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
+            ->where('hospital_completion', 'PART2');
+            
+            $pedia_police_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'FEMALE');
+            })
+            ->where('dcnote_assessment', $g)
+            ->where('disposition', 'SENT TO JAIL')
+            ->where('age_years', '<=', 19)
+            ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
+            ->where('hospital_completion', 'PART2');
+
+            $adult_old_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'MALE');
+            })
+            ->where('dcnote_assessment', $g)
+            ->where('nature_of_visit', 'FOLLOW-UP VISIT')
+            ->whereBetween('age_years', [20,59])
+            ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
+            ->where('hospital_completion', 'PART2');
+
+            $adult_new_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'MALE');
+            })
+            ->where('dcnote_assessment', $g)
+            ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
+            ->whereBetween('age_years', [20,59])
+            ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
+            ->where('hospital_completion', 'PART2');
+
+            $adult_police_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'MALE');
+            })
+            ->where('dcnote_assessment', $g)
+            ->where('disposition', 'SENT TO JAIL')
+            ->whereBetween('age_years', [20,59])
+            ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
+            ->where('hospital_completion', 'PART2');
+            
+            $adult_old_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'FEMALE');
+            })
+            ->where('dcnote_assessment', $g)
+            ->where('nature_of_visit', 'FOLLOW-UP VISIT')
+            ->whereBetween('age_years', [20,59])
+            ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
+            ->where('hospital_completion', 'PART2');
+
+            $adult_new_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'FEMALE');
+            })
+            ->where('dcnote_assessment', $g)
+            ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
+            ->whereBetween('age_years', [20,59])
+            ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
+            ->where('hospital_completion', 'PART2');
+
+            $adult_police_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'FEMALE');
+            })
+            ->where('dcnote_assessment', $g)
+            ->where('disposition', 'SENT TO JAIL')
+            ->whereBetween('age_years', [20,59])
+            ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
+            ->where('hospital_completion', 'PART2');
+
+            $senior_old_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'MALE');
+            })
+            ->where('dcnote_assessment', $g)
+            ->where('nature_of_visit', 'FOLLOW-UP VISIT')
+            ->where('age_years', '>=', 60)
+            ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
+            ->where('hospital_completion', 'PART2');
+
+            $senior_new_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'MALE');
+            })
+            ->where('dcnote_assessment', $g)
+            ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
+            ->where('age_years', '>=', 60)
+            ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
+            ->where('hospital_completion', 'PART2');
+
+            $senior_police_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'MALE');
+            })
+            ->where('dcnote_assessment', $g)
+            ->where('disposition', 'SENT TO JAIL')
+            ->where('age_years', '>=', 60)
+            ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
+            ->where('hospital_completion', 'PART2');
+
+            $senior_old_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'FEMALE');
+            })
+            ->where('dcnote_assessment', $g)
+            ->where('nature_of_visit', 'FOLLOW-UP VISIT')
+            ->where('age_years', '>=', 60)
+            ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
+            ->where('hospital_completion', 'PART2');
+
+            $senior_new_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'FEMALE');
+            })
+            ->where('dcnote_assessment', $g)
+            ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
+            ->where('age_years', '>=', 60)
+            ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
+            ->where('hospital_completion', 'PART2');
+
+            $senior_police_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'FEMALE');
+            })
+            ->where('dcnote_assessment', $g)
+            ->where('disposition', 'SENT TO JAIL')
+            ->where('age_years', '>=', 60)
+            ->where('hosp_identifier', $id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
+            ->where('hospital_completion', 'PART2');
+
+            if(request()->input('type') == 'Daily') {
+                $sdate = request()->input('sdate');
+
+                $pedia_old_m = $pedia_old_m->whereDate('created_at', $sdate);
+                $pedia_new_m = $pedia_new_m->whereDate('created_at', $sdate);
+                $pedia_police_m = $pedia_police_m->whereDate('created_at', $sdate);
+                $pedia_old_f = $pedia_old_f->whereDate('created_at', $sdate);
+                $pedia_new_f = $pedia_new_f->whereDate('created_at', $sdate);
+                $pedia_police_f = $pedia_police_f->whereDate('created_at', $sdate);
+
+                $adult_old_m = $adult_old_m->whereDate('created_at', $sdate);
+                $adult_new_m = $adult_new_m->whereDate('created_at', $sdate);
+                $adult_police_m = $adult_police_m->whereDate('created_at', $sdate);
+                $adult_old_f = $adult_old_f->whereDate('created_at', $sdate);
+                $adult_new_f = $adult_new_f->whereDate('created_at', $sdate);
+                $adult_police_f = $adult_police_f->whereDate('created_at', $sdate);
+
+                $senior_old_m = $senior_old_m->whereDate('created_at', $sdate);
+                $senior_new_m = $senior_new_m->whereDate('created_at', $sdate);
+                $senior_police_m = $senior_police_m->whereDate('created_at', $sdate);
+                $senior_old_f = $senior_old_f->whereDate('created_at', $sdate);
+                $senior_new_f = $senior_new_f->whereDate('created_at', $sdate);
+                $senior_police_f = $senior_police_f->whereDate('created_at', $sdate);
+            }
+            else {
+                $pedia_old_m = $pedia_old_m->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+                $pedia_new_m = $pedia_new_m->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+                $pedia_police_m = $pedia_police_m->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+                $pedia_old_f = $pedia_old_f->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+                $pedia_new_f = $pedia_new_f->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+                $pedia_police_f = $pedia_police_f->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+
+                $adult_old_m = $adult_old_m->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+                $adult_new_m = $adult_new_m->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+                $adult_police_m = $adult_police_m->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+                $adult_old_f = $adult_old_f->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+                $adult_new_f = $adult_new_f->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+                $adult_police_f = $adult_police_f->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+
+                $senior_old_m = $senior_old_m->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+                $senior_new_m = $senior_new_m->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+                $senior_police_m = $senior_police_m->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+                $senior_old_f = $senior_old_f->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+                $senior_new_f = $senior_new_f->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+                $senior_police_f = $senior_police_f->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+            }
+            
             $final_arr[] = [
                 'name' => $g,
 
-                'pedia_old_m' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
-                    $q->where('gender', 'MALE');
-                })
-                ->where('dcnote_assessment', $g)
-                ->where('nature_of_visit', 'FOLLOW-UP VISIT')
-                ->where('age_years', '<=', 19)
-                ->where('hosp_identifier', $id)
-                ->where('facility_id', auth()->user()->itr_facility_id)
-                ->where('hospital_completion', 'PART2')
-                ->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear)
-                ->count(),
+                'pedia_old_m' => $pedia_old_m->count(),
                 
-                'pedia_new_m' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
-                    $q->where('gender', 'MALE');
-                })
-                ->where('dcnote_assessment', $g)
-                ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
-                ->where('age_years', '<=', 19)
-                ->where('hosp_identifier', $id)
-                ->where('facility_id', auth()->user()->itr_facility_id)
-                ->where('hospital_completion', 'PART2')
-                ->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear)
-                ->count(),
+                'pedia_new_m' => $pedia_new_m->count(),
 
-                'pedia_police_m' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
-                    $q->where('gender', 'MALE');
-                })
-                ->where('dcnote_assessment', $g)
-                ->where('disposition', 'SENT TO JAIL')
-                ->where('age_years', '<=', 19)
-                ->where('hosp_identifier', $id)
-                ->where('facility_id', auth()->user()->itr_facility_id)
-                ->where('hospital_completion', 'PART2')
-                ->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear)
-                ->count(),
+                'pedia_police_m' => $pedia_police_m->count(),
 
-                'pedia_old_f' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
-                    $q->where('gender', 'FEMALE');
-                })
-                ->where('dcnote_assessment', $g)
-                ->where('nature_of_visit', 'FOLLOW-UP VISIT')
-                ->where('age_years', '<=', 19)
-                ->where('hosp_identifier', $id)
-                ->where('facility_id', auth()->user()->itr_facility_id)
-                ->where('hospital_completion', 'PART2')
-                ->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear)
-                ->count(),
+                'pedia_old_f' => $pedia_old_f->count(),
                 
-                'pedia_new_f' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
-                    $q->where('gender', 'FEMALE');
-                })
-                ->where('dcnote_assessment', $g)
-                ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
-                ->where('age_years', '<=', 19)
-                ->where('hosp_identifier', $id)
-                ->where('facility_id', auth()->user()->itr_facility_id)
-                ->where('hospital_completion', 'PART2')
-                ->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear)
-                ->count(),
+                'pedia_new_f' => $pedia_new_f->count(),
 
-                'pedia_police_f' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
-                    $q->where('gender', 'FEMALE');
-                })
-                ->where('dcnote_assessment', $g)
-                ->where('disposition', 'SENT TO JAIL')
-                ->where('age_years', '<=', 19)
-                ->where('hosp_identifier', $id)
-                ->where('facility_id', auth()->user()->itr_facility_id)
-                ->where('hospital_completion', 'PART2')
-                ->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear)
-                ->count(),
+                'pedia_police_f' => $pedia_police_f->count(),
 
-                'adult_old_m' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
-                    $q->where('gender', 'MALE');
-                })
-                ->where('dcnote_assessment', $g)
-                ->where('nature_of_visit', 'FOLLOW-UP VISIT')
-                ->whereBetween('age_years', [20,59])
-                ->where('hosp_identifier', $id)
-                ->where('facility_id', auth()->user()->itr_facility_id)
-                ->where('hospital_completion', 'PART2')
-                ->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear)
-                ->count(),
+                'adult_old_m' => $adult_old_m->count(),
                 
-                'adult_new_m' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
-                    $q->where('gender', 'MALE');
-                })
-                ->where('dcnote_assessment', $g)
-                ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
-                ->whereBetween('age_years', [20,59])
-                ->where('hosp_identifier', $id)
-                ->where('facility_id', auth()->user()->itr_facility_id)
-                ->where('hospital_completion', 'PART2')
-                ->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear)
-                ->count(),
+                'adult_new_m' => $adult_new_m->count(),
 
-                'adult_police_m' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
-                    $q->where('gender', 'MALE');
-                })
-                ->where('dcnote_assessment', $g)
-                ->where('disposition', 'SENT TO JAIL')
-                ->whereBetween('age_years', [20,59])
-                ->where('hosp_identifier', $id)
-                ->where('facility_id', auth()->user()->itr_facility_id)
-                ->where('hospital_completion', 'PART2')
-                ->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear)
-                ->count(),
+                'adult_police_m' => $adult_police_m->count(),
 
-                'adult_old_f' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
-                    $q->where('gender', 'FEMALE');
-                })
-                ->where('dcnote_assessment', $g)
-                ->where('nature_of_visit', 'FOLLOW-UP VISIT')
-                ->whereBetween('age_years', [20,59])
-                ->where('hosp_identifier', $id)
-                ->where('facility_id', auth()->user()->itr_facility_id)
-                ->where('hospital_completion', 'PART2')
-                ->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear)
-                ->count(),
+                'adult_old_f' => $adult_old_f->count(),
                 
-                'adult_new_f' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
-                    $q->where('gender', 'FEMALE');
-                })
-                ->where('dcnote_assessment', $g)
-                ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
-                ->whereBetween('age_years', [20,59])
-                ->where('hosp_identifier', $id)
-                ->where('facility_id', auth()->user()->itr_facility_id)
-                ->where('hospital_completion', 'PART2')
-                ->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear)
-                ->count(),
+                'adult_new_f' => $adult_new_f->count(),
 
-                'adult_police_f' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
-                    $q->where('gender', 'FEMALE');
-                })
-                ->where('dcnote_assessment', $g)
-                ->where('disposition', 'SENT TO JAIL')
-                ->whereBetween('age_years', [20,59])
-                ->where('hosp_identifier', $id)
-                ->where('facility_id', auth()->user()->itr_facility_id)
-                ->where('hospital_completion', 'PART2')
-                ->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear)
-                ->count(),
+                'adult_police_f' => $adult_police_f->count(),
 
-                'senior_old_m' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
-                    $q->where('gender', 'MALE');
-                })
-                ->where('dcnote_assessment', $g)
-                ->where('nature_of_visit', 'FOLLOW-UP VISIT')
-                ->where('age_years', '>=', 60)
-                ->where('hosp_identifier', $id)
-                ->where('facility_id', auth()->user()->itr_facility_id)
-                ->where('hospital_completion', 'PART2')
-                ->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear)
-                ->count(),
+                'senior_old_m' => $senior_old_m->count(),
                 
-                'senior_new_m' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
-                    $q->where('gender', 'MALE');
-                })
-                ->where('dcnote_assessment', $g)
-                ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
-                ->where('age_years', '>=', 60)
-                ->where('hosp_identifier', $id)
-                ->where('facility_id', auth()->user()->itr_facility_id)
-                ->where('hospital_completion', 'PART2')
-                ->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear)
-                ->count(),
+                'senior_new_m' => $senior_new_m->count(),
 
-                'senior_police_m' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
-                    $q->where('gender', 'MALE');
-                })
-                ->where('dcnote_assessment', $g)
-                ->where('disposition', 'SENT TO JAIL')
-                ->where('age_years', '>=', 60)
-                ->where('hosp_identifier', $id)
-                ->where('facility_id', auth()->user()->itr_facility_id)
-                ->where('hospital_completion', 'PART2')
-                ->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear)
-                ->count(),
+                'senior_police_m' => $senior_police_m->count(),
 
-                'senior_old_f' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
-                    $q->where('gender', 'FEMALE');
-                })
-                ->where('dcnote_assessment', $g)
-                ->where('nature_of_visit', 'FOLLOW-UP VISIT')
-                ->where('age_years', '>=', 60)
-                ->where('hosp_identifier', $id)
-                ->where('facility_id', auth()->user()->itr_facility_id)
-                ->where('hospital_completion', 'PART2')
-                ->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear)
-                ->count(),
+                'senior_old_f' => $senior_old_f->count(),
                 
-                'senior_new_f' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
-                    $q->where('gender', 'FEMALE');
-                })
-                ->where('dcnote_assessment', $g)
-                ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
-                ->where('age_years', '>=', 60)
-                ->where('hosp_identifier', $id)
-                ->where('facility_id', auth()->user()->itr_facility_id)
-                ->where('hospital_completion', 'PART2')
-                ->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear)
-                ->count(),
+                'senior_new_f' => $senior_new_f->count(),
 
-                'senior_police_f' => SyndromicRecords::whereHas('syndromic_patient', function($q) {
-                    $q->where('gender', 'FEMALE');
-                })
-                ->where('dcnote_assessment', $g)
-                ->where('disposition', 'SENT TO JAIL')
-                ->where('age_years', '>=', 60)
-                ->where('hosp_identifier', $id)
-                ->where('facility_id', auth()->user()->itr_facility_id)
-                ->where('hospital_completion', 'PART2')
-                ->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear)
-                ->count(),
+                'senior_police_f' => $senior_police_f->count(),
             ];
         }
 
@@ -2485,8 +2532,6 @@ class SyndromicController extends Controller
             ->where('hosp_identifier', $id)
             ->where('facility_id', auth()->user()->itr_facility_id)
             ->where('hospital_completion', 'PART2')
-            ->whereMonth('created_at', $smonth)
-            ->whereYear('created_at', $syear)
             ->where('age_years', '<=', 19)
             ->where('nature_of_visit', 'FOLLOW-UP VISIT');
 
@@ -2496,8 +2541,6 @@ class SyndromicController extends Controller
             ->where('hosp_identifier', $id)
             ->where('facility_id', auth()->user()->itr_facility_id)
             ->where('hospital_completion', 'PART2')
-            ->whereMonth('created_at', $smonth)
-            ->whereYear('created_at', $syear)
             ->where('age_years', '<=', 19)
             ->where('nature_of_visit', 'NEW CONSULTATION/CASE');
 
@@ -2507,8 +2550,6 @@ class SyndromicController extends Controller
             ->where('hosp_identifier', $id)
             ->where('facility_id', auth()->user()->itr_facility_id)
             ->where('hospital_completion', 'PART2')
-            ->whereMonth('created_at', $smonth)
-            ->whereYear('created_at', $syear)
             ->where('age_years', '<=', 19)
             ->where('tags', $o)
             ->where('disposition', 'SENT TO JAIL');
@@ -2519,8 +2560,6 @@ class SyndromicController extends Controller
             ->where('hosp_identifier', $id)
             ->where('facility_id', auth()->user()->itr_facility_id)
             ->where('hospital_completion', 'PART2')
-            ->whereMonth('created_at', $smonth)
-            ->whereYear('created_at', $syear)
             ->where('age_years', '<=', 19)
             ->where('nature_of_visit', 'FOLLOW-UP VISIT');
 
@@ -2530,8 +2569,6 @@ class SyndromicController extends Controller
             ->where('hosp_identifier', $id)
             ->where('facility_id', auth()->user()->itr_facility_id)
             ->where('hospital_completion', 'PART2')
-            ->whereMonth('created_at', $smonth)
-            ->whereYear('created_at', $syear)
             ->where('age_years', '<=', 19)
             ->where('nature_of_visit', 'NEW CONSULTATION/CASE');
 
@@ -2541,8 +2578,6 @@ class SyndromicController extends Controller
             ->where('hosp_identifier', $id)
             ->where('facility_id', auth()->user()->itr_facility_id)
             ->where('hospital_completion', 'PART2')
-            ->whereMonth('created_at', $smonth)
-            ->whereYear('created_at', $syear)
             ->where('age_years', '<=', 19)
             ->where('disposition', 'SENT TO JAIL');
 
@@ -2554,8 +2589,6 @@ class SyndromicController extends Controller
             ->where('hosp_identifier', $id)
             ->where('facility_id', auth()->user()->itr_facility_id)
             ->where('hospital_completion', 'PART2')
-            ->whereMonth('created_at', $smonth)
-            ->whereYear('created_at', $syear)
             ->whereBetween('age_years', [20,59])
             ->where('nature_of_visit', 'FOLLOW-UP VISIT');
 
@@ -2565,8 +2598,6 @@ class SyndromicController extends Controller
             ->where('hosp_identifier', $id)
             ->where('facility_id', auth()->user()->itr_facility_id)
             ->where('hospital_completion', 'PART2')
-            ->whereMonth('created_at', $smonth)
-            ->whereYear('created_at', $syear)
             ->whereBetween('age_years', [20,59])
             ->where('nature_of_visit', 'NEW CONSULTATION/CASE');
 
@@ -2576,8 +2607,6 @@ class SyndromicController extends Controller
             ->where('hosp_identifier', $id)
             ->where('facility_id', auth()->user()->itr_facility_id)
             ->where('hospital_completion', 'PART2')
-            ->whereMonth('created_at', $smonth)
-            ->whereYear('created_at', $syear)
             ->whereBetween('age_years', [20,59])
             ->where('tags', $o)
             ->where('disposition', 'SENT TO JAIL');
@@ -2588,8 +2617,6 @@ class SyndromicController extends Controller
             ->where('hosp_identifier', $id)
             ->where('facility_id', auth()->user()->itr_facility_id)
             ->where('hospital_completion', 'PART2')
-            ->whereMonth('created_at', $smonth)
-            ->whereYear('created_at', $syear)
             ->whereBetween('age_years', [20,59])
             ->where('nature_of_visit', 'FOLLOW-UP VISIT');
 
@@ -2599,8 +2626,6 @@ class SyndromicController extends Controller
             ->where('hosp_identifier', $id)
             ->where('facility_id', auth()->user()->itr_facility_id)
             ->where('hospital_completion', 'PART2')
-            ->whereMonth('created_at', $smonth)
-            ->whereYear('created_at', $syear)
             ->whereBetween('age_years', [20,59])
             ->where('nature_of_visit', 'NEW CONSULTATION/CASE');
 
@@ -2610,8 +2635,6 @@ class SyndromicController extends Controller
             ->where('hosp_identifier', $id)
             ->where('facility_id', auth()->user()->itr_facility_id)
             ->where('hospital_completion', 'PART2')
-            ->whereMonth('created_at', $smonth)
-            ->whereYear('created_at', $syear)
             ->whereBetween('age_years', [20,59])
             ->where('disposition', 'SENT TO JAIL');
 
@@ -2623,8 +2646,6 @@ class SyndromicController extends Controller
             ->where('hosp_identifier', $id)
             ->where('facility_id', auth()->user()->itr_facility_id)
             ->where('hospital_completion', 'PART2')
-            ->whereMonth('created_at', $smonth)
-            ->whereYear('created_at', $syear)
             ->where('age_years', '>=', 60)
             ->where('nature_of_visit', 'FOLLOW-UP VISIT');
 
@@ -2634,8 +2655,6 @@ class SyndromicController extends Controller
             ->where('hosp_identifier', $id)
             ->where('facility_id', auth()->user()->itr_facility_id)
             ->where('hospital_completion', 'PART2')
-            ->whereMonth('created_at', $smonth)
-            ->whereYear('created_at', $syear)
             ->where('age_years', '>=', 60)
             ->where('nature_of_visit', 'NEW CONSULTATION/CASE');
 
@@ -2645,8 +2664,6 @@ class SyndromicController extends Controller
             ->where('hosp_identifier', $id)
             ->where('facility_id', auth()->user()->itr_facility_id)
             ->where('hospital_completion', 'PART2')
-            ->whereMonth('created_at', $smonth)
-            ->whereYear('created_at', $syear)
             ->where('age_years', '>=', 60)
             ->where('tags', $o)
             ->where('disposition', 'SENT TO JAIL');
@@ -2657,8 +2674,6 @@ class SyndromicController extends Controller
             ->where('hosp_identifier', $id)
             ->where('facility_id', auth()->user()->itr_facility_id)
             ->where('hospital_completion', 'PART2')
-            ->whereMonth('created_at', $smonth)
-            ->whereYear('created_at', $syear)
             ->where('age_years', '>=', 60)
             ->where('nature_of_visit', 'FOLLOW-UP VISIT');
 
@@ -2668,8 +2683,6 @@ class SyndromicController extends Controller
             ->where('hosp_identifier', $id)
             ->where('facility_id', auth()->user()->itr_facility_id)
             ->where('hospital_completion', 'PART2')
-            ->whereMonth('created_at', $smonth)
-            ->whereYear('created_at', $syear)
             ->where('age_years', '>=', 60)
             ->where('nature_of_visit', 'NEW CONSULTATION/CASE');
 
@@ -2679,10 +2692,73 @@ class SyndromicController extends Controller
             ->where('hosp_identifier', $id)
             ->where('facility_id', auth()->user()->itr_facility_id)
             ->where('hospital_completion', 'PART2')
-            ->whereMonth('created_at', $smonth)
-            ->whereYear('created_at', $syear)
             ->where('age_years', '>=', 60)
             ->where('disposition', 'SENT TO JAIL');
+
+            if(request()->input('type') == 'Daily') {
+                $sdate = request()->input('sdate');
+
+                $pedia_old_m = $pedia_old_m->whereDate('created_at', $sdate);
+                $pedia_new_m = $pedia_new_m->whereDate('created_at', $sdate);
+                $pedia_police_m = $pedia_police_m->whereDate('created_at', $sdate);
+                $pedia_old_f = $pedia_old_f->whereDate('created_at', $sdate);
+                $pedia_new_f = $pedia_new_f->whereDate('created_at', $sdate);
+                $pedia_police_f = $pedia_police_f->whereDate('created_at', $sdate);
+
+                $adult_old_m = $adult_old_m->whereDate('created_at', $sdate);
+                $adult_new_m = $adult_new_m->whereDate('created_at', $sdate);
+                $adult_police_m = $adult_police_m->whereDate('created_at', $sdate);
+                $adult_old_f = $adult_old_f->whereDate('created_at', $sdate);
+                $adult_new_f = $adult_new_f->whereDate('created_at', $sdate);
+                $adult_police_f = $adult_police_f->whereDate('created_at', $sdate);
+
+                $senior_old_m = $senior_old_m->whereDate('created_at', $sdate);
+                $senior_new_m = $senior_new_m->whereDate('created_at', $sdate);
+                $senior_police_m = $senior_police_m->whereDate('created_at', $sdate);
+                $senior_old_f = $senior_old_f->whereDate('created_at', $sdate);
+                $senior_new_f = $senior_new_f->whereDate('created_at', $sdate);
+                $senior_police_f = $senior_police_f->whereDate('created_at', $sdate);
+            }
+            else {
+                $pedia_old_m = $pedia_old_m->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+                $pedia_new_m = $pedia_new_m->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+                $pedia_police_m = $pedia_police_m->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+                $pedia_old_f = $pedia_old_f->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+                $pedia_new_f = $pedia_new_f->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+                $pedia_police_f = $pedia_police_f->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+
+                $adult_old_m = $adult_old_m->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+                $adult_new_m = $adult_new_m->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+                $adult_police_m = $adult_police_m->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+                $adult_old_f = $adult_old_f->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+                $adult_new_f = $adult_new_f->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+                $adult_police_f = $adult_police_f->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+
+                $senior_old_m = $senior_old_m->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+                $senior_new_m = $senior_new_m->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+                $senior_police_m = $senior_police_m->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+                $senior_old_f = $senior_old_f->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+                $senior_new_f = $senior_new_f->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+                $senior_police_f = $senior_police_f->whereMonth('created_at', $smonth)
+                ->whereYear('created_at', $syear);
+            }
             
             if($o == 'MEDICAL') {
                 $pedia_old_m = 0;
