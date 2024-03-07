@@ -2211,11 +2211,11 @@ class SyndromicController extends Controller
         if(request()->input('type') == 'Daily') {
             $sdate = request()->input('sdate');
 
-            $group_diagnosis = $group_diagnosis->whereDate('created_at', $sdate);
+            $group_diagnosis = $group_diagnosis->whereDate('consultation_date', $sdate);
         }
         else {
-            $group_diagnosis = $group_diagnosis->whereMonth('created_at', $smonth)
-            ->whereYear('created_at', $syear);
+            $group_diagnosis = $group_diagnosis->whereMonth('consultation_date', $smonth)
+            ->whereYear('consultation_date', $syear);
         }
 
         if($group_diagnosis->count() <= 0) {
@@ -2412,66 +2412,66 @@ class SyndromicController extends Controller
             if(request()->input('type') == 'Daily') {
                 $sdate = request()->input('sdate');
 
-                $pedia_old_m = $pedia_old_m->whereDate('created_at', $sdate);
-                $pedia_new_m = $pedia_new_m->whereDate('created_at', $sdate);
-                $pedia_police_m = $pedia_police_m->whereDate('created_at', $sdate);
-                $pedia_old_f = $pedia_old_f->whereDate('created_at', $sdate);
-                $pedia_new_f = $pedia_new_f->whereDate('created_at', $sdate);
-                $pedia_police_f = $pedia_police_f->whereDate('created_at', $sdate);
+                $pedia_old_m = $pedia_old_m->whereDate('consultation_date', $sdate);
+                $pedia_new_m = $pedia_new_m->whereDate('consultation_date', $sdate);
+                $pedia_police_m = $pedia_police_m->whereDate('consultation_date', $sdate);
+                $pedia_old_f = $pedia_old_f->whereDate('consultation_date', $sdate);
+                $pedia_new_f = $pedia_new_f->whereDate('consultation_date', $sdate);
+                $pedia_police_f = $pedia_police_f->whereDate('consultation_date', $sdate);
 
-                $adult_old_m = $adult_old_m->whereDate('created_at', $sdate);
-                $adult_new_m = $adult_new_m->whereDate('created_at', $sdate);
-                $adult_police_m = $adult_police_m->whereDate('created_at', $sdate);
-                $adult_old_f = $adult_old_f->whereDate('created_at', $sdate);
-                $adult_new_f = $adult_new_f->whereDate('created_at', $sdate);
-                $adult_police_f = $adult_police_f->whereDate('created_at', $sdate);
+                $adult_old_m = $adult_old_m->whereDate('consultation_date', $sdate);
+                $adult_new_m = $adult_new_m->whereDate('consultation_date', $sdate);
+                $adult_police_m = $adult_police_m->whereDate('consultation_date', $sdate);
+                $adult_old_f = $adult_old_f->whereDate('consultation_date', $sdate);
+                $adult_new_f = $adult_new_f->whereDate('consultation_date', $sdate);
+                $adult_police_f = $adult_police_f->whereDate('consultation_date', $sdate);
 
-                $senior_old_m = $senior_old_m->whereDate('created_at', $sdate);
-                $senior_new_m = $senior_new_m->whereDate('created_at', $sdate);
-                $senior_police_m = $senior_police_m->whereDate('created_at', $sdate);
-                $senior_old_f = $senior_old_f->whereDate('created_at', $sdate);
-                $senior_new_f = $senior_new_f->whereDate('created_at', $sdate);
-                $senior_police_f = $senior_police_f->whereDate('created_at', $sdate);
+                $senior_old_m = $senior_old_m->whereDate('consultation_date', $sdate);
+                $senior_new_m = $senior_new_m->whereDate('consultation_date', $sdate);
+                $senior_police_m = $senior_police_m->whereDate('consultation_date', $sdate);
+                $senior_old_f = $senior_old_f->whereDate('consultation_date', $sdate);
+                $senior_new_f = $senior_new_f->whereDate('consultation_date', $sdate);
+                $senior_police_f = $senior_police_f->whereDate('consultation_date', $sdate);
             }
             else {
-                $pedia_old_m = $pedia_old_m->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
-                $pedia_new_m = $pedia_new_m->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
-                $pedia_police_m = $pedia_police_m->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
-                $pedia_old_f = $pedia_old_f->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
-                $pedia_new_f = $pedia_new_f->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
-                $pedia_police_f = $pedia_police_f->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
+                $pedia_old_m = $pedia_old_m->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
+                $pedia_new_m = $pedia_new_m->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
+                $pedia_police_m = $pedia_police_m->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
+                $pedia_old_f = $pedia_old_f->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
+                $pedia_new_f = $pedia_new_f->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
+                $pedia_police_f = $pedia_police_f->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
 
-                $adult_old_m = $adult_old_m->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
-                $adult_new_m = $adult_new_m->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
-                $adult_police_m = $adult_police_m->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
-                $adult_old_f = $adult_old_f->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
-                $adult_new_f = $adult_new_f->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
-                $adult_police_f = $adult_police_f->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
+                $adult_old_m = $adult_old_m->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
+                $adult_new_m = $adult_new_m->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
+                $adult_police_m = $adult_police_m->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
+                $adult_old_f = $adult_old_f->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
+                $adult_new_f = $adult_new_f->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
+                $adult_police_f = $adult_police_f->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
 
-                $senior_old_m = $senior_old_m->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
-                $senior_new_m = $senior_new_m->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
-                $senior_police_m = $senior_police_m->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
-                $senior_old_f = $senior_old_f->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
-                $senior_new_f = $senior_new_f->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
-                $senior_police_f = $senior_police_f->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
+                $senior_old_m = $senior_old_m->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
+                $senior_new_m = $senior_new_m->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
+                $senior_police_m = $senior_police_m->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
+                $senior_old_f = $senior_old_f->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
+                $senior_new_f = $senior_new_f->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
+                $senior_police_f = $senior_police_f->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
             }
             
             $final_arr[] = [
@@ -2710,66 +2710,66 @@ class SyndromicController extends Controller
             if(request()->input('type') == 'Daily') {
                 $sdate = request()->input('sdate');
 
-                $pedia_old_m = $pedia_old_m->whereDate('created_at', $sdate);
-                $pedia_new_m = $pedia_new_m->whereDate('created_at', $sdate);
-                $pedia_police_m = $pedia_police_m->whereDate('created_at', $sdate);
-                $pedia_old_f = $pedia_old_f->whereDate('created_at', $sdate);
-                $pedia_new_f = $pedia_new_f->whereDate('created_at', $sdate);
-                $pedia_police_f = $pedia_police_f->whereDate('created_at', $sdate);
+                $pedia_old_m = $pedia_old_m->whereDate('consultation_date', $sdate);
+                $pedia_new_m = $pedia_new_m->whereDate('consultation_date', $sdate);
+                $pedia_police_m = $pedia_police_m->whereDate('consultation_date', $sdate);
+                $pedia_old_f = $pedia_old_f->whereDate('consultation_date', $sdate);
+                $pedia_new_f = $pedia_new_f->whereDate('consultation_date', $sdate);
+                $pedia_police_f = $pedia_police_f->whereDate('consultation_date', $sdate);
 
-                $adult_old_m = $adult_old_m->whereDate('created_at', $sdate);
-                $adult_new_m = $adult_new_m->whereDate('created_at', $sdate);
-                $adult_police_m = $adult_police_m->whereDate('created_at', $sdate);
-                $adult_old_f = $adult_old_f->whereDate('created_at', $sdate);
-                $adult_new_f = $adult_new_f->whereDate('created_at', $sdate);
-                $adult_police_f = $adult_police_f->whereDate('created_at', $sdate);
+                $adult_old_m = $adult_old_m->whereDate('consultation_date', $sdate);
+                $adult_new_m = $adult_new_m->whereDate('consultation_date', $sdate);
+                $adult_police_m = $adult_police_m->whereDate('consultation_date', $sdate);
+                $adult_old_f = $adult_old_f->whereDate('consultation_date', $sdate);
+                $adult_new_f = $adult_new_f->whereDate('consultation_date', $sdate);
+                $adult_police_f = $adult_police_f->whereDate('consultation_date', $sdate);
 
-                $senior_old_m = $senior_old_m->whereDate('created_at', $sdate);
-                $senior_new_m = $senior_new_m->whereDate('created_at', $sdate);
-                $senior_police_m = $senior_police_m->whereDate('created_at', $sdate);
-                $senior_old_f = $senior_old_f->whereDate('created_at', $sdate);
-                $senior_new_f = $senior_new_f->whereDate('created_at', $sdate);
-                $senior_police_f = $senior_police_f->whereDate('created_at', $sdate);
+                $senior_old_m = $senior_old_m->whereDate('consultation_date', $sdate);
+                $senior_new_m = $senior_new_m->whereDate('consultation_date', $sdate);
+                $senior_police_m = $senior_police_m->whereDate('consultation_date', $sdate);
+                $senior_old_f = $senior_old_f->whereDate('consultation_date', $sdate);
+                $senior_new_f = $senior_new_f->whereDate('consultation_date', $sdate);
+                $senior_police_f = $senior_police_f->whereDate('consultation_date', $sdate);
             }
             else {
-                $pedia_old_m = $pedia_old_m->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
-                $pedia_new_m = $pedia_new_m->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
-                $pedia_police_m = $pedia_police_m->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
-                $pedia_old_f = $pedia_old_f->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
-                $pedia_new_f = $pedia_new_f->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
-                $pedia_police_f = $pedia_police_f->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
+                $pedia_old_m = $pedia_old_m->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
+                $pedia_new_m = $pedia_new_m->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
+                $pedia_police_m = $pedia_police_m->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
+                $pedia_old_f = $pedia_old_f->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
+                $pedia_new_f = $pedia_new_f->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
+                $pedia_police_f = $pedia_police_f->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
 
-                $adult_old_m = $adult_old_m->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
-                $adult_new_m = $adult_new_m->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
-                $adult_police_m = $adult_police_m->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
-                $adult_old_f = $adult_old_f->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
-                $adult_new_f = $adult_new_f->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
-                $adult_police_f = $adult_police_f->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
+                $adult_old_m = $adult_old_m->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
+                $adult_new_m = $adult_new_m->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
+                $adult_police_m = $adult_police_m->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
+                $adult_old_f = $adult_old_f->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
+                $adult_new_f = $adult_new_f->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
+                $adult_police_f = $adult_police_f->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
 
-                $senior_old_m = $senior_old_m->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
-                $senior_new_m = $senior_new_m->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
-                $senior_police_m = $senior_police_m->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
-                $senior_old_f = $senior_old_f->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
-                $senior_new_f = $senior_new_f->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
-                $senior_police_f = $senior_police_f->whereMonth('created_at', $smonth)
-                ->whereYear('created_at', $syear);
+                $senior_old_m = $senior_old_m->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
+                $senior_new_m = $senior_new_m->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
+                $senior_police_m = $senior_police_m->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
+                $senior_old_f = $senior_old_f->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
+                $senior_new_f = $senior_new_f->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
+                $senior_police_f = $senior_police_f->whereMonth('consultation_date', $smonth)
+                ->whereYear('consultation_date', $syear);
             }
             
             if($o == 'MEDICAL') {
