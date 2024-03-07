@@ -14,8 +14,14 @@
                 <thead class="text-center thead-light">
                     <tr>
                         <th rowspan="3">
-                            <h6><b>OPD</b></h6>
-                            <h6>Date: {{$month_flavor}}, {{$syear}}</h6>
+                            <h6><b>{{request()->input('id')}}</b></h6>
+                            <h6>Date: 
+                                @if(request()->input('type') == 'Daily')
+                                {{date('F d, Y', strtotime(request()->input('sdate')))}}
+                                @else
+                                {{$month_flavor}}, {{$syear}}
+                                @endif
+                            </h6>
                         </th>
                         <th colspan="6">
                             <h6><b>Pedia</b></h6>

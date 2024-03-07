@@ -209,7 +209,6 @@ class SyndromicController extends Controller
                     $select_view = 'home';
                 }
             }
-            
         }
 
         if($select_view == 'home') {
@@ -2206,11 +2205,24 @@ class SyndromicController extends Controller
         }
 
         $group_diagnosis = SyndromicRecords::where('hosp_identifier', $id)
-        ->whereMonth('created_at', $smonth)
-        ->whereYear('created_at', $syear)
         ->where('facility_id', auth()->user()->itr_facility_id)
-        ->where('hospital_completion', 'PART2')
-        ->orderBy('dcnote_assessment', 'ASC')
+        ->where('hospital_completion', 'PART2');
+        
+        if(request()->input('type') == 'Daily') {
+            $sdate = request()->input('sdate');
+
+            $group_diagnosis = $group_diagnosis->whereDate('created_at', $sdate);
+        }
+        else {
+            $group_diagnosis = $group_diagnosis->whereMonth('created_at', $smonth)
+            ->whereYear('created_at', $syear);
+        }
+
+        if($group_diagnosis->count() <= 0) {
+            return 'No Results found.';
+        }
+
+        $group_diagnosis = $group_diagnosis->orderBy('dcnote_assessment', 'ASC')
         ->groupBy('dcnote_assessment')
         ->pluck('dcnote_assessment');
 
