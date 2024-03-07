@@ -2100,20 +2100,20 @@ class SyndromicController extends Controller
             $sdate = date('Y-m-d');
         }
 
-        $opd_old = SyndromicRecords::whereDate('created_at', $sdate);
-        $opd_new = SyndromicRecords::whereDate('created_at', $sdate);
-        $opd_police = SyndromicRecords::whereDate('created_at', $sdate);
-        $opd_thoc = SyndromicRecords::whereDate('created_at', $sdate);
+        $opd_old = SyndromicRecords::whereDate('consultation_date', $sdate);
+        $opd_new = SyndromicRecords::whereDate('consultation_date', $sdate);
+        $opd_police = SyndromicRecords::whereDate('consultation_date', $sdate);
+        $opd_thoc = SyndromicRecords::whereDate('consultation_date', $sdate);
 
-        $er_old = SyndromicRecords::whereDate('created_at', $sdate);
-        $er_new = SyndromicRecords::whereDate('created_at', $sdate);
-        $er_police = SyndromicRecords::whereDate('created_at', $sdate);
-        $er_thoc = SyndromicRecords::whereDate('created_at', $sdate);
+        $er_old = SyndromicRecords::whereDate('consultation_date', $sdate);
+        $er_new = SyndromicRecords::whereDate('consultation_date', $sdate);
+        $er_police = SyndromicRecords::whereDate('consultation_date', $sdate);
+        $er_thoc = SyndromicRecords::whereDate('consultation_date', $sdate);
 
-        $admission = SyndromicRecords::whereDate('created_at', $sdate);
+        $admission = SyndromicRecords::whereDate('consultation_date', $sdate);
         //$inpatient = SyndromicRecords::whereDate('date_discharged', $sdate);
-        $discharged = SyndromicRecords::whereDate('created_at', $sdate);
-        $doa = SyndromicRecords::whereDate('created_at', $sdate);
+        $discharged = SyndromicRecords::whereDate('consultation_date', $sdate);
+        $doa = SyndromicRecords::whereDate('consultation_date', $sdate);
 
         $opd_old = $opd_old->where('nature_of_visit', 'FOLLOW-UP VISIT')
         ->where('hosp_identifier', 'OPD')
