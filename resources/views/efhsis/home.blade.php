@@ -17,6 +17,7 @@
                             {{session('msg')}}
                         </div>
                         @endif
+                        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#liveBirthModal">Encode Livebirths</button>
                         <a href="{{route('fhsis_report')}}" class="btn btn-primary btn-block">Report</a>
                         <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#cesum2">Generate M2</button>
                         <hr>
@@ -106,6 +107,47 @@
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success btn-block">View</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <form action="{{route('fhsis_livebirth_encode')}}" method="GET">
+        <div class="modal fade" id="liveBirthModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Encode Livebirths</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                          <label for="year"><b class="text-danger">*</b>Year</label>
+                          <input type="number" class="form-control" name="year" id="year" min="{{(date('Y')-5)}}" max="{{date('Y')}}" value="{{date('Y')}}" required>
+                        </div>
+                        <div class="form-group">
+                          <label for="month"><b class="text-danger">*</b>Month</label>
+                          <select class="form-control" name="month" id="month" required>
+                            <option value="1" {{(date('n') == 1) ? 'selected' : ''}}>January</option>
+                            <option value="2" {{(date('n') == 2) ? 'selected' : ''}}>February</option>
+                            <option value="3" {{(date('n') == 3) ? 'selected' : ''}}>March</option>
+                            <option value="4" {{(date('n') == 4) ? 'selected' : ''}}>April</option>
+                            <option value="5" {{(date('n') == 5) ? 'selected' : ''}}>May</option>
+                            <option value="6" {{(date('n') == 6) ? 'selected' : ''}}>June</option>
+                            <option value="7" {{(date('n') == 7) ? 'selected' : ''}}>July</option>
+                            <option value="8" {{(date('n') == 8) ? 'selected' : ''}}>August</option>
+                            <option value="9" {{(date('n') == 9) ? 'selected' : ''}}>September</option>
+                            <option value="10" {{(date('n') == 10) ? 'selected' : ''}}>October</option>
+                            <option value="11" {{(date('n') == 11) ? 'selected' : ''}}>November</option>
+                            <option value="12" {{(date('n') == 12) ? 'selected' : ''}}>December</option>
+                          </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success btn-block">Start</button>
                     </div>
                 </div>
             </div>

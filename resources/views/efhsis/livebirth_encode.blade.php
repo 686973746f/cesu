@@ -1,0 +1,294 @@
+@extends('layouts.app')
+
+@section('content')
+    <div class="container">
+        <form action="{{route('fhsis_livebirth_encode_store')}}" method="post">
+            @csrf
+            <input type="hidden" class="form-control" name="year" id="year" value="{{request()->input('year')}}" required>
+            <input type="hidden" class="form-control" name="month" id="month" value="{{request()->input('month')}}" required>
+            <div class="card">
+                <div class="card-header"><b>Encode Livebirth</b></div>
+                <div class="card-body">
+                    @if(session('msg'))
+                    <div class="alert alert-{{session('msgtype')}}" role="alert">
+                        {{session('msg')}}
+                    </div>
+                    @endif
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="sex"><b class="text-danger">*</b>Sex of Newborn</label>
+                                <select class="form-control" name="sex" id="sex" required>
+                                  <option value="" disabled {{(is_null(old('sex'))) ? 'selected' : ''}}>Choose...</option>
+                                  <option value="M" {{(old('sex') == 'M') ? 'selected' : ''}}>Male</option>
+                                  <option value="F" {{(old('sex') == 'F') ? 'selected' : ''}}>Female</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                              <label for="dob"><b class="text-danger">*</b>Date of Birth</label>
+                              <input type="date" class="form-control" name="dob" id="dob" max="{{date('Y-m-d')}}" value="{{old('dob')}}" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="address_text" class="d-none">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="text" id="address_region_text" name="address_region_text" value="{{old('address_region_text')}}" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" id="address_province_text" name="address_province_text" value="{{old('address_province_text')}}" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" id="address_muncity_text" name="address_muncity_text" value="{{old('address_muncity_text')}}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for=""><b class="text-danger">*</b>Region</label>
+                                <select class="form-control" name="address_region_code" id="address_region_code" required>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for=""><b class="text-danger">*</b>Province</label>
+                                <select class="form-control" name="address_province_code" id="address_province_code" required>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for=""><b class="text-danger">*</b>Municipality/City</label>
+                                <select class="form-control" name="address_muncity_code" id="address_muncity_code" required>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for=""><b class="text-danger">*</b>Barangay</label>
+                                <select class="form-control" name="address_brgy_text" id="address_brgy_text" required>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="">Name of Hospital/Lying In Clinic</label>
+                      <input type="text" class="form-control" name="hospital_lyingin" id="hospital_lyingin" value="{{old('hospital_lyingin')}}" style="text-transform: uppercase;">
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="form-group">
+                              <label for=""><b class="text-danger">*</b>Age of the Mother</label>
+                              <input type="number" class="form-control" name="mother_age" id="mother_age" min="10" max="60" value="{{old('mother_age')}}" required>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="mode_delivery"><b class="text-danger">*</b>Mode of Delivery</label>
+                                <select class="form-control" name="mode_delivery" id="mode_delivery" required>
+                                  <option value="N/A" {{(old('mode_delivery') == 'N/A') ? 'selected' : ''}}>N/A</option>
+                                  <option value="NORMAL" {{(old('mode_delivery') == 'NORMAL') ? 'selected' : ''}}>Normal</option>
+                                  <option value="CS" {{(old('mode_delivery') == 'CS') ? 'selected' : ''}}>CS</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="multiple_delivery"><b class="text-danger">*</b>Multiple Deliveries?</label>
+                                <select class="form-control" name="multiple_delivery" id="multiple_delivery" required>
+                                    <option value="" disabled {{(is_null(old('multiple_delivery'))) ? 'selected' : ''}}>Choose...</option>
+                                    <option value="NO" {{(old('multiple_delivery') == 'NO') ? 'selected' : ''}}>No</option>
+                                    <option value="TWINS" {{(old('multiple_delivery') == 'TWINS') ? 'selected' : ''}}>Yes, Twins</option>
+                                    <option value="TRIPLETS" {{(old('multiple_delivery') == 'TRIPLETS') ? 'selected' : ''}}>Yes, Triplets</option>
+                                    <option value="QUADRUPLETS" {{(old('multiple_delivery') == 'QUADRUPLETS') ? 'selected' : ''}}>Yes, Quadruplets</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-success btn-block" id="submitBtn">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+<script>
+    $(document).bind('keydown', function(e) {
+      if(e.ctrlKey && (e.which == 83)) {
+          e.preventDefault();
+          $('#submitBtn').trigger('click');
+          $('#submitBtn').prop('disabled', true);
+          setTimeout(function() {
+              $('#submitBtn').prop('disabled', false);
+          }, 2000);
+          return false;
+      }
+  });
+
+    $(document).ready(function () {
+        $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_text').select2({
+            theme: 'bootstrap',
+        });
+
+        //Region Select Initialize
+        $.getJSON("{{asset('json/refregion.json')}}", function(data) {
+            var sorted = data.sort(function(a, b) {
+                if (a.regDesc > b.regDesc) {
+                    return 1;
+                }
+                if (a.regDesc < b.regDesc) {
+                    return -1;
+                }
+
+                return 0;
+            });
+
+            $.each(sorted, function(key, val) {
+                $('#address_region_code').append($('<option>', {
+                    value: val.regCode,
+                    text: val.regDesc,
+                    selected: (val.regCode == '04') ? true : false, //default is Region IV-A
+                }));
+            });
+        }).fail(function(jqxhr, textStatus, error) {
+            // Error callback
+            var err = textStatus + ", " + error;
+            console.log("Failed to load Region JSON: " + err);
+            window.location.reload(); // Reload the page
+        });
+
+        $('#address_region_code').change(function (e) { 
+            e.preventDefault();
+            //Empty and Disable
+            $('#address_province_code').empty();
+            $("#address_province_code").append('<option value="" selected disabled>Choose...</option>');
+
+            $('#address_muncity_code').empty();
+            $("#address_muncity_code").append('<option value="" selected disabled>Choose...</option>');
+
+            //Re-disable Select
+            $('#address_muncity_code').prop('disabled', true);
+            $('#address_brgy_text').prop('disabled', true);
+
+            //Set Values for Hidden Box
+            $('#address_region_text').val($('#address_region_code option:selected').text());
+
+            $.getJSON("{{asset('json/refprovince.json')}}", function(data) {
+                var sorted = data.sort(function(a, b) {
+                    if (a.provDesc > b.provDesc) {
+                    return 1;
+                    }
+                    if (a.provDesc < b.provDesc) {
+                    return -1;
+                    }
+                    return 0;
+                });
+
+                $.each(sorted, function(key, val) {
+                    if($('#address_region_code').val() == val.regCode) {
+                        $('#address_province_code').append($('<option>', {
+                            value: val.provCode,
+                            text: val.provDesc,
+                            selected: (val.provCode == '0421') ? true : false, //default for Cavite
+                        }));
+                    }
+                });
+            }).fail(function(jqxhr, textStatus, error) {
+                // Error callback
+                var err = textStatus + ", " + error;
+                console.log("Failed to load Region JSON: " + err);
+                window.location.reload(); // Reload the page
+            });
+        }).trigger('change');
+
+        $('#address_province_code').change(function (e) {
+            e.preventDefault();
+            //Empty and Disable
+            $('#address_muncity_code').empty();
+            $("#address_muncity_code").append('<option value="" selected disabled>Choose...</option>');
+
+            //Re-disable Select
+            $('#address_muncity_code').prop('disabled', false);
+            $('#address_brgy_text').prop('disabled', true);
+
+            //Set Values for Hidden Box
+            $('#address_province_text').val($('#address_province_code option:selected').text());
+
+            $.getJSON("{{asset('json/refcitymun.json')}}", function(data) {
+                var sorted = data.sort(function(a, b) {
+                    if (a.citymunDesc > b.citymunDesc) {
+                        return 1;
+                    }
+                    if (a.citymunDesc < b.citymunDesc) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                $.each(sorted, function(key, val) {
+                    if($('#address_province_code').val() == val.provCode) {
+                        $('#address_muncity_code').append($('<option>', {
+                            value: val.citymunCode,
+                            text: val.citymunDesc,
+                            selected: (val.citymunCode == '042108') ? true : false, //default for General Trias
+                        })); 
+                    }
+                });
+            }).fail(function(jqxhr, textStatus, error) {
+                // Error callback
+                var err = textStatus + ", " + error;
+                console.log("Failed to load CityMun JSON: " + err);
+                window.location.reload(); // Reload the page
+            });
+        }).trigger('change');
+
+        $('#address_muncity_code').change(function (e) {
+            e.preventDefault();
+            //Empty and Disable
+            $('#address_brgy_text').empty();
+            $("#address_brgy_text").append('<option value="" selected disabled>Choose...</option>');
+
+            //Re-disable Select
+            $('#address_muncity_code').prop('disabled', false);
+            $('#address_brgy_text').prop('disabled', false);
+
+            //Set Values for Hidden Box
+            $('#address_muncity_text').val($('#address_muncity_code option:selected').text());
+
+            $.getJSON("{{asset('json/refbrgy.json')}}", function(data) {
+                var sorted = data.sort(function(a, b) {
+                    if (a.brgyDesc > b.brgyDesc) {
+                    return 1;
+                    }
+                    if (a.brgyDesc < b.brgyDesc) {
+                    return -1;
+                    }
+                    return 0;
+                });
+                $.each(sorted, function(key, val) {
+                    if($('#address_muncity_code').val() == val.citymunCode) {
+                        $('#address_brgy_text').append($('<option>', {
+                            value: val.brgyDesc.toUpperCase(),
+                            text: val.brgyDesc.toUpperCase(),
+                        }));
+                    }
+                });
+            }).fail(function(jqxhr, textStatus, error) {
+                // Error callback
+                var err = textStatus + ", " + error;
+                console.log("Failed to load Province BRGY: " + err);
+                window.location.reload(); // Reload the page
+            });
+        }).trigger('change');
+
+        $('#address_region_text').val('REGION IV-A (CALABARZON)');
+        $('#address_province_text').val('CAVITE');
+        $('#address_muncity_text').val('GENERAL TRIAS');
+    });
+</script>
+@endsection

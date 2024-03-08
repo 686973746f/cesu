@@ -2207,7 +2207,7 @@ class PharmacyController extends Controller
 
                     if($item['unit'] == 'BOX') {
                         $issued_count = PharmacyStockCard::where('subsupply_id', $item['id'])
-                        ->whereYear('created_at', date('Y'))
+                        ->whereYear('created_at', $input_year)
                         ->whereMonth('created_at', $nomonth)
                         ->where('status', 'approved')
                         ->where('type', 'ISSUED')
@@ -2215,7 +2215,7 @@ class PharmacyController extends Controller
                         ->sum('qty_to_process');
 
                         $received_count = PharmacyStockCard::where('subsupply_id', $item['id'])
-                        ->whereYear('created_at', date('Y'))
+                        ->whereYear('created_at', $input_year)
                         ->whereMonth('created_at', $nomonth)
                         ->where('status', 'approved')
                         ->where('type', 'RECEIVED')
@@ -2223,7 +2223,7 @@ class PharmacyController extends Controller
                         ->sum('qty_to_process');
 
                         $issued_count_piece = PharmacyStockCard::where('subsupply_id', $item['id'])
-                        ->whereYear('created_at', date('Y'))
+                        ->whereYear('created_at', $input_year)
                         ->whereMonth('created_at', $nomonth)
                         ->where('status', 'approved')
                         ->where('type', 'ISSUED')
@@ -2231,7 +2231,7 @@ class PharmacyController extends Controller
                         ->sum('qty_to_process');
 
                         $received_count_piece = PharmacyStockCard::where('subsupply_id', $item['id'])
-                        ->whereYear('created_at', date('Y'))
+                        ->whereYear('created_at', $input_year)
                         ->whereMonth('created_at', $nomonth)
                         ->where('status', 'approved')
                         ->where('type', 'RECEIVED')
@@ -2277,14 +2277,14 @@ class PharmacyController extends Controller
                     }
                     else {
                         $issued_count = PharmacyStockCard::where('subsupply_id', $item['id'])
-                        ->whereYear('created_at', date('Y'))
+                        ->whereYear('created_at', $input_year)
                         ->whereMonth('created_at', $nomonth)
                         ->where('status', 'approved')
                         ->where('type', 'ISSUED')
                         ->sum('qty_to_process');
 
                         $received_count = PharmacyStockCard::where('subsupply_id', $item['id'])
-                        ->whereYear('created_at', date('Y'))
+                        ->whereYear('created_at', $input_year)
                         ->whereMonth('created_at', $nomonth)
                         ->where('status', 'approved')
                         ->where('type', 'RECEIVED')
@@ -2375,12 +2375,12 @@ class PharmacyController extends Controller
                     $qry_female = $qry_female->whereBetween('patient_age_years', $ag['values']);
                 }
 
-                $age_group_set_male[] = $qry_male->whereYear('created_at', date('Y'))
+                $age_group_set_male[] = $qry_male->whereYear('created_at', $input_year)
                 ->groupBy('receiving_patient_id')
                 ->pluck('receiving_patient_id')
                 ->count();
 
-                $age_group_set_female[] = $qry_female->whereYear('created_at', date('Y'))
+                $age_group_set_female[] = $qry_female->whereYear('created_at', $input_year)
                 ->groupBy('receiving_patient_id')
                 ->pluck('receiving_patient_id')
                 ->count();

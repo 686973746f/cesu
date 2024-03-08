@@ -1328,4 +1328,49 @@ class FhsisController extends Controller
     public function morbreport() {
 
     }
+
+    public function liveBirthsEncode() {
+        if(request()->input('month') && request()->input('year')) {
+            $month = request()->input('month');
+            $year = request()->input('year');
+
+            return view('efhsis.livebirth_encode', [
+                'month' => $month,
+                'year' => $year,
+            ]);
+        }
+        else {
+            return abort(401);
+        }
+    }
+
+    public function liveBirthsStore(Request $r) {
+
+        $c = $r->user()->livebirth()->create([
+            'year' => $r->year,
+            'month' => $r->month,
+            'sex' => $r->sex,
+            'dob' => $r->dob,
+
+            'address_region_code' => $r->address_region_code,
+            'address_region_text' => $r->address_region_text,
+            'address_province_code' => $r->address_province_code,
+            'address_province_text' => $r->address_province_text,
+            'address_muncity_code' => $r->address_muncity_code,
+            'address_muncity_text' => $r->address_muncity_text,
+            'address_brgy_code' => $r->address_brgy_text,
+            'address_brgy_text' => $r->address_brgy_text,
+            'address_street' => ($r->filled('address_street')) ? mb_strtoupper($r->address_street) : NULL,
+            'address_houseno' => ($r->filled('address_houseno')) ? mb_strtoupper($r->address_houseno) : NULL,
+            
+            'hospital_lyingin' => ($r->filled('hospital_lyingin')) ? mb_strtoupper($r->hospital_lyingin) : NULL,
+            'mother_age' => $r->mother_age,
+            'mode_delivery' => $r->mode_delivery,
+            'multiple_delivery' => $r->multiple_delivery,
+        ]);
+
+        return redirect()->back()
+        ->with('msg', 'Livebirth ID: '.$c->id.' was successfully added.')
+        ->with('msgtype', 'success');
+    }
 }
