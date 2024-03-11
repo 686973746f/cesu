@@ -1129,7 +1129,7 @@ class SyndromicController extends Controller
                 $sharedAccessList = $getpatient->shared_access_list;
             }
 
-            if($getpatient->isHospitalRecord()) {
+            if(auth()->user()->isHospitalRecord()) {
                 if(is_null($getpatient->unique_opdnumber)) {
                     $ucheck = SyndromicPatient::where('unique_opdnumber', $request->unique_opdnumber)->first();
 
@@ -1142,12 +1142,19 @@ class SyndromicController extends Controller
                         $getpatient->unique_opdnumber = $request->unique_opdnumber;
                     }
                 }
+                else {
+                    $getpatient->unique_opdnumber = $getpatient->unique_opdnumber;
+                }
 
                 $getpatient->id_presented = $request->id_presented;
+            }
+            else {
+                $getpatient->unique_opdnumber = $getpatient->unique_opdnumber;
+                $getpatient->id_presented = $getpatient->id_presented;
+            }
 
-                if($getpatient->isDirty()) {
-                    $getpatient->save();
-                }
+            if($getpatient->isDirty()) {
+                $getpatient->save();
             }
 
             $values_array = [
