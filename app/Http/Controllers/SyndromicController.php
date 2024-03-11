@@ -1129,7 +1129,7 @@ class SyndromicController extends Controller
                 $sharedAccessList = $getpatient->shared_access_list;
             }
 
-            if(auth()->user()->isHospitalRecord()) {
+            if(auth()->user()->isSyndromicHospitalLevelAccess()) {
                 if(is_null($getpatient->unique_opdnumber)) {
                     $ucheck = SyndromicPatient::where('unique_opdnumber', $request->unique_opdnumber)->first();
 
