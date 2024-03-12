@@ -5696,4 +5696,73 @@ class PIDSRController extends Controller
             'list' => $get_list,
         ]);
     }
+
+    public static function getEdcsSpecimenTypeList($d) {
+        $arr = [
+            'Stool',
+            'Blood',
+            'Serum',
+            'Saliva',
+            'Nasopharyngeal/Oropharyngeal Swab (NPS/OPS)',
+            'Dried Blood Spot',
+            'Cerebrospinal fluid',
+            'Brain Tissue',
+            'Skin',
+            'Cornea',
+            'Urine',
+            'Throat Swab',
+            'Vesicle Swab',
+            'Rectal Swab',
+        ];
+    }
+
+    public static function getEdcsTestConductedList($d) {
+        $arr = [
+            'Complete Blood Count',
+            'Culture and Sensitivity',
+            'Cytology and Chemistry',
+            'Direct Fluorescent Antibody Test (FAT)',
+            'Enzyme-linked Immunoassay (ELISA)',
+            'Gram Stain',
+            'IgG Antibody Test',
+            'IgM and IgG Antibody Test',
+            'IgM Antibody Test',
+            'Latex Agglunitation',
+            'Microbiology',
+            'Microscopic Agglutination Test',
+            'Polymerase Chain Reaction',
+            'Rapid Antigen Test',
+            'Rapid Diagnostic Test',
+            'Tubex Test',
+            'Typhidot Test',
+            'Virus Antigen Detection (NS1)',
+            'Virus Isolation',
+            'Widals Test',
+        ];
+    }
+
+    public static function getEdcsTestLabResults($d) {
+        $arr = [
+            'DENGUE',
+            'EQUIVOCAL',
+            'H.INFLUENZAE',
+            'INDETERMINATE',
+            'JAPANESE ENCEPHALITIS',
+            'N.MENINGITIDIS',
+            'NEGATIVE',
+            'NON POLIO ENTERO VIRUS',
+            'NOT DONE',
+            'NOT PROCESSED',
+            'PENDING',
+            'POSITIVE',
+            'S.PNEUMONIAE',
+            'SABIN - LIKE TYPE 1',
+            'SABIN - LIKE TYPE 2',
+            'SABIN - LIKE TYPE 3',
+            'UNDERTIMINED',
+            'UNKNOWN',
+            'VACCINE - DERIVED POLIO VIRUS',
+            'WILD POLIO VIRUS',
+        ];
+    }
 }

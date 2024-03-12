@@ -25,6 +25,7 @@ use App\Models\DohFacility;
 use Illuminate\Support\Str;
 use App\Models\Leptospirosis;
 use App\Models\EdcsLaboratoryData;
+use App\Models\SevereAcuteRespiratoryInfection;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToModel;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
@@ -243,6 +244,8 @@ class EdcsImport implements WithMultipleSheets, SkipsUnknownSheets
             'LABORATORY' => new LaboratoryImport(),
             'LAB' => new LaboratoryImport(),
             'laboratory_view' => new LaboratoryImport(),
+
+            'sari_view' => new SevereAcuteRespiratoryInfectionImport(),
         ];
     }
 
@@ -3023,6 +3026,14 @@ class LaboratoryImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             }
 
             return $model;
+        }
+    }
+}
+
+class SevereAcuteRespiratoryInfectionImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
+    public function model(array $row) {
+        if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
+            
         }
     }
 }
