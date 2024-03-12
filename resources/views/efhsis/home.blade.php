@@ -131,18 +131,19 @@
                         <div class="form-group">
                           <label for="month"><b class="text-danger">*</b>Month</label>
                           <select class="form-control" name="month" id="month" required>
-                            <option value="1" {{(date('n') == 1) ? 'selected' : ''}}>January</option>
-                            <option value="2" {{(date('n') == 2) ? 'selected' : ''}}>February</option>
-                            <option value="3" {{(date('n') == 3) ? 'selected' : ''}}>March</option>
-                            <option value="4" {{(date('n') == 4) ? 'selected' : ''}}>April</option>
-                            <option value="5" {{(date('n') == 5) ? 'selected' : ''}}>May</option>
-                            <option value="6" {{(date('n') == 6) ? 'selected' : ''}}>June</option>
-                            <option value="7" {{(date('n') == 7) ? 'selected' : ''}}>July</option>
-                            <option value="8" {{(date('n') == 8) ? 'selected' : ''}}>August</option>
-                            <option value="9" {{(date('n') == 9) ? 'selected' : ''}}>September</option>
-                            <option value="10" {{(date('n') == 10) ? 'selected' : ''}}>October</option>
-                            <option value="11" {{(date('n') == 11) ? 'selected' : ''}}>November</option>
-                            <option value="12" {{(date('n') == 12) ? 'selected' : ''}}>December</option>
+                            <option value="" disabled selected>Choose...</option>
+                            <option value="1" >January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
                           </select>
                         </div>
                     </div>

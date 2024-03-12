@@ -7,13 +7,21 @@
             <input type="hidden" class="form-control" name="year" id="year" value="{{request()->input('year')}}" required>
             <input type="hidden" class="form-control" name="month" id="month" value="{{request()->input('month')}}" required>
             <div class="card">
-                <div class="card-header"><b>Encode Livebirth</b></div>
+                <div class="card-header">
+                    <div class="d-flex justify-content-between">
+                        <div><b>Encode Livebirth</b></div>
+                        <div><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeMonth">Change Month</button></div>
+                    </div>
+                </div>
                 <div class="card-body">
                     @if(session('msg'))
                     <div class="alert alert-{{session('msgtype')}}" role="alert">
                         {{session('msg')}}
                     </div>
                     @endif
+                    <div class="alert alert-primary" role="alert">
+                        Encoding for Month: <b>{{date('F', strtotime(request()->input('year').'-'.request()->input('month').'-01'))}}</b> - Year: <b>{{request()->input('year')}}</b>
+                    </div>
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
@@ -118,6 +126,48 @@
             </div>
         </form>
     </div>
+
+    <form action="{{route('fhsis_livebirth_encode')}}" method="GET">
+        <div class="modal fade" id="changeMonth" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Encode Livebirths</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                          <label for="year"><b class="text-danger">*</b>Year</label>
+                          <input type="number" class="form-control" name="year" id="year" min="{{(date('Y')-5)}}" max="{{date('Y')}}" value="{{date('Y')}}" required>
+                        </div>
+                        <div class="form-group">
+                          <label for="month"><b class="text-danger">*</b>Month</label>
+                          <select class="form-control" name="month" id="month" required>
+                            <option value="" disabled selected>Choose...</option>
+                            <option value="1" >January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                          </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success btn-block">Start</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 <script>
     $(document).bind('keydown', function(e) {
       if(e.ctrlKey && (e.which == 83)) {
