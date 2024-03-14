@@ -2231,15 +2231,28 @@ class SyndromicController extends Controller
 
         $group_diagnosis = $group_diagnosis->orderBy('dcnote_assessment', 'ASC')
         ->groupBy('dcnote_assessment')
-        ->pluck('dcnote_assessment');
+        ->pluck('dcnote_assessment')
+        ->toArray();
+
+        $gd_final = [];
+
+        foreach($group_diagnosis as $f) {
+            $separate_arr = explode(",", $f);
+
+            $string = $separate_arr[0];
+
+            if(!in_array($string, $gd_final)) {
+                $gd_final[] = $separate_arr[0];
+            }
+        }
 
         $final_arr = [];
 
-        foreach($group_diagnosis as $g) {
+        foreach($gd_final as $g) {
             $pedia_old_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
                 $q->where('gender', 'MALE');
             })
-            ->where('dcnote_assessment', $g)
+            ->where('dcnote_assessment', 'LIKE', $g.'%')
             ->where('nature_of_visit', 'FOLLOW-UP VISIT')
             ->where('age_years', '<=', 19)
             ->where('hosp_identifier', $id)
@@ -2249,7 +2262,7 @@ class SyndromicController extends Controller
             $pedia_new_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
                 $q->where('gender', 'MALE');
             })
-            ->where('dcnote_assessment', $g)
+            ->where('dcnote_assessment', 'LIKE', $g.'%')
             ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
             ->where('age_years', '<=', 19)
             ->where('hosp_identifier', $id)
@@ -2259,7 +2272,7 @@ class SyndromicController extends Controller
             $pedia_police_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
                 $q->where('gender', 'MALE');
             })
-            ->where('dcnote_assessment', $g)
+            ->where('dcnote_assessment', 'LIKE', $g.'%')
             ->where('disposition', 'SENT TO JAIL')
             ->where('age_years', '<=', 19)
             ->where('hosp_identifier', $id)
@@ -2269,7 +2282,7 @@ class SyndromicController extends Controller
             $pedia_old_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
                 $q->where('gender', 'FEMALE');
             })
-            ->where('dcnote_assessment', $g)
+            ->where('dcnote_assessment', 'LIKE', $g.'%')
             ->where('nature_of_visit', 'FOLLOW-UP VISIT')
             ->where('age_years', '<=', 19)
             ->where('hosp_identifier', $id)
@@ -2279,7 +2292,7 @@ class SyndromicController extends Controller
             $pedia_new_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
                 $q->where('gender', 'FEMALE');
             })
-            ->where('dcnote_assessment', $g)
+            ->where('dcnote_assessment', 'LIKE', $g.'%')
             ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
             ->where('age_years', '<=', 19)
             ->where('hosp_identifier', $id)
@@ -2289,7 +2302,7 @@ class SyndromicController extends Controller
             $pedia_police_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
                 $q->where('gender', 'FEMALE');
             })
-            ->where('dcnote_assessment', $g)
+            ->where('dcnote_assessment', 'LIKE', $g.'%')
             ->where('disposition', 'SENT TO JAIL')
             ->where('age_years', '<=', 19)
             ->where('hosp_identifier', $id)
@@ -2299,7 +2312,7 @@ class SyndromicController extends Controller
             $adult_old_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
                 $q->where('gender', 'MALE');
             })
-            ->where('dcnote_assessment', $g)
+            ->where('dcnote_assessment', 'LIKE', $g.'%')
             ->where('nature_of_visit', 'FOLLOW-UP VISIT')
             ->whereBetween('age_years', [20,59])
             ->where('hosp_identifier', $id)
@@ -2309,7 +2322,7 @@ class SyndromicController extends Controller
             $adult_new_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
                 $q->where('gender', 'MALE');
             })
-            ->where('dcnote_assessment', $g)
+            ->where('dcnote_assessment', 'LIKE', $g.'%')
             ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
             ->whereBetween('age_years', [20,59])
             ->where('hosp_identifier', $id)
@@ -2319,7 +2332,7 @@ class SyndromicController extends Controller
             $adult_police_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
                 $q->where('gender', 'MALE');
             })
-            ->where('dcnote_assessment', $g)
+            ->where('dcnote_assessment', 'LIKE', $g.'%')
             ->where('disposition', 'SENT TO JAIL')
             ->whereBetween('age_years', [20,59])
             ->where('hosp_identifier', $id)
@@ -2329,7 +2342,7 @@ class SyndromicController extends Controller
             $adult_old_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
                 $q->where('gender', 'FEMALE');
             })
-            ->where('dcnote_assessment', $g)
+            ->where('dcnote_assessment', 'LIKE', $g.'%')
             ->where('nature_of_visit', 'FOLLOW-UP VISIT')
             ->whereBetween('age_years', [20,59])
             ->where('hosp_identifier', $id)
@@ -2339,7 +2352,7 @@ class SyndromicController extends Controller
             $adult_new_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
                 $q->where('gender', 'FEMALE');
             })
-            ->where('dcnote_assessment', $g)
+            ->where('dcnote_assessment', 'LIKE', $g.'%')
             ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
             ->whereBetween('age_years', [20,59])
             ->where('hosp_identifier', $id)
@@ -2349,7 +2362,7 @@ class SyndromicController extends Controller
             $adult_police_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
                 $q->where('gender', 'FEMALE');
             })
-            ->where('dcnote_assessment', $g)
+            ->where('dcnote_assessment', 'LIKE', $g.'%')
             ->where('disposition', 'SENT TO JAIL')
             ->whereBetween('age_years', [20,59])
             ->where('hosp_identifier', $id)
@@ -2359,7 +2372,7 @@ class SyndromicController extends Controller
             $senior_old_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
                 $q->where('gender', 'MALE');
             })
-            ->where('dcnote_assessment', $g)
+            ->where('dcnote_assessment', 'LIKE', $g.'%')
             ->where('nature_of_visit', 'FOLLOW-UP VISIT')
             ->where('age_years', '>=', 60)
             ->where('hosp_identifier', $id)
@@ -2369,7 +2382,7 @@ class SyndromicController extends Controller
             $senior_new_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
                 $q->where('gender', 'MALE');
             })
-            ->where('dcnote_assessment', $g)
+            ->where('dcnote_assessment', 'LIKE', $g.'%')
             ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
             ->where('age_years', '>=', 60)
             ->where('hosp_identifier', $id)
@@ -2379,7 +2392,7 @@ class SyndromicController extends Controller
             $senior_police_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
                 $q->where('gender', 'MALE');
             })
-            ->where('dcnote_assessment', $g)
+            ->where('dcnote_assessment', 'LIKE', $g.'%')
             ->where('disposition', 'SENT TO JAIL')
             ->where('age_years', '>=', 60)
             ->where('hosp_identifier', $id)
@@ -2389,7 +2402,7 @@ class SyndromicController extends Controller
             $senior_old_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
                 $q->where('gender', 'FEMALE');
             })
-            ->where('dcnote_assessment', $g)
+            ->where('dcnote_assessment', 'LIKE', $g.'%')
             ->where('nature_of_visit', 'FOLLOW-UP VISIT')
             ->where('age_years', '>=', 60)
             ->where('hosp_identifier', $id)
@@ -2399,7 +2412,7 @@ class SyndromicController extends Controller
             $senior_new_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
                 $q->where('gender', 'FEMALE');
             })
-            ->where('dcnote_assessment', $g)
+            ->where('dcnote_assessment', 'LIKE', $g.'%')
             ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
             ->where('age_years', '>=', 60)
             ->where('hosp_identifier', $id)
@@ -2409,7 +2422,7 @@ class SyndromicController extends Controller
             $senior_police_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
                 $q->where('gender', 'FEMALE');
             })
-            ->where('dcnote_assessment', $g)
+            ->where('dcnote_assessment', 'LIKE', $g.'%')
             ->where('disposition', 'SENT TO JAIL')
             ->where('age_years', '>=', 60)
             ->where('hosp_identifier', $id)
