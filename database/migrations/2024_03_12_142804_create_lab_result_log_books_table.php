@@ -15,8 +15,16 @@ class CreateLabResultLogBooksTable extends Migration
     {
         Schema::create('lab_result_log_books', function (Blueprint $table) {
             $table->id();
-            $table->string('for_case_id');
+            $table->string('for_case_id')->nullable();
             $table->string('disease_tag');
+
+            $table->string('lname')->nullable();
+            $table->string('fname')->nullable();
+            $table->string('mname')->nullable();
+            $table->string('suffix')->nullable();
+
+            $table->tinyInteger('age')->nullable();
+            $table->string('gender', 1)->nullable();
 
             $table->date('date_collected');
             $table->string('collector_name')->nullable();
@@ -34,6 +42,7 @@ class CreateLabResultLogBooksTable extends Migration
             
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreignId('facility_id')->nullable()->constrained('doh_facilities')->onDelete('cascade');
             $table->timestamps();
         });
     }
