@@ -1334,6 +1334,15 @@ class FhsisController extends Controller
             $month = request()->input('month');
             $year = request()->input('year');
 
+            $current = Carbon::create(date('Y'), date('m'), 1, 0, 0, 0);
+            $selected = Carbon::create($year, $month, 1, 0, 0, 0);
+
+            if($selected->gt($current)) {
+                return redirect()->route('fhsis_home')
+                ->with('msg', 'Error: Advance ka pa sa present date mag-encode ah. Bawal yun! hihi')
+                ->with('msgtype', 'warning');
+            }
+
             return view('efhsis.livebirth_encode', [
                 'month' => $month,
                 'year' => $year,
@@ -1345,12 +1354,28 @@ class FhsisController extends Controller
     }
 
     public function liveBirthsStore(Request $r) {
+        $current_check = Carbon::create($r->year, $r->month, 1, 0, 0, 0);
+        $dob_check = Carbon::create($r->input_year, $r->input_month, 1, 0, 0, 0);
+        $dob_final = Carbon::create($r->input_year, $r->input_month, $r->input_day, 0, 0, 0);
+
+        if ($r->input_day > $dob_check->format('t')) {
+            return redirect()->back()
+            ->withInput()
+            ->with('msg', 'ERROR: Invalid Birthdate of Newborn. Double check the fields and then try again.')
+            ->with('msgtype', 'warning');
+        }
+        else if($dob_check->gt($current_check)) {
+            return redirect()->back()
+            ->withInput()
+            ->with('msg', 'ERROR: Newborn Birthdate is greater than the Selected Encoding Period. Double check or change the encoding period and then try again.')
+            ->with('msgtype', 'warning');
+        }
 
         $c = $r->user()->livebirth()->create([
             'year' => $r->year,
             'month' => $r->month,
             'sex' => $r->sex,
-            'dob' => $r->dob,
+            'dob' => $dob_final->format('Y-m-d'),
 
             'address_region_code' => $r->address_region_code,
             'address_region_text' => $r->address_region_text,
