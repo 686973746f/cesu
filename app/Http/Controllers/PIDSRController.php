@@ -132,12 +132,7 @@ class PIDSRController extends Controller
             $unlockweeklyreport = true;
         }
         else {
-            if(auth()->user()->isGlobalAdmin()) {
-                $unlockweeklyreport = true;
-            }
-            else {
-                $unlockweeklyreport = false;
-            }
+            $unlockweeklyreport = false;
         }
 
         $forverification_count = count(PIDSRController::getBlankSubdivisions());

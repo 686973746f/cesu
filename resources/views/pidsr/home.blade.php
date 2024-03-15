@@ -41,10 +41,12 @@
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#report">Report</button>
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#snax">sNaX v2</button>
                     <hr>
-                    @if(!($unlockweeklyreport))
+                    @if(auth()->user()->isGlobalAdmin())
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#dailyexport">EDCS-IS Daily Import</button>
                     @endif
-                    @if($unlockweeklyreport)
+                    @if(!($unlockweeklyreport))
+                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#dailyexport">EDCS-IS Daily Import</button>
+                    @else
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#export">EDCS-IS Weekly Import Task (every Tuesday)</button>
                     @endif
                     @if(in_array('GLOBAL_ADMIN', auth()->user()->getPermissions()))
