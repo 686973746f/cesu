@@ -342,6 +342,9 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
     Route::get('/pidsr/generate_threshold', [PIDSRController::class, 'generateThreshold'])->name('pidsr_generate_threshold');
 
     Route::get('/pidsr/for_validation', [PIDSRController::class, 'forValidationIndex'])->name('pidsr_forvalidation_index');
+    Route::get('/pidsr/laboratory/', [PIDSRController::class, 'labLogbook'])->name('pidsr_laboratory_home');
+    Route::get('/pidsr/laboratory/new', [PIDSRController::class, 'newLabLogBook'])->name('pidsr_laboratory_new');
+    Route::post('/pidsr/laboratory/new/store', [PIDSRController::class, 'storeLabLogBook'])->name('pidsr_laboratory_');
 });
 
 Route::get('/pidsr/viewcif/{case}/{epi_id}', [PIDSRController::class, 'viewCif'])->name('pidsr_viewcif');

@@ -34,6 +34,7 @@
                     @if(auth()->user()->canAccessQes())
                     <a href="{{route('qes_home')}}" class="btn btn-block btn-primary">QES for Diarrhea Cases Module</a>
                     @endif
+                    <a href="{{route('pidsr_laboratory_home')}}" class="btn btn-block btn-primary">Lab Results Encoding</a>
                     @if(auth()->user()->canAccessFwri())
                     <a href="{{route('fwri_home')}}" class="btn btn-block btn-primary">Fireworks-Related Injury (FWRI)</a>
                     <hr>

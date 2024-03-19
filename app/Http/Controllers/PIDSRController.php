@@ -37,6 +37,7 @@ use App\Models\SiteSettings;
 use Illuminate\Http\Request;
 use App\Imports\RabiesImport;
 use App\Models\EdcsLaboratoryData;
+use App\Models\LabResultLogBook;
 use App\Models\Leptospirosis;
 use App\Models\PidsrNotifications;
 use App\Models\PidsrThreshold;
@@ -5692,7 +5693,7 @@ class PIDSRController extends Controller
         ]);
     }
 
-    public static function getEdcsSpecimenTypeList($d) {
+    public static function getEdcsSpecimenTypeList() {
         $arr = [
             'Stool',
             'Blood',
@@ -5709,9 +5710,13 @@ class PIDSRController extends Controller
             'Vesicle Swab',
             'Rectal Swab',
         ];
+
+        sort($arr);
+
+        return $arr;
     }
 
-    public static function getEdcsTestConductedList($d) {
+    public static function getEdcsTestConductedList() {
         $arr = [
             'Complete Blood Count',
             'Culture and Sensitivity',
@@ -5734,9 +5739,13 @@ class PIDSRController extends Controller
             'Virus Isolation',
             'Widals Test',
         ];
+
+        sort($arr);
+
+        return $arr;
     }
 
-    public static function getEdcsTestLabResults($d) {
+    public static function getEdcsTestLabResults() {
         $arr = [
             'DENGUE',
             'EQUIVOCAL',
@@ -5759,5 +5768,59 @@ class PIDSRController extends Controller
             'VACCINE - DERIVED POLIO VIRUS',
             'WILD POLIO VIRUS',
         ];
+
+        sort($arr);
+
+        return $arr;
+    }
+
+    public static function listDiseases() {
+        $array = [
+            'AFP',
+            'MEASLES',
+            'MENINGO',
+            'NT',
+            'RABIES',
+            'HFMD',
+
+            'ABD',
+            'AMES',
+            'HEPATITIS',
+            'CHIKV',
+            'CHOLERA',
+            'DENGUE',
+            'DIPH',
+            'INFLUENZA',
+            'LEPTOSPIROSIS',
+            'NNT',
+            'PERT',
+            'ROTAVIRUS',
+            'TYPHOID',
+            'SARI',
+        ];
+
+        sort($array);
+
+        return $array;
+    }
+
+    public static function searchEpiId($d) {
+
+    }
+
+    public function labLogbook() {
+        $list = LabResultLogBook::orderBy('created_at', 'DESC')->paginate(10);
+
+        return view('pidsr.laboratory.home', [
+            'list' => $list,
+        ]);
+    }
+
+    public function newLabLogBook() {
+
+    }
+
+    public function storeLabLogBook(Request $r) {
+
     }
 }
