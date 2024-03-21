@@ -209,7 +209,7 @@ class EdcsHourlyCaseEmailer extends Command
                         }
 
                         if($d == 'SevereAcuteRespiratoryInfection') {
-                            $get_fullname = $i->getFullName;
+                            $get_fullname = $i->getFullName();
                             $get_age = $i->age_years;
                             $get_sex = substr($i->sex,0,1);
                             $get_brgy = $i->barangay;
