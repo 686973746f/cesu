@@ -12,14 +12,14 @@ class SevereAcuteRespiratoryInfection extends Model
     public $guarded = [];
     
     public function getFullName() {
-        $getFullName = $this->last_name.', '.$this->first_name;
+        $getFullName = $this->lname.', '.$this->fname;
 
         if(!is_null($this->middle_name)) {
             $getFullName = $getFullName.' '.$this->middle_name;
         }
 
-        if(!is_null($this->suffix_name)) {
-            $getFullName = $getFullName.' '.$this->suffix_name;
+        if(!is_null($this->suffix)) {
+            $getFullName = $getFullName.' '.$this->suffix;
         }
 
         return $getFullName;
