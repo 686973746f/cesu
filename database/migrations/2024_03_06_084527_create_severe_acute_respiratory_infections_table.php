@@ -16,33 +16,33 @@ class CreateSevereAcuteRespiratoryInfectionsTable extends Migration
         Schema::create('severe_acute_respiratory_infections', function (Blueprint $table) {
             $table->id();
             $table->text('edcs_caseid')->nullable();
-            $table->string('epi_id');
-            $table->string('patient_number')->nullable();
+            $table->text('epi_id');
+            $table->text('patient_number')->nullable();
 
-            $table->string('lname');
-            $table->string('fname');
-            $table->string('middle_name')->nullable();
-            $table->string('suffix')->nullable();
-            $table->string('sex');
+            $table->text('lname');
+            $table->text('fname');
+            $table->text('middle_name')->nullable();
+            $table->text('suffix')->nullable();
+            $table->text('sex');
 
             $table->date('birthdate');
             $table->integer('age_years');
             $table->integer('age_months');
             $table->integer('age_days');
 
-            $table->string('region');
-            $table->string('province');
-            $table->string('muncity');
-            $table->string('barangay')->nullable();
-            $table->string('streetpurok')->nullable();
+            $table->text('region');
+            $table->text('province');
+            $table->text('muncity');
+            $table->text('barangay')->nullable();
+            $table->text('streetpurok')->nullable();
 
-            $table->string('perm_region');
-            $table->string('perm_province');
-            $table->string('perm_muncity');
-            $table->string('perm_barangay')->nullable();
-            $table->string('perm_streetpurok')->nullable();
+            $table->text('perm_region');
+            $table->text('perm_province');
+            $table->text('perm_muncity');
+            $table->text('perm_barangay')->nullable();
+            $table->text('perm_streetpurok')->nullable();
 
-            $table->string('facility_name')->nullable();
+            $table->text('facility_name')->nullable();
             $table->text('edcs_healthFacilityCode')->nullable();
 
             $table->string('admitted')->nullable();
@@ -54,10 +54,10 @@ class CreateSevereAcuteRespiratoryInfectionsTable extends Migration
             $table->string('zanamivir')->nullable();
             $table->string('amantidine')->nullable();
             $table->string('oseltamivir')->nullable();
-            $table->string('others')->nullable();
+            $table->text('others_medicine')->nullable();
 
             $table->string('arethereinfluenzaduringtheweek')->nullable();
-            $table->string('school_daycare_workplace')->nullable();
+            $table->text('school_daycare_workplace')->nullable();
 
             $table->string('receiveinfluenzavaccinepastyear')->nullable();
             $table->date('date_vaccinated')->nullable();
@@ -67,11 +67,11 @@ class CreateSevereAcuteRespiratoryInfectionsTable extends Migration
             $table->string('horses')->nullable();
             $table->string('poultry_birds')->nullable();
             $table->string('pigs')->nullable();
-            $table->string('other_animal')->nullable();
+            $table->text('other_animal')->nullable();
 
             $table->string('history_of_travel')->nullable();
             $table->date('date_of_travel')->nullable();
-            $table->string('specify_countries')->nullable();
+            $table->text('specify_countries')->nullable();
 
             $table->string('chestxray_done')->nullable();
             $table->string('chestxray_result')->nullable();
@@ -137,20 +137,20 @@ class CreateSevereAcuteRespiratoryInfectionsTable extends Migration
             $table->string('admit_to_entry')->nullable();
             $table->string('onset_to_admit')->nullable();
 
-            $table->tinyInteger('systemsent', 1)->default(0);
-            $table->tinyInteger('enabled', 1)->default(1);
+            $table->tinyInteger('systemsent')->nullable(); //default 0
+            $table->tinyInteger('enabled')->nullable(); //default 1
             $table->text('edcs_investigatorName')->nullable();
             $table->text('edcs_contactNo')->nullable();
             $table->text('edcs_ageGroup')->nullable();
             $table->text('edcs_verificationLevel')->nullable();
-            $table->tinyInteger('from_edcs', 1)->default(1);
+            $table->tinyInteger('from_edcs')->nullable(); //default 1
             $table->tinyInteger('encoded_mw')->nullable();
-            $table->tinyInteger('match_casedef', 1)->default(1);
-            $table->tinyInteger('system_notified', 1)->default(0);
+            $table->tinyInteger('match_casedef')->nullable(); //default 1
+            $table->tinyInteger('system_notified')->nullable(); //default 0
             $table->string('edcs_userid')->nullable();
             $table->string('edcs_last_modifiedby')->nullable();
             $table->date('edcs_last_modified_date')->nullable();
-            $table->tinyInteger('notify_email_sent', 1)->default(0);
+            $table->tinyInteger('notify_email_sent')->nullable(); //default 0
             $table->timestamp('notify_email_sent_datetime')->nullable();
             $table->string('edcs_patientcontactnum')->nullable();
             $table->text('system_remarks')->nullable();

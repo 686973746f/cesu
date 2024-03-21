@@ -2987,45 +2987,54 @@ class InfluenzaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow 
 class LaboratoryImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
     public function model(array $row) {
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
-            $table_params = [
-                'lab_id' => $row['id'],
-                'case_id' => $row['case_id'],
-                'case_code' => $row['case_code'],
-                'epi_id' => $row['epi_id'],
-                'sent_to_ritm' => $row['specimen_sent_to_ritmsnl'],
-                'specimen_collected_date' => EdcsImport::tDate($row['date_specimen_collected']),
-                'specimen_type' => $row['specimen_type'],
-                'date_sent' => EdcsImport::tDate($row['date_sent']),
-                'date_received' => EdcsImport::tDate($row['date_received']),
-                'result' => $row['laboratory_result'],
-                'test_type' => $row['type_of_test_conducted'],
-                'interpretation' => $row['interpretation'],
-                'user_id' => $row['user_id'],
-                'timestamp' => EdcsImport::tDate($row['timestamp']),
-                'last_modified_by' => $row['last_modified_by'],
-                'last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
-                'user_regcode' => $row['user_regcode'],
-                'user_provcode' => $row['user_provcode'],
-                'user_citycode' => $row['user_citycode'],
-                'hfhudcode' => $row['hfhudcode'],
-            ];
+            //Search for duplicate to avoid duplicate
+            $lab_search = EdcsLaboratoryData::where('user_id', $row['user_id'])
+            ->where('specimen_collected_date', EdcsImport::tDate($row['date_specimen_collected']))
+            ->where('specimen_type', $row['specimen_type'])
+            ->where('test_type', $row['type_of_test_conducted'])
+            ->first();
 
-            $exist_check = EdcsLaboratoryData::where('lab_id', $row['id'])->first();
-            
-            if($exist_check) {
-                $old_modified_date = $exist_check->last_modified_date;
-                $new_modified_date = EdcsImport::tDate($row['last_modified_date']);
-                if(is_null($exist_check->last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
-                    $model = $exist_check->update($table_params);
+            if(!$lab_search) {
+                $table_params = [
+                    'lab_id' => $row['id'],
+                    'case_id' => $row['case_id'],
+                    'case_code' => $row['case_code'],
+                    'epi_id' => $row['epi_id'],
+                    'sent_to_ritm' => $row['specimen_sent_to_ritmsnl'],
+                    'specimen_collected_date' => EdcsImport::tDate($row['date_specimen_collected']),
+                    'specimen_type' => $row['specimen_type'],
+                    'date_sent' => EdcsImport::tDate($row['date_sent']),
+                    'date_received' => EdcsImport::tDate($row['date_received']),
+                    'result' => $row['laboratory_result'],
+                    'test_type' => $row['type_of_test_conducted'],
+                    'interpretation' => $row['interpretation'],
+                    'user_id' => $row['user_id'],
+                    'timestamp' => EdcsImport::tDate($row['timestamp']),
+                    'last_modified_by' => $row['last_modified_by'],
+                    'last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
+                    'user_regcode' => $row['user_regcode'],
+                    'user_provcode' => $row['user_provcode'],
+                    'user_citycode' => $row['user_citycode'],
+                    'hfhudcode' => $row['hfhudcode'],
+                ];
+    
+                $exist_check = EdcsLaboratoryData::where('lab_id', $row['id'])->first();
+                
+                if($exist_check) {
+                    $old_modified_date = $exist_check->last_modified_date;
+                    $new_modified_date = EdcsImport::tDate($row['last_modified_date']);
+                    if(is_null($exist_check->last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
+                        $model = $exist_check->update($table_params);
+                    }
+    
+                    $model = $exist_check;
                 }
-
-                $model = $exist_check;
+                else {
+                    $model = EdcsLaboratoryData::create($table_params);
+                }
+    
+                return $model;
             }
-            else {
-                $model = EdcsLaboratoryData::create($table_params);
-            }
-
-            return $model;
         }
     }
 }
@@ -3033,7 +3042,167 @@ class LaboratoryImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 class SevereAcuteRespiratoryInfectionImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
     public function model(array $row) {
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
-            
+
+            $birthdate = Carbon::parse(EdcsImport::tDate($row['date_of_birth']));
+            $currentDate = Carbon::parse(EdcsImport::tDate($row['timestamp']));
+
+            $getAgeMonths = $birthdate->diffInMonths($currentDate);
+            $getAgeDays = $birthdate->diffInDays($currentDate);
+
+            $hfcode = $row['health_facility_code'];
+            $fac_name = $row['facilityname'];
+
+            //GET FULL NAME
+            $getFullName = $row['last_name'].', '.$row['first_name'];
+
+            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A') {
+                $getFullName = $getFullName.' '.$row['middle_name'];
+            }
+
+            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A') {
+                $getFullName = $getFullName.' '.$row['suffix_name'];
+            }
+
+            $table_params = [
+                'edcs_caseid' => $row['case_id'],
+                'epi_id' => $row['epi_id'],
+                'patient_number' => $row['patient_no'],
+                'lname' => $row['last_name'],
+                'fname' => $row['first_name'],
+                'middle_name' => $row['middle_name'],
+                'suffix' => $row['suffix_name'],
+                'sex' => mb_strtoupper($row['sex']),
+                'birthdate' => EdcsImport::tDate($row['date_of_birth']),
+                'age_years' => $row['age_in_years'],
+                'age_months' => $getAgeMonths,
+                'age_days' => $getAgeDays,
+                'region' => '04A',
+                'province' => 'CAVITE',
+                'muncity' => 'GENERAL TRIAS',
+                'barangay' => (!is_null($row['current_address_barangay'])) ? EdcsImport::brgySetter($row['current_address_barangay']) : NULL,
+                'streetpurok' => (!is_null($row['current_address_sitio_purok_street_name'])) ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
+                'perm_region' => mb_strtoupper($row['permanent_address_region']),
+                'perm_province' => mb_strtoupper($row['permanent_address_province']),
+                'perm_muncity' => mb_strtoupper($row['permanent_address_city_municipality']),
+                'perm_barangay' => (!is_null($row['permanent_address_barangay'])) ? EdcsImport::brgySetter($row['permanent_address_barangay']) : NULL,
+                'perm_streetpurok' => (!is_null($row['permanent_address_sitio_purok_street_name'])) ? mb_strtoupper($row['permanent_address_sitio_purok_street_name']) : NULL,
+                'facility_name' => $fac_name,
+                'edcs_healthFacilityCode' => $hfcode,
+                'admitted' => $row['patient_admitted'],
+                'date_admitted' => EdcsImport::tDate($row['date_admittedseenconsult']),
+                'date_onset' => EdcsImport::tDate($row['date_onset_of_ill_ness']),
+                'ranitidine' => $row['ranitidine'],
+                'zanamivir' => $row['zanamivir'],
+                'amantidine' => $row['amantidine'],
+                'oseltamivir' => $row['oseltamivir'],
+                'others_medicine' => $row['others_please_specify'][0],
+                'arethereinfluenzaduringtheweek' => $row['are_there_any_influenza_like_illness_during_the_week_in_yourbrhousehold'],
+                'school_daycare_workplace' => $row['schooldaycareworkplace'],
+                'receiveinfluenzavaccinepastyear' => $row['did_you_receive_an_anti_influenza_vaccine_in_the_past_year'],
+                'date_vaccinated' => EdcsImport::tDate($row['if_yes_date_of_vaccination']),
+                'bats' => $row['history_of_exposure_to_any_of_the_ffbrbats'],
+                'camels' => $row['camels'],
+                'horses' => $row['horses'],
+                'poultry_birds' => $row['poultrymigratory_birds'],
+                'pigs' => $row['pigs'],
+                'other_animal' => $row['others'],
+                'history_of_travel' => $row['history_of_travel'],
+                'date_of_travel' => $row['if_yes_date_of_travel'],
+                'specify_countries' => $row['specify_countryies'],
+                'chestxray_done' => $row['chest_x_ray_done'],
+                'chestxray_result' => $row['chest_x_ray_result'],
+                'temperature_at_consultation' => $row['temperature_at_consultation'],
+                'fever' => $row['fever_feverish'],
+                'fever_duration' => $row['fever_duration_daysweeks'],
+                'headache' => $row['headache'],
+                'cough' => $row['cough'],
+                'sorethroat' => $row['sore_throat'],
+                'difficultyofbreathing' => $row['difficulty_of_breathing'],
+                'requires_hospital_admission' => $row['requires_hospital_admission'][0],
+                'others' => $row['others_please_specify'][1],
+                'any_twomonthstofiveyears_age_withcoughordob' => $row['any_2_months_to_5_years_of_age_with_cough_or_difficult_breathing'],
+                'bftsixtybreaths_infants' => $row['breathing_faster_than_60_breathsmin_infants_2_months'],
+                'bftfiftybreaths_twototwelvemonths' => $row['breathing_faster_than_50_breathsmin_2_12_months'],
+                'bftfortybreaths_onetofiveyo' => $row['breathing_faster_than_40_breathsmin_1_5_years_old'],
+                'requires_hospital_admission2' => $row['requires_hospital_admission'][1],
+                'any_twomonthstofiveyears_age_withcoughordob2' => $row['any_child_2_months_to_5_years_of_age_with_cough_or_difficult_breathing'],
+                'unabletodrinkorbreastfeed' => $row['unable_to_drink_or_breastfeed'],
+                'vomitseverything' => $row['vomits_everything'],
+                'convulsions' => $row['convulsions'],
+                'lethargic_unconscious' => $row['lethargic_or_unconscious'],
+                'stridor' => $row['chest_indrawing_or_stridor_in_a_calm_child'],
+                'requires_hospital_admission3' => $row['requires_hospital_admission'][2],
+                'asthma' => $row['asthma'],
+                'chroniccardiacdisease' => $row['chronic_cardiac_disease'],
+                'chronicliverdisesae' => $row['chronic_liver_disease'],
+                'chronicneurological' => $row['chronic_neurological_or_neuromuscular_disease'],
+                'chronicrenal' => $row['chronic_renal_disease'],
+                'diabetes' => $row['diabetes'],
+                'haematologicdisorders' => $row['haematologic_disorders'],
+                'immunodeficiencydiseases' => $row['immunodeficiency_diseases'],
+                'pregnancy' => $row['prenancy'],
+                'antibiotics' => $row['antibiotics'],
+                'specify_antibiotics' => $row['specify_antibiotics'],
+                'antivirals' => $row['antivirals'],
+                'specify_antivirals' => $row['specify_antivirals'],
+                'fluid_theraphy' => $row['fluid_theraphy'],
+                'specify_fluidtherapy' => $row['specify_fluid_theraphy'],
+                'oxygen' => $row['oxygen'],
+                'specify_oxygen' => $row['specify_oxygen'],
+                'intubation' => $row['intubation'],
+                'specify_intubation' => $row['specify_intubation'],
+                'bacterialtesting' => $row['bacterial_testing'],
+                'specify_bacterialtesting' => $row['specify_bacterial_testing'],
+                'othertherapeutic' => $row['other_therapeutic_procedures'],
+                'specify_othertherapeutic' => $row['specify_other_therapeutic_procedures'],
+                'final_diagnosis' => $row['final_diagnosis'],
+                'outcome' => $row['outcome'],
+                'date_discharged' => EdcsImport::tDate($row['date_of_discharge']),
+                'date_died' => EdcsImport::tDate($row['date_died']),
+                'case_classification' => $row['case_classification'],
+
+                'year' => $row['year'],
+                'morbidity_month' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
+                'morbidity_week' => $row['morbidity_week'],
+                'admit_to_entry' => $row['timelapse_dateadmittodateencode'],
+                'onset_to_admit' => $row['timelapse_dateonsettodateencode'],
+                
+                'systemsent' => 0,
+                'enabled' => 1,
+                //'edcs_investigatorName' => $row['edcs_caseid'],
+                //'edcs_contactNo' => $row['edcs_caseid'],
+                //'edcs_ageGroup' => $row['edcs_caseid'],
+                'edcs_verificationLevel' => $row['verification_level'],
+                'from_edcs' => 1,
+                //'encoded_mw' => $row['edcs_caseid'],
+                'match_casedef' => 1,
+                'system_notified' => 0,
+                'edcs_userid' => $row['user_id'],
+                'edcs_last_modifiedby' => $row['last_modified_by'],
+                'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
+                'notify_email_sent' => 0,
+                //'notify_email_sent_datetime' => $row['edcs_caseid'],
+                //'edcs_patientcontactnum' => $row['edcs_caseid'],
+                //'system_remarks' => $row['edcs_caseid'],
+                //'system_subdivision_id' => $row['edcs_caseid'],
+            ];
+
+            $exist_check = SevereAcuteRespiratoryInfection::where('epi_id', $row['epi_id'])->first();
+
+            if($exist_check) {
+                $old_modified_date = $exist_check->edcs_last_modified_date;
+                $new_modified_date = EdcsImport::tDate($row['last_modified_date']);
+                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
+                    $model = $exist_check->update($table_params);
+                }
+
+                $model = $exist_check;
+            }
+            else {
+                $model = SevereAcuteRespiratoryInfection::create($table_params);
+            }
+
+            return $model;
         }
     }
 }

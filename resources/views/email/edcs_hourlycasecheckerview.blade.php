@@ -31,6 +31,7 @@
         $per_list = [];
         $rtv_list = [];
         $typ_list = [];
+        $sari_list = [];
     @endphp
 
     @foreach($list as $l)
@@ -295,10 +296,18 @@
 
         //array_push($hfm_list, $l);
     }
+    else if($l['type'] == 'Severe Acute Respiratory Infection') {
+        $barangay = $l['brgy'];
+        if (!isset($sari_list[$barangay])) {
+            $sari_list[$barangay] = [];
+        }
+
+        $sari_list[$barangay][] = $l;
+    }
     @endphp
     @endforeach
 
-    @if(!empty($afp_list) || !empty($aef_list) || !empty($ant_list) || !empty($hfm_list) || !empty($mea_list) || !empty($mgc_list) || !empty($nt_list) || !empty($psp_list) || !empty($rab_list))
+    @if(!empty($afp_list) || !empty($aef_list) || !empty($ant_list) || !empty($hfm_list) || !empty($mea_list) || !empty($mgc_list) || !empty($nt_list) || !empty($psp_list) || !empty($rab_list) || !empty($sari_list))
     <p><b>Category I (Immediately Notifiable)</b></p>
     <h2 style="color: red;">MW{{date('W, Y', strtotime('-1 Week'))}}</h2>
     @if(!empty($afp_list))
@@ -487,6 +496,36 @@
         <b>Rabies:</b>
         @foreach($rab_list as $brgy => $rows)
         <li>Rabies <b>- BRGY. {{$brgy}}</b>:</li>
+        <br>
+        <ul>
+            @foreach($rows as $ind => $p)
+            <li>
+                <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
+                <div>{{$p['age']}}/{{$p['sex']}}</div>
+                <div>Address: {{mb_strtoupper($p['address'])}}</div>
+                <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
+                <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                @if(!empty($p['lab_data']))
+                <div>Lab Result/s:
+                    <ul>
+                        @foreach($p['lab_data'] as $pl)
+                        <li>* {{$pl['test_type']}} - Collected on: {{date('m/d/Y', strtotime($pl['date_collected']))}} - Result: {{$pl['result']}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
+                <br>
+            </li>
+            @endforeach
+        </ul>
+        @endforeach
+    </ul>
+    @endif
+    @if(!empty($sari_list))
+    <ul>
+        <b>Severe Acute Respiratory Infection (SARI):</b>
+        @foreach($sari_list as $brgy => $rows)
+        <li>SARI <b>- BRGY. {{$brgy}}</b>:</li>
         <br>
         <ul>
             @foreach($rows as $ind => $p)

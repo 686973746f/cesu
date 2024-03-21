@@ -39,6 +39,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use PhpOffice\PhpWord\TemplateProcessor;
 use App\Http\Controllers\PIDSRController;
+use App\Models\SevereAcuteRespiratoryInfection;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpWord\IOFactory as WordFactory;
 use PhpOffice\PhpSpreadsheet\IOFactory as ExcelFactory;
@@ -1515,6 +1516,59 @@ class PidsrWndr extends Command
                 'encoded_mw' => (date('W') - 1),
             ]);
 
+            $sari = SevereAcuteRespiratoryInfection::where('province', 'CAVITE')
+            ->where('muncity', 'GENERAL TRIAS')
+            ->where('systemsent', 0)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where('year', date('Y', strtotime('-1 Week')))
+            ->where('morbidity_week', '<=', date('W', strtotime('-1 Week')));
+
+            if($sari->count() != 0) {
+                $l = $sari->get();
+                $get_type = 'Severe Acute Respiratory Infection';
+
+                $lab_array = [];
+
+                foreach($l as $i) {
+                    //Check Lab Details
+                    $getLabDetails = PIDSRController::getLabDetails($i->epi_id, $i->edcs_caseid);
+
+                    if($getLabDetails->count() != 0) {
+                        foreach($getLabDetails as $ld) {
+                            $lab_array[] = [
+                                'test_type' => $ld->test_type,
+                                'specimen_type' => $ld->specimen_type,
+                                'date_collected' => Carbon::parse($ld->specimen_collected_date)->format('m/d/Y'),
+                                'result' => $ld->result,
+                            ];
+                        }
+                    }
+
+                    array_push($list, [
+                        'type' => $get_type,
+                        'name' => $i->getFullName(),
+                        'age' => $i->age_years,
+                        'sex' => substr($i->sex,0,1),
+                        'brgy' => $i->barangay,
+                        'address' => (!is_null($i->streetpurok)) ? mb_strtoupper($i->streetpurok) : 'NO ADDRESS ENCODED',
+                        'doe' => $i->created_at,
+                        'dru' => $i->facility_name,
+                        'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'lab_data' => $lab_array,
+                    ]);
+                }
+            }
+
+            $sari_count = $sari->count();
+
+            $sari_update = $sari->update([
+                'systemsent' => 1,
+                'notify_email_sent' => 1,
+                'notify_email_sent_datetime' => date('Y-m-d H:i:s'),
+                'encoded_mw' => (date('W') - 1),
+            ]);
+
             //Category 1
             /*
             $templateProcessor->setValue('afp', $afp_count);
@@ -1583,7 +1637,7 @@ class PidsrWndr extends Command
             $sheet->setCellValue('S24', $ame_count);
             $sheet->setCellValue('S25', $hfm_count);
             $sheet->setCellValue('S26', $mgc_count);
-            $sheet->setCellValue('S27', $sar_count);
+            $sheet->setCellValue('S27', $sari_count);
 
             $sheet->setCellValue('F33', date('m/d/Y'));
             $sheet->setCellValue('Y6', date('F d, Y').' MW'.date('W', strtotime('-1 Week')));

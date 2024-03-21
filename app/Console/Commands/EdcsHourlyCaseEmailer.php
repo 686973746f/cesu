@@ -108,6 +108,7 @@ class EdcsHourlyCaseEmailer extends Command
                 'Pert',
                 'Rotavirus',
                 'Typhoid',
+                'SevereAcuteRespiratoryInfection',
             ];
 
             foreach($diseases as $d) {
@@ -177,12 +178,24 @@ class EdcsHourlyCaseEmailer extends Command
                     else if($d == 'Typhoid') {
                         $get_type = 'Typhoid and Parathyphoid Fever';
                     }
+                    else if($d == 'Typhoid') {
+                        $get_type = 'Severe Acute Respiratory Infection';
+                    }
 
                     $lab_array = [];
 
                     foreach($l as $i) {
                         //Check Lab Details
-                        $getLabDetails = PIDSRController::getLabDetails($i->EPIID, $i->edcs_caseid);
+                        if($d == 'SevereAcuteRespiratoryInfection') {
+                            $get_epiid = $i->epi_id;
+                            $get_caseid = $i->edcs_caseid;
+                        }
+                        else {
+                            $get_epiid = $i->EPIID;
+                            $get_caseid = $i->edcs_caseid;
+                        }
+
+                        $getLabDetails = PIDSRController::getLabDetails($get_epiid, $get_caseid);
 
                         if($getLabDetails->count() != 0) {
                             foreach($getLabDetails as $ld) {
@@ -195,15 +208,34 @@ class EdcsHourlyCaseEmailer extends Command
                             }
                         }
 
+                        if($d == 'SevereAcuteRespiratoryInfection') {
+                            $get_fullname = $i->getFullName;
+                            $get_age = $i->age_years;
+                            $get_sex = substr($i->sex,0,1);
+                            $get_brgy = $i->barangay;
+                            $get_address = (!is_null($i->streetpurok)) ? mb_strtoupper($i->streetpurok) : 'NO ADDRESS ENCODED';
+                            $get_doe = $i->created_at;
+                            $get_dru = $i->facility_name;
+                        }
+                        else {
+                            $get_fullname = $i->FullName;
+                            $get_age = $i->AgeYears;
+                            $get_sex = $i->Sex;
+                            $get_brgy = $i->Barangay;
+                            $get_address = (!is_null($i->Streetpurok)) ? mb_strtoupper($i->Streetpurok) : 'NO ADDRESS ENCODED';
+                            $get_doe = $i->DateOfEntry;
+                            $get_dru = $i->NameOfDru;
+                        }
+ 
                         array_push($list, [
                             'type' => $get_type,
-                            'name' => $i->FullName,
-                            'age' => $i->AgeYears,
-                            'sex' => $i->Sex,
-                            'brgy' => $i->Barangay,
-                            'address' => (!is_null($i->Streetpurok)) ? mb_strtoupper($i->Streetpurok) : 'NO ADDRESS ENCODED',
-                            'doe' => $i->DateOfEntry,
-                            'dru' => $i->NameOfDru,
+                            'name' => $get_fullname,
+                            'age' => $get_age,
+                            'sex' => $get_sex,
+                            'brgy' => $get_brgy,
+                            'address' => $get_address,
+                            'doe' => $get_doe,
+                            'dru' => $get_dru,
                             'lab_data' => $lab_array,
                         ]);
                     }
