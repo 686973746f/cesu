@@ -178,7 +178,7 @@ class EdcsHourlyCaseEmailer extends Command
                     else if($d == 'Typhoid') {
                         $get_type = 'Typhoid and Parathyphoid Fever';
                     }
-                    else if($d == 'Typhoid') {
+                    else if($d == 'SevereAcuteRespiratoryInfection') {
                         $get_type = 'Severe Acute Respiratory Infection';
                     }
 
