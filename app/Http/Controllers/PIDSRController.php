@@ -41,6 +41,7 @@ use App\Models\LabResultLogBook;
 use App\Models\Leptospirosis;
 use App\Models\PidsrNotifications;
 use App\Models\PidsrThreshold;
+use App\Models\SevereAcuteRespiratoryInfection;
 use Illuminate\Support\Facades\DB;
 use RebaseData\Converter\Converter;
 use RebaseData\InputFile\InputFile;
@@ -1345,6 +1346,12 @@ class PIDSRController extends Controller
 
                 $tbl_name = 'rotavirus';
             }
+            else if($case == 'SARI') {
+                $query = SevereAcuteRespiratoryInfection::where('year', $year);
+                //$columns = Schema::getColumnListing('rotavirus');
+
+                $tbl_name = 'severe_acute_respiratory_infections';
+            }
             else if($case == 'TYPHOID') {
                 $query = Typhoid::where('year', $year);
                 //$columns = Schema::getColumnListing('typhoid');
@@ -1358,8 +1365,14 @@ class PIDSRController extends Controller
                 return $column->Field;
             }, $c);
 
-            $query = $query->where('Muncity', 'GENERAL TRIAS')
-            ->where('Province', 'CAVITE');
+            if($case == 'SARI') {
+                $query = $query->where('muncity', 'GENERAL TRIAS')
+                ->where('province', 'CAVITE');
+            }
+            else {
+                $query = $query->where('Muncity', 'GENERAL TRIAS')
+                ->where('Province', 'CAVITE');
+            }
 
             if(request()->input('showDisabled')) {
                 //$query = $query->whereIn('enabled', [0,1]);
@@ -1475,6 +1488,9 @@ class PIDSRController extends Controller
             }
             else if($d == 'TYPHOID') {
                 $data = Typhoid::where('EPIID', $epi_id)->first();
+            }
+            else if($d == 'SARI') {
+                $data = SevereAcuteRespiratoryInfection::where('epi_id', $epi_id)->first();
             }
 
             if($action == "DEL") {
@@ -1654,6 +1670,11 @@ class PIDSRController extends Controller
 
             $flavor_title = 'Typhoid and Paratyphoid Fever';
         }
+        else if($case == 'SARI') {
+            $d = 'SevereAcuteRespiratoryInfection';
+
+            $flavor_title = 'Severe Acute Respiratory Infection';
+        }
 
         $modelClass = "App\\Models\\$d";
 
@@ -1667,7 +1688,14 @@ class PIDSRController extends Controller
         ->where('displayInList', 1)
         ->get();
 
-        $d = $modelClass::where('EPIID', $epi_id)->first();
+        if($disease == 'SARI') {
+            $epiCol = 'epi_id';
+        }
+        else {
+            $epiCol = 'EPIID';
+        }
+
+        $d = $modelClass::where($epiCol, $epi_id)->first();
 
         if($d) {
             return view('pidsr.casechecker_edit', [
@@ -1684,28 +1712,47 @@ class PIDSRController extends Controller
     public function caseCheckerUpdate($disease, $epi_id, Request $r) {
         $modelClass = PIDSRController::dbFetcher($disease);
 
-        $d = $modelClass::where('EPIID', $epi_id)->first();
+        if($disease == 'SARI') {
+            $epiCol = 'epi_id';
+        }
+        else {
+            $epiCol = 'EPIID';
+        }
+
+        $d = $modelClass::where($epiCol, $epi_id)->first();
 
         if($d) {
-            $d->FamilyName = $r->FamilyName;
-            $d->FirstName = $r->FirstName;
-            $d->middle_name = $r->middle_name;
-            $d->suffix = $r->suffix;
+            if($disease == 'SARI') {
+                $d->lname = $r->FamilyName;
+                $d->fname = $r->FirstName;
+                $d->middle_name = $r->middle_name;
+                $d->suffix = $r->suffix;
 
-            $d->Streetpurok = $r->Streetpurok;
-            $d->Barangay = Brgy::find($r->Barangay)->brgyName;
-
-            $getFullName = $d->FamilyName.', '.$d->FirstName;
-
-            if($r->filled('middle_name')) {
-                $getFullName = $getFullName.' '.$r->middle_name;
+                $d->streetpurok = $r->Streetpurok;
+                $d->barangay = Brgy::find($r->Barangay)->brgyName;
             }
+            else {
+                $d->FamilyName = $r->FamilyName;
+                $d->FirstName = $r->FirstName;
+                $d->middle_name = $r->middle_name;
+                $d->suffix = $r->suffix;
 
-            if($r->filled('suffix')) {
-                $getFullName = $getFullName.' '.$r->suffix;
+                $d->Streetpurok = $r->Streetpurok;
+                $d->Barangay = Brgy::find($r->Barangay)->brgyName;
+
+                $getFullName = $d->FamilyName.', '.$d->FirstName;
+
+                if($r->filled('middle_name')) {
+                    $getFullName = $getFullName.' '.$r->middle_name;
+                }
+
+                if($r->filled('suffix')) {
+                    $getFullName = $getFullName.' '.$r->suffix;
+                }
+
+                $d->FullName = $getFullName;
             }
-
-            $d->FullName = $getFullName;
+            
             $d->system_subdivision_id = $r->system_subdivision_id;
 
             if($d->isDirty()) {
@@ -5455,6 +5502,7 @@ class PIDSRController extends Controller
     }
 
     public function viewCif($case, $epi_id) {
+        $epiCol = 'EPIID';
         /*
         Acute Bloody Diarrhea
         Acute Flaccid Paralysis
@@ -5596,10 +5644,17 @@ class PIDSRController extends Controller
 
             $flavor_title = 'Typhoid and Paratyphoid Fever';
         }
+        else if($case == 'SARI') {
+            $d = 'SevereAcuteRespiratoryInfection';
+
+            $flavor_title = 'Severe Acute Respiratory Infection';
+
+            $epiCol = 'epi_id';
+        }
 
         $modelClass = "App\\Models\\$d";
 
-        $p = $modelClass::where('EPIID', $epi_id)->first();
+        $p = $modelClass::where($epiCol, $epi_id)->first();
 
         if($p) {
             if($p->from_edcs == 1) {
@@ -5647,6 +5702,7 @@ class PIDSRController extends Controller
             'Pert',
             'Rotavirus',
             'Typhoid',
+            'SevereAcuteRespiratoryInfection'
         ];
 
         foreach($diseases as $d) {
@@ -5821,6 +5877,43 @@ class PIDSRController extends Controller
     }
 
     public function storeLabLogBook(Request $r) {
+        $existing_record = LabResultLogBook::where('lname', mb_strtoupper($r->lname))
+        ->where('fname', mb_strtoupper($r->fname))
+        ->where('date_collected', $r->date_collected)
+        ->where('specimen_type', $r->specimen_type)
+        ->first();
 
+        if($existing_record) {
+            return redirect()->back()
+            ->withInput()
+            ->with('msg', 'Error: Record already exists. Please double check the fields then try again.')
+            ->with('msgtype', 'warning');   
+        }
+
+        $c = $r->user()->lablogbook()->create([
+            //'for_case_id',
+            'disease_tag' => $r->disease_tag,
+            'lname' => mb_strtoupper($r->lname),
+            'fname' => mb_strtoupper($r->fname),
+            'mname' => ($r->filled('mname')) ? mb_strtoupper($r->mname) : NULL,
+            'suffix' => ($r->filled('suffix')) ? mb_strtoupper($r->suffix) : NULL,
+            'gender' => $r->gender,
+            'date_collected' => $r->date_collected,
+            'collector_name' => ($r->filled('collector_name')) ? mb_strtoupper($r->collector_name) : NULL,
+            'specimen_type' => $r->specimen_type,
+            'sent_to_ritm' => $r->sent_to_ritm,
+            'ritm_date_sent' => ($r->sent_to_ritm == 'Y') ? $r->ritm_date_sent : NULL,
+            'ritm_date_received' => ($r->sent_to_ritm == 'Y') ? $r->ritm_date_received : NULL,
+            'driver_name' => ($r->filled('driver_name')) ? mb_strtoupper($r->driver_name) : NULL,
+            'test_type' => $r->test_type,
+            'result' => $r->result,
+            'interpretation' => ($r->filled('interpretation')) ? mb_strtoupper($r->interpretation) : NULL,
+            'remarks' => ($r->filled('remarks')) ? mb_strtoupper($r->remarks) : NULL,
+            'facility_id' => auth()->user()->itr_facility_id,
+        ]);
+        
+        return redirect()->route('pidsr_laboratory_home')
+        ->with('msg', 'Laboratory data was successfully added to the Logbook.')
+        ->with('msgtype', 'success');
     }
 }

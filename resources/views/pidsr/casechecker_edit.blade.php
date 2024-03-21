@@ -2,7 +2,15 @@
 
 @section('content')
 <div class="container">
-    <form action="{{route('pidsr_casechecker_update', [$disease, $d->EPIID])}}" method="POST">
+    @php
+    if($disease == 'SARI') {
+        $epi_id = $d->epi_id;
+    }
+    else {
+        $epi_id = $d->EPIID;
+    }
+    @endphp
+    <form action="{{route('pidsr_casechecker_update', [$disease, $epi_id])}}" method="POST">
         @csrf
         <input type="hidden" class="form-control" name="fromVerifier" id="fromVerifier" value="{{(request()->input('fromVerifier')) ? 1 : 0}}">
         <div class="card">

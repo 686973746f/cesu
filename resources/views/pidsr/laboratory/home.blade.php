@@ -12,6 +12,11 @@
                 </div>
             </div>
             <div class="card-body">
+                @if(session('msg'))
+                <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
+                    {{session('msg')}}
+                </div>
+                @endif
                 @if($list->count() != 0)
                 <table class="table">
                     <thead class="thead-light text-center">
@@ -44,7 +49,8 @@
         </div>
     </div>
 
-    <form action="" method="GET">
+    <form action="{{route('pidsr_laboratory_store')}}" method="POST">
+        @csrf
         <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -57,7 +63,7 @@
                     <div class="modal-body">
                         <div id="accordianId" role="tablist" aria-multiselectable="true">
                             <div class="card">
-                                <div class="card-header" role="tab" id="section1HeaderId">
+                                <div class="card-header text-center" role="tab" id="section1HeaderId">
                                     <h5 class="mb-0">
                                         <a data-toggle="collapse" data-parent="#accordianId" href="#section1ContentId" aria-expanded="true" aria-controls="section1ContentId">via PIDSR/EDCS Data</a>
                                     </h5>
@@ -69,7 +75,7 @@
                                 </div>
                             </div>
                             <div class="card">
-                                <div class="card-header" role="tab" id="section2HeaderId">
+                                <div class="card-header text-center" role="tab" id="section2HeaderId">
                                     <h5 class="mb-0">
                                         <a data-toggle="collapse" data-parent="#accordianId" href="#section2ContentId" aria-expanded="true" aria-controls="section2ContentId">Manual Method</a>
                                     </h5>
@@ -153,11 +159,11 @@
                                         <div id="ritm_div" class="d-none">
                                             <div class="form-group">
                                                 <label for="ritm_date_received"><b class="text-danger">*</b>Date Sent to RITM</label>
-                                                <input type="date" class="form-control" name="ritm_date_received" id="ritm_date_received" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}" required>
+                                                <input type="date" class="form-control" name="ritm_date_received" id="ritm_date_received" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}">
                                             </div>
                                             <div class="form-group">
                                                 <label for="ritm_date_received"><b class="text-danger">*</b>Date Received by RITM</label>
-                                                <input type="date" class="form-control" name="ritm_date_received" id="ritm_date_received" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}" required>
+                                                <input type="date" class="form-control" name="ritm_date_received" id="ritm_date_received" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -181,6 +187,15 @@
                                                 <option value="{{mb_strtoupper($d)}}">{{mb_strtoupper($d)}}</option>
                                                 @endforeach
                                             </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="interpretation">Interpretation</label>
+                                            <input type="text" class="form-control" name="interpretation" id="interpretation" style="text-transform: uppercase;">
+                                        </div>
+                                        <hr>
+                                        <div class="form-group">
+                                            <label for="remarks">Remarks</label>
+                                            <input type="text" class="form-control" name="remarks" id="remarks" style="text-transform: uppercase;">
                                         </div>
                                     </div>
                                     <div class="card-footer">

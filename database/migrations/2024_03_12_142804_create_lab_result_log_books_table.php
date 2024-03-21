@@ -30,8 +30,8 @@ class CreateLabResultLogBooksTable extends Migration
             $table->string('collector_name')->nullable();
             $table->string('specimen_type')->nullable();
             $table->string('sent_to_ritm', 1);
-            $table->date('ritm_date_sent');
-            $table->date('ritm_date_received');
+            $table->date('ritm_date_sent')->nullable();
+            $table->date('ritm_date_received')->nullable();
             $table->string('driver_name')->nullable();
 
             $table->string('test_type')->nullable();

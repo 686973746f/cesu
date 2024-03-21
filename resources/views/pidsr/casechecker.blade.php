@@ -42,6 +42,7 @@
                         <option value="PSP" {{(request()->input('case') == 'PSP') ? 'selected' : ''}}>PSP</option>
                         <option value="RABIES" {{(request()->input('case') == 'RABIES') ? 'selected' : ''}}>RABIES</option>
                         <option value="ROTAVIRUS" {{(request()->input('case') == 'ROTAVIRUS') ? 'selected' : ''}}>ROTAVIRUS</option>
+                        <option value="SARI" {{(request()->input('case') == 'SARI') ? 'selected' : ''}}>SARI</option>
                         <option value="TYPHOID" {{(request()->input('case') == 'TYPHOID') ? 'selected' : ''}}>TYPHOID</option>
                     </select>
                     <select class="custom-select" name="year" id="year" required>
@@ -96,22 +97,30 @@
                         <!-- <td></td> -->
                         <td class="text-center">{{$key+1}}</td>
                         <td class="text-center btn-group">
-                            <a href="{{route('pidsr_viewcif', [$case_name, $l->EPIID])}}" class="btn btn-primary"><i class="fa fa-file" aria-hidden="true"></i></a>
-                            <a href="{{route('pidsr_casechecker_edit', [$case_name, $l->EPIID])}}" class="btn btn-secondary"><i class="fa fa-cog" aria-hidden="true"></i></a>
+                            @php
+                            if(request()->input('case') == 'SARI') {
+                                $epi_id = $l->epi_id;
+                            }
+                            else {
+                                $epi_id = $l->EPIID;
+                            }
+                            @endphp
+                            <a href="{{route('pidsr_viewcif', [$case_name, $epi_id])}}" class="btn btn-primary"><i class="fa fa-file" aria-hidden="true"></i></a>
+                            <a href="{{route('pidsr_casechecker_edit', [$case_name, $epi_id])}}" class="btn btn-secondary"><i class="fa fa-cog" aria-hidden="true"></i></a>
                         </td>
                         @foreach($columns as $c)
                         <td>{{mb_strtoupper($l->$c)}}</td>
                         @endforeach
                         <td class="text-center">
                             @if($l->enabled == 1)
-                            <a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'DEL', 'epi_id' => $l->EPIID])}}" class="btn btn-warning mb-3" onclick="return confirm('Proceed to disable? The record will not be listed anymore after processing.')">Disable</a>
+                            <a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'DEL', 'epi_id' => $epi_id])}}" class="btn btn-warning mb-3" onclick="return confirm('Proceed to disable? The record will not be listed anymore after processing.')">Disable</a>
                             @else
-                            <a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'ENB', 'epi_id' => $l->EPIID])}}" class="btn btn-success mb-3" onclick="return confirm('Proceed to enable? The record will return to the official list after processing.')">Enable</a>
+                            <a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'ENB', 'epi_id' => $epi_id])}}" class="btn btn-success mb-3" onclick="return confirm('Proceed to enable? The record will return to the official list after processing.')">Enable</a>
                             @endif
                             @if($l->match_casedef == 1)
-                            <a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'NOTMATCH_CASEDEF', 'epi_id' => $l->EPIID])}}" class="btn btn-secondary" onclick="return confirm('Proceed to enable? The record will be marked as NOT MATCH in Case Definition after processing.')">NOT MATCH in CaseDef</a>
+                            <a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'NOTMATCH_CASEDEF', 'epi_id' => $epi_id])}}" class="btn btn-secondary" onclick="return confirm('Proceed to enable? The record will be marked as NOT MATCH in Case Definition after processing.')">NOT MATCH in CaseDef</a>
                             @else
-                            <a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'MATCH_CASEDEF', 'epi_id' => $l->EPIID])}}" class="btn btn-primary" onclick="return confirm('Proceed to enable? The record will be marked as MATCH in Case Definition after processing.')">MATCH in CaseDef</a>
+                            <a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'MATCH_CASEDEF', 'epi_id' => $epi_id])}}" class="btn btn-primary" onclick="return confirm('Proceed to enable? The record will be marked as MATCH in Case Definition after processing.')">MATCH in CaseDef</a>
                             @endif
                         </td>
                     </tr>

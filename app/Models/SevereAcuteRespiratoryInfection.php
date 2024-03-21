@@ -24,4 +24,18 @@ class SevereAcuteRespiratoryInfection extends Model
 
         return $getFullName;
     }
+
+    public function getName() {
+        $getFullName = $this->lname.', '.$this->fname;
+
+        if(!is_null($this->middle_name)) {
+            $getFullName = $getFullName.' '.$this->middle_name;
+        }
+
+        if(!is_null($this->suffix)) {
+            $getFullName = $getFullName.' '.$this->suffix;
+        }
+
+        return $getFullName;
+    }
 }
