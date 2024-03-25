@@ -132,9 +132,27 @@ class SendEncoderStatus extends Mailable
             ->where('caseClassification', 'Non-COVID-19 Case')
             ->count();
 
-            $abtc_count = AbtcBakunaRecords::where('created_by', $item->id)
-            ->whereDate('created_at', date('Y-m-d'))
+            $abtc_count = AbtcBakunaRecords::where('d0_done_by', $item->id)
+            ->whereDate('d0_done_date', date('Y-m-d'))
             ->count();
+
+            $abtc_count_ff1 = AbtcBakunaRecords::where('d3_done_by', $item->id)
+            ->whereDate('d3_done_date', date('Y-m-d'))
+            ->count();
+
+            $abtc_count_ff2 = AbtcBakunaRecords::where('d7_done_by', $item->id)
+            ->whereDate('d7_done_date', date('Y-m-d'))
+            ->count();
+
+            $abtc_count_ff3 = AbtcBakunaRecords::where('d14_done_by', $item->id)
+            ->whereDate('d14_done_date', date('Y-m-d'))
+            ->count();
+
+            $abtc_count_ff4 = AbtcBakunaRecords::where('d28_done_by', $item->id)
+            ->whereDate('d28_done_date', date('Y-m-d'))
+            ->count();
+
+            $abtc_ffup_gtotal = $abtc_count_ff1 + $abtc_count_ff2 + $abtc_count_ff3 + $abtc_count_ff4;
 
             $vaxcert_count = VaxcertConcern::where('processed_by', $item->id)
             ->whereDate('updated_at', date('Y-m-d'))
@@ -151,6 +169,7 @@ class SendEncoderStatus extends Mailable
                 'recovered_count' => $recovered_count,
                 'negative_count' => $negative_count,
                 'abtc_count' => $abtc_count,
+                'abtc_ffup_gtotal' => $abtc_ffup_gtotal,
                 'vaxcert_count' => $vaxcert_count,
                 'opd_count' => $opd_count,
             ]);
