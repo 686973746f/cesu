@@ -240,6 +240,8 @@ class ABTCVaccinationController extends Controller
                 'd0_done' => 1,
                 'd0_vaccinated_inbranch' => ($request->d0_vaccinated_inbranch == 'Y') ? 1 : 0,
                 'd0_brand' => $request->brand_name,
+                'd0_done_by' => auth()->user()->id,
+                'd0_done_date' => date('Y-m-d H:i:s'),
                 'd3_date' => $set_d3_date->format('Y-m-d'),
                 'd3_brand' => $request->brand_name,
                 'd7_date' => $set_d7_date->format('Y-m-d'),
@@ -457,6 +459,8 @@ class ABTCVaccinationController extends Controller
                     $get_br->d0_done = 1;
                     $get_br->d0_brand = $get_br->brand_name;
                     $get_br->d0_vaccinated_inbranch = 1;
+                    //$get_br->d0_done_by = auth()->user()->id;
+                    //$get_br->d0_done_date = date('Y-m-d H:i:s');
                 }
                 else {
                     return abort(401);
@@ -477,6 +481,8 @@ class ABTCVaccinationController extends Controller
                     $get_br->d3_done = 1;
                     $get_br->d3_brand = $get_br->brand_name;
                     $get_br->d3_vaccinated_inbranch = 1;
+                    $get_br->d3_done_by = auth()->user()->id;
+                    $get_br->d3_done_date = date('Y-m-d H:i:s');
                 }
                 else {
                     return abort(401);
@@ -509,6 +515,8 @@ class ABTCVaccinationController extends Controller
                     $get_br->d7_done = 1;
                     $get_br->d7_brand = $get_br->brand_name;
                     $get_br->d7_vaccinated_inbranch = 1;
+                    $get_br->d7_done_by = auth()->user()->id;
+                    $get_br->d7_done_date = date('Y-m-d H:i:s');
                 }
                 else {
                     return abort(401);
@@ -532,6 +540,8 @@ class ABTCVaccinationController extends Controller
                     $get_br->d14_done = 1;
                     $get_br->d14_brand = $get_br->brand_name;
                     $get_br->d14_vaccinated_inbranch = 1;
+                    $get_br->d14_done_by = auth()->user()->id;
+                    $get_br->d14_done_date = date('Y-m-d H:i:s');
                 }
                 else {
                     return abort(401);
@@ -547,6 +557,8 @@ class ABTCVaccinationController extends Controller
                         $get_br->d28_done = 1;
                         $get_br->d28_brand = $get_br->brand_name;
                         $get_br->d28_vaccinated_inbranch = 1;
+                        $get_br->d28_done_by = auth()->user()->id;
+                        $get_br->d28_done_date = date('Y-m-d H:i:s');
                     }
                     else {
                         return abort(401);
@@ -557,6 +569,8 @@ class ABTCVaccinationController extends Controller
                         $get_br->d28_done = 1;
                         $get_br->d28_brand = $get_br->brand_name;
                         $get_br->d28_vaccinated_inbranch = 1;
+                        $get_br->d28_done_by = auth()->user()->id;
+                        $get_br->d28_done_date = date('Y-m-d H:i:s');
                     }
                     else {
                         return abort(401);
@@ -631,6 +645,8 @@ class ABTCVaccinationController extends Controller
                     $get_br->d0_done = 1;
                     $get_br->d0_brand = $get_br->brand_name;
                     $get_br->d0_vaccinated_inbranch = 1;
+                    //$get_br->d0_done_by = auth()->user()->id;
+                    //$get_br->d0_done_date = date('Y-m-d H:i:s');
                 }
                 else {
                     return abort(401);
@@ -654,6 +670,8 @@ class ABTCVaccinationController extends Controller
                     $get_br->d3_done = 1;
                     $get_br->d3_brand = $get_br->brand_name;
                     $get_br->d3_vaccinated_inbranch = 1;
+                    $get_br->d3_done_by = auth()->user()->id;
+                    $get_br->d3_done_date = date('Y-m-d H:i:s');
                 }
                 else {
                     return abort(401);
@@ -691,6 +709,8 @@ class ABTCVaccinationController extends Controller
                     $get_br->d7_done = 1;
                     $get_br->d7_brand = $get_br->brand_name;
                     $get_br->d7_vaccinated_inbranch = 1;
+                    $get_br->d7_done_by = auth()->user()->id;
+                    $get_br->d7_done_date = date('Y-m-d H:i:s');
                 }
                 else {
                     return abort(401);
@@ -708,6 +728,8 @@ class ABTCVaccinationController extends Controller
                     $get_br->d14_done = 1;
                     $get_br->d14_brand = $get_br->brand_name;
                     $get_br->d14_vaccinated_inbranch = 1;
+                    $get_br->d14_done_by = auth()->user()->id;
+                    $get_br->d14_done_date = date('Y-m-d H:i:s');
                 }
                 else {
                     return abort(401);
@@ -725,6 +747,8 @@ class ABTCVaccinationController extends Controller
                     $get_br->d28_done = 1;
                     $get_br->d28_brand = $get_br->brand_name;
                     $get_br->d28_vaccinated_inbranch = 1;
+                    $get_br->d28_done_by = auth()->user()->id;
+                    $get_br->d28_done_date = date('Y-m-d H:i:s');
                 }
                 else {
                     return abort(401);
@@ -849,6 +873,11 @@ class ABTCVaccinationController extends Controller
                 if($request->d0_ostatus == 'C') {
                     $d->d0_done = 1;
 
+                    if(is_null($d->d0_done_by)) {
+                        $d->d0_done_by = auth()->user()->id;
+                        $d->d0_done_date = date('Y-m-d H:i:s');
+                    }
+
                     if($request->d0_vaccinated_inbranch == 'Y') {
                         $bsearch = AbtcVaccineBrand::where('brand_name', $request->d0_brand)->first();
                         $stock_search = AbtcVaccineStocks::where('vaccine_id', $bsearch->id)
@@ -886,6 +915,11 @@ class ABTCVaccinationController extends Controller
                 if($request->d3_ostatus == 'C') {
                     $d->d0_done = 1;
                     $d->d3_done = 1;
+
+                    if(is_null($d->d3_done_by)) {
+                        $d->d3_done_by = auth()->user()->id;
+                        $d->d3_done_date = date('Y-m-d H:i:s');
+                    }
 
                     if($d->outcome == 'INC' && $d->is_booster == 1) {
                         $d->outcome = 'C';
@@ -931,6 +965,11 @@ class ABTCVaccinationController extends Controller
                         $d->d0_done = 1;
                         $d->d3_done = 1;
                         $d->d7_done = 1;
+                        
+                        if(is_null($d->d7_done_by)) {
+                            $d->d7_done_by = auth()->user()->id;
+                            $d->d7_done_date = date('Y-m-d H:i:s');
+                        }
 
                         if($d->outcome == 'INC' && $d->is_booster == 0) {
                             $d->outcome = 'C';
@@ -978,6 +1017,11 @@ class ABTCVaccinationController extends Controller
                             $d->d7_done = 1;
                             $d->d14_done = 1;
 
+                            if(is_null($d->d14_done_by)) {
+                                $d->d14_done_by = auth()->user()->id;
+                                $d->d14_done_date = date('Y-m-d H:i:s');
+                            }
+
                             if($d->outcome == 'INC' && $d->is_booster == 0) {
                                 $d->outcome = 'C';
                             }
@@ -1023,6 +1067,11 @@ class ABTCVaccinationController extends Controller
                         $d->d7_done = 1;
                         $d->d14_done = 1;
                         $d->d28_done = 1;
+
+                        if(is_null($d->d28_done_by)) {
+                            $d->d28_done_by = auth()->user()->id;
+                            $d->d28_done_date = date('Y-m-d H:i:s');
+                        }
 
                         if($d->outcome == 'INC' && $d->is_booster == 0) {
                             $d->outcome = 'C';
