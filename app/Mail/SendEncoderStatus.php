@@ -4,11 +4,12 @@ namespace App\Mail;
 
 use App\Models\User;
 use App\Models\Forms;
+use App\Models\LiveBirth;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
-use App\Models\AbtcBakunaRecords;
-use App\Models\SyndromicRecords;
 use App\Models\VaxcertConcern;
+use App\Models\SyndromicRecords;
+use App\Models\AbtcBakunaRecords;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -35,6 +36,7 @@ class SendEncoderStatus extends Mailable
     {
         $list = User::where('encoder_stats_visible', 1)
         ->where('enabled', 1)
+        ->orderBy('name', 'ASC')
         ->get();
         
         $arr = [];
@@ -162,6 +164,10 @@ class SendEncoderStatus extends Mailable
             ->whereDate('created_at', date('Y-m-d'))
             ->count();
 
+            $lcr_livebirth = LiveBirth::whereDate('created_at', date('Y-m-d'))
+            ->where('created_by', $item->id)
+            ->count();
+
             array_push($arr, [
                 'name' => $item->name,
                 'suspected_count' => $suspected_count,
@@ -172,6 +178,7 @@ class SendEncoderStatus extends Mailable
                 'abtc_ffup_gtotal' => $abtc_ffup_gtotal,
                 'vaxcert_count' => $vaxcert_count,
                 'opd_count' => $opd_count,
+                'lcr_livebirth' => $lcr_livebirth,
             ]);
         }
         

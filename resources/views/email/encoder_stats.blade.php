@@ -10,11 +10,12 @@
         $gt_abtc_ff = 0;
         $gt_vaxcert = 0;
         $gt_opd = 0;
+        $gt_livebirth = 0;
         @endphp
-        | # | Name | Suspected/Probable | Confirmed | Recovered | Negative Result | ABTC (New) | ABTC (FFup) | VaxCert | OPD | <b>TOTAL</b> |
-        | - |:----:| :-----------------:|:---------:|:---------:|:---------------:|:----------:|:-----------:|:-------:|:---:|-------------:|
+        | # | Name | Suspected/Probable | Confirmed | Recovered | Negative Result | ABTC (New) | ABTC (FFup) | VaxCert | OPD | LCR Livebirths | <b>TOTAL</b> |
+        | - |:----:| :-----------------:|:---------:|:---------:|:---------------:|:----------:|:-----------:|:-------:|:---:|:--------------:|-------------:|
         @foreach($arr as $i)
-        | {{$loop->iteration}} | {{$i['name']}} | {{$i['suspected_count']}} | {{$i['confirmed_count']}} | {{$i['recovered_count']}} | {{$i['negative_count']}} | {{$i['abtc_count']}} | {{$i['abtc_ffup_gtotal']}} | {{$i['vaxcert_count']}} | {{$i['opd_count']}} |<b>{{$i['suspected_count'] + $i['confirmed_count'] + $i['negative_count'] + $i['recovered_count'] + $i['abtc_count'] + $i['vaxcert_count'] + $i['opd_count'] + $i['abtc_ffup_gtotal']}}</b> |
+        | {{$loop->iteration}} | {{$i['name']}} | {{$i['suspected_count']}} | {{$i['confirmed_count']}} | {{$i['recovered_count']}} | {{$i['negative_count']}} | {{$i['abtc_count']}} | {{$i['abtc_ffup_gtotal']}} | {{$i['vaxcert_count']}} | {{$i['opd_count']}} | {{$i['lcr_livebirth']}} | <b>{{$i['suspected_count'] + $i['confirmed_count'] + $i['negative_count'] + $i['recovered_count'] + $i['abtc_count'] + $i['vaxcert_count'] + $i['opd_count'] + $i['abtc_ffup_gtotal'] + $i['lcr_livebirth']}}</b> |
         @php
         $gt_suspected += $i['suspected_count'];
         $gt_confirmed += $i['confirmed_count'];
@@ -24,9 +25,10 @@
         $gt_abtc_ff += $i['abtc_ffup_gtotal'];
         $gt_vaxcert += $i['vaxcert_count'];
         $gt_opd += $i['opd_count'];
+        $gt_livebirth += $i['lcr_livebirth'];
         @endphp
         @endforeach
-        | _ | <b>TOTAL</b> | <b>{{$gt_suspected}}</b> | <b>{{$gt_confirmed}}</b> | <b>{{$gt_recovered}}</b> | <b>{{$gt_negative}}</b> | <b>{{$gt_abtc}}</b> | <b>{{$gt_abtc_ff}}</b> | <b>{{$gt_vaxcert}}</b> | {{$gt_opd}} |<b>{{$gt_suspected + $gt_confirmed + $gt_negative + $gt_recovered + $gt_abtc + $gt_vaxcert + $gt_opd + $gt_abtc_ff}}</b> |
+        | _ | <b>TOTAL</b> | <b>{{$gt_suspected}}</b> | <b>{{$gt_confirmed}}</b> | <b>{{$gt_recovered}}</b> | <b>{{$gt_negative}}</b> | <b>{{$gt_abtc}}</b> | <b>{{$gt_abtc_ff}}</b> | <b>{{$gt_vaxcert}}</b> | {{$gt_opd}} | {{$gt_livebirth}} | <b>{{$gt_suspected + $gt_confirmed + $gt_negative + $gt_recovered + $gt_abtc + $gt_vaxcert + $gt_opd + $gt_abtc_ff + $gt_livebirth}}</b> |
         @endcomponent
     </div>
 @endcomponent

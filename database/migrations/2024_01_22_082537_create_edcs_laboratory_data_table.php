@@ -39,6 +39,7 @@ class CreateEdcsLaboratoryDataTable extends Migration
             $table->text('user_citycode');
             $table->text('hfhudcode')->nullable();
             $table->timestamps();
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
         });
     }
 

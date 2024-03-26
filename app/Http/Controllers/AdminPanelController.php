@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Models\VaxcertConcern;
 use App\Models\SyndromicRecords;
 use App\Models\AbtcBakunaRecords;
+use App\Models\LiveBirth;
 use Illuminate\Support\Facades\Hash;
 use IlluminateAgnostic\Collection\Support\Str;
 
@@ -288,6 +289,7 @@ class AdminPanelController extends Controller
     public function encoderStatsIndex() {
         $list = User::where('encoder_stats_visible', 1)
         ->where('enabled', 1)
+        ->orderBy('name', 'ASC')
         ->get();
 
         $arr = [];
@@ -415,6 +417,10 @@ class AdminPanelController extends Controller
             ->whereDate('created_at', date('Y-m-d'))
             ->count();
 
+            $lcr_livebirth = LiveBirth::whereDate('created_at', date('Y-m-d'))
+            ->where('created_by', $item->id)
+            ->count();
+
             array_push($arr, [
                 'name' => $item->name,
                 'suspected_count' => $suspected_count,
@@ -425,6 +431,7 @@ class AdminPanelController extends Controller
                 'abtc_ffup_gtotal' => $abtc_ffup_gtotal,
                 'vaxcert_count' => $vaxcert_count,
                 'opd_count' => $opd_count,
+                'lcr_livebirth' => $lcr_livebirth,
             ]);
         }
 

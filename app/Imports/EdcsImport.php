@@ -371,6 +371,10 @@ class AbdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 $model = $exist_check;
             }
             else {
+                $table_params = $table_params + [
+                    'created_by' => auth()->user()->id,
+                ];
+
                 $model = Abd::create($table_params);
             }
 
@@ -589,6 +593,10 @@ class AfpImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 $model = $exist_check;
             }
             else {
+                $table_params = $table_params + [
+                    'created_by' => auth()->user()->id,
+                ];
+
                 $model = Afp::create($table_params);
             }
 
@@ -815,6 +823,10 @@ class AmesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 $model = $exist_check;
             }
             else {
+                $table_params = $table_params + [
+                    'created_by' => auth()->user()->id,
+                ];
+
                 $model = Ames::create($table_params);
             }
 
@@ -925,6 +937,10 @@ class HepaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 $model = $exist_check;
             }
             else {
+                $table_params = $table_params + [
+                    'created_by' => auth()->user()->id,
+                ];
+
                 $model = Hepatitis::create($table_params);
             }
 
@@ -1126,6 +1142,10 @@ class HfmdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 $model = $exist_check;
             }
             else {
+                $table_params = $table_params + [
+                    'created_by' => auth()->user()->id,
+                ];
+
                 $model = Hfmd::create($table_params);
             }
 
@@ -1239,6 +1259,10 @@ class LeptoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 $model = $exist_check;
             }
             else {
+                $table_params = $table_params + [
+                    'created_by' => auth()->user()->id,
+                ];
+
                 $model = Leptospirosis::create($table_params);
             }
 
@@ -1438,6 +1462,10 @@ class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 $model = $exist_check;
             }
             else {
+                $table_params = $table_params + [
+                    'created_by' => auth()->user()->id,
+                ];
+
                 $model = Measles::create($table_params);
             }
 
@@ -1550,6 +1578,10 @@ class NntImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 $model = $exist_check;
             }
             else {
+                $table_params = $table_params + [
+                    'created_by' => auth()->user()->id,
+                ];
+
                 $model = Nnt::create($table_params);
             }
 
@@ -1679,6 +1711,10 @@ class RabiesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 $model = $exist_check;
             }
             else {
+                $table_params = $table_params + [
+                    'created_by' => auth()->user()->id,
+                ];
+
                 $model = Rabies::create($table_params);
             }
 
@@ -1825,6 +1861,10 @@ class RotaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 $model = $exist_check;
             }
             else {
+                $table_params = $table_params + [
+                    'created_by' => auth()->user()->id,
+                ];
+
                 $model = Rotavirus::create($table_params);
             }
 
@@ -1932,6 +1972,10 @@ class TyphoidImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 $model = $exist_check;
             }
             else {
+                $table_params = $table_params + [
+                    'created_by' => auth()->user()->id,
+                ];
+
                 $model = Typhoid::create($table_params);
             }
 
@@ -2072,6 +2116,10 @@ class DengueImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 $model = $exist_check;
             }
             else {
+                $table_params = $table_params + [
+                    'created_by' => auth()->user()->id,
+                ];
+
                 $model = Dengue::create($table_params);
             }
 
@@ -2183,6 +2231,10 @@ class DiphImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 $model = $exist_check;
             }
             else {
+                $table_params = $table_params + [
+                    'created_by' => auth()->user()->id,
+                ];
+
                 $model = Diph::create($table_params);
             }
 
@@ -2333,6 +2385,10 @@ class ChikvImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 $model = $exist_check;
             }
             else {
+                $table_params = $table_params + [
+                    'created_by' => auth()->user()->id,
+                ];
+
                 $model = Chikv::create($table_params);
             }
 
@@ -2504,6 +2560,10 @@ class MeningoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 $model = $exist_check;
             }
             else {
+                $table_params = $table_params + [
+                    'created_by' => auth()->user()->id,
+                ];
+
                 $model = Meningo::create($table_params);
             }
 
@@ -2648,6 +2708,10 @@ class NtImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 $model = $exist_check;
             }
             else {
+                $table_params = $table_params + [
+                    'created_by' => auth()->user()->id,
+                ];
+
                 $model = Nt::create($table_params);
             }
 
@@ -2757,6 +2821,10 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 $model = $exist_check;
             }
             else {
+                $table_params = $table_params + [
+                    'created_by' => auth()->user()->id,
+                ];
+
                 $model = Pert::create($table_params);
             }
 
@@ -2866,6 +2934,10 @@ class CholeraImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 $model = $exist_check;
             }
             else {
+                $table_params = $table_params + [
+                    'created_by' => auth()->user()->id,
+                ];
+
                 $model = Cholera::create($table_params);
             }
 
@@ -2976,6 +3048,10 @@ class InfluenzaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow 
                 $model = $exist_check;
             }
             else {
+                $table_params = $table_params + [
+                    'created_by' => auth()->user()->id,
+                ];
+
                 $model = Influenza::create($table_params);
             }
 
@@ -3030,6 +3106,10 @@ class LaboratoryImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                     $model = $exist_check;
                 }
                 else {
+                    $table_params = $table_params + [
+                        'created_by' => auth()->user()->id,
+                    ];
+
                     $model = EdcsLaboratoryData::create($table_params);
                 }
     
@@ -3199,6 +3279,10 @@ class SevereAcuteRespiratoryInfectionImport implements ToModel, WithHeadingRow, 
                 $model = $exist_check;
             }
             else {
+                $table_params = $table_params + [
+                    'created_by' => auth()->user()->id,
+                ];
+                
                 $model = SevereAcuteRespiratoryInfection::create($table_params);
             }
 

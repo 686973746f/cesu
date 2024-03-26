@@ -156,6 +156,7 @@ class CreateSevereAcuteRespiratoryInfectionsTable extends Migration
             $table->text('system_remarks')->nullable();
             $table->string('system_subdivision_id', 5)->nullable();
             $table->timestamps();
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
         });
     }
 
