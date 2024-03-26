@@ -11,6 +11,7 @@ $gt_abtc_ff = 0;
 $gt_vaxcert = 0;
 $gt_opd = 0;
 $gt_lcr = 0;
+$gt_edcs = 0;
 @endphp
 <div class="container">
     <div class="card">
@@ -31,6 +32,7 @@ $gt_lcr = 0;
                             <th>VaxCert Concerns</th>
                             <th>OPD</th>
                             <th>LCR Livebirths</th>
+                            <th>Imports from EDCS-IS</th>
                             <th>Total</th>
                         </tr>
                     </thead>
@@ -48,7 +50,8 @@ $gt_lcr = 0;
                             <td class="text-center">{{$i['vaxcert_count']}}</td>
                             <td class="text-center">{{$i['opd_count']}}</td>
                             <td class="text-center">{{$i['lcr_livebirth']}}</td>
-                            <td class="text-center font-weight-bold">{{$i['suspected_count'] + $i['confirmed_count'] + $i['negative_count'] + $i['recovered_count'] + $i['abtc_count'] + $i['vaxcert_count'] + $i['opd_count'] + $i['abtc_ffup_gtotal'] + $i['lcr_livebirth']}}</td>
+                            <td class="text-center">{{$i['edcs_count']}}</td>
+                            <td class="text-center font-weight-bold">{{$i['suspected_count'] + $i['confirmed_count'] + $i['negative_count'] + $i['recovered_count'] + $i['abtc_count'] + $i['vaxcert_count'] + $i['opd_count'] + $i['abtc_ffup_gtotal'] + $i['lcr_livebirth'] + $i['edcs_count']}}</td>
                         </tr>
                         @php
                         $gt_suspected += $i['suspected_count'];
@@ -60,6 +63,7 @@ $gt_lcr = 0;
                         $gt_vaxcert += $i['vaxcert_count'];
                         $gt_opd += $i['opd_count'];
                         $gt_lcr += $i['lcr_livebirth'];
+                        $gt_edcs += $i['edcs_count'];
                         @endphp
                         @endforeach
                     </tbody>
@@ -75,7 +79,8 @@ $gt_lcr = 0;
                             <td>{{$gt_vaxcert}}</td>
                             <td>{{$gt_opd}}</td>
                             <td>{{$gt_lcr}}</td>
-                            <td>{{$gt_suspected + $gt_confirmed + $gt_negative + $gt_recovered + $gt_abtc + $gt_vaxcert + $gt_opd + $gt_abtc_ff + $gt_lcr}}</td>
+                            <td>{{$gt_edcs}}</td>
+                            <td>{{$gt_suspected + $gt_confirmed + $gt_negative + $gt_recovered + $gt_abtc + $gt_vaxcert + $gt_opd + $gt_abtc_ff + $gt_lcr + $gt_edcs}}</td>
                         </tr>
                     </tfoot>
                 </table>

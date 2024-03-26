@@ -5702,7 +5702,7 @@ class PIDSRController extends Controller
             'Pert',
             'Rotavirus',
             'Typhoid',
-            'SevereAcuteRespiratoryInfection'
+            'SevereAcuteRespiratoryInfection',
         ];
 
         foreach($diseases as $d) {
@@ -5853,6 +5853,37 @@ class PIDSRController extends Controller
             'ROTAVIRUS',
             'TYPHOID',
             'SARI',
+        ];
+
+        sort($array);
+
+        return $array;
+    }
+
+    public static function listDiseasesTables() {
+        $array = [
+            'Afp',
+            'Measles',
+            'Meningo',
+            'Nt',
+            'Rabies',
+            'Hfmd',
+
+            'Abd',
+            'Ames',
+            'Hepatitis',
+            'Chikv',
+            'Cholera',
+            'Dengue',
+            'Diph',
+            'Influenza',
+            'Leptospirosis',
+            'Nnt',
+            'Pert',
+            'Rotavirus',
+            'Typhoid',
+            'SevereAcuteRespiratoryInfection',
+            //'EdcsLaboratoryData',
         ];
 
         sort($array);

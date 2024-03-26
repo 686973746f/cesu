@@ -11,6 +11,7 @@ use App\Models\VaxcertConcern;
 use App\Models\SyndromicRecords;
 use App\Models\AbtcBakunaRecords;
 use Illuminate\Queue\SerializesModels;
+use App\Http\Controllers\PIDSRController;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 class SendEncoderStatus extends Mailable
@@ -168,6 +169,25 @@ class SendEncoderStatus extends Mailable
             ->where('created_by', $item->id)
             ->count();
 
+            $disease_list = PIDSRController::listDiseasesTables();
+
+            //Add Laboratory data table for counting
+            $disease_list = $disease_list + [
+                'EdcsLaboratoryData',
+            ];
+
+            $edcs_count = 0;
+
+            foreach($disease_list as $d) {
+                $modelClass = "App\\Models\\$d";
+
+                $model_count = $modelClass::where('created_by', $item->id)
+                ->whereDate('created_at', date('Y-m-d'))
+                ->count();
+
+                $edcs_count += $model_count;
+            }
+
             array_push($arr, [
                 'name' => $item->name,
                 'suspected_count' => $suspected_count,
@@ -179,6 +199,7 @@ class SendEncoderStatus extends Mailable
                 'vaxcert_count' => $vaxcert_count,
                 'opd_count' => $opd_count,
                 'lcr_livebirth' => $lcr_livebirth,
+                'edcs_count' => $edcs_count,
             ]);
         }
         
