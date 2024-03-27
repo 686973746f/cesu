@@ -2506,11 +2506,11 @@ class MeningoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'DateInteract' => EdcsImport::tDate($row['when']),
                 'DaysNum' => $row['number_of_days'],
                 'PtTravel' => ($row['did_the_patient_travel_within_2_weeks_prior_to_illness'] == 'Yes') ? 'Y' : 'N',
-                'PlacePtTravel' => $row['if_yes_where'],
+                'PlacePtTravel' => $row['if_yes_where'][0],
                 'ContactTravel' => ($row['did_the_patient_attend_any_social_gathering_within_2_weeks_prior_to_illness'] == 'Yes') ? 'Y' : 'N',
                 'PlaceContactTravel' => $row['if_yes_who_and_where'],
                 'AttendSocicalGather' => ($row['did_the_patient_attend_any_social_gathering_within_2_weeks_prior_to_illness'] == 'Yes') ? 'Y' : 'N',
-                'PlaceSocialGather' => $row['if_yes_where_1'],
+                'PlaceSocialGather' => $row['if_yes_where'][1],
                 'PatientURTI' => ($row['did_the_patient_have_upper_respiratory_tract_infection_within_2_weeks_prior_to_illness'] == 'Yes') ? 'Y' : 'N',
                 'ContactURTI' => ($row['did_a_close_contacts_have_upper_respiratory_tract_infection_within_2_weeks_prior_to_the_patients_illness'] == 'Yes') ? 'Y' : 'N',
                 
