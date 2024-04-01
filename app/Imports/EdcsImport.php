@@ -2723,6 +2723,7 @@ class NtImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
 class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
     public function model(array $row) {
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
+            dd($row);
             $birthdate = Carbon::parse(EdcsImport::tDate($row['date_of_birth']));
             $currentDate = Carbon::parse(EdcsImport::tDate($row['timestamp']));
 
@@ -2743,7 +2744,20 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 $getFullName = $getFullName.' '.$row['suffix_name'];
             }
 
+            $match_casedef = 1;
+
             //Case Def Check
+            if($row['coughing_lasting_at_least_2_weeks'] == 'Yes') {
+                if($row['paroxysms_of_coughing'] == 'Yes' || $row['inspiratory_whooping'] == 'Yes' || $row['post_tussive_vomiting'] == 'Yes' || $row['others'] == 'Yes') {
+                    $match_casedef = 1;
+                }
+                else {
+                    $match_casedef = 0;
+                }
+            }
+            else {
+                $match_casedef = 0;
+            }
 
             $table_params = [
                 'Icd10Code' => 'A37',
@@ -2804,6 +2818,7 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'edcs_contactNo' => isset($row['contact_no']) ? $row['contact_no'] : NULL,
                 'edcs_ageGroup' => isset($row['age_group']) ? $row['age_group'] : NULL,
                 'from_edcs' => 1,
+                'match_casedef' => $match_casedef,
                 
                 'edcs_userid' => $row['user_id'],
                 'edcs_last_modifiedby' => $row['last_modified_by'],
