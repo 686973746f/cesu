@@ -104,9 +104,10 @@
                             else {
                                 $epi_id = $l->EPIID;
                             }
-                            @endphp
+                            @endphp 
                             <a href="{{route('pidsr_viewcif', [$case_name, $epi_id])}}" class="btn btn-primary"><i class="fa fa-file" aria-hidden="true"></i></a>
                             <a href="{{route('pidsr_casechecker_edit', [$case_name, $epi_id])}}" class="btn btn-secondary"><i class="fa fa-cog" aria-hidden="true"></i></a>
+                            <a href="{{route('pidsr_laboratory_new')}}?case_id={{$l->edcs_caseid}}&disease={{$case_name}}" class="btn btn-primary"><i class="fa fa-flask"></i></a>
                         </td>
                         @foreach($columns as $c)
                         <td>{{mb_strtoupper($l->$c)}}</td>

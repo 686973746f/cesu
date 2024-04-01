@@ -2743,6 +2743,8 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 $getFullName = $getFullName.' '.$row['suffix_name'];
             }
 
+            //Case Def Check
+
             $table_params = [
                 'Icd10Code' => 'A37',
                 'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
@@ -3151,7 +3153,7 @@ class SevereAcuteRespiratoryInfectionImport implements ToModel, WithHeadingRow, 
                 'fname' => $row['first_name'],
                 'middle_name' => $row['middle_name'],
                 'suffix' => $row['suffix_name'],
-                'sex' => mb_strtoupper($row['sex']),
+                'sex' => mb_strtoupper(substr($row['sex'],0,1)),
                 'birthdate' => EdcsImport::tDate($row['date_of_birth']),
                 'age_years' => $row['age_in_years'],
                 'age_months' => $getAgeMonths,

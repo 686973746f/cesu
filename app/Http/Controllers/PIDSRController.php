@@ -5502,7 +5502,6 @@ class PIDSRController extends Controller
     }
 
     public function viewCif($case, $epi_id) {
-        $epiCol = 'EPIID';
         /*
         Acute Bloody Diarrhea
         Acute Flaccid Paralysis
@@ -5524,6 +5523,9 @@ class PIDSRController extends Controller
         Rotavirus
         Typhoid and Paratyphoid Fever
         */
+
+        $epiCol = 'EPIID';
+
         if($case == 'ABD') {
             $d = 'Abd';
             $flavor_title = 'Acute Bloody Diarrhea';
@@ -5891,8 +5893,172 @@ class PIDSRController extends Controller
         return $array;
     }
 
-    public static function searchEpiId($d) {
+    public static function globalSearchCase($case_id, $epi_id, $disease) {
+        $epiCol = 'EPIID';
 
+        if($disease == 'ABD') {
+            $d = 'Abd';
+            $flavor_title = 'Acute Bloody Diarrhea';
+        }
+        else if($disease == 'AEFI') {
+            $d = 'Aefi';
+        }
+        else if($disease == 'AES') {
+            $d = 'Aes';
+        }
+        else if($disease == 'AFP') {
+            $d = 'Afp';
+            $flavor_title = 'Acute Flaccid Paralysis';
+        }
+        else if($disease == 'AHF') {
+            $d = 'Ahf';
+        }
+        else if($disease == 'AMES') {
+            $d = 'Ames';
+
+            $flavor_title = 'Acute Meningitis Encephalitis';
+        }
+        else if($disease == 'ANTHRAX') {
+            $d = 'Anthrax';
+        }
+        else if($disease == 'CHIKV') {
+            $d = 'Chikv';
+
+            $flavor_title = 'Chikungunya Viral Disease';
+        }
+        else if($disease == 'CHOLERA') {
+            $d = 'Cholera';
+
+            $flavor_title = 'Cholera';
+        }
+        else if($disease == 'DENGUE') {
+            $d = 'Dengue';
+
+            $flavor_title = 'Dengue';
+        }
+        else if($disease == 'DIPH') {
+            $d = 'Diph';
+
+            $flavor_title = 'Diphteria';
+        }
+        else if($disease == 'HEPATITIS') {
+            $d = 'Hepatitis';
+
+            $flavor_title = 'Acute Viral Hepatitis';
+        }
+        else if($disease == 'HFMD') {
+            $d = 'Hfmd';
+
+            $flavor_title = 'Hand, Foot & Mouth Disease';
+        }
+        else if($disease == 'INFLUENZA') {
+            $d = 'Influenza';
+
+            $flavor_title = 'Influenza-like Illness';
+        }
+        else if($disease == 'LEPTOSPIROSIS') {
+            $d = 'Leptospirosis';
+
+            $flavor_title = 'Leptospirosis';
+        }
+        else if($disease == 'MALARIA') {
+            $d = 'Malaria';
+
+            $flavor_title = 'Malaria';
+        }
+        else if($disease == 'MEASLES') {
+            $d = 'Measles';
+
+            $flavor_title = 'Measles';
+        }
+        else if($disease == 'MENINGITIS') {
+            $d = 'MENINGITIS';
+
+            $flavor_title = 'Meningitis';
+        }
+        else if($disease == 'MENINGO') {
+            $d = 'Meningo';
+
+            $flavor_title = 'Meningococcal Disease';
+        }
+        else if($disease == 'NNT') {
+            $d = 'Nnt';
+
+            $flavor_title = 'Non-Neonatal Tetanus';
+        }
+        else if($disease == 'NT') {
+            $d = 'Nt';
+
+            $flavor_title = 'Neonatal Tetanus';
+        }
+        else if($disease == 'PERT') {
+            $d = 'Pert';
+
+            $flavor_title = 'Pertussis';
+        }
+        else if($disease == 'PSP') {
+            $d = 'Psp';
+
+            $flavor_title = 'TEST';
+        }
+        else if($disease == 'RABIES') {
+            $d = 'Rabies';
+
+            $flavor_title = 'Rabies';
+        }
+        else if($disease == 'ROTAVIRUS') {
+            $d = 'Rotavirus';
+
+            $flavor_title = 'Rotavirus';
+        }
+        else if($disease == 'TYPHOID') {
+            $d = 'Typhoid';
+
+            $flavor_title = 'Typhoid and Paratyphoid Fever';
+        }
+        else if($disease == 'SARI') {
+            $d = 'SevereAcuteRespiratoryInfection';
+
+            $flavor_title = 'Severe Acute Respiratory Infection';
+
+            $epiCol = 'epi_id';
+        }
+
+        $modelClass = "App\\Models\\$d";
+
+        $finalArray = [];
+
+        $p = $modelClass::where('edcs_caseid', $case_id)
+        ->first();
+
+        if(!$p) {
+            $p = $modelClass::where($epiCol, $epi_id)
+            ->first();
+        }
+
+        if($p) {
+            //Search Lab Details
+            if($p->from_edcs == 1) {
+                $lab_details = EdcsLaboratoryData::where('epi_id', $epi_id)
+                ->orWhere('case_id', $p->edcs_caseid)
+                ->orderBy('timestamp', 'DESC')
+                ->get()
+                ->toArray();
+            }
+            else {
+                $lab_details = NULL;
+            }
+            
+            $finalArray = $finalArray + [
+                'details' => $p->toArray(),
+                'lab_data' => $lab_details,
+            ];
+
+            return $finalArray;
+        }
+        else {
+
+        }
     }
 
     public function labLogbook() {
@@ -5904,11 +6070,60 @@ class PIDSRController extends Controller
     }
 
     public function newLabLogBook() {
+        if(request()->input('case_id')) {
+            $case_id = request()->input('case_id');
+            $disease = request()->input('disease');
+            $link_array = PIDSRController::globalSearchCase($case_id, NULL, $disease);
 
+            if($disease == 'SARI') {
+                $lname = $link_array['details']['lname'];
+                $fname = $link_array['details']['fname'];
+                $mname = $link_array['details']['middle_name'];
+                $suffix = $link_array['details']['suffix'];
+                $gender = $link_array['details']['sex'];
+                $age = $link_array['details']['age_years'];
+            }
+            else {
+                $lname = $link_array['details']['FamilyName'];
+                $fname = $link_array['details']['FirstName'];
+                $mname = $link_array['details']['middle_name'];
+                $suffix = $link_array['details']['suffix'];
+                $gender = $link_array['details']['Sex'];
+                $age = $link_array['details']['AgeYears'];
+            }
+
+            $manual_mode = false;
+        }
+        else {
+            $disease = NULL;
+            $manual_mode = true;
+            $link_array = NULL;
+
+            $lname = NULL;
+            $fname = NULL;
+            $mname = NULL;
+            $suffix = NULL;
+            $gender = NULL;
+            $age = NULL;
+        }
+        
+
+        return view('pidsr.laboratory.new', [
+            'disease' => $disease,
+            'manual_mode' => $manual_mode,
+            'link_array' => $link_array,
+            'lname' => $lname,
+            'fname' => $fname,
+            'mname' => $mname,
+            'suffix' => $suffix,
+            'gender' => $gender,
+            'age' => $age,
+        ]);
     }
 
     public function storeLabLogBook(Request $r) {
-        $existing_record = LabResultLogBook::where('lname', mb_strtoupper($r->lname))
+        $existing_record = LabResultLogBook::where('disease_tag', $r->disease_tag)
+        ->where('lname', mb_strtoupper($r->lname))
         ->where('fname', mb_strtoupper($r->fname))
         ->where('date_collected', $r->date_collected)
         ->where('specimen_type', $r->specimen_type)
@@ -5918,17 +6133,26 @@ class PIDSRController extends Controller
             return redirect()->back()
             ->withInput()
             ->with('msg', 'Error: Record already exists. Please double check the fields then try again.')
-            ->with('msgtype', 'warning');   
+            ->with('msgtype', 'warning');
+        }
+
+        if($r->linkto_caseid) {
+            $link_case_id = $r->linkto_caseid;
+            $manual_mode = false;
+        }
+        else {
+            $link_case_id = NULL;
+            $manual_mode = true;
         }
 
         $c = $r->user()->lablogbook()->create([
-            //'for_case_id',
+            'for_case_id' => $link_case_id,
             'disease_tag' => $r->disease_tag,
-            'lname' => mb_strtoupper($r->lname),
-            'fname' => mb_strtoupper($r->fname),
-            'mname' => ($r->filled('mname')) ? mb_strtoupper($r->mname) : NULL,
-            'suffix' => ($r->filled('suffix')) ? mb_strtoupper($r->suffix) : NULL,
-            'gender' => $r->gender,
+            'lname' => ($manual_mode) ? mb_strtoupper($r->lname) : NULL,
+            'fname' => ($manual_mode) ? mb_strtoupper($r->fname) : NULL,
+            'mname' => ($r->filled('mname') && $manual_mode) ? mb_strtoupper($r->mname) : NULL,
+            'suffix' => ($r->filled('suffix') && $manual_mode) ? mb_strtoupper($r->suffix) : NULL,
+            'gender' => ($manual_mode) ? $r->gender : NULL,
             'date_collected' => $r->date_collected,
             'collector_name' => ($r->filled('collector_name')) ? mb_strtoupper($r->collector_name) : NULL,
             'specimen_type' => $r->specimen_type,
