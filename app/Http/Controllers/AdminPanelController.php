@@ -387,6 +387,8 @@ class AdminPanelController extends Controller
             ->where('caseClassification', 'Non-COVID-19 Case')
             ->count();
 
+            $covid_count_final = $suspected_count + $confirmed_count + $recovered_count + $negative_count;
+
             $abtc_count = AbtcBakunaRecords::where('d0_done_by', $item->id)
             ->whereDate('d0_done_date', date('Y-m-d'))
             ->count();
@@ -442,10 +444,7 @@ class AdminPanelController extends Controller
 
             array_push($arr, [
                 'name' => $item->name,
-                'suspected_count' => $suspected_count,
-                'confirmed_count' => $confirmed_count,
-                'recovered_count' => $recovered_count,
-                'negative_count' => $negative_count,
+                'covid_count_final' => $covid_count_final,
                 'abtc_count' => $abtc_count,
                 'abtc_ffup_gtotal' => $abtc_ffup_gtotal,
                 'vaxcert_count' => $vaxcert_count,
