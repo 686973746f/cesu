@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <div class="card">
             <div class="card-header">
-                <div>
+                <div class="d-flex justify-content-between">
                     <div><b>Laboratory Logbook</b></div>
                     <div>
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modelId">New Lab Result</button>
@@ -28,15 +28,15 @@
                             <th>Address</th>
                             <th>Date Swab Collected</th>
                             <th>Type</th>
-                            <td>Result</td>
+                            <th>Result</th>
                             <th>Encoded by/at</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($list as $l)
+                        @foreach($list as $ind => $l)
                         <tr>
-                            <td></td>
-                            <td></td>
+                            <td class="text-center">{{$list->firstItem() + $ind}}</td>
+                            <td class="text-center"><a href="">{{$l->disease_tag}}</a></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -48,6 +48,9 @@
                         @endforeach
                     </tbody>
                 </table>
+                <div class="pagination justify-content-center mt-3">
+                    {{$list->appends(request()->input())->links()}}
+                </div>
                 @else
                 <p class="text-center">Results is currently empty.</p>
                 @endif

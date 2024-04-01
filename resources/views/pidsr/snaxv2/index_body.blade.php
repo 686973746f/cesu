@@ -57,7 +57,7 @@
                 @if($current_grand_total < $previous_grand_total)
                 <li>This year's number of cases is {{round(100 - ($current_grand_total / $previous_grand_total * 100))}}% lower compared to the same period last year ({{$previous_grand_total}} cases).</li>
                 @else
-                <li>This year's number of cases is {{(($current_grand_total - $previous_grand_total) / $previous_grand_total) * 100}}% higher compared to the same period  last year ({{$previous_grand_total}} cases).</li>
+                <li>This year's number of cases is {{($previous_grand_total != 0) ? (($current_grand_total - $previous_grand_total) / $previous_grand_total) * 100 : 0}}% higher compared to the same period  last year ({{$previous_grand_total}} cases).</li>
                 @endif
                 <li>Of the total cases reported this period, {{$hospitalized_count}} ({{($current_grand_total != 0) ? round($hospitalized_count / $current_grand_total * 100) :0}}%) were hospitalized and {{$current_confirmed_grand_total}} ({{($current_grand_total != 0) ? round($current_confirmed_grand_total / $current_grand_total * 100,0) : 0}}%) were laboratory confirmed.</li>
                 <li>The Barangay with most reported number of cases is {{$top10Brgys[0]['brgy_name']}} ({{$top10Brgys[0]['brgy_grand_total_cases']}} {{Str::plural('case', $top10Brgys[0]['brgy_grand_total_cases'])}} [{{($current_grand_total != 0) ? round($top10Brgys[0]['brgy_grand_total_cases'] / $current_grand_total * 100) : 0}}%])</li>

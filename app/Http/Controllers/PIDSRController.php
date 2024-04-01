@@ -6107,7 +6107,6 @@ class PIDSRController extends Controller
             $age = NULL;
         }
         
-
         return view('pidsr.laboratory.new', [
             'disease' => $disease,
             'manual_mode' => $manual_mode,
