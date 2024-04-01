@@ -4778,6 +4778,14 @@ class PIDSRController extends Controller
                 }
             }
 
+            //Initialize Display Params (Period na bibilangin sa Mapping, etc.)
+            if($sel_disease == 'Pert') {
+                $set_display_params = 'yearly';
+            }
+            else {
+                $set_display_params = 'last3mws';
+            }
+
             //INITIALIZE CURRENT MW
             $current_grand_total = 0;
 
@@ -4921,8 +4929,6 @@ class PIDSRController extends Controller
                     ->where('match_casedef', 1)
                     ->where('Barangay', $brgy->brgyName)
                     ->count();
-
-                    
                 }
                 else {
                     $selrecentmw1 = $sel_week - 2;
