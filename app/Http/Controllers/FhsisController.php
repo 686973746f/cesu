@@ -20,12 +20,20 @@ use App\Models\FhsisFamilyPlanning2;
 use App\Models\FhsisFamilyPlanning3;
 use App\Models\FhsisMortalityNatality;
 use App\Models\FhsisEnvironmentalHealth;
+use App\Models\LiveBirth;
 use Illuminate\Support\Facades\Storage;
 
 class FhsisController extends Controller
 {
     public function home() {
-        return view('efhsis.home');
+        $brgylist = Brgy::where('displayInList', 1)
+        ->where('city_id', 1)
+        ->orderBy('brgyName', 'asc')
+        ->get();
+
+        return view('efhsis.home', [
+            'brgylist' => $brgylist,
+        ]);
     }
 
     public function report() {
@@ -1397,5 +1405,42 @@ class FhsisController extends Controller
         return redirect()->back()
         ->with('msg', 'Livebirth ID: '.$c->id.' was successfully added.')
         ->with('msgtype', 'success');
+    }
+
+    public function liveBirthsReport() {
+        if(request()->input('month') && request()->input('year') && request()->input('brgy')) {
+            $month = request()->input('month');
+            $year = request()->input('year');
+            $brgy = request()->input('brgy');
+
+            $total_livebirths = LiveBirth::where('year', $year)
+            ->where('month', $month)
+            ->where('address_brgy_text', $brgy)
+            ->count();
+
+            $livebirth1014 = LiveBirth::where('year', $year)
+            ->where('month', $month)
+            ->whereBetween('mother_age', [10,14])
+            ->where('address_brgy_text', $brgy)
+            ->count();
+
+            $livebirth1519 = LiveBirth::where('year', $year)
+            ->where('month', $month)
+            ->whereBetween('mother_age', [15,19])
+            ->where('address_brgy_text', $brgy)
+            ->count();
+            
+            return view('efhsis.livebirth_report', [
+                'month' => $month,
+                'year' => $year,
+                'brgy' => $brgy,
+                'total_livebirths' => $total_livebirths,
+                'livebirth1014' => $livebirth1014,
+                'livebirth1519' => $livebirth1519,
+            ]);
+        }
+        else {
+            return abort(401);
+        }
     }
 }

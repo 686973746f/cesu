@@ -505,6 +505,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessF
     Route::get('/fhsis/import', [FhsisController::class, 'pquery'])->name('fhsis_pquery');
     Route::get('/fhsis/livebirths/encode', [FhsisController::class, 'liveBirthsEncode'])->name('fhsis_livebirth_encode');
     Route::post('/fhsis/livebirths/encode/store', [FhsisController::class, 'liveBirthsStore'])->name('fhsis_livebirth_encode_store');
+    Route::get('/fhsis/livebirths/report', [FhsisController::class, 'liveBirthsReport'])->name('fhsis_livebirth_report');
 });
 
 //ABTC (WALK IN)
