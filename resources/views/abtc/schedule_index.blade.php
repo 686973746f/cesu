@@ -92,21 +92,28 @@
                 <div><b><span class="text-primary">Follow-up Patients</span> {{(request()->input('d')) ? date('m/d/Y (D)', strtotime(request()->input('d'))) : date('m/d/Y (D)', strtotime(date('Y-m-d')))}}</b></div>
                 <div>
                     <div class="mb-3">Completed: {{$completed_count}} | Pending: {{$ff->count()}}</div>
-                    <div class="row">
-                        <div class="col-6">
-                            <div>-</div>
-                            <div>Pending D3 = <span id="putd3here"></span></div>
-                            <div>Pending D7 = <span id="putd7here"></span></div>
-                            <div class="mb-3">Possible D28 = {{$possible_d28_count}}</div>
-                        </div>
-                        <div class="col-6">
-                            <div>Done D0 = {{$completed_d0}}</div>
-                            <div>Done D3 = {{$completed_d3}}</div>
-                            <div>Done D7 = {{$completed_d7}}</div>
-                            <div>-</div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                    </div>
+                    <div class="col-4">
+                    </div>
+                    <div class="col-4">
+                        <div class="row">
+                            <div class="col-6">
+                                <div>-</div>
+                                <div>Pending D3 = <span id="putd3here"></span></div>
+                                <div>Pending D7 = <span id="putd7here"></span></div>
+                                <div class="mb-3">Possible D28 = {{$possible_d28_count}}</div>
+                            </div>
+                            <div class="col-6">
+                                <div>Done D0 = {{$completed_d0}}</div>
+                                <div>Done D3 = {{$completed_d3}}</div>
+                                <div>Done D7 = {{$completed_d7}}</div>
+                                <div>-</div>
+                            </div>
                         </div>
                     </div>
-                    
                 </div>
             </div>
             <div class="text-right">
