@@ -563,7 +563,8 @@ foreach($classification_titles as $ind => $ctitle) {
                 borderWidth: 2,
                 type: 'line',
                 borderDash: [5, 5] // Make the line dotted
-            }]
+            },
+            ]
         },
         options: {
             plugins: {
@@ -675,6 +676,9 @@ foreach($classification_titles as $ind => $ctitle) {
                     grid: {
                         display: false,
                     },
+                    ticks: {
+                        stepSize: 1,
+                    }
                 }
             },
             events: [],
@@ -751,18 +755,28 @@ foreach($classification_titles as $ind => $ctitle) {
                             return Math.abs(value);  // Return the absolute value to hide the negative sign
                         }
                     },
+                    title: {
+                        display: true,
+                        text: 'No. of Cases',  // Title for the y-axis
+                        position: 'bottom'  // Place the title on bottom
+                    }
                 },
                 y: {
                     stacked: true,
                     grid: {
                         display: false,
                     },
+                    title: {
+                        display: true,
+                        text: 'Age',  // Title for the y-axis
+                        position: 'top'  // Place the title on top
+                    }
                 },
             },
             plugins: {
                 legend: {
                     display: true,
-                    position: 'bottom',
+                    position: 'top',
                 },
                 datalabels: {
                 display: false
