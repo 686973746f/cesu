@@ -1409,6 +1409,11 @@ class FhsisController extends Controller
 
     public function liveBirthsReport() {
         if(request()->input('month') && request()->input('year') && request()->input('brgy')) {
+            $brgylist = Brgy::where('displayInList', 1)
+            ->where('city_id', 1)
+            ->orderBy('brgyName', 'asc')
+            ->get();
+
             $month = request()->input('month');
             $year = request()->input('year');
             $brgy = request()->input('brgy');
@@ -1437,6 +1442,7 @@ class FhsisController extends Controller
                 'total_livebirths' => $total_livebirths,
                 'livebirth1014' => $livebirth1014,
                 'livebirth1519' => $livebirth1519,
+                'brgylist' => $brgylist,
             ]);
         }
         else {

@@ -133,7 +133,7 @@
                           <label for="month"><b class="text-danger">*</b>Month</label>
                           <select class="form-control" name="month" id="month" required>
                             <option value="" disabled selected>Choose...</option>
-                            <option value="1" >January</option>
+                            <option value="1">January</option>
                             <option value="2">February</option>
                             <option value="3">March</option>
                             <option value="4">April</option>
@@ -191,7 +191,7 @@
                         </div>
                         <div class="form-group">
                           <label for="brgy">Barangay</label>
-                          <select class="form-control" name="brgy" id="brgy">
+                          <select class="form-control" name="brgy" id="brgy" required>
                             <option value="" disabled selected>Choose...</option>
                             @foreach ($brgylist as $b)
                                 <option value="{{$b->brgyName}}">{{$b->brgyName}}</option>
@@ -207,8 +207,4 @@
             </div>
         </div>
     </form>
-
-    <script>
-
-    </script>
 @endsection
