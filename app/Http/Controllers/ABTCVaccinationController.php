@@ -1261,6 +1261,21 @@ class ABTCVaccinationController extends Controller
             });
         })->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
         ->count();
+        
+        $completed_d0 = AbtcBakunaRecords::where('d0_done', 1)
+        ->where('d0_date', $sdate)
+        ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
+        ->count();
+
+        $completed_d3 = AbtcBakunaRecords::where('d3_done', 1)
+        ->where('d3_date', $sdate)
+        ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
+        ->count();
+
+        $completed_d7 = AbtcBakunaRecords::where('d7_done', 1)
+        ->where('d7_date', $sdate)
+        ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
+        ->count();
 
         return view('abtc.schedule_index', [
             'new' => $new,
@@ -1268,6 +1283,9 @@ class ABTCVaccinationController extends Controller
             'completed_count' => $completed_count,
             'sdate' => $sdate,
             'possible_d28_count' => $possible_d28_count,
+            'completed_d0' => $completed_d0,
+            'completed_d3' => $completed_d3,
+            'completed_d7' => $completed_d7,
         ]);
     }
 
