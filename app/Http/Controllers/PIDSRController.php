@@ -5347,6 +5347,7 @@ class PIDSRController extends Controller
                 'mWeekCalendarDate' => $mWeekCalendarDate,
                 'startDateBasedOnMw' => $startDateBasedOnMw,
                 'endDateBasedOnMw' => $endDateBasedOnMw,
+                'set_display_params' => $set_display_params,
             ];
 
             if(request()->input('print')) {
