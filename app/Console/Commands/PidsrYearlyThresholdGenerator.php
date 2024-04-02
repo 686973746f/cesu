@@ -39,32 +39,7 @@ class PidsrYearlyThresholdGenerator extends Command
     public function handle()
     {
         $diseases = [
-            'Abd',
-            'Aefi',
-            'Aes',
-            'Afp',
-            'Ahf',
-            'Ames',
-            'Anthrax',
-            'Chikv',
-            'Cholera',
-            'Dengue',
-            'Diph',
-            'Hepatitis',
-            'Hfmd',
-            'Influenza',
-            'Leptospirosis',
-            'Malaria',
-            'Measles',
-            'Meningitis',
-            'Meningo',
-            'Nnt',
-            'Nt',
             'Pert',
-            'Psp',
-            'Rabies',
-            'Rotavirus',
-            'Typhoid',
         ];
 
         foreach($diseases as $d) {
