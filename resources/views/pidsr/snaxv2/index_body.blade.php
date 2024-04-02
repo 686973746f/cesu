@@ -53,7 +53,7 @@
             <hr>
             <ul>
                 <h6><b>Summary:</b></h6>
-                <li>There were {{$current_grand_total}} {{Str::plural('case', $current_grand_total)}} of {{mb_strtoupper($sel_disease)}} reported for Morbidity Week 1-{{$sel_mweek}} ({{$startDate->format('M d, Y')}} - {{$endDate->format('M d, Y')}}), with {{$death_count}} {{Str::plural('death', $death_count)}} (CFR {{($current_grand_total != 0) ? round($death_count / $current_grand_total * 100, 2) : 0}}%)</li>
+                <li>There were {{$current_grand_total}} {{Str::plural('case', $current_grand_total)}} of {{$flavor_name}} reported for Morbidity Week 1-{{$sel_mweek}} ({{$startDate->format('M d, Y')}} - {{$endDate->format('M d, Y')}}), with {{$death_count}} {{Str::plural('death', $death_count)}} (CFR {{($current_grand_total != 0) ? round($death_count / $current_grand_total * 100, 2) : 0}}%)</li>
                 @if($current_grand_total < $previous_grand_total)
                 <li>This year's number of cases is {{round(100 - ($current_grand_total / $previous_grand_total * 100))}}% lower compared to the same period last year ({{$previous_grand_total}} cases).</li>
                 @else
@@ -74,12 +74,12 @@
             @endphp
             <div class="row">
                 <div class="col-md-6">
-                    <h5><b>Distribution of {{mb_strtoupper($sel_disease)}} Cases by Morbidity Week</b></h5>
+                    <h5><b>Distribution of {{$flavor_name}} Cases by Morbidity Week</b></h5>
                     <h6>GENERAL TRIAS, MW{{$sel_mweek}}, {{$sel_year}}</h6>
                     <h6>N = {{$current_grand_total}}</h6>
                     <canvas id="myChart" width="400" height="400"></canvas>
                     <hr>
-                    <h5><b>Distribution of {{mb_strtoupper($sel_disease)}} Cases by Barangay for the Previous 3 MWs</b></h5>
+                    <h5><b>Distribution of {{$flavor_name}} Cases by Barangay for the Previous 3 MWs</b></h5>
                     <h6>GENERAL TRIAS, MW {{$sel_mweek-2}}-{{$sel_mweek}}, {{$sel_year}}</h6>
                     <h6>N={{$threemws_total}}</h6>
                     @php
@@ -210,7 +210,7 @@
                         </div>
                     </div>
                     <hr>
-                    <h5><b>Top 10 Barangays with {{mb_strtoupper($sel_disease)}} Cases</b></h5>
+                    <h5><b>Top 10 Barangays with {{$flavor_name}} Cases</b></h5>
                     <h6>GENERAL TRIAS, MW 1-{{$sel_mweek}}, {{$sel_year}}</h6>
                     <h6>N={{$current_grand_total}}</h6>
                     <div style="height: 500px">
@@ -224,7 +224,7 @@
     <div class="card mb-3">
         <div class="card-header bg-transparent">
             <div class="d-flex justify-content-between">
-                <div><b>Page 2/3 - {{mb_strtoupper($sel_disease)}} Monitoring Dashboard</b></div>
+                <div><b>Page 2/3 - {{$flavor_name}} Monitoring Dashboard</b></div>
                 <div><b>MW {{$sel_mweek}} ({{$startDate->format('M d, Y')}} - {{$endDate->format('M d, Y')}})</b></div>
             </div>
         </div>
@@ -300,12 +300,12 @@
     <div class="card mb-3">
         <div class="card-header bg-transparent">
             <div class="d-flex justify-content-between">
-                <div><b>Page 3/3 - {{mb_strtoupper($sel_disease)}} Monitoring Dashboard</b></div>
+                <div><b>Page 3/3 - {{$flavor_name}} Monitoring Dashboard</b></div>
                 <div><b>MW {{$sel_mweek}} ({{$startDate->format('M d, Y')}} - {{$endDate->format('M d, Y')}})</b></div>
             </div>
         </div>
         <div class="card-body">
-            <h5><b>Distribution of {{mb_strtoupper($sel_disease)}} Cases by Barangay for the Previous 4 MWs</b></h5>
+            <h5><b>Distribution of {{$flavor_name}} Cases by Barangay for the Previous 4 MWs</b></h5>
             <h6>GENERAL TRIAS, MW {{$sel_mweek-3}}-{{$sel_mweek}}, {{$sel_year}}</h6>
             <h6>N={{$fourmws_total}}</h6>
             <table class="table table-bordered table-sm">
@@ -559,8 +559,8 @@ foreach($classification_titles as $ind => $ctitle) {
                 label: 'Alert Threshold',
                 data: dottedLineData,
                 fill: false,
-                borderColor: 'rgba(54, 162, 235, 1)', // Customize dotted line color
-                borderWidth: 1,
+                borderColor: 'rgba(8, 0, 255, 0.8)', // Customize dotted line color
+                borderWidth: 2,
                 type: 'line',
                 borderDash: [5, 5] // Make the line dotted
             }]
@@ -571,6 +571,21 @@ foreach($classification_titles as $ind => $ctitle) {
                 display: false
                 }
             },
+            scales: {
+                x: {
+                    grid: {
+                        display: false,
+                    },
+                },
+                y: {
+                    grid: {
+                        display: false,
+                    },
+                    ticks: {
+                        stepSize: 1,  // Display only whole numbers
+                    }
+                },
+            }
         }
     });
 
@@ -651,7 +666,15 @@ foreach($classification_titles as $ind => $ctitle) {
                         font: {
                             size: 16 //this change the font size
                         }
-                    }
+                    },
+                    grid: {
+                        display: false,
+                    },
+                },
+                x: {
+                    grid: {
+                        display: false,
+                    },
                 }
             },
             events: [],
@@ -678,13 +701,14 @@ foreach($classification_titles as $ind => $ctitle) {
 
     var male_set = {{json_encode($ag_male)}};
     var female_set = {{json_encode($ag_female)}};
+    var age_labels = {!! $age_display_string !!};
 
     var ctx = document.getElementById('ageGroup').getContext('2d');
     var chart = new Chart(ctx, {
         type: 'bar',
 
         data: {
-            labels: ['50+', '41-50', '31-40', '21-30', '11-20', '1-10', '<1'],
+            labels: age_labels,
             datasets: [
                 {
                     label: "Male",
@@ -718,9 +742,18 @@ foreach($classification_titles as $ind => $ctitle) {
             scales: {
                 x: {
                     stacked: true,
+                    grid: {
+                        display: false,
+                    },
+                    ticks: {
+                        stepSize: 1,  // Display only whole numbers
+                    },
                 },
                 y: {
                     stacked: true,
+                    grid: {
+                        display: false,
+                    },
                 },
             },
             plugins: {
