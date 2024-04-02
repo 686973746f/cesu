@@ -766,11 +766,6 @@ foreach($classification_titles as $ind => $ctitle) {
                     grid: {
                         display: false,
                     },
-                    title: {
-                        display: true,
-                        text: 'Age',  // Title for the y-axis
-                        position: 'top'  // Place the title on top
-                    }
                 },
             },
             plugins: {
