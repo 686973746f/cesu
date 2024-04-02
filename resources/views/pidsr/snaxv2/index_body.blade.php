@@ -747,6 +747,9 @@ foreach($classification_titles as $ind => $ctitle) {
                     },
                     ticks: {
                         stepSize: 1,  // Display only whole numbers
+                        callback: function(value, index, values) {
+                            return Math.abs(value);  // Return the absolute value to hide the negative sign
+                        }
                     },
                 },
                 y: {
