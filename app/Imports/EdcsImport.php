@@ -2783,12 +2783,47 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 
                 'Admitted' => ($row['patient_admitted'] == 'Yes') ? 1 : 0,
                 'DAdmit' => EdcsImport::tDate($row['date_admitted']),
-                'DOnset' => EdcsImport::tDate($row['date_onse_of_illness']),
+                
                 'DptDoses' => ($row['pertussis_containing_vaccine_doses'] == 'Yes') ? 'Y' : 'N',
+                'if_yes_number_of_total_doses_health_facility' => $row['if_yes_number_of_total_doses_health_facility_font_stylecolorred_font'],
                 'DateLastDose' => EdcsImport::tDate($row['if_yes_number_of_total_doses_health_facility_font_stylecolorred_font']),
-                'CaseClassification' => substr($row['caseclassification'],0,1),
+                'pregnant' => $row['pregnant'],
+                'occupation' => $row['occupation'],
+                'phone' => $row['phone'],
+                'civil_status' => $row['civil_status'],
+                'name_of_parentcaregiver' => $row['name_of_parentcaregiver'],
+                'contact_nos1' => $row['contact_nos'][0],
+                'date_of_report' => EdcsImport::tDate($row['date_of_report']),
+                'name_of_reporter' => $row['name_of_reporter'],
+                'contact_nos2' => $row['contact_nos'][1],
+                'date_of_investigation' => EdcsImport::tDate($row['date_of_investigation']),
+                'name_of_investigators' => $row['name_of_investigators'],
+                'contact_nos3' => $row['contact_nos'][2],
+                //'pertussis_containing_vaccine_doses' => $row['pertussis_containing_vaccine_doses'],
+                //'if_yes_number_of_total_doses_health_facility_font_stylecolorred_font' => $row['if_yes_number_of_total_doses_health_facility_font_stylecolorred_font'],
+                'sourceinformation' => $row['sourceinformation'],
+                'exposure' => $row['exposure'],
+                'other_means_of_exposure' => $row['other_means_of_exposure'],
+                'school_name_if_applicable' => $row['school_name_if_applicable'],
+                'any_travel_within_14_days_before_onset_of_illness' => $row['any_travel_within_14_days_before_onset_of_illness'],
+                'if_yes_where_in_detail' => $row['if_yes_where_in_detail'],
+
+                'DOnset' => EdcsImport::tDate($row['date_onse_of_illness']),
+                'post_tussive_vomiting' => $row['post_tussive_vomiting'],
+                'apnea_for_infants' => $row['apnea_for_infants'],
+                'paroxysms_of_coughing' => $row['paroxysms_of_coughing'],
+                'inspiratory_whooping' => $row['inspiratory_whooping'],
+                'coughing_lasting_at_least_2_weeks' => $row['coughing_lasting_at_least_2_weeks'],
+                'others' => $row['others'],
+                'others_specify' => $row['others_specify'],
+
                 'Outcome' => mb_strtoupper(substr($row['outcome'],0,1)),
+                'date_of_discharge' => EdcsImport::tDate($row['date_of_discharge']),
                 'DateDied' => EdcsImport::tDate($row['date_died']),
+
+                'administered_antibiotic_therapy' => $row['administered_antibiotic_therapy'],
+                'if_yes_date_health_facility' => EdcsImport::tDate($row['if_yes_date_health_facility_font_stylecolorred_font']),
+                'CaseClassification' => substr($row['caseclassification'],0,1),
 
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp']),
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
@@ -2838,6 +2873,8 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
             }
             else {
                 $table_params = $table_params + [
+                    'systemsent' => 1,
+                    'notify_email_sent' => 1,
                     'created_by' => auth()->user()->id,
                 ];
 
