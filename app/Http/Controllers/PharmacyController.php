@@ -446,7 +446,7 @@ class PharmacyController extends Controller
                 }
     
                 if($r->type_to_process == 'BOX') {
-                    if($find_substock->master_box_stock == 0) {
+                    if($find_substock->master_box_stock <= 0) {
                         return redirect()->back()
                         ->with('msg', 'Error: Item '.$find_substock->pharmacysupplymaster->name.' ran OUT OF STOCK.')
                         ->with('msgtype', 'warning');
@@ -458,7 +458,7 @@ class PharmacyController extends Controller
                     }
                 }
                 else {
-                    if($find_substock->master_piece_stock == 0) {
+                    if($find_substock->master_piece_stock <= 0) {
                         return redirect()->back()
                         ->with('msg', 'Error: Item '.$find_substock->pharmacysupplymaster->name.' ran OUT OF STOCK.')
                         ->with('msgtype', 'warning');
@@ -832,7 +832,7 @@ class PharmacyController extends Controller
             }
 
             if($r->type_to_process == 'BOX') {
-                if($find_substock->master_box_stock == 0) {
+                if($find_substock->master_box_stock <= 0) {
                     return redirect()->back()
                     ->with('msg', 'Error: Item '.$find_substock->pharmacysupplymaster->name.' ran OUT OF STOCK.')
                     ->with('msgtype', 'warning');
@@ -844,7 +844,7 @@ class PharmacyController extends Controller
                 }
             }
             else {
-                if($find_substock->master_piece_stock == 0) {
+                if($find_substock->master_piece_stock <= 0) {
                     return redirect()->back()
                     ->with('msg', 'Error: Item '.$find_substock->pharmacysupplymaster->name.' ran OUT OF STOCK.')
                     ->with('msgtype', 'warning');
