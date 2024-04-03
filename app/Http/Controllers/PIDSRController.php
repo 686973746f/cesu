@@ -5383,6 +5383,101 @@ class PIDSRController extends Controller
                 'age_display_string' => $age_display_string,
             ];
 
+            if($sel_disease == 'Pert') {
+                $alive_confirmed = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('Year', $sel_year)
+                ->where('MorbidityWeek', '<=', $sel_week)
+                ->where('system_outcome', 'ALIVE')
+                ->where('system_classification', 'CONFIRMED')
+                ->count();
+
+                $alive_negative = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('Year', $sel_year)
+                ->where('MorbidityWeek', '<=', $sel_week)
+                ->where('system_outcome', 'ALIVE')
+                ->where('system_classification', 'NEGATIVE')
+                ->count();
+
+                $alive_waitresult = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('Year', $sel_year)
+                ->where('MorbidityWeek', '<=', $sel_week)
+                ->where('system_outcome', 'ALIVE')
+                ->where('system_classification', 'NEGATIVE')
+                ->count();
+
+                $alive_suspect = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('Year', $sel_year)
+                ->where('MorbidityWeek', '<=', $sel_week)
+                ->where('system_outcome', 'ALIVE')
+                ->where('system_classification', 'SUSPECTED')
+                ->count();
+
+                $alive_probable = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('Year', $sel_year)
+                ->where('MorbidityWeek', '<=', $sel_week)
+                ->where('system_outcome', 'ALIVE')
+                ->where('system_classification', 'PROBABLE')
+                ->count();
+
+                $died_confirmed = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('Year', $sel_year)
+                ->where('MorbidityWeek', '<=', $sel_week)
+                ->where('system_outcome', 'DIED')
+                ->where('system_classification', 'CONFIRMED')
+                ->count();
+
+                $died_negative = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('Year', $sel_year)
+                ->where('MorbidityWeek', '<=', $sel_week)
+                ->where('system_outcome', 'DIED')
+                ->where('system_classification', 'NEGATIVE')
+                ->count();
+
+                $died_waitresult = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('Year', $sel_year)
+                ->where('MorbidityWeek', '<=', $sel_week)
+                ->where('system_outcome', 'DIED')
+                ->where('system_classification', 'NEGATIVE')
+                ->count();
+
+                $died_suspect = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('Year', $sel_year)
+                ->where('MorbidityWeek', '<=', $sel_week)
+                ->where('system_outcome', 'DIED')
+                ->where('system_classification', 'SUSPECTED')
+                ->count();
+
+                $died_probable = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('Year', $sel_year)
+                ->where('MorbidityWeek', '<=', $sel_week)
+                ->where('system_outcome', 'DIED')
+                ->where('system_classification', 'PROBABLE')
+                ->count();
+                
+                $returnVars = $returnVars + [
+                    'alive_confirmed' => $alive_confirmed,
+                    'alive_negative' => $alive_negative,
+                    'alive_waitresult' => $alive_waitresult,
+                    'alive_suspect' => $alive_suspect,
+                    'alive_probable' => $alive_probable,
+                    'died_confirmed' => $died_confirmed,
+                    'died_negative' => $died_negative,
+                    'died_waitresult' => $died_waitresult,
+                    'died_suspect' => $died_suspect,
+                    'died_probable' => $died_probable,
+                ];
+            }
+
             if(request()->input('print')) {
                 return view('pidsr.snaxv2.index_print', $returnVars);
             }
