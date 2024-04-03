@@ -21,12 +21,10 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-md-2">
-                    <div class="text-center">
-                        <img src="{{asset('assets/images/cesu_icon.png')}}" style="width: 8rem;" class="img-responsive">
-                    </div>
+                <div class="col-2 text-center">
+                    <img src="{{asset('assets/images/cesu_icon.png')}}" style="width: 8rem;" class="img-responsive">
                 </div>
-                <div class="col-md-6">
+                <div class="col-8 text-center">
                     <h6>Republic of the Philippines</h6>
                     <h6><b>GENERAL TRIAS CITY HEALTH OFFICE</b></h6>
                     <h6><b>CITY EPIDEMIOLOGY AND SURVEILLANCE UNIT (CESU)</b></h6>
@@ -34,23 +32,18 @@
                     <h6>Telephone No.: (046) 509-5289 / (046) 437-9195</h6>
                     <h6>Email: <a href="">cesu.gentrias@gmail.com</a></h6>
                 </div>
-                <div class="col-md-4">
-                    <table class="table table-bordered text-center">
-                        <tbody>
-                            <tr style="background-color: rgba(242,221,218,255)">
-                                <td><b>Surveillance Monitoring Dashboard</b></td>
-                            </tr>
-                            <tr>
-                                <td><h3><b>{{$flavor_title}}</b></h3></td>
-                            </tr>
-                            <tr>
-                                <td style="background-color: rgba(151,55,52,255)" class="text-white"><b>MW {{$sel_mweek}} (Jan 01 - {{$endDateBasedOnMw}})</b></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="col-2 text-center">
+                    <img src="{{asset('assets/images/cho_icon_large.png')}}" style="width: 8rem;" class="img-responsive">
                 </div>
             </div>
-            <hr>
+            <div class="row my-3" style="background-color: rgba(255,242,204,255)">
+                <div class="col-2"></div>
+                <div class="col-8 d-flex justify-content-center align-items-center text-center"><h5><b>{{mb_strtoupper($flavor_title)}} SURVEILLANCE REPORT</b></h5></div>
+                <div class="col-2 text-center">
+                    <h6>{{date('F d, Y')}}</h6>
+                    <h6>MW 1-{{$sel_mweek}}</h6>
+                </div>
+            </div>
             <ul>
                 <h6><b>Summary:</b></h6>
                 <li>There were {{$current_grand_total}} {{Str::plural('case', $current_grand_total)}} of {{$flavor_name}} reported for Morbidity Week 1-{{$sel_mweek}} (Jan 01 - {{$endDate->format('M d, Y')}}), with {{$death_count}} {{Str::plural('death', $death_count)}} (CFR {{($current_grand_total != 0) ? round($death_count / $current_grand_total * 100, 2) : 0}}%)</li>
@@ -77,9 +70,11 @@
                     <h5><b>Distribution of {{$flavor_name}} Cases by Morbidity Week</b></h5>
                     <h6>GENERAL TRIAS, MW{{$sel_mweek}}, {{$sel_year}}</h6>
                     <h6>N = {{$current_grand_total}}</h6>
-                    <canvas id="myChart" width="400" height="400"></canvas>
+                    <div>
+                    <canvas id="myChart" style="height: 500px"></canvas>
+                    </div>
                     <hr>
-                    <h5><b>Distribution of {{$flavor_name}} Cases by Barangay for the Previous 3 MWs</b></h5>
+                    <h5><b>Spot Map of {{$flavor_name}} Cases</b></h5>
                     @if($sel_disease != 'Pert')
                     <h6>GENERAL TRIAS, MW {{$sel_mweek-2}}-{{$sel_mweek}}, {{$sel_year}}</h6>
                     @else
@@ -136,8 +131,8 @@
                     @if($sel_disease == 'Pert')
                     <h5 class="mt-3"><b>{{$flavor_name}} Cases by Classification and Outcome</b></h5>
                     <h6>GENERAL TRIAS, Jan 01 - {{$endDateBasedOnMw}}</h6>
-                    <table class="table table-bordered">
-                        <thead class="thead-light">
+                    <table class="table table-bordered table-sm">
+                        <thead class="thead-light text-center">
                             <tr>
                                 <th>Outcome</th>
                                 <th>Confirmed</th>
@@ -150,7 +145,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td><b>Alive</b></td>
+                                <td><b class="text-success">Alive</b></td>
                                 <td class="text-center">{{$alive_confirmed}}</td>
                                 <td class="text-center">{{$alive_negative}}</td>
                                 <td class="text-center">{{$alive_waitresult}}</td>
@@ -167,7 +162,7 @@
                                 <td class="text-center">{{$died_probable}}</td>
                                 <td class="text-center"><b>{{$died_confirmed + $died_negative + $died_waitresult + $died_suspect + $died_probable}}</b></td>
                             </tr>
-                            <tr>
+                            <tr class="bg-light">
                                 <td><b>Total</b></td>
                                 <td class="text-center font-weight-bold">{{$alive_confirmed + $died_confirmed}}</td>
                                 <td class="text-center font-weight-bold">{{$alive_negative + $died_negative}}</td>
@@ -178,7 +173,6 @@
                             </tr>
                         </tbody>
                     </table>
-                    @endif
                     <div class="row">
                         <div class="col-6">
                             <h6 class="mb-5">Prepared by:</h6>
@@ -196,6 +190,7 @@
                         <h6><b>JONATHAN P. LUSECO, MD</b></h6>
                         <h6>City Health Officer II</h6>
                     </div>
+                    @endif
                 </div>
                 <div class="col-md-6">
                     <div class="card border-dark" style="background-color: rgba(242,221,218,255)">
@@ -282,14 +277,21 @@
                     <h5><b>Top 10 Barangays with {{$flavor_name}} Cases</b></h5>
                     <h6>GENERAL TRIAS, MW 1-{{$sel_mweek}}, {{$sel_year}}</h6>
                     <h6>N={{$current_grand_total}}</h6>
-                    <div style="height: 500px">
+                    <div style="height: 400px">
                     <canvas id="topten" width="" height=""></canvas>
                     </div>
                     @if($sel_disease == 'Pert')
-                    <h5 class="mt-3"><b>Proportion of Cases by Sex and Age Group</b></h5>
+                    <h5 class="mt-3"><b>Proportion of {{$flavor_name}} Cases by Sex and Age</b></h5>
                     <h6>GENERAL TRIAS, MW 1-{{$sel_mweek}}, {{$sel_year}}</h6>
                     <h6>N={{$current_grand_total}}</h6>
                     <canvas id="ageGroup" width="50" height=""></canvas>
+                    <hr>
+                    <h5 class="mt-3"><b>Vaccination Status of {{$flavor_name}} Cases</b></h5>
+                    <h6>GENERAL TRIAS, Jan 01 - {{$endDateBasedOnMw}}</h6>
+                    <div class="d-flex justify-content-center align-items-center text-center">
+                        <canvas id="vaccinePie" style="width: 250px;"></canvas>
+                    </div>
+                    
                     @endif
                 </div>
             </div>
@@ -359,9 +361,7 @@
                     <h5><b>Proportion of Cases by Case Classification</b></h5>
                     <h6>GENERAL TRIAS, MW 1-{{$sel_mweek}}, {{$sel_year}}</h6>
                     <h6>N={{$current_grand_total}}</h6>
-                    <div class="chart-container" style="position: relative; height:60vh; width:80vw">
-                    <canvas id="pieChart"></canvas>
-                    </div>
+                    <canvas id="pieChart" style="width: 500px;"></canvas>
                     <hr>
                     @if($sel_disease != 'Pert')
                     <h5><b>Proportion of Cases by Sex and Age Group</b></h5>
@@ -555,23 +555,27 @@
 @php
 //FOR PIE GRAPH
 $finalpie_titles = [];
+$finalpie_counts = [];
 
 foreach($classification_titles as $ind => $ctitle) {
-    if($ctitle == 'S') {
-        $ctitle_str = 'SUSPECTED';
-    }
-    else if($ctitle == 'P') {
-        $ctitle_str = 'PROBABLE';
-    }
-    else if($ctitle == 'C') {
-        $ctitle_str = 'CONFIRMED';
-    }
-    else {
-        $ctitle_str = $ctitle;
-    }
+    if($classification_counts[$ind] != 0) {
+        if($ctitle == 'S') {
+            $ctitle_str = 'SUSPECTED';
+        }
+        else if($ctitle == 'P') {
+            $ctitle_str = 'PROBABLE';
+        }
+        else if($ctitle == 'C') {
+            $ctitle_str = 'CONFIRMED';
+        }
+        else {
+            $ctitle_str = $ctitle;
+        }
 
-    $cgetpercentage = ($current_grand_total != 0) ? round($classification_counts[$ind] / $current_grand_total * 100) : 0;
-    $finalpie_titles[] = $ctitle_str.', '.$cgetpercentage.'% ('.$classification_counts[$ind].')';
+        $cgetpercentage = ($current_grand_total != 0) ? round($classification_counts[$ind] / $current_grand_total * 100) : 0;
+        $finalpie_titles[] = $ctitle_str.' ('.$classification_counts[$ind].')';
+        $finalpie_counts[] = $classification_counts[$ind];
+    }
 }
 @endphp
 
@@ -617,7 +621,7 @@ foreach($classification_titles as $ind => $ctitle) {
         data: {
             labels: ['MW1', 'MW2', 'MW3', 'MW4', 'MW5', 'MW6', 'MW7', 'MW8', 'MW9', 'MW10', 'MW11', 'MW12', 'MW13', 'MW14', 'MW15', 'MW16', 'MW17', 'MW18', 'MW19', 'MW20', 'MW21', 'MW22', 'MW23', 'MW24', 'MW25', 'MW26', 'MW27', 'MW28', 'MW29', 'MW30', 'MW31', 'MW32', 'MW33', 'MW34', 'MW35', 'MW36', 'MW37', 'MW38', 'MW39', 'MW40', 'MW41', 'MW42', 'MW43', 'MW44', 'MW45', 'MW46', 'MW47', 'MW48', 'MW49', 'MW50', 'MW51', 'MW52'], // Replace with your actual labels
             datasets: [{
-                label: 'Current Year - {{$sel_year}}',
+                label: '{{$sel_year}}',
                 data: barData,
                 backgroundColor: 'rgba(255, 236, 0, 1)', // Customize bar color
                 borderColor: 'rgba(0, 0, 0, 1)', // Customize border color
@@ -630,7 +634,8 @@ foreach($classification_titles as $ind => $ctitle) {
                 borderColor: 'rgba(255, 0, 0, 1)', // Customize line color
                 borderWidth: 2,
                 type: 'line',
-                lineTension: 0 // Remove line tension for straight lines
+                lineTension: 0, // Remove line tension for straight lines
+                pointRadius: 0,  // Remove the circles
             },
             {
                 label: 'Alert Threshold',
@@ -639,7 +644,8 @@ foreach($classification_titles as $ind => $ctitle) {
                 borderColor: 'rgba(8, 0, 255, 0.8)', // Customize dotted line color
                 borderWidth: 2,
                 type: 'line',
-                borderDash: [5, 5] // Make the line dotted
+                borderDash: [5, 5], // Make the line dotted
+                pointRadius: 0,  // Remove the circles
             },
             ]
         },
@@ -668,7 +674,7 @@ foreach($classification_titles as $ind => $ctitle) {
     });
 
     var pieTitles = {!! json_encode($finalpie_titles) !!};
-    var pieDatas = {!! json_encode($classification_counts) !!};
+    var pieDatas = {!! json_encode($finalpie_counts) !!};
 
     var ctx = document.getElementById('pieChart').getContext('2d');
     var chart = new Chart(ctx, {
@@ -684,6 +690,7 @@ foreach($classification_titles as $ind => $ctitle) {
         },
 
         options: {
+            responsive: false,
             title: {
                 text: "My Chart",
                 display: true,
@@ -699,19 +706,87 @@ foreach($classification_titles as $ind => $ctitle) {
                     position: 'left',
                 },
                 datalabels: {
-                display: false
+                display: true,
+                formatter: (value, ctx) => {
+                    const datapoints = ctx.chart.data.datasets[0].data
+                    const total = datapoints.reduce((total, datapoint) => total + datapoint, 0)
+                    const percentage = value / total * 100
+                    return percentage.toFixed(0) + "%";
+                },
+                }
+            },
+            animation: {}
+        }
+    });
+    
+    @if($sel_disease == 'Pert')
+    @php
+    $vaccinepie_titles = [];
+    $vaccinepie_counts = [];
+    foreach($vaccine_array as $v) {
+        if($v['count'] != 0) {
+            $vaccinepie_titles[] = $v['name'];
+            $vaccinepie_counts[] = $v['count'];
+        }
+    }
+    @endphp
+
+    var pieTitles = {!! json_encode($vaccinepie_titles) !!};
+    var pieDatas = {!! json_encode($vaccinepie_counts) !!};
+
+    var ctx = document.getElementById('vaccinePie').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'pie',
+
+        data: {
+            labels: pieTitles,
+            datasets: [{
+                label: "My Chart",
+                data: pieDatas,
+                //backgroundColor: ['rgba(148,55,52,255)', 'rgba(119,146,61,255)', 'rgba(166,167,167,255)']
+            }]
+        },
+
+        options: {
+            responsive: false,
+            title: {
+                text: "My Chart",
+                display: true,
+            },
+            events: [],
+            tooltips: {
+                mode: ''
+            },
+            layout: {},
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom',
+                },
+                datalabels: {
+                display: true,
+                formatter: (value, ctx) => {
+                    const datapoints = ctx.chart.data.datasets[0].data
+                    const total = datapoints.reduce((total, datapoint) => total + datapoint, 0)
+                    const percentage = value / total * 100
+                    return percentage.toFixed(0) + "%";
+                },
                 }
             },
             animation: {}
         }
     });
 
+    @endif
+
     const labels = [];
     const data = [];
 
     @foreach($top10Brgys as $barangay)
+        @if($barangay['brgy_grand_total_cases'] != 0)
         labels.push("{{ $barangay['brgy_name'] }}");
         data.push({{ $barangay['brgy_grand_total_cases'] }});
+        @endif
     @endforeach
 
     var ctx = document.getElementById('topten').getContext('2d');

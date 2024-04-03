@@ -5463,7 +5463,48 @@ class PIDSRController extends Controller
                 ->where('system_outcome', 'DIED')
                 ->where('system_classification', 'PROBABLE')
                 ->count();
-                
+            
+                //Penta Vaccine Counter
+                $penta1 = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('Year', $sel_year)
+                ->where('if_yes_number_of_total_doses_health_facility', 1)
+                ->count();
+
+                $penta2 = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('Year', $sel_year)
+                ->where('if_yes_number_of_total_doses_health_facility', 2)
+                ->count();
+
+                $penta3 = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('Year', $sel_year)
+                ->where('if_yes_number_of_total_doses_health_facility', 3)
+                ->count();
+
+                $vaccine_array = [];
+
+                $vaccine_array[] = [
+                    'name' => 'No Vaccine',
+                    'count' =>  $current_grand_total - ($penta1 + $penta2 + $penta3),
+                ];
+
+                $vaccine_array[] = [
+                    'name' => 'Penta1',
+                    'count' => $penta1,
+                ];
+
+                $vaccine_array[] = [
+                    'name' => 'Penta2',
+                    'count' => $penta2,
+                ];
+
+                $vaccine_array[] = [
+                    'name' => 'Penta3',
+                    'count' => $penta3,
+                ];
+
                 $returnVars = $returnVars + [
                     'alive_confirmed' => $alive_confirmed,
                     'alive_negative' => $alive_negative,
@@ -5475,6 +5516,7 @@ class PIDSRController extends Controller
                     'died_waitresult' => $died_waitresult,
                     'died_suspect' => $died_suspect,
                     'died_probable' => $died_probable,
+                    'vaccine_array' => $vaccine_array,
                 ];
             }
 
