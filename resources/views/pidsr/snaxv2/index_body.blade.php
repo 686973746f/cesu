@@ -41,7 +41,7 @@
                 <div class="col-8 d-flex justify-content-center align-items-center text-center"><h5><b>{{mb_strtoupper($flavor_title)}} SURVEILLANCE REPORT</b></h5></div>
                 <div class="col-2 text-center">
                     <h6>{{date('F d, Y')}}</h6>
-                    <h6>MW 1-{{$sel_mweek}}</h6>
+                    <h6>Morbidity Week 1-{{$sel_mweek}}</h6>
                 </div>
             </div>
             <ul>
@@ -137,7 +137,7 @@
                                 <th>Outcome</th>
                                 <th>Confirmed</th>
                                 <th>Negative</th>
-                                <th>Waiting Result</th>
+                                <th>Probable/Waiting for Result</th>
                                 <th>Suspect</th>
                                 <th>Probable</th>
                                 <th>Total</th>
@@ -193,6 +193,7 @@
                     @endif
                 </div>
                 <div class="col-md-6">
+                    @if($sel_disease != 'Pert')
                     <div class="card border-dark" style="background-color: rgba(242,221,218,255)">
                         <div class="card-body">
                             <table class="table table-sm">
@@ -239,7 +240,6 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            @if($sel_disease != 'Pert')
                             <table class="table table-sm">
                                 <thead>
                                     <tr>
@@ -270,10 +270,10 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            @endif
                         </div>
                     </div>
                     <hr>
+                    @endif
                     <h5><b>Top 10 Barangays with {{$flavor_name}} Cases</b></h5>
                     <h6>GENERAL TRIAS, MW 1-{{$sel_mweek}}, {{$sel_year}}</h6>
                     <h6>N={{$current_grand_total}}</h6>
