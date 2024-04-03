@@ -2873,8 +2873,8 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
             }
             else {
                 $table_params = $table_params + [
-                    'systemsent' => 1,
-                    'notify_email_sent' => 1,
+                    //'systemsent' => 1,
+                    //'notify_email_sent' => 1,
                     'created_by' => auth()->user()->id,
                 ];
 
