@@ -5158,11 +5158,66 @@ class PIDSRController extends Controller
             */
 
             //AGE GROUP
-            $min_age = $modelClass::where('enabled', 1)
+            //Search if there is Zero Age Years
+            $search_zeroage = $modelClass::where('enabled', 1)
             ->where('match_casedef', 1)
             ->where('Year', $sel_year)
             ->where('MorbidityWeek', '<=', $sel_week)
-            ->min('AgeYears');
+            ->where('AgeYears', 0)
+            ->first();
+
+            if($search_zeroage) {
+                $min_age = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('Year', $sel_year)
+                ->where('MorbidityWeek', '<=', $sel_week)
+                ->min('AgeMons');
+
+                $min_age = $min_age / 100;
+            }
+            else {
+                $min_age = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('Year', $sel_year)
+                ->where('MorbidityWeek', '<=', $sel_week)
+                ->min('AgeYears');
+            }
+
+            $min_age_display = $min_age;
+
+            if($min_age_display == 0.01) {
+                $min_age_display = '1 Month';
+            }
+            else if($min_age_display == 0.02) {
+                $min_age_display = '2 Months';
+            }
+            else if($min_age_display == 0.03) {
+                $min_age_display = '3 Months';
+            }
+            else if($min_age_display == 0.04) {
+                $min_age_display = '4 Months';
+            }
+            else if($min_age_display == 0.05) {
+                $min_age_display = '5 Months';
+            }
+            else if($min_age_display == 0.06) {
+                $min_age_display = '6 Months';
+            }
+            else if($min_age_display == 0.07) {
+                $min_age_display = '7 Months';
+            }
+            else if($min_age_display == 0.08) {
+                $min_age_display = '8 Months';
+            }
+            else if($min_age_display == 0.09) {
+                $min_age_display = '9 Months';
+            }
+            else if($min_age_display == 0.10) {
+                $min_age_display = '10 Months';
+            }
+            else if($min_age_display == 0.11) {
+                $min_age_display = '11 Months';
+            }
 
             $max_age = $modelClass::where('enabled', 1)
             ->where('match_casedef', 1)
@@ -5172,25 +5227,102 @@ class PIDSRController extends Controller
 
             //GET MEDIAN
 
+            /*
             $ages = $modelClass::where('enabled', 1)
             ->where('match_casedef', 1)
             ->where('Year', $sel_year)
             ->where('MorbidityWeek', '<=', $sel_week)
             ->pluck('AgeYears')
             ->toArray();
+            */
+            
+            $age_array = [];
+
+            $fetch_age = $modelClass::where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where('Year', $sel_year)
+            ->where('MorbidityWeek', '<=', $sel_week)
+            ->get();
+
+            foreach($fetch_age as $fa) {
+                if($fa->AgeYears == 0) {
+                    $age_array[] = $fa->AgeMons / 100;
+                }
+                else {
+                    $age_array[] = $fa->AgeYears;
+                }
+            }
 
             // Sort the ages
-            sort($ages);
+            /*
+            OLD MEDIAN CODE
+            sort($age_array);
 
-            $count = count($ages);
+            $count = count($age_array);
             $median_age = 0;
 
             if ($count % 2 == 0) {
                 // If the count of ages is even, take the average of the middle two values
-                $median_age = ($ages[($count / 2) - 1] + $ages[$count / 2]) / 2;
+                $median_age = ($age_array[($count / 2) - 1] + $age_array[$count / 2]) / 2;
             } else {
                 // If the count of ages is odd, take the middle value
-                $median_age = $ages[($count - 1) / 2];
+                $median_age = $age_array[($count - 1) / 2];
+            }
+            */
+            sort($age_array);
+
+            $count = count($age_array);
+            $middle = floor(($count-1)/2);
+
+            /*
+            if ($count % 2) {
+                $median_age = $age_array[$middle];
+            } else {
+                $low = $age_array[$middle];
+                $high = $age_array[$middle + 1];
+                $median_age = (($low + $high) / 2);
+            }
+            */
+
+            $median_age = $age_array[$middle];
+
+            $median_display = $median_age;
+
+            if($median_display == 0.01) {
+                $median_display = '1 Month';
+            }
+            else if($median_display == 0.02) {
+                $median_display = '2 Months';
+            }
+            else if($median_display == 0.03) {
+                $median_display = '3 Months';
+            }
+            else if($median_display == 0.04) {
+                $median_display = '4 Months';
+            }
+            else if($median_display == 0.05) {
+                $median_display = '5 Months';
+            }
+            else if($median_display == 0.06) {
+                $median_display = '6 Months';
+            }
+            else if($median_display == 0.07) {
+                $median_display = '7 Months';
+            }
+            else if($median_display == 0.08) {
+                $median_display = '8 Months';
+            }
+            else if($median_display == 0.09) {
+                $median_display = '9 Months';
+            }
+            else if($median_display == 0.10) {
+                $median_display = '10 Months';
+            }
+            else if($median_display == 0.11) {
+                $median_display = '11 Months';
+            }
+            else {
+                $median_display = $median_display.' '.Str::plural('years', $median_display);
             }
 
             $ag_male = [];
@@ -5274,6 +5406,12 @@ class PIDSRController extends Controller
 
             // Get the end date of the week
             $endDate = Carbon::now()->isoWeekYear($sel_year)->isoWeek($sel_week)->endOfWeek();
+            if($sel_week == date('W')) {
+                $flavor_enddate = Carbon::now();
+            }
+            else {
+                $flavor_enddate = $endDate;
+            }
 
             if($sel_week == 1) {
                 $mWeekCalendarDate = Carbon::parse($sel_year.'-01-01');
@@ -5381,10 +5519,37 @@ class PIDSRController extends Controller
                 'set_display_params' => $set_display_params,
                 'flavor_name' => $flavor_name,
                 'age_display_string' => $age_display_string,
+                'flavor_enddate' => $flavor_enddate,
+                'median_display' => $median_display,
+                'min_age_display' => $min_age_display,
             ];
 
             if($sel_disease == 'Pert') {
+                $alive_suspect = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('Year', $sel_year)
+                ->where('MorbidityWeek', '<=', $sel_week)
+                ->where('system_outcome', 'ALIVE')
+                ->where('CaseClassification', 'S')
+                ->count();
+
+                $alive_probable = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('Year', $sel_year)
+                ->where('MorbidityWeek', '<=', $sel_week)
+                ->where('system_outcome', 'ALIVE')
+                ->where('CaseClassification', 'P')
+                ->count();
+
                 $alive_confirmed = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('Year', $sel_year)
+                ->where('MorbidityWeek', '<=', $sel_week)
+                ->where('system_outcome', 'ALIVE')
+                ->where('CaseClassification', 'C')
+                ->count();
+
+                $alive_positive = $modelClass::where('enabled', 1)
                 ->where('match_casedef', 1)
                 ->where('Year', $sel_year)
                 ->where('MorbidityWeek', '<=', $sel_week)
@@ -5405,26 +5570,50 @@ class PIDSRController extends Controller
                 ->where('Year', $sel_year)
                 ->where('MorbidityWeek', '<=', $sel_week)
                 ->where('system_outcome', 'ALIVE')
-                ->where('system_classification', 'NEGATIVE')
+                ->where('system_classification', 'WAITING FOR RESULT')
                 ->count();
 
-                $alive_suspect = $modelClass::where('enabled', 1)
+                $alive_noswab = $modelClass::where('enabled', 1)
                 ->where('match_casedef', 1)
                 ->where('Year', $sel_year)
                 ->where('MorbidityWeek', '<=', $sel_week)
                 ->where('system_outcome', 'ALIVE')
-                ->where('system_classification', 'SUSPECTED')
+                ->where('system_classification', 'NO SWAB')
                 ->count();
 
-                $alive_probable = $modelClass::where('enabled', 1)
+                $alive_unknown = $modelClass::where('enabled', 1)
                 ->where('match_casedef', 1)
                 ->where('Year', $sel_year)
                 ->where('MorbidityWeek', '<=', $sel_week)
                 ->where('system_outcome', 'ALIVE')
-                ->where('system_classification', 'PROBABLE')
+                ->where('system_classification', 'UNKNOWN')
+                ->count();
+
+                $died_suspect = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('Year', $sel_year)
+                ->where('MorbidityWeek', '<=', $sel_week)
+                ->where('system_outcome', 'DIED')
+                ->where('CaseClassification', 'S')
+                ->count();
+
+                $died_probable = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('Year', $sel_year)
+                ->where('MorbidityWeek', '<=', $sel_week)
+                ->where('system_outcome', 'DIED')
+                ->where('CaseClassification', 'P')
                 ->count();
 
                 $died_confirmed = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('Year', $sel_year)
+                ->where('MorbidityWeek', '<=', $sel_week)
+                ->where('system_outcome', 'DIED')
+                ->where('CaseClassification', 'C')
+                ->count();
+
+                $died_positive = $modelClass::where('enabled', 1)
                 ->where('match_casedef', 1)
                 ->where('Year', $sel_year)
                 ->where('MorbidityWeek', '<=', $sel_week)
@@ -5445,23 +5634,23 @@ class PIDSRController extends Controller
                 ->where('Year', $sel_year)
                 ->where('MorbidityWeek', '<=', $sel_week)
                 ->where('system_outcome', 'DIED')
-                ->where('system_classification', 'NEGATIVE')
+                ->where('system_classification', 'WAITING FOR RESULT')
                 ->count();
 
-                $died_suspect = $modelClass::where('enabled', 1)
+                $died_noswab = $modelClass::where('enabled', 1)
                 ->where('match_casedef', 1)
                 ->where('Year', $sel_year)
                 ->where('MorbidityWeek', '<=', $sel_week)
                 ->where('system_outcome', 'DIED')
-                ->where('system_classification', 'SUSPECTED')
+                ->where('system_classification', 'NO SWAB')
                 ->count();
 
-                $died_probable = $modelClass::where('enabled', 1)
+                $died_unknown = $modelClass::where('enabled', 1)
                 ->where('match_casedef', 1)
                 ->where('Year', $sel_year)
                 ->where('MorbidityWeek', '<=', $sel_week)
                 ->where('system_outcome', 'DIED')
-                ->where('system_classification', 'PROBABLE')
+                ->where('system_classification', 'UNKNOWN')
                 ->count();
             
                 //Penta Vaccine Counter
@@ -5541,18 +5730,25 @@ class PIDSRController extends Controller
                 $died_unvaccinated = $death_count - $died_penta1 - $died_penta2 - $died_penta3;
 
                 $returnVars = $returnVars + [
-                    'alive_confirmed' => $alive_confirmed,
-                    'alive_negative' => $alive_negative,
-                    'alive_waitresult' => $alive_waitresult,
                     'alive_suspect' => $alive_suspect,
                     'alive_probable' => $alive_probable,
-                    'died_confirmed' => $died_confirmed,
-                    'died_negative' => $died_negative,
-                    'died_waitresult' => $died_waitresult,
+                    'alive_confirmed' => $alive_confirmed,
+                    'alive_positive' => $alive_positive,
+                    'alive_negative' => $alive_negative,
+                    'alive_waitresult' => $alive_waitresult,
+                    'alive_noswab' => $alive_noswab,
+                    'alive_unknown' => $alive_unknown,
+                    
                     'died_suspect' => $died_suspect,
                     'died_probable' => $died_probable,
+                    'died_confirmed' => $died_confirmed,
+                    'died_positive' => $died_positive,
+                    'died_negative' => $died_negative,
+                    'died_waitresult' => $died_waitresult,
+                    'died_noswab' => $died_noswab,
+                    'died_unknown' => $died_unknown,
+                    
                     'vaccine_array' => $vaccine_array,
-
                     'died_unvaccinated' => $died_unvaccinated,
                     'died_penta1' => $died_penta1,
                     'died_penta2' => $died_penta2,

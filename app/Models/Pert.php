@@ -45,10 +45,10 @@ class Pert extends Model
 
     public function getAgeString() {
         if($this->AgeYears == 0) {
-            return $this->AgeMons.' '.Str::plural('month', $this->AgeMons).' old';
+            return $this->AgeMons.' '.Str::plural('month', $this->AgeMons);
         }
         else {
-            return $this->AgeYears.' '.Str::plural('year', $this->AgeYears).' old';
+            return $this->AgeYears.' '.Str::plural('year', $this->AgeYears);
         }
     }
 }

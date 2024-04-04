@@ -457,7 +457,7 @@
     $('#snax_year').change(function (e) { 
         e.preventDefault();
         if($(this).val() == {{date("Y")}}) {
-            $('#snax_mweek').attr('max', {{(int)date('W', strtotime('-1 Week'))}});
+            $('#snax_mweek').attr('max', {{(int)date('W')}});
         }
         else {
             $('#snax_mweek').attr('max', 52);
