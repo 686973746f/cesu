@@ -45,8 +45,32 @@
                 </div>
             </div>
             <ul>
-                <h6><b>Summary:</b></h6>
+                <h6><b><u>Summary:</u></b></h6>
                 <li>There were {{$current_grand_total}} {{Str::plural('case', $current_grand_total)}} of {{$flavor_name}} reported for Morbidity Week 1-{{$sel_mweek}} (Jan 01 - {{$endDate->format('M d, Y')}}), with {{$death_count}} {{Str::plural('death', $death_count)}} (CFR {{($current_grand_total != 0) ? round($death_count / $current_grand_total * 100, 2) : 0}}%)</li>
+                @if($death_count != 0 && $sel_disease == 'Pert')
+                <li>Profile of death/s:
+                    <ul>
+                        <li>There were {{$death_count}} deaths, @foreach($died_age_list as $da){{($loop->last) ? ' and ' : ''}}{{$da}}{{($loop->last) ? '.' : ', '}}@endforeach</li>
+                        <li>Deaths were from
+                            @foreach($died_brgy_list as $db)
+                            Brgy. {{$db}}{{($loop->last) ? '.' : ','}}
+                            @endforeach
+                        </li>
+                        <li>{{($died_unvaccinated == $death_count) ? 'All ' : ''}}{{$died_unvaccinated}} {{Str::plural('death', $died_unvaccinated)}} were unvaccinated. {{(($died_penta1 + $died_penta2 + $died_penta3) != 0) ? 'And' : ''}}
+                        @if($died_penta1 != 0)
+                        {{$died_penta1}} {{Str::plural('death', $died_penta1)}} were vaccinated with Penta1.
+                        @endif
+                        @if($died_penta2 != 0)
+                        {{$died_penta2}} {{Str::plural('death', $died_penta2)}} were vaccinated with Penta2.
+                        @endif
+                        @if($died_penta3 != 0)
+                        {{$died_penta3}} {{Str::plural('death', $died_penta3)}} were vaccinated with Penta3.
+                        @endif
+                        </li>
+                        <li>Lab Results were: {{($died_confirmed != 0) ? $died_confirmed.' Confirmed. ' : ''}}{{($died_negative != 0) ? $died_negative.' Negative. ' : ''}}{{($died_waitresult != 0) ? $died_waitresult.' Waiting for Result. ' : ''}}</li>
+                    </ul>
+                </li>
+                @endif
                 @if($current_grand_total < $previous_grand_total)
                 <li>This year's number of cases is {{round(100 - ($current_grand_total / $previous_grand_total * 100))}}% lower compared to the same period last year ({{$previous_grand_total}} cases).</li>
                 @else
@@ -68,19 +92,17 @@
             <div class="row">
                 <div class="col-md-6">
                     <h5><b>Distribution of {{$flavor_name}} Cases by Morbidity Week</b></h5>
-                    <h6>GENERAL TRIAS, MW{{$sel_mweek}}, {{$sel_year}}</h6>
-                    <h6>N = {{$current_grand_total}}</h6>
+                    <h6>GENERAL TRIAS, MW{{$sel_mweek}}, {{$sel_year}} (N={{$current_grand_total}})</h6>
                     <div>
                     <canvas id="myChart" style="height: 500px"></canvas>
                     </div>
                     <hr>
                     <h5><b>Spot Map of {{$flavor_name}} Cases</b></h5>
                     @if($sel_disease != 'Pert')
-                    <h6>GENERAL TRIAS, MW {{$sel_mweek-2}}-{{$sel_mweek}}, {{$sel_year}}</h6>
+                    <h6>GENERAL TRIAS, MW {{$sel_mweek-2}}-{{$sel_mweek}}, {{$sel_year}} (N={{$threemws_total}})</h6>
                     @else
-                    <h6>GENERAL TRIAS, MW 1-{{$sel_mweek}}, {{$sel_year}}</h6>
+                    <h6>GENERAL TRIAS, MW 1-{{$sel_mweek}}, {{$sel_year}} (N={{$current_grand_total}})</h6>
                     @endif
-                    <h6>N={{$threemws_total}}</h6>
                     @php
                     $pob_count =
                     collect($brgy_cases_array)->firstWhere('brgy_name', 'ARNALDO POB. (BGY. 7)')[$map_count] +
@@ -129,47 +151,49 @@
                         <h6><span style="color: rgba(150,0,50,255);">■</span> &nbsp;&nbsp;&nbsp;>= 4 Cases</h6>
                     </div>
                     @if($sel_disease == 'Pert')
-                    <h5 class="mt-3"><b>{{$flavor_name}} Cases by Classification and Outcome</b></h5>
-                    <h6>GENERAL TRIAS, Jan 01 - {{$endDateBasedOnMw}}</h6>
+                    <h5 class="mt-3"><b>{{$flavor_name}} Cases by Classification, Outcome, and Lab Results</b></h5>
+                    <h6>GENERAL TRIAS, Jan 01 - {{$endDateBasedOnMw}} (N={{$current_grand_total}})</h6>
                     <table class="table table-bordered table-sm">
                         <thead class="thead-light text-center">
+                            <th rowspan="2">Outcome</th>
+                            <th colspan="2">Classification</th>
+                            <th colspan="3">Lab Result</th>
+                            <th rowspan="2">Total</th>
                             <tr>
-                                <th>Outcome</th>
+                                <th>Suspected</th>
+                                <th>Probable</th>
                                 <th>Confirmed</th>
                                 <th>Negative</th>
-                                <th>Probable/Waiting for Result</th>
-                                <th>Suspect</th>
-                                <th>Probable</th>
-                                <th>Total</th>
+                                <th>Waiting for Result</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td><b class="text-success">Alive</b></td>
+                                <td class="text-center">{{$alive_suspect}}</td>
+                                <td class="text-center">{{$alive_probable}}</td>
                                 <td class="text-center">{{$alive_confirmed}}</td>
                                 <td class="text-center">{{$alive_negative}}</td>
                                 <td class="text-center">{{$alive_waitresult}}</td>
-                                <td class="text-center">{{$alive_suspect}}</td>
-                                <td class="text-center">{{$alive_probable}}</td>
                                 <td class="text-center"><b>{{$alive_confirmed + $alive_negative + $alive_waitresult + $alive_suspect + $alive_probable}}</b></td>
                             </tr>
                             <tr>
                                 <td><b class="text-danger">Died</b></td>
+                                <td class="text-center">{{$died_suspect}}</td>
+                                <td class="text-center">{{$died_probable}}</td>
                                 <td class="text-center">{{$died_confirmed}}</td>
                                 <td class="text-center">{{$died_negative}}</td>
                                 <td class="text-center">{{$died_waitresult}}</td>
-                                <td class="text-center">{{$died_suspect}}</td>
-                                <td class="text-center">{{$died_probable}}</td>
                                 <td class="text-center"><b>{{$died_confirmed + $died_negative + $died_waitresult + $died_suspect + $died_probable}}</b></td>
                             </tr>
                             <tr class="bg-light">
                                 <td><b>Total</b></td>
+                                <td class="text-center font-weight-bold">{{$alive_suspect + $died_suspect}}</td>
+                                <td class="text-center font-weight-bold">{{$alive_probable + $died_probable}}</td>
                                 <td class="text-center font-weight-bold">{{$alive_confirmed + $died_confirmed}}</td>
                                 <td class="text-center font-weight-bold">{{$alive_negative + $died_negative}}</td>
                                 <td class="text-center font-weight-bold">{{$alive_waitresult + $died_waitresult}}</td>
-                                <td class="text-center font-weight-bold">{{$alive_suspect + $died_suspect}}</td>
-                                <td class="text-center font-weight-bold">{{$alive_probable + $died_probable}}</td>
-                                <td class="text-center font-weight-bold"><b>{{$alive_confirmed + $alive_negative + $alive_waitresult + $alive_suspect + $alive_probable + $died_confirmed + $died_negative + $died_waitresult + $died_suspect + $died_probable}}</b></td>
+                                <td class="text-center font-weight-bold">{{$alive_confirmed + $alive_negative + $alive_waitresult + $alive_suspect + $alive_probable + $died_confirmed + $died_negative + $died_waitresult + $died_suspect + $died_probable}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -177,7 +201,7 @@
                         <div class="col-6">
                             <h6 class="mb-5">Prepared by:</h6>
                             <h6><b>CHRISTIAN JAMES M. HISTORILLO</b></h6>
-                            <h6>Encoder</h6>
+                            <h6>J.O Encoder</h6>
                         </div>
                         <div class="col-6">
                             <h6 class="mb-5">Noted by:</h6>
@@ -275,15 +299,13 @@
                     <hr>
                     @endif
                     <h5><b>Top 10 Barangays with {{$flavor_name}} Cases</b></h5>
-                    <h6>GENERAL TRIAS, MW 1-{{$sel_mweek}}, {{$sel_year}}</h6>
-                    <h6>N={{$current_grand_total}}</h6>
+                    <h6>GENERAL TRIAS, MW 1-{{$sel_mweek}}, {{$sel_year}} (N={{$current_grand_total}})</h6>
                     <div style="height: 400px">
                     <canvas id="topten" width="" height=""></canvas>
                     </div>
                     @if($sel_disease == 'Pert')
                     <h5 class="mt-3"><b>Proportion of {{$flavor_name}} Cases by Sex and Age</b></h5>
-                    <h6>GENERAL TRIAS, MW 1-{{$sel_mweek}}, {{$sel_year}}</h6>
-                    <h6>N={{$current_grand_total}}</h6>
+                    <h6>GENERAL TRIAS, MW 1-{{$sel_mweek}}, {{$sel_year}} (N={{$current_grand_total}})</h6>
                     <canvas id="ageGroup" width="50" height=""></canvas>
                     <hr>
                     <h5 class="mt-3"><b>Vaccination Status of {{$flavor_name}} Cases</b></h5>
@@ -505,7 +527,7 @@
                                         <td>
                                             <img src="{{asset('assets/images/ANALYN_PIRMA.png')}}" class="img-fluid" style="margin-bottom:-60px;width: 20rem;margin-left:-100px;" id="signature1">
                                             <h6><b><u>ANALYN C. BARZAGA</u></b></h6>
-                                            <h6><small>PIDSR Encoder</small></h6>
+                                            <h6><small>PIDSR J.O Encoder</small></h6>
                                         </td>
                                     </tr>
                                     <tr>

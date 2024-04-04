@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Pert extends Model
 {
@@ -40,5 +41,14 @@ class Pert extends Model
         }
 
         return $full;
+    }
+
+    public function getAgeString() {
+        if($this->AgeYears == 0) {
+            return $this->AgeMons.' '.Str::plural('month', $this->AgeMons).' old';
+        }
+        else {
+            return $this->AgeYears.' '.Str::plural('year', $this->AgeYears).' old';
+        }
     }
 }

@@ -5505,6 +5505,41 @@ class PIDSRController extends Controller
                     'count' => $penta3,
                 ];
 
+                $get_died = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('Year', $sel_year)
+                ->where('MorbidityWeek', '<=', $sel_week)
+                ->where('system_outcome', 'DIED')
+                ->get();
+
+                $died_brgy_list = [];
+                $died_age_list = [];
+
+                $died_unvaccinated = 0;
+                $died_penta1 = 0;
+                $died_penta2 = 0;
+                $died_penta3 = 0;
+
+                foreach($get_died as $gd) {
+                    if(!in_array($gd->Barangay, $died_brgy_list)) {
+                        $died_brgy_list[] = $gd->Barangay;
+                    }
+
+                    $died_age_list[] = $gd->getAgeString();
+
+                    if($gd->if_yes_number_of_total_doses_health_facility == 1) {
+                        $died_penta1++;
+                    }
+                    else if($gd->if_yes_number_of_total_doses_health_facility == 2) {
+                        $died_penta2++;
+                    }
+                    else if($gd->if_yes_number_of_total_doses_health_facility == 3) {
+                        $died_penta3++;
+                    }
+                }
+
+                $died_unvaccinated = $death_count - $died_penta1 - $died_penta2 - $died_penta3;
+
                 $returnVars = $returnVars + [
                     'alive_confirmed' => $alive_confirmed,
                     'alive_negative' => $alive_negative,
@@ -5517,6 +5552,13 @@ class PIDSRController extends Controller
                     'died_suspect' => $died_suspect,
                     'died_probable' => $died_probable,
                     'vaccine_array' => $vaccine_array,
+
+                    'died_unvaccinated' => $died_unvaccinated,
+                    'died_penta1' => $died_penta1,
+                    'died_penta2' => $died_penta2,
+                    'died_penta3' => $died_penta3,
+                    'died_brgy_list' => $died_brgy_list,
+                    'died_age_list' => $died_age_list,
                 ];
             }
 
