@@ -2852,7 +2852,6 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'edcs_contactNo' => isset($row['contact_no']) ? $row['contact_no'] : NULL,
                 'edcs_ageGroup' => isset($row['age_group']) ? $row['age_group'] : NULL,
                 'from_edcs' => 1,
-                'match_casedef' => $match_casedef,
                 
                 'edcs_userid' => $row['user_id'],
                 'edcs_last_modifiedby' => $row['last_modified_by'],
@@ -2875,6 +2874,7 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 $table_params = $table_params + [
                     //'systemsent' => 1,
                     //'notify_email_sent' => 1,
+                    'match_casedef' => $match_casedef,
                     'created_by' => auth()->user()->id,
                 ];
 

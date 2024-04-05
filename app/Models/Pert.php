@@ -51,4 +51,18 @@ class Pert extends Model
             return $this->AgeYears.' '.Str::plural('year', $this->AgeYears);
         }
     }
+
+    public function displayAgeStringToReport() {
+        if($this->AgeYears == 0) {
+            if($this->AgeMons == 0) {
+                return $this->AgeDays.' '.Str::plural('day', $this->AgeDays).' old';
+            }
+            else {
+                return $this->AgeMons.' '.Str::plural('month', $this->AgeMons).' old';
+            }
+        }
+        else {
+            return $this->AgeYears.' '.Str::plural('year', $this->AgeYears).' old';
+        }
+    }
 }
