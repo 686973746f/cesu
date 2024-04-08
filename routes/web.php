@@ -101,6 +101,9 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function
     Route::post('/account/changepw', [ChangePasswordController::class, 'initChangePw'])->name('changepw.init');
 
     Route::get('getSubdivisions/{brgy_id}', [SubdivisionController::class, 'getSubdivisions'])->name('getSubdivisions');
+
+    //Encoder Stats
+    Route::get('/admin/encoder_stats', [AdminPanelController::class, 'encoderStatsIndex'])->name('encoder_stats_index');
 });
 
 //PASWAB INTERNAL
@@ -289,9 +292,6 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin', 
     Route::get('/covid/admin/paswablinks', [PaSwabLinksController::class, 'index'])->name('paswablinks.index');
     Route::post('/covid/admin/paswablinks', [PaSwabLinksController::class, 'store'])->name('paswablinks.store');
     Route::post('/covid/admin/paswablinks/{id}/options', [PaSwabLinksController::class, 'linkInit']);
-
-    //Encoder Stats
-    Route::get('/covid/admin/encoder_stats', [AdminPanelController::class, 'encoderStatsIndex'])->name('encoder_stats_index');
 
     Route::get('/covid/admin/antigen', [AntigenController::class, 'index'])->name('antigen_index');
     Route::get('/covid/admin/antigen/create', [AntigenController::class, 'create'])->name('antigen_create');

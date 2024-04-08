@@ -1755,6 +1755,24 @@ class PIDSRController extends Controller
             
             $d->system_subdivision_id = $r->system_subdivision_id;
 
+            //FOR PERT ADDITIONAL SETTINGS
+            if($disease == 'PERT') {
+                $d->system_outcome = $r->system_outcome;
+                $d->system_classification = $r->system_classification;
+
+                if($d->isDirty('system_classification')) {
+                    if($d->system_classification == 'WAITING FOR RESULT') {
+                        $d->CaseClassification = 'P';
+                    }
+                    else if($d->system_classification == 'NEGATIVE') {
+                        $d->CaseClassification = 'S';
+                    }
+                    else if($d->system_classification == 'CONFIRMED') {
+                        $d->CaseClassification = 'C';
+                    }
+                }
+            }
+
             if($d->isDirty()) {
                 $d->save();
             }

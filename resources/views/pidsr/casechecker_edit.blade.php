@@ -91,18 +91,36 @@
                         <li>Burahin ang subdivision sa Street/Purok field pagkatapos malipat para sa cleanliness ng data.</li>
                     </ul>
                 </div>
-                <div class="form-group">
-                  <label for="system_remarks">Remarks</label>
-                  <textarea class="form-control" name="system_remarks" id="system_remarks" rows="3">{{old('system_remarks', $d->system_remarks)}}</textarea>
-                </div>
+                @if($disease == 'PERT')
                 <hr>
                 <div class="row">
-                    <div class="col-md-4">
-                        
+                    <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="system_outcome"><b class="text-danger">*</b>System Outcome</label>
+                          <select class="form-control" name="system_outcome" id="system_outcome" required>
+                            <option value="ALIVE" {{($d->system_outcome == 'ALIVE') ? 'selected' : ''}}>Alive</option>
+                            <option value="DIED" {{($d->system_outcome == 'DIED') ? 'selected' : ''}}>Died</option>
+                            <option value="RECOVERED" {{($d->system_outcome == 'RECOVERED') ? 'selected' : ''}}>Recovered</option>
+                          </select>
+                        </div>
                     </div>
-                    <div class="col-md-4">
-
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="system_classification"><b class="text-danger">*</b>System Classification</label>
+                            <select class="form-control" name="system_classification" id="system_classification" required>
+                                <option value="NO SWAB" {{($d->system_classification == 'NO SWAB') ? 'selected' : ''}}>No Swab</option>
+                                <option value="WAITING FOR RESULT" {{($d->system_classification == 'WAITING FOR RESULT') ? 'selected' : ''}}>Waiting for Result</option>
+                                <option value="CONFIRMED" {{($d->system_classification == 'CONFIRMED') ? 'selected' : ''}}>Confirmed</option>
+                                <option value="NEGATIVE" {{($d->system_classification == 'NEGATIVE') ? 'selected' : ''}}>Negative</option>
+                                <option value="UNKNOWN" {{($d->system_classification == 'UNKNOWN') ? 'selected' : ''}}>Unknown</option>
+                            </select>
+                          </div>
                     </div>
+                </div>
+                @endif
+                <div class="form-group">
+                    <label for="system_remarks">Remarks</label>
+                    <textarea class="form-control" name="system_remarks" id="system_remarks" rows="3">{{old('system_remarks', $d->system_remarks)}}</textarea>
                 </div>
             </div>
             <div class="card-footer">
