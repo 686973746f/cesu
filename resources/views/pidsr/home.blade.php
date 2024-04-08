@@ -289,7 +289,7 @@
     </div>
 </form>
 
-@if($unlockweeklyreport)
+@if($unlockweeklyreport || request()->input('override'))
 <div class="modal fade" id="export" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
