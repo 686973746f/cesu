@@ -5652,7 +5652,72 @@ class PIDSRController extends Controller
                 ->where('system_outcome', 'DIED')
                 ->where('system_classification', 'UNKNOWN')
                 ->count();
-            
+
+                //RECOVERED
+                $recovered_suspect = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('Year', $sel_year)
+                ->where('MorbidityWeek', '<=', $sel_week)
+                ->where('system_outcome', 'RECOVERED')
+                ->where('CaseClassification', 'S')
+                ->count();
+
+                $recovered_probable = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('Year', $sel_year)
+                ->where('MorbidityWeek', '<=', $sel_week)
+                ->where('system_outcome', 'RECOVERED')
+                ->where('CaseClassification', 'P')
+                ->count();
+
+                $recovered_confirmed = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('Year', $sel_year)
+                ->where('MorbidityWeek', '<=', $sel_week)
+                ->where('system_outcome', 'RECOVERED')
+                ->where('CaseClassification', 'C')
+                ->count();
+
+                $recovered_positive = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('Year', $sel_year)
+                ->where('MorbidityWeek', '<=', $sel_week)
+                ->where('system_outcome', 'RECOVERED')
+                ->where('system_classification', 'CONFIRMED')
+                ->count();
+
+                $recovered_negative = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('Year', $sel_year)
+                ->where('MorbidityWeek', '<=', $sel_week)
+                ->where('system_outcome', 'RECOVERED')
+                ->where('system_classification', 'NEGATIVE')
+                ->count();
+
+                $recovered_waitresult = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('Year', $sel_year)
+                ->where('MorbidityWeek', '<=', $sel_week)
+                ->where('system_outcome', 'RECOVERED')
+                ->where('system_classification', 'WAITING FOR RESULT')
+                ->count();
+
+                $recovered_noswab = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('Year', $sel_year)
+                ->where('MorbidityWeek', '<=', $sel_week)
+                ->where('system_outcome', 'RECOVERED')
+                ->where('system_classification', 'NO SWAB')
+                ->count();
+
+                $recovered_unknown = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('Year', $sel_year)
+                ->where('MorbidityWeek', '<=', $sel_week)
+                ->where('system_outcome', 'RECOVERED')
+                ->where('system_classification', 'UNKNOWN')
+                ->count();
+
                 //Penta Vaccine Counter
                 $penta1 = $modelClass::where('enabled', 1)
                 ->where('match_casedef', 1)
@@ -5747,6 +5812,15 @@ class PIDSRController extends Controller
                     'died_waitresult' => $died_waitresult,
                     'died_noswab' => $died_noswab,
                     'died_unknown' => $died_unknown,
+
+                    'recovered_suspect' => $recovered_suspect,
+                    'recovered_probable' => $recovered_probable,
+                    'recovered_confirmed' => $recovered_confirmed,
+                    'recovered_positive' => $recovered_positive,
+                    'recovered_negative' => $recovered_negative,
+                    'recovered_waitresult' => $recovered_waitresult,
+                    'recovered_noswab' => $recovered_noswab,
+                    'recovered_unknown' => $recovered_unknown,
                     
                     'vaccine_array' => $vaccine_array,
                     'died_unvaccinated' => $died_unvaccinated,

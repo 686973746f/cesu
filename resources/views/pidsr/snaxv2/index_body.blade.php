@@ -181,7 +181,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td style="border: 1px solid #000;"><b class="text-success">Alive</b></td>
+                                <td style="border: 1px solid #000;"><b>Alive</b></td>
                                 <td class="text-center" style="border: 1px solid #000;">{{$alive_suspect}}</td>
                                 <td class="text-center" style="border: 1px solid #000;">{{$alive_probable}}</td>
                                 <td class="text-center" style="border: 1px solid #000;">{{$alive_confirmed}}</td>
@@ -206,18 +206,31 @@
                                 <td class="text-center" style="border: 1px solid #000;">{{$died_unknown}}</td>
                                 <td class="text-center" style="border: 1px solid #000;"><b>{{$died_positive + $died_negative + $died_waitresult + $died_noswab + $died_unknown}}</b></td>
                             </tr>
+                            <tr>
+                                <td style="border: 1px solid #000;"><b class="text-success">Recovered</b></td>
+                                <td class="text-center" style="border: 1px solid #000;">{{$recovered_suspect}}</td>
+                                <td class="text-center" style="border: 1px solid #000;">{{$recovered_probable}}</td>
+                                <td class="text-center" style="border: 1px solid #000;">{{$recovered_confirmed}}</td>
+                                <td class="text-center" style="border: 1px solid #000;"><b>{{$recovered_suspect + $recovered_probable + $recovered_confirmed}}</b></td>
+                                <td class="text-center" style="border: 1px solid #000;">{{$recovered_positive}}</td>
+                                <td class="text-center" style="border: 1px solid #000;">{{$recovered_negative}}</td>
+                                <td class="text-center" style="border: 1px solid #000;">{{$recovered_waitresult}}</td>
+                                <td class="text-center" style="border: 1px solid #000;">{{$recovered_noswab}}</td>
+                                <td class="text-center" style="border: 1px solid #000;">{{$recovered_unknown}}</td>
+                                <td class="text-center" style="border: 1px solid #000;"><b>{{$recovered_positive + $recovered_negative + $recovered_waitresult + $recovered_noswab + $recovered_unknown}}</b></td>
+                            </tr>
                             <tr class="bg-light">
                                 <td style="border: 1px solid #000;"><b>Total</b></td>
-                                <td class="text-center font-weight-bold" style="border: 1px solid #000;">{{$alive_suspect + $died_suspect}}</td>
-                                <td class="text-center font-weight-bold" style="border: 1px solid #000;">{{$alive_probable + $died_probable}}</td>
-                                <td class="text-center font-weight-bold" style="border: 1px solid #000;">{{$alive_confirmed + $died_confirmed}}</td>
-                                <td class="text-center font-weight-bold" style="border: 1px solid #000;">{{$alive_suspect + $died_suspect + $alive_probable + $died_probable + $alive_confirmed + $died_confirmed}}</td>
-                                <td class="text-center font-weight-bold" style="border: 1px solid #000;">{{$alive_positive + $died_positive}}</td>
-                                <td class="text-center font-weight-bold" style="border: 1px solid #000;">{{$alive_negative + $died_negative}}</td>
-                                <td class="text-center font-weight-bold" style="border: 1px solid #000;">{{$alive_waitresult + $died_waitresult}}</td>
-                                <td class="text-center font-weight-bold" style="border: 1px solid #000;">{{$alive_noswab + $died_noswab}}</td>
-                                <td class="text-center font-weight-bold" style="border: 1px solid #000;">{{$alive_unknown + $died_unknown}}</td>
-                                <td class="text-center font-weight-bold" style="border: 1px solid #000;">{{$alive_positive + $died_positive + $alive_negative + $died_negative + $alive_waitresult + $died_waitresult + $alive_noswab + $died_noswab + $alive_unknown + $died_unknown}}</td>
+                                <td class="text-center font-weight-bold" style="border: 1px solid #000;">{{$alive_suspect + $died_suspect + $recovered_suspect}}</td>
+                                <td class="text-center font-weight-bold" style="border: 1px solid #000;">{{$alive_probable + $died_probable + $recovered_probable}}</td>
+                                <td class="text-center font-weight-bold" style="border: 1px solid #000;">{{$alive_confirmed + $died_confirmed + $recovered_confirmed}}</td>
+                                <td class="text-center font-weight-bold" style="border: 1px solid #000;">{{$alive_suspect + $died_suspect + $recovered_suspect + $alive_probable + $died_probable + $recovered_probable + $alive_confirmed + $died_confirmed + $recovered_confirmed}}</td>
+                                <td class="text-center font-weight-bold" style="border: 1px solid #000;">{{$alive_positive + $died_positive + $recovered_positive}}</td>
+                                <td class="text-center font-weight-bold" style="border: 1px solid #000;">{{$alive_negative + $died_negative + $recovered_negative}}</td>
+                                <td class="text-center font-weight-bold" style="border: 1px solid #000;">{{$alive_waitresult + $died_waitresult + $recovered_waitresult}}</td>
+                                <td class="text-center font-weight-bold" style="border: 1px solid #000;">{{$alive_noswab + $died_noswab + $recovered_noswab}}</td>
+                                <td class="text-center font-weight-bold" style="border: 1px solid #000;">{{$alive_unknown + $died_unknown + $recovered_unknown}}</td>
+                                <td class="text-center font-weight-bold" style="border: 1px solid #000;">{{$alive_positive + $died_positive + $recovered_positive + $alive_negative + $died_negative + $recovered_negative + $alive_waitresult + $died_waitresult + $alive_noswab + $died_noswab + $recovered_noswab + $alive_unknown + $died_unknown + $recovered_unknown}}</td>
                             </tr>
                         </tbody>
                     </table>
