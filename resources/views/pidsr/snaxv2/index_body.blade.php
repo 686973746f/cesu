@@ -411,8 +411,8 @@
             @endif
         </div>
     </div>
-    @if($sel_disease != 'Pert')
-    <div class="card mb-3">
+    
+    <div class="card mb-3 {{($sel_disease == 'Pert') ? 'd-none' : ''}}">
         <div class="card-header bg-transparent">
             <div class="d-flex justify-content-between">
                 <div><b>Page 2/3 - {{$flavor_name}} Monitoring Dashboard</b></div>
@@ -488,7 +488,7 @@
         </div>
     </div>
 
-    <div class="card mb-3">
+    <div class="card mb-3 {{($sel_disease == 'Pert') ? 'd-none' : ''}}">
         <div class="card-header bg-transparent">
             <div class="d-flex justify-content-between">
                 <div><b>Page 3/3 - {{$flavor_name}} Monitoring Dashboard</b></div>
@@ -646,25 +646,26 @@
             </div>
         </div>
     </div>
-    <div class="form-check">
-        <label class="form-check-label">
-          <input type="checkbox" class="form-check-input" name="checker1" id="checker1" value="checkedValue" checked>
-          Signature 1 (Prepared by)
-        </label>
+    <div class="{{($sel_disease == 'Pert') ? 'd-none' : ''}}">
+        <div class="form-check">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" name="checker1" id="checker1" value="checkedValue" checked>
+              Signature 1 (Prepared by)
+            </label>
+        </div>
+        <div class="form-check">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" name="checker2" id="checker2" value="checkedValue" checked>
+              Signature 2 (Noted by)
+            </label>
+        </div>
+        <div class="form-check">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" name="checker3" id="checker3" value="checkedValue" checked>
+              Signature 3 (Approved by)
+            </label>
+        </div>
     </div>
-    <div class="form-check">
-        <label class="form-check-label">
-          <input type="checkbox" class="form-check-input" name="checker2" id="checker2" value="checkedValue" checked>
-          Signature 2 (Noted by)
-        </label>
-    </div>
-    <div class="form-check">
-        <label class="form-check-label">
-          <input type="checkbox" class="form-check-input" name="checker3" id="checker3" value="checkedValue" checked>
-          Signature 3 (Approved by)
-        </label>
-    </div>
-    @endif
 </div>
 
 @php
