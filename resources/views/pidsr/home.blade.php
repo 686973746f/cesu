@@ -45,10 +45,10 @@
                     @if(auth()->user()->isGlobalAdmin())
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#dailyexport">EDCS-IS Daily Import</button>
                     @endif
-                    @if(!($unlockweeklyreport))
-                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#dailyexport">EDCS-IS Daily Import</button>
-                    @else
+                    @if($unlockweeklyreport || request()->input('override'))
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#export">EDCS-IS Weekly Import Task (every Tuesday)</button>
+                    @else
+                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#dailyexport">EDCS-IS Daily Import</button>
                     @endif
                     @if(in_array('GLOBAL_ADMIN', auth()->user()->getPermissions()))
                     <button type="button" class="btn btn-secondary btn-block" data-toggle="modal" data-target="#settings">Settings</button>
