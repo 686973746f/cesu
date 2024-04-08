@@ -411,7 +411,7 @@
             @endif
         </div>
     </div>
-
+    @if($sel_disease != 'Pert')
     <div class="card mb-3">
         <div class="card-header bg-transparent">
             <div class="d-flex justify-content-between">
@@ -664,6 +664,7 @@
           Signature 3 (Approved by)
         </label>
     </div>
+    @endif
 </div>
 
 @php
