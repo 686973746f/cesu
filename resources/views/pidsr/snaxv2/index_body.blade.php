@@ -158,7 +158,7 @@
                     </div>
                     @if($sel_disease == 'Pert')
                     <h5 class="mt-3"><b>{{$flavor_name}} Cases by Classification, Outcome, and Lab Results</b></h5>
-                    <h6>GENERAL TRIAS, Jan 01 - {{$endDateBasedOnMw}} (N={{$current_grand_total}})</h6>
+                    <h6>GENERAL TRIAS, Jan 01 - {{$flavor_enddate->format('M d, Y')}} (N={{$current_grand_total}})</h6>
                     <table class="table table-bordered table-sm" style="border: 1px solid #000;">
                         <thead class="thead-light text-center">
                             <tr>
@@ -376,7 +376,7 @@
                     <hr>
                     <div class="text-center" style="margin-left: 200px;">
                         <h5 class="mt-3"><b>Vaccination Status of {{$flavor_name}} Cases</b></h5>
-                        <h6>GENERAL TRIAS, Jan 01 - {{$endDateBasedOnMw}}</h6>
+                        <h6>GENERAL TRIAS, Jan 01 - {{$flavor_enddate->format('M d, Y')}}</h6>
                         <div class="d-flex justify-content-center align-items-center text-center">
                             <canvas id="vaccinePie" style="width: 250px;"></canvas>
                         </div>
