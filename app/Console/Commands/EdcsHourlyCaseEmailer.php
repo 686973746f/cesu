@@ -230,7 +230,7 @@ class EdcsHourlyCaseEmailer extends Command
                         array_push($list, [
                             'type' => $get_type,
                             'name' => $get_fullname,
-                            'age' => $get_age,
+                            'age' => $i->displayAgeStringToReport(),
                             'sex' => $get_sex,
                             'brgy' => $get_brgy,
                             'address' => $get_address,
