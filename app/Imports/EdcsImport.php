@@ -2772,7 +2772,7 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
             if(mb_strtoupper(substr($row['outcome'],0,1)) == 'A') {
                 $set_system_outcome = 'ALIVE';
             }
-            else if(substr($row['caseclassification'],0,1) == 'D') {
+            else if(mb_strtoupper(substr($row['outcome'],0,1)) == 'D') {
                 $set_system_outcome = 'DIED';
             }
 
