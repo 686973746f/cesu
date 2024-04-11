@@ -5390,6 +5390,25 @@ class PIDSRController extends Controller
             $male_total = abs(array_sum($ag_male));
             $female_total = $current_grand_total - $male_total;
 
+            //Get Highest Value for Min and Max Suggested Value on Chart
+            $ag_male_max = abs(min($ag_male));            
+            $ag_female_max = max($ag_female);
+            if($ag_male_max == $ag_female_max) {
+                $age_highest_value = 'EQUAL';
+                $suggestedMinAge = null;
+                $suggestedMaxAge = null;
+            }
+            else if($ag_male_max > $ag_female_max) {
+                $age_highest_value = 'MALE';
+                $suggestedMinAge = null;
+                $suggestedMaxAge = $ag_male_max;
+            }
+            else {
+                $age_highest_value = 'FEMALE';
+                $suggestedMinAge = $ag_female_max * -1;
+                $suggestedMaxAge = null;
+            }
+
             if($male_total > $female_total) {
                 $majority_flavor = 'Males';
                 $majority_count = $male_total;
@@ -5540,6 +5559,9 @@ class PIDSRController extends Controller
                 'flavor_enddate' => $flavor_enddate,
                 'median_display' => $median_display,
                 'min_age_display' => $min_age_display,
+                'suggestedMinAge' => $suggestedMinAge,
+                'suggestedMaxAge' => $suggestedMaxAge,
+                'age_highest_value' => $age_highest_value,
             ];
 
             if($sel_disease == 'Pert') {

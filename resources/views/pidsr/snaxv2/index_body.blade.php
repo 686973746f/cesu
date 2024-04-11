@@ -783,7 +783,7 @@ foreach($classification_titles as $ind => $ctitle) {
                     },
                     ticks: {
                         stepSize: 1,  // Display only whole numbers
-                    }
+                    },
                 },
             }
         }
@@ -1027,7 +1027,14 @@ foreach($classification_titles as $ind => $ctitle) {
                         display: true,
                         text: 'No. of Cases',  // Title for the y-axis
                         position: 'bottom'  // Place the title on bottom
-                    }
+                    },
+                    @if($age_highest_value == 'EQUAL')
+                    
+                    @elseif($age_highest_value == 'MALE')
+                    suggestedMax: {{$suggestedMaxAge}},
+                    @else
+                    suggestedMin: {{$suggestedMinAge}},
+                    @endif
                 },
                 y: {
                     stacked: true,
