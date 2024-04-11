@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Nt extends Model
 {
@@ -40,5 +41,19 @@ class Nt extends Model
         }
 
         return $full;
+    }
+
+    public function displayAgeStringToReport() {
+        if($this->AgeYears == 0) {
+            if($this->AgeMons == 0) {
+                return $this->AgeDays.' '.Str::plural('day', $this->AgeDays).' old';
+            }
+            else {
+                return $this->AgeMons.' '.Str::plural('month', $this->AgeMons).' old';
+            }
+        }
+        else {
+            return $this->AgeYears.' '.Str::plural('year', $this->AgeYears).' old';
+        }
     }
 }
