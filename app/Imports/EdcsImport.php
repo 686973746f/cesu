@@ -2758,6 +2758,24 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 $match_casedef = 0;
             }
 
+            //SYSTEM OUTCOME AND CLASSIFICATION
+            if(substr($row['caseclassification'],0,1) == 'C') {
+                $set_system_classification = 'CONFIRMED';
+            }
+            else if(substr($row['caseclassification'],0,1) == 'S') {
+                $set_system_classification = 'NO SWAB';
+            }
+            else if(substr($row['caseclassification'],0,1) == 'P') {
+                $set_system_classification = 'WAITING FOR RESULT';
+            }
+
+            if(mb_strtoupper(substr($row['outcome'],0,1)) == 'A') {
+                $set_system_outcome = 'ALIVE';
+            }
+            else if(substr($row['caseclassification'],0,1) == 'D') {
+                $set_system_outcome = 'DIED';
+            }
+
             $table_params = [
                 'Icd10Code' => 'A37',
                 'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
@@ -2857,6 +2875,9 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
+
+                'system_outcome' => $set_system_outcome,
+                'system_classification' => $set_system_classification,
             ];
 
             $exist_check = Pert::where('EPIID', $row['epi_id'])->first();
