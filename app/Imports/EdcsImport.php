@@ -2875,9 +2875,6 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
-
-                'system_outcome' => $set_system_outcome,
-                'system_classification' => $set_system_classification,
             ];
 
             $exist_check = Pert::where('EPIID', $row['epi_id'])->first();
@@ -2897,6 +2894,9 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                     //'notify_email_sent' => 1,
                     'match_casedef' => $match_casedef,
                     'created_by' => auth()->user()->id,
+
+                    'system_outcome' => $set_system_outcome,
+                    'system_classification' => $set_system_classification,
                 ];
 
                 $model = Pert::create($table_params);
