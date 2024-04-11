@@ -123,7 +123,7 @@
                     collect($brgy_cases_array)->firstWhere('brgy_name', 'VIBORA POB. (BGY. 6)')[$map_count];
                     @endphp
                     <div class="text-center" style="margin-bottom: 200px; margin-left: -100px;">
-                        <img src="{{asset('assets/gentri_maps/BACAO2_'.\App\Http\Controllers\PidsrController::setMapColor(collect($brgy_cases_array)->firstWhere('brgy_name', 'BACAO II')[$map_count]))}}" alt="">
+                        <img src="{{asset('assets/gentri_maps/BACAOII_'.\App\Http\Controllers\PidsrController::setMapColor(collect($brgy_cases_array)->firstWhere('brgy_name', 'BACAO II')[$map_count]))}}" alt="">
                         <img src="{{asset('assets/gentri_maps/BACAO1_'.\App\Http\Controllers\PidsrController::setMapColor(collect($brgy_cases_array)->firstWhere('brgy_name', 'BACAO I')[$map_count]))}}" style="margin-bottom: -70px;margin-left:-138px;" alt="">
                         <img src="{{asset('assets/gentri_maps/TEJERO_'.\App\Http\Controllers\PidsrController::setMapColor(collect($brgy_cases_array)->firstWhere('brgy_name', 'TEJERO')[$map_count]))}}" style="margin-bottom: -70px;margin-left:-230px;" alt="">
                         <img src="{{asset('assets/gentri_maps/SANJUAN2_'.\App\Http\Controllers\PidsrController::setMapColor(collect($brgy_cases_array)->firstWhere('brgy_name', 'SAN JUAN II')[$map_count]))}}" style="margin-bottom: -118px;margin-left:-76px;" alt="">
