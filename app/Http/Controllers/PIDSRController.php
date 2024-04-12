@@ -1762,7 +1762,7 @@ class PIDSRController extends Controller
 
                 if($d->isDirty('system_classification')) {
                     if($d->system_classification == 'WAITING FOR RESULT') {
-                        $d->CaseClassification = 'P';
+                        $d->CaseClassification = 'S';
                     }
                     else if($d->system_classification == 'NEGATIVE') {
                         $d->CaseClassification = 'S';
@@ -5573,6 +5573,7 @@ class PIDSRController extends Controller
                 ->where('CaseClassification', 'S')
                 ->count();
 
+                /*
                 $alive_probable = $modelClass::where('enabled', 1)
                 ->where('match_casedef', 1)
                 ->where('Year', $sel_year)
@@ -5580,6 +5581,7 @@ class PIDSRController extends Controller
                 ->where('system_outcome', 'ALIVE')
                 ->where('CaseClassification', 'P')
                 ->count();
+                */
 
                 $alive_confirmed = $modelClass::where('enabled', 1)
                 ->where('match_casedef', 1)
@@ -5637,6 +5639,7 @@ class PIDSRController extends Controller
                 ->where('CaseClassification', 'S')
                 ->count();
 
+                /*
                 $died_probable = $modelClass::where('enabled', 1)
                 ->where('match_casedef', 1)
                 ->where('Year', $sel_year)
@@ -5644,6 +5647,7 @@ class PIDSRController extends Controller
                 ->where('system_outcome', 'DIED')
                 ->where('CaseClassification', 'P')
                 ->count();
+                */
 
                 $died_confirmed = $modelClass::where('enabled', 1)
                 ->where('match_casedef', 1)
@@ -5702,6 +5706,7 @@ class PIDSRController extends Controller
                 ->where('CaseClassification', 'S')
                 ->count();
 
+                /*
                 $recovered_probable = $modelClass::where('enabled', 1)
                 ->where('match_casedef', 1)
                 ->where('Year', $sel_year)
@@ -5709,6 +5714,7 @@ class PIDSRController extends Controller
                 ->where('system_outcome', 'RECOVERED')
                 ->where('CaseClassification', 'P')
                 ->count();
+                */
 
                 $recovered_confirmed = $modelClass::where('enabled', 1)
                 ->where('match_casedef', 1)
@@ -5836,7 +5842,7 @@ class PIDSRController extends Controller
 
                 $returnVars = $returnVars + [
                     'alive_suspect' => $alive_suspect,
-                    'alive_probable' => $alive_probable,
+                    //'alive_probable' => $alive_probable,
                     'alive_confirmed' => $alive_confirmed,
                     'alive_positive' => $alive_positive,
                     'alive_negative' => $alive_negative,
@@ -5845,7 +5851,7 @@ class PIDSRController extends Controller
                     'alive_unknown' => $alive_unknown,
                     
                     'died_suspect' => $died_suspect,
-                    'died_probable' => $died_probable,
+                    //'died_probable' => $died_probable,
                     'died_confirmed' => $died_confirmed,
                     'died_positive' => $died_positive,
                     'died_negative' => $died_negative,
@@ -5854,7 +5860,7 @@ class PIDSRController extends Controller
                     'died_unknown' => $died_unknown,
 
                     'recovered_suspect' => $recovered_suspect,
-                    'recovered_probable' => $recovered_probable,
+                    //'recovered_probable' => $recovered_probable,
                     'recovered_confirmed' => $recovered_confirmed,
                     'recovered_positive' => $recovered_positive,
                     'recovered_negative' => $recovered_negative,

@@ -163,14 +163,13 @@
                         <thead class="thead-light text-center">
                             <tr>
                                 <th rowspan="2" style="vertical-align: middle;border: 1px solid #000;">Outcome</th>
-                                <th colspan="3" style="vertical-align: middle;border: 1px solid #000;">Classification</th>
+                                <th colspan="2" style="vertical-align: middle;border: 1px solid #000;">Classification</th>
                                 <th rowspan="2" style="vertical-align: middle;border: 1px solid #000;">Total</th>
                                 <th colspan="5" style="vertical-align: middle;border: 1px solid #000;">Lab Results</th>
                                 <th rowspan="2" style="vertical-align: middle;border: 1px solid #000;">Total</th>
                             </tr>
                             <tr>
                                 <th style="vertical-align: middle;border: 1px solid #000;">Suspected</th>
-                                <th style="vertical-align: middle;border: 1px solid #000;">Probable</th>
                                 <th style="vertical-align: middle;border: 1px solid #000;">Confirmed</th>
                                 <th style="vertical-align: middle;border: 1px solid #000;">Positive</th>
                                 <th style="vertical-align: middle;border: 1px solid #000;">Negative</th>
@@ -183,9 +182,8 @@
                             <tr>
                                 <td style="border: 1px solid #000;"><b>Alive</b></td>
                                 <td class="text-center" style="border: 1px solid #000;">{{$alive_suspect}}</td>
-                                <td class="text-center" style="border: 1px solid #000;">{{$alive_probable}}</td>
                                 <td class="text-center" style="border: 1px solid #000;">{{$alive_confirmed}}</td>
-                                <td class="text-center" style="border: 1px solid #000;"><b>{{$alive_suspect + $alive_probable + $alive_confirmed}}</b></td>
+                                <td class="text-center" style="border: 1px solid #000;"><b>{{$alive_suspect + $alive_confirmed}}</b></td>
                                 <td class="text-center" style="border: 1px solid #000;">{{$alive_positive}}</td>
                                 <td class="text-center" style="border: 1px solid #000;">{{$alive_negative}}</td>
                                 <td class="text-center" style="border: 1px solid #000;">{{$alive_waitresult}}</td>
@@ -196,9 +194,8 @@
                             <tr>
                                 <td style="border: 1px solid #000;"><b class="text-danger">Died</b></td>
                                 <td class="text-center" style="border: 1px solid #000;">{{$died_suspect}}</td>
-                                <td class="text-center" style="border: 1px solid #000;">{{$died_probable}}</td>
                                 <td class="text-center" style="border: 1px solid #000;">{{$died_confirmed}}</td>
-                                <td class="text-center" style="border: 1px solid #000;"><b>{{$died_suspect + $died_probable + $died_confirmed}}</b></td>
+                                <td class="text-center" style="border: 1px solid #000;"><b>{{$died_suspect + $died_confirmed}}</b></td>
                                 <td class="text-center" style="border: 1px solid #000;">{{$died_positive}}</td>
                                 <td class="text-center" style="border: 1px solid #000;">{{$died_negative}}</td>
                                 <td class="text-center" style="border: 1px solid #000;">{{$died_waitresult}}</td>
@@ -209,9 +206,8 @@
                             <tr>
                                 <td style="border: 1px solid #000;"><b class="text-success">Recovered</b></td>
                                 <td class="text-center" style="border: 1px solid #000;">{{$recovered_suspect}}</td>
-                                <td class="text-center" style="border: 1px solid #000;">{{$recovered_probable}}</td>
                                 <td class="text-center" style="border: 1px solid #000;">{{$recovered_confirmed}}</td>
-                                <td class="text-center" style="border: 1px solid #000;"><b>{{$recovered_suspect + $recovered_probable + $recovered_confirmed}}</b></td>
+                                <td class="text-center" style="border: 1px solid #000;"><b>{{$recovered_suspect + $recovered_confirmed}}</b></td>
                                 <td class="text-center" style="border: 1px solid #000;">{{$recovered_positive}}</td>
                                 <td class="text-center" style="border: 1px solid #000;">{{$recovered_negative}}</td>
                                 <td class="text-center" style="border: 1px solid #000;">{{$recovered_waitresult}}</td>
@@ -222,9 +218,8 @@
                             <tr class="bg-light">
                                 <td style="border: 1px solid #000;"><b>Total</b></td>
                                 <td class="text-center font-weight-bold" style="border: 1px solid #000;">{{$alive_suspect + $died_suspect + $recovered_suspect}}</td>
-                                <td class="text-center font-weight-bold" style="border: 1px solid #000;">{{$alive_probable + $died_probable + $recovered_probable}}</td>
                                 <td class="text-center font-weight-bold" style="border: 1px solid #000;">{{$alive_confirmed + $died_confirmed + $recovered_confirmed}}</td>
-                                <td class="text-center font-weight-bold" style="border: 1px solid #000;">{{$alive_suspect + $died_suspect + $recovered_suspect + $alive_probable + $died_probable + $recovered_probable + $alive_confirmed + $died_confirmed + $recovered_confirmed}}</td>
+                                <td class="text-center font-weight-bold" style="border: 1px solid #000;">{{$alive_suspect + $died_suspect + $recovered_suspect + $alive_confirmed + $died_confirmed + $recovered_confirmed}}</td>
                                 <td class="text-center font-weight-bold" style="border: 1px solid #000;">{{$alive_positive + $died_positive + $recovered_positive}}</td>
                                 <td class="text-center font-weight-bold" style="border: 1px solid #000;">{{$alive_negative + $died_negative + $recovered_negative}}</td>
                                 <td class="text-center font-weight-bold" style="border: 1px solid #000;">{{$alive_waitresult + $died_waitresult + $recovered_waitresult}}</td>
@@ -234,52 +229,6 @@
                             </tr>
                         </tbody>
                     </table>
-                    <!--
-                        <table class="table table-bordered table-sm">
-                        <thead class="thead-light text-center">
-                            <th rowspan="2">Outcome</th>
-                            <th colspan="2">Classification</th>
-                            <th colspan="3">Lab Result</th>
-                            <th rowspan="2">Total</th>
-                            <tr>
-                                <th>Suspected</th>
-                                <th>Probable</th>
-                                <th>Confirmed</th>
-                                <th>Negative</th>
-                                <th>Waiting for Result</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><b class="text-success">Alive</b></td>
-                                <td class="text-center">{{$alive_suspect}}</td>
-                                <td class="text-center">{{$alive_probable}}</td>
-                                <td class="text-center">{{$alive_confirmed}}</td>
-                                <td class="text-center">{{$alive_negative}}</td>
-                                <td class="text-center">{{$alive_waitresult}}</td>
-                                <td class="text-center"><b>{{$alive_confirmed + $alive_negative + $alive_waitresult + $alive_suspect + $alive_probable}}</b></td>
-                            </tr>
-                            <tr>
-                                <td><b class="text-danger">Died</b></td>
-                                <td class="text-center">{{$died_suspect}}</td>
-                                <td class="text-center">{{$died_probable}}</td>
-                                <td class="text-center">{{$died_confirmed}}</td>
-                                <td class="text-center">{{$died_negative}}</td>
-                                <td class="text-center">{{$died_waitresult}}</td>
-                                <td class="text-center"><b>{{$died_confirmed + $died_negative + $died_waitresult + $died_suspect + $died_probable}}</b></td>
-                            </tr>
-                            <tr class="bg-light">
-                                <td><b>Total</b></td>
-                                <td class="text-center font-weight-bold">{{$alive_suspect + $died_suspect}}</td>
-                                <td class="text-center font-weight-bold">{{$alive_probable + $died_probable}}</td>
-                                <td class="text-center font-weight-bold">{{$alive_confirmed + $died_confirmed}}</td>
-                                <td class="text-center font-weight-bold">{{$alive_negative + $died_negative}}</td>
-                                <td class="text-center font-weight-bold">{{$alive_waitresult + $died_waitresult}}</td>
-                                <td class="text-center font-weight-bold">{{$alive_confirmed + $alive_negative + $alive_waitresult + $alive_suspect + $alive_probable + $died_confirmed + $died_negative + $died_waitresult + $died_suspect + $died_probable}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    -->
                     @endif
                 </div>
                 <div class="col-md-6">

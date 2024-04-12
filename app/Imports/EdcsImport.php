@@ -2765,9 +2765,6 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
             else if(substr($row['caseclassification'],0,1) == 'S') {
                 $set_system_classification = 'NO SWAB';
             }
-            else if(substr($row['caseclassification'],0,1) == 'P') {
-                $set_system_classification = 'WAITING FOR RESULT';
-            }
 
             if(mb_strtoupper(substr($row['outcome'],0,1)) == 'A') {
                 $set_system_outcome = 'ALIVE';
