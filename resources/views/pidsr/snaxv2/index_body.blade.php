@@ -84,7 +84,7 @@
                 @endif
                 <li style="margin-bottom: -5px;"><h5>Of the total cases reported this period, {{$hospitalized_count}} ({{($current_grand_total != 0) ? round($hospitalized_count / $current_grand_total * 100) :0}}%) were hospitalized and {{$current_confirmed_grand_total}} ({{($current_grand_total != 0) ? round($current_confirmed_grand_total / $current_grand_total * 100,0) : 0}}%) were laboratory confirmed.</h5></li>
                 <li style="margin-bottom: -5px;"><h5>The Barangay with most reported number of cases is {{$top10Brgys[0]['brgy_name']}} ({{$top10Brgys[0]['brgy_grand_total_cases']}} {{Str::plural('case', $top10Brgys[0]['brgy_grand_total_cases'])}} [{{($current_grand_total != 0) ? round($top10Brgys[0]['brgy_grand_total_cases'] / $current_grand_total * 100) : 0}}%])</h5></li>
-                <li style="margin-bottom: -5px;"><h5>Age ranged from {{$min_age_display}} to {{$max_age}} years (Median {{$median_display}}). Majority of the cases were {{strtolower($majority_flavor)}} ({{$majority_percent}}%).</h5></li>
+                <li style="margin-bottom: -5px;"><h5>Age ranged from {{$min_age_display}} to {{$max_age}} years (Median={{$median_display}}). Majority of the cases were {{strtolower($majority_flavor)}} ({{$majority_percent}}%).</h5></li>
             </ul>
             <hr>
             @php
@@ -684,7 +684,7 @@ foreach($classification_titles as $ind => $ctitle) {
     var chart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['MW1', 'MW2', 'MW3', 'MW4', 'MW5', 'MW6', 'MW7', 'MW8', 'MW9', 'MW10', 'MW11', 'MW12', 'MW13', 'MW14', 'MW15', 'MW16', 'MW17', 'MW18', 'MW19', 'MW20', 'MW21', 'MW22', 'MW23', 'MW24', 'MW25', 'MW26', 'MW27', 'MW28', 'MW29', 'MW30', 'MW31', 'MW32', 'MW33', 'MW34', 'MW35', 'MW36', 'MW37', 'MW38', 'MW39', 'MW40', 'MW41', 'MW42', 'MW43', 'MW44', 'MW45', 'MW46', 'MW47', 'MW48', 'MW49', 'MW50', 'MW51', 'MW52'], // Replace with your actual labels
+            labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52'], // Replace with your actual labels
             datasets: [{
                 label: '{{$sel_year}}',
                 data: barData,
@@ -717,13 +717,24 @@ foreach($classification_titles as $ind => $ctitle) {
         options: {
             plugins: {
                 datalabels: {
-                display: false
-                }
+                    display: false
+                },
             },
             scales: {
                 x: {
                     grid: {
                         display: false,
+                    },
+                    ticks: {
+                        maxRotation: 0,
+                        font: {
+                            size: 9,
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Morbidity Week',  // Title for the y-axis
+                        position: 'bottom'  // Place the title on bottom
                     },
                 },
                 y: {
@@ -732,6 +743,10 @@ foreach($classification_titles as $ind => $ctitle) {
                     },
                     ticks: {
                         stepSize: 1,  // Display only whole numbers
+                    },
+                    title: {
+                        display: true,
+                        text: 'No. of Cases',  // Title for the y-axis
                     },
                 },
             }
@@ -829,13 +844,17 @@ foreach($classification_titles as $ind => $ctitle) {
                     position: 'bottom',
                 },
                 datalabels: {
-                display: true,
-                formatter: (value, ctx) => {
-                    const datapoints = ctx.chart.data.datasets[0].data
-                    const total = datapoints.reduce((total, datapoint) => total + datapoint, 0)
-                    const percentage = value / total * 100
-                    return percentage.toFixed(0) + "%";
-                },
+                    display: true,
+                    formatter: (value, ctx) => {
+                        const datapoints = ctx.chart.data.datasets[0].data
+                        const total = datapoints.reduce((total, datapoint) => total + datapoint, 0)
+                        const percentage = value / total * 100
+                        return percentage.toFixed(0) + "%";
+                    },
+                    font: {
+                        weight: 'bold',
+                        size: 14,
+                    }
                 }
             },
             animation: {}
@@ -895,7 +914,12 @@ foreach($classification_titles as $ind => $ctitle) {
                     },
                     ticks: {
                         stepSize: 1,
-                    }
+                    },
+                    title: {
+                        display: true,
+                        text: 'No. of Cases',  // Title for the y-axis
+                    },
+                    
                 }
             },
             events: [],
