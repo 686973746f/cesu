@@ -66,7 +66,7 @@
                 @else
                 <div class="form-group">
                   <label for="change_qty_piece">Current Quantity (in Piece/s)</label>
-                  <input type="number" class="form-control" name="change_qty_piece" id="change_qty_piece" required>
+                  <input type="number" class="form-control" name="change_qty_piece" id="change_qty_piece" value="{{old('change_qty_piece', $d->current_piece_stock)}}" required>
                 </div>
                 @endif
             </div>

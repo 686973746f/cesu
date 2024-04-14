@@ -175,6 +175,7 @@
                         <div class="d-flex justify-content-between">
                             <div><b>Stock Card / Transactions</b></div>
                             <div><button type="button" class="btn btn-success" data-toggle="modal" data-target="#stockcard">Download Stock Card (.XLSX)</button></div>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">

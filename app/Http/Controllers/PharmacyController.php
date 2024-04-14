@@ -56,20 +56,30 @@ class PharmacyController extends Controller
         }
 
         //Expiration List
-        $expired_list = PharmacySupplySubStock::whereBetween('expiration_date', [date('Y-m-d'), date('Y-m-t', strtotime('+3 Months'))])
-        ->where('current_box_stock', '>', 0)
+        $expired_list = PharmacySupplySubStock::whereHas('pharmacysub', function ($q) {
+            $q->where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id);
+        })
+        ->whereBetween('expiration_date', [date('Y-m-d'), date('Y-m-t', strtotime('+3 Months'))])
         ->orderBy('expiration_date', 'ASC')
         ->get();
 
-        /*
-        $expired_list = PharmacySupplySub::whereBetween('expiration_date', [date('Y-m-d'), date('Y-m-t', strtotime('+3 Months'))])
-        ->where('current_box_stock', '>', 0)
-        ->orderBy('expiration_date', 'ASC')
-        ->get();
-        */
+        $es_collect = collect();
+
+        foreach($expired_list as $es) {
+            if($es->pharmacysub->pharmacysupplymaster->quantity_type == 'BOX') {
+                if($es->pharmacysub->master_box_stock > 0) {
+                    $es_collect->push($es);
+                }
+            }
+            else {
+                if($es->pharmacysub->master_piece_stock > 0) {
+                    $es_collect->push($es);
+                }
+            }
+        }
 
         return view('pharmacy.home', [
-            'expired_list' => $expired_list,
+            'expired_list' => $es_collect,
         ]);
     }
 
@@ -453,6 +463,8 @@ class PharmacyController extends Controller
                 }
     
                 if($r->type_to_process == 'BOX') {
+                    //Code added April 14, 2024 - Check value first in substock
+
                     if($find_substock->master_box_stock <= 0) {
                         return redirect()->back()
                         ->with('msg', 'Error: Item '.$find_substock->pharmacysupplymaster->name.' ran OUT OF STOCK.')

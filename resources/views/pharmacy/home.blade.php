@@ -36,7 +36,7 @@
                     <hr>
                     <ul>
                         @foreach($expired_list as $ei)
-                        <li><a href="{{route('pharmacy_itemlist_viewitem', $ei->pharmacysub->id)}}"><b>{{$ei->pharmacysub->pharmacysupplymaster->name}}</b></a> - {{$ei->displayQty()}} - Expires in: {{date('M d, Y (D)', strtotime($ei->expiration_date))}}</li>
+                        <li><a href="{{route('pharmacy_itemlist_viewitem', $ei->pharmacysub->id)}}"><b>{{$ei->pharmacysub->pharmacysupplymaster->name}}</b></a> - {{$ei->pharmacysub->displayQty()}} - Expires in: {{date('M d, Y (D)', strtotime($ei->expiration_date))}}</li>
                         @endforeach
                     </ul>
                 </div>

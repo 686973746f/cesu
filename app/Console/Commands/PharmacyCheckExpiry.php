@@ -57,6 +57,10 @@ class PharmacyCheckExpiry extends Command
                     $get_subsupply->save();
                 }
             }
+
+            $expired_list_update = PharmacySupplySubStock::whereDate('expiration_date', date('Y-m-d'))->update([
+                'is_expired' => 'Y',
+            ]);
         }
     }
 }
