@@ -22,11 +22,16 @@ class AbtcVaccineBrand extends Model
         ->first();
 
         if($s) {
-            if($s->current_stock <= 0) {
-                return false;
+            if($s->enabled == 1) {
+                if($s->current_stock <= 0) {
+                    return false;
+                }
+                else {
+                    return true;
+                }
             }
             else {
-                return true;
+                return false;
             }
         }
         else {

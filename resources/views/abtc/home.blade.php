@@ -301,12 +301,12 @@
             <select class="form-control" name="selected_vaccine" id="selected_vaccine" required>
               <option value="" disabled selected>Choose...</option>
               @foreach(App\Models\AbtcVaccineBrand::get() as $vc)
-              <option value="{{$vc->id}}" {{($vc->ifHasStock()) ? '' : 'disabled'}}>{{$vc->brand_name}}{{($vc->ifHasStock()) ? '' : ' - OUT OF STOCK'}}</option>
+              <option value="{{$vc->id}}" {{($vc->ifHasStock()) ? '' : 'disabled'}}>{{$vc->brand_name}}{{($vc->ifHasStock()) ? '' : ' - OUT OF STOCK/DISABLED'}}</option>
               @endforeach
             </select>
           </div>
           <div class="alert alert-info" role="alert">
-            <b class="text-danger">Note:</b> Kung ang gagamiting Vaccine ay <b>OUT OF STOCK</b> na, paki-coordinate sa System Admin para ma-initialize ang values.
+            <b class="text-danger">Note:</b> Kung ang gagamiting Vaccine ay <b>OUT OF STOCK</b> na, paki-coordinate sa System Admin (CESU) para ma-initialize ang values.
           </div>
         </div>
         <div class="modal-footer">
