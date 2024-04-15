@@ -2747,7 +2747,7 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
 
             //Case Def Check
             if($row['coughing_lasting_at_least_2_weeks'] == 'Yes') {
-                if($row['paroxysms_of_coughing'] == 'Yes' || $row['inspiratory_whooping'] == 'Yes' || $row['post_tussive_vomiting'] == 'Yes' || $row['others'] == 'Yes') {
+                if($row['paroxysms_of_coughing'] == 'Yes' || $row['inspiratory_whooping'] == 'Yes' || $row['post_tussive_vomiting'] == 'Yes') {
                     $match_casedef = 1;
                 }
                 else {

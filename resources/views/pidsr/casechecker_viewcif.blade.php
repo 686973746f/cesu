@@ -52,6 +52,14 @@
                     </tr>
                 </tbody>
             </table>
+            <div class="row text-center">
+                <div class="col-6">
+                    <h6><b>EPI ID:</b> {{$p->EPIID}}</h6>
+                </div>
+                <div class="col-6">
+                    <h6><b>Case ID:</b> {{$p->edcs_caseid}}</h6>
+                </div>
+            </div>
             <table class="table table-bordered mt-3">
                 <tbody>
                     <tr>
@@ -69,7 +77,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <h6>Patient Number:</h6>
+                            <h6>Patient No.:</h6>
                             <h6>{{$p->PatientNumber}}</h6>
                         </td>
                         <td>
@@ -126,20 +134,37 @@
             <div class="card mt-3">
                 <div class="card-header"><b>CASE DETAILS</b></div>
                 <div class="card-body">
+                    @if($disease == 'PERT')
                     <div class="row">
-                        <div class="col-md-4 table-bordered py-3 px-3">
+                        <div class="col-4">
                             <h6><b>EPI ID:</b></h6>
-                            <h6>{{$p->EPIID}}</h6>
+                            <h6></h6>
                         </div>
-                        <div class="col-md-4 table-bordered py-3 px-3">
+                        <div class="col-4">
                             <h6><b>Admitted / Date:</b></h6>
                             <h6>{{($p->Admitted == 'Y') ? 'Yes '.date('m/d/Y', strtotime($p->DAdmit)) : 'No'}}</h6>
                         </div>
-                        <div class="col-md-4 table-bordered py-3 px-3">
+                        <div class="col-4">
                             <h6><b>Date of Onset:</b></h6>
                             <h6>{{!is_null($p->DOnset) ? date('m/d/Y', strtotime($p->DOnset)) : 'N/A'}}</h6>
                         </div>
                     </div>
+                    @else
+                    <div class="row">
+                        <div class="col-4">
+                            <h6><b>EPI ID:</b></h6>
+                            <h6>{{$p->EPIID}}</h6>
+                        </div>
+                        <div class="col-4">
+                            <h6><b>Admitted / Date:</b></h6>
+                            <h6>{{($p->Admitted == 'Y') ? 'Yes '.date('m/d/Y', strtotime($p->DAdmit)) : 'No'}}</h6>
+                        </div>
+                        <div class="col-4">
+                            <h6><b>Date of Onset:</b></h6>
+                            <h6>{{!is_null($p->DOnset) ? date('m/d/Y', strtotime($p->DOnset)) : 'N/A'}}</h6>
+                        </div>
+                    </div>
+                    @endif
                 </div>
             </div>
             <div class="card mt-3">

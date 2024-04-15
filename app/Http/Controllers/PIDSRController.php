@@ -6205,6 +6205,7 @@ class PIDSRController extends Controller
             }
 
             return view('pidsr.casechecker_viewcif', [
+                'disease' => $case,
                 'p' => $p,
                 'flavor_title' => $flavor_title,
                 'lab_details' => $lab_details,
