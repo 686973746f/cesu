@@ -136,34 +136,53 @@
                 <div class="card-body">
                     @if($disease == 'PERT')
                     <div class="row">
-                        <div class="col-4">
-                            <h6><b>EPI ID:</b></h6>
+                        <div class="col-6">
+                            <h6><b>Name of Parent/Caregiver:</b></h6>
+                            <h6></h6>
+                        </div>
+                        <div class="col-6">
+                            <h6><b>Contact Nos.:</b></h6>
                             <h6></h6>
                         </div>
                         <div class="col-4">
-                            <h6><b>Admitted / Date:</b></h6>
-                            <h6>{{($p->Admitted == 'Y') ? 'Yes '.date('m/d/Y', strtotime($p->DAdmit)) : 'No'}}</h6>
+                            <h6><b>Date of Report:</b></h6>
+                            <h6></h6>
                         </div>
                         <div class="col-4">
-                            <h6><b>Date of Onset:</b></h6>
-                            <h6>{{!is_null($p->DOnset) ? date('m/d/Y', strtotime($p->DOnset)) : 'N/A'}}</h6>
+                            <h6><b>Name of Reporter:</b></h6>
+                            <h6></h6>
+                        </div>
+                        <div class="col-4">
+                            <h6><b>Contact Nos.:</b></h6>
+                            <h6></h6>
+                        </div>
+                        <div class="col-4">
+                            <h6><b>Date of Investigation:</b></h6>
+                            <h6></h6>
+                        </div>
+                        <div class="col-4">
+                            <h6><b>Name of Investigator/s:</b></h6>
+                            <h6></h6>
+                        </div>
+                        <div class="col-4">
+                            <h6><b>Contact Nos.:</b></h6>
+                            <h6></h6>
+                        </div>
+                        <div class="col-4">
+                            <h6><b>Pertussis-containing vaccine doses:</b></h6>
+                            <h6></h6>
+                        </div>
+                        <div class="col-4">
+                            <h6><b>If Yes, Number of total doses:</b></h6>
+                            <h6></h6>
+                        </div>
+                        <div class="col-4">
+                            <h6><b>Date of last vaccination:</b></h6>
+                            <h6></h6>
                         </div>
                     </div>
                     @else
-                    <div class="row">
-                        <div class="col-4">
-                            <h6><b>EPI ID:</b></h6>
-                            <h6>{{$p->EPIID}}</h6>
-                        </div>
-                        <div class="col-4">
-                            <h6><b>Admitted / Date:</b></h6>
-                            <h6>{{($p->Admitted == 'Y') ? 'Yes '.date('m/d/Y', strtotime($p->DAdmit)) : 'No'}}</h6>
-                        </div>
-                        <div class="col-4">
-                            <h6><b>Date of Onset:</b></h6>
-                            <h6>{{!is_null($p->DOnset) ? date('m/d/Y', strtotime($p->DOnset)) : 'N/A'}}</h6>
-                        </div>
-                    </div>
+
                     @endif
                 </div>
             </div>

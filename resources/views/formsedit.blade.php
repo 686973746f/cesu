@@ -422,25 +422,26 @@
 
         <script>
             $('#newList').select2({
-            theme: "bootstrap",
-            placeholder: 'Search by Name / Patient ID ...',
-            ajax: {
-                url: "{{route('forms.ajaxRecordList', ['current_record_id' => $records->records->id])}}",
-                dataType: 'json',
-                delay: 250,
-                processResults: function (data) {
-                    return {
-                        results:  $.map(data, function (item) {
-                            return {
-                                text: item.text,
-                                id: item.id,
-                            }
-                        })
-                    };
-                },
-                cache: true
-            }
-        });
+                dropdownParent: $('#transferModal'),
+                theme: "bootstrap",
+                placeholder: 'Search by Name / Patient ID ...',
+                ajax: {
+                    url: "{{route('forms.ajaxRecordList', ['current_record_id' => $records->records->id])}}",
+                    dataType: 'json',
+                    delay: 250,
+                    processResults: function (data) {
+                        return {
+                            results:  $.map(data, function (item) {
+                                return {
+                                    text: item.text,
+                                    id: item.id,
+                                }
+                            })
+                        };
+                    },
+                    cache: true
+                }
+            });
         </script>
         @endif
         <form action="{{route('forms.update', ['form' => $records->id])}}{{(request()->get('fromView') && request()->get('sdate') && request()->get('edate')) ? "?fromView=".request()->get('fromView')."&sdate=".request()->get('sdate')."&edate=".request()->get('edate')."" : ''}}" method="POST">
