@@ -81,7 +81,7 @@
                     <div class="d-none" id="if_received">
                         <div class="form-group">
                             <label for="expiration_date"><b class="text-danger">*</b>Expiration Date of Received Item/s</label>
-                            <input type="date" class="form-control" name="expiration_date" id="expiration_date" min="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" name="expiration_date" id="expiration_date" min="{{date('Y-m-d', strtotime('+1 Day'))}}" value="{{old('expiration_date')}}">
                         </div>
                     </div>
                     <div class="row">

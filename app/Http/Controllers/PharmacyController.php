@@ -640,13 +640,13 @@ class PharmacyController extends Controller
                         $qty_remaining = $sc->qty_to_process;
 
                         $substock_search = PharmacySupplySubStock::where('subsupply_id', $subsupply->id)
-                        ->where('current_box_stock', '!=', 0)
+                        ->where('current_box_stock', '>', 0)
                         ->whereDate('expiration_date', '>', date('Y-m-d'))
                         ->orderBy('expiration_date', 'ASC')
                         ->get();
 
                         foreach($substock_search as $substock) {
-                            if($qty_remaining != 0) {
+                            if($qty_remaining > 0) {
                                 if($qty_remaining <= $substock->current_box_stock) {
                                     $substock->current_box_stock -= $qty_remaining;
                                     $substock->current_piece_stock -= ($qty_remaining * $substock->pharmacysub->pharmacysupplymaster->config_piecePerBoxconfig_piecePerBox);
@@ -685,13 +685,13 @@ class PharmacyController extends Controller
                         $qty_remaining = $sc->qty_to_process;
 
                         $substock_search = PharmacySupplySubStock::where('subsupply_id', $subsupply->id)
-                        ->where('current_piece_stock', '!=', 0)
+                        ->where('current_piece_stock', '>', 0)
                         ->whereDate('expiration_date', '>', date('Y-m-d'))
                         ->orderBy('expiration_date', 'ASC')
                         ->get();
 
                         foreach($substock_search as $substock) {
-                            if($qty_remaining != 0) {
+                            if($qty_remaining > 0) {
                                 if($qty_remaining <= $substock->current_piece_stock) {
                                     $substock->current_piece_stock -= $qty_remaining;
 
@@ -723,6 +723,7 @@ class PharmacyController extends Controller
                         $search_qtylimit = PharmacyQtyLimitPatient::where('prescription_id', $get_maincart->prescription_id)
                         ->where('master_supply_id', $sc->pharmacysub->pharmacysupplymaster->id)
                         ->first();
+
                         if(!($search_qtylimit)) {
                             $create_qty_limit = PharmacyQtyLimitPatient::create([
                                 'prescription_id' => $get_maincart->prescription_id,
@@ -1014,7 +1015,7 @@ class PharmacyController extends Controller
                         $qty_remaining = $sc->qty_to_process;
 
                         $substock_search = PharmacySupplySubStock::where('subsupply_id', $subsupply->id)
-                        ->where('current_box_stock', '!=', 0)
+                        ->where('current_box_stock', '>', 0)
                         ->whereDate('expiration_date', '>', date('Y-m-d'))
                         ->orderBy('expiration_date', 'ASC')
                         ->get();
@@ -1059,7 +1060,7 @@ class PharmacyController extends Controller
                         $qty_remaining = $sc->qty_to_process;
 
                         $substock_search = PharmacySupplySubStock::where('subsupply_id', $subsupply->id)
-                        ->where('current_piece_stock', '!=', 0)
+                        ->where('current_piece_stock', '>', 0)
                         ->whereDate('expiration_date', '>', date('Y-m-d'))
                         ->orderBy('expiration_date', 'ASC')
                         ->get();
