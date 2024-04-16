@@ -26,24 +26,21 @@
                         </div>
                     </div>
                     <h6 class="text-center">Paki-screenshot o i-print ang iyong reference code upang magamit sa pag-track ng iyong concern.</h6>
-                    <h6 class="text-center">Babalitaan namin kayo makalipas ng isa (1) hanggang dalawang (2) araw. Antayin ang aming text o tawag pati na rin sa iyong email address tungkol sa update.</h6>
+                    <h6 class="text-center">Babalitaan namin kayo makalipas ng isa (1) hanggang dalawang (2) araw. Antayin ang aming update via <b>TEXT</b> o <b>TAWAG</b> pati na rin sa iyong <b>EMAIL ADDRESS</b>.</h6>
                     <hr>
                     <p>If you have any concerns, you may contact us at:</p>
                     <table class="table text-center table-bordered">
                         <tbody>
                             <tr>
-                                <td scope="row" rowspan="3" style="vertical-align: middle;"><i class="fas fa-phone-alt mr-2"></i>Text/Call/Viber</td>
-                                <td>0919 066 4324</td>
+                                <td scope="row" rowspan="2" style="vertical-align: middle;"><i class="fas fa-phone-alt mr-2"></i>Text/Call/Viber</td>
+                                <td>0962 545 6998</td>
                             </tr>
                             <tr>
-                                <td>0919 066 4325</td>
-                            </tr>
-                            <tr>
-                                <td>0919 066 4327</td>
+                                <td>0954 154 8355</td>
                             </tr>
                             <tr>
                                 <td scope="row">Telephone Number</td>
-                                <td>(046) 509 - 5289</td>
+                                <td>(046) 509 - 5289 local 300</td>
                             </tr>
                             <tr>
                                 <td scope="row"><i class="fas fa-at mr-2"></i>Email Address</td>

@@ -3318,20 +3318,17 @@ class SevereAcuteRespiratoryInfectionImport implements ToModel, WithHeadingRow, 
                 'admit_to_entry' => $row['timelapse_dateadmittodateencode'],
                 'onset_to_admit' => $row['timelapse_dateonsettodateencode'],
                 
-                'systemsent' => 0,
-                'enabled' => 1,
                 //'edcs_investigatorName' => $row['edcs_caseid'],
                 //'edcs_contactNo' => $row['edcs_caseid'],
                 //'edcs_ageGroup' => $row['edcs_caseid'],
                 'edcs_verificationLevel' => $row['verification_level'],
                 'from_edcs' => 1,
                 //'encoded_mw' => $row['edcs_caseid'],
-                'match_casedef' => 1,
-                'system_notified' => 0,
+                
                 'edcs_userid' => $row['user_id'],
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
-                'notify_email_sent' => 0,
+                
                 //'notify_email_sent_datetime' => $row['edcs_caseid'],
                 //'edcs_patientcontactnum' => $row['edcs_caseid'],
                 //'system_remarks' => $row['edcs_caseid'],
@@ -3351,6 +3348,12 @@ class SevereAcuteRespiratoryInfectionImport implements ToModel, WithHeadingRow, 
             }
             else {
                 $table_params = $table_params + [
+                    'match_casedef' => 1,
+                    'systemsent' => 0,
+                    'enabled' => 1,
+
+                    'system_notified' => 0,
+                    'notify_email_sent' => 0,
                     'created_by' => auth()->user()->id,
                 ];
                 
