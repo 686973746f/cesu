@@ -1456,7 +1456,7 @@ class ABTCVaccinationController extends Controller
         else {
             if($b->d3_done == 0) {
                 if($b->is_preexp == 0) {
-                    $templateProcessor->setValue('dcat', '');
+                    $templateProcessor->setValue('dcat', '2');
                 }
                 else {
                     $templateProcessor->setValue('dcat', '1 - PRE-EXPOSURE');
