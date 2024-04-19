@@ -86,15 +86,15 @@
                     </ul>
                     <p style="font-size:18px;"><strong>Not valid as Medico-Legal Document</strong></p>
                     <div class="row">
-                        <div class="col-md-3"></div>
-                        <div class="col-md-3"></div>
-                        <div class="col-md-6 text-center">
+                        <div class="col-3"></div>
+                        <div class="col-3"></div>
+                        <div class="col-6 text-center">
                             <p style="margin-bottom: 1px;"><strong>Noted by:</strong> <u>{{$whonote}}</u></p>
                             <p style="margin-bottom: 1px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Midwife/Nurse</p>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-6">
                             <h5 style="margin-bottom: 1px;"><strong>CERTIFIED BY:</strong></h5>
                             <div class="text-center">
                                 <img src="{{asset('assets/images/signatureonly_docyves.png')}}" style="width: 9rem;">
@@ -103,7 +103,7 @@
                                 <h5>Reg. # 0112243</h5>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-6">
                             <h5 style="margin-bottom: 1px;"><strong>APPROVED BY:</strong></h5>
                             <div class="text-center">
                                 <img src="{{asset('assets/images/signatureonly_docathan.png')}}" style="width: 9rem;">

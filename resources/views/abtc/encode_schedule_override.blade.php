@@ -28,7 +28,7 @@
                 </div>
                 <div class="table-responsive">
                     <table class="table table-bordered text-center">
-                        <thead class="bg-light">
+                        <thead class="thead-light">
                             <tr>
                                 <th>Schedule</th>
                                 <th>Date</th>
@@ -220,7 +220,9 @@
                                     @if($d->d28_done == 0)
                                     <select class="form-select" name="d28_ostatus" id="d28_ostatus" required>
                                         <option value="P" {{(old('d28_ostatus') == 'P') ? 'selected' : ''}}>PENDING</option>
+                                        @if($d->d28_date < date('Y-m-d'))
                                         <option value="C" {{(old('d28_ostatus') == 'C') ? 'selected' : ''}}>COMPLETED</option>
+                                        @endif
                                     </select>
                                     @else
                                     <p class="text-success"><b>DONE</b></p>
@@ -249,11 +251,9 @@
                     </table>
                 </div>
             </div>
-            @if($d->outcome != 'C')
             <div class="card-footer text-end">
                 <button type="submit" class="btn btn-primary" id="submitbtn" name="p_submit" value="oride">Save (CTRL + S)</button>
             </div>
-            @endif
         </div>
     </div>
 </form>
