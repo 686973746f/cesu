@@ -129,29 +129,35 @@
                     <div>to</div>
                     <div><u>{{$d->getHospMedCertEndDate()}}</u></div>
                 </div>
-                <div class="d-flex justify-content-between h5">
-                    <div>DIAGNOSIS:</div>
-                    <div>
-                        <h5>______________________________________________________________________</h5>
-                        <h5>______________________________________________________________________</h5>
+                <div class="row mt-3 h5">
+                    <div class="col-3">DIAGNOSIS:</div>
+                    <div class="col-9">
+                        <u>{!! nl2br($d->dcnote_assessment) !!}</u>
+                        <!--
+                            <h5>______________________________________________________________________</h5>
+                            <h5>______________________________________________________________________</h5>
+                        -->
                     </div>
                 </div>
-                <div class="d-flex justify-content-between h5">
-                    <div>TREATMENT:</div>
-                    <div>
-                        <h5>______________________________________________________________________</h5>
-                        <h5>______________________________________________________________________</h5>
+                <div class="row h5">
+                    <div class="col-3">TREATMENT:</div>
+                    <div class="col-9">
+                        <u>{!! nl2br($d->dcnote_diagprocedure) !!}</u>
                     </div>
                 </div>
-                <div class="d-flex justify-content-between h5">
-                    <div>REMARKS:</div>
-                    <div>
-                        <h5>______________________________________________________________________</h5>
-                        <h5>______________________________________________________________________</h5>
+                <div class="row h5">
+                    <div class="col-3">REMARKS:</div>
+                    <div class="col-9">
+                        @if(!is_null($d->remarks))
+                        <u>{{$d->remarks}}</u>
+                        @else
+                            <h5>_________________________________________________________________</h5>
+                            <h5>_________________________________________________________________</h5>
+                        @endif
                     </div>
                 </div>
 
-                <h5 class="ml-5 mt-5 mb-3">Issued upon request of {{(!is_null($d->medcert_purpose)) ? $d->medcert_purpose : '______________________'}} for whatever purpose this may server him/her best.</h5>
+                <h5 class="ml-5 mt-5 mb-3">Issued upon request of {!! (!is_null($d->medcert_purpose)) ? '<u><b>'.$d->medcert_purpose.'</b></u>' : '______________________' !!} for whatever purpose this may serve him/her best.</h5>
                 <div class="row">
                     <div class="col-6 text-center">
                         <div>{!! QrCode::size(100)->generate(route('medcert_online_verify', $d->qr)) !!}</div>
