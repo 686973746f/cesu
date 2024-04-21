@@ -2872,6 +2872,8 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
+
+                'system_pertmonitoringend_date' => Carbon::parse(EdcsImport::tDate($row['date_of_report']))->addDays(21), //Extra column for tracking end of monitoring period
             ];
 
             $exist_check = Pert::where('EPIID', $row['epi_id'])->first();
