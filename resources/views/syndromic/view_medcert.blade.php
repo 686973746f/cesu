@@ -70,12 +70,12 @@
                 <h4 class="text-warning">NO LETTERHEAD DATA FOUND FOR FACILITY. PLEASE CONTACT CESU.</h4>
                 @endif
 
+                @if($d->facility_id == 10886)
                 <p style="font-size: 25px;" class="text-center mb-3"><b>MEDICAL CERTIFICATE</b></p>
                 <div class="text-right mb-3">
                     <h5>Date: <u>{{date('M. d,Y', strtotime($d->medcert_generated_date))}}</u></h5>
                 </div>
 
-                @if($d->facility_id == 10886)
                 <p style="font-size: 20px;">To whom it may concern:</p>
                 <p style="font-size: 20px;text-align:justify">This is to certify that I have examined / treated <b><u>{{$d->syndromic_patient->getName()}}</u></b>, <b><u>{{$d->syndromic_patient->getAge()}}</u></b> years old <u><b>{{$d->syndromic_patient->gender}} / {{$d->syndromic_patient->cs}}</b></u>, a resident of <u><b>{{$d->syndromic_patient->getFullAddress()}}</b></u> from {{$d->getMedCertStartDate()}} to {{$d->getMedCertEndDate()}}, inclusive.</p>
                 <p style="font-size: 20px;">BP: <u class="mr-3">{{(!is_null($d->bloodpressure)) ? $d->bloodpressure : '_____'}}</u> PR: <u class="mr-3">{{(!is_null($d->pulserate)) ? $d->pulserate : '_____'}}</u> RR: <u class="mr-3">{{(!is_null($d->respiratoryrate)) ? $d->respiratoryrate : '_____'}}</u> HT: <u class="mr-3">{{(!is_null($d->height)) ? $d->height.'cm' : '_____'}}</u> WT: <u class="mr-3">{{(!is_null($d->weight)) ? $d->weight.'kg' : '_____'}}</u> TEMP: <u>{{(!is_null($d->temperature)) ? $d->temperature.'°C' : '_____'}}</u></p>
@@ -105,6 +105,11 @@
                     </div>
                 </div>
                 @elseif($d->facility_id == 10525)
+                <p style="font-size: 25px;" class="text-center mb-3"><b>MEDICAL CERTIFICATE</b></p>
+                <div class="text-right mb-3">
+                    <h5>Date: <u>{{date('M. d,Y', strtotime($d->medcert_validity_date))}}</u></h5>
+                </div>
+
                 <div class="d-flex justify-content-between h5">
                     <div>
                         Name: <u><b>{{$d->syndromic_patient->getName()}}</b></u>
@@ -123,11 +128,13 @@
                     <div>Address: <u>{{$d->syndromic_patient->getFullAddress()}}</u></div>
                     <div>Occupation: <u>{{(!is_null($d->syndromic_patient->occupation)) ? $d->syndromic_patient->occupation : 'N/A'}}</u></div>
                 </div>
-                <div class="d-flex justify-content-between h5">
-                    <div>Was seen examined / confined on</div>
-                    <div><u>{{$d->getHospMedCertStartDate()}}</u></div>
-                    <div>to</div>
-                    <div><u>{{$d->getHospMedCertEndDate()}}</u></div>
+                <div class="row h5">
+                    <div class="col-4">
+                        Was seen examined / confined on
+                    </div>
+                    <div class="col-8 text-center">
+                        <u>{{$d->getHospMedCertStartDate()}}</u>
+                    </div>
                 </div>
                 <div class="row mt-3 h5">
                     <div class="col-3">DIAGNOSIS:</div>

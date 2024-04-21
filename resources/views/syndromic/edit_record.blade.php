@@ -1070,13 +1070,14 @@
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label for="medcert_generated_date"><span class="text-danger font-weight-bold">*</span>Date</label>
+            <label for="medcert_generated_date"><span class="text-danger font-weight-bold">*</span>{{(!(auth()->user()->isSyndromicHospitalLevelAccess())) ? 'Date' : 'Date Examined/Confined'}}</label>
             <input type="date" class="form-control" value="{{old('medcert_generated_date', ($d->medcert_enabled == 0) ? date('Y-m-d') : $d->medcert_generated_date)}}" name="medcert_generated_date" id="medcert_generated_date" max="{{date('Y-m-d')}}" required>
           </div>
           <div class="form-group">
-            <label for="medcert_validity_date"><span class="text-danger font-weight-bold">*</span>Effectivity Date</label>
+            <label for="medcert_validity_date"><span class="text-danger font-weight-bold">*</span>{{(!(auth()->user()->isSyndromicHospitalLevelAccess())) ? 'Effedtivity Date' : 'Date of Issuance'}}</label>
             <input type="date" class="form-control" value="{{old('medcert_validity_date', ($d->medcert_enabled == 0) ? date('Y-m-d') : $d->medcert_validity_date)}}" name="medcert_validity_date" id="medcert_validity_date" min="{{date('Y-m-d')}}" max="{{'12-31-'.date('Y')}}" required>
           </div>
+          @if(!(auth()->user()->isSyndromicHospitalLevelAccess()))
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
@@ -1091,6 +1092,7 @@
               </div>
             </div>
           </div>
+          @endif
           <div class="form-group">
             <label for="medcert_purpose">Purpose (Issued upon request of)</label>
             <input type="text" class="form-control" name="medcert_purpose" id="medcert_purpose">
