@@ -2801,7 +2801,7 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 
                 'DptDoses' => ($row['pertussis_containing_vaccine_doses'] == 'Yes') ? 'Y' : 'N',
                 'if_yes_number_of_total_doses_health_facility' => $row['if_yes_number_of_total_doses_health_facility_font_stylecolorred_font'],
-                'DateLastDose' => EdcsImport::tDate($row['if_yes_number_of_total_doses_health_facility_font_stylecolorred_font']),
+                'DateLastDose' => EdcsImport::tDate($row['date_of_last_vaccination_health_facility_font_stylecolorred_font']),
                 'pregnant' => $row['pregnant'],
                 'occupation' => $row['occupation'],
                 'phone' => $row['phone'],
