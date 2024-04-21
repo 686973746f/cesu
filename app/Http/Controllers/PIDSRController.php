@@ -1392,7 +1392,7 @@ class PIDSRController extends Controller
                 $query = $query->where('encoded_mw', request()->input('mw'));
             }
 
-            $query = $query->get();
+            $query = $query->orderBy('created_at', 'DESC')->get();
 
             return view('pidsr.casechecker', [
                 'list' => $query,
