@@ -6598,7 +6598,9 @@ class PIDSRController extends Controller
     }
 
     public function labLogbook() {
-        $list = LabResultLogBook::orderBy('created_at', 'DESC')->paginate(10);
+        $list = LabResultLogBook::where('facility_id', auth()->user()->itr_facility_id)
+        ->orderBy('created_at', 'DESC')
+        ->paginate(10);
 
         return view('pidsr.laboratory.home', [
             'list' => $list,
@@ -6688,6 +6690,7 @@ class PIDSRController extends Controller
             'mname' => ($r->filled('mname') && $manual_mode) ? mb_strtoupper($r->mname) : NULL,
             'suffix' => ($r->filled('suffix') && $manual_mode) ? mb_strtoupper($r->suffix) : NULL,
             'gender' => ($manual_mode) ? $r->gender : NULL,
+            'age' => $r->age,
             'date_collected' => $r->date_collected,
             'collector_name' => ($r->filled('collector_name')) ? mb_strtoupper($r->collector_name) : NULL,
             'specimen_type' => $r->specimen_type,
@@ -6705,5 +6708,13 @@ class PIDSRController extends Controller
         return redirect()->route('pidsr_laboratory_home')
         ->with('msg', 'Laboratory data was successfully added to the Logbook.')
         ->with('msgtype', 'success');
+    }
+
+    public function viewLabLogBook($id) {
+        $d = LabResultLogBook::findOrFail($id);
+
+        return view('pidsr.laboratory.lab_view', [
+            'd' => $d,
+        ]);
     }
 }

@@ -3,7 +3,7 @@
 @section('content')
 <div class="container-fluid">
     <div class="card">
-        <div class="card-header"><b>PIDSR Cases Viewer</b></div>
+        <div class="card-header"><b>EDCS-IS In-house List of Case Viewer</b></div>
         <div class="card-body">
             @if(session('msg'))
             <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
@@ -52,7 +52,7 @@
                         @endforeach
                     </select>
                     <div class="input-group-append">
-                      <button class="btn btn-primary" type="submit">Submit</button>
+                      <button class="btn btn-primary" type="submit">Search</button>
                     </div>
                 </div>
                 <div class="form-check">

@@ -345,6 +345,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
     Route::get('/pidsr/laboratory/', [PIDSRController::class, 'labLogbook'])->name('pidsr_laboratory_home');
     Route::get('/pidsr/laboratory/new', [PIDSRController::class, 'newLabLogBook'])->name('pidsr_laboratory_new');
     Route::post('/pidsr/laboratory/new/store', [PIDSRController::class, 'storeLabLogBook'])->name('pidsr_laboratory_store');
+    Route::post('/pidsr/laboratory/{id}/view', [PIDSRController::class, 'viewLabLogBook'])->name('pidsr_laboratory_view');
 });
 
 Route::get('/pidsr/viewcif/{case}/{epi_id}', [PIDSRController::class, 'viewCif'])->name('pidsr_viewcif');

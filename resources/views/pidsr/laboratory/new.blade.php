@@ -53,13 +53,13 @@
                     <div class="col-6">
                         <div class="form-group">
                             <label for="mname">Middle Name <i>(If Applicable)</i></label>
-                            <input type="text" class="form-control" name="mname" id="mname" value="{{old('mname', $mname)}}" minlength="2" maxlength="50" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" {{(!$manual_mode) ? 'readonly' : ''}}>
+                            <input type="text" class="form-control" name="mname" id="mname" value="{{old('mname', $mname)}}" minlength="2" maxlength="50" placeholder="ex: SANCHEZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" {{(!$manual_mode) ? 'readonly' : ''}}>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
                             <label for="suffix">Suffix <i>(If Applicable)</i></label>
-                            <input type="text" class="form-control" name="suffix" id="suffix" value="{{old('suffix', $suffix)}}" minlength="2" maxlength="3" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" {{(!$manual_mode) ? 'readonly' : ''}}>
+                            <input type="text" class="form-control" name="suffix" id="suffix" value="{{old('suffix', $suffix)}}" minlength="2" maxlength="3" placeholder="ex: JR, SR, II, III, IV" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" {{(!$manual_mode) ? 'readonly' : ''}}>
                         </div>
                     </div>
                 </div>
@@ -103,14 +103,29 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="specimen_type"><b class="text-danger">*</b>Specimen Type</label>
-                    <select class="form-control" name="specimen_type" id="specimen_type" required>
-                        <option value="" disabled selected>Choose...</option>
-                        @foreach(App\Http\Controllers\PIDSRController::getEdcsSpecimenTypeList() as $d)
-                        <option value="{{mb_strtoupper($d)}}">{{mb_strtoupper($d)}}</option>
-                        @endforeach
-                    </select>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="specimen_type"><b class="text-danger">*</b>Specimen Type</label>
+                            <select class="form-control" name="specimen_type" id="specimen_type" required>
+                                <option value="" disabled selected>Choose...</option>
+                                @foreach(App\Http\Controllers\PIDSRController::getEdcsSpecimenTypeList() as $d)
+                                <option value="{{mb_strtoupper($d)}}">{{mb_strtoupper($d)}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="test_type"><b class="text-danger">*</b>Test Type</label>
+                            <select class="form-control" name="test_type" id="test_type" required>
+                                <option value="" disabled selected>Choose...</option>
+                                @foreach(App\Http\Controllers\PIDSRController::getEdcsTestConductedList() as $d)
+                                <option value="{{mb_strtoupper($d)}}">{{mb_strtoupper($d)}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="sent_to_ritm"><b class="text-danger">*</b>Sent to RITM</label>
@@ -140,15 +155,7 @@
                     <label for="driver_name"><b class="text-danger">*</b>Name of Courier/Driver</label>
                     <input type="text" class="form-control" name="driver_name" id="driver_name" style="text-transform: uppercase;" value="{{old('driver_name')}}" required>
                 </div>
-                <div class="form-group">
-                    <label for="test_type"><b class="text-danger">*</b>Test Type</label>
-                    <select class="form-control" name="test_type" id="test_type" required>
-                        <option value="" disabled selected>Choose...</option>
-                        @foreach(App\Http\Controllers\PIDSRController::getEdcsTestConductedList() as $d)
-                        <option value="{{mb_strtoupper($d)}}">{{mb_strtoupper($d)}}</option>
-                        @endforeach
-                    </select>
-                </div>
+                
                 <div class="form-group">
                     <label for="result"><b class="text-danger">*</b>Result</label>
                     <select class="form-control" name="result" id="result" required>
@@ -158,6 +165,7 @@
                         @endforeach
                     </select>
                 </div>
+
                 <div class="form-group">
                     <label for="interpretation">Interpretation</label>
                     <input type="text" class="form-control" name="interpretation" id="interpretation" style="text-transform: uppercase;">
@@ -172,13 +180,25 @@
                 </div>
             </div>
             <div class="card-footer">
-                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                <button type="submit" class="btn btn-primary btn-block" id="submitBtn">Submit (CTRL + S)</button>
             </div>
         </div>
     </form>
 </div>
 
 <script>
+    $(document).bind('keydown', function(e) {
+        if(e.ctrlKey && (e.which == 83)) {
+            e.preventDefault();
+            $('#submitBtn').trigger('click');
+            $('#submitBtn').prop('disabled', true);
+            setTimeout(function() {
+                $('#submitBtn').prop('disabled', false);
+            }, 2000);
+            return false;
+        }
+    });
+
     $('#sent_to_ritm').change(function (e) {
         e.preventDefault();
         if($(this).val() == 'Y') {

@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class LabResultLogBook extends Model
 {
@@ -30,4 +31,19 @@ class LabResultLogBook extends Model
         'remarks',
         'facility_id',
     ];
+
+    public function getName() {
+        $fullname = $this->lname.", ".$this->fname;
+
+        if(!is_null($this->mname)) {
+            $fullname = $fullname." ".$this->mname;
+        }
+
+        if(!is_null($this->suffix)) {
+            $fullname = $fullname." ".$this->suffix;
+        }
+
+        return $fullname;
+        //return $this->lname.", ".$this->fname.' '.$this->suffix." ".$this->mname;
+    }
 }
