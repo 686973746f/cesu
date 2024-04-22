@@ -134,24 +134,24 @@
                             <tr class="font-weight-bold">
                                 <td>Day 0</td>
                                 <td>{{date('m/d/Y (D)', strtotime($f->d0_date))}}</td>
-                                <td class="{{($f->d0_done == 1 && $f->d3_done == 1) ? 'text-success' : ''}}"><b>{{($f->d0_done == 1 && $f->d3_done == 1) ? 'DONE' : ''}}</b></td>
+                                <td class="{{($f->d0_done == 1) ? 'text-success' : ''}}"><b>{{($f->d0_done == 1) ? 'DONE' : ''}}</b></td>
                             </tr>
                             <tr class="font-weight-bold">
                                 <td>Day 3</td>
                                 <td>{{date('m/d/Y (D)', strtotime($f->d3_date))}}</td>
-                                <td class="{{($f->d3_done == 1 && $f->d7_done == 1) ? 'text-success' : ''}}"><b>{{($f->d3_done == 1 && $f->d7_done == 1) ? 'DONE' : ''}}</b></td>
+                                <td class="{{($f->d3_done == 1) ? 'text-success' : ''}}"><b>{{($f->d3_done == 1) ? 'DONE' : ''}}</b></td>
                             </tr>
                             @if($f->is_booster != 1)
                             <tr class="font-weight-bold">
                                 <td>Day 7</td>
                                 <td>{{date('m/d/Y (D)', strtotime($f->d7_date))}}</td>
-                                <td class="{{($f->d7_done == 1 && $f->d14_done == 1) ? 'text-success' : ''}}"><b>{{($f->d7_done == 1 && $f->d14_done == 1) ? 'DONE' : ''}}</b></td>
+                                <td class="{{($f->d7_done == 1) ? 'text-success' : ''}}"><b>{{($f->d7_done == 1) ? 'DONE' : ''}}</b></td>
                             </tr>
                             @if($f->pep_route == 'IM')
                             <tr class="font-weight-bold">
                                 <td>Day 14 (M)</td>
                                 <td>{{date('m/d/Y (D)', strtotime($f->d14_date))}}</td>
-                                <td class="{{($f->d14_done == 1 && $f->d28_done == 1) ? 'text-success' : ''}}"><b>{{($f->d14_done == 1 && $f->d28_done == 1) ? 'DONE' : ''}}</b></td>
+                                <td class="{{($f->d14_done == 1) ? 'text-success' : ''}}"><b>{{($f->d14_done == 1) ? 'DONE' : ''}}</b></td>
                             </tr>
                             @endif
                             <tr class="font-weight-bold">
@@ -160,7 +160,7 @@
                                     <div><small>(If Animal Died/Lost)</small></div>
                                 </td>
                                 <td style="vertical-align: middle;">{{date('m/d/Y (D)', strtotime($f->d28_date))}}</td>
-                                <td class="{{($f->outcome == 'C' && $f->d28_done == 1) ? 'text-success' : ''}}"><b>{{($f->outcome == 'C' && $f->d28_done == 1) ? 'DONE' : ''}}</b></td>
+                                <td class="{{($f->d28_done == 1) ? 'text-success' : ''}}"><b>{{($f->d28_done == 1) ? 'DONE' : ''}}</b></td>
                             </tr>
                             @endif
                         </tbody>

@@ -91,10 +91,18 @@
                         <li>Burahin ang subdivision sa Street/Purok field pagkatapos malipat para sa cleanliness ng data.</li>
                     </ul>
                 </div>
+                <div class="row">
+                    <div class="col-6">
+
+                    </div>
+                    <div class="col-6">
+                        
+                    </div>
+                </div>
                 @if($disease == 'PERT')
                 <hr>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-6">
                         <div class="form-group">
                           <label for="system_outcome"><b class="text-danger">*</b>System Outcome</label>
                           <select class="form-control" name="system_outcome" id="system_outcome" required>
@@ -104,7 +112,7 @@
                           </select>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-6">
                         <div class="form-group">
                             <label for="system_classification"><b class="text-danger">*</b>System Classification</label>
                             <select class="form-control" name="system_classification" id="system_classification" required>

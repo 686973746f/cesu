@@ -2831,14 +2831,13 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'coughing_lasting_at_least_2_weeks' => $row['coughing_lasting_at_least_2_weeks'],
                 'others' => $row['others'],
                 'others_specify' => $row['others_specify'],
-
-                'Outcome' => mb_strtoupper(substr($row['outcome'],0,1)),
+                
                 'date_of_discharge' => EdcsImport::tDate($row['date_of_discharge']),
                 'DateDied' => EdcsImport::tDate($row['date_died']),
 
                 'administered_antibiotic_therapy' => $row['administered_antibiotic_therapy'],
                 'if_yes_date_health_facility' => EdcsImport::tDate($row['if_yes_date_health_facility_font_stylecolorred_font']),
-                'CaseClassification' => substr($row['caseclassification'],0,1),
+                
 
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp']),
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
@@ -2891,6 +2890,9 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 $table_params = $table_params + [
                     //'systemsent' => 1,
                     //'notify_email_sent' => 1,
+                    'Outcome' => mb_strtoupper(substr($row['outcome'],0,1)),
+                    'CaseClassification' => substr($row['caseclassification'],0,1),
+                    
                     'match_casedef' => $match_casedef,
                     'created_by' => auth()->user()->id,
 

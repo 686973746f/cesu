@@ -17,6 +17,7 @@ class LabResultLogBook extends Model
         'fname',
         'mname',
         'suffix',
+        'age',
         'gender',
         'date_collected',
         'collector_name',
@@ -45,5 +46,9 @@ class LabResultLogBook extends Model
 
         return $fullname;
         //return $this->lname.", ".$this->fname.' '.$this->suffix." ".$this->mname;
+    }
+
+    public function user() {
+        return $this->belongsTo(User::class, 'created_by');
     }
 }

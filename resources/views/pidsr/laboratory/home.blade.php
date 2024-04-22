@@ -27,7 +27,7 @@
                             <th>Name</th>
                             <th>Age/Sex</th>
                             <th>Date Swab Collected</th>
-                            <th>Type</th>
+                            <th>Specimen / Type</th>
                             <th>Result</th>
                             <th>Encoded by/at</th>
                         </tr>
@@ -36,14 +36,20 @@
                         @foreach($list as $ind => $l)
                         <tr>
                             <td class="text-center"><a href="{{route('pidsr_laboratory_view', $l->id)}}">#{{$l->id}}</a></td>
-                            <td class="text-center"></td>
+                            <td class="text-center">{{(!is_null($l->for_case_id)) ? $l->for_case_id : 'N/A'}}</td>
                             <td class="text-center">{{$l->disease_tag}}</td>
                             <td>{{$l->getName()}}</td>
                             <td class="text-center">{{$l->age}}/{{$l->gender}}</td>
-                            <td class="text-center"></td>
-                            <td class="text-center"></td>
-                            <td class="text-center"></td>
-                            <td class="text-center"></td>
+                            <td class="text-center">{{date('m/d/Y', strtotime($l->date_collected))}}</td>
+                            <td class="text-center">
+                                <div>{{$l->specimen_type}}</div>
+                                <div>{{$l->test_type}}</div>
+                            </td>
+                            <td class="text-center">{{$l->result}}</td>
+                            <td class="text-center">
+                                <div>{{$l->user->name}}</div>
+                                <div>{{date('m/d/Y h:i A', strtotime($l->created_at))}}</div>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>

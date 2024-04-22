@@ -1771,6 +1771,12 @@ class PIDSRController extends Controller
                         $d->CaseClassification = 'C';
                     }
                 }
+
+                if($d->isDirty('system_classification')) {
+                    if($r->system_classification == 'DIED') {
+                        $d->Outcome = 'D';
+                    }
+                }
             }
 
             if($d->isDirty()) {
