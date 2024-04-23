@@ -6703,10 +6703,11 @@ class PIDSRController extends Controller
             'sent_to_ritm' => $r->sent_to_ritm,
             'ritm_date_sent' => ($r->sent_to_ritm == 'Y') ? $r->ritm_date_sent : NULL,
             'ritm_date_received' => ($r->sent_to_ritm == 'Y') ? $r->ritm_date_received : NULL,
-            'driver_name' => ($r->filled('driver_name')) ? mb_strtoupper($r->driver_name) : NULL,
+            'driver_name' => ($r->sent_to_ritm == 'Y') ? mb_strtoupper($r->driver_name) : NULL,
             'test_type' => $r->test_type,
             'result' => $r->result,
             'interpretation' => ($r->filled('interpretation')) ? mb_strtoupper($r->interpretation) : NULL,
+            'date_released' => ($r->filled('date_released')) ? $r->date_released : NULL,
             'remarks' => ($r->filled('remarks')) ? mb_strtoupper($r->remarks) : NULL,
             'facility_id' => auth()->user()->itr_facility_id,
         ]);
@@ -6719,7 +6720,54 @@ class PIDSRController extends Controller
     public function viewLabLogBook($id) {
         $d = LabResultLogBook::findOrFail($id);
 
-        return view('pidsr.laboratory.lab_view', [
+        return view('pidsr.laboratory.edit', [
+            'd' => $d,
+        ]);
+    }
+
+    public function updateLabLogBook($id, Request $r) {
+        $update = LabResultLogBook::where('id', $id)
+        ->update([
+            'lname' => mb_strtoupper($r->lname),
+            'fname' => mb_strtoupper($r->fname),
+            'mname' => ($r->filled('mname')) ? mb_strtoupper($r->mname) : NULL,
+            'suffix' => ($r->filled('suffix')) ? mb_strtoupper($r->suffix) : NULL,
+            'gender' => $r->gender,
+            'age' => $r->age,
+            'date_collected' => $r->date_collected,
+            'collector_name' => ($r->filled('collector_name')) ? mb_strtoupper($r->collector_name) : NULL,
+            'specimen_type' => $r->specimen_type,
+            'test_type' => $r->test_type,
+
+            'sent_to_ritm' => $r->sent_to_ritm,
+            'ritm_date_sent' => ($r->sent_to_ritm == 'Y') ? $r->ritm_date_sent : NULL,
+            'driver_name' => ($r->sent_to_ritm == 'Y') ? mb_strtoupper($r->driver_name) : NULL,
+            'ritm_date_received' => ($r->sent_to_ritm == 'Y') ? $r->ritm_date_received : NULL,
+
+            'result' => $r->result,
+            'interpretation' => ($r->filled('interpretation')) ? mb_strtoupper($r->interpretation) : NULL,
+            'date_released' => ($r->filled('date_released')) ? $r->date_released : NULL,
+            'remarks' => ($r->filled('remarks')) ? mb_strtoupper($r->remarks) : NULL,
+            'facility_id' => auth()->user()->itr_facility_id,
+        ]);
+
+        return redirect()->route('pidsr_laboratory_view', $id)
+        ->with('msg', 'Specimen data was successfully updated.')
+        ->with('msgtype', 'success');
+    }
+
+    public function deleteLabLogBook(LabResultLogBook $id) {
+        $id->delete();
+
+        return redirect()->route('pidsr_laboratory_home')
+        ->with('msg', 'Specimen data was deleted successfully.')
+        ->with('msgtype', 'success');
+    }
+
+    public function printLabLogBook($id) {
+        $d = LabResultLogBook::findOrFail($id);
+
+        return view('pidsr.laboratory.print', [
             'd' => $d,
         ]);
     }

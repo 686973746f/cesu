@@ -39,7 +39,7 @@ class PharmacyCheckExpiry extends Command
      */
     public function handle()
     {
-        $expired_list = PharmacySupplySubStock::whereDate('expiration_date', date('Y-m-d'))->get();
+        $expired_list = PharmacySupplySubStock::whereDate('expiration_date', date('Y-m-d', strtotime('-1 Day')))->get();
 
         if($expired_list->count() != 0) {
             foreach($expired_list as $d) {
@@ -58,7 +58,7 @@ class PharmacyCheckExpiry extends Command
                 }
             }
 
-            $expired_list_update = PharmacySupplySubStock::whereDate('expiration_date', date('Y-m-d'))->update([
+            $expired_list_update = PharmacySupplySubStock::whereDate('expiration_date', date('Y-m-d', strtotime('-1 Day')))->update([
                 'is_expired' => 'Y',
             ]);
         }

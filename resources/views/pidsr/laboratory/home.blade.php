@@ -22,7 +22,8 @@
                     <thead class="thead-light text-center">
                         <tr>
                             <th>ID</th>
-                            <th>Linked Case ID</th>
+                            <th>Action</th>
+                            <th>Linked EDCS-IS Case ID</th>
                             <th>Disease</th>
                             <th>Name</th>
                             <th>Age/Sex</th>
@@ -36,6 +37,7 @@
                         @foreach($list as $ind => $l)
                         <tr>
                             <td class="text-center"><a href="{{route('pidsr_laboratory_view', $l->id)}}">#{{$l->id}}</a></td>
+                            <td class="text-center"><a href="{{route('pidsr_laboratory_print', $l->id)}}" class="btn btn-primary">Print</a></td>
                             <td class="text-center">{{(!is_null($l->for_case_id)) ? $l->for_case_id : 'N/A'}}</td>
                             <td class="text-center">{{$l->disease_tag}}</td>
                             <td>{{$l->getName()}}</td>

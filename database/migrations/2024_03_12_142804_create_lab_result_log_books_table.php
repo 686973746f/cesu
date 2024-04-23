@@ -26,12 +26,18 @@ class CreateLabResultLogBooksTable extends Migration
             $table->tinyInteger('age')->nullable();
             $table->string('gender', 1)->nullable();
 
-            $table->date('date_collected');
+            $table->dateTime('date_collected');
             $table->string('collector_name')->nullable();
             $table->string('specimen_type')->nullable();
             $table->string('sent_to_ritm', 1);
+            
             $table->date('ritm_date_sent')->nullable();
             $table->date('ritm_date_received')->nullable();
+
+            $table->date('date_sent_others')->nullable();
+            $table->date('date_received_others')->nullable();
+
+            $table->dateTime('date_released')->nullable();
             $table->string('driver_name')->nullable();
 
             $table->string('test_type')->nullable();
@@ -44,6 +50,7 @@ class CreateLabResultLogBooksTable extends Migration
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreignId('facility_id')->nullable()->constrained('doh_facilities')->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

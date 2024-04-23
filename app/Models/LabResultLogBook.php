@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class LabResultLogBook extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'for_case_id',
@@ -25,6 +27,11 @@ class LabResultLogBook extends Model
         'sent_to_ritm',
         'ritm_date_sent',
         'ritm_date_received',
+
+        'date_sent_others',
+        'date_received_others',
+
+        'date_released',
         'driver_name',
         'test_type',
         'result',
