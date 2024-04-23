@@ -35,6 +35,7 @@
                         @foreach(App\Http\Controllers\PIDSRController::listDiseases() as $d)
                         <option value="{{mb_strtoupper($d)}}" {{(mb_strtoupper($d) == $disease) ? 'selected' : ''}}>{{mb_strtoupper($d)}}</option>
                         @endforeach
+                        <option value="DIARRHEA" {{($disease == 'DIARRHEA') ? 'selected' : ''}}>DIARRHEA</option>
                     </select>
                 </div>
                 @endif
