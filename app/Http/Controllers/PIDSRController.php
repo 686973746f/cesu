@@ -6748,7 +6748,8 @@ class PIDSRController extends Controller
             'interpretation' => ($r->filled('interpretation')) ? mb_strtoupper($r->interpretation) : NULL,
             'date_released' => ($r->filled('date_released')) ? $r->date_released : NULL,
             'remarks' => ($r->filled('remarks')) ? mb_strtoupper($r->remarks) : NULL,
-            'facility_id' => auth()->user()->itr_facility_id,
+            //'facility_id' => auth()->user()->itr_facility_id,
+            'updated_by' => auth()->user()->id,
         ]);
 
         return redirect()->route('pidsr_laboratory_view', $id)

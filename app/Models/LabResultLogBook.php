@@ -27,6 +27,8 @@ class LabResultLogBook extends Model
         'sent_to_ritm',
         'ritm_date_sent',
         'ritm_date_received',
+        'ritm_received_by',
+        'lab_number',
 
         'date_sent_others',
         'date_received_others',

@@ -33,15 +33,20 @@ class CreateLabResultLogBooksTable extends Migration
             
             $table->date('ritm_date_sent')->nullable();
             $table->date('ritm_date_received')->nullable();
+            $table->string('ritm_received_by')->nullable();
+            $table->string('lab_number')->nullable();
 
             $table->date('date_sent_others')->nullable();
             $table->date('date_received_others')->nullable();
+            $table->string('facility_name_others')->nullable();
 
             $table->dateTime('date_released')->nullable();
             $table->string('driver_name')->nullable();
 
             $table->string('test_type')->nullable();
             $table->string('result')->nullable();
+            $table->date('result_updated_date')->nullable();
+            $table->foreignId('result_updated_by')->nullable()->constrained('users')->onDelete('cascade');
 
             $table->text('interpretation')->nullable();
             $table->text('remarks')->nullable();
