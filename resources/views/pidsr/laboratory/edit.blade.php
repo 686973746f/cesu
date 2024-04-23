@@ -183,7 +183,7 @@
                 <hr>
                 <div class="form-group">
                     <label for="remarks">Remarks</label>
-                    <input type="text" class="form-control" name="remarks" id="remarks" style="text-transform: uppercase;">
+                    <input type="text" class="form-control" name="remarks" id="remarks" value="{{old('remarks', $d->remarks)}}" style="text-transform: uppercase;">
                 </div>
                 <div class="alert alert-info text-center mb-0" role="alert">
                     <h4><b class="text-danger">Note:</b> After encoding in the system, it should also be encoded in <a href="https://pidsr.doh.gov.ph/">EDCS-IS</a>.</h4>
