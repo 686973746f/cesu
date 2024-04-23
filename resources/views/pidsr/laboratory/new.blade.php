@@ -52,8 +52,6 @@
                         </div>
                     </div>
                 </div>
-                
-                
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
@@ -98,7 +96,7 @@
                     <div class="col-6">
                         <div class="form-group">
                             <label for="date_collected"><b class="text-danger">*</b>Date and Time Collected</label>
-                            <input type="datetime-local" class="form-control" name="date_collected" id="date_collected" min="{{date('Y-m-d 00:00:00', strtotime('-1 Year'))}}" max="{{date('Y-m-d H:i')}}" value="{{date('Y-m-d H:i', strtotime(old('date_collected')))}}" required>
+                            <input type="datetime-local" class="form-control" name="date_collected" id="date_collected" min="{{date('Y-m-d 00:00:00', strtotime('-1 Year'))}}" max="{{date('Y-m-d H:i')}}" value="{{(!is_null(old('date_collected'))) ? date('Y-m-d H:i', strtotime(old('date_collected'))) : ''}}" required>
                         </div>
                     </div>
                     <div class="col-6">
@@ -183,7 +181,7 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label for="date_released"><b class="text-danger">*</b>Date and Time Released</label>
-                            <input type="datetime-local" class="form-control" name="date_released" id="date_released" min="{{date('Y-m-d 00:00:00', strtotime('-1 Year'))}}" max="{{date('Y-m-d H:i')}}" value="{{date('Y-m-d H:i', strtotime(old('date_collected')))}}">
+                            <input type="datetime-local" class="form-control" name="date_released" id="date_released" min="{{date('Y-m-d 00:00:00', strtotime('-1 Year'))}}" max="{{date('Y-m-d H:i')}}" value="{{(!is_null(old('date_released'))) ? date('Y-m-d H:i', strtotime(old('date_released'))) : ''}}">
                         </div>
                     </div>
                 </div>
