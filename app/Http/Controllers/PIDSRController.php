@@ -6613,6 +6613,14 @@ class PIDSRController extends Controller
         ]);
     }
 
+    public function storeLogBookGroup(Request $r) {
+
+    }
+
+    public function viewLogBookGroup($group) {
+
+    }
+
     public function newLabLogBook() {
         if(request()->input('case_id')) {
             $case_id = request()->input('case_id');
@@ -6664,7 +6672,7 @@ class PIDSRController extends Controller
         ]);
     }
 
-    public function storeLabLogBook(Request $r) {
+    public function storePatientLabLogBook(Request $r) {
         $existing_record = LabResultLogBook::where('disease_tag', $r->disease_tag)
         ->where('lname', mb_strtoupper($r->lname))
         ->where('fname', mb_strtoupper($r->fname))

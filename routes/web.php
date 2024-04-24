@@ -343,8 +343,9 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
 
     Route::get('/pidsr/for_validation', [PIDSRController::class, 'forValidationIndex'])->name('pidsr_forvalidation_index');
     Route::get('/pidsr/laboratory/', [PIDSRController::class, 'labLogbook'])->name('pidsr_laboratory_home');
-    Route::get('/pidsr/laboratory/new', [PIDSRController::class, 'newLabLogBook'])->name('pidsr_laboratory_new');
-    Route::post('/pidsr/laboratory/new/store', [PIDSRController::class, 'storeLabLogBook'])->name('pidsr_laboratory_store');
+    Route::post('/pidsr/laboratory/store_group', [PIDSRController::class, 'storeLogBookGroup'])->name('pidsr_laboratory_groups_store');
+    Route::get('/pidsr/laboratory/{group}/', [PIDSRController::class, 'viewLogBookGroup'])->name('pidsr_laboratory_group_home');
+    Route::post('/pidsr/laboratory/{group}/store_patient', [PIDSRController::class, 'storePatientLabLogBook'])->name('pidsr_laboratory_group_patient_store');
     Route::get('/pidsr/laboratory/{id}/view', [PIDSRController::class, 'viewLabLogBook'])->name('pidsr_laboratory_view');
     Route::get('/pidsr/laboratory/{id}/print', [PIDSRController::class, 'printLabLogBook'])->name('pidsr_laboratory_print');
     Route::post('/pidsr/laboratory/{id}/update', [PIDSRController::class, 'updateLabLogBook'])->name('pidsr_laboratory_update');
