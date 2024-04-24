@@ -6668,8 +6668,9 @@ class PIDSRController extends Controller
         $existing_record = LabResultLogBook::where('disease_tag', $r->disease_tag)
         ->where('lname', mb_strtoupper($r->lname))
         ->where('fname', mb_strtoupper($r->fname))
-        ->where('date_collected', $r->date_collected)
+        ->whereDate('date_collected', $r->date_collected)
         ->where('specimen_type', $r->specimen_type)
+        ->where('test_type', $r->test_type)
         ->first();
 
         if($existing_record) {
@@ -6688,7 +6689,7 @@ class PIDSRController extends Controller
             $manual_mode = true;
         }
 
-        $c = $r->user()->lablogbook()->create([
+        $returnVars = [
             'for_case_id' => $link_case_id,
             'disease_tag' => $r->disease_tag,
             'lname' => mb_strtoupper($r->lname),
@@ -6710,7 +6711,16 @@ class PIDSRController extends Controller
             'date_released' => ($r->filled('date_released')) ? $r->date_released : NULL,
             'remarks' => ($r->filled('remarks')) ? mb_strtoupper($r->remarks) : NULL,
             'facility_id' => auth()->user()->itr_facility_id,
-        ]);
+        ];
+
+        if($r->result != 'PENDING') {
+            $returnVars = $returnVars + [
+                'result_updated_by' => auth()->user->id,
+                'result_updated_date' => date('Y-m-d'),
+            ];
+        }
+
+        $c = $r->user()->lablogbook()->create($returnVars);
         
         return redirect()->route('pidsr_laboratory_home')
         ->with('msg', 'Laboratory data was successfully added to the Logbook.')

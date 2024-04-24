@@ -26,17 +26,22 @@ class LabResultLogBook extends Model
         'specimen_type',
         'sent_to_ritm',
         'ritm_date_sent',
+        'driver_name',
         'ritm_date_received',
         'ritm_received_by',
         'lab_number',
 
         'date_sent_others',
         'date_received_others',
+        'facility_name_others',
 
         'date_released',
-        'driver_name',
+        
         'test_type',
         'result',
+        'result_updated_date',
+        'result_updated_by',
+
         'interpretation',
         'remarks',
         'facility_id',
