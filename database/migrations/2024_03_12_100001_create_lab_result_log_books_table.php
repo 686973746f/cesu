@@ -15,9 +15,9 @@ class CreateLabResultLogBooksTable extends Migration
     {
         Schema::create('lab_result_log_books', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('group_id')->constrained('lab_result_log_book_groups')->onDelete('cascade');
             $table->string('for_case_id')->nullable();
-            $table->string('disease_tag');
-
+            
             $table->string('lname')->nullable();
             $table->string('fname')->nullable();
             $table->string('mname')->nullable();
@@ -26,24 +26,13 @@ class CreateLabResultLogBooksTable extends Migration
             $table->tinyInteger('age')->nullable();
             $table->string('gender', 1)->nullable();
 
+            $table->string('specimen_type')->nullable();
+            $table->string('test_type')->nullable();
             $table->dateTime('date_collected');
             $table->string('collector_name')->nullable();
-            $table->string('specimen_type')->nullable();
-            $table->string('sent_to_ritm', 1);
-            
-            $table->date('ritm_date_sent')->nullable();
-            $table->date('ritm_date_received')->nullable();
-            $table->string('ritm_received_by')->nullable();
             $table->string('lab_number')->nullable();
 
-            $table->date('date_sent_others')->nullable();
-            $table->date('date_received_others')->nullable();
-            $table->string('facility_name_others')->nullable();
-
             $table->dateTime('date_released')->nullable();
-            $table->string('driver_name')->nullable();
-
-            $table->string('test_type')->nullable();
             $table->string('result')->nullable();
             $table->date('result_updated_date')->nullable();
             $table->foreignId('result_updated_by')->nullable()->constrained('users')->onDelete('cascade');
