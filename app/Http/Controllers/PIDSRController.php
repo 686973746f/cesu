@@ -6715,7 +6715,7 @@ class PIDSRController extends Controller
 
         if($r->result != 'PENDING') {
             $returnVars = $returnVars + [
-                'result_updated_by' => auth()->user->id,
+                'result_updated_by' => auth()->user()->id,
                 'result_updated_date' => date('Y-m-d'),
             ];
         }
@@ -6773,13 +6773,13 @@ class PIDSRController extends Controller
 
             if($d->isDirty('result')) {
                 if($r->result != 'PENDING' && is_null($d->result_updated_by)) {
-                    $d->result_updated_by = auth()->user->id;
+                    $d->result_updated_by = auth()->user()->id;
                     $d->result_updated_date = date('Y-m-d');
                 }
             }
 
             if($d->isDirty()) {
-                $d->updated_by = auth()->user->id;
+                $d->updated_by = auth()->user()->id;
 
                 $d->save();
             }
