@@ -27,8 +27,13 @@ class LabResultLogBookGroup extends Model
         'driver_name',
         'case_open_date',
         'case_close_date',
+        'case_closed_by',
         'is_finished',
         'remarks',
         'facility_id',
     ];
+
+    public function user() {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }

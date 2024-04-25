@@ -347,8 +347,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(LiveBirth::class, 'created_by');
     }
 
-    public function lablogbook() {
+    public function lablogbookpatient() {
         return $this->hasMany(LabResultLogBook::class, 'created_by');
+    }
+
+    public function lablogbookgroup() {
+        return $this->hasMany(LabResultLogBookGroup::class, 'created_by');
     }
 
     //perms

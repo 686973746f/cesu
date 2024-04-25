@@ -38,6 +38,7 @@ use Illuminate\Http\Request;
 use App\Imports\RabiesImport;
 use App\Models\EdcsLaboratoryData;
 use App\Models\LabResultLogBook;
+use App\Models\LabResultLogBookGroup;
 use App\Models\Leptospirosis;
 use App\Models\PidsrNotifications;
 use App\Models\PidsrThreshold;
@@ -6604,7 +6605,7 @@ class PIDSRController extends Controller
     }
 
     public function labLogbook() {
-        $list = LabResultLogBook::where('facility_id', auth()->user()->itr_facility_id)
+        $list = LabResultLogBookGroup::where('facility_id', auth()->user()->itr_facility_id)
         ->orderBy('created_at', 'DESC')
         ->paginate(10);
 
@@ -6614,14 +6615,35 @@ class PIDSRController extends Controller
     }
 
     public function storeLogBookGroup(Request $r) {
+        $check = LabResultLogBookGroup::where('title', mb_strtoupper($r->title))->first();
 
+        if($check) {
+            return redirect()->route('pidsr_laboratory_home')
+            ->with('msg', 'Error: Duplicate Title.')
+            ->with('msgtype', 'danger');
+        }
+
+        $save = $r->user()->lablogbookgroup()->create([
+            'disease_tag' => $r->disease_tag,
+            'title' => mb_strtoupper($r->title),
+            'base_specimen_type' => $r->base_specimen_type,
+            'base_test_type' => $r->base_test_type,
+            'base_collector_name' => mb_strtoupper($r->base_collector_name),
+            'sent_to_ritm' => $r->sent_to_ritm,
+            'case_open_date' => date('Y-m-d'),
+            'facility_id' => auth()->user()->facility_id,
+        ]);
+
+        return redirect()->route('pidsr_laboratory_group_home', $save->id)
+        ->with('msg', 'Master linelist successfully created. You may now start linking each patient samples.')
+        ->with('msgtype', 'success');
     }
 
     public function viewLogBookGroup($group) {
+        $d = LabResultLogBookGroup::findOrFail($group);
 
-    }
+        $fetch_list = LabResultLogBook::where('group_id', $group)->get();
 
-    public function newLabLogBook() {
         if(request()->input('case_id')) {
             $case_id = request()->input('case_id');
             $disease = request()->input('disease');
@@ -6658,9 +6680,11 @@ class PIDSRController extends Controller
             $gender = NULL;
             $age = NULL;
         }
-        
-        return view('pidsr.laboratory.new', [
-            'disease' => $disease,
+
+        return view('pidsr.laboratory.group_view', [
+            'd' => $d,
+            'fetch_list' => $fetch_list,
+
             'manual_mode' => $manual_mode,
             'link_array' => $link_array,
             'lname' => $lname,
@@ -6672,11 +6696,28 @@ class PIDSRController extends Controller
         ]);
     }
 
-    public function storePatientLabLogBook(Request $r) {
-        $existing_record = LabResultLogBook::where('disease_tag', $r->disease_tag)
+    public function storePatientLabLogBook(Request $r, $group) {
+        $d = LabResultLogBookGroup::findOrFail($group);
+
+        if($d->is_finished == 'Y') {
+            return redirect()->route('pidsr_laboratory_group_home', $group)
+            ->with('msg', 'Error: Case is already closed.')
+            ->with('msgtype', 'danger');
+        }
+
+        $existing_record = LabResultLogBook::where('group_id', $group)
         ->where('lname', mb_strtoupper($r->lname))
-        ->where('fname', mb_strtoupper($r->fname))
-        ->whereDate('date_collected', $r->date_collected)
+        ->where('fname', mb_strtoupper($r->fname));
+        
+        if($r->filled('mname')) {
+            $existing_record = $existing_record->where('mname', mb_strtoupper($r->mname));
+        }
+
+        if($r->filled('suffix')) {
+            $existing_record = $existing_record->where('suffix', mb_strtoupper($r->suffix));
+        }
+
+        $existing_record = $existing_record->whereDate('date_collected', $r->date_collected)
         ->where('specimen_type', $r->specimen_type)
         ->where('test_type', $r->test_type)
         ->first();
@@ -6698,26 +6739,25 @@ class PIDSRController extends Controller
         }
 
         $returnVars = [
+            'group_id' => $group,
             'for_case_id' => $link_case_id,
-            'disease_tag' => $r->disease_tag,
             'lname' => mb_strtoupper($r->lname),
             'fname' => mb_strtoupper($r->fname),
             'mname' => ($r->filled('mname')) ? mb_strtoupper($r->mname) : NULL,
             'suffix' => ($r->filled('suffix')) ? mb_strtoupper($r->suffix) : NULL,
-            'gender' => $r->gender,
             'age' => $r->age,
-            'date_collected' => $r->date_collected,
-            'collector_name' => ($r->filled('collector_name')) ? mb_strtoupper($r->collector_name) : NULL,
+            'gender' => $r->gender,
             'specimen_type' => $r->specimen_type,
-            'sent_to_ritm' => $r->sent_to_ritm,
-            'ritm_date_sent' => ($r->sent_to_ritm == 'Y') ? $r->ritm_date_sent : NULL,
-            'ritm_date_received' => ($r->sent_to_ritm == 'Y') ? $r->ritm_date_received : NULL,
-            'driver_name' => ($r->sent_to_ritm == 'Y') ? mb_strtoupper($r->driver_name) : NULL,
             'test_type' => $r->test_type,
+            'date_collected' => $r->date_collected,
+            'collector_name' => mb_strtoupper($r->collector_name),
+            'lab_number' => ($r->filled('lab_number')) ? mb_strtoupper($r->lab_number) : NULL,
+            
+            'date_released' => ($r->filled('date_released') && $r->result != 'PENDING') ? $r->date_released : NULL,
             'result' => $r->result,
             'interpretation' => ($r->filled('interpretation')) ? mb_strtoupper($r->interpretation) : NULL,
-            'date_released' => ($r->filled('date_released')) ? $r->date_released : NULL,
             'remarks' => ($r->filled('remarks')) ? mb_strtoupper($r->remarks) : NULL,
+            
             'facility_id' => auth()->user()->itr_facility_id,
         ];
 
@@ -6728,78 +6768,65 @@ class PIDSRController extends Controller
             ];
         }
 
-        $c = $r->user()->lablogbook()->create($returnVars);
+        $c = $r->user()->lablogbookpatient()->create($returnVars);
         
-        return redirect()->route('pidsr_laboratory_home')
+        return redirect()->route('pidsr_laboratory_group_home', $group)
         ->with('msg', 'Laboratory data was successfully added to the Logbook.')
         ->with('msgtype', 'success');
     }
 
-    public function viewLabLogBook($id) {
-        $d = LabResultLogBook::findOrFail($id);
+    public function viewPatientLabLogBook($group, $patient) {
+        $g = LabResultLogBookGroup::findOrFail($group);
 
-        return view('pidsr.laboratory.edit', [
+        $d = LabResultLogBook::findOrFail($patient);
+
+        return view('pidsr.laboratory.patient_edit', [
+            'g' => $g,
             'd' => $d,
         ]);
     }
 
-    public function updateLabLogBook($id, Request $r) {
-        $d = LabResultLogBook::findOrFail($id);
+    public function updatePatientLabLogBook($group, $patient) {
 
-        //Check for Existing Records first
-        $c = LabResultLogBook::where('id', '!=', $id)
-        ->where('lname', mb_strtoupper($r->lname))
-        ->where('fname', mb_strtoupper($r->fname))
-        ->whereDate('date_collected', $r->date_collected)
-        ->where('specimen_type', $r->specimen_type)
-        ->where('test_type', $r->test_type)
+    }
+
+    public function updateLabLogBookGroup($group, Request $r) {
+        $d = LabResultLogBookGroup::findOrFail($group);
+
+        $c = LabResultLogBookGroup::where('id', '!=', $group)
+        ->where('title', mb_strtoupper($r->title))
         ->first();
 
-        if(!$c) {
-            //$d->lname = $r->test;
-
-            $d->lname = mb_strtoupper($r->lname);
-            $d->fname = mb_strtoupper($r->fname);
-            $d->mname = ($r->filled('mname')) ? mb_strtoupper($r->mname) : NULL;
-            $d->suffix = ($r->filled('suffix')) ? mb_strtoupper($r->suffix) : NULL;
-            $d->gender = $r->gender;
-            $d->age = $r->age;
-            $d->date_collected = $r->date_collected;
-            $d->collector_name = ($r->filled('collector_name')) ? mb_strtoupper($r->collector_name) : NULL;
-            $d->specimen_type = $r->specimen_type;
-            $d->test_type = $r->test_type;
-
-            $d->sent_to_ritm = $r->sent_to_ritm;
-            $d->ritm_date_sent = ($r->sent_to_ritm == 'Y') ? $r->ritm_date_sent : NULL;
-            $d->driver_name = ($r->sent_to_ritm == 'Y') ? mb_strtoupper($r->driver_name) : NULL;
-            $d->ritm_date_received = ($r->sent_to_ritm == 'Y') ? $r->ritm_date_received : NULL;
-
-            $d->result = $r->result;
-            $d->interpretation = ($r->filled('interpretation')) ? mb_strtoupper($r->interpretation) : NULL;
-            $d->date_released = ($r->filled('date_released')) ? $r->date_released : NULL;
-            $d->remarks = ($r->filled('remarks')) ? mb_strtoupper($r->remarks) : NULL;
-
-            if($d->isDirty('result')) {
-                if($r->result != 'PENDING' && is_null($d->result_updated_by)) {
-                    $d->result_updated_by = auth()->user()->id;
-                    $d->result_updated_date = date('Y-m-d');
-                }
-            }
-
-            if($d->isDirty()) {
-                $d->updated_by = auth()->user()->id;
-
-                $d->save();
-            }
-        }
-        else {
-            return redirect()->route('pidsr_laboratory_view', $id)
-            ->with('msg', 'Error: Duplicate record exists. Please check and try again.')
+        if($c) {
+            return redirect()->route('pidsr_laboratory_group_home', $group)
+            ->with('msg', 'Error: Duplicate Case Title was found. Please try another.')
             ->with('msgtype', 'warning');
         }
 
-        return redirect()->route('pidsr_laboratory_view', $id)
-        ->with('msg', 'Specimen data was successfully updated.')
+        $d->disease_tag = $r->disease_tag;
+        $d->title = mb_strtoupper($r->title);
+        $d->base_specimen_type = $r->base_specimen_type;
+        $d->base_test_type = $r->base_test_type;
+        $d->base_collector_name = mb_strtoupper($r->base_collector_name);
+        $d->sent_to_ritm = $r->sent_to_ritm;
+        $d->ritm_date_sent = ($r->sent_to_ritm == 'Y') ? $r->ritm_date_sent : NULL;
+        $d->ritm_date_received = ($r->sent_to_ritm == 'Y') ? $r->ritm_date_received : NULL;
+        $d->driver_name = mb_strtoupper($r->driver_name);
+        $d->is_finished = $r->is_finished;
+        $d->case_open_date = $r->case_open_date;
+        $d->case_close_date = ($r->is_finished == 'Y') ? $r->case_close_date : NULL;
+        $d->remarks = mb_strtoupper($r->remarks);
+
+        if($d->isDirty()) {
+            if($r->is_finished == 'Y' && is_null($d->case_closed_by)) {
+                $d->case_closed_by = auth()->user()->id;
+            }
+
+            $d->save();
+        }
+
+        return redirect()->route('pidsr_laboratory_group_home', $group)
+        ->with('msg', 'Linelist data successfully updated.')
         ->with('msgtype', 'success');
     }
 
@@ -6811,11 +6838,20 @@ class PIDSRController extends Controller
         ->with('msgtype', 'success');
     }
 
-    public function printLabLogBook($id) {
-        $d = LabResultLogBook::findOrFail($id);
+    public function printLabLogBook($group) {
+        $d = LabResultLogBookGroup::findOrFail($group);
 
-        return view('pidsr.laboratory.print', [
+        if($d->sent_to_ritm == 'Y' && is_null($d->ritm_date_sent)) {
+            return redirect()->route('pidsr_laboratory_group_home', $group)
+            ->with('msg', 'Error: Please set [Date Sent on RITM] and other required fields on the "Settings" button.')
+            ->with('msgtype', 'warning');
+        }
+
+        $fetch_list = LabResultLogBook::where('group_id', $group)->get();
+
+        return view('pidsr.laboratory.print_new', [
             'd' => $d,
+            'fetch_list' => $fetch_list,
         ]);
     }
 }

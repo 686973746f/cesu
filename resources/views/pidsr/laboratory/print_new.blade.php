@@ -41,7 +41,7 @@
             <div class="card-body" id="divToPrint">
                 <img src="{{asset('assets/images/CHO_LETTERHEAD_WITH_CESU.png')}}" class="img-fluid" style="margin-top: 0px;">
 
-                <h4 class="text-center mt-3 mb-5"><b>SPECIMEN SENDING FORM</b></h4>
+                <h4 class="text-center mt-3 mb-5"><b><u>SPECIMEN SENDING FORM</u></b></h4>
             
                 <div class="row">
                     <div class="col-4">
@@ -56,12 +56,12 @@
                 </div>
                 <div class="row">
                     <div class="col-4">
-                        <h5><b>For Case:</b></h5>
+                        <h5><b>Type of Case:</b></h5>
                         <h5>{{$d->disease_tag}}</h5>
                     </div>
                     <div class="col-4">
-                        <h5><b>Linked EDCS-IS Case ID:</b></h5>
-                        <h5>{{(!is_null($d->for_case_id)) ? $d->for_case_id : 'N/A'}}</h5>
+                        <h5><b>Title:</b></h5>
+                        <h5>{{$d->title}}</h5>
                     </div>
                     <div class="col-4">
                         <h5><b>Encoded at/by:</b></h5>
@@ -71,30 +71,16 @@
                         </h5>
                     </div>
                 </div>
-                <hr>
-                <div class="row">
-                    <div class="col-6">
-                        <h5><b>Name:</b></h5>
-                        <h5>{{$d->getName()}}</h5>
-                    </div>
-                    <div class="col-6">
-                        <h5><b>Age/Sex:</b></h5>
-                        <h5>{{$d->age}}/{{$d->gender}}</h5>
-                    </div>
-                </div>
-                <hr>
                 <div class="row">
                     <div class="col-4">
                         <h5><b>Specimen Type:</b></h5>
-                        <h5>{{$d->specimen_type}}</h5>
+                        <h5></h5>
                         <h5><b>Test Type:</b></h5>
-                        <h5>{{$d->test_type}}</h5>
+                        <h5></h5>
                     </div>
                     <div class="col-4">
-                        <h5><b>Date and Time Collected:</b></h5>
-                        <h5>{{date('m/d/Y', strtotime($d->date_collected))}}</h5>
                         <h5><b>Name of Collector/Swabber and Signature:</b></h5>
-                        <h5>{{$d->collector_name}}</h5>
+                        <h5>{{$d->base_collector_name}}</h5>
                     </div>
                     <div class="col-4">
                         <h5><b>Sent to RITM?:</b></h5>
@@ -102,7 +88,6 @@
                     </div>
                 </div>
                 @if($d->sent_to_ritm == 'Y')
-                <hr>
                 <div class="row">
                     <div class="col-4">
                         <h5><b>Date Sent to RITM:</b></h5>
@@ -116,31 +101,41 @@
                         <h5><b>Name of Receiver/Signature:</b></h5>
                         <h5>_________________________</h5>
                     </div>
-                </div>
-                @endif
+                    <div class="col-4">
 
-                @if($d->result != 'PENDING')
-                <hr>
-                <div class="row">
-                    <div class="col-4">
-                        <h5><b>Date Released:</b></h5>
-                        <h5>{{(!is_null($d->ritm_date_received)) ? date('m/d/Y', strtotime($d->ritm_date_received)) : ''}}</h5>
-                    </div>
-                    <div class="col-4">
-                        <h5><b>Result:</b></h5>
-                        <h5>{{$d->result}}</h5>
-                    </div>
-                    <div class="col-4">
-                        <h5><b>Interpretation:</b></h5>
-                        <h5>{{$d->interpretation}}</h5>
                     </div>
                 </div>
                 @endif
                 <hr>
                 <div class="mb-5">
-                    <h5><b>Remarks:</b></h5>
-                    <h5>{{$d->remarks}}</h5>
+                    <h5><b>Remarks:</b> {{(!is_null($d->remarks)) ? $d->remarks : 'N/A`'}}</h5>
                 </div>
+
+                <table class="table table-bordered table-striped" id="mainTbl">
+                    <thead class="thead-light text-center">
+                        <tr>
+                            <th>No.</th>
+                            <th>Name</th>
+                            <th>Age/Sex</th>
+                            <th>Date Collected</th>
+                            <th>
+                                <div>Specimen Type/</div>
+                                <div>Test Type</div>
+                            </th>
+                            <th>Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>A</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
 
                 <div class="text-center mt-5">
                     <h6><b>City Epidemiology and Surveillance Unit (CESU)</b></h6>
@@ -156,6 +151,12 @@
     <script>
         $(document).ready(function(){
             window.print();
+        });
+
+        $('#mainTbl').dataTable({
+            dom: 't',
+            iDisplayLength: -1,
+            ordering: false,
         });
     </script>
 @endsection

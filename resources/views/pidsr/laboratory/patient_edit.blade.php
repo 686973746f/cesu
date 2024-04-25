@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <form action="{{route('pidsr_laboratory_delete', $d->id)}}" method="POST">
+    <form action="" method="POST">
         @csrf
         @method('delete')
         <div class="text-right mb-3">
@@ -10,15 +10,13 @@
         </div>
     </form>
 
-    <form action="{{route('pidsr_laboratory_update', $d->id)}}" method="POST">
+    <form action="{{route('pidsr_laboratory_group_patient_update', [$g->id, $d->id])}}" method="POST">
         @csrf
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
                     <div><b>Edit Specimen Data</b></div>
-                    <div>
-                        <a href="{{route('pidsr_laboratory_print', $d->id)}}" class="btn btn-primary">Print</a>
-                    </div>
+                    <div></div>
                 </div>
             </div>
             <div class="card-body">
@@ -27,16 +25,6 @@
                     {{session('msg')}}
                 </div>
                 @endif
-                <div class="form-group">
-                    <label for="disease_tag"><b class="text-danger">*</b>Disease</label>
-                    <select class="form-control" name="disease_tag" id="disease_tag" required>
-                        <option value="" disabled selected>Choose...</option>
-                        @foreach(App\Http\Controllers\PIDSRController::listDiseases() as $dd)
-                        <option value="{{mb_strtoupper($dd)}}" {{(mb_strtoupper($dd) == $d->disease_tag) ? 'selected' : ''}}>{{mb_strtoupper($dd)}}</option>
-                        @endforeach
-                        <option value="DIARRHEA" {{($d->disease_tag == 'DIARRHEA') ? 'selected' : ''}}>DIARRHEA</option>
-                    </select>
-                </div>
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
@@ -122,35 +110,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="sent_to_ritm"><b class="text-danger">*</b>Sent to RITM</label>
-                    <select class="form-control" name="sent_to_ritm" id="sent_to_ritm" required>
-                        <option value="Y" {{($d->sent_to_ritm == 'Y') ? 'selected' : ''}}>Yes</option>
-                        <option value="N" {{($d->sent_to_ritm == 'N') ? 'selected' : ''}}>No</option>
-                    </select>
-                </div>
-                <div id="ritm_div" class="d-none">
-                    <div class="row">
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label for="ritm_date_sent"><b class="text-danger">*</b>Date Sent to RITM</label>
-                                <input type="date" class="form-control" name="ritm_date_sent" id="ritm_date_sent" value="{{old('ritm_date_sent', $d->ritm_date_sent)}}" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}">
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label for="driver_name"><b class="text-danger">*</b>Name of Courier/Driver</label>
-                                <input type="text" class="form-control" name="driver_name" id="driver_name" style="text-transform: uppercase;" value="{{old('driver_name', $d->driver_name)}}">
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label for="ritm_date_received">Date Received by RITM</label>
-                                <input type="date" class="form-control" name="ritm_date_received" id="ritm_date_received" value="{{old('ritm_date_received', $d->ritm_date_received)}}" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}">
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
                 <div class="row">
                     <div class="col-4">
@@ -173,7 +132,7 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label for="date_released"><b class="text-danger">*</b>Date and Time Released</label>
-                            <input type="datetime-local" class="form-control" name="date_released" id="date_released" min="{{date('Y-m-d 00:00:00', strtotime('-1 Year'))}}" max="{{date('Y-m-d H:i')}}" value="{{date('Y-m-d H:i', strtotime(old('date_released', $d->date_released)))}}">
+                            <input type="datetime-local" class="form-control" name="date_released" id="date_released" min="{{date('Y-m-d 00:00:00', strtotime('-1 Year'))}}" max="{{date('Y-m-d H:i')}}" value="{{(!is_null($d->date_released)) ? date('Y-m-d H:i', strtotime(old('date_released', $d->date_released))) : ''}}">
                         </div>
                     </div>
                 </div>
@@ -208,20 +167,6 @@
             return false;
         }
     });
-
-    $('#sent_to_ritm').change(function (e) {
-        e.preventDefault();
-        if($(this).val() == 'Y') {
-            $('#ritm_div').removeClass('d-none');
-            $('#ritm_date_sent').prop('required', true);
-            $('#driver_name').prop('required', true);
-        }
-        else {
-            $('#ritm_div').addClass('d-none');
-            $('#ritm_date_sent').prop('required', false);
-            $('#driver_name').prop('required', false);
-        }
-    }).trigger('change');
 
     $('#result').change(function (e) { 
         e.preventDefault();
