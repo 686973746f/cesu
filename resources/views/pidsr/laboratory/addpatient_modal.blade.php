@@ -21,7 +21,7 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for=""><b class="text-danger">*</b>Disease</label>
-                                <input type="text" class="form-control" name="disease_tag" id="disease_tag" value="{{$disease}}" required readonly>
+                                <input type="text" class="form-control" name="disease_tag" id="disease_tag" value="{{request()->input('disease')}}" required readonly>
                             </div>
                         </div>
                     </div>
@@ -57,11 +57,17 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                            <label for="age"><b class="text-danger">*</b>Age (In Years)</label>
-                            <input type="number" min="0" max="300" class="form-control" name="age" id="age" value="{{old('age', $age)}}" required {{(!$manual_mode) ? 'readonly' : ''}}>
+                                <label for="age"><b class="text-danger">*</b>Age (In Years)</label>
+                                <input type="number" min="0" max="300" class="form-control" name="age" id="age" value="{{old('age', $age)}}" required {{(!$manual_mode) ? 'readonly' : ''}}>
                             </div>
                         </div>
                         <div class="col-6">
+                            @if(!$manual_mode)
+                            <div class="form-group">
+                                <label for="gender"><b class="text-danger">*</b>Sex</label>
+                                <input type="text" class="form-control" name="gender" id="gender" value="{{old('gender', $gender)}}" maxlength="1" style="text-transform: uppercase;" readonly>
+                            </div>
+                            @else
                             <div class="form-group">
                                 <label for="gender"><b class="text-danger">*</b>Sex</label>
                                 <select class="form-control" name="gender" id="gender" required>
@@ -70,6 +76,7 @@
                                     <option value="F" {{($gender == 'F') ? 'selected' : ''}}>Female</option>
                                 </select>
                             </div>
+                            @endif
                         </div>
                     </div>
                     <hr>
@@ -179,3 +186,9 @@
         }
     }).trigger('change');
 </script>
+
+@if(request()->input('case_id'))
+    <script>
+        $('#addPatient').modal('show');
+    </script>
+@endif

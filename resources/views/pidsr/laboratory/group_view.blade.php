@@ -96,7 +96,10 @@
                     <thead class="thead-light text-center">
                         <tr>
                             <th>No.</th>
-                            <th>Name</th>
+                            <th>
+                                <div>Name/</div>
+                                <div>EDCS Case ID</div>
+                            </th>
                             <th>Age/Sex</th>
                             <th>
                                 <div>Specimen Type/</div>
@@ -113,7 +116,10 @@
                         @foreach($fetch_list as $ind => $l)
                         <tr>
                             <td class="text-center">{{$ind + 1}}</td>
-                            <td><a href="{{route('pidsr_laboratory_group_patient_view', [$d->id, $l->id])}}">{{$l->getName()}}</a></td>
+                            <td>
+                                <div><a href="{{route('pidsr_laboratory_group_patient_view', [$d->id, $l->id])}}">{{$l->getName()}}</a></div>
+                                <div>{{(!is_null($l->for_case_id)) ? $l->for_case_id : ''}}</div>
+                            </td>
                             <td class="text-center">{{$l->age}} / {{$l->gender}}</td>
                             <td class="text-center">
                                 <div>{{$l->specimen_type}}/</div>

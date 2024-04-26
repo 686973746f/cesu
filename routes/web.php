@@ -348,6 +348,9 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
     Route::get('/pidsr/laboratory/{group}/', [PIDSRController::class, 'viewLogBookGroup'])->name('pidsr_laboratory_group_home');
     Route::get('/pidsr/laboratory/{group}/print', [PIDSRController::class, 'printLabLogBook'])->name('pidsr_laboratory_print');
 
+    Route::get('/pidsr/casechecker/link_edcs', [PIDSRController::class, 'linkEdcs'])->name('pidsr_laboratory_linkedcs');
+    Route::post('/pidsr/casechecker/link_edcs/process', [PIDSRController::class, 'linkEdcsProcess'])->name('pidsr_laboratory_linkedcs_process');
+
     Route::post('/pidsr/laboratory/{group}/store_patient', [PIDSRController::class, 'storePatientLabLogBook'])->name('pidsr_laboratory_group_patient_store');
     Route::get('/pidsr/laboratory/{group}/view_patient/{id}', [PIDSRController::class, 'viewPatientLabLogBook'])->name('pidsr_laboratory_group_patient_view');
     Route::post('/pidsr/laboratory/{group}/view_patient/{id}/update', [PIDSRController::class, 'updatePatientLabLogBook'])->name('pidsr_laboratory_group_patient_update');

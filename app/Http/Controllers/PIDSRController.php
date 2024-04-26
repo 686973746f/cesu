@@ -6918,4 +6918,21 @@ class PIDSRController extends Controller
             'fetch_list' => $fetch_list,
         ]);
     }
+
+    public function linkEdcs() {
+        $open_list = LabResultLogBookGroup::where('is_finished', 'N')
+        ->get();
+
+        return view('pidsr.laboratory.select_group', [
+            'list' => $open_list,
+        ]);
+    }
+
+    public function linkEdcsProcess(Request $r) {
+        return redirect()->route('pidsr_laboratory_group_home', [
+            'group' => $r->group_id,
+            'case_id' => $r->edcs_cid,
+            'disease' => $r->disease,
+        ]);
+    }
 }
