@@ -98,7 +98,7 @@
                 <div>
                     <h5><b>Remarks:</b> {{(!is_null($d->remarks)) ? $d->remarks : 'N/A'}}</h5>
                 </div>
-                <table class="table table-bordered table-striped mt-5">
+                <table class="table table-bordered table-striped mt-5" id="groupTbl">
                     <thead class="thead-light text-center">
                         <tr>
                             <th>No.</th>
@@ -123,7 +123,7 @@
                         <tr>
                             <td class="text-center">{{$ind + 1}}</td>
                             <td>
-                                <div><a href="{{route('pidsr_laboratory_group_patient_view', [$d->id, $l->id])}}">{{$l->getName()}}</a></div>
+                                <div><b><a href="{{route('pidsr_laboratory_group_patient_view', [$d->id, $l->id])}}">{{$l->getName()}}</a></b></div>
                                 <div>{{(!is_null($l->for_case_id)) ? $l->for_case_id : ''}}</div>
                             </td>
                             <td class="text-center">{{$l->age}} / {{$l->gender}}</td>
@@ -273,7 +273,9 @@
         $(function () {
             $('[data-toggle="tooltip"]').tooltip();
         });
-        
+
+        $('#groupTbl').dataTable();
+
         $('#sent_to_ritm').change(function (e) {
             e.preventDefault();
             if($(this).val() == 'Y') {
