@@ -270,6 +270,10 @@
     </form>
 
     <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+        
         $('#sent_to_ritm').change(function (e) {
             e.preventDefault();
             if($(this).val() == 'Y') {
