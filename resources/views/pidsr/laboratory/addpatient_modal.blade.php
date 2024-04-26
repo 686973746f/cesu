@@ -185,6 +185,21 @@
             $('#date_released').prop('required', true);
         }
     }).trigger('change');
+
+    $('#specimen_type').select2({
+        dropdownParent: $('#addPatient'),
+        theme: "bootstrap",
+    });
+
+    $('#test_type').select2({
+        dropdownParent: $('#addPatient'),
+        theme: "bootstrap",
+    });
+
+    $('#result').select2({
+        dropdownParent: $('#addPatient'),
+        theme: "bootstrap",
+    });
 </script>
 
 @if(request()->input('case_id'))
