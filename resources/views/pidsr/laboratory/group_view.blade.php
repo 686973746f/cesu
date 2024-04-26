@@ -7,7 +7,13 @@
                 <div class="d-flex justify-content-between">
                     <div><b>View Specimen Linelist</b></div>
                     <div>
+                        @if($d->is_finished == 'Y')
+                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Case is already Closed.">
+                            <button class="btn btn-success" style="pointer-events: none;" type="button" disabled>Add Patient</button>
+                        </span>
+                        @else
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addPatient">Add Patient</button>
+                        @endif
                         <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#editGroup">Settings</button>
                         <a href="{{route('pidsr_laboratory_print', $d->id)}}" class="btn btn-primary">Print</a>
                     </div>
