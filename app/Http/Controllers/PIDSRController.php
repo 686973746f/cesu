@@ -6631,7 +6631,7 @@ class PIDSRController extends Controller
             'base_collector_name' => mb_strtoupper($r->base_collector_name),
             'sent_to_ritm' => $r->sent_to_ritm,
             'case_open_date' => date('Y-m-d'),
-            'facility_id' => auth()->user()->facility_id,
+            'facility_id' => auth()->user()->itr_facility_id,
         ]);
 
         return redirect()->route('pidsr_laboratory_group_home', $save->id)
