@@ -66,7 +66,7 @@
                     <div class="col-4">
                         <h5><b>Encoded at/by:</b></h5>
                         <h5>
-                            <div>{{date('F d, Y h:i A', strtotime($d->created_at))}}</div>
+                            <div>{{date('M. d, Y h:i A', strtotime($d->created_at))}}</div>
                             <div>by - {{$d->user->name}}</div>
                         </h5>
                     </div>
@@ -108,7 +108,7 @@
                 @endif
                 <hr>
                 <div class="mb-5">
-                    <h5><b>Remarks:</b> {{(!is_null($d->remarks)) ? $d->remarks : 'N/A`'}}</h5>
+                    <h5><b>Remarks:</b> {{(!is_null($d->remarks)) ? $d->remarks : 'N/A'}}</h5>
                 </div>
 
                 <table class="table table-bordered table-striped" id="mainTbl">
@@ -117,27 +117,36 @@
                             <th>No.</th>
                             <th>Name</th>
                             <th>Age/Sex</th>
-                            <th>Date Collected</th>
                             <th>
                                 <div>Specimen Type/</div>
                                 <div>Test Type</div>
                             </th>
+                            <th>Date Collected</th>
                             <th>Remarks</th>
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach($fetch_list as $ind => $l)
                         <tr>
-                            <td>A</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td class="text-center">{{$ind + 1}}</td>
+                            <td>{{$l->getName()}}</td>
+                            <td class="text-center">{{$l->age}}/{{$l->gender}}</td>
+                            <td class="text-center">
+                                <div>{{$l->specimen_type}}</div>
+                                <div>{{$l->test_type}}</div>
+                            </td>
+                            <td class="text-center">{{date('m/d/Y', strtotime($l->date_collected))}}</td>
+                            <td class="text-center">{{(!is_null($l->remarks)) ? $l->remarks : ''}}</td>
                         </tr>
+                        @endforeach
                     </tbody>
                 </table>
+                <div class="text-center mt-3">
+                    <p class="h5">-- END OF LINELIST --</p>
+                </div>
 
                 <div class="text-center mt-5">
+                    <hr>
                     <h6><b>City Epidemiology and Surveillance Unit (CESU)</b></h6>
                     <h6>3rd Floor CESU Room, City Health Office, Hospital Rd., Brgy. Pinagtipunan, General Trias, Cavite</h6>
                     <h6>Email: <a href="">cesu.gentrias@gmail.com</a></h6>

@@ -4,7 +4,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add Patient</h5>
+                    <h5 class="modal-title">Add Patient Specimen Data</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -26,13 +26,19 @@
                         </div>
                     </div>
                     @endif
-                    <div class="form-group">
-                        <label for="lname"><b class="text-danger">*</b>Last Name</label>
-                        <input type="text" class="form-control" name="lname" id="lname" value="{{old('lname', $lname)}}" minlength="2" maxlength="50" placeholder="ex: DELA CRUZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required {{(!$manual_mode) ? 'readonly' : ''}}>
-                    </div>
-                    <div class="form-group">
-                        <label for="fname"><b class="text-danger">*</b>First Name</label>
-                        <input type="text" class="form-control" name="fname" id="fname" value="{{old('fname', $fname)}}" minlength="2" maxlength="50" placeholder="ex: JUAN" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required {{(!$manual_mode) ? 'readonly' : ''}}>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="lname"><b class="text-danger">*</b>Last Name</label>
+                                <input type="text" class="form-control" name="lname" id="lname" value="{{old('lname', $lname)}}" minlength="2" maxlength="50" placeholder="ex: DELA CRUZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required {{(!$manual_mode) ? 'readonly' : ''}}>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="fname"><b class="text-danger">*</b>First Name</label>
+                                <input type="text" class="form-control" name="fname" id="fname" value="{{old('fname', $fname)}}" minlength="2" maxlength="50" placeholder="ex: JUAN" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required {{(!$manual_mode) ? 'readonly' : ''}}>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-6">
@@ -92,24 +98,25 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-4">
                             <div class="form-group">
                                 <label for="date_collected"><b class="text-danger">*</b>Date and Time Collected</label>
                                 <input type="datetime-local" class="form-control" name="date_collected" id="date_collected" min="{{date('Y-m-d 00:00:00', strtotime('-1 Year'))}}" max="{{date('Y-m-d H:i')}}" value="{{(!is_null(old('date_collected'))) ? date('Y-m-d H:i', strtotime(old('date_collected'))) : ''}}" required>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-4">
                             <div class="form-group">
                                 <label for="collector_name"><b class="text-danger">*</b>Name of Collector/Swabber</label>
                                 <input type="text" class="form-control" name="collector_name" id="collector_name" style="text-transform: uppercase;" value="{{$d->base_collector_name}}" required>
                             </div>
                         </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="lab_number">Lab Number</label>
+                                <input type="text" class="form-control" name="lab_number" id="lab_number" value="{{old('lab_number')}}" style="text-transform: uppercase;">
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="lab_number">Lab Number</label>
-                        <input type="text" class="form-control" name="lab_number" id="lab_number" style="text-transform: uppercase;">
-                    </div>
-                    <hr>
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
@@ -117,7 +124,7 @@
                                 <select class="form-control" name="result" id="result" required>
                                     <option value="" disabled selected>Choose...</option>
                                     @foreach(App\Http\Controllers\PIDSRController::getEdcsTestLabResults() as $d)
-                                    <option value="{{mb_strtoupper($d)}}">{{mb_strtoupper($d)}}</option>
+                                    <option value="{{mb_strtoupper($d)}}" {{(mb_strtoupper($d) == 'PENDING') ? 'selected' : ''}}>{{mb_strtoupper($d)}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -131,12 +138,12 @@
                     </div>
                     <div class="form-group">
                         <label for="interpretation">Interpretation</label>
-                        <input type="text" class="form-control" name="interpretation" id="interpretation" style="text-transform: uppercase;">
+                        <input type="text" class="form-control" name="interpretation" id="interpretation" style="text-transform: uppercase;" value="{{old('interpretation')}}">
                     </div>
                     <hr>
                     <div class="form-group">
                         <label for="remarks">Remarks</label>
-                        <input type="text" class="form-control" name="remarks" id="remarks" style="text-transform: uppercase;">
+                        <input type="text" class="form-control" name="remarks" id="remarks" style="text-transform: uppercase;" value="{{old('remarks')}}">
                     </div>
                 </div>
                 <div class="modal-footer">

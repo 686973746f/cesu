@@ -6776,18 +6776,82 @@ class PIDSRController extends Controller
     }
 
     public function viewPatientLabLogBook($group, $patient) {
-        $g = LabResultLogBookGroup::findOrFail($group);
-
         $d = LabResultLogBook::findOrFail($patient);
 
+        if($d->group_id != $group) {
+            return abort(401);
+        }
+
         return view('pidsr.laboratory.patient_edit', [
-            'g' => $g,
             'd' => $d,
         ]);
     }
 
-    public function updatePatientLabLogBook($group, $patient) {
+    public function updatePatientLabLogBook($group, $patient, Request $r) {
+        $d = LabResultLogBook::findOrFail($patient);
 
+        if($d->group_id != $group) {
+            return abort(401);
+        }
+
+        $check = LabResultLogBook::where('id', '!=', $patient)
+        ->where('group_id', $group)
+        ->where('lname', mb_strtoupper($r->lname))
+        ->where('fname', mb_strtoupper($r->fname));
+
+        if($r->filled('mname')) {
+            $check = $check->where('mname', mb_strtoupper($r->mname));
+        }
+
+        if($r->filled('suffix')) {
+            $check = $check->where('suffix', mb_strtoupper($r->suffix));
+        }
+
+        $check = $check->first();
+
+        if($check) {
+            return redirect()->back()
+            ->withInput()
+            ->with('msg', 'Error: Duplicate patient exist in this group. Kindly double check and try again.')
+            ->with('msgtype', 'warning');
+        }
+
+        $d->lname = mb_strtoupper($r->lname);
+        $d->fname = mb_strtoupper($r->fname);
+        $d->mname = ($r->filled('mname')) ? mb_strtoupper($r->mname) : NULL;
+        $d->suffix = ($r->filled('suffix')) ? mb_strtoupper($r->suffix) : NULL;
+        $d->age = $r->age;
+        $d->gender = $r->gender;
+        $d->specimen_type = $r->specimen_type;
+        $d->test_type = $r->test_type;
+        $d->date_collected = $r->date_collected;
+        $d->collector_name = mb_strtoupper($r->collector_name);
+        $d->lab_number = ($r->filled('lab_number')) ? mb_strtoupper($r->lab_number) : NULL;
+        
+        $d->date_released = ($r->filled('date_released') && $r->result != 'PENDING') ? $r->date_released : NULL;
+        $d->result = $r->result;
+        $d->interpretation = ($r->filled('interpretation')) ? mb_strtoupper($r->interpretation) : NULL;
+        $d->remarks = ($r->filled('remarks')) ? mb_strtoupper($r->remarks) : NULL;
+
+        $d->lname = mb_strtoupper($r->lname);
+        $d->lname = mb_strtoupper($r->lname);
+        $d->lname = mb_strtoupper($r->lname);
+
+        if($d->isDirty('result')) {
+            if($d->result != 'PENDING' && is_null($d->result_updated_by)) {
+                $d->result_updated_by = auth()->user()->id;
+                $d->result_updated_date = date('Y-m-d');
+            }
+        }
+
+        if($d->isDirty()) {
+            $d->updated_by = auth()->user()->id;
+            $d->save();
+        }
+
+        return redirect()->route('pidsr_laboratory_group_home', $group)
+            ->with('msg', 'Updated the patient details successfully.')
+            ->with('msgtype', 'success');
     }
 
     public function updateLabLogBookGroup($group, Request $r) {
@@ -6815,13 +6879,13 @@ class PIDSRController extends Controller
         $d->is_finished = $r->is_finished;
         $d->case_open_date = $r->case_open_date;
         $d->case_close_date = ($r->is_finished == 'Y') ? $r->case_close_date : NULL;
-        $d->remarks = mb_strtoupper($r->remarks);
+        $d->remarks = ($r->filled('remarks')) ? mb_strtoupper($r->remarks) : NULL;
 
         if($d->isDirty()) {
             if($r->is_finished == 'Y' && is_null($d->case_closed_by)) {
                 $d->case_closed_by = auth()->user()->id;
             }
-
+            $d->updated_by = auth()->user()->id;
             $d->save();
         }
 

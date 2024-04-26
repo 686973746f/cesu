@@ -31,9 +31,18 @@ class LabResultLogBookGroup extends Model
         'is_finished',
         'remarks',
         'facility_id',
+        'updated_by',
     ];
 
     public function user() {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function getUpdatedBy() {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    public function getClosedBy() {
+        return $this->belongsTo(User::class, 'case_closed_by');
     }
 }

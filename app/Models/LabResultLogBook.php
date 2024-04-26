@@ -36,6 +36,7 @@ class LabResultLogBook extends Model
         'interpretation',
         'remarks',
         'facility_id',
+        'updated_by',
     ];
 
     public function getName() {
@@ -55,5 +56,13 @@ class LabResultLogBook extends Model
 
     public function user() {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function getUpdatedBy() {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+    
+    public function group() {
+        return $this->belongsTo(LabResultLogBook::class, 'group_id');
     }
 }

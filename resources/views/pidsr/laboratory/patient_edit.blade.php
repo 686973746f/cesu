@@ -10,12 +10,12 @@
         </div>
     </form>
 
-    <form action="{{route('pidsr_laboratory_group_patient_update', [$g->id, $d->id])}}" method="POST">
+    <form action="{{route('pidsr_laboratory_group_patient_update', [$d->group->id, $d->id])}}" method="POST">
         @csrf
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <div><b>Edit Specimen Data</b></div>
+                    <div><b>Edit Patient Specimen Data</b></div>
                     <div></div>
                 </div>
             </div>
@@ -75,20 +75,6 @@
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
-                            <label for="date_collected"><b class="text-danger">*</b>Date and Time Collected</label>
-                            <input type="datetime-local" class="form-control" name="date_collected" id="date_collected" min="{{date('Y-m-d 00:00:00', strtotime('-1 Year'))}}" max="{{date('Y-m-d H:i')}}" value="{{date('Y-m-d H:i', strtotime(old('date_collected', $d->date_collected)))}}" required>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="collector_name"><b class="text-danger">*</b>Name of Collector/Swabber</label>
-                            <input type="text" class="form-control" name="collector_name" id="collector_name" style="text-transform: uppercase;" value="{{$d->collector_name}}" required>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <div class="form-group">
                             <label for="specimen_type"><b class="text-danger">*</b>Specimen Type</label>
                             <select class="form-control" name="specimen_type" id="specimen_type" required>
                                 <option value="" disabled selected>Choose...</option>
@@ -110,7 +96,26 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="date_collected"><b class="text-danger">*</b>Date and Time Collected</label>
+                            <input type="datetime-local" class="form-control" name="date_collected" id="date_collected" min="{{date('Y-m-d 00:00:00', strtotime('-1 Year'))}}" max="{{date('Y-m-d H:i')}}" value="{{date('Y-m-d H:i', strtotime(old('date_collected', $d->date_collected)))}}" required>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="collector_name"><b class="text-danger">*</b>Name of Collector/Swabber</label>
+                            <input type="text" class="form-control" name="collector_name" id="collector_name" style="text-transform: uppercase;" value="{{$d->collector_name}}" required>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="lab_number">Lab Number</label>
+                            <input type="text" class="form-control" name="lab_number" id="lab_number" value="{{old('lab_number', $d->lab_number)}}" style="text-transform: uppercase;">
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-4">
                         <div class="form-group">
@@ -135,17 +140,14 @@
                             <input type="datetime-local" class="form-control" name="date_released" id="date_released" min="{{date('Y-m-d 00:00:00', strtotime('-1 Year'))}}" max="{{date('Y-m-d H:i')}}" value="{{(!is_null($d->date_released)) ? date('Y-m-d H:i', strtotime(old('date_released', $d->date_released))) : ''}}">
                         </div>
                     </div>
-                </div>
-                
-
-                
+                </div>       
                 <hr>
                 <div class="form-group">
                     <label for="remarks">Remarks</label>
                     <input type="text" class="form-control" name="remarks" id="remarks" value="{{old('remarks', $d->remarks)}}" style="text-transform: uppercase;">
                 </div>
                 <div class="alert alert-info text-center mb-0" role="alert">
-                    <h4><b class="text-danger">Note:</b> After encoding in the system, it should also be encoded in <a href="https://pidsr.doh.gov.ph/">EDCS-IS</a>.</h4>
+                    <h4><b class="text-danger">Note:</b> After updating here in the system, it should also be re-updated in <a href="https://pidsr.doh.gov.ph/">EDCS-IS</a>.</h4>
                 </div>
             </div>
             <div class="card-footer">

@@ -38,13 +38,18 @@
                     </div>
                     <div class="col-4">
                         <h5><b>Title:</b></h5>
-                        <h5>{{$d->title}}</h5>
+                        <h5><u>{{$d->title}}</u></h5>
                     </div>
                     <div class="col-4">
                         <h5><b>Date Created/by:</b></h5>
-                        <h5>{{date('F d, Y h:i A', strtotime($d->created_at))}} by {{$d->user->name}}</h5>
+                        <h5>{{date('M d, Y h:i A', strtotime($d->created_at))}} by {{$d->user->name}}</h5>
+                        @if(!is_null($d->updated_by))
+                        <h5><b>Updated at/by:</b></h5>
+                        <h5>{{date('M d, Y h:i A', strtotime($d->updated_at))}} by {{$d->getUpdatedBy->name}}</h5>
+                        @endif
                     </div>
                 </div>
+                <hr>
                 <div class="row">
                     <div class="col-3">
                         <h5><b>Date Started:</b></h5>
@@ -57,6 +62,10 @@
                     <div class="col-3">
                         <h5><b>Date Finished</b></h5>
                         <h5>{{($d->is_finished == 'Y') ? date('m/d/Y', strtotime($d->case_close_date)) : 'N/A'}}</h5>
+                        @if($d->is_finished == 'Y')
+                        <h5><b>Closed by:</b></h5>
+                        <h5>{{$d->getClosedBy->name}}</h5>
+                        @endif
                     </div>
                     <div class="col-3">
                         <h5><b>Sent to RITM:</b></h5>
@@ -64,21 +73,25 @@
                     </div>
                 </div>
                 @if($d->sent_to_ritm == 'Y' && !is_null($d->ritm_date_sent))
-                <div class="row mt-3">
+                <div class="row">
                     <div class="col-6">
                         <h5><b>Date Sent to RITM:</b></h5>
                         <h5>{{date('m/d/Y', strtotime($d->ritm_date_sent))}}</h5>
                         <h5><b>Name of Driver:</b></h5>
-                        <h5></h5>
+                        <h5>{{$d->driver_name}}</h5>
                     </div>
                     <div class="col-6">
                         <h5><b>Date Received by RITM:</b></h5>
-                        <h5>{{date('m/d/Y', strtotime($d->ritm_date_received))}}</h5>
+                        <h5>{{(!is_null($d->ritm_date_received)) ? date('m/d/Y', strtotime($d->ritm_date_received)) : 'N/A'}}</h5>
                         <h5><b>Name of Receiver:</b></h5>
-                        <h5></h5>
+                        <h5>{{(!is_null($d->ritm_received_by)) ? $d->ritm_received_by : 'N/A'}}</h5>
                     </div>
                 </div>
                 @endif
+                <hr>
+                <div>
+                    <h5><b>Remarks:</b> {{(!is_null($d->remarks)) ? $d->remarks : 'N/A'}}</h5>
+                </div>
                 <table class="table table-bordered table-striped mt-5">
                     <thead class="thead-light text-center">
                         <tr>
