@@ -24,7 +24,7 @@
                     
                     <div class="form-group">
                       <label for="group_id"><b class="text-danger">*</b>Link to Open Case:</label>
-                      <select class="form-control" name="group_id" id="group_id">
+                      <select class="form-control" name="group_id" id="group_id" required`>
                         <option value="" disabled selected>Choose...</option>
                         @foreach($list as $l)
                         <option value="{{$l->id}}">{{$l->title}} - {{$l->disease_tag}}</option>
@@ -33,7 +33,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Next</button>
+                    <button type="submit" class="btn btn-primary btn-block">Next</button>
                 </div>
             </div>
         </div>
