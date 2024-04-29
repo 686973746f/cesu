@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    #map { height: 200px; }
+</style>
+
 <div class="container">
     @php
     if($disease == 'SARI') {
@@ -39,25 +43,25 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="FamilyName"><b class="text-danger">*</b>Last Name/Surname</label>
-                            <input type="text" class="form-control" value="{{$d->FamilyName}}" id="FamilyName" name="FamilyName" required>
+                            <input type="text" class="form-control" value="{{old('FamilyName', $d->FamilyName)}}" id="FamilyName" name="FamilyName" required>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="FirstName"><b class="text-danger">*</b>First Name</label>
-                            <input type="text" class="form-control" value="{{$d->FirstName}}" id="FirstName" name="FirstName" required>
+                            <input type="text" class="form-control" value="{{old('FirstName', $d->FirstName)}}" id="FirstName" name="FirstName" required>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="middle_name">Middle Name</label>
-                            <input type="text" class="form-control" value="{{$d->middle_name}}" id="middle_name" name="middle_name">
+                            <input type="text" class="form-control" value="{{old('middle_name', $d->middle_name)}}" id="middle_name" name="middle_name">
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="suffix">Suffix</label>
-                            <input type="text" class="form-control" value="{{$d->suffix}}" id="suffix" name="suffix">
+                            <input type="text" class="form-control" value="{{old('suffix', $d->suffix)}}" id="suffix" name="suffix">
                         </div>
                     </div>
                 </div>
@@ -65,25 +69,44 @@
                     <label for="Barangay"><b class="text-danger">*</b>Barangay</label>
                     <select class="form-control" name="Barangay" id="Barangay" required>
                         @foreach($brgy_list as $b)
-                        <option value="{{$b->id}}" {{($b->brgyName == $d->Barangay) ? 'selected' : ''}}>{{$b->brgyName}}</option>
+                        <option value="{{$b->id}}" {{($b->brgyName == old('Barangay', $d->Barangay)) ? 'selected' : ''}}>{{$b->brgyName}}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-6">
                         <div class="form-group">
-                          <label for="system_subdivision_id"><b class="text-danger">*</b>Subdivision</label>
+                          <label for="system_subdivision_id"><b class="text-danger">*</b>Subdivision Geo-tagging</label>
                           <select class="form-control" name="system_subdivision_id" id="system_subdivision_id" required>
                           </select>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-6">
                         <div class="form-group">
                             <label for="Streetpurok">Street/Purok</label>
-                            <input type="text" class="form-control" value="{{$d->Streetpurok}}" id="Streetpurok" name="Streetpurok">
+                            <input type="text" class="form-control" value="{{old('Streetpurok', $d->Streetpurok)}}" id="Streetpurok" name="Streetpurok">
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="sys_coordinate_x">GPS Coordinate X</label>
+                            <input type="text" class="form-control" value="{{old('sys_coordinate_x', $d->sys_coordinate_x)}}" pattern="\d+(\.\d+)?" id="sys_coordinate_x" name="sys_coordinate_x">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="sys_coordinate_y">GPS Coordinate Y</label>
+                            <input type="text" class="form-control" value="{{old('sys_coordinate_y', $d->sys_coordinate_y)}}" pattern="\d+(\.\d+)?" id="sys_coordinate_y" name="sys_coordinate_y">
+                        </div>
+                    </div>
+                </div>
+                @if(!is_null($d->sys_coordinate_x))
+                <div class="mb-3">
+                    <div id="map"></div>
+                </div>
+                @endif
                 <div class="alert alert-info" role="alert">
                     <h6><b class="text-danger">Note:</b></h6>
                     <ul>
@@ -150,10 +173,36 @@
             return false;
         }
     });
+
+    @if(!is_null($d->sys_coordinate_x))
+    L.Icon.Default.imagePath="{{asset('assets')}}/"
+    
+    var map = L.map('map').setView([{{$d->sys_coordinate_x}}, {{$d->sys_coordinate_y}}], 12);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+        minZoom: 12,
+        maxZoom: 18,
+    }).addTo(map);
+
+    var marker = L.marker([{{$d->sys_coordinate_x}}, {{$d->sys_coordinate_y}}]).addTo(map);
+    marker.bindPopup("<b>Hello world!</b><br>I am a popup.");
+    @endif
     
     $(document).ready(function() {
         $('#Barangay').select2({
             theme: 'bootstrap',
+        });
+
+        $('#sys_coordinate_x').on('input', function() {
+            // Check if field1 has a value
+            if ($(this).val().trim() !== '') {
+                // Make field2 a required field
+                $('#sys_coordinate_y').prop('required', true);
+            } else {
+                // Remove required attribute from field2
+                $('#sys_coordinate_y').prop('required', false);
+            }
         });
 
         $('#Barangay').on('change', function() {

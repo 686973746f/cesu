@@ -1722,6 +1722,13 @@ class PIDSRController extends Controller
 
         $d = $modelClass::where($epiCol, $epi_id)->first();
 
+        if($r->filled('sys_coordinate_x')) {
+            $r->validate([
+                'sys_coordinate_x' => 'required',
+                'sys_coordinate_y' => 'required',
+            ]);
+        }
+
         if($d) {
             if($disease == 'SARI') {
                 $d->lname = $r->FamilyName;
@@ -1755,6 +1762,8 @@ class PIDSRController extends Controller
             }
             
             $d->system_subdivision_id = $r->system_subdivision_id;
+            $d->sys_coordinate_x = $r->sys_coordinate_x;
+            $d->sys_coordinate_y = $r->sys_coordinate_y;
 
             //FOR PERT ADDITIONAL SETTINGS
             if($disease == 'PERT') {

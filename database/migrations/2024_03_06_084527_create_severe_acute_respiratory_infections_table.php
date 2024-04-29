@@ -155,6 +155,8 @@ class CreateSevereAcuteRespiratoryInfectionsTable extends Migration
             $table->string('edcs_patientcontactnum')->nullable();
             $table->text('system_remarks')->nullable();
             $table->string('system_subdivision_id', 5)->nullable();
+            $table->text('sys_coordinate_x')->nullable();
+            $table->text('sys_coordinate_y')->nullable();
             $table->timestamps();
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
         });
