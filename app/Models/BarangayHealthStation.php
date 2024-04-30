@@ -16,5 +16,7 @@ class BarangayHealthStation extends Model
         'assigned_personnel_position',
         'assigned_personnel_contact_number',
         'sys_code1',
+        'sys_coordinate_x',
+        'sys_coordinate_y',
     ];
 }

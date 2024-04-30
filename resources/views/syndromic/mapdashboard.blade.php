@@ -60,6 +60,15 @@
     .then(function(data) {
       // Create a Leaflet GeoJSON layer and add it to the map
       L.geoJSON(data, {
+        style: function(feature) {
+            return {
+                fillColor: null,
+                weight: 1,
+                opacity: 1,
+                color: 'black',
+                fillOpacity: 0.0
+            };
+        },
         onEachFeature: function(feature, layer) {
           // Access the name property of each feature and bind it as a tooltip
           var name = feature.properties.ADM4_EN;

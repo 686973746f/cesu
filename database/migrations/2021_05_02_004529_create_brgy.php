@@ -26,6 +26,7 @@ class CreateBrgy extends Migration
             $table->text('alt_name')->nullable();
             $table->text('latitude')->nullable();
             $table->text('longitude')->nullable();
+            $table->text('edcs_pw')->nullable();
         });
     }
 

@@ -36,22 +36,23 @@ use App\Imports\PidsrImport;
 use App\Models\SiteSettings;
 use Illuminate\Http\Request;
 use App\Imports\RabiesImport;
-use App\Models\EdcsLaboratoryData;
-use App\Models\LabResultLogBook;
-use App\Models\LabResultLogBookGroup;
 use App\Models\Leptospirosis;
-use App\Models\PidsrNotifications;
 use App\Models\PidsrThreshold;
-use App\Models\SevereAcuteRespiratoryInfection;
+use App\Models\LabResultLogBook;
+use App\Models\EdcsLaboratoryData;
+use App\Models\PidsrNotifications;
 use Illuminate\Support\Facades\DB;
 use RebaseData\Converter\Converter;
 use RebaseData\InputFile\InputFile;
 use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
 use Rap2hpoutre\FastExcel\FastExcel;
+use App\Models\LabResultLogBookGroup;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Session;
 use OpenSpout\Common\Entity\Style\Style;
+use App\Models\SevereAcuteRespiratoryInfection;
 
 /*
 ALL TABLES
@@ -6942,6 +6943,181 @@ class PIDSRController extends Controller
             'group' => $r->group_id,
             'case_id' => $r->edcs_cid,
             'disease' => $r->disease,
+        ]);
+    }
+
+    public function brgyCaseViewerWelcome() {
+        $brgy_list = Brgy::where('city_id', 1)
+        ->where('displayInList', 1)
+        ->get();
+
+        return view('pidsr.barangay.brgy_case_viewer_welcome', [
+            'brgy_list' => $brgy_list,
+        ]);
+    }
+
+    public function brgyCaseViewerLogin(Request $r) {
+        // Validate the input
+        $r->validate([
+            'brgy' => 'required',
+            'password' => 'required',
+        ]);
+
+        // Get the credentials from the request
+        $credentials = $r->only('brgy', 'password');
+
+        // Attempt to authenticate the user
+        if (Brgy::where('brgyName', $credentials['brgy'])->where('edcs_pw', $credentials['password'])->exists()) {
+            // Authentication passed, create session
+            $r->session()->regenerate();
+            Session::put('brgyName', $credentials['brgy']); // Set custom session variable
+            Session::put('edcs_pw', $credentials['password']); // Set custom session variable
+
+            // Redirect to a route or return a response
+            return redirect()->route('edcs_barangay_home');
+        }
+
+        // Authentication failed, redirect back with error
+        return redirect()->back()->withInput()->withErrors(['loginError' => 'Invalid credentials.']);
+    }
+
+    public function brgyCaseViewerHome() { 
+        $brgy = session('brgyName');
+
+        $abd_count = Abd::where('enabled', 1)
+        ->where('match_casedef', 1)
+        ->where('Barangay', $brgy);
+        $afp_count = Afp::where('enabled', 1)
+        ->where('match_casedef', 1)
+        ->where('Barangay', $brgy);
+        $ames_count = Ames::where('enabled', 1)
+        ->where('match_casedef', 1)
+        ->where('Barangay', $brgy);
+        $hepa_count = Hepatitis::where('enabled', 1)
+        ->where('match_casedef', 1)
+        ->where('Barangay', $brgy);
+        $chikv_count = Chikv::where('enabled', 1)
+        ->where('match_casedef', 1)
+        ->where('Barangay', $brgy);
+        $cholera_count = Cholera::where('enabled', 1)
+        ->where('match_casedef', 1);
+        $dengue_count = Dengue::where('enabled', 1)
+        ->where('match_casedef', 1)
+        ->where('Barangay', $brgy);
+        $diph_count = Diph::where('enabled', 1)
+        ->where('match_casedef', 1)
+        ->where('Barangay', $brgy);
+        $hfmd_count = Hfmd::where('enabled', 1)
+        ->where('match_casedef', 1)
+        ->where('Barangay', $brgy);
+        $ili_count = Influenza::where('enabled', 1)
+        ->where('match_casedef', 1)
+        ->where('Barangay', $brgy);
+        $lepto_count = Leptospirosis::where('enabled', 1)
+        ->where('match_casedef', 1)
+        ->where('Barangay', $brgy);
+        $measles_count = Measles::where('enabled', 1)
+        ->where('match_casedef', 1)
+        ->where('Barangay', $brgy);
+        $meningo_count = Meningo::where('enabled', 1)
+        ->where('match_casedef', 1)
+        ->where('Barangay', $brgy);
+        $nnt_count = Nnt::where('enabled', 1)
+        ->where('match_casedef', 1)
+        ->where('Barangay', $brgy);
+        $nt_count = Nt::where('enabled', 1)
+        ->where('match_casedef', 1)
+        ->where('Barangay', $brgy);
+        $pert_count = Pert::where('enabled', 1)
+        ->where('match_casedef', 1)
+        ->where('Barangay', $brgy);
+        $rabies_count = Rabies::where('enabled', 1)
+        ->where('match_casedef', 1)
+        ->where('Barangay', $brgy);
+        $rotavirus_count = Rotavirus::where('enabled', 1)
+        ->where('match_casedef', 1)
+        ->where('Barangay', $brgy);
+        $sari_count = SevereAcuteRespiratoryInfection::where('enabled', 1)
+        ->where('match_casedef', 1)
+        ->where('barangay', $brgy);
+        $typhoid_count = Typhoid::where('enabled', 1)
+        ->where('match_casedef', 1)
+        ->where('Barangay', $brgy);
+
+        if(request()->input('year')) {
+            $year = request()->input('year');
+        }
+        else {
+            $year = date('Y');
+        }
+
+        $abd_count = $abd_count->where('Year', $year)->count();
+        $afp_count = $afp_count->where('Year', $year)->count();
+        $ames_count = $ames_count->where('Year', $year)->count();
+        $hepa_count = $hepa_count->where('Year', $year)->count();
+        $chikv_count = $chikv_count->where('Year', $year)->count();
+        $cholera_count = $cholera_count->where('Year', $year)->count();
+        $dengue_count = $dengue_count->where('Year', $year)->count();
+        $diph_count = $diph_count->where('Year', $year)->count();
+        $hfmd_count = $hfmd_count->where('Year', $year)->count();
+        $ili_count = $ili_count->where('Year', $year)->count();
+        $lepto_count = $lepto_count->where('Year', $year)->count();
+        $measles_count = $measles_count->where('Year', $year)->count();
+        $meningo_count = $meningo_count->where('Year', $year)->count();
+        $nnt_count = $nnt_count->where('Year', $year)->count();
+        $nt_count = $nt_count->where('Year', $year)->count();
+        $pert_count = $pert_count->where('Year', $year)->count();
+        $rabies_count = $rabies_count->where('Year', $year)->count();
+        $rotavirus_count = $rotavirus_count->where('Year', $year)->count();
+        $sari_count = $sari_count->where('Year', $year)->count();
+        $typhoid_count = $typhoid_count->where('Year', $year)->count();
+
+        return view('pidsr.barangay.brgy_case_viewer_home', [
+            'abd_count' => $abd_count,
+            'afp_count' => $afp_count,
+            'ames_count' => $ames_count,
+            'hepa_count' => $hepa_count,
+            'chikv_count' => $chikv_count,
+            'cholera_count' => $cholera_count,
+            'dengue_count' => $dengue_count,
+            'diph_count' => $diph_count,
+            'hfmd_count' => $hfmd_count,
+            'ili_count' => $ili_count,
+            'lepto_count' => $lepto_count,
+            'measles_count' => $measles_count,
+            'meningo_count' => $meningo_count,
+            'nnt_count' => $nnt_count,
+            'nt_count' => $nt_count,
+            'pert_count' => $pert_count,
+            'rabies_count' => $rabies_count,
+            'rotavirus_count' => $rotavirus_count,
+            'sari_count' => $sari_count,
+            'typhoid_count' => $typhoid_count,
+        ]);
+    }
+
+    public function brgyCaseViewerViewList($case) {
+        $brgy = session('brgyName');
+
+        $model = "App\\Models\\$case";
+
+        $list = $model::where('enabled', 1)
+        ->where('match_casedef', 1)
+        ->where('Barangay', $brgy);
+
+        if(request()->input('year')) {
+            $year = request()->input('year');
+        }
+        else {
+            $year = date('Y');
+        }
+
+        $list = $list = $list->where('Year', $year)
+        ->orderBy('created_at', 'DESC')
+        ->get();
+
+        return view('pidsr.barangay.brgy_case_viewer_viewlist', [
+            'list' => $list,
         ]);
     }
 }

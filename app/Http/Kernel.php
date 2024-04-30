@@ -82,5 +82,6 @@ class Kernel extends HttpKernel
         'canAccessPregnancyTracking' => \App\Http\Middleware\canAccessPregnancyTracking::class,
         'canAccessQes' => \App\Http\Middleware\canAccessQes::class,
         'isGlobalAdmin' => \App\Http\Middleware\isGlobalAdmin::class,
+        'isLoggedInEdcsBrgyPortal' => \App\Http\Middleware\isLoggedInEdcsBrgyPortal::class,
     ];
 }

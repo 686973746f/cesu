@@ -355,9 +355,16 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
     Route::get('/pidsr/laboratory/{group}/view_patient/{id}', [PIDSRController::class, 'viewPatientLabLogBook'])->name('pidsr_laboratory_group_patient_view');
     Route::post('/pidsr/laboratory/{group}/view_patient/{id}/update', [PIDSRController::class, 'updatePatientLabLogBook'])->name('pidsr_laboratory_group_patient_update');
     //Route::delete('/pidsr/laboratory/{id}/delete', [PIDSRController::class, 'deleteLabLogBook'])->name('pidsr_laboratory_delete');
+    Route::get('/pidsr/viewcif/{case}/{epi_id}', [PIDSRController::class, 'viewCif'])->name('pidsr_viewcif');
 });
 
-Route::get('/pidsr/viewcif/{case}/{epi_id}', [PIDSRController::class, 'viewCif'])->name('pidsr_viewcif');
+Route::get('/edcs/barangayportal', [PIDSRController::class, 'brgyCaseViewerWelcome'])->name('edcs_barangay_welcome');
+Route::post('/edcs/barangayportal/login', [PIDSRController::class, 'brgyCaseViewerLogin'])->name('edcs_barangay_login');
+
+Route::group(['middleware' => ['isLoggedInEdcsBrgyPortal']], function() {
+    Route::get('/edcs/barangayportal/home', [PIDSRController::class, 'brgyCaseViewerHome'])->name('edcs_barangay_home');
+    Route::get('/edcs/barangayportal/{case}/view', [PIDSRController::class, 'brgyCaseViewerViewList'])->name('edcs_barangay_view_list');
+});
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessPidsrAdminMode']], function() {
     Route::get('/pidsr/casechecker/action', [PIDSRController::class, 'casechecker_action'])->name('pidsr_casechecker_action');
