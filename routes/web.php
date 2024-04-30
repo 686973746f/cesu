@@ -364,6 +364,8 @@ Route::post('/edcs/barangayportal/login', [PIDSRController::class, 'brgyCaseView
 Route::group(['middleware' => ['isLoggedInEdcsBrgyPortal']], function() {
     Route::get('/edcs/barangayportal/home', [PIDSRController::class, 'brgyCaseViewerHome'])->name('edcs_barangay_home');
     Route::get('/edcs/barangayportal/{case}/view', [PIDSRController::class, 'brgyCaseViewerViewList'])->name('edcs_barangay_view_list');
+    Route::get('/edcs/barangayportal/viewcif/{case}/{epi_id}', [PIDSRController::class, 'viewCif'])->name('edcs_barangay_view_cif');
+    Route::post('/edcs/barangayportal/logout', [PIDSRController::class, 'brgyCaseViewerLogout'])->name('edcs_barangay_view_logout');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessPidsrAdminMode']], function() {

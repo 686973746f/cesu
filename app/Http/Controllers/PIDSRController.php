@@ -6978,7 +6978,9 @@ class PIDSRController extends Controller
         }
 
         // Authentication failed, redirect back with error
-        return redirect()->back()->withInput()->withErrors(['loginError' => 'Invalid credentials.']);
+        return redirect()->back()->withInput()
+        ->with('msg', 'The barangay or password is incorrect. Kindly double check and try again. For account concerns, you may contact CESU Staff.')
+        ->with('msgtype', 'warning');
     }
 
     public function brgyCaseViewerHome() { 
@@ -7093,6 +7095,8 @@ class PIDSRController extends Controller
             'rotavirus_count' => $rotavirus_count,
             'sari_count' => $sari_count,
             'typhoid_count' => $typhoid_count,
+
+            'year' => $year,
         ]);
     }
 
@@ -7118,6 +7122,14 @@ class PIDSRController extends Controller
 
         return view('pidsr.barangay.brgy_case_viewer_viewlist', [
             'list' => $list,
+            'case' => $case,
+            'year' => $year,
         ]);
+    }
+
+    public function brgyCaseViewerLogout() {
+        session()->flush(); // Clears all session data
+
+        return redirect()->route('edcs_barangay_welcome');
     }
 }

@@ -5,16 +5,22 @@
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <div><b>EDCS Reportable Cases Barangay Dashboard (BRGY. {{session('brgyName')}})</b></div>
+                    <div><b>Encoded Epidemic-prone Disease Dashboard (BRGY. {{session('brgyName')}}) - Year: {{$year}}</b></div>
                     <div>
-                        <form action="">
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#filterModal">Change Year</button>
-                        <button type="submit" class="btn btn-danger">Logout</button>
+                        <form action="{{route('edcs_barangay_view_logout')}}" method="POST">
+                            @csrf
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#filterModal">Change Year</button>
+                            <button type="submit" class="btn btn-danger">Logout</button>
                         </form>
                     </div>
                 </div>
             </div>
             <div class="card-body text-center">
+                @if(session('msg'))
+                <div class="alert alert-{{session('msgtype')}}" role="alert">
+                    {{session('msg')}}
+                </div>
+                @endif
                 <div class="row">
                     <div class="col-3">
                         <a href="{{route('edcs_barangay_view_list', 'Abd')}}">

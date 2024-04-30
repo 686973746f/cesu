@@ -6,10 +6,15 @@
         <div class="card">
             <div class="card-header">
                 <div>
-                    <div><b>View</b></div>
+                    <div><b>View <span class="text-danger">{{mb_strtoupper($case)}}</span> Cases (BRGY. {{session('brgyName')}}) - Year: {{$year}}</b></div>
                 </div>
             </div>
             <div class="card-body">
+                @if(session('msg'))
+                <div class="alert alert-{{session('msgtype')}}" role="alert">
+                    {{session('msg')}}
+                </div>
+                @endif
                 <table class="table table-bordered table-striped" id="mainTbl">
                     <thead class="thead-light text-center">
                         <tr>
@@ -28,7 +33,7 @@
                         @foreach($list as $ind => $l)
                         <tr>
                             <td class="text-center">{{$ind+1}}</td>
-                            <td><a href=""><b>{{$l->getName()}}</b></a></td>
+                            <td><a href="{{route('edcs_barangay_view_cif', [mb_strtoupper($case), $l->EPIID])}}"><b>{{$l->getName()}}</b></a></td>
                             <td class="text-center">{{date('m/d/Y', strtotime($l->DOB))}}</td>
                             <td class="text-center">{{$l->AgeYears}}/{{$l->Sex}}</td>
                             <td class="text-center">
