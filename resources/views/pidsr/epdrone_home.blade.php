@@ -5,7 +5,7 @@
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <div><b>Encoded Epidemic-prone Diseases</b></div>
+                <div><b>Validated Encoded Epidemic-prone Diseases</b></div>
                 <div><button type="button" class="btn btn-success" data-toggle="modal" data-target="#filterModal">Change Year</button></div>
             </div>
         </div>

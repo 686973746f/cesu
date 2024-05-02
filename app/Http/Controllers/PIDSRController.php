@@ -7313,4 +7313,24 @@ class PIDSRController extends Controller
             'typhoid_route' => $typhoid_route,
         ]);
     }
+
+    public function mapViewerIndex($case) {
+        $modelClass = "App\\Models\\$case";
+
+        if(request()->input('year')) {
+            $year = request()->input('year');
+        }
+        else {
+            $year = date('Y');
+        }
+        
+        $list_case = $modelClass::where('enabled', 1)
+        ->where('match_casedef', 1)
+        ->where('Year', $year)
+        ->get();
+
+        return view('pidsr.mapviewer', [
+            'list_case' => $list_case,
+        ]);
+    }
 }

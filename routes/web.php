@@ -357,6 +357,8 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
     Route::post('/pidsr/laboratory/{group}/view_patient/{id}/update', [PIDSRController::class, 'updatePatientLabLogBook'])->name('pidsr_laboratory_group_patient_update');
     //Route::delete('/pidsr/laboratory/{id}/delete', [PIDSRController::class, 'deleteLabLogBook'])->name('pidsr_laboratory_delete');
     Route::get('/pidsr/viewcif/{case}/{epi_id}', [PIDSRController::class, 'viewCif'])->name('pidsr_viewcif');
+
+    Route::get('/pidsr/map_viewer/{case}', [PIDSRController::class, 'mapViewerIndex'])->name('pidsr_case_mapviewer');
 });
 
 Route::get('/edcs/barangayportal', [PIDSRController::class, 'brgyCaseViewerWelcome'])->name('edcs_barangay_welcome');

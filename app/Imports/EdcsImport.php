@@ -421,7 +421,12 @@ class AfpImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             }
 
             //Check Case Definition
-
+            if($row['age_in_years'] < 15) {
+                $match_casedef = 1;
+            }
+            else {
+                $match_casedef = 0;
+            }
 
             $table_params = [
                 'Icd10Code' => NULL,
@@ -579,6 +584,7 @@ class AfpImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
+                'match_casedef' => $match_casedef,
             ];
 
             $exist_check = Afp::where('EPIID', $row['epi_id'])->first();
@@ -2420,6 +2426,19 @@ class MeningoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 $getFullName = $getFullName.' '.$row['suffix_name'];
             }
 
+            //Check Case Definition
+            if($row['fever'] == 'Yes') {
+                if($row['stiff_neck'] == 'Yes' || $row['petechia'] == 'Yes' || $row['purpura'] == 'Yes' || $row['change_of_sensorium'] == 'Yes') {
+                    $match_casedef = 1;
+                }
+                else {
+                    $match_casedef = 0;
+                }
+            }
+            else {
+                $match_casedef = 0;
+            }
+
             $table_params = [
                 'Icd10Code' => 'A39',
                 'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
@@ -2546,6 +2565,7 @@ class MeningoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
+                'match_casedef' => $match_casedef,
             ];
 
             $exist_check = Meningo::where('EPIID', $row['epi_id'])->first();
