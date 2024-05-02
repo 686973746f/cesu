@@ -332,6 +332,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
     
     Route::get('/pidsr/report', [PIDSRController::class, 'report_generate'])->name('pidsr.report');
     Route::get('/pidsr/import/sendmail', [PIDSRController::class, 'manualsend'])->name('pidsr.sendmail');
+    Route::get('/pidsr/epdrone', [PIDSRController::class, 'epDroneHome'])->name('pidsr_epdrone_home');
     Route::get('/pidsr/casechecker', [PIDSRController::class, 'casechecker'])->name('pidsr.casechecker');
     Route::get('/pidsr/casechecker/{disease}/{epi_id}/edit', [PIDSRController::class, 'caseCheckerEdit'])->name('pidsr_casechecker_edit');
     Route::post('/pidsr/casechecker/{disease}/{epi_id}/update', [PIDSRController::class, 'caseCheckerUpdate'])->name('pidsr_casechecker_update');
