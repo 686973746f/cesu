@@ -55,4 +55,13 @@ class Dengue extends Model
             return $this->AgeYears.' '.Str::plural('year', $this->AgeYears).' old';
         }
     }
+
+    public function getStreetPurok() {
+        if(!is_null($this->Streetpurok)) {
+            return $this->Streetpurok;
+        }
+        else {
+            return 'Street/Purok not Encoded';
+        }
+    }
 }

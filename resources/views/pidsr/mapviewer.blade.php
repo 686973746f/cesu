@@ -1,18 +1,41 @@
 @extends('layouts.app')
 
 @section('content')
+<link rel="stylesheet" href="{{asset('assets/beautifymarker/leaflet-beautify-marker-icon.css')}}">
+<script src="{{asset('assets/beautifymarker/leaflet-beautify-marker-icon.js')}}"></script>
 <style>
-    #map { height: 1000px; }
+    #map { height: 700px; }
 </style>
     <div class="container">
         <div class="card">
-            <div class="card-header">Case Map Viewer</div>
+            <div class="card-header"><b>Case Map Viewer</b> (Case: {{$case}} - Year: {{request()->input('year')}})</div>
             <div class="card-body">
                 <div class="row">
-                    <div class="row-6">
-
+                    <div class="col-6">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Age/Sex</th>
+                                    <th>Address</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td scope="row"></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td scope="row"></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="row-6">
+                    <div class="col-6">
                         <div id="map"></div>
                     </div>
                 </div>
@@ -21,14 +44,76 @@
     </div>
     
     <script>
+        function getColor(brgy, disease, year) {
+            $.ajax({
+                url: "{{route('pidsr_case_mapviewerGetColor')}}",
+                method: 'GET',
+                data: {
+                    brgy: brgy,
+                    disease: disease,
+                    year: year,
+                },
+                success: function(response) {
+                    callback(response.color);
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+
         L.Icon.Default.imagePath="{{asset('assets')}}/"
     
-        var map = L.map('map').setView([14.321659, 120.907585], 12);
+        var map = L.map('map').setView([14.321659, 120.905], 12);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
-        minZoom: 12,
-        maxZoom: 13,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+            minZoom: 12,
+            maxZoom: 21,
         }).addTo(map);
+
+        options = {
+            icon: 'user',
+            iconShape: 'marker',
+            borderColor: 'red',
+            backgroundColor: 'red',
+            textColor: 'white',
+        };
+
+        @foreach($list_case as $ind => $lc)
+        @if(!is_null($lc->sys_coordinate_x))
+        L.marker([{{$lc->sys_coordinate_x}}, {{$lc->sys_coordinate_y}}], {
+            icon: L.BeautifyIcon.icon(options),
+            draggable: false,
+        }).addTo(map).bindPopup("popup").bindPopup("<a href='{{route('pidsr_casechecker_edit', [$case, $lc->EPIID])}}'><b>{{$lc->getName()}}</b></a><br>{{$lc->displayAgeStringToReport()}}/{{$lc->Sex}}<br>{{$lc->getStreetPurok()}}<br>BRGY. {{$lc->Barangay}}");
+        @endif
+        @endforeach
+
+        var geojsonFeature = "{{asset('json/gentrigeo.json')}}";
+
+        fetch(geojsonFeature)
+        .then(function(response) {
+        return response.json();
+        })
+        .then(function(data,) {
+            // Create a Leaflet GeoJSON layer and add it to the map
+            L.geoJSON(data, {
+                style: function(feature) {
+                    var sname = feature.properties.ADM4_EN.toUpperCase();
+                    return {
+                        fillColor: getColor(sname, 'Pert', 2024),
+                        weight: 1,
+                        opacity: 1,
+                        color: 'black',
+                        fillOpacity: 0.5,
+                    };
+                },
+                onEachFeature: function(feature, layer) {
+                    // Access the name property of each feature and bind it as a tooltip
+                    var name = feature.properties.ADM4_EN;
+                    layer.bindTooltip(name);
+                }
+            }).addTo(map);
+        });
     </script>
 @endsection

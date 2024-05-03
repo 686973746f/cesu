@@ -3,7 +3,7 @@
 @section('content')
 
 <style>
-    #map { height: 1000px; }
+    #map { height: 800px; }
 </style>
 
 
@@ -55,7 +55,7 @@
 
     fetch(geojsonFeature)
     .then(function(response) {
-      return response.json();
+        return response.json();
     })
     .then(function(data) {
       // Create a Leaflet GeoJSON layer and add it to the map
@@ -76,6 +76,5 @@
         }
       }).addTo(map);
     });
-
 </script>
 @endsection

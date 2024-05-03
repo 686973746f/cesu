@@ -53,4 +53,13 @@ class SevereAcuteRespiratoryInfection extends Model
             return $this->age_years.' '.Str::plural('year', $this->age_years).' old';
         }
     }
+
+    public function getStreetPurok() {
+        if(!is_null($this->streetpurok)) {
+            return $this->streetpurok;
+        }
+        else {
+            return 'Street/Purok not Encoded';
+        }
+    }
 }

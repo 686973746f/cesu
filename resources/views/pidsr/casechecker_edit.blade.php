@@ -91,13 +91,13 @@
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
-                            <label for="sys_coordinate_x">GPS Coordinate X</label>
+                            <label for="sys_coordinate_x">GPS Coordinate X (Longitude)</label>
                             <input type="text" class="form-control" value="{{old('sys_coordinate_x', $d->sys_coordinate_x)}}" pattern="\d+(\.\d+)?" id="sys_coordinate_x" name="sys_coordinate_x">
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            <label for="sys_coordinate_y">GPS Coordinate Y</label>
+                            <label for="sys_coordinate_y">GPS Coordinate Y (Latitude)</label>
                             <input type="text" class="form-control" value="{{old('sys_coordinate_y', $d->sys_coordinate_y)}}" pattern="\d+(\.\d+)?" id="sys_coordinate_y" name="sys_coordinate_y">
                         </div>
                     </div>

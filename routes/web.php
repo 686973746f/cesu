@@ -359,6 +359,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
     Route::get('/pidsr/viewcif/{case}/{epi_id}', [PIDSRController::class, 'viewCif'])->name('pidsr_viewcif');
 
     Route::get('/pidsr/map_viewer/{case}', [PIDSRController::class, 'mapViewerIndex'])->name('pidsr_case_mapviewer');
+    Route::get('/pidsr/mpGetColor', [PIDSRController::class, 'mapViewerGetColor'])->name('pidsr_case_mapviewerGetColor');
 });
 
 Route::get('/edcs/barangayportal', [PIDSRController::class, 'brgyCaseViewerWelcome'])->name('edcs_barangay_welcome');

@@ -1552,6 +1552,8 @@ class PIDSRController extends Controller
     }
 
     public static function dbFetcher($case) {
+        $case = mb_strtoupper($case);
+        
         if($case == 'ABD') {
             $d = 'Abd';
             $flavor_title = 'Acute Bloody Diarrhea';
@@ -7327,10 +7329,41 @@ class PIDSRController extends Controller
         $list_case = $modelClass::where('enabled', 1)
         ->where('match_casedef', 1)
         ->where('Year', $year)
+        ->orderBy('created_at', 'ASC')
         ->get();
 
         return view('pidsr.mapviewer', [
             'list_case' => $list_case,
+            'case' => $case,
         ]);
+    }
+
+    public function mapViewerGetColor() {
+        $case = request()->input('disease');
+        $brgy = request()->input('brgy');
+        $year = request()->input('year');
+
+        if($case == 'Pert') {
+            $count = Pert::where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where('Barangay', $brgy)
+            ->where('Year', $year)
+            ->count();
+        }
+
+        if($count < 1) {
+            $return_color = 'white';
+        }
+        else if($count == 1) {
+            $return_color = 'yellow';
+        }
+        else if($count == 2) {
+            $return_color = 'orange';
+        }
+        else {
+            $return_color = 'red';
+        }
+
+        return response()->json(['color' => $return_color]);
     }
 }

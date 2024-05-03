@@ -3,7 +3,12 @@
 @section('content')
 <div class="container-fluid">
     <div class="card">
-        <div class="card-header"><b>EDCS-IS In-house List of Case Viewer</b></div>
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <div><b>EDCS-IS In-house List of Case Viewer</b></div>
+                <div><a href="{{route('pidsr_case_mapviewer', ['case' => request()->input('case'), 'year' => request()->input('year')])}}">Spot Map Viewer</a></div>
+            </div>
+        </div>
         <div class="card-body">
             @if(session('msg'))
             <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
