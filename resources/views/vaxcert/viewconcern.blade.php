@@ -1,6 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    #step2_choicediv {
+        display: none;
+    }
+
+    #step3_footer {
+        display: none;
+    }
+    
+</style>
 <div class="container">
     <form>
         @csrf
@@ -505,7 +515,7 @@
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block" name="submit" value="update">Update Record</button>
-                <hr>
+                <hr class="mt-3">
                 <button type="button" class="btn btn-success btn-block btn-lg" data-toggle="modal" data-target="#vwizard">Open VaxCert Wizard</button>
         </div>
     </form>
@@ -523,10 +533,16 @@
                         </button>
                 </div>
                 <div class="modal-body">
-                    <h6>Submitted ID:</h6>
-                    <a href="{{asset('assets/vaxcert/patients/'.$d->id_file)}}" target="_blank"><img src="{{asset('assets/vaxcert/patients/'.$d->id_file)}}" class="img-fluid"></a>
-                    <h6>Submitted Card:</h6>
-                    <a href="{{asset('assets/vaxcert/patients/'.$d->vaxcard_file)}}" target="_blank"><img src="{{asset('assets/vaxcert/patients/'.$d->vaxcard_file)}}" class="img-fluid"></a>
+                    <div class="row">
+                        <div class="col-6">
+                            <h6>Submitted ID (Click to Enlarge):</h6>
+                            <a href="{{asset('assets/vaxcert/patients/'.$d->id_file)}}" target="_blank"><img src="{{asset('assets/vaxcert/patients/'.$d->id_file)}}" class="img-fluid"></a>
+                        </div>
+                        <div class="col-6">
+                            <h6>Submitted Card (Click to Enlarge):</h6>
+                            <a href="{{asset('assets/vaxcert/patients/'.$d->vaxcard_file)}}" target="_blank"><img src="{{asset('assets/vaxcert/patients/'.$d->vaxcard_file)}}" class="img-fluid"></a>
+                        </div>
+                    </div>
                     <div id="step1">
                         <hr>
                         <h4><b>Step 1 - Check Vaccination Site</b></h4>
@@ -560,14 +576,16 @@
                                 <li>Wala pa ring lumabas na record? Subukan ang last <a href="{{route('vaxcert_vquery')}}?lname={{substr($d->last_name,0,1)}}&fname={{substr($d->first_name,0,1)}}&bdate={{date('Y-d-m', strtotime($d->bdate))}}&fromwizard=1" target="_blank" class="btn btn-secondary">Checker #3</a></li>
                             </ul>
                         </h5>
-                        <hr>
-                        <h5 class="text-center">Na-resolba na ba ang problema?</h5>
-                        <div class="row">
-                            <div class="col-6">
-                                <button type="button" class="btn btn-danger btn-block" id="step2_no"><b>Hindi</b>, may kulang na dose pa din/hindi pa din makita lahat ng doses</button>
-                            </div>
-                            <div class="col-6">
-                                <button type="button" class="btn btn-success btn-block" id="step2_yes"><b>Oo</b>, nakita na ang record ni patient at na-update na ang maling detalye</button>
+                        <div id="step2_choicediv">
+                            <hr>
+                            <h5 class="text-center">Na-resolba na ba ang problema?</h5>
+                            <div class="row">
+                                <div class="col-6">
+                                    <button type="button" class="btn btn-danger btn-block" id="step2_no"><b>Hindi</b>, may kulang na dose pa din/hindi pa din makita lahat ng doses</button>
+                                </div>
+                                <div class="col-6">
+                                    <button type="button" class="btn btn-success btn-block" id="step2_yes"><b>Oo</b>, nakita na ang record ni patient at na-update na ang maling detalye</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -606,9 +624,11 @@
                                     <div>via Email: {{$d->email}}</div>
                                     <div>via Text/Call: {{$d->contact_number}}</div>
                                 </li>
-                                @if($d->status == 'PENDING')
-                                <li class="mt-5">Isarado na ang ticket <button type="submit" class="btn btn-success" value="complete">Mark as Closed</button></li>
-                                @endif
+                                <div id="step3_footer">
+                                    @if($d->status == 'PENDING')
+                                    <li class="mt-5">Isarado na ang ticket <button type="submit" class="btn btn-success" name="submit" value="complete">Mark as Closed</button></li>
+                                    @endif
+                                </div>
                             </ul>
                         </h5>
                     </div>
@@ -623,6 +643,10 @@
         e.preventDefault();
         $('#step1').addClass('d-none');
         $('#step2').removeClass('d-none');
+
+        setTimeout(function(){
+            $("#step2_choicediv").fadeIn();
+        }, 20000);
     });
 
     $('#step2_yes').click(function (e) { 
@@ -631,6 +655,10 @@
         $('#step2').addClass('d-none');
         $('#step2a').addClass('d-none');
         $('#step3').removeClass('d-none');
+
+        setTimeout(function(){
+            $("#step3_footer").fadeIn();
+        }, 10000);
     });
 
     $('#step2_no').click(function (e) { 
