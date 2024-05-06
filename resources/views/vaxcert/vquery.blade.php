@@ -54,11 +54,13 @@
                                         <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             <a href="https://vaslinelist.dict.gov.ph/linelist-dynamo-query?page=1&size=20&lastname={{$a->last_name}}&firstname={{$a->first_name}}&birthdate={{date('Y-m-d', strtotime($a->birthdate))}}{{(!is_null($a->suffix)) ? '&suffix='.$a->suffix : ''}}" target="_blank" class="dropdown-item">Search in VAS</a>
+                                            @if(!request()->input('fromwizard'))
                                             <a href="https://vaslinelist.dict.gov.ph/vaxcert/correction?lastname={{$a->last_name}}&firstname={{$a->first_name}}" class="dropdown-item" target="_blank">Search in CORRECTION Request</i></a>
                                             <a href="https://vaslinelist.dict.gov.ph/vaxcert/not-found?lastname={{$a->last_name}}&firstname={{$a->first_name}}" class="dropdown-item" target="_blank">Search in NOT FOUND Requests</i></a>
                                             <div class="dropdown-divider"></div>
                                             <a href="{{route('vaxcert_vquery_templatemaker', ['use_id' => $a->id])}}" class="dropdown-item">Load into Template Maker</a>
                                             <a href="{{route('vaxcert_vquery_template', $a->id)}}" class="dropdown-item"><i class="fa fa-file-excel mr-2" aria-hidden="true"></i>Download (.XLSX)</a>
+                                            @endif
                                         </div>
                                     </div>
                                 </td>

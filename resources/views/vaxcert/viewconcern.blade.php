@@ -506,76 +506,156 @@
                 </div>
                 <button type="submit" class="btn btn-primary btn-block" name="submit" value="update">Update Record</button>
                 <hr>
-                <ul>
-                    <li><b>Step 1:</b> Verify <a href="{{asset('assets/vaxcert/patients/'.$d->id_file)}}" target="_blank">Submitted ID</a> and <a href="{{asset('assets/vaxcert/patients/'.$d->vaxcard_file)}}" target="_blank">Vaccination Card</a> of the patient.</li>
-                    <li><b>Step 2:</b> Login to <a href="https://vaslinelist.dict.gov.ph/">VAS Line List Site</a> first. Kung naka-login na, proceed to Step 3.</li>
-                    <li>
-                        <b>Step 3:</b>
-                        <ul>
-                            @if(!is_null($d->vaxcert_refno))
-                            <li>Search Ref. No in <b>Correction Request</b> - <a href="https://vaslinelist.dict.gov.ph/vaxcert/correction?lastname={{$d->vaxcert_refno}}" target="_blank">HERE</a></li>
-                            <li>Search Ref. No in <b>Not Found Request</b> - <a href="https://vaslinelist.dict.gov.ph/vaxcert/not-found?lastname={{$d->vaxcert_refno}}" target="_blank">HERE</a></li>
-                            @endif
-                            <li>Search Name of Patient in <b>Correction Request</b> by clicking - <a href="https://vaslinelist.dict.gov.ph/vaxcert/correction?lastname={{$d->last_name}}&firstname={{$d->first_name}}" target="_blank">HERE</a></li>
-                            <li>Search Name of Patient in <b>Not Found Request</b> by clicking - <a href="https://vaslinelist.dict.gov.ph/vaxcert/not-found?lastname={{$d->last_name}}&firstname={{$d->first_name}}" target="_blank">HERE</a></li>
-                        </ul>
-                    </li>
-                    <h6>(Kung may ticket ang Patient, wag na mag-proceed sa Step 3 at i-update na lang ang Ticket at i-close pagkatapos. Kung wala, proceed to Step 4)</h6>
-                    <h6>------------</h6>
-                    <li>
-                        <b>Step 4:</b>
-                        <ul>
-                            <li>Search and check record of patient in Vacinee Query by clicking each of the following: <a href="https://vaslinelist.dict.gov.ph/linelist-dynamo-query?page=1&size=20&lastname={{$d->last_name}}&firstname={{$d->first_name}}&birthdate={{date('Y-m-d', strtotime($d->bdate))}}{{(!is_null($d->suffix)) ? '&suffix='.$d->suffix : ''}}" target="_blank">A.) Online Vaccinee Query</a> | <a href="{{route('vaxcert_vquery')}}?lname={{$d->last_name}}&fname={{$d->first_name}}&bdate=" target="_blank">B.) Local Vaccinee Query</a></li>
-                            <h6>(Kung may lumabas, i-check at i-update ang mga details)</h6>
-                            @if(date('d', strtotime($d->bdate)) <= 12)
-                            <ul>
-                                <li>Kung walang lumabas o kulang ang dose ng bakunang lumabas, maaaring baliktad ang Birthdate na naka-encode sa VAS System, para ma-check iyon, click - <a href="https://vaslinelist.dict.gov.ph/linelist-dynamo-query?page=1&size=20&lastname={{$d->last_name}}&firstname={{$d->first_name}}&birthdate={{date('Y-d-m', strtotime($d->bdate))}}{{(!is_null($d->suffix)) ? '&suffix='.$d->suffix : ''}}" target="_blank">HERE</a></li>
-                                <h6>(Kung may lumabas, itama ang birthdate ng patient at i-submit para ma-update)</h6>
-                            </ul>
-                            @endif
-                            <li>Kung wala pa ding lumabas, subukan i-search ang details ng Patient sa 01/01/1990 na BDATE field, click <a href="https://vaslinelist.dict.gov.ph/linelist-dynamo-query?page=1&size=20&lastname={{$d->last_name}}&firstname={{$d->first_name}}&birthdate=1990-01-01{{(!is_null($d->suffix)) ? '&suffix='.$d->suffix : ''}}" target="_blank">HERE</a></li>
-                            <h6>(Kung kumpleto na ang bakuna after updating, wag na mag-proceed sa Step 5 at pindutin na ang Complete button sa ibaba ng page na ito)</h6>
-                        </ul>
-                    </li>
-                    <h6>------------</h6>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <li>
-                                <b>Step 5A:</b>
-                                <ul>
-                                    <li>Load the Ticket details to the <a href="{{route('vaxcert_vquery_templatemaker', ['concern_id' => $d->id])}}" target="_blank">TEMPLATE MAKER</a></li>
-                                    <li>Fill-out the necessary details and the dose needed to process before generating.</li>
-                                </ul>
-                            </li>
-                        </div>
-                        <div class="col-md-6">
-                            <li>
-                                <b>Step 5B:</b>
-                                <ul>
-                                    <li>Download Patient Linelist Template by clicking - <a href="{{route('vaxcert_basedl', $d->id)}}">HERE</a></li>
-                                    <li>Go to <a href="https://vaslinelist.dict.gov.ph/vas-line-import/approved">VAS Linelist Import</a> and upload the downloaded Excel (.XLSX) file.</li>
-                                    <li>Use <b class="text-info">cesugentri.vaxcert@gmail.com</b> as the email for uploading the linelist.</li>
-                                </ul>
-                            </li>
-                        </div>
-                    </div>
-                    
-                    <h6>------------</h6>
-                    <h6 class="text-danger"><b>SIGURADUHING "CLOSED" NA LAHAT NG TICKET NG PATIENT SA VAS LINELIST SITE (<a href="https://vaslinelist.dict.gov.ph/vaxcert/correction?lastname={{$d->last_name}}&firstname={{$d->first_name}}" target="_blank">CORRECTION</a> & <a href="https://vaslinelist.dict.gov.ph/vaxcert/not-found?lastname={{$d->last_name}}&firstname={{$d->first_name}}" target="_blank">NOT FOUND</a>) BAGO PINTUDIN ANG <span class="text-success">COMPLETE</span> BUTTON SA IBABA.</b></h6>
-                    <h6>Maaaring kontakin ang pasyente sa kanyang Mobile Number: <b class="text-info">{{$d->contact_number}}</b> @if(!is_null($d->email))o sa Email Address: <b class="text-info">{{$d->email}}</b>@endif na maaari na siyang mag-generate ng kanyang VaxCert at naayos na ang isyu sa kanyang VaxCert.</h6>
-                </ul>
-            </div>
-            @if($d->status == 'PENDING')
-            <div class="card-footer text-right">
-                <button type="submit" class="btn btn-danger mr-3" name="submit" value="reject">Reject</button>
-                <button type="submit" class="btn btn-success" name="submit" value="complete">Complete</button>
-            </div>
-            @endif
+                <button type="button" class="btn btn-success btn-block btn-lg" data-toggle="modal" data-target="#vwizard">Open VaxCert Wizard</button>
         </div>
     </form>
 </div>
 
+<form action="">
+    <div class="modal fade" id="vwizard" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><b>VaxCert Wizard</b></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <h6>Submitted ID:</h6>
+                    <a href="{{asset('assets/vaxcert/patients/'.$d->id_file)}}" target="_blank"><img src="{{asset('assets/vaxcert/patients/'.$d->id_file)}}" class="img-fluid"></a>
+                    <h6>Submitted Card:</h6>
+                    <a href="{{asset('assets/vaxcert/patients/'.$d->vaxcard_file)}}" target="_blank"><img src="{{asset('assets/vaxcert/patients/'.$d->vaxcard_file)}}" class="img-fluid"></a>
+                    <div id="step1">
+                        <hr>
+                        <h4><b>Step 1 - Check Vaccination Site</b></h4>
+                        <h5>Sa City of General Trias ba binakunahan ang dose na may nawawala o may problema?</h5>
+                        <div class="row">
+                            <div class="col-6">
+                                <button type="button" class="btn btn-success btn-block" id="step1_yes">Oo</button>
+                            </div>
+                            <div class="col-6">
+                                <button type="button" class="btn btn-danger btn-block" id="step1_no">Hindi</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="step1_no" class="d-none">
+
+                    </div>
+                    <div id="step2" class="d-none">
+                        <hr>
+                        <h4><b>Step 2 - Check if Records Exists</b></h4>
+                        <h5>
+                            <ul>
+                                <li class="mb-5">
+                                    <h5>Pumunta sa <a href="{{route('vaxcert_vquery')}}?lname={{$d->last_name}}&fname={{$d->first_name}}&bdate=&fromwizard=1" target="_blank" class="btn btn-primary">Local Vaccinee Query</a> upang ma-check kung may existing record ang user.</h5>
+                                    <ul>
+                                        <li>Kung may lumabas na record, i-double check kung tugma yung Complete Name and Birthdate kung tugma sa binigay na Valid ID o Vaccination Card ni user.</li>
+                                        <li>Next, i-check kung tugma yung date ng doses ng bawat bakuna ni user.</li>
+                                        <li>Kung may nakitang mali sa existing na record, i-click ang [Action] sa gilid ng record at pindutin ang [Search in VAS] at doon i-submit ang update.</li>
+                                    </ul>
+                                </li>
+                                <li class="mb-3">Walang lumabas na record? Subukan ang <a href="{{route('vaxcert_vquery')}}?lname={{substr($d->last_name,0,1)}}&fname={{substr($d->first_name,0,1)}}&bdate={{date('Y-m-d', strtotime($d->bdate))}}&fromwizard=1" target="_blank" class="btn btn-secondary">Checker #2</a></li>
+                                <li>Wala pa ring lumabas na record? Subukan ang last <a href="{{route('vaxcert_vquery')}}?lname={{substr($d->last_name,0,1)}}&fname={{substr($d->first_name,0,1)}}&bdate={{date('Y-d-m', strtotime($d->bdate))}}&fromwizard=1" target="_blank" class="btn btn-secondary">Checker #3</a></li>
+                            </ul>
+                        </h5>
+                        <hr>
+                        <h5 class="text-center">Na-resolba na ba ang problema?</h5>
+                        <div class="row">
+                            <div class="col-6">
+                                <button type="button" class="btn btn-danger btn-block" id="step2_no"><b>Hindi</b>, may kulang na dose pa din/hindi pa din makita lahat ng doses</button>
+                            </div>
+                            <div class="col-6">
+                                <button type="button" class="btn btn-success btn-block" id="step2_yes"><b>Oo</b>, nakita na ang record ni patient at na-update na ang maling detalye</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="step2a" class="d-none">
+                        <div class="text-right">
+                            <button type="button" id="step2a_back" class="btn btn-secondary">Go Back</button>
+                        </div>
+                        <hr>
+                        <h4><b>Step 2A - Use Template Maker</b></h4>
+                        <h5>
+                            <ul>
+                                <li>Go to <a href="{{route('vaxcert_vquery_templatemaker', ['concern_id' => $d->id])}}" target="_blank" class="btn btn-primary">Template Maker</a></li>
+                                <li>I-check at i-fillout ang mga nawawalang vaccine doses ni user at i-click ang Generate .XLSX File pagkatapos.</li>
+                                <li class="mb-5">
+                                    <div>I-upload ang Excel file sa <a href="https://vaslinelist.dict.gov.ph/vas-line-import/approved" class="btn btn-primary" target="_blank">VASLL Import Page</a>.</div>
+                                    <div>I-check kung <span class="text-success">Passed</span> lahat ng sinubmit na Excel file at dapat Zero (0) yung nakalagay sa Failed.</div>
+                                </li>
+                                <li>I-verify kung na-upload at nagr-reflect na lahat sa pagpunta sa <a href="https://vaslinelist.dict.gov.ph/linelist-dynamo-query?page=1&size=20&lastname={{$d->last_name}}&firstname={{$d->first_name}}&birthdate={{date('Y-m-d', strtotime($d->birthdate))}}{{(!is_null($d->suffix)) ? '&suffix='.$d->suffix : ''}}" target="_blank" class="btn btn-primary">VAS Vaccinee Query</a></li>
+                            </ul>
+                        </h5>
+                        <button type="button" class="btn btn-success btn-block" id="step2_yes">Done, nagr-reflect na lahat sa Online VAS Linelist</button>
+                    </div>
+                    <div id="step3" class="d-none">
+                        <div class="text-right">
+                            <button type="button" id="step3_back" class="btn btn-secondary">Go Back</button>
+                        </div>
+                        <hr>
+                        <h4><b>Step 3 - Closing the Tickets</b></h4>
+                        <h5>
+                            <ul>
+                                <li>
+                                    <div>Puntahan ang <a href="https://vaslinelist.dict.gov.ph/vaxcert/correction?lastname={{$d->last_name}}&firstname={{$d->first_name}}" target="_blank" class="btn btn-primary">Correction</a> pati ang <a href="https://vaslinelist.dict.gov.ph/vaxcert/not-found?lastname={{$d->last_name}}&firstname={{$d->first_name}}" target="_blank" class="btn btn-primary">Not Found</a> Request Page at Ilagay sa <b class="text-success">CLOSED</b> lahat ng Status ng mga existing tickets.</div>
+                                </li>
+                                <li>
+                                    <div>I-inform ang user na resolved na ang kanyang ticket.</div>
+                                    <div>via Email: {{$d->email}}</div>
+                                    <div>via Text/Call: {{$d->contact_number}}</div>
+                                </li>
+                                @if($d->status == 'PENDING')
+                                <li class="mt-5">Isarado na ang ticket <button type="submit" class="btn btn-success" value="complete">Mark as Closed</button></li>
+                                @endif
+                            </ul>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
 <script>
+    $('#step1_yes').click(function (e) { 
+        e.preventDefault();
+        $('#step1').addClass('d-none');
+        $('#step2').removeClass('d-none');
+    });
+
+    $('#step2_yes').click(function (e) { 
+        e.preventDefault();
+        $('#step1').addClass('d-none');
+        $('#step2').addClass('d-none');
+        $('#step2a').addClass('d-none');
+        $('#step3').removeClass('d-none');
+    });
+
+    $('#step2_no').click(function (e) { 
+        e.preventDefault();
+        $('#step1').addClass('d-none');
+        $('#step2').addClass('d-none');
+        $('#step2a').removeClass('d-none');
+        $('#step3').addClass('d-none');
+    });
+
+    $('#step2a_back').click(function (e) { 
+        e.preventDefault();
+        $('#step1').addClass('d-none');
+        $('#step2').removeClass('d-none');
+        $('#step2a').addClass('d-none');
+        $('#step3').addClass('d-none');
+    });
+    
+    $('#step3_back').click(function (e) { 
+        e.preventDefault();
+        $('#step1').addClass('d-none');
+        $('#step2').removeClass('d-none');
+        $('#step2a').addClass('d-none');
+        $('#step3').addClass('d-none');
+    });
+
     //Select2 Init for Address Bar
     $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_text').select2({
         theme: 'bootstrap',
