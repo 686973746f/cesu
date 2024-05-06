@@ -18,17 +18,26 @@ class isLoggedInEdcsBrgyPortal
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Session::has('brgyName') && Session::has('edcs_pw')) {
+        if(Session::has('brgyName') && Session::has('session_code')) {
             $brgy = session('brgyName');
-            $pw = session('edcs_pw');
+            $scode = session('session_code');
 
-            if(Brgy::where('brgyName', $brgy)->where('edcs_pw', $pw)->exists()) {
+            $session_check = Brgy::where('brgyName', $brgy)->where('edcs_session_code', $scode)->first();
+
+            if($session_check) {
+                $session_check->edcs_lastlogin_date = date('Y-m-d H:i:s');
+                
+                if($session_check->isDirty()) {
+                    $session_check->save();
+                }
+                
                 return $next($request);
             }
             else {
-                return abort(401);
-            }
-            
+                return redirect()->route('edcs_barangay_welcome')
+                ->with('msg', 'Please login to continue.')
+                ->with('msgtype', 'warning');
+            }   
         }
         else {
             return abort(401);

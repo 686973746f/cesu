@@ -363,6 +363,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
 });
 
 Route::get('/edcs/barangayportal', [PIDSRController::class, 'brgyCaseViewerWelcome'])->name('edcs_barangay_welcome');
+Route::get('/edcs/barangayportal/quicklogin', [PIDSRController::class, 'brgyCaseViewerQuickLogin'])->name('edcs_barangay_quicklogin');
 Route::post('/edcs/barangayportal/login', [PIDSRController::class, 'brgyCaseViewerLogin'])->name('edcs_barangay_login');
 
 Route::group(['middleware' => ['isLoggedInEdcsBrgyPortal']], function() {

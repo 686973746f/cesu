@@ -20,6 +20,7 @@ class Brgy extends Model
         'json_code',
         'alt_name',
         'edcs_pw',
+        'edcs_quicklogin_code',
         'edcs_lastlogin_date',
         'edcs_session_code',
         'edcs_ip',

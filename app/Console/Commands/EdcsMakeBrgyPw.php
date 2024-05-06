@@ -44,6 +44,7 @@ class EdcsMakeBrgyPw extends Command
         ->get();
 
         foreach($brgy_list as $b) {
+            $b->edcs_quicklogin_code = Str::random(10);
             $b->edcs_pw = mb_strtoupper(Str::random(5));
             if($b->isDirty()) {
                 $b->save();

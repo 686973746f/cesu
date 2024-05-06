@@ -6958,6 +6958,25 @@ class PIDSRController extends Controller
         ]);
     }
 
+    public function brgyCaseViewerQuickLogin() {
+        if(request()->input('brgy') && request()->input('qlcode')) {
+            $brgy = request()->input('brgy');
+            $code = request()->input('qlcode');
+            
+            $search = Brgy::where('brgyName', $brgy)->where('edcs_quicklogin_code', $code)->first();
+
+            if($search) {
+                $session_code = mb_strtoupper(Str::random(5));
+            }
+            else {
+                return 'Error: Wrong Barangay or Code given. You may contact General Trias CESU Staff (Luis P. Broas or Christian James Historillo) for assistance.';
+            }
+        }
+        else {
+            return abort(401);
+        }
+    }
+
     public function brgyCaseViewerLogin(Request $r) {
         // Validate the input
         $r->validate([
@@ -6974,23 +6993,14 @@ class PIDSRController extends Controller
 
             //put session code and IP address on the database
             $record = Brgy::where('brgyName', $credentials['brgy'])->where('edcs_pw', $credentials['password'])->first();
+            
             if($record->edcs_session_code != $session_code) {
                 //check if 5 minutes has passed
                 $date1 = Carbon::parse($record->edcs_lastlogin_date);
                 $currentDatetime = Carbon::now();
 
-                if ($date1->lte($currentDatetime->subMinutes(5))) {
-                    // Authentication passed, create session
-                    $r->session()->regenerate();
-                    Session::put('brgyName', $credentials['brgy']); // Set custom session variable
-                    Session::put('edcs_pw', $credentials['password']); // Set custom session variable
-                    Session::put('session_code', $session_code);
-
-                    $update = Brgy::where('brgyName', $credentials['brgy'])->where('edcs_pw', $credentials['password'])->update([
-                        'edcs_lastlogin_date' => date('Y-m-d H:i:s'),
-                        'edcs_session_code' => $session_code,
-                        'edcs_ip' =>  request()->ip(),
-                    ]);
+                if($date1->lte($currentDatetime->subMinutes(5)) || is_null($record->edcs_lastlogin_date)) {
+                    
                 }
                 else {
                     return redirect()->route('edcs_barangay_welcome')
@@ -6998,6 +7008,18 @@ class PIDSRController extends Controller
                     ->with('msgtype', 'warning');
                 }
             }
+
+            // Authentication passed, create session
+            $r->session()->regenerate();
+            Session::put('brgyName', $credentials['brgy']); // Set custom session variable
+            //Session::put('edcs_pw', $credentials['password']); // Set custom session variable
+            Session::put('session_code', $session_code);
+
+            $update = Brgy::where('brgyName', $credentials['brgy'])->where('edcs_pw', $credentials['password'])->update([
+                'edcs_lastlogin_date' => date('Y-m-d H:i:s'),
+                'edcs_session_code' => $session_code,
+                'edcs_ip' =>  request()->ip(),
+            ]);
 
             // Redirect to a route or return a response
             return redirect()->route('edcs_barangay_home');

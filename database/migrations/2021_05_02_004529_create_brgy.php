@@ -27,6 +27,10 @@ class CreateBrgy extends Migration
             $table->text('latitude')->nullable();
             $table->text('longitude')->nullable();
             $table->text('edcs_pw')->nullable();
+            $table->string('edcs_quicklogin_code', 10)->nullable();
+            $table->dateTime('edcs_lastlogin_date')->nullable();
+            $table->string('edcs_session_code', 5)->nullable();
+            $table->ipAddress('edcs_ip');
         });
     }
 
