@@ -6970,10 +6970,34 @@ class PIDSRController extends Controller
 
         // Attempt to authenticate the user
         if (Brgy::where('brgyName', $credentials['brgy'])->where('edcs_pw', $credentials['password'])->exists()) {
-            // Authentication passed, create session
-            $r->session()->regenerate();
-            Session::put('brgyName', $credentials['brgy']); // Set custom session variable
-            Session::put('edcs_pw', $credentials['password']); // Set custom session variable
+            $session_code = mb_strtoupper(Str::random(5));
+
+            //put session code and IP address on the database
+            $record = Brgy::where('brgyName', $credentials['brgy'])->where('edcs_pw', $credentials['password'])->first();
+            if($record->edcs_session_code != $session_code) {
+                //check if 5 minutes has passed
+                $date1 = Carbon::parse($record->edcs_lastlogin_date);
+                $currentDatetime = Carbon::now();
+
+                if ($date1->lte($currentDatetime->subMinutes(5))) {
+                    // Authentication passed, create session
+                    $r->session()->regenerate();
+                    Session::put('brgyName', $credentials['brgy']); // Set custom session variable
+                    Session::put('edcs_pw', $credentials['password']); // Set custom session variable
+                    Session::put('session_code', $session_code);
+
+                    $update = Brgy::where('brgyName', $credentials['brgy'])->where('edcs_pw', $credentials['password'])->update([
+                        'edcs_lastlogin_date' => date('Y-m-d H:i:s'),
+                        'edcs_session_code' => $session_code,
+                        'edcs_ip' =>  request()->ip(),
+                    ]);
+                }
+                else {
+                    return redirect()->route('edcs_barangay_welcome')
+                    ->with('msg', 'Account is already logged in. Please try again after 5 minutes.')
+                    ->with('msgtype', 'warning');
+                }
+            }
 
             // Redirect to a route or return a response
             return redirect()->route('edcs_barangay_home');
