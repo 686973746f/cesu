@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <form action="{{route('vaxcert_processpatient', $d->id)}}" method="POST">
+    <form>
         @csrf
         <div class="card">
             <div class="card-header">
@@ -511,7 +511,8 @@
     </form>
 </div>
 
-<form action="">
+<form action="{{route('vaxcert_processpatient', $d->id)}}" method="POST">
+    @csrf
     <div class="modal fade" id="vwizard" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
