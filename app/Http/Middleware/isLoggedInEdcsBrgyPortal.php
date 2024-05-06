@@ -19,25 +19,30 @@ class isLoggedInEdcsBrgyPortal
     public function handle(Request $request, Closure $next)
     {
         if(Session::has('brgyName') && Session::has('session_code')) {
-            $brgy = session('brgyName');
-            $scode = session('session_code');
+           /*
+                Remove then add anti-flood login code later...
+                $brgy = session('brgyName');
+                $scode = session('session_code');
 
-            $session_check = Brgy::where('brgyName', $brgy)->where('edcs_session_code', $scode)->first();
+                $session_check = Brgy::where('brgyName', $brgy)->where('edcs_session_code', $scode)->first();
 
-            if($session_check) {
-                $session_check->edcs_lastlogin_date = date('Y-m-d H:i:s');
-                
-                if($session_check->isDirty()) {
-                    $session_check->save();
+                if($session_check) {
+                    $session_check->edcs_lastlogin_date = date('Y-m-d H:i:s');
+                    
+                    if($session_check->isDirty()) {
+                        $session_check->save();
+                    }
+                    
+                    
                 }
-                
-                return $next($request);
-            }
-            else {
-                return redirect()->route('edcs_barangay_welcome')
-                ->with('msg', 'Please login to continue.')
-                ->with('msgtype', 'warning');
-            }   
+                else {
+                    return redirect()->route('edcs_barangay_welcome')
+                    ->with('msg', 'Please login to continue.')
+                    ->with('msgtype', 'warning');
+                }
+           */
+
+            return $next($request);
         }
         else {
             return abort(401);

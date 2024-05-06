@@ -6967,6 +6967,22 @@ class PIDSRController extends Controller
 
             if($search) {
                 $session_code = mb_strtoupper(Str::random(5));
+
+                request()->session()->regenerate();
+
+                $search->edcs_session_code = $session_code;
+                $search->edcs_ip = request()->ip();
+                $search->edcs_lastlogin_date = date('Y-m-d H:i:s');
+
+                if($search->isDirty()) {
+                    $search->save();
+                }
+
+                Session::put('brgyName', $brgy); // Set custom session variable
+                //Session::put('edcs_pw', $credentials['password']); // Set custom session variable
+                Session::put('session_code', $session_code);
+
+                return redirect()->route('edcs_barangay_home');
             }
             else {
                 return 'Error: Wrong Barangay or Code given. You may contact General Trias CESU Staff (Luis P. Broas or Christian James Historillo) for assistance.';
@@ -6991,6 +7007,9 @@ class PIDSRController extends Controller
         if (Brgy::where('brgyName', $credentials['brgy'])->where('edcs_pw', $credentials['password'])->exists()) {
             $session_code = mb_strtoupper(Str::random(5));
 
+            /*
+            Remove then add anti-flood login code later...
+            
             //put session code and IP address on the database
             $record = Brgy::where('brgyName', $credentials['brgy'])->where('edcs_pw', $credentials['password'])->first();
             
@@ -7008,6 +7027,7 @@ class PIDSRController extends Controller
                     ->with('msgtype', 'warning');
                 }
             }
+            */
 
             // Authentication passed, create session
             $r->session()->regenerate();

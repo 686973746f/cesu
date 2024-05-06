@@ -48,7 +48,7 @@
                             <button type="submit" class="btn btn-primary btn-block">Login</button>
                         </div>
                     </div>
-                    <p class="mt-3 text-center">©2024 Developed and Mainted by <u>Christian James Historillo</u> for General Trias CHO - CESU</p>
+                    <p class="mt-3 text-center">©2021 - {{date('Y')}} Developed and Mainted by <u>Christian James Historillo</u> for General Trias CHO - CESU</p>
                 </div>
             </div>
             
