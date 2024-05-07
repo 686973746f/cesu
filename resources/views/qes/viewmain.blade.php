@@ -10,7 +10,12 @@
             </div>
         </div>
         <div class="card-body">
-            <div>
+            @if(session('msg'))
+            <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
+                {{session('msg')}}
+            </div>
+            @endif
+            <div class="table-responsive">
                 <table class="table table-bordered table-striped">
                     <thead class="thead-light text-center">
                         <tr>
@@ -21,18 +26,35 @@
                             <th>Street/Purok</th>
                             <th>Barangay</th>
                             <th>City/Province</th>
-                            <th>Occupation</th>
-                            <th>Name of Work/School</th>
+                            <th>
+                                <div>Occupation/</div>
+                                <div>Name of Work/School</div>
+                            </th>
                             <th>Has Symptoms?</th>
+                            <th>Remarks</th>
+                            <th>Encoded at/by</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($list_patient as $ind => $l)
                         <tr>
                             <td class="text-center">{{$ind+1}}</td>
-                            <td>{{$l->getName()}}</td>
+                            <td><a href=""><b>{{$l->getName()}}</b></a></td>
                             <td class="text-center">{{$l->age}}</td>
                             <td class="text-center">{{$l->sex}}</td>
+                            <td class="text-center">{{$l->getStreetPurok()}}</td>
+                            <td class="text-center">{{$l->address_brgy_text}}</td>
+                            <td class="text-center">{{$l->address_muncity_text}}, {{$l->address_province_text}}</td>
+                            <td class="text-center">
+                                <div>{{(!is_null($l->occupation) && !is_null($l->placeof_work_school)) ? $l->occupation : 'N/A'}}</div>
+                                <div>{{(!is_null($l->occupation) && !is_null($l->placeof_work_school)) ? $l->placeof_work_school : 'N/A'}}</div>
+                            </td>
+                            <td class="text-center">{{$l->has_symptoms}}</td>
+                            <td class="text-center">{{!is_null($l->remarks) ? $l->remarks : 'N/A'}}</td>
+                            <td class="text-center">
+                                <div>{{date('m/d/Y H:i A', strtotime($l->created_at))}}</div>
+                                <div>{{$l->user->name}}</div>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -42,10 +64,10 @@
     </div>
 </div>
 
-<form action="{{route('qes_new_record', $d->id)}}" method="POST">
+<form action="{{route('qes_store_record', $d->id)}}" method="POST">
     @csrf
     <div class="modal fade" id="newPatient" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">New Patient</h5>
@@ -54,93 +76,111 @@
                         </button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="lname"><b class="text-danger">*</b>Last Name</label>
-                        <input type="text" class="form-control" name="lname" id="lname" value="{{old('lname')}}" minlength="2" maxlength="50" placeholder="ex: DELA CRUZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="fname"><b class="text-danger">*</b>First Name</label>
-                        <input type="text" class="form-control" name="fname" id="fname" value="{{old('fname')}}" minlength="2" maxlength="50" placeholder="ex: JUAN" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="lname"><b class="text-danger">*</b>Last Name</label>
+                                <input type="text" class="form-control" name="lname" id="lname" value="{{old('lname')}}" minlength="2" maxlength="50" placeholder="ex: DELA CRUZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="fname"><b class="text-danger">*</b>First Name</label>
+                                <input type="text" class="form-control" name="fname" id="fname" value="{{old('fname')}}" minlength="2" maxlength="50" placeholder="ex: JUAN" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-4">
                             <div class="form-group">
                                 <label for="mname">Middle Name <i>(If Applicable)</i></label>
                                 <input type="text" class="form-control" name="mname" id="mname" value="{{old('mname')}}" minlength="2" maxlength="50" placeholder="ex: SANCHEZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-4">
                             <div class="form-group">
                                 <label for="suffix">Suffix <i>(If Applicable)</i></label>
                                 <input type="text" class="form-control" name="suffix" id="suffix" value="{{old('suffix')}}" minlength="2" maxlength="3" placeholder="ex: JR, SR, III, IV" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-4">
                             <div class="form-group">
                                 <label for="age"><b class="text-danger">*</b>Age</label>
                                 <input type="number" class="form-control" name="age" id="age" value="{{old('age')}}" min="0" max="150" required>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
                             <div class="form-group">
                                 <label for="gender"><span class="text-danger font-weight-bold">*</span>Sex</label>
                                 <select class="form-control" name="gender" id="gender" required>
                                     <option value="" disabled {{(is_null(old('gender'))) ? 'selected' : ''}}>Choose...</option>
-                                    <option value="MALE" {{(old('gender') == 'MALE') ? 'selected' : ''}}>Male</option>
-                                    <option value="FEMALE" {{(old('gender') == 'FEMALE') ? 'selected' : ''}}>Female</option>
+                                    <option value="M" {{(old('gender') == 'M') ? 'selected' : ''}}>Male</option>
+                                    <option value="F" {{(old('gender') == 'F') ? 'selected' : ''}}>Female</option>
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="contact_number">Contact Number</label>
-                        <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{old('contact_number')}}" pattern="[0-9]{11}" placeholder="09*********">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="contact_number">Contact Number</label>
+                                <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{old('contact_number')}}" pattern="[0-9]{11}" placeholder="09*********">
+                            </div>
+                        </div>
                     </div>
                     <hr>
                     <div id="address_text" class="d-none">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-6">
                                 <input type="text" id="address_region_text" name="address_region_text" value="{{old('address_region_text')}}" readonly>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-6">
                                 <input type="text" id="address_province_text" name="address_province_text" value="{{old('address_province_text')}}" readonly>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-6">
                                 <input type="text" id="address_muncity_text" name="address_muncity_text" value="{{old('address_muncity_text')}}" readonly>
                             </div>
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="address_region_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Region</label>
-                        <select class="form-control" name="address_region_code" id="address_region_code" required>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="address_province_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Province</label>
-                        <select class="form-control" name="address_province_code" id="address_province_code" required>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="address_muncity_code" class="form-label"><span class="text-danger font-weight-bold">*</span>City/Municipality</label>
-                        <select class="form-control" name="address_muncity_code" id="address_muncity_code" required>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="address_brgy_text" class="form-label"><span class="text-danger font-weight-bold">*</span>Barangay</label>
-                        <select class="form-control" name="address_brgy_text" id="address_brgy_text" required>
-                        </select>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="address_region_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Region</label>
+                                <select class="form-control" name="address_region_code" id="address_region_code" required>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="address_province_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Province</label>
+                                <select class="form-control" name="address_province_code" id="address_province_code" required>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="address_muncity_code" class="form-label"><span class="text-danger font-weight-bold">*</span>City/Municipality</label>
+                                <select class="form-control" name="address_muncity_code" id="address_muncity_code" required>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="address_brgy_text" class="form-label"><span class="text-danger font-weight-bold">*</span>Barangay</label>
+                                <select class="form-control" name="address_brgy_text" id="address_brgy_text" required>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
+                        <div class="col-6">
+                            <div class="form-group">
                                 <label for="address_houseno" class="form-label">House No./Lot/Building</label>
                                 <input type="text" class="form-control" id="address_houseno" name="address_houseno" style="text-transform: uppercase;" value="{{old('address_houseno')}}" pattern="(^[a-zA-Z0-9 ]+$)+">
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
+                        <div class="col-6">
+                            <div class="form-group">
                                 <label for="address_street" class="form-label">Street/Subdivision/Purok/Sitio</label>
                                 <input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" value="{{old('address_street')}}" pattern="(^[a-zA-Z0-9 ]+$)+">
                             </div>
@@ -474,6 +514,11 @@
                             </select>
                         </div>
                     </div>
+                    <hr>
+                    <div class="form-group">
+                      <label for="remarks">Remarks</label>
+                      <input type="text" class="form-control" name="remarks" id="remarks" style="text-transform: uppercase;">
+                    </div>
                     <div class="card">
                         <div class="card-header"><b>AM Snack/s</b></div>
                         <div class="card-body">
@@ -579,7 +624,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success btn-block">Save</button>
+                    <button type="submit" class="btn btn-success btn-block" id="submitBtn">Save (CTRL + S)</button>
                 </div>
             </div>
         </div>
@@ -587,6 +632,18 @@
 </form>
 
 <script>
+    $(document).bind('keydown', function(e) {
+      if(e.ctrlKey && (e.which == 83)) {
+          e.preventDefault();
+          $('#submitBtn').trigger('click');
+          $('#submitBtn').prop('disabled', true);
+          setTimeout(function() {
+              $('#submitBtn').prop('disabled', false);
+          }, 2000);
+          return false;
+      }
+  });
+
     $(document).ready(function(){
         $('#cloneBtn_am').click(function(){
             var clone = $('#duplica_am').clone();
@@ -635,8 +692,24 @@
     });
 
     //Select2 Init for Address Bar
-    $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_text').select2({
+    $('#address_region_code').select2({
         theme: 'bootstrap',
+        dropdownParent: $('#newPatient'),
+    });
+
+    $('#address_province_code').select2({
+        theme: 'bootstrap',
+        dropdownParent: $('#newPatient'),
+    });
+
+    $('#address_muncity_code').select2({
+        theme: 'bootstrap',
+        dropdownParent: $('#newPatient'),
+    });
+
+    $('#address_brgy_text').select2({
+        theme: 'bootstrap',
+        dropdownParent: $('#newPatient'),
     });
 
     $('#has_symptoms').change(function (e) { 

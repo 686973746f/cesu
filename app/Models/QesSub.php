@@ -110,4 +110,23 @@ class QesSub extends Model
         return $fullname;
         //return $this->lname.", ".$this->fname.' '.$this->suffix." ".$this->mname;
     }
+
+    public function getStreetPurok() {
+        if(!is_null($this->address_street) || !is_null($this->address_houseno)) {
+            if(!is_null($this->address_street) && !is_null($this->address_houseno)) {
+                return $this->address_street.' '.$this->address_houseno;
+            }
+            else {
+                if(!is_null($this->address_street)) {
+                    return $this->address_street;
+                }
+                else {
+                    return $this->address_houseno;
+                }
+            }
+        }
+        else {
+            return 'N/A';
+        }
+    }
 }

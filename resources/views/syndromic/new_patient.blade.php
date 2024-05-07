@@ -248,7 +248,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary btn-block" id="submitBtn">Submit</button>
+                    <button type="submit" class="btn btn-primary btn-block" id="submitBtn">Submit (CTRL + S)</button>
                 </div>
             </div>
         </form>

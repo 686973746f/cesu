@@ -41,7 +41,7 @@ class QesController extends Controller
     public function viewMain($main_id) {
         $d = QesMain::findOrFail($main_id);
 
-        $list_patient = QesSub::where('qes_main_id', $d)->get();
+        $list_patient = QesSub::where('qes_main_id', $main_id)->get();
 
         return view('qes.viewmain', [
             'd' => $d,
@@ -49,13 +49,10 @@ class QesController extends Controller
         ]);
     }
 
-    public function newRecord($main_id) {
-
-    }
-
     public function storeRecord($main_id, Request $r) {
         //Search Existing Patient on the Main
-        $s = QesSub::where('lname', mb_strtoupper($r->lname))
+        $s = QesSub::where('qes_main_id', $main_id)
+        ->where('lname', mb_strtoupper($r->lname))
         ->where('fname', mb_strtoupper($r->fname))
         ->first();
 
@@ -63,7 +60,7 @@ class QesController extends Controller
             
         }
 
-        $r->user()->qessub()->create([
+        $create = $r->user()->qessub()->create([
             'qes_main_id' => $main_id,
             'lname' => mb_strtoupper($r->lname),
             'fname' => mb_strtoupper($r->fname),
@@ -132,19 +129,23 @@ class QesController extends Controller
             'question9' => $r->question9,
             'question10' => ($r->filled('question10')) ? mb_strtoupper($r->question10) : NULL,
             'question11' => $r->question11,
-            'question12' => ($r->question11 == 'Y') ? $r->question12 : NULL,
+            'question12' => ($r->question11 == 'Y') ? $r->question12 : 'N',
 
-            'am_snacks_names' => implode(",", $r->am_snacks_names),
-            'am_snacks_datetime' => implode(",", $r->am_snacks_datetime),
-            'lunch_names' => implode(",", $r->lunch_names),
-            'lunch_datetime' => implode(",", $r->lunch_datetime),
-            'pm_snacks_names' => implode(",", $r->pm_snacks_names),
-            'pm_snacks_datetime' => implode(",", $r->pm_snacks_datetime),
-            'dinner_names' => implode(",", $r->dinner_names),
-            'dinner_datetime' => implode(",", $r->dinner_datetime),
+            'am_snacks_names' => (strlen(implode(",", $r->am_snacks_names)) != 0) ? implode(",", $r->am_snacks_names) : NULL,
+            'am_snacks_datetime' => (strlen(implode(",", $r->am_snacks_datetime)) != 0) ? implode(",", $r->am_snacks_datetime) : NULL,
+            'lunch_names' => (strlen(implode(",", $r->lunch_names)) != 0) ? implode(",", $r->lunch_names) : NULL,
+            'lunch_datetime' => (strlen(implode(",", $r->lunch_datetime)) != 0) ? implode(",", $r->lunch_datetime) : NULL,
+            'pm_snacks_names' => (strlen(implode(",", $r->pm_snacks_names)) != 0) ? implode(",", $r->pm_snacks_names) : NULL,
+            'pm_snacks_datetime' => (strlen(implode(",", $r->pm_snacks_datetime)) != 0) ? implode(",", $r->pm_snacks_datetime) : NULL,
+            'dinner_names' => (strlen(implode(",", $r->dinner_names)) != 0) ? implode(",", $r->dinner_names) : NULL,
+            'dinner_datetime' => (strlen(implode(",", $r->dinner_datetime)) != 0) ? implode(",", $r->dinner_datetime) : NULL,
             
             'remarks' => ($r->filled('remarks')) ? mb_strtoupper($r->remarks) : NULL,
         ]);
+
+        return redirect()->route('qes_view_main', $main_id)
+        ->with('msg', 'Patient ['.$create->getName().' was successfully added to the list.')
+        ->with('msgtype', 'success');
     }
 
     public function report1($main_id) {
