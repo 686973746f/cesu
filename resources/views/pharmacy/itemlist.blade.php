@@ -13,6 +13,7 @@
                     @if(auth()->user()->isAdminPharmacy())
                     <a href="{{route('pharmacy_masteritem_list', ['trigger_additem' => 1])}}" class="btn btn-success">Add Master Item</a>
                     @endif
+                    <a href="{{route('pharmacy_itemlist_masterlist')}}" class="btn btn-primary">View Masterlist</a>
                 </div>
                 <!-- <div><button type="button" class="btn btn-success" data-toggle="modal" data-target="#addProduct">Add Product</button></div> -->
             </div>

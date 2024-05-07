@@ -29,6 +29,7 @@ class QesController extends Controller
             $c = $r->user()->qesmain()->create([
                 'name' => mb_strtoupper($r->name),
                 'description' => $r->description,
+                'facility_id' => auth()->user()->itr_facility_id,
             ]);
 
             return redirect()->route('qes_view_main', $c->id)
@@ -40,8 +41,11 @@ class QesController extends Controller
     public function viewMain($main_id) {
         $d = QesMain::findOrFail($main_id);
 
+        $list_patient = QesSub::where('qes_main_id', $d)->get();
+
         return view('qes.viewmain', [
             'd' => $d,
+            'list_patient' => $list_patient,
         ]);
     }
 
@@ -85,27 +89,27 @@ class QesController extends Controller
             'onset_datetime' => ($r->has_symptoms == 'Y') ? $r->onset_datetime : NULL,
             'illness_duration' => ($r->has_symptoms == 'Y') ? $r->illness_duration : NULL,
             'diagnosis_date' => ($r->has_symptoms == 'Y') ? $r->diagnosis_date : NULL,
-            'hospitalized' => ($r->has_symptoms == 'Y') ? $r->hospitalized : NULL,
+            'hospitalized' => ($r->has_symptoms == 'Y') ? $r->hospitalized : 'N',
             'admission_date'=> ($r->has_symptoms == 'Y' && $r->hospitalized == 'Y') ? $r->admission_date : NULL,
             'discharge_date' => ($r->has_symptoms == 'Y' && $r->hospitalized == 'Y') ? $r->discharge_date : NULL,
             'hospital_name' => ($r->has_symptoms == 'Y' && $r->hospitalized == 'Y') ? mb_strtoupper($r->hospital_name) : NULL,
             'outcome' => $r->outcome,
-            'lbm_3xday' => ($r->has_symptoms == 'Y') ? $r->lbm_3xday : NULL,
-            'fever' => ($r->has_symptoms == 'Y') ? $r->fever : NULL,
-            'nausea' => ($r->has_symptoms == 'Y') ? $r->nausea : NULL,
-            'vomiting' => ($r->has_symptoms == 'Y') ? $r->vomiting : NULL,
-            'bodyweakness' => ($r->has_symptoms == 'Y') ? $r->bodyweakness : NULL,
-            'abdominalcramps' => ($r->has_symptoms == 'Y') ? $r->abdominalcramps : NULL,
-            'rectalpain' => ($r->has_symptoms == 'Y') ? $r->rectalpain : NULL,
-            'tenesmus' => ($r->has_symptoms == 'Y') ? $r->tenesmus : NULL,
-            'bloodystool' => ($r->has_symptoms == 'Y') ? $r->bloodystool : NULL,
-            'brownish' => ($r->has_symptoms == 'Y') ? $r->brownish : NULL,
-            'yellowish' => ($r->has_symptoms == 'Y') ? $r->yellowish : NULL,
-            'greenish' => ($r->has_symptoms == 'Y') ? $r->greenish : NULL,
-            'others' => ($r->has_symptoms == 'Y') ? $r->others : NULL,
-            'others_specify' => ($r->has_symptoms == 'Y' && $r->others == 'Y') ? mb_strtoupper($r->others_specify) : NULL,
-            'volumeofstool' => ($r->has_symptoms == 'Y') ? $r->volumeofstool : NULL,
-            'quantify' => ($r->has_symptoms == 'Y') ? $r->quantify : NULL,
+            'lbm_3xday' => ($r->has_symptoms == 'Y') ? $r->lbm_3xday : 'N',
+            'fever' => ($r->has_symptoms == 'Y') ? $r->fever : 'N',
+            'nausea' => ($r->has_symptoms == 'Y') ? $r->nausea : 'N',
+            'vomiting' => ($r->has_symptoms == 'Y') ? $r->vomiting : 'N',
+            'bodyweakness' => ($r->has_symptoms == 'Y') ? $r->bodyweakness : 'N',
+            'abdominalcramps' => ($r->has_symptoms == 'Y') ? $r->abdominalcramps : 'N',
+            'rectalpain' => ($r->has_symptoms == 'Y') ? $r->rectalpain : 'N',
+            'tenesmus' => ($r->has_symptoms == 'Y') ? $r->tenesmus : 'N',
+            'bloodystool' => ($r->has_symptoms == 'Y') ? $r->bloodystool : 'N',
+            'brownish' => ($r->has_symptoms == 'Y') ? $r->brownish : 'N',
+            'yellowish' => ($r->has_symptoms == 'Y') ? $r->yellowish : 'N',
+            'greenish' => ($r->has_symptoms == 'Y') ? $r->greenish : 'N',
+            'others' => ($r->has_symptoms == 'Y') ? $r->others : 'N',
+            'others_specify' => ($r->has_symptoms == 'Y' && $r->others == 'Y') ? mb_strtoupper($r->others_specify) : 'N',
+            'volumeofstool' => ($r->has_symptoms == 'Y') ? $r->volumeofstool : 'N',
+            'quantify' => ($r->has_symptoms == 'Y') ? $r->quantify : 'N',
 
             //'other_affected_names',
             //'other_affected_ages',
@@ -118,7 +122,7 @@ class QesController extends Controller
             'question4' => $r->question4,
             'question5' => $r->question5,
             'question5_souce' => ($r->question5 == 'N') ? $r->question5_source : NULL,
-            'question5_others' => ($r->question5 == 'N' && $r->question5_source == 'OTHERS') ? $r->question5_others : NULL,
+            'question5_others' => ($r->question5 == 'N' && $r->question5_source == 'OTHERS') ? mb_strtoupper($r->question5_others) : NULL,
             'question6' => $r->question6,
             'question6_where' => ($r->question6 == 'Y') ? $r->question6_where : NULL,
             'question6_source' => ($r->question6 == 'Y' && $r->question6_where == 'OTHERS') ? mb_strtoupper($r->question6_source) : NULL,
@@ -144,6 +148,10 @@ class QesController extends Controller
     }
 
     public function report1($main_id) {
+
+    }
+
+    public function exportLinelist($main_id) {
 
     }
 }

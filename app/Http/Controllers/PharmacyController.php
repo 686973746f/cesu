@@ -3091,4 +3091,13 @@ class PharmacyController extends Controller
     public function report2() {
         return view('pharmacy.report2');
     }
+
+    public function viewMasterlist2() {
+        $list = PharmacySupplySub::where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
+        ->get();
+
+        return view('pharmacy.stock_masterlist', [
+            'list' => $list,
+        ]);
+    }
 }

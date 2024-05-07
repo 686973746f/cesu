@@ -15,26 +15,27 @@
                 {{session('msg')}}
             </div>
             @endif
-            <table class="table table-bordered">
-                <thead>
+            <table class="table table-bordered table-striped">
+                <thead class="thead-light text-center">
                     <tr>
                         <th>#</th>
-                        <th>Name</th>
+                        <th>Case</th>
                         <th>Status</th>
                         <th>Date Encoded / By</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($main_list as $d)
                     <tr>
-                        <td scope="row"></td>
-                        <td></td>
-                        <td></td>
+                        <td class="text-center">{{$d->id}}</td>
+                        <td><b><a href="{{route('qes_view_main', $d->id)}}">{{$d->name}}</a></b></td>
+                        <td class="text-center">{{$d->status}}</td>
+                        <td class="text-center">
+                            <div>{{date('m/d/Y H:i A', strtotime($d->created_at))}}</div>
+                            <div>by {{$d->user->name}}</div>
+                        </td>
                     </tr>
-                    <tr>
-                        <td scope="row"></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

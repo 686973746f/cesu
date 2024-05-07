@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between">
@@ -10,27 +10,34 @@
             </div>
         </div>
         <div class="card-body">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td scope="row"></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td scope="row"></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div>
+                <table class="table table-bordered table-striped">
+                    <thead class="thead-light text-center">
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Sex</th>
+                            <th>Street/Purok</th>
+                            <th>Barangay</th>
+                            <th>City/Province</th>
+                            <th>Occupation</th>
+                            <th>Name of Work/School</th>
+                            <th>Has Symptoms?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($list_patient as $ind => $l)
+                        <tr>
+                            <td class="text-center">{{$ind+1}}</td>
+                            <td>{{$l->getName()}}</td>
+                            <td class="text-center">{{$l->age}}</td>
+                            <td class="text-center">{{$l->sex}}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
@@ -179,7 +186,7 @@
                         </div>
                         <div class="form-group">
                             <label for="hospitalized">Hospitalized?</label>
-                            <select class="form-control" name="hospitalized" id="hospitalized" required>
+                            <select class="form-control" name="hospitalized" id="hospitalized">
                               <option value="" disabled {{(is_null(old('hospitalized'))) ? 'selected' : ''}}>Choose...</option>
                               <option value="N" {{(old('hospitalized') == 'N') ? 'selected' : ''}}>No</option>
                               <option value="Y" {{(old('hospitalized') == 'Y') ? 'selected' : ''}}>Yes</option>
@@ -209,7 +216,7 @@
                         <hr>
                         <div class="form-group">
                             <label for="lbm_3xday"><b class="text-danger">*</b>LBM > 3x/day</label>
-                            <select class="form-control" name="lbm_3xday" id="lbm_3xday" required>
+                            <select class="form-control" name="lbm_3xday" id="lbm_3xday">
                               <option value="" disabled {{(is_null(old('lbm_3xday'))) ? 'selected' : ''}}>Choose...</option>
                               <option value="Y" {{(old('lbm_3xday') == 'Y') ? 'selected' : ''}}>Yes</option>
                               <option value="N" {{(old('lbm_3xday') == 'N') ? 'selected' : ''}}>No</option>
@@ -217,7 +224,7 @@
                         </div>
                         <div class="form-group">
                             <label for="fever"><b class="text-danger">*</b>Fever</label>
-                            <select class="form-control" name="fever" id="fever" required>
+                            <select class="form-control" name="fever" id="fever">
                               <option value="" disabled {{(is_null(old('fever'))) ? 'selected' : ''}}>Choose...</option>
                               <option value="Y" {{(old('fever') == 'Y') ? 'selected' : ''}}>Yes</option>
                               <option value="N" {{(old('fever') == 'N') ? 'selected' : ''}}>No</option>
@@ -225,7 +232,7 @@
                         </div>
                         <div class="form-group">
                             <label for="nausea"><b class="text-danger">*</b>Nausea</label>
-                            <select class="form-control" name="nausea" id="nausea" required>
+                            <select class="form-control" name="nausea" id="nausea">
                               <option value="" disabled {{(is_null(old('nausea'))) ? 'selected' : ''}}>Choose...</option>
                               <option value="Y" {{(old('nausea') == 'Y') ? 'selected' : ''}}>Yes</option>
                               <option value="N" {{(old('nausea') == 'N') ? 'selected' : ''}}>No</option>
@@ -233,7 +240,7 @@
                         </div>
                         <div class="form-group">
                             <label for="vomiting"><b class="text-danger">*</b>Vomiting</label>
-                            <select class="form-control" name="vomiting" id="vomiting" required>
+                            <select class="form-control" name="vomiting" id="vomiting">
                               <option value="" disabled {{(is_null(old('vomiting'))) ? 'selected' : ''}}>Choose...</option>
                               <option value="Y" {{(old('vomiting') == 'Y') ? 'selected' : ''}}>Yes</option>
                               <option value="N" {{(old('vomiting') == 'N') ? 'selected' : ''}}>No</option>
@@ -241,7 +248,7 @@
                         </div>
                         <div class="form-group">
                             <label for="bodyweakness"><b class="text-danger">*</b>Body Weakness</label>
-                            <select class="form-control" name="bodyweakness" id="bodyweakness" required>
+                            <select class="form-control" name="bodyweakness" id="bodyweakness">
                               <option value="" disabled {{(is_null(old('bodyweakness'))) ? 'selected' : ''}}>Choose...</option>
                               <option value="Y" {{(old('bodyweakness') == 'Y') ? 'selected' : ''}}>Yes</option>
                               <option value="N" {{(old('bodyweakness') == 'N') ? 'selected' : ''}}>No</option>
@@ -249,7 +256,7 @@
                         </div>
                         <div class="form-group">
                             <label for="abdominalcramps"><b class="text-danger">*</b>Abdominal Cramps</label>
-                            <select class="form-control" name="abdominalcramps" id="abdominalcramps" required>
+                            <select class="form-control" name="abdominalcramps" id="abdominalcramps">
                               <option value="" disabled {{(is_null(old('abdominalcramps'))) ? 'selected' : ''}}>Choose...</option>
                               <option value="Y" {{(old('abdominalcramps') == 'Y') ? 'selected' : ''}}>Yes</option>
                               <option value="N" {{(old('abdominalcramps') == 'N') ? 'selected' : ''}}>No</option>
@@ -257,7 +264,7 @@
                         </div>
                         <div class="form-group">
                             <label for="rectalpain"><b class="text-danger">*</b>Rectal Pain</label>
-                            <select class="form-control" name="rectalpain" id="rectalpain" required>
+                            <select class="form-control" name="rectalpain" id="rectalpain">
                               <option value="" disabled {{(is_null(old('rectalpain'))) ? 'selected' : ''}}>Choose...</option>
                               <option value="Y" {{(old('rectalpain') == 'Y') ? 'selected' : ''}}>Yes</option>
                               <option value="N" {{(old('rectalpain') == 'N') ? 'selected' : ''}}>No</option>
@@ -265,7 +272,7 @@
                         </div>
                         <div class="form-group">
                             <label for="tenesmus"><b class="text-danger">*</b>Tenesmus <i>(A frequent urge to go to the bathroom without being able to go)</i></label>
-                            <select class="form-control" name="tenesmus" id="tenesmus" required>
+                            <select class="form-control" name="tenesmus" id="tenesmus">
                               <option value="" disabled {{(is_null(old('tenesmus'))) ? 'selected' : ''}}>Choose...</option>
                               <option value="Y" {{(old('tenesmus') == 'Y') ? 'selected' : ''}}>Yes</option>
                               <option value="N" {{(old('tenesmus') == 'N') ? 'selected' : ''}}>No</option>
@@ -273,7 +280,7 @@
                         </div>
                         <div class="form-group">
                             <label for="bloodystool"><b class="text-danger">*</b>Bloody Stool</label>
-                            <select class="form-control" name="bloodystool" id="bloodystool" required>
+                            <select class="form-control" name="bloodystool" id="bloodystool">
                               <option value="" disabled {{(is_null(old('bloodystool'))) ? 'selected' : ''}}>Choose...</option>
                               <option value="Y" {{(old('bloodystool') == 'Y') ? 'selected' : ''}}>Yes</option>
                               <option value="N" {{(old('bloodystool') == 'N') ? 'selected' : ''}}>No</option>
@@ -281,7 +288,7 @@
                         </div>
                         <div class="form-group">
                             <label for="brownish"><b class="text-danger">*</b>Brownish</label>
-                            <select class="form-control" name="brownish" id="brownish" required>
+                            <select class="form-control" name="brownish" id="brownish">
                               <option value="" disabled {{(is_null(old('brownish'))) ? 'selected' : ''}}>Choose...</option>
                               <option value="Y" {{(old('brownish') == 'Y') ? 'selected' : ''}}>Yes</option>
                               <option value="N" {{(old('brownish') == 'N') ? 'selected' : ''}}>No</option>
@@ -289,7 +296,7 @@
                         </div>
                         <div class="form-group">
                             <label for="yellowish"><b class="text-danger">*</b>Yellowish</label>
-                            <select class="form-control" name="yellowish" id="yellowish" required>
+                            <select class="form-control" name="yellowish" id="yellowish">
                               <option value="" disabled {{(is_null(old('brownish'))) ? 'selected' : ''}}>Choose...</option>
                               <option value="Y" {{(old('yellowish') == 'Y') ? 'selected' : ''}}>Yes</option>
                               <option value="N" {{(old('yellowish') == 'N') ? 'selected' : ''}}>No</option>
@@ -297,7 +304,7 @@
                         </div>
                         <div class="form-group">
                             <label for="greenish"><b class="text-danger">*</b>Greenish</label>
-                            <select class="form-control" name="greenish" id="greenish" required>
+                            <select class="form-control" name="greenish" id="greenish">
                               <option value="" disabled {{(is_null(old('greenish'))) ? 'selected' : ''}}>Choose...</option>
                               <option value="Y" {{(old('greenish') == 'Y') ? 'selected' : ''}}>Yes</option>
                               <option value="N" {{(old('greenish') == 'N') ? 'selected' : ''}}>No</option>
@@ -305,7 +312,7 @@
                         </div>
                         <div class="form-group">
                             <label for="others"><b class="text-danger">*</b>Others</label>
-                            <select class="form-control" name="others" id="others" required>
+                            <select class="form-control" name="others" id="others">
                               <option value="" disabled {{(is_null(old('others'))) ? 'selected' : ''}}>Choose...</option>
                               <option value="Y" {{(old('others') == 'Y') ? 'selected' : ''}}>Yes</option>
                               <option value="N" {{(old('others') == 'N') ? 'selected' : ''}}>No</option>
@@ -319,7 +326,7 @@
                         </div>
                         <div class="form-group">
                             <label for="volumeofstool"><b class="text-danger">*</b>Volume of Stool/Episode</label>
-                            <select class="form-control" name="volumeofstool" id="volumeofstool" required>
+                            <select class="form-control" name="volumeofstool" id="volumeofstool">
                               <option value="" disabled {{(is_null(old('volumeofstool'))) ? 'selected' : ''}}>Choose...</option>
                               <option value="SCANTY" {{(old('volumeofstool') == 'SCANTY') ? 'selected' : ''}}>SCANTY</option>
                               <option value="VOLUMINOUS" {{(old('volumeofstool') == 'VOLUMINOUS') ? 'selected' : ''}}>VOLUMINOUS</option>
@@ -636,9 +643,43 @@
         e.preventDefault();
         if($(this).val() == 'Y') {
             $('#symptoms_div').removeClass('d-none');
+
+            $('#hospitalized').prop('required', true);
+            $('#lbm_3xday').prop('required', true);
+            $('#fever').prop('required', true);
+            $('#nausea').prop('required', true);
+            $('#vomiting').prop('required', true);
+            $('#bodyweakness').prop('required', true);
+            $('#abdominalcramps').prop('required', true);
+            $('#rectalpain').prop('required', true);
+            $('#tenesmus').prop('required', true);
+            $('#bloodystool').prop('required', true);
+            $('#brownish').prop('required', true);
+            $('#yellowish').prop('required', true);
+            $('#greenish').prop('required', true);
+            $('#others').prop('required', true);
+            $('#volumeofstool').prop('required', true);
+            $('#quantify').prop('required', true);
         }
         else {
             $('#symptoms_div').addClass('d-none');
+
+            $('#hospitalized').prop('required', false);
+            $('#lbm_3xday').prop('required', false);
+            $('#fever').prop('required', false);
+            $('#nausea').prop('required', false);
+            $('#vomiting').prop('required', false);
+            $('#bodyweakness').prop('required', false);
+            $('#abdominalcramps').prop('required', false);
+            $('#rectalpain').prop('required', false);
+            $('#tenesmus').prop('required', false);
+            $('#bloodystool').prop('required', false);
+            $('#brownish').prop('required', false);
+            $('#yellowish').prop('required', false);
+            $('#greenish').prop('required', false);
+            $('#others').prop('required', false);
+            $('#volumeofstool').prop('required', false);
+            $('#quantify').prop('required', false);
         }
     }).trigger('change');
 

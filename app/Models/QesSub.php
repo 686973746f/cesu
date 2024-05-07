@@ -87,4 +87,27 @@ class QesSub extends Model
         'dinner_datetime',
         'remarks',
     ];
+
+    public function user() {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function getUpdatedBy() {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    public function getName() {
+        $fullname = $this->lname.", ".$this->fname;
+
+        if(!is_null($this->mname)) {
+            $fullname = $fullname." ".$this->mname;
+        }
+
+        if(!is_null($this->suffix)) {
+            $fullname = $fullname." ".$this->suffix;
+        }
+
+        return $fullname;
+        //return $this->lname.", ".$this->fname.' '.$this->suffix." ".$this->mname;
+    }
 }
