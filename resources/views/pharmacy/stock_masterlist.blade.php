@@ -34,7 +34,14 @@
 
     <script>
         $('#mainTbl').dataTable({
-            dom: 'QBftrip',
+            dom: 'QBfritp',
+            buttons: [
+                {
+                    extend: 'excel',
+                    title: '',
+                },
+                'copy',
+            ],
         });
     </script>
 @endsection
