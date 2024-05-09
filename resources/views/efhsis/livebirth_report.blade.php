@@ -89,35 +89,35 @@
                 <div class="modal-body">
                     <div class="form-group">
                       <label for="year"><b class="text-danger">*</b>Year</label>
-                      <input type="number" class="form-control" name="year" id="year" min="{{(date('Y')-5)}}" max="{{date('Y')}}" value="{{date('Y')}}" required>
+                      <input type="number" class="form-control" name="year" id="year" min="{{(date('Y')-5)}}" max="{{date('Y')}}" value="{{$year}}" required>
                     </div>
                     <div class="form-group">
                       <label for="month"><b class="text-danger">*</b>Month</label>
                       <select class="form-control" name="month" id="month" required>
                         <option value="" disabled selected>Choose...</option>
-                        <option value="1">January</option>
-                        <option value="2">February</option>
-                        <option value="3">March</option>
-                        <option value="4">April</option>
-                        <option value="5">May</option>
-                        <option value="6">June</option>
-                        <option value="7">July</option>
-                        <option value="8">August</option>
-                        <option value="9">September</option>
-                        <option value="10">October</option>
-                        <option value="11">November</option>
-                        <option value="12">December</option>
+                        <option value="1" {{($month == 1) ? 'selected' : ''}}>January</option>
+                        <option value="2" {{($month == 2) ? 'selected' : ''}}>February</option>
+                        <option value="3" {{($month == 3) ? 'selected' : ''}}>March</option>
+                        <option value="4" {{($month == 4) ? 'selected' : ''}}>April</option>
+                        <option value="5" {{($month == 5) ? 'selected' : ''}}>May</option>
+                        <option value="6" {{($month == 6) ? 'selected' : ''}}>June</option>
+                        <option value="7" {{($month == 7) ? 'selected' : ''}}>July</option>
+                        <option value="8" {{($month == 8) ? 'selected' : ''}}>August</option>
+                        <option value="9" {{($month == 9) ? 'selected' : ''}}>September</option>
+                        <option value="10" {{($month == 10) ? 'selected' : ''}}>October</option>
+                        <option value="11" {{($month == 11) ? 'selected' : ''}}>November</option>
+                        <option value="12" {{($month == 12) ? 'selected' : ''}}>December</option>
                       </select>
                     </div>
                     <div class="form-group">
                       <label for="brgy">Barangay</label>
                       <select class="form-control" name="brgy" id="brgy" required>
-                        <option value="" disabled selected>Choose...</option>
-                        <option value="ALL BARANGAYS IN GENERAL TRIAS">ALL BARANGAYS IN GENERAL TRIAS</option>
+                        <option value="" disabled {{is_null($brgy) ? 'selected' : ''}}>Choose...</option>
+                        <option value="ALL BARANGAYS IN GENERAL TRIAS" {{($brgy == 'ALL BARANGAYS IN GENERAL TRIAS') ? 'selected' : ''}}>ALL BARANGAYS IN GENERAL TRIAS</option>
                         @foreach ($brgylist as $b)
-                            <option value="{{$b->brgyName}}">{{$b->brgyName}}</option>
+                            <option value="{{$b->brgyName}}" {{($brgy == $b->brgyName) ? 'selected' : ''}}>{{$b->brgyName}}</option>
                         @endforeach
-                        <option value="OTHER CITIES">OTHER CITIES</option>
+                        <option value="OTHER CITIES" {{($brgy == 'OTHER CITIES') ? 'selected' : ''}}>OTHER CITIES</option>
                       </select>
                     </div>
                 </div>

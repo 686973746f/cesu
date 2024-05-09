@@ -12,8 +12,8 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-6">
-                        <table class="table">
-                            <thead>
+                        <table class="table table-bordered table-striped">
+                            <thead class="thead-light text-center">
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
@@ -22,16 +22,17 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach($list_case as $ind => $d)
                                 <tr>
-                                    <td scope="row"></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td class="text-center">{{$ind+1}}</td>
+                                    <td>{{$d->getName()}}</td>
+                                    <td class="text-center">{{$d->displayAgeStringToReport()}}/{{$d->Sex}}</td>
+                                    <td class="text-center">
+                                        <button class="btn btn-link" onclick="flyToMap({{$d->sys_coordinate_x}}, {{$d->sys_coordinate_y}})">
+                                            <div>{{}}</div>
+                                        </button></td>
                                 </tr>
-                                <tr>
-                                    <td scope="row"></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -115,5 +116,9 @@
                 }
             }).addTo(map);
         });
+
+        function flyToMap(x, y) {
+            map.flyTo([x,y], 18);
+        }
     </script>
 @endsection
