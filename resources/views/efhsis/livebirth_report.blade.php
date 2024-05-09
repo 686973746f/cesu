@@ -30,9 +30,9 @@
                     <tr>
                         <td class="text-center">{{$ind+1}}</td>
                         <td><b>{{$b['name']}}</b></td>
-                        <td class="text-center">{{$b['total_livebirths']}}</td>
-                        <td class="text-center">{{$b['livebirth1014']}}</td>
-                        <td class="text-center">{{$b['livebirth1519']}}</td>
+                        <td class="text-center">{{($total_livebirths != 0) ? $b['total_livebirths'] : 'N/A'}}</td>
+                        <td class="text-center">{{($total_livebirths != 0) ? $b['livebirth1014'] : ''}}</td>
+                        <td class="text-center">{{($total_livebirths != 0) ? $b['livebirth1519'] : ''}}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -59,15 +59,15 @@
                 <tbody>
                     <tr>
                         <td>Livebirths</td>
-                        <td class="text-center">{{($total_livebirths != 0) ? $total_livebirths : 'N/A'}}</td>
+                        <td class="text-center">{{$total_livebirths}}</td>
                     </tr>
                     <tr>
                         <td>Livebirths among 10-14 y/o women</td>
-                        <td class="text-center">{{($total_livebirths != 0) ? $livebirth1014 : ''}}</td>
+                        <td class="text-center">{{$livebirth1014}}</td>
                     </tr>
                     <tr>
                         <td>Livebirths among 15-19 y/o women</td>
-                        <td class="text-center">{{($total_livebirths != 0) ? $livebirth1519 : ''}}</td>
+                        <td class="text-center">{{$livebirth1519}}</td>
                     </tr>
                 </tbody>
             </table>
