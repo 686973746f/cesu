@@ -128,4 +128,8 @@
         </div>
     </div>
 </form>
+
+@if($brgy == 'ALL BARANGAYS IN GENERAL TRIAS')
+
+@endif
 @endsection

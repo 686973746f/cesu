@@ -24,7 +24,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="unique_opdnumber"><b class="text-danger">*</b>Hospital/OPD Number</label>
-                                <input type="number" class="form-control" name="unique_opdnumber" id="unique_opdnumber" value="{{old('unique_opdnumber')}}" min="1" required>
+                                <input type="text" class="form-control" name="unique_opdnumber" id="unique_opdnumber" value="{{old('unique_opdnumber')}}" required>
                             </div>
                         </div>
                         <div class="col-md-6">
