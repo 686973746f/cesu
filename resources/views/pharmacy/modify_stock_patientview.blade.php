@@ -141,6 +141,7 @@
                                         <td style="vertical-align: middle;">
                                             @if($c->displayPrescriptionLimit())
                                             {{$c->displayPrescriptionLimit()}}
+                                            <input type="hidden" class="form-control pcslimit" name="set_pieces_limit[]" min="1" max="900" value="{{$c->getCurrentQtyObtained()}}" readonly required>
                                             @else
                                             <input type="number" class="form-control pcslimit" name="set_pieces_limit[]" min="1" max="900" required>
                                             @endif

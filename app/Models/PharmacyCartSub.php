@@ -51,4 +51,30 @@ class PharmacyCartSub extends Model
             return NULL;
         }
     }
+
+    public function getCurrentQtyObtained() {
+        $get_master_id = $this->pharmacysub->pharmacysupplymaster->id;
+
+        $d = PharmacyQtyLimitPatient::where('prescription_id', $this->pharmacycartmain->prescription_id)
+        ->where('master_supply_id', $get_master_id)
+        ->first();
+
+        if($d) {
+            //get current qty taken
+            $curr_qty_obtained = PharmacyStockCard::whereHas('pharmacysub', function ($q) use ($get_master_id) {
+                $q->whereHas('pharmacysupplymaster', function ($r) use ($get_master_id) {
+                    $r->where('id', $get_master_id);
+                });
+            })
+            ->whereDate('created_at', '>=', $d->date_started)
+            ->where('qty_type', 'PIECE')
+            ->sum('qty_to_process');
+
+
+            return $curr_qty_obtained;
+        }
+        else {
+            return NULL;
+        }
+    }
 }
