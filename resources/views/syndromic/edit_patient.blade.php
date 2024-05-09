@@ -42,7 +42,7 @@
                             @if(is_null($d->unique_opdnumber))
                             <div class="form-group">
                                 <label for="unique_opdnumber"><b class="text-danger">*</b>Hospital/OPD Number</label>
-                                <input type="text" class="form-control" id="unique_opdnumber" name="unique_opdnumber" value="{{old('unique_opdnumber', $d->unique_opdnumber)}}" required>
+                                <input type="text" class="form-control" id="unique_opdnumber" name="unique_opdnumber" value="{{old('unique_opdnumber', $d->unique_opdnumber)}}" style="text-transform: uppercase;" required>
                             </div>
                             @else
                             <div class="form-group">

@@ -448,7 +448,7 @@ class SyndromicController extends Controller
 
             if(auth()->user()->isSyndromicHospitalLevelAccess()) {
                 $values_array = $values_array + [
-                    'unique_opdnumber' => $request->unique_opdnumber,
+                    'unique_opdnumber' => mb_strtoupper($request->unique_opdnumber),
                     'id_presented' => mb_strtoupper($request->id_presented),
                 ];
             }
@@ -1202,7 +1202,7 @@ class SyndromicController extends Controller
 
             if(auth()->user()->isSyndromicHospitalLevelAccess()) {
                 $values_array = $values_array + [
-                    'unique_opdnumber' => (is_null($getpatient->unique_opdnumber)) ? $request->unique_opdnumber : $getpatient->unique_opdnumber,
+                    'unique_opdnumber' => (is_null($getpatient->unique_opdnumber)) ? mb_strtoupper($request->unique_opdnumber) : $getpatient->unique_opdnumber,
                     'id_presented' => mb_strtoupper($request->id_presented),
                 ];
             }
