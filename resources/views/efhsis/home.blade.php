@@ -193,6 +193,7 @@
                           <label for="brgy">Barangay</label>
                           <select class="form-control" name="brgy" id="brgy" required>
                             <option value="" disabled selected>Choose...</option>
+                            <option value="ALL BARANGAYS IN GENERAL TRIAS">ALL BARANGAYS IN GENERAL TRIAS</option>
                             @foreach ($brgylist as $b)
                                 <option value="{{$b->brgyName}}">{{$b->brgyName}}</option>
                             @endforeach

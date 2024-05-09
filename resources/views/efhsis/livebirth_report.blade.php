@@ -10,11 +10,39 @@
             </div>
         </div>
         <div class="card-body">
+            @if($brgy == 'ALL BARANGAYS IN GENERAL TRIAS')
+            <h3 class="text-center"><b>{{date('F', strtotime($year.'-'.$month.'-01'))}} {{$year}}</b></h3>
+            <table class="table table-bordered table-striped table-hover">
+                <thead class="thead-light text-center">
+                    <tr>
+                        <th>#</th>
+                        <th>
+                            <div>Barangay</div>
+                            <div class="text-info">{{date('F', strtotime($year.'-'.$month.'-01'))}} {{$year}}</div>
+                        </th>
+                        <th>Livebirths</th>
+                        <th>Livebirths among 10-14 y/o women</th>
+                        <th>Livebirths among 15-19 y/o women</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($brgy_array as $ind => $b)
+                    <tr>
+                        <td class="text-center">{{$ind+1}}</td>
+                        <td><b>{{$b['name']}}</b></td>
+                        <td class="text-center">{{$b['total_livebirths']}}</td>
+                        <td class="text-center">{{$b['livebirth1014']}}</td>
+                        <td class="text-center">{{$b['livebirth1519']}}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            @else
             <table class="table table-bordered">
                 <tbody>
                     <tr>
                         <td>Year</td>
-                        <td>{{$year}}</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td>Month</td>
@@ -43,6 +71,7 @@
                     </tr>
                 </tbody>
             </table>
+            @endif
         </div>
     </div>
 </div>
@@ -84,6 +113,7 @@
                       <label for="brgy">Barangay</label>
                       <select class="form-control" name="brgy" id="brgy" required>
                         <option value="" disabled selected>Choose...</option>
+                        <option value="ALL BARANGAYS IN GENERAL TRIAS">ALL BARANGAYS IN GENERAL TRIAS</option>
                         @foreach ($brgylist as $b)
                             <option value="{{$b->brgyName}}">{{$b->brgyName}}</option>
                         @endforeach

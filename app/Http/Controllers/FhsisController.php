@@ -1418,32 +1418,74 @@ class FhsisController extends Controller
             $year = request()->input('year');
             $brgy = request()->input('brgy');
 
-            $total_livebirths = LiveBirth::where('year', $year)
-            ->where('month', $month)
-            ->where('address_brgy_text', $brgy)
-            ->count();
+            if($brgy == 'ALL BARANGAYS IN GENERAL TRIAS') {
+                $brgy_array = collect();
+                foreach($brgylist as $b) {
+                    $total_livebirths = LiveBirth::where('year', $year)
+                    ->where('month', $month)
+                    ->where('address_brgy_text', $b->brgyName)
+                    ->count();
 
-            $livebirth1014 = LiveBirth::where('year', $year)
-            ->where('month', $month)
-            ->whereBetween('mother_age', [10,14])
-            ->where('address_brgy_text', $brgy)
-            ->count();
+                    $livebirth1014 = LiveBirth::where('year', $year)
+                    ->where('month', $month)
+                    ->whereBetween('mother_age', [10,14])
+                    ->where('address_brgy_text', $b->brgyName)
+                    ->count();
 
-            $livebirth1519 = LiveBirth::where('year', $year)
-            ->where('month', $month)
-            ->whereBetween('mother_age', [15,19])
-            ->where('address_brgy_text', $brgy)
-            ->count();
+                    $livebirth1519 = LiveBirth::where('year', $year)
+                    ->where('month', $month)
+                    ->whereBetween('mother_age', [15,19])
+                    ->where('address_brgy_text', $b->brgyName)
+                    ->count();
+
+                    $brgy_array->push([
+                        'name' => $b->brgyName,
+                        'total_livebirths' => $total_livebirths,
+                        'livebirth1014' => $livebirth1014,
+                        'livebirth1519' => $livebirth1519,
+                    ]);
+                }
+
+                return view('efhsis.livebirth_report', [
+                    'month' => $month,
+                    'year' => $year,
+                    'brgy' => $brgy,
+
+                    'brgy_array' => $brgy_array,
+
+                    'brgylist' => $brgylist,
+                ]);
+            }
+            else {
+                $total_livebirths = LiveBirth::where('year', $year)
+                ->where('month', $month)
+                ->where('address_brgy_text', $brgy)
+                ->count();
+
+                $livebirth1014 = LiveBirth::where('year', $year)
+                ->where('month', $month)
+                ->whereBetween('mother_age', [10,14])
+                ->where('address_brgy_text', $brgy)
+                ->count();
+
+                $livebirth1519 = LiveBirth::where('year', $year)
+                ->where('month', $month)
+                ->whereBetween('mother_age', [15,19])
+                ->where('address_brgy_text', $brgy)
+                ->count();
             
-            return view('efhsis.livebirth_report', [
-                'month' => $month,
-                'year' => $year,
-                'brgy' => $brgy,
-                'total_livebirths' => $total_livebirths,
-                'livebirth1014' => $livebirth1014,
-                'livebirth1519' => $livebirth1519,
-                'brgylist' => $brgylist,
-            ]);
+                return view('efhsis.livebirth_report', [
+                    'month' => $month,
+                    'year' => $year,
+                    'brgy' => $brgy,
+
+                    'total_livebirths' => $total_livebirths,
+                    'livebirth1014' => $livebirth1014,
+                    'livebirth1519' => $livebirth1519,
+                    
+                    'brgylist' => $brgylist,
+                ]);
+            }
         }
         else {
             return abort(401);
