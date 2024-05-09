@@ -30,9 +30,9 @@
                     <tr>
                         <td class="text-center">{{$ind+1}}</td>
                         <td><b>{{$b['name']}}</b></td>
-                        <td class="text-center">{{($total_livebirths != 0) ? $b['total_livebirths'] : 'N/A'}}</td>
-                        <td class="text-center">{{($total_livebirths != 0) ? $b['livebirth1014'] : ''}}</td>
-                        <td class="text-center">{{($total_livebirths != 0) ? $b['livebirth1519'] : ''}}</td>
+                        <td class="text-center">{{($b['total_livebirths'] != 0) ? $b['total_livebirths'] : 'N/A'}}</td>
+                        <td class="text-center">{{($b['total_livebirths'] != 0) ? $b['livebirth1014'] : ''}}</td>
+                        <td class="text-center">{{($b['total_livebirths'] != 0) ? $b['livebirth1519'] : ''}}</td>
                     </tr>
                     @endforeach
                 </tbody>
