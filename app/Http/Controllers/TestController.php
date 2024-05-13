@@ -2,21 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Imports\DohFacilityImport;
-use App\Imports\EdcsImport;
-use App\Imports\TkcExcelImport;
 use Carbon\Carbon;
 use App\Mail\TestMail;
+use App\Models\Measles;
+use App\Imports\EdcsImport;
 use Illuminate\Http\Request;
+use Intervention\Image\Image;
+use App\Imports\TkcExcelImport;
 use App\Models\AbtcVaccineLogs;
 use App\Models\AbtcVaccineBrand;
 use App\Models\AbtcBakunaRecords;
 use App\Models\AbtcVaccineStocks;
+use App\Imports\DohFacilityImport;
 use Illuminate\Support\Facades\DB;
 use App\Models\AbtcVaccinationSite;
-use App\Models\Measles;
 use Illuminate\Support\Facades\Mail;
+use Intervention\Image\ImageManager;
 use Maatwebsite\Excel\Facades\Excel;
+use Intervention\Image\Drivers\Imagick\Driver;
 
 /*
 Adding ForeignID
@@ -33,6 +36,13 @@ class TestController extends Controller
 {
     public function index() {
         //Carbon::parse('2024-01-01')->next(Carbon::SATURDAY)->format('m/d/Y')
-        dd(Carbon::parse('2024-01-09')->startOfWeek()->format('m/d/Y'));
+
+        $manager = new ImageManager(new Driver());
+
+        
+        $image = $manager->read(storage_path('TESTIMG.jpg'));
+
+        // Save the compressed image
+        $save = $image->toJpeg(70)->save(storage_path('test/testimage2.jpg'));
     }
 }

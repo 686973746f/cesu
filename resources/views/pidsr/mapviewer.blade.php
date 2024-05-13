@@ -29,7 +29,7 @@
                                     <td class="text-center">{{$d->displayAgeStringToReport()}}/{{$d->Sex}}</td>
                                     <td class="text-center">
                                         <button class="btn btn-link" onclick="flyToMap({{$d->sys_coordinate_x}}, {{$d->sys_coordinate_y}})">
-                                            <div>{{}}</div>
+                                            <div>test</div>
                                         </button></td>
                                 </tr>
                                 @endforeach

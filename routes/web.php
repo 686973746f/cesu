@@ -665,13 +665,12 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     Route::post('/pharmacy/branches/{id}', [PharmacyController::class, 'updateBranch'])->name('pharmacy_update_branch');
 });
 
-
-
 //VAXCERT (WALK IN)
 Route::get('/vaxcert', [VaxcertController::class, 'walkinmenu'])->name('vaxcert_walkin');
 Route::get('/vaxcert/sendticket', [VaxcertController::class, 'walkin'])->name('vaxcert_walkin_file');
 Route::post('/vaxcert/process', [VaxcertController::class, 'walkin_process'])->name('vaxcert_walkin_process');
 Route::get('/vaxcert/track', [VaxcertController::class, 'walkin_track'])->name('vaxcert_track');
+Route::post('/vaxcert/followup', [VaxcertController::class, 'followUp'])->name('vaxcert_followup');
 
 //PHARMACY (WALK IN)
 Route::get('/pharmacy/register/{branch_qr}', [PharmacyController::class, 'walkinpart1'])->name('pharmacy_walkin');

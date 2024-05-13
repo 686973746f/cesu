@@ -526,6 +526,11 @@
                     <h5>Welcome to VaxCert Concern Ticketing System <b>(General Trias Cavite Vaccination Sites Concerns ONLY)</b></h5>
                 </div>
                 <div class="modal-body">
+                    @if(session('msg'))
+                    <div class="alert alert-{{session('msgtype')}}" role="alert">
+                        {{session('msg')}}
+                    </div>
+                    @endif
                     <div id="choice1">
                         <div class="alert alert-info" role="alert">
                             <h4 class="text-danger text-center"><b>BASAHIN MUNA ANG MGA SUMUSUNOD BAGO MAGPATULOY:</b></h4>
@@ -560,15 +565,25 @@
                         <h6>Paalala: Dahil ngayon ay {{(date('w') == 6) ? 'Sabado' : 'Linggo'}}, ang iyong concern ay maaasikaso pa sa darating na Lunes.</h6>
                         @endif
                         <hr>
-                        <button type="button" class="btn btn-secondary btn-block" id="clicktrack">Follow-up Concern Status</button>
+                        <button type="button" class="btn btn-primary btn-block mt-3" id="clicktrack">Nag-submit na ako dito dati pa at gusto kong mag Follow-up ng aking Ticket</button>
                     </div>
-                    <div  id="choice2" class="d-none text-center">
+                    <div id="choice2" class="d-none text-center">
+                        <form action="{{route('vaxcert_followup')}}" method="POST" autocomplete="off">
+                            @csrf
+                            <div class="form-group text-left">
+                              <label for="inputTicketNumber"><b class="text-danger">*</b>Pakilagay ang iyong Ticket Number</label>
+                              <input type="text" class="form-control" name="inputTicketNumber" id="inputTicketNumber" aria-describedby="helpId" placeholder="example: AB12CD" required>
+                            </div>
+                            <button type="submit" class="btn btn-success btn-block">Verify</button>
+                        </form>
+                        <!--
                         <p>Kung makalipas ng 2-3 araw at wala kayong na-receive na update mula saamin, maaari niyo kami ma-contact sa pamamagitan ng:</p>
                         <h6><b>Email:</b> cesugentri.vaxcert@gmail.com</h6>
                         <h6><b>Text/Call/Viber:</b> +63919 066 4327</h6>
                         <h6 class="mt-5"><b>Office Hours:</b> Monday - Friday <i>(except Holidays)</i>, 8AM - 5PM</h6>
+                        -->
                         <hr>
-                        <button type="button" id="goback" class="btn btn-primary btn-block">Go Back</button>
+                        <button type="button" id="goback" class="btn btn-secondary btn-block">Go Back</button>
                     </div>
                 </div>
             </div>
