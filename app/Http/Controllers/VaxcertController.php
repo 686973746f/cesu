@@ -53,8 +53,14 @@ class VaxcertController extends Controller
 
         $path = 'assets/vaxcert/patients';
 
-        $save1 = $image1->toJpeg(70)->save($path.'/'.$id_file_name);
-        $save2 = $image2->toJpeg(70)->save($path.'/'.$vaxcard_file_name);
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            $save1 = $image1->toJpeg(70)->save($path.'/'.$id_file_name);
+            $save2 = $image2->toJpeg(70)->save($path.'/'.$vaxcard_file_name);
+        }
+        else {
+            $save1 = $image1->toJpeg(70)->save($_SERVER['DOCUMENT_ROOT'].'/assets/vaxcert/patients/'.$id_file_name);
+            $save2 = $image2->toJpeg(70)->save($_SERVER['DOCUMENT_ROOT'].'/assets/vaxcert/patients/'.$vaxcard_file_name);
+        }
 
         /*
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
