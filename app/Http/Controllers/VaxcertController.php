@@ -42,26 +42,11 @@ class VaxcertController extends Controller
             'dose4_date' => ($request->howmanydose == 4) ? 'required|after:dose3_date|before_or_equal:today' : 'nullable',
         ]);
         
-        
-        $id_file_name = Str::random(10) . '.' . $request->file('id_file')->extension();
-        $vaxcard_file_name = Str::random(10) . '.' . $request->file('vaxcard_file')->extension();
-
         /*
         $request->file('id_file')->move($_SERVER['DOCUMENT_ROOT'].'/assets/vaxcert/patients/', $id_file_name);
         $request->file('vaxcard_file')->move($_SERVER['DOCUMENT_ROOT'].'/assets/vaxcert/patients/', $vaxcard_file_name);
         */
-
-
-        $image1 = Image::read($request->file('id_file'));
-        $image2 = Image::read($request->file('vaxcard_file'));
-
-        $path = 'assets/vaxcert/patients';
-
-        $save1 = $image1->save($path.'/'.$id_file_name, true, 70);
-        $save2 = $image2->save($path.'/'.$vaxcard_file_name, true, 70);
         
-        $sys_code = strtoupper(Str::random(6));
-
         $check = VaxcertConcern::where('last_name', mb_strtoupper($request->last_name))
         ->where('first_name', mb_strtoupper($request->first_name))
         ->whereDate('bdate', $request->bdate)
@@ -69,6 +54,19 @@ class VaxcertController extends Controller
         ->first();
 
         if(!($check)) {
+            $id_file_name = Str::random(10) . '.' . $request->file('id_file')->extension();
+            $vaxcard_file_name = Str::random(10) . '.' . $request->file('vaxcard_file')->extension();
+            
+            $image1 = Image::read($request->file('id_file'));
+            $image2 = Image::read($request->file('vaxcard_file'));
+
+            $path = 'assets/vaxcert/patients';
+
+            $save1 = $image1->save($path.'/'.$id_file_name, true, 70);
+            $save2 = $image2->save($path.'/'.$vaxcard_file_name, true, 70);
+
+            $sys_code = strtoupper(Str::random(6));
+
             if($request->howmanydose == 1) {
                 $dose2_date = NULL;
                 $dose2_manufacturer = NULL;
