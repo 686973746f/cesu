@@ -31,7 +31,8 @@
         "simplesoftwareio/simple-qrcode": "^4.2",
         "symfony/mailer": "^6.1",
         "tecnickcom/tcpdf": "^6.6",
-        "yoramdelangen/laravel-pdo-odbc": "^1.2"
+        "yoramdelangen/laravel-pdo-odbc": "^1.2",
+        "ext-imagick": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
