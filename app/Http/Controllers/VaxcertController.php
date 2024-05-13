@@ -57,8 +57,8 @@ class VaxcertController extends Controller
 
         $path = 'assets/vaxcert/patients';
 
-        $save1 = $image1->toJpeg(70)->save($path.'/'.$id_file_name);
-        $save2 = $image2->toJpeg(70)->save($path.'/'.$vaxcard_file_name);
+        $save1 = $image1->toJpeg()->save($path.'/'.$id_file_name, true, 70);
+        $save2 = $image2->toJpeg()->save($path.'/'.$vaxcard_file_name, true, 70);
         
         $sys_code = strtoupper(Str::random(6));
 
