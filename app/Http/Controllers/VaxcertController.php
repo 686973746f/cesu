@@ -46,22 +46,15 @@ class VaxcertController extends Controller
         $id_file_name = Str::random(10) . '.' . $request->file('id_file')->extension();
         $vaxcard_file_name = Str::random(10) . '.' . $request->file('vaxcard_file')->extension();
 
-        /*
         $request->file('id_file')->move($_SERVER['DOCUMENT_ROOT'].'/assets/vaxcert/patients/', $id_file_name);
         $request->file('vaxcard_file')->move($_SERVER['DOCUMENT_ROOT'].'/assets/vaxcert/patients/', $vaxcard_file_name);
-        */
 
+        /*
         $manager = new ImageManager(new Driver());
 
         $image1 = $manager->read($request->file('id_file'));
         $image2 = $manager->read($request->file('vaxcard_file'));
 
-        $path = 'assets/vaxcert/patients';
-
-        $save1 = $image1->toJpeg(70)->save($path.'/'.$id_file_name);
-        $save2 = $image2->toJpeg(70)->save($path.'/'.$vaxcard_file_name);
-
-        /*
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             
             $path = 'assets/vaxcert/patients';
