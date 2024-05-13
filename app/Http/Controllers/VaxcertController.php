@@ -42,12 +42,7 @@ class VaxcertController extends Controller
             'dose3_date' => ($request->howmanydose == 3 || $request->howmanydose == 4) ? 'required|after:dose2_date|before_or_equal:today' : 'nullable',
             'dose4_date' => ($request->howmanydose == 4) ? 'required|after:dose3_date|before_or_equal:today' : 'nullable',
         ]);
-
-        $manager = new ImageManager(new Driver());
-
-        $image1 = $manager->read($request->file('id_file'));
-        $image2 = $manager->read($request->file('vaxcard_file'));
-
+        
         $id_file_name = Str::random(10) . '.' . $request->file('id_file')->extension();
         $vaxcard_file_name = Str::random(10) . '.' . $request->file('vaxcard_file')->extension();
 
@@ -55,7 +50,13 @@ class VaxcertController extends Controller
         $request->file('vaxcard_file')->move($_SERVER['DOCUMENT_ROOT'].'/assets/vaxcert/patients/', $vaxcard_file_name);
 
         /*
+        $manager = new ImageManager(new Driver());
+
+        $image1 = $manager->read($request->file('id_file'));
+        $image2 = $manager->read($request->file('vaxcard_file'));
+
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            
             $path = 'assets/vaxcert/patients';
 
             $save1 = $image1->toJpeg(70)->save($path.'/'.$id_file_name);
