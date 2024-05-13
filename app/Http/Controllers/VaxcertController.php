@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 use App\Models\VaxcertConcern;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use Intervention\Image\ImageManager;
 use Maatwebsite\Excel\Facades\Excel;
 use Rap2hpoutre\FastExcel\FastExcel;
 use Faker\Provider\sv_SE\Municipality;
@@ -20,7 +19,7 @@ use App\Imports\VaxcertMasterlistImport;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use App\Models\CovidVaccinePatientMasterlist;
-use Intervention\Image\Drivers\Imagick\Driver;
+use Intervention\Image\Laravel\Facades\Image;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
 
@@ -43,30 +42,23 @@ class VaxcertController extends Controller
             'dose4_date' => ($request->howmanydose == 4) ? 'required|after:dose3_date|before_or_equal:today' : 'nullable',
         ]);
         
+        
         $id_file_name = Str::random(10) . '.' . $request->file('id_file')->extension();
         $vaxcard_file_name = Str::random(10) . '.' . $request->file('vaxcard_file')->extension();
 
+        /*
         $request->file('id_file')->move($_SERVER['DOCUMENT_ROOT'].'/assets/vaxcert/patients/', $id_file_name);
         $request->file('vaxcard_file')->move($_SERVER['DOCUMENT_ROOT'].'/assets/vaxcert/patients/', $vaxcard_file_name);
-
-        /*
-        $manager = new ImageManager(new Driver());
-
-        $image1 = $manager->read($request->file('id_file'));
-        $image2 = $manager->read($request->file('vaxcard_file'));
-
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            
-            $path = 'assets/vaxcert/patients';
-
-            $save1 = $image1->toJpeg(70)->save($path.'/'.$id_file_name);
-            $save2 = $image2->toJpeg(70)->save($path.'/'.$vaxcard_file_name);
-        }
-        else {
-            $save1 = $image1->toJpeg(70)->save($_SERVER['DOCUMENT_ROOT'].'/assets/vaxcert/patients/'.$id_file_name);
-            $save2 = $image2->toJpeg(70)->save($_SERVER['DOCUMENT_ROOT'].'/assets/vaxcert/patients/'.$vaxcard_file_name);
-        }
         */
+
+
+        $image1 = Image::read($request->file('id_file'));
+        $image2 = Image::read($request->file('vaxcard_file'));
+
+        $path = 'assets/vaxcert/patients';
+
+        $save1 = $image1->toJpeg(70)->save($path.'/'.$id_file_name);
+        $save2 = $image2->toJpeg(70)->save($path.'/'.$vaxcard_file_name);
         
         $sys_code = strtoupper(Str::random(6));
 
