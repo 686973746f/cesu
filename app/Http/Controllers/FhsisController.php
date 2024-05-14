@@ -113,6 +113,8 @@ class FhsisController extends Controller
             //FETCHING MORTALITY
             foreach($mort_query as $s) {
                 $count = 0;
+                $count_male = 0;
+                $count_female = 0;
 
                 if($type == 'yearly') {
                     $mort_query2 = FhsisMortBhs::where('MUN_CODE', 'GENERAL TRIAS')
@@ -155,10 +157,50 @@ class FhsisController extends Controller
                     $t['7_28DAYS_M'] + $t['7_28DAYS_F'] +
                     $t['29DAYS_11MOS_M'] + $t['29DAYS_11MOS_F']
                     ;
+
+                    $count_male += $t['1_4_M'] +
+                    $t['5_9_M'] +
+                    $t['10_14_M'] +
+                    $t['15_19_M'] +
+                    $t['20_24_M'] +
+                    $t['25_29_M'] +
+                    $t['30_34_M'] +
+                    $t['35_39_M'] +
+                    $t['40_44_M'] +
+                    $t['45_49_M'] +
+                    $t['50_54_M'] +
+                    $t['55_59_M'] +
+                    $t['60_64_M'] +
+                    $t['65_69_M'] +
+                    $t['70ABOVE_M'] +
+                    $t['0_6DAYS_M'] +
+                    $t['7_28DAYS_M'] +
+                    $t['29DAYS_11MOS_M'];
+
+                    $count_female += $t['1_4_F'] +
+                    $t['5_9_F'] +
+                    $t['10_14_F'] +
+                    $t['15_19_F'] +
+                    $t['20_24_F'] +
+                    $t['25_29_F'] +
+                    $t['30_34_F'] +
+                    $t['35_39_F'] +
+                    $t['40_44_F'] +
+                    $t['45_49_F'] +
+                    $t['50_54_F'] +
+                    $t['55_59_F'] +
+                    $t['60_64_F'] +
+                    $t['65_69_F'] +
+                    $t['70ABOVE_F'] +
+                    $t['0_6DAYS_F'] +
+                    $t['7_28DAYS_F'] +
+                    $t['29DAYS_11MOS_F'];
                 }
 
                 array_push($mort_final_list, [
                     'disease' => $s,
+                    'count_male' => $count_male,
+                    'count_female' => $count_female,
                     'count' => $count,
                 ]);
             }
