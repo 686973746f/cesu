@@ -418,13 +418,13 @@ class ABTCReportController extends Controller
     public function export1(Request $request) {
         $sd = $request->start_date;
         $ed = $request->end_date;
+
+        $vslist = AbtcVaccinationSite::where('enabled', 1)->get();
         
         if($request->submit == 'AR') {
             $spreadsheet = IOFactory::load(storage_path('AR_TEMPLATE.xlsx'));
             $sheet = $spreadsheet->getActiveSheet();
             $sheet->setCellValue('A6', date('Y').' Quarter Accomplishment Reports from '.date('M d, Y', strtotime($request->start_date)).' to '.date('M d, Y', strtotime($request->end_date)));
-            
-            $vslist = AbtcVaccinationSite::where('enabled', 1)->get();
 
             foreach($vslist as $i => $v) {
                 $i = $i + 11; //Row 11 Start ng pag-fill ng Values
@@ -622,8 +622,6 @@ class ABTCReportController extends Controller
             $spreadsheet = IOFactory::load(storage_path('RO4A_TEMPLATE.xlsx'));
             $sheet = $spreadsheet->getActiveSheet();
             $sheet->setCellValue('A1', 'CY: '.date('M d, Y', strtotime($sd)).' - '.date('M d, Y', strtotime($ed)));
-            
-            $vslist = AbtcVaccinationSite::get();
 
             foreach($vslist as $i => $v) {
                 $i = $i + 6; //Row 6 Start ng pag-fill ng Values
