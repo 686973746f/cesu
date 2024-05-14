@@ -618,4 +618,15 @@ class User extends Authenticatable implements MustVerifyEmail
             return true;
         }
     }
+
+    public function isMayor() {
+        $plist = $this->getPermissions();
+
+        if(in_array('MAYOR_ACCESS', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }

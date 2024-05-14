@@ -89,17 +89,20 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-4">
                         <div class="form-group">
                             <label for="sys_coordinate_x">GPS Coordinate X (Longitude)</label>
                             <input type="text" class="form-control" value="{{old('sys_coordinate_x', $d->sys_coordinate_x)}}" pattern="\d+(\.\d+)?" id="sys_coordinate_x" name="sys_coordinate_x">
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-4">
                         <div class="form-group">
                             <label for="sys_coordinate_y">GPS Coordinate Y (Latitude)</label>
                             <input type="text" class="form-control" value="{{old('sys_coordinate_y', $d->sys_coordinate_y)}}" pattern="\d+(\.\d+)?" id="sys_coordinate_y" name="sys_coordinate_y">
                         </div>
+                    </div>
+                    <div class="col-4">
+                        <button type="button" name="getCurrentLocation" id="getCurrentLocation" class="btn btn-primary btn-block">Get Current Location</button>
                     </div>
                 </div>
                 @if(!is_null($d->sys_coordinate_x))
@@ -171,6 +174,23 @@
                 $('#submitBtn').prop('disabled', false);
             }, 2000);
             return false;
+        }
+    });
+    
+    $('#getCurrentLocation').click(function (e) { 
+        e.preventDefault();
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            $('#sys_coordinate_x').val(longitude);
+            $('#sys_coordinate_y').val(latitude);
+
+        }, function(error) {
+            console.log("Error occurred. Error code: " + error.code);
+        });
+        } else {
+            console.log("Geolocation is not supported by this browser.");
         }
     });
 
