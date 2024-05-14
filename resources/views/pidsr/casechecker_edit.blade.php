@@ -183,8 +183,8 @@
             navigator.geolocation.getCurrentPosition(function(position) {
             var latitude = position.coords.latitude;
             var longitude = position.coords.longitude;
-            $('#sys_coordinate_x').val(longitude);
-            $('#sys_coordinate_y').val(latitude);
+            $('#sys_coordinate_x').val(latitude);
+            $('#sys_coordinate_y').val(longitude);
 
         }, function(error) {
             console.log("Error occurred. Error code: " + error.code);
