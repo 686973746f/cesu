@@ -424,7 +424,7 @@ class ABTCReportController extends Controller
             $sheet = $spreadsheet->getActiveSheet();
             $sheet->setCellValue('A6', date('Y').' Quarter Accomplishment Reports from '.date('M d, Y', strtotime($request->start_date)).' to '.date('M d, Y', strtotime($request->end_date)));
             
-            $vslist = AbtcVaccinationSite::get();
+            $vslist = AbtcVaccinationSite::where('enabled', 1)->get();
 
             foreach($vslist as $i => $v) {
                 $i = $i + 11; //Row 11 Start ng pag-fill ng Values
