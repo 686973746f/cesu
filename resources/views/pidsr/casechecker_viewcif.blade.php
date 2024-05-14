@@ -36,7 +36,14 @@
         <div class="card-header">
             <div class="d-flex justify-content-between">
                 <div>View Online CIF</div>
-                <div><button type="button" class="btn btn-primary" id="PrintBtn" onclick="window.print()"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print</button></div>
+                <div class="btn-group">
+                    <div>
+                        @if (request()->is('*barangayportal*'))
+                        <a href="{{route('edcs_barangay_edit_cif', [mb_strtoupper($disease), $p->EPIID])}}" class="btn btn-primary mr-2"><i class="fas fa-edit mr-2"></i>Edit</a>
+                        @endif
+                    </div>
+                    <div><button type="button" class="btn btn-success" id="PrintBtn" onclick="window.print()"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print</button></div>
+                </div>
             </div>
         </div>
         <div class="card-body" id="divToPrint">

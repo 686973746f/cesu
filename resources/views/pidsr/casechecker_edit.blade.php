@@ -65,6 +65,8 @@
                         </div>
                     </div>
                 </div>
+                
+                @if (!request()->is('*barangayportal*'))
                 <div class="form-group">
                     <label for="Barangay"><b class="text-danger">*</b>Barangay</label>
                     <select class="form-control" name="Barangay" id="Barangay" required>
@@ -88,28 +90,55 @@
                         </div>
                     </div>
                 </div>
+                @else
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-6">
                         <div class="form-group">
-                            <label for="sys_coordinate_x">GPS Coordinate X (Longitude)</label>
+                            <label for="Barangay"><b class="text-danger">*</b>Barangay</label>
+                            <select class="form-control" name="Barangay" id="Barangay" required>
+                                @foreach($brgy_list as $b)
+                                <option value="{{$b->id}}" {{($b->brgyName == old('Barangay', $d->Barangay)) ? 'selected' : ''}}>{{$b->brgyName}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="Streetpurok">Street/Purok</label>
+                            <input type="text" class="form-control" value="{{old('Streetpurok', $d->Streetpurok)}}" id="Streetpurok" name="Streetpurok">
+                        </div>
+                    </div>
+                </div>
+                @endif
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="sys_coordinate_x">GPS Coordinate X (Latitude)</label>
                             <input type="text" class="form-control" value="{{old('sys_coordinate_x', $d->sys_coordinate_x)}}" pattern="\d+(\.\d+)?" id="sys_coordinate_x" name="sys_coordinate_x">
                         </div>
                     </div>
-                    <div class="col-4">
+                    <div class="col-6">
                         <div class="form-group">
-                            <label for="sys_coordinate_y">GPS Coordinate Y (Latitude)</label>
+                            <label for="sys_coordinate_y">GPS Coordinate Y (Longitude)</label>
                             <input type="text" class="form-control" value="{{old('sys_coordinate_y', $d->sys_coordinate_y)}}" pattern="\d+(\.\d+)?" id="sys_coordinate_y" name="sys_coordinate_y">
                         </div>
                     </div>
-                    <div class="col-4">
-                        <button type="button" name="getCurrentLocation" id="getCurrentLocation" class="btn btn-primary btn-block">Get Current Location</button>
-                    </div>
+                </div>
+                <div>
+                    <button type="button" name="changeLocation" id="changeLocation" class="btn btn-warning btn-block d-none">Change Location</button>
+                    <button type="button" name="getCurrentLocation" id="getCurrentLocation" class="btn btn-primary btn-block">
+                        <div>Tag Current Location as the Patient Location</div>
+                        <div><small>(Requires location permission)</small></div>
+                    </button>
+                    <button type="button" name="cancelCurrentLocation" id="cancelCurrentLocation" class="btn btn-warning btn-block d-none">Cancel</button>
                 </div>
                 @if(!is_null($d->sys_coordinate_x))
-                <div class="mb-3">
+                <hr>
+                <div>
                     <div id="map"></div>
                 </div>
                 @endif
+                @if (!request()->is('*barangayportal*'))
                 <div class="alert alert-info" role="alert">
                     <h6><b class="text-danger">Note:</b></h6>
                     <ul>
@@ -117,6 +146,7 @@
                         <li>Burahin ang subdivision sa Street/Purok field pagkatapos malipat para sa cleanliness ng data.</li>
                     </ul>
                 </div>
+                @endif
                 <div class="row">
                     <div class="col-6">
 
@@ -125,7 +155,7 @@
                         
                     </div>
                 </div>
-                @if($disease == 'PERT')
+                @if($disease == 'PERT' && !request()->is('*barangayportal*'))
                 <hr>
                 <div class="row">
                     <div class="col-6">
@@ -152,13 +182,14 @@
                     </div>
                 </div>
                 @endif
+                <hr>
                 <div class="form-group">
                     <label for="system_remarks">Remarks</label>
                     <textarea class="form-control" name="system_remarks" id="system_remarks" rows="3">{{old('system_remarks', $d->system_remarks)}}</textarea>
                 </div>
             </div>
             <div class="card-footer">
-                <button type="submit" class="btn btn-success btn-block" id="submitBtn">Save (CTRL + S)</button>
+                <button type="submit" class="btn btn-success btn-block" id="submitBtn">Update (CTRL + S)</button>
             </div>
         </div>
     </form>
@@ -176,6 +207,32 @@
             return false;
         }
     });
+
+    if($('#sys_coordinate_x').val()) {
+        $('#sys_coordinate_x').prop('readonly', true);
+        $('#sys_coordinate_y').prop('readonly', true);
+
+        $('#changeLocation').removeClass('d-none');
+        $('#getCurrentLocation').addClass('d-none');
+    }
+    
+    $('#changeLocation').click(function (e) { 
+        e.preventDefault();
+        
+        if(confirm('Changing location will remove the existing values of X and Y coordinates. Click OK to proceed.')) {
+            $('#changeLocation').addClass('d-none');
+            $('#getCurrentLocation').removeClass('d-none');
+
+            $('#sys_coordinate_x').prop('readonly', false);
+            $('#sys_coordinate_y').prop('readonly', false);
+
+            $('#sys_coordinate_x').val('');
+            $('#sys_coordinate_y').val('');
+        }
+        else {
+
+        }
+    });
     
     $('#getCurrentLocation').click(function (e) { 
         e.preventDefault();
@@ -183,15 +240,33 @@
             navigator.geolocation.getCurrentPosition(function(position) {
             var latitude = position.coords.latitude;
             var longitude = position.coords.longitude;
+
             $('#sys_coordinate_x').val(latitude);
             $('#sys_coordinate_y').val(longitude);
 
+            $('#sys_coordinate_x').prop('readonly', true);
+            $('#sys_coordinate_y').prop('readonly', true);
+
+            $('#cancelCurrentLocation').removeClass('d-none');
         }, function(error) {
-            console.log("Error occurred. Error code: " + error.code);
+            alert("Error occurred. Error code: " + error.code);
         });
-        } else {
-            console.log("Geolocation is not supported by this browser.");
         }
+        else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    });
+
+    $('#cancelCurrentLocation').click(function (e) { 
+        e.preventDefault();
+        
+        $('#sys_coordinate_x').val('');
+        $('#sys_coordinate_y').val('');
+
+        $('#sys_coordinate_x').prop('readonly', false);
+        $('#sys_coordinate_y').prop('readonly', false);
+
+        $('#cancelCurrentLocation').addClass('d-none');
     });
 
     @if(!is_null($d->sys_coordinate_x))
@@ -225,6 +300,7 @@
             }
         });
 
+        @if(!request()->is('*barangayportal*'))
         $('#Barangay').on('change', function() {
             var brgy_id = $(this).val();
             if (brgy_id) {
@@ -251,6 +327,7 @@
                 $('#system_subdivision_id').empty();
             }
         }).trigger('change');
+        @endif
     });
 
 </script>

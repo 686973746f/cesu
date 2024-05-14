@@ -6,19 +6,23 @@
 <style>
     #map { height: 700px; }
 </style>
-    <div class="container">
+    <div class="container-fluid">
         <div class="card">
             <div class="card-header"><b>Case Map Viewer</b> (Case: {{$case}} - Year: {{request()->input('year')}})</div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-6">
-                        <table class="table table-bordered table-striped">
+                        <table class="table table-bordered table-striped" id="mainTbl">
                             <thead class="thead-light text-center">
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
                                     <th>Age/Sex</th>
                                     <th>Address</th>
+                                    <th>Outcome</th>
+                                    <th>Morbidity Week</th>
+                                    <th>DRU</th>
+                                    <th>Date Added</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -28,9 +32,20 @@
                                     <td>{{$d->getName()}}</td>
                                     <td class="text-center">{{$d->displayAgeStringToReport()}}/{{$d->Sex}}</td>
                                     <td class="text-center">
-                                        <button class="btn btn-link" onclick="flyToMap({{$d->sys_coordinate_x}}, {{$d->sys_coordinate_y}})">
-                                            <div>test</div>
-                                        </button></td>
+                                    @if(!is_null($d->sys_coordinate_x))
+                                    <button class="btn btn-link" onclick="flyToMap({{$d->sys_coordinate_x}}, {{$d->sys_coordinate_y}})">
+                                        <div>{{$d->getStreetPurok()}}</div>
+                                        <div>{{$d->Barangay}}</div>
+                                    </button>
+                                    @else
+                                    <div>{{$d->getStreetPurok()}}</div>
+                                    <div>{{$d->Barangay}}</div>
+                                    @endif
+                                    </td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center">{{date('m/d/Y h:i A', strtotime($d->created_at))}}</td>
                                 </tr>
                                 @endforeach
                             </tbody>

@@ -1763,13 +1763,16 @@ class PIDSRController extends Controller
 
                 $d->FullName = $getFullName;
             }
+
+            if(!request()->is('*barangayportal*')) {
+                $d->system_subdivision_id = $r->system_subdivision_id;
+            }
             
-            $d->system_subdivision_id = $r->system_subdivision_id;
             $d->sys_coordinate_x = $r->sys_coordinate_x;
             $d->sys_coordinate_y = $r->sys_coordinate_y;
 
             //FOR PERT ADDITIONAL SETTINGS
-            if($disease == 'PERT') {
+            if($disease == 'PERT' && !request()->is('*barangayportal*')) {
                 $d->system_outcome = $r->system_outcome;
                 $d->system_classification = $r->system_classification;
 
@@ -6981,6 +6984,7 @@ class PIDSRController extends Controller
                 Session::put('brgyName', $brgy); // Set custom session variable
                 //Session::put('edcs_pw', $credentials['password']); // Set custom session variable
                 Session::put('session_code', $session_code);
+                Session::put('isPoblacion', $search->isPoblacion());
 
                 return redirect()->route('edcs_barangay_home');
             }
@@ -7004,7 +7008,9 @@ class PIDSRController extends Controller
         $credentials = $r->only('brgy', 'password');
 
         // Attempt to authenticate the user
-        if (Brgy::where('brgyName', $credentials['brgy'])->where('edcs_pw', $credentials['password'])->exists()) {
+        $auth = Brgy::where('brgyName', $credentials['brgy'])->where('edcs_pw', $credentials['password'])->first();
+
+        if ($auth) {
             $session_code = mb_strtoupper(Str::random(5));
 
             /*
@@ -7034,6 +7040,7 @@ class PIDSRController extends Controller
             Session::put('brgyName', $credentials['brgy']); // Set custom session variable
             //Session::put('edcs_pw', $credentials['password']); // Set custom session variable
             Session::put('session_code', $session_code);
+            Session::put('isPoblacion', $auth->isPoblacion());
 
             $update = Brgy::where('brgyName', $credentials['brgy'])->where('edcs_pw', $credentials['password'])->update([
                 'edcs_lastlogin_date' => date('Y-m-d H:i:s'),
@@ -7217,8 +7224,25 @@ class PIDSRController extends Controller
         $model = "App\\Models\\$case";
 
         $list = $model::where('enabled', 1)
-        ->where('match_casedef', 1)
-        ->where('Barangay', $brgy);
+        ->where('match_casedef', 1);
+
+        if(session('isPoblacion')) {
+            $list = $list->where(function ($q) {
+                $q->where('Barangay', 'ARNALDO POB. (BGY. 7)')
+                ->orWhere('Barangay', 'BAGUMBAYAN POB. (BGY. 5)')
+                ->orWhere('Barangay', 'CORREGIDOR POB. (BGY. 10)')
+                ->orWhere('Barangay', 'DULONG BAYAN POB. (BGY. 3)')
+                ->orWhere('Barangay', 'GOV. FERRER POB. (BGY. 1)')
+                ->orWhere('Barangay', 'NINETY SIXTH POB. (BGY. 8)')
+                ->orWhere('Barangay', 'PRINZA POB. (BGY. 9)')
+                ->orWhere('Barangay', 'SAMPALUCAN POB. (BGY. 2)')
+                ->orWhere('Barangay', 'SAN GABRIEL POB. (BGY. 4)')
+                ->orWhere('Barangay', 'VIBORA POB. (BGY. 6)');
+            });
+        }
+        else {
+            $list = $list->where('Barangay', $brgy);
+        }
 
         if(request()->input('year')) {
             $year = request()->input('year');
@@ -7394,9 +7418,35 @@ class PIDSRController extends Controller
         
         $list_case = $modelClass::where('enabled', 1)
         ->where('match_casedef', 1)
-        ->where('Year', $year)
-        ->orderBy('created_at', 'ASC')
-        ->get();
+        ->where('Year', $year);
+        
+        if(!request()->is('*barangayportal*')) {
+            $list_case = $list_case->get();
+        }
+        else {
+            $brgy = session('brgyName');
+
+            if(session('isPoblacion')) {
+                $list_case = $list_case->where(function ($q) {
+                    $q->where('Barangay', 'ARNALDO POB. (BGY. 7)')
+                    ->orWhere('Barangay', 'BAGUMBAYAN POB. (BGY. 5)')
+                    ->orWhere('Barangay', 'CORREGIDOR POB. (BGY. 10)')
+                    ->orWhere('Barangay', 'DULONG BAYAN POB. (BGY. 3)')
+                    ->orWhere('Barangay', 'GOV. FERRER POB. (BGY. 1)')
+                    ->orWhere('Barangay', 'NINETY SIXTH POB. (BGY. 8)')
+                    ->orWhere('Barangay', 'PRINZA POB. (BGY. 9)')
+                    ->orWhere('Barangay', 'SAMPALUCAN POB. (BGY. 2)')
+                    ->orWhere('Barangay', 'SAN GABRIEL POB. (BGY. 4)')
+                    ->orWhere('Barangay', 'VIBORA POB. (BGY. 6)');
+                });
+            }
+            else {
+                $list_case = $list_case->where('Barangay', $brgy);
+            }
+            
+        }
+
+        $list_case = $list_case->orderBy('created_at', 'ASC')->get();
 
         return view('pidsr.mapviewer', [
             'list_case' => $list_case,

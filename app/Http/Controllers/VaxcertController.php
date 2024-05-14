@@ -334,13 +334,13 @@ class VaxcertController extends Controller
         if($request->submit == 'complete') {
             $v->status = 'COMPLETED';
 
-            $msg = 'VaxCert Concern Ticket marked completed.';
+            $msg = 'VaxCert Concern Ticket was completed successfully.';
             $msgtype = 'success';
         }
         else if($request->submit == 'reject') {
             $v->status = 'REJECTED';
 
-            $msg = 'VaxCert Concern Ticket marked rejected.';
+            $msg = 'VaxCert Concern Ticket was marked rejected.';
             $msgtype = 'success';
         }
         else if($request->submit == 'update') {

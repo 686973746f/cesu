@@ -556,8 +556,12 @@
                             </div>
                         </div>
                     </div>
-                    <div id="step1_no" class="d-none">
-
+                    <div id="step1_nodiv" class="d-none">
+                        <div class="form-group">
+                            <label for="user_remarks"><b class="text-danger">*</b>Input Reason for Rejection</label>
+                            <input type="text" class="form-control" name="user_remarks" id="user_remarks" value="{{old('user_remarks', 'Sorry, we cannot process your ticket. Your vaccination records of concern must be in City of General Trias only. You may Contact the respective LGU on where you are vaccinated in order to process the ticket correctly. Thank you.')}}">
+                        </div>
+                        <button type="submit" class="btn btn-danger btn-block" name="submit" value="reject">Submit Rejection</button>
                     </div>
                     <div id="step2" class="d-none">
                         <hr>
@@ -647,6 +651,14 @@
         setTimeout(function(){
             $("#step2_choicediv").fadeIn();
         }, 20000);
+    });
+
+    $('#step1_no').click(function (e) { 
+        e.preventDefault();
+        $('#step1').addClass('d-none');
+        $('#step1_nodiv').removeClass('d-none');
+
+        $('#user_remarks').prop('required', true);
     });
 
     $('#step2_yes').click(function (e) { 
