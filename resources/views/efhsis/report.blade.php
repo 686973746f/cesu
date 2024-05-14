@@ -323,7 +323,9 @@
                                             <tr>
                                                 <th>No.</th>
                                                 <th>Top 10 Mortality <i>(Highest to Lowest)</i></th>
-                                                <th>Count</th>
+                                                <th>Male</th>
+                                                <th>Female</th>
+                                                <th>Total</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -331,6 +333,8 @@
                                             <tr>
                                                 <td scope="row" class="text-center"></td>
                                                 <td>{{$m['disease']}}</td>
+                                                <td class="text-center">{{$m['count_male']}}</td>
+                                                <td class="text-center">{{$m['count_female']}}</td>
                                                 <td class="text-center">{{$m['count']}}</td>
                                             </tr>
                                             @endforeach
@@ -345,7 +349,9 @@
                                             <tr>
                                                 <th>No.</th>
                                                 <th>Top 10 Morbidity <i>(Highest to Lowest)</i></th>
-                                                <th>Count</th>
+                                                <th>Male</th>
+                                                <th>Female</th>
+                                                <th>Total</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -353,6 +359,8 @@
                                             <tr>
                                                 <td scope="row" class="text-center"></td>
                                                 <td>{{$m['disease']}}</td>
+                                                <td class="text-center">{{$m['count_male']}}</td>
+                                                <td class="text-center">{{$m['count_female']}}</td>
                                                 <td class="text-center">{{$m['count']}}</td>
                                             </tr>
                                             @endforeach
