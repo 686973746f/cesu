@@ -19,6 +19,8 @@
                     <p class="h5">Thank you for understanding.</p>
                     @else
                     <p class="h4">Was marked as <b class="text-danger">REJECTED</b></p>
+                    <p class="h5">REASON: {{$d->user_remarks}}</p>
+                    <p class="h5">Thank you for understanding.</p>
                     @endif
                 </div>
                 <hr>

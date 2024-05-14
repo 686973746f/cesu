@@ -339,6 +339,7 @@ class VaxcertController extends Controller
         }
         else if($request->submit == 'reject') {
             $v->status = 'REJECTED';
+            $v->user_remarks = $request->user_remarks;
 
             $msg = 'VaxCert Concern Ticket was marked rejected.';
             $msgtype = 'success';
