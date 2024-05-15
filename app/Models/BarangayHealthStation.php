@@ -10,7 +10,7 @@ class BarangayHealthStation extends Model
     use HasFactory;
 
     protected $fillable = [
-        'brgy_id ',
+        'brgy_id',
         'name',
         'assigned_personnel_name',
         'assigned_personnel_position',
@@ -19,4 +19,8 @@ class BarangayHealthStation extends Model
         'sys_coordinate_x',
         'sys_coordinate_y',
     ];
+
+    public function brgy() {
+        return $this->belongsTo(Brgy::class, 'brgy_id');
+    }
 }

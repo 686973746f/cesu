@@ -253,6 +253,10 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']]
 
     Route::get('/admin/settings/subdivision', [SubdivisionController::class, 'index'])->name('subdivision_index');
     Route::post('/admin/settings/subdivision/import', [SubdivisionController::class, 'import'])->name('subdivision_import');
+
+    Route::get('/admin/settings/bhs', [SiteSettingsController::class, 'bhsPanel'])->name('settings_bhs');
+    Route::get('/admin/settings/bhs/{id}', [SiteSettingsController::class, 'bhsView'])->name('settings_bhs_view');
+    Route::post('/admin/settings/bhs/{id}/update', [SiteSettingsController::class, 'bhsUpdate'])->name('settings_bhs_update');
 });
 
 //COVID ADMIN

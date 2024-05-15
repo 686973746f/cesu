@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brgy;
 use App\Models\SiteSettings;
 use Illuminate\Http\Request;
+use App\Models\BarangayHealthStation;
 
 class SiteSettingsController extends Controller
 {
@@ -85,6 +87,67 @@ class SiteSettingsController extends Controller
 
         return redirect()->back()
         ->with('msg', 'Update was successful.')
+        ->with('msgtype', 'success');
+    }
+
+    public function bhsPanel() {
+        $list = BarangayHealthStation::orderBy('name', 'ASC')->get();
+
+        return view('sitesettings.bhs', [
+            'list' => $list,
+        ]);
+    }
+
+    public function bhsView($id) {
+        $d = BarangayHealthStation::findOrFail($id);
+
+        $brgy_list = Brgy::where('city_id', 1)
+        ->where('displayInList', 1)
+        ->get();
+
+        return view('sitesettings.bhs_view', [
+            'd' => $d,
+            'brgy_list' => $brgy_list,
+        ]);
+    }
+
+    public function bhsUpdate($id, Request $r) {
+        $scode_check = BarangayHealthStation::where('id', '!=', $id)
+        ->where('sys_code1', mb_strtoupper($r->sys_code1))
+        ->first();
+
+        if($scode_check) {
+            return redirect()->back()
+            ->with('msg', 'Error: New System Code already exists. Please change and try again.')
+            ->with('msgtype', 'warning');
+        }
+
+        $d = BarangayHealthStation::findOrFail($id);
+
+        if($r->filled('sys_coordinate_x')) {
+            $r->validate([
+                'sys_coordinate_x' => 'required',
+                'sys_coordinate_y' => 'required',
+            ]);
+        }
+
+        $d->brgy_id = $r->brgy_id;
+        $d->name = mb_strtoupper($r->name);
+
+        $d->assigned_personnel_name = mb_strtoupper($r->assigned_personnel_name);
+        $d->assigned_personnel_position = mb_strtoupper($r->assigned_personnel_position);
+        $d->assigned_personnel_contact_number = ($r->filled('assigned_personnel_contact_number')) ? $r->assigned_personnel_contact_number : NULL;
+
+        $d->sys_code1 = mb_strtoupper($r->sys_code1);
+        $d->sys_coordinate_x = $r->sys_coordinate_x;
+        $d->sys_coordinate_y = $r->sys_coordinate_y;
+
+        if($d->isDirty()) {
+            $d->save();
+        }
+
+        return redirect()->route('settings_bhs')
+        ->with('msg', 'BHS Data was updated successfully.')
         ->with('msgtype', 'success');
     }
 }

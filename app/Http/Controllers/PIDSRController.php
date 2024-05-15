@@ -1713,6 +1713,7 @@ class PIDSRController extends Controller
         }
     }
 
+    //CASE CHECKER UPDATE
     public function caseCheckerUpdate($disease, $epi_id, Request $r) {
         $modelClass = PIDSRController::dbFetcher($disease);
 
