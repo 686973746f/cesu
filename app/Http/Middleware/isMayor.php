@@ -16,6 +16,12 @@ class isMayor
      */
     public function handle(Request $request, Closure $next)
     {
-        return $next($request);
+
+        if(auth()->user()->isMayor()) {
+            return $next($request);
+        }
+        else {
+
+        }
     }
 }

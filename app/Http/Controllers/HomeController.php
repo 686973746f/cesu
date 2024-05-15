@@ -60,6 +60,9 @@ class HomeController extends Controller
         }
         */
 
+        if(auth()->user()->isMayor()) {
+            return redirect()->route('mayor_main_menu');
+        }
 
         if(date('Y-m-d') == date('Y-m-d', strtotime(auth()->user()->last_login_date))) {
             $showmodal = false;

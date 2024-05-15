@@ -49,6 +49,7 @@ use App\Http\Controllers\AcceptanceLetterController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\ABTCWalkInRegistrationController;
 use App\Http\Controllers\FwriController;
+use App\Http\Controllers\MayorController;
 use App\Http\Controllers\PharmacyController;
 use App\Http\Controllers\PregnancyTrackingController;
 use App\Http\Controllers\QesController;
@@ -257,6 +258,13 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']]
     Route::get('/admin/settings/bhs', [SiteSettingsController::class, 'bhsPanel'])->name('settings_bhs');
     Route::get('/admin/settings/bhs/{id}', [SiteSettingsController::class, 'bhsView'])->name('settings_bhs_view');
     Route::post('/admin/settings/bhs/{id}/update', [SiteSettingsController::class, 'bhsUpdate'])->name('settings_bhs_update');
+});
+
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isMayor']], function()
+{
+    Route::get('/mayor/main_menu', [MayorController::class, 'mainMenu'])->name('mayor_main_menu');
+    Route::get('/mayor/pharmacy', [MayorController::class, 'pharmacyMainMenu'])->name('mayor_pharmacy_main_menu');
+    Route::post('/mayor/pharmacy/branch/change_branch', [MayorController::class, 'pharmacyChangeBranch'])->name('mayor_pharmacy_change_branch');
 });
 
 //COVID ADMIN

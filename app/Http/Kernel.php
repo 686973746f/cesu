@@ -83,5 +83,6 @@ class Kernel extends HttpKernel
         'canAccessQes' => \App\Http\Middleware\canAccessQes::class,
         'isGlobalAdmin' => \App\Http\Middleware\isGlobalAdmin::class,
         'isLoggedInEdcsBrgyPortal' => \App\Http\Middleware\isLoggedInEdcsBrgyPortal::class,
+        'isMayor' => \App\Http\Middleware\isMayor::class,
     ];
 }
