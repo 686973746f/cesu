@@ -24,6 +24,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Models\FhsisMortalityNatality;
 use Illuminate\Support\Facades\Storage;
 use App\Models\FhsisEnvironmentalHealth;
+use App\Models\FhsisTbdotsMorbidity;
 
 class FhsisController extends Controller
 {
@@ -1579,7 +1580,14 @@ class FhsisController extends Controller
     }
     
     public function tbdotsHome() {
-        return view('efhsis.tbdots.home');
+        $brgy_list = Brgy::where('city_id', 1)
+        ->where('displayInList', 1)
+        ->orderBy('brgyName', 'ASC')
+        ->get();
+        
+        return view('efhsis.tbdots.home', [
+            'brgy_list' => $brgy_list,
+        ]);
     }
 
     public function tbdotsImport(Request $r) {
@@ -1591,6 +1599,249 @@ class FhsisController extends Controller
     }
 
     public function tbdotsDashboard() {
-        
+        $tb_array = ['A15.0 Tuberculosis of lung, confirmed by sputum microscopy with or without culture', 'A16.2 Tuberculosis of lung, without mention of bacteriological or histological confirmation'];
+
+        $final_arr = [];
+
+        $brgy = request()->input('brgy');
+        $month = request()->input('month');
+
+        if(!($brgy) && !($month)) {
+            return redirect()->back()
+            ->with('msg', 'You are not allowed to do that.')
+            ->with('msgtype', 'warning');
+        }
+
+        $brgy_list = Brgy::where('city_id', 1)
+        ->where('displayInList', 1)
+        ->orderBy('brgyName', 'ASC')
+        ->get();
+
+        foreach($tb_array as $tb) {
+            $age1_male = FhsisTbdotsMorbidity::where('brgy', $brgy)
+            ->whereMonth('date_started_tx', $month)
+            ->whereBetween('age', [1,4])
+            ->where('sex', 'M')
+            ->count();
+
+            $age1_female = FhsisTbdotsMorbidity::where('brgy', $brgy)
+            ->whereMonth('date_started_tx', $month)
+            ->whereBetween('age', [1,4])
+            ->where('sex', 'F')
+            ->count();
+            
+            $age2_male = FhsisTbdotsMorbidity::where('brgy', $brgy)
+            ->whereMonth('date_started_tx', $month)
+            ->whereBetween('age', [5,9])
+            ->where('sex', 'M')
+            ->count();
+
+            $age2_female = FhsisTbdotsMorbidity::where('brgy', $brgy)
+            ->whereMonth('date_started_tx', $month)
+            ->whereBetween('age', [5,9])
+            ->where('sex', 'F')
+            ->count();
+
+            $age3_male = FhsisTbdotsMorbidity::where('brgy', $brgy)
+            ->whereMonth('date_started_tx', $month)
+            ->whereBetween('age', [10,14])
+            ->where('sex', 'M')
+            ->count();
+
+            $age3_female = FhsisTbdotsMorbidity::where('brgy', $brgy)
+            ->whereMonth('date_started_tx', $month)
+            ->whereBetween('age', [10,14])
+            ->where('sex', 'F')
+            ->count();
+
+            $age4_male = FhsisTbdotsMorbidity::where('brgy', $brgy)
+            ->whereMonth('date_started_tx', $month)
+            ->whereBetween('age', [15,19])
+            ->where('sex', 'M')
+            ->count();
+
+            $age4_female = FhsisTbdotsMorbidity::where('brgy', $brgy)
+            ->whereMonth('date_started_tx', $month)
+            ->whereBetween('age', [15,19])
+            ->where('sex', 'F')
+            ->count();
+
+            $age5_male = FhsisTbdotsMorbidity::where('brgy', $brgy)
+            ->whereMonth('date_started_tx', $month)
+            ->whereBetween('age', [20,24])
+            ->where('sex', 'M')
+            ->count();
+
+            $age5_female = FhsisTbdotsMorbidity::where('brgy', $brgy)
+            ->whereMonth('date_started_tx', $month)
+            ->whereBetween('age', [20,24])
+            ->where('sex', 'F')
+            ->count();
+
+            $age6_male = FhsisTbdotsMorbidity::where('brgy', $brgy)
+            ->whereMonth('date_started_tx', $month)
+            ->whereBetween('age', [25,29])
+            ->where('sex', 'M')
+            ->count();
+
+            $age6_female = FhsisTbdotsMorbidity::where('brgy', $brgy)
+            ->whereMonth('date_started_tx', $month)
+            ->whereBetween('age', [25,29])
+            ->where('sex', 'F')
+            ->count();
+
+            $age7_male = FhsisTbdotsMorbidity::where('brgy', $brgy)
+            ->whereMonth('date_started_tx', $month)
+            ->whereBetween('age', [30,34])
+            ->where('sex', 'M')
+            ->count();
+
+            $age7_female = FhsisTbdotsMorbidity::where('brgy', $brgy)
+            ->whereMonth('date_started_tx', $month)
+            ->whereBetween('age', [30,34])
+            ->where('sex', 'F')
+            ->count();
+
+            $age8_male = FhsisTbdotsMorbidity::where('brgy', $brgy)
+            ->whereMonth('date_started_tx', $month)
+            ->whereBetween('age', [35,39])
+            ->where('sex', 'M')
+            ->count();
+
+            $age8_female = FhsisTbdotsMorbidity::where('brgy', $brgy)
+            ->whereMonth('date_started_tx', $month)
+            ->whereBetween('age', [35,39])
+            ->where('sex', 'F')
+            ->count();
+
+            $age9_male = FhsisTbdotsMorbidity::where('brgy', $brgy)
+            ->whereMonth('date_started_tx', $month)
+            ->whereBetween('age', [40,44])
+            ->where('sex', 'M')
+            ->count();
+
+            $age9_female = FhsisTbdotsMorbidity::where('brgy', $brgy)
+            ->whereMonth('date_started_tx', $month)
+            ->whereBetween('age', [40,44])
+            ->where('sex', 'F')
+            ->count();
+
+            $age10_male = FhsisTbdotsMorbidity::where('brgy', $brgy)
+            ->whereMonth('date_started_tx', $month)
+            ->whereBetween('age', [45,49])
+            ->where('sex', 'M')
+            ->count();
+
+            $age10_female = FhsisTbdotsMorbidity::where('brgy', $brgy)
+            ->whereMonth('date_started_tx', $month)
+            ->whereBetween('age', [45,49])
+            ->where('sex', 'F')
+            ->count();
+
+            $age11_male = FhsisTbdotsMorbidity::where('brgy', $brgy)
+            ->whereMonth('date_started_tx', $month)
+            ->whereBetween('age', [50,54])
+            ->where('sex', 'M')
+            ->count();
+
+            $age11_female = FhsisTbdotsMorbidity::where('brgy', $brgy)
+            ->whereMonth('date_started_tx', $month)
+            ->whereBetween('age', [50,54])
+            ->where('sex', 'F')
+            ->count();
+
+            $age12_male = FhsisTbdotsMorbidity::where('brgy', $brgy)
+            ->whereMonth('date_started_tx', $month)
+            ->whereBetween('age', [55,59])
+            ->where('sex', 'M')
+            ->count();
+
+            $age12_female = FhsisTbdotsMorbidity::where('brgy', $brgy)
+            ->whereMonth('date_started_tx', $month)
+            ->whereBetween('age', [55,59])
+            ->where('sex', 'F')
+            ->count();
+
+            $age13_male = FhsisTbdotsMorbidity::where('brgy', $brgy)
+            ->whereMonth('date_started_tx', $month)
+            ->whereBetween('age', [60,64])
+            ->where('sex', 'M')
+            ->count();
+
+            $age13_female = FhsisTbdotsMorbidity::where('brgy', $brgy)
+            ->whereMonth('date_started_tx', $month)
+            ->whereBetween('age', [60,64])
+            ->where('sex', 'F')
+            ->count();
+
+            $age14_male = FhsisTbdotsMorbidity::where('brgy', $brgy)
+            ->whereMonth('date_started_tx', $month)
+            ->whereBetween('age', [65,69])
+            ->where('sex', 'M')
+            ->count();
+
+            $age14_female = FhsisTbdotsMorbidity::where('brgy', $brgy)
+            ->whereMonth('date_started_tx', $month)
+            ->whereBetween('age', [65,69])
+            ->where('sex', 'F')
+            ->count();
+
+            $age15_male = FhsisTbdotsMorbidity::where('brgy', $brgy)
+            ->whereMonth('date_started_tx', $month)
+            ->where('age', '>=', 70)
+            ->where('sex', 'M')
+            ->count();
+
+            $age15_female = FhsisTbdotsMorbidity::where('brgy', $brgy)
+            ->whereMonth('date_started_tx', $month)
+            ->where('age', '>=', 70)
+            ->where('sex', 'F')
+            ->count();
+
+            $agetotal_male = $age1_male + $age2_male + $age3_male + $age4_male + $age5_male + $age6_male + $age7_male + $age8_male + $age9_male + $age10_male + $age11_male + $age12_male + $age13_male + $age14_male + $age15_male;
+            $agetotal_female = $age1_female + $age2_female + $age3_female + $age4_female + $age5_female + $age6_female + $age7_female + $age8_female + $age9_female + $age10_female + $age11_female + $age12_female + $age13_female + $age14_female + $age15_female;
+
+            $final_arr[] = [
+                'disease' => $tb,
+                'age1_male' => $age1_male,
+                'age2_male' => $age2_male,
+                'age3_male' => $age3_male,
+                'age4_male' => $age4_male,
+                'age5_male' => $age5_male,
+                'age6_male' => $age6_male,
+                'age7_male' => $age7_male,
+                'age8_male' => $age8_male,
+                'age9_male' => $age9_male,
+                'age10_male' => $age10_male,
+                'age11_male' => $age11_male,
+                'age12_male' => $age12_male,
+                'age13_male' => $age13_male,
+                'age14_male' => $age14_male,
+                'age15_male' => $age15_male,
+                'agetotal_male' => $agetotal_male,
+
+                'age1_female' => $age1_female,
+                'age2_female' => $age2_female,
+                'age3_female' => $age3_female,
+                'age4_female' => $age4_female,
+                'age5_female' => $age5_female,
+                'age6_female' => $age6_female,
+                'age7_female' => $age7_female,
+                'age8_female' => $age8_female,
+                'age9_female' => $age9_female,
+                'age10_female' => $age10_female,
+                'age11_female' => $age11_female,
+                'age12_female' => $age12_female,
+                'age13_female' => $age13_female,
+                'age14_female' => $age14_female,
+                'age15_female' => $age15_female,
+                'agetotal_female' => $agetotal_female,
+            ];
+        }
+
+        return view('efhsis.tbdots.dashboard', [
+            'final_array' => $final_arr,
+            'brgy_list' => $brgy_list,
+        ]);
     }
 }
