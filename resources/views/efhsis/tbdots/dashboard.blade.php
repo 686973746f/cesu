@@ -3,7 +3,12 @@
 @section('content')
     <div class="container-fluid">
         <div class="card">
-            <div class="card-header"><b>FHSIS TB-DOTS</b></div>
+            <div class="card-header">
+                <div>
+                    <div><b>FHSIS TB-DOTS</b></div>
+                    <div><button type="button" class="btn btn-success" data-toggle="modal" data-target="#loadDashboard">Change</button></div>
+                </div>
+            </div>
             <div class="card-body">
                 @if(session('msg'))
                 <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
