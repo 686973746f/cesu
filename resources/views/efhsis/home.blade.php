@@ -19,6 +19,9 @@
                         @endif
                         <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#liveBirthModal">Encode Livebirths/Natality</button>
                         <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#liveBirthReport">Natality Report</button>
+                        <hr>
+                        <a href="{{route('fhsis_tbdots_home')}}" class="btn btn-primary btn-block">TB-DOTS Morbidity</a>
+                        <hr>
                         <a href="{{route('fhsis_report')}}" class="btn btn-primary btn-block">Report</a>
                         <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#cesum2">Generate M2</button>
                         <hr>

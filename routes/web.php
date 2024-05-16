@@ -545,6 +545,10 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessF
     Route::get('/fhsis/livebirths/encode', [FhsisController::class, 'liveBirthsEncode'])->name('fhsis_livebirth_encode');
     Route::post('/fhsis/livebirths/encode/store', [FhsisController::class, 'liveBirthsStore'])->name('fhsis_livebirth_encode_store');
     Route::get('/fhsis/livebirths/report', [FhsisController::class, 'liveBirthsReport'])->name('fhsis_livebirth_report');
+
+    Route::get('/fhsis/tbdots', [FhsisController::class, 'tbdotsHome'])->name('fhsis_tbdots_home');
+    Route::post('/fhsis/tbdots/import_tool', [FhsisController::class, 'tbdotsImport'])->name('fhsis_tbdots_import');
+    Route::get('/fhsis/tbdots/dashboard', [FhsisController::class, 'tbdotsDashboard'])->name('fhsis_tbdots_dashboard');
 });
 
 //ABTC (WALK IN)

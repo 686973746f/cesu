@@ -6,6 +6,7 @@ use PDO;
 use Carbon\Carbon;
 use App\Models\Brgy;
 use App\Models\FhsisM2;
+use App\Models\LiveBirth;
 use App\Models\FhsisDental;
 use App\Models\FhsisMortBhs;
 use App\Models\FhsisNonComm;
@@ -14,14 +15,15 @@ use App\Models\FhsisBarangay;
 use App\Models\FhsisChildCare;
 use App\Models\FhsisPopulation;
 use App\Models\AbtcBakunaRecords;
+use App\Imports\FhsisTbdotsImport;
 use Illuminate\Support\Facades\DB;
 use App\Models\FhsisFamilyPlanning1;
 use App\Models\FhsisFamilyPlanning2;
 use App\Models\FhsisFamilyPlanning3;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\FhsisMortalityNatality;
-use App\Models\FhsisEnvironmentalHealth;
-use App\Models\LiveBirth;
 use Illuminate\Support\Facades\Storage;
+use App\Models\FhsisEnvironmentalHealth;
 
 class FhsisController extends Controller
 {
@@ -1574,5 +1576,21 @@ class FhsisController extends Controller
         else {
             return abort(401);
         }
+    }
+    
+    public function tbdotsHome() {
+        return view('efhsis.tbdots.home');
+    }
+
+    public function tbdotsImport(Request $r) {
+        Excel::import(new FhsisTbdotsImport(), $r->itis_file);
+
+        return redirect()->route('fhsis_tbdots_home')
+        ->with('msg', 'Excel file was uploaded successfully.')
+        ->with('msgtype', 'success');
+    }
+
+    public function tbdotsDashboard() {
+        
     }
 }
