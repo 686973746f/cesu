@@ -1621,182 +1621,219 @@ class FhsisController extends Controller
             $age1_male = FhsisTbdotsMorbidity::where('brgy', $brgy)
             ->whereMonth('date_started_tx', $month)
             ->whereBetween('age', [1,4])
-            ->where('sex', 'M')
-            ->count();
+            ->where('sex', 'M');
 
             $age1_female = FhsisTbdotsMorbidity::where('brgy', $brgy)
             ->whereMonth('date_started_tx', $month)
             ->whereBetween('age', [1,4])
-            ->where('sex', 'F')
-            ->count();
+            ->where('sex', 'F');
             
             $age2_male = FhsisTbdotsMorbidity::where('brgy', $brgy)
             ->whereMonth('date_started_tx', $month)
             ->whereBetween('age', [5,9])
-            ->where('sex', 'M')
-            ->count();
+            ->where('sex', 'M');
 
             $age2_female = FhsisTbdotsMorbidity::where('brgy', $brgy)
             ->whereMonth('date_started_tx', $month)
             ->whereBetween('age', [5,9])
-            ->where('sex', 'F')
-            ->count();
+            ->where('sex', 'F');
 
             $age3_male = FhsisTbdotsMorbidity::where('brgy', $brgy)
             ->whereMonth('date_started_tx', $month)
             ->whereBetween('age', [10,14])
-            ->where('sex', 'M')
-            ->count();
+            ->where('sex', 'M');
 
             $age3_female = FhsisTbdotsMorbidity::where('brgy', $brgy)
             ->whereMonth('date_started_tx', $month)
             ->whereBetween('age', [10,14])
-            ->where('sex', 'F')
-            ->count();
+            ->where('sex', 'F');
 
             $age4_male = FhsisTbdotsMorbidity::where('brgy', $brgy)
             ->whereMonth('date_started_tx', $month)
             ->whereBetween('age', [15,19])
-            ->where('sex', 'M')
-            ->count();
+            ->where('sex', 'M');
 
             $age4_female = FhsisTbdotsMorbidity::where('brgy', $brgy)
             ->whereMonth('date_started_tx', $month)
             ->whereBetween('age', [15,19])
-            ->where('sex', 'F')
-            ->count();
+            ->where('sex', 'F');
 
             $age5_male = FhsisTbdotsMorbidity::where('brgy', $brgy)
             ->whereMonth('date_started_tx', $month)
             ->whereBetween('age', [20,24])
-            ->where('sex', 'M')
-            ->count();
+            ->where('sex', 'M');
 
             $age5_female = FhsisTbdotsMorbidity::where('brgy', $brgy)
             ->whereMonth('date_started_tx', $month)
             ->whereBetween('age', [20,24])
-            ->where('sex', 'F')
-            ->count();
+            ->where('sex', 'F');
 
             $age6_male = FhsisTbdotsMorbidity::where('brgy', $brgy)
             ->whereMonth('date_started_tx', $month)
             ->whereBetween('age', [25,29])
-            ->where('sex', 'M')
-            ->count();
+            ->where('sex', 'M');
 
             $age6_female = FhsisTbdotsMorbidity::where('brgy', $brgy)
             ->whereMonth('date_started_tx', $month)
             ->whereBetween('age', [25,29])
-            ->where('sex', 'F')
-            ->count();
+            ->where('sex', 'F');
 
             $age7_male = FhsisTbdotsMorbidity::where('brgy', $brgy)
             ->whereMonth('date_started_tx', $month)
             ->whereBetween('age', [30,34])
-            ->where('sex', 'M')
-            ->count();
+            ->where('sex', 'M');
 
             $age7_female = FhsisTbdotsMorbidity::where('brgy', $brgy)
             ->whereMonth('date_started_tx', $month)
             ->whereBetween('age', [30,34])
-            ->where('sex', 'F')
-            ->count();
+            ->where('sex', 'F');
 
             $age8_male = FhsisTbdotsMorbidity::where('brgy', $brgy)
             ->whereMonth('date_started_tx', $month)
             ->whereBetween('age', [35,39])
-            ->where('sex', 'M')
-            ->count();
+            ->where('sex', 'M');
 
             $age8_female = FhsisTbdotsMorbidity::where('brgy', $brgy)
             ->whereMonth('date_started_tx', $month)
             ->whereBetween('age', [35,39])
-            ->where('sex', 'F')
-            ->count();
+            ->where('sex', 'F');
 
             $age9_male = FhsisTbdotsMorbidity::where('brgy', $brgy)
             ->whereMonth('date_started_tx', $month)
             ->whereBetween('age', [40,44])
-            ->where('sex', 'M')
-            ->count();
+            ->where('sex', 'M');
 
             $age9_female = FhsisTbdotsMorbidity::where('brgy', $brgy)
             ->whereMonth('date_started_tx', $month)
             ->whereBetween('age', [40,44])
-            ->where('sex', 'F')
-            ->count();
+            ->where('sex', 'F');
 
             $age10_male = FhsisTbdotsMorbidity::where('brgy', $brgy)
             ->whereMonth('date_started_tx', $month)
             ->whereBetween('age', [45,49])
-            ->where('sex', 'M')
-            ->count();
+            ->where('sex', 'M');
 
             $age10_female = FhsisTbdotsMorbidity::where('brgy', $brgy)
             ->whereMonth('date_started_tx', $month)
             ->whereBetween('age', [45,49])
-            ->where('sex', 'F')
-            ->count();
+            ->where('sex', 'F');
 
             $age11_male = FhsisTbdotsMorbidity::where('brgy', $brgy)
             ->whereMonth('date_started_tx', $month)
             ->whereBetween('age', [50,54])
-            ->where('sex', 'M')
-            ->count();
+            ->where('sex', 'M');
 
             $age11_female = FhsisTbdotsMorbidity::where('brgy', $brgy)
             ->whereMonth('date_started_tx', $month)
             ->whereBetween('age', [50,54])
-            ->where('sex', 'F')
-            ->count();
+            ->where('sex', 'F');
 
             $age12_male = FhsisTbdotsMorbidity::where('brgy', $brgy)
             ->whereMonth('date_started_tx', $month)
             ->whereBetween('age', [55,59])
-            ->where('sex', 'M')
-            ->count();
+            ->where('sex', 'M');
 
             $age12_female = FhsisTbdotsMorbidity::where('brgy', $brgy)
             ->whereMonth('date_started_tx', $month)
             ->whereBetween('age', [55,59])
-            ->where('sex', 'F')
-            ->count();
+            ->where('sex', 'F');
 
             $age13_male = FhsisTbdotsMorbidity::where('brgy', $brgy)
             ->whereMonth('date_started_tx', $month)
             ->whereBetween('age', [60,64])
-            ->where('sex', 'M')
-            ->count();
+            ->where('sex', 'M');
 
             $age13_female = FhsisTbdotsMorbidity::where('brgy', $brgy)
             ->whereMonth('date_started_tx', $month)
             ->whereBetween('age', [60,64])
-            ->where('sex', 'F')
-            ->count();
+            ->where('sex', 'F');
 
             $age14_male = FhsisTbdotsMorbidity::where('brgy', $brgy)
             ->whereMonth('date_started_tx', $month)
             ->whereBetween('age', [65,69])
-            ->where('sex', 'M')
-            ->count();
+            ->where('sex', 'M');
 
             $age14_female = FhsisTbdotsMorbidity::where('brgy', $brgy)
             ->whereMonth('date_started_tx', $month)
             ->whereBetween('age', [65,69])
-            ->where('sex', 'F')
-            ->count();
+            ->where('sex', 'F');
 
             $age15_male = FhsisTbdotsMorbidity::where('brgy', $brgy)
             ->whereMonth('date_started_tx', $month)
             ->where('age', '>=', 70)
-            ->where('sex', 'M')
-            ->count();
+            ->where('sex', 'M');
 
             $age15_female = FhsisTbdotsMorbidity::where('brgy', $brgy)
             ->whereMonth('date_started_tx', $month)
             ->where('age', '>=', 70)
-            ->where('sex', 'F')
-            ->count();
+            ->where('sex', 'F');
+
+            if($tb == 'A15.0 Tuberculosis of lung, confirmed by sputum microscopy with or without culture') {
+                $age1_male = $age1_male->where('xpert_result', 'MTB Detected')->count();
+                $age2_male = $age2_male->where('xpert_result', 'MTB Detected')->count();
+                $age3_male = $age3_male->where('xpert_result', 'MTB Detected')->count();
+                $age4_male = $age4_male->where('xpert_result', 'MTB Detected')->count();
+                $age5_male = $age5_male->where('xpert_result', 'MTB Detected')->count();
+                $age6_male = $age6_male->where('xpert_result', 'MTB Detected')->count();
+                $age7_male = $age7_male->where('xpert_result', 'MTB Detected')->count();
+                $age8_male = $age8_male->where('xpert_result', 'MTB Detected')->count();
+                $age9_male = $age9_male->where('xpert_result', 'MTB Detected')->count();
+                $age10_male = $age10_male->where('xpert_result', 'MTB Detected')->count();
+                $age11_male = $age11_male->where('xpert_result', 'MTB Detected')->count();
+                $age12_male = $age12_male->where('xpert_result', 'MTB Detected')->count();
+                $age13_male = $age13_male->where('xpert_result', 'MTB Detected')->count();
+                $age14_male = $age14_male->where('xpert_result', 'MTB Detected')->count();
+                $age15_male = $age15_male->where('xpert_result', 'MTB Detected')->count();
+
+                $age1_female = $age1_female->where('xpert_result', 'MTB Detected')->count();
+                $age2_female = $age2_female->where('xpert_result', 'MTB Detected')->count();
+                $age3_female = $age3_female->where('xpert_result', 'MTB Detected')->count();
+                $age4_female = $age4_female->where('xpert_result', 'MTB Detected')->count();
+                $age5_female = $age5_female->where('xpert_result', 'MTB Detected')->count();
+                $age6_female = $age6_female->where('xpert_result', 'MTB Detected')->count();
+                $age7_female = $age7_female->where('xpert_result', 'MTB Detected')->count();
+                $age8_female = $age8_female->where('xpert_result', 'MTB Detected')->count();
+                $age9_female = $age9_female->where('xpert_result', 'MTB Detected')->count();
+                $age10_female = $age10_female->where('xpert_result', 'MTB Detected')->count();
+                $age11_female = $age11_female->where('xpert_result', 'MTB Detected')->count();
+                $age12_female = $age12_female->where('xpert_result', 'MTB Detected')->count();
+                $age13_female = $age13_female->where('xpert_result', 'MTB Detected')->count();
+                $age14_female = $age14_female->where('xpert_result', 'MTB Detected')->count();
+                $age15_female = $age15_female->where('xpert_result', 'MTB Detected')->count();
+            }
+            else if($tb == 'A16.2 Tuberculosis of lung, without mention of bacteriological or histological confirmation') {
+                $age1_male = $age1_male->where('xpert_result', '!=', 'MTB Detected')->count();
+                $age2_male = $age2_male->where('xpert_result', '!=', 'MTB Detected')->count();
+                $age3_male = $age3_male->where('xpert_result', '!=', 'MTB Detected')->count();
+                $age4_male = $age4_male->where('xpert_result', '!=', 'MTB Detected')->count();
+                $age5_male = $age5_male->where('xpert_result', '!=', 'MTB Detected')->count();
+                $age6_male = $age6_male->where('xpert_result', '!=', 'MTB Detected')->count();
+                $age7_male = $age7_male->where('xpert_result', '!=', 'MTB Detected')->count();
+                $age8_male = $age8_male->where('xpert_result', '!=', 'MTB Detected')->count();
+                $age9_male = $age9_male->where('xpert_result', '!=', 'MTB Detected')->count();
+                $age10_male = $age10_male->where('xpert_result', '!=', 'MTB Detected')->count();
+                $age11_male = $age11_male->where('xpert_result', '!=', 'MTB Detected')->count();
+                $age12_male = $age12_male->where('xpert_result', '!=', 'MTB Detected')->count();
+                $age13_male = $age13_male->where('xpert_result', '!=', 'MTB Detected')->count();
+                $age14_male = $age14_male->where('xpert_result', '!=', 'MTB Detected')->count();
+                $age15_male = $age15_male->where('xpert_result', '!=', 'MTB Detected')->count();
+
+                $age1_female = $age1_female->where('xpert_result', '!=', 'MTB Detected')->count();
+                $age2_female = $age2_female->where('xpert_result', '!=', 'MTB Detected')->count();
+                $age3_female = $age3_female->where('xpert_result', '!=', 'MTB Detected')->count();
+                $age4_female = $age4_female->where('xpert_result', '!=', 'MTB Detected')->count();
+                $age5_female = $age5_female->where('xpert_result', '!=', 'MTB Detected')->count();
+                $age6_female = $age6_female->where('xpert_result', '!=', 'MTB Detected')->count();
+                $age7_female = $age7_female->where('xpert_result', '!=', 'MTB Detected')->count();
+                $age8_female = $age8_female->where('xpert_result', '!=', 'MTB Detected')->count();
+                $age9_female = $age9_female->where('xpert_result', '!=', 'MTB Detected')->count();
+                $age10_female = $age10_female->where('xpert_result', '!=', 'MTB Detected')->count();
+                $age11_female = $age11_female->where('xpert_result', '!=', 'MTB Detected')->count();
+                $age12_female = $age12_female->where('xpert_result', '!=', 'MTB Detected')->count();
+                $age13_female = $age13_female->where('xpert_result', '!=', 'MTB Detected')->count();
+                $age14_female = $age14_female->where('xpert_result', '!=', 'MTB Detected')->count();
+                $age15_female = $age15_female->where('xpert_result', '!=', 'MTB Detected')->count();
+            }
 
             $agetotal_male = $age1_male + $age2_male + $age3_male + $age4_male + $age5_male + $age6_male + $age7_male + $age8_male + $age9_male + $age10_male + $age11_male + $age12_male + $age13_male + $age14_male + $age15_male;
             $agetotal_female = $age1_female + $age2_female + $age3_female + $age4_female + $age5_female + $age6_female + $age7_female + $age8_female + $age9_female + $age10_female + $age11_female + $age12_female + $age13_female + $age14_female + $age15_female;
