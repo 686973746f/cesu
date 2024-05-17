@@ -4,9 +4,11 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">
-                <div>
+                <div class="d-flex justify-content-between">
                     <div><b>FHSIS TB-DOTS</b></div>
-                    <div><button type="button" class="btn btn-success" data-toggle="modal" data-target="#loadDashboard">Change</button></div>
+                    <div>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#loadDashboard">Change</button>
+                    </div>
                 </div>
             </div>
             <div class="card-body">
@@ -160,18 +162,16 @@
                         <div class="form-group">
                             <label for="brgy"><b class="text-danger">*</b>Select Barangay</label>
                             <select class="form-control" name="brgy" id="brgy" required>
-                                <option value="" disabled selected>Choose...</option>
                                 @foreach($brgy_list as $b)
-                                <option value="{{$b->brgyName}}">{{$b->brgyName}}</option>
+                                <option value="{{$b->brgyName}}" {{($b->brgyName == request()->input('brgy')) ? 'selected' : ''}}>{{$b->brgyName}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="year"><b class="text-danger">*</b>Select Year</label>
                             <select class="form-control" name="year" id="year" required>
-                                <option value="" disabled selected>Choose...</option>
                                 @foreach(range(date('Y'), 2023) as $y)
-                                <option value="{{$y}}">{{$y}}</option>
+                                <option value="{{$y}}" {{($y == request()->input('year')) ? 'selected' : ''}}>{{$y}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -179,18 +179,18 @@
                             <label for="month"><b class="text-danger">*</b>Select Month</label>
                             <select class="form-control" name="month" id="month" required>
                                 <option value="" disabled selected>Choose...</option>
-                                <option value="01">January</option>
-                                <option value="02">February</option>
-                                <option value="03">March</option>
-                                <option value="04">April</option>
-                                <option value="05">May</option>
-                                <option value="06">June</option>
-                                <option value="07">July</option>
-                                <option value="08">August</option>
-                                <option value="09">September</option>
-                                <option value="10">October</option>
-                                <option value="11">November</option>
-                                <option value="12">December</option>
+                                <option value="01" {{(request()->input('month') == '01') ? 'selected' : ''}}>January</option>
+                                <option value="02" {{(request()->input('month') == '02') ? 'selected' : ''}}>February</option>
+                                <option value="03" {{(request()->input('month') == '03') ? 'selected' : ''}}>March</option>
+                                <option value="04" {{(request()->input('month') == '04') ? 'selected' : ''}}>April</option>
+                                <option value="05" {{(request()->input('month') == '05') ? 'selected' : ''}}>May</option>
+                                <option value="06" {{(request()->input('month') == '06') ? 'selected' : ''}}>June</option>
+                                <option value="07" {{(request()->input('month') == '07') ? 'selected' : ''}}>July</option>
+                                <option value="08" {{(request()->input('month') == '08') ? 'selected' : ''}}>August</option>
+                                <option value="09" {{(request()->input('month') == '09') ? 'selected' : ''}}>September</option>
+                                <option value="10" {{(request()->input('month') == '10') ? 'selected' : ''}}>October</option>
+                                <option value="11" {{(request()->input('month') == '11') ? 'selected' : ''}}>November</option>
+                                <option value="12" {{(request()->input('month') == '12') ? 'selected' : ''}}>December</option>
                             </select>
                         </div>
                     </div>

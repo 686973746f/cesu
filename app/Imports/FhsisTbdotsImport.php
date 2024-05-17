@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use App\Models\FhsisTbdotsMorbidity;
 use Maatwebsite\Excel\Concerns\ToModel;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
@@ -60,7 +61,7 @@ class FhsisTbdotsImport implements ToModel, WithHeadingRow, WithGroupedHeadingRo
                 'ana_site' => $r['anatomical_site'],
                 'reg_group' => $r['registration_group'],
                 'bac_status' => $r['bacteriologic_status'],
-                'xpert_result' => trim($r['xpert_result']),
+                'xpert_result' => substr($r['xpert_result'], 0, strlen($r['xpert_result']) - 2),
                 'date_started_tx' => $date_started_tx,
                 'outcome' => isset($r['outcome']) ? $r['outcome'] : NULL,
             ]);
