@@ -16,9 +16,9 @@
                         <button type="button" class="btn btn-secondary btn-block" data-toggle="modal" data-target="#changeBranch">Select Branch</button>
                         <hr>
                         <a href="" class="btn btn-primary btn-block">Report Dashboard</a>
-                        <a href="" class="btn btn-primary btn-block">Monthly Stock</a>
-                        <a href="" class="btn btn-primary btn-block">Stocks Masterlist</a>
-                        <a href="" class="btn btn-primary btn-block">Medicine Dispensary</a>
+                        <a href="{{route('mayor_pharmacy_monthlystock')}}" class="btn btn-primary btn-block">Monthly Stock</a>
+                        <a href="" class="btn btn-primary btn-block">View Inventory</a>
+                        <a href="{{route('mayor_pharmacy_viewdispensary')}}" class="btn btn-primary btn-block">Medicine Dispensary</a>
                     </div>
                 </div>
             </div>

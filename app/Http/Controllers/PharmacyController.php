@@ -3100,4 +3100,8 @@ class PharmacyController extends Controller
             'list' => $list,
         ]);
     }
+
+    public function ajaxMedicineDispensary() {
+        
+    }
 }

@@ -106,4 +106,28 @@ class PharmacyStockCard extends Model
 
         return $finalstr;
     }
+
+    public function getMedicineIssuanceList() {
+        $list = PharmacyStockCard::where('patient_prescription_id', $this->patient_prescription_id)->get();
+
+        $arr = [];
+        
+        foreach($list as $l) {
+            $arr[] = $l->pharmacysub->pharmacysupplymaster->name;
+        }
+
+        return $arr;
+    }
+
+    public function getQuantityIssuanceList() {
+        $list = PharmacyStockCard::where('patient_prescription_id', $this->patient_prescription_id)->get();
+
+        $arr = [];
+        
+        foreach($list as $l) {
+            $arr[] = $l->qty_to_process.' '.Str::plural($l->qty_type, $l->qty_to_process);
+        }
+
+        return $arr;
+    }
 }

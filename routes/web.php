@@ -264,6 +264,8 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isMayor']]
 {
     Route::get('/mayor/main_menu', [MayorController::class, 'mainMenu'])->name('mayor_main_menu');
     Route::get('/mayor/pharmacy', [MayorController::class, 'pharmacyMainMenu'])->name('mayor_pharmacy_main_menu');
+    Route::get('/mayor/pharmacy/monthly_stock', [MayorController::class, 'monthlyStock'])->name('mayor_pharmacy_monthlystock');
+    Route::get('/mayor/pharmacy/view_dispensary', [MayorController::class, 'viewDispensary'])->name('mayor_pharmacy_viewdispensary');
     Route::post('/mayor/pharmacy/branch/change_branch', [MayorController::class, 'pharmacyChangeBranch'])->name('mayor_pharmacy_change_branch');
 });
 
