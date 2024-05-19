@@ -2443,6 +2443,11 @@ class PharmacyController extends Controller
                 }
             }
 
+            // Filter out reasons with a count less than 10
+            $reason_array = array_filter($reason_array, function($reason) {
+                return $reason['count'] >= 10;
+            });
+
             return view('pharmacy.report', [
                 'expired_list' => $expired_list,
                 'list_branch' => $list_branch,
@@ -3102,6 +3107,38 @@ class PharmacyController extends Controller
     }
 
     public function ajaxMedicineDispensary() {
-        
+        if(request()->input('sdate')) {
+            $sdate = Carbon::parse(request()->input('sdate'))->format('Y-m-d');
+        }
+        else {
+            $sdate = date('Y-m-d');
+        }
+
+        $default_branch = auth()->user()->pharmacy_branch_id;
+
+        $list_query = PharmacyStockCard::whereDate('created_at', $sdate)
+        ->whereNotNull('receiving_patient_id')
+        ->where('type', 'ISSUED')
+        ->where('sentby_branch_id', $default_branch)
+        ->groupBy('patient_prescription_id')
+        ->pluck('patient_prescription_id');
+
+        $final_array = [];
+
+        foreach($list_query as $l) {
+            $d = PharmacyStockCard::where('patient_prescription_id', $l)->latest()->first();
+
+            $final_array[] = [
+                'datetime' => date('m/d/Y H:i', strtotime($d->created_at)),
+                'name' => $d->getReceivingPatient->getName(),
+                'agesex' => $d->getReceivingPatient->getAge().'/'.$d->getReceivingPatient->sg(),
+                'barangay' => $d->getReceivingPatient->address_brgy_text,
+                'medicine_given' => implode(", ", $d->getMedicineIssuanceList()),
+                'quantity' => implode(", ", $d->getQuantityIssuanceList()),
+                'encoder' => $d->user->name,
+            ];
+        }
+
+        return response()->json($final_array);
     }
 }
