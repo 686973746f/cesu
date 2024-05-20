@@ -1742,7 +1742,9 @@ class SyndromicController extends Controller
     }
 
     public function medcertOnlineVerify($qr) {
-        $d = SyndromicRecords::where('qr', $qr)->where('medcert_enabled', 1)->first();
+        $d = SyndromicRecords::where('qr', $qr)
+        ->where('medcert_enabled', 1)
+        ->first();
 
         return view('syndromic.online_medcert', ['c' => $d]);
     }

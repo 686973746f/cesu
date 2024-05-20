@@ -12,7 +12,7 @@
             </div>
             
             <hr>
-            @if($c && strtotime($c->medcert_validity_date) >= strtotime(date('Y-m-d')))
+            @if($c)
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <tbody>
