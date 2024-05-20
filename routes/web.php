@@ -263,9 +263,14 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']]
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isMayor']], function()
 {
     Route::get('/mayor/main_menu', [MayorController::class, 'mainMenu'])->name('mayor_main_menu');
+    
     Route::get('/mayor/pharmacy', [MayorController::class, 'pharmacyMainMenu'])->name('mayor_pharmacy_main_menu');
+    Route::get('/mayor/pharmacy/report', [MayorController::class, 'pharmacyReport'])->name('mayor_pharmacy_report');
     Route::get('/mayor/pharmacy/monthly_stock', [MayorController::class, 'monthlyStock'])->name('mayor_pharmacy_monthlystock');
+    
+    Route::get('/mayor/pharmacy/inventory', [MayorController::class, 'pharmacyInventory'])->name('mayor_pharmacy_inventory');
     Route::get('/mayor/pharmacy/view_dispensary', [MayorController::class, 'viewDispensary'])->name('mayor_pharmacy_viewdispensary');
+    Route::get('/mayor/pharmacy/ajax_dispensary', [PharmacyController::class, 'ajaxMedicineDispensary'])->name('mayor_pharmacy_ajaxdispensary');
     Route::post('/mayor/pharmacy/branch/change_branch', [MayorController::class, 'pharmacyChangeBranch'])->name('mayor_pharmacy_change_branch');
 });
 

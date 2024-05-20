@@ -116,42 +116,44 @@
                         <div class="card-body">
                             <input type="hidden" name="selected_maincart_id" value="{{$load_cart->id}}">
                             @if($load_subcart->count())
-                            <table class="table table-bordered table-striped text-center">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>ITEM</th>
-                                        <th>QTY TO ISSUE</th>
-                                        <th>MAX QTY LIMIT (BASED ON RX)</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($load_subcart as $ind => $c)
-                                    <tr>
-                                        <td style="vertical-align: middle;">{{$ind+1}}</td>
-                                        <td style="vertical-align: middle;"><b>{{$c->pharmacysub->pharmacysupplymaster->name}}</b></td>
-                                        <td style="vertical-align: middle;">
-                                            @if($c->qty_to_process != 0)
-                                            {{$c->qty_to_process}} {{Str::plural($c->type_to_process, $c->qty_to_process)}}
-                                            @else
-                                            <input type="number" class="form-control" name="set_dyn_qty[]" id="set_dyn_qty" min="1" max="900" placeholder="" required>
-                                            @endif
-                                        </td>
-                                        <td style="vertical-align: middle;">
-                                            @if($c->displayPrescriptionLimit())
-                                            {{$c->displayPrescriptionLimit()}}
-                                            <input type="hidden" class="form-control pcslimit" name="set_pieces_limit[]" min="1" max="900" value="{{$c->getCurrentQtyObtained()}}" readonly required>
-                                            @else
-                                            <input type="number" class="form-control pcslimit" name="set_pieces_limit[]" min="1" max="900" required>
-                                            @endif
-                                            
-                                        </td>
-                                        <td style="vertical-align: middle;"><button type="submit" name="delete" value="{{$c->id}}" class="btn btn-danger deleteButton"><b>X</b></button></td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped text-center">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>ITEM</th>
+                                            <th>QTY TO ISSUE</th>
+                                            <th>MAX QTY LIMIT (BASED ON RX)</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($load_subcart as $ind => $c)
+                                        <tr>
+                                            <td style="vertical-align: middle;">{{$ind+1}}</td>
+                                            <td style="vertical-align: middle;"><b>{{$c->pharmacysub->pharmacysupplymaster->name}}</b></td>
+                                            <td style="vertical-align: middle;">
+                                                @if($c->qty_to_process != 0)
+                                                {{$c->qty_to_process}} {{Str::plural($c->type_to_process, $c->qty_to_process)}}
+                                                @else
+                                                <input type="number" class="form-control" name="set_dyn_qty[]" id="set_dyn_qty" min="1" max="900" placeholder="" required>
+                                                @endif
+                                            </td>
+                                            <td style="vertical-align: middle;">
+                                                @if($c->displayPrescriptionLimit())
+                                                {{$c->displayPrescriptionLimit()}}
+                                                <input type="hidden" class="form-control pcslimit" name="set_pieces_limit[]" min="1" max="900" value="{{$c->getCurrentQtyObtained()}}" readonly required>
+                                                @else
+                                                <input type="number" class="form-control pcslimit" name="set_pieces_limit[]" min="1" max="900" required>
+                                                @endif
+                                                
+                                            </td>
+                                            <td style="vertical-align: middle;"><button type="submit" name="delete" value="{{$c->id}}" class="btn btn-danger deleteButton"><b>X</b></button></td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                             @else
                             <h6 class="text-center">Cart is still empty.</h6>
                             @endif
