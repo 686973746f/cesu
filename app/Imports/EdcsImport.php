@@ -313,8 +313,6 @@ class AbdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'Region' => '04A',
                 'Province' => 'CAVITE',
                 'Muncity' => 'GENERAL TRIAS',
-                'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
-                'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
                 'Admitted' => ($row['patient_admitted'] == 'Yes') ? 1 : 0,
                 'DAdmit' => EdcsImport::tDate($row['date_admitted']),
                 'DOnset' => EdcsImport::tDate($row['date_onse_of_illness']),
@@ -372,6 +370,8 @@ class AbdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             }
             else {
                 $table_params = $table_params + [
+                    'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
+                    'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
                     'created_by' => auth()->user()->id,
                 ];
 
@@ -442,8 +442,7 @@ class AfpImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'Region' => '04A',
                 'Province' => 'CAVITE',
                 'Muncity' => 'GENERAL TRIAS',
-                'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
-                'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
+
                 'Sex' => strtoupper(substr($row['sex'],0,1)),
                 'DOB' => EdcsImport::tDate($row['date_of_birth']),
                 'AgeYears' => $row['age_in_years'],
@@ -600,6 +599,8 @@ class AfpImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             }
             else {
                 $table_params = $table_params + [
+                    'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
+                    'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
                     'created_by' => auth()->user()->id,
                 ];
 
@@ -682,8 +683,6 @@ class AmesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'Region' => '04A',
                 'Province' => 'CAVITE',
                 'Muncity' => 'GENERAL TRIAS',
-                'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
-                'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
                 'NHTS' => NULL,
                 'Admitted' => ($row['patient_admitted'] == 'Yes') ? 1 : 0,
                 'DAdmit' => EdcsImport::tDate($row['date_admitted_font_stylecolorred_font']),
@@ -830,6 +829,8 @@ class AmesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             }
             else {
                 $table_params = $table_params + [
+                    'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
+                    'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
                     'created_by' => auth()->user()->id,
                 ];
 
@@ -884,8 +885,7 @@ class HepaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'Region' => '04A',
                 'Province' => 'CAVITE',
                 'Muncity' => 'GENERAL TRIAS',
-                'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
-                'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
+                
                 'Admitted' => ($row['patient_admitted'] == 'Yes') ? 1 : 0,
                 'DAdmit' => EdcsImport::tDate($row['date_admitted']),
                 'DOnset' => EdcsImport::tDate($row['date_onse_of_illness']),
@@ -944,6 +944,8 @@ class HepaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             }
             else {
                 $table_params = $table_params + [
+                    'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
+                    'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
                     'created_by' => auth()->user()->id,
                 ];
 
@@ -1025,8 +1027,7 @@ class HfmdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'Region' => '04A',
                 'Province' => 'CAVITE',
                 'Muncity' => 'GENERAL TRIAS',
-                'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
-                'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
+                
                 'Sex' => strtoupper(substr($row['sex'],0,1)),
                 'DOB' => EdcsImport::tDate($row['date_of_birth']),
                 'AgeYears' => $row['age_in_years'],
@@ -1149,6 +1150,8 @@ class HfmdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             }
             else {
                 $table_params = $table_params + [
+                    'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
+                    'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
                     'created_by' => auth()->user()->id,
                 ];
 
@@ -1206,8 +1209,7 @@ class LeptoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'Region' => '04A',
                 'Province' => 'CAVITE',
                 'Muncity' => 'GENERAL TRIAS',
-                'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
-                'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
+                
                 'Admitted' => ($row['patient_admitted'] == 'Yes') ? 1 : 0,
                 'DAdmit' => EdcsImport::tDate($row['date_admitted_seen_consulted']),
                 'DOnset' => EdcsImport::tDate($row['date_on_set_of_illness_first_symptoms']),
@@ -1266,6 +1268,8 @@ class LeptoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             }
             else {
                 $table_params = $table_params + [
+                    'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
+                    'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
                     'created_by' => auth()->user()->id,
                 ];
 
@@ -1328,8 +1332,7 @@ class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'Region' => '04A',
                 'Province' => 'CAVITE',
                 'Muncity' => 'GENERAL TRIAS',
-                'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
-                'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
+                
                 'Sex' => strtoupper(substr($row['sex'],0,1)),
                 'Preggy' => ($row['pregnant'] == 'Yes') ? 'Y' : 'N',
                 'WkOfPreg' => $row['if_yes_weeks_of_pregnancy'],
@@ -1469,6 +1472,8 @@ class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             }
             else {
                 $table_params = $table_params + [
+                    'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
+                    'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
                     'created_by' => auth()->user()->id,
                 ];
 
@@ -1523,8 +1528,7 @@ class NntImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'Region' => '04A',
                 'Province' => 'CAVITE',
                 'Muncity' => 'GENERAL TRIAS',
-                'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
-                'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
+                
                 'Admitted' => ($row['patient_admitted'] == 'Yes') ? 1 : 0,
                 'DAdmit' => EdcsImport::tDate($row['date_admitted_font_stylecolorred_font']),
                 'DOnset' => EdcsImport::tDate($row['date_onse_of_illness']),
@@ -1585,6 +1589,8 @@ class NntImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             }
             else {
                 $table_params = $table_params + [
+                    'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
+                    'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
                     'created_by' => auth()->user()->id,
                 ];
 
@@ -1635,8 +1641,7 @@ class RabiesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'Region' => '04A',
                 'Province' => 'CAVITE',
                 'Muncity' => 'GENERAL TRIAS',
-                'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
-                'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
+                
                 'Sex' => strtoupper(substr($row['sex'],0,1)),
                 'DOB' => EdcsImport::tDate($row['date_of_birth']),
                 'AgeYears' => $row['age_in_years'],
@@ -1718,6 +1723,8 @@ class RabiesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             }
             else {
                 $table_params = $table_params + [
+                    'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
+                    'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
                     'created_by' => auth()->user()->id,
                 ];
 
@@ -1773,8 +1780,7 @@ class RotaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'Region' => '04A',
                 'Province' => 'CAVITE',
                 'Muncity' => 'GENERAL TRIAS',
-                'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
-                'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
+                
                 'NHTS' => NULL,
                 'IVTherapy' => ($row['did_patient_receive_iv_rehydration_therapy_while_at_the_er'] == 'Yes') ? 'Y' : 'N',
                 'Vomiting' => ($row['vomiting'] == 'Yes') ? 'Y' : 'N',
@@ -1868,6 +1874,8 @@ class RotaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             }
             else {
                 $table_params = $table_params + [
+                    'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
+                    'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
                     'created_by' => auth()->user()->id,
                 ];
 
@@ -1922,7 +1930,7 @@ class TyphoidImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'Region' => '04A',
                 'Province' => 'CAVITE',
                 'Muncity' => 'GENERAL TRIAS',
-                'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
+                
                 'Admitted' => ($row['patient_admitted'] == 'Yes') ? 1 : 0,
                 'DAdmit' => EdcsImport::tDate($row['date_admitted_seen_consult']),
                 'DOnset' => EdcsImport::tDate($row['date_onset_of_illness']),
@@ -1979,6 +1987,7 @@ class TyphoidImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             }
             else {
                 $table_params = $table_params + [
+                    'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
                     'created_by' => auth()->user()->id,
                 ];
 
@@ -2175,8 +2184,7 @@ class DiphImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'Region' => '04A',
                 'Province' => 'CAVITE',
                 'Muncity' => 'GENERAL TRIAS',
-                'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
-                'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
+                
                 'Sex' => strtoupper(substr($row['sex'],0,1)),
                 'DOB' => EdcsImport::tDate($row['date_of_birth']),
                 'AgeYears' => $row['age_in_years'],
@@ -2239,6 +2247,8 @@ class DiphImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
             }
             else {
                 $table_params = $table_params + [
+                    'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
+                    'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
                     'created_by' => auth()->user()->id,
                 ];
 
@@ -2288,8 +2298,7 @@ class ChikvImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'Region' => '04A',
                 'Province' => 'CAVITE',
                 'Muncity' => 'GENERAL TRIAS',
-                'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
-                'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
+                
                 'Sex' => strtoupper(substr($row['sex'],0,1)),
                 'DOB' => EdcsImport::tDate($row['date_of_birth']),
                 'AgeYears' => $row['age_in_years'],
@@ -2393,6 +2402,8 @@ class ChikvImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
             }
             else {
                 $table_params = $table_params + [
+                    'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
+                    'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
                     'created_by' => auth()->user()->id,
                 ];
 
@@ -2455,8 +2466,7 @@ class MeningoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'Region' => '04A',
                 'Province' => 'CAVITE',
                 'Muncity' => 'GENERAL TRIAS',
-                'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
-                'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
+                
                 'Sex' => strtoupper(substr($row['sex'],0,1)),
                 'DOB' => EdcsImport::tDate($row['date_of_birth']),
                 'AgeYears' => $row['age_in_years'],
@@ -2582,6 +2592,8 @@ class MeningoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
             }
             else {
                 $table_params = $table_params + [
+                    'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
+                    'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
                     'created_by' => auth()->user()->id,
                 ];
 
@@ -2631,8 +2643,7 @@ class NtImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'Region' => '04A',
                 'Province' => 'CAVITE',
                 'Muncity' => 'GENERAL TRIAS',
-                'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
-                'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
+                
                 'Sex' => strtoupper(substr($row['sex'],0,1)),
                 'DOB' => EdcsImport::tDate($row['date_of_birth']),
                 'AgeYears' => $row['age_in_years'],
@@ -2730,6 +2741,8 @@ class NtImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
             }
             else {
                 $table_params = $table_params + [
+                    'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
+                    'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
                     'created_by' => auth()->user()->id,
                 ];
 
@@ -2809,8 +2822,7 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'Region' => '04A',
                 'Province' => 'CAVITE',
                 'Muncity' => 'GENERAL TRIAS',
-                'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
-                'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
+                
                 'Sex' => strtoupper(substr($row['sex'],0,1)),
                 'DOB' => EdcsImport::tDate($row['date_of_birth']),
                 'AgeYears' => $row['age_in_years'],
@@ -2911,6 +2923,9 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 $table_params = $table_params + [
                     //'systemsent' => 1,
                     //'notify_email_sent' => 1,
+                    'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
+                    'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
+
                     'Outcome' => mb_strtoupper(substr($row['outcome'],0,1)),
                     'CaseClassification' => substr($row['caseclassification'],0,1),
                     
@@ -2967,8 +2982,7 @@ class CholeraImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'Region' => '04A',
                 'Province' => 'CAVITE',
                 'Muncity' => 'GENERAL TRIAS',
-                'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
-                'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
+                
                 'Sex' => strtoupper(substr($row['sex'],0,1)),
                 'DOB' => EdcsImport::tDate($row['date_of_birth']),
                 'AgeYears' => $row['age_in_years'],
@@ -3031,6 +3045,8 @@ class CholeraImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
             }
             else {
                 $table_params = $table_params + [
+                    'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
+                    'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
                     'created_by' => auth()->user()->id,
                 ];
 
@@ -3080,8 +3096,7 @@ class InfluenzaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow 
                 'Region' => '04A',
                 'Province' => 'CAVITE',
                 'Muncity' => 'GENERAL TRIAS',
-                'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
-                'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
+                
                 'Sex' => strtoupper(substr($row['sex'],0,1)),
                 'DOB' => EdcsImport::tDate($row['date_of_birth']),
                 'AgeYears' => $row['age_in_years'],
@@ -3145,6 +3160,8 @@ class InfluenzaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow 
             }
             else {
                 $table_params = $table_params + [
+                    'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
+                    'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
                     'created_by' => auth()->user()->id,
                 ];
 
@@ -3255,8 +3272,7 @@ class SevereAcuteRespiratoryInfectionImport implements ToModel, WithHeadingRow, 
                 'region' => '04A',
                 'province' => 'CAVITE',
                 'muncity' => 'GENERAL TRIAS',
-                'barangay' => (!is_null($row['current_address_barangay'])) ? EdcsImport::brgySetter($row['current_address_barangay']) : NULL,
-                'streetpurok' => (!is_null($row['current_address_sitio_purok_street_name'])) ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
+                
                 'perm_region' => mb_strtoupper($row['permanent_address_region']),
                 'perm_province' => mb_strtoupper($row['permanent_address_province']),
                 'perm_muncity' => mb_strtoupper($row['permanent_address_city_municipality']),
@@ -3373,6 +3389,8 @@ class SevereAcuteRespiratoryInfectionImport implements ToModel, WithHeadingRow, 
             }
             else {
                 $table_params = $table_params + [
+                    'barangay' => (!is_null($row['current_address_barangay'])) ? EdcsImport::brgySetter($row['current_address_barangay']) : NULL,
+                    'streetpurok' => (!is_null($row['current_address_sitio_purok_street_name'])) ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
                     'match_casedef' => 1,
                     'systemsent' => 0,
                     'enabled' => 1,
