@@ -2052,7 +2052,6 @@ class DengueImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'Region' => '04A',
                 'Province' => 'CAVITE',
                 'Muncity' => 'GENERAL TRIAS',
-                'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && mb_strtoupper($row['current_address_sitio_purok_street_name']) != 'N/A') ? $row['current_address_sitio_purok_street_name'] : NULL,
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp']),
                 
                 'PatientNumber' => $row['patient_no'],
@@ -2088,7 +2087,7 @@ class DengueImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 
                 'ILHZ' => 'GENTAMAR',
                 'District' => 6,
-                'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
+                
                 'TYPEHOSPITALCLINIC' => $row['verification_level'],
                 'SENT' => 'Y',
                 'ip' => 'N',
@@ -2123,6 +2122,8 @@ class DengueImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             }
             else {
                 $table_params = $table_params + [
+                    'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && mb_strtoupper($row['current_address_sitio_purok_street_name']) != 'N/A') ? $row['current_address_sitio_purok_street_name'] : NULL,
+                    'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
                     'created_by' => auth()->user()->id,
                 ];
 
