@@ -67,6 +67,16 @@
         </a>
     </div>
     <div class="col-3">
+        <a href="">
+            <div class="card bg-primary">
+                <div class="card-body">
+                    <h4 class="text-white">COVID-19</h4>
+                    <h4 class="text-warning">{{$covid_count}}</h4>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-3">
         <a href="{{$dengue_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
@@ -76,6 +86,8 @@
             </div>
         </a>
     </div>
+</div>
+<div class="row mt-3">
     <div class="col-3">
         <a href="{{$diph_route}}">
             <div class="card bg-primary">
@@ -86,8 +98,6 @@
             </div>
         </a>
     </div>
-</div>
-<div class="row mt-3">
     <div class="col-3">
         <a href="{{$hfmd_route}}">
             <div class="card bg-primary">
@@ -118,6 +128,8 @@
             </div>
         </a>
     </div>
+</div>
+<div class="row mt-3">
     <div class="col-3">
         <a href="{{$measles_route}}">
             <div class="card bg-primary">
@@ -128,8 +140,6 @@
             </div>
         </a>
     </div>
-</div>
-<div class="row mt-3">
     <div class="col-3">
         <a href="{{$meningo_route}}">
             <div class="card bg-primary">
@@ -159,7 +169,9 @@
                 </div>
             </div>
         </a>
-    </div>
+    </div> 
+</div>
+<div class="row mt-3">
     <div class="col-3">
         <a href="{{$pert_route}}">
             <div class="card bg-primary">
@@ -170,8 +182,6 @@
             </div>
         </a>
     </div>
-</div>
-<div class="row mt-3">
     <div class="col-3">
         <a href="{{$rabies_route}}">
             <div class="card bg-primary">

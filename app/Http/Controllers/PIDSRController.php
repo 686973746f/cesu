@@ -17,6 +17,7 @@ use App\Models\Diph;
 use App\Models\Hfmd;
 use App\Models\Pert;
 use App\Models\Chikv;
+use App\Models\Forms;
 use App\Models\Dengue;
 use App\Models\Rabies;
 use App\Models\Anthrax;
@@ -7311,6 +7312,14 @@ class PIDSRController extends Controller
         $typhoid_count = Typhoid::where('enabled', 1)
         ->where('match_casedef', 1);
 
+        $covid_count = Forms::with('records')
+        ->whereHas('records', function ($q) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS');
+        })
+        ->where('status', 'approved')
+        ->whereIn('caseClassification', ['Confirmed', 'Probable']);
+
         if(request()->input('year')) {
             $year = request()->input('year');
         }
@@ -7338,6 +7347,7 @@ class PIDSRController extends Controller
         $rotavirus_count = $rotavirus_count->where('Year', $year)->count();
         $sari_count = $sari_count->where('Year', $year)->count();
         $typhoid_count = $typhoid_count->where('Year', $year)->count();
+        $covid_count = $covid_count->whereYear('morbidityMonth', $year)->count();
         
         $abd_route = route('pidsr.casechecker', ['case' => 'ABD', 'year' => $year]);
         $afp_route = route('pidsr.casechecker', ['case' => 'AFP', 'year' => $year]);
@@ -7381,6 +7391,7 @@ class PIDSRController extends Controller
             'rotavirus_count' => $rotavirus_count,
             'sari_count' => $sari_count,
             'typhoid_count' => $typhoid_count,
+            'covid_count' => $covid_count,
 
             'year' => $year,
 

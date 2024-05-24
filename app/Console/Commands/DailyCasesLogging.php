@@ -200,6 +200,7 @@ class DailyCasesLogging extends Command
                 })
                 ->where('status', 'approved')
                 ->where('outcomeCondition', 'Died')
+                ->where('caseClassification', 'Confirmed')
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
@@ -214,6 +215,7 @@ class DailyCasesLogging extends Command
                 })
                 ->where('status', 'approved')
                 ->where('outcomeCondition', 'Died')
+                ->where('caseClassification', 'Confirmed')
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
@@ -228,6 +230,7 @@ class DailyCasesLogging extends Command
                 })
                 ->where('status', 'approved')
                 ->where('outcomeCondition', 'Died')
+                ->where('caseClassification', 'Confirmed')
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
@@ -242,6 +245,7 @@ class DailyCasesLogging extends Command
                 })
                 ->where('status', 'approved')
                 ->where('outcomeCondition', 'Died')
+                ->where('caseClassification', 'Confirmed')
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 
@@ -256,6 +260,7 @@ class DailyCasesLogging extends Command
                 })
                 ->where('status', 'approved')
                 ->where('outcomeCondition', 'Died')
+                ->where('caseClassification', 'Confirmed')
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
                 
@@ -821,6 +826,7 @@ class DailyCasesLogging extends Command
                 ->where('status', 'approved')
                 ->where('reinfected', 1)
                 ->where('outcomeCondition', 'Died')
+                ->where('caseClassification', 'Confirmed')
                 ->whereDate('morbidityMonth', '<=', date('Y-m-d'))
                 ->count();
 

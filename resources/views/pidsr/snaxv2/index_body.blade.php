@@ -685,12 +685,16 @@ foreach($classification_titles as $ind => $ctitle) {
         type: 'bar',
         data: {
             labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52'], // Replace with your actual labels
-            datasets: [{
-                label: '{{$sel_year}}',
-                data: barData,
-                backgroundColor: 'rgba(255, 236, 0, 1)', // Customize bar color
-                borderColor: 'rgba(0, 0, 0, 1)', // Customize border color
-                borderWidth: 1
+            datasets: [
+            {
+                label: 'Alert Threshold',
+                data: dottedLineData,
+                fill: false,
+                borderColor: 'rgba(8, 0, 255, 0.8)', // Customize dotted line color
+                borderWidth: 2,
+                type: 'line',
+                borderDash: [5, 5], // Make the line dotted
+                pointRadius: 0,  // Remove the circles
             },
             {
                 label: 'Epidemic Threshold',
@@ -703,14 +707,11 @@ foreach($classification_titles as $ind => $ctitle) {
                 pointRadius: 0,  // Remove the circles
             },
             {
-                label: 'Alert Threshold',
-                data: dottedLineData,
-                fill: false,
-                borderColor: 'rgba(8, 0, 255, 0.8)', // Customize dotted line color
-                borderWidth: 2,
-                type: 'line',
-                borderDash: [5, 5], // Make the line dotted
-                pointRadius: 0,  // Remove the circles
+                label: '{{$sel_year}}',
+                data: barData,
+                backgroundColor: 'rgba(255, 236, 0, 1)', // Customize bar color
+                borderColor: 'rgba(0, 0, 0, 1)', // Customize border color
+                borderWidth: 1
             },
             ]
         },
