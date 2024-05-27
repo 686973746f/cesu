@@ -7348,6 +7348,28 @@ class PIDSRController extends Controller
         $sari_count = $sari_count->where('Year', $year)->count();
         $typhoid_count = $typhoid_count->where('Year', $year)->count();
         $covid_count = $covid_count->whereYear('morbidityMonth', $year)->count();
+
+        $abd_count_death = $abd_count->where('Year', $year)->where('Outcome', 'D')->count();
+        $afp_count_death = $afp_count->where('Year', $year)->where('Outcome', 'D')->count();
+        $ames_count_death = $ames_count->where('Year', $year)->where('Outcome', 'D')->count();
+        $hepa_count_death = $hepa_count->where('Year', $year)->where('Outcome', 'D')->count();
+        $chikv_count_death = $chikv_count->where('Year', $year)->where('Outcome', 'D')->count();
+        $cholera_count_death = $cholera_count->where('Year', $year)->where('Outcome', 'D')->count();
+        $dengue_count_death = $dengue_count->where('Year', $year)->where('Outcome', 'D')->count();
+        $diph_count_death = $diph_count->where('Year', $year)->where('Outcome', 'D')->count();
+        $hfmd_count_death = $hfmd_count->where('Year', $year)->where('Outcome', 'D')->count();
+        $ili_count_death = $ili_count->where('Year', $year)->where('Outcome', 'D')->count();
+        $lepto_count_death = $lepto_count->where('Year', $year)->where('Outcome', 'D')->count();
+        $measles_count_death = $measles_count->where('Year', $year)->where('Outcome', 'D')->count();
+        $meningo_count_death = $meningo_count->where('Year', $year)->where('Outcome', 'D')->count();
+        $nnt_count_death = $nnt_count->where('Year', $year)->where('Outcome', 'D')->count();
+        $nt_count_death = $nt_count->where('Year', $year)->where('Outcome', 'D')->count();
+        $pert_count_death = $pert_count->where('Year', $year)->where('Outcome', 'D')->count();
+        $rabies_count_death = $rabies_count->where('Year', $year)->where('Outcome', 'Died')->count();
+        $rotavirus_count_death = $rotavirus_count->where('Year', $year)->where('Outcome', 'D')->count();
+        $sari_count_death = $sari_count->where('Year', $year)->where('outcome', 'Died')->count();
+        $typhoid_count_death = $typhoid_count->where('Year', $year)->where('Outcome', 'D')->count();
+        $covid_count_death = $covid_count->whereYear('morbidityMonth', $year)->where('outcomeCondition', 'Died')->count();
         
         $abd_route = route('pidsr.casechecker', ['case' => 'ABD', 'year' => $year]);
         $afp_route = route('pidsr.casechecker', ['case' => 'AFP', 'year' => $year]);
@@ -7392,6 +7414,28 @@ class PIDSRController extends Controller
             'sari_count' => $sari_count,
             'typhoid_count' => $typhoid_count,
             'covid_count' => $covid_count,
+
+            'abd_count_death' => $abd_count_death,
+            'afp_count_death' => $afp_count_death,
+            'ames_count_death' => $ames_count_death,
+            'hepa_count_death' => $hepa_count_death,
+            'chikv_count_death' => $chikv_count_death,
+            'cholera_count_death' => $cholera_count_death,
+            'dengue_count_death' => $dengue_count_death,
+            'diph_count_death' => $diph_count_death,
+            'hfmd_count_death' => $hfmd_count_death,
+            'ili_count_death' => $ili_count_death,
+            'lepto_count_death' => $lepto_count_death,
+            'measles_count_death' => $measles_count_death,
+            'meningo_count_death' => $meningo_count_death,
+            'nnt_count_death' => $nnt_count_death,
+            'nt_count_death' => $nt_count_death,
+            'pert_count_death' => $pert_count_death,
+            'rabies_count_death' => $rabies_count_death,
+            'rotavirus_count_death' => $rotavirus_count_death,
+            'sari_count_death' => $sari_count_death,
+            'typhoid_count_death' => $typhoid_count_death,
+            'covid_count_death' => $covid_count_death,
 
             'year' => $year,
 
