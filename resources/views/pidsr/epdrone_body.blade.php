@@ -238,7 +238,7 @@
                 <div class="card-body">
                     <h4 class="text-white">Typhoid and Paratyphoid Fever</h4>
                     <h4 class="text-warning">{{$typhoid_count}}</h4>
-                    <h4 class="text-danger">Deaths: {{$typhoid_count_death_death}}</h4>
+                    <h4 class="text-danger">Deaths: {{$typhoid_count_death}}</h4>
                 </div>
             </div>
         </a>
