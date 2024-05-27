@@ -5,7 +5,10 @@
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <div><b>Validated Encoded Epidemic-prone Diseases</b></div>
+                <div>
+                    <div><b>Validated Encoded Epidemic-prone Diseases</b></div>
+                    <div class="font-weight-bold text-success"><h3>Year: {{(request()->input('year')) ? request()->input('year') : date('Y')}}</h3></div>
+                </div>
                 <div><button type="button" class="btn btn-success" data-toggle="modal" data-target="#filterModal">Change Year</button></div>
             </div>
         </div>

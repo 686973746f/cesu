@@ -4,7 +4,7 @@
 </div>
 @endif
 <div class="row">
-    <div class="col-3">
+    <div class="col-3 mb-3">
         <a href="{{$abd_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
@@ -15,7 +15,7 @@
             </div>
         </a>
     </div>
-    <div class="col-3">
+    <div class="col-3 mb-3">
         <a href="{{$afp_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
@@ -26,7 +26,7 @@
             </div>
         </a>
     </div>
-    <div class="col-3">
+    <div class="col-3 mb-3">
         <a href="{{$afp_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
@@ -37,7 +37,7 @@
             </div>
         </a>
     </div>
-    <div class="col-3">
+    <div class="col-3 mb-3">
         <a href="{{$afp_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
@@ -48,7 +48,7 @@
             </div>
         </a>
     </div>
-    <div class="col-3">
+    <div class="col-3 mb-3">
         <a href="{{$ames_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
@@ -59,7 +59,7 @@
             </div>
         </a>
     </div>
-    <div class="col-3">
+    <div class="col-3 mb-3">
         <a href="{{$ames_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
@@ -70,7 +70,7 @@
             </div>
         </a>
     </div>
-    <div class="col-3">
+    <div class="col-3 mb-3">
         <a href="{{$ames_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
@@ -81,7 +81,7 @@
             </div>
         </a>
     </div>
-    <div class="col-3">
+    <div class="col-3 mb-3">
         <a href="{{$hepa_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
@@ -92,9 +92,7 @@
             </div>
         </a>
     </div>
-</div>
-<div class="row mt-3">
-    <div class="col-3">
+    <div class="col-3 mb-3">
         <a href="{{$chikv_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
@@ -105,7 +103,7 @@
             </div>
         </a>
     </div>
-    <div class="col-3">
+    <div class="col-3 mb-3">
         <a href="{{$cholera_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
@@ -116,7 +114,7 @@
             </div>
         </a>
     </div>
-    <div class="col-3">
+    <div class="col-3 mb-3">
         <a href="">
             <div class="card bg-primary">
                 <div class="card-body">
@@ -127,7 +125,7 @@
             </div>
         </a>
     </div>
-    <div class="col-3">
+    <div class="col-3 mb-3">
         <a href="{{$dengue_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
@@ -138,9 +136,7 @@
             </div>
         </a>
     </div>
-</div>
-<div class="row mt-3">
-    <div class="col-3">
+    <div class="col-3 mb-3">
         <a href="{{$diph_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
@@ -151,7 +147,7 @@
             </div>
         </a>
     </div>
-    <div class="col-3">
+    <div class="col-3 mb-3">
         <a href="{{$hfmd_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
@@ -162,7 +158,7 @@
             </div>
         </a>
     </div>
-    <div class="col-3">
+    <div class="col-3 mb-3">
         <a href="{{$ili_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
@@ -173,7 +169,7 @@
             </div>
         </a>
     </div>
-    <div class="col-3">
+    <div class="col-3 mb-3">
         <a href="{{$lepto_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
@@ -184,9 +180,7 @@
             </div>
         </a>
     </div>
-</div>
-<div class="row mt-3">
-    <div class="col-3">
+    <div class="col-3 mb-3">
         <a href="{{$measles_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
@@ -197,7 +191,7 @@
             </div>
         </a>
     </div>
-    <div class="col-3">
+    <div class="col-3 mb-3">
         <a href="{{$measles_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
@@ -208,7 +202,7 @@
             </div>
         </a>
     </div>
-    <div class="col-3">
+    <div class="col-3 mb-3">
         <a href="{{$meningo_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
@@ -219,7 +213,7 @@
             </div>
         </a>
     </div>
-    <div class="col-3">
+    <div class="col-3 mb-3">
         <a href="{{$meningo_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
@@ -230,7 +224,7 @@
             </div>
         </a>
     </div>
-    <div class="col-3">
+    <div class="col-3 mb-3">
         <a href="{{$nt_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
@@ -241,7 +235,7 @@
             </div>
         </a>
     </div>
-    <div class="col-3">
+    <div class="col-3 mb-3">
         <a href="{{$nnt_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
@@ -251,10 +245,8 @@
                 </div>
             </div>
         </a>
-    </div> 
-</div>
-<div class="row mt-3">
-    <div class="col-3">
+    </div>
+    <div class="col-3 mb-3">
         <a href="{{$pert_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
@@ -265,7 +257,7 @@
             </div>
         </a>
     </div>
-    <div class="col-3">
+    <div class="col-3 mb-3">
         <a href="{{$pert_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
@@ -276,7 +268,7 @@
             </div>
         </a>
     </div>
-    <div class="col-3">
+    <div class="col-3 mb-3">
         <a href="{{$rabies_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
@@ -287,7 +279,7 @@
             </div>
         </a>
     </div>
-    <div class="col-3">
+    <div class="col-3 mb-3">
         <a href="{{$rotavirus_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
@@ -298,7 +290,7 @@
             </div>
         </a>
     </div>
-    <div class="col-3">
+    <div class="col-3 mb-3">
         <a href="{{$sari_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
@@ -309,7 +301,7 @@
             </div>
         </a>
     </div>
-    <div class="col-3">
+    <div class="col-3 mb-3">
         <a href="{{$typhoid_route}}">
             <div class="card bg-primary">
                 <div class="card-body">

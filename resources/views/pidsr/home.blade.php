@@ -98,23 +98,21 @@
                             <optgroup label="EDCS-IS">
                                 <option value="Abd">Acute Bloody Diarrhea</option>
                                 <option value="Afp">Acute Flaccid Paralysis (AFP)</option>
-                                <option value="Hfmd">Hand, Foot and Mouth Disease (HFMD)</option>
-                                <option value="Measles">Measles</option>
-                                <option value="Meningo">Meningococcal Disease</option>
-                                <option value="Nt">Neonatal Tetanus</option>
-                                <option value="Rabies">Rabies</option>
-                                <option value="Hepatitis">Acute Viral Hepatitis</option>
-                                <option value="Ames">AMES</option>
-                                <option value="Meningitis">Bacterial Meningitis</option>
+                                <option value="Ames">Acute Meningitis Encephalitis Syndrome (AMES)</option>
                                 <option value="Chikv">Chikungunya</option>
                                 <option value="Cholera">Cholera</option>
                                 <option value="Dengue" selected>Dengue</option>
                                 <option value="Diph">Diptheria</option>
+                                <option value="Hepatitis">Hepatitis</option> 
+                                <option value="Hfmd">Hand, Foot and Mouth Disease (HFMD)</option>
                                 <option value="Influenza">Influenza-like Illness</option>
                                 <option value="Leptospirosis">Leptospirosis</option>
-                                <option value="Malaria">Malaria</option>
+                                <option value="Measles">Measles</option>
+                                <option value="Meningo">Meningococcal Disease</option>
                                 <option value="Nnt">Non-Neonatal Tetanus</option>
+                                <option value="Nt">Neonatal Tetanus</option>
                                 <option value="Pert">Pertussis</option>
+                                <option value="Rabies">Rabies</option>
                                 <option value="Rotavirus">RotaVirus</option>
                                 <option value="Typhoid">Typhoid and Parathypoid Fever</option>
                             </optgroup>
@@ -123,6 +121,8 @@
                                 <option value="Ahf">Acute Hemorrhagic-Fever Syndrome</option>
                                 <option value="Aefi">Adverse Event Following Immunization (AEFI)</option>
                                 <option value="Anthrax">Anthrax</option>
+                                <option value="Malaria">Malaria</option>
+                                <option value="Meningitis">Meningitis</option>
                                 <option value="Psp">Paralytic Shellfish Poisoning</option>
                             </optgroup>
                         </select>
