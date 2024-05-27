@@ -7429,6 +7429,14 @@ class PIDSRController extends Controller
         $sari_route = route('pidsr.casechecker', ['case' => 'SARI', 'year' => $year]);
         $typhoid_route = route('pidsr.casechecker', ['case' => 'TYPHOID', 'year' => $year]);
 
+        $aes_route = route('pidsr.casechecker', ['case' => 'AES', 'year' => $year]);
+        $aefi_route = route('pidsr.casechecker', ['case' => 'AEFI', 'year' => $year]);
+        $ahf_route = route('pidsr.casechecker', ['case' => 'AHF', 'year' => $year]);
+        $anthrax_route = route('pidsr.casechecker', ['case' => 'ANTHRAX', 'year' => $year]);
+        $malaria_route = route('pidsr.casechecker', ['case' => 'MALARIA', 'year' => $year]);
+        $meningitis_route = route('pidsr.casechecker', ['case' => 'MENINGITIS', 'year' => $year]);
+        $psp_route = route('pidsr.casechecker', ['case' => 'PSP', 'year' => $year]);
+
         return view('pidsr.epdrone_home', [
             'abd_count' => $abd_count,
             'afp_count' => $afp_count,
@@ -7510,6 +7518,13 @@ class PIDSRController extends Controller
             'rotavirus_route' => $rotavirus_route,
             'sari_route' => $sari_route,
             'typhoid_route' => $typhoid_route,
+            'aefi_route' => $aefi_route,
+            'aes_route' => $aes_route,
+            'ahf_route' => $ahf_route,
+            'anthrax_route' => $anthrax_route,
+            'malaria_route' => $malaria_route,
+            'meningitis_route' => $meningitis_route,
+            'psp_route' => $psp_route,
         ]);
     }
 

@@ -15,8 +15,9 @@
             </div>
         </a>
     </div>
+    @if($year < 2024)
     <div class="col-3 mb-3">
-        <a href="{{$afp_route}}">
+        <a href="{{$aes_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
                     <h4 class="text-white">Acute Encephalitis Syndrome</h4>
@@ -26,6 +27,7 @@
             </div>
         </a>
     </div>
+    @endif
     <div class="col-3 mb-3">
         <a href="{{$afp_route}}">
             <div class="card bg-primary">
@@ -37,8 +39,9 @@
             </div>
         </a>
     </div>
+    @if($year < 2024)
     <div class="col-3 mb-3">
-        <a href="{{$afp_route}}">
+        <a href="{{$ahf_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
                     <h4 class="text-white">Acute Hemorrhagic Fever</h4>
@@ -48,6 +51,7 @@
             </div>
         </a>
     </div>
+    @endif
     <div class="col-3 mb-3">
         <a href="{{$ames_route}}">
             <div class="card bg-primary">
@@ -59,8 +63,9 @@
             </div>
         </a>
     </div>
+    @if($year < 2024)
     <div class="col-3 mb-3">
-        <a href="{{$ames_route}}">
+        <a href="{{$aefi_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
                     <h4 class="text-white">AEFI</h4>
@@ -71,7 +76,7 @@
         </a>
     </div>
     <div class="col-3 mb-3">
-        <a href="{{$ames_route}}">
+        <a href="{{$anthrax_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
                     <h4 class="text-white">Anthrax</h4>
@@ -81,17 +86,7 @@
             </div>
         </a>
     </div>
-    <div class="col-3 mb-3">
-        <a href="{{$hepa_route}}">
-            <div class="card bg-primary">
-                <div class="card-body">
-                    <h4 class="text-white">Acute Viral Hepatitis</h4>
-                    <h4 class="text-warning">{{$hepa_count}}</h4>
-                    <h4 class="text-danger">Deaths: {{$hepa_count_death}}</h4>
-                </div>
-            </div>
-        </a>
-    </div>
+    @endif
     <div class="col-3 mb-3">
         <a href="{{$chikv_route}}">
             <div class="card bg-primary">
@@ -159,6 +154,17 @@
         </a>
     </div>
     <div class="col-3 mb-3">
+        <a href="{{$hepa_route}}">
+            <div class="card bg-primary">
+                <div class="card-body">
+                    <h4 class="text-white">Hepatitis</h4>
+                    <h4 class="text-warning">{{$hepa_count}}</h4>
+                    <h4 class="text-danger">Deaths: {{$hepa_count_death}}</h4>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-3 mb-3">
         <a href="{{$ili_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
@@ -180,8 +186,9 @@
             </div>
         </a>
     </div>
+    @if($year < 2024)
     <div class="col-3 mb-3">
-        <a href="{{$measles_route}}">
+        <a href="{{$malaria_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
                     <h4 class="text-white">Malaria</h4>
@@ -191,6 +198,7 @@
             </div>
         </a>
     </div>
+    @endif
     <div class="col-3 mb-3">
         <a href="{{$measles_route}}">
             <div class="card bg-primary">
@@ -202,8 +210,9 @@
             </div>
         </a>
     </div>
+    @if($year < 2024)
     <div class="col-3 mb-3">
-        <a href="{{$meningo_route}}">
+        <a href="{{$meningitis_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
                     <h4 class="text-white">Meningitis</h4>
@@ -213,6 +222,7 @@
             </div>
         </a>
     </div>
+    @endif
     <div class="col-3 mb-3">
         <a href="{{$meningo_route}}">
             <div class="card bg-primary">
@@ -246,8 +256,9 @@
             </div>
         </a>
     </div>
+    @if($year < 2024)
     <div class="col-3 mb-3">
-        <a href="{{$pert_route}}">
+        <a href="{{$psp_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
                     <h4 class="text-white">Paralytic Shellfish Poisoning</h4>
@@ -257,6 +268,7 @@
             </div>
         </a>
     </div>
+    @endif
     <div class="col-3 mb-3">
         <a href="{{$pert_route}}">
             <div class="card bg-primary">
