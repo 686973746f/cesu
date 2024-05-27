@@ -4821,7 +4821,7 @@ class PIDSRController extends Controller
             }
 
             //Initialize Display Params (Period na bibilangin sa Mapping, etc.)
-            if($sel_disease == 'Pert') {
+            if($sel_disease == 'Pert' || $sel_disease == 'Measles') {
                 $set_display_params = 'yearly';
             }
             else {
@@ -4875,7 +4875,13 @@ class PIDSRController extends Controller
             //GET LAST 5 YEARS AND ASSIGN TO VARIABLE
             foreach(range($sel_year_minusone, $sel_year_minusfive) as $y) {
                 for($j=1;$j<=53;$j++) {
-                    ${'year' . $year_toggle . '_mw' . $j} = PidsrThreshold::where('year', $y)->where('disease', mb_strtoupper($sel_disease))->first()->{'mw'.$j};
+                    $smw = PidsrThreshold::where('year', $y)->where('disease', mb_strtoupper($sel_disease))->first();
+                    if($smw) {
+                        ${'year' . $year_toggle . '_mw' . $j} = $smw->{'mw'.$j};
+                    }
+                    else {
+                        ${'year' . $year_toggle . '_mw' . $j} = 0;
+                    }
                 }
 
                 $year_toggle++;
@@ -4884,11 +4890,13 @@ class PIDSRController extends Controller
             //CREATE EPI THRESHOLD
 
             //CREATE ALERT AND EPIDEMIC THRESHOLD
+            $smw52 = PidsrThreshold::where('year', $sel_year_minusfive)->where('disease', mb_strtoupper($sel_disease))->first();
+
             $year1_mw52_threshold = $year2_mw52;
             $year2_mw52_threshold = $year3_mw52;
             $year3_mw52_threshold = $year4_mw52;
             $year4_mw52_threshold = $year5_mw52;
-            $year5_mw52_threshold = PidsrThreshold::where('year', $sel_year_minusfive)->where('disease', mb_strtoupper($sel_disease))->first()->mw52;
+            $year5_mw52_threshold = ($smw52) ? $smw52->mw52 : 0;
 
             $year1_mw1_threshold = $modelClass::where('Year', $sel_year)->where('enabled', 1)->where('match_casedef', 1)->where('MorbidityWeek', 1)->count();
             $year2_mw1_threshold = $year1_mw1;

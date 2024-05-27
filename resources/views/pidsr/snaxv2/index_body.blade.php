@@ -104,10 +104,10 @@
                     </div>
                     <hr>
                     <h5><b>Spot Map of {{$flavor_name}} Cases</b></h5>
-                    @if($sel_disease != 'Pert')
-                    <h6>GENERAL TRIAS, MW {{$sel_mweek-2}}-{{$sel_mweek}}, {{$sel_year}} (N={{$threemws_total}})</h6>
-                    @else
+                    @if($sel_disease == 'Pert' || $sel_disease == 'Measles')
                     <h6>GENERAL TRIAS, MW 1-{{$sel_mweek}}, {{$sel_year}} (N={{$current_grand_total}})</h6>
+                    @else
+                    <h6>GENERAL TRIAS, MW {{$sel_mweek-2}}-{{$sel_mweek}}, {{$sel_year}} (N={{$threemws_total}})</h6>
                     @endif
                     @php
                     $pob_count =
@@ -318,10 +318,11 @@
                     <div style="height: 400px">
                     <canvas id="topten" width="" height=""></canvas>
                     </div>
-                    @if($sel_disease == 'Pert')
+                    @if($sel_disease == 'Pert' || $sel_disease == 'Measles')
                     <h5 class="mt-3"><b>Proportion of {{$flavor_name}} Cases by Sex and Age</b></h5>
                     <h6>GENERAL TRIAS, MW 1-{{$sel_mweek}}, {{$sel_year}} (N={{$current_grand_total}})</h6>
                     <canvas id="ageGroup" width="50" height=""></canvas>
+                    @if($sel_disease == 'Pert')
                     <hr>
                     <div class="text-center" style="margin-left: 200px;">
                         <h5 class="mt-3"><b>Vaccination Status of {{$flavor_name}} Cases</b></h5>
@@ -331,9 +332,10 @@
                         </div>
                     </div>
                     @endif
+                    @endif
                 </div>
             </div>
-            @if($sel_disease == 'Pert')
+            @if($sel_disease == 'Pert' || $sel_disease == 'Measles')
             <div class="row">
                 <div class="col-4">
                     <h6 class="mb-5">Prepared by:</h6>
@@ -361,7 +363,7 @@
         </div>
     </div>
     
-    <div class="card mb-3 {{($sel_disease == 'Pert') ? 'd-none' : ''}}">
+    <div class="card mb-3 {{($sel_disease == 'Pert' || $sel_disease == 'Measles') ? 'd-none' : ''}}">
         <div class="card-header bg-transparent">
             <div class="d-flex justify-content-between">
                 <div><b>Page 2/3 - {{$flavor_name}} Monitoring Dashboard</b></div>
@@ -437,7 +439,7 @@
         </div>
     </div>
 
-    <div class="card mb-3 {{($sel_disease == 'Pert') ? 'd-none' : ''}}">
+    <div class="card mb-3 {{($sel_disease == 'Pert' || $sel_disease == 'Measles') ? 'd-none' : ''}}">
         <div class="card-header bg-transparent">
             <div class="d-flex justify-content-between">
                 <div><b>Page 3/3 - {{$flavor_name}} Monitoring Dashboard</b></div>
