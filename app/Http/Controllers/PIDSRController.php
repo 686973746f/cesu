@@ -7312,6 +7312,21 @@ class PIDSRController extends Controller
         $typhoid_query = Typhoid::where('enabled', 1)
         ->where('match_casedef', 1);
 
+        $aes_query = Aes::where('enabled', 1)
+        ->where('match_casedef', 1);
+        $aefi_query = Aefi::where('enabled', 1)
+        ->where('match_casedef', 1);
+        $ahf_query = Ahf::where('enabled', 1)
+        ->where('match_casedef', 1);
+        $anthrax_query = Anthrax::where('enabled', 1)
+        ->where('match_casedef', 1);
+        $malaria_query = Malaria::where('enabled', 1)
+        ->where('match_casedef', 1);
+        $meningitis_query = Meningitis::where('enabled', 1)
+        ->where('match_casedef', 1);
+        $psp_query = Psp::where('enabled', 1)
+        ->where('match_casedef', 1);
+
         $covid_query = Forms::with('records')
         ->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
@@ -7348,6 +7363,13 @@ class PIDSRController extends Controller
         $sari_count = $sari_query->where('Year', $year)->count();
         $typhoid_count = $typhoid_query->where('Year', $year)->count();
         $covid_count = $covid_query->whereYear('morbidityMonth', $year)->count();
+        $aes_count = $aes_query->where('Year', $year)->count();
+        $aefi_count = $aefi_query->where('Year', $year)->count();
+        $ahf_count = $ahf_query->where('Year', $year)->count();
+        $anthrax_count = $anthrax_query->where('Year', $year)->count();
+        $malaria_count = $malaria_query->where('Year', $year)->count();
+        $meningitis_count = $meningitis_query->where('Year', $year)->count();
+        $psp_count = $psp_query->where('Year', $year)->count();
 
         $abd_count_death = $abd_query->where('Year', $year)->where('Outcome', 'D')->count();
         $afp_count_death = $afp_query->where('Year', $year)->where('Outcome', 'D')->count();
@@ -7370,6 +7392,13 @@ class PIDSRController extends Controller
         $sari_count_death = $sari_query->where('Year', $year)->where('outcome', 'Died')->count();
         $typhoid_count_death = $typhoid_query->where('Year', $year)->where('Outcome', 'D')->count();
         $covid_count_death = $covid_query->whereYear('morbidityMonth', $year)->where('outcomeCondition', 'Died')->count();
+        $aes_count_death = $aes_query->where('Year', $year)->where('Outcome', 'D')->count();
+        $aefi_count_death = $aefi_query->where('Year', $year)->where('Outcome', 'D')->count();
+        $ahf_count_death = $ahf_query->where('Year', $year)->where('Outcome', 'D')->count();
+        $anthrax_count_death = $anthrax_query->where('Year', $year)->where('Outcome', 'D')->count();
+        $malaria_count_death = $malaria_query->where('Year', $year)->where('Outcome', 'D')->count();
+        $meningitis_count_death = $meningitis_query->where('Year', $year)->where('Outcome', 'D')->count();
+        $psp_count_death = $psp_query->where('Year', $year)->where('Outcome', 'D')->count();
         
         $abd_route = route('pidsr.casechecker', ['case' => 'ABD', 'year' => $year]);
         $afp_route = route('pidsr.casechecker', ['case' => 'AFP', 'year' => $year]);
@@ -7414,6 +7443,13 @@ class PIDSRController extends Controller
             'sari_count' => $sari_count,
             'typhoid_count' => $typhoid_count,
             'covid_count' => $covid_count,
+            'aes_count' => $aes_count,
+            'aefi_count' => $aefi_count,
+            'ahf_count' => $ahf_count,
+            'anthrax_count' => $anthrax_count,
+            'malaria_count' => $malaria_count,
+            'meningitis_count' => $meningitis_count,
+            'psp_count' => $psp_count,
 
             'abd_count_death' => $abd_count_death,
             'afp_count_death' => $afp_count_death,
@@ -7436,6 +7472,13 @@ class PIDSRController extends Controller
             'sari_count_death' => $sari_count_death,
             'typhoid_count_death' => $typhoid_count_death,
             'covid_count_death' => $covid_count_death,
+            'aes_count_death' => $aes_count_death,
+            'aefi_count_death' => $aefi_count_death,
+            'ahf_count_death' => $ahf_count_death,
+            'anthrax_count_death' => $anthrax_count_death,
+            'malaria_count_death' => $malaria_count_death,
+            'meningitis_count_death' => $meningitis_count_death,
+            'psp_count_death' => $psp_count_death,
 
             'year' => $year,
 

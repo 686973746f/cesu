@@ -19,9 +19,31 @@
         <a href="{{$afp_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
+                    <h4 class="text-white">Acute Encephalitis Syndrome</h4>
+                    <h4 class="text-warning">{{$aes_count}}</h4>
+                    <h4 class="text-danger">Deaths: {{$aes_count_death}}</h4>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-3">
+        <a href="{{$afp_route}}">
+            <div class="card bg-primary">
+                <div class="card-body">
                     <h4 class="text-white">Acute Flaccid Paralysis</h4>
                     <h4 class="text-warning">{{$afp_count}}</h4>
                     <h4 class="text-danger">Deaths: {{$afp_count_death}}</h4>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-3">
+        <a href="{{$afp_route}}">
+            <div class="card bg-primary">
+                <div class="card-body">
+                    <h4 class="text-white">Acute Hemorrhagic Fever</h4>
+                    <h4 class="text-warning">{{$ahf_count}}</h4>
+                    <h4 class="text-danger">Deaths: {{$ahf_count_death}}</h4>
                 </div>
             </div>
         </a>
@@ -33,6 +55,28 @@
                     <h4 class="text-white">Acute Meningitis Encephalitis (AMES)</h4>
                     <h4 class="text-warning">{{$ames_count}}</h4>
                     <h4 class="text-danger">Deaths: {{$ames_count_death}}</h4>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-3">
+        <a href="{{$ames_route}}">
+            <div class="card bg-primary">
+                <div class="card-body">
+                    <h4 class="text-white">AEFI</h4>
+                    <h4 class="text-warning">{{$aefi_count}}</h4>
+                    <h4 class="text-danger">Deaths: {{$aefi_count_death}}</h4>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-3">
+        <a href="{{$ames_route}}">
+            <div class="card bg-primary">
+                <div class="card-body">
+                    <h4 class="text-white">Anthrax</h4>
+                    <h4 class="text-warning">{{$anthrax_count}}</h4>
+                    <h4 class="text-danger">Deaths: {{$anthrax_count_death}}</h4>
                 </div>
             </div>
         </a>
@@ -146,9 +190,31 @@
         <a href="{{$measles_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
+                    <h4 class="text-white">Malaria</h4>
+                    <h4 class="text-warning">{{$malaria_count}}</h4>
+                    <h4 class="text-danger">Deaths: {{$malaria_count_death}}</h4>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-3">
+        <a href="{{$measles_route}}">
+            <div class="card bg-primary">
+                <div class="card-body">
                     <h4 class="text-white">Measles</h4>
                     <h4 class="text-warning">{{$measles_count}}</h4>
                     <h4 class="text-danger">Deaths: {{$measles_count_death}}</h4>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-3">
+        <a href="{{$meningo_route}}">
+            <div class="card bg-primary">
+                <div class="card-body">
+                    <h4 class="text-white">Meningitis</h4>
+                    <h4 class="text-warning">{{$meningitis_count}}</h4>
+                    <h4 class="text-danger">Deaths: {{$meningitis_count_death}}</h4>
                 </div>
             </div>
         </a>
@@ -188,6 +254,17 @@
     </div> 
 </div>
 <div class="row mt-3">
+    <div class="col-3">
+        <a href="{{$pert_route}}">
+            <div class="card bg-primary">
+                <div class="card-body">
+                    <h4 class="text-white">Paralytic Shellfish Poisoning</h4>
+                    <h4 class="text-warning">{{$psp_count}}</h4>
+                    <h4 class="text-danger">Deaths: {{$psp_count_death}}</h4>
+                </div>
+            </div>
+        </a>
+    </div>
     <div class="col-3">
         <a href="{{$pert_route}}">
             <div class="card bg-primary">
