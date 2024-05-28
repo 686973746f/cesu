@@ -4812,7 +4812,13 @@ class PIDSRController extends Controller
             $sel_year_minusfive = ($sel_year - 5);
             $sel_week = request()->input('mweek');
 
-            $modelClass = "App\\Models\\$sel_disease";
+            if($sel_disease == 'COVID') {
+                $modelClass = "App\\Models\\Forms";
+            }
+            else {
+                $modelClass = "App\\Models\\$sel_disease";
+            }
+            
 
             for($i=1;$i<=5;$i++) {
                 for($j=1;$j<=53;$j++) {

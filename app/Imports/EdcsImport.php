@@ -3193,7 +3193,7 @@ class LaboratoryImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                     'specimen_collected_date' => EdcsImport::tDate($row['date_specimen_collected']),
                     'specimen_type' => $row['specimen_type'],
                     'date_sent' => EdcsImport::tDate($row['date_sent']),
-                    'date_received' => EdcsImport::tDate($row['date_received']),
+                    'date_received' => EdcsImport::tDate($row['date_received_by_lab']),
                     'result' => $row['laboratory_result'],
                     'test_type' => $row['type_of_test_conducted'],
                     'interpretation' => $row['interpretation'],
