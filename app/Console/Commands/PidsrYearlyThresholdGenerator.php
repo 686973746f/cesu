@@ -38,38 +38,45 @@ class PidsrYearlyThresholdGenerator extends Command
      */
     public function handle()
     {
+        /**'Abd',
+        'Aefi',
+        'Aes',
+        'Afp',
+        'Ahf',
+        'Ames',
+        'Anthrax',
+        'Chikv',
+        'Cholera',
+        'Dengue',
+        'Diph',
+        'Hepatitis',
+        'Hfmd',
+        'Influenza',
+        'Leptospirosis',
+        'Malaria',
+        'Measles',
+        'Meningitis',
+        'Meningo',
+        'Nnt',
+        'Nt',
+        'Pert',
+        'Psp',
+        'Rabies',
+        'Rotavirus',
+        'Typhoid',*/
+
         $diseases = [
-            'Abd',
-            'Aefi',
-            'Aes',
-            'Afp',
-            'Ahf',
-            'Ames',
-            'Anthrax',
-            'Chikv',
-            'Cholera',
-            'Dengue',
-            'Diph',
-            'Hepatitis',
-            'Hfmd',
-            'Influenza',
-            'Leptospirosis',
-            'Malaria',
-            'Measles',
-            'Meningitis',
-            'Meningo',
-            'Nnt',
-            'Nt',
-            'Pert',
-            'Psp',
-            'Rabies',
-            'Rotavirus',
-            'Typhoid',
+            'COVID',
         ];
 
         foreach($diseases as $d) {
-            $modelClass = "App\\Models\\$d";
-
+            if($d == 'COVID') {
+                $modelClass = "App\\Models\\Forms";
+            }
+            else {
+                $modelClass = "App\\Models\\$d";
+            }
+            
             $y = date('Y', strtotime('-1 Year'));
 
             //Create Row First if Not Exist
@@ -85,10 +92,30 @@ class PidsrYearlyThresholdGenerator extends Command
             }
 
             for($i=1;$i<=53;$i++) {
+                if($d == 'COVID') {
+                    $cond = $modelClass::with('records')
+                    ->whereHas('records', function ($q) {
+                        $q->where('records.address_province', 'CAVITE')
+                        ->where('records.address_city', 'GENERAL TRIAS');
+                    })
+                    ->where('status', 'approved')
+                    ->where('caseClassification', 'Confirmed')
+                    ->whereYear('morbidityMonth', $y)
+                    ->whereRaw('WEEK(morbidityMonth, 1) = ?', [52])
+                    ->count();
+                }
+                else {
+                    $cond = $modelClass::where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('Year', $y)
+                    ->where('MorbidityWeek', $i)
+                    ->count();
+                }
+
                 $update = PidsrThreshold::where('year', $y)
                 ->where('disease', $d)
                 ->update([
-                    'mw'.$i => $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $y)->where('MorbidityWeek', $i)->count(),
+                    'mw'.$i => $cond,
                 ]);
             }
         }

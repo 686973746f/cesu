@@ -76,5 +76,20 @@ class DailyCases extends Model
         'reinfection_recovered',
         'reinfection_deaths',
         'reinfection_total',
+
+        'rtpcr_confirmed_count_currentyear',
+        'antigen_positive_count_currentyear',
+        'recoveries_currentyear',
+        'deaths_currentyear',
+        'currentyear_asymptomatic',
+        'currentyear_mild',
+        'currentyear_moderate',
+        'currentyear_severe',
+        'currentyear_critical',
+
+        'barangay_list',
+        'barangay_rtpcr_counts',
+        'barangay_antigen_counts',
+        'barangay_dailyrecovered_counts',
     ];
 }

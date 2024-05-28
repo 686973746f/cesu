@@ -104,10 +104,10 @@
                     </div>
                     <hr>
                     <h5><b>Spot Map of {{$flavor_name}} Cases</b></h5>
-                    @if($sel_disease != 'Pert')
-                    <h6>GENERAL TRIAS, MW {{$sel_mweek-2}}-{{$sel_mweek}}, {{$sel_year}} (N={{$threemws_total}})</h6>
-                    @else
+                    @if($sel_disease == 'Pert' || $sel_disease == 'Measles')
                     <h6>GENERAL TRIAS, MW 1-{{$sel_mweek}}, {{$sel_year}} (N={{$current_grand_total}})</h6>
+                    @else
+                    <h6>GENERAL TRIAS, MW {{$sel_mweek-2}}-{{$sel_mweek}}, {{$sel_year}} (N={{$threemws_total}})</h6>
                     @endif
                     @php
                     $pob_count =
@@ -318,10 +318,11 @@
                     <div style="height: 400px">
                     <canvas id="topten" width="" height=""></canvas>
                     </div>
-                    @if($sel_disease == 'Pert')
+                    @if($sel_disease == 'Pert' || $sel_disease == 'Measles')
                     <h5 class="mt-3"><b>Proportion of {{$flavor_name}} Cases by Sex and Age</b></h5>
                     <h6>GENERAL TRIAS, MW 1-{{$sel_mweek}}, {{$sel_year}} (N={{$current_grand_total}})</h6>
                     <canvas id="ageGroup" width="50" height=""></canvas>
+                    @if($sel_disease == 'Pert')
                     <hr>
                     <div class="text-center" style="margin-left: 200px;">
                         <h5 class="mt-3"><b>Vaccination Status of {{$flavor_name}} Cases</b></h5>
@@ -331,9 +332,10 @@
                         </div>
                     </div>
                     @endif
+                    @endif
                 </div>
             </div>
-            @if($sel_disease == 'Pert')
+            @if($sel_disease == 'Pert' || $sel_disease == 'Measles')
             <div class="row">
                 <div class="col-4">
                     <h6 class="mb-5">Prepared by:</h6>
@@ -361,7 +363,7 @@
         </div>
     </div>
     
-    <div class="card mb-3 {{($sel_disease == 'Pert') ? 'd-none' : ''}}">
+    <div class="card mb-3 {{($sel_disease == 'Pert' || $sel_disease == 'Measles') ? 'd-none' : ''}}">
         <div class="card-header bg-transparent">
             <div class="d-flex justify-content-between">
                 <div><b>Page 2/3 - {{$flavor_name}} Monitoring Dashboard</b></div>
@@ -437,7 +439,7 @@
         </div>
     </div>
 
-    <div class="card mb-3 {{($sel_disease == 'Pert') ? 'd-none' : ''}}">
+    <div class="card mb-3 {{($sel_disease == 'Pert' || $sel_disease == 'Measles') ? 'd-none' : ''}}">
         <div class="card-header bg-transparent">
             <div class="d-flex justify-content-between">
                 <div><b>Page 3/3 - {{$flavor_name}} Monitoring Dashboard</b></div>
@@ -685,12 +687,16 @@ foreach($classification_titles as $ind => $ctitle) {
         type: 'bar',
         data: {
             labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52'], // Replace with your actual labels
-            datasets: [{
-                label: '{{$sel_year}}',
-                data: barData,
-                backgroundColor: 'rgba(255, 236, 0, 1)', // Customize bar color
-                borderColor: 'rgba(0, 0, 0, 1)', // Customize border color
-                borderWidth: 1
+            datasets: [
+            {
+                label: 'Alert Threshold',
+                data: dottedLineData,
+                fill: false,
+                borderColor: 'rgba(8, 0, 255, 0.8)', // Customize dotted line color
+                borderWidth: 2,
+                type: 'line',
+                borderDash: [5, 5], // Make the line dotted
+                pointRadius: 0,  // Remove the circles
             },
             {
                 label: 'Epidemic Threshold',
@@ -703,14 +709,11 @@ foreach($classification_titles as $ind => $ctitle) {
                 pointRadius: 0,  // Remove the circles
             },
             {
-                label: 'Alert Threshold',
-                data: dottedLineData,
-                fill: false,
-                borderColor: 'rgba(8, 0, 255, 0.8)', // Customize dotted line color
-                borderWidth: 2,
-                type: 'line',
-                borderDash: [5, 5], // Make the line dotted
-                pointRadius: 0,  // Remove the circles
+                label: '{{$sel_year}}',
+                data: barData,
+                backgroundColor: 'rgba(255, 236, 0, 1)', // Customize bar color
+                borderColor: 'rgba(0, 0, 0, 1)', // Customize border color
+                borderWidth: 1
             },
             ]
         },

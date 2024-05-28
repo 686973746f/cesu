@@ -82,6 +82,22 @@ class CreateDailyCasesTable extends Migration
             $table->integer('reinfection_recovered')->default(0);
             $table->integer('reinfection_deaths')->default(0);
             $table->integer('reinfection_total')->default(0);
+
+            $table->integer('rtpcr_confirmed_count_currentyear')->default(0);
+            $table->integer('antigen_positive_count_currentyear')->default(0);
+            $table->integer('recoveries_currentyear')->default(0);
+            $table->integer('deaths_currentyear')->default(0);
+
+            $table->integer('currentyear_asymptomatic')->default(0);
+            $table->integer('currentyear_mild')->default(0);
+            $table->integer('currentyear_moderate')->default(0);
+            $table->integer('currentyear_severe')->default(0);
+            $table->integer('currentyear_critical')->default(0);
+
+            $table->text('barangay_list')->nullable();
+            $table->text('barangay_rtpcr_counts')->nullable();
+            $table->text('barangay_antigen_counts')->nullable();
+            $table->text('barangay_dailyrecovered_counts')->nullable();
         });
     }
 

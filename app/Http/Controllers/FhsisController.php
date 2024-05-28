@@ -1599,7 +1599,12 @@ class FhsisController extends Controller
     }
 
     public function tbdotsDashboard() {
-        $tb_array = ['A15.0 Tuberculosis of lung, confirmed by sputum microscopy with or without culture', 'A16.2 Tuberculosis of lung, without mention of bacteriological or histological confirmation'];
+        $tb_array = [
+            'A15.0 Tuberculosis of lung, confirmed by sputum microscopy with or without culture',
+            'A16.1 Tuberculosis of lung, bacteriological and histological examination not done',
+            'A16.0 Tuberculosis of lung, bacteriologically and histologically negative',
+            'A18 Tuberculosis of other organs',
+        ];
 
         $final_arr = [];
 
@@ -1801,38 +1806,104 @@ class FhsisController extends Controller
                 $age14_female = $age14_female->where('xpert_result', 'MTB Detected')->count();
                 $age15_female = $age15_female->where('xpert_result', 'MTB Detected')->count();
             }
-            else if($tb == 'A16.2 Tuberculosis of lung, without mention of bacteriological or histological confirmation') {
-                $age1_male = $age1_male->where('xpert_result', '!=', 'MTB Detected')->count();
-                $age2_male = $age2_male->where('xpert_result', '!=', 'MTB Detected')->count();
-                $age3_male = $age3_male->where('xpert_result', '!=', 'MTB Detected')->count();
-                $age4_male = $age4_male->where('xpert_result', '!=', 'MTB Detected')->count();
-                $age5_male = $age5_male->where('xpert_result', '!=', 'MTB Detected')->count();
-                $age6_male = $age6_male->where('xpert_result', '!=', 'MTB Detected')->count();
-                $age7_male = $age7_male->where('xpert_result', '!=', 'MTB Detected')->count();
-                $age8_male = $age8_male->where('xpert_result', '!=', 'MTB Detected')->count();
-                $age9_male = $age9_male->where('xpert_result', '!=', 'MTB Detected')->count();
-                $age10_male = $age10_male->where('xpert_result', '!=', 'MTB Detected')->count();
-                $age11_male = $age11_male->where('xpert_result', '!=', 'MTB Detected')->count();
-                $age12_male = $age12_male->where('xpert_result', '!=', 'MTB Detected')->count();
-                $age13_male = $age13_male->where('xpert_result', '!=', 'MTB Detected')->count();
-                $age14_male = $age14_male->where('xpert_result', '!=', 'MTB Detected')->count();
-                $age15_male = $age15_male->where('xpert_result', '!=', 'MTB Detected')->count();
+            else if($tb == 'A16.1 Tuberculosis of lung, bacteriological and histological examination not done') {
+                $age1_male = $age1_male->where('xpert_result', 'Not Done')->count();
+                $age2_male = $age2_male->where('xpert_result', 'Not Done')->count();
+                $age3_male = $age3_male->where('xpert_result', 'Not Done')->count();
+                $age4_male = $age4_male->where('xpert_result', 'Not Done')->count();
+                $age5_male = $age5_male->where('xpert_result', 'Not Done')->count();
+                $age6_male = $age6_male->where('xpert_result', 'Not Done')->count();
+                $age7_male = $age7_male->where('xpert_result', 'Not Done')->count();
+                $age8_male = $age8_male->where('xpert_result', 'Not Done')->count();
+                $age9_male = $age9_male->where('xpert_result', 'Not Done')->count();
+                $age10_male = $age10_male->where('xpert_result', 'Not Done')->count();
+                $age11_male = $age11_male->where('xpert_result', 'Not Done')->count();
+                $age12_male = $age12_male->where('xpert_result', 'Not Done')->count();
+                $age13_male = $age13_male->where('xpert_result', 'Not Done')->count();
+                $age14_male = $age14_male->where('xpert_result', 'Not Done')->count();
+                $age15_male = $age15_male->where('xpert_result', 'Not Done')->count();
 
-                $age1_female = $age1_female->where('xpert_result', '!=', 'MTB Detected')->count();
-                $age2_female = $age2_female->where('xpert_result', '!=', 'MTB Detected')->count();
-                $age3_female = $age3_female->where('xpert_result', '!=', 'MTB Detected')->count();
-                $age4_female = $age4_female->where('xpert_result', '!=', 'MTB Detected')->count();
-                $age5_female = $age5_female->where('xpert_result', '!=', 'MTB Detected')->count();
-                $age6_female = $age6_female->where('xpert_result', '!=', 'MTB Detected')->count();
-                $age7_female = $age7_female->where('xpert_result', '!=', 'MTB Detected')->count();
-                $age8_female = $age8_female->where('xpert_result', '!=', 'MTB Detected')->count();
-                $age9_female = $age9_female->where('xpert_result', '!=', 'MTB Detected')->count();
-                $age10_female = $age10_female->where('xpert_result', '!=', 'MTB Detected')->count();
-                $age11_female = $age11_female->where('xpert_result', '!=', 'MTB Detected')->count();
-                $age12_female = $age12_female->where('xpert_result', '!=', 'MTB Detected')->count();
-                $age13_female = $age13_female->where('xpert_result', '!=', 'MTB Detected')->count();
-                $age14_female = $age14_female->where('xpert_result', '!=', 'MTB Detected')->count();
-                $age15_female = $age15_female->where('xpert_result', '!=', 'MTB Detected')->count();
+                $age1_female = $age1_female->where('xpert_result', 'Not Done')->count();
+                $age2_female = $age2_female->where('xpert_result', 'Not Done')->count();
+                $age3_female = $age3_female->where('xpert_result', 'Not Done')->count();
+                $age4_female = $age4_female->where('xpert_result', 'Not Done')->count();
+                $age5_female = $age5_female->where('xpert_result', 'Not Done')->count();
+                $age6_female = $age6_female->where('xpert_result', 'Not Done')->count();
+                $age7_female = $age7_female->where('xpert_result', 'Not Done')->count();
+                $age8_female = $age8_female->where('xpert_result', 'Not Done')->count();
+                $age9_female = $age9_female->where('xpert_result', 'Not Done')->count();
+                $age10_female = $age10_female->where('xpert_result', 'Not Done')->count();
+                $age11_female = $age11_female->where('xpert_result', 'Not Done')->count();
+                $age12_female = $age12_female->where('xpert_result', 'Not Done')->count();
+                $age13_female = $age13_female->where('xpert_result', 'Not Done')->count();
+                $age14_female = $age14_female->where('xpert_result', 'Not Done')->count();
+                $age15_female = $age15_female->where('xpert_result', 'Not Done')->count();
+            }
+            else if($tb == 'A16.0 Tuberculosis of lung, bacteriologically and histologically negative') {
+                $age1_male = $age1_male->where('xpert_result', 'MTB Not Detected')->count();
+                $age2_male = $age2_male->where('xpert_result', 'MTB Not Detected')->count();
+                $age3_male = $age3_male->where('xpert_result', 'MTB Not Detected')->count();
+                $age4_male = $age4_male->where('xpert_result', 'MTB Not Detected')->count();
+                $age5_male = $age5_male->where('xpert_result', 'MTB Not Detected')->count();
+                $age6_male = $age6_male->where('xpert_result', 'MTB Not Detected')->count();
+                $age7_male = $age7_male->where('xpert_result', 'MTB Not Detected')->count();
+                $age8_male = $age8_male->where('xpert_result', 'MTB Not Detected')->count();
+                $age9_male = $age9_male->where('xpert_result', 'MTB Not Detected')->count();
+                $age10_male = $age10_male->where('xpert_result', 'MTB Not Detected')->count();
+                $age11_male = $age11_male->where('xpert_result', 'MTB Not Detected')->count();
+                $age12_male = $age12_male->where('xpert_result', 'MTB Not Detected')->count();
+                $age13_male = $age13_male->where('xpert_result', 'MTB Not Detected')->count();
+                $age14_male = $age14_male->where('xpert_result', 'MTB Not Detected')->count();
+                $age15_male = $age15_male->where('xpert_result', 'MTB Not Detected')->count();
+
+                $age1_female = $age1_female->where('xpert_result', 'MTB Not Detected')->count();
+                $age2_female = $age2_female->where('xpert_result', 'MTB Not Detected')->count();
+                $age3_female = $age3_female->where('xpert_result', 'MTB Not Detected')->count();
+                $age4_female = $age4_female->where('xpert_result', 'MTB Not Detected')->count();
+                $age5_female = $age5_female->where('xpert_result', 'MTB Not Detected')->count();
+                $age6_female = $age6_female->where('xpert_result', 'MTB Not Detected')->count();
+                $age7_female = $age7_female->where('xpert_result', 'MTB Not Detected')->count();
+                $age8_female = $age8_female->where('xpert_result', 'MTB Not Detected')->count();
+                $age9_female = $age9_female->where('xpert_result', 'MTB Not Detected')->count();
+                $age10_female = $age10_female->where('xpert_result', 'MTB Not Detected')->count();
+                $age11_female = $age11_female->where('xpert_result', 'MTB Not Detected')->count();
+                $age12_female = $age12_female->where('xpert_result', 'MTB Not Detected')->count();
+                $age13_female = $age13_female->where('xpert_result', 'MTB Not Detected')->count();
+                $age14_female = $age14_female->where('xpert_result', 'MTB Not Detected')->count();
+                $age15_female = $age15_female->where('xpert_result', 'MTB Not Detected')->count();
+            }
+            else if($tb == 'A18 Tuberculosis of other organs') {
+                $age1_male = $age1_male->where('ana_site', 'EP')->count();
+                $age2_male = $age2_male->where('ana_site', 'EP')->count();
+                $age3_male = $age3_male->where('ana_site', 'EP')->count();
+                $age4_male = $age4_male->where('ana_site', 'EP')->count();
+                $age5_male = $age5_male->where('ana_site', 'EP')->count();
+                $age6_male = $age6_male->where('ana_site', 'EP')->count();
+                $age7_male = $age7_male->where('ana_site', 'EP')->count();
+                $age8_male = $age8_male->where('ana_site', 'EP')->count();
+                $age9_male = $age9_male->where('ana_site', 'EP')->count();
+                $age10_male = $age10_male->where('ana_site', 'EP')->count();
+                $age11_male = $age11_male->where('ana_site', 'EP')->count();
+                $age12_male = $age12_male->where('ana_site', 'EP')->count();
+                $age13_male = $age13_male->where('ana_site', 'EP')->count();
+                $age14_male = $age14_male->where('ana_site', 'EP')->count();
+                $age15_male = $age15_male->where('ana_site', 'EP')->count();
+
+                $age1_female = $age1_female->where('ana_site', 'EP')->count();
+                $age2_female = $age2_female->where('ana_site', 'EP')->count();
+                $age3_female = $age3_female->where('ana_site', 'EP')->count();
+                $age4_female = $age4_female->where('ana_site', 'EP')->count();
+                $age5_female = $age5_female->where('ana_site', 'EP')->count();
+                $age6_female = $age6_female->where('ana_site', 'EP')->count();
+                $age7_female = $age7_female->where('ana_site', 'EP')->count();
+                $age8_female = $age8_female->where('ana_site', 'EP')->count();
+                $age9_female = $age9_female->where('ana_site', 'EP')->count();
+                $age10_female = $age10_female->where('ana_site', 'EP')->count();
+                $age11_female = $age11_female->where('ana_site', 'EP')->count();
+                $age12_female = $age12_female->where('ana_site', 'EP')->count();
+                $age13_female = $age13_female->where('ana_site', 'EP')->count();
+                $age14_female = $age14_female->where('ana_site', 'EP')->count();
+                $age15_female = $age15_female->where('ana_site', 'EP')->count();
             }
 
             $agetotal_male = $age1_male + $age2_male + $age3_male + $age4_male + $age5_male + $age6_male + $age7_male + $age8_male + $age9_male + $age10_male + $age11_male + $age12_male + $age13_male + $age14_male + $age15_male;

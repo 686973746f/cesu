@@ -7,12 +7,11 @@
             <div class="text-center">
                 <img src="{{asset('assets/images/CHO_LETTERHEAD.png')}}" class="img-fluid" style="margin-top: 0px;">
                 <h4 class="mb-5"><b>Medical Certificate Verification</b></h4>
-                <h6>Beware of fake verification sites. The legitimate site should have this domain name <span class="text-danger"><b>https://cesugentri.com/medcert/verify</b></span></h6>
+                <h6>Beware of fake verification sites. The legitimate site should have this domain name <span class="text-success"><b>https://cesugentri.com/medcert/verify</b></span></h6>
                 <h6>The hardcopy should have <b>1.)</b> Written signature of the Physician <b>2.)</b> Dry Seal</h6>
             </div>
-            
             <hr>
-            @if($c && strtotime($c->medcert_validity_date) >= strtotime(date('Y-m-d')))
+            @if($c)
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <tbody>
@@ -47,8 +46,10 @@
                 </table>
             </div>
             @else
-            <h3 class="text-danger">INVALID QR CODE</h3>
-            <p>Sorry, your QR Code is invalid.</p>
+            <div class="text-center">
+                <h3 class="text-danger">INVALID QR CODE</h3>
+                <p>Sorry, your QR Code is invalid.</p>
+            </div>
             @endif
             <div class="mt-3 text-center">
                 <code class=" text-muted">CHO General Trias MedCert Verification System. Developed and Maintained by Christian James Historillo.</code>
