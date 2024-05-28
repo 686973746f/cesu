@@ -201,6 +201,11 @@ class CreateSyndromicRecordsTable extends Migration
             $table->foreignId('medical_event_id')->nullable()->constrained('medical_events')->onDelete('cascade');
             //$table->foreignId('created_on_branch')->nullable()->constrained('pharmacy_branches')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
+
+            $table->foreignId('ics_grabbedby')->nullable()->constrained('users')->onDelete('cascade');
+            $table->dateTime('ics_grabbed_date')->nullable();
+            $table->foreignId('ics_finishedby')->nullable()->constrained('users')->onDelete('cascade');
+            $table->dateTime('ics_finished_date')->nullable();
         });
     }
 
