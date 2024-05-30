@@ -78,6 +78,12 @@ class CreateAbtcBakunaRecordsTable extends Migration
             $table->timestamps();
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
+
+            $table->string('ics_ticketstatus')->default('OPEN');
+            $table->foreignId('ics_grabbedby')->nullable()->constrained('users')->onDelete('cascade');
+            $table->dateTime('ics_grabbed_date')->nullable();
+            $table->foreignId('ics_finishedby')->nullable()->constrained('users')->onDelete('cascade');
+            $table->dateTime('ics_finished_date')->nullable();
         });
     }
 
