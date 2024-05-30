@@ -48,7 +48,6 @@
                         <div class="mb-3">
                           <label for="has_bday" class="form-label"><span class="text-danger font-weight-bold">*</span>Has Birthday</label>
                           <select class="form-select" name="has_bday" id="has_bday" required>
-                            <option value="No" {{(old('has_bday') == 'No') ? 'selected' : ''}}>No</option>
                             <option value="Yes" {{(old('has_bday') == 'Yes') ? 'selected' : ''}}>Yes</option>
                           </select>
                         </div>

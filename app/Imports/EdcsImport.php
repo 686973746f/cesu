@@ -286,11 +286,11 @@ class AbdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             //GET FULL NAME
             $getFullName = $row['last_name'].', '.$row['first_name'];
 
-            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A') {
+            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A' && $row['middle_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['middle_name'];
             }
 
-            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A') {
+            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['suffix_name'];
             }
 
@@ -412,11 +412,11 @@ class AfpImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             //GET FULL NAME
             $getFullName = $row['last_name'].', '.$row['first_name'];
 
-            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A') {
+            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A' && $row['middle_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['middle_name'];
             }
 
-            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A') {
+            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['suffix_name'];
             }
 
@@ -629,11 +629,11 @@ class AmesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             //GET FULL NAME
             $getFullName = $row['last_name'].', '.$row['first_name'];
 
-            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A') {
+            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A' && $row['middle_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['middle_name'];
             }
 
-            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A') {
+            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['suffix_name'];
             }
             
@@ -858,11 +858,11 @@ class HepaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             //GET FULL NAME
             $getFullName = $row['last_name'].', '.$row['first_name'];
 
-            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A') {
+            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A' && $row['middle_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['middle_name'];
             }
 
-            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A') {
+            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['suffix_name'];
             }
             
@@ -973,11 +973,11 @@ class HfmdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             //GET FULL NAME
             $getFullName = $row['last_name'].', '.$row['first_name'];
 
-            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A') {
+            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A' && $row['middle_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['middle_name'];
             }
 
-            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A') {
+            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['suffix_name'];
             }
             
@@ -1179,11 +1179,11 @@ class LeptoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             //GET FULL NAME
             $getFullName = $row['last_name'].', '.$row['first_name'];
 
-            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A') {
+            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A' && $row['middle_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['middle_name'];
             }
 
-            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A') {
+            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['suffix_name'];
             }
 
@@ -1297,11 +1297,11 @@ class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             //GET FULL NAME
             $getFullName = $row['last_name'].', '.$row['first_name'];
 
-            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A') {
+            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A' && $row['middle_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['middle_name'];
             }
 
-            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A') {
+            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['suffix_name'];
             }
 
@@ -1501,11 +1501,11 @@ class NntImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             //GET FULL NAME
             $getFullName = $row['last_name'].', '.$row['first_name'];
 
-            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A') {
+            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A' && $row['middle_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['middle_name'];
             }
 
-            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A') {
+            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['suffix_name'];
             }
 
@@ -1618,11 +1618,11 @@ class RabiesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             //GET FULL NAME
             $getFullName = $row['last_name'].', '.$row['first_name'];
 
-            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A') {
+            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A' && $row['middle_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['middle_name'];
             }
 
-            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A') {
+            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['suffix_name'];
             }
 
@@ -1752,11 +1752,11 @@ class RotaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             //GET FULL NAME
             $getFullName = $row['last_name'].', '.$row['first_name'];
 
-            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A') {
+            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A' && $row['middle_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['middle_name'];
             }
 
-            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A') {
+            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['suffix_name'];
             }
             
@@ -1903,11 +1903,11 @@ class TyphoidImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             //GET FULL NAME
             $getFullName = $row['last_name'].', '.$row['first_name'];
 
-            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A') {
+            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A' && $row['middle_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['middle_name'];
             }
 
-            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A') {
+            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['suffix_name'];
             }
 
@@ -2015,11 +2015,11 @@ class DengueImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             //GET FULL NAME
             $getFullName = $row['last_name'].', '.$row['first_name'];
 
-            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A') {
+            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A' && $row['middle_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['middle_name'];
             }
 
-            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A') {
+            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['suffix_name'];
             }
 
@@ -2159,11 +2159,11 @@ class DiphImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
             //GET FULL NAME
             $getFullName = $row['last_name'].', '.$row['first_name'];
 
-            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A') {
+            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A' && $row['middle_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['middle_name'];
             }
 
-            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A') {
+            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['suffix_name'];
             }
 
@@ -2275,11 +2275,11 @@ class ChikvImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
             //GET FULL NAME
             $getFullName = $row['last_name'].', '.$row['first_name'];
 
-            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A') {
+            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A' && $row['middle_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['middle_name'];
             }
 
-            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A') {
+            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['suffix_name'];
             }
 
@@ -2430,11 +2430,11 @@ class MeningoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
             //GET FULL NAME
             $getFullName = $row['last_name'].', '.$row['first_name'];
 
-            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A') {
+            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A' && $row['middle_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['middle_name'];
             }
 
-            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A') {
+            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['suffix_name'];
             }
 
@@ -2620,11 +2620,11 @@ class NtImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
             //GET FULL NAME
             $getFullName = $row['last_name'].', '.$row['first_name'];
 
-            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A') {
+            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A' && $row['middle_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['middle_name'];
             }
 
-            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A') {
+            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['suffix_name'];
             }
 
@@ -2769,11 +2769,11 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
             //GET FULL NAME
             $getFullName = $row['last_name'].', '.$row['first_name'];
 
-            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A') {
+            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A' && $row['middle_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['middle_name'];
             }
 
-            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A') {
+            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['suffix_name'];
             }
 
@@ -2959,11 +2959,11 @@ class CholeraImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
             //GET FULL NAME
             $getFullName = $row['last_name'].', '.$row['first_name'];
 
-            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A') {
+            if(!is_null($row['middle_name']) && $row['middle_name'] != "" && $row['middle_name'] != 'N/A' && $row['middle_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['middle_name'];
             }
 
-            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A') {
+            if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['suffix_name'];
             }
 
