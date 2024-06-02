@@ -193,6 +193,12 @@ class SyndromicRecords extends Model
 
         'created_by',
         'updated_by',
+        
+        'ics_ticketstatus',
+        'ics_grabbedby',
+        'ics_grabbed_date',
+        'ics_finishedby',
+        'ics_finished_date',
     ];
 
     public static function refConsultationType() {

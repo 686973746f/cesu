@@ -599,6 +599,17 @@ class User extends Authenticatable implements MustVerifyEmail
         }
     }
 
+    public function canAccessTask() {
+        $plist = $this->getPermissions();
+
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('TASK_MEMBER', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     public function getItrDefaultDoctor() {
         $f = SyndromicDoctor::where('id', $this->itr_doctor_id)->first();
 

@@ -84,5 +84,6 @@ class Kernel extends HttpKernel
         'isGlobalAdmin' => \App\Http\Middleware\isGlobalAdmin::class,
         'isLoggedInEdcsBrgyPortal' => \App\Http\Middleware\isLoggedInEdcsBrgyPortal::class,
         'isMayor' => \App\Http\Middleware\isMayor::class,
+        'canAccessTask' => \App\Http\Middleware\canAccessTask::class,
     ];
 }

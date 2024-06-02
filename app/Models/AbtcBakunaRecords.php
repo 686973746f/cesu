@@ -66,6 +66,12 @@ class AbtcBakunaRecords extends Model
         'remarks',
 
         'created_by',
+
+        'ics_ticketstatus',
+        'ics_grabbedby',
+        'ics_grabbed_date',
+        'ics_finishedby',
+        'ics_finished_date',
     ];
 
     public function patient() {

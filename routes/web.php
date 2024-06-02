@@ -10,10 +10,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItrController;
+use App\Http\Controllers\QesController;
+use App\Http\Controllers\FwriController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\FhsisController;
 use App\Http\Controllers\FormsController;
+use App\Http\Controllers\MayorController;
 use App\Http\Controllers\PIDSRController;
 use App\Http\Controllers\DengueController;
 use App\Http\Controllers\PaSwabController;
@@ -22,12 +26,15 @@ use App\Http\Controllers\AntigenController;
 use App\Http\Controllers\OptionsController;
 use App\Http\Controllers\OutsideController;
 use App\Http\Controllers\RecordsController;
+use App\Http\Controllers\VaxcertController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\LineListController;
+use App\Http\Controllers\PharmacyController;
 use App\Http\Controllers\ReportV2Controller;
 use App\Http\Controllers\ABTCAdminController;
 use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\MonkeyPoxController;
+use App\Http\Controllers\SyndromicController;
 use App\Http\Controllers\ABTCReportController;
 use App\Http\Controllers\AdminPanelController;
 use App\Http\Controllers\BulkUpdateController;
@@ -35,29 +42,24 @@ use App\Http\Controllers\JsonReportController;
 use App\Http\Controllers\SelfReportController;
 use App\Http\Controllers\ABTCPatientController;
 use App\Http\Controllers\PaSwabLinksController;
+use App\Http\Controllers\SubdivisionController;
 use App\Http\Controllers\InterviewersController;
 use App\Http\Controllers\RegisterCodeController;
 use App\Http\Controllers\SiteSettingsController;
 use App\Http\Controllers\MorbidityWeekController;
 use App\Http\Controllers\OnlineMedCertController;
+use App\Http\Controllers\TaskGeneratorController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\ContactTracingController;
+use App\Http\Controllers\SyndromicAdminController;
 use App\Http\Controllers\ABTCVaccinationController;
 use App\Http\Controllers\MonitoringSheetController;
 use App\Http\Controllers\ABTCUserSettingsController;
 use App\Http\Controllers\AcceptanceLetterController;
+use App\Http\Controllers\PregnancyTrackingController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\ABTCWalkInRegistrationController;
-use App\Http\Controllers\FwriController;
-use App\Http\Controllers\MayorController;
-use App\Http\Controllers\PharmacyController;
-use App\Http\Controllers\PregnancyTrackingController;
-use App\Http\Controllers\QesController;
 use App\Http\Controllers\SecondaryTertiaryRecordsController;
-use App\Http\Controllers\SubdivisionController;
-use App\Http\Controllers\SyndromicAdminController;
-use App\Http\Controllers\SyndromicController;
-use App\Http\Controllers\VaxcertController;
 
 /*
 |--------------------------------------------------------------------------
@@ -462,6 +464,9 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isGlobalAd
     Route::post('/syndromic/admin/doctors/store', [SyndromicAdminController::class, 'doctors_store'])->name('syndromic_admin_doctors_store');
     Route::get('/syndromic/admin/doctors/{id}/edit', [SyndromicAdminController::class, 'doctors_edit'])->name('syndromic_admin_doctors_edit');
     Route::post('/syndromic/admin/doctors/{id}/update', [SyndromicAdminController::class, 'doctors_update'])->name('syndromic_admin_doctors_update');
+
+    //TASKS ADMIN
+    Route::resource('taskgenerator', TaskGeneratorController::class);
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel3']], function() {
@@ -689,6 +694,21 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     Route::get('/pharmacy/branches/{id}/print_card', [PharmacyController::class, 'printBranchCard'])->name('pharmacy_print_branch_card');
     Route::post('/pharmacy/branches/{id}/new_transaction', [PharmacyController::class, 'newBranchTransaction'])->name('pharmacy_branch_newtransaction');
     Route::post('/pharmacy/branches/{id}', [PharmacyController::class, 'updateBranch'])->name('pharmacy_update_branch');
+});
+
+Route::group(['middleware' => ['auth','verified', 'canAccessTask']], function() {
+    Route::get('/tasks', [TaskController::class, 'index'])->name('task_index');
+    Route::post('/tasks/grab_ticket', [TaskController::class, 'grabTicket'])->name('task_grab');
+    Route::get('/tasks/work_tasks/view/{workTask}', [TaskController::class, 'viewWorkTicket'])->name('worktask_view');
+    Route::post('/tasks/work_tasks/view/{workTask}/close_ticket', [TaskController::class, 'closeWorkTicket'])->name('worktask_closeticket');
+
+    Route::get('/tasks/opd/view/{syndromicRecords}', [TaskController::class, 'viewOpdTicket'])->name('opdtask_view');
+    Route::post('/tasks/opd/view/{syndromicRecords}/close_ticket', [TaskController::class, 'closeOpdTicket'])->name('opdtask_close');
+
+    Route::get('/tasks/abtc/view/{abtcBakunaRecords}', [TaskController::class, 'viewAbtcTicket'])->name('abtctask_view');
+    Route::post('/tasks/abtc/view/{abtcBakunaRecords}/close_ticket', [TaskController::class, 'closeAbtcTicket'])->name('abtctask_close');
+
+    Route::get('/mytask', [TaskController::class, 'myTaskIndex'])->name('mytask_index');
 });
 
 //VAXCERT (WALK IN)

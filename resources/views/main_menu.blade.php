@@ -10,6 +10,11 @@
                 {{session('msg')}}
             </div>
             @endif
+            @if(auth()->user()->canAccessTask())
+            <a href="{{route('task_index')}}" class="btn btn-block btn-lg text-white" style="background-color: violet">View Tasks</a>
+            <hr>
+            @endif
+            
             @if(auth()->user()->canAccessCovid())
             <a href="{{route('covid_home')}}" class="btn btn-block btn-primary btn-lg">COVID-19</a>
             @endif

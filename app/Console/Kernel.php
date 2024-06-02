@@ -75,7 +75,9 @@ class Kernel extends ConsoleKernel
             return now()->format('m-d') === '01-01'; // Run on January 1st
         });
 
-        $schedule->command('edcscaseemailer:hourly')->everyFiveMinutes();
+        $schedule->command('edcscaseemailer:hourly')->everyFiveMinutes()->evenInMaintenanceMode();
+        $schedule->command('taskgenerator_checker')->everyMinute()->evenInMaintenanceMode();
+        $schedule->command('taskgenerator_creator')->dailyAt('00:00')->evenInMaintenanceMode();
 
         //$schedule->command('queue:work')->everyMinute()->withoutOverlapping();
         
