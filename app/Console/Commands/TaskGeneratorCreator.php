@@ -46,14 +46,52 @@ class TaskGeneratorCreator extends Command
         
         //Get Daily Task, check if not Saturday or Sunday first
         if($now->dayOfWeek != Carbon::SATURDAY && $now->dayOfWeek != Carbon::SUNDAY) {
-            $fetch_daily = TaskGenerator::where('generate_every', 'DAILY')->get();
+            $fetch_daily = TaskGenerator::get();
 
             foreach($fetch_daily as $d) {
-                $check_daily = WorkTask::whereDate('created_at', date('Y-m-d'))
-                ->first();
+                if($d->generate_every == 'DAILY') {
+                    $performCheckNow = true;
+                }
+                else if($d->generate_every == 'WEEKLY') {
+                    if($d->weekly_whatday == 1 && $now->dayOfWeek == Carbon::MONDAY) {
+                        $performCheckNow = true;
+                    }
+                    else if($d->weekly_whatday == 2 && $now->dayOfWeek == Carbon::TUESDAY) {
+                        $performCheckNow = true;
+                    }
+                    else if($d->weekly_whatday == 3 && $now->dayOfWeek == Carbon::WEDNESDAY) {
+                        $performCheckNow = true;
+                    }
+                    else if($d->weekly_whatday == 4 && $now->dayOfWeek == Carbon::THURSDAY) {
+                        $performCheckNow = true;
+                    }
+                    else if($d->weekly_whatday == 5 && $now->dayOfWeek == Carbon::FRIDAY) {
+                        $performCheckNow = true;
+                    }
+                    else if($d->weekly_whatday == 6 && $now->dayOfWeek == Carbon::SATURDAY) {
+                        $performCheckNow = true;
+                    }
+                    else if($d->weekly_whatday == 7 && $now->dayOfWeek == Carbon::SUNDAY) {
+                        $performCheckNow = true;
+                    }
+                    else {
+                        $performCheckNow = false;
+                    }
+                }
+                else if($d->generate_every == 'MONTHLY') {
+                    
+                }
+                else if($d->generate_every == 'YEARLY') {
 
-                if(!$check_daily) {
+                }
 
+                if($performCheckNow) {
+                    $check_data = WorkTask::where('name', $d->name)
+                    ->whereDate('created_at', date('Y-m-d'))
+                    ->first();
+                }
+
+                if(!$check_data) {
                     if($d->has_duration == 'Y') {
                         if($d->duration_type == 'DAILY') {
                             if(!is_null($d->duration_daily_whattime)) {
