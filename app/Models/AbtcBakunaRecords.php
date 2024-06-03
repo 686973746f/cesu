@@ -575,4 +575,31 @@ class AbtcBakunaRecords extends Model
             return 5;
         }
     }
+
+    public function icsGetAnimalType() {
+        if($this->animal_type == 'PD' || $this->animal_type == 'SD') {
+            return 'DOG';
+        }
+        else if($this->animal_type == 'PC' || $this->animal_type == 'SC') {
+            return 'CAT';
+        }
+        else {
+            return 'OTHERS';
+        }
+    }
+
+    public function icsGetExposureType() {
+        if($this->category_level == 1 || $this->is_preexp == 1) {
+            return 'LICKING OF INTACT SKIN';
+        }
+        else if($this->category_level == 2) {
+            return 'MINOR/SUPERFICIAL SCRATCHES/ABRASIONS WITHOUT BLEEDING, INCLUDING THOSE INDUCED TO BLEED';
+        }
+        else if($this->category_level == 3) {
+            return 'TRANSDERMAL BITES (PUNCTURE WOUNDS, LACERATIONS, AVULSIONS) OR SCRATCHES/ ABRASIONS WITH SPONTANEOUS BLEEDING';
+        }
+        else {
+            return 'INVALID';
+        }
+    }
 }

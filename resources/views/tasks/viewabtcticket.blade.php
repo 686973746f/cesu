@@ -138,17 +138,91 @@
                     </div>
                 </div>
                 <div id="part2" class="d-none">
-                    <div class="card mt-3">
+                    <div class="card">
                         <div class="card-header"><b>>>Case Information<<</b></div>
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="">Philhealth Number</label>
-                                <input type="text" class="form-control" name="" id="" value="" readonly>
+                                <label for="" class="text-danger">Anatomical Location</label>
+                                <input type="text" class="form-control" name="" id="" value="{{$d->body_site ?: 'N/A'}}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="text-danger">Animal Type</label>
+                                <input type="text" class="form-control" name="" id="" value="{{$d->icsGetAnimalType()}}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="text-danger">Type of Exposure</label>
+                                <textarea class="form-control" name="" id="" readonly>{{$d->icsGetExposureType()}}</textarea>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="" class="text-danger">Wash of Bite</label>
+                                        <input type="text" class="form-control" name="" id="" value="{{($d->washing_of_bite == 1) ? 'Yes' : 'No'}}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="" class="text-danger">Date of Exposure</label>
+                                        <input type="date" class="form-control" name="" id="" value="{{$d->bite_date}}" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mt-3">
+                        <div class="card-header"><b>>>Place of Occurence<<</b></div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                      <label for="" >Region</label>
+                                      <input type="text" class="form-control" value="{{$d->patient->address_region_text}}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="" >Province</label>
+                                        <input type="text" class="form-control" value="{{$d->patient->address_province_text}}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="" >City/Municipality</label>
+                                        <input type="text" class="form-control" value="{{$d->patient->address_muncity_text}}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="" >Barangay</label>
+                                        <input type="text" class="form-control" value="{{$d->patient->address_brgy_text}}" readonly>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="" class="text-danger">Anatomical Location</label>
-                                <input type="text" class="form-control" name="" id="" value="" readonly>
+                                <label for="" >ARV Day 0</label>
+                                <input type="date" class="form-control" name="" id="" value="{{$d->d0_date}}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="" >ARV Day 3</label>
+                                <input type="date" class="form-control" name="" id="" value="{{$d->d3_date}}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="" >ARV Day 7</label>
+                                <input type="date" class="form-control" name="" id="" value="{{$d->d7_date}}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="" >ARV Day 14</label>
+                                <input type="date" class="form-control" name="" id="" value="{{$d->d14_date}}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="" >ARV Day 28</label>
+                                <input type="date" class="form-control" name="" id="" value="{{$d->d28_date}}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="" >RIG</label>
+                                <input type="text" class="form-control" name="" id="" value="{{($d->rig_date_given) ? date('m/d/Y', strtotime($d->rig_date_given)) : 'N/A'}}" readonly>
                             </div>
                         </div>
                     </div>
