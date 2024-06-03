@@ -45,12 +45,16 @@ class TaskGeneratorCreator extends Command
         //Generate Tickets
         
         //Get Daily Task, check if not Saturday or Sunday first
-        if($now->dayOfWeek != Carbon::SATURDAY && $now->dayOfWeek != Carbon::SUNDAY) {
-            $fetch_daily = TaskGenerator::get();
-
+        $fetch_daily = TaskGenerator::get();
             foreach($fetch_daily as $d) {
                 if($d->generate_every == 'DAILY') {
-                    $performCheckNow = true;
+                    if($now->isWeekend()) {
+                        $performCheckNow = true;
+                    }
+                    else {
+                        $performCheckNow = false;
+                    }
+                    
                 }
                 else if($d->generate_every == 'WEEKLY') {
                     if($d->weekly_whatday == 1 && $now->dayOfWeek == Carbon::MONDAY) {
@@ -79,10 +83,36 @@ class TaskGeneratorCreator extends Command
                     }
                 }
                 else if($d->generate_every == 'MONTHLY') {
+                    if($d->monthly_whatday > $now->endOfMonth()->day) {
+                        $whatDay = $now->endOfMonth()->day;
+                    }
+                    else {
+                        $whatDay = $d->monthly_whatday;
+                    }
+
+                    $checkDate = Carbon::create(date('Y'), date('m'), $whatDay);
+
+                    if($checkDate->isWeekend()) {
+                        if($now->day == $checkDate->next(Carbon::MONDAY)->day) {
+                            $performCheckNow = true;
+                        }
+                        else {
+                            $performCheckNow = false;
+                        }
+                    }
+                    else {
+                        if($now->day == $whatDay) {
+                            $performCheckNow = true;
+                        }
+                        else {
+                            $performCheckNow = false;
+                        }
+                    }
+                    
                     
                 }
                 else if($d->generate_every == 'YEARLY') {
-
+                    //Add conditions later
                 }
 
                 if($performCheckNow) {
@@ -122,6 +152,5 @@ class TaskGeneratorCreator extends Command
                     ]);
                 }
             }
-        }
     }
 }
