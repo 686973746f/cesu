@@ -40,10 +40,10 @@
                                     <tr>
                                         <td class="text-center">
                                             <div>#{{$d->id}}</div>
-                                            <div><small>{{date('m/d/Y h:i A', strtotime($d->created_at))}}</small></div>
+                                            <div><small>{{date('m/d/Y (D) h:i A', strtotime($d->created_at))}}</small></div>
                                         </td>
                                         <td>{{$d->name}}</td>
-                                        <td class="text-center">{{date('m/d/Y h:i A', strtotime($d->until))}}</td>
+                                        <td class="text-center">{{date('m/d/Y (D) h:i A', strtotime($d->until))}}</td>
                                         <td class="text-center">
                                             <form action="{{route('task_grab', [
                                                 'ticket_id' => $d->id,
@@ -80,7 +80,7 @@
                                 <tr>
                                     <td class="text-center">
                                         <div>#{{$d->id}}</div>
-                                        <div><small>{{date('m/d/Y h:i A', strtotime($d->created_at))}}</small></div>
+                                        <div><small>{{date('m/d/Y (D) h:i A', strtotime($d->created_at))}}</small></div>
                                     </td>
                                     <td>{{$d->syndromic_patient->getName()}}</td>
                                     <td class="text-center">{{$d->syndromic_patient->getAge()}}/{{$d->syndromic_patient->sg()}}</td>
@@ -119,7 +119,7 @@
                                 <tr>
                                     <td class="text-center">
                                         <div>#{{$d->id}}</div>
-                                        <div><small>{{date('m/d/Y h:i A', strtotime($d->created_at))}}</small></div>
+                                        <div><small>{{date('m/d/Y (D) h:i A', strtotime($d->created_at))}}</small></div>
                                     </td>
                                     <td>{{$d->patient->getName()}}</td>
                                     <td class="text-center">{{$d->patient->getAge()}}/{{$d->patient->sg()}}</td>

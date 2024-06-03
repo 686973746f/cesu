@@ -75,7 +75,7 @@ class ABTCVaccinationController extends Controller
             'animal_type_others' => ($request->animal_type == 'O') ? 'required' : 'nullable',
             'bite_date' => ($request->is_preexp == 'N') ? 'required|date|after_or_equal:2000-01-01|before_or_equal:today' : 'nullable',
             'bite_type' => ($request->is_preexp == 'N') ? 'required' : 'nullable',
-            'body_site' => 'nullable',
+            'body_site' => ($request->is_preexp == 'N') ? 'required' : 'nullable',
             'category_level' => ($request->is_preexp == 'N') ? 'required' : 'nullable',
             'washing_of_bite' => 'required',
             'rig_date_given' => 'nullable|date|before_or_equal:today',
@@ -229,7 +229,7 @@ class ABTCVaccinationController extends Controller
                 'if_animal_vaccinated' => $if_animal_vaccinated,
                 'bite_date' => $bite_date,
                 'bite_type' => $bite_type,
-                'body_site' => ($request->filled('body_site')) ? mb_strtoupper($request->body_site) : NULL,
+                'body_site' => ((strlen(implode(",", $request->body_site)) != 0)) ? implode(",", $request->body_site) : NULL,
                 'category_level' => $category_level,
                 'washing_of_bite' => ($request->washing_of_bite == 'Y') ? 1 : 0,
                 'rig_date_given' => $request->rig_date_given,
@@ -316,7 +316,7 @@ class ABTCVaccinationController extends Controller
             'animal_type_others' => ($request->animal_type == 'O') ? 'required' : 'nullable',
             'bite_date' => ($request->is_preexp == 'N') ? 'required|date|after_or_equal:2000-01-01|before_or_equal:today' : 'nullable',
             'bite_type' => ($request->is_preexp == 'N') ? 'required' : 'nullable',
-            'body_site' => 'nullable',
+            'body_site' => ($request->is_preexp == 'N') ? 'required' : 'nullable',
             'category_level' => ($request->is_preexp == 'N') ? 'required' : 'nullable',
             'washing_of_bite' => 'required',
             'rig_date_given' => 'nullable|date',
@@ -358,7 +358,7 @@ class ABTCVaccinationController extends Controller
         $b->if_animal_vaccinated = $if_animal_vaccinated;
         $b->bite_date = $bite_date;
         $b->bite_type = $bite_type;
-        $b->body_site = ($request->filled('body_site')) ? mb_strtoupper($request->body_site) : NULL;
+        $b->body_site = ((strlen(implode(",", $request->body_site)) != 0)) ? implode(",", $request->body_site) : NULL;
         $b->category_level = $category_level;
         $b->washing_of_bite = ($request->washing_of_bite == 'Y') ? 1 : 0;
         $b->rig_date_given = $request->rig_date_given;

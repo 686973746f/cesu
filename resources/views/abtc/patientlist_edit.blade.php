@@ -85,7 +85,7 @@
                         </div>
                         <div class="mb-3 d-none" id="ybday">
                             <label for="bdate" class="form-label"><b class="text-danger">*</b>Birthdate</label>
-                            <input type="date" class="form-control" name="bdate" id="bdate" value="{{old('bdate', $d->bdate)}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}">  
+                            <input type="date" class="form-control" name="bdate" id="bdate" value="{{old('bdate', $d->bdate)}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>  
                         </div>
                         <div class="mb-3 d-none" id="nbday">
                             <label for="age" class="form-label"><b class="text-danger">*</b>Age (In Years)</label>

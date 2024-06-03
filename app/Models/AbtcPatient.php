@@ -80,6 +80,25 @@ class AbtcPatient extends Model
         return 'BRGY. '.$this->address_brgy_text.', '.$this->address_muncity_text.', '.$this->address_province_text;
     }
 
+    public function getStreetPurok() {
+        if($this->address_houseno && $this->address_street) {
+            $get_txt = $this->address_houseno.', '.$this->address_street;
+        }
+        else if($this->address_houseno || $this->address_street) {
+            if($this->address_houseno) {
+                $get_txt = $this->address_houseno;
+            }
+            else if($this->address_street) {
+                $get_txt = $this->address_street;
+            }
+        }
+        else {
+            $get_txt = 'N/A';
+        }
+        
+        return $get_txt;
+    }
+
     public function sg() {
         return substr($this->gender,0,1);
     }

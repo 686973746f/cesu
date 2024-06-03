@@ -140,8 +140,18 @@
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label for="body_site" class="form-label">Site (Body Parts)</label>
-                                <input type="text" class="form-control" name="body_site" id="body_site" value="{{old('body_site')}}" style="text-transform: uppercase;">
+                              <label for="body_site"><strong class="text-danger">*</strong>Anatomical Location (Body Parts)</label>
+                              <select class="form-select" name="body_site[]" id="body_site" multiple>
+                                <option value="ABDOMEN" {{ in_array('ABDOMEN', old('body_site', [])) ? 'selected' : '' }}>Abdomen/Tiyan</option>
+                                <option value="FOOT" {{ in_array('FOOT', old('body_site', [])) ? 'selected' : '' }}>Foot/Paa</option>
+                                <option value="FOREARM/ARM" {{ in_array('FOREARM/ARM', old('body_site', [])) ? 'selected' : '' }}>Forearm/Arm/Braso</option>
+                                <option value="HAND" {{ in_array('HAND', old('body_site', [])) ? 'selected' : '' }}>Hand/Kamay</option>
+                                <option value="HEAD" {{ in_array('HEAD', old('body_site', [])) ? 'selected' : '' }}>Head/Ulo</option>
+                                <option value="KNEE" {{ in_array('KNEE', old('body_site', [])) ? 'selected' : '' }}>Knee/Tuhod</option>
+                                <option value="LEGS" {{ in_array('LEGS', old('body_site', [])) ? 'selected' : '' }}>Legs/Binti</option>
+                                <option value="NECK" {{ in_array('NECK', old('body_site', [])) ? 'selected' : '' }}>Neck/Leeg</option>
+                                <option value="OTHERS" {{ in_array('OTHERS', old('body_site', [])) ? 'selected' : '' }}>Others/Iba pa</option>
+                              </select>
                             </div>
                         </div>
                     </div>
@@ -290,6 +300,7 @@
             $('#animal_type').prop('required', false);
             $('#bite_type').prop('required', false);
             $('#category_level').prop('required', false);
+            $('#body_site').prop('required', false);
         }
         else {
             $('#divpostexp').removeClass('d-none');
@@ -299,8 +310,13 @@
             $('#animal_type').prop('required', true);
             $('#bite_type').prop('required', true);
             $('#category_level').prop('required', true);
+            $('#body_site').prop('required', true);
         }
     }).trigger('change');
+
+    $('#body_site').select2({
+        theme: "bootstrap",
+    });
 
     $('#category_level').change(function (e) { 
         e.preventDefault();
@@ -328,21 +344,21 @@
         e.preventDefault();
         if($(this).val() == 'B') {
             $('#case_location').prop('required', true);
-            $('#body_site').prop('required', false);
+            //$('#body_site').prop('required', false);
 
             //$('#body_site_ast').removeClass('d-none');
             $('#case_location_ast').removeClass('d-none');
         }
         else if($(this).val() == 'NB') {
             $('#case_location').prop('required', false);
-            $('#body_site').prop('required', false);
+            //$('#body_site').prop('required', false);
 
             //$('#body_site_ast').addClass('d-none');
             $('#case_location_ast').addClass('d-none');
         }
         else {
             $('#case_location').prop('required', false);
-            $('#body_site').prop('required', false);
+            //$('#body_site').prop('required', false);
 
             //$('#body_site_ast').addClass('d-none');
             $('#case_location_ast').addClass('d-none');
