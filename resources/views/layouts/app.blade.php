@@ -84,7 +84,7 @@ else {
                         @endif
 
                         <li class="nav-item">
-                            <span class="text-white nav-link"><b>MW: {{date('W')}} | YEAR: {{date('Y')}}</b></span>
+                            <span class="text-white nav-link"><b>MW: {{date('W')}} | YEAR: {{date('Y')}} | DATE: {{mb_strtoupper(date('M d, Y (D)'))}}</b></span>
                         </li>
                         @endif
                     </ul>

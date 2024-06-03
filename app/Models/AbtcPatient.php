@@ -85,6 +85,7 @@ class AbtcPatient extends Model
     }
 
     public function getAge() {
+        /*
         if(!is_null($this->bdate)) {
             if(Carbon::parse($this->attributes['bdate'])->age > 0) {
                 return Carbon::parse($this->attributes['bdate'])->age;
@@ -101,6 +102,9 @@ class AbtcPatient extends Model
         else {
             return $this->age;
         }
+        */
+
+        return $this->age;
     }
 
     public function getAgeInt() {
