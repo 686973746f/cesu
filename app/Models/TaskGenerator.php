@@ -13,6 +13,7 @@ class TaskGenerator extends Model
         'name',
         'description',
         'generate_every',
+        'daily_except_days',
         'weekly_whatday',
         'monthly_whatday',
         'has_duration',

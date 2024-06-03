@@ -19,7 +19,7 @@ class CreateTaskGeneratorsTable extends Migration
             $table->text('description')->nullable();
 
             $table->string('generate_every');
-            $table->string('except_generate')->nullable();
+            $table->string('daily_except_days')->nullable();
             $table->string('weekly_whatday')->nullable();
             $table->string('monthly_whatday')->nullable();
 

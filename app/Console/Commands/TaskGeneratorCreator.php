@@ -40,84 +40,71 @@ class TaskGeneratorCreator extends Command
      */
     public function handle()
     {
-        $now = Carbon::now();
-        
         //Generate Tickets
         
         //Get Daily Task, check if not Saturday or Sunday first
         $fetch_daily = TaskGenerator::get();
-            foreach($fetch_daily as $d) {
-                if($d->generate_every == 'DAILY') {
-                    if($now->isWeekend()) {
+        
+        foreach($fetch_daily as $d) {
+            $now = Carbon::now();
+
+            if($d->generate_every == 'DAILY') {
+                if($now->isWeekend()) {
+                    $performCheckNow = false;
+                }
+                else {
+                    if(in_array($now->dayOfWeek, explode(",", $d->daily_except_days))) {
+                        $performCheckNow = false;
+                    }
+                    else {
+                        $performCheckNow = true;
+                    }
+                }
+            }
+            else if($d->generate_every == 'WEEKLY') {
+                
+                if($d->weekly_whatday == $now->dayOfWeek) {
+                    $performCheckNow = true;
+                }
+                else {
+                    $performCheckNow = false;
+                }
+            }
+            else if($d->generate_every == 'MONTHLY') {
+                if($d->monthly_whatday > $now->endOfMonth()->day) {
+                    $whatDay = $now->endOfMonth()->day;
+                }
+                else {
+                    $whatDay = $d->monthly_whatday;
+                }
+
+                $checkDate = Carbon::create(date('Y'), date('m'), $whatDay);
+
+                if($checkDate->isWeekend()) {
+                    if($now->day == $checkDate->next(Carbon::MONDAY)->day) {
                         $performCheckNow = true;
                     }
                     else {
                         $performCheckNow = false;
                     }
-                    
                 }
-                else if($d->generate_every == 'WEEKLY') {
-                    if($d->weekly_whatday == 1 && $now->dayOfWeek == Carbon::MONDAY) {
-                        $performCheckNow = true;
-                    }
-                    else if($d->weekly_whatday == 2 && $now->dayOfWeek == Carbon::TUESDAY) {
-                        $performCheckNow = true;
-                    }
-                    else if($d->weekly_whatday == 3 && $now->dayOfWeek == Carbon::WEDNESDAY) {
-                        $performCheckNow = true;
-                    }
-                    else if($d->weekly_whatday == 4 && $now->dayOfWeek == Carbon::THURSDAY) {
-                        $performCheckNow = true;
-                    }
-                    else if($d->weekly_whatday == 5 && $now->dayOfWeek == Carbon::FRIDAY) {
-                        $performCheckNow = true;
-                    }
-                    else if($d->weekly_whatday == 6 && $now->dayOfWeek == Carbon::SATURDAY) {
-                        $performCheckNow = true;
-                    }
-                    else if($d->weekly_whatday == 7 && $now->dayOfWeek == Carbon::SUNDAY) {
+                else {
+                    if($now->day == $whatDay) {
                         $performCheckNow = true;
                     }
                     else {
                         $performCheckNow = false;
                     }
                 }
-                else if($d->generate_every == 'MONTHLY') {
-                    if($d->monthly_whatday > $now->endOfMonth()->day) {
-                        $whatDay = $now->endOfMonth()->day;
-                    }
-                    else {
-                        $whatDay = $d->monthly_whatday;
-                    }
+            }
+            else if($d->generate_every == 'YEARLY') {
+                //Add conditions later
+            }
 
-                    $checkDate = Carbon::create(date('Y'), date('m'), $whatDay);
-
-                    if($checkDate->isWeekend()) {
-                        if($now->day == $checkDate->next(Carbon::MONDAY)->day) {
-                            $performCheckNow = true;
-                        }
-                        else {
-                            $performCheckNow = false;
-                        }
-                    }
-                    else {
-                        if($now->day == $whatDay) {
-                            $performCheckNow = true;
-                        }
-                        else {
-                            $performCheckNow = false;
-                        }
-                    }
-                }
-                else if($d->generate_every == 'YEARLY') {
-                    //Add conditions later
-                }
-
-                if($performCheckNow) {
-                    $check_data = WorkTask::where('name', $d->name)
-                    ->whereDate('created_at', date('Y-m-d'))
-                    ->first();
-                }
+            if($performCheckNow) {
+                $check_data = WorkTask::where('name', $d->name)
+                ->whereDate('created_at', date('Y-m-d'))
+                ->first();
 
                 if(!$check_data) {
                     if($d->has_duration == 'Y') {
@@ -150,5 +137,6 @@ class TaskGeneratorCreator extends Command
                     ]);
                 }
             }
+        }
     }
 }
