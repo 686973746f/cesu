@@ -108,8 +108,6 @@ class TaskGeneratorCreator extends Command
                             $performCheckNow = false;
                         }
                     }
-                    
-                    
                 }
                 else if($d->generate_every == 'YEARLY') {
                     //Add conditions later

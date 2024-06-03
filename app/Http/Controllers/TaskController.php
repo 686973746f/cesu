@@ -58,7 +58,7 @@ class TaskController extends Controller
                 //Search latest grab
                 $check_latest_grab = SyndromicRecords::where('ics_grabbedby', Auth::id())->orderBy('ics_grabbed_date', 'DESC')->first();
                 if($check_latest_grab) {
-                    $latest_grab_date = Carbon::parse($check_latest_grab->ics_grabbed_date)->addMinutes(2);
+                    $latest_grab_date = Carbon::parse($check_latest_grab->ics_grabbed_date)->addMinutes(5);
 
                     if($now->lt($latest_grab_date)) {
                         return redirect()->route('task_index')
