@@ -36,6 +36,10 @@ class CreateSyndromicPatientsTable extends Migration
             $table->string('mother_name')->nullable();
             $table->string('father_name')->nullable();
 
+            $table->string('family_member')->nullable();
+            $table->string('is_indg', 1)->default('N');
+            $table->string('blood_type')->nullable();
+
             $table->text('address_region_code');
             $table->text('address_region_text');
             $table->text('address_province_code');

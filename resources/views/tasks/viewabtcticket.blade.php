@@ -132,7 +132,7 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="philhealth">Philhealth Number</label>
-                                <input type="text" class="form-control" name="philhealth" id="philhealth" value="{{$d->patient->philhealth ?: ''}}">
+                                <input type="text" class="form-control" name="philhealth" id="philhealth" value="{{$d->patient->philhealth ?: 'NOT FOUND. TRY CLICKING THE PIN SEARCH ICON ON ICLINICSYS.'}}" readonly>
                             </div>
                         </div>
                     </div>
@@ -214,7 +214,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="" >ARV Day 14</label>
-                                <input type="date" class="form-control" name="" id="" value="{{$d->d14_date}}" readonly>
+                                <input type="date" class="form-control" name="" id="" value="{{($d->pep_route == 'IM') ? $d->d14_date : 'N/A'}}" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="" >ARV Day 28</label>
@@ -222,7 +222,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="" >RIG</label>
-                                <input type="text" class="form-control" name="" id="" value="{{($d->rig_date_given) ? date('m/d/Y', strtotime($d->rig_date_given)) : 'N/A'}}" readonly>
+                                <input type="text" class="form-control" name="" id="" value="{{($d->rig_date_given) ? date('Y-m-d', strtotime($d->rig_date_given)) : 'N/A'}}" readonly>
                             </div>
                         </div>
                     </div>

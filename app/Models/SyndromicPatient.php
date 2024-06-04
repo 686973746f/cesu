@@ -34,6 +34,10 @@ class SyndromicPatient extends Model
         'mother_name',
         'father_name',
 
+        'family_member',
+        'is_indg',
+        'blood_type',
+
         'address_region_code',
         'address_region_text',
         'address_province_code',
