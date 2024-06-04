@@ -113,7 +113,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="contact_number">Mobile</label>
-                                <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{$d->patient->contact_number ?: 'N/A'}}" pattern="[0-9]{11}" placeholder="09*********" readonly>
+                                <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{($d->patient->contact_number) ? substr($d->patient->contact_number, 0, 1) : 'N/A'}}" pattern="[0-9]{11}" placeholder="09*********" readonly>
                             </div>
                         </div>
                     </div>
