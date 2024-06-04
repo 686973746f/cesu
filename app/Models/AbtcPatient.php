@@ -136,6 +136,20 @@ class AbtcPatient extends Model
     }
 
     public static function ifDuplicateFound($lname, $fname, $mname, $suffix, $bdate) {
+        if($mname == 'N/A') {
+            $mname = NULL;
+        }
+        else {
+            $mname = $mname;
+        }
+
+        if($mname == 'N/A') {
+            $mname = NULL;
+        }
+        else {
+            $mname = $mname;
+        }
+
         $check = AbtcPatient::where(function ($q) use ($lname, $fname, $mname, $suffix, $bdate) {
             $q->where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
             ->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $fname)))

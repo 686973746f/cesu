@@ -108,8 +108,8 @@ class ABTCPatientController extends Controller
             $create = $request->user()->abtcpatient()->create([
                 'lname' => mb_strtoupper($request->lname),
                 'fname' => mb_strtoupper($request->fname),
-                'mname' => ($request->filled('mname')) ? mb_strtoupper($request->mname) : NULL,
-                'suffix' => ($request->filled('suffix')) ? mb_strtoupper($request->suffix) : NULL,
+                'mname' => (mb_strtoupper($request->mname) != 'N/A') ? mb_strtoupper($request->mname) : NULL,
+                'suffix' => ($request->suffix != 'N/A') ? mb_strtoupper($request->suffix) : NULL,
                 'bdate' => $request->bdate,
                 'philhealth' => $request->philhealth,
                 'age' => $get_age,
@@ -188,8 +188,8 @@ class ABTCPatientController extends Controller
 
             $p->lname = mb_strtoupper($request->lname);
             $p->fname = mb_strtoupper($request->fname);
-            $p->mname = ($request->filled('mname')) ? mb_strtoupper($request->mname) : NULL;
-            $p->suffix = ($request->filled('suffix')) ? mb_strtoupper($request->suffix) : NULL;
+            $p->mname = (mb_strtoupper($request->mname) != 'N/A') ? mb_strtoupper($request->mname) : NULL;
+            $p->suffix = ($request->suffix != 'N/A') ? mb_strtoupper($request->suffix) : NULL;
             $p->bdate = $request->bdate;
             $p->age = $get_age;
             $p->gender = $request->gender;

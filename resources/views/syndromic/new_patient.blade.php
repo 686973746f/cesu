@@ -52,7 +52,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="mname">Middle Name</label>
-                                <input type="text" class="form-control" id="mname" name="mname" value="{{request()->input('mname')}}" max="50" style="text-transform: uppercase;" readonly>
+                                <input type="text" class="form-control" id="mname" name="mname" value="{{request()->input('mname')}}" min="3" max="50" style="text-transform: uppercase;" readonly>
                             </div>
                         </div>
                         <div class="col-md-3">

@@ -64,14 +64,28 @@
                     </div>
                     <div class="col-md-3">
                         <div class="mb-3">
-                            <label for="mname" class="form-label">Middle Name <i><small>(If Applicable)</small></i></label>
-                            <input type="text" class="form-control" name="mname" id="mname" value="{{old('mname' , $d->mname)}}" placeholder="e.g SANCHEZ" style="text-transform: uppercase;" maxlength="50">
+                            <label for="mname" class="form-label">Middle Name</label>
+                            <input type="text" class="form-control" name="mname" id="mname" value="{{old('mname' , $d->mname ?: 'N/A')}}" placeholder="e.g SANCHEZ" style="text-transform: uppercase;" maxlength="50" required>
+                            <i><small>(Type <span class="text-danger">N/A</span> if Not Applicable)</small></i>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="mb-3">
-                            <label for="suffix" class="form-label">Suffix <i><small>(If Applicable)</small></i></label>
-                            <input type="text" class="form-control" name="suffix" id="suffix" value="{{old('suffix' , $d->suffix)}}" maxlength="3" placeholder="e.g JR, SR, III, IV">
+                            <label for="suffix"><b class="text-danger">*</b>Suffix</label>
+                            <select class="form-select" name="suffix" id="suffix" required>
+                                <option value="I" {{(old('suffix', $d->suffix) == 'I') ? 'selected' : ''}}>I</option>
+                                <option value="II" {{(old('suffix', $d->suffix) == 'II') ? 'selected' : ''}}>II</option>
+                                <option value="III" {{(old('suffix', $d->suffix) == 'III') ? 'selected' : ''}}>III</option>
+                                <option value="IV" {{(old('suffix', $d->suffix) == 'IV') ? 'selected' : ''}}>IV</option>
+                                <option value="V" {{(old('suffix', $d->suffix) == 'V') ? 'selected' : ''}}>V</option>
+                                <option value="VI" {{(old('suffix', $d->suffix) == 'VI') ? 'selected' : ''}}>VI</option>
+                                <option value="VII" {{(old('suffix', $d->suffix) == 'VII') ? 'selected' : ''}}>VII</option>
+                                <option value="VIII" {{(old('suffix', $d->suffix) == 'VIII') ? 'selected' : ''}}>VIII</option>
+                                <option value="JR" {{(old('suffix', $d->suffix) == 'JR') ? 'selected' : ''}}>JR</option>
+                                <option value="JR II" {{(old('suffix', $d->suffix) == 'JR II') ? 'selected' : ''}}>JR II</option>
+                                <option value="SR" {{(old('suffix', $d->suffix) == 'SR') ? 'selected' : ''}}>SR</option>
+                                <option value="N/A" {{(old('suffix', $d->suffix ?: 'N/A') == 'N/A') ? 'selected' : ''}}>N/A (NOT APPLICABLE)</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -203,7 +217,7 @@
 	});
 
     //Select2 Init for Address Bar
-    $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_text').select2({
+    $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_text, #suffix').select2({
         theme: 'bootstrap',
     });
 
