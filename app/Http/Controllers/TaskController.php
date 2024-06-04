@@ -21,8 +21,7 @@ class TaskController extends Controller
         ->orderBy('created_at', 'DESC')
         ->paginate(10);
 
-        $open_abtclist = AbtcBakunaRecords::with('patient')
-        ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
+        $open_abtclist = AbtcBakunaRecords::where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
         ->whereNull('ics_grabbedby')
         ->whereDate('created_at', '2024-05-31')
         ->orderBy('created_at', 'ASC')
