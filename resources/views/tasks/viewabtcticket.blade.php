@@ -111,9 +111,12 @@
                                 <label for="">Email</label>
                                 <input type="email" class="form-control" name="email" id="email" value="{{old('email', $d->patient->email ?: 'N/A')}}" readonly>
                             </div>
-                            <div class="form-group">
-                                <label for="contact_number">Mobile</label>
-                                <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{($d->patient->contact_number) ? substr($d->patient->contact_number, 0, 1) : 'N/A'}}" pattern="[0-9]{11}" placeholder="09*********" readonly>
+                            <label for="">Mobile</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text" id="basic-addon1">+639</span>
+                                </div>
+                                <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{($d->patient->contact_number) ? substr($d->patient->contact_number, 2) : 'N/A'}}" pattern="[0-9]{11}" placeholder="09*********" readonly>
                             </div>
                         </div>
                     </div>
