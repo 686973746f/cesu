@@ -139,6 +139,27 @@
                 </div>
                 <div id="part2" class="d-none">
                     <div class="card">
+                        <div class="card-header"><b>>>Add Consultation Record<<</b></div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="" class="text-danger">Type of Consultation/Purpose of Visit</label>
+                                <input type="text" class="form-control" name="" id="" value="{{'ANIMAL BITE'}}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="text-danger">Consultation Date</label>
+                                <input type="date" class="form-control" name="" id="" value="{{date('Y-m-d', strtotime($d->created_at))}}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="text-danger">Consultation Date</label>
+                                <input type="time" class="form-control" name="" id="" value="{{date('H:i', strtotime($d->created_at))}}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="text-danger">Chief Complaint</label>
+                                <input type="text" class="form-control" name="" id="" value="{{'ANIMAL BITE'}}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mt-3">
                         <div class="card-header"><b>>>Case Information<<</b></div>
                         <div class="card-body">
                             <div class="form-group">
@@ -214,7 +235,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="" >ARV Day 14</label>
-                                <input type="date" class="form-control" name="" id="" value="{{($d->pep_route == 'IM') ? $d->d14_date : 'N/A'}}" readonly>
+                                <input type="text" class="form-control" name="" id="" value="{{($d->pep_route == 'IM') ? date('m/d/Y', strtotime($d->$d->d14_date)) : 'N/A'}}" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="" >ARV Day 28</label>
@@ -222,7 +243,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="" >RIG</label>
-                                <input type="text" class="form-control" name="" id="" value="{{($d->rig_date_given) ? date('Y-m-d', strtotime($d->rig_date_given)) : 'N/A'}}" readonly>
+                                <input type="text" class="form-control" name="" id="" value="{{($d->rig_date_given) ? date('m/d/Y', strtotime($d->rig_date_given)) : 'N/A'}}" readonly>
                             </div>
                         </div>
                     </div>
@@ -244,7 +265,8 @@
     <script>
         $('#nextBtn').click(function (e) { 
             e.preventDefault();
-            
+            window.scrollTo(0, 0);
+
             $('#part1').addClass('d-none');
             $('#part2').removeClass('d-none');
             $('#nextBtn').addClass('d-none');
