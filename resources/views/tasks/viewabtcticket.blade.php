@@ -44,21 +44,20 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <label for="" class="text-danger">Sex</label>
+                                        <input type="text" class="form-control" value="{{$d->patient->gender}}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-3">
                                     <div class="form-group">
                                         <label for="bdate" class="text-danger">Birthdate</label>
                                         <input type="date" class="form-control" id="bdate" name="bdate" value="{{old('bdate', $d->patient->bdate)}}" readonly>
                                         <small class="">Age: {{$d->patient->getAge()}}</small>
                                     </div>
-                                    
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="" class="text-danger">Sex</label>
-                                        <input type="text" class="form-control" value="{{$d->patient->gender}}" readonly>
-                                      </div>
-                                </div>
-                                <div class="col-md-3">
+                                <div class="col-3">
                                     <div class="form-group">
                                         <label for="cs">Civil Status</label>
                                         <input type="text" class="form-control" name="cs" id="cs" value="{{old('cs', $d->patient->cs)}}" readonly>
@@ -66,10 +65,9 @@
                                     <div class="form-group d-none" id="ifmarried_div">
                                         <label for="spouse_name">Spouse Name</label>
                                         <input type="text" class="form-control" name="spouse_name" id="spouse_name" value="{{old('spouse_name', $d->patient->spouse_name)}}" style="text-transform: uppercase;">
-                                      </div>
-                                    
+                                    </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-3">
                                     
                                 </div>
                             </div>
