@@ -255,7 +255,7 @@
                 <div class="card-footer text-right">
                     <button type="button" class="btn btn-primary" id="nextBtn">Next</button>
                     <button type="button" class="btn btn-secondary d-none" id="backBtn">Back</button>
-                    <button type="submit" class="btn btn-success d-none" id="submitBtn">Mark as Done</button>
+                    <button type="submit" class="btn btn-success d-none" id="submitBtn" onclick="return confirm('Confirm closing the ABTC Ticket #{{$d->id}} - {{$d->patient->getName()}}. Paki-sure lang po na na-encode na ang mga detalye ni patient papuntang iClinicSys bago i-close ang ticket.')">Mark as Done</button>
                 </div>
             </form>
             
@@ -277,6 +277,7 @@
 
         $('#backBtn').click(function (e) { 
             e.preventDefault();
+            window.scrollTo(0, 0);
             
             $('#part1').removeClass('d-none');
             $('#part2').addClass('d-none');

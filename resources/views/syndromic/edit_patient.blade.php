@@ -58,8 +58,8 @@
                             </div>
                         </div>
                     </div>
-                    <hr>
                     @endif
+                    <hr>
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
@@ -143,6 +143,33 @@
                             </div>
                         </div>
                     </div>
+                    @if(!auth()->user()->isSyndromicHospitalLevelAccess())
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="philhealth_statustype"><b class="text-danger d-none" id="philhealth_statustype_asterisk">*</b>Philhealth Status Type</label>
+                                <select class="form-control" name="philhealth_statustype" id="philhealth_statustype">
+                                    <option value="" disabled {{(is_null(old('philhealth_statustype', $d->philhealth_statustype))) ? 'selected' : ''}}>Choose...</option>
+                                    <option value="MEMBER" {{(old('philhealth_statustype', $d->philhealth_statustype) == 'MEMBER') ? 'selected' : ''}}>Member</option>
+                                    <option value="DEPENDENT" {{(old('philhealth_statustype', $d->philhealth_statustype) == 'DEPENDENT') ? 'selected' : ''}}>Dependent</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="family_member"><b class="text-danger">*</b>Family Member (Posisyon sa Pamilya)</label>
+                                <select class="form-control" name="family_member" id="family_member" required>
+                                    <option value="" disabled {{(is_null(old('family_member', $d->family_member))) ? 'selected' : ''}}>Choose...</option>
+                                    <option value="FATHER" {{(old('family_member', $d->family_member) == 'FATHER') ? 'selected' : ''}} id="fam_male1">Father/Ama</option>
+                                    <option value="MOTHER" {{(old('family_member', $d->family_member) == 'MOTHER') ? 'selected' : ''}} id="fam_female1">Mother/Ina</option>
+                                    <option value="SON" {{(old('family_member', $d->family_member) == 'SON') ? 'selected' : ''}} id="fam_male2">Son/Anak na Lalaki</option>
+                                    <option value="DAUGHTER" {{(old('family_member', $d->family_member) == 'DAUGHTER') ? 'selected' : ''}} id="fam_female2">Daughter/Anak na Babae</option>
+                                    <option value="OTHERS" {{(old('family_member', $d->family_member) == 'OTHERS') ? 'selected' : ''}}>Others/Iba pa</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
                     <hr>
                     <div class="row">
                         <div class="col-6">
@@ -300,14 +327,53 @@
             }
         });
 
+        @if(!auth()->user()->isSyndromicHospitalLevelAccess())
+        $('#gender').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == 'MALE') {
+                $('#family_member').prop('disabled', false);
+                $('#family_member').val('');
+
+                $('#fam_female1').addClass('d-none');
+                $('#fam_female2').addClass('d-none');
+
+                $('#fam_male1').removeClass('d-none');
+                $('#fam_male2').removeClass('d-none');
+            }
+            else if($(this).val() == 'FEMALE') {
+                $('#family_member').prop('disabled', false);
+                $('#family_member').val('');
+
+                $('#fam_female1').removeClass('d-none');
+                $('#fam_female2').removeClass('d-none');
+
+                $('#fam_male1').addClass('d-none');
+                $('#fam_male2').addClass('d-none');
+            }
+            else {
+                $('#family_member').prop('disabled', true);
+            }
+        }).trigger('change');
+        @endif
+
         $('#isph_member').change(function (e) { 
             e.preventDefault();
             if($(this).val() == 'Y') {
                 $('#philhealth').prop('readonly', false);
+                @if(!auth()->user()->isSyndromicHospitalLevelAccess())
+                $('#philhealth_statustype').prop('disabled', false);
+                $('#philhealth_statustype').prop('required', true);
+                $('#philhealth_statustype_asterisk').removeClass('d-none');
+                @endif
             }
             else {
                 $('#philhealth').prop('readonly', true);
                 $('#philhealth').val('');
+                @if(!auth()->user()->isSyndromicHospitalLevelAccess())
+                $('#philhealth_statustype').prop('disabled', true);
+                $('#philhealth_statustype').prop('required', false);
+                $('#philhealth_statustype_asterisk').addClass('d-none');
+                @endif
             }
         }).trigger('change');
 

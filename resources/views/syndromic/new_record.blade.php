@@ -180,15 +180,20 @@
                               @if($required_weight)
                               <b class="text-danger">*</b>
                               @endif
-                              Weight (in kilograms)
+                              Weight (kg)
                             </label>
                             <input type="number" step="0.1" pattern="\d+(\.\d{1})?" class="form-control" name="weight" id="weight" min="1" max="900" value="{{old('weight')}}" {{($required_weight) ? 'required' : ''}}>
                         </div>
                     </div>
                     <div class="col-md-3">
                       <div class="form-group">
-                        <label for="height">Height (in Centimeters)</label>
-                        <input type="number" class="form-control" name="height" id="height" value="{{old('height')}}" min="1" max="600">
+                        <label for="height">
+                          @if($required_height)
+                          <b class="text-danger">*</b>
+                          @endif
+                          Height (cm)
+                        </label>
+                        <input type="number" class="form-control" name="height" id="height" value="{{old('height')}}" min="1" max="600" {{($required_height) ? 'required' : ''}}>
                       </div>
                     </div>
                     <div class="col-md-3">

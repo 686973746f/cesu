@@ -446,6 +446,13 @@ class SyndromicController extends Controller
                 'facility_id' => auth()->user()->itr_facility_id,
             ];
 
+            if(!auth()->user()->isSyndromicHospitalLevelAccess()) {
+                $values_array = $values_array + [
+                    'philhealth_statustype' => ($request->isph_member == 'Y') ? $request->philhealth_statustype : NULL,
+                    'family_member' => ($request->filled('family_member')) ? $request->family_member : NULL,
+                ];
+            }
+
             if(auth()->user()->isSyndromicHospitalLevelAccess()) {
                 $values_array = $values_array + [
                     'unique_opdnumber' => mb_strtoupper($request->unique_opdnumber),
@@ -531,6 +538,7 @@ class SyndromicController extends Controller
             $required_maindiagnosis = true;
             $required_bp = true;
             $required_weight = false;
+            $required_height = false;
             $required_symptoms = false; //will be required on part 2
         }
         else {
@@ -540,10 +548,12 @@ class SyndromicController extends Controller
             if(!is_null(auth()->user()->itr_medicalevent_id)) {
                 $required_symptoms = false;
                 $required_weight = false;
+                $required_height = false;
             }
             else {
                 $required_symptoms = true;
                 $required_weight = true;
+                $required_height = true;
             }
         }
 
@@ -580,6 +590,7 @@ class SyndromicController extends Controller
 
                 'required_maindiagnosis' => $required_maindiagnosis,
                 'required_bp' => $required_bp,
+                'required_height' => $required_height,
                 'required_weight' => $required_weight,
                 'required_symptoms' => $required_symptoms,
             ]);
@@ -1200,6 +1211,13 @@ class SyndromicController extends Controller
                 'lgu_office_name' => ($request->is_lgustaff == 'Y' && $request->filled('lgu_office_name')) ? mb_strtoupper($request->lgu_office_name) : NULL,
             ];
 
+            if(!auth()->user()->isSyndromicHospitalLevelAccess()) {
+                $values_array = $values_array + [
+                    'philhealth_statustype' => ($request->isph_member == 'Y') ? $request->philhealth_statustype : NULL,
+                    'family_member' => ($request->filled('family_member')) ? $request->family_member : NULL,
+                ];
+            }
+
             if(auth()->user()->isSyndromicHospitalLevelAccess()) {
                 $values_array = $values_array + [
                     'unique_opdnumber' => (is_null($getpatient->unique_opdnumber)) ? mb_strtoupper($request->unique_opdnumber) : $getpatient->unique_opdnumber,
@@ -1329,6 +1347,7 @@ class SyndromicController extends Controller
             $required_maindiagnosis = true;
             $required_bp = true;
             $required_weight = false;
+            $required_height = false;
 
             if($r->hospital_completion == 'PART1') {
                 $unlocktoolbar = false;
@@ -1340,14 +1359,18 @@ class SyndromicController extends Controller
         else {
             if(!is_null($r->medical_event_id)) {
                 $required_symptoms = false;
+                $required_weight = false;
+                $required_height = false;
             }
             else {
                 $required_symptoms = true;
+                $required_weight = true;
+                $required_height = true;
             }
 
             $required_maindiagnosis = false;
             $required_bp = false;
-            $required_weight = true;
+            
 
             $unlocktoolbar = true;
         }
@@ -1362,6 +1385,7 @@ class SyndromicController extends Controller
                 'unlocktoolbar' => $unlocktoolbar,
                 'required_symptoms' => $required_symptoms,
                 'required_weight' => $required_weight,
+                'required_height' => $required_height,
             ]);
         }
         else {

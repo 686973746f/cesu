@@ -26,6 +26,7 @@ class SyndromicPatient extends Model
         'email',
         'isph_member',
         'philhealth',
+        'philhealth_statustype',
 
         'occupation',
         'occupation_place',
