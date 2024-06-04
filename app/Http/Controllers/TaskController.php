@@ -289,19 +289,16 @@ class TaskController extends Controller
     public function myTaskIndex() {
         $grabbed_opdlist = SyndromicRecords::where('facility_id', auth()->user()->itr_facility_id)
         ->where('ics_grabbedby', Auth::id())
-        ->where('ics_ticketstatus', 'PENDING')
-        ->orderBy('ics_grabbed_date', 'ASC')
+        ->orderBy('ics_grabbed_date', 'DESC')
         ->paginate(10);
 
-        $grabbed_worklist = WorkTask::where('status', 'PENDING')
-        ->where('grabbed_by', Auth::id())
-        ->orderBy('grabbed_date', 'ASC')
+        $grabbed_worklist = WorkTask::where('grabbed_by', Auth::id())
+        ->orderBy('grabbed_date', 'DESC')
         ->paginate(10);
 
         $grabbed_abtclist = AbtcBakunaRecords::where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
         ->where('ics_grabbedby', Auth::id())
-        ->where('ics_ticketstatus', 'PENDING')
-        ->orderBy('ics_grabbed_date', 'ASC')
+        ->orderBy('ics_grabbed_date', 'DESC')
         ->paginate(10);
 
         return view('tasks.mytask', [

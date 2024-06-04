@@ -250,12 +250,18 @@
                     </div>
                 </div>
             </div>
-            <form action="{{route('abtctask_close', $d->id)}}" method="POST">
+            <form action="{{($d->ics_ticketstatus == 'PENDING') ? route('abtctask_close', $d->id) : ''}}" method="POST">
                 @csrf
                 <div class="card-footer text-right">
                     <button type="button" class="btn btn-primary" id="nextBtn">Next</button>
                     <button type="button" class="btn btn-secondary d-none" id="backBtn">Back</button>
-                    <button type="submit" class="btn btn-success d-none" id="submitBtn" onclick="return confirm('Confirm closing the ABTC Ticket #{{$d->id}} - {{$d->patient->getName()}}. Paki-sure lang po na na-encode na ang mga detalye ni patient papuntang iClinicSys bago i-close ang ticket.')">Mark as Done</button>
+                    @if($d->ics_ticketstatus == 'PENDING')
+                    <form action="{{route('abtctask_close', $d->id)}}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-success d-none" id="submitBtn" onclick="return confirm('Confirm closing the ABTC Ticket #{{$d->id}} - {{$d->patient->getName()}}. Paki-sure lang po na na-encode na ang mga detalye ni ABTC Patient papuntang iClinicSys bago i-close ang ticket.')">Mark as Done</button>
+                    @else
+                    <button type="button" class="btn btn-success d-none disabled" id="submitBtn" onclick="alert('This ABTC Ticket was already marked as {{$d->ics_ticketstatus}}.')">Mark as Done</button>
+                    @endif
                 </div>
             </form>
             

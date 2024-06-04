@@ -26,11 +26,25 @@
                                         </th>
                                         <th>Task Name</th>
                                         <th>Finish Until</th>
+                                        <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($grabbed_worklist as $d)
+                                    @php
+                                    $status = $d->status;
+
+                                    if($status == 'OPEN') {
+                                        $color = 'secondary';
+                                    }
+                                    else if($status == 'PENDING') {
+                                        $color = 'warning';
+                                    }
+                                    else if($status == 'FINISHED') {
+                                        $color = 'success';
+                                    }
+                                    @endphp
                                     <tr>
                                         <td class="text-center">
                                             <div>#{{$d->id}}</div>
@@ -38,6 +52,9 @@
                                         </td>
                                         <td>{{$d->name}}</td>
                                         <td class="text-center">{{date('m/d/Y h:i A', strtotime($d->created_at))}}</td>
+                                        <td class="text-center">
+                                            <b><span class="badge badge-{{$color}} p-2">{{$d->status}}</span></b>
+                                        </td>
                                         <td class="text-center">
                                             <a href="{{route('worktask_view', $d->id)}}" class="btn btn-primary">View</a>
                                         </td>
@@ -60,11 +77,25 @@
                                     </th>
                                     <th>Name</th>
                                     <th>Age/Sex</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($grabbed_opdlist as $d)
+                                @php
+                                $status = $d->ics_ticketstatus;
+
+                                if($status == 'OPEN') {
+                                    $color = 'secondary';
+                                }
+                                else if($status == 'PENDING') {
+                                    $color = 'warning';
+                                }
+                                else if($status == 'FINISHED') {
+                                    $color = 'success';
+                                }
+                                @endphp
                                 <tr>
                                     <td class="text-center">
                                         <div>#{{$d->id}}</div>
@@ -72,6 +103,9 @@
                                     </td>
                                     <td>{{$d->syndromic_patient->getName()}}</td>
                                     <td class="text-center">{{$d->syndromic_patient->getAge()}}/{{$d->syndromic_patient->sg()}}</td>
+                                    <td class="text-center">
+                                        <b><span class="badge badge-{{$color}} p-2">{{$d->ics_ticketstatus}}</span></b>
+                                    </td>
                                     <td class="text-center">
                                         <a href="{{route('opdtask_view', $d->id)}}" class="btn btn-primary">View</a>
                                     </td>
@@ -93,11 +127,25 @@
                                     </th>
                                     <th>Name</th>
                                     <th>Age/Sex</th>
+                                    <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($grabbed_abtclist as $d)
+                                @php
+                                $status = $d->ics_ticketstatus;
+
+                                if($status == 'OPEN') {
+                                    $color = 'secondary';
+                                }
+                                else if($status == 'PENDING') {
+                                    $color = 'warning';
+                                }
+                                else if($status == 'FINISHED') {
+                                    $color = 'success';
+                                }
+                                @endphp
                                 <tr>
                                     <td class="text-center">
                                         <div>#{{$d->id}}</div>
@@ -105,6 +153,9 @@
                                     </td>
                                     <td>{{$d->patient->getName()}}</td>
                                     <td class="text-center">{{$d->patient->getAge()}}/{{$d->patient->sg()}}</td>
+                                    <td class="text-center">
+                                        <b><span class="badge badge-{{$color}} p-2">{{$d->ics_ticketstatus}}</span></b>
+                                    </td>
                                     <td class="text-center">
                                         <a href="{{route('abtctask_view', $d->id)}}" class="btn btn-primary">View</a>
                                     </td>
