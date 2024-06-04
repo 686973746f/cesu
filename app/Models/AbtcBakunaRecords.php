@@ -29,6 +29,8 @@ class AbtcBakunaRecords extends Model
         'rig_date_given',
         'pep_route',
         'brand_name',
+        'height',
+        'weight',
         'd0_date',
         'd0_done',
         'd0_vaccinated_inbranch',

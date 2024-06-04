@@ -33,6 +33,9 @@ class CreateAbtcBakunaRecordsTable extends Migration
             $table->date('rig_date_given')->nullable();
             $table->string('pep_route');
             $table->text('brand_name')->nullable();
+
+            $table->string('height')->nullable();
+            $table->string('weight')->nullable();
             
             $table->date('d0_date')->nullable();
             $table->tinyInteger('d0_done')->default(0);

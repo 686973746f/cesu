@@ -233,6 +233,8 @@ class ABTCVaccinationController extends Controller
                 'category_level' => $category_level,
                 'washing_of_bite' => ($request->washing_of_bite == 'Y') ? 1 : 0,
                 'rig_date_given' => $request->rig_date_given,
+                'height' => $request->height,
+                'weight' => $request->weight,
 
                 'pep_route' => $request->pep_route,
                 'brand_name' => $request->brand_name,
@@ -362,6 +364,9 @@ class ABTCVaccinationController extends Controller
         $b->category_level = $category_level;
         $b->washing_of_bite = ($request->washing_of_bite == 'Y') ? 1 : 0;
         $b->rig_date_given = $request->rig_date_given;
+
+        $b->height = $request->height;
+        $b->weight = $request->weight;
 
         $b->pep_route = $request->pep_route;
         $b->brand_name = $request->brand_name;

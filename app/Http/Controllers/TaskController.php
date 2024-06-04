@@ -12,6 +12,18 @@ use Illuminate\Support\Facades\Auth;
 class TaskController extends Controller
 {
     public function index() {
+        if(auth()->user()->itr_facility_id) {
+            return redirect()->back()
+            ->with('msg', 'Error: User has not yet assigned into an OPD Facility. Please contact CESU Admin for assistance.')
+            ->with('msgtype', 'warning');
+        }
+        
+        if(auth()->user()->abtc_default_vaccinationsite_id) {
+            return redirect()->back()
+            ->with('msg', 'Error: User has not yet assigned into an ABTC Facility. Please contact CESU Admin for assistance.')
+            ->with('msgtype', 'warning');
+        }
+
         $open_worklist = WorkTask::where('status', 'OPEN')
         ->paginate(10);
 

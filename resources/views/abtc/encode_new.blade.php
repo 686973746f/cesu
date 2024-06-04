@@ -183,6 +183,20 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="height" class="form-label"><strong class="text-danger">*</strong>Height (cm)</label>
+                                <input type="number" class="form-control" name="height" id="height" value="{{old('height')}}" required>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="weight" class="form-label"><strong class="text-danger">*</strong>Weight (kg)</label>
+                                <input type="number" class="form-control" name="weight" id="weight" value="{{old('weight')}}" required>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <hr>
                 <div class="row">
