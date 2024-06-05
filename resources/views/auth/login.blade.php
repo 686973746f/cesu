@@ -1,6 +1,26 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    #loading {
+        position: fixed;
+        display: block;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        text-align: center;
+        background-color: #fff;
+        z-index: 99;
+    }
+</style>
+<div id="loading">
+    <div class="text-center">
+        <i class="fas fa-circle-notch fa-spin fa-5x my-3"></i>
+        <h3>Loading...</h3>
+    </div>
+</div>
+
 <div class="container" style="font-family: Arial, Helvetica, sans-serif;">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -132,6 +152,10 @@
 </div>
 
 <script>
+    $(document).ready(function () {
+        $('#loading').fadeOut();
+    });
+
     function onSubmit(token) {
       document.getElementById("loginForm").submit();
     }

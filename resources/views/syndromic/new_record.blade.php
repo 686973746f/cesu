@@ -782,6 +782,19 @@
                         </div>
                       </div>
                     </div>
+                  </div>
+                </div>
+                <div class="card mb-3">
+                  <div class="card-header"><b>DOCTOR'S ORDER</b></div>
+                  <div class="card-body">
+                    <div class="form-group">
+                      <label for=""></label>
+                      <select class="form-control" name="" id="">
+                        <option></option>
+                        <option></option>
+                        <option></option>
+                      </select>
+                    </div>
                     <div class="card">
                       <div class="card-header">Alert Type</div>
                       <div class="card-body">
@@ -811,11 +824,7 @@
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-                <div class="card mb-3">
-                  <div class="card-header"><b>DOCTOR'S ORDER</b></div>
-                  <div class="card-body">
+                    <hr>
                     <div class="form-group">
                       <label for="diagnosis_type"><b class="text-danger">*</b>Diagnosis Type</label>
                       <select class="form-control" name="diagnosis_type" id="diagnosis_type" required>

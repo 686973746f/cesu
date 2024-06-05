@@ -274,6 +274,12 @@ class SyndromicRecords extends Model
         return $array;
     }
 
+    public static function refLabRequest() {
+        $array = [
+            'Disability due to Chronic Illness',
+        ];
+    }
+
     public function syndromic_patient() {
         return $this->belongsTo(SyndromicPatient::class, 'syndromic_patient_id');
     }
