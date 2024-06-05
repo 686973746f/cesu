@@ -808,6 +808,9 @@ class SyndromicController extends Controller
                     'alert_ifdisability_list' => ($r->filled('alert_ifdisability_list') && in_array('DISABILITY', $r->alert_list)) ? implode(',', $r->alert_ifdisability_list) : NULL,
                     'alert_description' => ($r->filled('alert_description')) ? mb_strtoupper($r->alert_description) : NULL,
 
+                    'laboratory_request_list' => ($r->filled('laboratory_request_list')) ? implode(',', $r->laboratory_request_list) : NULL,
+                    'imaging_request_list' => ($r->filled('imaging_request_list')) ? implode(',', $r->imaging_request_list) : NULL,
+
                     'name_of_physician' => $r->name_of_physician,
                     'other_doctor' => ($r->name_of_physician == 'OTHERS') ? mb_strtoupper($r->other_doctor) : NULL,
                     'dru_name'=> ($r->name_of_physician != 'OTHERS') ? SyndromicDoctor::where('doctor_name', $r->name_of_physician)->first()->dru_name : NULL,
@@ -1520,6 +1523,9 @@ class SyndromicController extends Controller
                 'alert_list' => ($r->filled('alert_list')) ? implode(',', $r->alert_list) : NULL,
                 'alert_ifdisability_list' => ($r->filled('alert_ifdisability_list') && in_array('DISABILITY', $r->alert_list)) ? implode(',', $r->alert_ifdisability_list) : NULL,
                 'alert_description' => ($r->filled('alert_description')) ? mb_strtoupper($r->alert_description) : NULL,
+
+                'laboratory_request_list' => ($r->filled('laboratory_request_list')) ? implode(',', $r->laboratory_request_list) : NULL,
+                'imaging_request_list' => ($r->filled('imaging_request_list')) ? implode(',', $r->imaging_request_list) : NULL,
                 
                 //'status' => 'approved',
                 'name_of_physician' => $r->name_of_physician,

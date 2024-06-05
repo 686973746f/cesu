@@ -798,40 +798,48 @@
                         </div>
                       </div>
                     </div>
-                    <div class="card">
-                      <div class="card-header">Alert Type</div>
-                      <div class="card-body">
-                        @foreach(App\Models\SyndromicRecords::refAlert() as $ind => $iref)
-                        <div class="form-check form-check-inline">
-                          <input class="form-check-input" type="checkbox" id="alert_type{{$ind}}" name="alert_list[]" value="{{mb_strtoupper($iref)}}" {{(in_array(mb_strtoupper($iref), explode(",", old('alert_list', $d->alert_list)))) ? 'checked' : ''}}>
-                          <label class="form-check-label">{{$iref}}</label>
-                        </div>
-                        @endforeach
-
-                        <div id="disability_div" class="d-none">
-                          <div class="card mt-3">
-                            <div class="card-header"><b class="text-danger">*</b>Type of Disability</div>
-                            <div class="card-body">
-                              @foreach(App\Models\SyndromicRecords::refAlertDisability() as $ind => $iref)
-                              <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="disability_type{{$ind}}" name="alert_ifdisability_list[]" value="{{mb_strtoupper($iref)}}" {{(in_array(mb_strtoupper($iref), explode(",", old('alert_ifdisability_list', $d->alert_ifdisability_list)))) ? 'checked' : ''}}>
-                                <label class="form-check-label">{{$iref}}</label>
-                              </div>
-                              @endforeach
-                            </div>
-                          </div>
-                        </div>
-                        <div class="form-group mt-3">
-                          <label for="alert_description">Alert Description</label>
-                          <textarea class="form-control" name="alert_description" id="alert_description" rows="3">{{old('alert_description', $d->alert_description)}}</textarea>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </div>
                 <div class="card mb-3">
                   <div class="card-header"><b>DOCTOR'S ORDER</b></div>
                   <div class="card-body">
+                    <div><label for="">Laboratory Requests</label></div>
+                    @foreach(App\Models\SyndromicRecords::refLabRequest() as $ind => $iref)
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="lab_request_type{{$ind}}" name="laboratory_request_list[]" value="{{mb_strtoupper($iref)}}" {{(in_array(mb_strtoupper($iref), explode(",", old('laboratory_request_list', $d->laboratory_request_list)))) ? 'checked' : ''}}>
+                      <label class="form-check-label">{{$iref}}</label>
+                    </div>
+                    @endforeach
+                    <hr>
+                    <div><label for="">Imaging</label></div>
+                    @foreach(App\Models\SyndromicRecords::refImagingRequest() as $ind => $iref)
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="imaging_type{{$ind}}" name="imaging_request_list[]" value="{{mb_strtoupper($iref)}}" {{(in_array(mb_strtoupper($iref), explode(",", old('imaging_request_list', $d->imaging_request_list)))) ? 'checked' : ''}}>
+                      <label class="form-check-label">{{$iref}}</label>
+                    </div>
+                    @endforeach
+                    <hr>
+                    <div><label for="">Alert Type</label></div>
+                    @foreach(App\Models\SyndromicRecords::refAlert() as $ind => $iref)
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="alert_type{{$ind}}" name="alert_list[]" value="{{mb_strtoupper($iref)}}" {{(in_array(mb_strtoupper($iref), explode(",", old('alert_list', $d->alert_list)))) ? 'checked' : ''}}>
+                      <label class="form-check-label">{{$iref}}</label>
+                    </div>
+                    @endforeach
+                    <div id="disability_div" class="d-none mt-3">
+                      <div><label for=""><b class="text-danger">*</b>Type of Disability</label></div>
+                      @foreach(App\Models\SyndromicRecords::refAlertDisability() as $ind => $iref)
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="disability_type{{$ind}}" name="alert_ifdisability_list[]" value="{{mb_strtoupper($iref)}}" {{(in_array(mb_strtoupper($iref), explode(",", old('alert_ifdisability_list', $d->alert_ifdisability_list)))) ? 'checked' : ''}}>
+                        <label class="form-check-label">{{$iref}}</label>
+                      </div>
+                      @endforeach
+                    </div>
+                    <div class="form-group mt-3">
+                      <label for="alert_description">Alert Description</label>
+                      <textarea class="form-control" name="alert_description" id="alert_description" rows="3" style="text-transform: uppercase;">{{old('alert_description', $d->alert_description)}}</textarea>
+                    </div>
+                    <hr>
                     <div class="form-group">
                       <label for="diagnosis_type"><b class="text-danger">*</b>Diagnosis Type</label>
                       <select class="form-control" name="diagnosis_type" id="diagnosis_type" required>

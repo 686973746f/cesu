@@ -276,8 +276,30 @@ class SyndromicRecords extends Model
 
     public static function refLabRequest() {
         $array = [
-            'Disability due to Chronic Illness',
+            'BLOOD CHEMISTRY',
+            'CLINICAL CHEMISTRY',
+            'COMPLETE BLOOD COUNT',
+            'FECALYSIS',
+            'HEMATOLOGY',
+            'IMMUNOLOGY',
+            'MTB GENEXPERT',
+            'SEROLOGY',
+            'SPUTUM MICROSCOPY',
+            'URINALYSIS',
         ];
+
+        return $array;
+    }
+
+    public static function refImagingRequest() {
+        $array = [
+            'ECG',
+            'MRI',
+            'ULTRASOUND',
+            'X-RAY',
+        ];
+
+        return $array;
     }
 
     public function syndromic_patient() {
