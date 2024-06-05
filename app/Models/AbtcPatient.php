@@ -278,4 +278,13 @@ class AbtcPatient extends Model
             return 'N/A';
         }
     }
+
+    public function icsGetPhilhealthStatusType() {
+        if($this->getAge() <= 18) {
+            return 'DEPENDENT';
+        }
+        else {
+            return 'MEMBER';
+        }
+    }
 }

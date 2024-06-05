@@ -132,8 +132,12 @@
                         <div class="card-header"><b>>>PhilHealth Info<<</b></div>
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="philhealth">Philhealth Number</label>
+                                <label for="philhealth" class="text-danger">Philhealth Number</label>
                                 <input type="text" class="form-control" name="philhealth" id="philhealth" value="{{$d->patient->philhealth ?: 'NOT FOUND. TRY CLICKING THE PIN SEARCH ICON ON ICLINICSYS.'}}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="philhealth" class="text-danger">Philhealth Status Type</label>
+                                <input type="text" class="form-control" name="philhealth" id="philhealth" value="{{$d->patient->icsGetPhilhealthStatusType()}}" readonly>
                             </div>
                         </div>
                     </div>
