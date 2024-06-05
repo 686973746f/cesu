@@ -101,7 +101,7 @@ class PidsrYearlyThresholdGenerator extends Command
                     ->where('status', 'approved')
                     ->where('caseClassification', 'Confirmed')
                     ->whereYear('morbidityMonth', $y)
-                    ->whereRaw('WEEK(morbidityMonth, 1) = ?', [52])
+                    ->whereRaw('WEEK(morbidityMonth, 1) = ?', [$i])
                     ->count();
                 }
                 else {
