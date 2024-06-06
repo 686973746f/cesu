@@ -60,7 +60,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <div class="mb-3">
+                        <div class="mb-3 d-none">
                           <label for="has_bday" class="form-label"><span class="text-danger font-weight-bold">*</span>Has Birthday</label>
                           <select class="form-select" name="has_bday" id="has_bday" required>
                             <option value="Yes" {{(old('has_bday') == 'Yes') ? 'selected' : ''}}>Yes</option>

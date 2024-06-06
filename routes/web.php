@@ -708,6 +708,8 @@ Route::group(['middleware' => ['auth','verified', 'canAccessTask']], function() 
     Route::get('/tasks/abtc/view/{abtcBakunaRecords}', [TaskController::class, 'viewAbtcTicket'])->name('abtctask_view');
     Route::post('/tasks/abtc/view/{abtcBakunaRecords}/close_ticket', [TaskController::class, 'closeAbtcTicket'])->name('abtctask_close');
 
+    Route::post('/tasks/{type}/{id}/cancel', [TaskController::class, 'cancelTicket'])->name('task_cancel');
+
     Route::get('/mytask', [TaskController::class, 'myTaskIndex'])->name('mytask_index');
 });
 

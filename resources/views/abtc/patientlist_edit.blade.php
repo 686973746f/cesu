@@ -91,7 +91,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <div class="mb-3">
+                        <div class="mb-3 d-none">
                           <label for="has_bday" class="form-label"><span class="text-danger font-weight-bold">*</span>Has Birthday</label>
                           <select class="form-select" name="has_bday" id="has_bday" required>
                             <option value="Yes" {{(old('has_bday', !is_null($d->bdate)) == 'Yes') ? 'selected' : ''}}>Yes</option>
@@ -105,6 +105,7 @@
                             <label for="age" class="form-label"><b class="text-danger">*</b>Age (In Years)</label>
                             <input type="number" class="form-control" name="age" id="age" value="{{old('age', $d->age)}}" min="0" max="150">  
                         </div>
+                        <p>Age: {{$d->getAge()}}</p>
                     </div>
                     <div class="col-md-3">
                         <div class="mb-3">

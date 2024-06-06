@@ -135,21 +135,38 @@
                     <div class="card-header"><b>>>PhilHealth Info<<</b></div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="philhealth">Philhealth Number</label>
-                            <input type="text" class="form-control" name="philhealth" id="philhealth" value="{{$d->syndromic_patient->philhealth ?: ''}}">
+                            <label for="" class="text-danger">Philhealth Number</label>
+                            <input type="text" class="form-control" name="" id="" value="{{$d->syndromic_patient->philhealth ?: 'NOT FOUND. TRY CLICKING THE PIN SEARCH ICON ON ICLINICSYS.'}}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="text-danger">Philhealth Status Type</label>
+                            <input type="text" class="form-control" name="" id="" value="{{$d->syndromic_patient->philhealth_statustype ?: $d->syndromic_patient->icsGetPhilhealthStatusType()}}" readonly>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="card-footer text-right">
-                @if($d->ics_ticketstatus == 'PENDING')
-                <form action="{{route('opdtask_close', $d->id)}}" method="POST">
-                    @csrf
-                    <button type="submit" class="btn btn-success" onclick="return confirm('Confirm closing the OPD Ticket #{{$d->id}} - {{$d->syndromic_patient->getName()}}. Paki-sure lang po na na-encode na ang mga detalye ni OPD Patient papuntang iClinicSys bago i-close ang ticket.')">Mark as Done</button>
-                </form>
-                @else
-                <button type="button" class="btn btn-success d-none disabled" id="submitBtn" onclick="alert('This ABTC Ticket was already marked as {{$d->ics_ticketstatus}}.')">Mark as Done</button>
-                @endif
+                <div class="row">
+                    <div class="col-6">
+                        @if($d->ics_ticketstatus == 'PENDING')
+                        <form action="{{route('task_cancel', ['id' => $d->id, 'type' => 'opd'])}}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn text-white" style="background-color: orange" onclick="return confirm('Are you sure you want to cancel?')">Cancel</button>
+                        </form>
+                        @endif
+                    </div>
+                    <div class="col-6 text-right">
+                    @if($d->ics_ticketstatus == 'PENDING')
+                    <form action="{{route('opdtask_close', $d->id)}}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-success" onclick="return confirm('Confirm closing the OPD Ticket #{{$d->id}} - {{$d->syndromic_patient->getName()}}. Paki-sure lang po na na-encode na ang mga detalye ni OPD Patient papuntang iClinicSys bago i-close ang ticket.')">Mark as Done</button>
+                    </form>
+                    @else
+                    <button type="button" class="btn btn-success d-none disabled" id="submitBtn" onclick="alert('This ABTC Ticket was already marked as {{$d->syndromic_patient->ics_ticketstatus}}.')">Mark as Done</button>
+                    @endif
+                    </div>
+                </div>
+                
             </div>
         </div>
     </div>

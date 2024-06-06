@@ -20,7 +20,7 @@
                 </div>
                 @endif
                 <div class="card">
-                    <div class="card-header"><b>Work Tickets</b>  - Total: {{$open_worklist->total()}}</div>
+                    <div class="card-header bg-success text-white"><b>Work Tickets</b>  - Total: {{$open_worklist->total()}}</div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped">
@@ -50,7 +50,7 @@
                                                 'type' => 'work',
                                             ])}}" method="POST">
                                                 @csrf
-                                            <button type="submit" class="btn btn-primary">Grab Ticket</button>
+                                            <button type="submit" class="btn btn-primary">Grab Work Ticket</button>
                                             </form>
                                         </td>
                                     </tr>
@@ -61,7 +61,7 @@
                     </div>
                 </div>
                 <div class="card mt-3">
-                    <div class="card-header"><b>OPD to iClinicSys Tickets</b> - Total: {{$open_opdlist->total()}}</div>
+                    <div class="card-header bg-success text-white"><b>OPD to iClinicSys Tickets</b> - Total: {{$open_opdlist->total()}}</div>
                     <div class="card-body">
                         <table class="table table-bordered table-striped">
                             <thead class="thead-light text-center">
@@ -90,7 +90,7 @@
                                             'type' => 'opd',
                                         ])}}" method="POST">
                                             @csrf
-                                        <button type="submit" class="btn btn-primary">Grab Ticket</button>
+                                        <button type="submit" class="btn btn-primary">Grab OPD Ticket</button>
                                         </form>
                                     </td>
                                 </tr>
@@ -100,7 +100,7 @@
                     </div>
                 </div>
                 <div class="card mt-3">
-                    <div class="card-header"><b>ABTC to iClinicSys Tickets</b> - Total: {{$open_abtclist->total()}}</div>
+                    <div class="card-header bg-success text-white"><b>ABTC to iClinicSys Tickets</b> - Total: {{$open_abtclist->total()}}</div>
                     <div class="card-body">
                         <table class="table table-bordered table-striped">
                             <thead class="thead-light text-center">
@@ -129,7 +129,7 @@
                                             'type' => 'abtc',
                                         ])}}" method="POST">
                                             @csrf
-                                        <button type="submit" class="btn btn-primary">Grab Ticket</button>
+                                        <button type="submit" class="btn btn-primary">Grab ABTC Ticket</button>
                                         </form>
                                     </td>
                                 </tr>

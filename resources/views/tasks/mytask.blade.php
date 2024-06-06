@@ -14,7 +14,7 @@
                 </div>
                 @endif
                 <div class="card">
-                    <div class="card-header"><b>Work Tickets</b></div>
+                    <div class="card-header bg-success text-white"><b>Work Tickets</b></div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped">
@@ -66,7 +66,7 @@
                     </div>
                 </div>
                 <div class="card mt-3">
-                    <div class="card-header"><b>OPD to iClinicSys Tickets</b></div>
+                    <div class="card-header bg-success text-white"><b>OPD to iClinicSys Tickets</b></div>
                     <div class="card-body">
                         <table class="table table-bordered table-striped">
                             <thead class="thead-light text-center">
@@ -116,7 +116,7 @@
                     </div>
                 </div>
                 <div class="card mt-3">
-                    <div class="card-header"><b>ABTC to iClinicSys Tickets</b></div>
+                    <div class="card-header bg-success text-white"><b>ABTC to iClinicSys Tickets</b></div>
                     <div class="card-body">
                         <table class="table table-bordered table-striped">
                             <thead class="thead-light text-center">

@@ -57,19 +57,6 @@
                                         <small class="">Age: {{$d->patient->getAge()}}</small>
                                     </div>
                                 </div>
-                                <div class="col-3">
-                                    <div class="form-group">
-                                        <label for="cs">Civil Status</label>
-                                        <input type="text" class="form-control" name="cs" id="cs" value="{{old('cs', $d->patient->cs)}}" readonly>
-                                    </div>
-                                    <div class="form-group d-none" id="ifmarried_div">
-                                        <label for="spouse_name">Spouse Name</label>
-                                        <input type="text" class="form-control" name="spouse_name" id="spouse_name" value="{{old('spouse_name', $d->patient->spouse_name)}}" style="text-transform: uppercase;">
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -157,6 +144,20 @@
                             <div class="form-group">
                                 <label for="" class="text-danger">Consultation Date</label>
                                 <input type="time" class="form-control" name="" id="" value="{{date('H:i', strtotime($d->created_at))}}" readonly>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="" class="text-danger">Height (cm)</label>
+                                        <input type="text" class="form-control" name="" id="" value="{{$d->height ?: 'N/A'}}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="" class="text-danger">Weight (kg)</label>
+                                        <input type="text" class="form-control" name="" id="" value="{{$d->weight ?: 'N/A'}}" readonly>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="" class="text-danger">Chief Complaint</label>
@@ -254,21 +255,29 @@
                     </div>
                 </div>
             </div>
-            <form action="{{($d->ics_ticketstatus == 'PENDING') ? route('abtctask_close', $d->id) : ''}}" method="POST">
-                @csrf
-                <div class="card-footer text-right">
-                    <button type="button" class="btn btn-primary" id="nextBtn">Next</button>
-                    <button type="button" class="btn btn-secondary d-none" id="backBtn">Back</button>
-                    @if($d->ics_ticketstatus == 'PENDING')
-                    <form action="{{route('abtctask_close', $d->id)}}" method="POST">
-                        @csrf
-                        <button type="submit" class="btn btn-success d-none" id="submitBtn" onclick="return confirm('Confirm closing the ABTC Ticket #{{$d->id}} - {{$d->patient->getName()}}. Paki-sure lang po na na-encode na ang mga detalye ni ABTC Patient papuntang iClinicSys bago i-close ang ticket.')">Mark as Done</button>
-                    @else
-                    <button type="button" class="btn btn-success d-none disabled" id="submitBtn" onclick="alert('This ABTC Ticket was already marked as {{$d->ics_ticketstatus}}.')">Mark as Done</button>
-                    @endif
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-6">
+                        @if($d->ics_ticketstatus == 'PENDING')
+                        <form action="{{route('task_cancel', ['id' => $d->id, 'type' => 'abtc'])}}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn text-white" style="background-color: orange" onclick="return confirm('Are you sure you want to cancel?')">Cancel</button>
+                        </form>
+                        @endif
+                    </div>
+                    <div class="col-6 text-right">
+                        <button type="button" class="btn btn-primary" id="nextBtn">Next</button>
+                        @if($d->ics_ticketstatus == 'PENDING')
+                        <form action="{{route('abtctask_close', $d->id)}}" method="POST">
+                            @csrf
+                            <button type="button" class="btn btn-secondary d-none" id="backBtn">Back</button>
+                            <button type="submit" class="btn btn-success d-none" id="submitBtn" onclick="return confirm('Confirm closing the ABTC Ticket #{{$d->id}} - {{$d->patient->getName()}}. Paki-sure lang po na na-encode na ang mga detalye ni ABTC Patient papuntang iClinicSys bago i-close ang ticket.')">Mark as Done</button>
+                        @else
+                        <button type="button" class="btn btn-success d-none disabled" id="submitBtn" onclick="alert('This ABTC Ticket was already marked as {{$d->ics_ticketstatus}}.')">Mark as Done</button>
+                        @endif
+                    </div>
                 </div>
-            </form>
-            
+            </div>
         </div>
         
     </div>

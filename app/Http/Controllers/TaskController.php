@@ -307,4 +307,41 @@ class TaskController extends Controller
             'grabbed_abtclist' => $grabbed_abtclist,
         ]);
     }
+
+    public function cancelTicket($type, $id) {
+        if($type == 'opd') {
+            $update = SyndromicRecords::where('id', $id)
+            ->where('ics_ticketstatus', 'PENDING')
+            ->update([
+                'ics_ticketstatus' => 'OPEN',
+                'ics_grabbedby' => NULL,
+                'ics_grabbed_date' => NULL,
+            ]);
+        }
+        else if($type == 'abtc') {
+            $update = AbtcBakunaRecords::where('id', $id)
+            ->where('ics_ticketstatus', 'PENDING')
+            ->update([
+                'ics_ticketstatus' => 'OPEN',
+                'ics_grabbedby' => NULL,
+                'ics_grabbed_date' => NULL,
+            ]);
+        }
+        else if($type == 'work') {
+            $update = WorkTask::where('id', $id)
+            ->where('status', 'PENDING')
+            ->update([
+                'status' => 'OPEN',
+                'grabbed_by' => NULL,
+                'grabbed_date' => NULL,
+            ]);
+        }
+        else {
+            return abort(401);
+        }
+
+        return redirect()->route('task_index')
+        ->with('msg', mb_strtoupper($type).' Ticket was cancelled and returned to list of OPEN Tickets.')
+        ->with('msgtype', 'success');
+    }
 }

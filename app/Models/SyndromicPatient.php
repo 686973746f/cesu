@@ -341,4 +341,13 @@ class SyndromicPatient extends Model
             return NULL;
         }
     }
+
+    public function icsGetPhilhealthStatusType() {
+        if($this->getAgeInt() <= 18) {
+            return 'DEPENDENT';
+        }
+        else {
+            return 'MEMBER';
+        }
+    }
 }
