@@ -69,6 +69,8 @@ class ABTCPatientController extends Controller
         $request->validate([
             'lname' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
     		'fname' => 'required|regex:/^[\pL\s\-]+$/u|max:50',
+            'mname' => 'required',
+            'suffix' => 'required',
         ]);
         
         if(AbtcPatient::ifDuplicateFound($request->lname, $request->fname, $request->mname, $request->suffix, $request->bdate)) {

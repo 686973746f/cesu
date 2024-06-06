@@ -144,10 +144,10 @@ class AbtcPatient extends Model
         }
 
         if($suffix == 'N/A') {
-            $mname = NULL;
+            $suffix = NULL;
         }
         else {
-            $mname = $mname;
+            $suffix = $suffix;
         }
 
         $check = AbtcPatient::where(function ($q) use ($lname, $fname, $mname, $suffix, $bdate) {
