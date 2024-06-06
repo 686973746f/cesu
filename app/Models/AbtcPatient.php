@@ -143,7 +143,7 @@ class AbtcPatient extends Model
             $mname = $mname;
         }
 
-        if($mname == 'N/A') {
+        if($suffix == 'N/A') {
             $mname = NULL;
         }
         else {
