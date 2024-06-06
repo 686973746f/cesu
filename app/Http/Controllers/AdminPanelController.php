@@ -342,9 +342,16 @@ class AdminPanelController extends Controller
             ->count();
             */
 
+            if(request()->input('date')) {
+                $date = request()->input('date');
+            }
+            else {
+                $date = date('Y-m-d');
+            }
+
             $suspected_count = Forms::where('user_id', $item->id)
-            ->where(function($q) {
-                $q->whereDate('created_at', date('Y-m-d'));
+            ->where(function($q) use ($date) {
+                $q->whereDate('created_at', $date);
             })
             ->whereIn('caseClassification', ['Suspect', 'Probable'])
             ->count();
@@ -353,7 +360,7 @@ class AdminPanelController extends Controller
                 $q->where('user_id', $item->id)
                 ->orWhere('updated_by', $item->id);
             })
-            ->whereDate('morbidityMonth', date('Y-m-d'))
+            ->whereDate('morbidityMonth', $date)
             ->where('caseClassification', 'Confirmed')
             ->count();
 
@@ -371,7 +378,7 @@ class AdminPanelController extends Controller
                     ->where('updated_by', $item->id);
                 });
             })
-            ->whereDate('morbidityMonth', date('Y-m-d'))
+            ->whereDate('morbidityMonth', $date)
             ->where('caseClassification', 'Confirmed')
             ->where('outcomeCondition', 'Recovered')
             ->count();
@@ -380,9 +387,9 @@ class AdminPanelController extends Controller
                 $q->where('user_id', $item->id)
                 ->orWhere('updated_by', $item->id);
             })
-            ->where(function ($q) {
-                $q->whereDate('created_at', date('Y-m-d'))
-                ->orWhereDate('updated_at', date('Y-m-d'));
+            ->where(function ($q) use ($date) {
+                $q->whereDate('created_at', $date)
+                ->orWhereDate('updated_at', $date);
             })
             ->where('caseClassification', 'Non-COVID-19 Case')
             ->count();
@@ -390,36 +397,36 @@ class AdminPanelController extends Controller
             $covid_count_final = $suspected_count + $confirmed_count + $recovered_count + $negative_count;
 
             $abtc_count = AbtcBakunaRecords::where('d0_done_by', $item->id)
-            ->whereDate('d0_done_date', date('Y-m-d'))
+            ->whereDate('d0_done_date', $date)
             ->count();
 
             $abtc_count_ff1 = AbtcBakunaRecords::where('d3_done_by', $item->id)
-            ->whereDate('d3_done_date', date('Y-m-d'))
+            ->whereDate('d3_done_date', $date)
             ->count();
 
             $abtc_count_ff2 = AbtcBakunaRecords::where('d7_done_by', $item->id)
-            ->whereDate('d7_done_date', date('Y-m-d'))
+            ->whereDate('d7_done_date', $date)
             ->count();
 
             $abtc_count_ff3 = AbtcBakunaRecords::where('d14_done_by', $item->id)
-            ->whereDate('d14_done_date', date('Y-m-d'))
+            ->whereDate('d14_done_date', $date)
             ->count();
 
             $abtc_count_ff4 = AbtcBakunaRecords::where('d28_done_by', $item->id)
-            ->whereDate('d28_done_date', date('Y-m-d'))
+            ->whereDate('d28_done_date', $date)
             ->count();
 
             $abtc_ffup_gtotal = $abtc_count_ff1 + $abtc_count_ff2 + $abtc_count_ff3 + $abtc_count_ff4;
 
             $vaxcert_count = VaxcertConcern::where('processed_by', $item->id)
-            ->whereDate('updated_at', date('Y-m-d'))
+            ->whereDate('updated_at', $date)
             ->count();
 
             $opd_count = SyndromicRecords::where('created_by', $item->id)
-            ->whereDate('created_at', date('Y-m-d'))
+            ->whereDate('created_at', $date)
             ->count();
 
-            $lcr_livebirth = LiveBirth::whereDate('created_at', date('Y-m-d'))
+            $lcr_livebirth = LiveBirth::whereDate('created_at', $date)
             ->where('created_by', $item->id)
             ->count();
             
@@ -436,7 +443,7 @@ class AdminPanelController extends Controller
                 $modelClass = "App\\Models\\$d";
 
                 $model_count = $modelClass::where('created_by', $item->id)
-                ->whereDate('created_at', date('Y-m-d'))
+                ->whereDate('created_at', $date)
                 ->count();
 
                 $edcs_count += $model_count;
@@ -456,6 +463,7 @@ class AdminPanelController extends Controller
 
         return view('admin_encoder_stats_index', [
             'arr' => $arr,
+            'date' => $date,
         ]);
     }
 }

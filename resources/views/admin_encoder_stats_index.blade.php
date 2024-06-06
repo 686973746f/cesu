@@ -12,8 +12,16 @@ $gt_edcs = 0;
 @endphp
 <div class="container">
     <div class="card">
-        <div class="card-header font-weight-bold">Encoder Statistics for {{date('m/d/Y, h:i A')}}</div>
+        <div class="card-header font-weight-bold">Encoder Statistics for {{(request()->input('date')) ? date('m/d/Y', strtotime(request()->input('date'))) : date('m/d/Y, h:i A')}}</div>
         <div class="card-body">
+            <form action="" method="GET">
+                <div class="input-group mb-3">
+                    <input type="date" class="form-control" name="date" id="date" value="{{(request()->input('date')) ? request()->input('date') : date('Y-m-d')}}" required>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-success" type="submit"><i class="fas fa-calendar-alt mr-2"></i>Date Search</button>
+                    </div>
+                </div>
+            </form>
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">
                     <thead class="text-center thead-light">

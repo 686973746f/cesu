@@ -145,7 +145,7 @@
                 @if($d->ics_ticketstatus == 'PENDING')
                 <form action="{{route('opdtask_close', $d->id)}}" method="POST">
                     @csrf
-                    <button type="submit" class="btn btn-success" onclick="return confirm('Confirm closing the OPD Ticket #{{$d->id}} - {{$d->patient->getName()}}. Paki-sure lang po na na-encode na ang mga detalye ni OPD Patient papuntang iClinicSys bago i-close ang ticket.')">Mark as Done</button>
+                    <button type="submit" class="btn btn-success" onclick="return confirm('Confirm closing the OPD Ticket #{{$d->id}} - {{$d->syndromic_patient->getName()}}. Paki-sure lang po na na-encode na ang mga detalye ni OPD Patient papuntang iClinicSys bago i-close ang ticket.')">Mark as Done</button>
                 </form>
                 @else
                 <button type="button" class="btn btn-success d-none disabled" id="submitBtn" onclick="alert('This ABTC Ticket was already marked as {{$d->ics_ticketstatus}}.')">Mark as Done</button>
