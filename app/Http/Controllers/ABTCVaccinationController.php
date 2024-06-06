@@ -458,6 +458,12 @@ class ABTCVaccinationController extends Controller
     public function encode_process($br_id, $dose) {
         $get_br = AbtcBakunaRecords::findOrFail($br_id);
 
+        if(is_null($get_br->patient->bdate)) {
+            return redirect()->route('abtc_patient_edit', $get_br->patient->id)
+            ->with('msg', 'Error: Paki-tanong muna sa pasyente kung ano ang Birthdate niya bago bakunahan.')
+            ->with('msgtype', 'warning');
+        }
+
         if(!is_null($get_br->brand_name)) {
             if($dose == 1) {
                 if($get_br->ifAbleToProcessD0() == 'Y') {
