@@ -99,7 +99,7 @@ class PidsrYearlyThresholdGenerator extends Command
                         ->where('records.address_city', 'GENERAL TRIAS');
                     })
                     ->where('status', 'approved')
-                    ->where('caseClassification', 'Confirmed')
+                    ->whereIn('caseClassification', ['Probable', 'Confirmed'])
                     ->whereYear('morbidityMonth', $y)
                     ->whereRaw('WEEK(morbidityMonth, 1) = ?', [$i])
                     ->count();

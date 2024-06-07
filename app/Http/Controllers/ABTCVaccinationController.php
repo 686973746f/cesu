@@ -1244,10 +1244,38 @@ class ABTCVaccinationController extends Controller
                 ->where('d28_done', 0)
                 ->where('is_booster', 0);
             });
-        })->where('outcome', 'INC')
-        ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
+        })
+        ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id);
+
+        $ff_row = $ff->where('outcome', 'INC')
         ->orderBy('created_at', 'ASC')
         ->get();
+
+        $ff_total = AbtcBakunaRecords::where(function ($q) use ($sdate) {
+            $q->where(function ($r) use ($sdate) {
+                $r->whereDate('d3_date', $sdate)
+                ->where('d0_done', 1);
+            })->orWhere(function ($r) use ($sdate) {
+                $r->whereDate('d7_date', $sdate)
+                ->where('d0_done', 1)
+                ->where('d3_done', 1)
+                ->where('is_booster', 0);
+            })->orWhere(function ($r) use ($sdate) {
+                $r->whereDate('d14_date', $sdate)
+                ->where('d0_done', 1)
+                ->where('d3_done', 1)
+                ->where('d7_done', 1)
+                ->where('pep_route', 'IM')
+                ->where('is_booster', 0);
+            });
+        })
+        ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id);
+
+        /*
+        ->where('outcome', 'INC')
+        ->orderBy('created_at', 'ASC')
+        ->get();
+        */
 
         $possible_d28_count = AbtcBakunaRecords::where('outcome', 'C')
         ->whereDate('d28_date', $sdate)
@@ -1274,23 +1302,25 @@ class ABTCVaccinationController extends Controller
         ->count();
         
         $completed_d0 = AbtcBakunaRecords::where('d0_done', 1)
-        ->where('d0_date', $sdate)
+        ->whereDate('d0_date', $sdate)
         ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
         ->count();
 
         $completed_d3 = AbtcBakunaRecords::where('d3_done', 1)
-        ->where('d3_date', $sdate)
+        ->whereDate('d3_date', $sdate)
         ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
         ->count();
 
         $completed_d7 = AbtcBakunaRecords::where('d7_done', 1)
-        ->where('d7_date', $sdate)
+        ->whereDate('d7_date', $sdate)
         ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
         ->count();
 
         return view('abtc.schedule_index', [
             'new' => $new,
             'ff' => $ff,
+            'ff_row' => $ff_row,
+            'ff_total' => $ff_total,
             'completed_count' => $completed_count,
             'sdate' => $sdate,
             'possible_d28_count' => $possible_d28_count,

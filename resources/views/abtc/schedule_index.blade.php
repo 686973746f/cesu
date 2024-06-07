@@ -42,6 +42,7 @@
             </div>
         </div>
     </form>
+    <!--
     <div class="card mb-3">
         <div class="card-header">
             <div class="d-flex justify-content-between">
@@ -86,12 +87,15 @@
             </div>
         </div>
     </div>
-    <div class="card">
+    -->
+    <div class="card" id="ffupCard">
         <div class="card-header">
-            <div class="d-flex justify-content-between">
-                <div><b><span class="text-primary">Follow-up Patients</span> {{(request()->input('d')) ? date('m/d/Y (D)', strtotime(request()->input('d'))) : date('m/d/Y (D)', strtotime(date('Y-m-d')))}}</b></div>
-                <div>
-                    <div class="mb-3"><span class="text-success">Completed: <b>{{$completed_count}}</b></span> | <span>Pending: <b>{{$ff->count()}}</b></span></div>
+            <div class="row">
+                <div class="col-4"><b><span class="text-primary">Follow-up Patients</span> {{(request()->input('d')) ? date('m/d/Y (D)', strtotime(request()->input('d'))) : date('m/d/Y (D)', strtotime(date('Y-m-d')))}}</b></div>
+                <div class="col-8">
+                    <h4 style="display:inline-block;"><span class="badge badge-secondary">Total: {{$ff_total->count()}}</span></h4>
+                    <h4 style="display:inline-block;"><span class="badge badge-success">Completed: {{$completed_d0 + $completed_d3 + $completed_d7}}/{{$ff_total->count()}}</span></h4>
+                    <h4 style="display:inline-block;"><span class="badge" style="background-color: orange;">Pending: {{$ff->count()}} (New: {{$ff->where('is_booster', 0)->count()}} - Booster: {{$ff->where('is_booster', 1)->count()}})</span></h4>
                 </div>
             </div>
             <div class="row">
@@ -144,7 +148,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($ff as $n)
+                        @foreach($ff_row as $n)
                         <tr>
                             <td class="text-center">
                                 @if(!is_null($n->getCurrentDose()))
