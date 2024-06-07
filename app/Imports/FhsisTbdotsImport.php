@@ -36,8 +36,6 @@ class FhsisTbdotsImport implements ToModel, WithHeadingRow, WithGroupedHeadingRo
     */
     public function model(array $r)
     {
-
-        dd($r);
         $lname = $r['last_name'];
         $fname = $r['first_name'];
         $birthdate = $this->tDate($r['birthdate']);
