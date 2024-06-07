@@ -18,7 +18,7 @@ class FhsisTbdotsImport implements ToModel, WithHeadingRow, WithGroupedHeadingRo
     private function tDate($value) {
         $cdate = Carbon::parse(Date::excelToDateTimeObject($value))->format('Y-m-d');
 
-        if(!is_null($value) && $cdate != '1970-01-01' && !empty($value)) {
+        if(!is_null($value) && !empty($value)) {
             //return date('Y-m-d', strtotime(Date::excelToDateTimeObject($value)));
             return $cdate;
         }
@@ -36,6 +36,8 @@ class FhsisTbdotsImport implements ToModel, WithHeadingRow, WithGroupedHeadingRo
     */
     public function model(array $r)
     {
+
+        dd($r);
         $lname = $r['last_name'];
         $fname = $r['first_name'];
         $birthdate = $this->tDate($r['birthdate']);

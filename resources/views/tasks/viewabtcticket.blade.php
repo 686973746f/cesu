@@ -13,6 +13,9 @@
                     {{session('msg')}}
                 </div>
                 @endif
+                <div class="alert alert-info" role="alert">
+                    <h4>Task: i-encode ang ABTC Data na ito papunta sa <a href="https://clinicsys.doh.gov.ph/">iClinicSys</a></h4>
+                </div>
                 <div id="part1">
                     <div class="card">
                         <div class="card-header"><b>>>Personal Information<<</b></div>
