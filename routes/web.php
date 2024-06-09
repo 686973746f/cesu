@@ -274,6 +274,8 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isMayor']]
     Route::get('/mayor/pharmacy/view_dispensary', [MayorController::class, 'viewDispensary'])->name('mayor_pharmacy_viewdispensary');
     Route::get('/mayor/pharmacy/ajax_dispensary', [PharmacyController::class, 'ajaxMedicineDispensary'])->name('mayor_pharmacy_ajaxdispensary');
     Route::post('/mayor/pharmacy/branch/change_branch', [MayorController::class, 'pharmacyChangeBranch'])->name('mayor_pharmacy_change_branch');
+
+    Route::get('/mayor/opd/index', [MayorController::class, 'viewDoctors'])->name('mayor_opd_index');
 });
 
 //COVID ADMIN

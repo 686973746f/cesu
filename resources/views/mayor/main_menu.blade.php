@@ -13,6 +13,7 @@
                         </div>
                         @endif
                         <a href="{{route('mayor_pharmacy_main_menu')}}" class="btn btn-primary btn-block btn-lg">Pharmacy Inventory System</a>
+                        <a href="{{route('mayor_opd_index')}}" class="btn btn-primary btn-block btn-lg">OPD Monitoring</a>
                     </div>
                 </div>
             </div>

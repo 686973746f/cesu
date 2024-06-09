@@ -11,6 +11,8 @@ use App\Models\PharmacyStockCard;
 use App\Models\PharmacySupplySub;
 use App\Models\PharmacyPrescription;
 use App\Models\PharmacySupplyMaster;
+use App\Models\SyndromicDoctor;
+use App\Models\SyndromicRecords;
 
 class MayorController extends Controller
 {
@@ -556,6 +558,64 @@ class MayorController extends Controller
 
         return view('mayor.pharmacy_dispensary', [
             'sdate' => $sdate,
+        ]);
+    }
+
+    public function viewDoctors() {
+        if(request()->input('date')) {
+            $date = request()->input('date');
+        }
+        else {
+            $date = date('Y-m-d');
+        }
+
+        $drlist = SyndromicDoctor::where('active_in_service', 'Y')->get();
+
+        $arr_list = collect();
+
+        foreach($drlist as $d) {
+            //Count if there is consultation first
+            $check = SyndromicRecords::where('name_of_physician', $d->doctor_name)
+            ->whereDate('created_at', $date)
+            ->exists();
+
+            $query = SyndromicRecords::where('name_of_physician', $d->doctor_name)
+            ->whereDate('created_at', $date);
+
+            if($check) {
+                if($d->dru_name == 'CHO GENERAL TRIAS') {
+                    $sent_home = $query->count();
+                    $thoc = 0;
+                    $hama = 0;
+                    $admitted = 0;
+                    $tbdots = 0;
+                    $jail = 0;
+                }
+                else {
+                    $sent_home = $query->where('disposition', 'SENT HOME')->count();
+                    $thoc = $query->where('disposition', 'THOC')->count();
+                    $hama = $query->where('disposition', 'HAMA')->count();
+                    $admitted = $query->where('disposition', 'ADMITTED')->count();
+                    $tbdots = $query->where('disposition', 'TB DOTS')->count();
+                    $jail = $query->where('disposition', 'SENT TO JAIL')->count();
+                }
+
+                $arr_list->push([
+                    'name' => $d->doctor_name,
+                    'dru_name' => $d->dru_name,
+                    'sent_home' => $sent_home,
+                    'thoc' => $thoc,
+                    'hama' => $hama,
+                    'admitted' => $admitted,
+                    'tbdots' => $tbdots,
+                    'jail' => $jail,
+                ]);
+            }
+        }
+
+        return view('mayor.opd_index', [
+            'date' => $date,
+            'arr_list' => $arr_list,
         ]);
     }
 }
