@@ -604,4 +604,13 @@ class AbtcBakunaRecords extends Model
             return 'INVALID';
         }
     }
+
+    public function getType() {
+        if($this->is_booster == 0) {
+            return 'NEW PATIENT';
+        }
+        else {
+            return 'BOOSTER';
+        }
+    }
 }
