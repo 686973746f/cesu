@@ -79,15 +79,26 @@
                         </div>
                     </div>
                     <div class="d-none" id="if_received">
-                        <div class="form-group">
-                            <label for="expiration_date"><b class="text-danger">*</b>Expiration Date of Received Item/s</label>
-                            <input type="date" class="form-control" name="expiration_date" id="expiration_date" min="{{date('Y-m-d', strtotime('+1 Day'))}}" value="{{old('expiration_date')}}">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="batch_number"><b class="text-danger">*</b>Input Batch No.</label>
+                                    <input type="text" class="form-control" name="batch_number" id="batch_number" value="{{old('batch_number')}}" style="text-transform: uppercase;">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="expiration_date"><b class="text-danger">*</b>Expiration Date</label>
+                                    <input type="date" class="form-control" name="expiration_date" id="expiration_date" min="{{date('Y-m-d', strtotime('+1 Day'))}}" value="{{old('expiration_date')}}">
+                                </div>
+                            </div>
                         </div>
+                        
                     </div>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="qty_to_process"><b class="text-danger">*</b>Quantity to Process (in <span id="qty_to_process_in"></span>)</label>
+                                <label for="qty_to_process"><b class="text-danger">*</b>Quantity (in <span id="qty_to_process_in"></span>)</label>
                                 <input type="number" class="form-control" name="qty_to_process" id="qty_to_process" min="1" max="{{$d->master_box_stock}}" value="{{old('qty_to_process')}}" required>
                                 <small class="text-muted">Current Amount in Stock: {{$d->master_box_stock}} {{$d->pharmacysupplymaster->getQtyType()}} {{(($d->master_piece_stock)) ? '('.$d->master_piece_stock.' Pieces)' : ''}}</small>
                             </div>
@@ -228,6 +239,7 @@
 
                 $('#if_received').addClass('d-none');
                 $('#expiration_date').prop('required', false);
+                $('#batch_number').prop('required', false);
 
                 $('#if_issuing').removeClass('d-none');
                 $('#select_recipient').prop('required', true);
@@ -246,6 +258,7 @@
 
                 $('#if_received').removeClass('d-none');
                 $('#expiration_date').prop('required', true);
+                $('#batch_number').prop('required', true);
 
                 $('#if_issuing').addClass('d-none');
                 $('#select_recipient').val('');

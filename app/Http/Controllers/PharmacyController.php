@@ -1627,6 +1627,12 @@ class PharmacyController extends Controller
             }
 
             //ADD TO SUBSTOCK
+            if(PharmacySupplySubStock::where('subsupply_id', $d->id)->where('batch_number', mb_strtoupper($r->batch_number))->exists()) {
+                return redirect()->back()
+                ->with('msg', 'Error: Batch Name already exists. Kindly double check and try again.')
+                ->with('msgtype', 'warning');
+            }
+
             $substock = PharmacySupplySubStock::where('subsupply_id', $d->id)
             ->where('expiration_date', $r->expiration_date)
             ->first();
@@ -1644,6 +1650,7 @@ class PharmacyController extends Controller
                     $new_substock = $r->user()->pharmacysupplysubstock()->create([
                         'subsupply_id' => $d->id,
                         'expiration_date' => $r->expiration_date,
+                        'batch_number' => mb_strtoupper($r->batch_number),
                         'current_box_stock' => $r->qty_to_process,
                         'current_piece_stock' => ($r->qty_to_process * $d->pharmacysupplymaster->config_piecePerBox),
                     ]);

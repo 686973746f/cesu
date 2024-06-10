@@ -102,40 +102,46 @@
                 <div class="card mt-3">
                     <div class="card-header bg-success text-white"><b>ABTC to iClinicSys Tickets</b> - Total: {{$open_abtclist->total()}}</div>
                     <div class="card-body">
-                        <table class="table table-bordered table-striped">
-                            <thead class="thead-light text-center">
-                                <tr>
-                                    <th>
-                                        <div>Ticket ID /</div>
-                                        <div>Date Created</div>
-                                    </th>
-                                    <th>Name</th>
-                                    <th>Age/Sex</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($open_abtclist as $d)
-                                <tr>
-                                    <td class="text-center">
-                                        <div>#{{$d->id}}</div>
-                                        <div><small>{{date('m/d/Y (D) h:i A', strtotime($d->created_at))}}</small></div>
-                                    </td>
-                                    <td>{{$d->patient->getName()}}</td>
-                                    <td class="text-center">{{$d->patient->getAge()}}/{{$d->patient->sg()}}</td>
-                                    <td class="text-center">
-                                        <form action="{{route('task_grab', [
-                                            'ticket_id' => $d->id,
-                                            'type' => 'abtc',
-                                        ])}}" method="POST">
-                                            @csrf
-                                        <button type="submit" class="btn btn-primary">Grab ABTC Ticket</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                        @if($open_abtclist->count() != 0)
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead class="thead-light text-center">
+                                    <tr>
+                                        <th>
+                                            <div>Ticket ID /</div>
+                                            <div>Date Created</div>
+                                        </th>
+                                        <th>Name</th>
+                                        <th>Age/Sex</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($open_abtclist as $d)
+                                    <tr>
+                                        <td class="text-center">
+                                            <div>#{{$d->id}}</div>
+                                            <div><small>{{date('m/d/Y (D) h:i A', strtotime($d->created_at))}}</small></div>
+                                        </td>
+                                        <td>{{$d->patient->getName()}}</td>
+                                        <td class="text-center">{{$d->patient->getAge()}}/{{$d->patient->sg()}}</td>
+                                        <td class="text-center">
+                                            <form action="{{route('task_grab', [
+                                                'ticket_id' => $d->id,
+                                                'type' => 'abtc',
+                                            ])}}" method="POST">
+                                                @csrf
+                                            <button type="submit" class="btn btn-primary">Grab ABTC Ticket</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        @else
+                        <p class="text-center">No open tickets yet. Come back again later.</p>
+                        @endif
                     </div>
                 </div>
             </div>

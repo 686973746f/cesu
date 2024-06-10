@@ -135,7 +135,7 @@
                     <div class="card-header">
                         <div class="d-flex justify-content-between">
                             <div><b>Batch Details</b></div>
-                            <div><a href="{{route('pharmacy_modify_view', $d->id)}}" class="btn btn-success">Modify Stock</a></div>
+                            <div><a href="{{route('pharmacy_modify_view', $d->id)}}" class="btn btn-success">New/Update Stock</a></div>
                         </div>
                     </div>
                     <div class="card-body">
