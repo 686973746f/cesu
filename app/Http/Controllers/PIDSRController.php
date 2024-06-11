@@ -8169,8 +8169,6 @@ class PIDSRController extends Controller
             
         }
 
-        $list_case = $list_case->get();
-
         return view('pidsr.mapviewer', [
             'list_case' => $list_case,
             'case' => $case,
