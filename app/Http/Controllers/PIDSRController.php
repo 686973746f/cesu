@@ -8169,7 +8169,7 @@ class PIDSRController extends Controller
             
         }
 
-        $list_case = $list_case->orderBy('created_at', 'ASC')->get();
+        $list_case = $list_case->get();
 
         return view('pidsr.mapviewer', [
             'list_case' => $list_case,
