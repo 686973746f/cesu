@@ -1626,6 +1626,8 @@ class RabiesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 $getFullName = $getFullName.' '.$row['suffix_name'];
             }
 
+            dd($row);
+
             $table_params = [
                 'Icd10Code' => 'A82',
                 'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
@@ -1666,14 +1668,14 @@ class RabiesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'TypeOfExposure' => $row['type_exposure'],
                 'Category' => $row['category_exposure'], //VARCHAR 25
                 'BiteSite' => $row['affected_site'],
-                'OtherTypeOfExposure' => $row['other_specify'],
+                'OtherTypeOfExposure' => $row['other_specify'][0],
                 'DateBitten' => EdcsImport::tDate($row['date_exposure']),
                 'TypeOfAnimal' => $row['type_animal'],
-                'OtherTypeOfAnimal' => (isset($row['other_specify1'])) ? $row['other_specify1'] : $row['other_specify2'],
+                'OtherTypeOfAnimal' => (isset($row['other_specify'][1])) ? $row['other_specify'][1] : $row['other_specify'][2],
                 'LabDiagnosis' => NULL,
                 'LabResult' => NULL,
                 'AnimalStatus' => $row['animal_status'],
-                'OtherAnimalStatus' => (isset($row['other_specify2'])) ? $row['other_specify2'] : $row['other_specify3'],
+                'OtherAnimalStatus' => (isset($row['other_specify'][2])) ? $row['other_specify'][2] : NULL,
                 'DateVaccStarted' => EdcsImport::tDate($row['date_vaccine_started']),
                 'Vaccine' => $row['brand_name_of_vaccine'],
                 'AdminRoute' => $row['route_admin'],
