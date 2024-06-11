@@ -8130,7 +8130,7 @@ class PIDSRController extends Controller
     }
 
     public function mapViewerIndex($case) {
-        $modelClass = "App\\Models\\$case";
+        $modelClass = "App\\Models\\".ucwords(strtolower($case));
 
         if(request()->input('year')) {
             $year = request()->input('year');
