@@ -1953,40 +1953,44 @@ class PharmacyController extends Controller
                 $d->current_box_stock = $r->change_qty_box;
                 //$d->current_piece_stock = $r->change_qty_piece;
                 $d->current_piece_stock = ($r->change_qty_box * $d->pharmacysub->pharmacysupplymaster->config_piecePerBox);
+                /*
                 if($d->isDirty('current_box_stock')) {
-                    $d->save();
-
-                    $sb = PharmacySupplySub::findOrFail($d->pharmacysub->id);
-
-                    /*
-                    if($d->getOriginal('current_box_stock') > $r->change_qty_box) {
-                        $sb->master_box_stock -= ($d->getOriginal('current_box_stock') - $r->change_qty_box);
-                        $sb->master_piece_stock -= ($d->getOriginal('current_box_stock') - $r->change_qty_box) * $sb->pharmacysupplymaster->config_piecePerBox;
-                    }
-                    else {
-                        $sb->master_box_stock += ($r->change_qty_box - $d->getOriginal('current_box_stock'));
-                        $sb->master_piece_stock += ($d->getOriginal('current_box_stock') - $r->change_qty_box) * $sb->pharmacysupplymaster->config_piecePerBox;
-                    }
-
-                    if($sb->isDirty()) {
-                        $sb->save();
-                    }
-                    */
-
-                    //Re-compute SubItem Box and Pieces
-                    $substock_list = PharmacySupplySubStock::where('subsupply_id', $sb->id)->where('is_expired', 'N')->get();
                     
-                    $final_box_stock = 0;
-                    foreach($substock_list as $ss) {
-                        $final_box_stock += $ss->current_box_stock;
-                    }
+                }
+                */
 
-                    $sb->master_box_stock = $final_box_stock;
-                    $sb->master_piece_stock = $final_box_stock * $d->pharmacysub->pharmacysupplymaster->config_piecePerBox;
+                $d->save();
 
-                    if($sb->isDirty()) {
-                        $sb->save();
-                    }
+                $sb = PharmacySupplySub::findOrFail($d->pharmacysub->id);
+
+                /*
+                if($d->getOriginal('current_box_stock') > $r->change_qty_box) {
+                    $sb->master_box_stock -= ($d->getOriginal('current_box_stock') - $r->change_qty_box);
+                    $sb->master_piece_stock -= ($d->getOriginal('current_box_stock') - $r->change_qty_box) * $sb->pharmacysupplymaster->config_piecePerBox;
+                }
+                else {
+                    $sb->master_box_stock += ($r->change_qty_box - $d->getOriginal('current_box_stock'));
+                    $sb->master_piece_stock += ($d->getOriginal('current_box_stock') - $r->change_qty_box) * $sb->pharmacysupplymaster->config_piecePerBox;
+                }
+
+                if($sb->isDirty()) {
+                    $sb->save();
+                }
+                */
+
+                //Re-compute SubItem Box and Pieces
+                $substock_list = PharmacySupplySubStock::where('subsupply_id', $sb->id)->where('is_expired', 'N')->get();
+                
+                $final_box_stock = 0;
+                foreach($substock_list as $ss) {
+                    $final_box_stock += $ss->current_box_stock;
+                }
+
+                $sb->master_box_stock = $final_box_stock;
+                $sb->master_piece_stock = $final_box_stock * $d->pharmacysub->pharmacysupplymaster->config_piecePerBox;
+
+                if($sb->isDirty()) {
+                    $sb->save();
                 }
 
                 /*
@@ -2011,37 +2015,41 @@ class PharmacyController extends Controller
             else {
                 $d->current_piece_stock = $r->change_qty_piece;
 
+                /*
                 if($d->isDirty('current_piece_stock')) {
-                    $d->save();
                     
-                    $sb = PharmacySupplySub::findOrFail($d->pharmacysub->id);
+                }
+                */
 
-                    /*
-                    if($d->getOriginal('current_piece_stock') > $r->change_qty_piece) {
-                        $sb->pharmacysub->master_piece_stock -= ($d->getOriginal('current_piece_stock') - $r->change_qty_piece);
-                    }
-                    else {
-                        $sb->pharmacysub->master_piece_stock += ($r->change_qty_piece - $d->getOriginal('current_piece_stock'));
-                    }
-
-                    if($sb->isDirty()) {
-                        $sb->save();
-                    }
-                    */
-
-                    //Re-compute SubItem Pieces
-                    $substock_list = PharmacySupplySubStock::where('subsupply_id', $sb->id)->where('is_expired', 'N')->get();
+                $d->save();
                     
-                    $final_piece_stock = 0;
-                    foreach($substock_list as $ss) {
-                        $final_piece_stock += $ss->current_piece_stock;
-                    }
+                $sb = PharmacySupplySub::findOrFail($d->pharmacysub->id);
 
-                    $sb->master_piece_stock = $final_piece_stock;
+                /*
+                if($d->getOriginal('current_piece_stock') > $r->change_qty_piece) {
+                    $sb->pharmacysub->master_piece_stock -= ($d->getOriginal('current_piece_stock') - $r->change_qty_piece);
+                }
+                else {
+                    $sb->pharmacysub->master_piece_stock += ($r->change_qty_piece - $d->getOriginal('current_piece_stock'));
+                }
 
-                    if($sb->isDirty()) {
-                        $sb->save();
-                    }
+                if($sb->isDirty()) {
+                    $sb->save();
+                }
+                */
+
+                //Re-compute SubItem Pieces
+                $substock_list = PharmacySupplySubStock::where('subsupply_id', $sb->id)->where('is_expired', 'N')->get();
+                
+                $final_piece_stock = 0;
+                foreach($substock_list as $ss) {
+                    $final_piece_stock += $ss->current_piece_stock;
+                }
+
+                $sb->master_piece_stock = $final_piece_stock;
+
+                if($sb->isDirty()) {
+                    $sb->save();
                 }
             }
 
