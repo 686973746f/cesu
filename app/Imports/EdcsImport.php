@@ -1626,8 +1626,6 @@ class RabiesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 $getFullName = $getFullName.' '.$row['suffix_name'];
             }
 
-            dd($row);
-
             $table_params = [
                 'Icd10Code' => 'A82',
                 'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
