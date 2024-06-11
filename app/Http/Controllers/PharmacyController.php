@@ -1951,8 +1951,8 @@ class PharmacyController extends Controller
 
             if($d->pharmacysub->pharmacysupplymaster->quantity_type == 'BOX') {
                 $d->current_box_stock = $r->change_qty_box;
-                $d->current_piece_stock = $r->change_qty_piece;
-                
+                //$d->current_piece_stock = $r->change_qty_piece;
+                $d->current_piece_stock = ($r->change_qty_box * $d->pharmacysub->pharmacysupplymaster->config_piecePerBox);
                 if($d->isDirty('current_box_stock')) {
                     $sb = PharmacySupplySub::findOrFail($d->pharmacysub->id);
 

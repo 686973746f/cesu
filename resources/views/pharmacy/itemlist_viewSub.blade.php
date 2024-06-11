@@ -25,14 +25,16 @@
                             <tbody>
                                 <tr>
                                     <td class="font-weight-bold">Master Item Name</td>
-                                    <td class="text-center">{{$d->pharmacysupplymaster->name}}</td>
-                                    <td class="font-weight-bold">Master ID</td>
                                     <td class="text-center">
                                         @if(auth()->user()->isAdminPharmacy())
-                                        <a href="">#{{$d->pharmacysupplymaster->id}}</a>
+                                        <a href="{{route('pharmacy_view_masteritem', $d->id)}}"><b>{{$d->pharmacysupplymaster->name}}</b></a>
                                         @else
-                                        #{{$d->pharmacysupplymaster->id}}
+                                        <b>{{$d->pharmacysupplymaster->name}}</b>
                                         @endif
+                                    </td>
+                                    <td class="font-weight-bold">Master ID</td>
+                                    <td class="text-center">
+                                        #{{$d->pharmacysupplymaster->id}}
                                     </td>
                                 </tr>
                                 <tr>

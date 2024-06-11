@@ -688,7 +688,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessPharmacy', 'canAccessPharmacyAdminMode']], function() {
     Route::get('/pharmacy/master_item/', [PharmacyController::class, 'masterItemHome'])->name('pharmacy_masteritem_list');
     Route::get('/pharmacy/master_item/view/{id}', [PharmacyController::class, 'viewMasterItem'])->name('pharmacy_view_masteritem');
-    Route::post('/pharmacy/master_item/{id}', [PharmacyController::class, 'updateMasterItem'])->name('pharmacy_update_masteritem');
+    Route::post('/pharmacy/master_item/view/{id}', [PharmacyController::class, 'updateMasterItem'])->name('pharmacy_update_masteritem');
 
     Route::get('/pharmacy/branches', [PharmacyController::class, 'listBranch'])->name('pharmacy_list_branch');
     Route::post('/pharmacy/branches/add', [PharmacyController::class, 'storeBranch'])->name('pharmacy_store_branch');
