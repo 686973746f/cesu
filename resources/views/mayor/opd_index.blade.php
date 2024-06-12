@@ -26,6 +26,7 @@
                             <th>Admitted</th>
                             <th>TB-DOTS</th>
                             <th>Sent To Jail</th>
+                            <th>Total Patients</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -42,6 +43,9 @@
                             <td class="text-center">{{($d['admitted'] != 0) ? $d['admitted'] : ''}}</td>
                             <td class="text-center">{{($d['tbdots'] != 0) ? $d['tbdots'] : ''}}</td>
                             <td class="text-center">{{($d['jail'] != 0) ? $d['jail'] : ''}}</td>
+                            <td class="text-center">
+                                <b>{{$d['sent_home'] + $d['thoc'] + $d['hama'] + $d['admitted'] + $d['tbdots'] + $d['jail']}}</b>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>

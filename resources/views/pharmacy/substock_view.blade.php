@@ -35,16 +35,10 @@
                             <input type="date" class="form-control" name="expiration_date" id="expiration_date" value="{{old('expiration_date', $d->expiration_date)}}">
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-8">
                         <div class="form-group">
                             <label for="batch_number">Batch Number</label>
                             <input type="text" class="form-control" name="batch_number" id="batch_number" value="{{old('batch_number', $d->batch_number)}}">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="lot_number">Lot Number</label>
-                            <input type="text" class="form-control" name="lot_number" id="lot_number" value="{{old('lot_number', $d->lot_number)}}">
                         </div>
                     </div>
                 </div>

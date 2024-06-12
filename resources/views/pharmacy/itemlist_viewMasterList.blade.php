@@ -36,11 +36,11 @@
                             <tr>
                                 <th>#</th>
                                 <th>Name / Master ID</th>
-                                <th>SKU Code (Master)</th>
-                                <th>SKU Code (DOH)</th>
+                                <th>SKU Code</th>
                                 <th>Category</th>
                                 <th>Quantity Type</th>
                                 <th>Usage Category</th>
+                                <th>Status</th>
                                 <th>Date Created / By</th>
                                 <th>Date Updated / By</th>
                             </tr>
@@ -50,13 +50,35 @@
                             <tr>
                                 <td class="text-center">{{$list->firstItem() + $ind}}</td>
                                 <td><b><a href="{{route('pharmacy_view_masteritem', $i->id)}}">{{$i->name}}</a></b></td>
-                                <td class="text-center">{{$i->sku_code}}</td>
-                                <td class="text-center">{{($i->sku_code_doh) ? $i->sku_code_doh : 'N/A'}}</td>
+                                <td class="text-center">
+                                    <div>Master SKU: {{$i->sku_code}}</div>
+                                    <div class="mt-3"></div>
+                                    <div>DOH SKU: {{($i->sku_code_doh) ? $i->sku_code_doh : 'N/A'}}</div>
+                                </td>
                                 <td class="text-center">{{$i->category}}</td>
                                 <td class="text-center">{{$i->quantity_type}}</td>
                                 <td class="text-center">{{$i->usage_category}}</td>
-                                <td class="text-center"><small>{{date('m/d/Y h:i A', strtotime($i->created_at))}} / {{$i->user->name}}</small></td>
-                                <td class="text-center"><small>{{($i->getUpdatedBy()) ? date('m/d/Y h:i A', strtotime($i->updated_at)).' / '.$i->getUpdatedBy->name : ''}} </small></td>
+                                <td class="text-center">
+                                    @if($i->enabled == 1)
+                                    <span class="badge badge-success p-2">Enabled</span>
+                                    @else
+                                    <span class="badge badge-warning p-2">Disabled</span>
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    <small>
+                                        <div>{{date('m/d/Y h:i A', strtotime($i->created_at))}}</div>
+                                        <div>by {{$i->user->name}}</div>
+                                    </small>
+                                </td>
+                                <td class="text-center">
+                                    <small>
+                                        @if($i->getUpdatedBy())
+                                        <div>{{date('m/d/Y h:i A', strtotime($i->updated_at))}}</div>
+                                        <div>by {{$i->getUpdatedBy->name}}</div>
+                                        @endif
+                                    </small>
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>

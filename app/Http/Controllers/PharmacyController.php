@@ -18,10 +18,11 @@ use Illuminate\Support\Facades\DB;
 use App\Models\PharmacySupplyStock;
 use App\Models\PharmacyPrescription;
 use App\Models\PharmacySupplyMaster;
+use Illuminate\Support\Facades\Auth;
 use Rap2hpoutre\FastExcel\FastExcel;
 use App\Models\BarangayHealthStation;
-use App\Models\PharmacyCartMainBranch;
 use App\Models\PharmacyCartSubBranch;
+use App\Models\PharmacyCartMainBranch;
 use App\Models\PharmacySupplySubStock;
 use App\Models\PharmacyQtyLimitPatient;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -1948,6 +1949,7 @@ class PharmacyController extends Controller
             $d->expiration_date = $r->expiration_date;
             $d->batch_number = $r->batch_number;
             $d->lot_number = $r->lot_number;
+            $d->updated_by = Auth::id();
 
             if($d->pharmacysub->pharmacysupplymaster->quantity_type == 'BOX') {
                 $d->current_box_stock = $r->change_qty_box;
