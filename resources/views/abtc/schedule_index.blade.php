@@ -95,7 +95,7 @@
                 <div class="col-8">
                     <h4 style="display:inline-block;"><span class="badge badge-secondary">Total: {{$ff_total->count()}}</span></h4>
                     <h4 style="display:inline-block;">
-                        <span class="badge badge-success">Completed: {{$completed_d0 + $completed_d3 + $completed_d7}}/{{$ff_total->count()}}</span>
+                        <span class="badge badge-success">Completed: {{$completed_d3 + $completed_d7}}/{{$ff_total->count()}}</span>
                     </h4>
                     <h4 style="display:inline-block;">
                         <span class="badge" style="background-color: orange;">Pending: <span id="put_pendingtotal"></span> (New: <span id="put_pendingnew"></span> - Booster: <span id="put_pendingbooster"></span>)</span>

@@ -145,7 +145,7 @@
                                 <input type="date" class="form-control" name="" id="" value="{{date('Y-m-d', strtotime($d->created_at))}}" readonly>
                             </div>
                             <div class="form-group">
-                                <label for="" class="text-danger">Consultation Date</label>
+                                <label for="" class="text-danger">Consultation Time</label>
                                 <input type="time" class="form-control" name="" id="" value="{{date('H:i', strtotime($d->created_at))}}" readonly>
                             </div>
                             <div class="row">
@@ -165,6 +165,10 @@
                             <div class="form-group">
                                 <label for="" class="text-danger">Chief Complaint</label>
                                 <input type="text" class="form-control" name="" id="" value="{{'ANIMAL BITE'}}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="text-danger">Patient Consent</label>
+                                <input type="text" class="form-control" name="" id="" value="{{'YES'}}" readonly>
                             </div>
                         </div>
                     </div>

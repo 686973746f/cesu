@@ -147,10 +147,109 @@
                     </div>
                 </div>
                 <div id="part2" class="d-none">
-                    <div class="card mt-3">
+                    <div class="card">
                         <div class="card-header"><b>>>Add Consultation Record<<</b></div>
                         <div class="card-body">
-                            
+                            <div class="form-group">
+                                <label for="" class="text-danger">Nature of Visit</label>
+                                <input type="text" class="form-control" name="" id="" value="{{$d->nature_of_visit}}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="text-danger">Type of Consultation/Purpose of Visit</label>
+                                <input type="text" class="form-control" name="" id="" value="{{'GENERAL'}}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="text-danger">Consultation Date</label>
+                                <input type="date" class="form-control" name="" id="" value="{{date('Y-m-d', strtotime($d->created_at))}}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="text-danger">Consultation Time</label>
+                                <input type="time" class="form-control" name="" id="" value="{{date('H:i', strtotime($d->created_at))}}" readonly>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="" class="text-danger">Height (cm)</label>
+                                        <input type="text" class="form-control" name="" id="" value="{{$d->height ?: 'N/A'}}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="" class="text-danger">Weight (kg)</label>
+                                        <input type="text" class="form-control" name="" id="" value="{{$d->weight ?: 'N/A'}}" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="text-danger">Name of Attending Provider</label>
+                                <input type="text" class="form-control" name="" id="" value="{{$d->name_of_physician}}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="text-danger">Chief Complaint</label>
+                                <input type="text" class="form-control" name="" id="" value="{{$d->chief_complain}}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="text-danger">Patient Consent</label>
+                                <input type="text" class="form-control" name="" id="" value="{{'YES'}}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mt-3">
+                        <div class="card-header"><b>>>DOCTOR'S ORDER<</b></div>
+                        <div class="card-body">
+                            <div><label for="">Laboratory Requests</label></div>
+                            @foreach(App\Models\SyndromicRecords::refLabRequest() as $ind => $iref)
+                            <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="lab_request_type{{$ind}}" name="laboratory_request_list[]" value="{{mb_strtoupper($iref)}}" {{(in_array(mb_strtoupper($iref), explode(",", old('laboratory_request_list')))) ? 'checked' : ''}}>
+                            <label class="form-check-label">{{$iref}}</label>
+                            </div>
+                            @endforeach
+                            <hr>
+                            <div><label for="">Imaging</label></div>
+                            @foreach(App\Models\SyndromicRecords::refImagingRequest() as $ind => $iref)
+                            <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="imaging_type{{$ind}}" name="imaging_request_list[]" value="{{mb_strtoupper($iref)}}" {{(in_array(mb_strtoupper($iref), explode(",", old('imaging_request_list')))) ? 'checked' : ''}}>
+                            <label class="form-check-label">{{$iref}}</label>
+                            </div>
+                            @endforeach
+                            <hr>
+                            <div><label for="">Alert Type</label></div>
+                            @foreach(App\Models\SyndromicRecords::refAlert() as $ind => $iref)
+                            <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="alert_type{{$ind}}" name="alert_list[]" value="{{mb_strtoupper($iref)}}" {{(in_array(mb_strtoupper($iref), explode(",", old('alert_list')))) ? 'checked' : ''}}>
+                            <label class="form-check-label">{{$iref}}</label>
+                            </div>
+                            @endforeach
+                            <div id="disability_div" class="d-none mt-3">
+                            <div><label for=""><b class="text-danger">*</b>Type of Disability</label></div>
+                            @foreach(App\Models\SyndromicRecords::refAlertDisability() as $ind => $iref)
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="disability_type{{$ind}}" name="alert_ifdisability_list[]" value="{{mb_strtoupper($iref)}}" {{(in_array(mb_strtoupper($iref), explode(",", old('alert_ifdisability_list')))) ? 'checked' : ''}}>
+                                <label class="form-check-label">{{$iref}}</label>
+                            </div>
+                            @endforeach
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="text-danger">Alert Description</label>
+                                <input type="text" class="form-control" name="" id="" value="{{$d->alert_description ?: 'N/A'}}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="text-danger">Diagnosis</label>
+                                <input type="text" class="form-control" name="" id="" value="{{$d->diagnosis_type}}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Diagnosis, Specify</label>
+                                <input type="text" class="form-control" name="" id="" value="{{$d->dcnote_assessment ?: 'N/A'}}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Treatment Plan</label>
+                                <input type="text" class="form-control" name="" id="" value="{{$d->dcnote_plan ?: 'N/A'}}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Remarks</label>
+                                <input type="text" class="form-control" name="" id="" value="{{$d->remarks ?: 'N/A'}}" readonly>
+                            </div>
                         </div>
                     </div>
                 </div>
