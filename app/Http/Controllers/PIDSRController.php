@@ -5457,6 +5457,9 @@ class PIDSRController extends Controller
                 $classification_titles = ['Suspect', 'Probable', 'Confirmed'];
                 $confirmed_titles = ['Confirmed'];
             }
+            else if($sel_disease == 'Rabies') {
+                $ccstr = 'CASECLASS';
+            }
             else {
                 $ccstr = 'CaseClassification';
 
