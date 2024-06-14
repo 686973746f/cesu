@@ -6048,11 +6048,13 @@ class PIDSRController extends Controller
             }
 
             if($male_total > $female_total) {
+                $majority_flavor_singular = 'Male';
                 $majority_flavor = 'Males';
                 $majority_count = $male_total;
                 $majority_percent = ($current_grand_total != 0) ? round($male_total / $current_grand_total * 100) : 0;
             }
             else {
+                $majority_flavor_singular = 'Female';
                 $majority_flavor = 'Females';
                 $majority_count = $female_total;
                 $majority_percent = ($current_grand_total != 0) ? round($female_total / $current_grand_total * 100) : 0;
@@ -6185,6 +6187,7 @@ class PIDSRController extends Controller
                 'brgy_cases_array' => $brgy_cases_array,
                 'startDate' => $startDate,
                 'endDate' => $endDate,
+                'majority_flavor_singular' => $majority_flavor_singular,
                 'majority_flavor' => $majority_flavor,
                 'majority_count' => $majority_count,
                 'majority_percent' => $majority_percent,
