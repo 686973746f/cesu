@@ -1306,6 +1306,18 @@ class ABTCVaccinationController extends Controller
         ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
         ->count();
 
+        $completed_d0_total = AbtcBakunaRecords::where('d0_done', 1)
+        ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
+        ->where(function ($q) use ($sdate) {
+            $q->where(function ($r) use ($sdate) {
+                $r->whereDate('d0_date', $sdate);
+            })
+            ->orWhere(function ($r) use ($sdate) {
+                $r->whereDate('d0_date', '<', $sdate)
+                ->whereDate('created_at', $sdate);
+            });
+        })->count();
+
         $completed_d0_otherarea = AbtcBakunaRecords::whereDate('created_at', $sdate)
         ->where('d0_done', 1)
         ->whereDate('d0_date', '<', $sdate)
@@ -1331,6 +1343,7 @@ class ABTCVaccinationController extends Controller
             'sdate' => $sdate,
             'possible_d28_count' => $possible_d28_count,
             'completed_d0' => $completed_d0,
+            'completed_d0_total' => $completed_d0_total,
             'completed_d0_otherarea' => $completed_d0_otherarea,
             'completed_d3' => $completed_d3,
             'completed_d7' => $completed_d7,
