@@ -83,8 +83,13 @@
                 <li style="margin-bottom: -5px;"><h5>This year's number of cases is {{($previous_grand_total != 0) ? round((($current_grand_total - $previous_grand_total) / $previous_grand_total) * 100) : 0}}% higher compared to the same period  last year ({{$previous_grand_total}} cases).</h5></li>
                 @endif
                 <li style="margin-bottom: -5px;"><h5>Of the total cases reported this period, {{$hospitalized_count}} ({{($current_grand_total != 0) ? round($hospitalized_count / $current_grand_total * 100) :0}}%) were hospitalized and {{$current_confirmed_grand_total}} ({{($current_grand_total != 0) ? round($current_confirmed_grand_total / $current_grand_total * 100,0) : 0}}%) were laboratory confirmed.</h5></li>
+                @if($current_grand_total > 1)
                 <li style="margin-bottom: -5px;"><h5>The Barangay with most reported number of cases is {{$top10Brgys[0]['brgy_name']}} ({{$top10Brgys[0]['brgy_grand_total_cases']}} {{Str::plural('case', $top10Brgys[0]['brgy_grand_total_cases'])}} [{{($current_grand_total != 0) ? round($top10Brgys[0]['brgy_grand_total_cases'] / $current_grand_total * 100) : 0}}%])</h5></li>
                 <li style="margin-bottom: -5px;"><h5>Age ranged from {{$min_age_display}} to {{$max_age}} years (Median={{$median_display}}). Majority of the cases were {{strtolower($majority_flavor)}} ({{$majority_percent}}%).</h5></li>
+                @else
+                <li style="margin-bottom: -5px;"><h5>The individual case is from BRGY. {{$top10Brgys[0]['brgy_name']}}</h5></li>
+                <li style="margin-bottom: -5px;"><h5>The invididual case is {{$max_age}} {{Str::plural('year', $max_age)}} and {{$majority_flavor}}.</h5></li>
+                @endif
             </ul>
             <hr>
             @php

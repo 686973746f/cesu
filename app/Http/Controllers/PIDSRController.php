@@ -4871,6 +4871,12 @@ class PIDSRController extends Controller
                 $current_grand_total += ${'current_mw'.$x};
             }
 
+            if($current_grand_total == 0) {
+                return redirect()->back()
+                ->with('msg', 'Error: Cannot generate report. There are no cases reported in '.$sel_disease.' on year '.$sel_year)
+                ->with('msgtype', 'warning');
+            }
+
             if($sel_disease == 'COVID') {
                 $previous_grand_total = $modelClass::with('records')
                 ->whereHas('records', function ($q) {
