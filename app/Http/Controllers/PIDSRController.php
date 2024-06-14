@@ -4948,7 +4948,7 @@ class PIDSRController extends Controller
             $year_toggle = 1;
 
             //GET LAST 5 YEARS AND ASSIGN TO VARIABLE
-            foreach(range($sel_year_minusone, 2020) as $y) {
+            foreach(range($sel_year_minusone, $sel_year_minusfive) as $y) {
                 for($j=1;$j<=53;$j++) {
                     $smw = PidsrThreshold::where('year', $y)->where('disease', mb_strtoupper($sel_disease))->first();
                     if($smw) {
