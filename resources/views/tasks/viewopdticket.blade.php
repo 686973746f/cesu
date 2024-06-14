@@ -198,40 +198,43 @@
                     <div class="card mt-3">
                         <div class="card-header"><b>>>DOCTOR'S ORDER<</b></div>
                         <div class="card-body">
-                            <div><label for="">Laboratory Requests</label></div>
-                            @foreach(App\Models\SyndromicRecords::refLabRequest() as $ind => $iref)
-                            <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="lab_request_type{{$ind}}" name="laboratory_request_list[]" value="{{mb_strtoupper($iref)}}" {{(in_array(mb_strtoupper($iref), explode(",", old('laboratory_request_list')))) ? 'checked' : ''}}>
-                            <label class="form-check-label">{{$iref}}</label>
-                            </div>
-                            @endforeach
-                            <hr>
-                            <div><label for="">Imaging</label></div>
-                            @foreach(App\Models\SyndromicRecords::refImagingRequest() as $ind => $iref)
-                            <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="imaging_type{{$ind}}" name="imaging_request_list[]" value="{{mb_strtoupper($iref)}}" {{(in_array(mb_strtoupper($iref), explode(",", old('imaging_request_list')))) ? 'checked' : ''}}>
-                            <label class="form-check-label">{{$iref}}</label>
-                            </div>
-                            @endforeach
-                            <hr>
-                            <div><label for="">Alert Type</label></div>
-                            @foreach(App\Models\SyndromicRecords::refAlert() as $ind => $iref)
-                            <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="alert_type{{$ind}}" name="alert_list[]" value="{{mb_strtoupper($iref)}}" {{(in_array(mb_strtoupper($iref), explode(",", old('alert_list')))) ? 'checked' : ''}}>
-                            <label class="form-check-label">{{$iref}}</label>
-                            </div>
-                            @endforeach
-                            <div id="disability_div" class="d-none mt-3">
-                            <div><label for=""><b class="text-danger">*</b>Type of Disability</label></div>
-                            @foreach(App\Models\SyndromicRecords::refAlertDisability() as $ind => $iref)
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="disability_type{{$ind}}" name="alert_ifdisability_list[]" value="{{mb_strtoupper($iref)}}" {{(in_array(mb_strtoupper($iref), explode(",", old('alert_ifdisability_list')))) ? 'checked' : ''}}>
+                            <div id="unclickable">
+                                <div><label for="">Laboratory Requests</label></div>
+                                @foreach(App\Models\SyndromicRecords::refLabRequest() as $ind => $iref)
+                                <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="lab_request_type{{$ind}}" name="laboratory_request_list[]" value="{{mb_strtoupper($iref)}}" {{(in_array(mb_strtoupper($iref), explode(",", $d->laboratory_request_list))) ? 'checked' : ''}}>
                                 <label class="form-check-label">{{$iref}}</label>
+                                </div>
+                                @endforeach
+                                <hr>
+                                <div><label for="">Imaging</label></div>
+                                @foreach(App\Models\SyndromicRecords::refImagingRequest() as $ind => $iref)
+                                <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="imaging_type{{$ind}}" name="imaging_request_list[]" value="{{mb_strtoupper($iref)}}" {{(in_array(mb_strtoupper($iref), explode(",", $d->imaging_request_list))) ? 'checked' : ''}}>
+                                <label class="form-check-label">{{$iref}}</label>
+                                </div>
+                                @endforeach
+                                <hr>
+                                <div><label for="">Alert Type</label></div>
+                                @foreach(App\Models\SyndromicRecords::refAlert() as $ind => $iref)
+                                <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="alert_type{{$ind}}" name="alert_list[]" value="{{mb_strtoupper($iref)}}" {{(in_array(mb_strtoupper($iref), explode(",", $d->alert_list))) ? 'checked' : ''}}>
+                                <label class="form-check-label">{{$iref}}</label>
+                                </div>
+                                @endforeach
+                                <div id="disability_div" class="d-none mt-3">
+                                <div><label for=""><b class="text-danger">*</b>Type of Disability</label></div>
+                                @foreach(App\Models\SyndromicRecords::refAlertDisability() as $ind => $iref)
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="disability_type{{$ind}}" name="alert_ifdisability_list[]" value="{{mb_strtoupper($iref)}}" {{(in_array(mb_strtoupper($iref), explode(",", $d->alert_ifdisability_list))) ? 'checked' : ''}}>
+                                    <label class="form-check-label">{{$iref}}</label>
+                                </div>
+                                @endforeach
+                                </div>
                             </div>
-                            @endforeach
-                            </div>
-                            <div class="form-group">
-                                <label for="" class="text-danger">Alert Description</label>
+                            
+                            <div class="form-group mt-3">
+                                <label for="">Alert Description</label>
                                 <input type="text" class="form-control" name="" id="" value="{{$d->alert_description ?: 'N/A'}}" readonly>
                             </div>
                             <div class="form-group">
@@ -270,7 +273,7 @@
                     <form action="{{route('opdtask_close', $d->id)}}" method="POST">
                         @csrf
                         <button type="button" class="btn btn-secondary d-none" id="backBtn">Back</button>
-                        <button type="submit" class="btn btn-success d-none" onclick="return confirm('Confirm closing the OPD Ticket #{{$d->id}} - {{$d->syndromic_patient->getName()}}. Paki-sure lang po na na-encode na ang mga detalye ni OPD Patient papuntang iClinicSys bago i-close ang ticket.')">Mark as Done</button>
+                        <button type="submit" class="btn btn-success d-none" id="submitBtn" onclick="return confirm('Confirm closing the OPD Ticket #{{$d->id}} - {{$d->syndromic_patient->getName()}}. Paki-sure lang po na na-encode na ang mga detalye ni OPD Patient papuntang iClinicSys bago i-close ang ticket.')">Mark as Done</button>
                     </form>
                     @else
                     <button type="button" class="btn btn-success d-none disabled" id="submitBtn" onclick="alert('This ABTC Ticket was already marked as {{$d->ics_ticketstatus}}.')">Mark as Done</button>
@@ -303,5 +306,16 @@
             $('#backBtn').addClass('d-none');
             $('#submitBtn').addClass('d-none');
         });
+
+        $('input[name="alert_list[]"][value="DISABILITY"]').change(function (e) { 
+            e.preventDefault();
+            if ($(this).is(':checked')) {
+            $('#disability_div').removeClass('d-none');
+            } else {
+            $('#disability_div').addClass('d-none');
+            }
+        }).trigger('change');
+
+        $('#unclickable').click(false);
     </script>
 @endsection
