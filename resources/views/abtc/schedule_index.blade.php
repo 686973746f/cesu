@@ -102,7 +102,7 @@
                     </h4>
                     <div class="row">
                         <div class="col-6">
-                            <div>Done D0 = {{$completed_d0}}</div>
+                            <div>Done D0 = {{$completed_d0}} (New: {{$completed_d0_otherarea - $completed_d0}} | Other Area: {{$completed_d0_otherarea}})</div>
                             <div>Done D3 = {{$completed_d3}}</div>
                             <div>Done D7 = {{$completed_d7}}</div>
                         </div>
