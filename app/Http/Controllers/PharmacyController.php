@@ -1835,6 +1835,35 @@ class PharmacyController extends Controller
         }
     }
 
+    public function updateItem($item_id, Request $r) {
+        $d = PharmacySupplySub::findOrFail($item_id);
+
+        if($d->ifAuthorizedToUpdate()) {
+            $d->update([
+                //'self_sku_code' => $r->self_sku_code,
+                //'self_description' => $r->self_description,
+
+                'po_contract_number' => mb_strtoupper($r->po_contract_number),
+                'supplier' => mb_strtoupper($r->supplier),
+                'dosage_form' => mb_strtoupper($r->dosage_form),
+                'dosage_strength' => mb_strtoupper($r->dosage_strength),
+                'unit_measure' => mb_strtoupper($r->unit_measure),
+                'entity_name' => mb_strtoupper($r->entity_name),
+                'source_of_funds' => mb_strtoupper($r->source_of_funds),
+                'unit_cost' => mb_strtoupper($r->unit_cost),
+                'mode_of_procurement' => mb_strtoupper($r->mode_of_procurement),
+                'end_user' => mb_strtoupper($r->end_user),
+            ]);
+
+            return redirect()->route('pharmacy_itemlist_viewitem', $d->id)
+            ->with('msg', 'Details of the Sub-Item was updated successfully.')
+            ->with('msgtype', 'success');
+        }
+        else {
+            return abort(401);
+        }
+    }
+
     public function viewItemMonthlyStock($item_id) {
         $item = PharmacySupplySub::findOrFail($item_id);
 
@@ -1883,35 +1912,6 @@ class PharmacyController extends Controller
         header("Content-type: application/vnd.openxmlformats-officedocument.wordprocessingml.document");
         header("Content-Disposition: attachment; filename=PHARMACY_SUBCARD_".$d->id.".docx");
         $templateProcessor->saveAs('php://output');
-    }
-
-    public function updateItem($item_id, Request $r) {
-        $d = PharmacySupplySub::findOrFail($item_id);
-
-        if($d->ifAuthorizedToUpdate()) {
-            $d->update([
-                'self_sku_code' => $r->self_sku_code,
-                'self_description' => $r->self_description,
-
-                'po_contract_number' => $r->po_contract_number,
-                'supplier' => $r->supplier,
-                'dosage_form' => $r->dosage_form,
-                'dosage_strength' => $r->dosage_strength,
-                'unit_measure' => $r->unit_measure,
-                'entity_name' => $r->entity_name,
-                'source_of_funds' => $r->source_of_funds,
-                'unit_cost' => $r->unit_cost,
-                'mode_of_procurement' => $r->mode_of_procurement,
-                'end_user' => $r->end_user,
-            ]);
-
-            return redirect()->route('pharmacy_itemlist_viewitem')
-            ->with('msg', 'Details of the Sub-Item was updated successfully.')
-            ->with('msgtype', 'success');
-        }
-        else {
-            return abort(401);
-        }
     }
 
     public function viewSubStock($id) {

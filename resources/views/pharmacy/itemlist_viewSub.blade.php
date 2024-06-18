@@ -61,7 +61,8 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <form action="">
+                        <form action="{{route('pharmacy_itemlist_updateitem', $d->id)}}" method="POST">
+                            @csrf
                             <div id="accordianId" role="tablist" aria-multiselectable="true">
                                 <div class="card">
                                     <div class="card-header" role="tab" id="section1HeaderId">
@@ -115,11 +116,13 @@
                                                 <label for="end_user">End User</label>
                                                 <input type="text" class="form-control" name="end_user" id="end_user" value="{{old('end_user', $d->end_user)}}" style="text-transform: uppercase;">
                                             </div>
+                                            <!--
                                             <hr>
                                             <div class="form-group">
                                                 <label for="config_piecePerBox">Piece per Box</label>
                                                 <input type="number" class="form-control" name="config_piecePerBox" id="config_piecePerBox" value="{{old('config_piecePerBox', $d->config_piecePerBox)}}">
                                             </div>
+                                            -->
                                         </div>
                                         <div class="card-footer">
                                             <button type="submit" class="btn btn-primary btn-block" id="submitbtn">Update (CTRL + S)</button>
