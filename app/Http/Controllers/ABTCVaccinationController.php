@@ -1552,12 +1552,16 @@ class ABTCVaccinationController extends Controller
             $templateProcessor->setValue('isbooster', ' - BOOSTER');
         }
 
+        $templateProcessor->setValue('outcome', 'ANG SUNOD NA BALIK (FOLLOW-UP) AY SA D3 AT D7, 1PM');
+
+        /*
         if($b->outcome == 'INC') {
             $templateProcessor->setValue('outcome', 'PAUNAWA: HAPON PO ANG FOLLOW-UP, 1PM');
         }
         else {
             $templateProcessor->setValue('outcome', '');
         }
+        */
         
         $templateProcessor->saveAs('php://output');
         //$templateProcessor->save('php://output');
