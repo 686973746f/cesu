@@ -126,7 +126,7 @@ class SyndromicController extends Controller
                         ->orWhere('unique_opdnumber', $q)
                         ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper($q))."%");
                     })
-                    ->where('facility_id', $facility_id)
+                    //->where('facility_id', $facility_id)
                     ->paginate(10);
 
                     $select_view = 'search';
