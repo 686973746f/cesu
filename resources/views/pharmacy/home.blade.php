@@ -8,8 +8,9 @@
             <a href="{{route('pharmacy_view_patient_list')}}" class="btn btn-primary">Patients</a>
             <!--<a href="{{route('pharmacy_viewreport')}}" class="btn btn-primary">Report</a>-->
             @if(auth()->user()->isGlobalAdmin())
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#report">Report</button>
+            
             @endif
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#report">Report</button>
             @if(auth()->user()->isAdminPharmacy())
             <hr>
             <a href="{{route('pharmacy_masteritem_list')}}" class="btn btn-warning">Medicines Masterlist</a>

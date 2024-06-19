@@ -294,6 +294,7 @@ class SyndromicPatient extends Model
                 return true;
             }
             else if(auth()->user()->itr_facility_id == 10525) {
+                //MEDICARE AUTO BYPASS
                 return true;
             }
             else {
