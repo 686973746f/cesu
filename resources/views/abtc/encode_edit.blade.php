@@ -208,7 +208,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label for="bite_type" class="form-label"><strong class="text-danger">*</strong>Type of Bite</label>
+                                <label for="bite_type" class="form-label"><strong class="text-danger">*</strong>Type of Exposure</label>
                                 <select class="form-select" name="bite_type" id="bite_type">
                                     <option value="B" {{(old('bite_type', $d->bite_type) == 'B') ? 'selected' : ''}}>Bite</option>
                                     <option value="NB" {{(old('bite_type', $d->bite_type) == 'NB') ? 'selected' : ''}}>Scratch</option>
