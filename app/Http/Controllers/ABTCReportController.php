@@ -1239,6 +1239,11 @@ class ABTCReportController extends Controller
             ->where('address_muncity_text', 'GENERAL TRIAS');
         })->where('bite_type', 'B');
 
+        $cc = AbtcBakunaRecords::whereHas('patients', function ($q) {
+            $q->where('address_province_text', 'CAVITE')
+            ->where('address_muncity_text', 'GENERAL TRIAS');
+        })->where('bite_type', 'CC');
+
         $pd = AbtcBakunaRecords::whereHas('patients', function ($q) {
             $q->where('address_province_text', 'CAVITE')
             ->where('address_muncity_text', 'GENERAL TRIAS');
@@ -1353,6 +1358,8 @@ class ABTCReportController extends Controller
             $bs = $bs->whereYear('case_date', $sy);
 
             $bb = $bb->whereYear('case_date', $sy);
+
+            $cc = $cc->whereYear('case_date', $sy);
 
             $age1 = $age1->whereYear('case_date', $sy);
 
@@ -1491,6 +1498,9 @@ class ABTCReportController extends Controller
             ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
             $bb = $bb->whereYear('case_date', $sy)
+            ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
+
+            $cc = $cc->whereYear('case_date', $sy)
             ->whereBetween('case_date', [$date->startOfQuarter()->format('Y-m-d'), $date->endOfQuarter()->format('Y-m-d')]);
 
             $age1 = $age1->whereYear('case_date', $sy)
@@ -1659,6 +1669,9 @@ class ABTCReportController extends Controller
 
             $bb = $bb->whereYear('case_date', $sy)
             ->whereMonth('case_date', $month);
+            
+            $cc = $cc->whereYear('case_date', $sy)
+            ->whereMonth('case_date', $month);
 
             $age1 = $age1->whereYear('case_date', $sy)
             ->whereMonth('case_date', $month);
@@ -1790,6 +1803,9 @@ class ABTCReportController extends Controller
             $bb = $bb->whereYear('case_date', $sy)
             ->whereRaw('WEEK(case_date) = ?', [$week]);
 
+            $cc = $cc->whereYear('case_date', $sy)
+            ->whereRaw('WEEK(case_date) = ?', [$week]);
+
             $age1 = $age1->whereYear('case_date', $sy)
             ->whereRaw('WEEK(case_date) = ?', [$week]);
 
@@ -1893,6 +1909,8 @@ class ABTCReportController extends Controller
 
             $bb = $bb->count();
 
+            $cc = $cc->count();
+
             $age1 = $age1->count();
 
             $age2 = $age2->count();
@@ -1982,6 +2000,8 @@ class ABTCReportController extends Controller
             $bs = $bs->where('vaccination_site_id', $vid)->count();
 
             $bb = $bb->where('vaccination_site_id', $vid)->count();
+            
+            $cc = $cc->where('vaccination_site_id', $vid)->count();
 
             $age1 = $age1->where('vaccination_site_id', $vid)->count();
 
@@ -2019,7 +2039,7 @@ class ABTCReportController extends Controller
         }
 
         $ctt = $ct1 + $ct2 + $ct3;
-        $bt = $bs + $bb;
+        $bt = $bs + $bb + $cc;
         $anv = $tcases - $avc;
 
         $templateProcessor->setValue('duration', $txt1);
@@ -2055,7 +2075,8 @@ class ABTCReportController extends Controller
 
         $templateProcessor->setValue('bs', number_format($bs));
         $templateProcessor->setValue('bb', number_format($bb));
-        $templateProcessor->setValue('bt', number_format($bs + $bb));
+        $templateProcessor->setValue('cc', number_format($cc));
+        $templateProcessor->setValue('bt', number_format($bs + $bb + $cc));
 
         $templateProcessor->setValue('age1', number_format($age1));
         $templateProcessor->setValue('age2', number_format($age2));
