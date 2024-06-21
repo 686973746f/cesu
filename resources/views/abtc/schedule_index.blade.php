@@ -161,7 +161,12 @@
                             <td class="text-center">
                                 @if(!is_null($n->getCurrentDose()))
                                     @if($n->ifCanProcessQuickMark() == 'Y')
-                                    <a href="{{route('abtc_encode_process', ['br_id' => $n->id, 'dose' => $n->getCurrentDose()])}}?fsc=1" class="btn btn-primary btn-sm" onclick="return confirm('Confirm process. Patient {{$n->patient->getName()}} (#{{$n->case_id}}) should be present. Click OK to proceed.')">Mark as Done</a>
+                                        @if($n->ifPatientLastDoseNormal())
+                                        <!-- Ask if the Animal is Alive, Died or Missing -->
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#askAnimal">Mark as Done</button>
+                                        @else
+                                        <a href="{{route('abtc_encode_process', ['br_id' => $n->id, 'dose' => $n->getCurrentDose()])}}?fsc=1" class="btn btn-primary btn-sm" onclick="return confirm('Confirm process. Patient {{$n->patient->getName()}} (#{{$n->case_id}}) should be present. Click OK to proceed.')">Mark as Done</a>
+                                        @endif
                                     @else
                                         @php
                                             $presentDate = Carbon\Carbon::now();
@@ -251,6 +256,35 @@
               <button type="submit" class="btn btn-success"><i class="fa-solid fa-magnifying-glass me-2"></i>Search</button>
             </div>
           </div>
+        </div>
+    </div>
+</form>
+
+<form action="" method="GET">
+    <div class="modal fade" id="askAnimal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Input Animal Status</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                      <label for="biting_animal_status">Biting Animal Status (After 14 Days)</label>
+                      <select class="form-control" name="biting_animal_status" id="biting_animal_status" required>
+                        <option value="N/A" {{(old('biting_animal_status') == 'N/A') ? 'selected' : ''}}>N/A</option>
+                        <option value="ALIVE" {{(old('biting_animal_status') == 'ALIVE') ? 'selected' : ''}}>Alive</option>
+                        <option value="DEAD" {{(old('biting_animal_status') == 'DEAD') ? 'selected' : ''}}>Dead</option>
+                        <option value="LOST" {{(old('biting_animal_status') == 'LOST') ? 'selected' : ''}}>Lost/Unknown</option>
+                      </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Mark as Done</button>
+                </div>
+            </div>
         </div>
     </div>
 </form>

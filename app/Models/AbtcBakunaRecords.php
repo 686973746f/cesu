@@ -616,4 +616,23 @@ class AbtcBakunaRecords extends Model
             return 'BOOSTER';
         }
     }
+
+    public function ifPatientLastDoseNormal() {
+        if($this->is_booster == 0) {
+            if($this->d0_done == 1 && $this->d3_done == 1 && $this->d7_done == 0) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            if($this->d0_done == 1 && $this->d3_done == 0) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
 }

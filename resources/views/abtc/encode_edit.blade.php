@@ -428,7 +428,7 @@
                                 <option value="N/A" {{(old('biting_animal_status', $d->biting_animal_status) == 'N/A') ? 'selected' : ''}}>N/A</option>
                                 <option value="ALIVE" {{(old('biting_animal_status', $d->biting_animal_status) == 'ALIVE') ? 'selected' : ''}}>Alive</option>
                                 <option value="DEAD" {{(old('biting_animal_status', $d->biting_animal_status) == 'DEAD') ? 'selected' : ''}}>Dead</option>
-                                <option value="LOST" {{(old('biting_animal_status', $d->biting_animal_status) == 'LOST') ? 'selected' : ''}}>Lost</option>
+                                <option value="LOST" {{(old('biting_animal_status', $d->biting_animal_status) == 'LOST') ? 'selected' : ''}}>Lost/Unknown</option>
                             </select>
                         </div>
                         <div id="ifdogdied" class="d-none">
