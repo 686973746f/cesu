@@ -8008,7 +8008,7 @@ class PIDSRController extends Controller
         $nnt_count_death = $nnt_query->where('Year', $year)->where('Outcome', 'D')->count();
         $nt_count_death = $nt_query->where('Year', $year)->where('Outcome', 'D')->count();
         $pert_count_death = $pert_query->where('Year', $year)->where('Outcome', 'D')->count();
-        $rabies_count_death = $rabies_query->where('Year', $year)->where('Outcome', 'Died')->count();
+        $rabies_count_death = $rabies_query->where('Year', $year)->where('Outcome', 'D')->count();
         $rotavirus_count_death = $rotavirus_query->where('Year', $year)->where('Outcome', 'D')->count();
         $sari_count_death = $sari_query->where('Year', $year)->where('outcome', 'Died')->count();
         $typhoid_count_death = $typhoid_query->where('Year', $year)->where('Outcome', 'D')->count();
