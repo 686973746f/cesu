@@ -212,6 +212,7 @@
                                 <select class="form-select" name="bite_type" id="bite_type">
                                     <option value="B" {{(old('bite_type', $d->bite_type) == 'B') ? 'selected' : ''}}>Bite</option>
                                     <option value="NB" {{(old('bite_type', $d->bite_type) == 'NB') ? 'selected' : ''}}>Scratch</option>
+                                    <option value="CC" {{(old('bite_type', $d->bite_type) == 'CC') ? 'selected' : ''}}>Close Contact of Rabies Patient</option>
                                 </select>
                             </div>
                         </div>

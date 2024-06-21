@@ -135,6 +135,7 @@
                                     <option value="" disabled {{is_null(old('bite_type')) ? 'selected' : ''}}>Choose...</option>
                                     <option value="B" {{(old('bite_type') == 'B') ? 'selected' : ''}}>Bite</option>
                                     <option value="NB" {{(old('bite_type') == 'NB') ? 'selected' : ''}}>Scratch</option>
+                                    <option value="CC" {{(old('bite_type') == 'CC') ? 'selected' : ''}}>Close Contact of Rabies Patient</option>
                                 </select>
                             </div>
                         </div>

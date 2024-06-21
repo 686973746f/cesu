@@ -397,6 +397,9 @@ class AbtcBakunaRecords extends Model
         if($this->bite_type == 'B') {
             return 'BITE';
         }
+        else if($this->bite_type == 'CC') {
+            return 'CLOSE CONTACT';
+        }
         else {
             if($this->is_preexp == 0) {
                 return 'SCRATCH';
