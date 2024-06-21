@@ -2073,10 +2073,10 @@ class ABTCReportController extends Controller
         $templateProcessor->setValue('ct3', number_format($ct3));
         $templateProcessor->setValue('ctt', number_format($ct1 + $ct2 + $ct3));
 
-        $templateProcessor->setValue('bs', number_format($bs));
+        $templateProcessor->setValue('bs', number_format($bs + $ct1)); //Added Null Exposure Type (Pre-Exposure)
         $templateProcessor->setValue('bb', number_format($bb));
         $templateProcessor->setValue('cc', number_format($cc));
-        $templateProcessor->setValue('bt', number_format($bs + $bb + $cc));
+        $templateProcessor->setValue('bt', number_format($bs + $ct1 + $bb + $cc));
 
         $templateProcessor->setValue('age1', number_format($age1));
         $templateProcessor->setValue('age2', number_format($age2));
