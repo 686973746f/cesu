@@ -433,6 +433,7 @@ class ABTCVaccinationController extends Controller
             ->first();
 
             if($btwo) {
+                /*
                 $vblist = AbtcVaccineBrand::where('enabled', 1)->orderBy('brand_name', 'ASC')->get();
                 $vslist = AbtcVaccinationSite::where('enabled', 1)->orderBy('id', 'ASC')->get();
 
@@ -448,6 +449,12 @@ class ABTCVaccinationController extends Controller
                     ->with('msg', 'Unable to process. 1 week has not yet passed since the last incomplete Vaccination //DURATION TEST ONLY, CONTACT CHRISTIAN JAMES HISTORILLO TO UPDATE CODE HERE')
                     ->with('msgtype', 'warning');
                 }
+                */
+
+                //NEW CODE JUNE 18, 2024 - DO NOT ALLOW INCOMPLETE PATIENTS TO HAVE A NEW VACCINATION
+                return redirect()->back()
+                ->with('msg', 'Error: As of June 2024, as per Sir Luis Broas hindi babakunahan ang mga pasyenteng hindi naman tinapos ang kanilang dating bakuna.')
+                ->with('msgtype', 'warning');
             }
             else {
                 return abort(401);
@@ -457,6 +464,10 @@ class ABTCVaccinationController extends Controller
 
     public function encode_process($br_id, $dose) {
         $get_br = AbtcBakunaRecords::findOrFail($br_id);
+
+        if($get_br->ifPatientLastDoseNormal()) {
+            $get_br->biting_animal_status = request()->input('biting_animal_status');
+        }
 
         if(is_null($get_br->patient->bdate)) {
             return redirect()->route('abtc_patient_edit', $get_br->patient->id)

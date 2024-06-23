@@ -163,7 +163,7 @@
                                     @if($n->ifCanProcessQuickMark() == 'Y')
                                         @if($n->ifPatientLastDoseNormal())
                                         <!-- Ask if the Animal is Alive, Died or Missing -->
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#askAnimal">Mark as Done</button>
+                                        <button type="button" class="btn btn-primary open-modal" data-row="{{$n->id}}" data-dose="{{$n->getCurrentDose()}}">Mark as Done</button>
                                         @else
                                         <a href="{{route('abtc_encode_process', ['br_id' => $n->id, 'dose' => $n->getCurrentDose()])}}?fsc=1" class="btn btn-primary btn-sm" onclick="return confirm('Confirm process. Patient {{$n->patient->getName()}} (#{{$n->case_id}}) should be present. Click OK to proceed.')">Mark as Done</a>
                                         @endif
@@ -260,7 +260,7 @@
     </div>
 </form>
 
-<form action="" method="GET">
+<form id="updateForm" method="GET">
     <div class="modal fade" id="askAnimal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -271,13 +271,16 @@
                         </button>
                 </div>
                 <div class="modal-body">
+                    <div class="alert alert-info" role="alert">
+                        Tignan kung ano ang tsinekan ng pasyente sa kanyang card.
+                    </div>
                     <div class="form-group">
-                      <label for="biting_animal_status">Biting Animal Status (After 14 Days)</label>
+                      <label for="biting_animal_status"><b class="text-danger">*</b>Biting Animal Status (After 14 Days)</label>
                       <select class="form-control" name="biting_animal_status" id="biting_animal_status" required>
-                        <option value="N/A" {{(old('biting_animal_status') == 'N/A') ? 'selected' : ''}}>N/A</option>
-                        <option value="ALIVE" {{(old('biting_animal_status') == 'ALIVE') ? 'selected' : ''}}>Alive</option>
-                        <option value="DEAD" {{(old('biting_animal_status') == 'DEAD') ? 'selected' : ''}}>Dead</option>
-                        <option value="LOST" {{(old('biting_animal_status') == 'LOST') ? 'selected' : ''}}>Lost/Unknown</option>
+                        <option value="" {{(old('biting_animal_status') == '') ? 'selected' : ''}}>Choose...</option>
+                        <option value="ALIVE" {{(old('biting_animal_status') == 'ALIVE') ? 'selected' : ''}}>Alive / Buhay pa</option>
+                        <option value="DEAD" {{(old('biting_animal_status') == 'DEAD') ? 'selected' : ''}}>Dead / Patay na</option>
+                        <option value="LOST" {{(old('biting_animal_status') == 'LOST') ? 'selected' : ''}}>Lost / Unknown / Hindi makita</option>
                       </select>
                     </div>
                 </div>
@@ -315,6 +318,15 @@
     });
 
     $(document).ready(function () {
+        $('.open-modal').on('click', function () {
+            var recordId = $(this).data('row');
+            var doseId = $(this).data('dose');
+            var updateUrl = '/abtc/encode/process_vaccination/' + recordId + '/' + doseId;
+
+            $('#updateForm').attr('action', updateUrl);
+            $('#askAnimal').modal('show');
+        });
+
         $('#patient_id').select2({
             dropdownParent: $("#nvm"),
             theme: "bootstrap",
