@@ -9,8 +9,11 @@ $gt_vaxcert = 0;
 $gt_opd = 0;
 $gt_lcr = 0;
 $gt_edcs = 0;
+$gt_death = 0;
+$gt_opdtoics = 0;
+$gt_abtctoics = 0;
 @endphp
-<div class="container">
+<div class="container-fluid">
     <div class="card">
         <div class="card-header font-weight-bold">Encoder Statistics for {{(request()->input('date')) ? date('m/d/Y', strtotime(request()->input('date'))) : date('m/d/Y, h:i A')}}</div>
         <div class="card-body">
@@ -35,6 +38,9 @@ $gt_edcs = 0;
                             <th>OPD</th>
                             <th>LCR Livebirths</th>
                             <th>Imports from EDCS-IS</th>
+                            <th>Encoded Death Certificates</th>
+                            <th>OPD to iClinicSys</th>
+                            <th>ABTC to iClinicSys</th>
                             <th>Total</th>
                         </tr>
                     </thead>
@@ -50,7 +56,10 @@ $gt_edcs = 0;
                             <td class="text-center">{{$i['opd_count']}}</td>
                             <td class="text-center">{{$i['lcr_livebirth']}}</td>
                             <td class="text-center">{{$i['edcs_count']}}</td>
-                            <td class="text-center font-weight-bold">{{$i['covid_count_final'] + $i['abtc_count'] + $i['vaxcert_count'] + $i['opd_count'] + $i['abtc_ffup_gtotal'] + $i['lcr_livebirth'] + $i['edcs_count']}}</td>
+                            <td class="text-center">{{$i['death_count']}}</td>
+                            <td class="text-center">{{$i['opdtoics_count']}}</td>
+                            <td class="text-center">{{$i['abtctoics_count']}}</td>
+                            <td class="text-center font-weight-bold">{{$i['covid_count_final'] + $i['abtc_count'] + $i['vaxcert_count'] + $i['opd_count'] + $i['abtc_ffup_gtotal'] + $i['lcr_livebirth'] + $i['edcs_count'] + $i['death_count'] + $i['opdtoics_count'] + $i['abtctoics_count']}}</td>
                         </tr>
                         @php
                         $gt_covid += $i['covid_count_final'];
@@ -60,6 +69,9 @@ $gt_edcs = 0;
                         $gt_opd += $i['opd_count'];
                         $gt_lcr += $i['lcr_livebirth'];
                         $gt_edcs += $i['edcs_count'];
+                        $gt_death += $i['death_count'];
+                        $gt_opdtoics += $i['opdtoics_count'];
+                        $gt_abtctoics += $i['abtctoics_count'];
                         @endphp
                         @endforeach
                     </tbody>
@@ -73,7 +85,10 @@ $gt_edcs = 0;
                             <td>{{$gt_opd}}</td>
                             <td>{{$gt_lcr}}</td>
                             <td>{{$gt_edcs}}</td>
-                            <td>{{$gt_covid + $gt_abtc + $gt_vaxcert + $gt_opd + $gt_abtc_ff + $gt_lcr + $gt_edcs}}</td>
+                            <td>{{$gt_death}}</td>
+                            <td>{{$gt_opdtoics}}</td>
+                            <td>{{$gt_abtctoics}}</td>
+                            <td>{{$gt_covid + $gt_abtc + $gt_vaxcert + $gt_opd + $gt_abtc_ff + $gt_lcr + $gt_edcs + $gt_death + $gt_opdtoics + $gt_abtctoics}}</td>
                         </tr>
                     </tfoot>
                 </table>
