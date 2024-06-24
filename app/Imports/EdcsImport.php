@@ -1798,7 +1798,7 @@ class RotaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'AdmDx' => $row['admitting_diagnosis'],
                 'FinalDx' => $row['final_diagnosis'],
                 'DegDehy' => $row['degree_of_dehydration_health_facility_font_stylecolorred_font'],
-                'DiarrCases' => $row['are_there_two_or_more_diarrhea_cases'],
+                'DiarrCases' => substr($row['are_there_two_or_more_diarrhea_cases'],0,1),
                 'Community' => $row['if_yes_where'],
                 'HHold' => NULL,
                 'School' => NULL,
