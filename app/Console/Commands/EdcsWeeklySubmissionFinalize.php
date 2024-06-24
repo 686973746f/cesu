@@ -49,45 +49,51 @@ class EdcsWeeklySubmissionFinalize extends Command
             'MAMA RACHEL HOSPITAL OF MERCY',
         ];
 
+        $i = date('W');
+
+        /*
         for($i=1; $i < date('W'); $i++) {
-            foreach($facilities_array as $facility_name) {
-                $total_count = 0;
+            
+        }
+        */
 
-                foreach(PIDSRController::listDiseasesTables() as $disease) {
-                    $modelClass = "App\\Models\\$disease";
+        foreach($facilities_array as $facility_name) {
+            $total_count = 0;
 
-                    if($disease == 'SevereAcuteRespiratoryInfection') {
-                        $total_count += $modelClass::where('facility_name', $facility_name)
-                        ->where('year', '2024')
-                        ->where('morbidity_week', $i)
-                        ->where('enabled', 1)
-                        ->where('match_casedef', 1)
-                        ->count();
-                    }
-                    else {
-                        $total_count += $modelClass::where('NameOfDru', $facility_name)
-                        ->where('Year', '2024')
-                        ->where('MorbidityWeek', $i)
-                        ->where('enabled', 1)
-                        ->where('match_casedef', 1)
-                        ->count();
-                    }
-                }
+            foreach(PIDSRController::listDiseasesTables() as $disease) {
+                $modelClass = "App\\Models\\$disease";
 
-                if($total_count > 0) {
-                    $status = 'SUBMITTED';
+                if($disease == 'SevereAcuteRespiratoryInfection') {
+                    $total_count += $modelClass::where('facility_name', $facility_name)
+                    ->where('year', '2024')
+                    ->where('morbidity_week', $i)
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->count();
                 }
                 else {
-                    $status = 'ZERO CASE';
+                    $total_count += $modelClass::where('NameOfDru', $facility_name)
+                    ->where('Year', '2024')
+                    ->where('MorbidityWeek', $i)
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->count();
                 }
-
-                $c = EdcsWeeklySubmissionChecker::create([
-                    'facility_name' => $facility_name,
-                    'year' => '2024',
-                    'week' => $i,
-                    'status' => $status,
-                ]);
             }
+
+            if($total_count > 0) {
+                $status = 'SUBMITTED';
+            }
+            else {
+                $status = 'ZERO CASE';
+            }
+
+            $c = EdcsWeeklySubmissionChecker::create([
+                'facility_name' => $facility_name,
+                'year' => '2024',
+                'week' => $i,
+                'status' => $status,
+            ]);
         }
     }
 }
