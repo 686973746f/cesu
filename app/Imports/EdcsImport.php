@@ -236,7 +236,7 @@ class EdcsImport implements WithMultipleSheets, SkipsUnknownSheets
             'rabies_view' => new RabiesImport(),
 
             'ROTA' => new RotaImport(),
-            'rotavirus_view.csv' => new RotaImport(),
+            'rotavirus_view' => new RotaImport(),
             
             'TYPHOID' => new TyphoidImport(),
             'typhoid_view' => new TyphoidImport(),
