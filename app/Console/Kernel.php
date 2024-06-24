@@ -88,6 +88,8 @@ class Kernel extends ConsoleKernel
 
         //$schedule->command('pharmacylog:weekly')->weeklyOn(7, '21:00')->evenInMaintenanceMode();
         //$schedule->command('pharmacylog:monthly')->monthlyOn(date('t'), '22:00')->evenInMaintenanceMode();
+
+        $schedule->command('edcsweeklysubmitfinalize')->weeklyOn(2, '07:00')->evenInMaintenanceMode();
     }
 
     /**
