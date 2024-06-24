@@ -8215,4 +8215,6 @@ class PIDSRController extends Controller
 
         return response()->json(['color' => $return_color]);
     }
+
+    
 }
