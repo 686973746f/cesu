@@ -28,6 +28,7 @@
                     </div>
                     @endif
                     <a href="{{route('pidsr_epdrone_home')}}" class="btn btn-primary btn-block">Case Viewer/Checker</a>
+                    <a href="{{route('pidsr_weeklymonitoring')}}" class="btn btn-primary btn-block">Weekly Submissions Monitoring</a>
                     <a href="{{route('pidsr_forvalidation_index')}}?year={{date('Y')}}" class="btn btn-primary btn-block">For Validation @if($forverification_count != 0)<span class="badge badge-danger ml-1">{{number_format($forverification_count)}}</span>@endif</a>
                     <!--<button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#thresh">Threshold Count</button>-->
                     <hr>

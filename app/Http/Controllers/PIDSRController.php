@@ -41,6 +41,7 @@ use App\Models\Leptospirosis;
 use App\Models\PidsrThreshold;
 use App\Models\LabResultLogBook;
 use App\Models\EdcsLaboratoryData;
+use App\Models\EdcsWeeklySubmissionChecker;
 use App\Models\PidsrNotifications;
 use Illuminate\Support\Facades\DB;
 use RebaseData\Converter\Converter;
@@ -8216,5 +8217,70 @@ class PIDSRController extends Controller
         return response()->json(['color' => $return_color]);
     }
 
-    
+    public function weeklyMonitoring() {
+        $facilities_array = [
+            'CITY OF GENERAL TRIAS DOCTORS MEDICAL CENTER, INC.',
+            'CITY OF GENERAL TRIAS MEDICARE HOSPITAL',
+            'DIVINE GRACE MEDICAL CENTER',
+            //'GENERAL TRIAS CITY HEALTH OFFICE',
+            'GENERAL TRIAS MATERNITY AND PEDIATRIC HOSPITAL',
+            'GENTRI MEDICAL CENTER AND HOSPITAL, INC.',
+            'MAMA RACHEL HOSPITAL OF MERCY',
+        ];
+
+        if(request()->input('year')) {
+            $year = request()->input('year');
+            $maxweek = 52;
+        }
+        else {
+            $year = date('Y');
+            $maxweek = date('W');
+        }
+        
+        $final_array = [];
+        
+
+        foreach($facilities_array as $f) {
+            $week_array = [];
+
+            for($i=1; $i <= $maxweek; $i++) {
+                $val = EdcsWeeklySubmissionChecker::where('facility_name', $f)
+                ->where('year', $year)
+                ->where('week', $i)
+                ->first();
+
+                if($val) {
+                    $val = $val->status;
+
+                    if($val == 'SUBMITTED') {
+                        $val = '✔';
+                    }
+                    else if($val == 'ZERO CASE') {
+                        $val = 'Z';
+                    }
+                }
+                else {
+                    $val = 'X';
+                }
+
+                $week_array[] = $val;
+            }
+
+            $final_array[] = [
+                'name' => $f,
+                'weeks' => $week_array,
+            ];
+        }
+
+        $fetch_list = EdcsWeeklySubmissionChecker::where('year', $year)->get();
+
+        return view('pidsr.weeklymonitoring', [
+            'year' => $year,
+            'maxweek' => $maxweek,
+            'fetch_list' => $fetch_list,
+            'facilities_array' => $facilities_array,
+
+            'final_array' => $final_array,
+        ]);
+    }
 }

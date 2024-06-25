@@ -383,6 +383,8 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
 
     Route::get('/pidsr/map_viewer/{case}', [PIDSRController::class, 'mapViewerIndex'])->name('pidsr_case_mapviewer');
     Route::get('/pidsr/mpGetColor', [PIDSRController::class, 'mapViewerGetColor'])->name('pidsr_case_mapviewerGetColor');
+
+    Route::get('/pidsr/weeklymonitoring', [PIDSRController::class, 'weeklyMonitoring'])->name('pidsr_weeklymonitoring');
 });
 
 Route::get('/edcs/barangayportal', [PIDSRController::class, 'brgyCaseViewerWelcome'])->name('edcs_barangay_welcome');
