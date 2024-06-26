@@ -35,6 +35,12 @@
                         @endforeach
                     </tbody>
                 </table>
+
+                <ul>
+                    Legend
+                    <li>✔ - Submitted</li>
+                    <li>Z - Zero Case/No Submission</li>
+                </ul>
             </div>
         </div>
     </div>
