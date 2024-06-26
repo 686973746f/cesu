@@ -279,12 +279,14 @@ class SyndromicRecords extends Model
             'BLOOD CHEMISTRY',
             'CLINICAL CHEMISTRY',
             'COMPLETE BLOOD COUNT',
+            'DENGUE NS1',
             'FECALYSIS',
             'HEMATOLOGY',
             'IMMUNOLOGY',
             'MTB GENEXPERT',
             'SEROLOGY',
             'SPUTUM MICROSCOPY',
+            'URIC ACID',
             'URINALYSIS',
         ];
 
