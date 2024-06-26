@@ -23,10 +23,10 @@
                             @foreach($i['weeks'] as $w)
                             @php
                             if($w == '✔') {
-                                $text_color = 'text-success';
+                                $text_color = 'bg-success';
                             }
                             else {
-                                $text_color = 'text-warning';
+                                $text_color = 'bg-warning';
                             }
                             @endphp
                             <td class="text-center {{$text_color}}">{{$w}}</td>
