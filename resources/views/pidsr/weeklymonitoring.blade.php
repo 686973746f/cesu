@@ -19,9 +19,17 @@
                         @foreach($final_array as $ind => $i)
                         <tr>
                             <td class="text-center">{{$ind + 1}}</td>
-                            <td>{{$i['name']}}</td>
+                            <td><b>{{$i['name']}}</b></td>
                             @foreach($i['weeks'] as $w)
-                            <td class="text-center">{{$w}}</td>
+                            @php
+                            if($w == '✔') {
+                                $text_color = 'text-success';
+                            }
+                            else {
+                                $text_color = 'text-warning';
+                            }
+                            @endphp
+                            <td class="text-center {{$text_color}}">{{$w}}</td>
                             @endforeach
                         </tr>
                         @endforeach
