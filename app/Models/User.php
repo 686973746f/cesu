@@ -45,6 +45,9 @@ FHSIS_ENCODER
 ITR_ADMIN
 ITR_ENCODER
 
+ITR_TBDOTS_ENCODER
+ITR_TBDOTS_ADMIN
+
 ITR_HOSPITAL
 
 ITR_BRGY_ADMIN
@@ -634,6 +637,17 @@ class User extends Authenticatable implements MustVerifyEmail
         $plist = $this->getPermissions();
 
         if(in_array('MAYOR_ACCESS', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function isTbdotsEncoder() {
+        $plist = $this->getPermissions();
+
+        if(in_array('ITR_TBDOTS_ENCODER', $plist) || in_array('ITR_TBDOTS_ADMIN', $plist)) {
             return true;
         }
         else {

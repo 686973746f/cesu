@@ -207,6 +207,8 @@ class CreateSyndromicRecordsTable extends Migration
             $table->dateTime('ics_grabbed_date')->nullable();
             $table->foreignId('ics_finishedby')->nullable()->constrained('users')->onDelete('cascade');
             $table->dateTime('ics_finished_date')->nullable();
+
+            $table->tinyInteger('encodedfrom_tbdots')->default(0);
         });
     }
 

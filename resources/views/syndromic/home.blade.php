@@ -334,26 +334,66 @@
                             </div>
                         </div>
                     </form>
-                    
-                    <!--
-                    <div class="card">
-                        <div class="card-header" role="tab" id="section2HeaderId">
-                            <h5 class="mb-0">
-                                <a data-toggle="collapse" data-parent="#accordianId" href="#section2ContentId" aria-expanded="true" aria-controls="section2ContentId">
-                                    Test
+                </div>
+                <div id="accordianId2" role="tablist" aria-multiselectable="true">
+                    <form action="{{route('syndromic_cho_dashboard_report')}}" method="GET">
+                        <div class="card mt-3">
+                            <div class="card-header text-center" role="tab" id="section1HeaderId">
+                                <a data-toggle="collapse" data-parent="#accordianId2" href="#opdMonthlyReport" aria-expanded="true" aria-controls="opdMonthlyReport">
+                                    OPD Summary
                                 </a>
-                            </h5>
-                        </div>
-                        <div id="section2ContentId" class="collapse in" role="tabpanel" aria-labelledby="section2HeaderId">
-                            <div class="card-body">
-                                <p>Test</p>
+                            </div>
+                            <div id="opdMonthlyReport" class="collapse in" role="tabpanel" aria-labelledby="section1HeaderId">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="type"><b class="text-danger">*</b>Type</label>
+                                        <select class="form-control" name="type" id="type" required>
+                                          <option value="" disabled selected>Choose...</option>
+                                          <option value="Daily">Daily</option>
+                                          <option value="Monthly">Monthly</option>
+                                          <option value="Yearly">Yearly</option>
+                                        </select>
+                                    </div>
+                                    <div id="opdReport_ifDaily" class="d-none">
+                                        <div class="form-group">
+                                            <label for="sdate"><b class="text-danger">*</b>Date</label>
+                                          <input type="date" class="form-control" name="sdate" id="sdate" min="2024-01-01" max="{{date('Y-m-d')}}">
+                                        </div>
+                                    </div>
+                                    <div class="d-none" id="opdReport_ifMonthlyOrYearly">
+                                        <div class="form-group">
+                                            <label for="syear"><b class="text-danger">*</b>Year</label>
+                                            <input type="number" class="form-control" name="syear" id="syear" value="{{(request()->input('syear')) ? request()->input('syear') : date('Y')}}">
+                                        </div>
+                                    </div>
+                                    <div id="opdReport_ifMonthly" class="d-none">
+                                        <div class="form-group">
+                                            <label for="smonth"><b class="text-danger">*</b>Month</label>
+                                            <select class="form-control" name="smonth" id="smonth">
+                                              <option value="01" {{(date('m') == '01') ? 'selected' : ''}}>January</option>
+                                              <option value="02" {{(date('m') == '02') ? 'selected' : ''}}>February</option>
+                                              <option value="03" {{(date('m') == '03') ? 'selected' : ''}}>March</option>
+                                              <option value="04" {{(date('m') == '04') ? 'selected' : ''}}>April</option>
+                                              <option value="05" {{(date('m') == '05') ? 'selected' : ''}}>May</option>
+                                              <option value="06" {{(date('m') == '06') ? 'selected' : ''}}>June</option>
+                                              <option value="07" {{(date('m') == '07') ? 'selected' : ''}}>July</option>
+                                              <option value="08" {{(date('m') == '08') ? 'selected' : ''}}>August</option>
+                                              <option value="09" {{(date('m') == '09') ? 'selected' : ''}}>September</option>
+                                              <option value="10" {{(date('m') == '10') ? 'selected' : ''}}>October</option>
+                                              <option value="11" {{(date('m') == '11') ? 'selected' : ''}}>November</option>
+                                              <option value="12" {{(date('m') == '12') ? 'selected' : ''}}>December</option>
+                                            </select>
+                                          </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer f-none" id="opdReport_submitDiv">
+                                    <button type="submit" class="btn btn-success btn-block">Load Report</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    -->
+                    </form>
                 </div>
                 <hr>
-                <a href="" class="btn btn-primary btn-block">OPD Dashboard</a>
                 <!-- <a href="" class="btn btn-primary btn-block">OPD Daily Report</a> -->
                 <a href="" class="btn btn-primary btn-block">Barangay M2 Dashboard</a>
                 <!-- <a href="{{route('syndromic_diseasechecker')}}" class="btn btn-primary btn-block">Go to Disease Checker Page</a> -->
@@ -510,6 +550,50 @@
         else {
             $('#date_end').prop('required', true);
             $('#de_div').removeClass('d-none');
+        }
+    }).trigger('change');
+
+    $('#type').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'Daily') {
+            $('#opdReport_ifDaily').removeClass('d-none');
+            $('#opdReport_ifMonthlyOrYearly').addClass('d-none');
+            $('#opdReport_ifMonthly').addClass('d-none');
+            $('#opdReport_submitDiv').removeClass('d-none');
+
+            $('#sdate').prop('required', true);
+            $('#smonth').prop('required', false);
+            $('#syear').prop('required', false);
+        }
+        else if($(this).val() == 'Monthly') {
+            $('#opdReport_ifDaily').addClass('d-none');
+            $('#opdReport_ifMonthlyOrYearly').removeClass('d-none');
+            $('#opdReport_ifMonthly').removeClass('d-none');
+            $('#opdReport_submitDiv').removeClass('d-none');
+            
+            $('#sdate').prop('required', false);
+            $('#smonth').prop('required', true);
+            $('#syear').prop('required', true);
+        }
+        else if($(this).val() == 'Yearly') {
+            $('#opdReport_ifDaily').addClass('d-none');
+            $('#opdReport_ifMonthlyOrYearly').removeClass('d-none');
+            $('#opdReport_ifMonthly').addClass('d-none');
+            $('#opdReport_submitDiv').removeClass('d-none');
+
+            $('#sdate').prop('required', false);
+            $('#smonth').prop('required', false);
+            $('#syear').prop('required', true);
+        }
+        else {
+            $('#opdReport_ifDaily').addClass('d-none');
+            $('#opdReport_ifMonthlyOrYearly').addClass('d-none');
+            $('#opdReport_ifMonthly').addClass('d-none');
+            $('#opdReport_submitDiv').addClass('d-none');
+
+            $('#sdate').prop('required', false);
+            $('#smonth').prop('required', false);
+            $('#syear').prop('required', false);
         }
     }).trigger('change');
 </script>

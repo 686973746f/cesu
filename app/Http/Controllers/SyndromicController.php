@@ -444,6 +444,8 @@ class SyndromicController extends Controller
     
                 'qr' => $qr,
                 'facility_id' => auth()->user()->itr_facility_id,
+
+                'encodedfrom_tbdots' => (auth()->user()->isTbdotsEncoder()) ? 1 : 0,
             ];
 
             if(!auth()->user()->isSyndromicHospitalLevelAccess()) {
@@ -682,6 +684,8 @@ class SyndromicController extends Controller
                 'age_days' => $get_agedays,
 
                 'qr' => $for_qr,
+
+                'encodedfrom_tbdots' => (auth()->user()->isTbdotsEncoder()) ? 1 : 0,
             ];
 
             if(auth()->user()->isSyndromicHospitalLevelAccess()) {
@@ -2220,6 +2224,8 @@ class SyndromicController extends Controller
     }
 
     public function hospSummaryReport() {
+        ini_set('max_execution_time', 9999999);
+
         if(request()->input('smonth') && request()->input('syear')) {
             $smonth = request()->input('smonth');
             $syear = request()->input('syear');
@@ -2993,6 +2999,255 @@ class SyndromicController extends Controller
             'smonth' => $smonth,
             'syear' => $syear,
         ]);
+    }
+
+    public function ChoOpdSummaryReport() {
+        //SAME CODE WITH HOSPITAL SUMMARY REPORT (hospSummaryReport) but Converted to CHO Format
+        ini_set('max_execution_time', 9999999);
+
+        if(request()->input('smonth') && request()->input('syear')) {
+            $smonth = request()->input('smonth');
+            $syear = request()->input('syear');
+        }
+        else {
+            $smonth = date('m');
+            $syear = date('Y');
+        }
+
+        $date = Carbon::createFromDate($syear, $smonth, 1);
+        $month_flavor = $date->format('F').' 1 - '.$date->format('t');
+
+        $group_diagnosis = SyndromicRecords::where('facility_id', auth()->user()->itr_facility_id);
+        
+        if(request()->input('type') == 'Daily') {
+            $sdate = request()->input('sdate');
+
+            $group_diagnosis = $group_diagnosis->whereDate('consultation_date', $sdate);
+        }
+        else if(request()->input('type') == 'Monthly') {
+            $startOfMonth = Carbon::createFromDate($syear, $smonth, 1)->startOfMonth();
+            $endOfMonth = Carbon::createFromDate($syear, $smonth, 1)->endOfMonth();
+
+            $group_diagnosis = $group_diagnosis->whereBetween('consultation_date', [$startOfMonth, $endOfMonth]);
+        }
+        else if(request()->input('type') == 'Yearly') {
+            $group_diagnosis = $group_diagnosis::whereYear('consultation_date', $syear);
+        }
+        else {
+            return abort(401);
+        }
+
+        if($group_diagnosis->count() <= 0) {
+            return 'No Results found.';
+        }
+
+        $group_diagnosis = $group_diagnosis->orderBy('dcnote_assessment', 'ASC')
+        ->groupBy('dcnote_assessment')
+        ->pluck('dcnote_assessment')
+        ->toArray();
+
+        $gd_final = [];
+
+        foreach($group_diagnosis as $f) {
+            $separate_arr = explode(",", $f);
+
+            $string = $separate_arr[0];
+
+            if(!in_array($string, $gd_final)) {
+                $gd_final[] = $separate_arr[0];
+            }
+        }
+
+        $final_arr = [];
+
+        foreach($gd_final as $g) {
+            $pedia_old_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'MALE');
+            })
+            ->where('dcnote_assessment', 'LIKE', $g.'%')
+            ->where('nature_of_visit', 'FOLLOW-UP VISIT')
+            ->where('age_years', '<=', 19)
+            ->where('facility_id', auth()->user()->itr_facility_id);
+            
+            $pedia_new_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'MALE');
+            })
+            ->where('dcnote_assessment', 'LIKE', $g.'%')
+            ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
+            ->where('age_years', '<=', 19)
+            ->where('facility_id', auth()->user()->itr_facility_id);
+            
+            $pedia_old_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'FEMALE');
+            })
+            ->where('dcnote_assessment', 'LIKE', $g.'%')
+            ->where('nature_of_visit', 'FOLLOW-UP VISIT')
+            ->where('age_years', '<=', 19)
+            ->where('facility_id', auth()->user()->itr_facility_id);
+
+            $pedia_new_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'FEMALE');
+            })
+            ->where('dcnote_assessment', 'LIKE', $g.'%')
+            ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
+            ->where('age_years', '<=', 19)
+            ->where('facility_id', auth()->user()->itr_facility_id);
+
+            $adult_old_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'MALE');
+            })
+            ->where('dcnote_assessment', 'LIKE', $g.'%')
+            ->where('nature_of_visit', 'FOLLOW-UP VISIT')
+            ->whereBetween('age_years', [20,59])
+            ->where('facility_id', auth()->user()->itr_facility_id);
+
+            $adult_new_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'MALE');
+            })
+            ->where('dcnote_assessment', 'LIKE', $g.'%')
+            ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
+            ->whereBetween('age_years', [20,59])
+            ->where('facility_id', auth()->user()->itr_facility_id);
+            
+            $adult_old_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'FEMALE');
+            })
+            ->where('dcnote_assessment', 'LIKE', $g.'%')
+            ->where('nature_of_visit', 'FOLLOW-UP VISIT')
+            ->whereBetween('age_years', [20,59])
+            ->where('facility_id', auth()->user()->itr_facility_id);
+
+            $adult_new_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'FEMALE');
+            })
+            ->where('dcnote_assessment', 'LIKE', $g.'%')
+            ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
+            ->whereBetween('age_years', [20,59])
+            ->where('facility_id', auth()->user()->itr_facility_id);
+
+            $senior_old_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'MALE');
+            })
+            ->where('dcnote_assessment', 'LIKE', $g.'%')
+            ->where('nature_of_visit', 'FOLLOW-UP VISIT')
+            ->where('age_years', '>=', 60)
+            ->where('facility_id', auth()->user()->itr_facility_id);
+
+            $senior_new_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'MALE');
+            })
+            ->where('dcnote_assessment', 'LIKE', $g.'%')
+            ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
+            ->where('age_years', '>=', 60)
+            ->where('facility_id', auth()->user()->itr_facility_id);
+
+            $senior_old_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'FEMALE');
+            })
+            ->where('dcnote_assessment', 'LIKE', $g.'%')
+            ->where('nature_of_visit', 'FOLLOW-UP VISIT')
+            ->where('age_years', '>=', 60)
+            ->where('facility_id', auth()->user()->itr_facility_id);
+
+            $senior_new_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
+                $q->where('gender', 'FEMALE');
+            })
+            ->where('dcnote_assessment', 'LIKE', $g.'%')
+            ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
+            ->where('age_years', '>=', 60)
+            ->where('facility_id', auth()->user()->itr_facility_id);
+
+            if(request()->input('type') == 'Daily') {
+                $sdate = request()->input('sdate');
+
+                $pedia_old_m = $pedia_old_m->whereDate('consultation_date', $sdate);
+                $pedia_new_m = $pedia_new_m->whereDate('consultation_date', $sdate);
+                $pedia_old_f = $pedia_old_f->whereDate('consultation_date', $sdate);
+                $pedia_new_f = $pedia_new_f->whereDate('consultation_date', $sdate);
+
+                $adult_old_m = $adult_old_m->whereDate('consultation_date', $sdate);
+                $adult_new_m = $adult_new_m->whereDate('consultation_date', $sdate);
+                $adult_old_f = $adult_old_f->whereDate('consultation_date', $sdate);
+                $adult_new_f = $adult_new_f->whereDate('consultation_date', $sdate);
+
+                $senior_old_m = $senior_old_m->whereDate('consultation_date', $sdate);
+                $senior_new_m = $senior_new_m->whereDate('consultation_date', $sdate);
+                $senior_old_f = $senior_old_f->whereDate('consultation_date', $sdate);
+                $senior_new_f = $senior_new_f->whereDate('consultation_date', $sdate);
+            }
+            else if(request()->input('type') == 'Monthly') {
+                $pedia_old_m = $pedia_old_m->whereBetween('consultation_date', [$startOfMonth, $endOfMonth]);
+                $pedia_new_m = $pedia_new_m->whereBetween('consultation_date', [$startOfMonth, $endOfMonth]);
+                $pedia_old_f = $pedia_old_f->whereBetween('consultation_date', [$startOfMonth, $endOfMonth]);
+                $pedia_new_f = $pedia_new_f->whereBetween('consultation_date', [$startOfMonth, $endOfMonth]);
+
+                $adult_old_m = $adult_old_m->whereBetween('consultation_date', [$startOfMonth, $endOfMonth]);
+                $adult_new_m = $adult_new_m->whereBetween('consultation_date', [$startOfMonth, $endOfMonth]);
+                $adult_old_f = $adult_old_f->whereBetween('consultation_date', [$startOfMonth, $endOfMonth]);
+                $adult_new_f = $adult_new_f->whereBetween('consultation_date', [$startOfMonth, $endOfMonth]);
+
+                $senior_old_m = $senior_old_m->whereBetween('consultation_date', [$startOfMonth, $endOfMonth]);
+                $senior_new_m = $senior_new_m->whereBetween('consultation_date', [$startOfMonth, $endOfMonth]);
+                $senior_old_f = $senior_old_f->whereBetween('consultation_date', [$startOfMonth, $endOfMonth]);
+                $senior_new_f = $senior_new_f->whereBetween('consultation_date', [$startOfMonth, $endOfMonth]);
+            }
+            else if(request()->input('type') == 'Yearly') {
+                $pedia_old_m = $pedia_old_m::whereYear('consultation_date', $syear);
+                $pedia_new_m = $pedia_new_m::whereYear('consultation_date', $syear);
+                $pedia_old_f = $pedia_old_f::whereYear('consultation_date', $syear);
+                $pedia_new_f = $pedia_new_f::whereYear('consultation_date', $syear);
+
+                $adult_old_m = $adult_old_m::whereYear('consultation_date', $syear);
+                $adult_new_m = $adult_new_m::whereYear('consultation_date', $syear);
+                $adult_old_f = $adult_old_f::whereYear('consultation_date', $syear);
+                $adult_new_f = $adult_new_f::whereYear('consultation_date', $syear);
+
+                $senior_old_m = $senior_old_m::whereYear('consultation_date', $syear);
+                $senior_new_m = $senior_new_m::whereYear('consultation_date', $syear);
+                $senior_old_f = $senior_old_f::whereYear('consultation_date', $syear);
+                $senior_new_f = $senior_new_f::whereYear('consultation_date', $syear);
+            }
+            
+            $final_arr[] = [
+                'name' => $g,
+
+                'pedia_old_m' => $pedia_old_m->count(),
+                
+                'pedia_new_m' => $pedia_new_m->count(),
+
+                'pedia_old_f' => $pedia_old_f->count(),
+                
+                'pedia_new_f' => $pedia_new_f->count(),
+
+                'adult_old_m' => $adult_old_m->count(),
+                
+                'adult_new_m' => $adult_new_m->count(),
+
+                'adult_old_f' => $adult_old_f->count(),
+                
+                'adult_new_f' => $adult_new_f->count(),
+
+                'senior_old_m' => $senior_old_m->count(),
+                
+                'senior_new_m' => $senior_new_m->count(),
+
+                'senior_old_f' => $senior_old_f->count(),
+                
+                'senior_new_f' => $senior_new_f->count(),
+            ];
+        }
+
+        return view('syndromic.cho.opd_summary', [
+            'final_arr' => $final_arr,
+            'month_flavor' => $month_flavor,
+
+            'smonth' => $smonth,
+            'syear' => $syear,
+        ]);
+    }
+
+    public function ChoFhsisMorbidityReport() {
+
     }
 
     public function hospErSummaryReport() {

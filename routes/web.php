@@ -462,6 +462,8 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessS
     Route::post('/syndromic/medical_event/store', [SyndromicController::class, 'storeMedicalEvent'])->name('opd_medicalevent_store');
     Route::post('/syndromic/medical_event/join', [SyndromicController::class, 'joinMedicalEvent'])->name('opd_medicalevent_join');
     Route::post('/syndromic/medical_event/unjoin', [SyndromicController::class, 'unJoinMedicalEvent'])->name('opd_medicalevent_unjoin');
+
+    Route::get('/syndromic/opd/report_dashboard', [SyndromicController::class, 'ChoOpdSummaryReport'])->name('syndromic_cho_dashboard_report');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isGlobalAdmin']], function() {

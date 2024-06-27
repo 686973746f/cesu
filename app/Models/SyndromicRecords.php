@@ -199,6 +199,8 @@ class SyndromicRecords extends Model
         'ics_grabbed_date',
         'ics_finishedby',
         'ics_finished_date',
+
+        'encodedfrom_tbdots',
     ];
 
     public static function refConsultationType() {

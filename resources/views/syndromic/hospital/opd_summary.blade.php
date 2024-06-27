@@ -14,7 +14,10 @@
                 <thead class="text-center thead-light">
                     <tr>
                         <th rowspan="3">
-                            <h6><b>{{request()->input('id')}}</b></h6>
+                            <h6>
+                                <div><b>{{request()->input('id')}}</b></div>
+                                <div><b class="text-success">{{auth()->user()->opdfacility->facility_name}}</b></div>
+                            </h6>
                             <h6>Date: 
                                 @if(request()->input('type') == 'Daily')
                                 {{date('F d, Y', strtotime(request()->input('sdate')))}}
@@ -329,8 +332,15 @@
                     </tr>
                 </tbody>
             </table>
+            <ul>
+                Legend:
+                <li>O - Old Patient</li>
+                <li>N - New Patient</li>
+                <li>P - Police</li>
+            </ul>
         </div>
     </div>
+    <h6 class="text-center mt-3">Developed and Maintained by <b>Christian James Historillo</b> (CESU J.O Encoder) - ©2024</h6>
 </div>
 
 <form action="" method="GET">

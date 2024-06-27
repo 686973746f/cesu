@@ -64,6 +64,8 @@ class SyndromicPatient extends Model
 
         'shared_access_list',
         'facility_id',
+
+        'encodedfrom_tbdots',
     ];
 
     public function user() {
