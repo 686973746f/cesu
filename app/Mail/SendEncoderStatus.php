@@ -4,6 +4,7 @@ namespace App\Mail;
 
 use App\Models\User;
 use App\Models\Forms;
+use App\Models\WorkTask;
 use App\Models\LiveBirth;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -190,6 +191,26 @@ class SendEncoderStatus extends Mailable
                 $edcs_count += $model_count;
             }
 
+            $death_count = WorkTask::where('name', 'DAILY ENCODE OF DEATH CERTIFICATES TO FHSIS')
+            ->where('finished_by', $item->id)
+            ->whereDate('finished_date', date('Y-m-d'))
+            ->first();
+
+            if($death_count) {
+                $death_count = $death_count->encodedcount ?: 0;
+            }
+            else {
+                $death_count = 0;
+            }
+
+            $opdtoics_count = SyndromicRecords::where('ics_finishedby', $item->id)
+            ->whereDate('ics_finished_date', date('Y-m-d'))
+            ->count();
+
+            $abtctoics_count = AbtcBakunaRecords::where('ics_finishedby', $item->id)
+            ->whereDate('ics_finished_date', date('Y-m-d'))
+            ->count();
+
             array_push($arr, [
                 'name' => $item->name,
                 'covid_count_final' => $covid_count_final,
@@ -199,6 +220,10 @@ class SendEncoderStatus extends Mailable
                 'opd_count' => $opd_count,
                 'lcr_livebirth' => $lcr_livebirth,
                 'edcs_count' => $edcs_count,
+
+                'death_count' => $death_count,
+                'opdtoics_count' => $opdtoics_count,
+                'abtctoics_count' => $abtctoics_count,
             ]);
         }
         
