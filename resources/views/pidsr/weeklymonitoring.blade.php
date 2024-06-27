@@ -5,6 +5,9 @@
         <div class="card">
             <div class="card-header"><b>Weekly Submission Checker</b></div>
             <div class="card-body">
+                <div class="alert alert-info" role="alert">
+                    <b class="text-danger">Note:</b> The system checks submission per hospital every Tuesday, 7AM. Therefore, encoding must be done every Monday.
+                </div>
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered">
                         <thead class="thead-light text-center">

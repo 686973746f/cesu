@@ -370,8 +370,21 @@
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label for="smonth"><b class="text-danger">*</b>Month</label>
-                                    <input type="number" class="form-control" name="smonth" id="smonth" value="{{(request()->input('smonth')) ? request()->input('smonth') : date('m')}}">
+                                  <label for="smonth"><b class="text-danger">*</b>Month</label>
+                                  <select class="form-control" name="smonth" id="smonth">
+                                    <option value="01" {{($smonth == '01') ? 'selected' : ''}}>January</option>
+                                    <option value="02" {{($smonth == '02') ? 'selected' : ''}}>February</option>
+                                    <option value="03" {{($smonth == '03') ? 'selected' : ''}}>March</option>
+                                    <option value="04" {{($smonth == '04') ? 'selected' : ''}}>April</option>
+                                    <option value="05" {{($smonth == '05') ? 'selected' : ''}}>May</option>
+                                    <option value="06" {{($smonth == '06') ? 'selected' : ''}}>June</option>
+                                    <option value="07" {{($smonth == '07') ? 'selected' : ''}}>July</option>
+                                    <option value="08" {{($smonth == '08') ? 'selected' : ''}}>August</option>
+                                    <option value="09" {{($smonth == '09') ? 'selected' : ''}}>September</option>
+                                    <option value="10" {{($smonth == '10') ? 'selected' : ''}}>October</option>
+                                    <option value="11" {{($smonth == '11') ? 'selected' : ''}}>November</option>
+                                    <option value="12" {{($smonth == '12') ? 'selected' : ''}}>December</option>
+                                  </select>
                                 </div>
                             </div>
                         </div>

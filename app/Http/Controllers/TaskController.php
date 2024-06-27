@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\User;
 use App\Models\WorkTask;
 use Illuminate\Http\Request;
 use App\Models\SyndromicRecords;
@@ -343,5 +344,13 @@ class TaskController extends Controller
         return redirect()->route('task_index')
         ->with('msg', mb_strtoupper($type).' Ticket was cancelled and returned to list of OPEN Tickets.')
         ->with('msgtype', 'success');
+    }
+
+    public function userDashboard($id) {
+        $d = User::findOrFail($id);
+
+        return view('tasks.userdashboard', [
+            'd' => $d,
+        ]);
     }
 }

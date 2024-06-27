@@ -260,6 +260,8 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']]
     Route::get('/admin/settings/bhs', [SiteSettingsController::class, 'bhsPanel'])->name('settings_bhs');
     Route::get('/admin/settings/bhs/{id}', [SiteSettingsController::class, 'bhsView'])->name('settings_bhs_view');
     Route::post('/admin/settings/bhs/{id}/update', [SiteSettingsController::class, 'bhsUpdate'])->name('settings_bhs_update');
+
+    Route::get('/user_dashboard/{id}', [TaskController::class, 'userDashboard'])->name('task_userdashboard');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isMayor']], function()

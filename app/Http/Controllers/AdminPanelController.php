@@ -471,6 +471,7 @@ class AdminPanelController extends Controller
             ->count();
 
             array_push($arr, [
+                'id' => $item->id,
                 'name' => $item->name,
                 'covid_count_final' => $covid_count_final,
                 'abtc_count' => $abtc_count,

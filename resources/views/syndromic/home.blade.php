@@ -10,11 +10,11 @@
     </div>
     @endif
     <div class="text-right mb-3">
-        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#additr">New Patient</button>
-        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#report">Report</button>
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#additr"><i class="fa fa-user-plus mr-2" aria-hidden="true"></i>New Patient</button>
+        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#report"><i class="fa fa-file mr-2" aria-hidden="true"></i>Report</button>
         @if(auth()->user()->isAdminSyndromic())
-        <a href="{{route('syndromic_map')}}" class="btn btn-primary">Map</a>
-        <button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#settings">Settings</button>
+        <a href="{{route('syndromic_map')}}" class="btn btn-primary"><i class="fa fa-map mr-2" aria-hidden="true"></i>Map</a>
+        <button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#settings"><i class="fa fa-cog mr-2" aria-hidden="true"></i>Settings</button>
         @endif
     </div>
     <form action="" method="GET">
@@ -83,7 +83,7 @@
                     @endif
                 </div>
                 <div>
-                    <h6>Facility: {{auth()->user()->opdfacility->facility_name}}</h6>
+                    <h6><b>Facility: <span class="text-info">{{auth()->user()->opdfacility->facility_name}}</span></b></h6>
                     @if(auth()->user()->isStaffSyndromic())
                         @if(is_null(auth()->user()->itr_medicalevent_id))
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#joinMedicalEvent">Join Medical Event</button>
@@ -329,7 +329,7 @@
                                     </div>
                                 </div>
                                 <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary btn-block">Download (.XLSX)</button>
+                                    <button type="submit" class="btn btn-success btn-block">Download (.XLSX)</button>
                                 </div>
                             </div>
                         </div>
@@ -353,7 +353,10 @@
                     -->
                 </div>
                 <hr>
-                <a href="{{route('syndromic_diseasechecker')}}" class="btn btn-primary btn-block">Go to Disease Checker Page</a>
+                <a href="" class="btn btn-primary btn-block">OPD Dashboard</a>
+                <!-- <a href="" class="btn btn-primary btn-block">OPD Daily Report</a> -->
+                <a href="" class="btn btn-primary btn-block">Barangay M2 Dashboard</a>
+                <!-- <a href="{{route('syndromic_diseasechecker')}}" class="btn btn-primary btn-block">Go to Disease Checker Page</a> -->
                 @else
                 <a href="{{route('opd_hospital_downloadalphalist')}}" class="btn btn-primary btn-block">Download Alphalist</a>
                 <a href="{{route('opd_hospital_dailysummary')}}" class="btn btn-primary btn-block">DAILY REPORTING SUMMARY</a>

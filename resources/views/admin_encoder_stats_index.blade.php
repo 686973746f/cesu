@@ -48,7 +48,13 @@ $gt_abtctoics = 0;
                         @foreach($arr as $i) 
                         <tr>
                             <td class="text-center">{{$loop->iteration}}</td>
-                            <td><b>{{mb_strtoupper($i['name'])}}</b></td>
+                            <td>
+                                @if(auth()->user()->isGlobalAdmin())
+                                <a href="{{route('task_userdashboard', $i['id'])}}"><b>{{mb_strtoupper($i['name'])}}</b></a>
+                                @else
+                                <b>{{mb_strtoupper($i['name'])}}</b>
+                                @endif
+                            </td>
                             <td class="text-center">{{$i['covid_count_final']}}</td>
                             <td class="text-center">{{$i['abtc_count']}}</td>
                             <td class="text-center">{{$i['abtc_ffup_gtotal']}}</td>
