@@ -24,8 +24,12 @@
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" name="q" value="{{request()->input('q')}}" placeholder="SEARCH BY NAME/ID/HOSP. NUMBER" style="text-transform: uppercase;" required>
                     <div class="input-group-append">
-                      <button class="btn btn-secondary" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                        <button class="btn btn-secondary" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                     </div>
+
+                    <button type="button" class="btn btn-secondary ml-2" data-toggle="modal" data-target="#advanceSearch">
+                        Advanced Search
+                    </button>
                 </div>
             </div>
         </div>
@@ -393,9 +397,75 @@
                         </div>
                     </form>
                 </div>
-                <hr>
+
+                <div id="accordianId3" role="tablist" aria-multiselectable="true">
+                    <form action="{{route('syndromic_m2brgydashboard')}}" method="GET">
+                        <div class="card mt-3">
+                            <div class="card-header text-center" role="tab" id="section1HeaderId">
+                                <a data-toggle="collapse" data-parent="#accordianId3" href="#brgyM2Report" aria-expanded="true" aria-controls="brgyM2Report">
+                                    Barangay M2 Dashboard
+                                </a>
+                            </div>
+                            <div id="brgyM2Report" class="collapse in" role="tabpanel" aria-labelledby="section1HeaderId">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="type"><b class="text-danger">*</b>Type</label>
+                                        <select class="form-control" name="type" id="m2_type" required>
+                                          <option value="" disabled selected>Choose...</option>
+                                          <!-- <option value="Daily">Daily</option> -->
+                                          <option value="Monthly">Monthly</option>
+                                          <option value="Yearly">Yearly</option>
+                                        </select>
+                                    </div>
+                                    <div id="m2Report_ifDaily" class="d-none">
+                                        <div class="form-group">
+                                            <label for="sdate"><b class="text-danger">*</b>Date</label>
+                                          <input type="date" class="form-control" name="sdate" id="m2_sdate" min="2024-01-01" max="{{date('Y-m-d')}}">
+                                        </div>
+                                    </div>
+                                    <div class="d-none" id="m2Report_ifMonthlyOrYearly">
+                                        <div class="form-group">
+                                            <label for="syear"><b class="text-danger">*</b>Year</label>
+                                            <input type="number" class="form-control" name="syear" id="m2_syear" value="{{(request()->input('syear')) ? request()->input('syear') : date('Y')}}">
+                                        </div>
+                                    </div>
+                                    <div id="m2Report_ifMonthly" class="d-none">
+                                        <div class="form-group">
+                                            <label for="smonth"><b class="text-danger">*</b>Month</label>
+                                            <select class="form-control" name="smonth" id="m2_smonth">
+                                              <option value="01" {{(date('m') == '01') ? 'selected' : ''}}>January</option>
+                                              <option value="02" {{(date('m') == '02') ? 'selected' : ''}}>February</option>
+                                              <option value="03" {{(date('m') == '03') ? 'selected' : ''}}>March</option>
+                                              <option value="04" {{(date('m') == '04') ? 'selected' : ''}}>April</option>
+                                              <option value="05" {{(date('m') == '05') ? 'selected' : ''}}>May</option>
+                                              <option value="06" {{(date('m') == '06') ? 'selected' : ''}}>June</option>
+                                              <option value="07" {{(date('m') == '07') ? 'selected' : ''}}>July</option>
+                                              <option value="08" {{(date('m') == '08') ? 'selected' : ''}}>August</option>
+                                              <option value="09" {{(date('m') == '09') ? 'selected' : ''}}>September</option>
+                                              <option value="10" {{(date('m') == '10') ? 'selected' : ''}}>October</option>
+                                              <option value="11" {{(date('m') == '11') ? 'selected' : ''}}>November</option>
+                                              <option value="12" {{(date('m') == '12') ? 'selected' : ''}}>December</option>
+                                            </select>
+                                          </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="brgy"><b class="text-danger">*</b>Barangay</label>
+                                        <select class="form-control" name="brgy" id="m2_brgy" required>
+                                            <option value="" disabled selected>Choose...</option>
+                                            @foreach($brgy_list as $b)
+                                            <option value="{{$b->brgyName}}">{{$b->brgyName}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="card-footer f-none" id="m2Report_submitDiv">
+                                    <button type="submit" class="btn btn-success btn-block">Load Report</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
                 <!-- <a href="" class="btn btn-primary btn-block">OPD Daily Report</a> -->
-                <a href="" class="btn btn-primary btn-block">Barangay M2 Dashboard</a>
                 <!-- <a href="{{route('syndromic_diseasechecker')}}" class="btn btn-primary btn-block">Go to Disease Checker Page</a> -->
                 @else
                 <a href="{{route('opd_hospital_downloadalphalist')}}" class="btn btn-primary btn-block">Download Alphalist</a>
@@ -530,6 +600,8 @@
     </div>
 </form>
 
+@include('syndromic.advanced_search_modal')
+
 <script>
     @if(session('immediate_notifiable') == 1)
     $('#immediate_case').modal({backdrop: 'static', keyboard: false});
@@ -594,6 +666,50 @@
             $('#sdate').prop('required', false);
             $('#smonth').prop('required', false);
             $('#syear').prop('required', false);
+        }
+    }).trigger('change');
+
+    $('#m2_type').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'Daily') {
+            $('#m2Report_ifDaily').removeClass('d-none');
+            $('#m2Report_ifMonthlyOrYearly').addClass('d-none');
+            $('#m2Report_ifMonthly').addClass('d-none');
+            $('#m2Report_submitDiv').removeClass('d-none');
+
+            $('#m2_sdate').prop('required', true);
+            $('#m2_smonth').prop('required', false);
+            $('#m2_syear').prop('required', false);
+        }
+        else if($(this).val() == 'Monthly') {
+            $('#m2Report_ifDaily').addClass('d-none');
+            $('#m2Report_ifMonthlyOrYearly').removeClass('d-none');
+            $('#m2Report_ifMonthly').removeClass('d-none');
+            $('#m2Report_submitDiv').removeClass('d-none');
+            
+            $('#m2_sdate').prop('required', false);
+            $('#m2_smonth').prop('required', true);
+            $('#m2_syear').prop('required', true);
+        }
+        else if($(this).val() == 'Yearly') {
+            $('#m2Report_ifDaily').addClass('d-none');
+            $('#m2Report_ifMonthlyOrYearly').removeClass('d-none');
+            $('#m2Report_ifMonthly').addClass('d-none');
+            $('#m2Report_submitDiv').removeClass('d-none');
+
+            $('#m2_sdate').prop('required', false);
+            $('#m2_smonth').prop('required', false);
+            $('#m2_syear').prop('required', true);
+        }
+        else {
+            $('#m2Report_ifDaily').addClass('d-none');
+            $('#m2Report_ifMonthlyOrYearly').addClass('d-none');
+            $('#m2Report_ifMonthly').addClass('d-none');
+            $('#m2Report_submitDiv').addClass('d-none');
+
+            $('#m2_sdate').prop('required', false);
+            $('#m2_smonth').prop('required', false);
+            $('#m2_syear').prop('required', false);
         }
     }).trigger('change');
 </script>

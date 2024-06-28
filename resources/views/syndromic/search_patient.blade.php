@@ -11,6 +11,10 @@
                     <div class="input-group-append">
                       <button class="btn btn-secondary" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                     </div>
+
+                    <button type="button" class="btn btn-secondary ml-2" data-toggle="modal" data-target="#advanceSearch">
+                        Advanced Search
+                    </button>
                 </div>
             </div>
         </div>
@@ -27,13 +31,18 @@
                         <th>Age/Sex/DOB</th>
                         <th>Contact Number</th>
                         <th>Complete Address</th>
-                        <th>Last Consultation</th>
+                        <th>
+                            <div>Last Consultation/</div>
+                            <div>Chief Complaint</div>
+                        </th>
+                        <th class="{{($search_mode == 'DIAG') ? 'bg-warning' : ''}}">Diagnosis</th>
                         <th>Encoded by / At</th>
                         <th>Updated by / At</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($list as $ind => $d)
+                    @if($search_mode == 'PATIENT')
                     <tr>
                         <td class="text-center">{{$list->firstItem() + $ind}}</td>
                         <td><b><a href="{{route('syndromic_viewPatient', $d->id)}}">{{$d->getName()}}</a></b></td>
@@ -50,8 +59,14 @@
                             @if(is_null($d->getLastCheckup()))
                             <h6>N/A</h6>
                             @else
-                            <a href="{{route('syndromic_viewRecord', $d->getLastCheckup()->id)}}">{{date('m/d/Y', strtotime($d->getLastCheckup()->created_at))}}</a>
+                            <a href="{{route('syndromic_viewRecord', $d->getLastCheckup()->id)}}">
+                                <div>{{date('m/d/Y', strtotime($d->getLastCheckup()->created_at))}}</div>
+                            </a>
+                            <div>{{$d->getLastCheckup()->chief_complain}}</div>
                             @endif
+                        </td>
+                        <td class="text-center">
+                            {{$d->getLastCheckup()->dcnote_assessment ?: 'N/A'}}
                         </td>
                         <td class="text-center">
                             <div><small>{{$d->user->name}}</small></div>
@@ -59,6 +74,44 @@
                         </td>
                         <td class="text-center"><small>{{($d->getUpdatedBy()) ? date('m/d/Y h:i A', strtotime($d->created_at)).' / '.$d->getUpdatedBy->name : 'N/A'}}</small></td>
                     </tr>
+                    @elseif($search_mode == 'DIAG')
+                    <tr>
+                        <td class="text-center">{{$list->firstItem() + $ind}}</td>
+                        <td><b><a href="{{route('syndromic_viewPatient', $d->syndromic_patient->id)}}">{{$d->syndromic_patient->getName()}}</a></b></td>
+                        <td class="text-center">
+                            <div>{{$d->syndromic_patient->getAge()}}/{{substr($d->syndromic_patient->gender,0,1)}}</div>
+                            <div>{{date('m/d/Y', strtotime($d->syndromic_patient->bdate))}}</div>
+                        </td>
+                        <td class="text-center">{{$d->syndromic_patient->getContactNumber()}}</td>
+                        <td class="text-center">
+                            <small>{{$d->syndromic_patient->getStreetPurok()}}</small>
+                            <h6>BRGY. {{$d->syndromic_patient->address_brgy_text}}</h6>
+                        </td>
+                        <td class="text-center">
+                            <a href="{{route('syndromic_viewRecord', $d->id)}}">
+                                <div>{{date('m/d/Y', strtotime($d->created_at))}}</div>
+                            </a>
+                            <div>{{$d->chief_complain}}</div>
+                        </td>
+                        <td class="text-center bg-warning">
+                            <b>{{$d->dcnote_assessment ?: 'N/A'}}</b>
+                        </td>
+                        <td class="text-center">
+                            <div><small>{{$d->user->name}}</small></div>
+                            <div><small>{{date('m/d/Y h:i A', strtotime($d->created_at))}}</small></div>
+                        </td>
+                        <td class="text-center">
+                            <small>
+                                @if($d->getUpdatedBy())
+                                <div>{{date('m/d/Y h:i A', strtotime($d->updated_at))}}</div>
+                                <div>{{$d->getUpdatedBy->name}}</div>
+                                @else
+                                <div>N/A</div>
+                                @endif
+                            </small>
+                        </td>
+                    </tr>
+                    @endif
                     @endforeach
                 </tbody>
             </table>
@@ -71,4 +124,6 @@
         </div>
     </div>
 </div>
+
+@include('syndromic.advanced_search_modal')
 @endsection

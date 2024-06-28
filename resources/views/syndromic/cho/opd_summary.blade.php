@@ -13,6 +13,7 @@
             <table class="table table-bordered">
                 <thead class="text-center thead-light">
                     <tr>
+                        <th rowspan="3">#</th>
                         <th rowspan="3">
                             <h6>
                                 <div><b>OPD</b></div>
@@ -86,9 +87,10 @@
                     $main_adult_total = 0;
                     $main_senior_total = 0;
                     @endphp
-                    @foreach($final_arr as $f)
+                    @foreach($final_arr as $ind => $f)
                     <tr>
-                        <td><b>{{$f['name']}}</b></td>
+                        <td class="text-center">{{$ind + 1}}</td>
+                        <td><a href="{{route('syndromic_diagsearch', ['diag_name' => $f['name'], 'diagSearchType' => 'exact'])}}"><b>{{$f['name']}}</b></a></td>
                         <td class="text-center">{{$f['pedia_old_m']}}</td>
                         <td class="text-center">{{$f['pedia_new_m']}}</td>
                         <td class="text-center">{{$f['pedia_old_f']}}</td>
@@ -137,7 +139,7 @@
                         @endphp
                     @endforeach
                     <tr class="font-weight-bold bg-light">
-                        <td class="text-right">TOTAL</td>
+                        <td class="text-right" colspan="2">TOTAL</td>
                         <td class="text-center">{{$pedia_old_m_total}}</td>
                         <td class="text-center">{{$pedia_new_m_total}}</td>
                         <td class="text-center">{{$pedia_old_f_total}}</td>
@@ -153,7 +155,7 @@
                         <td class="text-center text-danger">{{$main_pedia_total + $main_adult_total + $main_senior_total}}</td>
                     </tr>
                     <tr>
-                        <td></td>
+                        <td colspan="2"></td>
                         <td colspan="3" class="text-right"><b>PEDIA</b></td>
                         <td class="text-center  bg-light"><b>{{$main_pedia_total}}</b></td>
                         <td colspan="3" class="text-right"><b>ADULT</b></td>
