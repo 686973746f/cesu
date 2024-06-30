@@ -3100,8 +3100,12 @@ class PharmacyController extends Controller
             $list_query = PharmacyStockCard::whereBetween('created_at', [$r->start_date, $r->end_date]);
         }
 
+        /*
         $list_query = $list_query->whereNotNull('receiving_patient_id')
         ->where('type', 'ISSUED');
+        */
+
+        $list_query = $list_query->where('type', 'ISSUED');
 
         if($r->select_branch != 'ALL') {
             $list_query = $list_query->whereHas('pharmacysub', function ($q) use ($r) {
@@ -3130,12 +3134,25 @@ class PharmacyController extends Controller
         ->headerStyle($header_style)
         ->download($file_name, function ($f) {
 
+            if(!is_null($f->receiving_patient_id)) {
+                $name = $f->getReceivingPatient->lname.', '.$f->getReceivingPatient->fname;
+                $age = $f->getReceivingPatient->getAge();
+                $sex = substr($f->getReceivingPatient->gender,0,1);
+                $barangay = $f->getReceivingPatient->address_brgy_text;
+            }
+            else {
+                $name = $f->getReceivingBranch->name;
+                $age = 'N/A';
+                $sex = 'N/A';
+                $barangay = $f->getReceivingBranch->bhs->brgy->brgyName;
+            }
+
             return [
                 'DATE/TIME' => date('m/d/Y h:i A', strtotime($f->created_at)),
-                'NAME' => $f->getReceivingPatient->lname.', '.$f->getReceivingPatient->fname,
-                'AGE' => $f->getReceivingPatient->getAge(),
-                'SEX' => substr($f->getReceivingPatient->gender,0,1),
-                'BARANGAY' => $f->getReceivingPatient->address_brgy_text,
+                'NAME' => $name,
+                'AGE' => $age,
+                'SEX' => $sex,
+                'BARANGAY' => $barangay,
                 'MEDICINE GIVEN' => $f->pharmacysub->pharmacysupplymaster->name,
                 'QUANTITY' => $f->qty_to_process.' '.Str::plural($f->qty_type, $f->qty_to_process),
                 'ENCODER' => $f->user->name,

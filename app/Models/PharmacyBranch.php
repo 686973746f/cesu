@@ -31,4 +31,8 @@ class PharmacyBranch extends Model
             return NULL;
         }
     }
+
+    public function bhs() {
+        return $this->belongsTo(BarangayHealthStation::class, 'if_bhs_id');
+    }
 }
