@@ -571,6 +571,8 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessF
     Route::get('/fhsis/tbdots', [FhsisController::class, 'tbdotsHome'])->name('fhsis_tbdots_home');
     Route::post('/fhsis/tbdots/import_tool', [FhsisController::class, 'tbdotsImport'])->name('fhsis_tbdots_import');
     Route::get('/fhsis/tbdots/dashboard', [FhsisController::class, 'tbdotsDashboard'])->name('fhsis_tbdots_dashboard');
+
+    Route::get('/fhsis/reportv2', [FhsisController::class, 'morbMortReportMain'])->name('fhsis_reportv2');
 });
 
 //ABTC (WALK IN)

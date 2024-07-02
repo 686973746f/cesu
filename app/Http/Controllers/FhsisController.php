@@ -1953,11 +1953,74 @@ class FhsisController extends Controller
         ]);
     }
 
-    public function demographicMain() {
-
-    }
-
     public function morbMortReportMain() {
-        
+        if(request()->input('startDate') && request()->input('endDate')) {
+            $startDate = request()->input('startDate');
+            $endDate = request()->input('endDate');
+
+            $getYear = Carbon::parse($startDate)->startOfMonth()->format('Y');
+
+            $search_startDate = Carbon::parse($startDate)->startOfMonth()->format('Y-m-d');
+            $search_endDate = Carbon::parse($endDate)->startOfMonth()->format('Y-m-d');
+
+            $tot_deaths_m = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+            ->whereBetween('DATE', [$search_startDate, $search_endDate])
+            ->sum('TOTDEATH_M');
+            
+            $tot_deaths_f = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+            ->whereBetween('DATE', [$search_startDate, $search_endDate])
+            ->sum('TOTDEATH_F');
+
+            $gtot_deaths = $tot_deaths_m + $tot_deaths_f;
+
+            $tot_infdeaths_m = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+            ->whereBetween('DATE', [$search_startDate, $search_endDate])
+            ->sum('INFDEATH_M');
+            
+            $tot_infdeaths_f = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+            ->whereBetween('DATE', [$search_startDate, $search_endDate])
+            ->sum('INFDEATH_F');
+
+            $gtot_infdeaths = $tot_infdeaths_m + $tot_infdeaths_f;
+
+            $tot_matdeaths_m = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+            ->whereBetween('DATE', [$search_startDate, $search_endDate])
+            ->sum('MATDEATH_M');
+            
+            $tot_matdeaths_f = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+            ->whereBetween('DATE', [$search_startDate, $search_endDate])
+            ->sum('MATDEATH_M');
+
+            $gtot_matdeaths = $tot_matdeaths_m + $tot_matdeaths_f;
+
+            $tot_und5deaths_m = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+            ->whereBetween('DATE', [$search_startDate, $search_endDate])
+            ->sum('DEATHUND5_M');
+            
+            $tot_und5deaths_f = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+            ->whereBetween('DATE', [$search_startDate, $search_endDate])
+            ->sum('DEATHUND5_F');
+
+            $gtot_und5deaths = $tot_und5deaths_m + $tot_und5deaths_f;
+
+            $tot_fetaldeaths_m = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+            ->whereBetween('DATE', [$search_startDate, $search_endDate])
+            ->sum('FD_M');
+            
+            $tot_fetaldeaths_f = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+            ->whereBetween('DATE', [$search_startDate, $search_endDate])
+            ->sum('FD_F');
+
+            $gtot_fetaldeaths = $tot_fetaldeaths_m + $tot_fetaldeaths_f;
+
+            $mortality_rate = $gtot_deaths;
+
+            return view('efhsis.reportv2', [
+                'gtot_deaths' => $gtot_deaths,
+                'gtot_infdeaths' => $gtot_infdeaths,
+                'gtot_matdeaths' => $gtot_matdeaths,
+                'gtot_und5deaths' => $gtot_und5deaths,
+            ]);
+        }
     }
 }

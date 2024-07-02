@@ -66,7 +66,7 @@
                             @endif
                         </td>
                         <td class="text-center">
-                            {{$d->getLastCheckup()->dcnote_assessment ?: 'N/A'}}
+                            {{(!is_null($d->getLastCheckup())) ? $d->getLastCheckup()->dcnote_assessment : 'N/A'}}
                         </td>
                         <td class="text-center">
                             <div><small>{{$d->user->name}}</small></div>

@@ -22,11 +22,52 @@
                         <hr>
                         <a href="{{route('fhsis_tbdots_home')}}" class="btn btn-primary btn-block">TB-DOTS Morbidity</a>
                         <hr>
-                        <a href="{{route('fhsis_report')}}" class="btn btn-primary btn-block">Report</a>
+                        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#reportV2">Reports</button>
                         <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#cesum2">Generate M2</button>
                         <hr>
                         <a href="{{route('fhsis_pquery')}}" class="btn btn-primary btn-block">Start MDB Import</a>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="reportV2" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reports</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <a href="{{route('fhsis_report')}}" class="btn btn-primary btn-block">Report</a>
+
+                    <form action="{{route('fhsis_reportv2')}}" method="GET">
+                        <div class="card">
+                            <div class="card-header">Report V2</div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                          <label for="startDate"><b class="text-danger">*</b>Start Date</label>
+                                          <input type="date" class="form-control" name="startDate" id="startDate" min="2020-01-01" max="{{date('Y-m-t')}}" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="endDate"><b class="text-danger">*</b>End Date</label>
+                                            <input type="date" class="form-control" name="endDate" id="endDate" min="2020-01-01" max="{{date('Y-m-t')}}" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-success btn-block">Submit</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
