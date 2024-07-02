@@ -17,7 +17,7 @@
                             {{session('msg')}}
                         </div>
                         @endif
-                        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#liveBirthModal">Encode Livebirths/Natality</button>
+                        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#liveBirthModal">Encode Livebirths (LCR)/Natality</button>
                         <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#liveBirthReport">Natality Report</button>
                         <hr>
                         <a href="{{route('fhsis_tbdots_home')}}" class="btn btn-primary btn-block">TB-DOTS Morbidity</a>
@@ -25,7 +25,7 @@
                         <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#reportV2">Reports</button>
                         <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#cesum2">Generate M2</button>
                         <hr>
-                        <a href="{{route('fhsis_pquery')}}" class="btn btn-primary btn-block">Start MDB Import</a>
+                        <a href="{{route('fhsis_pquery')}}" class="btn btn-secondary btn-block" onclick="return confirm('This will replace the existing eFHSIS Database on your system. Proceed with caution. Continue?')">Start MDB Import</a>
                     </div>
                 </div>
             </div>
@@ -42,11 +42,16 @@
                         </button>
                 </div>
                 <div class="modal-body">
-                    <a href="{{route('fhsis_report')}}" class="btn btn-primary btn-block">Report</a>
+                    <div class="card mb-3">
+                        <div class="card-header"><b>Report V1</b></div>
+                        <div class="card-body">
+                            <a href="{{route('fhsis_report')}}" class="btn btn-primary btn-block">Go to Report V1</a>
+                        </div>
+                    </div>
 
                     <form action="{{route('fhsis_reportv2')}}" method="GET">
                         <div class="card">
-                            <div class="card-header">Report V2</div>
+                            <div class="card-header"><b>Report V2</b></div>
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-6">
@@ -62,9 +67,18 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                  <label for="brgy"><b class="text-danger">*</b>Select Barangay</label>
+                                  <select class="form-control" name="brgy" id="brgy" required>
+                                    <option value="ALL">ALL BARANGAYS IN GENERAL TRIAS</option>
+                                    @foreach ($bgy_list_fhsisformat as $b)
+                                        <option value="{{$b->BGY_DESC}}">{{mb_strtoupper($b->BGY_DESC)}}</option>
+                                    @endforeach
+                                </select>
+                                </div>
                             </div>
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-success btn-block">Submit</button>
+                                <button type="submit" class="btn btn-success btn-block">Generate</button>
                             </div>
                         </div>
                     </form>

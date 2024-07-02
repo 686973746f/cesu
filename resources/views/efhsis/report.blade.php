@@ -420,7 +420,7 @@
             iDisplayLength: 10,
             'dom': 'ftp',
             'orderFixed': {
-                'pre': [[2, 'desc']]
+                'pre': [[4, 'desc']]
             },
             'drawCallback': function(settings) {
                 var api = this.api();

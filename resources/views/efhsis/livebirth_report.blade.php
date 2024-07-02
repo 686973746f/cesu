@@ -11,7 +11,7 @@
         </div>
         <div class="card-body">
             @if($brgy == 'ALL BARANGAYS IN GENERAL TRIAS')
-            <h3 class="text-center"><b>{{date('F', strtotime($year.'-'.$month.'-01'))}} {{$year}}</b></h3>
+            <h3 class="text-center"><b>NATALITY REPORT - <span class="text-success">{{mb_strtoupper(date('F', strtotime($year.'-'.$month.'-01')))}} {{$year}}</span></b></h3>
             <table class="table table-bordered table-striped table-hover">
                 <thead class="thead-light text-center">
                     <tr>
