@@ -2589,7 +2589,7 @@ class MeningoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
 
             if($exist_check) {
                 $old_modified_date = $exist_check->edcs_last_modified_date;
-                $new_modified_date = Meningo::tDate($row['last_modified_date']);
+                $new_modified_date = EdcsImport::tDate($row['last_modified_date']);
                 if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
                     $model = $exist_check->update($table_params);
                 }

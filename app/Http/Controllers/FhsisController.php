@@ -1952,4 +1952,12 @@ class FhsisController extends Controller
             'brgy_list' => $brgy_list,
         ]);
     }
+
+    public function demographicMain() {
+
+    }
+
+    public function morbMortReportMain() {
+        
+    }
 }
