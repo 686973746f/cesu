@@ -17,8 +17,8 @@
                 <thead class="thead-light text-center">
                     <tr>
                         <th>
-                            <h6><b>{{date('M d, Y')}}</b></h6>
-                            <h6><i>{{date('l')}}</i></h6>
+                            <h6><b>{{date('M d, Y', strtotime((request()->input('d')) ? request()->input('d') : date('Y-m-d')))}}</b></h6>
+                            <h6><i>{{date('l', strtotime((request()->input('d')) ? request()->input('d') : date('Y-m-d')))}}</i></h6>
                         </th>
                         <th>OPD</th>
                         <th>ER</th>
