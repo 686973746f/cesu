@@ -596,5 +596,17 @@
                 //$('#spouse_name').prop('required', false);
             }
         }).trigger('change');
+
+        $('#is_others').change(function (e) { 
+            e.preventDefault();
+            if($(this).prop('checked')) {
+                $('#ifCheckboxOthersDiv').removeClass('d-none');
+                $('#is_others_specify').prop('required', true);
+            }
+            else {
+                $('#ifCheckboxOthersDiv').addClass('d-none');
+                $('#is_others_specify').prop('required', false);
+            }
+        }).trigger('change');
     </script>
 @endsection
