@@ -432,6 +432,12 @@ class SyndromicController extends Controller
     
                 'mother_name' => $request->mother_name,
                 'father_name' => $request->father_name,
+
+                'is_indg' => ($request->is_indg == 'Y') ? 'Y' : 'N',
+                'is_4ps' => ($request->is_4ps == 'Y') ? 'Y' : 'N',
+                'is_nhts' => ($request->is_nhts == 'Y') ? 'Y' : 'N',
+                'is_others' => ($request->is_others == 'Y') ? 'Y' : 'N',
+                'is_others_specify' => ($request->is_others == 'Y') ? mb_strtoupper($request->is_others_specify) : NULL,
     
                 'address_region_code' => $request->address_region_code,
                 'address_region_text' => $request->address_region_text,
@@ -1204,6 +1210,12 @@ class SyndromicController extends Controller
 
                 'mother_name' => $request->mother_name,
                 'father_name' => $request->father_name,
+
+                'is_indg' => ($request->is_indg == 'Y') ? 'Y' : 'N',
+                'is_4ps' => ($request->is_4ps == 'Y') ? 'Y' : 'N',
+                'is_nhts' => ($request->is_nhts == 'Y') ? 'Y' : 'N',
+                'is_others' => ($request->is_others == 'Y') ? 'Y' : 'N',
+                'is_others_specify' => ($request->is_others == 'Y') ? mb_strtoupper($request->is_others_specify) : NULL,
 
                 'address_region_code' => $request->address_region_code,
                 'address_region_text' => $request->address_region_text,
