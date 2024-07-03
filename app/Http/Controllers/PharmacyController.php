@@ -3144,7 +3144,7 @@ class PharmacyController extends Controller
                 $name = $f->getReceivingBranch->name;
                 $age = 'N/A';
                 $sex = 'N/A';
-                $barangay = $f->getReceivingBranch->bhs->brgy->brgyName;
+                $barangay = (!is_null($f->getReceivingBranch->if_bhs_id)) ? $f->getReceivingBranch->bhs->brgy->brgyName : "N/A";
             }
 
             return [
