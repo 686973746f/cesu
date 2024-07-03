@@ -16,6 +16,7 @@ class Brgy extends Model
         'user_id',
         'city_id',
         'brgyName',
+        'brgyNameFhsis',
         'displayInList',
         'json_code',
         'alt_name',

@@ -14,18 +14,20 @@ use Illuminate\Http\Request;
 use App\Models\FhsisBarangay;
 use App\Models\FhsisChildCare;
 use App\Models\FhsisPopulation;
+use App\Models\FhsisDemographic;
 use App\Models\AbtcBakunaRecords;
 use App\Imports\FhsisTbdotsImport;
 use Illuminate\Support\Facades\DB;
 use App\Models\FhsisFamilyPlanning1;
 use App\Models\FhsisFamilyPlanning2;
 use App\Models\FhsisFamilyPlanning3;
+use App\Models\FhsisTbdotsMorbidity;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\FhsisMortalityNatality;
 use Illuminate\Support\Facades\Storage;
 use App\Models\FhsisEnvironmentalHealth;
 use App\Models\FhsisSystemDemographicProfile;
-use App\Models\FhsisTbdotsMorbidity;
 
 class FhsisController extends Controller
 {
@@ -1416,9 +1418,71 @@ class FhsisController extends Controller
             $filePath = storage_path('app/efhsis/output.sql');
         }
 
+        if (!file_exists($filePath)) {
+            return redirect()->back()
+            ->with('msg', 'Error: BE File output.sql not found.')
+            ->with('msgtype', 'warning');
+        }
+
         $sql = file_get_contents($filePath);
 
         DB::unprepared($sql);
+
+        //Check if Demographic Profile Exists and Create if not existing
+        $demographics = FhsisDemographic::where('MUN_CODE', 'GENERAL TRIAS')
+        ->orderBy('DATE', 'ASC')->get();
+
+        if($demographics->count() != 0) {
+            foreach($demographics as $d) {
+                $search_barangay = Brgy::where('city_id', 1)->where('brgyNameFhsis', $d->BGY_CODE)->first();
+
+                //Check if Demographic Data Exists
+                $create_year = Carbon::createFromDate($d->YEAR_DEMO, 12, 01);
+                $demographic_date = Carbon::parse($d->DATE);
+
+                if($demographic_date->isSameDay($create_year)) {
+                    $search_demographics = FhsisSystemDemographicProfile::where('city_id', 1)
+                    ->where('brgy_id', $search_barangay->id)
+                    ->whereDate('encode_date', $create_year->format('Y-m-d'))
+                    ->where('for_year', $d->YEAR_DEMO)
+                    ->first();
+
+                    if(!$search_demographics) {
+                        $create = FhsisSystemDemographicProfile::create([
+                            'encode_date' => Carbon::parse($d->DATE)->format('Y-m-d'),
+                            'city_id' => 1,
+                            'brgy_id' => $search_barangay->id,
+                            'for_year' => $d->YEAR_DEMO,
+                            'total_brgy' => $d->TOT_BGY,
+                            'total_bhs' => $d->TOT_BHS,
+                            'total_mainhc' => $d->TOT_HC,
+                            'total_cityhc' => $d->TOT_HCC,
+                            'total_ruralhc' => $d->TOT_HCR,
+                            'doctors_lgu' => $d->MD_M,
+                            'doctors_doh' => $d->MD_F,
+                            'dentists_lgu' => $d->DENT_M,
+                            'dentists_doh' => $d->DENT_F,
+                            'nurses_lgu' => $d->PHN_M,
+                            'nurses_doh' => $d->PHN_F,
+                            'midwifes_lgu' => $d->MIDW_M,
+                            'midwifes_doh' => $d->MIDW_F,
+                            'nutritionists_lgu' => $d->NUTR_M,
+                            'nutritionists_doh' => $d->NUTR_F,
+                            'medtechs_lgu' => $d->MEDT_M,
+                            'medtechs_doh' => $d->MEDT_F,
+                            'sanitary_eng_lgu' => $d->SE_M,
+                            'sanitary_eng_doh' => $d->SE_F,
+                            'sanitary_ins_lgu' => $d->SI_M,
+                            'sanitary_ins_doh' => $d->SI_F,
+                            'bhws_lgu' => $d->BHW_M,
+                            'bhws_doh' => $d->BHW_F,
+
+                            'created_by' => Auth::id(),
+                        ]);
+                    }
+                }
+            }
+        }
 
         return redirect()->back()
         ->with('msg', 'Import Successful.')
