@@ -2022,7 +2022,7 @@ class FhsisController extends Controller
         ]);
     }
 
-    public function morbMortReportMain() {
+    public function morbMortReportMain() { //Report V2
         if(request()->input('startDate') && request()->input('endDate') && request()->input('brgy')) {
             $startDate = request()->input('startDate');
             $endDate = request()->input('endDate');
@@ -2031,12 +2031,45 @@ class FhsisController extends Controller
             $getYear = Carbon::parse($startDate)->startOfMonth()->format('Y');
 
             $data_demographic = FhsisSystemDemographicProfile::where('city_id', 1)
-            ->where('for_year', $getYear)->first();
+            ->where('for_year', $getYear);
+
+            if($brgy == 'ALL') {
+                $data_demographic = $data_demographic->whereNull('brgy_id')->first();
+            }
+            else {
+                $srBrgy = Brgy::where('city_id', 1)
+                ->where('brgyNameFhsis', $brgy)
+                ->first();
+
+                if($srBrgy) {
+                    $data_demographic = $data_demographic->where('brgy_id', $srBrgy->id)->first();
+                }
+            }
 
             if(!$data_demographic) {
                 return redirect()->back()
-                ->with('msg', 'Error: No Demographic Data found for Year '.$getYear.'.')
+                ->with('msg', 'Error: No Demographic Data found for Year '.$getYear.'. Please initialize first in the settings then try again.')
                 ->with('msgtype', 'warning');
+            }
+
+            //Calculate and Update Total Population if not existing
+            if(is_null($data_demographic->total_population) && is_null($data_demographic->total_household)) {
+                $pop_query = FhsisPopulation::where('MUN_CODE', 'GENERAL TRIAS')
+                ->where('POP_YEAR', $getYear);
+
+                if($brgy != 'ALL') {
+                    $pop_query = $pop_query->where('BGY_CODE', $srBrgy->fhsis_bgycode);
+                }
+
+                $total_population = $pop_query->sum('POP_BGY');
+                $total_household = $pop_query->sum('NO_HH');
+                
+                $data_demographic->total_population = $total_population;
+                $data_demographic->total_household = $total_household;
+
+                if($data_demographic->isDirty()) {
+                    $data_demographic->save();
+                }
             }
 
             $search_startDate = Carbon::parse($startDate)->startOfMonth()->format('Y-m-d');

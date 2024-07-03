@@ -52,43 +52,43 @@
                                 <tr>
                                     <td>
                                         <h5 class="font-weight-bold">Physician/Doctors</h5>
-                                        <h5>{{number_format($data_demographic->doctors_male + $data_demographic->doctors_female)}} : {{number_format($data_demographic->total_population)}}</h5>
+                                        <h5>{{number_format($data_demographic->doctors_lgu + $data_demographic->doctors_doh)}} {{(($data_demographic->doctors_lgu + $data_demographic->doctors_doh) != 0) ? ': '.number_format($data_demographic->total_population / ($data_demographic->doctors_lgu + $data_demographic->doctors_doh)) : ''}}</h5>
                                     </td>
                                     <td>
                                         <h5 class="font-weight-bold">Dentists</h5>
-                                        <h5>{{number_format($data_demographic->dentists_male + $data_demographic->dentists_female)}}</h5>
+                                        <h5>{{number_format($data_demographic->dentists_lgu + $data_demographic->dentists_doh)}} {{(($data_demographic->dentists_lgu + $data_demographic->dentists_doh) != 0) ? ': '.number_format($data_demographic->total_population / ($data_demographic->dentists_lgu + $data_demographic->dentists_doh)) : ''}}</h5>
                                     </td>
                                     <td>
                                         <h5 class="font-weight-bold">Nurses</h5>
-                                        <h5>{{number_format($data_demographic->nurses_male + $data_demographic->nurses_female)}}</h5>
+                                        <h5>{{number_format($data_demographic->nurses_lgu + $data_demographic->nurses_doh)}} {{(($data_demographic->nurses_lgu + $data_demographic->nurses_doh) != 0) ? ': '.number_format($data_demographic->total_population / ($data_demographic->nurses_lgu + $data_demographic->nurses_doh)) : ''}}</h5>
                                     </td>
                                     <td>
                                         <h5 class="font-weight-bold">Midwives</h5>
-                                        <h5>{{number_format($data_demographic->midwifes_male + $data_demographic->midwifes_female)}}</h5>
+                                        <h5>{{number_format($data_demographic->midwifes_lgu + $data_demographic->midwifes_doh)}} {{(($data_demographic->midwifes_lgu + $data_demographic->midwifes_doh) != 0) ? ': '.number_format($data_demographic->total_population / ($data_demographic->midwifes_lgu + $data_demographic->midwifes_doh)) : ''}}</h5>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <h5 class="font-weight-bold">Medical Technologist</h5>
-                                        <h5>{{number_format($data_demographic->medtechs_male + $data_demographic->medtechs_female)}} : {{number_format($data_demographic->total_population)}}</h5>
+                                        <h5>{{number_format($data_demographic->medtechs_lgu + $data_demographic->medtechs_doh)}} {{(($data_demographic->medtechs_lgu + $data_demographic->medtechs_doh) != 0) ? ': '.number_format($data_demographic->total_population / ($data_demographic->medtechs_lgu + $data_demographic->medtechs_doh)) : ''}}</h5>
                                     </td>
                                     <td>
                                         <h5 class="font-weight-bold">Nutritionist Dietitians</h5>
-                                        <h5>{{number_format($data_demographic->nutritionists_male + $data_demographic->nutritionists_female)}}</h5>
+                                        <h5>{{number_format($data_demographic->nutritionists_lgu + $data_demographic->nutritionists_doh)}}</h5>
                                     </td>
                                     <td>
                                         <h5 class="font-weight-bold">Sanitary Engineers</h5>
-                                        <h5>{{number_format($data_demographic->sanitary_eng_male + $data_demographic->sanitary_eng_female)}}</h5>
+                                        <h5>{{number_format($data_demographic->sanitary_eng_lgu + $data_demographic->sanitary_eng_doh)}}</h5>
                                     </td>
                                     <td>
                                         <h5 class="font-weight-bold">Sanitary Inspectors</h5>
-                                        <h5>{{number_format($data_demographic->sanitary_ins_male + $data_demographic->sanitary_ins_female)}}</h5>
+                                        <h5>{{number_format($data_demographic->sanitary_ins_lgu + $data_demographic->sanitary_ins_doh)}}</h5>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td colspan="4">
                                         <h5 class="font-weight-bold">Active BHWs</h5>
-                                        <h5>{{number_format($data_demographic->bhws_male + $data_demographic->bhws_female)}}</h5>
+                                        <h5>{{number_format($data_demographic->bhws_lgu + $data_demographic->bhws_doh)}}</h5>
                                     </td>
                                 </tr>
                             </tbody>

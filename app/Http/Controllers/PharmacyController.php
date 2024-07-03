@@ -3093,7 +3093,7 @@ class PharmacyController extends Controller
 
     public function generateMedicineDispensary(Request $r) {
 
-        if(Carbon::parse($r->start_date)->equalTo(Carbon::parse($r->end_date))) {
+        if(Carbon::parse($r->start_date)->isSameDay(Carbon::parse($r->end_date))) {
             $list_query = PharmacyStockCard::whereDate('created_at', $r->start_date);
         }
         else {
