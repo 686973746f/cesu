@@ -15,7 +15,9 @@ class CreateFhsisSystemDemographicProfilesTable extends Migration
     {
         Schema::create('fhsis_system_demographic_profiles', function (Blueprint $table) {
             $table->id();
+            $table->date('encode_date')->nullable();
             $table->foreignId('city_id')->constrained('city')->onDelete('cascade');
+            $table->foreignId('brgy_id')->constrained('brgy')->onDelete('cascade');
             $table->string('for_year');
             $table->integer('total_brgy')->nullable();
             $table->integer('total_bhs')->nullable();
@@ -23,24 +25,24 @@ class CreateFhsisSystemDemographicProfilesTable extends Migration
             $table->integer('total_cityhc')->nullable();
             $table->integer('total_ruralhc')->nullable();
 
-            $table->integer('doctors_male')->nullable();
-            $table->integer('doctors_female')->nullable();
-            $table->integer('dentists_male')->nullable();
-            $table->integer('dentists_female')->nullable();
-            $table->integer('nurses_male')->nullable();
-            $table->integer('nurses_female')->nullable();
-            $table->integer('midwifes_male')->nullable();
-            $table->integer('midwifes_female')->nullable();
-            $table->integer('nutritionists_male')->nullable();
-            $table->integer('nutritionists_female')->nullable();
-            $table->integer('medtechs_male')->nullable();
-            $table->integer('medtechs_female')->nullable();
-            $table->integer('sanitary_eng_male')->nullable();
-            $table->integer('sanitary_eng_female')->nullable();
-            $table->integer('sanitary_ins_male')->nullable();
-            $table->integer('sanitary_ins_female')->nullable();
-            $table->integer('bhws_male')->nullable();
-            $table->integer('bhws_female')->nullable();
+            $table->integer('doctors_lgu')->nullable();
+            $table->integer('doctors_doh')->nullable();
+            $table->integer('dentists_lgu')->nullable();
+            $table->integer('dentists_doh')->nullable();
+            $table->integer('nurses_lgu')->nullable();
+            $table->integer('nurses_doh')->nullable();
+            $table->integer('midwifes_lgu')->nullable();
+            $table->integer('midwifes_doh')->nullable();
+            $table->integer('nutritionists_lgu')->nullable();
+            $table->integer('nutritionists_doh')->nullable();
+            $table->integer('medtechs_lgu')->nullable();
+            $table->integer('medtechs_doh')->nullable();
+            $table->integer('sanitary_eng_lgu')->nullable();
+            $table->integer('sanitary_eng_doh')->nullable();
+            $table->integer('sanitary_ins_lgu')->nullable();
+            $table->integer('sanitary_ins_doh')->nullable();
+            $table->integer('bhws_lgu')->nullable();
+            $table->integer('bhws_doh')->nullable();
 
             $table->integer('total_population')->nullable();
             $table->integer('total_household')->nullable();
