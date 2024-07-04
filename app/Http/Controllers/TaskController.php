@@ -358,12 +358,27 @@ class TaskController extends Controller
     public function viewUserMonthlyAr($user) {
         if(auth()->user()->isArChecker() || auth()->user()->isArApprover()) {
             $countwork_proceed = 1;
+
+            $month = request()->input('month');
+            $year = request()->input('year');
+
+            $createDate = Carbon::createFromDate($year, $month, 1);
+
+            $month = $createDate->subMonth(1)->format('m');
+            $year = $createDate->subMonth(1)->format('Y');
+
+            $ar = MonthlyAccomplishmentChecker::where('employee_id', $user)
+            ->where('month', $month)
+            ->where('year', $year)
+            ->first();
         }
         else {
             if($user == Auth::id()) {
                 if(request()->input('month') && request()->input('year')) {
                     $month = request()->input('month');
                     $year = request()->input('year');
+
+                    $createDate = Carbon::createFromDate($year, $month, 1);
                     
                     $ar = MonthlyAccomplishmentChecker::where('employee_id', Auth::id())
                     ->where('month', $month)
@@ -375,30 +390,31 @@ class TaskController extends Controller
                     }
                     else {
                         return redirect()->back()
-                        ->with('msg', 'Error: Your Monthly Accomplishment report is not yet checked by the Supervisor. Please try again later.')
+                        ->with('msg', 'Error: Your Monthly Accomplishment report is not yet checked by your Supervisor. Please try again later.')
                         ->with('msgtype', 'warning');
                     }
                 }
                 else {
                     $countwork_proceed = 0;
                 }
-
-                //Load Work Counters here
-                if($countwork_proceed == 1) {
-                    
-
-                    return view('tasks.monthly_userdashboard');
-                }
-                else {
-                    return view('tasks.monthly_userdashboard');
-                }
-                
             }
             else {
                 return redirect()->back()
                 ->with('msg', 'Error: You are not allowed to do that.')
                 ->with('msgtype', 'warning');
             }
+        }
+
+        //Load Work Counters here
+        if($countwork_proceed == 1) {
+            return view('tasks.monthly_userdashboard', [
+                'countwork_proceed' => $countwork_proceed,
+            ]);
+        }
+        else {
+            return view('tasks.monthly_userdashboard', [
+                'countwork_proceed' => $countwork_proceed,
+            ]);
         }
     }
 

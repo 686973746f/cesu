@@ -42,6 +42,8 @@
             @if(auth()->user()->isGlobalAdmin())
             <hr>
             <a href="{{route('settings_home')}}" class="btn btn-block btn-warning btn-lg">Settings</a>
+            @else
+            <hr>
             @endif
             <a href="{{route('encoder_stats_index')}}" class="btn btn-block btn-secondary btn-lg">Daily Encoding Status</a>
         </div>

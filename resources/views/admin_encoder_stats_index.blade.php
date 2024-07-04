@@ -51,10 +51,18 @@ $gt_abtctoics = 0;
                         <tr>
                             <td class="text-center">{{$loop->iteration}}</td>
                             <td>
-                                @if(auth()->user()->isGlobalAdmin())
-                                <a href="{{route('task_userdashboard', $i['id'])}}"><b>{{mb_strtoupper($i['name'])}}</b></a>
+                                @if(auth()->user()->isArChecker() || auth()->user()->isArApprover())
+                                @php
+                                if(request()->input('date')) {
+
+                                }
+                                else {
+                                    
+                                }
+                                @endphp
+                                <a href="{{route('encoderstats_viewar', $i['id'])}}"><b>{{mb_strtoupper($i['name'])}}</b></a>
                                 @else
-                                <b>{{mb_strtoupper($i['name'])}}</b>
+                                <a href="{{route('task_userdashboard', $i['id'])}}"><b>{{mb_strtoupper($i['name'])}}</b></a>
                                 @endif
                             </td>
                             <td class="text-center">{{$i['covid_count_final']}}</td>
