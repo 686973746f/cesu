@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\AbtcPatient;
+use App\Models\SiteSettings;
 use Illuminate\Http\Request;
 use PhpOffice\PhpWord\PhpWord;
 use App\Models\AbtcVaccineBrand;
 use App\Models\AbtcBakunaRecords;
-use App\Models\AbtcVaccinationSite;
 use App\Models\AbtcVaccineStocks;
-use App\Models\SiteSettings;
+use App\Models\AbtcVaccinationSite;
+use Illuminate\Support\Facades\Auth;
 use PhpOffice\PhpWord\TemplateProcessor;
 
 class ABTCVaccinationController extends Controller
@@ -465,7 +466,11 @@ class ABTCVaccinationController extends Controller
     public function encode_process($br_id, $dose) {
         $get_br = AbtcBakunaRecords::findOrFail($br_id);
 
+        $fsc_init = 0;
+
         if($get_br->ifPatientLastDoseNormal()) {
+            $fsc_init = 1;
+
             $get_br->biting_animal_status = request()->input('biting_animal_status');
         }
 
@@ -634,7 +639,7 @@ class ABTCVaccinationController extends Controller
             $get_br->updated_by = auth()->user()->id;
             $get_br->save();
 
-            if(!(request()->input('fsc'))) {
+            if(!(request()->input('fsc')) && $fsc_init == 0) {
                 return view('abtc.encode_finished', [
                     'f' => $get_br,
                 ])
@@ -1596,5 +1601,36 @@ class ABTCVaccinationController extends Controller
         ->count();
 
         dd($searc_d3.' '.$searc_d7);
+    }
+
+    public function quickFinishDay28($id) {
+        $d = AbtcBakunaRecords::findOrFail($id);
+
+        if($d->outcome == 'C') {
+            if($d->d0_done == 1 && $d->d3_done == 1 && $d->d7_done == 1) {
+                $d->d28_done = 1;
+                $d->d28_date = date('Y-m-d');
+                $d->d28_vaccinated_inbranch = 1;
+                $d->d28_done_by = Auth::id();
+
+                if($d->isDirty()) {
+                    $d->save();
+                }
+
+                return redirect()->route('abtc_schedule_index')
+                ->with('msg', 'Patient (#'.$d->case_id.') '.$d->patient->getName().' Day 28 dose was marked as completed successfully.')
+                ->with('msgtype', 'success');
+            }
+            else {
+                return redirect()->back()
+                ->with('msg', 'Error: Patient D0, D3, and D7 must be completed first before proceeding.')
+                ->with('msgtype', 'warning');
+            }
+        }
+        else {
+            return redirect()->back()
+            ->with('msg', 'You are not allowed to do that.')
+            ->with('msgtype', 'warning');
+        }
     }
 }

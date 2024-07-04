@@ -86,8 +86,19 @@
                                 </tr>
                                 @endif
                                 <tr>
-                                    <td class="bg-light"><strong>Date 28 Date</strong></td>
-                                    <td>{{date('m/d/Y (l)', strtotime($d->d28_date))}} @if($d->d28_done == 1) - <strong class="text-success">DONE</strong> @endif</td>
+                                    <td class="bg-light"><strong>Day 28 Date</strong></td>
+                                    <td>{{date('m/d/Y (l)', strtotime($d->d28_date))}}
+                                        @if($d->d28_done == 1)
+                                         - <strong class="text-success">DONE</strong>
+                                        @else
+                                            @if(Carbon\Carbon::parse($d->d28_date)->gte(Carbon\Carbon::parse(date('Y-m-d'))) && $d->outcome == 'C')
+                                            <form action="{{route('abtc_quickprocessd28', $d->id)}}" method="POST">
+                                                @csrf
+                                                <button type="submit" class="btn btn-success" onclick="return confirm('Proceed with completing the D28 of {{$d->patient->getName()}}? Click OK to Proceed.')">Quick Process D28</button>
+                                            </form>
+                                            @endif
+                                        @endif
+                                    </td>
                                 </tr>
                                 @endif
                             </tbody>

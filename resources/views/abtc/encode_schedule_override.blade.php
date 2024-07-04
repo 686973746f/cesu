@@ -12,7 +12,7 @@
                     <div><b>Schedule Override</b></div>
                     <div>
                         @if(auth()->user()->isAdmin == 1)
-                        <button type="submit" name="p_submit" value="reset" class="btn btn-primary" onclick="return confirm('This will return the outcome of the record to [INC]. D0, D3, D7, D14, and D28 will return to [PENDING]. Click OK to Confirm.')">Reset Schedule</button>
+                        <button type="submit" name="p_submit" value="reset" class="btn btn-secondary" onclick="return confirm('This will return the outcome of the record to [INC]. D0, D3, D7, D14, and D28 will return to [PENDING]. Click OK to Confirm.')">Reset Schedule</button>
                         @endif
                     </div>
                 </div>
@@ -220,7 +220,7 @@
                                     @if($d->d28_done == 0)
                                     <select class="form-select" name="d28_ostatus" id="d28_ostatus" required>
                                         <option value="P" {{(old('d28_ostatus') == 'P') ? 'selected' : ''}}>PENDING</option>
-                                        @if($d->d28_date < date('Y-m-d'))
+                                        @if(Carbon\Carbon::parse($d->d28_date)->gte(Carbon\Carbon::parse(date('Y-m-d'))))
                                         <option value="C" {{(old('d28_ostatus') == 'C') ? 'selected' : ''}}>COMPLETED</option>
                                         @endif
                                     </select>
@@ -230,7 +230,7 @@
                                 </td>
                                 <td>
                                     @if($d->d28_done == 0)
-                                        @if($d->d28_date > date('Y-m-d'))
+                                        @if(Carbon\Carbon::parse($d->d28_date)->gt(Carbon\Carbon::parse(date('Y-m-d'))))
                                         <select class="form-select" name="d28_vaccinated_inbranch" id="d28_vaccinated_inbranch" required>
                                             <option value="N" {{(old('d28_vaccinated_inbranch') == 'N') ? 'selected' : ''}}>No (Other Clinic)</option>
                                         </select>
