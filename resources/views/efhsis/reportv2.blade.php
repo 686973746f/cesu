@@ -10,7 +10,7 @@
                     @if($brgy != 'ALL')
                     <h2><b>BARANGAY: {{mb_strtoupper($brgy)}}</b></h2>
                     @endif
-                    <h3>{{date('M. d, Y', strtotime(request()->input('startDate')))}} to {{date('M. d, Y', strtotime(request()->input('endDate')))}}</h3>
+                    <h3><b>{{date('M. d, Y', strtotime(request()->input('startDate')))}}</b> to <b>{{date('M. d, Y', strtotime(request()->input('endDate')))}}</b></h3>
                 </div>
                 <div class="row mb-3">
                     <div class="col-4 text-center">
@@ -104,11 +104,28 @@
                     <div class="card-body">
                         <table class="table table-bordered table-striped">
                             <tbody class="text-center">
+                                @php
+                                
+                                @endphp
                                 <tr>
+                                    @if(request()->input('brgy') == 'ALL')
+                                    <td colspan="2">
+                                        <h5 class="font-weight-bold">Livebirths (LCR)</h5>
+                                        <h5>{{number_format($gtot_livebirths)}}</h5>
+                                    </td>
+                                    <td colspan="2">
+                                        <h5 class="font-weight-bold">
+                                            <div>Livebirths outside GenTri</div>
+                                            <small>(Gave birth to Hospitals or Lying-in Clinics in City of GenTri but a resident outside of GenTri)</small>
+                                        </h5>
+                                        <h5>{{number_format($gtot_livebirths_outside)}}</h5>
+                                    </td>
+                                    @else
                                     <td colspan="4">
                                         <h5 class="font-weight-bold">Livebirths (LCR)</h5>
                                         <h5>{{number_format($gtot_livebirths)}}</h5>
                                     </td>
+                                    @endif
                                 </tr>
                                 <tr>
                                     <td>
@@ -244,10 +261,20 @@
                         <hr>
                         <div class="row">
                             <div class="col-6">
+                                <h4><b>Underfive Deaths ≥ Infant Deaths</b></h4>
+                                @if(($gtot_und5deaths + $gtot_infdeaths) != 0)
                                 <canvas id="donut1" style="width: 500px;"></canvas>
+                                @else
+                                <p class="text-center my-5">Chart Data is empty.</p>
+                                @endif
                             </div>
                             <div class="col-6">
+                                <h4><b>Infant Deaths (ND + END + FD)</b></h4>
+                                @if(($gtot_infdeaths + ($gtot_neonataldeaths + $gtot_earlyneonataldeaths + $gtot_fetaldeaths)) != 0)
                                 <canvas id="donut2" style="width: 500px;"></canvas>
+                                @else
+                                <p class="text-center my-5">Chart Data is empty.</p>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -272,6 +299,7 @@
             }
         });
 
+        @if(($gtot_und5deaths + $gtot_infdeaths) != 0)
         var pieTitles = {!! json_encode($donut1_titles) !!};
         var pieDatas = {!! json_encode($donut1_values) !!};
 
@@ -317,7 +345,9 @@
                 animation: {}
             }
         });
+        @endif
 
+        @if(($gtot_infdeaths + ($gtot_neonataldeaths + $gtot_earlyneonataldeaths + $gtot_fetaldeaths)) != 0)
         var pieTitles = {!! json_encode($donut2_titles) !!};
         var pieDatas = {!! json_encode($donut2_values) !!};
 
@@ -363,5 +393,6 @@
                 animation: {}
             }
         });
+        @endif
     </script>
 @endsection

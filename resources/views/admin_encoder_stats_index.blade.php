@@ -15,8 +15,10 @@ $gt_abtctoics = 0;
 @endphp
 <div class="container-fluid">
     <div class="card">
-        <div class="card-header font-weight-bold">Encoder Statistics for {{(request()->input('date')) ? date('m/d/Y', strtotime(request()->input('date'))) : date('m/d/Y, h:i A')}}</div>
+        <div class="card-header font-weight-bold">Daily Encoder Status {{(request()->input('date')) ? date('M. d, Y', strtotime(request()->input('date'))) : date('m/d/Y, h:i A')}}</div>
         <div class="card-body">
+            <a href="{{route('encoderstats_viewar', auth()->user()->id)}}" class="btn btn-primary btn-block btn-lg"><b>My Monthly Accomplishment Report</b></a>
+            <hr>
             <form action="" method="GET">
                 <div class="input-group mb-3">
                     <input type="date" class="form-control" name="date" id="date" value="{{(request()->input('date')) ? request()->input('date') : date('Y-m-d')}}" required>

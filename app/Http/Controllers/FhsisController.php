@@ -2050,6 +2050,10 @@ class FhsisController extends Controller
             $brgy = request()->input('brgy');
 
             $getYear = Carbon::parse($startDate)->startOfMonth()->format('Y');
+            $getMonth = Carbon::parse($startDate)->startOfMonth()->format('m');
+            
+            $getYear_end = Carbon::parse($endDate)->startOfMonth()->format('Y');
+            $getMonth_end = Carbon::parse($endDate)->startOfMonth()->format('m');
 
             $data_demographic = FhsisSystemDemographicProfile::where('city_id', 1)
             ->where('for_year', $getYear);
@@ -2474,6 +2478,12 @@ class FhsisController extends Controller
             $donut2_titles = ['Infant Deaths', 'ND, END, FD'];
             $donut2_values = [$gtot_infdeaths, ($gtot_neonataldeaths + $gtot_earlyneonataldeaths + $gtot_fetaldeaths)];
 
+            //Livebirths outside
+            $gtot_livebirths_outside = LiveBirth::whereBetween('year', [$getYear, $getYear_end])
+            ->whereBetween('month', [$getMonth, $getMonth_end])
+            ->where('address_muncity_text', '!=', 'GENERAL TRIAS')
+            ->count();
+
             return view('efhsis.reportv2', [
                 'brgy' => $brgy,
                 'data_demographic' => $data_demographic,
@@ -2504,6 +2514,8 @@ class FhsisController extends Controller
 
                 'donut2_titles' => $donut2_titles,
                 'donut2_values' => $donut2_values,
+
+                'gtot_livebirths_outside' => $gtot_livebirths_outside,
             ]);
         }
     }

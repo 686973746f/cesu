@@ -8,6 +8,7 @@ use App\Models\WorkTask;
 use Illuminate\Http\Request;
 use App\Models\SyndromicRecords;
 use App\Models\AbtcBakunaRecords;
+use App\Models\MonthlyAccomplishmentChecker;
 use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
@@ -352,5 +353,63 @@ class TaskController extends Controller
         return view('tasks.userdashboard', [
             'd' => $d,
         ]);
+    }
+
+    public function viewUserMonthlyAr($user) {
+        if(auth()->user()->isArChecker() || auth()->user()->isArApprover()) {
+            $countwork_proceed = 1;
+        }
+        else {
+            if($user == Auth::id()) {
+                if(request()->input('month') && request()->input('year')) {
+                    $month = request()->input('month');
+                    $year = request()->input('year');
+                    
+                    $ar = MonthlyAccomplishmentChecker::where('employee_id', Auth::id())
+                    ->where('month', $month)
+                    ->where('year', $year)
+                    ->first();
+
+                    if($ar) {
+                        $countwork_proceed = 1;
+                    }
+                    else {
+                        return redirect()->back()
+                        ->with('msg', 'Error: Your Monthly Accomplishment report is not yet checked by the Supervisor. Please try again later.')
+                        ->with('msgtype', 'warning');
+                    }
+                }
+                else {
+                    $countwork_proceed = 0;
+                }
+
+                //Load Work Counters here
+                if($countwork_proceed == 1) {
+                    
+
+                    return view('tasks.monthly_userdashboard');
+                }
+                else {
+                    return view('tasks.monthly_userdashboard');
+                }
+                
+            }
+            else {
+                return redirect()->back()
+                ->with('msg', 'Error: You are not allowed to do that.')
+                ->with('msgtype', 'warning');
+            }
+        }
+    }
+
+    public function approveMonthlyAr($user, Request $r) {
+        if(auth()->user()->isArChecker() || auth()->user()->isArApprover()) {
+            
+        }
+        else {
+            return redirect()->back()
+            ->with('msg', 'Error: You are not allowed to do that.')
+            ->with('msgtype', 'warning');
+        }
     }
 }

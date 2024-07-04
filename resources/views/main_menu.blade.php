@@ -43,9 +43,7 @@
             <hr>
             <a href="{{route('settings_home')}}" class="btn btn-block btn-warning btn-lg">Settings</a>
             @endif
-            @if(auth()->user()->id == 1 || auth()->user()->id == 6 || auth()->user()->id == 38 || auth()->user()->id == 39)
-            <a href="{{route('encoder_stats_index')}}" class="btn btn-block btn-secondary btn-lg">Encoder Stats</a>
-            @endif
+            <a href="{{route('encoder_stats_index')}}" class="btn btn-block btn-secondary btn-lg">Daily Encoding Status</a>
         </div>
     </div>
 </div>

@@ -15,6 +15,13 @@ class CreateMonthlyAccomplishmentCheckersTable extends Migration
     {
         Schema::create('monthly_accomplishment_checkers', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('employee_id')->constrained('users')->onDelete('cascade');
+            $table->string('year');
+            $table->string('month');
+            $table->text('remarks')->nullable();
+
+            $table->foreignId('checked_by')->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

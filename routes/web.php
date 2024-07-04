@@ -106,7 +106,8 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function
     Route::get('getSubdivisions/{brgy_id}', [SubdivisionController::class, 'getSubdivisions'])->name('getSubdivisions');
 
     //Encoder Stats
-    Route::get('/admin/encoder_stats', [AdminPanelController::class, 'encoderStatsIndex'])->name('encoder_stats_index');
+    Route::get('/encoder_stats', [AdminPanelController::class, 'encoderStatsIndex'])->name('encoder_stats_index');
+    Route::get('/encoder_stats/monthly_ar/{id}', [TaskController::class, 'viewUserMonthlyAr'])->name('encoderstats_viewar');
 });
 
 //PASWAB INTERNAL
@@ -262,6 +263,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']]
     Route::post('/admin/settings/bhs/{id}/update', [SiteSettingsController::class, 'bhsUpdate'])->name('settings_bhs_update');
 
     Route::get('/user_dashboard/{id}', [TaskController::class, 'userDashboard'])->name('task_userdashboard');
+    Route::get('/encoder_stats/monthly_ar/{id}/approve', [TaskController::class, 'approveMonthlyAr'])->name('encoderstats_approvear');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isMayor']], function()

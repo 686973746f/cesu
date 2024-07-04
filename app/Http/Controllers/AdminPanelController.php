@@ -6,14 +6,15 @@ use App\Models\Brgy;
 use App\Models\City;
 use App\Models\User;
 use App\Models\Forms;
+use App\Models\WorkTask;
 use App\Models\BrgyCodes;
+use App\Models\LiveBirth;
 use App\Models\Interviewers;
 use Illuminate\Http\Request;
 use App\Models\VaxcertConcern;
 use App\Models\SyndromicRecords;
 use App\Models\AbtcBakunaRecords;
-use App\Models\LiveBirth;
-use App\Models\WorkTask;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use IlluminateAgnostic\Collection\Support\Str;
 
@@ -289,9 +290,16 @@ class AdminPanelController extends Controller
 
     public function encoderStatsIndex() {
         $list = User::where('encoder_stats_visible', 1)
-        ->where('enabled', 1)
-        ->orderBy('name', 'ASC')
-        ->get();
+        ->where('enabled', 1);
+        
+        if(auth()->user()->isGlobalAdmin()) {
+            $list = $list->orderBy('name', 'ASC')
+            ->get();
+        }
+        else {
+            $list = $list->where('id', Auth::id())
+            ->get();
+        }
 
         $arr = [];
         foreach($list as $item) {

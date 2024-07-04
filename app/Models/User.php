@@ -59,6 +59,9 @@ PHARMACY_ENCODER
 PHARMACY_BRGY_ADMIN
 PHARMACY_BRGY_ENCODER
 
+AR_CHECKER
+AR_APPROVER
+
 */
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -648,6 +651,28 @@ class User extends Authenticatable implements MustVerifyEmail
         $plist = $this->getPermissions();
 
         if(in_array('ITR_TBDOTS_ENCODER', $plist) || in_array('ITR_TBDOTS_ADMIN', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function isArChecker() {
+        $plist = $this->getPermissions();
+        
+        if(in_array('AR_CHECKER', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function isArApprover() {
+        $plist = $this->getPermissions();
+
+        if(in_array('AR_APPROVER', $plist)) {
             return true;
         }
         else {
