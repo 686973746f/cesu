@@ -203,7 +203,7 @@
                     @endif
                     <hr>
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-8">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="checkbox" id="is_indg" name="is_indg" value="Y" {{(old('is_indg') == 'Y') ? 'checked' : ''}}>
                                 <label class="form-check-label">Indigenous People</label>
@@ -217,11 +217,19 @@
                                 <label class="form-check-label">NHTS</label>
                             </div>
                             <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="is_pwd" name="is_pwd" value="Y" {{(old('is_pwd') == 'Y') ? 'checked' : ''}}>
+                                <label class="form-check-label">PWD</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="is_singleparent" name="is_singleparent" value="Y" {{(old('is_singleparent') == 'Y') ? 'checked' : ''}}>
+                                <label class="form-check-label">Single Parent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="checkbox" id="is_others" name="is_others" value="Y" {{(old('is_others') == 'Y') ? 'checked' : ''}}>
                                 <label class="form-check-label">Others</label>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-4">
                             <div id="ifCheckboxOthersDiv" class="d-none">
                                 <div class="form-group">
                                   <label for="is_others_specify"><b class="text-danger">*</b>Specify</label>

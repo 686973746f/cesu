@@ -238,6 +238,14 @@
                                 <label class="form-check-label">NHTS</label>
                             </div>
                             <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="is_pwd" name="is_pwd" value="Y" {{(old('is_pwd', $d->is_pwd) == 'Y') ? 'checked' : ''}}>
+                                <label class="form-check-label">PWD</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="is_singleparent" name="is_singleparent" value="Y" {{(old('is_singleparent', $d->is_singleparent) == 'Y') ? 'checked' : ''}}>
+                                <label class="form-check-label">Single Parent</label>
+                            </div>
+                            <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="checkbox" id="is_others" name="is_others" value="Y" {{(old('is_others', $d->is_others) == 'Y') ? 'checked' : ''}}>
                                 <label class="form-check-label">Others</label>
                             </div>

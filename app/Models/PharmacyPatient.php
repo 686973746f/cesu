@@ -295,6 +295,10 @@ class PharmacyPatient extends Model
         }
     }
 
+    public function syndromicpatient() {
+        return $this->belongsTo(SyndromicPatient::class, 'itr_id');
+    }
+
     public function getLatestItr() {
         if(!is_null($this->itr_id)) {
             $s = SyndromicRecords::where('syndromic_patient_id', $this->itr_id)

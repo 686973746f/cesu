@@ -411,6 +411,8 @@ class SyndromicController extends Controller
                 }
             }
 
+            $ageToInt = Carbon::parse($request->bdate)->age;
+
             $values_array = [
                 'lname' => mb_strtoupper($request->lname),
                 'fname' => mb_strtoupper($request->fname),
@@ -436,6 +438,9 @@ class SyndromicController extends Controller
                 'is_indg' => ($request->is_indg == 'Y') ? 'Y' : 'N',
                 'is_4ps' => ($request->is_4ps == 'Y') ? 'Y' : 'N',
                 'is_nhts' => ($request->is_nhts == 'Y') ? 'Y' : 'N',
+                'is_seniorcitizen' => ($ageToInt >= 60) ? 'Y' : 'N',
+                'is_pwd' => ($request->is_pwd == 'Y') ? 'Y' : 'N',
+                'is_singleparent' => ($request->is_singleparent == 'Y') ? 'Y' : 'N',
                 'is_others' => ($request->is_others == 'Y') ? 'Y' : 'N',
                 'is_others_specify' => ($request->is_others == 'Y') ? mb_strtoupper($request->is_others_specify) : NULL,
     
@@ -1189,6 +1194,8 @@ class SyndromicController extends Controller
                 $getpatient->save();
             }
 
+            $ageToInt = Carbon::parse($request->bdate)->age;
+
             $values_array = [
                 'lname' => mb_strtoupper($request->lname),
                 'fname' => mb_strtoupper($request->fname),
@@ -1214,6 +1221,9 @@ class SyndromicController extends Controller
                 'is_indg' => ($request->is_indg == 'Y') ? 'Y' : 'N',
                 'is_4ps' => ($request->is_4ps == 'Y') ? 'Y' : 'N',
                 'is_nhts' => ($request->is_nhts == 'Y') ? 'Y' : 'N',
+                'is_seniorcitizen' => ($ageToInt >= 60) ? 'Y' : 'N',
+                'is_pwd' => ($request->is_pwd == 'Y') ? 'Y' : 'N',
+                'is_singleparent' => ($request->is_singleparent == 'Y') ? 'Y' : 'N',
                 'is_others' => ($request->is_others == 'Y') ? 'Y' : 'N',
                 'is_others_specify' => ($request->is_others == 'Y') ? mb_strtoupper($request->is_others_specify) : NULL,
 

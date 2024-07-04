@@ -14,15 +14,15 @@
                 </div>
                 <div class="row mb-3">
                     <div class="col-4 text-center">
-                        <h4>Population</h4>
+                        <h4><b>Population</b></h4>
                         <h5>{{number_format($data_demographic->total_population)}}</h5>
                     </div>
                     <div class="col-4 text-center">
-                        <h4>Household</h4>
+                        <h4><b>Household</b></h4>
                         <h5>{{number_format($data_demographic->total_household)}}</h5>
                     </div>
                     <div class="col-4 text-center">
-                        <h4>Barangays</h4>
+                        <h4><b>Barangays</b></h4>
                         <h5>{{number_format($data_demographic->total_brgy)}}</h5>
                     </div>
                 </div>
@@ -88,7 +88,7 @@
                                 <tr>
                                     <td colspan="4">
                                         <h5 class="font-weight-bold">Active BHWs</h5>
-                                        <h5>{{number_format($data_demographic->bhws_lgu + $data_demographic->bhws_doh)}}</h5>
+                                        <h5>{{number_format($data_demographic->bhws_lgu + $data_demographic->bhws_doh)}} {{(($data_demographic->bhws_lgu + $data_demographic->bhws_doh) != 0) ? ': '.number_format($data_demographic->total_population / ($data_demographic->bhws_lgu + $data_demographic->bhws_doh)) : ''}}</h5>
                                     </td>
                                 </tr>
                             </tbody>

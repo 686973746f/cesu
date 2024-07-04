@@ -41,6 +41,9 @@ class CreateSyndromicPatientsTable extends Migration
             $table->string('is_indg', 1)->default('N');
             $table->string('is_4ps', 1)->default('N');
             $table->string('is_nhts', 1)->default('N');
+            $table->string('is_seniorcitizen', 1)->default('N');
+            $table->string('is_pwd', 1)->default('N');
+            $table->string('is_singleparent', 1)->default('N');
             $table->string('is_others', 1)->default('N');
             $table->string('is_others_specify')->nullable();
             $table->string('blood_type')->nullable();
