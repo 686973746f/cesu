@@ -9,7 +9,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex justify-content-between">
-                        <div><b>Encode Livebirth</b></div>
+                        <div><b>Encode Livebirths (LCR)</b></div>
                         <div><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeMonth">Change Encoding Period</button></div>
                     </div>
                 </div>
@@ -75,35 +75,40 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for=""><b class="text-danger">*</b>Region</label>
-                                <select class="form-control" name="address_region_code" id="address_region_code" required>
-                                </select>
+                    <div class="card mb-3">
+                        <div class="card-header"><b>Address of PARENT (MOTHER/FATHER)</b></div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for=""><b class="text-danger">*</b>Region</label>
+                                        <select class="form-control" name="address_region_code" id="address_region_code" required>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for=""><b class="text-danger">*</b>Province</label>
+                                        <select class="form-control" name="address_province_code" id="address_province_code" required>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for=""><b class="text-danger">*</b>Province</label>
-                                <select class="form-control" name="address_province_code" id="address_province_code" required>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for=""><b class="text-danger">*</b>Municipality/City</label>
-                                <select class="form-control" name="address_muncity_code" id="address_muncity_code" required>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for=""><b class="text-danger">*</b>Barangay</label>
-                                <select class="form-control" name="address_brgy_text" id="address_brgy_text" required>
-                                </select>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for=""><b class="text-danger">*</b>Municipality/City</label>
+                                        <select class="form-control" name="address_muncity_code" id="address_muncity_code" required>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for=""><b class="text-danger">*</b>Barangay</label>
+                                        <select class="form-control" name="address_brgy_text" id="address_brgy_text" required>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

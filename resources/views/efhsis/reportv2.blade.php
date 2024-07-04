@@ -10,7 +10,7 @@
                     @if($brgy != 'ALL')
                     <h2><b>BARANGAY: {{mb_strtoupper($brgy)}}</b></h2>
                     @endif
-                    <h3>{{date('M d, Y', strtotime(request()->input('startDate')))}} to {{date('M d, Y', strtotime(request()->input('endDate')))}}</h3>
+                    <h3>{{date('M. d, Y', strtotime(request()->input('startDate')))}} to {{date('M. d, Y', strtotime(request()->input('endDate')))}}</h3>
                 </div>
                 <div class="row mb-3">
                     <div class="col-4 text-center">
@@ -29,6 +29,7 @@
                 <div class="card mb-3">
                     <div class="card-header"><b>Demographic Profile</b></div>
                     <div class="card-body">
+                        @if(Carbon\Carbon::parse(request()->input('startDate'))->format('m') == 12)
                         <table class="table table-bordered table-striped">
                             <tbody class="text-center">
                                 <tr>
@@ -93,6 +94,9 @@
                                 </tr>
                             </tbody>
                         </table>
+                        @else
+                        <h6 class="text-center">Selected month is not December.</h6>
+                        @endif
                     </div>
                 </div>
                 <div class="card">
@@ -180,7 +184,7 @@
                         <div class="row">
                             <div class="col-6">
                                 <div class="table-responsive">
-                                    <table class="table table-striped table-bordered" id="mortable">
+                                    <table class="table table-striped table-bordered table-sm" id="mortable">
                                         <thead class="thead-light text-center">
                                             <tr>
                                                 <th colspan="5">Leading Causes of Mortality</th>
@@ -189,7 +193,7 @@
                                                 <th>No.</th>
                                                 <th>Mortality</th>
                                                 <th style="color: blue;">Male</th>
-                                                <th style="color: red;">Female</th>
+                                                <th style="color: magenta;">Female</th>
                                                 <th>Total</th>
                                             </tr>
                                         </thead>
@@ -199,7 +203,7 @@
                                                 <td scope="row" class="text-center"></td>
                                                 <td>{{$m['disease']}}</td>
                                                 <td class="text-center" style="color: blue;">{{$m['count_male']}}</td>
-                                                <td class="text-center" style="color: red;">{{$m['count_female']}}</td>
+                                                <td class="text-center" style="color: magenta;">{{$m['count_female']}}</td>
                                                 <td class="text-center"><b>{{$m['count']}}</b></td>
                                             </tr>
                                             @endforeach
@@ -209,7 +213,7 @@
                             </div>
                             <div class="col-6">
                                 <div class="table-responsive">
-                                    <table class="table table-striped table-bordered" id="morbtable">
+                                    <table class="table table-striped table-bordered table-sm" id="morbtable">
                                         <thead class="thead-light text-center">
                                             <tr>
                                                 <th colspan="5">Leading Causes of Morbidity</th>
@@ -218,7 +222,7 @@
                                                 <th>No.</th>
                                                 <th>Morbidity</th>
                                                 <th style="color: blue;">Male</th>
-                                                <th style="color: red;">Female</th>
+                                                <th style="color: magenta;">Female</th>
                                                 <th>Total</th>
                                             </tr>
                                         </thead>
@@ -228,13 +232,22 @@
                                                 <td scope="row" class="text-center"></td>
                                                 <td>{{$m['disease']}}</td>
                                                 <td class="text-center" style="color: blue;">{{$m['count_male']}}</td>
-                                                <td class="text-center" style="color: red;">{{$m['count_female']}}</td>
+                                                <td class="text-center" style="color: magenta;">{{$m['count_female']}}</td>
                                                 <td class="text-center"><b>{{$m['count']}}</b></td>
                                             </tr>
                                             @endforeach
                                         </tbody>
                                     </table>
                                 </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-6">
+                                <canvas id="donut1" style="width: 500px;"></canvas>
+                            </div>
+                            <div class="col-6">
+                                <canvas id="donut2" style="width: 500px;"></canvas>
                             </div>
                         </div>
                     </div>
@@ -256,6 +269,98 @@
                 api.column(0).nodes().each(function(cell, i) {
                     cell.innerHTML = startIndex + i + 1;
                 });
+            }
+        });
+
+        var pieTitles = {!! json_encode($donut1_titles) !!};
+        var pieDatas = {!! json_encode($donut1_values) !!};
+
+        var ctx = document.getElementById('donut1').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'doughnut',
+
+            data: {
+                labels: pieTitles,
+                datasets: [{
+                    label: "My Chart",
+                    data: pieDatas,
+                    //backgroundColor: ['rgba(148,55,52,255)', 'rgba(119,146,61,255)', 'rgba(166,167,167,255)']
+                }]
+            },
+
+            options: {
+                responsive: false,
+                title: {
+                    text: "My Chart",
+                    display: true,
+                },
+                events: [],
+                tooltips: {
+                    mode: ''
+                },
+                layout: {},
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                    },
+                    datalabels: {
+                    display: true,
+                    formatter: (value, ctx) => {
+                        const datapoints = ctx.chart.data.datasets[0].data
+                        const total = datapoints.reduce((total, datapoint) => total + datapoint, 0)
+                        const percentage = value / total * 100
+                        return value + " (" + percentage.toFixed(0) + "%)";
+                    },
+                    }
+                },
+                animation: {}
+            }
+        });
+
+        var pieTitles = {!! json_encode($donut2_titles) !!};
+        var pieDatas = {!! json_encode($donut2_values) !!};
+
+        var ctx = document.getElementById('donut2').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'doughnut',
+
+            data: {
+                labels: pieTitles,
+                datasets: [{
+                    label: "My Chart",
+                    data: pieDatas,
+                    //backgroundColor: ['rgba(148,55,52,255)', 'rgba(119,146,61,255)', 'rgba(166,167,167,255)']
+                }]
+            },
+
+            options: {
+                responsive: false,
+                title: {
+                    text: "My Chart",
+                    display: true,
+                },
+                events: [],
+                tooltips: {
+                    mode: ''
+                },
+                layout: {},
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                    },
+                    datalabels: {
+                    display: true,
+                    formatter: (value, ctx) => {
+                        const datapoints = ctx.chart.data.datasets[0].data
+                        const total = datapoints.reduce((total, datapoint) => total + datapoint, 0)
+                        const percentage = value / total * 100
+                        return value + " (" + percentage.toFixed(0) + "%)";
+                    },
+                    }
+                },
+                animation: {}
             }
         });
     </script>

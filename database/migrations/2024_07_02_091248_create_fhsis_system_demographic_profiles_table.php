@@ -17,7 +17,7 @@ class CreateFhsisSystemDemographicProfilesTable extends Migration
             $table->id();
             $table->date('encode_date')->nullable();
             $table->foreignId('city_id')->constrained('city')->onDelete('cascade');
-            $table->foreignId('brgy_id')->constrained('brgy')->onDelete('cascade');
+            $table->foreignId('brgy_id')->nullable()->constrained('brgy')->onDelete('cascade');
             $table->string('for_year');
             $table->integer('total_brgy')->nullable();
             $table->integer('total_bhs')->nullable();
@@ -47,6 +47,8 @@ class CreateFhsisSystemDemographicProfilesTable extends Migration
             $table->integer('total_population')->nullable();
             $table->integer('total_household')->nullable();
             $table->integer('total_livebirths')->nullable();
+            
+            $table->string('remarks')->nullable();
             
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');

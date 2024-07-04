@@ -35,6 +35,13 @@
                         <td class="text-center">{{($b['total_livebirths'] != 0) ? $b['livebirth1519'] : ''}}</td>
                     </tr>
                     @endforeach
+                    <tr>
+                        <td class="text-center">-</td>
+                        <td><b>OUTSIDE GENERAL TRIAS (OTHER CITIES)</b></td>
+                        <td class="text-center">{{($livebirth_othercities_total != 0) ? $livebirth_othercities_total : 'N/A'}}</td>
+                        <td class="text-center">{{($livebirth_othercities_1014 != 0) ? $livebirth_othercities_1014 : ''}}</td>
+                        <td class="text-center">{{($livebirth_othercities_1519 != 0) ? $livebirth_othercities_1519 : ''}}</td>
+                    </tr>
                 </tbody>
             </table>
             @else

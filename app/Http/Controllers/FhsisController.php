@@ -1602,6 +1602,23 @@ class FhsisController extends Controller
                     ]);
                 }
 
+                $livebirth_othercities_total = LiveBirth::where('year', $year)
+                ->where('month', $month)
+                ->where('address_muncity_text', '!=', 'GENERAL TRIAS')
+                ->count();
+
+                $livebirth_othercities_1014 = LiveBirth::where('year', $year)
+                ->where('month', $month)
+                ->whereBetween('mother_age', [10,14])
+                ->where('address_muncity_text', '!=', 'GENERAL TRIAS')
+                ->count();
+
+                $livebirth_othercities_1519 = LiveBirth::where('year', $year)
+                ->where('month', $month)
+                ->whereBetween('mother_age', [15,19])
+                ->where('address_muncity_text', '!=', 'GENERAL TRIAS')
+                ->count();
+
                 return view('efhsis.livebirth_report', [
                     'month' => $month,
                     'year' => $year,
@@ -1610,6 +1627,10 @@ class FhsisController extends Controller
                     'brgy_array' => $brgy_array,
 
                     'brgylist' => $brgylist,
+
+                    'livebirth_othercities_total' => $livebirth_othercities_total,
+                    'livebirth_othercities_1014' => $livebirth_othercities_1014,
+                    'livebirth_othercities_1519' => $livebirth_othercities_1519,
                 ]);
             }
             else {
@@ -2034,7 +2055,9 @@ class FhsisController extends Controller
             ->where('for_year', $getYear);
 
             if($brgy == 'ALL') {
-                $data_demographic = $data_demographic->whereNull('brgy_id')->first();
+                $data_demographic = $data_demographic->whereNull('brgy_id')
+                ->where('remarks', 'YEARLY AUTOMATED')
+                ->first();
             }
             else {
                 $srBrgy = Brgy::where('city_id', 1)
@@ -2047,9 +2070,34 @@ class FhsisController extends Controller
             }
 
             if(!$data_demographic) {
+                if($brgy == 'ALL') {
+                    $all_brgy_count = FhsisBarangay::where('MUN_CODE', 'GENERAL TRIAS')->count();
+
+                    //Create Demographic Data
+                    $create_demographic = FhsisSystemDemographicProfile::create([
+                        'encode_date' => date('Y-m-d'),
+                        'city_id' => 1,
+                        'brgy_id' => NULL,
+                        'for_year' => $getYear,
+                        'total_brgy' => $all_brgy_count,
+                        'total_bhs' => 49,
+                        'total_mainhc' => 1,
+                        'total_cityhc' => 1,
+                        'total_ruralhc' => 0,
+
+                        'remarks' => 'YEARLY AUTOMATED',
+
+                        'created_by' => Auth::id(),
+                    ]);
+
+                    $data_demographic = $create_demographic;
+                }
+                
+                /*
                 return redirect()->back()
                 ->with('msg', 'Error: No Demographic Data found for Year '.$getYear.'. Please initialize first in the settings then try again.')
                 ->with('msgtype', 'warning');
+                */
             }
 
             //Calculate and Update Total Population if not existing
@@ -2063,13 +2111,25 @@ class FhsisController extends Controller
 
                 $total_population = $pop_query->sum('POP_BGY');
                 $total_household = $pop_query->sum('NO_HH');
-                
+
                 $data_demographic->total_population = $total_population;
                 $data_demographic->total_household = $total_household;
+            }
 
-                if($data_demographic->isDirty()) {
-                    $data_demographic->save();
-                }
+            //LB Query Always Update
+            $lb_query = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+            ->whereYear('DATE', $getYear);
+
+            if($brgy != 'ALL') {
+                $lb_query = $lb_query->where('BGY_CODE', $srBrgy->brgyNameFhsis);
+            }
+
+            $total_lb = $lb_query->sum('LB_M') + $lb_query->sum('LB_F');
+
+            $data_demographic->total_livebirths = $total_lb;
+
+            if($data_demographic->isDirty()) {
+                $data_demographic->save();
             }
 
             $search_startDate = Carbon::parse($startDate)->startOfMonth()->format('Y-m-d');
@@ -2407,6 +2467,13 @@ class FhsisController extends Controller
                 ]);
             }
 
+            //Donut1
+            $donut1_titles = ['Under Five Deaths', 'Infant Deaths'];
+            $donut1_values = [$gtot_und5deaths, $gtot_infdeaths];
+
+            $donut2_titles = ['Infant Deaths', 'ND, END, FD'];
+            $donut2_values = [$gtot_infdeaths, ($gtot_neonataldeaths + $gtot_earlyneonataldeaths + $gtot_fetaldeaths)];
+
             return view('efhsis.reportv2', [
                 'brgy' => $brgy,
                 'data_demographic' => $data_demographic,
@@ -2431,6 +2498,12 @@ class FhsisController extends Controller
 
                 'morb_final_list' => $morb_final_list,
                 'mort_final_list' => $mort_final_list,
+
+                'donut1_titles' => $donut1_titles,
+                'donut1_values' => $donut1_values,
+
+                'donut2_titles' => $donut2_titles,
+                'donut2_values' => $donut2_values,
             ]);
         }
     }

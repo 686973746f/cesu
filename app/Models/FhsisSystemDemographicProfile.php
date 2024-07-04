@@ -41,6 +41,8 @@ class FhsisSystemDemographicProfile extends Model
         'total_household',
         'total_livebirths',
 
+        'remarks',
+
         'created_by',
     ];
 }
