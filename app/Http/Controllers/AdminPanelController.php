@@ -289,11 +289,11 @@ class AdminPanelController extends Controller
     }
 
     public function encoderStatsIndex() {
-        $list = User::where('encoder_stats_visible', 1)
-        ->where('enabled', 1);
+        $list = User::where('enabled', 1);
         
         if(auth()->user()->isGlobalAdmin()) {
-            $list = $list->orderBy('name', 'ASC')
+            $list = $list->where('encoder_stats_visible', 1)
+            ->orderBy('name', 'ASC')
             ->get();
         }
         else {
@@ -302,6 +302,14 @@ class AdminPanelController extends Controller
         }
 
         $arr = [];
+
+        if(request()->input('date')) {
+            $date = request()->input('date');
+        }
+        else {
+            $date = date('Y-m-d');
+        }
+
         foreach($list as $item) {
             /*
             $suspected_count = Forms::where(function ($q) use ($item) {
@@ -350,13 +358,6 @@ class AdminPanelController extends Controller
             ->where('caseClassification', 'Confirmed')
             ->count();
             */
-
-            if(request()->input('date')) {
-                $date = request()->input('date');
-            }
-            else {
-                $date = date('Y-m-d');
-            }
 
             $suspected_count = Forms::where('user_id', $item->id)
             ->where(function($q) use ($date) {

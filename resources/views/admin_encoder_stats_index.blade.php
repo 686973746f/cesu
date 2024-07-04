@@ -83,6 +83,7 @@ $gt_abtctoics = 0;
                         @endphp
                         @endforeach
                     </tbody>
+                    @if(auth()->user()->isGlobalAdmin())
                     <tfoot class="text-center font-weight-bold">
                         <tr>
                             <td colspan="2">TOTAL</td>
@@ -99,6 +100,7 @@ $gt_abtctoics = 0;
                             <td>{{$gt_covid + $gt_abtc + $gt_vaxcert + $gt_opd + $gt_abtc_ff + $gt_lcr + $gt_edcs + $gt_death + $gt_opdtoics + $gt_abtctoics}}</td>
                         </tr>
                     </tfoot>
+                    @endif
                 </table>
             </div>
         </div>
