@@ -3,10 +3,67 @@
 @section('content')
     <div class="container">
         <div class="card">
-            <div class="card-header"><b>Monthly Accomplishment Report for {{Carbon\Carbon::createFromDate(request()->input('year'), request()->input('month'), 1)->format('F Y')}}</b></div>
+            <div class="card-header"><b>Monthly Accomplishment Report for <span class="text-success">{{mb_strtoupper(Carbon\Carbon::createFromDate(request()->input('year'), request()->input('month'), 1)->format('F Y'))}}</span></b></div>
             <div class="card-body">
-                
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr class="text-center">
+                            <td colspan="2">
+                                <div><b>Name: {{mb_strtoupper($name)}}</b></div>
+                                <div>MONTHLY ACCOMPLISHMENT: {{mb_strtoupper(Carbon\Carbon::createFromDate(request()->input('year'), request()->input('month'), 1)->format('F Y'))}}</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>COVID-19 (Suspected/Probable/Confirmed/Negative/Recovered)</td>
+                            <td class="text-center">{{$covid_count_final}}</td>
+                        </tr>
+                        <tr>
+                            <td>Animal Bite (New Patients)</td>
+                            <td class="text-center">{{$abtc_count}}</td>
+                        </tr>
+                        <tr>
+                            <td>Animal Bite (Follow-up)</td>
+                            <td class="text-center">{{$abtc_ffup_gtotal}}</td>
+                        </tr>
+                        <tr>
+                            <td>VaxCert Concerns</td>
+                            <td class="text-center">{{$vaxcert_count}}</td>
+                        </tr>
+                        <tr>
+                            <td>OPD</td>
+                            <td class="text-center">{{$opd_count}}</td>
+                        </tr>
+                        <tr>
+                            <td>Livebirths (LCR)</td>
+                            <td class="text-center">{{$lcr_livebirth}}</td>
+                        </tr>
+                        <tr>
+                            <td>Imports from EDCS-IS</td>
+                            <td class="text-center">{{$edcs_count}}</td>
+                        </tr>
+                        <tr>
+                            <td>Death Certificates</td>
+                            <td class="text-center">{{$death_count}}</td>
+                        </tr>
+                        <tr>
+                            <td>OPD to iClinicSys Tickets</td>
+                            <td class="text-center">{{$opdtoics_count}}</td>
+                        </tr>
+                        <tr>
+                            <td>Animal Bite to iClinicSys Tickets</td>
+                            <td class="text-center">{{$abtctoics_count}}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
+            @if(is_null($ar) && auth()->user()->isArChecker() && auth()->user()->isArApprover())
+            <div class="card-footer">
+                <form action="{{route('encoderstats_approvear', ['id' => $id, 'year' => $year, 'month' => $month])}}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-success">Approve</button>
+                </form>
+            </div>
+            @endif
         </div>
     </div>
 

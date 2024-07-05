@@ -17,11 +17,18 @@ $gt_abtctoics = 0;
     <div class="card">
         <div class="card-header font-weight-bold">Daily Encoder Status {{(request()->input('date')) ? date('M. d, Y', strtotime(request()->input('date'))) : date('m/d/Y, h:i A')}}</div>
         <div class="card-body">
+            @if(session('msg'))
+                <div class="text-center alert alert-{{session('msgtype')}}" role="alert">
+                    {{session('msg')}}
+                </div>
+            @endif
+            @if(!auth()->user()->isArChecker() && !auth()->user()->isArApprover())
             <a href="{{route('encoderstats_viewar', auth()->user()->id)}}" class="btn btn-primary btn-block btn-lg"><b>My Monthly Accomplishment Report</b></a>
             <hr>
+            @endif
             <form action="" method="GET">
                 <div class="input-group mb-3">
-                    <input type="date" class="form-control" name="date" id="date" value="{{(request()->input('date')) ? request()->input('date') : date('Y-m-d')}}" required>
+                    <input type="date" class="form-control" name="date" id="date" value="{{(request()->input('date')) ? request()->input('date') : date('Y-m-d')}}" max="{{date('Y-m-d')}}" required>
                     <div class="input-group-append">
                         <button class="btn btn-outline-success" type="submit"><i class="fas fa-calendar-alt mr-2"></i>Date Search</button>
                     </div>
@@ -54,13 +61,21 @@ $gt_abtctoics = 0;
                                 @if(auth()->user()->isArChecker() || auth()->user()->isArApprover())
                                 @php
                                 if(request()->input('date')) {
-
+                                    if(date('m', strtotime(request()->input('date'))) == date('m')) {
+                                        $month = date('m', strtotime('-1 Month'));
+                                        $year = date('Y', strtotime('-1 Month'));
+                                    }
+                                    else {
+                                        $month = date('m', strtotime(request()->input('date')));
+                                        $year = date('Y', strtotime(request()->input('date')));
+                                    }
                                 }
                                 else {
-                                    
+                                    $month = date('m', strtotime('-1 Month'));
+                                    $year = date('Y', strtotime('-1 Month'));
                                 }
                                 @endphp
-                                <a href="{{route('encoderstats_viewar', $i['id'])}}"><b>{{mb_strtoupper($i['name'])}}</b></a>
+                                <a href="{{route('encoderstats_viewar', ['id' => $i['id'], 'month' => $month, 'year' => $year])}}"><b>{{mb_strtoupper($i['name'])}}</b></a>
                                 @else
                                 <a href="{{route('task_userdashboard', $i['id'])}}"><b>{{mb_strtoupper($i['name'])}}</b></a>
                                 @endif

@@ -359,6 +359,8 @@ class AdminPanelController extends Controller
             ->count();
             */
 
+            //If changing values here, please also change the values in Encoding Count and Monthly Accomplishment
+
             $suspected_count = Forms::where('user_id', $item->id)
             ->where(function($q) use ($date) {
                 $q->whereDate('created_at', $date);

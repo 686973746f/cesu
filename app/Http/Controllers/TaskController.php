@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Forms;
 use App\Models\WorkTask;
+use App\Models\LiveBirth;
 use Illuminate\Http\Request;
+use App\Models\VaxcertConcern;
 use App\Models\SyndromicRecords;
 use App\Models\AbtcBakunaRecords;
-use App\Models\MonthlyAccomplishmentChecker;
 use Illuminate\Support\Facades\Auth;
+use App\Models\MonthlyAccomplishmentChecker;
 
 class TaskController extends Controller
 {
@@ -364,8 +367,8 @@ class TaskController extends Controller
 
             $createDate = Carbon::createFromDate($year, $month, 1);
 
-            $month = $createDate->subMonth(1)->format('m');
-            $year = $createDate->subMonth(1)->format('Y');
+            //$month = $createDate->subMonth(1)->format('m');
+            //$year = $createDate->subMonth(1)->format('Y');
 
             $ar = MonthlyAccomplishmentChecker::where('employee_id', $user)
             ->where('month', $month)
@@ -407,20 +410,169 @@ class TaskController extends Controller
 
         //Load Work Counters here
         if($countwork_proceed == 1) {
+            $getUser = User::findOrFail($user);
+
+            //Encoder Stats in Monthly Format
+            $suspected_count = Forms::where('user_id', $getUser->id)
+            ->where(function($q) use ($createDate) {
+                $q->whereBetween('created_at', [$createDate->startOfMonth()->format('Y-m-d'), $createDate->endOfMonth()->format('Y-m-d')]);
+            })
+            ->whereIn('caseClassification', ['Suspect', 'Probable'])
+            ->count();
+
+            $confirmed_count = Forms::where(function ($q) use ($getUser) {
+                $q->where('user_id', $getUser->id)
+                ->orWhere('updated_by', $getUser->id);
+            })
+            ->whereBetween('morbidityMonth', [$createDate->startOfMonth()->format('Y-m-d'), $createDate->endOfMonth()->format('Y-m-d')])
+            ->where('caseClassification', 'Confirmed')
+            ->count();
+
+            $recovered_count = Forms::where(function ($q) use ($getUser) {
+                $q->where(function ($r) use ($getUser) {
+                    $r->where('user_id', $getUser->id)
+                    ->where('updated_by', '!=', $getUser->id);
+                })
+                ->orWhere(function ($s) use ($getUser) {
+                    $s->where('user_id', '!=', $getUser->id)
+                    ->where('updated_by', $getUser->id);
+                })
+                ->orWhere(function ($t) use ($getUser) {
+                    $t->where('user_id', $getUser->id)
+                    ->where('updated_by', $getUser->id);
+                });
+            })
+            ->whereBetween('morbidityMonth', [$createDate->startOfMonth()->format('Y-m-d'), $createDate->endOfMonth()->format('Y-m-d')])
+            ->where('caseClassification', 'Confirmed')
+            ->where('outcomeCondition', 'Recovered')
+            ->count();
+            
+            $negative_count = Forms::where(function ($q) use ($getUser) {
+                $q->where('user_id', $getUser->id)
+                ->orWhere('updated_by', $getUser->id);
+            })
+            ->where(function ($q) use ($createDate) {
+                $q->whereBetween('created_at', [$createDate->startOfMonth()->format('Y-m-d'), $createDate->endOfMonth()->format('Y-m-d')])
+                ->orWhereBetween('updated_at', [$createDate->startOfMonth()->format('Y-m-d'), $createDate->endOfMonth()->format('Y-m-d')]);
+            })
+            ->where('caseClassification', 'Non-COVID-19 Case')
+            ->count();
+
+            $covid_count_final = $suspected_count + $confirmed_count + $recovered_count + $negative_count;
+
+            $abtc_count = AbtcBakunaRecords::where('d0_done_by', $getUser->id)
+            ->whereBetween('d0_done_date', [$createDate->startOfMonth()->format('Y-m-d'), $createDate->endOfMonth()->format('Y-m-d')])
+            ->count();
+
+            $abtc_count_ff1 = AbtcBakunaRecords::where('d3_done_by', $getUser->id)
+            ->whereBetween('d3_done_date', [$createDate->startOfMonth()->format('Y-m-d'), $createDate->endOfMonth()->format('Y-m-d')])
+            ->count();
+
+            $abtc_count_ff2 = AbtcBakunaRecords::where('d7_done_by', $getUser->id)
+            ->whereBetween('d7_done_date', [$createDate->startOfMonth()->format('Y-m-d'), $createDate->endOfMonth()->format('Y-m-d')])
+            ->count();
+
+            $abtc_count_ff3 = AbtcBakunaRecords::where('d14_done_by', $getUser->id)
+            ->whereBetween('d14_done_date', [$createDate->startOfMonth()->format('Y-m-d'), $createDate->endOfMonth()->format('Y-m-d')])
+            ->count();
+
+            $abtc_count_ff4 = AbtcBakunaRecords::where('d28_done_by', $getUser->id)
+            ->whereBetween('d28_done_date', [$createDate->startOfMonth()->format('Y-m-d'), $createDate->endOfMonth()->format('Y-m-d')])
+            ->count();
+
+            $abtc_ffup_gtotal = $abtc_count_ff1 + $abtc_count_ff2 + $abtc_count_ff3 + $abtc_count_ff4;
+
+            $vaxcert_count = VaxcertConcern::where('processed_by', $getUser->id)
+            ->whereBetween('updated_at', [$createDate->startOfMonth()->format('Y-m-d'), $createDate->endOfMonth()->format('Y-m-d')])
+            ->count();
+
+            $opd_count = SyndromicRecords::where('created_by', $getUser->id)
+            ->whereBetween('created_at', [$createDate->startOfMonth()->format('Y-m-d'), $createDate->endOfMonth()->format('Y-m-d')])
+            ->count();
+
+            $lcr_livebirth = LiveBirth::whereBetween('created_at', [$createDate->startOfMonth()->format('Y-m-d'), $createDate->endOfMonth()->format('Y-m-d')])
+            ->where('created_by', $getUser->id)
+            ->count();
+            
+            $disease_list = PIDSRController::listDiseasesTables();
+
+            //Add Laboratory data table for counting
+            $disease_list = $disease_list + [
+                'EdcsLaboratoryData',
+            ];
+
+            $edcs_count = 0;
+
+            foreach($disease_list as $d) {
+                $modelClass = "App\\Models\\$d";
+
+                $model_count = $modelClass::where('created_by', $getUser->id)
+                ->whereBetween('created_at', [$createDate->startOfMonth()->format('Y-m-d'), $createDate->endOfMonth()->format('Y-m-d')])
+                ->count();
+
+                $edcs_count += $model_count;
+            }
+
+            $death_count = WorkTask::where('name', 'DAILY ENCODE OF DEATH CERTIFICATES TO FHSIS')
+            ->where('finished_by', $getUser->id)
+            ->whereBetween('finished_date', [$createDate->startOfMonth()->format('Y-m-d'), $createDate->endOfMonth()->format('Y-m-d')])
+            ->sum('encodedcount');
+
+            $opdtoics_count = SyndromicRecords::where('ics_finishedby', $getUser->id)
+            ->whereBetween('ics_finished_date', [$createDate->startOfMonth()->format('Y-m-d'), $createDate->endOfMonth()->format('Y-m-d')])
+            ->count();
+
+            $abtctoics_count = AbtcBakunaRecords::where('ics_finishedby', $getUser->id)
+            ->whereBetween('ics_finished_date', [$createDate->startOfMonth()->format('Y-m-d'), $createDate->endOfMonth()->format('Y-m-d')])
+            ->count();
+
             return view('tasks.monthly_userdashboard', [
                 'countwork_proceed' => $countwork_proceed,
+
+                'id' => $getUser->id,
+                'name' => $getUser->name,
+                'covid_count_final' => $covid_count_final,
+                'abtc_count' => $abtc_count,
+                'abtc_ffup_gtotal' => $abtc_ffup_gtotal,
+                'vaxcert_count' => $vaxcert_count,
+                'opd_count' => $opd_count,
+                'lcr_livebirth' => $lcr_livebirth,
+                'edcs_count' => $edcs_count,
+                'death_count' => $death_count,
+                'opdtoics_count' => $opdtoics_count,
+                'abtctoics_count' => $abtctoics_count,
+
+                'ar' => $ar,
+                'year' => $year,
+                'month' => $month,
             ]);
         }
         else {
             return view('tasks.monthly_userdashboard', [
                 'countwork_proceed' => $countwork_proceed,
+                'ar' => $ar,
             ]);
         }
     }
 
-    public function approveMonthlyAr($user, Request $r) {
+    public function approveMonthlyAr($user, $year, $month, Request $r) {
         if(auth()->user()->isArChecker() || auth()->user()->isArApprover()) {
-            
+            $createDate = Carbon::createFromDate($year, $month, 1);
+            $u = User::findOrFail($user);
+
+            $c = MonthlyAccomplishmentChecker::create([
+                'employee_id' => $user,
+                'year' => $year,
+                'month' => $month,
+                'remarks' => $r->remarks,
+
+                'checked_by' => Auth::id(),
+                'approved_by' => Auth::id(),
+            ]);
+
+            return redirect()->route('encoder_stats_index')
+            ->with('msg', 'Monthly Accomplishment of '.$u->name.' for '.$createDate->format('M Y').' has been successfully approved.')
+            ->with('msgtype', 'success');
         }
         else {
             return redirect()->back()
