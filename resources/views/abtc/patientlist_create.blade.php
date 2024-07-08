@@ -159,6 +159,43 @@
                     </div>
                 </div>
                 <hr>
+                <div class="row">
+                    <div class="col-8">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="is_indg" name="is_indg" value="Y" {{(old('is_indg') == 'Y') ? 'checked' : ''}}>
+                            <label class="form-check-label">Indigenous People</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="is_4ps" name="is_4ps" value="Y" {{(old('is_4ps') == 'Y') ? 'checked' : ''}}>
+                            <label class="form-check-label">4Ps Member</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="is_nhts" name="is_nhts" value="Y" {{(old('is_nhts') == 'Y') ? 'checked' : ''}}>
+                            <label class="form-check-label">NHTS</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="is_pwd" name="is_pwd" value="Y" {{(old('is_pwd') == 'Y') ? 'checked' : ''}}>
+                            <label class="form-check-label">PWD</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="is_singleparent" name="is_singleparent" value="Y" {{(old('is_singleparent') == 'Y') ? 'checked' : ''}}>
+                            <label class="form-check-label">Single Parent</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="is_others" name="is_others" value="Y" {{(old('is_others') == 'Y') ? 'checked' : ''}}>
+                            <label class="form-check-label">Others</label>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div id="ifCheckboxOthersDiv" class="d-none">
+                            <div class="form-group">
+                                <label for="is_others_specify"><b class="text-danger">*</b>Specify</label>
+                                <input type="text" class="form-control" name="is_others_specify" id="is_others_specify" minlength="1" maxlength="100" value="{{old('is_others_specify')}}" style="text-transform: uppercase;" >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
                 <div class="mb-3">
                   <label for="remarks" class="form-label">Remarks <i>(If Applicable)</i></label>
                   <textarea class="form-control" name="remarks" id="remarks" rows="3">{{old('remarks')}}</textarea>
@@ -358,6 +395,18 @@
 
             $('#bdate').prop('required', false);
             $('#age').prop('required', true);
+        }
+    }).trigger('change');
+
+    $('#is_others').change(function (e) { 
+        e.preventDefault();
+        if($(this).prop('checked')) {
+            $('#ifCheckboxOthersDiv').removeClass('d-none');
+            $('#is_others_specify').prop('required', true);
+        }
+        else {
+            $('#ifCheckboxOthersDiv').addClass('d-none');
+            $('#is_others_specify').prop('required', false);
         }
     }).trigger('change');
 </script>

@@ -36,6 +36,16 @@ class AbtcPatient extends Model
         'address_brgy_text',
         'address_street',
         'address_houseno',
+
+        'is_indg',
+        'is_4ps',
+        'is_nhts',
+        'is_seniorcitizen',
+        'is_pwd',
+        'is_singleparent',
+        'is_others',
+        'is_others_specify',
+
         'remarks',
         'qr',
 

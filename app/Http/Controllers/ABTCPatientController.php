@@ -106,6 +106,8 @@ class ABTCPatientController extends Controller
                 ->with('msgtype', 'danger');
             }
 
+            $ageToInt = Carbon::parse($request->bdate)->age;
+
             $create = $request->user()->abtcpatient()->create([
                 'lname' => mb_strtoupper($request->lname),
                 'fname' => mb_strtoupper($request->fname),
@@ -126,6 +128,15 @@ class ABTCPatientController extends Controller
                 'address_brgy_text' => $request->address_brgy_text,
                 'address_street' => ($request->filled('address_street')) ? mb_strtoupper($request->address_street) : NULL,
                 'address_houseno' => ($request->filled('address_houseno')) ? mb_strtoupper($request->address_houseno) : NULL,
+
+                'is_indg' => ($request->is_indg == 'Y') ? 'Y' : 'N',
+                'is_4ps' => ($request->is_4ps == 'Y') ? 'Y' : 'N',
+                'is_nhts' => ($request->is_nhts == 'Y') ? 'Y' : 'N',
+                'is_seniorcitizen' => ($ageToInt >= 60) ? 'Y' : 'N',
+                'is_pwd' => ($request->is_pwd == 'Y') ? 'Y' : 'N',
+                'is_singleparent' => ($request->is_singleparent == 'Y') ? 'Y' : 'N',
+                'is_others' => ($request->is_others == 'Y') ? 'Y' : 'N',
+                'is_others_specify' => ($request->is_others == 'Y') ? mb_strtoupper($request->is_others_specify) : NULL,
     
                 'qr' => $for_qr,
                 'remarks' => ($request->filled('remarks')) ? $request->remarks : NULL,
@@ -187,6 +198,8 @@ class ABTCPatientController extends Controller
                 $get_age = $request->age;
             }
 
+            $ageToInt = Carbon::parse($request->bdate)->age;
+
             $p->lname = mb_strtoupper($request->lname);
             $p->fname = mb_strtoupper($request->fname);
             $p->mname = (mb_strtoupper($request->mname) != 'N/A') ? mb_strtoupper($request->mname) : NULL;
@@ -206,6 +219,15 @@ class ABTCPatientController extends Controller
             $p->address_brgy_text = $request->address_brgy_text;
             $p->address_street = ($request->filled('address_street')) ? mb_strtoupper($request->address_street) : NULL;
             $p->address_houseno = ($request->filled('address_houseno')) ? mb_strtoupper($request->address_houseno) : NULL;
+
+            $p->is_indg = ($request->is_indg == 'Y') ? 'Y' : 'N';
+            $p->is_4ps = ($request->is_4ps == 'Y') ? 'Y' : 'N';
+            $p->is_nhts = ($request->is_nhts == 'Y') ? 'Y' : 'N';
+            $p->is_seniorcitizen = ($ageToInt >= 60) ? 'Y' : 'N';
+            $p->is_pwd = ($request->is_pwd == 'Y') ? 'Y' : 'N';
+            $p->is_singleparent = ($request->is_singleparent == 'Y') ? 'Y' : 'N';
+            $p->is_others = ($request->is_others == 'Y') ? 'Y' : 'N';
+            $p->is_others_specify = ($request->is_others == 'Y') ? mb_strtoupper($request->is_others_specify) : NULL;
 
             $p->remarks = ($request->filled('remarks')) ? $request->remarks : NULL;
 
