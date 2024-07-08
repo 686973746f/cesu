@@ -3076,6 +3076,7 @@ class SyndromicController extends Controller
         ->pluck('dcnote_assessment')
         ->toArray();
 
+        /*
         $gd_final = [];
 
         foreach($group_diagnosis as $f) {
@@ -3087,14 +3088,15 @@ class SyndromicController extends Controller
                 $gd_final[] = $separate_arr[0];
             }
         }
+        */
 
         $final_arr = [];
 
-        foreach($gd_final as $g) {
+        foreach($group_diagnosis as $g) {
             $pedia_old_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
                 $q->where('gender', 'MALE');
             })
-            ->where('dcnote_assessment', 'LIKE', $g.'%')
+            ->where('dcnote_assessment', $g)
             ->where('nature_of_visit', 'FOLLOW-UP VISIT')
             ->where('age_years', '<=', 19)
             ->where('facility_id', auth()->user()->itr_facility_id);
@@ -3102,7 +3104,7 @@ class SyndromicController extends Controller
             $pedia_new_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
                 $q->where('gender', 'MALE');
             })
-            ->where('dcnote_assessment', 'LIKE', $g.'%')
+            ->where('dcnote_assessment', $g)
             ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
             ->where('age_years', '<=', 19)
             ->where('facility_id', auth()->user()->itr_facility_id);
@@ -3110,7 +3112,7 @@ class SyndromicController extends Controller
             $pedia_old_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
                 $q->where('gender', 'FEMALE');
             })
-            ->where('dcnote_assessment', 'LIKE', $g.'%')
+            ->where('dcnote_assessment', $g)
             ->where('nature_of_visit', 'FOLLOW-UP VISIT')
             ->where('age_years', '<=', 19)
             ->where('facility_id', auth()->user()->itr_facility_id);
@@ -3118,7 +3120,7 @@ class SyndromicController extends Controller
             $pedia_new_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
                 $q->where('gender', 'FEMALE');
             })
-            ->where('dcnote_assessment', 'LIKE', $g.'%')
+            ->where('dcnote_assessment', $g)
             ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
             ->where('age_years', '<=', 19)
             ->where('facility_id', auth()->user()->itr_facility_id);
@@ -3126,7 +3128,7 @@ class SyndromicController extends Controller
             $adult_old_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
                 $q->where('gender', 'MALE');
             })
-            ->where('dcnote_assessment', 'LIKE', $g.'%')
+            ->where('dcnote_assessment', $g)
             ->where('nature_of_visit', 'FOLLOW-UP VISIT')
             ->whereBetween('age_years', [20,59])
             ->where('facility_id', auth()->user()->itr_facility_id);
@@ -3134,7 +3136,7 @@ class SyndromicController extends Controller
             $adult_new_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
                 $q->where('gender', 'MALE');
             })
-            ->where('dcnote_assessment', 'LIKE', $g.'%')
+            ->where('dcnote_assessment', $g)
             ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
             ->whereBetween('age_years', [20,59])
             ->where('facility_id', auth()->user()->itr_facility_id);
@@ -3142,7 +3144,7 @@ class SyndromicController extends Controller
             $adult_old_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
                 $q->where('gender', 'FEMALE');
             })
-            ->where('dcnote_assessment', 'LIKE', $g.'%')
+            ->where('dcnote_assessment', $g)
             ->where('nature_of_visit', 'FOLLOW-UP VISIT')
             ->whereBetween('age_years', [20,59])
             ->where('facility_id', auth()->user()->itr_facility_id);
@@ -3150,7 +3152,7 @@ class SyndromicController extends Controller
             $adult_new_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
                 $q->where('gender', 'FEMALE');
             })
-            ->where('dcnote_assessment', 'LIKE', $g.'%')
+            ->where('dcnote_assessment', $g)
             ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
             ->whereBetween('age_years', [20,59])
             ->where('facility_id', auth()->user()->itr_facility_id);
@@ -3158,7 +3160,7 @@ class SyndromicController extends Controller
             $senior_old_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
                 $q->where('gender', 'MALE');
             })
-            ->where('dcnote_assessment', 'LIKE', $g.'%')
+            ->where('dcnote_assessment', $g)
             ->where('nature_of_visit', 'FOLLOW-UP VISIT')
             ->where('age_years', '>=', 60)
             ->where('facility_id', auth()->user()->itr_facility_id);
@@ -3166,7 +3168,7 @@ class SyndromicController extends Controller
             $senior_new_m = SyndromicRecords::whereHas('syndromic_patient', function($q) {
                 $q->where('gender', 'MALE');
             })
-            ->where('dcnote_assessment', 'LIKE', $g.'%')
+            ->where('dcnote_assessment', $g)
             ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
             ->where('age_years', '>=', 60)
             ->where('facility_id', auth()->user()->itr_facility_id);
@@ -3174,7 +3176,7 @@ class SyndromicController extends Controller
             $senior_old_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
                 $q->where('gender', 'FEMALE');
             })
-            ->where('dcnote_assessment', 'LIKE', $g.'%')
+            ->where('dcnote_assessment', $g)
             ->where('nature_of_visit', 'FOLLOW-UP VISIT')
             ->where('age_years', '>=', 60)
             ->where('facility_id', auth()->user()->itr_facility_id);
@@ -3182,7 +3184,7 @@ class SyndromicController extends Controller
             $senior_new_f = SyndromicRecords::whereHas('syndromic_patient', function($q) {
                 $q->where('gender', 'FEMALE');
             })
-            ->where('dcnote_assessment', 'LIKE', $g.'%')
+            ->where('dcnote_assessment', $g)
             ->where('nature_of_visit', 'NEW CONSULTATION/CASE')
             ->where('age_years', '>=', 60)
             ->where('facility_id', auth()->user()->itr_facility_id);
@@ -3428,322 +3430,336 @@ class SyndromicController extends Controller
         $final_arr = [];
 
         foreach($group_diagnosis as $g) {
-            $age1_male = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
-                $q->where('gender', 'MALE')
-                ->where('address_brgy_text', $brgy);
+            $gtotal_test = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
+                $q->where('address_brgy_text', $brgy);
             })
-            ->whereBetween('age_years', [1,4])
-            ->where('dcnote_assessment', $g);
-
-            $age1_female = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
-                $q->where('gender', 'MALE')
-                ->where('address_brgy_text', $brgy);
-            })
-            ->whereBetween('age_years', [1,4])
-            ->where('dcnote_assessment', $g);
-            
-            $age2_male = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
-                $q->where('gender', 'MALE')
-                ->where('address_brgy_text', $brgy);
-            })
-            ->whereBetween('age_years', [5,9])
-            ->where('dcnote_assessment', $g);
-
-            $age2_female = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
-                $q->where('gender', 'MALE')
-                ->where('address_brgy_text', $brgy);
-            })
-            ->whereBetween('age_years', [5,9])
-            ->where('dcnote_assessment', $g);
-
-            $age3_male = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
-                $q->where('gender', 'MALE')
-                ->where('address_brgy_text', $brgy);
-            })
-            ->whereBetween('age_years', [10,14])
-            ->where('dcnote_assessment', $g);
-
-            $age3_female = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
-                $q->where('gender', 'MALE')
-                ->where('address_brgy_text', $brgy);
-            })
-            ->whereBetween('age_years', [10,14])
-            ->where('dcnote_assessment', $g);
-
-            $age4_male = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
-                $q->where('gender', 'MALE')
-                ->where('address_brgy_text', $brgy);
-            })
-            ->whereBetween('age_years', [15,19])
-            ->where('dcnote_assessment', $g);
-
-            $age4_female = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
-                $q->where('gender', 'MALE')
-                ->where('address_brgy_text', $brgy);
-            })
-            ->whereBetween('age_years', [15,19])
-            ->where('dcnote_assessment', $g);
-
-            $age5_male = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
-                $q->where('gender', 'MALE')
-                ->where('address_brgy_text', $brgy);
-            })
-            ->whereBetween('age_years', [20,24])
-            ->where('dcnote_assessment', $g);
-
-            $age5_female = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
-                $q->where('gender', 'MALE')
-                ->where('address_brgy_text', $brgy);
-            })
-            ->whereBetween('age_years', [20,24])
-            ->where('dcnote_assessment', $g);
-
-            $age6_male = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
-                $q->where('gender', 'MALE')
-                ->where('address_brgy_text', $brgy);
-            })
-            ->whereBetween('age_years', [25,29])
-            ->where('dcnote_assessment', $g);
-
-            $age6_female = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
-                $q->where('gender', 'MALE')
-                ->where('address_brgy_text', $brgy);
-            })
-            ->whereBetween('age_years', [25,29])
-            ->where('dcnote_assessment', $g);
-
-            $age7_male = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
-                $q->where('gender', 'MALE')
-                ->where('address_brgy_text', $brgy);
-            })
-            ->whereBetween('age_years', [30,34])
-            ->where('dcnote_assessment', $g);
-
-            $age7_female = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
-                $q->where('gender', 'MALE')
-                ->where('address_brgy_text', $brgy);
-            })
-            ->whereBetween('age_years', [30,34])
-            ->where('dcnote_assessment', $g);
-
-            $age8_male = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
-                $q->where('gender', 'MALE')
-                ->where('address_brgy_text', $brgy);
-            })
-            ->whereBetween('age_years', [35,39])
-            ->where('dcnote_assessment', $g);
-
-            $age8_female = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
-                $q->where('gender', 'MALE')
-                ->where('address_brgy_text', $brgy);
-            })
-            ->whereBetween('age_years', [35,39])
-            ->where('dcnote_assessment', $g);
-
-            $age9_male = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
-                $q->where('gender', 'MALE')
-                ->where('address_brgy_text', $brgy);
-            })
-            ->whereBetween('age_years', [40,44])
-            ->where('dcnote_assessment', $g);
-
-            $age9_female = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
-                $q->where('gender', 'MALE')
-                ->where('address_brgy_text', $brgy);
-            })
-            ->whereBetween('age_years', [40,44])
-            ->where('dcnote_assessment', $g);
-
-            $age10_male = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
-                $q->where('gender', 'MALE')
-                ->where('address_brgy_text', $brgy);
-            })
-            ->whereBetween('age_years', [45,49])
-            ->where('dcnote_assessment', $g);
-
-            $age10_female = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
-                $q->where('gender', 'MALE')
-                ->where('address_brgy_text', $brgy);
-            })
-            ->whereBetween('age_years', [45,49])
-            ->where('dcnote_assessment', $g);
-
-            $age11_male = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
-                $q->where('gender', 'MALE')
-                ->where('address_brgy_text', $brgy);
-            })
-            ->whereBetween('age_years', [50,54])
-            ->where('dcnote_assessment', $g);
-
-            $age11_female = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
-                $q->where('gender', 'MALE')
-                ->where('address_brgy_text', $brgy);
-            })
-            ->whereBetween('age_years', [50,54])
-            ->where('dcnote_assessment', $g);
-
-            $age12_male = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
-                $q->where('gender', 'MALE')
-                ->where('address_brgy_text', $brgy);
-            })
-            ->whereBetween('age_years', [55,59])
-            ->where('dcnote_assessment', $g);
-
-            $age12_female = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
-                $q->where('gender', 'MALE')
-                ->where('address_brgy_text', $brgy);
-            })
-            ->whereBetween('age_years', [55,59])
-            ->where('dcnote_assessment', $g);
-
-            $age13_male = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
-                $q->where('gender', 'MALE')
-                ->where('address_brgy_text', $brgy);
-            })
-            ->whereBetween('age_years', [60,64])
-            ->where('dcnote_assessment', $g);
-
-            $age13_female = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
-                $q->where('gender', 'MALE')
-                ->where('address_brgy_text', $brgy);
-            })
-            ->whereBetween('age_years', [60,64])
-            ->where('dcnote_assessment', $g);
-
-            $age14_male = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
-                $q->where('gender', 'MALE')
-                ->where('address_brgy_text', $brgy);
-            })
-            ->whereBetween('age_years', [65,69])
-            ->where('dcnote_assessment', $g);
-
-            $age14_female = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
-                $q->where('gender', 'MALE')
-                ->where('address_brgy_text', $brgy);
-            })
-            ->whereBetween('age_years', [65,69])
-            ->where('dcnote_assessment', $g);
-
-            $age15_male = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
-                $q->where('gender', 'MALE')
-                ->where('address_brgy_text', $brgy);
-            })
-            ->where('age_years', '>=', 70)
-            ->where('dcnote_assessment', $g);
-
-            $age15_female = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
-                $q->where('gender', 'MALE')
-                ->where('address_brgy_text', $brgy);
-            })
-            ->where('age_years', '>=', 70)
             ->where('dcnote_assessment', $g);
 
             if($type == 'Monthly') {
-                $age1_male = $age1_male->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
-                $age2_male = $age2_male->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
-                $age3_male = $age3_male->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
-                $age4_male = $age4_male->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
-                $age5_male = $age5_male->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
-                $age6_male = $age6_male->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
-                $age7_male = $age7_male->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
-                $age8_male = $age8_male->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
-                $age9_male = $age9_male->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
-                $age10_male = $age10_male->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
-                $age11_male = $age11_male->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
-                $age12_male = $age12_male->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
-                $age13_male = $age13_male->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
-                $age14_male = $age14_male->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
-                $age15_male = $age15_male->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
-
-                $age1_female = $age1_female->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
-                $age2_female = $age2_female->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
-                $age3_female = $age3_female->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
-                $age4_female = $age4_female->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
-                $age5_female = $age5_female->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
-                $age6_female = $age6_female->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
-                $age7_female = $age7_female->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
-                $age8_female = $age8_female->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
-                $age9_female = $age9_female->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
-                $age10_female = $age10_female->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
-                $age11_female = $age11_female->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
-                $age12_female = $age12_female->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
-                $age13_female = $age13_female->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
-                $age14_female = $age14_female->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
-                $age15_female = $age15_female->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
+                $gtotal_test = $gtotal_test->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
             }
             else if($type == 'Yearly') {
-                $age1_male = $age1_male->whereYear('consultation_date', $syear)->count();
-                $age2_male = $age2_male->whereYear('consultation_date', $syear)->count();
-                $age3_male = $age3_male->whereYear('consultation_date', $syear)->count();
-                $age4_male = $age4_male->whereYear('consultation_date', $syear)->count();
-                $age5_male = $age5_male->whereYear('consultation_date', $syear)->count();
-                $age6_male = $age6_male->whereYear('consultation_date', $syear)->count();
-                $age7_male = $age7_male->whereYear('consultation_date', $syear)->count();
-                $age8_male = $age8_male->whereYear('consultation_date', $syear)->count();
-                $age9_male = $age9_male->whereYear('consultation_date', $syear)->count();
-                $age10_male = $age10_male->whereYear('consultation_date', $syear)->count();
-                $age11_male = $age11_male->whereYear('consultation_date', $syear)->count();
-                $age12_male = $age12_male->whereYear('consultation_date', $syear)->count();
-                $age13_male = $age13_male->whereYear('consultation_date', $syear)->count();
-                $age14_male = $age14_male->whereYear('consultation_date', $syear)->count();
-                $age15_male = $age15_male->whereYear('consultation_date', $syear)->count();
-
-                $age1_female = $age1_female->whereYear('consultation_date', $syear)->count();
-                $age2_female = $age2_female->whereYear('consultation_date', $syear)->count();
-                $age3_female = $age3_female->whereYear('consultation_date', $syear)->count();
-                $age4_female = $age4_female->whereYear('consultation_date', $syear)->count();
-                $age5_female = $age5_female->whereYear('consultation_date', $syear)->count();
-                $age6_female = $age6_female->whereYear('consultation_date', $syear)->count();
-                $age7_female = $age7_female->whereYear('consultation_date', $syear)->count();
-                $age8_female = $age8_female->whereYear('consultation_date', $syear)->count();
-                $age9_female = $age9_female->whereYear('consultation_date', $syear)->count();
-                $age10_female = $age10_female->whereYear('consultation_date', $syear)->count();
-                $age11_female = $age11_female->whereYear('consultation_date', $syear)->count();
-                $age12_female = $age12_female->whereYear('consultation_date', $syear)->count();
-                $age13_female = $age13_female->whereYear('consultation_date', $syear)->count();
-                $age14_female = $age14_female->whereYear('consultation_date', $syear)->count();
-                $age15_female = $age15_female->whereYear('consultation_date', $syear)->count();
+                $gtotal_test = $gtotal_test->whereYear('consultation_date', $syear)->count();
             }
 
-            $agetotal_male = $age1_male + $age2_male + $age3_male + $age4_male + $age5_male + $age6_male + $age7_male + $age8_male + $age9_male + $age10_male + $age11_male + $age12_male + $age13_male + $age14_male + $age15_male;
-            $agetotal_female = $age1_female + $age2_female + $age3_female + $age4_female + $age5_female + $age6_female + $age7_female + $age8_female + $age9_female + $age10_female + $age11_female + $age12_female + $age13_female + $age14_female + $age15_female;
-
-            $final_arr[] = [
-                'disease' => $g,
-                'age1_male' => $age1_male,
-                'age2_male' => $age2_male,
-                'age3_male' => $age3_male,
-                'age4_male' => $age4_male,
-                'age5_male' => $age5_male,
-                'age6_male' => $age6_male,
-                'age7_male' => $age7_male,
-                'age8_male' => $age8_male,
-                'age9_male' => $age9_male,
-                'age10_male' => $age10_male,
-                'age11_male' => $age11_male,
-                'age12_male' => $age12_male,
-                'age13_male' => $age13_male,
-                'age14_male' => $age14_male,
-                'age15_male' => $age15_male,
-                'agetotal_male' => $agetotal_male,
-
-                'age1_female' => $age1_female,
-                'age2_female' => $age2_female,
-                'age3_female' => $age3_female,
-                'age4_female' => $age4_female,
-                'age5_female' => $age5_female,
-                'age6_female' => $age6_female,
-                'age7_female' => $age7_female,
-                'age8_female' => $age8_female,
-                'age9_female' => $age9_female,
-                'age10_female' => $age10_female,
-                'age11_female' => $age11_female,
-                'age12_female' => $age12_female,
-                'age13_female' => $age13_female,
-                'age14_female' => $age14_female,
-                'age15_female' => $age15_female,
-                'agetotal_female' => $agetotal_female,
-            ];
+            if($gtotal_test != 0) {
+                $age1_male = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
+                    $q->where('gender', 'MALE')
+                    ->where('address_brgy_text', $brgy);
+                })
+                ->whereBetween('age_years', [1,4])
+                ->where('dcnote_assessment', $g);
+    
+                $age1_female = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
+                    $q->where('gender', 'MALE')
+                    ->where('address_brgy_text', $brgy);
+                })
+                ->whereBetween('age_years', [1,4])
+                ->where('dcnote_assessment', $g);
+                
+                $age2_male = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
+                    $q->where('gender', 'MALE')
+                    ->where('address_brgy_text', $brgy);
+                })
+                ->whereBetween('age_years', [5,9])
+                ->where('dcnote_assessment', $g);
+    
+                $age2_female = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
+                    $q->where('gender', 'MALE')
+                    ->where('address_brgy_text', $brgy);
+                })
+                ->whereBetween('age_years', [5,9])
+                ->where('dcnote_assessment', $g);
+    
+                $age3_male = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
+                    $q->where('gender', 'MALE')
+                    ->where('address_brgy_text', $brgy);
+                })
+                ->whereBetween('age_years', [10,14])
+                ->where('dcnote_assessment', $g);
+    
+                $age3_female = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
+                    $q->where('gender', 'MALE')
+                    ->where('address_brgy_text', $brgy);
+                })
+                ->whereBetween('age_years', [10,14])
+                ->where('dcnote_assessment', $g);
+    
+                $age4_male = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
+                    $q->where('gender', 'MALE')
+                    ->where('address_brgy_text', $brgy);
+                })
+                ->whereBetween('age_years', [15,19])
+                ->where('dcnote_assessment', $g);
+    
+                $age4_female = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
+                    $q->where('gender', 'MALE')
+                    ->where('address_brgy_text', $brgy);
+                })
+                ->whereBetween('age_years', [15,19])
+                ->where('dcnote_assessment', $g);
+    
+                $age5_male = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
+                    $q->where('gender', 'MALE')
+                    ->where('address_brgy_text', $brgy);
+                })
+                ->whereBetween('age_years', [20,24])
+                ->where('dcnote_assessment', $g);
+    
+                $age5_female = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
+                    $q->where('gender', 'MALE')
+                    ->where('address_brgy_text', $brgy);
+                })
+                ->whereBetween('age_years', [20,24])
+                ->where('dcnote_assessment', $g);
+    
+                $age6_male = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
+                    $q->where('gender', 'MALE')
+                    ->where('address_brgy_text', $brgy);
+                })
+                ->whereBetween('age_years', [25,29])
+                ->where('dcnote_assessment', $g);
+    
+                $age6_female = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
+                    $q->where('gender', 'MALE')
+                    ->where('address_brgy_text', $brgy);
+                })
+                ->whereBetween('age_years', [25,29])
+                ->where('dcnote_assessment', $g);
+    
+                $age7_male = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
+                    $q->where('gender', 'MALE')
+                    ->where('address_brgy_text', $brgy);
+                })
+                ->whereBetween('age_years', [30,34])
+                ->where('dcnote_assessment', $g);
+    
+                $age7_female = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
+                    $q->where('gender', 'MALE')
+                    ->where('address_brgy_text', $brgy);
+                })
+                ->whereBetween('age_years', [30,34])
+                ->where('dcnote_assessment', $g);
+    
+                $age8_male = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
+                    $q->where('gender', 'MALE')
+                    ->where('address_brgy_text', $brgy);
+                })
+                ->whereBetween('age_years', [35,39])
+                ->where('dcnote_assessment', $g);
+    
+                $age8_female = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
+                    $q->where('gender', 'MALE')
+                    ->where('address_brgy_text', $brgy);
+                })
+                ->whereBetween('age_years', [35,39])
+                ->where('dcnote_assessment', $g);
+    
+                $age9_male = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
+                    $q->where('gender', 'MALE')
+                    ->where('address_brgy_text', $brgy);
+                })
+                ->whereBetween('age_years', [40,44])
+                ->where('dcnote_assessment', $g);
+    
+                $age9_female = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
+                    $q->where('gender', 'MALE')
+                    ->where('address_brgy_text', $brgy);
+                })
+                ->whereBetween('age_years', [40,44])
+                ->where('dcnote_assessment', $g);
+    
+                $age10_male = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
+                    $q->where('gender', 'MALE')
+                    ->where('address_brgy_text', $brgy);
+                })
+                ->whereBetween('age_years', [45,49])
+                ->where('dcnote_assessment', $g);
+    
+                $age10_female = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
+                    $q->where('gender', 'MALE')
+                    ->where('address_brgy_text', $brgy);
+                })
+                ->whereBetween('age_years', [45,49])
+                ->where('dcnote_assessment', $g);
+    
+                $age11_male = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
+                    $q->where('gender', 'MALE')
+                    ->where('address_brgy_text', $brgy);
+                })
+                ->whereBetween('age_years', [50,54])
+                ->where('dcnote_assessment', $g);
+    
+                $age11_female = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
+                    $q->where('gender', 'MALE')
+                    ->where('address_brgy_text', $brgy);
+                })
+                ->whereBetween('age_years', [50,54])
+                ->where('dcnote_assessment', $g);
+    
+                $age12_male = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
+                    $q->where('gender', 'MALE')
+                    ->where('address_brgy_text', $brgy);
+                })
+                ->whereBetween('age_years', [55,59])
+                ->where('dcnote_assessment', $g);
+    
+                $age12_female = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
+                    $q->where('gender', 'MALE')
+                    ->where('address_brgy_text', $brgy);
+                })
+                ->whereBetween('age_years', [55,59])
+                ->where('dcnote_assessment', $g);
+    
+                $age13_male = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
+                    $q->where('gender', 'MALE')
+                    ->where('address_brgy_text', $brgy);
+                })
+                ->whereBetween('age_years', [60,64])
+                ->where('dcnote_assessment', $g);
+    
+                $age13_female = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
+                    $q->where('gender', 'MALE')
+                    ->where('address_brgy_text', $brgy);
+                })
+                ->whereBetween('age_years', [60,64])
+                ->where('dcnote_assessment', $g);
+    
+                $age14_male = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
+                    $q->where('gender', 'MALE')
+                    ->where('address_brgy_text', $brgy);
+                })
+                ->whereBetween('age_years', [65,69])
+                ->where('dcnote_assessment', $g);
+    
+                $age14_female = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
+                    $q->where('gender', 'MALE')
+                    ->where('address_brgy_text', $brgy);
+                })
+                ->whereBetween('age_years', [65,69])
+                ->where('dcnote_assessment', $g);
+    
+                $age15_male = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
+                    $q->where('gender', 'MALE')
+                    ->where('address_brgy_text', $brgy);
+                })
+                ->where('age_years', '>=', 70)
+                ->where('dcnote_assessment', $g);
+    
+                $age15_female = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($brgy) {
+                    $q->where('gender', 'MALE')
+                    ->where('address_brgy_text', $brgy);
+                })
+                ->where('age_years', '>=', 70)
+                ->where('dcnote_assessment', $g);
+    
+                if($type == 'Monthly') {
+                    $age1_male = $age1_male->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
+                    $age2_male = $age2_male->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
+                    $age3_male = $age3_male->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
+                    $age4_male = $age4_male->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
+                    $age5_male = $age5_male->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
+                    $age6_male = $age6_male->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
+                    $age7_male = $age7_male->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
+                    $age8_male = $age8_male->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
+                    $age9_male = $age9_male->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
+                    $age10_male = $age10_male->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
+                    $age11_male = $age11_male->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
+                    $age12_male = $age12_male->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
+                    $age13_male = $age13_male->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
+                    $age14_male = $age14_male->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
+                    $age15_male = $age15_male->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
+    
+                    $age1_female = $age1_female->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
+                    $age2_female = $age2_female->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
+                    $age3_female = $age3_female->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
+                    $age4_female = $age4_female->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
+                    $age5_female = $age5_female->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
+                    $age6_female = $age6_female->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
+                    $age7_female = $age7_female->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
+                    $age8_female = $age8_female->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
+                    $age9_female = $age9_female->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
+                    $age10_female = $age10_female->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
+                    $age11_female = $age11_female->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
+                    $age12_female = $age12_female->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
+                    $age13_female = $age13_female->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
+                    $age14_female = $age14_female->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
+                    $age15_female = $age15_female->whereBetween('consultation_date', [$startOfMonth, $endOfMonth])->count();
+                }
+                else if($type == 'Yearly') {
+                    $age1_male = $age1_male->whereYear('consultation_date', $syear)->count();
+                    $age2_male = $age2_male->whereYear('consultation_date', $syear)->count();
+                    $age3_male = $age3_male->whereYear('consultation_date', $syear)->count();
+                    $age4_male = $age4_male->whereYear('consultation_date', $syear)->count();
+                    $age5_male = $age5_male->whereYear('consultation_date', $syear)->count();
+                    $age6_male = $age6_male->whereYear('consultation_date', $syear)->count();
+                    $age7_male = $age7_male->whereYear('consultation_date', $syear)->count();
+                    $age8_male = $age8_male->whereYear('consultation_date', $syear)->count();
+                    $age9_male = $age9_male->whereYear('consultation_date', $syear)->count();
+                    $age10_male = $age10_male->whereYear('consultation_date', $syear)->count();
+                    $age11_male = $age11_male->whereYear('consultation_date', $syear)->count();
+                    $age12_male = $age12_male->whereYear('consultation_date', $syear)->count();
+                    $age13_male = $age13_male->whereYear('consultation_date', $syear)->count();
+                    $age14_male = $age14_male->whereYear('consultation_date', $syear)->count();
+                    $age15_male = $age15_male->whereYear('consultation_date', $syear)->count();
+    
+                    $age1_female = $age1_female->whereYear('consultation_date', $syear)->count();
+                    $age2_female = $age2_female->whereYear('consultation_date', $syear)->count();
+                    $age3_female = $age3_female->whereYear('consultation_date', $syear)->count();
+                    $age4_female = $age4_female->whereYear('consultation_date', $syear)->count();
+                    $age5_female = $age5_female->whereYear('consultation_date', $syear)->count();
+                    $age6_female = $age6_female->whereYear('consultation_date', $syear)->count();
+                    $age7_female = $age7_female->whereYear('consultation_date', $syear)->count();
+                    $age8_female = $age8_female->whereYear('consultation_date', $syear)->count();
+                    $age9_female = $age9_female->whereYear('consultation_date', $syear)->count();
+                    $age10_female = $age10_female->whereYear('consultation_date', $syear)->count();
+                    $age11_female = $age11_female->whereYear('consultation_date', $syear)->count();
+                    $age12_female = $age12_female->whereYear('consultation_date', $syear)->count();
+                    $age13_female = $age13_female->whereYear('consultation_date', $syear)->count();
+                    $age14_female = $age14_female->whereYear('consultation_date', $syear)->count();
+                    $age15_female = $age15_female->whereYear('consultation_date', $syear)->count();
+                }
+    
+                $agetotal_male = $age1_male + $age2_male + $age3_male + $age4_male + $age5_male + $age6_male + $age7_male + $age8_male + $age9_male + $age10_male + $age11_male + $age12_male + $age13_male + $age14_male + $age15_male;
+                $agetotal_female = $age1_female + $age2_female + $age3_female + $age4_female + $age5_female + $age6_female + $age7_female + $age8_female + $age9_female + $age10_female + $age11_female + $age12_female + $age13_female + $age14_female + $age15_female;
+    
+                $final_arr[] = [
+                    'disease' => $g,
+                    'age1_male' => $age1_male,
+                    'age2_male' => $age2_male,
+                    'age3_male' => $age3_male,
+                    'age4_male' => $age4_male,
+                    'age5_male' => $age5_male,
+                    'age6_male' => $age6_male,
+                    'age7_male' => $age7_male,
+                    'age8_male' => $age8_male,
+                    'age9_male' => $age9_male,
+                    'age10_male' => $age10_male,
+                    'age11_male' => $age11_male,
+                    'age12_male' => $age12_male,
+                    'age13_male' => $age13_male,
+                    'age14_male' => $age14_male,
+                    'age15_male' => $age15_male,
+                    'agetotal_male' => $agetotal_male,
+    
+                    'age1_female' => $age1_female,
+                    'age2_female' => $age2_female,
+                    'age3_female' => $age3_female,
+                    'age4_female' => $age4_female,
+                    'age5_female' => $age5_female,
+                    'age6_female' => $age6_female,
+                    'age7_female' => $age7_female,
+                    'age8_female' => $age8_female,
+                    'age9_female' => $age9_female,
+                    'age10_female' => $age10_female,
+                    'age11_female' => $age11_female,
+                    'age12_female' => $age12_female,
+                    'age13_female' => $age13_female,
+                    'age14_female' => $age14_female,
+                    'age15_female' => $age15_female,
+                    'agetotal_female' => $agetotal_female,
+                ];
+            }
         }
 
         $tb_array = [
