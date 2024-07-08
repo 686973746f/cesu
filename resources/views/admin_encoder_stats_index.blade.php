@@ -34,6 +34,7 @@ $gt_abtctoics = 0;
                     </div>
                 </div>
             </form>
+            
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">
                     <thead class="text-center thead-light">

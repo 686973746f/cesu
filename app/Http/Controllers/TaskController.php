@@ -371,8 +371,8 @@ class TaskController extends Controller
             //$year = $createDate->subMonth(1)->format('Y');
 
             $ar = MonthlyAccomplishmentChecker::where('employee_id', $user)
-            ->where('month', $month)
-            ->where('year', $year)
+            ->where('month', $createDate->format('m'))
+            ->where('year', $createDate->format('Y'))
             ->first();
         }
         else {
@@ -384,8 +384,8 @@ class TaskController extends Controller
                     $createDate = Carbon::createFromDate($year, $month, 1);
                     
                     $ar = MonthlyAccomplishmentChecker::where('employee_id', Auth::id())
-                    ->where('month', $month)
-                    ->where('year', $year)
+                    ->where('month', $createDate->format('m'))
+                    ->where('year', $createDate->format('Y'))
                     ->first();
 
                     if($ar) {
@@ -549,8 +549,8 @@ class TaskController extends Controller
         }
         else {
             return view('tasks.monthly_userdashboard', [
+                'name' => auth()->user()->name,
                 'countwork_proceed' => $countwork_proceed,
-                'ar' => $ar,
             ]);
         }
     }
@@ -570,8 +570,30 @@ class TaskController extends Controller
                 'approved_by' => Auth::id(),
             ]);
 
+            //Goto next CESU Staff na hindi pa na-check ang accomplishment
+            $users = User::where('permission_list', 'LIKE', '%TASK_MEMBER%')
+            ->where('id', '!=', $u->id)
+            ->get();
+
+            foreach($users as $uu) {
+                $check_count = MonthlyAccomplishmentChecker::where('employee_id', $uu->id)
+                ->where('year', $year)
+                ->where('month', $month)
+                ->first();
+
+                if(!$check_count) {
+                    return redirect()->route('encoderstats_viewar', [
+                        'id' => $uu->id,
+                        'year' => $year,
+                        'month' => $month,
+                    ])
+                    ->with('msg', 'Monthly Accomplishment of '.$u->name.' for '.$createDate->format('M Y').' has been successfully approved. Proceed to '.$uu->name.' below for approval.')
+                    ->with('msgtype', 'success');
+                }
+            }
+
             return redirect()->route('encoder_stats_index')
-            ->with('msg', 'Monthly Accomplishment of '.$u->name.' for '.$createDate->format('M Y').' has been successfully approved.')
+            ->with('msg', 'Monthly Accomplishment of '.$u->name.' for '.$createDate->format('M Y').' has been successfully approved. All CESU Staff Accomplishments were checked and approved.')
             ->with('msgtype', 'success');
         }
         else {

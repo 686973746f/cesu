@@ -62,6 +62,7 @@ PHARMACY_BRGY_ENCODER
 AR_CHECKER
 AR_APPROVER
 
+TASK_MEMBER
 */
 
 class User extends Authenticatable implements MustVerifyEmail
