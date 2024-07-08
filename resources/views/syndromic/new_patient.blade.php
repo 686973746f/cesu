@@ -203,7 +203,7 @@
                     @endif
                     <hr>
                     <div class="row">
-                        <div class="col-8">
+                        <div class="col-9">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="checkbox" id="is_indg" name="is_indg" value="Y" {{(old('is_indg') == 'Y') ? 'checked' : ''}}>
                                 <label class="form-check-label">Indigenous People</label>
@@ -229,7 +229,7 @@
                                 <label class="form-check-label">Others</label>
                             </div>
                         </div>
-                        <div class="col-4">
+                        <div class="col-3">
                             <div id="ifCheckboxOthersDiv" class="d-none">
                                 <div class="form-group">
                                   <label for="is_others_specify"><b class="text-danger">*</b>Specify</label>
