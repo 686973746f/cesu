@@ -11,7 +11,9 @@
     @endif
     <div class="text-right mb-3">
         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#additr"><i class="fa fa-user-plus mr-2" aria-hidden="true"></i>New Patient</button>
+        @if(!auth()->user()->isTbdotsEncoder())
         <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#report"><i class="fa fa-file mr-2" aria-hidden="true"></i>Report</button>
+        @endif
         @if(auth()->user()->isAdminSyndromic())
         <a href="{{route('syndromic_map')}}" class="btn btn-primary"><i class="fa fa-map mr-2" aria-hidden="true"></i>Map</a>
         <button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#settings"><i class="fa fa-cog mr-2" aria-hidden="true"></i>Settings</button>
@@ -66,7 +68,7 @@
     </div>
     @endif
     
-    @if(auth()->user()->isStaffSyndromic() && request()->input('opd_view') || auth()->user()->isSyndromicHospitalLevelAccess())
+    @if(auth()->user()->isStaffSyndromic() && request()->input('opd_view') || auth()->user()->isSyndromicHospitalLevelAccess() || auth()->user()->isTbdotsEncoder() && request()->input('opd_view'))
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between">
@@ -76,6 +78,7 @@
                         @else
                         OPD
                         @endif - {{(!(request()->input('d'))) ? date('F d, Y (D)') : date('F d, Y (D)', strtotime(request()->input('d')))}}</b> - Total: {{$list->total()}}
+                        
                     @if(auth()->user()->isSyndromicHospitalLevelAccess())
                         @if(request()->input('er_view'))
                         <a href="{{route('syndromic_home')}}" class="btn btn-success ml-2">Switch to OPD View</a>
@@ -83,11 +86,16 @@
                         <a href="{{route('syndromic_home')}}?er_view=1" class="btn btn-success ml-2">Switch to ER View</a>
                         @endif
                     @else
+                    @if(!auth()->user()->isTbdotsEncoder())
                     <a href="{{route('syndromic_home')}}" class="btn btn-outline-secondary ml-2">Switch to BRGY View</a>
+                    @endif
                     @endif
                 </div>
                 <div>
                     <h6><b>Facility: <span class="text-info">{{auth()->user()->opdfacility->facility_name}}</span></b></h6>
+                    @if(auth()->user()->isTbdotsEncoder())
+                    <h6><b><span class="text-success">TB-DOTS ITR</span></b></h6>
+                    @endif
                     @if(auth()->user()->isStaffSyndromic())
                         @if(is_null(auth()->user()->itr_medicalevent_id))
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#joinMedicalEvent">Join Medical Event</button>

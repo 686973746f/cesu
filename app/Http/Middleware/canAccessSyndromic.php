@@ -16,8 +16,16 @@ class canAccessSyndromic
      */
     public function handle(Request $request, Closure $next)
     {
+        if(is_null($request->user()->itr_facility_id)) {
+            return redirect()->route('home')
+            ->with('msg', 'Error: Your account is not yet linked to a Facility ID. Please contact CESU Staff.')
+            ->with('msgtype', 'warning');
+        }
+
         if(!($request->user()->canAccessSyndromic())) {
-            return abort(401);
+            if(!($request->user()->isTbdotsEncoder())) {
+                return abort(401);
+            }
         }
 
         return $next($request);

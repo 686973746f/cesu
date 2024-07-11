@@ -56,6 +56,7 @@ use Rap2hpoutre\FastExcel\SheetCollection;
 class SyndromicController extends Controller
 {
     public function index() {
+        
         $plist = explode(",", auth()->user()->permission_list);
 
         /*
@@ -82,6 +83,7 @@ class SyndromicController extends Controller
             ->orderBy('created_at', 'DESC')
             ->where('checkup_type', 'CHECKUP')
             ->where('facility_id', auth()->user()->itr_facility_id)
+            ->where('encodedfrom_tbdots', 0)
             ->paginate(10);
 
             $select_view = 'home';
@@ -111,6 +113,38 @@ class SyndromicController extends Controller
                     ->paginate(10);
                 }
 
+                $select_view = 'home';
+            }
+        }
+        else if(auth()->user()->isTbdotsEncoder()) {
+            //TB-DOTS ITR HOME
+            if(request()->input('q')) {
+                $q = request()->input('q');
+
+                $ll = SyndromicPatient::where(function ($qry) use ($q) {
+                    $qry->where('id', $q)
+                    ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper($q))."%");
+                })
+                ->where('encodedfrom_tbdots', 1)
+                ->paginate(10);
+
+                $select_view = 'search';
+            }
+            else {
+                if(request()->input('d')) {
+                    $sdate = request()->input('d');
+                }
+                else {
+                    $sdate = date('Y-m-d');
+                }
+    
+                $ll = SyndromicRecords::whereDate('created_at', $sdate)
+                ->orderBy('created_at', 'DESC')
+                ->where('checkup_type', 'CHECKUP')
+                ->where('facility_id', auth()->user()->itr_facility_id)
+                ->where('encodedfrom_tbdots', 1)
+                ->paginate(10);
+    
                 $select_view = 'home';
             }
         }
@@ -586,7 +620,14 @@ class SyndromicController extends Controller
         else {
             $number_in_line = SyndromicRecords::where('checkup_type', 'CHECKUP')
             ->where('facility_id', auth()->user()->itr_facility_id)
-            ->whereDate('created_at', date('Y-m-d'))->count() + 1;
+            ->whereDate('created_at', date('Y-m-d'));
+
+            if(auth()->user()->isTbdotsEncoder()) {
+                $number_in_line = $number_in_line->where('encodedfrom_tbdots', 1)->count() + 1;
+            }
+            else {
+                $number_in_line = $number_in_line->count() + 1;
+            }
 
             //OLD OR NEW
             $count_consult = SyndromicRecords::where('syndromic_patient_id', $patient->id)
@@ -1089,7 +1130,7 @@ class SyndromicController extends Controller
                 $immediatenotifiable = 0;
             }
 
-            return redirect()->route('syndromic_home')
+            return redirect()->route('syndromic_home', ['opd_view' => 1])
             ->with('msg', 'Patient Medical Record was created successfully.')
             ->with('option_medcert', $c->id)
             ->with('option_pharmacy', $create_pharma->id)

@@ -24,8 +24,8 @@
             @if(auth()->user()->canAccessVaxcert())
             <a href="{{route('vaxcert_home')}}" class="btn btn-block btn-primary btn-lg">VaxCert Concerns @if($vaxcert_pending_count != 0)<span class="badge badge-danger ml-1">{{number_format($vaxcert_pending_count)}}</span>@endif</a>
             @endif
-            @if(auth()->user()->canAccessSyndromic())
-            <a href="{{(auth()->user()->isStaffSyndromic()) ? route('syndromic_home', ['opd_view' => 1]) : route('syndromic_home')}}" class="btn btn-block btn-primary btn-lg">OPD System</a>
+            @if(auth()->user()->canAccessSyndromic() || auth()->user()->isTbdotsEncoder())
+            <a href="{{route('syndromic_home', ['opd_view' => 1])}}" class="btn btn-block btn-primary btn-lg">{{(auth()->user()->canAccessSyndromic()) ? 'OPD System' : 'TB-DOTS ITR'}}</a>
             @endif
             @if(auth()->user()->canAccessPidsr())
             <a href="{{route('pidsr.home')}}" class="btn btn-block btn-primary btn-lg">Integrated PIDSR/EDCS</a>
