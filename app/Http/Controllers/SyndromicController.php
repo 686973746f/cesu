@@ -3412,6 +3412,19 @@ class SyndromicController extends Controller
         else {
             $s = SyndromicRecords::where('dcnote_assessment', $g);
         }
+
+        if(request()->input('sdate') && request()->input('edate')) {
+            $date1 = request()->input('sdate');
+            $date2 = request()->input('edate');
+
+            if($date1 == $date2) {
+                $s = $s->whereDate('consultation_date', $date1);
+            }
+            else {
+                $s = $s->whereBetween('consultation_date', [$date1, $date2]);
+            }
+            
+        }
         
         $s = $s->where('facility_id', auth()->user()->itr_facility_id)->paginate(10);
 
