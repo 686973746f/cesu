@@ -3423,7 +3423,6 @@ class SyndromicController extends Controller
             else {
                 $s = $s->whereBetween('consultation_date', [$date1, $date2]);
             }
-            
         }
         
         $s = $s->where('facility_id', auth()->user()->itr_facility_id)->paginate(10);
