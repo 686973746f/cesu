@@ -309,11 +309,12 @@ class SyndromicController extends Controller
             $sheet->setCellValue('G'.$curtab, $d->syndromic_patient->getAge());
             $sheet->setCellValue('H'.$curtab, substr($d->syndromic_patient->gender,0,1));
             $sheet->setCellValue('I'.$curtab, $d->syndromic_patient->getContactNumber());
-            $sheet->setCellValue('J'.$curtab, $d->dcnote_assessment ?: 'N/A');
-            $sheet->setCellValue('K'.$curtab, $d->dcnote_plan ?: 'N/A');
-            $sheet->setCellValue('L'.$curtab, $d->name_of_physician);
-            $sheet->setCellValue('M'.$curtab, date('m/d/Y', strtotime($d->created_at)));
-            $sheet->setCellValue('N'.$curtab, $d->user->name);
+            $sheet->setCellValue('J'.$curtab, $d->chief_complain);
+            $sheet->setCellValue('K'.$curtab, $d->dcnote_assessment ?: 'N/A');
+            $sheet->setCellValue('L'.$curtab, $d->dcnote_plan ?: 'N/A');
+            $sheet->setCellValue('M'.$curtab, $d->name_of_physician);
+            $sheet->setCellValue('N'.$curtab, date('m/d/Y', strtotime($d->created_at)));
+            $sheet->setCellValue('O'.$curtab, $d->user->name);
         }
 
         $fileName = 'CONSULTATION_MASTERLIST_'.$from.'_to_'.$to.'.xlsx';
