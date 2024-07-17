@@ -311,8 +311,9 @@ class SyndromicController extends Controller
             $sheet->setCellValue('I'.$curtab, $d->syndromic_patient->getContactNumber());
             $sheet->setCellValue('J'.$curtab, $d->dcnote_assessment ?: 'N/A');
             $sheet->setCellValue('K'.$curtab, $d->dcnote_plan ?: 'N/A');
-            $sheet->setCellValue('L'.$curtab, date('m/d/Y', strtotime($d->created_at)));
-            $sheet->setCellValue('M'.$curtab, $d->user->name);
+            $sheet->setCellValue('L'.$curtab, $d->name_of_physician);
+            $sheet->setCellValue('M'.$curtab, date('m/d/Y', strtotime($d->created_at)));
+            $sheet->setCellValue('N'.$curtab, $d->user->name);
         }
 
         $fileName = 'CONSULTATION_MASTERLIST_'.$from.'_to_'.$to.'.xlsx';
