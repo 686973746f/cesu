@@ -293,15 +293,15 @@ class SyndromicController extends Controller
             $curtab = $ind + 2;
 
             if(auth()->user()->isSyndromicHospitalLevelAccess()) {
-                $opd_number = "'".$d->syndromic_patient->unique_opdnumber;
+                $opd_number = $d->syndromic_patient->unique_opdnumber;
             }
             else {
-                $opd_number = "'".$d->opdno;
+                $opd_number = $d->opdno;
             }
 
             //$sheet->setCellValue('A'.$curtab, '');
             $sheet->setCellValue('A'.$curtab, date('m/d/Y', strtotime($d->consultation_date)));
-            $sheet->setCellValue('B'.$curtab, $opd_number);
+            $sheet->setCellValueExplicit('B'.$curtab, $opd_number, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
             $sheet->setCellValue('C'.$curtab, $d->syndromic_patient->getName());
             $sheet->setCellValue('D'.$curtab, $d->syndromic_patient->address_brgy_text);
             $sheet->setCellValue('E'.$curtab, $d->syndromic_patient->getStreetPurok());
@@ -313,8 +313,9 @@ class SyndromicController extends Controller
             $sheet->setCellValue('K'.$curtab, $d->dcnote_assessment ?: 'N/A');
             $sheet->setCellValue('L'.$curtab, $d->dcnote_plan ?: 'N/A');
             $sheet->setCellValue('M'.$curtab, $d->name_of_physician);
-            $sheet->setCellValue('N'.$curtab, date('m/d/Y', strtotime($d->created_at)));
-            $sheet->setCellValue('O'.$curtab, $d->user->name);
+            $sheet->setCellValueExplicit('N'.$curtab, $d->remarks ?: 'N/A', \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+            $sheet->setCellValue('O'.$curtab, date('m/d/Y', strtotime($d->created_at)));
+            $sheet->setCellValue('P'.$curtab, $d->user->name);
         }
 
         $fileName = 'CONSULTATION_MASTERLIST_'.$from.'_to_'.$to.'.xlsx';
