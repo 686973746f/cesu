@@ -293,10 +293,10 @@ class SyndromicController extends Controller
             $curtab = $ind + 2;
 
             if(auth()->user()->isSyndromicHospitalLevelAccess()) {
-                $opd_number = $d->syndromic_patient->unique_opdnumber;
+                $opd_number = "'".$d->syndromic_patient->unique_opdnumber;
             }
             else {
-                $opd_number = $d->opdno;
+                $opd_number = "'".$d->opdno;
             }
 
             //$sheet->setCellValue('A'.$curtab, '');
