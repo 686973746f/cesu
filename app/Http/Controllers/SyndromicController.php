@@ -270,9 +270,20 @@ class SyndromicController extends Controller
     public function downloadOpdExcel() {
         $year = request()->input('year');
 
-        $get_records = SyndromicRecords::whereYear('consultation_date', $year)
-        ->where('facility_id', auth()->user()->itr_facility_id)
-        ->orderBy('consultation_date', 'DESC')
+        $from = request()->input('date_from');
+        $to = request()->input('date_to');
+
+        $get_records = SyndromicRecords::where('facility_id', auth()->user()->itr_facility_id);
+        
+
+        if($from == $to) {
+            $get_records = $get_records->whereDate('consultation_date', $from);
+        }
+        else {
+            $get_records = $get_records->whereBetween('consultation_date', [$from, $to]);
+        }
+
+        $get_records = $get_records->orderBy('consultation_date', 'DESC')
         ->get();
 
         $spreadsheet = IOFactory::load(storage_path('ITR_OPD_RECORD.xlsx'));
@@ -281,9 +292,16 @@ class SyndromicController extends Controller
         foreach($get_records as $ind => $d) {
             $curtab = $ind + 2;
 
+            if(auth()->user()->isSyndromicHospitalLevelAccess()) {
+                $opd_number = $d->syndromic_patient->unique_opdnumber;
+            }
+            else {
+                $opd_number = $d->opdno;
+            }
+
             //$sheet->setCellValue('A'.$curtab, '');
             $sheet->setCellValue('A'.$curtab, date('m/d/Y', strtotime($d->consultation_date)));
-            $sheet->setCellValue('B'.$curtab, $d->opdno);
+            $sheet->setCellValue('B'.$curtab, $opd_number);
             $sheet->setCellValue('C'.$curtab, $d->syndromic_patient->getName());
             $sheet->setCellValue('D'.$curtab, $d->syndromic_patient->address_brgy_text);
             $sheet->setCellValue('E'.$curtab, $d->syndromic_patient->getStreetPurok());
@@ -297,7 +315,7 @@ class SyndromicController extends Controller
             $sheet->setCellValue('M'.$curtab, $d->user->name);
         }
 
-        $fileName = 'OPD_MASTERLIST_'.$year.'.xlsx';
+        $fileName = 'CONSULTATION_MASTERLIST_'.$from.'_to_'.$to.'.xlsx';
         ob_clean();
         $writer = new Xlsx($spreadsheet);
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');

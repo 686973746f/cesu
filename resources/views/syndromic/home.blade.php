@@ -322,7 +322,6 @@
                 </button>
             </div>
             <div class="modal-body">
-                @if(!(auth()->user()->isSyndromicHospitalLevelAccess()))
                 <div id="accordianId" role="tablist" aria-multiselectable="true">
                     <form action="{{route('syndromic_download_opd_excel')}}" method="GET">
                         <div class="card">
@@ -333,10 +332,18 @@
                             </div>
                             <div id="section1ContentId" class="collapse in" role="tabpanel" aria-labelledby="section1HeaderId">
                                 <div class="card-body">
-                                    <div class="form-group">
-                                        <div class="form-group">
-                                          <label for="year"><b class="text-danger">*</b>Select Year</label>
-                                          <input type="number" class="form-control" name="year" id="year" min="2023" max="{{date('Y')}}" value="{{date('Y')}}" required>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                              <label for=""><b class="text-danger">*</b>Start Date</label>
+                                              <input type="date" class="form-control" name="date_from" id="date_from" min="2023-01-01" max="{{date('Y-m-d')}}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for=""><b class="text-danger">*</b>End Date</label>
+                                                <input type="date" class="form-control" name="date_to" id="date_to" min="2023-01-01" max="{{date('Y-m-d')}}" required>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -347,6 +354,7 @@
                         </div>
                     </form>
                 </div>
+                @if(!(auth()->user()->isSyndromicHospitalLevelAccess()))
                 <div id="accordianId2" role="tablist" aria-multiselectable="true">
                     <form action="{{route('syndromic_cho_dashboard_report')}}" method="GET">
                         <div class="card mt-3">
@@ -476,6 +484,7 @@
                 <!-- <a href="" class="btn btn-primary btn-block">OPD Daily Report</a> -->
                 <!-- <a href="{{route('syndromic_diseasechecker')}}" class="btn btn-primary btn-block">Go to Disease Checker Page</a> -->
                 @else
+                <hr>
                 <a href="{{route('opd_hospital_downloadalphalist')}}" class="btn btn-primary btn-block">Download Alphalist</a>
                 <a href="{{route('opd_hospital_dailysummary')}}" class="btn btn-primary btn-block">DAILY REPORTING SUMMARY</a>
                 <a href="{{route('opd_hospital_monthlysummary')}}?id=OPD" class="btn btn-primary btn-block">OPD SUMMARY</a>
