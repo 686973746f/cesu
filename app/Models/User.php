@@ -499,7 +499,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function canAccessFhsis() {
         $plist = explode(",", auth()->user()->permission_list);
 
-        if(in_array('GLOBAL_ADMIN', $plist) || in_array('FHSIS_ADMIN', $plist) || in_array('FHSIS_ENCODER', $plist) || in_array('CESU_BRGY_ADMIN', $plist) || in_array('CESU_BRGY_ENCODER', $plist)) {
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('FHSIS_ADMIN', $plist) || in_array('FHSIS_ENCODER', $plist)) {
             return true;
         }
         else {
@@ -521,7 +521,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function canAccessPidsr() {
         $plist = explode(",", auth()->user()->permission_list);
 
-        if(in_array('GLOBAL_ADMIN', $plist) || in_array('PIDSR_ADMIN', $plist) || in_array('PIDSR_ENCODER', $plist) || in_array('CESU_BRGY_ADMIN', $plist) || in_array('CESU_BRGY_ENCODER', $plist)) {
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('PIDSR_ADMIN', $plist) || in_array('PIDSR_ENCODER', $plist)) {
             return true;
         }
         else {
