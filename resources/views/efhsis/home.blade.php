@@ -25,6 +25,8 @@
                         <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#reportV2">Reports</button>
                         <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#cesum2">Generate M2</button>
                         <hr>
+                        <a href="{{route('fhsis_icd10_searcher')}}" class="btn btn-primary btn-block">IDC10 Code Search</a>
+                        <hr>
                         <a href="{{route('fhsis_pquery')}}" class="btn btn-secondary btn-block" onclick="return confirm('This will replace the existing eFHSIS Database on your system. Proceed with caution. Continue?')">Start MDB Import</a>
                     </div>
                 </div>

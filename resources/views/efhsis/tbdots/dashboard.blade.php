@@ -5,7 +5,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <div><b>FHSIS TB-DOTS</b></div>
+                    <div><b>M2 FHSIS</b></div>
                     <div>
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#loadDashboard">Change</button>
                     </div>
@@ -32,10 +32,11 @@
                     </div>
                 </div>
                 <hr>
+                @if(count($final_array) != 0)
                 <table class="table table-bordered table-striped">
                     <thead class="thead-light text-center">
                         <tr>
-                            <th rowspan="2">DISEASE</th>
+                            <th rowspan="2">MORBIDITY</th>
                             <th colspan="2">0-6 Days</th>
                             <th colspan="2">7-28 Days</th>
                             <th colspan="2">29 Days - 11 Mos.</th>
@@ -143,30 +144,24 @@
                         @endforeach
                     </tbody>
                 </table>
+                @else
+                <p class="text-center">No results found.</p>
+                @endif
             </div>
         </div>
     </div>
-
 
     <form action="{{route('fhsis_tbdots_dashboard')}}" method="GET">
         <div class="modal fade" id="loadDashboard" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Load TB-DOTS Morbidity Dashboard</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                        <h5 class="modal-title">Barangay M2 Dashboard (for FHSIS)</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label for="brgy"><b class="text-danger">*</b>Select Barangay</label>
-                            <select class="form-control" name="brgy" id="brgy" required>
-                                @foreach($brgy_list as $b)
-                                <option value="{{$b->brgyName}}" {{($b->brgyName == request()->input('brgy')) ? 'selected' : ''}}>{{$b->brgyName}}</option>
-                                @endforeach
-                            </select>
-                        </div>
                         <div class="form-group">
                             <label for="year"><b class="text-danger">*</b>Select Year</label>
                             <select class="form-control" name="year" id="year" required>
@@ -193,9 +188,17 @@
                                 <option value="12" {{(request()->input('month') == '12') ? 'selected' : ''}}>December</option>
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label for="brgy"><b class="text-danger">*</b>Select Barangay</label>
+                            <select class="form-control" name="brgy" id="brgy" required>
+                                @foreach($brgy_list as $b)
+                                <option value="{{$b->brgyName}}" {{($b->brgyName == request()->input('brgy')) ? 'selected' : ''}}>{{$b->brgyName}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success btn-block">Generate</button>
+                        <button type="submit" class="btn btn-success btn-block">Load Report</button>
                     </div>
                 </div>
             </div>

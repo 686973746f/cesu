@@ -10,11 +10,11 @@
             </div>
         </div>
         <div class="card-body">
-            <table class="table table-bordered">
+            <table class="table table-bordered table-striped">
                 <thead class="text-center thead-light">
                     <tr>
-                        <th rowspan="3">#</th>
-                        <th rowspan="3">
+                        <th rowspan="3" style="vertical-align: middle;">#</th>
+                        <th rowspan="3" style="vertical-align: middle;">
                             <h6>
                                 <div><b>OPD</b></div>
                                 <div><b class="text-success">{{auth()->user()->opdfacility->facility_name}}</b></div>
@@ -29,19 +29,19 @@
                                 @endif
                             </h6>
                         </th>
-                        <th colspan="4">
+                        <th colspan="4" style="vertical-align: middle;">
                             <h6><b>Pedia</b></h6>
                             <h6><i>(0-19 y.o)</i></h6>
                         </th>
-                        <th colspan="4">
+                        <th colspan="4" style="vertical-align: middle;">
                             <h6><b>Adult</b></h6>
                             <h6><i>(20-59 y.o)</i></h6>
                         </th>
-                        <th colspan="4">
+                        <th colspan="4" style="vertical-align: middle;">
                             <h6><b>Geriatric</b></h6>
                             <h6><i>(60 AND ABOVE)</i></h6>
                         </th>
-                        <th rowspan="3">
+                        <th rowspan="3" style="vertical-align: middle;">
                             TOTAL
                         </th>
                     </tr>

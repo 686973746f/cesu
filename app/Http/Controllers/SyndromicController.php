@@ -291,8 +291,8 @@ class SyndromicController extends Controller
             $sheet->setCellValue('G'.$curtab, $d->syndromic_patient->getAge());
             $sheet->setCellValue('H'.$curtab, substr($d->syndromic_patient->gender,0,1));
             $sheet->setCellValue('I'.$curtab, $d->syndromic_patient->getContactNumber());
-            $sheet->setCellValue('J'.$curtab, $d->dcnote_assessment);
-            $sheet->setCellValue('K'.$curtab, $d->dcnote_plan);
+            $sheet->setCellValue('J'.$curtab, $d->dcnote_assessment ?: 'N/A');
+            $sheet->setCellValue('K'.$curtab, $d->dcnote_plan ?: 'N/A');
             $sheet->setCellValue('L'.$curtab, date('m/d/Y', strtotime($d->created_at)));
             $sheet->setCellValue('M'.$curtab, $d->user->name);
         }
@@ -3265,48 +3265,74 @@ class SyndromicController extends Controller
                 $senior_new_f = $senior_new_f->whereBetween('consultation_date', [$startOfMonth, $endOfMonth]);
             }
             else if(request()->input('type') == 'Yearly') {
-                $pedia_old_m = $pedia_old_m::whereYear('consultation_date', $syear);
-                $pedia_new_m = $pedia_new_m::whereYear('consultation_date', $syear);
-                $pedia_old_f = $pedia_old_f::whereYear('consultation_date', $syear);
-                $pedia_new_f = $pedia_new_f::whereYear('consultation_date', $syear);
+                $pedia_old_m = $pedia_old_m->whereYear('consultation_date', $syear);
+                $pedia_new_m = $pedia_new_m->whereYear('consultation_date', $syear);
+                $pedia_old_f = $pedia_old_f->whereYear('consultation_date', $syear);
+                $pedia_new_f = $pedia_new_f->whereYear('consultation_date', $syear);
 
-                $adult_old_m = $adult_old_m::whereYear('consultation_date', $syear);
-                $adult_new_m = $adult_new_m::whereYear('consultation_date', $syear);
-                $adult_old_f = $adult_old_f::whereYear('consultation_date', $syear);
-                $adult_new_f = $adult_new_f::whereYear('consultation_date', $syear);
+                $adult_old_m = $adult_old_m->whereYear('consultation_date', $syear);
+                $adult_new_m = $adult_new_m->whereYear('consultation_date', $syear);
+                $adult_old_f = $adult_old_f->whereYear('consultation_date', $syear);
+                $adult_new_f = $adult_new_f->whereYear('consultation_date', $syear);
 
-                $senior_old_m = $senior_old_m::whereYear('consultation_date', $syear);
-                $senior_new_m = $senior_new_m::whereYear('consultation_date', $syear);
-                $senior_old_f = $senior_old_f::whereYear('consultation_date', $syear);
-                $senior_new_f = $senior_new_f::whereYear('consultation_date', $syear);
+                $senior_old_m = $senior_old_m->whereYear('consultation_date', $syear);
+                $senior_new_m = $senior_new_m->whereYear('consultation_date', $syear);
+                $senior_old_f = $senior_old_f->whereYear('consultation_date', $syear);
+                $senior_new_f = $senior_new_f->whereYear('consultation_date', $syear);
             }
+
+            $pedia_old_m = $pedia_old_m->count();
+            $pedia_new_m = $pedia_new_m->count();
+            $pedia_old_f = $pedia_old_f->count();
+            $pedia_new_f = $pedia_new_f->count();
+            $adult_old_m = $adult_old_m->count();
+            $adult_new_m = $adult_new_m->count();
+            $adult_old_f = $adult_old_f->count();
+            $adult_new_f = $adult_new_f->count();
+            $senior_old_m = $senior_old_m->count();
+            $senior_new_m = $senior_new_m->count();
+            $senior_old_f = $senior_old_f->count();
+            $senior_new_f = $senior_new_f->count();
+
+            $gtotal = $pedia_old_m +
+            $pedia_new_m +
+            $pedia_old_f +
+            $pedia_new_f +
+            $adult_old_m +
+            $adult_new_m +
+            $adult_old_f +
+            $adult_new_f +
+            $senior_old_m +
+            $senior_new_m +
+            $senior_old_f +
+            $senior_new_f;
             
             $final_arr[] = [
                 'name' => $g,
 
-                'pedia_old_m' => $pedia_old_m->count(),
+                'pedia_old_m' => $pedia_old_m,
                 
-                'pedia_new_m' => $pedia_new_m->count(),
+                'pedia_new_m' => $pedia_new_m,
 
-                'pedia_old_f' => $pedia_old_f->count(),
+                'pedia_old_f' => $pedia_old_f,
                 
-                'pedia_new_f' => $pedia_new_f->count(),
+                'pedia_new_f' => $pedia_new_f,
 
-                'adult_old_m' => $adult_old_m->count(),
+                'adult_old_m' => $adult_old_m,
                 
-                'adult_new_m' => $adult_new_m->count(),
+                'adult_new_m' => $adult_new_m,
 
-                'adult_old_f' => $adult_old_f->count(),
+                'adult_old_f' => $adult_old_f,
                 
-                'adult_new_f' => $adult_new_f->count(),
+                'adult_new_f' => $adult_new_f,
 
-                'senior_old_m' => $senior_old_m->count(),
+                'senior_old_m' => $senior_old_m,
                 
-                'senior_new_m' => $senior_new_m->count(),
+                'senior_new_m' => $senior_new_m,
 
-                'senior_old_f' => $senior_old_f->count(),
+                'senior_old_f' => $senior_old_f,
                 
-                'senior_new_f' => $senior_new_f->count(),
+                'senior_new_f' => $senior_new_f,
             ];
         }
 
@@ -3439,9 +3465,9 @@ class SyndromicController extends Controller
         $brgy = request()->input('brgy');
         $type = request()->input('type');
 
-        if(request()->input('smonth') && request()->input('syear')) {
-            $smonth = request()->input('smonth');
-            $syear = request()->input('syear');
+        if(request()->input('month') && request()->input('year')) {
+            $smonth = request()->input('month');
+            $syear = request()->input('year');
         }
         else {
             $smonth = date('m');
@@ -3776,42 +3802,44 @@ class SyndromicController extends Controller
                 $agetotal_male = $age1_male + $age2_male + $age3_male + $age4_male + $age5_male + $age6_male + $age7_male + $age8_male + $age9_male + $age10_male + $age11_male + $age12_male + $age13_male + $age14_male + $age15_male;
                 $agetotal_female = $age1_female + $age2_female + $age3_female + $age4_female + $age5_female + $age6_female + $age7_female + $age8_female + $age9_female + $age10_female + $age11_female + $age12_female + $age13_female + $age14_female + $age15_female;
     
-                $final_arr[] = [
-                    'disease' => $g,
-                    'age1_male' => $age1_male,
-                    'age2_male' => $age2_male,
-                    'age3_male' => $age3_male,
-                    'age4_male' => $age4_male,
-                    'age5_male' => $age5_male,
-                    'age6_male' => $age6_male,
-                    'age7_male' => $age7_male,
-                    'age8_male' => $age8_male,
-                    'age9_male' => $age9_male,
-                    'age10_male' => $age10_male,
-                    'age11_male' => $age11_male,
-                    'age12_male' => $age12_male,
-                    'age13_male' => $age13_male,
-                    'age14_male' => $age14_male,
-                    'age15_male' => $age15_male,
-                    'agetotal_male' => $agetotal_male,
-    
-                    'age1_female' => $age1_female,
-                    'age2_female' => $age2_female,
-                    'age3_female' => $age3_female,
-                    'age4_female' => $age4_female,
-                    'age5_female' => $age5_female,
-                    'age6_female' => $age6_female,
-                    'age7_female' => $age7_female,
-                    'age8_female' => $age8_female,
-                    'age9_female' => $age9_female,
-                    'age10_female' => $age10_female,
-                    'age11_female' => $age11_female,
-                    'age12_female' => $age12_female,
-                    'age13_female' => $age13_female,
-                    'age14_female' => $age14_female,
-                    'age15_female' => $age15_female,
-                    'agetotal_female' => $agetotal_female,
-                ];
+                if(($agetotal_male + $agetotal_female) != 0) {
+                    $final_arr[] = [
+                        'disease' => $g,
+                        'age1_male' => $age1_male,
+                        'age2_male' => $age2_male,
+                        'age3_male' => $age3_male,
+                        'age4_male' => $age4_male,
+                        'age5_male' => $age5_male,
+                        'age6_male' => $age6_male,
+                        'age7_male' => $age7_male,
+                        'age8_male' => $age8_male,
+                        'age9_male' => $age9_male,
+                        'age10_male' => $age10_male,
+                        'age11_male' => $age11_male,
+                        'age12_male' => $age12_male,
+                        'age13_male' => $age13_male,
+                        'age14_male' => $age14_male,
+                        'age15_male' => $age15_male,
+                        'agetotal_male' => $agetotal_male,
+        
+                        'age1_female' => $age1_female,
+                        'age2_female' => $age2_female,
+                        'age3_female' => $age3_female,
+                        'age4_female' => $age4_female,
+                        'age5_female' => $age5_female,
+                        'age6_female' => $age6_female,
+                        'age7_female' => $age7_female,
+                        'age8_female' => $age8_female,
+                        'age9_female' => $age9_female,
+                        'age10_female' => $age10_female,
+                        'age11_female' => $age11_female,
+                        'age12_female' => $age12_female,
+                        'age13_female' => $age13_female,
+                        'age14_female' => $age14_female,
+                        'age15_female' => $age15_female,
+                        'agetotal_female' => $agetotal_female,
+                    ];
+                }
             }
         }
 
@@ -4151,42 +4179,44 @@ class SyndromicController extends Controller
             $agetotal_male = $age1_male + $age2_male + $age3_male + $age4_male + $age5_male + $age6_male + $age7_male + $age8_male + $age9_male + $age10_male + $age11_male + $age12_male + $age13_male + $age14_male + $age15_male;
             $agetotal_female = $age1_female + $age2_female + $age3_female + $age4_female + $age5_female + $age6_female + $age7_female + $age8_female + $age9_female + $age10_female + $age11_female + $age12_female + $age13_female + $age14_female + $age15_female;
 
-            $final_arr[] = [
-                'disease' => $tb,
-                'age1_male' => $age1_male,
-                'age2_male' => $age2_male,
-                'age3_male' => $age3_male,
-                'age4_male' => $age4_male,
-                'age5_male' => $age5_male,
-                'age6_male' => $age6_male,
-                'age7_male' => $age7_male,
-                'age8_male' => $age8_male,
-                'age9_male' => $age9_male,
-                'age10_male' => $age10_male,
-                'age11_male' => $age11_male,
-                'age12_male' => $age12_male,
-                'age13_male' => $age13_male,
-                'age14_male' => $age14_male,
-                'age15_male' => $age15_male,
-                'agetotal_male' => $agetotal_male,
-
-                'age1_female' => $age1_female,
-                'age2_female' => $age2_female,
-                'age3_female' => $age3_female,
-                'age4_female' => $age4_female,
-                'age5_female' => $age5_female,
-                'age6_female' => $age6_female,
-                'age7_female' => $age7_female,
-                'age8_female' => $age8_female,
-                'age9_female' => $age9_female,
-                'age10_female' => $age10_female,
-                'age11_female' => $age11_female,
-                'age12_female' => $age12_female,
-                'age13_female' => $age13_female,
-                'age14_female' => $age14_female,
-                'age15_female' => $age15_female,
-                'agetotal_female' => $agetotal_female,
-            ];
+            if(($agetotal_male + $agetotal_female) != 0) {
+                $final_arr[] = [
+                    'disease' => $tb,
+                    'age1_male' => $age1_male,
+                    'age2_male' => $age2_male,
+                    'age3_male' => $age3_male,
+                    'age4_male' => $age4_male,
+                    'age5_male' => $age5_male,
+                    'age6_male' => $age6_male,
+                    'age7_male' => $age7_male,
+                    'age8_male' => $age8_male,
+                    'age9_male' => $age9_male,
+                    'age10_male' => $age10_male,
+                    'age11_male' => $age11_male,
+                    'age12_male' => $age12_male,
+                    'age13_male' => $age13_male,
+                    'age14_male' => $age14_male,
+                    'age15_male' => $age15_male,
+                    'agetotal_male' => $agetotal_male,
+    
+                    'age1_female' => $age1_female,
+                    'age2_female' => $age2_female,
+                    'age3_female' => $age3_female,
+                    'age4_female' => $age4_female,
+                    'age5_female' => $age5_female,
+                    'age6_female' => $age6_female,
+                    'age7_female' => $age7_female,
+                    'age8_female' => $age8_female,
+                    'age9_female' => $age9_female,
+                    'age10_female' => $age10_female,
+                    'age11_female' => $age11_female,
+                    'age12_female' => $age12_female,
+                    'age13_female' => $age13_female,
+                    'age14_female' => $age14_female,
+                    'age15_female' => $age15_female,
+                    'agetotal_female' => $agetotal_female,
+                ];
+            }
         }
 
         return view('efhsis.tbdots.dashboard', [

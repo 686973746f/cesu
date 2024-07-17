@@ -352,7 +352,7 @@
                         <div class="card mt-3">
                             <div class="card-header text-center" role="tab" id="section1HeaderId">
                                 <a data-toggle="collapse" data-parent="#accordianId2" href="#opdMonthlyReport" aria-expanded="true" aria-controls="opdMonthlyReport">
-                                    OPD Summary
+                                    OPD Summary Report
                                 </a>
                             </div>
                             <div id="opdMonthlyReport" class="collapse in" role="tabpanel" aria-labelledby="section1HeaderId">
@@ -411,7 +411,7 @@
                         <div class="card mt-3">
                             <div class="card-header text-center" role="tab" id="section1HeaderId">
                                 <a data-toggle="collapse" data-parent="#accordianId3" href="#brgyM2Report" aria-expanded="true" aria-controls="brgyM2Report">
-                                    Barangay M2 Dashboard
+                                    Barangay M2 Dashboard (for FHSIS)
                                 </a>
                             </div>
                             <div id="brgyM2Report" class="collapse in" role="tabpanel" aria-labelledby="section1HeaderId">
@@ -419,28 +419,28 @@
                                     <div class="form-group">
                                         <label for="type"><b class="text-danger">*</b>Type</label>
                                         <select class="form-control" name="type" id="m2_type" required>
-                                          <option value="" disabled selected>Choose...</option>
+                                          <!-- <option value="" disabled selected>Choose...</option> -->
                                           <!-- <option value="Daily">Daily</option> -->
                                           <option value="Monthly">Monthly</option>
-                                          <option value="Yearly">Yearly</option>
+                                          <!--<option value="Yearly">Yearly</option> -->
                                         </select>
                                     </div>
                                     <div id="m2Report_ifDaily" class="d-none">
                                         <div class="form-group">
-                                            <label for="sdate"><b class="text-danger">*</b>Date</label>
-                                          <input type="date" class="form-control" name="sdate" id="m2_sdate" min="2024-01-01" max="{{date('Y-m-d')}}">
+                                            <label for="date"><b class="text-danger">*</b>Date</label>
+                                          <input type="date" class="form-control" name="date" id="m2_sdate" min="2024-01-01" max="{{date('Y-m-d')}}">
                                         </div>
                                     </div>
                                     <div class="d-none" id="m2Report_ifMonthlyOrYearly">
                                         <div class="form-group">
-                                            <label for="syear"><b class="text-danger">*</b>Year</label>
-                                            <input type="number" class="form-control" name="syear" id="m2_syear" value="{{(request()->input('syear')) ? request()->input('syear') : date('Y')}}">
+                                            <label for="year"><b class="text-danger">*</b>Year</label>
+                                            <input type="number" class="form-control" name="year" id="m2_syear" value="{{(request()->input('syear')) ? request()->input('syear') : date('Y')}}">
                                         </div>
                                     </div>
                                     <div id="m2Report_ifMonthly" class="d-none">
                                         <div class="form-group">
-                                            <label for="smonth"><b class="text-danger">*</b>Month</label>
-                                            <select class="form-control" name="smonth" id="m2_smonth">
+                                            <label for="month"><b class="text-danger">*</b>Month</label>
+                                            <select class="form-control" name="month" id="m2_smonth">
                                               <option value="01" {{(date('m') == '01') ? 'selected' : ''}}>January</option>
                                               <option value="02" {{(date('m') == '02') ? 'selected' : ''}}>February</option>
                                               <option value="03" {{(date('m') == '03') ? 'selected' : ''}}>March</option>

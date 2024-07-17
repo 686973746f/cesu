@@ -2519,4 +2519,8 @@ class FhsisController extends Controller
             ]);
         }
     }
+
+    public function icdSearcher() {
+        return view('efhsis.icd10_searcher');
+    }
 }
