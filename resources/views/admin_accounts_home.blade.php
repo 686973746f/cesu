@@ -8,7 +8,6 @@
                     <div class="font-weight-bold">Admin Accounts ({{number_format($lists->total())}})</div>
                     <div>
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#createadmin"><i class="fa fa-plus-circle mr-2" aria-hidden="true"></i>Add Admin Account</button>
-                        <a href="{{route('adminpanel.code.view')}}" class="btn btn-primary">View Referral Codes</a>
                     </div>
                 </div>
             </div>
@@ -35,14 +34,14 @@
                         @foreach($lists as $key => $list)
                             <tr>
                                 <td class="text-center" style="vertical-align: middle;">{{$lists->firstItem() + $key}}</td>
-                                <td style="vertical-align: middle;"><a href="{{route('adminpanel.account.view', ['id' => $list->id])}}">{{$list->name}}</a></td>
+                                <td style="vertical-align: middle;"><a href="{{route('admin_account_view', ['id' => $list->id])}}">{{$list->name}}</a></td>
                                 <td style="vertical-align: middle;">{{$list->email}}</td>
                                 <td class="text-center" style="vertical-align: middle;">{{($list->isAdmin == 1) ? 'Admin' : 'Encoder'}}</td>
                                 <td class="text-center {{($list->enabled == 1) ? 'text-success' : 'text-danger'}} font-weight-bold" style="vertical-align: middle;">{{($list->enabled == 1) ? 'Enabled': 'Disabled'}}</td>
                                 <td style="vertical-align: middle;" class="text-center {{($list->isValidator == 1) ? 'text-success' : 'text-danger'}}">{{($list->isValidator == 1) ? 'YES' : 'NO'}}</td>
                                 <td style="vertical-align: middle;" class="text-center {{($list->canByPassValidation == 1) ? 'text-success' : 'text-danger'}}">{{($list->canByPassValidation == 1) ? 'YES' : 'NO'}}</td>
                                 <td class="text-center">
-                                    <form action="{{route('adminpanel.account.options', ['id' => $list->id])}}" method="POST">
+                                    <form action="{{route('admin_account_options', ['id' => $list->id])}}" method="POST">
                                         @csrf
                                         @if($list->enabled == 1)
                                             <button type="submit" name="submit" value="accountInit" class="btn btn-warning btn-block" {{($list->isAdmin == 1) ? 'disabled' : ''}}>Disable Account</button>
@@ -72,7 +71,7 @@
         </div>
     </div>
     
-    <form action="{{route('adminpanel.account.create')}}" method="POST">
+    <form action="{{route('admin_account_create')}}" method="POST">
         @csrf
         <div class="modal fade" id="createadmin" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">

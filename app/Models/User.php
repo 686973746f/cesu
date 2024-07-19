@@ -63,6 +63,7 @@ AR_CHECKER
 AR_APPROVER
 
 TASK_MEMBER
+PREGNANCYTRACKING
 */
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -679,5 +680,42 @@ class User extends Authenticatable implements MustVerifyEmail
         else {
             return false;
         }
+    }
+
+    public static function getPermissionList() {
+        $arr = [
+            'GLOBAL_ADMIN',
+            'CESU_ADMIN',
+            'CESU_ENCODER',
+            'CESU_BRGY_ADMIN',
+            'CESU_BRGY_ENCODER',
+            'ABTC_ADMIN',
+            'ABTC_ENCODER',
+            'PIDSR_ADMIN',
+            'PIDSR_ENCODER',
+            'VAXCERT_ADMIN',
+            'VAXCERT_ENCODER',
+            'FHSIS_ADMIN',
+            'FHSIS_ENCODER',
+            'ITR_ADMIN',
+            'ITR_ENCODER',
+            'ITR_TBDOTS_ENCODER',
+            'ITR_TBDOTS_ADMIN',
+            'ITR_HOSPITAL',
+            'ITR_BRGY_ADMIN',
+            'ITR_BRGY_ENCODER',
+            'PHARMACY_ADMIN',
+            'PHARMACY_ENCODER',
+            'PHARMACY_BRGY_ADMIN',
+            'PHARMACY_BRGY_ENCODER',
+            'AR_CHECKER',
+            'AR_APPROVER',
+            'TASK_MEMBER',
+            'PREGNANCYTRACKING',
+        ];
+
+        sort($arr);
+
+        return $arr;
     }
 }

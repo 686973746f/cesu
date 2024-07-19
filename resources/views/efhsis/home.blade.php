@@ -19,6 +19,10 @@
                         @endif
                         <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#liveBirthModal">Encode Livebirths (LCR)/Natality</button>
                         <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#liveBirthReport">Natality Report</button>
+                        @if(auth()->user()->canAccessPregnancyTracking())
+                        <hr>
+                        <a href="{{route('ptracking_index')}}" class="btn btn-block btn-primary">Pregnancy Tracking</a>
+                        @endif
                         <hr>
                         <a href="{{route('fhsis_tbdots_home')}}" class="btn btn-primary btn-block">TB-DOTS Morbidity</a>
                         <hr>

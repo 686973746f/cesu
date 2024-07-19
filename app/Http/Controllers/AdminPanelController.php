@@ -14,6 +14,9 @@ use Illuminate\Http\Request;
 use App\Models\VaxcertConcern;
 use App\Models\SyndromicRecords;
 use App\Models\AbtcBakunaRecords;
+use App\Models\AbtcVaccinationSite;
+use App\Models\DohFacility;
+use App\Models\PharmacyBranch;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use IlluminateAgnostic\Collection\Support\Str;
@@ -140,12 +143,31 @@ class AdminPanelController extends Controller
     }
 
     public function accountView($id) {
-        $data = User::findOrFail($id);
+        $d = User::findOrFail($id);
 
-        return view('admin_accounts_view', ['data' => $data]);
+        //Load Pharmacy Branches
+        $pharma_branches = PharmacyBranch::where('enabled', 1)
+        ->orderBy('name', 'ASC')
+        ->get();
+
+        //Load DOH Facilities for OPD System ID
+        $opd_branches = DohFacility::where('address_muncity', 'CITY OF GENERAL TRIAS')
+        ->where('id', '!=', 10887)
+        ->where('ownership_type', 'Government')
+        ->orderBy('facility_name', 'ASC')
+        ->get();
+
+        $abtc_branches = AbtcVaccinationSite::where('enabled', 1)->get();
+
+        return view('admin_accounts_view', [
+            'd' => $d,
+            'pharma_branches' => $pharma_branches,
+            'opd_branches' => $opd_branches,
+            'abtc_branches' => $abtc_branches,
+        ]);
     }
 
-    public function accountUpdate($id) {
+    public function accountUpdate($id, Request $r) {
         
     }
 

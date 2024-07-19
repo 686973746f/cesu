@@ -264,6 +264,13 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']]
 
     Route::get('/user_dashboard/{id}', [TaskController::class, 'userDashboard'])->name('task_userdashboard');
     Route::post('/encoder_stats/monthly_ar/{id}/{year}/{month}/approve', [TaskController::class, 'approveMonthlyAr'])->name('encoderstats_approvear');
+
+    //Admin Account Manger
+    Route::get('/admin/accounts', [AdminPanelController::class, 'accountIndex'])->name('admin_account_index');
+    Route::get('/admin/accounts/view/{id}', [AdminPanelController::class, 'accountView'])->name('admin_account_view');
+    Route::post('/admin/accounts/view/{id}/update', [AdminPanelController::class, 'accountUpdate'])->name('admin_account_update');
+    Route::post('/admin/accounts/create', [AdminPanelController::class, 'adminCodeStore'])->name('admin_account_create');
+    Route::post('/admin/accounts/{id}/options', [AdminPanelController::class, 'accountOptions'])->name('admin_account_options');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isMayor']], function()
@@ -299,13 +306,6 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin', 
     Route::get('/covid/admin/referral_code/', [AdminPanelController::class, 'referralCodeView'])->name('adminpanel.code.view');
     Route::post('/covid/admin/brgy/create/data', [AdminPanelController::class, 'brgyStore'])->name('adminpanel.brgy.store');
     Route::post('/covid/admin/brgy/create/code/{brgy_id}/', [AdminPanelController::class, 'brgyCodeStore'])->name('adminpanel.brgyCode.store');
-
-    //Admin Accounts
-    Route::get('/covid/admin/accounts', [AdminPanelController::class, 'accountIndex'])->name('adminpanel.account.index');
-    Route::get('/covid/admin/accounts/view/{id}', [AdminPanelController::class, 'accountView'])->name('adminpanel.account.view');
-    Route::post('/covid/admin/accounts/view/{id}', [AdminPanelController::class, 'accountUpdate'])->name('adminpanel.account.update');
-    Route::post('/covid/admin/accounts/create', [AdminPanelController::class, 'adminCodeStore'])->name('adminpanel.account.create');
-    Route::post('/covid/admin/accounts/{id}/options', [AdminPanelController::class, 'accountOptions'])->name('adminpanel.account.options');
 
     //Interviewers
     Route::post('/covid/admin/interviewers/options/{id}', [InterviewersController::class, 'options'])->name('adminpanel.interviewers.options');

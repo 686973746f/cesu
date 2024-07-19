@@ -36,9 +36,6 @@
             @if(auth()->user()->canAccessPharmacy())
             <a href="{{route('pharmacy_home')}}" class="btn btn-block btn-primary btn-lg">Pharmacy Inventory System</a>
             @endif
-            @if(auth()->user()->canAccessPregnancyTracking())
-            <a href="{{route('ptracking_index')}}" class="btn btn-block btn-primary btn-lg">Pregnancy Tracking</a>
-            @endif
             @if(auth()->user()->isGlobalAdmin())
             <hr>
             <a href="{{route('settings_home')}}" class="btn btn-block btn-warning btn-lg">Settings</a>

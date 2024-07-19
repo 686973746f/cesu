@@ -18,7 +18,7 @@
                 {{session('msg')}}
             </div>
             @endif
-            <p class="text-center">Di ko pa alam lalagay. hihi.</p>
+            <p class="text-center">List will be added soon.</p>
         </div>
     </div>
 </div>
