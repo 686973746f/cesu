@@ -841,7 +841,7 @@
                       </select>
                     </div>
                     <div class="form-group">
-                      <label for="dcnote_assessment"><b>@if(auth()->user()->isSyndromicHospitalLevelAccess())<b class="text-danger">*</b>@endif Assessment/Diagnosis</b></label>
+                      <label for="dcnote_assessment"><b>@if(auth()->user()->isSyndromicHospitalLevelAccess())<b class="text-danger">*</b>@endif Assessment/Diagnosis</b> <i>(Note: use commas <b>(,)</b> as separator per diagnosis)</i></label>
                       <textarea class="form-control" name="dcnote_assessment" id="dcnote_assessment" rows="3" style="text-transform: uppercase;" {{($required_maindiagnosis) ? 'required' : ''}}>{{old('dcnote_assessment')}}</textarea>
                     </div>
                     <div class="form-group d-none" id="main_diagdiv">

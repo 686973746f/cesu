@@ -850,7 +850,7 @@
                       </select>
                     </div>
                     <div class="form-group">
-                      <label for="dcnote_assessment"><b>Assessment/Diagnosis</b></label>
+                      <label for="dcnote_assessment"><b>Assessment/Diagnosis</b> <i>(Note: use commas <b>(,)</b> as separator per diagnosis)</i></label>
                       <textarea class="form-control" name="dcnote_assessment" id="dcnote_assessment" rows="3" style="text-transform: uppercase;" {{($required_bp) ? 'required' : ''}}>{{old('dcnote_assessment', $d->dcnote_assessment)}}</textarea>
                     </div>
                     <div class="form-group d-none" id="main_diagdiv">
