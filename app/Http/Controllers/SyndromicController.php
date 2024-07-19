@@ -581,10 +581,12 @@ class SyndromicController extends Controller
         }
 
         //check if record exist today
-        $check = SyndromicRecords::where('syndromic_patient_id', $patient->id)
-        ->where('facility_id', auth()->user()->itr_facility_id)
-        ->whereDate('created_at', date('Y-m-d'))
-        ->first();
+        if(!auth()->user()->isTbdotsEncoder()) {
+            $check = SyndromicRecords::where('syndromic_patient_id', $patient->id)
+            ->where('facility_id', auth()->user()->itr_facility_id)
+            ->whereDate('created_at', date('Y-m-d'))
+            ->first();
+        }
 
         //GET DEFAULT NATURE
         $count_previous = SyndromicRecords::where('syndromic_patient_id', $patient->id);

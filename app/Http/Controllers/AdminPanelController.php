@@ -17,6 +17,7 @@ use App\Models\AbtcBakunaRecords;
 use App\Models\AbtcVaccinationSite;
 use App\Models\DohFacility;
 use App\Models\PharmacyBranch;
+use App\Models\SyndromicDoctor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use IlluminateAgnostic\Collection\Support\Str;
@@ -137,7 +138,7 @@ class AdminPanelController extends Controller
     }
 
     public function accountIndex() {
-        $lists = User::whereIn('isAdmin', [1,2])->orderBy('isAdmin', 'asc')->paginate(10);
+        $lists = User::paginate(10);
 
         return view('admin_accounts_home', ['lists' => $lists]);
     }
@@ -159,16 +160,48 @@ class AdminPanelController extends Controller
 
         $abtc_branches = AbtcVaccinationSite::where('enabled', 1)->get();
 
+        if(!is_null($d->itr_facility_id)) {
+            $opd_doctors = SyndromicDoctor::where('facility_id', $d->itr_facility_id)
+            ->where('active_in_service', 'Y')
+            ->orderBy('doctor_name', 'ASC')
+            ->get();
+        }
+        else {
+            $opd_doctors = NULL;
+        }
+
+        $perm_list = User::getPermissionList();
+
         return view('admin_accounts_view', [
             'd' => $d,
             'pharma_branches' => $pharma_branches,
             'opd_branches' => $opd_branches,
             'abtc_branches' => $abtc_branches,
+            'opd_doctors' => $opd_doctors,
+            'perm_list' => $perm_list,
         ]);
     }
 
     public function accountUpdate($id, Request $r) {
-        
+        $d = User::findOrFail($id);
+
+        $d->name = $r->name;
+        $d->enabled = $r->enabled;
+        $d->encoder_stats_visible = $r->encoder_stats_visible;
+        $d->itr_facility_id = ($r->itr_facility_id != 'NONE') ? $r->itr_facility_id : NULL;
+        $d->pharmacy_branch_id = ($r->pharmacy_branch_id != 'NONE') ? $r->pharmacy_branch_id : NULL;
+        $d->itr_doctor_id = ($r->itr_doctor_id != 'NONE') ? $r->itr_doctor_id : NULL;
+        $d->abtc_default_vaccinationsite_id = ($r->abtc_default_vaccinationsite_id != 'NONE') ? $r->abtc_default_vaccinationsite_id : NULL;
+        $d->permission_list = implode(",", $r->permission_list);
+
+        if($d->isDirty()) {
+            $d->save();
+        }
+
+        return redirect()
+        ->route('admin_account_index')
+        ->with('msg', 'User Account '.$r->name.' was updated successfully.')
+        ->with('msgtype', 'success');
     }
 
     public function adminCodeStore(Request $request) {

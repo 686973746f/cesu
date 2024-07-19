@@ -86,10 +86,12 @@ class User extends Authenticatable implements MustVerifyEmail
         'pharmacy_branch_id',
         'itr_facility_id',
         'itr_medicalevent_id',
+        'itr_doctor_id',
         'abtc_default_vaccinationsite_id',
         'abtc_default_vaccinebrand_id',
         'abtc_default_vaccinebrand_date',
         'last_login_date',
+        'permission_list',
     ];
 
     /**
