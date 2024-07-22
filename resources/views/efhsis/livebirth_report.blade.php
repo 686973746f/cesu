@@ -15,14 +15,22 @@
             <table class="table table-bordered table-striped table-hover">
                 <thead class="thead-light text-center">
                     <tr>
-                        <th>#</th>
-                        <th>
+                        <th rowspan="2">#</th>
+                        <th rowspan="2">
                             <div>Barangay</div>
                             <div class="text-info">{{date('F', strtotime($year.'-'.$month.'-01'))}} {{$year}}</div>
                         </th>
-                        <th>Livebirths</th>
-                        <th>Livebirths among 10-14 y/o women</th>
-                        <th>Livebirths among 15-19 y/o women</th>
+                        <th colspan="2">Livebirths</th>
+                        <th colspan="2">Livebirths among 10-14 y/o women</th>
+                        <th colspan="2">Livebirths among 15-19 y/o women</th>
+                    </tr>
+                    <tr>
+                        <th>M</th>
+                        <th>F</th>
+                        <th>M</th>
+                        <th>F</th>
+                        <th>M</th>
+                        <th>F</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,17 +38,23 @@
                     <tr>
                         <td class="text-center">{{$ind+1}}</td>
                         <td><b>{{$b['name']}}</b></td>
-                        <td class="text-center">{{($b['total_livebirths'] != 0) ? $b['total_livebirths'] : 'N/A'}}</td>
-                        <td class="text-center">{{($b['total_livebirths'] != 0) ? $b['livebirth1014'] : ''}}</td>
-                        <td class="text-center">{{($b['total_livebirths'] != 0) ? $b['livebirth1519'] : ''}}</td>
+                        <td class="text-center">{{($b['total_livebirths_m'] != 0) ? $b['total_livebirths_m'] : 'N/A'}}</td>
+                        <td class="text-center">{{($b['total_livebirths_f'] != 0) ? $b['total_livebirths_f'] : 'N/A'}}</td>
+                        <td class="text-center">{{(($b['total_livebirths_m'] + $b['total_livebirths_f']) != 0) ? $b['livebirth1014_m'] : ''}}</td>
+                        <td class="text-center">{{(($b['total_livebirths_m'] + $b['total_livebirths_f']) != 0) ? $b['livebirth1014_f'] : ''}}</td>
+                        <td class="text-center">{{(($b['total_livebirths_m'] + $b['total_livebirths_f']) != 0) ? $b['livebirth1519_m'] : ''}}</td>
+                        <td class="text-center">{{(($b['total_livebirths_m'] + $b['total_livebirths_f']) != 0) ? $b['livebirth1519_f'] : ''}}</td>
                     </tr>
                     @endforeach
                     <tr>
                         <td class="text-center">-</td>
                         <td><b>OUTSIDE GENERAL TRIAS (OTHER CITIES)</b></td>
-                        <td class="text-center">{{($livebirth_othercities_total != 0) ? $livebirth_othercities_total : 'N/A'}}</td>
-                        <td class="text-center">{{($livebirth_othercities_1014 != 0) ? $livebirth_othercities_1014 : ''}}</td>
-                        <td class="text-center">{{($livebirth_othercities_1519 != 0) ? $livebirth_othercities_1519 : ''}}</td>
+                        <td class="text-center">{{($livebirth_othercities_total_m != 0) ? $livebirth_othercities_total_m : 'N/A'}}</td>
+                        <td class="text-center">{{($livebirth_othercities_total_f != 0) ? $livebirth_othercities_total_f : 'N/A'}}</td>
+                        <td class="text-center">{{(($livebirth_othercities_1014_m + $livebirth_othercities_1014_f) != 0) ? $livebirth_othercities_1014_m : ''}}</td>
+                        <td class="text-center">{{(($livebirth_othercities_1014_m + $livebirth_othercities_1014_f) != 0) ? $livebirth_othercities_1014_f : ''}}</td>
+                        <td class="text-center">{{(($livebirth_othercities_1014_m + $livebirth_othercities_1014_f) != 0) ? $livebirth_othercities_1519_m : ''}}</td>
+                        <td class="text-center">{{(($livebirth_othercities_1014_m + $livebirth_othercities_1014_f) != 0) ? $livebirth_othercities_1519_f : ''}}</td>
                     </tr>
                 </tbody>
             </table>

@@ -28,6 +28,7 @@ use App\Models\FhsisMortalityNatality;
 use Illuminate\Support\Facades\Storage;
 use App\Models\FhsisEnvironmentalHealth;
 use App\Models\FhsisSystemDemographicProfile;
+use App\Models\Icd10Code;
 
 class FhsisController extends Controller
 {
@@ -1577,44 +1578,93 @@ class FhsisController extends Controller
             if($brgy == 'ALL BARANGAYS IN GENERAL TRIAS') {
                 $brgy_array = collect();
                 foreach($brgylist as $b) {
-                    $total_livebirths = LiveBirth::where('year', $year)
+                    $total_livebirths_m = LiveBirth::where('year', $year)
+                    ->where('sex', 'M')
                     ->where('month', $month)
                     ->where('address_brgy_text', $b->brgyName)
                     ->count();
 
-                    $livebirth1014 = LiveBirth::where('year', $year)
+                    $total_livebirths_f = LiveBirth::where('year', $year)
+                    ->where('sex', 'F')
                     ->where('month', $month)
+                    ->where('address_brgy_text', $b->brgyName)
+                    ->count();
+
+                    $livebirth1014_m = LiveBirth::where('year', $year)
+                    ->where('month', $month)
+                    ->where('sex', 'M')
                     ->whereBetween('mother_age', [10,14])
                     ->where('address_brgy_text', $b->brgyName)
                     ->count();
 
-                    $livebirth1519 = LiveBirth::where('year', $year)
+                    $livebirth1519_m = LiveBirth::where('year', $year)
                     ->where('month', $month)
+                    ->where('sex', 'M')
+                    ->whereBetween('mother_age', [15,19])
+                    ->where('address_brgy_text', $b->brgyName)
+                    ->count();
+
+                    $livebirth1014_f = LiveBirth::where('year', $year)
+                    ->where('month', $month)
+                    ->where('sex', 'F')
+                    ->whereBetween('mother_age', [10,14])
+                    ->where('address_brgy_text', $b->brgyName)
+                    ->count();
+
+                    $livebirth1519_f = LiveBirth::where('year', $year)
+                    ->where('month', $month)
+                    ->where('sex', 'F')
                     ->whereBetween('mother_age', [15,19])
                     ->where('address_brgy_text', $b->brgyName)
                     ->count();
 
                     $brgy_array->push([
                         'name' => $b->brgyName,
-                        'total_livebirths' => $total_livebirths,
-                        'livebirth1014' => $livebirth1014,
-                        'livebirth1519' => $livebirth1519,
+                        'total_livebirths_m' => $total_livebirths_m,
+                        'total_livebirths_f' => $total_livebirths_f,
+                        'livebirth1014_m' => $livebirth1014_m,
+                        'livebirth1014_f' => $livebirth1014_f,
+                        'livebirth1519_m' => $livebirth1519_m,
+                        'livebirth1519_f' => $livebirth1519_f,
                     ]);
                 }
 
-                $livebirth_othercities_total = LiveBirth::where('year', $year)
+                $livebirth_othercities_total_m = LiveBirth::where('year', $year)
                 ->where('month', $month)
+                ->where('sex', 'M')
                 ->where('address_muncity_text', '!=', 'GENERAL TRIAS')
                 ->count();
 
-                $livebirth_othercities_1014 = LiveBirth::where('year', $year)
+                $livebirth_othercities_total_f = LiveBirth::where('year', $year)
                 ->where('month', $month)
+                ->where('sex', 'F')
+                ->where('address_muncity_text', '!=', 'GENERAL TRIAS')
+                ->count();
+
+                $livebirth_othercities_1014_m = LiveBirth::where('year', $year)
+                ->where('month', $month)
+                ->where('sex', 'M')
                 ->whereBetween('mother_age', [10,14])
                 ->where('address_muncity_text', '!=', 'GENERAL TRIAS')
                 ->count();
 
-                $livebirth_othercities_1519 = LiveBirth::where('year', $year)
+                $livebirth_othercities_1519_m = LiveBirth::where('year', $year)
                 ->where('month', $month)
+                ->where('sex', 'M')
+                ->whereBetween('mother_age', [15,19])
+                ->where('address_muncity_text', '!=', 'GENERAL TRIAS')
+                ->count();
+
+                $livebirth_othercities_1014_f = LiveBirth::where('year', $year)
+                ->where('month', $month)
+                ->where('sex', 'F')
+                ->whereBetween('mother_age', [10,14])
+                ->where('address_muncity_text', '!=', 'GENERAL TRIAS')
+                ->count();
+
+                $livebirth_othercities_1519_f = LiveBirth::where('year', $year)
+                ->where('month', $month)
+                ->where('sex', 'F')
                 ->whereBetween('mother_age', [15,19])
                 ->where('address_muncity_text', '!=', 'GENERAL TRIAS')
                 ->count();
@@ -1628,9 +1678,13 @@ class FhsisController extends Controller
 
                     'brgylist' => $brgylist,
 
-                    'livebirth_othercities_total' => $livebirth_othercities_total,
-                    'livebirth_othercities_1014' => $livebirth_othercities_1014,
-                    'livebirth_othercities_1519' => $livebirth_othercities_1519,
+                    'livebirth_othercities_total_m' => $livebirth_othercities_total_m,
+                    'livebirth_othercities_1014_m' => $livebirth_othercities_1014_m,
+                    'livebirth_othercities_1519_m' => $livebirth_othercities_1519_m,
+
+                    'livebirth_othercities_total_f' => $livebirth_othercities_total_f,
+                    'livebirth_othercities_1014_f' => $livebirth_othercities_1014_f,
+                    'livebirth_othercities_1519_f' => $livebirth_othercities_1519_f,
                 ]);
             }
             else {
@@ -2521,6 +2575,20 @@ class FhsisController extends Controller
     }
 
     public function icdSearcher() {
-        return view('efhsis.icd10_searcher');
+        if(request()->input('q')) {
+            $q = request()->input('q');
+
+            $list = Icd10Code::where('ICD10_CODE', 'LIKE', '%'.$q.'%')
+            ->orWhere('ICD10_DESC', 'LIKE', '%'.$q.'%')
+            ->orWhere('ICD10_CAT', 'LIKE', '%'.$q.'%')
+            ->paginate(10);
+        }
+        else {
+            $list = NULL;
+        }
+
+        return view('efhsis.icd10_searcher', [
+            'list' => $list,
+        ]);
     }
 }
