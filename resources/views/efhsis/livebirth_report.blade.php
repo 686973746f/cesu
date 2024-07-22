@@ -12,7 +12,7 @@
         <div class="card-body">
             @if($brgy == 'ALL BARANGAYS IN GENERAL TRIAS')
             <h3 class="text-center"><b>NATALITY REPORT - <span class="text-success">{{mb_strtoupper(date('F', strtotime($year.'-'.$month.'-01')))}} {{$year}}</span></b></h3>
-            <table class="table table-bordered table-striped table-hover">
+            <table class="table table-bordered table-striped table-hover" id="lbTable">
                 <thead class="thead-light text-center">
                     <tr>
                         <th rowspan="2">#</th>
@@ -25,12 +25,12 @@
                         <th colspan="2">Livebirths among 15-19 y/o women</th>
                     </tr>
                     <tr>
-                        <th>M</th>
-                        <th>F</th>
-                        <th>M</th>
-                        <th>F</th>
-                        <th>M</th>
-                        <th>F</th>
+                        <th style="background-color: #8fa2bd;">M</th>
+                        <th style="background-color: #dea6a5">F</th>
+                        <th style="background-color: #8fa2bd;">M</th>
+                        <th style="background-color: #dea6a5">F</th>
+                        <th style="background-color: #8fa2bd;">M</th>
+                        <th style="background-color: #dea6a5">F</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,23 +38,23 @@
                     <tr>
                         <td class="text-center">{{$ind+1}}</td>
                         <td><b>{{$b['name']}}</b></td>
-                        <td class="text-center">{{($b['total_livebirths_m'] != 0) ? $b['total_livebirths_m'] : 'N/A'}}</td>
-                        <td class="text-center">{{($b['total_livebirths_f'] != 0) ? $b['total_livebirths_f'] : 'N/A'}}</td>
-                        <td class="text-center">{{(($b['total_livebirths_m'] + $b['total_livebirths_f']) != 0) ? $b['livebirth1014_m'] : ''}}</td>
-                        <td class="text-center">{{(($b['total_livebirths_m'] + $b['total_livebirths_f']) != 0) ? $b['livebirth1014_f'] : ''}}</td>
-                        <td class="text-center">{{(($b['total_livebirths_m'] + $b['total_livebirths_f']) != 0) ? $b['livebirth1519_m'] : ''}}</td>
-                        <td class="text-center">{{(($b['total_livebirths_m'] + $b['total_livebirths_f']) != 0) ? $b['livebirth1519_f'] : ''}}</td>
+                        <td class="text-center" style="background-color: #8fa2bd;">{{($b['total_livebirths_m'] != 0) ? $b['total_livebirths_m'] : 'N/A'}}</td>
+                        <td class="text-center" style="background-color: #dea6a5">{{($b['total_livebirths_f'] != 0) ? $b['total_livebirths_f'] : 'N/A'}}</td>
+                        <td class="text-center" style="background-color: #8fa2bd;">{{(($b['total_livebirths_m'] + $b['total_livebirths_f']) != 0) ? $b['livebirth1014_m'] : ''}}</td>
+                        <td class="text-center" style="background-color: #dea6a5">{{(($b['total_livebirths_m'] + $b['total_livebirths_f']) != 0) ? $b['livebirth1014_f'] : ''}}</td>
+                        <td class="text-center" style="background-color: #8fa2bd;">{{(($b['total_livebirths_m'] + $b['total_livebirths_f']) != 0) ? $b['livebirth1519_m'] : ''}}</td>
+                        <td class="text-center" style="background-color: #dea6a5">{{(($b['total_livebirths_m'] + $b['total_livebirths_f']) != 0) ? $b['livebirth1519_f'] : ''}}</td>
                     </tr>
                     @endforeach
                     <tr>
-                        <td class="text-center">-</td>
+                        <td class="text-center">999</td>
                         <td><b>OUTSIDE GENERAL TRIAS (OTHER CITIES)</b></td>
-                        <td class="text-center">{{($livebirth_othercities_total_m != 0) ? $livebirth_othercities_total_m : 'N/A'}}</td>
-                        <td class="text-center">{{($livebirth_othercities_total_f != 0) ? $livebirth_othercities_total_f : 'N/A'}}</td>
-                        <td class="text-center">{{(($livebirth_othercities_1014_m + $livebirth_othercities_1014_f) != 0) ? $livebirth_othercities_1014_m : ''}}</td>
-                        <td class="text-center">{{(($livebirth_othercities_1014_m + $livebirth_othercities_1014_f) != 0) ? $livebirth_othercities_1014_f : ''}}</td>
-                        <td class="text-center">{{(($livebirth_othercities_1014_m + $livebirth_othercities_1014_f) != 0) ? $livebirth_othercities_1519_m : ''}}</td>
-                        <td class="text-center">{{(($livebirth_othercities_1014_m + $livebirth_othercities_1014_f) != 0) ? $livebirth_othercities_1519_f : ''}}</td>
+                        <td class="text-center" style="background-color: #8fa2bd;">{{($livebirth_othercities_total_m != 0) ? $livebirth_othercities_total_m : 'N/A'}}</td>
+                        <td class="text-center" style="background-color: #dea6a5">{{($livebirth_othercities_total_f != 0) ? $livebirth_othercities_total_f : 'N/A'}}</td>
+                        <td class="text-center" style="background-color: #8fa2bd;">{{(($livebirth_othercities_1014_m + $livebirth_othercities_1014_f) != 0) ? $livebirth_othercities_1014_m : ''}}</td>
+                        <td class="text-center" style="background-color: #dea6a5">{{(($livebirth_othercities_1014_m + $livebirth_othercities_1014_f) != 0) ? $livebirth_othercities_1014_f : ''}}</td>
+                        <td class="text-center" style="background-color: #8fa2bd;">{{(($livebirth_othercities_1014_m + $livebirth_othercities_1014_f) != 0) ? $livebirth_othercities_1519_m : ''}}</td>
+                        <td class="text-center" style="background-color: #dea6a5">{{(($livebirth_othercities_1014_m + $livebirth_othercities_1014_f) != 0) ? $livebirth_othercities_1519_f : ''}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -149,6 +149,13 @@
         </div>
     </div>
 </form>
+
+<script>
+    $('#lbTable').DataTable( {
+        fixedHeader: true,
+        order: [[0, 'asc']]
+    });
+</script>
 
 @if($brgy == 'ALL BARANGAYS IN GENERAL TRIAS')
 
