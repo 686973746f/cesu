@@ -674,9 +674,9 @@
                 $('#input_year2').prop('disabled', false);
                 $('#input_month2').prop('disabled', false);
                 $('#input_day2').prop('disabled', false);
-                $('#input_year').prop('readonly', true);
-                $('#input_month').prop('readonly', true);
-                $('#input_day').prop('readonly', false);
+                $('#input_year2').prop('readonly', true);
+                $('#input_month2').prop('readonly', true);
+                $('#input_day2').prop('readonly', false);
                 $('#input_year2').val(default_year);
                 $('#input_month2').val(default_month);
                 $('#input_day2').val('');
@@ -734,9 +734,9 @@
                 $('#input_year2').prop('disabled', false);
                 $('#input_month2').prop('disabled', false);
                 $('#input_day2').prop('disabled', false);
-                $('#input_year').prop('readonly', false);
-                $('#input_month').prop('readonly', false);
-                $('#input_day').prop('readonly', false);
+                $('#input_year2').prop('readonly', false);
+                $('#input_month2').prop('readonly', false);
+                $('#input_day2').prop('readonly', false);
                 $('#input_year2').val('');
                 $('#input_month2').val('');
                 $('#input_day2').val('');
