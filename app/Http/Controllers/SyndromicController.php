@@ -1989,6 +1989,7 @@ class SyndromicController extends Controller
                 array_push($list, [
                     'id' => $item->ICD10_CODE,
                     'text' => $item->ICD10_CODE.' - '.$item->ICD10_DESC,
+                    'desc' => $item->ICD10_CODE.'; '.$item->ICD10_DESC,
                 ]);
             }
         }

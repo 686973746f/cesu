@@ -17,6 +17,7 @@ use App\Models\FhsisPopulation;
 use App\Models\FhsisDemographic;
 use App\Models\AbtcBakunaRecords;
 use App\Imports\FhsisTbdotsImport;
+use App\Models\DeathCertificate;
 use Illuminate\Support\Facades\DB;
 use App\Models\FhsisFamilyPlanning1;
 use App\Models\FhsisFamilyPlanning2;
@@ -2590,5 +2591,177 @@ class FhsisController extends Controller
         return view('efhsis.icd10_searcher', [
             'list' => $list,
         ]);
+    }
+
+    public function deathCertEncode() {
+        return view('efhsis.deathcert_encode');
+    }
+
+    public function deathCertStore(Request $r) {
+        if($r->if_fetaldeath == 'Y') {
+            $lname = (!is_null($r->lname)) ? mb_strtoupper($r->lname) : NULL;
+            $fname = (!is_null($r->fname)) ? mb_strtoupper($r->fname) : NULL;
+            $mname = (!is_null($r->mname)) ? mb_strtoupper($r->mname) : NULL;
+            $bdate = NULL;
+            $fetald_dateofdelivery = Carbon::create($r->input_year2, $r->input_month2, $r->input_day2, 0, 0, 0)->format('Y-m-d');
+            $date_died = NULL;
+            $age_death_years = NULL;
+            $age_death_months = NULL;
+            $age_death_days = NULL;
+
+            if(!is_null($lname) && !is_null($fname)) {
+                $exist_check = DeathCertificate::where('lname', $lname)
+                ->where('fname', $fname)
+                ->whereDate('fetald_dateofdelivery', $fetald_dateofdelivery);
+                
+                if(!is_null($mname)) {
+                    $exist_check = $exist_check->where('mname', $mname)->first();
+                }
+                else {
+                    $exist_check = $exist_check->first();
+                }
+
+                if($exist_check) {
+                    return redirect()->back()
+                    ->with('msg', 'Error: Fetal Death data already exists in the server. Please double check the name of Fetus, and Date of Delivery.')
+                    ->with('msgtype', 'warning');
+                }
+            }
+
+            $fetald_mother_lname = mb_strtoupper($r->fetald_mother_lname);
+            $fetald_mother_fname = mb_strtoupper($r->fetald_mother_fname);
+            $fetald_mother_mname = (!is_null($r->fetald_mother_mname)) ? mb_strtoupper($r->fetald_mother_mname) : NULL;
+
+            $exist_check = DeathCertificate::where('fetald_mother_lname', $fetald_mother_lname)
+            ->where('fetald_mother_fname', $fetald_mother_fname)
+            ->whereDate('fetald_dateofdelivery', $fetald_dateofdelivery)
+            ->where('fetald_birthorder', $r->fetald_birthorder);
+            
+            if(!is_null($fetald_mother_mname)) {
+                $exist_check = $exist_check->where('fetald_mother_mname', $fetald_mother_mname)->first();
+            }
+            else {
+                $exist_check = $exist_check->first();
+            }
+
+            if($exist_check) {
+                return redirect()->back()
+                ->with('msg', 'Error: Fetal Death data already exists in the server. Please double check the Mother Name, Date of Delivery, and Birth Order.')
+                ->with('msgtype', 'warning');
+            }
+
+            $maternal_condition = NULL;
+        }
+        else {
+            $lname = mb_strtoupper($r->lname);
+            $fname = mb_strtoupper($r->fname);
+            $mname = (!is_null($r->mname)) ? mb_strtoupper($r->mname) : NULL;
+            //$suffix = (!is_null($r->suffix)) ? mb_strtoupper($r->suffix) : NULL;
+            $bdate = Carbon::create($r->input_year2, $r->input_month2, $r->input_day2, 0, 0, 0)->format('Y-m-d');
+            $fetald_dateofdelivery = NULL;
+            $date_died = Carbon::create($r->input_year, $r->input_month, $r->input_day, 0, 0, 0)->format('Y-m-d');
+
+            //get age in years, month, days
+            $birthdate = Carbon::parse($bdate);
+            $currentDate = Carbon::parse($date_died);
+
+            $age_death_years = $birthdate->diffInYears($currentDate);
+            $age_death_months = $birthdate->diffInMonths($currentDate);
+            $age_death_days = $birthdate->diffInDays($currentDate);
+
+            $fetald_mother_lname = NULL;
+            $fetald_mother_fname = NULL;
+            $fetald_mother_mname = NULL;
+
+            $exist_check = DeathCertificate::where('lname', $lname)
+            ->where('fname', $fname)
+            ->whereDate('bdate', $bdate);
+
+            if(!is_null($mname)) {
+                $exist_check = $exist_check->where('mname', $mname)->first();
+            }
+            else {
+                $exist_check = $exist_check->first();
+            }
+
+            if($age_death_years >= 15 && $age_death_years <= 49) {
+                if($r->gender == 'FEMALE') {
+                    $maternal_condition = $r->maternal_condition;
+                }
+                else {
+                    $maternal_condition = NULL;
+                }
+            }
+            else {
+                $maternal_condition = NULL;
+            }
+        }
+
+        if(!$exist_check) {
+            $c = DeathCertificate::create([
+                'if_fetaldeath' => ($r->if_fetaldeath == 'Y') ? 1 : 0,
+                'lname' => $lname,
+                'fname' => $fname,
+                'mname' => $mname,
+                //'suffix',
+                'bdate' => $bdate,
+                'gender' => $r->gender,
+                'date_died' => $date_died,
+                'age_death_years' => $age_death_years,
+                'age_death_months' => $age_death_months,
+                'age_death_days' => $age_death_days,
+                'fetald_dateofdelivery' => $fetald_dateofdelivery,
+                'fetald_typeofdelivery' => ($r->if_fetaldeath == 'Y') ? $r->fetald_typeofdelivery : NULL,
+                'fetald_ifmultipledeliveries_fetuswas' => ($r->if_fetaldeath == 'Y' && $r->fetald_typeofdelivery != 'SINGLE') ? $r->fetald_ifmultipledeliveries_fetuswas : NULL,
+                'fetald_methodofdelivery' => ($r->if_fetaldeath == 'Y') ? $r->fetald_methodofdelivery : NULL,
+                //'fetald_methodofdelivery_others'  => ($r->if_fetaldeath == 'Y') ? $r->fetald_typeofdelivery : NULL,
+                'fetald_birthorder' => ($r->if_fetaldeath == 'Y') ? $r->fetald_birthorder : NULL,
+                //'fetald_fetusweight',
+                //'fetald_fetusdiedwhen',
+                //'fetald_lenghthpregnancyweeks',
+                'fetald_mother_lname' => $fetald_mother_lname,
+                'fetald_mother_fname' => $fetald_mother_fname,
+                'fetald_mother_mname' => $fetald_mother_mname,
+                'name_placeofdeath' => mb_strtoupper($r->name_placeofdeath),
+                'pod_address_region_code' => $r->pod_address_region_code,
+                'pod_address_region_text' => $r->pod_address_region_text,
+                'pod_address_province_code' => $r->pod_address_province_code,
+                'pod_address_province_text' => $r->pod_address_province_text,
+                'pod_address_muncity_code' => $r->pod_address_muncity_code,
+                'pod_address_muncity_text' => $r->pod_address_muncity_text,
+                'pod_address_brgy_code' => $r->pod_address_brgy_text,
+                'pod_address_brgy_text' => $r->pod_address_brgy_text,
+                //'pod_address_street',
+                //'pod_address_houseno',
+                'address_region_code' => $r->address_region_code,
+                'address_region_text' => $r->address_region_text,
+                'address_province_code' => $r->address_province_code,
+                'address_province_text' => $r->address_province_text,
+                'address_muncity_code' => $r->address_muncity_code,
+                'address_muncity_text' => $r->address_muncity_text,
+                'address_brgy_code' => $r->address_brgy_text,
+                'address_brgy_text' => $r->address_brgy_text,
+                //'address_street',
+                //'address_houseno',
+                'maternal_condition' => $maternal_condition,
+                'immediate_cause' => $r->immediate_cause,
+                //'antecedent_cause',
+                //'underlying_cause',
+                'created_by' => Auth::id(),
+            ]);
+
+            return redirect()->back()
+            ->with('msg', 'Death Certificate was successfully encoded.')
+            ->with('msgtype', 'success');
+        }
+        else {
+            return redirect()->back()
+            ->with('msg', 'Error: Death Certificate data already exists in the server. Please double check the Name and Birthdate.')
+            ->with('msgtype', 'warning');
+        }
+    }
+
+    public function deathCertReport() {
+        
     }
 }

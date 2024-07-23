@@ -19,6 +19,9 @@
                         @endif
                         <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#liveBirthModal">Encode Livebirths (LCR)/Natality</button>
                         <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#liveBirthReport">Natality Report</button>
+                        <hr>
+                        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#deathModal">Encode Death Certificates/Mortality</button>
+                        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#deathReport">Mortality Report</button>
                         @if(auth()->user()->canAccessPregnancyTracking())
                         <hr>
                         <a href="{{route('ptracking_index')}}" class="btn btn-block btn-primary">Pregnancy Tracking</a>
@@ -184,6 +187,48 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Encode Livebirths</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                          <label for="year"><b class="text-danger">*</b>Year</label>
+                          <input type="number" class="form-control" name="year" id="year" min="{{(date('Y')-5)}}" max="{{date('Y')}}" value="{{date('Y')}}" required>
+                        </div>
+                        <div class="form-group">
+                          <label for="month"><b class="text-danger">*</b>Month</label>
+                          <select class="form-control" name="month" id="month" required>
+                            <option value="" disabled selected>Choose...</option>
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                          </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success btn-block">Start</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <form action="{{route('fhsis_deathcert_encode')}}" method="GET">
+        <div class="modal fade" id="deathModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Encode Mortality</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
