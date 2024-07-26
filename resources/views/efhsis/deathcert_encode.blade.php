@@ -140,14 +140,14 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                           <label for="pod_address_region_code" class="form-label"><span class="text-danger font-weight-bold">*</span><span id="podDiv_region"></span> - Region</label>
-                                          <select class="form-control" name="pod_address_region_code" id="pod_address_region_code" required>
+                                          <select class="form-control" name="pod_address_region_code" id="pod_address_region_code" tabindex="-1" required>
                                           </select>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="pod_address_province_code" class="form-label"><span class="text-danger font-weight-bold">*</span><span id="podDiv_province"></span> - Province</label>
-                                            <select class="form-control" name="pod_address_province_code" id="pod_address_province_code" required>
+                                            <select class="form-control" name="pod_address_province_code" id="pod_address_province_code" tabindex="-1" required>
                                             </select>
                                         </div>
                                     </div>
@@ -156,7 +156,7 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="pod_address_muncity_code" class="form-label"><span class="text-danger font-weight-bold">*</span><span id="podDiv_city"></span> - City/Municipality</label>
-                                            <select class="form-control" name="pod_address_muncity_code" id="pod_address_muncity_code" required>
+                                            <select class="form-control" name="pod_address_muncity_code" id="pod_address_muncity_code" tabindex="-1" required>
                                             </select>
                                         </div>
                                     </div>
@@ -254,14 +254,14 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                         <label for="address_region_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Residence - Region</label>
-                                        <select class="form-control" name="address_region_code" id="address_region_code" required>
+                                        <select class="form-control" name="address_region_code" id="address_region_code" tabindex="-1" required>
                                         </select>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="address_province_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Residence -  Province</label>
-                                            <select class="form-control" name="address_province_code" id="address_province_code" required>
+                                            <select class="form-control" name="address_province_code" id="address_province_code" tabindex="-1" required>
                                             </select>
                                         </div>
                                     </div>
@@ -270,7 +270,7 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="address_muncity_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Residence - City/Municipality</label>
-                                            <select class="form-control" name="address_muncity_code" id="address_muncity_code" required>
+                                            <select class="form-control" name="address_muncity_code" id="address_muncity_code" tabindex="-1" required>
                                             </select>
                                         </div>
                                     </div>
