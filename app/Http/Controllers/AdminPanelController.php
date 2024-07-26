@@ -15,6 +15,7 @@ use App\Models\VaxcertConcern;
 use App\Models\SyndromicRecords;
 use App\Models\AbtcBakunaRecords;
 use App\Models\AbtcVaccinationSite;
+use App\Models\DeathCertificate;
 use App\Models\DohFacility;
 use App\Models\PharmacyBranch;
 use App\Models\SyndromicDoctor;
@@ -516,17 +517,23 @@ class AdminPanelController extends Controller
                 $edcs_count += $model_count;
             }
 
+            /*
             $death_count = WorkTask::where('name', 'DAILY ENCODE OF DEATH CERTIFICATES TO FHSIS')
             ->where('finished_by', $item->id)
             ->whereDate('finished_date', $date)
             ->first();
-
+            
             if($death_count) {
                 $death_count = $death_count->encodedcount ?: 0;
             }
             else {
                 $death_count = 0;
             }
+            */
+
+            $death_count = DeathCertificate::whereDate('created_at', $date)
+            ->where('created_by', $item->id)
+            ->count();
 
             $opdtoics_count = SyndromicRecords::where('ics_finishedby', $item->id)
             ->whereDate('ics_finished_date', $date)
