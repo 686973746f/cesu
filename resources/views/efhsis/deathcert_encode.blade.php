@@ -297,7 +297,7 @@
                             </div>
                         </div>
                         <div class="form-group mt-3">
-                            <label for="immediate_cause"><b class="text-danger">*</b>Cause of Death</label>
+                            <label for="immediate_cause"><b class="text-danger">*</b>Cause of Death (Immediate Cause)</label>
                             <select class="form-control" name="immediate_cause" id="immediate_cause" required>
                             </select>
                         </div>
@@ -321,6 +321,10 @@
         $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_text').select2({
             theme: 'bootstrap',
         });
+
+        var current_year = "{{date('Y')}}";
+        var current_month = "{{date('n')}}";
+        var current_day = "{{date('d')}}";
 
         var default_year = "{{request()->input('year')}}";
         var default_month = "{{request()->input('month')}}";
@@ -696,6 +700,14 @@
                 $('#fetald_mother_lname').prop('required', true);
                 $('#fetald_mother_fname').prop('required', true);
                 
+                $('#input_day').attr('max', 31);
+                $('#input_day2').attr('max', 31);
+
+                if(current_year == default_year) {
+                    if(current_month == default_month) {
+                        $('#input_day2').attr('max', current_day);
+                    }
+                }
             }
             else if($(this).val() == 'N') {
                 $('#part2').removeClass('d-none');
@@ -756,6 +768,15 @@
 
                 $('#fetald_mother_lname').prop('required', false);
                 $('#fetald_mother_fname').prop('required', false);
+
+                $('#input_day').attr('max', 31);
+                $('#input_day2').attr('max', 31);
+
+                if(current_year == default_year) {
+                    if(current_month == default_month) {
+                        $('#input_day').attr('max', current_day);
+                    }
+                }
             }
             else {
                 $('#part2').addClass('d-none');

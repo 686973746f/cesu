@@ -2594,6 +2594,18 @@ class FhsisController extends Controller
     }
 
     public function deathCertEncode() {
+        if(!request()->input('year') && !request()->input('month')) {
+            return abort(401);
+        }
+
+        if(request()->input('year') == date('Y')) {
+            if(request()->input('month') > date('n')) {
+                return redirect()->route('fhsis_home')
+                ->with('msg', 'Error: Current Month is just '.date('F').' '.date('Y'))
+                ->with('msgtype', 'warning');
+            }
+        }
+        
         return view('efhsis.deathcert_encode');
     }
 
@@ -2751,7 +2763,7 @@ class FhsisController extends Controller
             ]);
 
             return redirect()->back()
-            ->with('msg', 'Death Certificate was successfully encoded.')
+            ->with('msg', 'Death Certificate was successfully encoded: ID #'.$c->id.'.')
             ->with('msgtype', 'success');
         }
         else {
@@ -2762,6 +2774,465 @@ class FhsisController extends Controller
     }
 
     public function deathCertReport() {
-        
+        if(!request()->input('year') && !request()->input('month') && !request()->input('brgy')) {
+            return abort(401);
+        }
+
+        $year = request()->input('year');
+        $brgy = request()->input('brgy');
+        $month = request()->input('month');
+
+        $start = Carbon::createFromDate($year, $month, 01)->startOfMonth();
+        $end = Carbon::createFromDate($year, $month, 01)->endOfMonth();
+
+        //Mortality Total
+        $early_neonatal_deaths_finaltotal_m = 0;
+        $early_neonatal_deaths_finaltotal_f = 0;
+
+        $fetal_deaths_finaltotal_m = 0;
+        $fetal_deaths_finaltotal_f = 0;
+
+        $neonatal_deaths_finaltotal_m = 0;
+        $neonatal_deaths_finaltotal_f = 0;
+
+        $infant_deaths_finaltotal_m = 0;
+        $infant_deaths_finaltotal_f = 0;
+
+        $uf_deaths_finaltotal_m = 0;
+        $uf_deaths_finaltotal_f = 0;
+
+        $mat_deaths_finaltotal = 0;
+        $ormat_deaths_finaltotal = 0;
+
+        $total_deaths_m = 0;
+        $total_deaths_f = 0;
+
+        //Group ICD10 Codes
+        $list_group = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+        ->where('pod_address_brgy_text', $brgy)
+        ->groupBy('immediate_cause')
+        ->pluck('immediate_cause')
+        ->toArray();
+
+        $final_arr = [];
+
+        $mat_deaths_finaltotal += DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+        ->where('pod_address_brgy_text', $brgy)
+        ->where('gender', 'FEMALE')
+        ->whereIn('maternal_condition', ['PREGNANT, IN LABOUR', 'LESS THAN 42 DAYS AFTER DELIVERY'])
+        ->whereBetween('age_death_years', [15,49])
+        ->count();
+
+        foreach($list_group as $l) {
+            //0-6 Days
+            $age1_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('if_fetaldeath', 0)
+            ->where('gender', 'MALE')
+            ->where('immediate_cause', $l)
+            ->whereBetween('age_death_days', [0,6])
+            ->count();
+
+            $early_neonatal_deaths_finaltotal_m += $age1_m;
+            $infant_deaths_finaltotal_m += $age1_m;
+            $uf_deaths_finaltotal_m += $age1_m;
+
+            $age1_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('if_fetaldeath', 0)
+            ->where('gender', 'FEMALE')
+            ->where('immediate_cause', $l)
+            ->whereBetween('age_death_days', [0,6])
+            ->count();
+
+            $early_neonatal_deaths_finaltotal_f += $age1_f;
+            $infant_deaths_finaltotal_f += $age1_f;
+            $uf_deaths_finaltotal_f += $age1_f;
+
+            //Search Fetal Deaths
+            $fet_death_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('if_fetaldeath', 1)
+            ->where('gender', 'MALE')
+            ->where('immediate_cause', $l)
+            ->count();
+
+            $fet_death_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('if_fetaldeath', 1)
+            ->where('gender', 'FEMALE')
+            ->where('immediate_cause', $l)
+            ->count();
+
+            $fetal_deaths_finaltotal_m += $fet_death_m;
+            $fetal_deaths_finaltotal_f += $fet_death_f;
+
+            //7-28 Days
+            $age2_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'MALE')
+            ->where('immediate_cause', $l)
+            ->whereBetween('age_death_days', [7,28])
+            ->count();
+
+            $neonatal_deaths_finaltotal_m += $age2_m;
+            $infant_deaths_finaltotal_m += $age2_m;
+            $uf_deaths_finaltotal_m += $age2_m;
+
+            $age2_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'FEMALE')
+            ->where('immediate_cause', $l)
+            ->whereBetween('age_death_days', [7,28])
+            ->count();
+
+            $neonatal_deaths_finaltotal_f += $age2_f;
+            $infant_deaths_finaltotal_f += $age2_f;
+            $uf_deaths_finaltotal_f += $age2_f;
+
+            //29 Days - 11 Months
+            $age3_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'MALE')
+            ->where('immediate_cause', $l)
+            ->where('age_death_days', '>=', 29)
+            ->where('age_death_months', '<=', 11)
+            ->count();
+
+            $age3_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'FEMALE')
+            ->where('immediate_cause', $l)
+            ->where('age_death_days', '>=', 29)
+            ->where('age_death_months', '<=', 11)
+            ->count();
+            
+            //1-4
+            $age4_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'MALE')
+            ->where('immediate_cause', $l)
+            ->whereBetween('age_death_years', [1, 4])
+            ->count();
+
+            $age4_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'FEMALE')
+            ->where('immediate_cause', $l)
+            ->whereBetween('age_death_years', [1, 4])
+            ->count();
+
+            //5-9
+            $age5_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'MALE')
+            ->where('immediate_cause', $l)
+            ->whereBetween('age_death_years', [5, 9])
+            ->count();
+
+            $age5_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'FEMALE')
+            ->where('immediate_cause', $l)
+            ->whereBetween('age_death_years', [5, 9])
+            ->count();
+
+            //10-14
+            $age6_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'MALE')
+            ->where('immediate_cause', $l)
+            ->whereBetween('age_death_years', [10,14])
+            ->count();
+
+            $age6_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'FEMALE')
+            ->where('immediate_cause', $l)
+            ->whereBetween('age_death_years', [10,14])
+            ->count();
+
+            //15-19
+            $age7_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'MALE')
+            ->where('immediate_cause', $l)
+            ->whereBetween('age_death_years', [15,19])
+            ->count();
+
+            $age7_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'FEMALE')
+            ->where('immediate_cause', $l)
+            ->whereBetween('age_death_years', [15,19])
+            ->count();
+            //ss
+
+            //20-24
+            $age8_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'MALE')
+            ->where('immediate_cause', $l)
+            ->whereBetween('age_death_years', [20,24])
+            ->count();
+
+            $age8_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'FEMALE')
+            ->where('immediate_cause', $l)
+            ->whereBetween('age_death_years', [20,24])
+            ->count();
+            
+            //25-29
+            $age9_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'MALE')
+            ->where('immediate_cause', $l)
+            ->whereBetween('age_death_years', [25,29])
+            ->count();
+
+            $age9_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'FEMALE')
+            ->where('immediate_cause', $l)
+            ->whereBetween('age_death_years', [25,29])
+            ->count();
+
+            //30-34
+            $age10_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'MALE')
+            ->where('immediate_cause', $l)
+            ->whereBetween('age_death_years', [30,34])
+            ->count();
+
+            $age10_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'FEMALE')
+            ->where('immediate_cause', $l)
+            ->whereBetween('age_death_years', [30,34])
+            ->count();
+
+            //35-39
+            $age11_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'MALE')
+            ->where('immediate_cause', $l)
+            ->whereBetween('age_death_years', [35,39])
+            ->count();
+
+            $age11_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'FEMALE')
+            ->where('immediate_cause', $l)
+            ->whereBetween('age_death_years', [35,39])
+            ->count();
+
+            //40-44
+            $age12_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'MALE')
+            ->where('immediate_cause', $l)
+            ->whereBetween('age_death_years', [40,44])
+            ->count();
+
+            $age12_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'FEMALE')
+            ->where('immediate_cause', $l)
+            ->whereBetween('age_death_years', [40,44])
+            ->count();
+
+            //45-49
+            $age13_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'MALE')
+            ->where('immediate_cause', $l)
+            ->whereBetween('age_death_years', [45,49])
+            ->count();
+
+            $age13_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'FEMALE')
+            ->where('immediate_cause', $l)
+            ->whereBetween('age_death_years', [45,49])
+            ->count();
+
+            //50-54
+            $age14_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'MALE')
+            ->where('immediate_cause', $l)
+            ->whereBetween('age_death_years', [50,54])
+            ->count();
+
+            $age14_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'FEMALE')
+            ->where('immediate_cause', $l)
+            ->whereBetween('age_death_years', [50,54])
+            ->count();
+
+            //55-59
+            $age15_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'MALE')
+            ->where('immediate_cause', $l)
+            ->whereBetween('age_death_years', [55,59])
+            ->count();
+
+            $age15_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'FEMALE')
+            ->where('immediate_cause', $l)
+            ->whereBetween('age_death_years', [55,59])
+            ->count();
+
+            //60-64
+            $age16_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'MALE')
+            ->where('immediate_cause', $l)
+            ->whereBetween('age_death_years', [60,64])
+            ->count();
+
+            $age16_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'FEMALE')
+            ->where('immediate_cause', $l)
+            ->whereBetween('age_death_years', [60,64])
+            ->count();
+
+            //65-69
+            $age17_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'MALE')
+            ->where('immediate_cause', $l)
+            ->whereBetween('age_death_years', [65,69])
+            ->count();
+
+            $age17_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'FEMALE')
+            ->where('immediate_cause', $l)
+            ->whereBetween('age_death_years', [65,69])
+            ->count();
+
+            //70 and above
+            $age18_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'MALE')
+            ->where('immediate_cause', $l)
+            ->where('age_death_years', '>=', 70)
+            ->count();
+
+            $age18_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->where('pod_address_brgy_text', $brgy)
+            ->where('gender', 'FEMALE')
+            ->where('immediate_cause', $l)
+            ->where('age_death_years', '>=', 70)
+            ->count();
+
+            $total_m = $age1_m +
+                $age2_m +
+                $age3_m +
+                $age4_m +
+                $age5_m +
+                $age6_m +
+                $age7_m +
+                $age8_m +
+                $age9_m +
+                $age10_m +
+                $age11_m +
+                $age12_m +
+                $age13_m +
+                $age14_m +
+                $age15_m +
+                $age16_m +
+                $age17_m +
+                $age18_m;
+
+            $total_f = $age1_f +
+                $age2_f +
+                $age3_f +
+                $age4_f +
+                $age5_f +
+                $age6_f +
+                $age7_f +
+                $age8_f +
+                $age9_f +
+                $age10_f +
+                $age11_f +
+                $age12_f +
+                $age13_f +
+                $age14_f +
+                $age15_f +
+                $age16_f +
+                $age17_f +
+                $age18_f;
+
+            $total_deaths_m += $total_m;
+            $total_deaths_f += $total_f;
+
+            $final_arr[] = [
+                'disease' => $l,
+                'age1_m' => $age1_m,
+                'age1_f' => $age1_f,
+                'age2_m' => $age2_m,
+                'age2_f' => $age2_f,
+                'age3_m' => $age3_m,
+                'age3_f' => $age3_f,
+                'age4_m' => $age4_m,
+                'age4_f' => $age4_f,
+                'age5_m' => $age5_m,
+                'age5_f' => $age5_f,
+                'age6_m' => $age6_m,
+                'age6_f' => $age6_f,
+                'age7_m' => $age7_m,
+                'age7_f' => $age7_f,
+                'age8_m' => $age8_m,
+                'age8_f' => $age8_f,
+                'age9_m' => $age9_m,
+                'age9_f' => $age9_f,
+                'age10_m' => $age10_m,
+                'age10_f' => $age10_f,
+                'age11_m' => $age11_m,
+                'age11_f' => $age11_f,
+                'age12_m' => $age12_m,
+                'age12_f' => $age12_f,
+                'age13_m' => $age13_m,
+                'age13_f' => $age13_f,
+                'age14_m' => $age14_m,
+                'age14_f' => $age14_f,
+                'age15_m' => $age15_m,
+                'age15_f' => $age15_f,
+                'age16_m' => $age16_m,
+                'age16_f' => $age16_f,
+                'age17_m' => $age17_m,
+                'age17_f' => $age17_f,
+                'age18_m' => $age18_m,
+                'age18_f' => $age18_f,
+                'total_m' => $total_m,
+                'total_f' => $total_f,
+            ];
+        }
+
+        return view('efhsis.deathcert_report', [
+            'final_arr' => $final_arr,
+            'early_neonatal_deaths_finaltotal_m' => $early_neonatal_deaths_finaltotal_m,
+            'early_neonatal_deaths_finaltotal_f' => $early_neonatal_deaths_finaltotal_f,
+            'fetal_deaths_finaltotal_m' => $fetal_deaths_finaltotal_m,
+            'fetal_deaths_finaltotal_f' => $fetal_deaths_finaltotal_f,
+            'neonatal_deaths_finaltotal_m' => $neonatal_deaths_finaltotal_m,
+            'neonatal_deaths_finaltotal_f' => $neonatal_deaths_finaltotal_f,
+            'infant_deaths_finaltotal_m' => $infant_deaths_finaltotal_m,
+            'infant_deaths_finaltotal_f' => $infant_deaths_finaltotal_f,
+            'uf_deaths_finaltotal_m' => $uf_deaths_finaltotal_m,
+            'uf_deaths_finaltotal_f' => $uf_deaths_finaltotal_f,
+            'mat_deaths_finaltotal' => $mat_deaths_finaltotal,
+            'ormat_deaths_finaltotal' => $ormat_deaths_finaltotal,
+            'total_deaths_m' => $total_deaths_m,
+            'total_deaths_f' => $total_deaths_f,
+        ]);
     }
 }
