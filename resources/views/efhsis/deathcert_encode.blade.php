@@ -70,12 +70,12 @@
                                         <div class="row">
                                             <div class="col-4">
                                                 <div class="form-group">
-                                                    <input type="number" class="form-control" name="input_year" id="input_year" value="{{old('input_year')}}" min="2023" max="{{date('Y')}}" placeholder="YYYY" required>
+                                                    <input type="number" class="form-control" name="input_year" id="input_year" value="{{old('input_year')}}" min="2023" max="{{date('Y')}}" placeholder="YYYY" tabindex="-1" required>
                                                 </div>
                                             </div>
                                             <div class="col-4">
                                                 <div class="form-group">
-                                                    <input type="number" class="form-control" name="input_month" id="input_month" value="{{old('input_month')}}" min="1" max="12" placeholder="MM" required>
+                                                    <input type="number" class="form-control" name="input_month" id="input_month" value="{{old('input_month')}}" min="1" max="12" placeholder="MM" tabindex="-1" required>
                                                 </div>
                                             </div>
                                             <div class="col-4">
@@ -308,13 +308,25 @@
                     
                 </div>
                 <div class="card-footer d-none" id="cardFooter">
-                    <button type="submit" class="btn btn-success btn-block">Submit</button>
+                    <button type="submit" class="btn btn-success btn-block" id="submitbtn">Submit (CTRL + S)</button>
                 </div>
             </div>
         </form>
     </div>
 
     <script>
+        $(document).bind('keydown', function(e) {
+            if(e.ctrlKey && (e.which == 83)) {
+                e.preventDefault();
+                $('#submitbtn').trigger('click');
+                $('#submitbtn').prop('disabled', true);
+                setTimeout(function() {
+                    $('#submitbtn').prop('disabled', false);
+                }, 2000);
+                return false;
+            }
+        });
+
         //Select2 Init for Address Bar
         $('#pod_address_region_code, #pod_address_province_code, #pod_address_muncity_code, #pod_address_brgy_text').select2({
             theme: 'bootstrap',
