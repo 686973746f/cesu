@@ -2626,7 +2626,7 @@ class FhsisController extends Controller
                 ->where('fname', $fname)
                 ->whereDate('fetald_dateofdelivery', $fetald_dateofdelivery);
                 
-                if(!is_null($mname)) {
+                if(!is_null($mname) && $mname != 'N/A') {
                     $exist_check = $exist_check->where('mname', $mname)->first();
                 }
                 else {
@@ -2689,7 +2689,7 @@ class FhsisController extends Controller
             ->where('fname', $fname)
             ->whereDate('bdate', $bdate);
 
-            if(!is_null($mname)) {
+            if(!is_null($mname) && $mname != 'N/A') {
                 $exist_check = $exist_check->where('mname', $mname)->first();
             }
             else {
@@ -2707,6 +2707,10 @@ class FhsisController extends Controller
             else {
                 $maternal_condition = 'N/A';
             }
+        }
+
+        if($mname == 'N/A') {
+            $mname = NULL;
         }
 
         if(!$exist_check) {
