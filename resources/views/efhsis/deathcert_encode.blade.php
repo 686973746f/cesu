@@ -92,6 +92,11 @@
                                         -->
                                     </div>
                                     <div class="col-4">
+                                        <div class="form-group">
+                                            <label for="bdate"><span class="text-danger font-weight-bold">*</span><span id="BirthdateSpan"></span></label>
+                                            <input type="date" class="form-control" id="bdate" name="bdate" value="{{request()->input('bdate')}}" min="1900-01-01" max="{{date('Y-m-d')}}" required>
+                                        </div>
+                                        <!--
                                         <label for="bdate"><span class="text-danger font-weight-bold">*</span><span id="BirthdateSpan"></span></label>
                                         <div class="row">
                                             <div class="col-4">
@@ -109,11 +114,6 @@
                                                     <input type="number" class="form-control" name="input_year2" id="input_year2" value="{{old('input_year2', request()->input('year'))}}" max="{{date('Y')}}" placeholder="YYYY" required>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <!--
-                                        <div class="form-group">
-                                            <label for="bdate"><span class="text-danger font-weight-bold">*</span><span id="BirthdateSpan"></span></label>
-                                            <input type="date" class="form-control" id="bdate" name="bdate" value="{{request()->input('bdate')}}" min="1900-01-01" max="{{date('Y-m-d')}}" required>
                                         </div>
                                         -->
                                     </div>
@@ -677,6 +677,7 @@
                 $('#input_month').val('');
                 $('#input_day').val('');
 
+                /*
                 $('#input_year2').prop('required', true);
                 $('#input_month2').prop('required', true);
                 $('#input_day2').prop('required', true);
@@ -689,6 +690,7 @@
                 $('#input_year2').val(default_year);
                 $('#input_month2').val(default_month);
                 $('#input_day2').val('');
+                */
                 //$('#date_died').prop('required', false);
                 //$('#date_died').prop('disabled', true);
 
@@ -747,6 +749,7 @@
                 $('#input_month').val(default_month);
                 $('#input_day').val('');
 
+                /*
                 $('#input_year2').prop('required', true);
                 $('#input_month2').prop('required', true);
                 $('#input_day2').prop('required', true);
@@ -759,6 +762,7 @@
                 $('#input_year2').val('');
                 $('#input_month2').val('');
                 $('#input_day2').val('');
+                */
 
                 //$('#date_died').prop('required', true);
                 //$('#date_died').prop('disabled', false);
@@ -794,7 +798,8 @@
 
         function checkBdate() {
             if($('#input_day2').val() != '') {
-                var birthdate = $('#input_year2').val() + '-' + $('#input_month2').val() + '-' + $('#input_day2').val();
+                //var birthdate = $('#input_year2').val() + '-' + $('#input_month2').val() + '-' + $('#input_day2').val();
+                var birthdate = $('#bdate').val();
 
                 var today = new Date();
                 var birthDate = new Date(birthdate);
@@ -830,6 +835,12 @@
             }
         }
 
+        $('#bdate').change(function (e) { 
+            e.preventDefault();
+            checkBdate();
+        });
+
+        /*
         $('#input_day2').change(function (e) { 
             e.preventDefault();
             checkBdate();
@@ -844,6 +855,7 @@
             e.preventDefault();
             checkBdate();
         });
+        */
 
         $('#immediate_cause').select2({
             theme: "bootstrap",

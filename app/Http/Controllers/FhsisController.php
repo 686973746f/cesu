@@ -2615,7 +2615,8 @@ class FhsisController extends Controller
             $fname = (!is_null($r->fname)) ? mb_strtoupper($r->fname) : NULL;
             $mname = (!is_null($r->mname)) ? mb_strtoupper($r->mname) : NULL;
             $bdate = NULL;
-            $fetald_dateofdelivery = Carbon::create($r->input_year2, $r->input_month2, $r->input_day2, 0, 0, 0)->format('Y-m-d');
+            //$fetald_dateofdelivery = Carbon::create($r->input_year2, $r->input_month2, $r->input_day2, 0, 0, 0)->format('Y-m-d');
+            $fetald_dateofdelivery = Carbon::parse($r->bdate)->format('Y-m-d');
             $date_died = NULL;
             $age_death_years = NULL;
             $age_death_months = NULL;
@@ -2669,7 +2670,8 @@ class FhsisController extends Controller
             $fname = mb_strtoupper($r->fname);
             $mname = (!is_null($r->mname)) ? mb_strtoupper($r->mname) : NULL;
             //$suffix = (!is_null($r->suffix)) ? mb_strtoupper($r->suffix) : NULL;
-            $bdate = Carbon::create($r->input_year2, $r->input_month2, $r->input_day2, 0, 0, 0)->format('Y-m-d');
+            //$bdate = Carbon::create($r->input_year2, $r->input_month2, $r->input_day2, 0, 0, 0)->format('Y-m-d');
+            $bdate = Carbon::parse($r->bdate)->format('Y-m-d');
             $fetald_dateofdelivery = NULL;
             $date_died = Carbon::create($r->input_year, $r->input_month, $r->input_day, 0, 0, 0)->format('Y-m-d');
 
