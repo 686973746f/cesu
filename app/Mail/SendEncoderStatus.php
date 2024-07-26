@@ -206,7 +206,7 @@ class SendEncoderStatus extends Mailable
             }
             */
 
-            $death_count = DeathCertificate::whereDate('created_at', $date)
+            $death_count = DeathCertificate::whereDate('created_at', date('Y-m-d'))
             ->where('created_by', $item->id)
             ->count();
 
