@@ -42,6 +42,7 @@
                                         <div class="form-group">
                                             <label for="mname"><span class="text-danger font-weight-bold" id="mnameAst"></span>Middle Name</label>
                                             <input type="text" class="form-control" id="mname" name="mname" value="{{old('mname')}}" minlength="2" maxlength="50" placeholder="ex: SANCHEZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
+                                            <i><small>(Type <span class="text-danger">N/A</span> if Not Applicable)</small></i>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
