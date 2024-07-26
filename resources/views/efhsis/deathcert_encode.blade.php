@@ -33,21 +33,23 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="lname"><span class="text-danger font-weight-bold" id="lnameAst"></span>Last Name</label>
-                                            <input type="text" class="form-control" id="lname" name="lname" value="{{old('lname')}}" minlength="2" maxlength="50" placeholder="ex: DELA CRUZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
                                             <label for="fname"><span class="text-danger font-weight-bold" id="fnameAst"></span>First Name</label>
                                             <input type="text" class="form-control" id="fname" name="fname" value="{{old('fname')}}" minlength="2" maxlength="50" placeholder="ex: JUAN" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
                                         </div>
+                                        
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="mname">Middle Name</label>
+                                            <label for="mname"><span class="text-danger font-weight-bold" id="mnameAst"></span>Middle Name</label>
                                             <input type="text" class="form-control" id="mname" name="mname" value="{{old('mname')}}" minlength="2" maxlength="50" placeholder="ex: SANCHEZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
                                         </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="lname"><span class="text-danger font-weight-bold" id="lnameAst"></span>Last Name</label>
+                                            <input type="text" class="form-control" id="lname" name="lname" value="{{old('lname')}}" minlength="2" maxlength="50" placeholder="ex: DELA CRUZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
+                                        </div>
+                                        
                                     </div>
                                 </div>
                                 <div class="row">
@@ -93,17 +95,17 @@
                                         <div class="row">
                                             <div class="col-4">
                                                 <div class="form-group">
-                                                    <input type="number" class="form-control" name="input_year2" id="input_year2" value="{{old('input_year2', request()->input('year'))}}" max="{{date('Y')}}" placeholder="YYYY" required>
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="form-group">
                                                     <input type="number" class="form-control" name="input_month2" id="input_month2" value="{{old('input_month2', request()->input('month'))}}" min="1" max="12" placeholder="MM" required>
                                                 </div>
                                             </div>
                                             <div class="col-4">
                                                 <div class="form-group">
                                                     <input type="number" class="form-control" name="input_day2" id="input_day2" min="1" value="{{old('input_day2')}}" max="31" placeholder="DD" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="form-group">
+                                                    <input type="number" class="form-control" name="input_year2" id="input_year2" value="{{old('input_year2', request()->input('year'))}}" max="{{date('Y')}}" placeholder="YYYY" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -654,10 +656,12 @@
 
                 $('#lnameAst').text('');
                 $('#fnameAst').text('');
+                $('#mnameAst').text('');
                 $('#dateDiedAst').text('');
 
                 $('#lname').prop('required', false);
                 $('#fname').prop('required', false);
+                $('#mname').prop('required', false);
                 
                 $('#input_year').prop('required', false);
                 $('#input_month').prop('required', false);
@@ -722,10 +726,12 @@
 
                 $('#lnameAst').text('*');
                 $('#fnameAst').text('*');
+                $('#mnameAst').text('*');
                 $('#dateDiedAst').text('*');
                 
                 $('#lname').prop('required', true);
                 $('#fname').prop('required', true);
+                $('#mname').prop('required', true);
 
                 $('#input_year').prop('required', true);
                 $('#input_month').prop('required', true);
