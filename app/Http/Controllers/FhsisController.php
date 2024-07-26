@@ -2662,7 +2662,7 @@ class FhsisController extends Controller
                 ->with('msgtype', 'warning');
             }
 
-            $maternal_condition = NULL;
+            $maternal_condition = 'N/A';
         }
         else {
             $lname = mb_strtoupper($r->lname);
@@ -2701,11 +2701,11 @@ class FhsisController extends Controller
                     $maternal_condition = $r->maternal_condition;
                 }
                 else {
-                    $maternal_condition = NULL;
+                    $maternal_condition = 'N/A';
                 }
             }
             else {
-                $maternal_condition = NULL;
+                $maternal_condition = 'N/A';
             }
         }
 
