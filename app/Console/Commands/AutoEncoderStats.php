@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use Carbon\Carbon;
 use App\Mail\SendEncoderStatus;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
@@ -39,6 +40,10 @@ class AutoEncoderStats extends Command
      */
     public function handle()
     {
-        Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new SendEncoderStatus());
+        $today = Carbon::now();
+
+        if($today->dayOfWeek != Carbon::SATURDAY && $today->dayOfWeek != Carbon::SUNDAY) {
+            Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new SendEncoderStatus());
+        }
     }
 }
