@@ -68,12 +68,12 @@ class PharmacyController extends Controller
 
         foreach($expired_list as $es) {
             if($es->pharmacysub->pharmacysupplymaster->quantity_type == 'BOX') {
-                if($es->master_box_stock > 0) {
+                if($es->current_box_stock > 0) {
                     $es_collect->push($es);
                 }
             }
             else {
-                if($es->master_piece_stock > 0) {
+                if($es->current_piece_stock > 0) {
                     $es_collect->push($es);
                 }
             }
