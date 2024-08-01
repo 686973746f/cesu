@@ -521,7 +521,7 @@ class TaskController extends Controller
             ->sum('encodedcount');
             */
 
-            $death_count = DeathCertificate::whereBetween('finished_date', [$createDate->startOfMonth()->format('Y-m-d'), $createDate->endOfMonth()->format('Y-m-d')])
+            $death_count = DeathCertificate::whereBetween('created_at', [$createDate->startOfMonth()->format('Y-m-d'), $createDate->endOfMonth()->format('Y-m-d')])
             ->where('created_by', $getUser->id)
             ->count();
 
