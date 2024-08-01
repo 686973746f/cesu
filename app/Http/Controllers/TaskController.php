@@ -9,6 +9,7 @@ use App\Models\WorkTask;
 use App\Models\LiveBirth;
 use Illuminate\Http\Request;
 use App\Models\VaxcertConcern;
+use App\Models\DeathCertificate;
 use App\Models\SyndromicRecords;
 use App\Models\AbtcBakunaRecords;
 use Illuminate\Support\Facades\Auth;
@@ -513,10 +514,16 @@ class TaskController extends Controller
                 $edcs_count += $model_count;
             }
 
+            /*
             $death_count = WorkTask::where('name', 'DAILY ENCODE OF DEATH CERTIFICATES TO FHSIS')
             ->where('finished_by', $getUser->id)
             ->whereBetween('finished_date', [$createDate->startOfMonth()->format('Y-m-d'), $createDate->endOfMonth()->format('Y-m-d')])
             ->sum('encodedcount');
+            */
+
+            $death_count = DeathCertificate::whereBetween('finished_date', [$createDate->startOfMonth()->format('Y-m-d'), $createDate->endOfMonth()->format('Y-m-d')])
+            ->where('created_by', $getUser->id)
+            ->count();
 
             $opdtoics_count = SyndromicRecords::where('ics_finishedby', $getUser->id)
             ->whereBetween('ics_finished_date', [$createDate->startOfMonth()->format('Y-m-d'), $createDate->endOfMonth()->format('Y-m-d')])
