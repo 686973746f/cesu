@@ -1082,21 +1082,21 @@
             <input type="date" class="form-control" value="{{old('medcert_generated_date', ($d->medcert_enabled == 0) ? date('Y-m-d') : $d->medcert_generated_date)}}" name="medcert_generated_date" id="medcert_generated_date" max="{{date('Y-m-d')}}" required>
           </div>
           <div class="form-group">
-            <label for="medcert_validity_date"><span class="text-danger font-weight-bold">*</span>{{(!(auth()->user()->isSyndromicHospitalLevelAccess())) ? 'Effedtivity Date' : 'Date of Issuance'}}</label>
+            <label for="medcert_validity_date"><span class="text-danger font-weight-bold">*</span>{{(!(auth()->user()->isSyndromicHospitalLevelAccess())) ? 'Effectivity Date' : 'Date of Issuance'}}</label>
             <input type="date" class="form-control" value="{{old('medcert_validity_date', ($d->medcert_enabled == 0) ? date('Y-m-d') : $d->medcert_validity_date)}}" name="medcert_validity_date" id="medcert_validity_date" min="{{date('Y-m-d')}}" max="{{'12-31-'.date('Y')}}" required>
           </div>
           @if(!(auth()->user()->isSyndromicHospitalLevelAccess()))
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label for="medcert_start_date">Start Date (From)</label>
-                <input type="date" class="form-control" value="{{old('medcert_start_date', $d->medcert_start_date)}}" name="medcert_start_date" id="medcert_start_date" max="{{date('Y-m-d')}}">
+                <label for="medcert_start_date"><b class="text-danger">*</b>Start Date (From)</label>
+                <input type="date" class="form-control" value="{{old('medcert_start_date', $d->medcert_start_date)}}" name="medcert_start_date" id="medcert_start_date" max="{{date('Y-m-d')}}" required>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label for="medcert_end_date">End Date (To)</label>
-                <input type="date" class="form-control" value="{{old('medcert_end_date', $d->medcert_end_date)}}" name="medcert_end_date" id="medcert_end_date" max="{{date('Y-m-d')}}">
+                <label for="medcert_end_date"><b class="text-danger">*</b>End Date (To)</label>
+                <input type="date" class="form-control" value="{{old('medcert_end_date', $d->medcert_end_date)}}" name="medcert_end_date" id="medcert_end_date" max="{{date('Y-m-d')}}" required>
               </div>
             </div>
           </div>
