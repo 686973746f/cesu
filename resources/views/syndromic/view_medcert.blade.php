@@ -2,7 +2,7 @@
 
 @section('content')
 <style>
-    @if($d->facility_id == 10886)
+    @if($d->facility_id == 10886 || $d->facility_id == 39708 || $d->facility_id == 11730)
     #divToPrint {
         background-image: url("{{asset('assets/images/gentri_icon_large_watermark.png')}}");
         background-repeat: no-repeat;

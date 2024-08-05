@@ -19,7 +19,7 @@
                             <td colspan="2" class="text-center"><b class="text-success">QR CODE VALID</b></td>
                         </tr>
                         <tr class="">
-                            <td>OPD No.</td>
+                            <td>Control No.</td>
                             <td>{{$c->opdno}}</td>
                         </tr>
                         <tr class="">
