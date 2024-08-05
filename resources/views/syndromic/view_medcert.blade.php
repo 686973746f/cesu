@@ -48,7 +48,8 @@
                 </div>
             </div>
             <div class="card-body" id="divToPrint">
-                @if($d->facility_id == 10886)
+                @if($d->facility_id == 10886 || $d->facility_id == 39708 || $d->facility_id == 11730)
+                <h5>Control No.: {{$d->opdno}}</h5>
                 <div class="text-center">
                     <img src="{{asset('assets/images/CHO_LETTERHEAD.png')}}" class="img-fluid" style="margin-top: 0px;">
                 </div>
@@ -71,17 +72,19 @@
                 <h4 class="text-warning">NO LETTERHEAD DATA FOUND FOR FACILITY. PLEASE CONTACT CESU.</h4>
                 @endif
 
-                @if($d->facility_id == 10886)
+                @if($d->facility_id == 10886 || $d->facility_id == 39708 || $d->facility_id == 11730)
                 <p style="font-size: 25px;" class="text-center mb-3"><b>MEDICAL CERTIFICATE</b></p>
                 <div class="text-right mb-3">
                     <h5>Date: <u>{{date('M. d,Y', strtotime($d->medcert_generated_date))}}</u></h5>
                 </div>
 
                 <p style="font-size: 20px;">To whom it may concern:</p>
-                <p style="font-size: 20px;text-align:justify">This is to certify that I have examined / treated <b><u>{{$d->syndromic_patient->getName()}}</u></b>, <b><u>{{$d->syndromic_patient->getAge()}}</u></b> years old <u><b>{{$d->syndromic_patient->gender}} / {{$d->syndromic_patient->cs}}</b></u>, a resident of <u><b>{{$d->syndromic_patient->getFullAddress()}}</b></u> from {{$d->getMedCertStartDate()}} to {{$d->getMedCertEndDate()}}, inclusive.</p>
+                <p style="font-size: 20px;text-align:justify">This is to certify that {{ucwords($d->syndromic_patient->getPrefix())}} <b><u>{{$d->syndromic_patient->getName()}}</u></b>, <b><u>{{$d->syndromic_patient->getAge()}}</u></b> years old <u><b>{{$d->syndromic_patient->gender}} / {{$d->syndromic_patient->cs}}</b></u>, a resident of <u><b>{{$d->syndromic_patient->getFullAddress()}}</b></u> was seen, examined or treated from <u>{{$d->getMedCertStartDate()}}</u> to <u>{{$d->getMedCertEndDate()}}</u>.</p>
                 <p style="font-size: 20px;">BP: <u class="mr-3">{{(!is_null($d->bloodpressure)) ? $d->bloodpressure : '_____'}}</u> PR: <u class="mr-3">{{(!is_null($d->pulserate)) ? $d->pulserate : '_____'}}</u> RR: <u class="mr-3">{{(!is_null($d->respiratoryrate)) ? $d->respiratoryrate : '_____'}}</u> HT: <u class="mr-3">{{(!is_null($d->height)) ? $d->height.'cm' : '_____'}}</u> WT: <u class="mr-3">{{(!is_null($d->weight)) ? $d->weight.'kg' : '_____'}}</u> TEMP: <u>{{(!is_null($d->temperature)) ? $d->temperature.'°C' : '_____'}}</u></p>
-                <p style="font-size: 20px;margin-bottom: 300px;"><b>FINDINGS / IMPRESSION:</b></p>
-                <p style="font-size: 20px;margin-bottom: 300px;"><b>REMARKS:</b></p>
+                <p style="font-size: 20px;"><b>FINDINGS / IMPRESSION:</b></p>
+                <p style="font-size: 20px;margin-bottom: 200px;margin-left: 50px;">{!! nl2br($d->dcnote_assessment) !!}</p>
+                <p style="font-size: 20px;"><b>REMARKS:</b></p>
+                <p style="font-size: 20px;margin-bottom: 200px;margin-left: 50px;">{!! nl2br($d->remarks) !!}</p>
                 <table class="table table-borderless">
                     <tbody>
                         <tr>
@@ -181,15 +184,30 @@
                 @else
                 
                 @endif
-
-                @if($d->facility_id == 10886)
+                @if($d->facility_id == 10886 || $d->facility_id == 39708 || $d->facility_id == 11730)
                 <h4 class="text-center mt-3"><b><span class="text-primary">Let's Join Forces</span> <span class="text-success">For a Healthier</span> <span class="text-success">Gen</span><span class="text-primary">Tri</span></b></h4>
+                @endif
+                @if($d->facility_id == 10886)
                 <div class="text-center">
                     <hr>
                     <h6><b>Office of the City Health Officer</b></h6>
                     <h6>Hospital Rd., Brgy. Pinagtipunan, General Trias City, 4107 Cavite</h6>
-                    <h6>Website: <a href="">https://generaltrias.gov.ph/cho</a></h6>
+                    <h6>Website: <a href="">https://generaltrias.gov.ph/cho</a> - Email: <a href="">chogentri@gmail.com</a></h6>
                     <h6>Contact No: (046) 509-5289</h6>
+                </div>
+                @elseif($d->facility_id == 39708)
+                <div class="text-center">
+                    <hr>
+                    <h6><b>City of General Trias Super Health Center - Brgy. San Francisco</b></h6>
+                    <h6>Arnaldo Highway, Sitio Elang, Brgy. San Francisco, General Trias, Cavite</h6>
+                    <h6>Website: <a href="">https://generaltrias.gov.ph/cho</a> - Email: <a href="">chogentri@gmail.com</a></h6>
+                </div>
+                @elseif($d->facility_id == 11730)
+                <div class="text-center">
+                    <hr>
+                    <h6><b>General Trias City Health Center - Brgy. Manggahan</b></h6>
+                    <h6>Opal St., Sunshine Village, Brgy. Manggahan, General Trias, Cavite</h6>
+                    <h6>Website: <a href="">https://generaltrias.gov.ph/cho</a> - Email: <a href="">chogentri@gmail.com</a></h6>
                 </div>
                 @else
 

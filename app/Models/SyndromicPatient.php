@@ -360,4 +360,20 @@ class SyndromicPatient extends Model
             return 'MEMBER';
         }
     }
+
+    public function getPrefix() {
+        //Mr or Ms.
+
+        if($this->gender == 'MALE') {
+            return 'Mr.';
+        }
+        else {
+            if($this->cs == 'MARRIED') {
+                return 'Mrs.';
+            }
+            else {
+                return 'Ms.';
+            }
+        }
+    }
 }

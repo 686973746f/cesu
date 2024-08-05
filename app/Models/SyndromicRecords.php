@@ -741,7 +741,7 @@ class SyndromicRecords extends Model
 
     public function getMedCertStartDate() {
         if(!is_null($this->medcert_start_date)) {
-            return date('m/d/Y', strtotime($this->medcert_start_date));
+            return date('M. d, Y', strtotime($this->medcert_start_date));
         }
         else {
             return '____________________';
@@ -750,7 +750,7 @@ class SyndromicRecords extends Model
 
     public function getMedCertEndDate() {
         if(!is_null($this->medcert_end_date)) {
-            return date('m/d/Y', strtotime($this->medcert_end_date));
+            return date('M. d, Y', strtotime($this->medcert_end_date));
         }
         else {
             return '____________________';
