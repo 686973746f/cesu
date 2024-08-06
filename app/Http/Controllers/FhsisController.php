@@ -3556,7 +3556,7 @@ class FhsisController extends Controller
             return $exp = (new FastExcel($sheets))
             ->headerStyle($header_style)
             ->rowsStyle($rows_style)
-            ->download('TEST.xlsx');
+            ->download('FHSIS_IMPORT_MORTALITY_'.$start->format('M_Y').'.xlsx');
         }
         else {
             $farr = FhsisController::generateMortBhs($start, $end, $brgy, $brgy, $submit);
