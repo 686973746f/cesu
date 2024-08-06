@@ -1027,10 +1027,17 @@
                     </div>
                   </div>
                 </div>
+                @if(!auth()->user()->isSyndromicHospitalLevelAccess())
+                <div class="form-group mt-3">
+                  <label for="remarks">Remarks</label>
+                  <textarea class="form-control" name="remarks" id="remarks" rows="3" style="text-transform: uppercase;">{{old('remarks')}}</textarea>
+                </div>
+                @else
                 <div class="form-group">
                   <label for="remarks">Remarks</label>
                   <input type="text" class="form-control" name="remarks" id="remarks" value="{{old('remarks')}}" style="text-transform: uppercase;">
                 </div>
+                @endif
               @endif
             </div>
             <div class="card-footer">

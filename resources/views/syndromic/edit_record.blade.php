@@ -1031,10 +1031,17 @@
                     </div>
                   </div>
                 </div>
+                @if(!$d->isHospitalRecord())
+                <div class="form-group mt-3">
+                  <label for="remarks">Remarks</label>
+                  <textarea class="form-control" name="remarks" id="remarks" rows="3" style="text-transform: uppercase;">{{old('remarks', $d->remarks)}}</textarea>
+                </div>
+                @else
                 <div class="form-group">
                   <label for="remarks">Remarks</label>
                   <input type="text" class="form-control" name="remarks" id="remarks" value="{{old('remarks', $d->remarks)}}" style="text-transform: uppercase;">
                 </div>
+                @endif
             </div>
             <div class="card-footer">
               @if(!$d->isHospitalRecord())
