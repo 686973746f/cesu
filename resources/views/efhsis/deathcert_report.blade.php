@@ -18,43 +18,43 @@
                     <tbody>
                         <tr>
                             <td>Early Neonatal Deaths</td>
-                            <td style="background-color: #8fa2bd;" class="text-center">{{$early_neonatal_deaths_finaltotal_m}}</td>
-                            <td style="background-color: #dea6a5" class="text-center">{{$early_neonatal_deaths_finaltotal_f}}</td>
+                            <td style="background-color: #8fa2bd;" class="text-center">{{$final_arr['total']['early_neonatal_deaths_finaltotal_m']}}</td>
+                            <td style="background-color: #dea6a5" class="text-center">{{$final_arr['total']['early_neonatal_deaths_finaltotal_f']}}</td>
                         </tr>
                         <tr>
                             <td>Fetal Deaths</td>
-                            <td style="background-color: #8fa2bd;" class="text-center">{{$fetal_deaths_finaltotal_m}}</td>
-                            <td style="background-color: #dea6a5" class="text-center">{{$fetal_deaths_finaltotal_f}}</td>
+                            <td style="background-color: #8fa2bd;" class="text-center">{{$final_arr['total']['fetal_deaths_finaltotal_m']}}</td>
+                            <td style="background-color: #dea6a5" class="text-center">{{$final_arr['total']['fetal_deaths_finaltotal_f']}}</td>
                         </tr>
                         <tr>
                             <td>Neonatal Deaths</td>
-                            <td style="background-color: #8fa2bd;" class="text-center">{{$neonatal_deaths_finaltotal_m}}</td>
-                            <td style="background-color: #dea6a5" class="text-center">{{$neonatal_deaths_finaltotal_f}}</td>
+                            <td style="background-color: #8fa2bd;" class="text-center">{{$final_arr['total']['neonatal_deaths_finaltotal_m']}}</td>
+                            <td style="background-color: #dea6a5" class="text-center">{{$final_arr['total']['neonatal_deaths_finaltotal_f']}}</td>
                         </tr>
                         <tr>
                             <td>Infant Deaths</td>
-                            <td style="background-color: #8fa2bd;" class="text-center">{{$infant_deaths_finaltotal_m}}</td>
-                            <td style="background-color: #dea6a5" class="text-center">{{$infant_deaths_finaltotal_f}}</td>
+                            <td style="background-color: #8fa2bd;" class="text-center">{{$final_arr['total']['infant_deaths_finaltotal_m']}}</td>
+                            <td style="background-color: #dea6a5" class="text-center">{{$final_arr['total']['infant_deaths_finaltotal_f']}}</td>
                         </tr>
                         <tr>
                             <td>Under-five Deaths</td>
-                            <td style="background-color: #8fa2bd;" class="text-center">{{$uf_deaths_finaltotal_m}}</td>
-                            <td style="background-color: #dea6a5" class="text-center">{{$uf_deaths_finaltotal_f}}</td>
+                            <td style="background-color: #8fa2bd;" class="text-center">{{$final_arr['total']['uf_deaths_finaltotal_m']}}</td>
+                            <td style="background-color: #dea6a5" class="text-center">{{$final_arr['total']['uf_deaths_finaltotal_f']}}</td>
                         </tr>
                         <tr>
                             <td>Maternal Deaths</td>
                             <td class="bg-secondary"></td>
-                            <td style="background-color: #dea6a5" class="text-center">{{$mat_deaths_finaltotal}}</td>
+                            <td style="background-color: #dea6a5" class="text-center">{{$final_arr['total']['mat_deaths_finaltotal']}}</td>
                         </tr>
                         <tr>
                             <td>Originating Maternal Deaths</td>
                             <td class="bg-secondary"></td>
-                            <td style="background-color: #dea6a5" class="text-center">{{$ormat_deaths_finaltotal}}</td>
+                            <td style="background-color: #dea6a5" class="text-center">{{$final_arr['total']['ormat_deaths_finaltotal']}}</td>
                         </tr>
                         <tr>
                             <td>Total Deaths</td>
-                            <td style="background-color: #8fa2bd;" class="text-center">{{$total_deaths_m}}</td>
-                            <td style="background-color: #dea6a5" class="text-center">{{$total_deaths_f}}</td>
+                            <td style="background-color: #8fa2bd;" class="text-center">{{$final_arr['total']['total_deaths_m']}}</td>
+                            <td style="background-color: #dea6a5" class="text-center">{{$final_arr['total']['total_deaths_f']}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -125,7 +125,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($final_arr as $d)
+                        @foreach($final_arr['diseases'] as $d)
                         <tr>
                             <td colspan="3">DISEASE</td>
                             <td colspan="16">{{$d['disease']}}</td>

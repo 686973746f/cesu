@@ -352,9 +352,10 @@
                           </select>
                         </div>
                         <div class="form-group">
-                          <label for="brgy">Barangay</label>
-                          <select class="form-control" name="brgy" id="brgy" required>
+                          <label for="brgy"><b class="text-danger">*</b>Barangay</label>
+                          <select class="form-control" name="brgy" id="mortBrgy" required>
                             <option value="" disabled selected>Choose...</option>
+                            <option value="ALL">ALL BARANGAYS IN GENERAL TRIAS</option>
                             @foreach ($brgylist as $b)
                                 <option value="{{$b->brgyName}}">{{$b->brgyName}}</option>
                             @endforeach
@@ -362,10 +363,29 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success btn-block">Generate</button>
+                        <button type="submit" class="btn btn-success btn-block" id="mortGenerateBtn" name="submit" value="generate">Generate</button>
+                        <button type="submit" class="btn btn-success btn-block" id="mortDownloadBtn" name="submit" value="download">Download Excel File</button>
                     </div>
                 </div>
             </div>
         </div>
     </form>
+
+    <script>
+        $('#mortBrgy').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == '') {
+                $('#mortGenerateBtn').addClass('d-none');
+                $('#mortDownloadBtn').addClass('d-none');
+            }
+            else if($(this).val() == 'ALL') {
+                $('#mortGenerateBtn').addClass('d-none');
+                $('#mortDownloadBtn').removeClass('d-none');
+            }
+            else {
+                $('#mortGenerateBtn').removeClass('d-none');
+                $('#mortDownloadBtn').addClass('d-none');
+            }
+        }).trigger('change');
+    </script>
 @endsection
