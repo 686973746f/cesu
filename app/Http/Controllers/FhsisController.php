@@ -3176,6 +3176,7 @@ class FhsisController extends Controller
                 ->count();
 
                 if($submit == 'download') {
+                    /*
                     //Under 1
                     $under1_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                     ->where('pod_address_brgy_text', $brgy)
@@ -3206,6 +3207,15 @@ class FhsisController extends Controller
                     ->where('immediate_cause', $l)
                     ->where('age_death_years', '>=', 65)
                     ->count();
+                    */
+
+                    //Under 1
+                    $under1_m = 0;
+                    $under1_f = 0;
+
+                    //65 Above
+                    $above65_m = 0;
+                    $above65_f = 0;
                 }
     
                 $total_m = $age1_m +
