@@ -1,10 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-@php
-
-dd(old('main_diagnosis'))
-@endphp
 <div class="container">
     @if(!is_null(auth()->user()->itr_medicalevent_id))
     <div class="alert alert-info" role="alert">
