@@ -21,13 +21,18 @@
                     @endif
                     <div class="alert alert-primary" role="alert">
                         <b class="text-danger">NOTE: </b>Encoding for Month: <b class="h4 font-weight-bold">{{date('F', strtotime(request()->input('year').'-'.request()->input('month').'-01'))}}</b> - Year: <b class="h4 font-weight-bold">{{request()->input('year')}}.</b> <span class="text-danger font-weight-bold"><-- PLEASE ALWAYS CHECK THIS BEFORE SUBMITTING</span>
+                        <hr>
+                        Kapag late report (Year {{(request()->input('year') - 1)}} pababa pinanganak, hindi na ie-encode)
                     </div>
-                    <div class="form-group">
-                        <label for="registryno"><b class="text-danger">*</b>Registry No.</label>
-                        <input type="text" class="form-control" name="registryno" id="registryno" value="{{old('registryno', request()->input('year').'-')}}" required>
-                    </div>
+                    
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="registryno"><b class="text-danger">*</b>Registry No.</label>
+                                <input type="text" class="form-control" name="registryno" id="registryno" value="{{old('registryno', request()->input('year').'-')}}" required>
+                            </div>
+                        </div>
+                        <div class="col-3">
                             <div class="form-group">
                                 <label for="sex"><b class="text-danger">*</b>Sex of Newborn</label>
                                 <select class="form-control" name="sex" id="sex" required>
@@ -41,20 +46,20 @@
                             <div class="row">
                                 <div class="col-4">
                                     <div class="form-group">
-                                        <label for="input_year"><b class="text-danger">*</b>Birth Year</label>
-                                        <input type="number" class="form-control" name="input_year" id="input_year" value="{{old('input_year', request()->input('year'))}}" min="1990" max="{{date('Y')}}" required>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="form-group">
-                                        <label for="input_month"><b class="text-danger">*</b>Birth Month</label>
-                                        <input type="number" class="form-control" name="input_month" id="input_month" value="{{old('input_month', request()->input('month'))}}" min="1" max="12" required>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="form-group">
-                                        <label for="input_day"><b class="text-danger">*</b>Birth Day</label>
+                                        <label for="input_day"><b class="text-danger">*</b>Birth Day (DD)</label>
                                         <input type="number" class="form-control" name="input_day" id="input_day" min="1" value="{{old('input_day')}}" max="31" required>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label for="input_month"><b class="text-danger">*</b>Birth Month (MM)</label>
+                                        <input type="number" class="form-control" name="input_month" id="input_month" value="{{old('input_month')}}" min="1" max="12" required>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label for="input_year"><b class="text-danger">*</b>Birth Year (YYYY)</label>
+                                        <input type="number" class="form-control" name="input_year" id="input_year" value="{{old('input_year', request()->input('year'))}}" min="{{request()->input('year')}}" max="{{date('Y')}}" tabindex="-1" readonly required>
                                     </div>
                                 </div>
                             </div>
@@ -86,14 +91,14 @@
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label for=""><b class="text-danger">*</b>Region</label>
-                                        <select class="form-control" name="address_region_code" id="address_region_code" required>
+                                        <select class="form-control" name="address_region_code" id="address_region_code" tabindex="-1" required>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label for=""><b class="text-danger">*</b>Province</label>
-                                        <select class="form-control" name="address_province_code" id="address_province_code" required>
+                                        <select class="form-control" name="address_province_code" id="address_province_code" tabindex="-1" required>
                                         </select>
                                     </div>
                                 </div>
@@ -117,7 +122,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                      <label for="">Name of Hospital/Lying In Clinic</label>
+                      <label for="hospital_lyingin">Name of Hospital/Lying In Clinic</label>
                       <input type="text" class="form-control" name="hospital_lyingin" id="hospital_lyingin" value="{{old('hospital_lyingin')}}" style="text-transform: uppercase;">
                     </div>
                     <div class="row">

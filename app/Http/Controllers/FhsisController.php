@@ -1574,7 +1574,7 @@ class FhsisController extends Controller
         ]);
 
         return redirect()->back()
-        ->with('msg', 'Livebirth ID: '.$c->id.' was successfully added.')
+        ->with('msg', 'Birth Certificate Registry No.: '.$r->registryno.' was successfully added.')
         ->with('msgtype', 'success');
     }
 
