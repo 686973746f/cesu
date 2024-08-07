@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+@php
+
+dd(old('main_diagnosis'))
+@endphp
 <div class="container">
     @if(!is_null(auth()->user()->itr_medicalevent_id))
     <div class="alert alert-info" role="alert">
@@ -847,6 +851,9 @@
                     <div class="form-group d-none" id="main_diagdiv">
                       <label for="main_diagnosis"><b class="text-danger">*</b>A. Main Diagnosis (ICD10)</label>
                         <select class="form-control" name="main_diagnosis[]" id="main_diagnosis" multiple>
+                          @if(!is_null(old('main_diagnosis')))
+
+                          @endif
                       </select>
                     </div>
                     <div class="form-group">
@@ -1170,9 +1177,8 @@
               return {
                   results:  $.map(data, function (item) {
                       return {
-                          text: item.text,
-                          id: item.id,
-                          value: item.id,
+                        text: item.desc,
+                        id: item.desc,
                       }
                   })
               };

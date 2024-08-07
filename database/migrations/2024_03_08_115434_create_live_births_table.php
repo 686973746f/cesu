@@ -15,6 +15,7 @@ class CreateLiveBirthsTable extends Migration
     {
         Schema::create('live_births', function (Blueprint $table) {
             $table->id();
+            $table->string('registryno')->nullable();
             $table->string('year');
             $table->string('month');
 

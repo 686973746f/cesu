@@ -10,6 +10,7 @@ class LiveBirth extends Model
     use HasFactory;
 
     protected $fillable = [
+        'registryno',
         'year',
         'month',
         'sex',

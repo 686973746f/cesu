@@ -22,6 +22,10 @@
                     <div class="alert alert-primary" role="alert">
                         <b class="text-danger">NOTE: </b>Encoding for Month: <b class="h4 font-weight-bold">{{date('F', strtotime(request()->input('year').'-'.request()->input('month').'-01'))}}</b> - Year: <b class="h4 font-weight-bold">{{request()->input('year')}}.</b> <span class="text-danger font-weight-bold"><-- PLEASE ALWAYS CHECK THIS BEFORE SUBMITTING</span>
                     </div>
+                    <div class="form-group">
+                        <label for="registryno"><b class="text-danger">*</b>Registry No.</label>
+                        <input type="text" class="form-control" name="registryno" id="registryno" value="{{old('registryno', request()->input('year').'-')}}" required>
+                    </div>
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">

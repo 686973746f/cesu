@@ -1527,6 +1527,15 @@ class FhsisController extends Controller
         $dob_check = Carbon::create($r->input_year, $r->input_month, 1, 0, 0, 0);
         $dob_final = Carbon::create($r->input_year, $r->input_month, $r->input_day, 0, 0, 0);
 
+        $checkreg = LiveBirth::where('registryno', $r->registryno)->first();
+
+        if($checkreg) {
+            return redirect()->back()
+            ->withInput()
+            ->with('msg', 'Livebirth data already encoded. Double check and try again.')
+            ->with('msgtype', 'warning');
+        }
+
         if ($r->input_day > $dob_check->format('t')) {
             return redirect()->back()
             ->withInput()
@@ -1541,6 +1550,7 @@ class FhsisController extends Controller
         }
 
         $c = $r->user()->livebirth()->create([
+            'registryno' => $r->registryno,
             'year' => $r->year,
             'month' => $r->month,
             'sex' => $r->sex,

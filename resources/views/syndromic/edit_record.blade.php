@@ -857,7 +857,9 @@
                       <label for="main_diagnosis"><b class="text-danger">*</b>Main Diagnosis (ICD10)</label>
                       <select class="form-control" name="main_diagnosis[]" id="main_diagnosis" multiple>
                         @if(!is_null($d->main_diagnosis))
-                        <option value="{{$d->main_diagnosis}}" selected>{{$d->getIcd10CodeString($d->main_diagnosis)}}</option>
+                        @foreach(explode("|", $d->main_diagnosis) as $diag_data)
+                        <option value="{{$diag_data}}" selected>{{$diag_data}}</option>
+                        @endforeach
                         @endif
                       </select>
                     </div>
@@ -1212,9 +1214,8 @@
               return {
                   results:  $.map(data, function (item) {
                       return {
-                          text: item.text,
-                          id: item.id,
-                          value: item.id,
+                        text: item.desc,
+                        id: item.desc,
                       }
                   })
               };

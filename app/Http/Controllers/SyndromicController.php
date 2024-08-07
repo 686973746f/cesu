@@ -683,6 +683,9 @@ class SyndromicController extends Controller
     }
 
     public function storeRecord($patient_id, Request $r) {
+        return redirect()->back()
+        ->withInput();
+        
         $p = SyndromicPatient::findOrFail($patient_id);
 
         $birthdate = Carbon::parse($p->bdate);
@@ -878,7 +881,7 @@ class SyndromicController extends Controller
                     //'bigmessage' => $r->bigmessage,
                     'diagnosis_type' => $r->diagnosis_type,
                     'dcnote_assessment' => ($r->filled('dcnote_assessment')) ? mb_strtoupper($r->dcnote_assessment) : NULL,
-                    'main_diagnosis' => ($r->filled('main_diagnosis')) ? implode(',', $r->main_diagnosis) : NULL,
+                    'main_diagnosis' => ($r->filled('main_diagnosis')) ? implode('|', $r->main_diagnosis) : NULL,
                     'dcnote_plan' => ($r->filled('dcnote_plan')) ? mb_strtoupper($r->dcnote_plan) : NULL,
                     'dcnote_diagprocedure' => ($r->filled('dcnote_diagprocedure')) ? mb_strtoupper($r->dcnote_diagprocedure) : NULL,
                     //'other_diagnosis' => ($r->filled('other_diagnosis')) ? implode(',', $r->other_diagnosis) : NULL,
@@ -1608,7 +1611,7 @@ class SyndromicController extends Controller
                 //'bigmessage' => $r->bigmessage,
                 'diagnosis_type' => $r->diagnosis_type,
                 'dcnote_assessment' => ($r->filled('dcnote_assessment')) ? mb_strtoupper($r->dcnote_assessment) : NULL,
-                'main_diagnosis' => ($r->filled('main_diagnosis')) ? implode(',', $r->main_diagnosis) : NULL,
+                'main_diagnosis' => ($r->filled('main_diagnosis')) ? implode('|', $r->main_diagnosis) : NULL,
                 'dcnote_plan' => ($r->filled('dcnote_plan')) ? mb_strtoupper($r->dcnote_plan) : NULL,
                 'dcnote_diagprocedure' => ($r->filled('dcnote_diagprocedure')) ? mb_strtoupper($r->dcnote_diagprocedure) : NULL,
                 //'other_diagnosis' => ($r->filled('other_diagnosis')) ? implode(',', $r->other_diagnosis) : NULL,
