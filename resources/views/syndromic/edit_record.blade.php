@@ -855,7 +855,7 @@
                     </div>
                     <div class="form-group d-none" id="main_diagdiv">
                       <label for="main_diagnosis"><b class="text-danger">*</b>Main Diagnosis (ICD10)</label>
-                      <select class="form-control" name="main_diagnosis" id="main_diagnosis">
+                      <select class="form-control" name="main_diagnosis[]" id="main_diagnosis" multiple>
                         @if(!is_null($d->main_diagnosis))
                         <option value="{{$d->main_diagnosis}}" selected>{{$d->getIcd10CodeString($d->main_diagnosis)}}</option>
                         @endif
@@ -869,6 +869,7 @@
                       <label for="dcnote_diagprocedure">Diagnostic Procedure</label>
                       <textarea class="form-control" name="dcnote_diagprocedure" id="dcnote_diagprocedure" rows="3" style="text-transform: uppercase;">{{old('dcnote_diagprocedure', $d->dcnote_diagprocedure)}}</textarea>
                     </div>
+                    <!--
                     <div class="form-group d-none" id="other_diagdiv">
                       <hr>
                       <label for="other_diagnosis">Other Diagnosis (ICD10)</label>
@@ -880,6 +881,7 @@
                         @endif
                       </select>
                     </div>
+                    -->
                     @if($d->isHospitalRecord())
                     <div class="form-group">
                       <label for="procedure_done"><b class="text-danger">*</b>Procedure Done</label>
@@ -1221,6 +1223,7 @@
       }
   });
 
+  /*
   $('#other_diagnosis').select2({
       theme: "bootstrap",
       placeholder: 'Search by ICD10 Code or Description ...',
@@ -1242,6 +1245,7 @@
           cache: true
       }
   });
+  */
 
   var getage = {{$d->syndromic_patient->getAge()}};
 
@@ -1293,23 +1297,23 @@
 
   $('#diagnosis_type').change(function (e) { 
     e.preventDefault();
-    if($(this).val() == 'FINAL DIAGNOSIS') {
-      $('#main_diagnosis').prop('required', true);
+    if($(this).val() == 'FINAL DIAGNOSIS' || $(this).val() == 'WORKING DIAGNOSIS') {
+      //$('#main_diagnosis').prop('required', true);
       $('#main_diagdiv').removeClass('d-none');
       
-      $('#other_diagdiv').removeClass('d-none');
+      //$('#other_diagdiv').removeClass('d-none');
     }
     else if($(this).val() == 'ADMITTING DIAGNOSIS') {
-      $('#main_diagnosis').prop('required', false);
+      //$('#main_diagnosis').prop('required', false);
       $('#main_diagdiv').addClass('d-none');
 
-      $('#other_diagdiv').removeClass('d-none');
+      //$('#other_diagdiv').removeClass('d-none');
     }
     else {
-      $('#main_diagnosis').prop('required', false);
+      //$('#main_diagnosis').prop('required', false);
       $('#main_diagdiv').addClass('d-none');
 
-      $('#other_diagdiv').addClass('d-none');
+      //$('#other_diagdiv').addClass('d-none');
     }
   }).trigger('change');
 
