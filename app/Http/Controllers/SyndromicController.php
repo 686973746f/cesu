@@ -683,9 +683,6 @@ class SyndromicController extends Controller
     }
 
     public function storeRecord($patient_id, Request $r) {
-        return redirect()->back()
-        ->withInput();
-        
         $p = SyndromicPatient::findOrFail($patient_id);
 
         $birthdate = Carbon::parse($p->bdate);
