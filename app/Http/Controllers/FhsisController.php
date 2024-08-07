@@ -3412,6 +3412,11 @@ class FhsisController extends Controller
             }
         }
 
+        //Live Births Alert Check if may naka-encode na ba to notify encoder/checker
+        $lcrcheck = LiveBirth::where('year', $start->format('Y'))
+        ->where('month', $start->format('n'))
+        ->count();
+
         //Get Livebirths
         $total_livebirths_m = LiveBirth::where('year', $start->format('Y'))
         ->where('month', $start->format('n'))
@@ -3506,6 +3511,13 @@ class FhsisController extends Controller
                     'ormat_deaths_finaltotal' => $ormat_deaths_finaltotal,
                     'total_deaths_m' => $total_deaths_m,
                     'total_deaths_f' => $total_deaths_f,
+                    'lcrcheck' => $lcrcheck,
+                    'LB_M' => $total_livebirths_m,
+                    'LB_F' => $total_livebirths_f,
+                    'LB_1519_M' => $livebirth1519_m,
+                    'LB_1519_F' => $livebirth1519_f,
+                    'LB_1014_M' => $livebirth1014_m,
+                    'LB_1014_F' => $livebirth1014_f,
                 ],
                 'diseases' => $final_arr,
             ];

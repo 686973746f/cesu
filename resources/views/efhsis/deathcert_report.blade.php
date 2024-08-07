@@ -58,6 +58,40 @@
                         </tr>
                     </tbody>
                 </table>
+                
+                <table class="table table-bordered table-striped">
+                    <thead class="thead-light text-center">
+                        <tr>
+                            <th>
+                                <div>Part 2 - Natality</div>
+                                @if($final_arr['total']['lcrcheck'] == 0)
+                                <div class="alert alert-warning mt-2" role="alert">
+                                    <b class="text-danger">ALERT: </b>Wala pang nae-encode na Livebirths for this month.
+                                </div>
+                                @endif
+                            </th>
+                            <th style="background-color: #8fa2bd;">Male</th>
+                            <th style="background-color: #dea6a5">Female</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Livebirths</td>
+                            <td style="background-color: #8fa2bd;" class="text-center">{{$final_arr['total']['LB_M']}}</td>
+                            <td style="background-color: #dea6a5" class="text-center">{{$final_arr['total']['LB_F']}}</td>
+                        </tr>
+                        <tr>
+                            <td>Livebirths among 10-14 y/o women</td>
+                            <td style="background-color: #8fa2bd;" class="text-center">{{$final_arr['total']['LB_1014_M']}}</td>
+                            <td style="background-color: #dea6a5" class="text-center">{{$final_arr['total']['LB_1014_F']}}</td>
+                        </tr>
+                        <tr>
+                            <td>Livebirths among 15-19 y/o women</td>
+                            <td style="background-color: #8fa2bd;" class="text-center">{{$final_arr['total']['LB_1519_M']}}</td>
+                            <td style="background-color: #dea6a5" class="text-center">{{$final_arr['total']['LB_1519_F']}}</td>
+                        </tr>
+                    </tbody>
+                </table>
                 <hr>
                 <h4>Mortality Cause of Death</h4>
                 <table class="table table-bordered">
