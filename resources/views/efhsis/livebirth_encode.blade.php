@@ -22,7 +22,7 @@
                     <div class="alert alert-primary" role="alert">
                         <b class="text-danger">NOTE: </b>Encoding for Month: <b class="h4 font-weight-bold">{{date('F', strtotime(request()->input('year').'-'.request()->input('month').'-01'))}}</b> - Year: <b class="h4 font-weight-bold">{{request()->input('year')}}.</b> <span class="text-danger font-weight-bold"><-- PLEASE ALWAYS CHECK THIS BEFORE SUBMITTING</span>
                         <hr>
-                        Kapag late report (Year {{(request()->input('year') - 1)}} pababa pinanganak, hindi na ie-encode)
+                        Kapag late report (Year {{(request()->input('year') - 1)}} pababa pinanganak), hindi na kailangan ie-encode.
                     </div>
                     
                     <div class="row">
