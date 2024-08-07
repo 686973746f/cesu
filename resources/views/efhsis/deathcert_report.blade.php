@@ -125,6 +125,52 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @if(count($final_arr['diseases']) <= 0)
+                        <tr>
+                            <td colspan="3">DISEASE</td>
+                            <td colspan="16"></td>
+                        </tr>
+                        <tr>
+                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
+                            <td style="background-color: #dea6a5" class="text-right">0</td>
+                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
+                            <td style="background-color: #dea6a5" class="text-right">0</td>
+                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
+                            <td style="background-color: #dea6a5" class="text-right">0</td>
+                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
+                            <td style="background-color: #dea6a5" class="text-right">0</td>
+                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
+                            <td style="background-color: #dea6a5" class="text-right">0</td>
+                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
+                            <td style="background-color: #dea6a5" class="text-right">0</td>
+                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
+                            <td style="background-color: #dea6a5" class="text-right">0</td>
+                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
+                            <td style="background-color: #dea6a5" class="text-right">0</td>
+                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
+                            <td style="background-color: #dea6a5" class="text-right">0</td>
+                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
+                            <td style="background-color: #dea6a5" class="text-right">0</td>
+                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
+                            <td style="background-color: #dea6a5" class="text-right">0</td>
+                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
+                            <td style="background-color: #dea6a5" class="text-right">0</td>
+                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
+                            <td style="background-color: #dea6a5" class="text-right">0</td>
+                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
+                            <td style="background-color: #dea6a5" class="text-right">0</td>
+                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
+                            <td style="background-color: #dea6a5" class="text-right">0</td>
+                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
+                            <td style="background-color: #dea6a5" class="text-right">0</td>
+                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
+                            <td style="background-color: #dea6a5" class="text-right">0</td>
+                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
+                            <td style="background-color: #dea6a5" class="text-right">0</td>
+                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
+                            <td style="background-color: #dea6a5" class="text-right">0</td>
+                        </tr>
+                        @else
                         @foreach($final_arr['diseases'] as $d)
                         <tr>
                             <td colspan="3">DISEASE</td>
@@ -171,50 +217,7 @@
                             <td style="background-color: #dea6a5" class="text-right">{{$d['total_f']}}</td>
                         </tr>
                         @endforeach
-                        <tr>
-                            <td colspan="3">DISEASE</td>
-                            <td colspan="16"></td>
-                        </tr>
-                        <tr>
-                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
-                            <td style="background-color: #dea6a5" class="text-right">0</td>
-                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
-                            <td style="background-color: #dea6a5" class="text-right">0</td>
-                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
-                            <td style="background-color: #dea6a5" class="text-right">0</td>
-                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
-                            <td style="background-color: #dea6a5" class="text-right">0</td>
-                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
-                            <td style="background-color: #dea6a5" class="text-right">0</td>
-                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
-                            <td style="background-color: #dea6a5" class="text-right">0</td>
-                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
-                            <td style="background-color: #dea6a5" class="text-right">0</td>
-                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
-                            <td style="background-color: #dea6a5" class="text-right">0</td>
-                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
-                            <td style="background-color: #dea6a5" class="text-right">0</td>
-                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
-                            <td style="background-color: #dea6a5" class="text-right">0</td>
-                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
-                            <td style="background-color: #dea6a5" class="text-right">0</td>
-                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
-                            <td style="background-color: #dea6a5" class="text-right">0</td>
-                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
-                            <td style="background-color: #dea6a5" class="text-right">0</td>
-                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
-                            <td style="background-color: #dea6a5" class="text-right">0</td>
-                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
-                            <td style="background-color: #dea6a5" class="text-right">0</td>
-                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
-                            <td style="background-color: #dea6a5" class="text-right">0</td>
-                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
-                            <td style="background-color: #dea6a5" class="text-right">0</td>
-                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
-                            <td style="background-color: #dea6a5" class="text-right">0</td>
-                            <td style="background-color: #8fa2bd;" class="text-right">0</td>
-                            <td style="background-color: #dea6a5" class="text-right">0</td>
-                        </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>
