@@ -42,7 +42,7 @@
                                 <div class="col-4">
                                     <div class="form-group">
                                         <label for="input_year"><b class="text-danger">*</b>Birth Year</label>
-                                        <input type="number" class="form-control" name="input_year" id="input_year" value="{{old('input_year', request()->input('year'))}}" min="2023" max="{{date('Y')}}" required>
+                                        <input type="number" class="form-control" name="input_year" id="input_year" value="{{old('input_year', request()->input('year'))}}" min="1990" max="{{date('Y')}}" required>
                                     </div>
                                 </div>
                                 <div class="col-4">
