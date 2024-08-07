@@ -29,7 +29,7 @@
                         <div class="col-3">
                             <div class="form-group">
                                 <label for="registryno"><b class="text-danger">*</b>Registry No.</label>
-                                <input type="text" class="form-control" name="registryno" id="registryno" value="{{old('registryno', request()->input('year').'-')}}" required>
+                                <input type="text" class="form-control" name="registryno" id="registryno" value="{{old('registryno', request()->input('year').'-')}}" minlength="6" maxlength="11" required>
                             </div>
                         </div>
                         <div class="col-3">
