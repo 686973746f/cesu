@@ -60,7 +60,7 @@ class PharmacyController extends Controller
         $expired_list = PharmacySupplySubStock::whereHas('pharmacysub', function ($q) {
             $q->where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id);
         })
-        ->whereBetween('expiration_date', [date('Y-m-d'), date('Y-m-t', strtotime('+3 Months'))])
+        ->whereBetween('expiration_date', [date('Y-m-d'), date('Y-m-t', strtotime('+2 Months'))])
         ->orderBy('expiration_date', 'ASC')
         ->get();
 
