@@ -81,7 +81,7 @@
                                           <label for="select_branch"><b class="text-danger">*</b>Select Branch</label>
                                           <select class="form-control" name="select_branch" id="select_branch_1" required>
                                             <option value="ALL">ALL BRANCHES</option>
-                                            @foreach(App\Models\PharmacyBranch::get() as $b)
+                                            @foreach(App\Models\PharmacyBranch::where('enabled', 1)->get() as $b)
                                             <option value="{{$b->id}}" {{(old('select_branch', auth()->user()->pharmacy_branch_id) == $b->id) ? 'selected' : ''}}>{{$b->name}}</option>
                                             @endforeach
                                           </select>
@@ -123,7 +123,7 @@
                                               <label for="select_branch"><b class="text-danger">*</b>Select Branch</label>
                                               <select class="form-control" name="select_branch" id="select_branch_2" required>
                                                 <option value="ALL">ALL BRANCHES</option>
-                                                @foreach(App\Models\PharmacyBranch::get() as $b)
+                                                @foreach(App\Models\PharmacyBranch::where('enabled', 1)->get() as $b)
                                                 <option value="{{$b->id}}" {{(old('select_branch', auth()->user()->pharmacy_branch_id) == $b->id) ? 'selected' : ''}}>{{$b->name}}</option>
                                                 @endforeach
                                               </select>

@@ -2109,6 +2109,7 @@ class PharmacyController extends Controller
     }
 
     public function viewReport() {
+        ini_set('max_execution_time', 900);
         if(request()->input('select_branch')) {
             $selected_branch = request()->input('select_branch');
         }

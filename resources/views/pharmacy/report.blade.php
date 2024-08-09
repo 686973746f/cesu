@@ -101,7 +101,7 @@
             </div>
             <hr>
             <div class="table-responsive">
-                <table class="table table-bordered table-striped">@extends('layouts.app')
+                <table class="table table-bordered table-striped">
                         <tr>
                             <th rowspan="2">Name</th>
                             <th rowspan="2">Category</th>

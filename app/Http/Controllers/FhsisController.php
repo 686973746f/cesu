@@ -1508,7 +1508,7 @@ class FhsisController extends Controller
 
             if($selected->gt($current)) {
                 return redirect()->route('fhsis_home')
-                ->with('msg', 'Error: Advance ka pa sa present date mag-encode ah. Bawal yun! hihi')
+                ->with('msg', 'Error: The selected encoding month is greater than the present month.')
                 ->with('msgtype', 'warning');
             }
 
@@ -2170,27 +2170,42 @@ class FhsisController extends Controller
 
             if(!$data_demographic) {
                 if($brgy == 'ALL') {
+                    $setBrgyId = NULL;
                     $all_brgy_count = FhsisBarangay::where('MUN_CODE', 'GENERAL TRIAS')->count();
 
-                    //Create Demographic Data
-                    $create_demographic = FhsisSystemDemographicProfile::create([
-                        'encode_date' => date('Y-m-d'),
-                        'city_id' => 1,
-                        'brgy_id' => NULL,
-                        'for_year' => $getYear,
-                        'total_brgy' => $all_brgy_count,
-                        'total_bhs' => 49,
-                        'total_mainhc' => 1,
-                        'total_cityhc' => 1,
-                        'total_ruralhc' => 0,
-
-                        'remarks' => 'YEARLY AUTOMATED',
-
-                        'created_by' => Auth::id(),
-                    ]);
-
-                    $data_demographic = $create_demographic;
+                    $total_bhs = 49;
+                    $total_mainhc = 1;
+                    $total_cityhc = 1;
+                    $total_ruralhc = 0;
                 }
+                else {
+                    $setBrgyId = $srBrgy->id;
+                    $all_brgy_count = 1;
+
+                    $total_bhs = 0;
+                    $total_mainhc = 0;
+                    $total_cityhc = 0;
+                    $total_ruralhc = 0;
+                }
+
+                //Create Demographic Data
+                $create_demographic = FhsisSystemDemographicProfile::create([
+                    'encode_date' => date('Y-m-d'),
+                    'city_id' => 1,
+                    'brgy_id' => $setBrgyId,
+                    'for_year' => $getYear,
+                    'total_brgy' => $all_brgy_count,
+                    'total_bhs' => $total_bhs,
+                    'total_mainhc' => $total_mainhc,
+                    'total_cityhc' => $total_cityhc,
+                    'total_ruralhc' => $total_ruralhc,
+
+                    'remarks' => 'YEARLY AUTOMATED',
+
+                    'created_by' => Auth::id(),
+                ]);
+
+                $data_demographic = $create_demographic;
                 
                 /*
                 return redirect()->back()
@@ -2200,7 +2215,7 @@ class FhsisController extends Controller
             }
 
             //Calculate and Update Total Population if not existing
-            if(is_null($data_demographic->total_population) && is_null($data_demographic->total_household)) {
+            if(!isset($data_demographic->total_population) && !isset($data_demographic->total_household)) {
                 $pop_query = FhsisPopulation::where('MUN_CODE', 'GENERAL TRIAS')
                 ->where('POP_YEAR', $getYear);
 
@@ -2356,12 +2371,12 @@ class FhsisController extends Controller
             $gtot_livebirths = $tot_livebirths_m + $tot_livebirths_f;
 
             $mortality_rate = round($gtot_deaths / $data_demographic->total_population * 1000, 2);
-            $imr = round($gtot_infdeaths / $gtot_livebirths * 1000, 2);
-            $mmr = round($gtot_matdeaths / $gtot_livebirths * 100000, 2);
-            $ufmr = round($gtot_und5deaths / $gtot_livebirths * 1000, 2);
+            $imr = ($gtot_livebirths != 0) ? round($gtot_infdeaths / $gtot_livebirths * 1000, 2) : 0;
+            $mmr = ($gtot_livebirths != 0) ? round($gtot_matdeaths / $gtot_livebirths * 100000, 2) : 0;
+            $ufmr = ($gtot_livebirths != 0) ? round($gtot_und5deaths / $gtot_livebirths * 1000, 2) : 0;
 
-            $neomort_rate = round($gtot_neonataldeaths / $gtot_livebirths * 1000, 2);
-            $perimort_rate = round($gtot_perinataldeaths / ($gtot_fetaldeaths + $gtot_livebirths) * 1000, 2);
+            $neomort_rate = ($gtot_livebirths != 0) ? round($gtot_neonataldeaths / $gtot_livebirths * 1000, 2) : 0;
+            $perimort_rate = ($gtot_livebirths != 0) ? round($gtot_perinataldeaths / ($gtot_fetaldeaths + $gtot_livebirths) * 1000, 2) : 0;
 
             //Leading cause of Mortality and Morbidity
             $mort_final_list = [];
@@ -2638,6 +2653,19 @@ class FhsisController extends Controller
             return abort(401);
         }
 
+        $month = request()->input('month');
+        $year = request()->input('year');
+
+        $current = Carbon::create(date('Y'), date('m'), 1, 0, 0, 0);
+        $selected = Carbon::create($year, $month, 1, 0, 0, 0);
+
+        if($selected->gt($current)) {
+            return redirect()->route('fhsis_home')
+            ->with('msg', 'Error: The selected encoding month is greater than the present month.')
+            ->with('msgtype', 'warning');
+        }
+
+        /*
         if(request()->input('year') == date('Y')) {
             if(request()->input('month') > date('n')) {
                 return redirect()->route('fhsis_home')
@@ -2645,6 +2673,7 @@ class FhsisController extends Controller
                 ->with('msgtype', 'warning');
             }
         }
+        */
         
         return view('efhsis.deathcert_encode');
     }

@@ -22,7 +22,7 @@
                         <h5>{{number_format($data_demographic->total_household)}}</h5>
                     </div>
                     <div class="col-4 text-center">
-                        <h4><b>Barangays</b></h4>
+                        <h4><b>{{Str::plural('Barangay', $data_demographic->total_brgy)}}</b></h4>
                         <h5>{{number_format($data_demographic->total_brgy)}}</h5>
                     </div>
                 </div>
