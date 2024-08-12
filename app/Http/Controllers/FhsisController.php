@@ -3626,4 +3626,65 @@ class FhsisController extends Controller
             ]);
         }
     }
+
+    public function newMorbidityReportDownload() {
+        //Morbidity Report August 2024
+
+        $final_arr = [];
+
+        //EDCS
+        //OPD
+        //TBDOTS
+
+        /*
+        $final_arr[] = [
+                    'REG_CODE' => 'REGION IV-A (CALABARZON)',
+                    'PROV_CODE' => 'CAVITE',
+                    'MUN_CODE' => 'GENERAL TRIAS',
+                    'BGY_CODE' => $brgyNameFhsis,
+                    'DATE' => $start->format('m/d/y'),
+                    'DISEASE' => '',
+                    'UNDER1_M' => 0,
+                    'UNDER1_F' => 0,
+                    '1_4_M' => 0,
+                    '1_4_F' => 0,
+                    '5_9_M' => 0,
+                    '5_9_F' => 0,
+                    '10_14_M' => 0,
+                    '10_14_F' => 0,
+                    '15_19_M' => 0,
+                    '15_19_F' => 0,
+                    '20_24_M' => 0,
+                    '20_24_F' => 0,
+                    '25_29_M' => 0,
+                    '25_29_F' => 0,
+                    '30_34_M' => 0,
+                    '30_34_F' => 0,
+                    '35_39_M' => 0,
+                    '35_39_F' => 0,
+                    '40_44_M' => 0,
+                    '40_44_F' => 0,
+                    '45_49_M' => 0,
+                    '45_49_F' => 0,
+                    '50_54_M' => 0,
+                    '50_54_F' => 0,
+                    '55_59_M' => 0,
+                    '55_59_F' => 0,
+                    '60_64_M' => 0,
+                    '60_64_F' => 0,
+                    '65ABOVE_M' => 0,
+                    '65ABOVE_F' => 0,
+                    '65_69_M' => 0,
+                    '65_69_F' => 0,
+                    '70ABOVE_M' => 0,
+                    '70ABOVE_F' => 0,
+                    '0_6DAYS_M' => 0,
+                    '0_6DAYS_F' => 0,
+                    '7_28DAYS_M' => 0,
+                    '7_28DAYS_F' => 0,
+                    '29DAYS_11MOS_M' => 0,
+                    '29DAYS_11MOS_F' => 0,
+                ];
+        */
+    }
 }
