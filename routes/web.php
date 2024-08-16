@@ -575,6 +575,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessF
     Route::get('/fhsis/deathcert/encode', [FhsisController::class, 'deathCertEncode'])->name('fhsis_deathcert_encode');
     Route::post('/fhsis/deathcert/encode/store', [FhsisController::class, 'deathCertStore'])->name('fhsis_deathcert_store');
     Route::get('/fhsis/deathcert/report', [FhsisController::class, 'deathCertReport'])->name('fhsis_deathcert_report');
+    Route::get('/fhsis/m2bhs/report', [FhsisController::class, 'newMorbidityReportDownload'])->name('fhsis_m2bhs_download');
 
     Route::get('/fhsis/tbdots', [FhsisController::class, 'tbdotsHome'])->name('fhsis_tbdots_home');
     Route::post('/fhsis/tbdots/import_tool', [FhsisController::class, 'tbdotsImport'])->name('fhsis_tbdots_import');

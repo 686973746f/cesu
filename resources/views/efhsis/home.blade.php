@@ -21,7 +21,7 @@
                         <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#liveBirthReport">Natality Report</button>
                         <hr>
                         <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#deathModal">Encode Death Certificates/Mortality</button>
-                        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#deathReport">Mortality Report</button>
+                        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#deathReport">Mortality/M2 Report</button>
                         @if(auth()->user()->canAccessPregnancyTracking())
                         <hr>
                         <a href="{{route('ptracking_index')}}" class="btn btn-block btn-primary">Pregnancy Tracking</a>
@@ -30,7 +30,7 @@
                         <a href="{{route('fhsis_tbdots_home')}}" class="btn btn-primary btn-block">TB-DOTS Morbidity</a>
                         <hr>
                         <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#reportV2">Reports</button>
-                        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#cesum2">Generate M2</button>
+                        <!-- <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#cesum2">Generate M2</button> -->
                         <hr>
                         <a href="{{route('fhsis_icd10_searcher')}}" class="btn btn-primary btn-block">IDC10 Code Search</a>
                         <hr>
@@ -364,7 +364,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success btn-block" id="mortGenerateBtn" name="submit" value="generate">Generate</button>
-                        <button type="submit" class="btn btn-success btn-block" id="mortDownloadBtn" name="submit" value="download">Download Excel File</button>
+                        <button type="submit" class="btn btn-success btn-block" id="mortDownloadBtn" name="submit" value="download">Download Mortality Excel File</button>
+                        <button type="submit" class="btn btn-success btn-block" id="m2DownloadBtn" name="submit" value="m2download">Download M2 Excel File</button>
                     </div>
                 </div>
             </div>
@@ -377,14 +378,17 @@
             if($(this).val() == '') {
                 $('#mortGenerateBtn').addClass('d-none');
                 $('#mortDownloadBtn').addClass('d-none');
+                $('#m2DownloadBtn').addClass('d-none');
             }
             else if($(this).val() == 'ALL') {
                 $('#mortGenerateBtn').addClass('d-none');
                 $('#mortDownloadBtn').removeClass('d-none');
+                $('#m2DownloadBtn').removeClass('d-none');
             }
             else {
                 $('#mortGenerateBtn').removeClass('d-none');
                 $('#mortDownloadBtn').addClass('d-none');
+                $('#m2DownloadBtn').addClass('d-none');
             }
         }).trigger('change');
     </script>

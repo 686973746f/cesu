@@ -7075,6 +7075,69 @@ class PIDSRController extends Controller
         return $array;
     }
 
+    public static function edcsGetIcd10Code($disease) {
+        if($disease == 'Afp') {
+            return 'A80.3; Acute paralytic poliomyelitis, other and unspecified (Acute Flaccid Paralysis)';
+        }
+        else if($disease == 'Measles') {
+            return 'B05; Measles';
+        }
+        else if($disease == 'Meningo') {
+            return 'A39; Meningococcal infection';
+        }
+        else if($disease == 'Nt') {
+            return 'A33; Tetanus neonatorum';
+        }
+        else if($disease == 'Rabies') {
+            return 'A82; Rabies';
+        }
+        else if($disease == 'Hfmd') {
+            return 'B08; Other viral infections characterized by skin and mucous membrane lesions, not elsewhere classified';
+        }
+        else if($disease == 'Abd') {
+            return 'A09; Infectious gastroenteritis and colitis, unspecified (ACUTE BLOODY DIARRHEA, ACUTE GASTROENTERITIS, ACUTE WATERY DIARRHEA, ENTERITIS, Dysentery) (INFECTIOUS DIARRHEA/DIARRHEA W/DEHYD, LEVEL OF DEHYDRATION NOT SPECIFIED)';
+        }
+        else if($disease == 'Ames') {
+            return 'A39.0; Meningococcal meningitis';
+        }
+        else if($disease == 'Hepatitis') {
+            return 'B17; Other acute viral hepatitis';
+        }
+        else if($disease == 'Chikv') {
+            return 'A92.0; Chikungunya virus disease';
+        }
+        else if($disease == 'Cholera') {
+            return 'A00; Cholera';
+        }
+        else if($disease == 'Dengue') {
+            return 'A90; Dengue fever [Classical Dengue] (Dengue Suspect) (DENGUE FEVER SYNDROME)';
+        }
+        else if($disease == 'Diph') {
+            return 'A36; Diphtheria';
+        }
+        else if($disease == 'Influenza') {
+            return 'J11.1; Influenza with other respiratory manifestations, virus not identified (INFLUENZA-LIKE DISEASE/ILLNESS) (BRONCHIAL, AURI, LARYNGITIS, PHARYNGITIS, PLEURAL EFFUSION, URI, VIRAL)';
+        }
+        else if($disease == 'Leptospirosis') {
+            return 'A27; Leptospirosis';
+        }
+        else if($disease == 'Nnt') {
+            return 'A35; Other tetanus (NON NEONATAL TETANUS)';
+        }
+        else if($disease == 'Pert') {
+            return 'A37.0; Whooping cough due to Bordetella pertussis';
+        }
+        else if($disease == 'Rotavirus') {
+            return 'A08.0; Rotaviral enteritis';
+        }
+        else if($disease == 'Typhoid') {
+            return 'A01; Typhoid and paratyphoid fevers (ENTERIC FEVER)';
+        }
+        else if($disease == 'SevereAcuteRespiratoryInfection') {
+            return 'U04; Severe acute respiratory syndrome [SARS]';
+        }
+    }
+
     public static function globalSearchCase($case_id, $epi_id, $disease) {
         $epiCol = 'EPIID';
 
