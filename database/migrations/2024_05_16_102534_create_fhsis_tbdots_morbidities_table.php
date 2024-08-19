@@ -21,7 +21,9 @@ class CreateFhsisTbdotsMorbiditiesTable extends Migration
             $table->string('mname')->nullable();
             $table->string('suffix')->nullable();
             $table->date('bdate');
-            $table->string('age', 5);
+            $table->integer('age');
+            $table->integer('age_months');
+            $table->integer('age_days');
             $table->string('sex', 1);
             $table->text('brgy');
             $table->text('source_of_patient');

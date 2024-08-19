@@ -3656,7 +3656,7 @@ class FhsisController extends Controller
 
         $final_arr = [];
 
-        //EDCS
+        //Start of EDCS M2 Collection
         foreach($brgy_list as $b) {
             /*
             'Afp',
@@ -3836,6 +3836,8 @@ class FhsisController extends Controller
         End of EDCS M2 Counting
         */
 
+        
+
         $sheets = new SheetCollection([
             'M2 BHS' => $final_arr,
         ]);
@@ -3848,7 +3850,96 @@ class FhsisController extends Controller
         ->rowsStyle($rows_style)
         ->download('FHSIS_IMPORT_M2 BHS_'.$start->format('M_Y').'.xlsx');
 
+        //Start of TB DOTS M2 Collection
         
+        $tb_array = [
+            'A15.0 Tuberculosis of lung, confirmed by sputum microscopy with or without culture',
+            'A16.1 Tuberculosis of lung, bacteriological and histological examination not done',
+            'A16.0 Tuberculosis of lung, bacteriologically and histologically negative',
+            'A18 Tuberculosis of other organs',
+        ];
+
+        foreach($brgy_list as $b) {
+            foreach($tb_array as $tb) {
+                $col_name = 'xpert_result';
+                if($tb == 'A15.0 Tuberculosis of lung, confirmed by sputum microscopy with or without culture') {
+                    $col_search = 'MTB Detected';
+                }
+                else if($tb == 'A16.1 Tuberculosis of lung, bacteriological and histological examination not done') {
+                    $col_search = 'Not Done';
+                }
+                else if($tb == 'A16.0 Tuberculosis of lung, bacteriologically and histologically negative') {
+                    $col_name = 'MTB Not Detected';
+                }
+                else if($tb == 'A18 Tuberculosis of other organs') {
+                    $col_name = 'ana_site';
+                    $col_search = 'EP';
+                }
+
+                $base = FhsisTbdotsMorbidity::where('brgy', $b)
+                ->whereBetween('date_started_tx', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                ->where($col_name, $col_search);
+
+                if((clone $base)->count() != 0) {
+                    $age1_base = (clone $base)->whereBetween($col_ageday, [0,6]);
+                    $age2_base = (clone $base)->whereBetween($col_ageday, [7,28]);
+                    $age3_base = (clone $base)->where($col_ageday, '>=', 29)->where($col_agemonth, '<=', 11);
+                    $age4_base = (clone $base)->whereBetween('age', [1,4]);
+                    $age5_base = (clone $base)->whereBetween('age', [5,9]);
+                    $age6_base = (clone $base)->whereBetween('age', [10,14]);
+                    $age7_base = (clone $base)->whereBetween('age', [15,19]);
+                    $age8_base = (clone $base)->whereBetween('age', [20,24]);
+                    $age9_base = (clone $base)->whereBetween('age', [25,29]);
+                    $age10_base = (clone $base)->whereBetween('age', [30,34]);
+                    $age11_base = (clone $base)->whereBetween('age', [35,39]);
+                    $age12_base = (clone $base)->whereBetween('age', [40,44]);
+                    $age13_base = (clone $base)->whereBetween('age', [45,49]);
+                    $age14_base = (clone $base)->whereBetween('age', [50,54]);
+                    $age15_base = (clone $base)->whereBetween('age', [55,59]);
+                    $age16_base = (clone $base)->whereBetween('age', [60,64]);
+                    $age17_base = (clone $base)->whereBetween('age', [65,69]);
+                    $age18_base = (clone $base)->where('age', '>=', 70);
+
+                    $age1_m = (clone $age1_base)->where('sex', 'M')->count();
+                    $age1_f = (clone $age1_base)->where('sex', 'F')->count();
+                    $age2_m = (clone $age2_base)->where('sex', 'M')->count();
+                    $age2_f = (clone $age2_base)->where('sex', 'F')->count();
+                    $age3_m = (clone $age3_base)->where('sex', 'M')->count();
+                    $age3_f = (clone $age3_base)->where('sex', 'F')->count();
+                    $age4_m = (clone $age4_base)->where('sex', 'M')->count();
+                    $age4_f = (clone $age4_base)->where('sex', 'F')->count();
+                    $age5_m = (clone $age5_base)->where('sex', 'M')->count();
+                    $age5_f = (clone $age5_base)->where('sex', 'F')->count();
+                    $age6_m = (clone $age6_base)->where('sex', 'M')->count();
+                    $age6_f = (clone $age6_base)->where('sex', 'F')->count();
+                    $age7_m = (clone $age7_base)->where('sex', 'M')->count();
+                    $age7_f = (clone $age7_base)->where('sex', 'F')->count();
+                    $age8_m = (clone $age8_base)->where('sex', 'M')->count();
+                    $age8_f = (clone $age8_base)->where('sex', 'F')->count();
+                    $age9_m = (clone $age9_base)->where('sex', 'M')->count();
+                    $age9_f = (clone $age9_base)->where('sex', 'F')->count();
+                    $age10_m = (clone $age10_base)->where('sex', 'M')->count();
+                    $age10_f = (clone $age10_base)->where('sex', 'F')->count();
+                    $age11_m = (clone $age11_base)->where('sex', 'M')->count();
+                    $age11_f = (clone $age11_base)->where('sex', 'F')->count();
+                    $age12_m = (clone $age12_base)->where('sex', 'M')->count();
+                    $age12_f = (clone $age12_base)->where('sex', 'F')->count();
+                    $age13_m = (clone $age13_base)->where('sex', 'M')->count();
+                    $age13_f = (clone $age13_base)->where('sex', 'F')->count();
+                    $age14_m = (clone $age14_base)->where('sex', 'M')->count();
+                    $age14_f = (clone $age14_base)->where('sex', 'F')->count();
+                    $age15_m = (clone $age15_base)->where('sex', 'M')->count();
+                    $age15_f = (clone $age15_base)->where('sex', 'F')->count();
+                    $age16_m = (clone $age16_base)->where('sex', 'M')->count();
+                    $age16_f = (clone $age16_base)->where('sex', 'F')->count();
+                    $age17_m = (clone $age17_base)->where('sex', 'M')->count();
+                    $age17_f = (clone $age17_base)->where('sex', 'F')->count();
+                    $age18_m = (clone $age18_base)->where('sex', 'M')->count();
+                    $age18_f = (clone $age18_base)->where('sex', 'F')->count();
+                }
+            }
+        }
+
         
 
         //OPD

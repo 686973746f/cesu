@@ -16,6 +16,8 @@ class FhsisTbdotsMorbidity extends Model
         'suffix',
         'bdate',
         'age',
+        'age_months',
+        'age_days',
         'sex',
         'brgy',
         'source_of_patient',

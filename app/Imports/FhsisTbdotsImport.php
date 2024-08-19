@@ -48,6 +48,12 @@ class FhsisTbdotsImport implements ToModel, WithHeadingRow, WithGroupedHeadingRo
         ->exists();
 
         if(!$search_existing) {
+            $birthdate = Carbon::parse($birthdate);
+            $currentDate = Carbon::parse($date_started_tx);
+
+            $get_agemonths = $birthdate->diffInMonths($currentDate);
+            $get_agedays = $birthdate->diffInDays($currentDate);
+
             $c = FhsisTbdotsMorbidity::create([
                 'lname' => mb_strtoupper($lname),
                 'fname' => mb_strtoupper($fname),
@@ -55,6 +61,8 @@ class FhsisTbdotsImport implements ToModel, WithHeadingRow, WithGroupedHeadingRo
                 'suffix' => NULL,
                 'bdate' => $birthdate,
                 'age' => $r['age'],
+                'age_months' => $get_agemonths,
+                'age_days' => $get_agedays,
                 'sex' => $r['sex'],
                 'brgy' => mb_strtoupper($r['brgy']),
                 'source_of_patient' => $r['source_of_patient'],
