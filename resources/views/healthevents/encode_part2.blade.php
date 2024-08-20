@@ -127,7 +127,71 @@
                         </div>
                     </div>
                     <hr>
-                    
+                    <div class="form-group">
+                        <label for=""><b class="text-danger">*</b>Date Onset of Illness</label>
+                        <input type="date" class="form-control" name="date_onset" id="date_onset" value="{{old('date_onset')}}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for=""><b class="text-danger">*</b>Date Consulted/Reported</label>
+                        <input type="date" class="form-control" name="date_admittedconsulted" id="date_admittedconsulted" value="{{old('date_admittedconsulted')}}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for=""><b class="text-danger">*</b>Dizziness</label>
+                        <select class="form-control" name="vog_dizziness" id="vog_dizziness" required>
+                            <option value="" disabled {{(is_null(old('vog_dizziness'))) ? 'selected' : ''}}>Choose...</option>
+                            <option value="Y" {{(old('vog_dizziness') == 'Y') ? 'selected' : ''}}>Yes</option>
+                            <option value="N" {{(old('vog_dizziness') == 'N') ? 'selected' : ''}}>No</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                        <label for=""><b class="text-danger">*</b>Difficulty of Breathing</label>
+                        <select class="form-control" name="vog_dob" id="vog_dob" required>
+                            <option value="" disabled {{(is_null(old('vog_dob'))) ? 'selected' : ''}}>Choose...</option>
+                            <option value="Y" {{(old('vog_dob') == 'Y') ? 'selected' : ''}}>Yes</option>
+                            <option value="N" {{(old('vog_dob') == 'N') ? 'selected' : ''}}>No</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                        <label for=""><b class="text-danger">*</b>Cough</label>
+                        <select class="form-control" name="vog_cough" id="vog_cough" required>
+                            <option value="" disabled {{(is_null(old('vog_cough'))) ? 'selected' : ''}}>Choose...</option>
+                            <option value="Y" {{(old('vog_cough') == 'Y') ? 'selected' : ''}}>Yes</option>
+                            <option value="N" {{(old('vog_cough') == 'N') ? 'selected' : ''}}>No</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                        <label for=""><b class="text-danger">*</b>Eye Irritation</label>
+                        <select class="form-control" name="vog_eyeirritation" id="vog_eyeirritation" required>
+                            <option value="" disabled {{(is_null(old('vog_eyeirritation'))) ? 'selected' : ''}}>Choose...</option>
+                            <option value="Y" {{(old('vog_eyeirritation') == 'Y') ? 'selected' : ''}}>Yes</option>
+                            <option value="N" {{(old('vog_eyeirritation') == 'N') ? 'selected' : ''}}>No</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                        <label for=""><b class="text-danger">*</b>Throat Irritation</label>
+                        <select class="form-control" name="vog_throatirritation" id="vog_throatirritation" required>
+                            <option value="" disabled {{(is_null(old('vog_throatirritation'))) ? 'selected' : ''}}>Choose...</option>
+                            <option value="Y" {{(old('vog_throatirritation') == 'Y') ? 'selected' : ''}}>Yes</option>
+                            <option value="N" {{(old('vog_throatirritation') == 'N') ? 'selected' : ''}}>No</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                        <label for=""><b class="text-danger">*</b>Others</label>
+                        <select class="form-control" name="vog_others" id="vog_others" required>
+                            <option value="" disabled {{(is_null(old('vog_others'))) ? 'selected' : ''}}>Choose...</option>
+                            <option value="Y" {{(old('vog_others') == 'Y') ? 'selected' : ''}}>Yes</option>
+                            <option value="N" {{(old('vog_others') == 'N') ? 'selected' : ''}}>No</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                        <label for=""><b class="text-danger">*</b>Outcome</label>
+                        <select class="form-control" name="outcome" id="outcome" required>
+                            <option value="" disabled {{(is_null(old('outcome'))) ? 'selected' : ''}}>Choose...</option>
+                            <option value="A" {{(old('outcome') == 'A') ? 'selected' : ''}}>Alive</option>
+                            <option value="D" {{(old('outcome') == 'D') ? 'selected' : ''}}>Died</option>
+                      </select>
+                    </div>
                 </div>
                 <div class="card-footer">
                     <button type="submit" class="btn btn-success btn-block" id="submitBtn">Submit</button>

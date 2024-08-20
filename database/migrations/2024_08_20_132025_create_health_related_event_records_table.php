@@ -28,6 +28,7 @@ class CreateHealthRelatedEventRecordsTable extends Migration
             $table->string('vog_dob', 1)->nullable();
             $table->string('vog_cough', 1)->nullable();
             $table->string('vog_eyeirritation', 1)->nullable();
+            $table->string('vog_throatirritation', 1)->nullable();
             $table->string('vog_others', 1)->nullable();
             $table->string('vog_others_specify')->nullable();
 

@@ -20,6 +20,7 @@ class HealthRelatedEventRecords extends Model
         'vog_dob',
         'vog_cough',
         'vog_eyeirritation',
+        'vog_throatirritation',
         'vog_others',
         'vog_others_specify',
         'outcome',
