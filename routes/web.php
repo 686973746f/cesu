@@ -59,6 +59,7 @@ use App\Http\Controllers\AcceptanceLetterController;
 use App\Http\Controllers\PregnancyTrackingController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\ABTCWalkInRegistrationController;
+use App\Http\Controllers\HealthEventsController;
 use App\Http\Controllers\SecondaryTertiaryRecordsController;
 
 /*
@@ -780,6 +781,10 @@ Route::get('json/mwcombine', [JsonReportController::class, 'mwcombine']);
 Route::get('fwri/{code}', [FwriController::class, 'index'])->name('fwri_index');
 Route::post('fwri/{code}/add', [FwriController::class, 'store'])->name('fwri_store');
 Route::get('fwri/{code}/success', [FwriController::class, 'success'])->name('fwri_success');
+
+Route::get('health_event/{event_code}/{facility_code}', [HealthEventsController::class, 'encodeIndex'])->name('he_index');
+Route::post('health_event/{event_code}/{facility_code}/store', [HealthEventsController::class, 'encodeStore'])->name('he_store');
+Route::post('health_event/{event_code}/{facility_code}/success', [HealthEventsController::class, 'encodeSuccess'])->name('he_success');
 
 //Route::get('/vaxcert/import', [VaxcertController::class, 'remoteimport'])->name('vaxcert_import');
 
