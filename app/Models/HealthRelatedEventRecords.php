@@ -11,7 +11,6 @@ class HealthRelatedEventRecords extends Model
 
     protected $fillable = [
         'enabled',
-        'healthevent_id',
         'patient_id',
         'date_onset',
         'admitted',

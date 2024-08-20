@@ -783,6 +783,7 @@ Route::post('fwri/{code}/add', [FwriController::class, 'store'])->name('fwri_sto
 Route::get('fwri/{code}/success', [FwriController::class, 'success'])->name('fwri_success');
 
 Route::get('health_event/{event_code}/{facility_code}', [HealthEventsController::class, 'encodeIndex'])->name('he_index');
+Route::get('health_event/{event_code}/{facility_code}/encode', [HealthEventsController::class, 'encodeCheck'])->name('he_check');
 Route::post('health_event/{event_code}/{facility_code}/store', [HealthEventsController::class, 'encodeStore'])->name('he_store');
 Route::post('health_event/{event_code}/{facility_code}/success', [HealthEventsController::class, 'encodeSuccess'])->name('he_success');
 

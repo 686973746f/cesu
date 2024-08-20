@@ -17,7 +17,6 @@ class CreateHealthRelatedEventRecordsTable extends Migration
             $table->id();
 
             $table->string('enabled', 1);
-            $table->foreignId('healthevent_id')->constrained('health_related_event_mains')->onDelete('cascade');
             $table->foreignId('patient_id')->constrained('health_related_event_patients')->onDelete('cascade');
 
             $table->date('date_onset')->nullable();
