@@ -3855,7 +3855,7 @@ class FhsisController extends Controller
                     $col_search = 'Not Done';
                 }
                 else if($tb == 'A16.0 Tuberculosis of lung, bacteriologically and histologically negative') {
-                    $col_name = 'MTB Not Detected';
+                    $col_search = 'MTB Not Detected';
                 }
                 else if($tb == 'A18 Tuberculosis of other organs') {
                     $col_name = 'ana_site';
