@@ -3862,7 +3862,7 @@ class FhsisController extends Controller
                     $col_search = 'EP';
                 }
 
-                $base = FhsisTbdotsMorbidity::where('brgy', $b)
+                $base = FhsisTbdotsMorbidity::where('brgy', $b->brgyName)
                 ->whereBetween('date_started_tx', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where($col_name, $col_search);
 
