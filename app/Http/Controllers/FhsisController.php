@@ -3836,20 +3836,6 @@ class FhsisController extends Controller
         End of EDCS M2 Counting
         */
 
-        
-
-        $sheets = new SheetCollection([
-            'M2 BHS' => $final_arr,
-        ]);
-
-        $header_style = (new Style())->setFontBold();
-        $rows_style = (new Style())->setShouldWrapText();
-
-        return $exp = (new FastExcel($sheets))
-        ->headerStyle($header_style)
-        ->rowsStyle($rows_style)
-        ->download('FHSIS_IMPORT_M2 BHS_'.$start->format('M_Y').'.xlsx');
-
         //Start of TB DOTS M2 Collection
         
         $tb_array = [
@@ -3881,9 +3867,9 @@ class FhsisController extends Controller
                 ->where($col_name, $col_search);
 
                 if((clone $base)->count() != 0) {
-                    $age1_base = (clone $base)->whereBetween($col_ageday, [0,6]);
-                    $age2_base = (clone $base)->whereBetween($col_ageday, [7,28]);
-                    $age3_base = (clone $base)->where($col_ageday, '>=', 29)->where($col_agemonth, '<=', 11);
+                    $age1_base = (clone $base)->whereBetween('age_days', [0,6]);
+                    $age2_base = (clone $base)->whereBetween('age_days', [7,28]);
+                    $age3_base = (clone $base)->where('age_days', '>=', 29)->where('age_months', '<=', 11);
                     $age4_base = (clone $base)->whereBetween('age', [1,4]);
                     $age5_base = (clone $base)->whereBetween('age', [5,9]);
                     $age6_base = (clone $base)->whereBetween('age', [10,14]);
@@ -3936,11 +3922,75 @@ class FhsisController extends Controller
                     $age17_f = (clone $age17_base)->where('sex', 'F')->count();
                     $age18_m = (clone $age18_base)->where('sex', 'M')->count();
                     $age18_f = (clone $age18_base)->where('sex', 'F')->count();
+                    
+                    $under1_m = 0;
+                    $under1_f = 0;
+                    $above65_m = 0;
+                    $above65_f = 0;
+
+                    $final_arr[] = [
+                        'REG_CODE' => 'REGION IV-A (CALABARZON)',
+                        'PROV_CODE' => 'CAVITE',
+                        'MUN_CODE' => 'GENERAL TRIAS',
+                        'BGY_CODE' => $b->brgyNameFhsis,
+                        'DATE' => $start->format('m/d/y'),
+                        'DISEASE' => $tb,
+                        'UNDER1_M' => $under1_m,
+                        'UNDER1_F' => $under1_f,
+                        '1_4_M' => $age4_m,
+                        '1_4_F' => $age4_f,
+                        '5_9_M' => $age5_m,
+                        '5_9_F' => $age5_f,
+                        '10_14_M' => $age6_m,
+                        '10_14_F' => $age6_f,
+                        '15_19_M' => $age7_m,
+                        '15_19_F' => $age7_f,
+                        '20_24_M' => $age8_m,
+                        '20_24_F' => $age8_f,
+                        '25_29_M' => $age9_m,
+                        '25_29_F' => $age9_f,
+                        '30_34_M' => $age10_m,
+                        '30_34_F' => $age10_f,
+                        '35_39_M' => $age11_m,
+                        '35_39_F' => $age11_f,
+                        '40_44_M' => $age12_m,
+                        '40_44_F' => $age12_f,
+                        '45_49_M' => $age13_m,
+                        '45_49_F' => $age13_f,
+                        '50_54_M' => $age14_m,
+                        '50_54_F' => $age14_f,
+                        '55_59_M' => $age15_m,
+                        '55_59_F' => $age15_f,
+                        '60_64_M' => $age16_m,
+                        '60_64_F' => $age16_f,
+                        '65ABOVE_M' => $above65_m,
+                        '65ABOVE_F' => $above65_f,
+                        '65_69_M' => $age17_m,
+                        '65_69_F' => $age17_f,
+                        '70ABOVE_M' => $age18_m,
+                        '70ABOVE_F' => $age18_f,
+                        '0_6DAYS_M' => $age1_m,
+                        '0_6DAYS_F' => $age1_f,
+                        '7_28DAYS_M' => $age2_m,
+                        '7_28DAYS_F' => $age2_f,
+                        '29DAYS_11MOS_M' => $age3_m,
+                        '29DAYS_11MOS_F' => $age3_f,
+                    ];
                 }
             }
         }
 
-        
+        $sheets = new SheetCollection([
+            'M2 BHS' => $final_arr,
+        ]);
+
+        $header_style = (new Style())->setFontBold();
+        $rows_style = (new Style())->setShouldWrapText();
+
+        return $exp = (new FastExcel($sheets))
+        ->headerStyle($header_style)
+        ->rowsStyle($rows_style)
+        ->download('FHSIS_IMPORT_M2 BHS_'.$start->format('M_Y').'.xlsx');
 
         //OPD
         //TBDOTS
