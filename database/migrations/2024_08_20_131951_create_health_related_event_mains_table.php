@@ -17,7 +17,7 @@ class CreateHealthRelatedEventMainsTable extends Migration
             $table->id();
             $table->string('enabled', 1);
             $table->string('event_name');
-            $table->string('facility_id');
+            $table->foreignId('facility_id')->nullable()->constrained('doh_facilities')->onDelete('cascade');
             $table->text('description')->nullable();
             $table->string('qr');
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
