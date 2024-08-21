@@ -785,7 +785,7 @@ Route::get('fwri/{code}/success', [FwriController::class, 'success'])->name('fwr
 Route::get('health_event/{event_code}/{facility_code}', [HealthEventsController::class, 'encodeIndex'])->name('he_index');
 Route::get('health_event/{event_code}/{facility_code}/encode', [HealthEventsController::class, 'encodeCheck'])->name('he_check');
 Route::post('health_event/{event_code}/{facility_code}/store', [HealthEventsController::class, 'encodeStore'])->name('he_store');
-Route::post('health_event/{event_code}/{facility_code}/success', [HealthEventsController::class, 'encodeSuccess'])->name('he_success');
+Route::get('health_event/{event_code}/{facility_code}/success', [HealthEventsController::class, 'encodeSuccess'])->name('he_success');
 
 //Route::get('/vaxcert/import', [VaxcertController::class, 'remoteimport'])->name('vaxcert_import');
 

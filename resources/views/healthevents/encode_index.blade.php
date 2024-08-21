@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-8">
+            <div class="col-md-8">
                 <form action="{{route('he_check', [$event_code, $facility_code])}}" method="GET">
                     <div class="card">
                         <div class="card-header"><b>{{$he->event_name}}</b></div>
@@ -60,10 +60,13 @@
                     </h5>
                 </div>
                 <div class="modal-body text-center">
+                    @if(session('msg'))
+                    <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
+                        {{session('msg')}}
+                    </div>
+                    @endif
                     <h5>You are encoding data linked with this facility:</h5>
                     <h4 class="my-3"><b class="text-success"><u>{{mb_strtoupper($f->facility_name)}}</u></b></h4>
-                </div>
-                <div class="modal-footer text-center">
                     <h5>If this is your encoding facility, you may now proceed.</h5>
                     <button type="button" class="btn btn-success btn-block" data-dismiss="modal">Proceed</button>
                     <hr>
@@ -74,18 +77,6 @@
     </div>
 
     <script>
-        $(document).bind('keydown', function(e) {
-            if(e.ctrlKey && (e.which == 83)) {
-                e.preventDefault();
-                $('#submitBtn').trigger('click');
-                $('#submitBtn').prop('disabled', true);
-                setTimeout(function() {
-                    $('#submitBtn').prop('disabled', false);
-                }, 2000);
-                return false;
-            }
-        });
-
         $('#facicheck').modal({backdrop: 'static', keyboard: false});
         $('#facicheck').modal('show');
     </script>
