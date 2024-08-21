@@ -1513,9 +1513,16 @@ class FhsisController extends Controller
                 ->with('msgtype', 'warning');
             }
 
+            //Get last Encoded for that month
+            $recent = LiveBirth::where('month', $selected->format('n'))
+            ->where('year', $selected->format('Y'))
+            ->latest()
+            ->first();
+
             return view('efhsis.livebirth_encode', [
                 'month' => $month,
                 'year' => $year,
+                'recent' => $recent,
             ]);
         }
         else {
