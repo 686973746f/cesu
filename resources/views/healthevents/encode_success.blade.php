@@ -15,6 +15,7 @@
                         <a href="{{route('he_index', [$event_code, $facility_code])}}" class="btn btn-link btn-block">Submit Another</a>
                     </div>
                 </div>
+                <p class="mt-3 text-center">©2021 - 2024 Developed and Maintained by <u>Christian James Historillo</u></p>
             </div>
         </div>
     </div>

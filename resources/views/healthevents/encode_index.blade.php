@@ -6,13 +6,20 @@
             <div class="col-md-8">
                 <form action="{{route('he_check', [$event_code, $facility_code])}}" method="GET">
                     <div class="card">
-                        <div class="card-header"><b>{{$he->event_name}}</b></div>
+                        <div class="card-header">
+                            <div><b>GENERAL TRIAS CESU</b></div>
+                            <div><b>{{$he->event_name}}</b></div>
+                        </div>
                         <div class="card-body">
                             @if(session('msg'))
                             <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
                                 {{session('msg')}}
                             </div>
                             @endif
+                            <div class="form-group">
+                                <label for=""><b class="text-danger">*</b>Facility</label>
+                                <input type="text" class="form-control" name="" id="" value="{{mb_strtoupper($f->facility_name)}}" tabindex="-1" readonly>
+                            </div>
                             <div class="form-group">
                                 <label for="lname"><b class="text-danger">*</b>Last Name</label>
                                 <input type="text" class="form-control" name="lname" id="lname" value="{{old('lname')}}" minlength="2" maxlength="50" placeholder="ex: DELA CRUZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required>
@@ -44,6 +51,7 @@
                             <button type="submit" class="btn btn-success btn-block">Next</button>
                         </div>
                     </div>
+                    <p class="mt-3 text-center">©2021 - 2024 Developed and Maintained by <u>Christian James Historillo</u></p>
                 </form>
             </div>
         </div>
