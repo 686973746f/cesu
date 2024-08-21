@@ -587,6 +587,9 @@ class SyndromicController extends Controller
             ->whereDate('created_at', date('Y-m-d'))
             ->first();
         }
+        else {
+            $check = false;
+        }
 
         //GET DEFAULT NATURE
         $count_previous = SyndromicRecords::where('syndromic_patient_id', $patient->id);
