@@ -34,6 +34,7 @@ use OpenSpout\Common\Entity\Style\Style;
 use Rap2hpoutre\FastExcel\SheetCollection;
 use App\Models\FhsisSystemDemographicProfile;
 use App\Models\Influenza;
+use App\Models\SyndromicRecords;
 
 class FhsisController extends Controller
 {
@@ -3983,6 +3984,224 @@ class FhsisController extends Controller
                         '29DAYS_11MOS_M' => $age3_m,
                         '29DAYS_11MOS_F' => $age3_f,
                     ];
+                }
+            }
+        }
+
+        /*
+        End of EDCS M2 Counting
+        */
+
+        //Start of OPD M2 Fetching
+        //Fetch mga hindi blank na diagnosis
+        $fetch_diags = SyndromicRecords::where('status', 'approved')
+        ->whereNotNull('main_diagnosis')
+        ->whereBetween('consultation_date', [$start->format('Y-m-d'), $end->format('Y-m-d')]);
+
+        if((clone $fetch_diags)->exists()) {
+            $diag_array = [];
+
+            foreach((clone $fetch_diags)->groupBy('main_diagnosis')->pluck('main_diagnosis')->toArray() as $d) {
+                $separate = explode("|", $d);
+
+                foreach($separate as $single) {
+                    if(!in_array($single, $diag_array)) {
+                        $diag_array[] = $single;
+                    }
+                }
+            }
+
+            foreach($brgy_list as $b) {
+                foreach($diag_array as $diag) {
+                    $base = SyndromicRecords::whereHas('syndromic_patient', function ($q) use ($b) {
+                        $q->where('address_brgy_text', $b->brgyName);
+                    })
+                    ->whereBetween('consultation_date', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                    ->where('main_diagnosis', 'LIKE', "%$diag%");
+
+                    if((clone $base)->exists()) {
+                        $age1_base = (clone $base)->whereBetween('age_days', [0,6]);
+                        $age2_base = (clone $base)->whereBetween('age_days', [7,28]);
+                        $age3_base = (clone $base)->where('age_days', '>=', 29)->where('age_months', '<=', 11);
+                        $age4_base = (clone $base)->whereBetween('age_years', [1,4]);
+                        $age5_base = (clone $base)->whereBetween('age_years', [5,9]);
+                        $age6_base = (clone $base)->whereBetween('age_years', [10,14]);
+                        $age7_base = (clone $base)->whereBetween('age_years', [15,19]);
+                        $age8_base = (clone $base)->whereBetween('age_years', [20,24]);
+                        $age9_base = (clone $base)->whereBetween('age_years', [25,29]);
+                        $age10_base = (clone $base)->whereBetween('age_years', [30,34]);
+                        $age11_base = (clone $base)->whereBetween('age_years', [35,39]);
+                        $age12_base = (clone $base)->whereBetween('age_years', [40,44]);
+                        $age13_base = (clone $base)->whereBetween('age_years', [45,49]);
+                        $age14_base = (clone $base)->whereBetween('age_years', [50,54]);
+                        $age15_base = (clone $base)->whereBetween('age_years', [55,59]);
+                        $age16_base = (clone $base)->whereBetween('age_years', [60,64]);
+                        $age17_base = (clone $base)->whereBetween('age_years', [65,69]);
+                        $age18_base = (clone $base)->where('age_years', '>=', 70);
+
+                        $age1_m = (clone $age1_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'M');
+                        })->count();
+                        $age1_f = (clone $age1_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'F');
+                        })->count();
+                        $age2_m = (clone $age2_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'M');
+                        })->count();
+                        $age2_f = (clone $age2_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'F');
+                        })->count();
+                        $age3_m = (clone $age3_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'M');
+                        })->count();
+                        $age3_f = (clone $age3_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'F');
+                        })->count();
+                        $age4_m = (clone $age4_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'M');
+                        })->count();
+                        $age4_f = (clone $age4_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'F');
+                        })->count();
+                        $age5_m = (clone $age5_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'M');
+                        })->count();
+                        $age5_f = (clone $age5_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'F');
+                        })->count();
+                        $age6_m = (clone $age6_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'M');
+                        })->count();
+                        $age6_f = (clone $age6_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'F');
+                        })->count();
+                        $age7_m = (clone $age7_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'M');
+                        })->count();
+                        $age7_f = (clone $age7_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'F');
+                        })->count();
+                        $age8_m = (clone $age8_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'M');
+                        })->count();
+                        $age8_f = (clone $age8_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'F');
+                        })->count();
+                        $age9_m = (clone $age9_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'M');
+                        })->count();
+                        $age9_f = (clone $age9_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'F');
+                        })->count();
+                        $age10_m = (clone $age10_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'M');
+                        })->count();
+                        $age10_f = (clone $age10_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'F');
+                        })->count();
+                        $age11_m = (clone $age11_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'M');
+                        })->count();
+                        $age11_f = (clone $age11_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'F');
+                        })->count();
+                        $age12_m = (clone $age12_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'M');
+                        })->count();
+                        $age12_f = (clone $age12_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'F');
+                        })->count();
+                        $age13_m = (clone $age13_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'M');
+                        })->count();
+                        $age13_f = (clone $age13_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'F');
+                        })->count();
+                        $age14_m = (clone $age14_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'M');
+                        })->count();
+                        $age14_f = (clone $age14_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'F');
+                        })->count();
+                        $age15_m = (clone $age15_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'M');
+                        })->count();
+                        $age15_f = (clone $age15_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'F');
+                        })->count();
+                        $age16_m = (clone $age16_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'M');
+                        })->count();
+                        $age16_f = (clone $age16_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'F');
+                        })->count();
+                        $age17_m = (clone $age17_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'M');
+                        })->count();
+                        $age17_f = (clone $age17_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'F');
+                        })->count();
+                        $age18_m = (clone $age18_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'M');
+                        })->count();
+                        $age18_f = (clone $age18_base)->whereHas('syndromic_patient', function ($q) {
+                            $q->where('sex', 'F');
+                        })->count();
+
+                        $under1_m = 0;
+                        $under1_f = 0;
+                        $above65_m = 0;
+                        $above65_f = 0;
+
+                        $final_arr[] = [
+                            'REG_CODE' => 'REGION IV-A (CALABARZON)',
+                            'PROV_CODE' => 'CAVITE',
+                            'MUN_CODE' => 'GENERAL TRIAS',
+                            'BGY_CODE' => $b->brgyNameFhsis,
+                            'DATE' => $start->format('m/d/y'),
+                            'DISEASE' => $diag,
+                            'UNDER1_M' => $under1_m,
+                            'UNDER1_F' => $under1_f,
+                            '1_4_M' => $age4_m,
+                            '1_4_F' => $age4_f,
+                            '5_9_M' => $age5_m,
+                            '5_9_F' => $age5_f,
+                            '10_14_M' => $age6_m,
+                            '10_14_F' => $age6_f,
+                            '15_19_M' => $age7_m,
+                            '15_19_F' => $age7_f,
+                            '20_24_M' => $age8_m,
+                            '20_24_F' => $age8_f,
+                            '25_29_M' => $age9_m,
+                            '25_29_F' => $age9_f,
+                            '30_34_M' => $age10_m,
+                            '30_34_F' => $age10_f,
+                            '35_39_M' => $age11_m,
+                            '35_39_F' => $age11_f,
+                            '40_44_M' => $age12_m,
+                            '40_44_F' => $age12_f,
+                            '45_49_M' => $age13_m,
+                            '45_49_F' => $age13_f,
+                            '50_54_M' => $age14_m,
+                            '50_54_F' => $age14_f,
+                            '55_59_M' => $age15_m,
+                            '55_59_F' => $age15_f,
+                            '60_64_M' => $age16_m,
+                            '60_64_F' => $age16_f,
+                            '65ABOVE_M' => $above65_m,
+                            '65ABOVE_F' => $above65_f,
+                            '65_69_M' => $age17_m,
+                            '65_69_F' => $age17_f,
+                            '70ABOVE_M' => $age18_m,
+                            '70ABOVE_F' => $age18_f,
+                            '0_6DAYS_M' => $age1_m,
+                            '0_6DAYS_F' => $age1_f,
+                            '7_28DAYS_M' => $age2_m,
+                            '7_28DAYS_F' => $age2_f,
+                            '29DAYS_11MOS_M' => $age3_m,
+                            '29DAYS_11MOS_F' => $age3_f,
+                        ];
+                    }
                 }
             }
         }
