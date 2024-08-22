@@ -3191,7 +3191,7 @@ class LaboratoryImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
             if(!$lab_search) {
                 $table_params = [
-                    'lab_id' => $row['id'],
+                    //'lab_id' => $row['id'],
                     'case_id' => $row['case_id'],
                     'case_code' => $row['case_code'],
                     'epi_id' => $row['epi_id'],

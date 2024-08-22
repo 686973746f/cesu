@@ -15,7 +15,7 @@ class CreateEdcsLaboratoryDataTable extends Migration
     {
         Schema::create('edcs_laboratory_data', function (Blueprint $table) {
             $table->id();
-            $table->string('lab_id');
+            $table->string('lab_id')->nullable();
             $table->string('case_id');
             $table->string('case_code');
             $table->string('epi_id');
