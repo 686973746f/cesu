@@ -85,6 +85,7 @@ ALTER TABLE psp ADD from_edcs TINYINT(1) DEFAULT 0;
 ALTER TABLE rabies ADD from_edcs TINYINT(1) DEFAULT 0;
 ALTER TABLE rotavirus ADD from_edcs TINYINT(1) DEFAULT 0;
 ALTER TABLE typhoid ADD from_edcs TINYINT(1) DEFAULT 0;
+ALTER TABLE severe_acute_respiratory_infections ADD from_edcs TINYINT(1) DEFAULT 0;
 
 UPDATE abd SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
 UPDATE pidsr_AEFI SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
@@ -1773,6 +1774,15 @@ class PIDSRController extends Controller
             
             $d->sys_coordinate_x = $r->sys_coordinate_x;
             $d->sys_coordinate_y = $r->sys_coordinate_y;
+            $d->edcs_contactNo = $r->edcs_contactNo;
+            
+            if(request()->is('*barangayportal*')) {
+                $d->brgy_remarks = ($r->brgy_remarks) ? mb_strtoupper($r->brgy_remarks) : $d->brgy_remarks;
+            }
+
+            if(!request()->is('*barangayportal*')) {
+                $d->system_remarks = ($r->system_remarks) ? mb_strtoupper($r->system_remarks) : NULL;
+            }
 
             //FOR PERT ADDITIONAL SETTINGS
             if($disease == 'PERT' && !request()->is('*barangayportal*')) {
@@ -7748,66 +7758,97 @@ class PIDSRController extends Controller
     public function brgyCaseViewerHome() { 
         $brgy = session('brgyName');
 
-        $abd_count = Abd::where('enabled', 1)
+        $abd_query = Abd::where('enabled', 1)
         ->where('match_casedef', 1)
         ->where('Barangay', $brgy);
-        $afp_count = Afp::where('enabled', 1)
+        $afp_query = Afp::where('enabled', 1)
         ->where('match_casedef', 1)
         ->where('Barangay', $brgy);
-        $ames_count = Ames::where('enabled', 1)
+        $ames_query = Ames::where('enabled', 1)
         ->where('match_casedef', 1)
         ->where('Barangay', $brgy);
-        $hepa_count = Hepatitis::where('enabled', 1)
+        $hepa_query = Hepatitis::where('enabled', 1)
         ->where('match_casedef', 1)
         ->where('Barangay', $brgy);
-        $chikv_count = Chikv::where('enabled', 1)
+        $chikv_query = Chikv::where('enabled', 1)
         ->where('match_casedef', 1)
         ->where('Barangay', $brgy);
-        $cholera_count = Cholera::where('enabled', 1)
+        $cholera_query = Cholera::where('enabled', 1)
         ->where('match_casedef', 1)
         ->where('Barangay', $brgy);
-        $dengue_count = Dengue::where('enabled', 1)
+        $dengue_query = Dengue::where('enabled', 1)
         ->where('match_casedef', 1)
         ->where('Barangay', $brgy);
-        $diph_count = Diph::where('enabled', 1)
+        $diph_query = Diph::where('enabled', 1)
         ->where('match_casedef', 1)
         ->where('Barangay', $brgy);
-        $hfmd_count = Hfmd::where('enabled', 1)
+        $hfmd_query = Hfmd::where('enabled', 1)
         ->where('match_casedef', 1)
         ->where('Barangay', $brgy);
-        $ili_count = Influenza::where('enabled', 1)
+        $ili_query = Influenza::where('enabled', 1)
         ->where('match_casedef', 1)
         ->where('Barangay', $brgy);
-        $lepto_count = Leptospirosis::where('enabled', 1)
+        $lepto_query = Leptospirosis::where('enabled', 1)
         ->where('match_casedef', 1)
         ->where('Barangay', $brgy);
-        $measles_count = Measles::where('enabled', 1)
+        $measles_query = Measles::where('enabled', 1)
         ->where('match_casedef', 1)
         ->where('Barangay', $brgy);
-        $meningo_count = Meningo::where('enabled', 1)
+        $meningo_query = Meningo::where('enabled', 1)
         ->where('match_casedef', 1)
         ->where('Barangay', $brgy);
-        $nnt_count = Nnt::where('enabled', 1)
+        $nnt_query = Nnt::where('enabled', 1)
         ->where('match_casedef', 1)
         ->where('Barangay', $brgy);
-        $nt_count = Nt::where('enabled', 1)
+        $nt_query = Nt::where('enabled', 1)
         ->where('match_casedef', 1)
         ->where('Barangay', $brgy);
-        $pert_count = Pert::where('enabled', 1)
+        $pert_query = Pert::where('enabled', 1)
         ->where('match_casedef', 1)
         ->where('Barangay', $brgy);
-        $rabies_count = Rabies::where('enabled', 1)
+        $rabies_query = Rabies::where('enabled', 1)
         ->where('match_casedef', 1)
         ->where('Barangay', $brgy);
-        $rotavirus_count = Rotavirus::where('enabled', 1)
+        $rotavirus_query = Rotavirus::where('enabled', 1)
         ->where('match_casedef', 1)
         ->where('Barangay', $brgy);
-        $sari_count = SevereAcuteRespiratoryInfection::where('enabled', 1)
+        $sari_query = SevereAcuteRespiratoryInfection::where('enabled', 1)
         ->where('match_casedef', 1)
         ->where('barangay', $brgy);
-        $typhoid_count = Typhoid::where('enabled', 1)
+        $typhoid_query = Typhoid::where('enabled', 1)
         ->where('match_casedef', 1)
         ->where('Barangay', $brgy);
+
+        $aes_query = Aes::where('enabled', 1)
+        ->where('match_casedef', 1)
+        ->where('Barangay', $brgy);
+        $aefi_query = Aefi::where('enabled', 1)
+        ->where('match_casedef', 1)
+        ->where('Barangay', $brgy);
+        $ahf_query = Ahf::where('enabled', 1)
+        ->where('match_casedef', 1)
+        ->where('Barangay', $brgy);
+        $anthrax_query = Anthrax::where('enabled', 1)
+        ->where('match_casedef', 1)
+        ->where('Barangay', $brgy);
+        $malaria_query = Malaria::where('enabled', 1)
+        ->where('match_casedef', 1)
+        ->where('Barangay', $brgy);
+        $meningitis_query = Meningitis::where('enabled', 1)
+        ->where('match_casedef', 1)
+        ->where('Barangay', $brgy);
+        $psp_query = Psp::where('enabled', 1)
+        ->where('match_casedef', 1)
+        ->where('Barangay', $brgy);
+        
+        $covid_query = Forms::with('records')
+        ->whereHas('records', function ($q) use ($brgy) {
+            $q->where('records.address_province', 'CAVITE')
+            ->where('records.address_city', 'GENERAL TRIAS')
+            ->where('records.address_brgy', $brgy);
+        })
+        ->where('status', 'approved')
+        ->whereIn('caseClassification', ['Confirmed', 'Probable']);
 
         if(request()->input('year')) {
             $year = request()->input('year');
@@ -7816,26 +7857,63 @@ class PIDSRController extends Controller
             $year = date('Y');
         }
 
-        $abd_count = $abd_count->where('Year', $year)->count();
-        $afp_count = $afp_count->where('Year', $year)->count();
-        $ames_count = $ames_count->where('Year', $year)->count();
-        $hepa_count = $hepa_count->where('Year', $year)->count();
-        $chikv_count = $chikv_count->where('Year', $year)->count();
-        $cholera_count = $cholera_count->where('Year', $year)->count();
-        $dengue_count = $dengue_count->where('Year', $year)->count();
-        $diph_count = $diph_count->where('Year', $year)->count();
-        $hfmd_count = $hfmd_count->where('Year', $year)->count();
-        $ili_count = $ili_count->where('Year', $year)->count();
-        $lepto_count = $lepto_count->where('Year', $year)->count();
-        $measles_count = $measles_count->where('Year', $year)->count();
-        $meningo_count = $meningo_count->where('Year', $year)->count();
-        $nnt_count = $nnt_count->where('Year', $year)->count();
-        $nt_count = $nt_count->where('Year', $year)->count();
-        $pert_count = $pert_count->where('Year', $year)->count();
-        $rabies_count = $rabies_count->where('Year', $year)->count();
-        $rotavirus_count = $rotavirus_count->where('Year', $year)->count();
-        $sari_count = $sari_count->where('Year', $year)->count();
-        $typhoid_count = $typhoid_count->where('Year', $year)->count();
+        $abd_count = (clone $abd_query)->where('Year', $year)->count();
+        $afp_count = (clone $afp_query)->where('Year', $year)->count();
+        $ames_count = (clone $ames_query)->where('Year', $year)->count();
+        $hepa_count = (clone $hepa_query)->where('Year', $year)->count();
+        $chikv_count = (clone $chikv_query)->where('Year', $year)->count();
+        $cholera_count = (clone $cholera_query)->where('Year', $year)->count();
+        $dengue_count = (clone $dengue_query)->where('Year', $year)->count();
+        $diph_count = (clone $diph_query)->where('Year', $year)->count();
+        $hfmd_count = (clone $hfmd_query)->where('Year', $year)->count();
+        $ili_count = (clone $ili_query)->where('Year', $year)->count();
+        $lepto_count = (clone $lepto_query)->where('Year', $year)->count();
+        $measles_count = (clone $measles_query)->where('Year', $year)->count();
+        $meningo_count = (clone $meningo_query)->where('Year', $year)->count();
+        $nnt_count = (clone $nnt_query)->where('Year', $year)->count();
+        $nt_count = (clone $nt_query)->where('Year', $year)->count();
+        $pert_count = (clone $pert_query)->where('Year', $year)->count();
+        $rabies_count = (clone $rabies_query)->where('Year', $year)->count();
+        $rotavirus_count = (clone $rotavirus_query)->where('Year', $year)->count();
+        $sari_count = (clone $sari_query)->where('year', $year)->count();
+        $typhoid_count = (clone $typhoid_query)->where('Year', $year)->count();
+        $covid_count = (clone $covid_query)->whereYear('morbidityMonth', $year)->count();
+        $aes_count = (clone $aes_query)->where('Year', $year)->count();
+        $aefi_count = (clone $aefi_query)->where('Year', $year)->count();
+        $ahf_count = (clone $ahf_query)->where('Year', $year)->count();
+        $anthrax_count = (clone $anthrax_query)->where('Year', $year)->count();
+        $malaria_count = (clone $malaria_query)->where('Year', $year)->count();
+        $meningitis_count = (clone $meningitis_query)->where('Year', $year)->count();
+        $psp_count = (clone $psp_query)->where('Year', $year)->count();
+
+        $abd_count_death = (clone $abd_query)->where('Year', $year)->where('Outcome', 'D')->count();
+        $afp_count_death = (clone $afp_query)->where('Year', $year)->where('Outcome', 'D')->count();
+        $ames_count_death = (clone $ames_query)->where('Year', $year)->where('Outcome', 'D')->count();
+        $hepa_count_death = (clone $hepa_query)->where('Year', $year)->where('Outcome', 'D')->count();
+        $chikv_count_death = (clone $chikv_query)->where('Year', $year)->where('Outcome', 'D')->count();
+        $cholera_count_death = (clone $cholera_query)->where('Year', $year)->where('Outcome', 'D')->count();
+        $dengue_count_death = (clone $dengue_query)->where('Year', $year)->where('Outcome', 'D')->count();
+        $diph_count_death = (clone $diph_query)->where('Year', $year)->where('Outcome', 'D')->count();
+        $hfmd_count_death = (clone $hfmd_query)->where('Year', $year)->where('Outcome', 'D')->count();
+        $ili_count_death = (clone $ili_query)->where('Year', $year)->where('Outcome', 'D')->count();
+        $lepto_count_death = (clone $lepto_query)->where('Year', $year)->where('Outcome', 'D')->count();
+        $measles_count_death = (clone $measles_query)->where('Year', $year)->where('Outcome', 'D')->count();
+        $meningo_count_death = (clone $meningo_query)->where('Year', $year)->where('Outcome', 'D')->count();
+        $nnt_count_death = (clone $nnt_query)->where('Year', $year)->where('Outcome', 'D')->count();
+        $nt_count_death = (clone $nt_query)->where('Year', $year)->where('Outcome', 'D')->count();
+        $pert_count_death = (clone $pert_query)->where('Year', $year)->where('Outcome', 'D')->count();
+        $rabies_count_death = (clone $rabies_query)->where('Year', $year)->where('Outcome', 'D')->count();
+        $rotavirus_count_death = (clone $rotavirus_query)->where('Year', $year)->where('Outcome', 'D')->count();
+        $sari_count_death = (clone $sari_query)->where('year', $year)->where('outcome', 'Died')->count();
+        $typhoid_count_death = (clone $typhoid_query)->where('Year', $year)->where('Outcome', 'D')->count();
+        $covid_count_death = (clone $covid_query)->whereYear('morbidityMonth', $year)->where('outcomeCondition', 'Died')->count();
+        $aes_count_death = (clone $aes_query)->where('Year', $year)->where('Outcome', 'D')->count();
+        $aefi_count_death = (clone $aefi_query)->where('Year', $year)->where('Outcome', 'D')->count();
+        $ahf_count_death = (clone $ahf_query)->where('Year', $year)->where('Outcome', 'D')->count();
+        $anthrax_count_death = (clone $anthrax_query)->where('Year', $year)->where('Outcome', 'D')->count();
+        $malaria_count_death = (clone $malaria_query)->where('Year', $year)->where('Outcome', 'D')->count();
+        $meningitis_count_death = (clone $meningitis_query)->where('Year', $year)->where('Outcome', 'D')->count();
+        $psp_count_death = (clone $psp_query)->where('Year', $year)->where('Outcome', 'D')->count();
 
         $abd_route = route('edcs_barangay_view_list', ['case' => 'Abd', 'year' => $year]);
         $afp_route = route('edcs_barangay_view_list', ['case' => 'Afp', 'year' => $year]);
@@ -7858,6 +7936,14 @@ class PIDSRController extends Controller
         $sari_route = route('edcs_barangay_view_list', ['case' => 'SevereAcuteRespiratoryInfection', 'year' => $year]);
         $typhoid_route = route('edcs_barangay_view_list', ['case' => 'Typhoid', 'year' => $year]);
 
+        $aes_route = route('edcs_barangay_view_list', ['case' => 'Aes', 'year' => $year]);
+        $aefi_route = route('edcs_barangay_view_list', ['case' => 'Aefi', 'year' => $year]);
+        $ahf_route = route('edcs_barangay_view_list', ['case' => 'Ahf', 'year' => $year]);
+        $anthrax_route = route('edcs_barangay_view_list', ['case' => 'Anthrax', 'year' => $year]);
+        $malaria_route = route('edcs_barangay_view_list', ['case' => 'Malaria', 'year' => $year]);
+        $meningitis_route = route('edcs_barangay_view_list', ['case' => 'Meningitis', 'year' => $year]);
+        $psp_route = route('edcs_barangay_view_list', ['case' => 'Psp', 'year' => $year]);
+
         return view('pidsr.barangay.brgy_case_viewer_home', [
             'abd_count' => $abd_count,
             'afp_count' => $afp_count,
@@ -7879,6 +7965,14 @@ class PIDSRController extends Controller
             'rotavirus_count' => $rotavirus_count,
             'sari_count' => $sari_count,
             'typhoid_count' => $typhoid_count,
+            'covid_count' => $covid_count,
+            'aes_count' => $aes_count,
+            'aefi_count' => $aefi_count,
+            'ahf_count' => $ahf_count,
+            'anthrax_count' => $anthrax_count,
+            'malaria_count' => $malaria_count,
+            'meningitis_count' => $meningitis_count,
+            'psp_count' => $psp_count,
 
             'year' => $year,
 
@@ -7902,6 +7996,42 @@ class PIDSRController extends Controller
             'rotavirus_route' => $rotavirus_route,
             'sari_route' => $sari_route,
             'typhoid_route' => $typhoid_route,
+            'aefi_route' => $aefi_route,
+            'aes_route' => $aes_route,
+            'ahf_route' => $ahf_route,
+            'anthrax_route' => $anthrax_route,
+            'malaria_route' => $malaria_route,
+            'meningitis_route' => $meningitis_route,
+            'psp_route' => $psp_route,
+
+            'abd_count_death' => $abd_count_death,
+            'afp_count_death' => $afp_count_death,
+            'ames_count_death' => $ames_count_death,
+            'hepa_count_death' => $hepa_count_death,
+            'chikv_count_death' => $chikv_count_death,
+            'cholera_count_death' => $cholera_count_death,
+            'dengue_count_death' => $dengue_count_death,
+            'diph_count_death' => $diph_count_death,
+            'hfmd_count_death' => $hfmd_count_death,
+            'ili_count_death' => $ili_count_death,
+            'lepto_count_death' => $lepto_count_death,
+            'measles_count_death' => $measles_count_death,
+            'meningo_count_death' => $meningo_count_death,
+            'nnt_count_death' => $nnt_count_death,
+            'nt_count_death' => $nt_count_death,
+            'pert_count_death' => $pert_count_death,
+            'rabies_count_death' => $rabies_count_death,
+            'rotavirus_count_death' => $rotavirus_count_death,
+            'sari_count_death' => $sari_count_death,
+            'typhoid_count_death' => $typhoid_count_death,
+            'covid_count_death' => $covid_count_death,
+            'aes_count_death' => $aes_count_death,
+            'aefi_count_death' => $aefi_count_death,
+            'ahf_count_death' => $ahf_count_death,
+            'anthrax_count_death' => $anthrax_count_death,
+            'malaria_count_death' => $malaria_count_death,
+            'meningitis_count_death' => $meningitis_count_death,
+            'psp_count_death' => $psp_count_death,
         ]);
     }
 
@@ -8045,7 +8175,7 @@ class PIDSRController extends Controller
         $pert_count = $pert_query->where('Year', $year)->count();
         $rabies_count = $rabies_query->where('Year', $year)->count();
         $rotavirus_count = $rotavirus_query->where('Year', $year)->count();
-        $sari_count = $sari_query->where('Year', $year)->count();
+        $sari_count = $sari_query->where('year', $year)->count();
         $typhoid_count = $typhoid_query->where('Year', $year)->count();
         $covid_count = $covid_query->whereYear('morbidityMonth', $year)->count();
         $aes_count = $aes_query->where('Year', $year)->count();
@@ -8074,7 +8204,7 @@ class PIDSRController extends Controller
         $pert_count_death = $pert_query->where('Year', $year)->where('Outcome', 'D')->count();
         $rabies_count_death = $rabies_query->where('Year', $year)->where('Outcome', 'D')->count();
         $rotavirus_count_death = $rotavirus_query->where('Year', $year)->where('Outcome', 'D')->count();
-        $sari_count_death = $sari_query->where('Year', $year)->where('outcome', 'Died')->count();
+        $sari_count_death = $sari_query->where('year', $year)->where('outcome', 'Died')->count();
         $typhoid_count_death = $typhoid_query->where('Year', $year)->where('Outcome', 'D')->count();
         $covid_count_death = $covid_query->whereYear('morbidityMonth', $year)->where('outcomeCondition', 'Died')->count();
         $aes_count_death = $aes_query->where('Year', $year)->where('Outcome', 'D')->count();

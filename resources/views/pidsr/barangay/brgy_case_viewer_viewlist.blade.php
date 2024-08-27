@@ -16,49 +16,60 @@
                     {{session('msg')}}
                 </div>
                 @endif
-                <table class="table table-bordered table-striped" id="mainTbl">
-                    <thead class="thead-light text-center">
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Birthdate</th>
-                            <th>Age/Sex</th>
-                            <th>Address</th>
-                            <th>Case Classification</th>
-                            <th>Outcome</th>
-                            <th>Disease Reporting Unit</th>
-                            <th>Created at/by</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($list as $ind => $l)
-                        <tr>
-                            <td class="text-center">{{$ind+1}}</td>
-                            <td>
-                                <div class="dropdown">
-                                    <button class="btn btn-link text-left" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><b>{{$l->getName()}}</b></button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a href="{{route('edcs_barangay_view_cif', [mb_strtoupper($case), $l->EPIID])}}" class="dropdown-item">View CIF</a>
-                                        <a href="{{route('edcs_barangay_edit_cif', [mb_strtoupper($case), $l->EPIID])}}" class="dropdown-item">Edit Details</a>
+                <div class="alert alert-primary" role="alert">
+                    <b class="text-danger">Note:</b> If duplicate data was found, please report to CESU.
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped" id="mainTbl">
+                        <thead class="thead-light text-center">
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Birthdate</th>
+                                <th>Age/Sex</th>
+                                <th>Address</th>
+                                <th>Contact No.</th>
+                                <th>Case Classification</th>
+                                <th>Outcome</th>
+                                <th>Disease Reporting Unit</th>
+                                <th>Morbidity Week</th>
+                                <th>Year</th>
+                                <th>Created at/by</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($list as $ind => $l)
+                            <tr>
+                                <td class="text-center">{{$ind+1}}</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-link text-left" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><b>{{$l->getName()}}</b></button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a href="{{route('edcs_barangay_view_cif', [mb_strtoupper($case), $l->EPIID])}}" class="dropdown-item">View CIF</a>
+                                            <a href="{{route('edcs_barangay_edit_cif', [mb_strtoupper($case), $l->EPIID])}}" class="dropdown-item">Edit Details</a>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="text-center">{{date('m/d/Y', strtotime($l->DOB))}}</td>
-                            <td class="text-center">{{$l->AgeYears}}/{{$l->Sex}}</td>
-                            <td class="text-center">
-                                <div>{{(!is_null($l->Streetpurok)) ? $l->Streetpurok : 'NO STREET PUROK'}}</div>
-                                <div>BRGY. {{$l->Barangay}}</div>
-                            </td>
-                            <td class="text-center">{{$l->CaseClassification}}</td>
-                            <td class="text-center">{{$l->Outcome}}</td>
-                            <td class="text-center">{{$l->NameOfDru}}</td>
-                            <td class="text-center">
-                                <div>{{date('m/d/Y h:i A', strtotime($l->created_at))}}</div>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                                </td>
+                                <td class="text-center">{{date('m/d/Y', strtotime($l->DOB))}}</td>
+                                <td class="text-center">{{$l->AgeYears}}/{{$l->Sex}}</td>
+                                <td class="text-center">
+                                    <div>{{(!is_null($l->Streetpurok)) ? $l->Streetpurok : 'NO STREET PUROK'}}</div>
+                                    <div><b>BRGY. {{$l->Barangay}}</b></div>
+                                </td>
+                                <td class="text-center">{{$l->edcs_contactNo ?: 'N/A'}}</td>
+                                <td class="text-center">{{$l->CaseClassification}}</td>
+                                <td class="text-center">{{$l->Outcome}}</td>
+                                <td class="text-center">{{$l->NameOfDru}}</td>
+                                <td class="text-center">{{$l->MorbidityWeek}}</td>
+                                <td class="text-center">{{$l->Year}}</td>
+                                <td class="text-center">
+                                    <div>{{date('m/d/Y h:i A', strtotime($l->created_at))}}</div>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

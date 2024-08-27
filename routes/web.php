@@ -401,6 +401,7 @@ Route::group(['middleware' => ['isLoggedInEdcsBrgyPortal']], function() {
     Route::get('/edcs/barangayportal/{case}/view', [PIDSRController::class, 'brgyCaseViewerViewList'])->name('edcs_barangay_view_list');
     Route::get('/edcs/barangayportal/viewcif/{case}/{epi_id}', [PIDSRController::class, 'viewCif'])->name('edcs_barangay_view_cif');
     Route::get('/edcs/barangayportal/viewcif/{case}/{epi_id}/edit', [PIDSRController::class, 'caseCheckerEdit'])->name('edcs_barangay_edit_cif');
+    Route::post('/edcs/barangayportal/viewcif/{case}/{epi_id}/update', [PIDSRController::class, 'caseCheckerUpdate'])->name('edcs_barangay_update_cif');
     Route::get('/edcs/barangayportal/{case}/spotmap_viewer', [PIDSRController::class, 'mapViewerIndex'])->name('edcs_barangay_spotmap_viewer');
 
     Route::post('/edcs/barangayportal/logout', [PIDSRController::class, 'brgyCaseViewerLogout'])->name('edcs_barangay_view_logout');

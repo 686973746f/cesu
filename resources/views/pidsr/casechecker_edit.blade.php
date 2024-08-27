@@ -14,11 +14,19 @@
         $epi_id = $d->EPIID;
     }
     @endphp
-    <form action="{{route('pidsr_casechecker_update', [$disease, $epi_id])}}" method="POST">
+    <form action="{{(!request()->is('*barangayportal*')) ? route('pidsr_casechecker_update', [$disease, $epi_id]) : route('edcs_barangay_update_cif', [$disease, $epi_id])}}" method="POST">
         @csrf
         <input type="hidden" class="form-control" name="fromVerifier" id="fromVerifier" value="{{(request()->input('fromVerifier')) ? 1 : 0}}">
         <div class="card">
-            <div class="card-header"><b>Quick Edit Case</b></div>
+            <div class="card-header">
+                <div class="d-flex justify-content-between">
+                    <div><b>Quick Edit Case</b></div>
+                    <div>
+                        <div>Date Created: {{date('F d, Y h:i A', strtotime($d->created_at))}}</div>
+                        <div>Date Updated: {{date('F d, Y h:i A', strtotime($d->updated_at))}}</div>
+                    </div>
+                </div>
+            </div>
             <div class="card-body">
                 @if(session('msg'))
                 <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
@@ -28,13 +36,13 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                          <label for="">Disease</label>
+                          <label for=""><b class="text-danger">*</b>Disease</label>
                           <input type="text" class="form-control" value="{{$disease}}" readonly>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="">EPI ID</label>
+                            <label for=""><b class="text-danger">*</b>EPI ID</label>
                             <input type="text" class="form-control" value="{{$d->EPIID}}" readonly>
                         </div>
                     </div>
@@ -76,14 +84,14 @@
                     </select>
                 </div>
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-md-6">
                         <div class="form-group">
                           <label for="system_subdivision_id"><b class="text-danger">*</b>Subdivision Geo-tagging</label>
                           <select class="form-control" name="system_subdivision_id" id="system_subdivision_id" required>
                           </select>
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="Streetpurok">Street/Purok</label>
                             <input type="text" class="form-control" value="{{old('Streetpurok', $d->Streetpurok)}}" id="Streetpurok" name="Streetpurok">
@@ -92,7 +100,7 @@
                 </div>
                 @else
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="Barangay"><b class="text-danger">*</b>Barangay</label>
                             <select class="form-control" name="Barangay" id="Barangay" required>
@@ -102,22 +110,28 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="Streetpurok">Street/Purok</label>
                             <input type="text" class="form-control" value="{{old('Streetpurok', $d->Streetpurok)}}" id="Streetpurok" name="Streetpurok">
                         </div>
                     </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="edcs_contactNo">Contact Number</label>
+                            <input type="text" class="form-control" id="edcs_contactNo" name="edcs_contactNo" value="{{old('edcs_contactNo', $d->edcs_contactNo)}}" pattern="[0-9]{11}" placeholder="09*********">
+                        </div>
+                    </div>
                 </div>
                 @endif
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="sys_coordinate_x">GPS Coordinate X (Latitude)</label>
                             <input type="text" class="form-control" value="{{old('sys_coordinate_x', $d->sys_coordinate_x)}}" pattern="\d+(\.\d+)?" id="sys_coordinate_x" name="sys_coordinate_x">
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="sys_coordinate_y">GPS Coordinate Y (Longitude)</label>
                             <input type="text" class="form-control" value="{{old('sys_coordinate_y', $d->sys_coordinate_y)}}" pattern="\d+(\.\d+)?" id="sys_coordinate_y" name="sys_coordinate_y">
@@ -147,14 +161,6 @@
                     </ul>
                 </div>
                 @endif
-                <div class="row">
-                    <div class="col-6">
-
-                    </div>
-                    <div class="col-6">
-                        
-                    </div>
-                </div>
                 @if($disease == 'PERT' && !request()->is('*barangayportal*'))
                 <hr>
                 <div class="row">
@@ -184,8 +190,12 @@
                 @endif
                 <hr>
                 <div class="form-group">
-                    <label for="system_remarks">Remarks</label>
-                    <textarea class="form-control" name="system_remarks" id="system_remarks" rows="3">{{old('system_remarks', $d->system_remarks)}}</textarea>
+                    <label for="brgy_remarks">Remarks from Barangay</label>
+                    <textarea class="form-control" name="brgy_remarks" id="brgy_remarks" rows="3" style="text-transform: uppercase;">{{old('brgy_remarks', $d->brgy_remarks)}}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="system_remarks">Remarks from CESU</label>
+                    <textarea class="form-control" name="system_remarks" id="system_remarks" rows="3" style="text-transform: uppercase;" {{(request()->is('*barangayportal*')) ? 'readonly' : ''}}>{{old('system_remarks', $d->system_remarks)}}</textarea>
                 </div>
             </div>
             <div class="card-footer">
