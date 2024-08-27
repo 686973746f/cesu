@@ -55,6 +55,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Session;
 use OpenSpout\Common\Entity\Style\Style;
 use App\Models\SevereAcuteRespiratoryInfection;
+use App\Models\Subdivision;
 
 /*
 ALL TABLES
@@ -1769,7 +1770,16 @@ class PIDSRController extends Controller
             }
 
             if(!request()->is('*barangayportal*')) {
-                $d->system_subdivision_id = $r->system_subdivision_id;
+                if(!is_null($r->system_subdivision_id) && $r->system_subdivision_id != 'NOT LISTED') {
+                    //Get Subdivision Details
+                    $d->system_subdivision_id = $r->system_subdivision_id;
+                    $getSubdivision = Subdivision::findOrFail($r->system_subdivision_id);
+
+                    $d->system_subdivision_name = $getSubdivision->subdName;
+                }
+                else if($r->system_subdivision_id == 'NOT LISTED') {
+                    $d->system_subdivision_name = $r->system_subdivision_name;
+                }
             }
             
             $d->sys_coordinate_x = $r->sys_coordinate_x;
@@ -8367,10 +8377,10 @@ class PIDSRController extends Controller
                     ->orWhere('Barangay', 'SAMPALUCAN POB. (BGY. 2)')
                     ->orWhere('Barangay', 'SAN GABRIEL POB. (BGY. 4)')
                     ->orWhere('Barangay', 'VIBORA POB. (BGY. 6)');
-                });
+                })->get();
             }
             else {
-                $list_case = $list_case->where('Barangay', $brgy);
+                $list_case = $list_case->where('Barangay', $brgy)->get();
             }
             
         }

@@ -75,26 +75,42 @@
                 </div>
                 
                 @if (!request()->is('*barangayportal*'))
-                <div class="form-group">
-                    <label for="Barangay"><b class="text-danger">*</b>Barangay</label>
-                    <select class="form-control" name="Barangay" id="Barangay" required>
-                        @foreach($brgy_list as $b)
-                        <option value="{{$b->id}}" {{($b->brgyName == old('Barangay', $d->Barangay)) ? 'selected' : ''}}>{{$b->brgyName}}</option>
-                        @endforeach
-                    </select>
-                </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                          <label for="system_subdivision_id"><b class="text-danger">*</b>Subdivision Geo-tagging</label>
-                          <select class="form-control" name="system_subdivision_id" id="system_subdivision_id" required>
-                          </select>
+                            <label for="Barangay"><b class="text-danger">*</b>Barangay</label>
+                            <select class="form-control" name="Barangay" id="Barangay" required>
+                                @foreach($brgy_list as $b)
+                                <option value="{{$b->id}}" {{($b->brgyName == old('Barangay', $d->Barangay)) ? 'selected' : ''}}>{{$b->brgyName}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
+                            <label for="system_subdivision_id"><b class="text-danger">*</b>Subdivision Geo-tagging</label>
+                            <select class="form-control" name="system_subdivision_id" id="system_subdivision_id" required>
+                            </select>
+                        </div>
+                        <div id="subdNotListedDiv" class="d-none">
+                            <div class="form-group">
+                                <label for="system_subdivision_name"><b class="text-danger">*</b>Subdivision Name (Manual Input)</label>
+                                <input type="text" class="form-control" value="{{old('system_subdivision_name', $d->system_subdivision_name)}}" style="text-transform: uppercase;" id="system_subdivision_name" name="system_subdivision_name">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
                             <label for="Streetpurok">Street/Purok</label>
-                            <input type="text" class="form-control" value="{{old('Streetpurok', $d->Streetpurok)}}" id="Streetpurok" name="Streetpurok">
+                            <input type="text" class="form-control" value="{{old('Streetpurok', $d->Streetpurok)}}" style="text-transform: uppercase;" id="Streetpurok" name="Streetpurok">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="edcs_contactNo">Contact Number</label>
+                            <input type="text" class="form-control" id="edcs_contactNo" name="edcs_contactNo" value="{{old('edcs_contactNo', $d->edcs_contactNo)}}" pattern="[0-9]{11}" placeholder="09*********">
                         </div>
                     </div>
                 </div>
@@ -191,7 +207,7 @@
                 <hr>
                 <div class="form-group">
                     <label for="brgy_remarks">Remarks from Barangay</label>
-                    <textarea class="form-control" name="brgy_remarks" id="brgy_remarks" rows="3" style="text-transform: uppercase;">{{old('brgy_remarks', $d->brgy_remarks)}}</textarea>
+                    <textarea class="form-control" name="brgy_remarks" id="brgy_remarks" rows="3" style="text-transform: uppercase;" {{(!request()->is('*barangayportal*')) ? 'readonly' : ''}}>{{old('brgy_remarks', $d->brgy_remarks)}}</textarea>
                 </div>
                 <div class="form-group">
                     <label for="system_remarks">Remarks from CESU</label>
@@ -331,10 +347,23 @@
                         if(existingSubdivisionId) {
                             $('#system_subdivision_id').val(existingSubdivisionId).trigger('change');
                         }
+                        $('#system_subdivision_id').append('<option value="NOT LISTED">NOT LISTED (N/A)</option>');
                     }
                 });
             } else {
                 $('#system_subdivision_id').empty();
+            }
+        }).trigger('change');
+
+        $('#system_subdivision_id').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == 'NOT LISTED') {
+                $('#subdNotListedDiv').removeClass('d-none');
+                $('#system_subdivision_name').prop('required', true);
+            }
+            else {
+                $('#subdNotListedDiv').addClass('d-none');
+                $('#system_subdivision_name').prop('required', false);
             }
         }).trigger('change');
         @endif
