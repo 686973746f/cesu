@@ -108,6 +108,7 @@
                     <textarea class="form-control" name="concern_msg" id="concern_msg" rows="3" disabled>{{mb_strtoupper($d->concern_msg)}}</textarea>
                 </div>
                 <hr>
+                <button type="button" class="btn btn-success btn-block btn-lg mb-3" data-toggle="modal" data-target="#vwizard">Open VaxCert Wizard</button>
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
@@ -514,9 +515,11 @@
                         </div>
                     </div>
                 </div>
+                @if($d->status != 'COMPLETED')
                 <button type="submit" class="btn btn-primary btn-block" name="submit" value="update">Update Record</button>
                 <hr class="mt-3">
-                <button type="button" class="btn btn-success btn-block btn-lg" data-toggle="modal" data-target="#vwizard">Open VaxCert Wizard</button>
+                @endif
+                
         </div>
     </form>
 </div>
@@ -534,14 +537,18 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-md-6">
                             <h6>Submitted ID (Click to Enlarge):</h6>
                             <a href="{{asset('assets/vaxcert/patients/'.$d->id_file)}}" target="_blank"><img src="{{asset('assets/vaxcert/patients/'.$d->id_file)}}" class="img-fluid"></a>
                         </div>
-                        <div class="col-6">
+                        <div class="col-md-6">
                             <h6>Submitted Card (Click to Enlarge):</h6>
                             <a href="{{asset('assets/vaxcert/patients/'.$d->vaxcard_file)}}" target="_blank"><img src="{{asset('assets/vaxcert/patients/'.$d->vaxcard_file)}}" class="img-fluid"></a>
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="concern_msg">Concern:</label>
+                        <textarea class="form-control" name="concern_msg" id="concern_msg" rows="3" readonly>{{mb_strtoupper($d->concern_msg)}}</textarea>
                     </div>
                     <div id="step1">
                         <hr>
