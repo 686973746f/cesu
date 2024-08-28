@@ -50,6 +50,9 @@ class CreateSyndromicRecordsTable extends Migration
             $table->date('fever_onset')->nullable();
             $table->text('fever_remarks')->nullable();
             $table->tinyInteger('rash')->nullable();
+            $table->tinyInteger('rash_isMaculopapular')->nullable();
+            $table->tinyInteger('rash_isPetechia')->nullable();
+            $table->tinyInteger('rash_isPurpura')->nullable();
             $table->date('rash_onset')->nullable();
             $table->text('rash_remarks')->nullable();
             $table->tinyInteger('cough')->nullable();

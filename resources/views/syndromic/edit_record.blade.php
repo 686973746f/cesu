@@ -381,7 +381,7 @@
                           <div class="form-check">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="colds_yn" id="colds_yn" value="checkedValue" {{(old('colds_yn') || $d->colds == 1) ? 'checked' : ''}}>
-                              Sipon/Colds (Coryza)
+                              Sipon/Colds/Runny Nose (Coryza)
                             </label>
                           </div>
                           <div id="colds_div" class="d-none">
@@ -585,7 +585,7 @@
                           <div class="form-check">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="musclepain_yn" id="musclepain_yn" value="checkedValue" {{(old('musclepain_yn') || $d->musclepain == 1) ? 'checked' : ''}}>
-                              Sakit ng Katawan/Muscle Pain/Body Pain
+                              Sakit ng Katawan/Muscle Pain/Body Pain (Myalgia)
                             </label>
                           </div>
                           <div id="musclepain_div" class="d-none">
@@ -603,7 +603,7 @@
                           <div class="form-check">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="nausea_yn" id="nausea_yn" value="checkedValue" {{(old('nausea_yn') || $d->nausea == 1) ? 'checked' : ''}}>
-                              Nahihilo/Nausea
+                              Nahihilo/Naduduwal (Nausea)
                             </label>
                           </div>
                           <div id="nausea_div" class="d-none">
@@ -643,6 +643,24 @@
                             </label>
                           </div>
                           <div id="rash_div" class="d-none">
+                            <div class="form-check">
+                              <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" name="rash_isMaculopapular" id="rash_isMaculopapular" value="checkedValue" {{(old('rash_isMaculopapular') || $d->rash_isMaculopapular == 1) ? 'checked' : ''}}>
+                                Maculopapular Rash - Mapulang batik (macules) at maliliit na nakaumbok na bukol (papules)
+                              </label>
+                            </div>
+                            <div class="form-check">
+                              <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" name="rash_isPetechia" id="rash_isPetechia" value="checkedValue" {{(old('rash_isPetechia') || $d->rash_isPetechia == 1) ? 'checked' : ''}}>
+                                Petechia - Maliliit na pula o violet na tuldok sa balat
+                              </label>
+                            </div>
+                            <div class="form-check">
+                              <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" name="rash_isPurpura" id="rash_isPurpura" value="checkedValue" {{(old('rash_isPurpura') || $d->rash_isPurpura == 1) ? 'checked' : ''}}>
+                                Purpura Rash - Kumpol ng mga purple na batik sa balat
+                              </label>
+                            </div>
                             <div class="form-group">
                               <label for="rash_onset">Rash Onset <small>(Optional)</small></label>
                               <input type="date" class="form-control" name="rash_onset" id="rash_onset" value="{{old('rash_onset', $d->rash_onset)}}" max="{{date('Y-m-d')}}">
@@ -675,7 +693,7 @@
                           <div class="form-check">
                             <label class="form-check-label">
                               <input type="checkbox" class="form-check-input" name="sorethroat_yn" id="sorethroat_yn" value="checkedValue" {{(old('sorethroat_yn') || $d->sorethroat == 1) ? 'checked' : ''}}>
-                              Pananakit ng Lalamunan/Sore Throat
+                              Pananakit o Makating Lalamunan/Sore Throat
                             </label>
                           </div>
                           <div id="sorethroat_div" class="d-none">
