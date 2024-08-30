@@ -2858,6 +2858,8 @@ class FhsisController extends Controller
     }
 
     public static function generateMortBhs($start, $end, $brgy, $brgyNameFhsis, $submit) {
+        ini_set('max_execution_time', 900);
+        
         //Mortality Total
         $early_neonatal_deaths_finaltotal_m = 0;
         $early_neonatal_deaths_finaltotal_f = 0;
@@ -3645,6 +3647,8 @@ class FhsisController extends Controller
     }
 
     public function newMorbidityReportDownload() {
+        ini_set('max_execution_time', 900);
+
         if(!request()->input('year') && !request()->input('month')) {
             return abort(401);
         }
