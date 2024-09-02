@@ -8078,8 +8078,15 @@ class PIDSRController extends Controller
             $year = date('Y');
         }
 
+        if($case == 'SevereAcuteRespiratoryInfection') {
+            $mweekcol = 'morbidity_week';
+        }
+        else {
+            $mweekcol = 'MorbidityWeek';
+        }
+
         $list = $list = $list->where('Year', $year)
-        ->orderBy('created_at', 'DESC')
+        ->orderBy($mweekcol, 'DESC')
         ->get();
 
         return view('pidsr.barangay.brgy_case_viewer_viewlist', [

@@ -15,11 +15,24 @@ class CreateMonkeyPoxesTable extends Migration
     {
         Schema::create('monkey_poxes', function (Blueprint $table) {
             $table->id();
-            
-            $table->date('morbidity_month');
+            $table->string('enabled', 1);
+
+            $table->string('patient_number')->nullable();
+            $table->string('lname');
+            $table->string('fname');
+            $table->string('mname')->nullable();
+            $table->string('suffix')->nullable();
+            $table->date('bdate');
+            $table->string('gender');
+
+            $table->text('dru_name');
+            $table->text('dru_address');
+            $table->text('dru_adddress');
+
+            $table->date('date_investigation');
             $table->date('date_reported');
             $table->text('epid_number')->nullable();
-            $table->date('date_investigation');
+            
             $table->text('dru_name');
             $table->text('dru_region');
             $table->text('dru_province');
@@ -105,6 +118,7 @@ class CreateMonkeyPoxesTable extends Migration
             $table->string('history9_choice');
             $table->text('history9_choice_othercountry')->nullable();
 
+            /*
             $table->string('test_npsops');
             $table->date('test_npsops_date_collected')->nullable();
             $table->text('test_npsops_laboratory')->nullable();
@@ -130,6 +144,7 @@ class CreateMonkeyPoxesTable extends Migration
             $table->text('test_serum_laboratory')->nullable();
             $table->text('test_serum_result')->nullable();
             $table->date('test_serum_date_released')->nullable();
+            */
 
             $table->text('health_status');
             $table->date('health_status_date_discharged')->nullable();
@@ -140,14 +155,23 @@ class CreateMonkeyPoxesTable extends Migration
             $table->date('outcome_date_recovered')->nullable();
             $table->date('outcome_date_died')->nullable();
             $table->text('outcome_causeofdeath')->nullable();
-            $table->text('case_classification');
+            $table->string('case_classification');
 
-            $table->string('remarks')->nullable();
+            $table->text('remarks')->nullable();
 
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('records_id')->constrained()->onDelete('cascade');
+            $table->integer('age_years')->nullable();
+            $table->integer('age_months')->nullable();
+            $table->integer('age_days')->nullable();
+
+            $table->integer('morbidity_month')->nullable();
+            $table->integer('morbidity_week')->nullable();
+            $table->integer('year')->nullable();
+
+            //$table->foreignId('user_id')->constrained()->onDelete('cascade');
+            //$table->foreignId('records_id')->constrained()->onDelete('cascade');
 
             $table->timestamps();
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->softDeletes();
         });
