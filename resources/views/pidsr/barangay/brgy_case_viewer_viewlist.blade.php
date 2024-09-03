@@ -33,35 +33,72 @@
                                 <th>Outcome</th>
                                 <th>Disease Reporting Unit</th>
                                 <th>Morbidity Week</th>
+                                <th>Morbidity Month</th>
                                 <th>Year</th>
                                 <th>Created at/by</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($list as $ind => $l)
+                            @php
+                            if($case == 'SevereAcuteRespiratoryInfection') {
+                                $epi_id = $l->epi_id;
+                                $mw = $l->morbidity_week;
+                                $mm = $l->morbidity_month;
+                                $my = $l->year;
+                                
+
+                                $dob = $l->birthdate;
+                                $age_years = $l->age_years;
+                                $sex = $l->sex;
+                                $streetpurok = $l->streetpurok;
+                                $brgy = $l->barangay;
+                                $facility_name = $l->facility_name;
+                                $outcome = $l->outcome;
+                                $cc = $l->case_classification;
+                            }
+                            else {
+                                $epi_id = $l->EPIID;
+                                $mw = $l->MorbidityWeek;
+                                $mm = $l->MorbidityMonth;
+                                $my = $l->Year;
+
+                                $dob = $l->DOB;
+                                $age_years = $l->AgeYears;
+                                $sex = $l->Sex;
+                                $streetpurok = $l->Streetpurok;
+                                $brgy = $l->Barangay;
+                                $facility_name = $l->NameOfDru;
+                                $outcome = $l->Outcome;
+                                $cc = $l->CaseClassification;
+                            }
+                            @endphp
                             <tr>
                                 <td class="text-center">{{$ind+1}}</td>
                                 <td>
                                     <div class="dropdown">
-                                        <button class="btn btn-link text-left" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><b>{{$l->getName()}}</b></button>
+                                        <button class="btn btn-link text-left" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <b>{{$l->getName()}}</b> @if((date('W') - 1) == $mw)<span class="badge badge-danger ml-1">NEW</span>@endif
+                                        </button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a href="{{route('edcs_barangay_view_cif', [mb_strtoupper($case), $l->EPIID])}}" class="dropdown-item">View CIF</a>
-                                            <a href="{{route('edcs_barangay_edit_cif', [mb_strtoupper($case), $l->EPIID])}}" class="dropdown-item">Edit Details</a>
+                                            <a href="{{route('edcs_barangay_view_cif', [mb_strtoupper($case), $epi_id])}}" class="dropdown-item">View CIF</a>
+                                            <a href="{{route('edcs_barangay_edit_cif', [mb_strtoupper($case), $epi_id])}}" class="dropdown-item">Edit Details</a>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="text-center">{{date('m/d/Y', strtotime($l->DOB))}}</td>
-                                <td class="text-center">{{$l->AgeYears}}/{{$l->Sex}}</td>
+                                <td class="text-center">{{date('m/d/Y', strtotime($dob))}}</td>
+                                <td class="text-center">{{$age_years}}/{{$sex}}</td>
                                 <td class="text-center">
-                                    <div>{{(!is_null($l->Streetpurok)) ? $l->Streetpurok : 'NO STREET PUROK'}}</div>
-                                    <div><b>BRGY. {{$l->Barangay}}</b></div>
+                                    <div>{{(!is_null($streetpurok)) ? $streetpurok : 'NO STREET PUROK'}}</div>
+                                    <div><b>BRGY. {{$brgy}}</b></div>
                                 </td>
                                 <td class="text-center">{{$l->edcs_contactNo ?: 'N/A'}}</td>
-                                <td class="text-center">{{$l->CaseClassification}}</td>
-                                <td class="text-center">{{$l->Outcome}}</td>
-                                <td class="text-center">{{$l->NameOfDru}}</td>
-                                <td class="text-center">{{$l->MorbidityWeek}}</td>
-                                <td class="text-center">{{$l->Year}}</td>
+                                <td class="text-center">{{$cc}}</td>
+                                <td class="text-center">{{$outcome}}</td>
+                                <td class="text-center">{{$facility_name}}</td>
+                                <td class="text-center">{{$mw}}</td>
+                                <td class="text-center">{{$mm}}</td>
+                                <td class="text-center">{{$my}}</td>
                                 <td class="text-center">
                                     <div>{{date('m/d/Y h:i A', strtotime($l->created_at))}}</div>
                                 </td>

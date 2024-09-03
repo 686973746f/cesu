@@ -9,6 +9,8 @@
     @php
     if($disease == 'SARI') {
         $epi_id = $d->epi_id;
+
+        
     }
     else {
         $epi_id = $d->EPIID;
@@ -43,7 +45,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for=""><b class="text-danger">*</b>EPI ID</label>
-                            <input type="text" class="form-control" value="{{$d->EPIID}}" readonly>
+                            <input type="text" class="form-control" value="{{$epi_id}}" readonly>
                         </div>
                     </div>
                 </div>

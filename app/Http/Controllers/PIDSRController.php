@@ -1557,6 +1557,10 @@ class PIDSRController extends Controller
 
     public static function dbFetcher($case) {
         $case = mb_strtoupper($case);
+
+        if($case == 'SEVEREACUTERESPIRATORYINFECTION') {
+            $case = 'SARI';
+        }
         
         if($case == 'ABD') {
             $d = 'Abd';
@@ -1691,6 +1695,10 @@ class PIDSRController extends Controller
 
     public function caseCheckerEdit($disease, $epi_id) {
         $modelClass = PIDSRController::dbFetcher($disease);
+
+        if($disease == 'SEVEREACUTERESPIRATORYINFECTION') {
+            $disease = 'SARI';
+        }
         
         $brgy_list = Brgy::where('city_id', 1)
         ->where('displayInList', 1)
