@@ -2040,12 +2040,12 @@ class DengueImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 $get_classi = mb_strtoupper($row['clinical_classification']);
             }
 
-            if(is_null($row['health_facility_code']) && is_null(EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name))) {
+            if(is_null($row['health_facility_code']) || is_null(EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name))) {
                 $getDruRegionText = NULL;
                 $getDruProvinceText = NULL;
                 $getDruMuncityText = NULL;
 
-                $getDruFacilityTypeText = NULL;
+                $getDruFacilityTypeText = $row['facilityname'];
             }
             else {
                 $getDruRegionText = (!is_null(EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name))) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL;
