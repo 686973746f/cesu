@@ -15,6 +15,13 @@ class CreateExportJobsTable extends Migration
     {
         Schema::create('export_jobs', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('for_module');
+            $table->string('status');
+            $table->dateTime('date_finished')->nullable();
+            $table->text('filename')->nullable();
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreignId('facility_id')->nullable()->constrained('doh_facilities')->onDelete('cascade');
             $table->timestamps();
         });
     }

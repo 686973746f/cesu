@@ -109,6 +109,9 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function
     //Encoder Stats
     Route::get('/encoder_stats', [AdminPanelController::class, 'encoderStatsIndex'])->name('encoder_stats_index');
     Route::get('/encoder_stats/monthly_ar/{id}', [TaskController::class, 'viewUserMonthlyAr'])->name('encoderstats_viewar');
+
+    Route::get('/export_jobs', [HomeController::class, 'exportJobsIndex'])->name('export_index');
+    Route::post('/export_jobs/{id}/download', [HomeController::class, 'exportJobsDownloadFile'])->name('export_download_file');
 });
 
 //PASWAB INTERNAL

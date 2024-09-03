@@ -6,10 +6,12 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Forms;
 use Carbon\CarbonPeriod;
+use App\Models\ExportJobs;
 use App\Models\SelfReports;
 use Illuminate\Http\Request;
 use App\Models\PaSwabDetails;
 use App\Models\VaxcertConcern;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
@@ -127,5 +129,21 @@ class HomeController extends Controller
             'total' => $total,
             'paswabctr' => $paswabctr,
         ]);
+    }
+
+    public function exportJobsIndex() {
+        $l = ExportJobs::where('created_by', Auth::id())
+        ->orderBy('created_at', 'DESC')
+        ->paginate(10);
+
+        return view('exports.index', [
+            'list' => $l,
+        ]);
+    }
+
+    public function exportJobsDownloadFile($id) {
+        $d = ExportJobs::findOrFail($id);
+
+        return response()->download(storage_path('export_jobs/'.$d->filename));
     }
 }
