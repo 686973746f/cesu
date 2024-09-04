@@ -1,6 +1,26 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    #loading {
+        position: fixed;
+        display: block;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        text-align: center;
+        background-color: #fff;
+        z-index: 99;
+    }
+</style>
+<div id="loading">
+    <div class="text-center">
+        <i class="fas fa-circle-notch fa-spin fa-5x my-3"></i>
+        <h3>Loading...</h3>
+    </div>
+</div>
+
     <div class="container-fluid">
         <a href="{{route('edcs_barangay_home')}}" class="btn btn-secondary mb-3">Back</a>
         <div class="card">
@@ -112,6 +132,10 @@
     </div>
 
     <script>
+        $(document).ready(function () {
+            $('#loading').fadeOut();
+        });
+
         $('#mainTbl').dataTable();
     </script>
 @endsection
