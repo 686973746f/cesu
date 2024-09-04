@@ -485,10 +485,65 @@
                 <!-- <a href="{{route('syndromic_diseasechecker')}}" class="btn btn-primary btn-block">Go to Disease Checker Page</a> -->
                 @else
                 <hr>
+                
+                <form action="{{route('opd_hospital_monthlysummaryv2')}}" method="POST">
+                    @csrf
+                    <div id="accordianId_2" role="tablist" aria-multiselectable="true">
+                        <div class="card mb-3">
+                            <div class="card-header text-center" role="tab" id="section1HeaderId_2">
+                                <a data-toggle="collapse" data-parent="#accordianId_2" href="#section1ContentId_2" aria-expanded="true" aria-controls="section1ContentId_2">
+                                    Export OPD/ER Summary
+                                </a>
+                            </div>
+                            <div id="section1ContentId_2" class="collapse in" role="tabpanel" aria-labelledby="section1HeaderId_2">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="year"><b class="text-danger">*</b>Year</label>
+                                        <input type="number" class="form-control" name="year" id="year" min="{{(date('Y')-5)}}" max="{{date('Y')}}" value="{{date('Y')}}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="month"><b class="text-danger">*</b>Month</label>
+                                        <select class="form-control" name="month" id="month" required>
+                                          <option value="" disabled selected>Choose...</option>
+                                          <option value="1" {{(date('n') == 1) ? 'selected' : ''}}>January</option>
+                                          <option value="2" {{(date('n') == 2) ? 'selected' : ''}}>February</option>
+                                          <option value="3" {{(date('n') == 3) ? 'selected' : ''}}>March</option>
+                                          <option value="4" {{(date('n') == 4) ? 'selected' : ''}}>April</option>
+                                          <option value="5" {{(date('n') == 5) ? 'selected' : ''}}>May</option>
+                                          <option value="6" {{(date('n') == 6) ? 'selected' : ''}}>June</option>
+                                          <option value="7" {{(date('n') == 7) ? 'selected' : ''}}>July</option>
+                                          <option value="8" {{(date('n') == 8) ? 'selected' : ''}}>August</option>
+                                          <option value="9" {{(date('n') == 9) ? 'selected' : ''}}>September</option>
+                                          <option value="10" {{(date('n') == 10) ? 'selected' : ''}}>October</option>
+                                          <option value="11" {{(date('n') == 11) ? 'selected' : ''}}>November</option>
+                                          <option value="12" {{(date('n') == 12) ? 'selected' : ''}}>December</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="type"><b class="text-danger">*</b>Select Summary Type</label>
+                                        <select class="form-control" name="type" id="type" required>
+                                            <option value="" disabled selected>Choose...</option>
+                                            <option value="OPD">OPD</option>
+                                            <option value="ER">ER</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-success btn-block">Generate Excel File</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
                 <a href="{{route('opd_hospital_downloadalphalist')}}" class="btn btn-primary btn-block">Download Alphalist</a>
                 <a href="{{route('opd_hospital_dailysummary')}}" class="btn btn-primary btn-block">DAILY REPORTING SUMMARY</a>
+
+                
                 <a href="{{route('opd_hospital_monthlysummary')}}?id=OPD" class="btn btn-primary btn-block">OPD SUMMARY</a>
                 <a href="{{route('opd_hospital_monthlysummary')}}?id=ER" class="btn btn-primary btn-block">ER SUMMARY</a>
+                
                 @endif
             </div>
         </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\CallOpdErExport;
 use App\Models\Nt;
 use Carbon\Carbon;
 use App\Models\Abd;
@@ -4256,5 +4257,9 @@ class SyndromicController extends Controller
             'final_array' => $final_arr,
             'brgy_list' => $brgy_list,
         ]);
+    }
+
+    public function hospSummaryReportV2() {
+        CallOpdErExport::dispatch();
     }
 }
