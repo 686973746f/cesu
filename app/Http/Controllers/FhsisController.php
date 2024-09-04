@@ -3653,24 +3653,38 @@ class FhsisController extends Controller
             return abort(401);
         }
 
-        //Call Export Job
-        $c = ExportJobs::create([
-            'name' => 'M2 BHS Export',
-            'for_module' => 'FHSIS',
-            'status' => 'pending',
-            //'date_finished'
-            //'filename',
-            'created_by' => auth()->user()->id,
-            'facility_id' => auth()->user()->itr_facility_id,
-        ]);
+        //Check if Existing Job 10 minutes ago was created by User
+        $queue_check = ExportJobs::where('created_by', auth()->user()->id)
+        ->where('created_at', '>=', date('Y-m-d H:i:s', strtotime('-5 Minutes')))
+        ->first();
 
-        $year = request()->input('year');
-        $month = request()->input('month');
+        if(!$queue_check) {
+            $year = request()->input('year');
+            $month = request()->input('month');
 
-        CallM2Export::dispatch(auth()->user()->id, $c->id, $year, $month);
+            $start = Carbon::createFromDate($year, $month, 01)->startOfMonth();
 
-        return redirect()->route('export_index')
-        ->with('msg', 'Your download request is now being requested. The server will prepare the file. Please refresh this page after 5-10 minutes to download the file.')
-        ->with('msgtype', 'success');
+            //Call Export Job
+            $c = ExportJobs::create([
+                'name' => 'M2 BHS Export for '.$start->format('M Y'),
+                'for_module' => 'FHSIS',
+                'status' => 'pending',
+                //'date_finished'
+                //'filename',
+                'created_by' => auth()->user()->id,
+                'facility_id' => auth()->user()->itr_facility_id,
+            ]);
+
+            CallM2Export::dispatch(auth()->user()->id, $c->id, $year, $month);
+
+            return redirect()->route('export_index')
+            ->with('msg', 'Your download request is now being requested. The server will now prepare the file. Please refresh this page after 5-10 minutes or more until the status turns to completed.')
+            ->with('msgtype', 'success');
+        }
+        else {
+            return redirect()->route('export_index')
+            ->with('msg', 'Error: You already have a export request recently. Please try again after 5-10 Minutes.')
+            ->with('msgtype', 'warning');
+        }
     }
 }

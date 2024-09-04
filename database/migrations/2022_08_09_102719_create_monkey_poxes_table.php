@@ -170,6 +170,9 @@ class CreateMonkeyPoxesTable extends Migration
             //$table->foreignId('user_id')->constrained()->onDelete('cascade');
             //$table->foreignId('records_id')->constrained()->onDelete('cascade');
 
+            $table->string('gps_x')->nullable();
+            $table->string('gps_x')->nullable();
+
             $table->timestamps();
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
