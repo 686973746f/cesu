@@ -206,6 +206,8 @@ class ABTCVaccinationController extends Controller
                 $animal_type = NULL;
                 $bite_type = NULL;
                 $category_level = 1;
+
+                $currentDate = Carbon::parse(date('Y-m-d'));
             }
             else {
                 $is_preexp = 0;
@@ -215,7 +217,16 @@ class ABTCVaccinationController extends Controller
                 $animal_type = $request->animal_type;
                 $bite_type = $request->bite_type;
                 $category_level = (!is_null($request->rig_date_given)) ? 3 : $request->category_level;
+
+                $currentDate = Carbon::parse($request->bite_date);
             }
+
+            $pdata = AbtcPatient::find($id);
+            $birthdate = Carbon::parse($pdata->bdate);
+            
+            $get_ageyears = $birthdate->diffInYears($currentDate);
+            $get_agemonths = $birthdate->diffInMonths($currentDate);
+            $get_agedays = $birthdate->diffInDays($currentDate);
 
             $f = $request->user()->abtcbakunarecord()->create([
                 'patient_id' => $id,
@@ -260,6 +271,10 @@ class ABTCVaccinationController extends Controller
                 'date_died' => ($request->outcome == 'D') ? $request->date_died : NULL,
                 'animal_died_date' => ($request->biting_animal_status == 'DEAD') ? $request->animal_died_date : NULL,
                 'remarks' => $request->remarks,
+
+                'age_years' => $get_ageyears,
+                'age_months' => $get_agemonths,
+                'age_days' => $get_agedays,
             ]);
 
             if($request->d0_vaccinated_inbranch == 'Y') {
@@ -340,6 +355,8 @@ class ABTCVaccinationController extends Controller
             $animal_type = NULL;
             $bite_type = NULL;
             $category_level = 1;
+
+            $currentDate = Carbon::parse(date('Y-m-d'));
         }
         else {
             $is_preexp = 0;
@@ -349,7 +366,14 @@ class ABTCVaccinationController extends Controller
             $animal_type = $request->animal_type;
             $bite_type = $request->bite_type;
             $category_level = (!is_null($request->rig_date_given)) ? 3 : $request->category_level;
+
+            $currentDate = Carbon::parse($request->bite_date);
         }
+        $birthdate = Carbon::parse($b->patient->bdate);
+        
+        $get_ageyears = $birthdate->diffInYears($currentDate);
+        $get_agemonths = $birthdate->diffInMonths($currentDate);
+        $get_agedays = $birthdate->diffInDays($currentDate);
 
         $b->is_booster = ($request->is_booster == 'Y') ? 1 : 0;
         $b->is_preexp = $is_preexp;
@@ -378,6 +402,10 @@ class ABTCVaccinationController extends Controller
         $b->date_died = ($request->outcome == 'D') ? $request->date_died : NULL;
         $b->animal_died_date = ($request->biting_animal_status == 'DEAD') ? $request->animal_died_date : NULL;
         $b->remarks = $request->remarks;
+
+        $b->age_years = $get_ageyears;
+        $b->age_months = $get_agemonths;
+        $b->age_days = $get_agedays;
 
         //Checking of Outcome on Category 3 with Erig
         if($b->category_level == 3 && $b->d28_done == 1 && !is_null($b->rig_date_given)) {
