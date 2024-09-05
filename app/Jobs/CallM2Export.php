@@ -14,6 +14,8 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use OpenSpout\Common\Entity\Style\Style;
 use App\Http\Controllers\PIDSRController;
+use App\Models\AbtcBakunaRecords;
+use App\Models\Rabies;
 use Rap2hpoutre\FastExcel\SheetCollection;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -607,8 +609,33 @@ class CallM2Export implements ShouldQueue
             }
         }
 
+        $abtc_array = [];
+
+        foreach($brgy_list as $b) {
+            $animalbit = AbtcBakunaRecords::whereHas('patient', function($q) use ($b) {
+                $q->where('register_status', 'VERIFIED')
+                ->where('address_muncity_text', $b->city->cityName)
+                ->where('address_brgy_text', $b->brgyName);
+            })
+            ->whereBetween('bite_date', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->count();
+
+            $rabies = Rabies::where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where('MorbidityMonth', $start->format('n'))
+            ->where('Year', $start->format('Y'))
+            ->count();
+            
+            $abtc_array[] = [
+                'Barangay' => $b->brgyName,
+                'No. of Animal Bites ('.$start->format('M Y').')' => $animalbit,
+                'No. of Deaths due to Rabies ('.$start->format('M Y').')' => $rabies,
+            ];
+        }
+
         $sheets = new SheetCollection([
             'M2 BHS' => $final_arr,
+            'ABTC' => $abtc_array,
         ]);
 
         $header_style = (new Style())->setFontBold();
