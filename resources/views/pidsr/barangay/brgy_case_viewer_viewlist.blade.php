@@ -22,6 +22,7 @@
 </div>
 
     <div class="container-fluid">
+        <p>Today is: {{date('M. d, Y')}} - Morbidity Week: {{date('W')}}</p>
         <a href="{{route('edcs_barangay_home')}}" class="btn btn-secondary mb-3">Back</a>
         <div class="card">
             <div class="card-header">
@@ -37,7 +38,7 @@
                 </div>
                 @endif
                 <div class="alert alert-primary" role="alert">
-                    <b class="text-danger">Note:</b> If duplicate data was found, please report to CESU.
+                    <b class="text-danger">Note:</b> If duplicate data/incorrect address was found, please report to CESU.
                 </div>
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped" id="mainTbl">
@@ -136,6 +137,15 @@
             $('#loading').fadeOut();
         });
 
-        $('#mainTbl').dataTable();
+        $('#mainTbl').dataTable({
+            dom: 'Bfrtip',
+            buttons: [
+            {
+                extend: 'excel',
+                title: '',
+            },
+            'copy',
+        ],
+        });
     </script>
 @endsection

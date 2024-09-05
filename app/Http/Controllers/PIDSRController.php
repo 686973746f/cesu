@@ -50,6 +50,7 @@ use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
 use Rap2hpoutre\FastExcel\FastExcel;
 use App\Models\LabResultLogBookGroup;
+use App\Models\MonkeyPox;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Session;
@@ -8500,5 +8501,29 @@ class PIDSRController extends Controller
 
             'final_array' => $final_array,
         ]);
+    }
+
+    public function addCaseCheck() {
+        $disease = request()->input('disease');
+        
+        $lname = mb_strtoupper(request()->input('lname'));
+        $fname = mb_strtoupper(request()->input('fname'));
+        $mname = (!is_null(request()->input('mname'))) ? mb_strtoupper(request()->input('mname')) : NULL;
+        $suffix = (!is_null(request()->input('mname'))) ? mb_strtoupper(request()->input('suffix')) : NULL;
+        $bdate = request()->input('bdate');
+
+        if($disease == 'MPOX') {
+            $check = MonkeyPox::where('lname', $lname)
+            ->where('fname', $fname)
+            ->where('year', date('Y'))
+            ->where('morbidity_month', date('n'))
+            ->first();
+
+            if(!$check) {
+                return view('pidsr.mpox.cif', [
+                    'mode' => 'NEW',
+                ]);
+            }
+        }
     }
 }

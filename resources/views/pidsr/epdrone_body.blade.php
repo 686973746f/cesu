@@ -235,6 +235,17 @@
         </a>
     </div>
     <div class="col-md-3 mb-3">
+        <a href="#">
+            <div class="card bg-primary">
+                <div class="card-body">
+                    <h4 class="text-white">MPox</h4>
+                    <h4 class="text-warning">TBD</h4>
+                    <h4 class="text-danger">Deaths: TBD</h4>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3 mb-3">
         <a href="{{$nt_route}}">
             <div class="card bg-primary">
                 <div class="card-body">

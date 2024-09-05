@@ -15,7 +15,18 @@ class CreateMonkeyPoxesTable extends Migration
     {
         Schema::create('monkey_poxes', function (Blueprint $table) {
             $table->id();
-            $table->string('enabled', 1);
+            $table->date('date_investigation');
+            $table->text('laboratory_id')->nullable();
+            $table->text('epi_id')->nullable();
+            $table->integer('enabled');
+            $table->integer('match_casedef');
+
+            $table->text('dru_name');
+            $table->text('dru_region');
+            $table->text('dru_province');
+            $table->text('dru_muncity');
+            $table->text('dru_street')->nullable();
+            $table->text('dru_type');
 
             $table->string('patient_number')->nullable();
             $table->string('lname');
@@ -24,29 +35,49 @@ class CreateMonkeyPoxesTable extends Migration
             $table->string('suffix')->nullable();
             $table->date('bdate');
             $table->string('gender');
+            $table->string('is_pregnant', 1);
+            $table->integer('is_pregnant_weeks')->nullable();
+            $table->text('other_medical_information')->nullable();
+            $table->string('is_ip', 1);
+            $table->string('is_ip_specify')->nullable();
 
-            $table->text('dru_name');
-            $table->text('dru_address');
-            $table->text('dru_adddress');
+            $table->string('nationality');
 
-            $table->date('date_investigation');
-            $table->date('date_reported');
-            $table->text('epid_number')->nullable();
-            
-            $table->text('dru_name');
-            $table->text('dru_region');
-            $table->text('dru_province');
-            $table->text('dru_muncity');
-            $table->text('dru_street');
+            $table->string('contact_number')->nullable();
 
-            $table->text('type');
-            $table->text('laboratory_id')->nullable();
+            $table->text('address_region_code');
+            $table->text('address_region_text');
+            $table->text('address_province_code');
+            $table->text('address_province_text');
+            $table->text('address_muncity_code');
+            $table->text('address_muncity_text');
+            $table->text('address_brgy_code');
+            $table->text('address_brgy_text');
+            $table->text('address_street')->nullable();
+            $table->text('address_houseno')->nullable();
 
-            $table->text('informant_name')->nullable();
-            $table->text('informant_relationship')->nullable();
-            $table->text('informant_contactnumber')->nullable();
+            $table->text('perm_address_region_code');
+            $table->text('perm_address_region_text');
+            $table->text('perm_address_province_code');
+            $table->text('perm_address_province_text');
+            $table->text('perm_address_muncity_code');
+            $table->text('perm_address_muncity_text');
+            $table->text('perm_address_brgy_code');
+            $table->text('perm_address_brgy_text');
+            $table->text('perm_address_street')->nullable();
+            $table->text('perm_address_houseno')->nullable();
 
-            $table->date('date_admitted')->nullable();
+            $table->string('occupation')->nullable();
+            $table->string('workplace_name')->nullable();
+            $table->text('workplace_address')->nullable();
+            $table->string('workplace_contactnumber')->nullable();
+
+            $table->string('informant_name')->nullable();
+            $table->string('informant_relationship')->nullable();
+            $table->string('informant_contactnumber')->nullable();
+            //$table->date('date_reported');
+
+            $table->date('date_admitted_seen_consulted')->nullable();
             $table->text('admission_er');
             $table->text('admission_ward');
             $table->text('admission_icu');
@@ -56,21 +87,21 @@ class CreateMonkeyPoxesTable extends Migration
             $table->text('ifhashistory_blooddonation_transfusion_place')->nullable();
             $table->date('ifhashistory_blooddonation_transfusion_date')->nullable();
 
-            $table->text('other_medicalinformation')->nullable();
+            //$table->text('other_medicalinformation')->nullable();
 
             $table->date('date_onsetofillness');
 
-            $table->string('have_cutaneous_rash');
+            $table->string('have_cutaneous_rash', 1);
             $table->date('have_cutaneous_rash_date')->nullable();
 
-            $table->string('have_fever');
+            $table->string('have_fever', 1);
             $table->date('have_fever_date')->nullable();
             $table->integer('have_fever_days_duration')->nullable();
 
-            $table->string('have_activedisease_lesion_samestate');
-            $table->string('have_activedisease_lesion_samesize');
-            $table->string('have_activedisease_lesion_deep');
-            $table->string('have_activedisease_develop_ulcers');
+            $table->string('have_activedisease_lesion_samestate', 1);
+            $table->string('have_activedisease_lesion_samesize', 1);
+            $table->string('have_activedisease_lesion_deep', 1);
+            $table->string('have_activedisease_develop_ulcers', 1);
             $table->text('have_activedisease_lesion_type')->nullable();
             $table->text('have_activedisease_lesion_localization')->nullable();
             $table->text('have_activedisease_lesion_localization_otherareas')->nullable();
@@ -78,23 +109,23 @@ class CreateMonkeyPoxesTable extends Migration
             $table->text('symptoms_list')->nullable();
             $table->text('symptoms_lymphadenopathy_localization')->nullable();
 
-            $table->string('history1_yn');
-            $table->string('history1_specify')->nullable();
+            $table->string('history1_yn', 1);
+            $table->text('history1_specify')->nullable();
             $table->date('history1_date_travel')->nullable();
             $table->string('history1_flightno')->nullable();
             $table->date('history1_date_arrival')->nullable();
-            $table->string('history1_pointandexitentry')->nullable();
+            $table->text('history1_pointandexitentry')->nullable();
 
-            $table->string('history2_yn');
-            $table->string('history2_specify')->nullable();
+            $table->string('history2_yn', 1);
+            $table->text('history2_specify')->nullable();
             $table->date('history2_date_travel')->nullable();
             $table->string('history2_flightno')->nullable();
             $table->date('history2_date_arrival')->nullable();
-            $table->string('history2_pointandexitentry')->nullable();
+            $table->text('history2_pointandexitentry')->nullable();
 
-            $table->string('history3_yn');
+            $table->string('history3_yn', 1);
 
-            $table->string('history4_yn');
+            $table->string('history4_yn', 1);
             $table->text('history4_typeofanimal')->nullable();
             $table->date('history4_firstexposure')->nullable();
             $table->date('history4_lastexposure')->nullable();
@@ -103,17 +134,17 @@ class CreateMonkeyPoxesTable extends Migration
 
             $table->text('history5_genderidentity');
 
-            $table->string('history6_yn');
-            $table->string('history6_mtm')->nullable();
+            $table->string('history6_yn', 1);
+            $table->string('history6_mtm', 1)->nullable();
             $table->integer('history6_mtm_nosp')->nullable();
-            $table->string('history6_mtf')->nullable();
+            $table->string('history6_mtf', 1)->nullable();
             $table->integer('history6_mtf_nosp')->nullable();
-            $table->string('history6_uknown')->nullable();
+            $table->string('history6_uknown', 1)->nullable();
             $table->integer('history6_uknown_nosp')->nullable();
 
-            $table->string('history7_yn');
+            $table->string('history7_yn', 1);
 
-            $table->string('history8_yn');
+            $table->string('history8_yn', 1);
 
             $table->string('history9_choice');
             $table->text('history9_choice_othercountry')->nullable();
@@ -158,6 +189,7 @@ class CreateMonkeyPoxesTable extends Migration
             $table->string('case_classification');
 
             $table->text('remarks')->nullable();
+            $table->text('brgy_remarks')->nullable();
 
             $table->integer('age_years')->nullable();
             $table->integer('age_months')->nullable();
@@ -170,8 +202,8 @@ class CreateMonkeyPoxesTable extends Migration
             //$table->foreignId('user_id')->constrained()->onDelete('cascade');
             //$table->foreignId('records_id')->constrained()->onDelete('cascade');
 
-            $table->string('gps_x')->nullable();
-            $table->string('gps_x')->nullable();
+            $table->text('gps_x')->nullable();
+            $table->text('gps_y')->nullable();
 
             $table->timestamps();
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');

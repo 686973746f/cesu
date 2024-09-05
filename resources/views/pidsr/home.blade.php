@@ -12,7 +12,7 @@
                     </div>
                     <hr>
                     <div class="d-flex justify-content-between">
-                      <div><b>PIDSR MENU</b></div>
+                      <div><b>INTEGRATED PIDSR / EDCS-IS MENU</b></div>
                       <div>
                         <a href="{{route('pidsr_notif_index')}}" class="btn btn-primary"><i class="fas fa-bell"></i></i>@if($notif_count != 0)<span class="badge badge-danger ml-1">{{number_format($notif_count)}}</span>@endif</a>
                         @if(auth()->user()->canaccess_covid == 1)
@@ -27,6 +27,8 @@
                         {{session('msg')}}
                     </div>
                     @endif
+                    <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#addCase">Add New Case</button>
+                    <hr>
                     <a href="{{route('pidsr_epdrone_home')}}" class="btn btn-primary btn-block">Case Viewer/Checker</a>
                     <a href="{{route('pidsr_weeklymonitoring')}}" class="btn btn-primary btn-block">Weekly Submissions Monitoring</a>
                     <a href="{{route('pidsr_forvalidation_index')}}?year={{date('Y')}}" class="btn btn-primary btn-block">For Validation @if($forverification_count != 0)<span class="badge badge-danger ml-1">{{number_format($forverification_count)}}</span>@endif</a>
@@ -59,6 +61,59 @@
         </div>
     </div>
 </div>
+
+<form action="{{route('edcs_addcase_check')}}" method="GET">
+    <div class="modal fade" id="addCase" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Case</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                      <label for="disease"><b class="text-danger">*</b>Select Case</label>
+                      <select class="form-control" name="disease" id="disease" required>
+                        <option value="" disabled selected>Choose...</option>
+                        <option value="MPOX">Monkeypox</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="lname"><b class="text-danger">*</b>Last Name</label>
+                        <input type="text" class="form-control" name="lname" id="lname" value="{{old('lname')}}" minlength="2" maxlength="50" placeholder="ex: DELA CRUZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fname"><b class="text-danger">*</b>First Name</label>
+                        <input type="text" class="form-control" name="fname" id="fname" value="{{old('fname')}}" minlength="2" maxlength="50" placeholder="ex: JUAN" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="mname">Middle Name <i>(If Applicable)</i></label>
+                                <input type="text" class="form-control" name="mname" id="mname" value="{{old('mname')}}" minlength="2" maxlength="50" placeholder="ex: SANCHEZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="suffix">Suffix <i>(If Applicable)</i></label>
+                                <input type="text" class="form-control" name="suffix" id="suffix" value="{{old('suffix')}}" minlength="2" maxlength="3" placeholder="ex: JR, SR, III, IV" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="bdate"><b class="text-danger">*</b>Birthdate</label>
+                        <input type="date" class="form-control" name="bdate" id="bdate" value="{{old('bdate')}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 
 <div class="modal fade" id="changemenu" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
