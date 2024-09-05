@@ -3,17 +3,18 @@
 namespace App\Console\Commands;
 
 use Carbon\Carbon;
+use App\Models\AbtcPatient;
 use Illuminate\Console\Command;
-use App\Models\FhsisTbdotsMorbidity;
+use App\Models\AbtcBakunaRecords;
 
-class TbdotsAgeRecounter extends Command
+class AbtcAgeRecounter extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'tbdotsagerecounter';
+    protected $signature = 'abtcagerecounter';
 
     /**
      * The console command description.
@@ -39,15 +40,20 @@ class TbdotsAgeRecounter extends Command
      */
     public function handle()
     {
-        $list = FhsisTbdotsMorbidity::get();
+        $list = AbtcBakunaRecords::whereHas('patient', function ($q) {
+            $q->whereNotNull('bdate');
+        })->whereYear('created_at', 2024)
+        ->get();
 
         foreach($list as $l) {
-            $birthdate = Carbon::parse($l->bdate);
-            $currentDate = Carbon::parse($l->date_started_tx);
+            $birthdate = Carbon::parse($l->patient->bdate);
+            $currentDate = Carbon::parse($l->bite_date);
 
+            $get_ageyears = $birthdate->diffInYears($currentDate);
             $get_agemonths = $birthdate->diffInMonths($currentDate);
             $get_agedays = $birthdate->diffInDays($currentDate);
 
+            $l->age_years = $get_ageyears;
             $l->age_months = $get_agemonths;
             $l->age_days = $get_agedays;
 

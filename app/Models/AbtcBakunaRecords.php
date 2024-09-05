@@ -74,6 +74,10 @@ class AbtcBakunaRecords extends Model
         'ics_grabbed_date',
         'ics_finishedby',
         'ics_finished_date',
+
+        'age_years',
+        'age_months',
+        'age_days',
     ];
 
     public function patient() {
