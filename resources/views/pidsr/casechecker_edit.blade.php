@@ -158,8 +158,8 @@
                 </div>
                 <div>
                     <button type="button" name="changeLocation" id="changeLocation" class="btn btn-warning btn-block d-none">Change Location</button>
-                    <button type="button" name="getCurrentLocation" id="getCurrentLocation" class="btn btn-primary btn-block">
-                        <div>Tag Current Location as the Patient Location</div>
+                    <button type="button" name="getCurrentLocation" id="getCurrentLocation" class="btn btn-secondary btn-block">
+                        <div><i class="fa fa-map-marker mr-2" aria-hidden="true"></i>Tag Current Location as the Patient Location</div>
                         <div><small>(Requires location permission)</small></div>
                     </button>
                     <button type="button" name="cancelCurrentLocation" id="cancelCurrentLocation" class="btn btn-warning btn-block d-none">Cancel</button>

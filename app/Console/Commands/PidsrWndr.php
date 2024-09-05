@@ -162,7 +162,7 @@ class PidsrWndr extends Command
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
-                        'age' => $i->AgeYears,
+                        'age' => $i->displayAgeStringToReport(),
                         'sex' => $i->Sex,
                         'brgy' => $i->Barangay,
                         'address' => (!is_null($i->Streetpurok)) ? mb_strtoupper($i->Streetpurok) : 'NO ADDRESS ENCODED',
@@ -217,7 +217,7 @@ class PidsrWndr extends Command
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
-                        'age' => $i->AgeYears,
+                        'age' => $i->displayAgeStringToReport(),
                         'sex' => $i->Sex,
                         'brgy' => $i->Barangay,
                         'address' => (!is_null($i->Streetpurok)) ? mb_strtoupper($i->Streetpurok) : 'NO ADDRESS ENCODED',
@@ -272,7 +272,7 @@ class PidsrWndr extends Command
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
-                        'age' => $i->AgeYears,
+                        'age' => $i->displayAgeStringToReport(),
                         'sex' => $i->Sex,
                         'brgy' => $i->Barangay,
                         'address' => (!is_null($i->Streetpurok)) ? mb_strtoupper($i->Streetpurok) : 'NO ADDRESS ENCODED',
@@ -327,7 +327,7 @@ class PidsrWndr extends Command
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
-                        'age' => $i->AgeYears,
+                        'age' => $i->displayAgeStringToReport(),
                         'sex' => $i->Sex,
                         'brgy' => $i->Barangay,
                         'address' => (!is_null($i->Streetpurok)) ? mb_strtoupper($i->Streetpurok) : 'NO ADDRESS ENCODED',
@@ -380,7 +380,7 @@ class PidsrWndr extends Command
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
-                        'age' => $i->AgeYears,
+                        'age' => $i->displayAgeStringToReport(),
                         'sex' => $i->Sex,
                         'brgy' => $i->Barangay,
                         'address' => (!is_null($i->Streetpurok)) ? mb_strtoupper($i->Streetpurok) : 'NO ADDRESS ENCODED',
@@ -433,7 +433,7 @@ class PidsrWndr extends Command
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
-                        'age' => $i->AgeYears,
+                        'age' => $i->displayAgeStringToReport(),
                         'sex' => $i->Sex,
                         'brgy' => $i->Barangay,
                         'address' => (!is_null($i->Streetpurok)) ? mb_strtoupper($i->Streetpurok) : 'NO ADDRESS ENCODED',
@@ -486,7 +486,7 @@ class PidsrWndr extends Command
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
-                        'age' => $i->AgeYears,
+                        'age' => $i->displayAgeStringToReport(),
                         'sex' => $i->Sex,
                         'brgy' => $i->Barangay,
                         'address' => (!is_null($i->Streetpurok)) ? mb_strtoupper($i->Streetpurok) : 'NO ADDRESS ENCODED',
@@ -539,7 +539,7 @@ class PidsrWndr extends Command
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
-                        'age' => $i->AgeYears,
+                        'age' => $i->displayAgeStringToReport(),
                         'sex' => $i->Sex,
                         'brgy' => $i->Barangay,
                         'address' => (!is_null($i->Streetpurok)) ? mb_strtoupper($i->Streetpurok) : 'NO ADDRESS ENCODED',
@@ -594,7 +594,7 @@ class PidsrWndr extends Command
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
-                        'age' => $i->AgeYears,
+                        'age' => $i->displayAgeStringToReport(),
                         'sex' => $i->Sex,
                         'brgy' => $i->Barangay,
                         'address' => (!is_null($i->Streetpurok)) ? mb_strtoupper($i->Streetpurok) : 'NO ADDRESS ENCODED',
@@ -647,7 +647,7 @@ class PidsrWndr extends Command
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
-                        'age' => $i->AgeYears,
+                        'age' => $i->displayAgeStringToReport(),
                         'sex' => $i->Sex,
                         'brgy' => $i->Barangay,
                         'address' => (!is_null($i->Streetpurok)) ? mb_strtoupper($i->Streetpurok) : 'NO ADDRESS ENCODED',
@@ -700,7 +700,7 @@ class PidsrWndr extends Command
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
-                        'age' => $i->AgeYears,
+                        'age' => $i->displayAgeStringToReport(),
                         'sex' => $i->Sex,
                         'brgy' => $i->Barangay,
                         'address' => (!is_null($i->Streetpurok)) ? mb_strtoupper($i->Streetpurok) : 'NO ADDRESS ENCODED',
@@ -753,7 +753,7 @@ class PidsrWndr extends Command
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
-                        'age' => $i->AgeYears,
+                        'age' => $i->displayAgeStringToReport(),
                         'sex' => $i->Sex,
                         'brgy' => $i->Barangay,
                         'address' => (!is_null($i->Streetpurok)) ? mb_strtoupper($i->Streetpurok) : 'NO ADDRESS ENCODED',
@@ -806,7 +806,7 @@ class PidsrWndr extends Command
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
-                        'age' => $i->AgeYears,
+                        'age' => $i->displayAgeStringToReport(),
                         'sex' => $i->Sex,
                         'brgy' => $i->Barangay,
                         'address' => (!is_null($i->Streetpurok)) ? mb_strtoupper($i->Streetpurok) : 'NO ADDRESS ENCODED',
@@ -859,7 +859,7 @@ class PidsrWndr extends Command
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
-                        'age' => $i->AgeYears,
+                        'age' => $i->displayAgeStringToReport(),
                         'sex' => $i->Sex,
                         'brgy' => $i->Barangay,
                         'address' => (!is_null($i->Streetpurok)) ? mb_strtoupper($i->Streetpurok) : 'NO ADDRESS ENCODED',
@@ -912,7 +912,7 @@ class PidsrWndr extends Command
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
-                        'age' => $i->AgeYears,
+                        'age' => $i->displayAgeStringToReport(),
                         'sex' => $i->Sex,
                         'brgy' => $i->Barangay,
                         'address' => (!is_null($i->Streetpurok)) ? mb_strtoupper($i->Streetpurok) : 'NO ADDRESS ENCODED',
@@ -965,7 +965,7 @@ class PidsrWndr extends Command
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
-                        'age' => $i->AgeYears,
+                        'age' => $i->displayAgeStringToReport(),
                         'sex' => $i->Sex,
                         'brgy' => $i->Barangay,
                         'address' => (!is_null($i->Streetpurok)) ? mb_strtoupper($i->Streetpurok) : 'NO ADDRESS ENCODED',
@@ -1018,7 +1018,7 @@ class PidsrWndr extends Command
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
-                        'age' => $i->AgeYears,
+                        'age' => $i->displayAgeStringToReport(),
                         'sex' => $i->Sex,
                         'brgy' => $i->Barangay,
                         'address' => (!is_null($i->Streetpurok)) ? mb_strtoupper($i->Streetpurok) : 'NO ADDRESS ENCODED',
@@ -1071,7 +1071,7 @@ class PidsrWndr extends Command
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
-                        'age' => $i->AgeYears,
+                        'age' => $i->displayAgeStringToReport(),
                         'sex' => $i->Sex,
                         'brgy' => $i->Barangay,
                         'address' => (!is_null($i->Streetpurok)) ? mb_strtoupper($i->Streetpurok) : 'NO ADDRESS ENCODED',
@@ -1124,7 +1124,7 @@ class PidsrWndr extends Command
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
-                        'age' => $i->AgeYears,
+                        'age' => $i->displayAgeStringToReport(),
                         'sex' => $i->Sex,
                         'brgy' => $i->Barangay,
                         'address' => (!is_null($i->Streetpurok)) ? mb_strtoupper($i->Streetpurok) : 'NO ADDRESS ENCODED',
@@ -1177,7 +1177,7 @@ class PidsrWndr extends Command
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
-                        'age' => $i->AgeYears,
+                        'age' => $i->displayAgeStringToReport(),
                         'sex' => $i->Sex,
                         'brgy' => $i->Barangay,
                         'address' => (!is_null($i->Streetpurok)) ? mb_strtoupper($i->Streetpurok) : 'NO ADDRESS ENCODED',
@@ -1230,7 +1230,7 @@ class PidsrWndr extends Command
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
-                        'age' => $i->AgeYears,
+                        'age' => $i->displayAgeStringToReport(),
                         'sex' => $i->Sex,
                         'brgy' => $i->Barangay,
                         'address' => (!is_null($i->Streetpurok)) ? mb_strtoupper($i->Streetpurok) : 'NO ADDRESS ENCODED',
@@ -1283,7 +1283,7 @@ class PidsrWndr extends Command
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
-                        'age' => $i->AgeYears,
+                        'age' => $i->displayAgeStringToReport(),
                         'sex' => $i->Sex,
                         'brgy' => $i->Barangay,
                         'address' => (!is_null($i->Streetpurok)) ? mb_strtoupper($i->Streetpurok) : 'NO ADDRESS ENCODED',
@@ -1336,7 +1336,7 @@ class PidsrWndr extends Command
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
-                        'age' => $i->AgeYears,
+                        'age' => $i->displayAgeStringToReport(),
                         'sex' => $i->Sex,
                         'brgy' => $i->Barangay,
                         'address' => (!is_null($i->Streetpurok)) ? mb_strtoupper($i->Streetpurok) : 'NO ADDRESS ENCODED',
@@ -1389,7 +1389,7 @@ class PidsrWndr extends Command
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
-                        'age' => $i->AgeYears,
+                        'age' => $i->displayAgeStringToReport(),
                         'sex' => $i->Sex,
                         'brgy' => $i->Barangay,
                         'address' => (!is_null($i->Streetpurok)) ? mb_strtoupper($i->Streetpurok) : 'NO ADDRESS ENCODED',
@@ -1442,7 +1442,7 @@ class PidsrWndr extends Command
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
-                        'age' => $i->AgeYears,
+                        'age' => $i->displayAgeStringToReport(),
                         'sex' => $i->Sex,
                         'brgy' => $i->Barangay,
                         'address' => (!is_null($i->Streetpurok)) ? mb_strtoupper($i->Streetpurok) : 'NO ADDRESS ENCODED',
@@ -1495,7 +1495,7 @@ class PidsrWndr extends Command
                     array_push($list, [
                         'type' => $get_type,
                         'name' => $i->FullName,
-                        'age' => $i->AgeYears,
+                        'age' => $i->displayAgeStringToReport(),
                         'sex' => $i->Sex,
                         'brgy' => $i->Barangay,
                         'address' => (!is_null($i->Streetpurok)) ? mb_strtoupper($i->Streetpurok) : 'NO ADDRESS ENCODED',

@@ -43,7 +43,7 @@
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#report">Report</button>
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#snax">sNaX v2</button>
                     <hr>
-                    @if(auth()->user()->isGlobalAdmin())
+                    @if(auth()->user()->isGlobalAdmin() && $unlockweeklyreport)
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#dailyexport">EDCS-IS Daily Import</button>
                     @endif
                     @if($unlockweeklyreport || request()->input('override'))

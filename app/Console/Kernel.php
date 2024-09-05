@@ -49,6 +49,7 @@ class Kernel extends ConsoleKernel
         //$schedule->command('pidsrwndr:weekly')->weeklyOn(2, '11:00')->evenInMaintenanceMode();
         $schedule->command('covidvaccinelinelistimporter:weekly')->dailyAt('22:00')->evenInMaintenanceMode();
 
+        /*
         if(date('w', strtotime(date('Y-m-'.date('t')))) == 6 || date('w', strtotime(date('Y-m-'.date('t')))) == 0) {
             $lastDay = strtotime(date('Y-m-' . date('t')));
             $prevFriday = strtotime('last Friday', $lastDay);
@@ -58,6 +59,7 @@ class Kernel extends ConsoleKernel
         else {
             $schedule->command('fhsism2autosender:monthly')->monthlyOn(date('t'), '16:55');
         }
+        */
 
         $schedule->command('autotkc:daily')->dailyAt('16:40')->evenInMaintenanceMode();
         $schedule->command('abtcstockreport:daily')->dailyAt('16:40')->evenInMaintenanceMode();

@@ -132,9 +132,15 @@ class HomeController extends Controller
     }
 
     public function exportJobsIndex() {
-        $l = ExportJobs::where('created_by', Auth::id())
-        ->orderBy('created_at', 'DESC')
-        ->paginate(10);
+        if(auth()->user()->isGlobalAdmin()) {
+            $l = ExportJobs::orderBy('created_at', 'DESC')
+            ->paginate(10);
+        }
+        else {
+            $l = ExportJobs::where('created_by', Auth::id())
+            ->orderBy('created_at', 'DESC')
+            ->paginate(10);
+        }
 
         return view('exports.index', [
             'list' => $l,
