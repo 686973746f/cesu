@@ -8520,10 +8520,12 @@ class PIDSRController extends Controller
             ->first();
 
             if(!$check) {
-                return view('pidsr.mpox.cif', [
-                    'mode' => 'NEW',
-                ]);
+                return $this->mPoxNewOrEdit(new MonkeyPox())->with('mode', 'NEW');
             }
         }
+    }
+
+    public function mPoxNewOrEdit(MonkeyPox $record) {
+        return view('pidsr.mpox.cif', ['d' => $record]);
     }
 }
