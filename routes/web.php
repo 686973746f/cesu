@@ -395,6 +395,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
     Route::get('/pidsr/weeklymonitoring', [PIDSRController::class, 'weeklyMonitoring'])->name('pidsr_weeklymonitoring');
 
     Route::get('/pidsr/add_case', [PIDSRController::class, 'addCaseCheck'])->name('edcs_addcase_check');
+    Route::post('/pidsr/add_case/{disease}/store', [PIDSRController::class, 'addCaseStore'])->name('edcs_addcase_store');
 });
 
 Route::get('/edcs/barangayportal', [PIDSRController::class, 'brgyCaseViewerWelcome'])->name('edcs_barangay_welcome');

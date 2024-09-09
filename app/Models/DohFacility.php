@@ -54,4 +54,24 @@ class DohFacility extends Model
 
         return $f;
     }
+
+    public function getFacilityTypeShort() {
+        //mostly being used for Mpox, for now
+        if($this->facility_type == 'City Health Office') {
+            return 'C/MHO';
+        }
+        else if($this->facility_type == 'Infirmary' && $this->ownership_type == 'Government') {
+            return 'GOVT HOSPITAL';
+        }
+        else if($this->facility_type == 'Hospital' && $this->ownership_type == 'Private') {
+            return 'PRIVATE LABORATORY';
+        }
+        else {
+            return $this->facility_type;
+        }
+    }
+
+    public function getAddress() {
+        return 'BRGY. '.$this->address_barangay.', '.$this->address_muncity.', '.$this->address_province;
+    }
 }

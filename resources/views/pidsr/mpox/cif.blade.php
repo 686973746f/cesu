@@ -5,29 +5,13 @@
 <!--Edit Page-->
 <form action="#" method="POST">
     @php
-    $morbidity_month = $d->morbidity_month;
-    $date_reported = $d->date_reported;
     $epid_number = $d->epid_number;
-
-    $dru_name = $d->dru_name;
-    $dru_region = $d->dru_region;
-    $dru_province = $d->dru_province;
-    $dru_muncity = $d->dru_muncity;
-    $dru_street = $d->dru_street;
     @endphp
 @else
 <!--Create Page-->
-<form action="#" method="POST">
+<form action="{{route('edcs_addcase_store', 'MPOX')}}" method="POST">
     @php
-    $morbidity_month = date('Y-m-d');
-    $date_reported = date('Y-m-d');
     $epid_number = NULL;
-
-    $dru_name = 'CHO GENERAL TRIAS';
-    $dru_region = 'IV-A';
-    $dru_province = 'CAVITE';
-    $dru_muncity = 'GENERAL TRIAS';
-    $dru_street = 'PRIA RD';
     @endphp
 @endif
 
@@ -55,28 +39,28 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="dru_name"><span class="text-danger font-weight-bold">*</span>Name of DRU</label>
-                            <input type="text"class="form-control" name="dru_name" id="dru_name" value="{{old('dru_name', $dru_name)}}" style="text-transform: uppercase;" required>
+                            <input type="text"class="form-control" name="dru_name" id="dru_name" value="{{old('dru_name', $f->facility_name)}}" style="text-transform: uppercase;" required readonly>
                         </div>
                         <div class="form-group">
                             <label for="dru_name"><span class="text-danger font-weight-bold">*</span>Address of DRU</label>
-                            <input type="text"class="form-control" name="dru_name" id="dru_name" value="{{old('dru_name', $dru_name)}}" style="text-transform: uppercase;" required>
+                            <input type="text"class="form-control" name="dru_name" id="dru_name" value="{{old('dru_name', $f->getAddress())}}" style="text-transform: uppercase;" required readonly>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="date_investigation"><span class="text-danger font-weight-bold">*</span>Date of Investigation</label>
-                            <input type="date"class="form-control" name="date_investigation" id="date_investigation" value="{{old('date_investigation', $d->date_investigation)}}" max="{{date('Y-m-d')}}" required>
+                            <input type="date"class="form-control" name="date_investigation" id="date_investigation" value="{{old('date_investigation', $d->date_investigation)}}" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}" required>
                         </div>
                         <div class="form-group">
-                            <label for="type"><span class="text-danger font-weight-bold">*</span>Type of DRU</label>
-                            <select class="form-control" name="type" id="type" required>
-                                <option value="C/MHO" {{(old('type') == 'C/MHO') ? 'selected' : ''}}>C/MHO</option>
-                                <option value="GOVT HOSPITAL" {{(old('type') == 'GOVT HOSPITAL') ? 'selected' : ''}}>GOV'T HOSPITAL</option>
-                                <option value="PRIVATE HOSPITAL" {{(old('type') == 'PRIVATE HOSPITAL') ? 'selected' : ''}}>PRIVATE HOSPITAL</option>
-                                <option value="AIRPORT" {{(old('type') == 'AIRPORT') ? 'selected' : ''}}>AIRPORT</option>
-                                <option value="SEAPORT" {{(old('type') == 'SEAPORT') ? 'selected' : ''}}>SEAPORT</option>
-                                <option value="GOVT LABORATORY" {{(old('type') == 'GOVT LABORATORY') ? 'selected' : ''}}>GOV'T LABORATORY</option>
-                                <option value="PRIVATE LABORATORY" {{(old('type') == 'PRIVATE LABORATORY') ? 'selected' : ''}}>PRIVATE LABORATORY</option>
+                            <label for="dru_type"><span class="text-danger font-weight-bold">*</span>Type of DRU</label>
+                            <select class="form-control" name="dru_type" id="dru_type" required readonly>
+                                <option value="C/MHO" {{(old('dru_type', $f->getFacilityTypeShort()) == 'C/MHO') ? 'selected' : ''}}>C/MHO</option>
+                                <option value="GOVT HOSPITAL" {{(old('dru_type', $f->getFacilityTypeShort()) == 'GOVT HOSPITAL') ? 'selected' : ''}}>GOV'T HOSPITAL</option>
+                                <option value="PRIVATE HOSPITAL" {{(old('dru_type', $f->getFacilityTypeShort()) == 'PRIVATE HOSPITAL') ? 'selected' : ''}}>PRIVATE HOSPITAL</option>
+                                <option value="AIRPORT" {{(old('dru_type', $f->getFacilityTypeShort()) == 'AIRPORT') ? 'selected' : ''}}>AIRPORT</option>
+                                <option value="SEAPORT" {{(old('dru_type', $f->getFacilityTypeShort()) == 'SEAPORT') ? 'selected' : ''}}>SEAPORT</option>
+                                <option value="GOVT LABORATORY" {{(old('dru_type', $f->getFacilityTypeShort()) == 'GOVT LABORATORY') ? 'selected' : ''}}>GOV'T LABORATORY</option>
+                                <option value="PRIVATE LABORATORY" {{(old('dru_type', $f->getFacilityTypeShort()) == 'PRIVATE LABORATORY') ? 'selected' : ''}}>PRIVATE LABORATORY</option>
                             </select>
                         </div>
                     </div>
@@ -84,6 +68,20 @@
                 <div class="card mb-3">
                     <div class="card-header"><b>I. PATIENT INFORMATION</b></div>
                     <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="patient_number">Patient No.</label>
+                                    <input type="text"class="form-control" name="patient_number" id="patient_number" value="{{old('patient_number', $d->patient_number)}}" style="text-transform: uppercase;">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="laboratory_id">Laboratory ID</label>
+                                    <input type="text"class="form-control" name="laboratory_id" id="laboratory_id" value="{{old('laboratory_id', $d->laboratory_id)}}" style="text-transform: uppercase;">
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-3">
                                 <div class="form-group">
@@ -122,8 +120,8 @@
                                     <label for="gender"><span class="text-danger font-weight-bold">*</span>Sex</label>
                                       <select class="form-control" name="gender" id="gender" required>
                                           <option value="" disabled {{(is_null(old('gender'))) ? 'selected' : ''}}>Choose...</option>
-                                          <option value="MALE" {{(old('gender') == 'MALE') ? 'selected' : ''}}>Male</option>
-                                          <option value="FEMALE" {{(old('gender') == 'FEMALE') ? 'selected' : ''}}>Female</option>
+                                          <option value="M" {{(old('gender') == 'M') ? 'selected' : ''}}>Male</option>
+                                          <option value="F" {{(old('gender') == 'F') ? 'selected' : ''}}>Female</option>
                                       </select>
                                 </div>
                                 <div class="d-none" id="ifFemaleDiv">
@@ -134,6 +132,10 @@
                                             <option value="Y" {{(old('is_pregnant') == 'Y') ? 'selected' : ''}}>Yes</option>
                                             <option value="N" {{(old('is_pregnant') == 'N') ? 'selected' : ''}}>No</option>
                                       </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="is_pregnant_weeks">Number of Weeks Pregnant</label>
+                                        <input type="number" class="form-control" name="is_pregnant_weeks" id="is_pregnant_weeks" value="{{old('is_pregnant_weeks')}}" max="36" min="1">
                                     </div>
                                 </div>
                             </div>
@@ -249,7 +251,7 @@
                             <label for=""><b class="text-danger">*</b>Permanent Address is Different from Current Address?</label>
                             <select class="form-control" name="permaddress_isdifferent" id="permaddress_isdifferent" required>
                                 <option value="" disabled {{(is_null(old('permaddress_isdifferent'))) ? 'selected' : ''}}>Choose...</option>
-                                <option value="N" {{(old('permaddress_isdifferent') == 'No') ? 'selected' : ''}}>No (Same as above)</option>
+                                <option value="N" {{(old('permaddress_isdifferent') == 'N') ? 'selected' : ''}}>No (Same as above)</option>
                                 <option value="Y" {{(old('permaddress_isdifferent') == 'Y') ? 'selected' : ''}}>Yes</option>
                             </select>
                         </div>
@@ -258,14 +260,14 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                       <label for="perm_address_region_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Permanent Address Region</label>
-                                      <select class="form-control" name="perm_address_region_code" id="perm_address_region_code" required>
+                                      <select class="form-control" name="perm_address_region_code" id="perm_address_region_code">
                                       </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="perm_address_province_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Permanent Address Province</label>
-                                        <select class="form-control" name="perm_address_province_code" id="perm_address_province_code" required>
+                                        <select class="form-control" name="perm_address_province_code" id="perm_address_province_code">
                                         </select>
                                     </div>
                                 </div>
@@ -274,14 +276,14 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="perm_address_muncity_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Permanent Address City/Municipality</label>
-                                        <select class="form-control" name="perm_address_muncity_code" id="perm_address_muncity_code" required>
+                                        <select class="form-control" name="perm_address_muncity_code" id="perm_address_muncity_code">
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="perm_address_brgy_text" class="form-label"><span class="text-danger font-weight-bold">*</span>Permanent Address Barangay</label>
-                                        <select class="form-control" name="perm_address_brgy_text" id="perm_address_brgy_text" required>
+                                        <select class="form-control" name="perm_address_brgy_text" id="perm_address_brgy_text">
                                         </select>
                                     </div>
                                 </div>
@@ -290,13 +292,13 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="perm_address_houseno" class="form-label"><b class="text-danger">*</b>Permanent Address House No./Lot/Building</label>
-                                        <input type="text" class="form-control" id="perm_address_houseno" name="perm_address_houseno" style="text-transform: uppercase;" value="{{old('perm_address_houseno')}}" pattern="(^[a-zA-Z0-9 ]+$)+" placeholder="ex. S1 B2 L3 PHASE 4 MIRAGE ST." required>
+                                        <input type="text" class="form-control" id="perm_address_houseno" name="perm_address_houseno" style="text-transform: uppercase;" value="{{old('perm_address_houseno')}}" pattern="(^[a-zA-Z0-9 ]+$)+" placeholder="ex. S1 B2 L3 PHASE 4 MIRAGE ST.">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="perm_address_street" class="form-label"><b class="text-danger">*</b>Permanent Address Street/Subdivision/Purok/Sitio</label>
-                                        <input type="text" class="form-control" id="perm_address_street" name="perm_address_street" style="text-transform: uppercase;" value="{{old('perm_address_street')}}" pattern="(^[a-zA-Z0-9 ]+$)+" placeholder="ex. SUBDIVISION HOMES" required>
+                                        <input type="text" class="form-control" id="perm_address_street" name="perm_address_street" style="text-transform: uppercase;" value="{{old('perm_address_street')}}" pattern="(^[a-zA-Z0-9 ]+$)+" placeholder="ex. SUBDIVISION HOMES">
                                     </div>
                                 </div>
                             </div>
@@ -358,32 +360,40 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="date_admitted"><span class="text-danger font-weight-bold">*</span>Date Admitted/Seen/Consult</label>
-                                    <input type="date"class="form-control" name="date_admitted" id="date_admitted" value="{{old('date_admitted', $d->date_admitted)}}" max="{{date('Y-m-d')}}" required>
+                                    <label for="date_admitted_seen_consulted"><span class="text-danger font-weight-bold">*</span>Date Admitted/Seen/Consult</label>
+                                    <input type="date"class="form-control" name="date_admitted_seen_consulted" id="date_admitted_seen_consulted" value="{{old('date_admitted_seen_consulted', $d->date_admitted_seen_consulted)}}" max="{{date('Y-m-d')}}" required>
                                 </div>
-                                <div class="form-group">
-                                    <label for="admission_er"><span class="text-danger font-weight-bold">*</span>Admitted ER</label>
-                                    <select class="form-control" name="admission_er" id="admission_er" required>
-                                        <option value="N" {{(old('admission_er', $d->admission_er) == 'N') ? 'selected' : ''}}>NO</option>
-                                        <option value="Y" {{(old('admission_er', $d->admission_er) == 'Y') ? 'selected' : ''}}>YES</option>
-                                        <option value="U" {{(old('admission_er', $d->admission_er) == 'U') ? 'selected' : ''}}>UNKNOWN</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="admission_ward"><span class="text-danger font-weight-bold">*</span>Admitted Ward</label>
-                                    <select class="form-control" name="admission_ward" id="admission_ward" required>
-                                        <option value="N" {{(old('admission_ward', $d->admission_ward) == 'N') ? 'selected' : ''}}>NO</option>
-                                        <option value="Y" {{(old('admission_ward', $d->admission_ward) == 'Y') ? 'selected' : ''}}>YES</option>
-                                        <option value="U" {{(old('admission_ward', $d->admission_ward) == 'U') ? 'selected' : ''}}>UNKNOWN</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="admission_icu"><span class="text-danger font-weight-bold">*</span>Admitted ICU</label>
-                                    <select class="form-control" name="admission_icu" id="admission_icu" required>
-                                        <option value="N" {{(old('admission_icu', $d->admission_icu) == 'N') ? 'selected' : ''}}>NO</option>
-                                        <option value="Y" {{(old('admission_icu', $d->admission_icu) == 'Y') ? 'selected' : ''}}>YES</option>
-                                        <option value="U" {{(old('admission_icu', $d->admission_icu) == 'U') ? 'selected' : ''}}>UNKNOWN</option>
-                                    </select>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="admission_er"><span class="text-danger font-weight-bold">*</span>Admitted ER</label>
+                                            <select class="form-control" name="admission_er" id="admission_er" required>
+                                                <option value="N" {{(old('admission_er', $d->admission_er) == 'N') ? 'selected' : ''}}>NO</option>
+                                                <option value="Y" {{(old('admission_er', $d->admission_er) == 'Y') ? 'selected' : ''}}>YES</option>
+                                                <option value="U" {{(old('admission_er', $d->admission_er) == 'U') ? 'selected' : ''}}>UNKNOWN</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="admission_ward"><span class="text-danger font-weight-bold">*</span>Admitted Ward</label>
+                                            <select class="form-control" name="admission_ward" id="admission_ward" required>
+                                                <option value="N" {{(old('admission_ward', $d->admission_ward) == 'N') ? 'selected' : ''}}>NO</option>
+                                                <option value="Y" {{(old('admission_ward', $d->admission_ward) == 'Y') ? 'selected' : ''}}>YES</option>
+                                                <option value="U" {{(old('admission_ward', $d->admission_ward) == 'U') ? 'selected' : ''}}>UNKNOWN</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="admission_icu"><span class="text-danger font-weight-bold">*</span>Admitted ICU</label>
+                                            <select class="form-control" name="admission_icu" id="admission_icu" required>
+                                                <option value="N" {{(old('admission_icu', $d->admission_icu) == 'N') ? 'selected' : ''}}>NO</option>
+                                                <option value="Y" {{(old('admission_icu', $d->admission_icu) == 'Y') ? 'selected' : ''}}>YES</option>
+                                                <option value="U" {{(old('admission_icu', $d->admission_icu) == 'U') ? 'selected' : ''}}>UNKNOWN</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -800,7 +810,7 @@
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="card mb-3">
                     <div class="card-header"><b>VI. HEALTH STATUS</b></div>
                     <div class="card-body">
                         <div class="row">
@@ -848,7 +858,7 @@
                                 </div>
                                 <div id="div_outcome_unknown_type" class="d-none">
                                     <div class="form-group">
-                                        <label for="outcome_unknown_type"><span class="text-danger font-weight-bold">*</span>Type</label>
+                                        <label for="outcome_unknown_type"><span class="text-danger font-weight-bold">*</span>Unknown Type</label>
                                         <select class="form-control" name="outcome_unknown_type" id="outcome_unknown_type" required>
                                             <option value="HAMA" {{(old('outcome_unknown_type', $d->outcome_unknown_type) == 'HAMA') ? 'selected' : ''}}>HAMA</option>
                                             <option value="LOST TO FOLLOW-UP" {{(old('outcome_unknown_type', $d->outcome_unknown_type) == 'LOST TO FOLLOW-UP') ? 'selected' : ''}}>LOST TO FOLLOW-UP</option>
@@ -860,16 +870,22 @@
                                 <div class="form-group">
                                     <label for="case_classification"><span class="text-danger font-weight-bold">*</span>Case Classification</label>
                                     <select class="form-control" name="case_classification" id="case_classification" required>
+                                        <option value="" disabled {{(is_null(old('case_classification', $d->case_classification))) ? 'selected' : ''}}>Choose...</option>
                                         <option value="SUSPECT" {{(old('case_classification', $d->case_classification) == 'SUSPECT') ? 'selected' : ''}}>SUSPECT</option>
                                         <option value="PROBABLE" {{(old('case_classification', $d->case_classification) == 'PROBABLE') ? 'selected' : ''}}>PROBABLE</option>
-                                        <option value="CONFIRMED" {{(old('case_classification', $d->case_classification) == 'CONFIRMED') ? 'selected' : ''}}>CONFIRMED</option>
+                                        <option value="CONFIRMED" {{(old('case_classification', $d->case_classification) == 'CONFIRMED') ? 'selected' : ''}}>CONFIRMED (POSITIVE RESULT)</option>
                                         <option value="CONTACT" {{(old('case_classification', $d->case_classification) == 'CONTACT') ? 'selected' : ''}}>CONTACT</option>
-                                        <option value="DISCARDED" {{(old('case_classification', $d->case_classification) == 'DISCARDED') ? 'selected' : ''}}>DISCARDED</option>
+                                        <option value="DISCARDED" {{(old('case_classification', $d->case_classification) == 'DISCARDED') ? 'selected' : ''}}>DISCARDED (NEGATIVE RESULT)</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="remarks">Remarks</label>
+                    <textarea class="form-control" name="remarks" id="remarks" rows="3" style="text-transform: uppercase;">{{old('remarks', $d->remarks)}}</textarea>
                 </div>
             </div>
             <div class="card-footer">
@@ -1211,6 +1227,46 @@
         $('#perm_address_province_text').val('CAVITE');
         $('#perm_address_muncity_text').val('GENERAL TRIAS');
     });
+    
+    $('#gender').change(function (e) {
+        e.preventDefault();
+        if($(this).val() == 'F') {
+            $('#ifFemaleDiv').removeClass('d-none');
+
+            $('#is_pregnant').prop('required', true);
+            $('#is_pregnant_weeks').prop('required', true);
+        }
+        else {
+            $('#ifFemaleDiv').addClass('d-none');
+
+            $('#is_pregnant').prop('required', false);
+            $('#is_pregnant_weeks').prop('required', false);
+        }
+    }).trigger('change');
+
+    $('#permaddress_isdifferent').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'Y') {
+            $('#permAddressDiv').removeClass('d-none');
+
+            $('#perm_address_region_code').prop('required', true);
+            $('#perm_address_province_code').prop('required', true);
+            $('#perm_address_muncity_code').prop('required', true);
+            $('#perm_address_brgy_text').prop('required', true);
+            $('#perm_address_houseno').prop('required', true);
+            $('#perm_address_street').prop('required', true);
+        }
+        else {
+            $('#permAddressDiv').addClass('d-none');
+
+            $('#perm_address_region_code').prop('required', false);
+            $('#perm_address_province_code').prop('required', false);
+            $('#perm_address_muncity_code').prop('required', false);
+            $('#perm_address_brgy_text').prop('required', false);
+            $('#perm_address_houseno').prop('required', false);
+            $('#perm_address_street').prop('required', false);
+        }
+    }).trigger('change');
 
     $('#have_cutaneous_rash').change(function (e) { 
         e.preventDefault();

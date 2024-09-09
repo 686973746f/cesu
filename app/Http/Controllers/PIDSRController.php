@@ -28,10 +28,12 @@ use App\Models\Meningo;
 use App\Models\Typhoid;
 use App\Models\Hepatitis;
 use App\Models\Influenza;
+use App\Models\MonkeyPox;
 use App\Models\Rotavirus;
 use App\Models\Meningitis;
 use App\Imports\EdcsImport;
 use App\Models\DohFacility;
+use App\Models\Subdivision;
 use Illuminate\Support\Str;
 use App\Imports\PidsrImport;
 use App\Models\SiteSettings;
@@ -41,22 +43,21 @@ use App\Models\Leptospirosis;
 use App\Models\PidsrThreshold;
 use App\Models\LabResultLogBook;
 use App\Models\EdcsLaboratoryData;
-use App\Models\EdcsWeeklySubmissionChecker;
 use App\Models\PidsrNotifications;
 use Illuminate\Support\Facades\DB;
 use RebaseData\Converter\Converter;
 use RebaseData\InputFile\InputFile;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
 use Rap2hpoutre\FastExcel\FastExcel;
 use App\Models\LabResultLogBookGroup;
-use App\Models\MonkeyPox;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Session;
 use OpenSpout\Common\Entity\Style\Style;
+use App\Models\EdcsWeeklySubmissionChecker;
 use App\Models\SevereAcuteRespiratoryInfection;
-use App\Models\Subdivision;
 
 /*
 ALL TABLES
@@ -8525,7 +8526,200 @@ class PIDSRController extends Controller
         }
     }
 
+    public function addCaseStore($disease, Request $r) {
+        //Get Facility
+        $f = DohFacility::where('id', auth()->user()->itr_facility_id)->first();
+
+        $birthdate = Carbon::parse($r->bdate);
+        $currentDate = Carbon::parse($r->date_investigation);
+
+        $get_ageyears = $birthdate->diffInYears($currentDate);
+        $get_agemonths = $birthdate->diffInMonths($currentDate);
+        $get_agedays = $birthdate->diffInDays($currentDate);
+
+        if($r->permaddress_isdifferent == 'N') {
+            $perm_address_region_code = $r->perm_address_region_code;
+            $perm_address_region_text = $r->perm_address_region_text;
+            $perm_address_province_code = $r->perm_address_province_code;
+            $perm_address_province_text = $r->perm_address_province_text;
+            $perm_address_muncity_code = $r->perm_address_muncity_code;
+            $perm_address_muncity_text = $r->perm_address_muncity_text;
+            $perm_address_brgy_code = $r->perm_address_brgy_text;
+            $perm_address_brgy_text = $r->perm_address_brgy_text;
+            $perm_address_street = mb_strtoupper($r->perm_address_street);
+            $perm_address_houseno = mb_strtoupper($r->perm_address_houseno);
+        }
+        else {
+            $perm_address_region_code = $r->address_region_code;
+            $perm_address_region_text = $r->address_region_text;
+            $perm_address_province_code = $r->address_province_code;
+            $perm_address_province_text = $r->address_province_text;
+            $perm_address_muncity_code = $r->address_muncity_code;
+            $perm_address_muncity_text = $r->address_muncity_text;
+            $perm_address_brgy_code = $r->address_brgy_text;
+            $perm_address_brgy_text = $r->address_brgy_text;
+            $perm_address_street = mb_strtoupper($r->address_street);
+            $perm_address_houseno = mb_strtoupper($r->address_houseno);
+        }
+
+        if($disease == 'MPOX') {
+            //Second layer Record Checking
+            $check = MonkeyPox::where('lname', $r->lname)
+            ->where('fname', $f->fname)
+            ->where('year', $currentDate->format('Y'))
+            ->where('morbidity_month', $currentDate->format('n'))
+            ->first();
+
+            if(!$check) {
+                $c = MonkeyPox::create([
+                    'date_investigation' => $r->date_investigation,
+                    'laboratory_id' => (!is_null($r->laboratory_id)) ? mb_strtoupper($r->laboratory_id) : NULL,
+                    //'epi_id',
+                    'enabled' => 1,
+                    'match_casedef' => 1,
+                    'dru_name' => $f->facility_name,
+                    'dru_region' => $f->address_region,
+                    'dru_province' => $f->address_province,
+                    'dru_muncity' => $f->address_muncity,
+                    'dru_street' => NULL,
+                    'dru_type' => $r->dru_type,
+                    'patient_number' => (!is_null($r->patient_number)) ? mb_strtoupper($r->patient_number) : NULL,
+                    'lname' => mb_strtoupper($r->lname),
+                    'fname' => mb_strtoupper($r->fname),
+                    'mname' => (!is_null($r->mname)) ? mb_strtoupper($r->mname) : NULL,
+                    'suffix'  => (!is_null($r->suffix)) ? mb_strtoupper($r->suffix) : NULL,
+                    'bdate' => $r->bdate,
+                    'gender' => $r->gender,
+                    'is_pregnant' => ($r->gender == 'F') ? $r->is_pregnant : 'N',
+                    'is_pregnant_weeks' => ($r->gender == 'F' && $r->is_pregnant == 'Y') ? $r->is_pregnant_weeks : NULL,
+                    'other_medical_information' => (!is_null($r->other_medical_information)) ? mb_strtoupper($r->other_medical_information) : NULL,
+                    'is_ip' => $r->is_ip,
+                    'is_ip_specify' => ($r->is_ip == 'Y') ? mb_strtoupper($r->is_ip_specify) : NULL,
+                    'nationality' => $r->nationality,
+                    'contact_number' => $r->contact_number,
+                    'address_region_code' => $r->address_region_code,
+                    'address_region_text' => $r->address_region_text,
+                    'address_province_code' => $r->address_province_code,
+                    'address_province_text' => $r->address_province_text,
+                    'address_muncity_code' => $r->address_muncity_code,
+                    'address_muncity_text' => $r->address_muncity_text,
+                    'address_brgy_code' => $r->address_brgy_text,
+                    'address_brgy_text' => $r->address_brgy_text,
+                    'address_street' => mb_strtoupper($r->address_street),
+                    'address_houseno' => mb_strtoupper($r->address_houseno),
+                    'perm_address_region_code' => $perm_address_region_code,
+                    'perm_address_region_text' => $perm_address_region_text,
+                    'perm_address_province_code' => $perm_address_province_code,
+                    'perm_address_province_text' => $perm_address_province_text,
+                    'perm_address_muncity_code' => $perm_address_muncity_code,
+                    'perm_address_muncity_text' => $perm_address_muncity_text,
+                    'perm_address_brgy_code' => $perm_address_brgy_code,
+                    'perm_address_brgy_text' => $perm_address_brgy_text,
+                    'perm_address_street' => $perm_address_street,
+                    'perm_address_houseno' => $perm_address_houseno,
+                    'occupation' => (!is_null($r->occupation)) ? mb_strtoupper($r->occupation) : NULL,
+                    'workplace_name' => (!is_null($r->workplace_name)) ? mb_strtoupper($r->workplace_name) : NULL,
+                    'workplace_address' => (!is_null($r->workplace_address)) ? mb_strtoupper($r->workplace_address) : NULL,
+                    'workplace_contactnumber' => (!is_null($r->workplace_contactnumber)) ? mb_strtoupper($r->workplace_contactnumber) : NULL,
+                    'informant_name' => (!is_null($r->informant_name)) ? mb_strtoupper($r->informant_name) : NULL,
+                    'informant_relationship' => (!is_null($r->informant_relationship)) ? mb_strtoupper($r->informant_relationship) : NULL,
+                    'informant_contactnumber' => (!is_null($r->informant_contactnumber)) ? $r->informant_contactnumber : NULL,
+                    'date_admitted_seen_consulted' => $r->date_admitted_seen_consulted,
+                    'admission_er' => $r->admission_er,
+                    'admission_ward' => $r->admission_ward,
+                    'admission_icu' => $r->admission_icu,
+                    'ifhashistory_blooddonation_transfusion' => $r->ifhashistory_blooddonation_transfusion,
+                    'ifhashistory_blooddonation_transfusion_place' => (!is_null($r->ifhashistory_blooddonation_transfusion)) ? $r->ifhashistory_blooddonation_transfusion_place : NULL,
+                    'ifhashistory_blooddonation_transfusion_date' => (!is_null($r->ifhashistory_blooddonation_transfusion)) ? $r->ifhashistory_blooddonation_transfusion_date : NULL,
+                    'date_onsetofillness' => $r->date_onsetofillness,
+                    'have_cutaneous_rash' => $r->have_cutaneous_rash,
+                    'have_cutaneous_rash_date' => ($r->have_cutaneous_rash == 'Y') ? $r->have_cutaneous_rash_date : NULL,
+                    'have_fever' => $r->have_fever,
+                    'have_fever_date' => ($r->have_fever == 'Y') ? $r->have_fever_date : NULL,
+                    'have_fever_days_duration' => ($r->have_fever == 'Y') ? $r->have_fever_days_duration : NULL,
+                    'have_activedisease_lesion_samestate' => $r->have_activedisease_lesion_samestate,
+                    'have_activedisease_lesion_samesize' => $r->have_activedisease_lesion_samesize,
+                    'have_activedisease_lesion_deep' => $r->have_activedisease_lesion_deep,
+                    'have_activedisease_develop_ulcers' => $r->have_activedisease_develop_ulcers,
+                    'have_activedisease_lesion_type' => $r->filled('have_activedisease_lesion_type') ? implode(',', $r->have_activedisease_lesion_type) : NULL,
+                    'have_activedisease_lesion_localization' => $r->filled('have_activedisease_lesion_localization') ? implode(',', $r->have_activedisease_lesion_localization) : NULL,
+                    'have_activedisease_lesion_localization_otherareas' => (!is_null($r->have_activedisease_lesion_localization_otherareas)) ? mb_strtoupper($r->have_activedisease_lesion_localization_otherareas) : NULL,
+                    'symptoms_list' => $r->filled('symptoms_list') ? implode(',', $r->symptoms_list) : NULL,
+                    'symptoms_lymphadenopathy_localization' => (in_array('LYMPHADENOPATHY', $r->symptoms_list)) ? implode(',', $r->symptoms_lymphadenopathy_localization) : NULL,
+                    'history1_yn' => $r->history1_yn,
+                    'history1_specify' => ($r->history1_yn == 'Y') ? mb_strtoupper($r->history1_specify) : NULL,
+                    'history1_date_travel'  => ($r->history1_yn == 'Y') ? $r->history1_date_travel : NULL,
+                    'history1_flightno' => ($r->history1_yn == 'Y') ? mb_strtoupper($r->history1_flightno) : NULL,
+                    'history1_date_arrival' => ($r->history1_yn == 'Y') ? $r->history1_date_arrival : NULL,
+                    'history1_pointandexitentry' => ($r->history1_yn == 'Y') ? mb_strtoupper($r->history1_pointandexitentry) : NULL,
+                    'history2_yn' => $r->history2_yn,
+                    'history2_specify' => ($r->history2_yn == 'Y') ? mb_strtoupper($r->history2_specify) : NULL,
+                    'history2_date_travel' => ($r->history2_yn == 'Y') ? $r->history2_date_travel : NULL,
+                    'history2_flightno' => ($r->history2_yn == 'Y') ? mb_strtoupper($r->history2_flightno) : NULL,
+                    'history2_date_arrival' => ($r->history2_yn == 'Y') ? $r->history2_date_arrival : NULL,
+                    'history2_pointandexitentry' => ($r->history2_yn == 'Y') ? mb_strtoupper($r->history2_pointandexitentry) : NULL,
+                    'history3_yn' => $r->history3_yn,
+                    'history4_yn' => $r->history4_yn,
+                    'history4_typeofanimal' => ($r->history4_yn == 'Y') ? mb_strtoupper($r->history4_typeofanimal) : NULL,
+                    'history4_firstexposure' => ($r->history4_yn == 'Y') ? $r->history4_firstexposure : NULL,
+                    'history4_lastexposure' => ($r->history4_yn == 'Y') ? $r->history4_lastexposure : NULL,
+                    'history4_type' => ($r->history4_yn == 'Y') ? implode(',', $r->history4_type) : NULL,
+                    'history4_type_others' => ($r->history4_yn == 'Y' && in_array('Others', $r->history4_type)) ? mb_strtoupper($r->history4_type_others) : NULL,
+                    'history5_genderidentity' => $r->history5_genderidentity,
+                    'history6_yn' => $r->history6_yn,
+                    'history6_mtm' => ($r->history6_yn == 'Y') ? $r->history6_mtm : NULL,
+                    'history6_mtm_nosp' => ($r->history6_yn == 'Y') ? $r->history6_mtm_nosp : NULL,
+                    'history6_mtf' => ($r->history6_yn == 'Y') ? $r->history6_mtf : NULL,
+                    'history6_mtf_nosp' => ($r->history6_yn == 'Y') ? $r->history6_mtf_nosp : NULL,
+                    'history6_uknown' => ($r->history6_yn == 'Y') ? $r->history6_uknown : NULL,
+                    'history6_uknown_nosp' => ($r->history6_yn == 'Y') ? $r->history6_uknown_nosp : NULL,
+                    'history7_yn' => $r->history7_yn,
+                    'history8_yn' => $r->history8_yn,
+                    'history9_choice' => $r->history9_choice,
+                    'history9_choice_othercountry' => ($r->history9_choice == 'YES, TO ANOTHER COUNTRY') ? mb_strtoupper($r->history9_choice_othercountry) : NULL,
+                    'health_status' => $r->health_status,
+                    'health_status_date_discharged' => ($r->health_status == 'DISCHARGED') ? $r->health_status_date_discharged : NULL,
+                    'health_status_final_diagnosis' => (!is_null($r->health_status_final_diagnosis)) ? mb_strtoupper($r->health_status_final_diagnosis) : NULL,
+                    'outcome' => (!is_null($r->outcome)) ? mb_strtoupper($r->outcome) : NULL,
+                    'outcome_unknown_type' => ($r->outcome == 'UNKNOWN') ? $r->outcome_unknown_type : NULL,
+                    'outcome_date_recovered' => ($r->outcome == 'RECOVERED') ? $r->outcome_date_recovered : NULL,
+                    'outcome_date_died' => ($r->outcome == 'DIED') ? $r->outcome_date_died : NULL,
+                    'outcome_causeofdeath' => ($r->outcome == 'DIED') ? $r->outcome_causeofdeath : NULL,
+                    'case_classification' => $r->case_classification,
+                    'remarks' => (!is_null($r->remarks)) ? mb_strtoupper($r->remarks) : NULL,
+                    'brgy_remarks' => (!is_null($r->brgy_remarks)) ? mb_strtoupper($r->brgy_remarks) : NULL,
+                    'age_years' => $get_ageyears,
+                    'age_months' => $get_agemonths,
+                    'age_days' => $get_agedays,
+                    'morbidity_month' => $currentDate->format('n'),
+                    'morbidity_week' => $currentDate->format('W'),
+                    'year' => $currentDate->format('Y'),
+                    //'gps_x'
+                    //'gps_y',
+                    'created_by' => Auth::id(),
+                    //'updated_by',
+                ]);
+
+                return redirect()->route('pidsr.home')
+                ->with('msg', 'Mpox Case Successfully encoded.')
+                ->with('msgtype', 'success');
+            }
+            else {
+                return redirect()->back()
+                ->withInput()
+                ->with('msg', 'Mpox Case already exists!')
+                ->with('msgtype', 'warning');
+            }
+        }
+    }
+
     public function mPoxNewOrEdit(MonkeyPox $record) {
-        return view('pidsr.mpox.cif', ['d' => $record]);
+        //Get Facility
+        $f = DohFacility::where('id', auth()->user()->itr_facility_id)->first();
+
+        return view('pidsr.mpox.cif', [
+            'd' => $record,
+            'f' => $f,
+        ]);
     }
 }
