@@ -8722,4 +8722,8 @@ class PIDSRController extends Controller
             'f' => $f,
         ]);
     }
+
+    public function mPoxViewer() {
+        return view('pidsr.mpox.list');
+    }
 }

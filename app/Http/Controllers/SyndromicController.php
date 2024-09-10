@@ -583,10 +583,25 @@ class SyndromicController extends Controller
 
         //check if record exist today
         if(!auth()->user()->isTbdotsEncoder()) {
-            $check = SyndromicRecords::where('syndromic_patient_id', $patient->id)
-            ->where('facility_id', auth()->user()->itr_facility_id)
-            ->whereDate('created_at', date('Y-m-d'))
-            ->first();
+            if(auth()->user()->itr_facility_id == 11730) { //Multiple follow-up on same day on Manggahan
+                $existing_record_count = SyndromicRecords::where('syndromic_patient_id', $patient->id)
+                ->where('facility_id', auth()->user()->itr_facility_id)
+                ->whereDate('created_at', date('Y-m-d'))
+                ->count();
+
+                if($existing_record_count >= 2) {
+                    $check = true;
+                }
+                else {
+                    $check = false;
+                }
+            }
+            else {
+                $check = SyndromicRecords::where('syndromic_patient_id', $patient->id)
+                ->where('facility_id', auth()->user()->itr_facility_id)
+                ->whereDate('created_at', date('Y-m-d'))
+                ->first();
+            }
         }
         else {
             $check = false;
@@ -774,6 +789,22 @@ class SyndromicController extends Controller
 
                 'encodedfrom_tbdots' => (auth()->user()->isTbdotsEncoder()) ? 1 : 0,
             ];
+
+            if(auth()->user()->itr_facility_id == 11730) { //Manggahan Facility ID Checking
+                $fid_check = SyndromicRecords::where('facility_controlnumber', $r->facility_controlnumber)->first();
+
+                if($fid_check) {
+                    return redirect()->back()
+                    ->withInput()
+                    ->with('msg', 'Error: Facility Control Number was already used to other record. Please double check and try again.')
+                    ->with('msgtype', 'danger');
+                }
+                else {
+                    $values_array = $values_array + [
+                        'facility_controlnumber' => $r->facility_controlnumber,
+                    ];
+                }
+            }
 
             if(auth()->user()->isSyndromicHospitalLevelAccess()) {
                 $values_array = $values_array + [
@@ -1642,6 +1673,23 @@ class SyndromicController extends Controller
                 
                 'updated_by' => auth()->user()->id,
             ];
+
+            if($d->facility_id == 11730) { //Manggahan Facility ID Checking
+                $fid_check = SyndromicRecords::where('id', '!=', $record_id)
+                ->where('facility_controlnumber', $r->facility_controlnumber)->first();
+    
+                if($fid_check) {
+                    return redirect()->back()
+                    ->withInput()
+                    ->with('msg', 'Error: Facility Control Number was already used to other record. Please double check and try again.')
+                    ->with('msgtype', 'danger');
+                }
+                else {
+                    $values_array = $values_array + [
+                        'facility_controlnumber' => $r->facility_controlnumber,
+                    ];
+                }
+            }
 
             if($d->isHospitalRecord()) {
                 $values_array = $values_array + [

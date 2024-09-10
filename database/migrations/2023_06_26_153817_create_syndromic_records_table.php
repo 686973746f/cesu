@@ -20,6 +20,7 @@ class CreateSyndromicRecordsTable extends Migration
             $table->foreignId('syndromic_patient_id')->constrained('syndromic_patients')->onDelete('cascade');
             
             $table->text('opdno');
+            $table->string('facility_controlnumber')->nullable();
             $table->integer('line_number')->nullable();
             $table->date('last_checkup_date')->nullable();
             $table->dateTime('consultation_date');

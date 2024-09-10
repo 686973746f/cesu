@@ -18,6 +18,7 @@ class SyndromicRecords extends Model
         'facility_id',
         'medical_event_id',
         'opdno',
+        'facility_controlnumber', //for Specific Facility ex. Manggahan
         'line_number',
         'last_checkup_date',
         'consultation_date',
