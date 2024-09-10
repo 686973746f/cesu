@@ -397,7 +397,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
     Route::get('/pidsr/add_case', [PIDSRController::class, 'addCaseCheck'])->name('edcs_addcase_check');
     Route::post('/pidsr/add_case/{disease}/store', [PIDSRController::class, 'addCaseStore'])->name('edcs_addcase_store');
 
-    Route::get('/pidsr/mpox/home', [PIDSRController::class, 'addCaseCheck'])->name('edcs_addcase_check');
+    Route::get('/edcs/mpox/home', [PIDSRController::class, 'mPoxViewer'])->name('edcs_mpox_home');
 });
 
 Route::get('/edcs/barangayportal', [PIDSRController::class, 'brgyCaseViewerWelcome'])->name('edcs_barangay_welcome');
