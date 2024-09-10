@@ -32,10 +32,29 @@
                         {{session('msg')}}
                     </div>
                     @endif
-                    <div class="form-group">
-                        <label for=""><b class="text-danger">*</b>Facility</label>
-                        <input type="text" class="form-control" name="" id="" value="{{auth()->user()->opdfacility->facility_name}}" readonly>
+
+                    @if($d->facility_id == 11730)
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for=""><b class="text-danger">*</b>Encoded from Facility</label>
+                                <input type="text" class="form-control" name="" id="" value="{{$d->facility->facility_name}}" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="facility_controlnumber"><b class="text-danger">*</b>ITR Control No.</label>
+                                <input type="text" class="form-control" name="facility_controlnumber" id="facility_controlnumber" value="{{old('facility_controlnumber', $d->facility_controlnumber)}}" style="text-transform: uppercase;" required>
+                            </div>
+                        </div>
                     </div>
+                    @else
+                    <div class="form-group">
+                        <label for=""><b class="text-danger">*</b>Encoded from Facility</label>
+                        <input type="text" class="form-control" name="" id="" value="{{$d->facility->facility_name}}" readonly>
+                    </div>
+                    @endif
+                    
                     @if(auth()->user()->isSyndromicHospitalLevelAccess())
                     <div class="row">
                         <div class="col-md-6">
@@ -369,7 +388,7 @@
             e.preventDefault();
             if($(this).val() == 'MALE') {
                 $('#family_member').prop('disabled', false);
-                $('#family_member').val('');
+                //$('#family_member').val('');
 
                 $('#fam_female1').addClass('d-none');
                 $('#fam_female2').addClass('d-none');
@@ -379,7 +398,7 @@
             }
             else if($(this).val() == 'FEMALE') {
                 $('#family_member').prop('disabled', false);
-                $('#family_member').val('');
+                //$('#family_member').val('');
 
                 $('#fam_female1').removeClass('d-none');
                 $('#fam_female2').removeClass('d-none');

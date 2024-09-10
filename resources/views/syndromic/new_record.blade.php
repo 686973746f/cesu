@@ -148,12 +148,6 @@
                     @endif
                   </select>
                 </div>
-                @if(auth()->user()->itr_facility_id == 11730)
-                <div class="form-group">
-                  <label for="facility_controlnumber"><b class="text-danger">*</b>ITR Control No.</label>
-                  <input type="text" class="form-control" name="facility_controlnumber" id="facility_controlnumber" value="{{old('facility_controlnumber')}}" style="text-transform: uppercase;" required>
-                </div>
-                @endif
                 <div id="if_noncheckup" class="d-none">
                   <div class="form-group">
                     <label for="outsidecho_name"><b class="text-danger">*</b>Name of Hospital/Clinic</label>
