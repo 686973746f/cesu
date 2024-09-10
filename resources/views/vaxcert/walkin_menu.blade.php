@@ -89,7 +89,9 @@
       // Set a timeout for 3 seconds
       setTimeout(function() {
         // Redirect to Google.com
-        window.location.href = "https://vaxcert.doh.gov.ph/#/request";
+        //window.location.href = "https://vaxcert.doh.gov.ph/#/request";
+        window.location.href = "https://drive.google.com/file/d/1qzTjvaUHcTVCu75K44mGGKHC3UfsvA8D/view?usp=sharing";
+        
       }, 3000); // 3000 milliseconds = 3 seconds
     });
 
