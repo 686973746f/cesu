@@ -1917,7 +1917,7 @@ class SyndromicController extends Controller
             }
         }
 
-        if(!is_null($d->name_of_physician)) {
+        if(!is_null($d->getPhysicianDetails())) {
             return view('syndromic.view_medcert', ['d' => $d]);
         }
         else {

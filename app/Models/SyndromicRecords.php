@@ -810,7 +810,12 @@ class SyndromicRecords extends Model
     public function getPhysicianDetails() {
         $d = SyndromicDoctor::where('doctor_name', $this->name_of_physician)->first();
 
-        return $d;
+        if($d) {
+            return $d;
+        }
+        else {
+            return NULL;
+        }
     }
 
     public function permittedToEdit() {
