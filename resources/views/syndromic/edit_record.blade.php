@@ -102,12 +102,6 @@
                     </div>
                   </div>
                 </div>
-                @if($d->facility_id == 11730)
-                <div class="form-grofacility_controlnumberup">
-                  <label for=""><b class="text-danger">*</b>ITR Control No.</label>
-                  <input type="text" class="form-control" name="facility_controlnumber" id="facility_controlnumber" value="{{old('facility_controlnumber', $d->facility_controlnumber)}}" style="text-transform: uppercase;" required>
-                </div>
-                @endif
                 @if($d->isHospitalRecord())
                 <div class="form-group">
                   <label for="hosp_identifier"><b class="text-danger">*</b>Record From</label>

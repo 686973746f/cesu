@@ -523,10 +523,16 @@ class SyndromicController extends Controller
                 'encodedfrom_tbdots' => (auth()->user()->isTbdotsEncoder()) ? 1 : 0,
             ];
 
+            if(auth()->user()->itr_facility_id == 11730) { //Manggahan Facility ID Checking
+                $values_array = $values_array + [
+                    'facility_controlnumber' => $request->facility_controlnumber,
+                ];
+            }
+
             if(!auth()->user()->isSyndromicHospitalLevelAccess()) {
                 $values_array = $values_array + [
                     'philhealth_statustype' => ($request->isph_member == 'Y') ? $request->philhealth_statustype : NULL,
-                    'family_member' => ($request->filled('family_member')) ? $request->family_member : NULL,
+                    'family_member' => $request->family_member,
                 ];
             }
 
@@ -789,22 +795,6 @@ class SyndromicController extends Controller
 
                 'encodedfrom_tbdots' => (auth()->user()->isTbdotsEncoder()) ? 1 : 0,
             ];
-
-            if(auth()->user()->itr_facility_id == 11730) { //Manggahan Facility ID Checking
-                $fid_check = SyndromicRecords::where('facility_controlnumber', $r->facility_controlnumber)->first();
-
-                if($fid_check) {
-                    return redirect()->back()
-                    ->withInput()
-                    ->with('msg', 'Error: Facility Control Number was already used to other record. Please double check and try again.')
-                    ->with('msgtype', 'danger');
-                }
-                else {
-                    $values_array = $values_array + [
-                        'facility_controlnumber' => $r->facility_controlnumber,
-                    ];
-                }
-            }
 
             if(auth()->user()->isSyndromicHospitalLevelAccess()) {
                 $values_array = $values_array + [
@@ -1350,10 +1340,16 @@ class SyndromicController extends Controller
                 'lgu_office_name' => ($request->is_lgustaff == 'Y' && $request->filled('lgu_office_name')) ? mb_strtoupper($request->lgu_office_name) : NULL,
             ];
 
+            if($getpatient->facility_id == 11730 && auth()->user()->itr_facility_id == 11730) { //Manggahan Facility ID Checking
+                $values_array = $values_array + [
+                    'facility_controlnumber' => $request->facility_controlnumber,
+                ];
+            }
+
             if(!auth()->user()->isSyndromicHospitalLevelAccess()) {
                 $values_array = $values_array + [
                     'philhealth_statustype' => ($request->isph_member == 'Y') ? $request->philhealth_statustype : NULL,
-                    'family_member' => ($request->filled('family_member')) ? $request->family_member : NULL,
+                    'family_member' => $request->family_member,
                 ];
             }
 
