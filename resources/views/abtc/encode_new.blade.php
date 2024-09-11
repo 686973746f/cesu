@@ -85,6 +85,20 @@
                 <div id="divpostexp">
                     <hr>
                     <div class="row">
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="height" class="form-label"><strong class="text-danger">*</strong>Patient Height (cm)</label>
+                                <input type="number" class="form-control" name="height" id="height" value="{{old('height')}}" min="1" max="700">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="weight" class="form-label"><strong class="text-danger">*</strong>Patient Weight (kg)</label>
+                                <input type="number" class="form-control" name="weight" id="weight" value="{{old('weight')}}" min="1" max="700">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="bite_date" class="form-label"><strong class="text-danger">*</strong>Date of Exposure/Bite Date</label>
@@ -184,20 +198,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="mb-3">
-                                <label for="height" class="form-label"><strong class="text-danger">*</strong>Height (cm)</label>
-                                <input type="number" class="form-control" name="height" id="height" value="{{old('height')}}" min="1" max="700">
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="mb-3">
-                                <label for="weight" class="form-label"><strong class="text-danger">*</strong>Weight (kg)</label>
-                                <input type="number" class="form-control" name="weight" id="weight" value="{{old('weight')}}" min="1" max="700">
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
                 <hr>
                 <div class="row">
@@ -316,6 +317,9 @@
             $('#bite_type').prop('required', false);
             $('#category_level').prop('required', false);
             $('#body_site').prop('required', false);
+
+            $('#height').prop('required', false);
+            $('#weight').prop('required', false);
         }
         else {
             $('#divpostexp').removeClass('d-none');
@@ -326,6 +330,9 @@
             $('#bite_type').prop('required', true);
             $('#category_level').prop('required', true);
             $('#body_site').prop('required', true);
+
+            $('#height').prop('required', true);
+            $('#weight').prop('required', true);
         }
     }).trigger('change');
 
