@@ -241,7 +241,7 @@ class ABTCVaccinationController extends Controller
                 'if_animal_vaccinated' => $if_animal_vaccinated,
                 'bite_date' => $bite_date,
                 'bite_type' => $bite_type,
-                'body_site' => ((strlen(implode(",", $request->body_site)) != 0)) ? implode(",", $request->body_site) : NULL,
+                'body_site' => (strlen(implode(",", $request->body_site)) != 0 && $request->is_preexp == 'N') ? implode(",", $request->body_site) : NULL,
                 'category_level' => $category_level,
                 'washing_of_bite' => ($request->washing_of_bite == 'Y') ? 1 : 0,
                 'rig_date_given' => $request->rig_date_given,
