@@ -208,6 +208,8 @@ class ABTCVaccinationController extends Controller
                 $category_level = 1;
 
                 $currentDate = Carbon::parse(date('Y-m-d'));
+
+                $body_site = NULL;
             }
             else {
                 $is_preexp = 0;
@@ -219,6 +221,8 @@ class ABTCVaccinationController extends Controller
                 $category_level = (!is_null($request->rig_date_given)) ? 3 : $request->category_level;
 
                 $currentDate = Carbon::parse($request->bite_date);
+
+                $body_site = (strlen(implode(",", $request->body_site)) != 0) ? implode(",", $request->body_site) : NULL;
             }
 
             $pdata = AbtcPatient::find($id);
@@ -241,7 +245,7 @@ class ABTCVaccinationController extends Controller
                 'if_animal_vaccinated' => $if_animal_vaccinated,
                 'bite_date' => $bite_date,
                 'bite_type' => $bite_type,
-                'body_site' => (strlen(implode(",", $request->body_site)) != 0 && $request->is_preexp == 'N') ? implode(",", $request->body_site) : NULL,
+                'body_site' =>  $body_site,
                 'category_level' => $category_level,
                 'washing_of_bite' => ($request->washing_of_bite == 'Y') ? 1 : 0,
                 'rig_date_given' => $request->rig_date_given,
