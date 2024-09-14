@@ -36,7 +36,17 @@
                         <input type="text" class="form-control" name="" id="" value="{{auth()->user()->opdfacility->facility_name}}" readonly>
                     </div>
                     @endif
-                    
+                    <div class="row">
+                        <div class="col-md-6 text-center">
+                            <canvas id="canvas" width="640" height="480" class="d-none" style="width: 50%"></canvas>
+                            <input type="hidden" name="selfie_image" id="imageData">
+                            <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#cameraModal"><i class="fa fa-camera mr-2" aria-hidden="true"></i>Open Camera</button>
+                            <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#fingerPrint"><i class="fa fa-hand-paper-o" aria-hidden="true"></i>Get Patient Fingerprint</button>
+                        </div>
+                        <div class="col-md-6">
+
+                        </div>
+                    </div>
                     @if(auth()->user()->isSyndromicHospitalLevelAccess())
                     <div class="row">
                         <div class="col-md-6">
@@ -53,6 +63,7 @@
                         </div>
                     </div>
                     @endif
+                    
                     <hr>
                     <div class="row">
                         <div class="col-md-3">
@@ -336,7 +347,103 @@
         </form>
     </div>
 
+    <div class="modal fade" id="cameraModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Patient Picture</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <video id="video" width="1920" height="1080"></video>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="snap" class="btn btn-success btn-block">Capture</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="fingerPrint" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Get Patient Fingerprint</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <p>Currently in Development.</p>
+                </div>
+                <div class="modal-footer">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
+        let mediaStream = null;
+
+        // Function to start camera
+        function startCamera() {
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then((stream) => {
+                        mediaStream = stream;
+                        document.getElementById('video').srcObject = stream;
+                        document.getElementById('video').play();
+                    })
+                    .catch((error) => {
+                        console.error('Error accessing the camera:', error);
+                    });
+            }
+        }
+
+        // Function to stop camera
+        function stopCamera() {
+            if (mediaStream) {
+                mediaStream.getTracks().forEach(track => track.stop());
+                mediaStream = null;
+            }
+        }
+
+        // Start camera when modal is shown
+        $('#cameraModal').on('shown.bs.modal', function () {
+            startCamera();
+        });
+
+        // Stop camera when modal is hidden
+        $('#cameraModal').on('hidden.bs.modal', function () {
+            stopCamera();
+        });
+
+        // Capture frame and stop camera
+        const canvas = document.getElementById('canvas');
+        const snap = document.getElementById('snap');
+        const imageData = document.getElementById('imageData');
+        const context = canvas.getContext('2d');
+
+        document.getElementById('snap').addEventListener('click', function () {
+            const canvas = document.getElementById('canvas');
+            const video = document.getElementById('video');
+            const context = canvas.getContext('2d');
+            
+            // Draw the cropped video frame to the canvas
+            context.drawImage(video, 0, 0, 640, 480);
+            const dataURL = canvas.toDataURL('image/jpeg'); // Convert canvas to dataURL in JPG format
+            imageData.value = dataURL;
+            $('#cameraModal').modal('hide');
+            $('#canvas').removeClass('d-none');
+            // Optionally stop the camera after capturing
+            stopCamera();
+        });
+
         $(document).bind('keydown', function(e) {
             if(e.ctrlKey && (e.which == 83)) {
                 e.preventDefault();

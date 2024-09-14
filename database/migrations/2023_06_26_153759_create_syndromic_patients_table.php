@@ -70,6 +70,7 @@ class CreateSyndromicPatientsTable extends Migration
             $table->string('id_presented')->nullable();
             $table->string('id_file')->nullable();
             $table->string('selfie_file')->nullable();
+            $table->binary('fingerprint_template')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

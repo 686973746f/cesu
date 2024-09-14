@@ -492,7 +492,7 @@
                         <div class="card mb-3">
                             <div class="card-header text-center" role="tab" id="section1HeaderId_2">
                                 <a data-toggle="collapse" data-parent="#accordianId_2" href="#section1ContentId_2" aria-expanded="true" aria-controls="section1ContentId_2">
-                                    Export OPD/ER Summary
+                                    Export OPD/ER Summary V2
                                 </a>
                             </div>
                             <div id="section1ContentId_2" class="collapse in" role="tabpanel" aria-labelledby="section1HeaderId_2">
