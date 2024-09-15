@@ -65,6 +65,10 @@ class CallOpdErExport implements ShouldQueue
         $spreadsheet = IOFactory::load(storage_path('OPDSUMMARYREPORT_TEMPLATE.xlsx'));
         $sheet = $spreadsheet->getActiveSheet();
 
+        $sheet->setCellValue('A1', $type);
+        $sheet->setCellValue('A2', $u->opdfacility->facility_name);
+        $sheet->setCellValue('A3', 'Date: '.$start->format('M, Y'));
+
         $group_diagnosis = SyndromicRecords::where('hosp_identifier', $type)
         ->where('facility_id', $u->itr_facility_id)
         ->where('hospital_completion', 'PART2')
@@ -898,7 +902,7 @@ class CallOpdErExport implements ShouldQueue
         $sheet->setCellValue('Q'.$secondTotal_cRow, '=SUM(Q'.($cRow+3).':Q'.($secondTotal_cRow -1).')');
         $sheet->setCellValue('R'.$secondTotal_cRow, '=SUM(R'.($cRow+3).':R'.($secondTotal_cRow -1).')');
         $sheet->setCellValue('S'.$secondTotal_cRow, '=SUM(S'.($cRow+3).':S'.($secondTotal_cRow -1).')');
-        $sheet->setCellValue('T'.$secondTotal_cRow, '=SUM(T'.($cRow+3).':T'.($secondTotal_cRow -1).')');
+        //$sheet->setCellValue('T'.$secondTotal_cRow, '=SUM(T'.($cRow+3).':T'.($secondTotal_cRow -1).')');
 
         //$sheet->setCellValue('A4', 'BILAT');
 

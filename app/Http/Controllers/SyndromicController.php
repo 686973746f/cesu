@@ -4385,7 +4385,7 @@ class SyndromicController extends Controller
             //Call Export Job
             $c = ExportJobs::create([
                 'name' => $pre_title.$start->format('M Y'),
-                'for_module' => 'FHSIS',
+                'for_module' => 'OPD',
                 'status' => 'pending',
                 //'date_finished'
                 //'filename',
