@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\CallOpdErExport;
 use App\Models\Nt;
 use Carbon\Carbon;
 use App\Models\Abd;
@@ -31,10 +30,12 @@ use App\Models\Hepatitis;
 use App\Models\Icd10Code;
 use App\Models\Influenza;
 use App\Models\Rotavirus;
+use App\Models\ExportJobs;
 use App\Models\Meningitis;
 use Illuminate\Support\Str;
 use App\Models\MedicalEvent;
 use Illuminate\Http\Request;
+use App\Jobs\CallOpdErExport;
 use App\Models\Leptospirosis;
 use App\Models\PharmacyCartSub;
 use App\Models\PharmacyPatient;
@@ -46,8 +47,9 @@ use App\Models\PharmacySupplySub;
 use Illuminate\Support\Facades\DB;
 use App\Models\FhsisTbdotsMorbidity;
 use App\Models\PharmacyPrescription;
-use Rap2hpoutre\FastExcel\FastExcel;
 
+use Illuminate\Support\Facades\File;
+use Rap2hpoutre\FastExcel\FastExcel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use OpenSpout\Common\Entity\Style\Style;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -94,11 +96,18 @@ class SyndromicController extends Controller
             if(request()->input('q')) {
                 $q = request()->input('q');
 
-                $ll = SyndromicPatient::where(function ($qry) use ($q) {
+                $base_search = SyndromicPatient::where(function ($qry) use ($q) {
                     $qry->where('id', $q)
                     ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper($q))."%");
-                })
-                ->paginate(10);
+                });
+
+                if(auth()->user()->itr_facility_id == 11730) {
+                    //Manggahan Search
+                    $ll = (clone $base_search)->orWhere('facility_controlnumber', $q)->paginate(10);
+                }
+                else {
+                    $ll = (clone $base_search)->paginate(10);
+                }
 
                 $select_view = 'search';
             }
@@ -469,6 +478,26 @@ class SyndromicController extends Controller
 
             $ageToInt = Carbon::parse($request->bdate)->age;
 
+            //Selfie Algo
+            if($request->filled('selfie_image')) {
+                $imageData = $request->selfie_image;
+                
+                // Decode the base64 image
+                $image = str_replace('data:image/jpeg;base64,', '', $imageData);
+                $image = str_replace(' ', '+', $image);
+                $imageData = base64_decode($image);
+
+                // Define the file path and name
+                $selfie_filename = 'captured_image_' . time() . '.jpg';
+                $path = 'patients/'.$selfie_filename;
+
+                // Save the image to the public/uploads folder
+                file_put_contents($path, $imageData);
+            }
+            else {
+                $selfie_filename = NULL;
+            }
+
             $values_array = [
                 'lname' => mb_strtoupper($request->lname),
                 'fname' => mb_strtoupper($request->fname),
@@ -521,6 +550,7 @@ class SyndromicController extends Controller
                 'facility_id' => auth()->user()->itr_facility_id,
 
                 'encodedfrom_tbdots' => (auth()->user()->isTbdotsEncoder()) ? 1 : 0,
+                'selfie_file' => $selfie_filename,
             ];
 
             if(auth()->user()->itr_facility_id == 11730) { //Manggahan Facility ID Checking
@@ -1288,6 +1318,31 @@ class SyndromicController extends Controller
 
             $ageToInt = Carbon::parse($request->bdate)->age;
 
+            //Selfie Algo
+            if($request->filled('selfie_image')) {
+                $imageData = $request->selfie_image;
+                
+                // Decode the base64 image
+                $image = str_replace('data:image/jpeg;base64,', '', $imageData);
+                $image = str_replace(' ', '+', $image);
+                $imageData = base64_decode($image);
+
+                // Define the file path and name
+                $selfie_filename = 'captured_image_' . time() . '.jpg';
+                $path = 'patients/'.$selfie_filename;
+
+                // Save the image to the public/uploads folder
+                file_put_contents($path, $imageData);
+
+                //Delete old File
+                if(!is_null($getpatient->selfie_file)) {
+                    File::delete('patients/'.$getpatient->selfie_file);
+                }
+            }
+            else {
+                $selfie_filename = $getpatient->selfie_file;
+            }
+
             $values_array = [
                 'lname' => mb_strtoupper($request->lname),
                 'fname' => mb_strtoupper($request->fname),
@@ -1338,6 +1393,7 @@ class SyndromicController extends Controller
 
                 'is_lgustaff' => ($request->is_lgustaff == 'Y') ? 1 : 0,
                 'lgu_office_name' => ($request->is_lgustaff == 'Y' && $request->filled('lgu_office_name')) ? mb_strtoupper($request->lgu_office_name) : NULL,
+                'selfie_file' => $selfie_filename,
             ];
 
             if($getpatient->facility_id == 11730 && auth()->user()->itr_facility_id == 11730) { //Manggahan Facility ID Checking
@@ -4304,6 +4360,45 @@ class SyndromicController extends Controller
     }
 
     public function hospSummaryReportV2() {
-        CallOpdErExport::dispatch();
+        //Check if Existing Job 10 minutes ago was created by User
+        $queue_check = ExportJobs::where('created_by', auth()->user()->id)
+        ->where('created_at', '>=', date('Y-m-d H:i:s', strtotime('-5 Minutes')))
+        ->first();
+
+        if(1 == 1) {
+            $year = request()->input('year');
+            $month = request()->input('month');
+            $type = request()->input('type');
+
+            $start = Carbon::createFromDate($year, $month, 01)->startOfMonth();
+
+            if($type == 'OPD') {
+                $pre_title = 'OPD Summary Report for ';
+            }
+            else if($type == 'ER') {
+                $pre_title = 'ER Summary Report for ';
+            }   
+            else {
+                return abort(401);
+            }
+
+            //Call Export Job
+            $c = ExportJobs::create([
+                'name' => $pre_title.$start->format('M Y'),
+                'for_module' => 'OPD',
+                'status' => 'pending',
+                //'date_finished'
+                //'filename',
+                'created_by' => auth()->user()->id,
+                'facility_id' => auth()->user()->itr_facility_id,
+            ]);
+
+            CallOpdErExport::dispatch(auth()->user()->id, $c->id, $year, $month, $type);
+
+            return redirect()->route('export_index')
+            ->with('msg', 'Your download request is now being requested. The server will now prepare the file. Please refresh this page after 5-10 minutes or more until the status turns to completed.')
+            ->with('msgtype', 'success');
+        }
+        
     }
 }

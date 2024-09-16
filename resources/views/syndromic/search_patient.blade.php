@@ -45,7 +45,12 @@
                     @if($search_mode == 'PATIENT')
                     <tr>
                         <td class="text-center">{{$list->firstItem() + $ind}}</td>
-                        <td><b><a href="{{route('syndromic_viewPatient', $d->id)}}">{{$d->getName()}}</a></b></td>
+                        <td>
+                            <div><b><a href="{{route('syndromic_viewPatient', $d->id)}}">{{$d->getName()}}</a></b></div>
+                            @if($d->facility_id == 11730 && auth()->user()->itr_facility_id == 11730)
+                            <div><small>Control No: {{$d->facility_controlnumber}}</small></div>
+                            @endif
+                        </td>
                         <td class="text-center">
                             <div>{{$d->getAge()}}/{{substr($d->gender,0,1)}}</div>
                             <div>{{date('m/d/Y', strtotime($d->bdate))}}</div>
