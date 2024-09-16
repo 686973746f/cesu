@@ -51,7 +51,7 @@
                     @else
                     <div class="form-group">
                         <label for=""><b class="text-danger">*</b>Encoded from Facility</label>
-                        <input type="text" class="form-control" name="" id="" value="{{$d->facility->facility_name}}" readonly>
+                        <input type="text" class="form-control" name="" id="" value="{{(!is_null($d->facility_id)) ? $d->facility->facility_name : 'N/A'}}" readonly>
                     </div>
                     @endif
                     <div class="row">
