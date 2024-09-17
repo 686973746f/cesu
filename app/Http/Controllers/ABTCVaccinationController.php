@@ -1584,15 +1584,24 @@ class ABTCVaccinationController extends Controller
         $templateProcessor->setValue('eroute', $b->pep_route);
         $templateProcessor->setValue('qcode', route('abtc_qr_process', $b->patient->qr));
         $templateProcessor->setValue('day0', date('m/d/Y', strtotime($b->d0_date)));
-        $templateProcessor->setValue('day3', date('m/d/Y', strtotime($b->d3_date)));
+        
         if($b->is_booster != 1) {
-            $templateProcessor->setValue('day7', date('m/d/Y', strtotime($b->d7_date)));
-            $templateProcessor->setValue('day14', ($b->pep_route == 'IM') ? date('m/d/Y', strtotime($b->d14_date)) : 'N/A');
-            $templateProcessor->setValue('day28', date('m/d/Y', strtotime($b->d28_date)));
-
             $templateProcessor->setValue('isbooster', '');
+            if($b->is_preexp != 1) {
+                $templateProcessor->setValue('day3', date('m/d/Y', strtotime($b->d3_date)));
+                $templateProcessor->setValue('day7', date('m/d/Y', strtotime($b->d7_date)));
+                $templateProcessor->setValue('day14', ($b->pep_route == 'IM') ? date('m/d/Y', strtotime($b->d14_date)) : 'N/A');
+                $templateProcessor->setValue('day28', date('m/d/Y', strtotime($b->d28_date)));
+            }
+            else {
+                $templateProcessor->setValue('day3', 'N/A');
+                $templateProcessor->setValue('day7', date('m/d/Y', strtotime($b->d7_date)));
+                $templateProcessor->setValue('day14', 'N/A');
+                $templateProcessor->setValue('day28', 'N/A');
+            }
         }
         else {
+            $templateProcessor->setValue('day3', date('m/d/Y', strtotime($b->d3_date)));
             $templateProcessor->setValue('day7', 'N/A');
             $templateProcessor->setValue('day14', 'N/A');
             $templateProcessor->setValue('day28', 'N/A');
@@ -1600,7 +1609,12 @@ class ABTCVaccinationController extends Controller
             $templateProcessor->setValue('isbooster', ' - BOOSTER');
         }
 
-        $templateProcessor->setValue('outcome', 'ANG SUNOD NA BALIK (FOLLOW-UP) AY SA D3 AT D7, 1PM');
+        if(auth()->user()->abtc_default_vaccinationsite_id == 1) {
+            $templateProcessor->setValue('outcome', 'ANG SUNOD NA BALIK (FOLLOW-UP) AY SA D3 AT D7, 1PM');
+        }
+        else {
+            $templateProcessor->setValue('outcome', '');
+        }
 
         /*
         if($b->outcome == 'INC') {
