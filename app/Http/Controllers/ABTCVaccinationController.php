@@ -570,15 +570,31 @@ class ABTCVaccinationController extends Controller
                 }
             }
             else if($dose == 3) { //Day 7
-                if($get_br->d7_date == date('Y-m-d') && $get_br->d0_done == 1 && $get_br->d3_done == 1 && $get_br->d7_done == 0 && $get_br->is_booster == 0) {
+                if($get_br->is_preexp == 0) {
+                    if($get_br->d7_date == date('Y-m-d') && $get_br->d0_done == 1 && $get_br->d3_done == 1 && $get_br->d7_done == 0 && $get_br->is_booster == 0) {
+                        $performUpdate = true;
+
+                        $get_br->outcome = 'C';
+                    }
+                    else {
+                        return abort(401);
+                    }
+                }
+                else {
+                    if($get_br->d7_date == date('Y-m-d') && $get_br->d0_done == 1 && $get_br->d7_done == 0) {
+                        $performUpdate = true;
+                    }
+                    else {
+                        return abort(401);
+                    }
+                }
+
+                if($performUpdate) {
                     $get_br->d7_done = 1;
                     $get_br->d7_brand = $get_br->brand_name;
                     $get_br->d7_vaccinated_inbranch = 1;
                     $get_br->d7_done_by = auth()->user()->id;
                     $get_br->d7_done_date = date('Y-m-d H:i:s');
-                }
-                else {
-                    return abort(401);
                 }
 
                 /*
@@ -590,8 +606,6 @@ class ABTCVaccinationController extends Controller
                 }
                 */
 
-                $get_br->outcome = 'C';
-    
                 $msg = 'You have finished your 3rd Dose of your Anti-Rabies Vaccine.';
             }
             else if($dose == 4 && $get_br->pep_route == 'IM') { //Day 14
@@ -624,16 +638,32 @@ class ABTCVaccinationController extends Controller
                     }
                 }
                 else if($get_br->pep_route == 'ID') { //Skip 14 Day
-                    if($get_br->d28_date == date('Y-m-d') && $get_br->d0_done == 1 && $get_br->d3_done == 1 && $get_br->d7_done == 1 && $get_br->d28_done == 0 && $get_br->is_booster == 0) {
+
+                    if($get_br->is_preexp == 0) {
+                        if($get_br->d28_date == date('Y-m-d') && $get_br->d0_done == 1 && $get_br->d3_done == 1 && $get_br->d7_done == 1 && $get_br->d28_done == 0 && $get_br->is_booster == 0) {
+                            $performUpdate = true;
+                        }
+                        else {
+                            return abort(401);
+                        }
+                    }
+                    else {
+                        if($get_br->d28_date == date('Y-m-d') && $get_br->d0_done == 1 && $get_br->d7_done == 1 && $get_br->d28_done == 0) {
+                            $performUpdate = true;
+                        }
+                        else {
+                            return abort(401);
+                        }
+                    }
+
+                    if($performUpdate) {
                         $get_br->d28_done = 1;
                         $get_br->d28_brand = $get_br->brand_name;
                         $get_br->d28_vaccinated_inbranch = 1;
                         $get_br->d28_done_by = auth()->user()->id;
                         $get_br->d28_done_date = date('Y-m-d H:i:s');
                     }
-                    else {
-                        return abort(401);
-                    }
+                    
                 }
     
                 /*
@@ -1299,6 +1329,13 @@ class ABTCVaccinationController extends Controller
                 ->where('d7_done', 1)
                 ->where('d28_done', 0)
                 ->where('is_booster', 0);
+            })->orWhere(function ($r) use ($sdate) {
+                $r->whereDate('d28_date', $sdate)
+                ->where('d0_done', 1)
+                ->where('d3_done', 0)
+                ->where('d7_done', 1)
+                ->where('d28_done', 0)
+                ->where('is_preexp', 1);
             });
         })
         ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id);

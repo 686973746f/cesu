@@ -124,22 +124,27 @@ class AbtcBakunaRecords extends Model
     }
 
     public function ifAbleToProcessD3() {
-        if($this->d0_done == 1 && $this->d3_done == 0) {
-            if(date('Y-m-d') == $this->d3_date) {
-                return 'Y';
-            }
-            else {
-                if(date('Y-m-d') >= Carbon::parse($this->d3_date)->addDays(3)->format('Y-m-d')) {
-                    if(date('Y-m-d') <= Carbon::parse($this->d3_date)->addDays(3)->format('Y-m-d')) {
-                        return 'Y';
-                    }
-                    else {
-                        return 'D';
-                    }
+        if($this->is_preexp == 0) {
+            if($this->d0_done == 1 && $this->d3_done == 0) {
+                if(date('Y-m-d') == $this->d3_date) {
+                    return 'Y';
                 }
                 else {
-                    return 'N';
+                    if(date('Y-m-d') >= Carbon::parse($this->d3_date)->addDays(3)->format('Y-m-d')) {
+                        if(date('Y-m-d') <= Carbon::parse($this->d3_date)->addDays(3)->format('Y-m-d')) {
+                            return 'Y';
+                        }
+                        else {
+                            return 'D';
+                        }
+                    }
+                    else {
+                        return 'N';
+                    }
                 }
+            }
+            else {
+                return 'N';
             }
         }
         else {
@@ -148,12 +153,24 @@ class AbtcBakunaRecords extends Model
     }
 
     public function ifAbleToProcessD7() {
-        if($this->d0_done == 1 && $this->d3_done == 1 && $this->d7_done == 0) {
+        if($this->is_preexp == 0) {
+            if($this->d3_done == 0) {
+                $updateStep1 = false;
+            }
+            else {
+                $updateStep1 = true;
+            }
+        }
+        else {
+            $updateStep1 = true;
+        }
+
+        if($this->d0_done == 1 && $this->d7_done == 0 && $updateStep1) {
             if(date('Y-m-d') == $this->d7_date) {
                 return 'Y';
             }
             else {
-                if(date('Y-m-d') >= Carbon::parse($this->d7_date)->addDays(2)->format('Y-m-d')) {
+                if(date('Y-lm-d') >= Carbon::parse($this->d7_date)->addDays(2)->format('Y-m-d')) {
                     if(date('Y-m-d') <= Carbon::parse($this->d7_date)->addDays(2)->format('Y-m-d')) {
                         return 'Y';
                     }
@@ -202,7 +219,24 @@ class AbtcBakunaRecords extends Model
 
     public function ifAbleToProcessD28() {
         if($this->pep_route == 'ID') {
-            if($this->d0_done == 1 && $this->d3_done == 1 && $this->d7_done == 1 && $this->d14_done == 1 && $this->d28_done == 0) {
+            if($this->is_preexp == 0) {
+                if($this->d0_done == 1 && $this->d3_done == 1 && $this->d7_done == 1 && $this->d14_done == 1 && $this->d28_done == 0) {
+                    $updateStep1 = true;
+                }
+                else {
+                    $updateStep1 = false;
+                }
+            }
+            else {
+                if($this->d0_done == 1 && $this->d3_done == 0 && $this->d7_done == 1 && $this->d28_done == 0) {
+                    $updateStep1 = true;
+                }
+                else {
+                    $updateStep1 = false;
+                }
+            }
+
+            if($updateStep1) {
                 if(date('Y-m-d') == $this->d28_date) {
                     return 'Y';
                 }
@@ -225,7 +259,24 @@ class AbtcBakunaRecords extends Model
             }
         }
         else {
-            if($this->d0_done == 1 && $this->d3_done == 1 && $this->d7_done == 1 && $this->d28_done == 0) {
+            if($this->is_preexp == 0) {
+                if($this->d0_done == 1 && $this->d3_done == 1 && $this->d7_done == 1 && $this->d28_done == 0) {
+                    $updateStep1 = true;
+                }
+                else {
+                    $updateStep1 = false;
+                }
+            }
+            else {
+                if($this->d0_done == 1 && $this->d3_done == 0 && $this->d7_done == 1 && $this->d28_done == 0) {
+                    $updateStep1 = true;
+                }
+                else {
+                    $updateStep1 = false;
+                }
+            }
+
+            if($updateStep1) {
                 if(date('Y-m-d') == $this->d28_date) {
                     return 'Y';
                 }
@@ -262,16 +313,22 @@ class AbtcBakunaRecords extends Model
         if($this->d0_done == 0) {
             return 'D0';
         }
-        else if($this->d0_done == 1 && $this->d3_done == 0) {
+        else if($this->d0_done == 1 && $this->d3_done == 0 && $this->is_preexp == 0) {
             return 'D3';
         }
-        else if($this->d0_done == 1 && $this->d3_done == 1 && $this->d7_done == 0) {
+        else if($this->d0_done == 1 && $this->d3_done == 1 && $this->d7_done == 0 && $this->is_preexp == 0) {
+            return 'D7';
+        }
+        else if($this->d0_done == 1 && $this->d3_done == 0 && $this->d7_done == 0 && $this->is_preexp == 1) {
             return 'D7';
         }
         else if($this->d0_done == 1 && $this->d3_done == 1 && $this->d7_done == 1 && $this->d14_done == 0 && $this->pep_route == 'IM') {
             return 'D14';
         }
-        else if($this->d0_done == 1 && $this->d3_done == 1 && $this->d7_done == 1 && $this->d14_done == 1 && $this->d28_done == 0) {
+        else if($this->d0_done == 1 && $this->d3_done == 1 && $this->d7_done == 1 && $this->d14_done == 1 && $this->d28_done == 0 && $this->is_preexp == 0) {
+            return 'D28';
+        }
+        else if($this->d0_done == 1 && $this->d3_done == 0 && $this->d7_done == 1 && $this->d14_done == 0 && $this->d28_done == 0 && $this->is_preexp == 1) {
             return 'D28';
         }
     }
@@ -281,17 +338,27 @@ class AbtcBakunaRecords extends Model
         if($this->d0_done == 0) {
             return 1;
         }
-        else if($this->d0_done == 1 && $this->d3_done == 0) {
+        else if($this->d0_done == 1 && $this->d3_done == 0 && $this->is_preexp == 0) {
             return 2;
         }
         else if($this->d0_done == 1 && $this->d3_done == 1 && $this->d7_done == 0) {
-            return 3;
+            if($this->is_preexp == 0) {
+                return 3;
+            }
+            else {
+                return 2;
+            }
         }
-        else if($this->d0_done == 1 && $this->d3_done == 1 && $this->d7_done == 1 && $this->d14_done == 0 && $this->pep_route == 'IM') {
+        else if($this->d0_done == 1 && $this->d3_done == 1 && $this->d7_done == 1 && $this->d14_done == 0 && $this->pep_route == 'IM' && $this->is_preexp == 0) {
             return 4;
         }
         else if($this->d0_done == 1 && $this->d3_done == 1 && $this->d7_done == 1 && $this->d14_done == 1 && $this->d28_done == 0) {
-            return 5;
+            if($this->is_preexp == 0) {
+                return 5;
+            }
+            else {
+                return 3;
+            }
         }
         else {
             return NULL;
