@@ -507,7 +507,7 @@ class AbtcBakunaRecords extends Model
     }
 
     public function ifCanProcessQuickMark() {
-        if($this->getCurrentDose() == 1) {
+        if($this->getCurrentDose() == 1 && $this->is_preexp == 0) {
             if($this->d0_date == date('Y-m-d')) {
                 return 'Y';
             }
@@ -520,7 +520,7 @@ class AbtcBakunaRecords extends Model
                 }
             }
         }
-        else if($this->getCurrentDose() == 2) {
+        else if($this->getCurrentDose() == 2 && $this->is_preexp == 0) {
             if($this->d3_date == date('Y-m-d')) {
                 return 'Y';
             }
@@ -533,7 +533,7 @@ class AbtcBakunaRecords extends Model
                 }
             }
         }
-        else if($this->getCurrentDose() == 3) {
+        else if($this->getCurrentDose() == 2 && $this->is_preexp == 1) {
             if($this->d7_date == date('Y-m-d')) {
                 return 'Y';
             }
@@ -546,7 +546,33 @@ class AbtcBakunaRecords extends Model
                 }
             }
         }
-        else if($this->getCurrentDose() == 4) {
+        else if($this->getCurrentDose() == 3 && $this->is_preexp == 0) {
+            if($this->d7_date == date('Y-m-d')) {
+                return 'Y';
+            }
+            else {
+                if($this->d7_date < date('Y-m-d')) {
+                    return 'DID NOT ARRIVED ON DAY 7 ('.date('m/d/Y - D', strtotime($this->d7_date)).')';
+                }
+                else {
+                    return 'PRESENT DATE IS NOT YET EQUALS TO DAY 7 ('.date('m/d/Y - D', strtotime($this->d7_date)).')';
+                }
+            }
+        }
+        else if($this->getCurrentDose() == 3 && $this->is_preexp == 1) {
+            if($this->d28_date == date('Y-m-d')) {
+                return 'Y';
+            }
+            else {
+                if($this->d28_date < date('Y-m-d')) {
+                    return 'DID NOT ARRIVED ON DAY 28 ('.date('m/d/Y - D', strtotime($this->d28_date)).')';
+                }
+                else {
+                    return 'PRESENT DATE IS NOT YET EQUALS TO DAY 28 ('.date('m/d/Y - D', strtotime($this->d28_date)).')';
+                }
+            }
+        }
+        else if($this->getCurrentDose() == 4 && $this->is_preexp == 0) {
             if($this->d14_date == date('Y-m-d')) {
                 return 'Y';
             }
@@ -559,7 +585,7 @@ class AbtcBakunaRecords extends Model
                 }
             }
         }
-        else if($this->getCurrentDose() == 5) {
+        else if($this->getCurrentDose() == 5 && $this->is_preexp == 0) {
             if($this->d28_date == date('Y-m-d')) {
                 return 'Y';
             }
