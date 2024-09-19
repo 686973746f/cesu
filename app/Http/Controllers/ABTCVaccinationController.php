@@ -535,7 +535,7 @@ class ABTCVaccinationController extends Controller
     
                 $msg = 'You have finished your 1st Dose of your Anti-Rabies Vaccine.';
             }
-            else if($dose == 2) { //Day 3
+            else if($dose == 2 && $get_br->is_preexp == 0) { //Day 3
                 if($get_br->ifAbleToProcessD3() == 'Y') {
                     $get_br->d3_done = 1;
                     $get_br->d3_brand = $get_br->brand_name;
@@ -569,24 +569,29 @@ class ABTCVaccinationController extends Controller
                     }
                 }
             }
-            else if($dose == 3) { //Day 7
-                if($get_br->is_preexp == 0) {
-                    if($get_br->d7_date == date('Y-m-d') && $get_br->d0_done == 1 && $get_br->d3_done == 1 && $get_br->d7_done == 0 && $get_br->is_booster == 0) {
-                        $performUpdate = true;
-
-                        $get_br->outcome = 'C';
-                    }
-                    else {
-                        return abort(401);
-                    }
+            else if($dose == 2 && $get_br->is_preexp == 1) {
+                //Day 7 Pre-Exposure
+                if($get_br->ifAbleToProcessD7() == 'Y') {
+                    $get_br->d7_done = 1;
+                    $get_br->d7_brand = $get_br->brand_name;
+                    $get_br->d7_vaccinated_inbranch = 1;
+                    $get_br->d7_done_by = auth()->user()->id;
+                    $get_br->d7_done_date = date('Y-m-d H:i:s');
                 }
                 else {
-                    if($get_br->d7_date == date('Y-m-d') && $get_br->d0_done == 1 && $get_br->d7_done == 0) {
-                        $performUpdate = true;
-                    }
-                    else {
-                        return abort(401);
-                    }
+                    return abort(401);
+                }
+    
+                $msg = 'You have finished your 2nd Dose of your Anti-Rabies Vaccine.';
+            }
+            else if($dose == 3 && $get_br->is_preexp == 0) { //Day 7
+                if($get_br->d7_date == date('Y-m-d') && $get_br->d0_done == 1 && $get_br->d3_done == 1 && $get_br->d7_done == 0 && $get_br->is_booster == 0) {
+                    $performUpdate = true;
+
+                    $get_br->outcome = 'C';
+                }
+                else {
+                    return abort(401);
                 }
 
                 if($performUpdate) {
@@ -607,6 +612,23 @@ class ABTCVaccinationController extends Controller
                 */
 
                 $msg = 'You have finished your 3rd Dose of your Anti-Rabies Vaccine.';
+            }
+            else if($dose == 3 && $get_br->is_preexp == 1) {
+                //Day 28 Pre-Exposure
+                if($get_br->d28_date == date('Y-m-d') && $get_br->d0_done == 1 && $get_br->d3_done == 0 && $get_br->d7_done == 1 && $get_br->is_booster == 0) {
+                    $get_br->d28_done = 1;
+                    $get_br->d28_brand = $get_br->brand_name;
+                    $get_br->d28_vaccinated_inbranch = 1;
+                    $get_br->d28_done_by = auth()->user()->id;
+                    $get_br->d28_done_date = date('Y-m-d H:i:s');
+                }
+                else {
+                    return abort(401);
+                }
+
+                $get_br->outcome = 'C';
+
+                $msg = 'Congratulations. You have completed your doses of Anti-Rabies Vaccine!';
             }
             else if($dose == 4 && $get_br->pep_route == 'IM') { //Day 14
                 if($get_br->d14_date == date('Y-m-d') && $get_br->d0_done == 1 && $get_br->d3_done == 1 && $get_br->d7_done == 1 && $get_br->d14_done == 0 && $get_br->is_booster == 0) {
@@ -751,7 +773,7 @@ class ABTCVaccinationController extends Controller
     
                 $msg = 'D0 Late Vaccination was processed successfully.';
             }
-            else if($dose == 2) {
+            else if($dose == 2 && $get_br->is_preexp == 0) {
                 $date_check = Carbon::parse($get_br->d3_date);
 
                 if($date_check->diffInDays($now) < 3) {
@@ -790,7 +812,24 @@ class ABTCVaccinationController extends Controller
                     */
                 }
             }
-            else if($dose == 3) {
+            else if($dose == 2 && $get_br->is_preexp == 1) {
+                $date_check = Carbon::parse($get_br->d7_date);
+
+                if($date_check->diffInDays($now) < 3) {
+                    $get_br->d7_date = date('Y-m-d');
+                    $get_br->d7_done = 1;
+                    $get_br->d7_brand = $get_br->brand_name;
+                    $get_br->d7_vaccinated_inbranch = 1;
+                    $get_br->d7_done_by = auth()->user()->id;
+                    $get_br->d7_done_date = date('Y-m-d H:i:s');
+                }
+                else {
+                    return abort(401);
+                }
+
+                $msg = 'D7 Pre-Exposure Late Vaccination was processed successfully.';
+            }
+            else if($dose == 3 && $get_br->is_preexp == 0) {
                 $date_check = Carbon::parse($get_br->d7_date);
 
                 if($date_check->diffInDays($now) < 3) {
@@ -809,7 +848,26 @@ class ABTCVaccinationController extends Controller
 
                 $msg = 'D7 Late Vaccination was processed successfully.';
             }
-            else if($dose == 4 && $get_br->pep_route == 'IM') {
+            else if($dose == 3 && $get_br->is_preexp == 1) {
+                $date_check = Carbon::parse($get_br->d28_date);
+
+                if($date_check->diffInDays($now) < 3) {
+                    $get_br->d28_date = date('Y-m-d');
+                    $get_br->d28_done = 1;
+                    $get_br->d28_brand = $get_br->brand_name;
+                    $get_br->d28_vaccinated_inbranch = 1;
+                    $get_br->d28_done_by = auth()->user()->id;
+                    $get_br->d28_done_date = date('Y-m-d H:i:s');
+                }
+                else {
+                    return abort(401);
+                }
+
+                $get_br->outcome = 'C';
+
+                $msg = 'D28 Pre-Exposure Late Vaccination was completed successfully.';
+            }
+            else if($dose == 4 && $get_br->pep_route == 'IM' && $get_br->is_preexp == 0) {
                 $date_check = Carbon::parse($get_br->d14_date);
 
                 if($date_check->diffInDays($now) < 3) {
@@ -828,7 +886,7 @@ class ABTCVaccinationController extends Controller
                 
                 $msg = 'D7 Late Vaccination was processed successfully.';
             }
-            else if($dose == 5) {
+            else if($dose == 5 && $get_br->is_preexp == 0) {
                 $date_check = Carbon::parse($get_br->d28_date);
 
                 if($date_check->diffInDays($now) < 3) {
