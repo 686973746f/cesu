@@ -195,8 +195,8 @@
                             <td class="text-center">{{(!is_null($n->patient->contact_number)) ? $n->patient->contact_number : 'N/A'}}</td>
                             <td class="text-center">{{$n->patient->getAge()}} / {{$n->patient->sg()}}</td>
                             <td class="text-center"><small>{{$n->patient->address_brgy_text}}</small></td>
-                            <td class="text-center">{{$n->animal_type}}</td>
-                            <td class="text-center">{{date('m/d/Y (D)', strtotime($n->bite_date))}}</td>
+                            <td class="text-center">{{$n->animal_type ?: 'N/A'}}</td>
+                            <td class="text-center">{{(!is_null($n->bite_date)) ? date('m/d/Y (D)', strtotime($n->bite_date)) : 'N/A'}}</td>
                             <td class="text-center">{{$n->category_level}}</td>
                             <td class="text-center">{{(!is_null($n->body_site)) ? mb_strtoupper($n->body_site) : 'N/A'}}</td>
                             <td class="text-center">{{$n->getlatestday()}}</td>
