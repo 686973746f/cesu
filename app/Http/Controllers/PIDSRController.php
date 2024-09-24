@@ -8169,6 +8169,56 @@ class PIDSRController extends Controller
         $psp_query = Psp::where('enabled', 1)
         ->where('match_casedef', 1);
 
+        if(!is_null(request()->input('quarter'))) {
+            $qtr = request()->input('quarter');
+
+            if($qtr == '1ST') {
+                $betweenMonthStart = 1;
+                $betweenMonthEnd = 3;
+            }
+            else if($qtr == '2ND') {
+                $betweenMonthStart = 4;
+                $betweenMonthEnd = 6;
+            }
+            else if($qtr == '3RD') {
+                $betweenMonthStart = 7;
+                $betweenMonthEnd = 9;
+            }
+            else if($qtr == '4TH') {
+                $betweenMonthStart = 10;
+                $betweenMonthEnd = 12;
+            }
+
+            $abd_query = $abd_query->whereBetween('MorbidityMonth', [$betweenMonthStart, $betweenMonthEnd]);
+            $afp_query = $afp_query->whereBetween('MorbidityMonth', [$betweenMonthStart, $betweenMonthEnd]);
+            $ames_query = $ames_query->whereBetween('MorbidityMonth', [$betweenMonthStart, $betweenMonthEnd]);
+            $hepa_query = $hepa_query->whereBetween('MorbidityMonth', [$betweenMonthStart, $betweenMonthEnd]);
+            $chikv_query = $chikv_query->whereBetween('MorbidityMonth', [$betweenMonthStart, $betweenMonthEnd]);
+            $cholera_query = $cholera_query->whereBetween('MorbidityMonth', [$betweenMonthStart, $betweenMonthEnd]);
+            $dengue_query = $dengue_query->whereBetween('MorbidityMonth', [$betweenMonthStart, $betweenMonthEnd]);
+            $diph_query = $diph_query->whereBetween('MorbidityMonth', [$betweenMonthStart, $betweenMonthEnd]);
+            $hfmd_query = $hfmd_query->whereBetween('MorbidityMonth', [$betweenMonthStart, $betweenMonthEnd]);
+            $ili_query = $ili_query->whereBetween('MorbidityMonth', [$betweenMonthStart, $betweenMonthEnd]);
+            $lepto_query = $lepto_query->whereBetween('MorbidityMonth', [$betweenMonthStart, $betweenMonthEnd]);
+            $measles_query = $measles_query->whereBetween('MorbidityMonth', [$betweenMonthStart, $betweenMonthEnd]);
+            $meningo_query = $meningo_query->whereBetween('MorbidityMonth', [$betweenMonthStart, $betweenMonthEnd]);
+            $nnt_query = $nnt_query->whereBetween('MorbidityMonth', [$betweenMonthStart, $betweenMonthEnd]);
+            $nt_query = $nt_query->whereBetween('MorbidityMonth', [$betweenMonthStart, $betweenMonthEnd]);
+            $pert_query = $pert_query->whereBetween('MorbidityMonth', [$betweenMonthStart, $betweenMonthEnd]);
+            $rabies_query = $rabies_query->whereBetween('MorbidityMonth', [$betweenMonthStart, $betweenMonthEnd]);
+            $rotavirus_query = $rotavirus_query->whereBetween('MorbidityMonth', [$betweenMonthStart, $betweenMonthEnd]);
+            $sari_query = $sari_query->whereBetween('morbidity_month', [$betweenMonthStart, $betweenMonthEnd]);
+            $typhoid_query = $typhoid_query->whereBetween('MorbidityMonth', [$betweenMonthStart, $betweenMonthEnd]);
+
+            $aes_query = $aes_query->whereBetween('MorbidityMonth', [$betweenMonthStart, $betweenMonthEnd]);
+            $aefi_query = $aefi_query->whereBetween('MorbidityMonth', [$betweenMonthStart, $betweenMonthEnd]);
+            $ahf_query = $ahf_query->whereBetween('MorbidityMonth', [$betweenMonthStart, $betweenMonthEnd]);
+            $anthrax_query = $anthrax_query->whereBetween('MorbidityMonth', [$betweenMonthStart, $betweenMonthEnd]);
+            $malaria_query = $malaria_query->whereBetween('MorbidityMonth', [$betweenMonthStart, $betweenMonthEnd]);
+            $meningitis_query = $meningitis_query->whereBetween('MorbidityMonth', [$betweenMonthStart, $betweenMonthEnd]);
+            $psp_query = $psp_query->whereBetween('MorbidityMonth', [$betweenMonthStart, $betweenMonthEnd]);
+        }
+
         $covid_query = Forms::with('records')
         ->whereHas('records', function ($q) {
             $q->where('records.address_province', 'CAVITE')
