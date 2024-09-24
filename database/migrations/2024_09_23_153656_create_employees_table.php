@@ -15,6 +15,31 @@ class CreateEmployeesTable extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
+            $table->string('lname');
+            $table->string('fname');
+            $table->string('mname')->nullable();
+            $table->string('suffix')->nullable();
+            $table->string('profession_suffix')->nullable();
+            $table->string('gender');
+            $table->date('bdate')->nullable();
+
+            $table->string('type'); //REGULAR, CASUAL, JO
+            $table->string('job_position'); //NAME OF ITEM
+            $table->string('office'); //KUNG SAAN NAKA-ASSIGN
+            $table->date('date_hired')->nullable();
+            $table->string('employment_status'); //ACTIVE, RESIGNED
+            $table->date('date_resigned')->nullable();
+            $table->string('remarks')->nullable();
+
+            $table->text('picture_file')->nullable();
+            $table->text('fingerprint_hash')->nullable();
+
+            $table->string('is_blstrained', 1)->default('N');
+            $table->date('recent_bls_date')->nullable();
+            $table->string('duty_canbedeployed', 1);
+            $table->string('duty_team')->nullable();
+            $table->string('duty_completedcycle', 1)->default('N');
+            
             $table->timestamps();
         });
     }
