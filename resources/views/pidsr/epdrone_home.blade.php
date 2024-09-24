@@ -41,7 +41,7 @@
                     <div class="form-group">
                         <label for="quarter">Quarter (Optional)</label>
                         <select class="form-control" name="quarter" id="quarter">
-                            <option disabled {{(is_null(request()->input('quarter'))) ? 'selected' : ''}}>Choose...</option>
+                            <option value="">N/A</option>
                             <option value="1ST" {{(request()->input('quarter') == '1ST') ? 'selected' : ''}}>1st Quarter</option>
                             <option value="2ND" {{(request()->input('quarter') == '2ND') ? 'selected' : ''}}>2nd Quarter</option>
                             <option value="3RD" {{(request()->input('quarter') == '3RD') ? 'selected' : ''}}>3rd Quarter</option>
