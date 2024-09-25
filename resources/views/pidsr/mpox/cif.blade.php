@@ -3,15 +3,22 @@
 @section('content')
 @if($mode == 'EDIT')
 <!--Edit Page-->
-<form action="#" method="POST">
+<form action="{{route('edcs_case_viewedit_update', ['MPOX', $d->id])}}" method="POST">
     @php
     $epid_number = $d->epid_number;
+    $facility = $d->dru_name;
+
+    $lname = $d->lname;
+    $fname = $d->fname;
+    $mname = $d->mname;
+    
     @endphp
 @else
 <!--Create Page-->
 <form action="{{route('edcs_addcase_store', 'MPOX')}}" method="POST">
     @php
     $epid_number = NULL;
+    $facility = $f->facility_name;
     @endphp
 @endif
 
@@ -21,9 +28,9 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between">
                     @if($mode == 'EDIT')
-                    <div><b>Edit Monkeypox CIF of <a href="{{route('records.edit', $d->records->id)}}">{{$d->records->getName()}} | {{$d->records->getAge()}}/{{substr($d->records->gender,0,1)}} | {{date('m/d/Y', strtotime($d->records->bdate))}}</a> [ICD 10 - CM Code: B04]</b></div>
+                    <div><b>Edit Monkeypox CIF (ID: #{{$d->id}})</b> [ICD 10 - CM Code: B04]</div>
                     @else
-                    <div><b>New Monkeypox Case Investigation Form (CIF) [ICD 10 - CM Code: B04]</b></div>
+                    <div><b>New Monkeypox Case Investigation Form (CIF)</b> [ICD 10 - CM Code: B04]</div>
                     @endif
                     <div><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#appendix">Appendix</div>
                 </div>
@@ -39,7 +46,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="dru_name"><span class="text-danger font-weight-bold">*</span>Name of DRU</label>
-                            <input type="text"class="form-control" name="dru_name" id="dru_name" value="{{old('dru_name', $f->facility_name)}}" style="text-transform: uppercase;" required readonly>
+                            <input type="text"class="form-control" name="dru_name" id="dru_name" value="{{$facility}}" style="text-transform: uppercase;" required readonly>
                         </div>
                         <div class="form-group">
                             <label for="dru_name"><span class="text-danger font-weight-bold">*</span>Address of DRU</label>
@@ -505,9 +512,8 @@
                                     </li>
                                 </ul>
                                 <div class="form-group">
-                                    <label for="have_activedisease_lesion_type"><span class="text-danger font-weight-bold">*</span>4. Type of lesions</label>
-                                    <select class="form-control" name="have_activedisease_lesion_type[]" id="have_activedisease_lesion_type" multiple required>
-                                        <option value="" disabled {{(old('have_activedisease_lesion_type', $d->have_activedisease_lesion_type) == '') ? 'selected' : ''}}>N/A</option>
+                                    <label for="have_activedisease_lesion_type">4. Type of lesions <i>(Select if Applicable)</i></label>
+                                    <select class="form-control" name="have_activedisease_lesion_type[]" id="have_activedisease_lesion_type" multiple>
                                         <option value="MACULE" {{(collect(old('have_activedisease_lesion_type', explode(',', $d->have_activedisease_lesion_type)))->contains('MACULE')) ? 'selected' : ''}}>MACULE</option>
                                         <option value="PAPULE" {{(collect(old('have_activedisease_lesion_type', explode(',', $d->have_activedisease_lesion_type)))->contains('PAPULE')) ? 'selected' : ''}}>PAPULE</option>
                                         <option value="VESICLE" {{(collect(old('have_activedisease_lesion_type', explode(',', $d->have_activedisease_lesion_type)))->contains('VESICLE')) ? 'selected' : ''}}>VESICLE</option>
@@ -516,9 +522,8 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="have_activedisease_lesion_localization"><span class="text-danger font-weight-bold">*</span>5. Localization of the lesions</label>
-                                    <select class="form-control" name="have_activedisease_lesion_localization[]" id="have_activedisease_lesion_localization" multiple required>
-                                        <option value="" disabled {{(old('have_activedisease_lesion_localization', $d->have_activedisease_lesion_localization) == '') ? 'selected' : ''}}>N/A</option>
+                                    <label for="have_activedisease_lesion_localization">5. Localization of the lesions <i>(Select if Applicable)</i></label>
+                                    <select class="form-control" name="have_activedisease_lesion_localization[]" id="have_activedisease_lesion_localization" multiple>
                                         <option value="FACE" {{(collect(old('have_activedisease_lesion_localization', explode(',', $d->have_activedisease_lesion_localization)))->contains('FACE')) ? 'selected' : ''}}>FACE</option>
                                         <option value="PALMS OF THE HANDS" {{(collect(old('have_activedisease_lesion_localization', explode(',', $d->have_activedisease_lesion_localization)))->contains('PALMS OF THE HANDS')) ? 'selected' : ''}}>PALMS OF THE HANDS</option>
                                         <option value="THORAX" {{(collect(old('have_activedisease_lesion_localization', explode(',', $d->have_activedisease_lesion_localization)))->contains('THORAX')) ? 'selected' : ''}}>THORAX</option>
@@ -536,9 +541,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="symptoms_list"><span class="text-danger font-weight-bold">*</span>Signs and Symptoms (Select all that apply)</label>
-                                    <select class="form-control" name="symptoms_list[]" id="symptoms_list" multiple required>
-                                        <option value="" disabled {{(old('symptoms_list', $d->symptoms_list) == '') ? 'selected' : ''}}>N/A</option>
+                                    <label for="symptoms_list"><span class="text-danger font-weight-bold">*</span>Signs and Symptoms <i>(Select if Applicable)</i></label>
+                                    <select class="form-control" name="symptoms_list[]" id="symptoms_list" multiple>
                                         <option value="VOMITING/NAUSEA" {{(collect(old('symptoms_list', explode(',', $d->symptoms_list)))->contains('VOMITING/NAUSEA')) ? 'selected' : ''}}>VOMITING/NAUSEA</option>
                                         <option value="HEADACHE" {{(collect(old('symptoms_list', explode(',', $d->symptoms_list)))->contains('HEADACHE')) ? 'selected' : ''}}>HEADACHEA</option>
                                         <option value="COUGH" {{(collect(old('symptoms_list', explode(',', $d->symptoms_list)))->contains('COUGH')) ? 'selected' : ''}}>COUGH</option>
@@ -557,7 +561,6 @@
                                     <div class="form-group">
                                         <label for="symptoms_lymphadenopathy_localization"><span class="text-danger font-weight-bold">*</span>Specify Localiztion of Lymphadenopathy</label>
                                         <select class="form-control" name="symptoms_lymphadenopathy_localization[]" id="symptoms_lymphadenopathy_localization" multiple>
-                                            <option value="" disabled {{(old('symptoms_lymphadenopathy_localization', $d->symptoms_lymphadenopathy_localization) == '') ? 'selected' : ''}}>Choose...</option>
                                             <option value="CERVICAL" {{(collect(old('symptoms_lymphadenopathy_localization', explode(',', $d->symptoms_lymphadenopathy_localization)))->contains('CERVICAL')) ? 'selected' : ''}}>CERVICAL</option>
                                             <option value="AXILLARY" {{(collect(old('symptoms_lymphadenopathy_localization', explode(',', $d->symptoms_lymphadenopathy_localization)))->contains('AXILLARY')) ? 'selected' : ''}}>AXILLARY</option>
                                             <option value="INGUINAL" {{(collect(old('symptoms_lymphadenopathy_localization', explode(',', $d->symptoms_lymphadenopathy_localization)))->contains('INGUINAL')) ? 'selected' : ''}}>INGUINAL</option>
@@ -914,6 +917,18 @@
     });
 
     $('#perm_address_region_code, #perm_address_province_code, #perm_address_muncity_code, #perm_address_brgy_text').select2({
+        theme: 'bootstrap',
+    });
+
+    $('#symptoms_list').select2({
+        theme: 'bootstrap',
+    });
+    
+    $('#have_activedisease_lesion_localization').select2({
+        theme: 'bootstrap',
+    });
+    
+    $('#have_activedisease_lesion_type, #symptoms_lymphadenopathy_localization').select2({
         theme: 'bootstrap',
     });
 

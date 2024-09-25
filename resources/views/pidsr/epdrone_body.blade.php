@@ -235,12 +235,12 @@
         </a>
     </div>
     <div class="col-md-3 mb-3">
-        <a href="#">
+        <a href="{{$mpox_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
                     <h4 class="text-white">MPox</h4>
-                    <h4 class="text-warning">TBD</h4>
-                    <h4 class="text-danger">Deaths: TBD</h4>
+                    <h4 class="text-warning">{{$mpox_count}}</h4>
+                    <h4 class="text-danger">Deaths: {{$mpox_count_death}}</h4>
                 </div>
             </div>
         </a>

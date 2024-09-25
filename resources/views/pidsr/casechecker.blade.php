@@ -51,6 +51,7 @@
                         <option value="ANTHRAX" {{(request()->input('case') == 'ANTHRAX') ? 'selected' : ''}}>ANTHRAX</option>
                         <option value="CHIKV" {{(request()->input('case') == 'CHIKV') ? 'selected' : ''}}>CHIKV</option>
                         <option value="CHOLERA" {{(request()->input('case') == 'CHOLERA') ? 'selected' : ''}}>CHOLERA</option>
+                        <option value="COVID" {{(request()->input('case') == 'COVID') ? 'selected' : ''}}>COVID-19</option>
                         <option value="DENGUE" {{(request()->input('case') == 'DENGUE') ? 'selected' : ''}}>DENGUE</option>
                         <option value="DIPH" {{(request()->input('case') == 'DIPH') ? 'selected' : ''}}>DIPH</option>
                         <option value="HEPATITIS" {{(request()->input('case') == 'HEPATITIS') ? 'selected' : ''}}>HEPATITIS</option>
@@ -61,6 +62,7 @@
                         <option value="MEASLES" {{(request()->input('case') == 'MEASLES') ? 'selected' : ''}}>MEASLES</option>
                         <option value="MENINGITIS" {{(request()->input('case') == 'MENINGITIS') ? 'selected' : ''}}>MENINGITIS</option>
                         <option value="MENINGO" {{(request()->input('case') == 'MENINGO') ? 'selected' : ''}}>MENINGO</option>
+                        <option value="MPOX" {{(request()->input('case') == 'MPOX') ? 'selected' : ''}}>MPOX</option>
                         <option value="NNT" {{(request()->input('case') == 'NNT') ? 'selected' : ''}}>NNT</option>
                         <option value="NT" {{(request()->input('case') == 'NT') ? 'selected' : ''}}>NT</option>
                         <option value="PERT" {{(request()->input('case') == 'PERT') ? 'selected' : ''}}>PERT</option>
@@ -93,6 +95,7 @@
             </form>
             @if(isset($list))
             <hr>
+            @if(request()->input('case') != 'MPOX')
             <table class="table table-bordered table-striped table-hover" id="list_table" style="width:100%">
                 <thead class="thead-light text-center">
                     <tr>
@@ -153,6 +156,73 @@
                     @endforeach
                 </tbody>
             </table>
+            @else
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="thead-light text-center">
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Birthdate</th>
+                            <th>Age</th>
+                            <th>Sex</th>
+                            <th>Contact No.</th>
+                            <th>Street/Purok</th>
+                            <th>Barangay</th>
+                            <th>Municipality/City</th>
+                            <th>Case Classification</th>
+                            <th>Outcome</th>
+                            <th>Morbidity Week</th>
+                            <th>Morbidity Month</th>
+                            <th>Year</th>
+                            <th>Date Created / by</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($list as $key => $l)
+                        @php
+                        $setBgColor = '';
+
+                        if($l->match_casedef == 0) {
+                            $setBgColor = 'bg-warning';
+                        }
+
+                        if($l->enabled == 0) {
+                            $setBgColor = 'bg-danger text-white';
+                        }
+                        @endphp
+                        <tr>
+                            <td class="text-center">{{$key+1}}</td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-link text-left" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <b>{{$l->getName()}}</b> @if((date('W') - 1) == $l->morbidity_week)<span class="badge badge-danger ml-1">NEW</span>@endif
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a href="{{route('edcs_case_viewedit', [request()->input('case'), $l->id])}}" class="dropdown-item">View/Edit CIF</a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            @endif
+            
             @endif
         </div>
     </div>

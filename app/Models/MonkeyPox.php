@@ -141,7 +141,17 @@ class MonkeyPox extends Model
         'updated_by',
     ];
 
-    public function records() {
-        return $this->belongsTo(Records::class);
+    public function getName() {
+        $full = $this->lname.', '.$this->fname;
+
+        if(!is_null($this->mname)) {
+            $full = $full.' '.$this->mname;
+        }
+
+        if(!is_null($this->suffix)) {
+            $full = $full.' '.$this->suffix;
+        }
+
+        return $full;
     }
 }

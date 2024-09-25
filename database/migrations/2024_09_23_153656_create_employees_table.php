@@ -23,6 +23,20 @@ class CreateEmployeesTable extends Migration
             $table->string('gender');
             $table->date('bdate')->nullable();
 
+            $table->string('contact_number')->nullable();
+            $table->string('email')->nullable();
+
+            $table->text('address_region_code')->nullable();
+            $table->text('address_region_text')->nullable();
+            $table->text('address_province_code')->nullable();
+            $table->text('address_province_text')->nullable();
+            $table->text('address_muncity_code')->nullable();
+            $table->text('address_muncity_text')->nullable();
+            $table->text('address_brgy_code')->nullable();
+            $table->text('address_brgy_text')->nullable();
+            $table->text('address_street')->nullable();
+            $table->text('address_houseno')->nullable();
+
             $table->string('type'); //REGULAR, CASUAL, JO
             $table->string('job_position'); //NAME OF ITEM
             $table->string('office'); //KUNG SAAN NAKA-ASSIGN
@@ -36,6 +50,9 @@ class CreateEmployeesTable extends Migration
 
             $table->string('is_blstrained', 1)->default('N');
             $table->date('recent_bls_date')->nullable();
+            $table->string('bls_id')->nullable();
+            $table->string('bls_typeofrescuer')->nullable();
+            $table->string('bls_codename')->nullable();
             $table->string('duty_canbedeployed', 1);
             $table->string('duty_team')->nullable();
             $table->string('duty_completedcycle', 1)->default('N');

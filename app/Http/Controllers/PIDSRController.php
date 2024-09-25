@@ -1366,6 +1366,12 @@ class PIDSRController extends Controller
 
                 $tbl_name = 'typhoid';
             }
+            else if($case == 'MPOX') {
+                $query = MonkeyPox::where('year', $year);
+                //$columns = Schema::getColumnListing('typhoid');
+
+                $tbl_name = 'monkey_poxes';
+            }
 
             $ctxt = "SHOW COLUMNS FROM $tbl_name";
             $c = DB::select($ctxt);
@@ -1376,6 +1382,10 @@ class PIDSRController extends Controller
             if($case == 'SARI') {
                 $query = $query->where('muncity', 'GENERAL TRIAS')
                 ->where('province', 'CAVITE');
+            }
+            else if($case == 'MPOX') {
+                $query = $query->where('address_muncity_text', 'GENERAL TRIAS')
+                ->where('address_province_text', 'CAVITE');
             }
             else {
                 $query = $query->where('Muncity', 'GENERAL TRIAS')
@@ -7860,6 +7870,9 @@ class PIDSRController extends Controller
         $psp_query = Psp::where('enabled', 1)
         ->where('match_casedef', 1)
         ->where('Barangay', $brgy);
+        $mpox_query = MonkeyPox::where('enabled', 1)
+        ->where('match_casedef', 1)
+        ->where('address_brgy_text', $brgy);
         
         $covid_query = Forms::with('records')
         ->whereHas('records', function ($q) use ($brgy) {
@@ -7905,6 +7918,7 @@ class PIDSRController extends Controller
         $malaria_count = (clone $malaria_query)->where('Year', $year)->count();
         $meningitis_count = (clone $meningitis_query)->where('Year', $year)->count();
         $psp_count = (clone $psp_query)->where('Year', $year)->count();
+        $mpox_count = (clone $mpox_query)->where('year', $year)->count();
 
         $abd_count_death = (clone $abd_query)->where('Year', $year)->where('Outcome', 'D')->count();
         $afp_count_death = (clone $afp_query)->where('Year', $year)->where('Outcome', 'D')->count();
@@ -7934,6 +7948,7 @@ class PIDSRController extends Controller
         $malaria_count_death = (clone $malaria_query)->where('Year', $year)->where('Outcome', 'D')->count();
         $meningitis_count_death = (clone $meningitis_query)->where('Year', $year)->where('Outcome', 'D')->count();
         $psp_count_death = (clone $psp_query)->where('Year', $year)->where('Outcome', 'D')->count();
+        $mpox_count_death = (clone $mpox_query)->where('year', $year)->where('outcome', 'DIED')->count();
 
         $abd_route = route('edcs_barangay_view_list', ['case' => 'Abd', 'year' => $year]);
         $afp_route = route('edcs_barangay_view_list', ['case' => 'Afp', 'year' => $year]);
@@ -7963,6 +7978,7 @@ class PIDSRController extends Controller
         $malaria_route = route('edcs_barangay_view_list', ['case' => 'Malaria', 'year' => $year]);
         $meningitis_route = route('edcs_barangay_view_list', ['case' => 'Meningitis', 'year' => $year]);
         $psp_route = route('edcs_barangay_view_list', ['case' => 'Psp', 'year' => $year]);
+        $mpox_route = route('edcs_barangay_view_list', ['case' => 'Mpox', 'year' => $year]);
 
         return view('pidsr.barangay.brgy_case_viewer_home', [
             'abd_count' => $abd_count,
@@ -7993,6 +8009,7 @@ class PIDSRController extends Controller
             'malaria_count' => $malaria_count,
             'meningitis_count' => $meningitis_count,
             'psp_count' => $psp_count,
+            'mpox_count' => $mpox_count,
 
             'year' => $year,
 
@@ -8023,6 +8040,7 @@ class PIDSRController extends Controller
             'malaria_route' => $malaria_route,
             'meningitis_route' => $meningitis_route,
             'psp_route' => $psp_route,
+            'mpox_route' => $mpox_route,
 
             'abd_count_death' => $abd_count_death,
             'afp_count_death' => $afp_count_death,
@@ -8052,33 +8070,58 @@ class PIDSRController extends Controller
             'malaria_count_death' => $malaria_count_death,
             'meningitis_count_death' => $meningitis_count_death,
             'psp_count_death' => $psp_count_death,
+            'mpox_count_death' => $mpox_count_death,
         ]);
     }
 
     public function brgyCaseViewerViewList($case) {
         $brgy = session('brgyName');
 
-        $model = "App\\Models\\$case";
+        if($case == 'Mpox') {
+            $tblname = 'MonkeyPox';
+        }
+        else {
+            $tblname = $case;
+        }
+
+        $model = "App\\Models\\$tblname";
 
         $list = $model::where('enabled', 1)
         ->where('match_casedef', 1);
 
+        if($case == 'SevereAcuteRespiratoryInfection' || $case == 'Mpox') {
+            $yearcol = 'year';
+            $mweekcol = 'morbidity_week';
+
+            if($case == 'Mpox') {
+                $brgycol = 'address_brgy_text';
+            }
+            else {
+                $brgycol = 'barangay';
+            }   
+        }
+        else {
+            $yearcol = 'Year';
+            $mweekcol = 'MorbidityWeek';
+            $brgycol = 'Barangay';
+        }
+
         if(session('isPoblacion')) {
-            $list = $list->where(function ($q) {
-                $q->where('Barangay', 'ARNALDO POB. (BGY. 7)')
-                ->orWhere('Barangay', 'BAGUMBAYAN POB. (BGY. 5)')
-                ->orWhere('Barangay', 'CORREGIDOR POB. (BGY. 10)')
-                ->orWhere('Barangay', 'DULONG BAYAN POB. (BGY. 3)')
-                ->orWhere('Barangay', 'GOV. FERRER POB. (BGY. 1)')
-                ->orWhere('Barangay', 'NINETY SIXTH POB. (BGY. 8)')
-                ->orWhere('Barangay', 'PRINZA POB. (BGY. 9)')
-                ->orWhere('Barangay', 'SAMPALUCAN POB. (BGY. 2)')
-                ->orWhere('Barangay', 'SAN GABRIEL POB. (BGY. 4)')
-                ->orWhere('Barangay', 'VIBORA POB. (BGY. 6)');
+            $list = $list->where(function ($q) use ($brgycol) {
+                $q->where($brgycol, 'ARNALDO POB. (BGY. 7)')
+                ->orWhere($brgycol, 'BAGUMBAYAN POB. (BGY. 5)')
+                ->orWhere($brgycol, 'CORREGIDOR POB. (BGY. 10)')
+                ->orWhere($brgycol, 'DULONG BAYAN POB. (BGY. 3)')
+                ->orWhere($brgycol, 'GOV. FERRER POB. (BGY. 1)')
+                ->orWhere($brgycol, 'NINETY SIXTH POB. (BGY. 8)')
+                ->orWhere($brgycol, 'PRINZA POB. (BGY. 9)')
+                ->orWhere($brgycol, 'SAMPALUCAN POB. (BGY. 2)')
+                ->orWhere($brgycol, 'SAN GABRIEL POB. (BGY. 4)')
+                ->orWhere($brgycol, 'VIBORA POB. (BGY. 6)');
             });
         }
         else {
-            $list = $list->where('Barangay', $brgy);
+            $list = $list->where($brgycol, $brgy);
         }
 
         if(request()->input('year')) {
@@ -8088,14 +8131,7 @@ class PIDSRController extends Controller
             $year = date('Y');
         }
 
-        if($case == 'SevereAcuteRespiratoryInfection') {
-            $mweekcol = 'morbidity_week';
-        }
-        else {
-            $mweekcol = 'MorbidityWeek';
-        }
-
-        $list = $list = $list->where('Year', $year)
+        $list = $list = $list->where($yearcol, $year)
         ->orderBy($mweekcol, 'DESC')
         ->get();
 
@@ -8168,6 +8204,8 @@ class PIDSRController extends Controller
         ->where('match_casedef', 1);
         $psp_query = Psp::where('enabled', 1)
         ->where('match_casedef', 1);
+        $mpox_query = MonkeyPox::where('enabled', 1)
+        ->where('match_casedef', 1);
 
         if(!is_null(request()->input('quarter'))) {
             $qtr = request()->input('quarter');
@@ -8217,6 +8255,7 @@ class PIDSRController extends Controller
             $malaria_query = $malaria_query->whereBetween('MorbidityMonth', [$betweenMonthStart, $betweenMonthEnd]);
             $meningitis_query = $meningitis_query->whereBetween('MorbidityMonth', [$betweenMonthStart, $betweenMonthEnd]);
             $psp_query = $psp_query->whereBetween('MorbidityMonth', [$betweenMonthStart, $betweenMonthEnd]);
+            $mpox_query = $psp_query->whereBetween('morbidity_month', [$betweenMonthStart, $betweenMonthEnd]);
         }
 
         $covid_query = Forms::with('records')
@@ -8262,6 +8301,7 @@ class PIDSRController extends Controller
         $malaria_count = $malaria_query->where('Year', $year)->count();
         $meningitis_count = $meningitis_query->where('Year', $year)->count();
         $psp_count = $psp_query->where('Year', $year)->count();
+        $mpox_count = (clone $mpox_query)->where('year', $year)->count();
 
         $abd_count_death = $abd_query->where('Year', $year)->where('Outcome', 'D')->count();
         $afp_count_death = $afp_query->where('Year', $year)->where('Outcome', 'D')->count();
@@ -8291,6 +8331,7 @@ class PIDSRController extends Controller
         $malaria_count_death = $malaria_query->where('Year', $year)->where('Outcome', 'D')->count();
         $meningitis_count_death = $meningitis_query->where('Year', $year)->where('Outcome', 'D')->count();
         $psp_count_death = $psp_query->where('Year', $year)->where('Outcome', 'D')->count();
+        $mpox_count_death = (clone $mpox_query)->where('Year', $year)->where('Outcome', 'D')->count();
         
         $abd_route = route('pidsr.casechecker', ['case' => 'ABD', 'year' => $year]);
         $afp_route = route('pidsr.casechecker', ['case' => 'AFP', 'year' => $year]);
@@ -8320,6 +8361,7 @@ class PIDSRController extends Controller
         $malaria_route = route('pidsr.casechecker', ['case' => 'MALARIA', 'year' => $year]);
         $meningitis_route = route('pidsr.casechecker', ['case' => 'MENINGITIS', 'year' => $year]);
         $psp_route = route('pidsr.casechecker', ['case' => 'PSP', 'year' => $year]);
+        $mpox_route = route('pidsr.casechecker', ['case' => 'MPOX', 'year' => $year]);
 
         return view('pidsr.epdrone_home', [
             'abd_count' => $abd_count,
@@ -8350,6 +8392,7 @@ class PIDSRController extends Controller
             'malaria_count' => $malaria_count,
             'meningitis_count' => $meningitis_count,
             'psp_count' => $psp_count,
+            'mpox_count' => $mpox_count,
 
             'abd_count_death' => $abd_count_death,
             'afp_count_death' => $afp_count_death,
@@ -8379,6 +8422,7 @@ class PIDSRController extends Controller
             'malaria_count_death' => $malaria_count_death,
             'meningitis_count_death' => $meningitis_count_death,
             'psp_count_death' => $psp_count_death,
+            'mpox_count_death' => $mpox_count_death,
 
             'year' => $year,
 
@@ -8409,11 +8453,29 @@ class PIDSRController extends Controller
             'malaria_route' => $malaria_route,
             'meningitis_route' => $meningitis_route,
             'psp_route' => $psp_route,
+            'mpox_route' => $mpox_route,
         ]);
     }
 
     public function mapViewerIndex($case) {
-        $modelClass = "App\\Models\\".ucwords(strtolower($case));
+        if($case == 'MPOX') {
+            $modelClass = "App\\Models\\MonkeyPox";
+
+            $brgycol = 'address_brgy_text';
+            $yearcol = 'year';
+        }
+        else if($case == 'SevereAcuteRespiratoryInfection') {
+            $modelClass = "App\\Models\\SevereAcuteRespiratoryInfection";
+
+            $brgycol = 'barangay';
+            $yearcol = 'year';
+        }
+        else {
+            $modelClass = "App\\Models\\".ucwords(strtolower($case));
+
+            $brgycol = 'Barangay';
+            $yearcol = 'Year';
+        }
 
         if(request()->input('year')) {
             $year = request()->input('year');
@@ -8424,7 +8486,7 @@ class PIDSRController extends Controller
         
         $list_case = $modelClass::where('enabled', 1)
         ->where('match_casedef', 1)
-        ->where('Year', $year);
+        ->where($yearcol, $year);
         
         if(!request()->is('*barangayportal*')) {
             $list_case = $list_case->get();
@@ -8433,21 +8495,21 @@ class PIDSRController extends Controller
             $brgy = session('brgyName');
 
             if(session('isPoblacion')) {
-                $list_case = $list_case->where(function ($q) {
-                    $q->where('Barangay', 'ARNALDO POB. (BGY. 7)')
-                    ->orWhere('Barangay', 'BAGUMBAYAN POB. (BGY. 5)')
-                    ->orWhere('Barangay', 'CORREGIDOR POB. (BGY. 10)')
-                    ->orWhere('Barangay', 'DULONG BAYAN POB. (BGY. 3)')
-                    ->orWhere('Barangay', 'GOV. FERRER POB. (BGY. 1)')
-                    ->orWhere('Barangay', 'NINETY SIXTH POB. (BGY. 8)')
-                    ->orWhere('Barangay', 'PRINZA POB. (BGY. 9)')
-                    ->orWhere('Barangay', 'SAMPALUCAN POB. (BGY. 2)')
-                    ->orWhere('Barangay', 'SAN GABRIEL POB. (BGY. 4)')
-                    ->orWhere('Barangay', 'VIBORA POB. (BGY. 6)');
+                $list_case = $list_case->where(function ($q) use ($brgycol) {
+                    $q->where($brgycol, 'ARNALDO POB. (BGY. 7)')
+                    ->orWhere($brgycol, 'BAGUMBAYAN POB. (BGY. 5)')
+                    ->orWhere($brgycol, 'CORREGIDOR POB. (BGY. 10)')
+                    ->orWhere($brgycol, 'DULONG BAYAN POB. (BGY. 3)')
+                    ->orWhere($brgycol, 'GOV. FERRER POB. (BGY. 1)')
+                    ->orWhere($brgycol, 'NINETY SIXTH POB. (BGY. 8)')
+                    ->orWhere($brgycol, 'PRINZA POB. (BGY. 9)')
+                    ->orWhere($brgycol, 'SAMPALUCAN POB. (BGY. 2)')
+                    ->orWhere($brgycol, 'SAN GABRIEL POB. (BGY. 4)')
+                    ->orWhere($brgycol, 'VIBORA POB. (BGY. 6)');
                 })->get();
             }
             else {
-                $list_case = $list_case->where('Barangay', $brgy)->get();
+                $list_case = $list_case->where($brgycol, $brgy)->get();
             }
             
         }
@@ -8568,6 +8630,7 @@ class PIDSRController extends Controller
             ->where('fname', $fname)
             ->where('year', date('Y'))
             ->where('morbidity_month', date('n'))
+            ->where('enabled', 1)
             ->first();
 
             if(!$check) {
@@ -8587,7 +8650,7 @@ class PIDSRController extends Controller
         $get_agemonths = $birthdate->diffInMonths($currentDate);
         $get_agedays = $birthdate->diffInDays($currentDate);
 
-        if($r->permaddress_isdifferent == 'N') {
+        if($r->permaddress_isdifferent == 'Y') {
             $perm_address_region_code = $r->perm_address_region_code;
             $perm_address_region_text = $r->perm_address_region_text;
             $perm_address_province_code = $r->perm_address_province_code;
@@ -8618,6 +8681,7 @@ class PIDSRController extends Controller
             ->where('fname', $f->fname)
             ->where('year', $currentDate->format('Y'))
             ->where('morbidity_month', $currentDate->format('n'))
+            ->where('enabled', 1)
             ->first();
 
             if(!$check) {
@@ -8750,9 +8814,15 @@ class PIDSRController extends Controller
                     //'updated_by',
                 ]);
 
+                return redirect()->route('pidsr.casechecker', ['case' => 'MPOX', 'year' => date('Y')])
+                ->with('msg', 'Mpox Case Successfully encoded.')
+                ->with('msgtype', 'success');
+
+                /*
                 return redirect()->route('pidsr.home')
                 ->with('msg', 'Mpox Case Successfully encoded.')
                 ->with('msgtype', 'success');
+                */
             }
             else {
                 return redirect()->back()
@@ -8763,6 +8833,24 @@ class PIDSRController extends Controller
         }
     }
 
+    public function caseViewEditV2($disease, $id) {
+        $f = DohFacility::where('id', auth()->user()->itr_facility_id)->first();
+
+        if($disease == 'MPOX') {
+            $d = MonkeyPox::findOrFail($id);
+
+            return view('pidsr.mpox.cif', [
+                'd' => $d,
+                'f' => $f,
+                'mode' => 'EDIT',
+            ]);
+        }
+    }
+
+    public function caseUpdateV2($disease, $id, Request $r) {
+        
+    }
+
     public function mPoxNewOrEdit(MonkeyPox $record) {
         //Get Facility
         $f = DohFacility::where('id', auth()->user()->itr_facility_id)->first();
@@ -8770,6 +8858,7 @@ class PIDSRController extends Controller
         return view('pidsr.mpox.cif', [
             'd' => $record,
             'f' => $f,
+            'mode' => 'EDIT',
         ]);
     }
 
