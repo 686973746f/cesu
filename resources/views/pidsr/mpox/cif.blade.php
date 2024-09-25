@@ -806,12 +806,17 @@
                     </div>
                 </div>
 
+                @if($mode == 'EDIT')
+
+                @else
                 <div class="card mb-3">
                     <div class="card-header"><b>V. LABORATORY TESTS</b></div>
                     <div class="card-body">
                         <p class="text-center">Can be added after finishing this CIF first.</p>
                     </div>
                 </div>
+                @endif
+                
 
                 <div class="card mb-3">
                     <div class="card-header"><b>VI. HEALTH STATUS</b></div>
@@ -885,6 +890,15 @@
                         </div>
                     </div>
                 </div>
+
+                @if($mode == 'EDIT')
+                <div class="card">
+                    <div class="card-header"><b>CLOSE CONTACTS</b></div>
+                    <div class="card-body">
+
+                    </div>
+                </div>
+                @endif
 
                 <div class="form-group">
                     <label for="remarks">Remarks</label>

@@ -8851,6 +8851,14 @@ class PIDSRController extends Controller
         
     }
 
+    public function mpoxAddLaboratory($id, Request $r) {
+        
+    }
+
+    public function mpoxAddCloseContact($id, Request $r) {
+
+    }
+
     public function mPoxNewOrEdit(MonkeyPox $record) {
         //Get Facility
         $f = DohFacility::where('id', auth()->user()->itr_facility_id)->first();
