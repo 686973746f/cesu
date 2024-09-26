@@ -31,7 +31,7 @@
             </div>
             <div class="modal-body text-center">
                 <p>Ikaw ay ireredirekta na papuntang VaxCertPH Website makalipas ng tatlong (3) segundo...</p>
-                <p>Kung hindi ka na-redirect, pwede mo itong pindutin ☛ <a href="https://vaxcert.doh.gov.ph/#/request">Magpatuloy sa VaxCertPH Website</a></p>
+                <p>Kung hindi ka na-redirect, pwede mo itong pindutin ☛ <a href="https://drive.google.com/file/d/1qzTjvaUHcTVCu75K44mGGKHC3UfsvA8D/view?usp=sharing">Magpatuloy sa VaxCertPH Website</a></p>
             </div>
         </div>
     </div>
