@@ -38,10 +38,11 @@ class CreateEmployeesTable extends Migration
             $table->text('address_houseno')->nullable();
 
             $table->string('type'); //REGULAR, CASUAL, JO
-            $table->string('job_position'); //NAME OF ITEM
-            $table->string('office'); //KUNG SAAN NAKA-ASSIGN
+            $table->string('job_position')->nullable(); //NAME OF ITEM
+            $table->string('office')->nullable(); //KUNG SAAN NAKA-ASSIGN
+            $table->string('sub_office')->nullable();
             $table->date('date_hired')->nullable();
-            $table->string('employment_status'); //ACTIVE, RESIGNED
+            $table->string('employment_status'); //ACTIVE, RESIGNED, RETIRED
             $table->date('date_resigned')->nullable();
             $table->string('remarks')->nullable();
 
@@ -57,6 +58,8 @@ class CreateEmployeesTable extends Migration
             $table->string('duty_team')->nullable();
             $table->string('duty_completedcycle', 1)->default('N');
             
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

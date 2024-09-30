@@ -28,6 +28,7 @@ class CreateSyndromicLabResultsTable extends Migration
             $table->string('result')->nullable();
             $table->string('result_others_remarks')->nullable();
             $table->text('remarks')->nullable();
+            $table->text('hash_qr')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

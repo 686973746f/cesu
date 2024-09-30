@@ -116,14 +116,14 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                           <label for="address_region_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Region</label>
-                          <select class="form-select" name="address_region_code" id="address_region_code" required>
+                          <select class="form-select" name="address_region_code" id="address_region_code" tabindex="-1" required>
                           </select>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="address_province_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Province</label>
-                            <select class="form-select" name="address_province_code" id="address_province_code" required>
+                            <select class="form-select" name="address_province_code" id="address_province_code" tabindex="-1" required>
                             </select>
                         </div>
                     </div>
@@ -132,7 +132,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="address_muncity_code" class="form-label"><span class="text-danger font-weight-bold">*</span>City/Municipality</label>
-                            <select class="form-select" name="address_muncity_code" id="address_muncity_code" required>
+                            <select class="form-select" name="address_muncity_code" id="address_muncity_code" tabindex="-1" required>
                             </select>
                         </div>
                     </div>

@@ -87,15 +87,16 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="mb-3">
-                                <label for="height" class="form-label"><strong class="text-danger">*</strong>Patient Height (cm)</label>
-                                <input type="number" class="form-control" name="height" id="height" value="{{old('height')}}" min="1" max="700">
+                                <label for="weight" class="form-label"><strong class="text-danger">*</strong>Patient Weight (kg)</label>
+                                <input type="number" class="form-control" name="weight" id="weight" value="{{old('weight')}}" min="1" max="700">
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="mb-3">
-                                <label for="weight" class="form-label"><strong class="text-danger">*</strong>Patient Weight (kg)</label>
-                                <input type="number" class="form-control" name="weight" id="weight" value="{{old('weight')}}" min="1" max="700">
+                                <label for="height" class="form-label"><strong class="text-danger">*</strong>Patient Height (cm)</label>
+                                <input type="number" class="form-control" name="height" id="height" value="{{old('height')}}" min="1" max="700">
                             </div>
+                            
                         </div>
                     </div>
                     <div class="row">
