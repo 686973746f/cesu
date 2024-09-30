@@ -11,6 +11,8 @@
     $lname = $d->lname;
     $fname = $d->fname;
     $mname = $d->mname;
+    $suffix = $d->suffix;
+    $bdate = $d->bdate;
     
     @endphp
 @else
@@ -19,6 +21,12 @@
     @php
     $epid_number = NULL;
     $facility = $f->facility_name;
+
+    $lname = request()->input('lname');
+    $fname = request()->input('fname');
+    $mname = request()->input('mname');
+    $suffix = request()->input('suffix');
+    $bdate = request()->input('bdate');
     @endphp
 @endif
 
@@ -93,25 +101,25 @@
                             <div class="col-3">
                                 <div class="form-group">
                                     <label for="lname"><b class="text-danger">*</b>Last Name</label>
-                                    <input type="text" class="form-control" name="lname" id="lname" value="{{old('lname', request()->input('lname'))}}" minlength="2" maxlength="50" placeholder="ex: DELA CRUZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" tabindex="-1" readonly required>
+                                    <input type="text" class="form-control" name="lname" id="lname" value="{{old('lname', $lname)}}" minlength="2" maxlength="50" placeholder="ex: DELA CRUZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" tabindex="-1" readonly required>
                                 </div>
                             </div>
                             <div class="col-3">
                                 <div class="form-group">
                                     <label for="fname"><b class="text-danger">*</b>First Name</label>
-                                    <input type="text" class="form-control" name="fname" id="fname" value="{{old('fname', request()->input('fname'))}}" minlength="2" maxlength="50" placeholder="ex: JUAN" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" tabindex="-1" readonly required>
+                                    <input type="text" class="form-control" name="fname" id="fname" value="{{old('fname', $fname)}}" minlength="2" maxlength="50" placeholder="ex: JUAN" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" tabindex="-1" readonly required>
                                 </div>
                             </div>
                             <div class="col-3">
                                 <div class="form-group">
                                     <label for="mname">Middle Name</label>
-                                    <input type="text" class="form-control" name="mname" id="mname" value="{{old('mname', request()->input('mname'))}}" minlength="2" maxlength="50" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" tabindex="-1" readonly>
+                                    <input type="text" class="form-control" name="mname" id="mname" value="{{old('mname', $mname)}}" minlength="2" maxlength="50" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" tabindex="-1" readonly>
                                 </div>
                             </div>
                             <div class="col-3">
                                 <div class="form-group">
                                     <label for="suffix">Suffix</label>
-                                    <input type="text" class="form-control" name="suffix" id="suffix" value="{{old('suffix', request()->input('suffix'))}}" minlength="2" maxlength="3" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" tabindex="-1" readonly>
+                                    <input type="text" class="form-control" name="suffix" id="suffix" value="{{old('suffix', $suffix)}}" minlength="2" maxlength="3" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" tabindex="-1" readonly>
                                 </div>
                             </div>
                         </div>
@@ -119,30 +127,30 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="bdate"><b class="text-danger">*</b>Birthdate</label>
-                                    <input type="date" class="form-control" name="bdate" id="bdate" value="{{old('bdate', request()->input('bdate'))}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" tabindex="-1" readonly required>
+                                    <input type="date" class="form-control" name="bdate" id="bdate" value="{{old('bdate', $bdate)}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" tabindex="-1" readonly required>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="gender"><span class="text-danger font-weight-bold">*</span>Sex</label>
                                       <select class="form-control" name="gender" id="gender" required>
-                                          <option value="" disabled {{(is_null(old('gender'))) ? 'selected' : ''}}>Choose...</option>
-                                          <option value="M" {{(old('gender') == 'M') ? 'selected' : ''}}>Male</option>
-                                          <option value="F" {{(old('gender') == 'F') ? 'selected' : ''}}>Female</option>
+                                          <option value="" disabled {{(is_null(old('gender', $d->gender))) ? 'selected' : ''}}>Choose...</option>
+                                          <option value="M" {{(old('gender', $d->gender) == 'M') ? 'selected' : ''}}>Male</option>
+                                          <option value="F" {{(old('gender' , $d->gender) == 'F') ? 'selected' : ''}}>Female</option>
                                       </select>
                                 </div>
                                 <div class="d-none" id="ifFemaleDiv">
                                     <div class="form-group">
                                         <label for=""><b class="text-danger">*</b>Pregnant?</label>
                                         <select class="form-control" name="is_pregnant" id="is_pregnant">
-                                            <option value="" disabled {{(is_null(old('is_pregnant'))) ? 'selected' : ''}}>Choose...</option>
-                                            <option value="Y" {{(old('is_pregnant') == 'Y') ? 'selected' : ''}}>Yes</option>
-                                            <option value="N" {{(old('is_pregnant') == 'N') ? 'selected' : ''}}>No</option>
+                                            <option value="" disabled {{(is_null(old('is_pregnant', $d->is_pregnant))) ? 'selected' : ''}}>Choose...</option>
+                                            <option value="Y" {{(old('is_pregnant', $d->is_pregnant) == 'Y') ? 'selected' : ''}}>Yes</option>
+                                            <option value="N" {{(old('is_pregnant', $d->is_pregnant) == 'N') ? 'selected' : ''}}>No</option>
                                       </select>
                                     </div>
                                     <div class="form-group">
                                         <label for="is_pregnant_weeks">Number of Weeks Pregnant</label>
-                                        <input type="number" class="form-control" name="is_pregnant_weeks" id="is_pregnant_weeks" value="{{old('is_pregnant_weeks')}}" max="36" min="1">
+                                        <input type="number" class="form-control" name="is_pregnant_weeks" id="is_pregnant_weeks" value="{{old('is_pregnant_weeks', $d->is_pregnant_weeks)}}" max="36" min="1">
                                     </div>
                                 </div>
                             </div>
@@ -150,7 +158,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="contact_number"><b class="text-danger">*</b>Contact Number</label>
-                                    <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{old('contact_number')}}" pattern="[0-9]{11}" placeholder="09*********" required>
+                                    <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{old('contact_number', $d->contact_number)}}" pattern="[0-9]{11}" placeholder="09*********" required>
                                 </div>
                             </div>
                         </div>
@@ -159,8 +167,8 @@
                                 <div class="form-group">
                                     <label for=""><b class="text-danger">*</b>Nationality</label>
                                     <select class="form-control" name="nationality" id="nationality" required>
-                                        <option value="FILIPINO" {{(old('nationality') == 'FILIPINO') ? 'selected' : ''}}>Filipino</option>
-                                        <option value="FOREIGN" {{(old('nationality') == 'FOREIGN') ? 'selected' : ''}}>Foreign</option>
+                                        <option value="FILIPINO" {{(old('nationality', $d->nationality) == 'FILIPINO') ? 'selected' : ''}}>Filipino</option>
+                                        <option value="FOREIGN" {{(old('nationality', $d->nationality) == 'FOREIGN') ? 'selected' : ''}}>Foreign</option>
                                   </select>
                                 </div>
                             </div>
@@ -168,14 +176,14 @@
                                 <div class="form-group">
                                     <label for=""><b class="text-danger">*</b>Member of Indigenous People?</label>
                                     <select class="form-control" name="is_ip" id="is_ip" required>
-                                        <option value="N" {{(old('is_ip') == 'N') ? 'selected' : ''}}>No</option>
-                                        <option value="Y" {{(old('is_ip') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                        <option value="N" {{(old('is_ip', $d->nationality) == 'N') ? 'selected' : ''}}>No</option>
+                                        <option value="Y" {{(old('is_ip', $d->nationality) == 'Y') ? 'selected' : ''}}>Yes</option>
                                   </select>
                                 </div>
                                 <div id="ifIpDiv" class="d-none">
                                     <div class="form-group">
                                         <label for=""><b class="text-danger">*</b>Specify IP Group</label>
-                                        <input type="text"class="form-control" name="is_ip_specify" id="is_ip_specify" value="{{old('is_ip_specify')}}" style="text-transform: uppercase;">
+                                        <input type="text"class="form-control" name="is_ip_specify" id="is_ip_specify" value="{{old('is_ip_specify', $d->is_ip_specify)}}" style="text-transform: uppercase;">
                                     </div>
                                 </div>
                             </div>
@@ -184,13 +192,13 @@
                         <div id="address_text" class="d-none">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <input type="text" id="address_region_text" name="address_region_text" value="{{old('address_region_text')}}" readonly>
+                                    <input type="text" id="address_region_text" name="address_region_text" value="{{old('address_region_text', $d->address_region_text)}}" readonly>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" id="address_province_text" name="address_province_text" value="{{old('address_province_text')}}" readonly>
+                                    <input type="text" id="address_province_text" name="address_province_text" value="{{old('address_province_text', $d->address_province_text)}}" readonly>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" id="address_muncity_text" name="address_muncity_text" value="{{old('address_muncity_text')}}" readonly>
+                                    <input type="text" id="address_muncity_text" name="address_muncity_text" value="{{old('address_muncity_text', $d->address_muncity_text)}}" readonly>
                                 </div>
                             </div>
                         </div>
@@ -230,27 +238,26 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="address_houseno" class="form-label"><b class="text-danger">*</b>House No./Lot/Building</label>
-                                    <input type="text" class="form-control" id="address_houseno" name="address_houseno" style="text-transform: uppercase;" value="{{old('address_houseno')}}" pattern="(^[a-zA-Z0-9 ]+$)+" placeholder="ex. S1 B2 L3 PHASE 4 MIRAGE ST." required>
+                                    <input type="text" class="form-control" id="address_houseno" name="address_houseno" style="text-transform: uppercase;" value="{{old('address_houseno', $d->address_houseno)}}" pattern="(^[a-zA-Z0-9 ]+$)+" placeholder="ex. S1 B2 L3 PHASE 4 MIRAGE ST." required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="address_street" class="form-label"><b class="text-danger">*</b>Street/Subdivision/Purok/Sitio</label>
-                                    <input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" value="{{old('address_street')}}" pattern="(^[a-zA-Z0-9 ]+$)+" placeholder="ex. SUBDIVISION HOMES" required>
+                                    <input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" value="{{old('address_street', $d->address_street)}}" pattern="(^[a-zA-Z0-9 ]+$)+" placeholder="ex. SUBDIVISION HOMES" required>
                                 </div>
                             </div>
                         </div>
-        
                         <div id="perm_address_text" class="d-none">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <input type="text" id="perm_address_region_text" name="perm_address_region_text" value="{{old('perm_address_region_text')}}" readonly>
+                                    <input type="text" id="perm_address_region_text" name="perm_address_region_text" value="{{old('perm_address_region_text', $d->perm_address_region_text)}}" readonly>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" id="perm_address_province_text" name="perm_address_province_text" value="{{old('perm_address_province_text')}}" readonly>
+                                    <input type="text" id="perm_address_province_text" name="perm_address_province_text" value="{{old('perm_address_province_text', $d->perm_address_province_text)}}" readonly>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" id="perm_address_muncity_text" name="perm_address_muncity_text" value="{{old('perm_address_muncity_text')}}" readonly>
+                                    <input type="text" id="perm_address_muncity_text" name="perm_address_muncity_text" value="{{old('perm_address_muncity_text', $d->perm_address_muncity_text)}}" readonly>
                                 </div>
                             </div>
                         </div>
@@ -315,21 +322,21 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="occupation">Occupation</label>
-                                    <input type="text"class="form-control" name="occupation" id="occupation" value="{{old('occupation')}}" style="text-transform: uppercase;">
+                                    <input type="text"class="form-control" name="occupation" id="occupation" value="{{old('occupation', $d->occupation)}}" style="text-transform: uppercase;">
                                 </div>
                                 <div class="form-group">
                                     <label for="workplace_name">Name of Workplace</label>
-                                    <input type="text"class="form-control" name="workplace_name" id="workplace_name" value="{{old('workplace_name')}}" style="text-transform: uppercase;">
+                                    <input type="text"class="form-control" name="workplace_name" id="workplace_name" value="{{old('workplace_name', $d->workplace_name)}}" style="text-transform: uppercase;">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="workplace_address">Address of Workplace</label>
-                                    <input type="text"class="form-control" name="workplace_address" id="workplace_address" value="{{old('workplace_address')}}" style="text-transform: uppercase;">
+                                    <input type="text"class="form-control" name="workplace_address" id="workplace_address" value="{{old('workplace_address', $d->workplace_address)}}" style="text-transform: uppercase;">
                                 </div>
                                 <div class="form-group">
                                     <label for="workplace_contactnumber">Workplace Contact No.</label>
-                                    <input type="text"class="form-control" name="workplace_contactnumber" id="workplace_contactnumber" value="{{old('workplace_contactnumber')}}" style="text-transform: uppercase;">
+                                    <input type="text"class="form-control" name="workplace_contactnumber" id="workplace_contactnumber" value="{{old('workplace_contactnumber', $d->workplace_contactnumber)}}" style="text-transform: uppercase;">
                                 </div>
                             </div>
                         </div>
@@ -337,26 +344,26 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="informant_name">Name of Informant</label>
-                                    <input type="text"class="form-control" name="informant_name" id="informant_name" value="{{old('informant_name')}}" style="text-transform: uppercase;">
+                                    <input type="text"class="form-control" name="informant_name" id="informant_name" value="{{old('informant_name', $d->informant_name)}}" style="text-transform: uppercase;">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="informant_relationship">Relationship with Patient</label>
-                                    <input type="text"class="form-control" name="informant_relationship" id="informant_relationship" value="{{old('informant_relationship')}}" style="text-transform: uppercase;">
+                                    <input type="text"class="form-control" name="informant_relationship" id="informant_relationship" value="{{old('informant_relationship', $d->informant_relationship)}}" style="text-transform: uppercase;">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="informant_contactnumber">Informant Contact No.</label>
-                                    <input type="text"class="form-control" name="informant_contactnumber" id="informant_contactnumber" value="{{old('informant_contactnumber')}}" style="text-transform: uppercase;">
+                                    <input type="text"class="form-control" name="informant_contactnumber" id="informant_contactnumber" value="{{old('informant_contactnumber', $d->informant_contactnumber)}}" style="text-transform: uppercase;">
                                 </div>
                             </div>
                         </div>
                         <hr>
                         <div class="form-group">
                             <label for="other_medical_information">Any other known medical information</label>
-                            <input type="text"class="form-control" name="other_medical_information" id="other_medical_information" value="{{old('other_medical_information')}}" style="text-transform: uppercase;">
+                            <input type="text"class="form-control" name="other_medical_information" id="other_medical_information" value="{{old('other_medical_information', $d->other_medical_information)}}" style="text-transform: uppercase;">
                         </div>
                     </div>
                 </div>
