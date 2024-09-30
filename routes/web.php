@@ -59,6 +59,7 @@ use App\Http\Controllers\AcceptanceLetterController;
 use App\Http\Controllers\PregnancyTrackingController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\ABTCWalkInRegistrationController;
+use App\Http\Controllers\EmployeesController;
 use App\Http\Controllers\HealthEventsController;
 use App\Http\Controllers\SecondaryTertiaryRecordsController;
 
@@ -493,6 +494,12 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isGlobalAd
 
     //TASKS ADMIN
     Route::resource('taskgenerator', TaskGeneratorController::class);
+
+    Route::get('employees', [EmployeesController::class, 'index'])->name('employees_index');
+    Route::get('employees/add', [EmployeesController::class, 'addEmployee'])->name('employees_add');
+    Route::get('employees/add/store', [EmployeesController::class, 'storeEmployee'])->name('employees_store');
+    Route::get('employees/edit/{id}', [EmployeesController::class, 'editEmployee'])->name('employees_edit');
+    Route::get('employees/edit/{id}/update', [EmployeesController::class, 'updateEmployee'])->name('employees_update');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel3']], function() {

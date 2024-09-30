@@ -50,4 +50,8 @@ class Employee extends Model
         'created_by',
         'updated_by',
     ];
+
+    public function getName() {
+        return $this->lname.', '.$this->fname;
+    }
 }
