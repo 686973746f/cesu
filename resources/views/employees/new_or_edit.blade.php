@@ -201,13 +201,25 @@
                 </div>
             </div>
             <div class="card-footer text-right">
-                <button type="submit" class="btn btn-success btn-block">{{($mode == 'EDIT') ? 'Update' : 'Save'}}</button>
+                <button type="submit" class="btn btn-success btn-block" id="submitBtn">{{($mode == 'EDIT') ? 'Update' : 'Save'}} (CTRL + S)</button>
             </div>
         </div>
     </div>
     </form>
 
     <script>
+        $(document).bind('keydown', function(e) {
+            if(e.ctrlKey && (e.which == 83)) {
+                e.preventDefault();
+                $('#submitBtn').trigger('click');
+                $('#submitBtn').prop('disabled', true);
+                setTimeout(function() {
+                    $('#submitBtn').prop('disabled', false);
+                }, 2000);
+                return false;
+            }
+        });
+
         $('#employment_status').change(function (e) { 
             e.preventDefault();
             if($(this).val() == 'RESIGNED' || $(this).val() == 'RETIRED') {
