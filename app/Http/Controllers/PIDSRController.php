@@ -4868,7 +4868,7 @@ class PIDSRController extends Controller
             }
 
             //Initialize Display Params (Period na bibilangin sa Mapping, etc.)
-            if($sel_disease == 'Pert' || $sel_disease == 'Measles' || $sel_disease == 'Influenza' || $sel_disease == 'Dengue' || $sel_disease == 'COVID') {
+            if($sel_disease == 'Pert' || $sel_disease == 'Measles' || $sel_disease == 'Influenza' || $sel_disease == 'COVID') {
                 $set_display_params = 'yearly';
             }
             else {
