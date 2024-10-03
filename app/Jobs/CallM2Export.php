@@ -807,24 +807,46 @@ class CallM2Export implements ShouldQueue
         $abtc_array = [];
 
         foreach($brgy_list as $b) {
-            $animalbit = AbtcBakunaRecords::whereHas('patient', function($q) use ($b) {
+            $animalbit_m = AbtcBakunaRecords::whereHas('patient', function($q) use ($b) {
                 $q->where('register_status', 'VERIFIED')
                 ->where('address_muncity_text', $b->city->cityName)
-                ->where('address_brgy_text', $b->brgyName);
+                ->where('address_brgy_text', $b->brgyName)
+                ->where('gender', 'MALE');
             })
             ->whereBetween('bite_date', [$start->format('Y-m-d'), $end->format('Y-m-d')])
             ->count();
 
-            $rabies = Rabies::where('enabled', 1)
+            $animalbit_f = AbtcBakunaRecords::whereHas('patient', function($q) use ($b) {
+                $q->where('register_status', 'VERIFIED')
+                ->where('address_muncity_text', $b->city->cityName)
+                ->where('address_brgy_text', $b->brgyName)
+                ->where('gender', 'FEMALE');
+            })
+            ->whereBetween('bite_date', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            ->count();
+
+            $rabies_m = Rabies::where('enabled', 1)
             ->where('match_casedef', 1)
             ->where('MorbidityMonth', $start->format('n'))
             ->where('Year', $start->format('Y'))
+            ->where('Barangay', $b->brgyName)
+            ->where('Sex', 'M')
+            ->count();
+
+            $rabies_f = Rabies::where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->where('MorbidityMonth', $start->format('n'))
+            ->where('Year', $start->format('Y'))
+            ->where('Barangay', $b->brgyName)
+            ->where('Sex', 'M')
             ->count();
             
             $abtc_array[] = [
                 'Barangay' => $b->brgyName,
-                'No. of Animal Bites ('.$start->format('M Y').')' => $animalbit,
-                'No. of Deaths due to Rabies ('.$start->format('M Y').')' => $rabies,
+                'No. of Animal Bites ('.$start->format('M Y').') - MALE' => $animalbit_m,
+                'No. of Animal Bites ('.$start->format('M Y').') - FEMALE' => $animalbit_f,
+                'No. of Deaths due to Rabies ('.$start->format('M Y').') - MALE' => $rabies_m,
+                'No. of Deaths due to Rabies ('.$start->format('M Y').') - FEMALE' => $rabies_f,
             ];
         }
 

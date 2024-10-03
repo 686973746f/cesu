@@ -133,11 +133,11 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="gender"><span class="text-danger font-weight-bold">*</span>Sex</label>
-                                      <select class="form-control" name="gender" id="gender" required>
-                                          <option value="" disabled {{(is_null(old('gender', $d->gender))) ? 'selected' : ''}}>Choose...</option>
-                                          <option value="M" {{(old('gender', $d->gender) == 'M') ? 'selected' : ''}}>Male</option>
-                                          <option value="F" {{(old('gender' , $d->gender) == 'F') ? 'selected' : ''}}>Female</option>
-                                      </select>
+                                    <select class="form-control" name="gender" id="gender" required>
+                                        <option value="" disabled {{(is_null(old('gender', $d->gender))) ? 'selected' : ''}}>Choose...</option>
+                                        <option value="M" {{(old('gender', $d->gender) == 'M') ? 'selected' : ''}}>Male</option>
+                                        <option value="F" {{(old('gender' , $d->gender) == 'F') ? 'selected' : ''}}>Female</option>
+                                    </select>
                                 </div>
                                 <div class="d-none" id="ifFemaleDiv">
                                     <div class="form-group">
