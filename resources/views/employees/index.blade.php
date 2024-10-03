@@ -10,6 +10,11 @@
             </div>
         </div>
         <div class="card-body">
+            @if(session('msg'))
+            <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
+                {{session('msg')}}
+            </div>
+            @endif
             <table class="table table-striped table-bordered" id="mainTbl">
                 <thead class="thead-light text-center">
                     <tr>

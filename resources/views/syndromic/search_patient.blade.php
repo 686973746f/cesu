@@ -47,6 +47,9 @@
                         <td class="text-center">{{$list->firstItem() + $ind}}</td>
                         <td>
                             <div><b><a href="{{route('syndromic_viewPatient', $d->id)}}">{{$d->getName()}}</a></b></div>
+                            @if(!is_null($d->unique_opdnumber) && auth()->user()->itr_facility_id ==10525)
+                            <div><small>OPD No. {{$d->unique_opdnumber}}</small></div>
+                            @endif
                             @if($d->facility_id == 11730 && auth()->user()->itr_facility_id == 11730)
                             <div><small>Control No: {{$d->facility_controlnumber}}</small></div>
                             @endif

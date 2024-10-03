@@ -6,7 +6,7 @@
     @else
     <form action="{{route('employees_store')}}" method="POST">
     @endif
-
+    @csrf
     <div class="container">
         <div class="card">
             <div class="card-header">
@@ -16,6 +16,11 @@
                 </div>
             </div>
             <div class="card-body">
+                @if(session('msg'))
+                <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
+                    {{session('msg')}}
+                </div>
+                @endif
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
@@ -180,7 +185,7 @@
                         <div class="form-group">
                             <label for="duty_team">HERT Duty Team</label>
                             <select class="form-control" name="duty_team" id="duty_team">
-                              <option value="" disabled {{(is_null(old('duty_team', $d->duty_team))) ? 'selected' : ''}}>Choose...</option>
+                              <option value="" {{(is_null(old('duty_team', $d->duty_team))) ? 'selected' : ''}}>N/A</option>
                               <option value="A" {{(old('duty_team', $d->duty_team) == 'A') ? 'selected' : ''}}>Team A</option>
                               <option value="B" {{(old('duty_team', $d->duty_team) == 'B') ? 'selected' : ''}}>Team B</option>
                               <option value="C" {{(old('duty_team', $d->duty_team) == 'C') ? 'selected' : ''}}>Team C</option>
@@ -188,11 +193,11 @@
                             </select>
                         </div>
                     </div>
-                    <hr>
-                    <div class="form-group">
-                        <label for="remarks">Remarks</label>
-                        <input type="text" class="form-control" name="remarks" id="remarks" value="{{old('remarks', $d->remarks)}}" style="text-transform: uppercase;">
-                    </div>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label for="remarks">Remarks</label>
+                    <input type="text" class="form-control" name="remarks" id="remarks" value="{{old('remarks', $d->remarks)}}" style="text-transform: uppercase;">
                 </div>
             </div>
             <div class="card-footer text-right">
@@ -212,6 +217,18 @@
             else {
                 $('#ifResignedRetiredDiv').addClass('d-none');
                 $('#date_resigned').prop('required', false);
+            }
+        }).trigger('change');
+
+        $('#is_blstrained').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == 'Y') {
+                $('#ifBlsTrainedDiv').removeClass('d-none');
+                $('#bls_typeofrescuer').prop('required', true);
+            }
+            else {
+                $('#ifBlsTrainedDiv').addClass('d-none');
+                $('#bls_typeofrescuer').prop('required', false);
             }
         }).trigger('change');
     </script>
