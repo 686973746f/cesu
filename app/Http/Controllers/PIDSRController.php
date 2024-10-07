@@ -5459,7 +5459,7 @@ class PIDSRController extends Controller
             if($sel_disease == 'Dengue') {
                 $ccstr = 'CaseClassification';
 
-                $classification_titles = ['S', 'P', 'C', 'NONE'];
+                $classification_titles = ['S', 'P', 'C'];
                 $confirmed_titles = ['C'];
                 
                 /*
@@ -6620,14 +6620,66 @@ class PIDSRController extends Controller
     }
 
     public static function searchConfirmedDengue() {
+        $dengue_today = Dengue::where('enabled', 1)
+        ->where('match_casedef', 1)
+        ->whereDate('created_at', date('Y-m-d'));
+
+        if((clone $dengue_today)->exists()) {
+            foreach($dengue_today->get() as $d) {
+                $lab_check1 = EdcsLaboratoryData::where('epi_id', $d->EPIID)
+                ->where('case_code', 'DENGUE')
+                ->where(function ($q) {
+                    $q->where('test_type', 'Virus Isolation')
+                    ->orWhere('test_type', 'Polymerase Chain Reaction');
+                })
+                ->where('result', 'POSITIVE')
+                ->exists();
+
+                //New Dengue Guidelines October 2024 - Positive NS1
+                $lab_check2 = EdcsLaboratoryData::where('epi_id', $d->EPIID)
+                ->where('case_code', 'DENGUE')
+                ->where('test_type', 'Virus Antigen Detection (NS1)')
+                ->whereDate('specimen_collected_date', '>=', '2024-10-01')
+                ->where('result', 'POSITIVE')
+                ->exists();
+
+                if($d->CaseClassification == 'C') {
+                    //Verify if confirmed ba talaga, if not - gawing Probable
+
+                    if(!$lab_check1 && !$lab_check2) {
+                        $d->CaseClassification = 'P';
+                    }
+                }
+                else {
+                    //If Probable, Check kung may True sa Lab Check Statements
+
+                    if($lab_check1 || $lab_check2) {
+                        $d->CaseClassification = 'C';
+
+                        if($lab_check2) {
+                            $d->is_ns1positive = 1;
+                        }
+                    }
+                }
+
+                if($d->isDirty()) {
+                    $d->save();
+                }
+            }
+        }
+    }
+
+    /*
+    public static function searchConfirmedDengue() {
         //Params to Check Confirmed Dengue Cases and return it back to Suspected or Probable Based on Conditions
         $confirmed_dengue = Dengue::where('Year', date('Y'))
         ->where('enabled', 1)
         ->where('match_casedef', 1)
-        ->where('CaseClassification', 'C');
+        ->where('CaseClassification', 'C')
+        ->where('is_ns1positive', 0);
 
-        if($confirmed_dengue->get()->count() != 0) {
-            foreach($confirmed_dengue->get() as $cd) {
+        if((clone $confirmed_dengue)->get()->count() != 0) {
+            foreach((clone $confirmed_dengue)->get() as $cd) {
                 //Search for PCR in Lab Data
                 
                 /*
@@ -6638,12 +6690,32 @@ class PIDSRController extends Controller
                 })
                 ->where('result', 'POSITIVE')
                 ->first();
-                */
+                * /
 
-                $lab_search = EdcsLaboratoryData::where('case_id', $cd->edcs_caseid)->get();
+                $lab_search1 = EdcsLaboratoryData::where('epi_id', $cd->EPIID)
+                ->where(function ($q) {
+                    $q->where('test_type', 'Virus Isolation')
+                    ->orWhere('test_type', 'Polymerase Chain Reaction');
+                })
+                ->where('result', 'POSITIVE')
+                ->exists();
 
-                if($lab_search->count() != 0) {
-                    $positive_search = EdcsLaboratoryData::where('case_id', $cd->edcs_caseid)
+                $lab_search2 = EdcsLaboratoryData::where('epi_id', $cd->EPIID)
+                ->where('test_type', 'Virus Antigen Detection (NS1)')
+                ->whereDate('specimen_collected_date', '<', '2024-10-01')
+                ->where('result', 'POSITIVE')
+                ->exists();
+
+                if(!$lab_search1 || $lab_search2) {
+                    $cd->CaseClassification = 'P';
+                }
+                else {
+                    $cd->CaseClassification = 'S';
+                }
+
+                /*
+                if($lab_search) {
+                    $positive_search = EdcsLaboratoryData::where('epi_id', $cd->EPIID)
                     ->where(function ($q) {
                         $q->where('test_type', 'Virus Isolation')
                         ->orWhere('test_type', 'Polymerase Chain Reaction');
@@ -6658,6 +6730,7 @@ class PIDSRController extends Controller
                 else {
                     $cd->CaseClassification = 'S';
                 }
+                * /
 
                 if($cd->isDirty()) {
                     $cd->save();
@@ -6696,6 +6769,9 @@ class PIDSRController extends Controller
             }
         }
     }
+    */
+
+
 
     public function dailyMergeProcess(Request $r) {
         //Call EdcsImport

@@ -2085,7 +2085,6 @@ class DengueImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'LabTest' => NULL,
                 'LabRes' => NULL,
                 'ClinClass' => $get_classi,
-                'CaseClassification' => mb_strtoupper(substr($row['case_classification'],0,1)),
                 'Outcome' => (isset($row['outcome'])) ? mb_strtoupper(substr($row['outcome'],0,1)) : mb_strtoupper(substr($row['outcome2'],0,1)),
                 'EPIID' => $row['epi_id'],
                 'DateDied' => EdcsImport::tDate($row['date_died']),
@@ -2137,6 +2136,7 @@ class DengueImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             }
             else {
                 $table_params = $table_params + [
+                    'CaseClassification' => mb_strtoupper(substr($row['case_classification'],0,1)),
                     'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && mb_strtoupper($row['current_address_sitio_purok_street_name']) != 'N/A') ? $row['current_address_sitio_purok_street_name'] : NULL,
                     'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
                     'created_by' => auth()->user()->id,
@@ -3245,25 +3245,66 @@ class LaboratoryImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
                 $model = EdcsLaboratoryData::create($table_params);
             }
+
             
+            /*
+            Moved the code to searchConfirmedDengue
+
             //New Dengue Case Definition (October 2024) Dengue NS1 Auto Confirmed Case is Positive Result
             $cdate1 = Carbon::parse(EdcsImport::tDate($row['date_specimen_collected']));
-            $cdate2 = Carbon::parse('2024-01-01');
+            $cdate2 = Carbon::parse('2024-10-01');
 
-            if($row['case_code'] == 'DENGUE' && $row['type_of_test_conducted'] == 'Virus Antigen Detection (NS1)' && $row['laboratory_result'] == 'POSITIVE') {
+            //Check the Case Classification First
+
+            if($row['case_code'] == 'DENGUE') {
                 $update_classi = Dengue::where('EPIID', $row['epi_id'])->first();
 
                 if($update_classi) {
-                    
-                    if($update_classi->CaseClassification != 'C') {
-                        
-                        $update_classi->CaseClassification = 'C';
-                        if($update_classi->isDirty()) {
-                            $update_classi->save();
+                    if($update_classi == 'C') {
+                        //Check if why and if there is no positive result (NS1 or PCR), return to P
+
+                        $result_check = EdcsLaboratoryData::where('epi_id', $row['epi_id'])
+                        ->where(function ($q) {
+                            $q->where('test_type', 'Virus Isolation')
+                            ->orWhere('test_type', 'Polymerase Chain Reaction')
+                            ->orWhere('test_type', 'Virus Antigen Detection (NS1)');
+                        })
+                        ->where('result', 'POSITIVE')
+                        ->exists();
+
+                        if(!$result_check) {
+                            $update_classi->CaseClassification = 'P';
+                        }
+                    }
+                    else {
+                        //Check if there is NS1 or PCR Positive result, then change to C
+
+                        if($cdate1->gte($cdate2) && $row['type_of_test_conducted'] == 'Virus Antigen Detection (NS1)' && $row['laboratory_result'] == 'POSITIVE') {
+                            $update_classi->CaseClassification = 'C';
                         }
                     }
                 }
             }
+            */
+
+
+            /*
+            Moved to searchConfirmedDengue to execute after returning model
+            
+            $cdate1 = Carbon::parse(EdcsImport::tDate($row['date_specimen_collected']));
+            $cdate2 = Carbon::parse('2024-10-01'); //Start of Updated Dengue Guidelines October 2024
+
+            if($row['case_code'] == 'DENGUE' && $cdate1->gte($cdate2)
+            && $row['type_of_test_conducted'] == 'Virus Antigen Detection (NS1)'
+            && $row['laboratory_result'] == 'POSITIVE') {
+                $update_classi = Dengue::where('EPIID', $row['epi_id'])
+                ->where('CaseClassification', '!=', 'C')
+                ->update([
+                    'CaseClassification' => 'C',
+                    'is_ns1positive' => 1,
+                ]);
+            }
+            */
 
             return $model;
         }
