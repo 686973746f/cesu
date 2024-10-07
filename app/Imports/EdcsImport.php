@@ -3183,57 +3183,89 @@ class LaboratoryImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
     public function model(array $row) {
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
             //Search for duplicate to avoid duplicate
+            /*
             $lab_search = EdcsLaboratoryData::where('user_id', $row['user_id'])
-            ->where('specimen_collected_date', EdcsImport::tDate($row['date_specimen_collected']))
+            ->whereDate('timestamp', EdcsImport::tDate($row['timestamp']))
+            ->whereDate('specimen_collected_date', EdcsImport::tDate($row['date_specimen_collected']))
             ->where('specimen_type', $row['specimen_type'])
             ->where('test_type', $row['type_of_test_conducted'])
             ->first();
 
             if(!$lab_search) {
-                $table_params = [
-                    //'lab_id' => $row['id'],
-                    'case_id' => $row['case_id'],
-                    'case_code' => $row['case_code'],
-                    'epi_id' => $row['epi_id'],
-                    'sent_to_ritm' => $row['specimen_sent_to_ritmsnl'],
-                    'specimen_collected_date' => EdcsImport::tDate($row['date_specimen_collected']),
-                    'specimen_type' => $row['specimen_type'],
-                    'date_sent' => EdcsImport::tDate($row['date_sent']),
-                    'date_received' => EdcsImport::tDate($row['date_received_by_lab']),
-                    'result' => $row['laboratory_result'],
-                    'test_type' => $row['type_of_test_conducted'],
-                    'interpretation' => $row['interpretation'],
-                    'user_id' => $row['user_id'],
-                    'timestamp' => EdcsImport::tDate($row['timestamp']),
-                    'last_modified_by' => $row['last_modified_by'],
-                    'last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
-                    'user_regcode' => $row['user_regcode'],
-                    'user_provcode' => $row['user_provcode'],
-                    'user_citycode' => $row['user_citycode'],
-                    'hfhudcode' => $row['hfhudcode'],
-                ];
-    
-                $exist_check = EdcsLaboratoryData::where('lab_id', $row['id'])->first();
                 
-                if($exist_check) {
-                    $old_modified_date = $exist_check->last_modified_date;
-                    $new_modified_date = EdcsImport::tDate($row['last_modified_date']);
-                    if(is_null($exist_check->last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
-                        $model = $exist_check->update($table_params);
-                    }
-    
-                    $model = $exist_check;
-                }
-                else {
-                    $table_params = $table_params + [
-                        'created_by' => auth()->user()->id,
-                    ];
-
-                    $model = EdcsLaboratoryData::create($table_params);
-                }
-    
-                return $model;
             }
+            */
+
+            $table_params = [
+                //'lab_id' => $row['id'],
+                'case_id' => $row['case_id'],
+                'case_code' => $row['case_code'],
+                'epi_id' => $row['epi_id'],
+                'sent_to_ritm' => $row['specimen_sent_to_ritmsnl'],
+                'specimen_collected_date' => EdcsImport::tDate($row['date_specimen_collected']),
+                'specimen_type' => $row['specimen_type'],
+                'date_sent' => EdcsImport::tDate($row['date_sent']),
+                'date_received' => EdcsImport::tDate($row['date_received_by_lab']),
+                'result' => $row['laboratory_result'],
+                'test_type' => $row['type_of_test_conducted'],
+                'interpretation' => $row['interpretation'],
+                'user_id' => $row['user_id'],
+                'timestamp' => EdcsImport::tDate($row['timestamp']),
+                'last_modified_by' => $row['last_modified_by'],
+                'last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
+                'user_regcode' => $row['user_regcode'],
+                'user_provcode' => $row['user_provcode'],
+                'user_citycode' => $row['user_citycode'],
+                'hfhudcode' => $row['hfhudcode'],
+            ];
+
+            $exist_check = EdcsLaboratoryData::where('epi_id', $row['epi_id'])
+            ->whereDate('specimen_collected_date', EdcsImport::tDate($row['date_specimen_collected']))
+            ->whereDate('timestamp', EdcsImport::tDate($row['timestamp']))
+            ->where('case_code', $row['case_code'])
+            ->where('specimen_type', $row['specimen_type'])
+            ->where('test_type', $row['type_of_test_conducted'])
+            ->where('result', $row['laboratory_result'])
+            ->where('user_id', $row['user_id'])
+            ->first();
+            
+            if($exist_check) {
+                $old_modified_date = $exist_check->last_modified_date;
+                $new_modified_date = EdcsImport::tDate($row['last_modified_date']);
+                if(is_null($exist_check->last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
+                    $model = $exist_check->update($table_params);
+                }
+
+                $model = $exist_check;
+            }
+            else {
+                $table_params = $table_params + [
+                    'created_by' => auth()->user()->id,
+                ];
+
+                $model = EdcsLaboratoryData::create($table_params);
+            }
+            
+            //New Dengue Case Definition (October 2024) Dengue NS1 Auto Confirmed Case is Positive Result
+            $cdate1 = Carbon::parse(EdcsImport::tDate($row['date_specimen_collected']));
+            $cdate2 = Carbon::parse('2024-01-01');
+
+            if($row['case_code'] == 'DENGUE' && $row['type_of_test_conducted'] == 'Virus Antigen Detection (NS1)' && $row['laboratory_result'] == 'POSITIVE') {
+                $update_classi = Dengue::where('EPIID', $row['epi_id'])->first();
+
+                if($update_classi) {
+                    
+                    if($update_classi->CaseClassification != 'C') {
+                        
+                        $update_classi->CaseClassification = 'C';
+                        if($update_classi->isDirty()) {
+                            $update_classi->save();
+                        }
+                    }
+                }
+            }
+
+            return $model;
         }
     }
 }
@@ -3241,7 +3273,6 @@ class LaboratoryImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 class SevereAcuteRespiratoryInfectionImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
     public function model(array $row) {
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
-
             $birthdate = Carbon::parse(EdcsImport::tDate($row['date_of_birth']));
             $currentDate = Carbon::parse(EdcsImport::tDate($row['timestamp']));
 
