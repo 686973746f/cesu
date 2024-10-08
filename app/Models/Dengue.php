@@ -64,4 +64,21 @@ class Dengue extends Model
             return 'Street/Purok not Encoded';
         }
     }
+
+    public function getClassificationString() {
+        if($this->CaseClassification == 'C') {
+            if($this->is_ns1positive != 1) {
+                return 'Confirmed Case';
+            }
+            else {
+                return 'Confirmed Case (NS1 Positive)';
+            }
+        }
+        else if($this->CaseClassification == 'P') {
+            return 'Probable Case';
+        }
+        else {
+            return 'Suspected Case';
+        }
+    }
 }
