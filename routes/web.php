@@ -460,7 +460,8 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessS
     Route::post('/syndromic/patient/{patient_id}/update', [SyndromicController::class, 'updatePatient'])->name('syndromic_updatePatient');
     Route::post('/syndromic/records/{records_id}/update', [SyndromicController::class, 'updateRecord'])->name('syndromic_updateRecord');
     Route::post('/syndromic/records/{records_id}/delete', [SyndromicController::class, 'deleteRecord'])->name('syndromic_deleteRecord');
-    Route::get('/syndromic/records/lab/{record_id}/create', [SyndromicController::class, 'createLabResult'])->name('syndromic_create_labresult');
+    Route::get('/syndromic/records/{record_id}/lab/{case_code}/add', [SyndromicController::class, 'addLaboratoryData'])->name('syndromic_create_labresult');
+    Route::post('/syndromic/records/{record_id}/lab/{case_code}/add/store', [SyndromicController::class, 'storeLaboratoryData'])->name('syndromic_store_labresult');
 
     Route::get('/syndromic/map', [SyndromicController::class, 'diseasemap'])->name('syndromic_map');
     Route::get('/syndromic/disease_list', [SyndromicController::class, 'viewDiseaseList'])->name('syndromic_disease_list');

@@ -11,7 +11,7 @@ class SyndromicLabResult extends Model
 
     protected $fillable = [
         'syndromic_record_id',
-        'test_for_disease',
+        'case_code',
         'test_type',
         'test_type_others',
         'manufacturer_name',
@@ -19,9 +19,19 @@ class SyndromicLabResult extends Model
         'date_transferred',
         'transferred_to',
         'date_received',
-        'date_released',
+        'date_tested',
         'result',
         'result_others_remarks',
+        'result_date',
+        'interpretation',
+        'lab_remarks',
         'remarks',
+
+        'hash_qr',
+        'facility_id',
+
+        'morbidity_week',
+        'morbidity_month',
+        'year',
     ];
 }

@@ -1987,11 +1987,11 @@ class SyndromicController extends Controller
         return view('syndromic.online_medcert', ['c' => $d]);
     }
 
-    public function createLabResult($record_id) {
+    public function addLaboratoryData($id, $case_code) {
 
     }
 
-    public function storeLabResult($record_id) {
+    public function storeLaboratoryData($id, $case_code,  Request $r) {
 
     }
 
