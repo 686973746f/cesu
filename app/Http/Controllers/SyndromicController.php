@@ -1988,11 +1988,21 @@ class SyndromicController extends Controller
     }
 
     public function addLaboratoryData($id, $case_code) {
+        $d = SyndromicRecords::findOrFail($id);
 
+        return view('syndromic.laboratory.add_laboratory_body_main', [
+            'case_code' => $case_code,
+            'd' => $d,
+        ]);
     }
 
     public function storeLaboratoryData($id, $case_code,  Request $r) {
+        if($case_code == 'Dengue') {
 
+        }
+        else {
+            
+        }
     }
 
     public function diseasemap() {

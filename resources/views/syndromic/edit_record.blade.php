@@ -1064,6 +1064,21 @@
                   <input type="text" class="form-control" name="remarks" id="remarks" value="{{old('remarks', $d->remarks)}}" style="text-transform: uppercase;">
                 </div>
                 @endif
+
+                <div class="card">
+                  <div class="card-header">
+                    <div class="d-flex justify-content-between">
+                      <div><b>Laboratory Results</b></div>
+                      <div><button type="button" class="btn btn-success" data-toggle="modal" data-target="#selectLaboratoryModal">Add</button></div>
+                    </div>
+                  </div>
+                  <div class="card-body text-center">
+
+                  </div>
+                </div>
+
+                
+                
             </div>
             <div class="card-footer">
               @if(!$d->isHospitalRecord())
@@ -1092,6 +1107,12 @@
         </div>
     </form>
 </div>
+
+@php
+$the_record_id = $d->id;
+@endphp
+@include('syndromic.laboratory.add_laboratory_modal')
+
 @if($d->outcome != 'DIED')
 @if(in_array('ITR_ENCODER', auth()->user()->getPermissions()) || in_array('ITR_ADMIN', auth()->user()->getPermissions()) || in_array('GLOBAL_ADMIN', auth()->user()->getPermissions()) || in_array('ITR_HOSPITAL_ENCODER', auth()->user()->getPermissions()))
 <form action="{{route('syndromic_generate_medcert', $d->id)}}" method="POST">

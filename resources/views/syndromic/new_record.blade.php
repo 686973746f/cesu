@@ -1061,6 +1061,18 @@
                   <input type="text" class="form-control" name="remarks" id="remarks" value="{{old('remarks')}}" style="text-transform: uppercase;">
                 </div>
                 @endif
+
+                <div class="card">
+                  <div class="card-header">
+                    <div class="d-flex justify-content-between">
+                      <div><b>Laboratory Results</b></div>
+                      <div><button type="button" class="btn btn-success" disabled>Add</button></div>
+                    </div>
+                  </div>
+                  <div class="card-body text-center">
+                    <p>Can be added after the initial encoding of record of the patient.</p>
+                  </div>
+                </div>
               @endif
             </div>
             <div class="card-footer">
