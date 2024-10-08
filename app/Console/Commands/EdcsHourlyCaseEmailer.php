@@ -195,6 +195,7 @@ class EdcsHourlyCaseEmailer extends Command
                             $get_caseid = $i->edcs_caseid;
                         }
 
+                        /*
                         $getLabDetails = PIDSRController::getLabDetails($get_epiid, $get_caseid);
 
                         if($getLabDetails->count() != 0) {
@@ -207,6 +208,7 @@ class EdcsHourlyCaseEmailer extends Command
                                 ];
                             }
                         }
+                        */
 
                         if($d == 'SevereAcuteRespiratoryInfection') {
                             $get_fullname = $i->getFullName();
@@ -226,8 +228,8 @@ class EdcsHourlyCaseEmailer extends Command
                             $get_doe = $i->DateOfEntry;
                             $get_dru = $i->NameOfDru;
                         }
- 
-                        array_push($list, [
+
+                        $table_params = [
                             'type' => $get_type,
                             'name' => $get_fullname,
                             'age' => $i->displayAgeStringToReport(),
@@ -236,8 +238,16 @@ class EdcsHourlyCaseEmailer extends Command
                             'address' => $get_address,
                             'doe' => $get_doe,
                             'dru' => $get_dru,
-                            'lab_data' => $lab_array,
-                        ]);
+                            //'lab_data' => $lab_array,
+                        ];
+
+                        if($d == 'Dengue') {
+                            $table_params = $table_params + [
+                                'cc' => $i->getClassificationString(),
+                            ];
+                        }
+ 
+                        array_push($list, $table_params);
                     }
 
                     $update = $fetch_case->update([
