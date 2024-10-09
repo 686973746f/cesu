@@ -61,18 +61,20 @@ class Employee extends Model
         $final = $this->lname.', '.$this->fname;
 
         if(!is_null($this->mname)) {
-            $final = $final.' '.substr($this->mname,0,1);
+            $final = $final.' '.substr($this->mname,0,1).'.';
         }
 
         return $final;
     }
 
     public function getNameWithPr() {
-        $final = $this->lname.', '.$this->fname;
+        $final = $this->fname;
 
         if(!is_null($this->mname)) {
-            $final = $final.' '.substr($this->mname,0,1);
+            $final = $final.' '.substr($this->mname,0,1).'.';
         }
+
+        $final = $final.' '.$this->lname;
 
         if(!is_null($this->profession_suffix)) {
             $final = $final.', '.$this->profession_suffix;
