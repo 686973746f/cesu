@@ -42,6 +42,8 @@ class EmployeesController extends Controller
             'gender' => $r->gender,
             'bdate' => $r->bdate ?: NULL,
             'contact_number' => $r->contact_number ?: NULL,
+            'prc_license_no' => ($r->prc_license_no) ? mb_strtoupper($r->prc_license_no) : NULL,
+            'tin_no' => ($r->tin_no) ? mb_strtoupper($r->tin_no) : NULL,
             //'email',
             //'address_region_code',
             //'address_region_text',
@@ -72,6 +74,8 @@ class EmployeesController extends Controller
             'duty_team' => $r->duty_team,
             'duty_completedcycle' => 'N',
             'created_by' => auth()->user()->id,
+
+            'emp_access_list' => (!is_null($r->emp_access_list)) ? implode(",", $r->emp_access_list) : NULL,
         ]);
 
         return redirect()->route('employees_index')
@@ -86,9 +90,12 @@ class EmployeesController extends Controller
     }
 
     public function newOrEdit(Employee $record, $mode) {
+        $emp_access_list = Employee::getEmpAccessList();
+
         return view('employees.new_or_edit', [
             'd' => $record,
             'mode' => $mode,
+            'emp_access_list' => $emp_access_list,
         ]);
     }
 
@@ -117,6 +124,8 @@ class EmployeesController extends Controller
             'gender' => $r->gender,
             'bdate' => $r->bdate ?: NULL,
             'contact_number' => $r->contact_number ?: NULL,
+            'prc_license_no' => ($r->prc_license_no) ? mb_strtoupper($r->prc_license_no) : NULL,
+            'tin_no' => ($r->tin_no) ? mb_strtoupper($r->tin_no) : NULL,
             //'email',
             //'address_region_code',
             //'address_region_text',
@@ -148,6 +157,8 @@ class EmployeesController extends Controller
             //'duty_completedcycle' => 'N',
             //'created_by' => auth()->user()->id,
             'updated_by' => auth()->user()->id,
+
+            'emp_access_list' => (!is_null($r->emp_access_list)) ? implode(",", $r->emp_access_list) : NULL,
         ]);
 
         return redirect()->route('employees_index')

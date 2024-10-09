@@ -21,13 +21,19 @@ class CreateSyndromicLabResultsTable extends Migration
             $table->string('test_type_others')->nullable();
             $table->string('manufacturer_name')->nullable();
             $table->date('date_collected');
+            $table->text('collected_by')->nullable();
             $table->date('date_transferred')->nullable();
             $table->string('transferred_to')->nullable();
             $table->date('date_received')->nullable();
             $table->date('date_tested')->nullable();
+            $table->text('tested_by')->nullable();
             $table->string('result')->nullable();
             $table->string('result_others_remarks')->nullable();
             $table->date('result_date')->nullable();
+            $table->text('released_by')->nullable();
+            $table->text('verified_by')->nullable(); //NAME OF HEAD MEDICAL TECHNOLOGIST SOMETHING
+            $table->text('noted_by')->nullable(); //NAME OF DOCTOR OR MEDICAL OFFICER SOMETHING
+
             $table->text('interpretation')->nullable();
             $table->text('lab_remarks')->nullable();
             $table->text('remarks')->nullable();

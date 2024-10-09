@@ -57,6 +57,11 @@ class CreateEmployeesTable extends Migration
             $table->string('duty_canbedeployed', 1);
             $table->string('duty_team')->nullable();
             $table->string('duty_completedcycle', 1)->default('N');
+
+            $table->string('prc_license_no')->nullable();
+            $table->string('tin_no')->nullable();
+
+            $table->text('emp_access_list')->nullable();
             
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');

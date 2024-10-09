@@ -47,15 +47,57 @@ class Employee extends Model
         'duty_canbedeployed',
         'duty_team',
         'duty_completedcycle',
+
+        'prc_license_no',
+        'tin_no',
+
+        'emp_access_list',
+
         'created_by',
         'updated_by',
     ];
 
     public function getName() {
-        return $this->lname.', '.$this->fname;
+        $final = $this->lname.', '.$this->fname;
+
+        if(!is_null($this->mname)) {
+            $final = $final.' '.substr($this->mname,0,1);
+        }
+
+        return $final;
+    }
+
+    public function getNameWithPr() {
+        $final = $this->lname.', '.$this->fname;
+
+        if(!is_null($this->mname)) {
+            $final = $final.' '.substr($this->mname,0,1);
+        }
+
+        if(!is_null($this->profession_suffix)) {
+            $final = $final.', '.$this->profession_suffix;
+        }
+        
+        return $final;
     }
 
     public function user() {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public static function getEmpAccessList() {
+        return [
+            'PHYSICIAN',
+            'DENTIST',
+            'MEDTECH',
+        ];
+    }
+
+    public static function getMedtechList() {
+        $list = Employee::where('employment_status', 'ACTIVE')
+        ->where('emp_access_list', 'LIKE', '%MEDTECH%')
+        ->get();
+
+        return $list;
     }
 }

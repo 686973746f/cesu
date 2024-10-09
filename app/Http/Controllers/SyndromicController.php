@@ -36,6 +36,7 @@ use Illuminate\Support\Str;
 use App\Models\MedicalEvent;
 use Illuminate\Http\Request;
 use App\Jobs\CallOpdErExport;
+use App\Models\Employee;
 use App\Models\Leptospirosis;
 use App\Models\PharmacyCartSub;
 use App\Models\PharmacyPatient;
@@ -1990,9 +1991,12 @@ class SyndromicController extends Controller
     public function addLaboratoryData($id, $case_code) {
         $d = SyndromicRecords::findOrFail($id);
 
+        $rmt_list = Employee::getMedtechList();
+
         return view('syndromic.laboratory.add_laboratory_body_main', [
             'case_code' => $case_code,
             'd' => $d,
+            'rmt_list' => $rmt_list,
         ]);
     }
 

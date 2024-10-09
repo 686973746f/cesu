@@ -79,6 +79,20 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="prc_license_no">PRC License Number (If Applicable)</label>
+                            <input type="text" class="form-control" name="prc_license_no" id="prc_license_no" value="{{old('prc_license_no', $d->prc_license_no)}}" style="text-transform: uppercase;">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="tin_no">TIN Number</label>
+                            <input type="text" class="form-control" name="tin_no" id="tin_no" value="{{old('tin_no', $d->tin_no)}}" style="text-transform: uppercase;">
+                        </div>
+                    </div>
+                </div>
                 <hr>
                 <div class="row">
                     <div class="col-md-4">
@@ -199,6 +213,14 @@
                     <label for="remarks">Remarks</label>
                     <input type="text" class="form-control" name="remarks" id="remarks" value="{{old('remarks', $d->remarks)}}" style="text-transform: uppercase;">
                 </div>
+                <div class="form-group">
+                  <label for="emp_access_list">Employee Access List</label>
+                  <select class="form-control" name="emp_access_list[]" id="emp_access_list" multiple>
+                    @foreach($emp_access_list as $e)
+                    <option value="{{$e}}" {{(in_array($e, explode(',', $d->emp_access_list))) ? 'selected' : ''}}>{{$e}}</option>
+                    @endforeach
+                  </select>
+                </div>
             </div>
             <div class="card-footer text-right">
                 <button type="submit" class="btn btn-success btn-block" id="submitBtn">{{($mode == 'EDIT') ? 'Update' : 'Save'}} (CTRL + S)</button>
@@ -218,6 +240,10 @@
                 }, 2000);
                 return false;
             }
+        });
+
+        $('#emp_access_list').select2({
+            theme: 'bootstrap',
         });
 
         $('#employment_status').change(function (e) { 
