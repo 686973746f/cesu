@@ -20,24 +20,24 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="date_collected"><b class="text-danger">*</b>Date Collected</label>
-                                    <input type="date" class="form-control" name="date_collected" id="date_collected" value="{{date('Y-m-d')}}" max="{{date('Y-m-d')}}" min="{{date('Y-m-d', strtotime('-1 Year'))}}">
+                                    <label for="ns1_date_collected"><b class="text-danger">*</b>Date Collected</label>
+                                    <input type="date" class="form-control" name="ns1_date_collected" id="ns1_date_collected" value="{{date('Y-m-d')}}" max="{{date('Y-m-d')}}" min="{{date('Y-m-d', strtotime('-1 Year'))}}">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                  <label for="result"><b class="text-danger">*</b>Result</label>
-                                  <select class="form-control" name="result" id="result">
-                                    <option value="" disabled {{(is_null(old('result'))) ? 'selected' : ''}}>Choose...</option>
-                                    <option value="POSITIVE" {{(old('result') == 'POSITIVE') ? 'selected' : ''}}>Positive</option>
-                                    <option value="NEGATIVE" {{(old('result') == 'NEGATIVE') ? 'selected' : ''}}>Negative</option>
+                                  <label for="ns1_result"><b class="text-danger">*</b>Result</label>
+                                  <select class="form-control" name="ns1_result" id="ns1_result">
+                                    <option value="" disabled {{(is_null(old('ns1_result'))) ? 'selected' : ''}}>Choose...</option>
+                                    <option value="POSITIVE" {{(old('ns1_result') == 'POSITIVE') ? 'selected' : ''}}>Positive</option>
+                                    <option value="NEGATIVE" {{(old('ns1_result') == 'NEGATIVE') ? 'selected' : ''}}>Negative</option>
                                   </select>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="collected_by"><b class="text-danger">*</b>Collected by</label>
-                                    <select class="form-control" name="collected_by" id="collected_by">
+                                    <label for="ns1_collected_by"><b class="text-danger">*</b>Collected by</label>
+                                    <select class="form-control" name="ns1_collected_by" id="ns1_collected_by">
                                       <option value="" disabled {{(is_null(old('collected_by'))) ? 'selected' : ''}}>Choose...</option>
                                       @foreach($rmt_list as $rmt)
                                       <option value="{{$rmt->getNameWithPr()}};{{$rmt->job_position}};{{$rmt->prc_license_no}}">{{$rmt->getNameWithPr()}}</option>
@@ -46,7 +46,6 @@
                                 </div>
                             </div>
                         </div>
-                        
                     </div>
                     <hr>
                     <div class="form-group">
@@ -57,8 +56,36 @@
                           <option value="N" {{(old('performed_igg') == 'N') ? 'selected' : ''}}>No</option>
                         </select>
                     </div>
-                    <div id="ifDengueIggDiv">
-
+                    <div id="ifDengueIggDiv" class="d-none">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="igg_date_collected"><b class="text-danger">*</b>Date Collected</label>
+                                    <input type="date" class="form-control" name="igg_date_collected" id="igg_date_collected" value="{{date('Y-m-d')}}" max="{{date('Y-m-d')}}" min="{{date('Y-m-d', strtotime('-1 Year'))}}">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                  <label for="igg_result"><b class="text-danger">*</b>Result</label>
+                                  <select class="form-control" name="igg_result" id="igg_result">
+                                    <option value="" disabled {{(is_null(old('igg_result'))) ? 'selected' : ''}}>Choose...</option>
+                                    <option value="POSITIVE" {{(old('igg_result') == 'POSITIVE') ? 'selected' : ''}}>Positive</option>
+                                    <option value="NEGATIVE" {{(old('igg_result') == 'NEGATIVE') ? 'selected' : ''}}>Negative</option>
+                                  </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="igg_collected_by"><b class="text-danger">*</b>Collected by</label>
+                                    <select class="form-control" name="igg_collected_by" id="igg_collected_by">
+                                      <option value="" disabled {{(is_null(old('collected_by'))) ? 'selected' : ''}}>Choose...</option>
+                                      @foreach($rmt_list as $rmt)
+                                      <option value="{{$rmt->getNameWithPr()}};{{$rmt->job_position}};{{$rmt->prc_license_no}}">{{$rmt->getNameWithPr()}}</option>
+                                      @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <hr>
                     
@@ -70,17 +97,59 @@
                           <option value="N" {{(old('performed_igm') == 'N') ? 'selected' : ''}}>No</option>
                         </select>
                     </div>
-                    <div id="ifDengueIgmDiv">
-                        
+                    <div id="ifDengueIgmDiv" class="d-none">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="igm_date_collected"><b class="text-danger">*</b>Date Collected</label>
+                                    <input type="date" class="form-control" name="igm_date_collected" id="igm_date_collected" value="{{date('Y-m-d')}}" max="{{date('Y-m-d')}}" min="{{date('Y-m-d', strtotime('-1 Year'))}}">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                  <label for="igm_result"><b class="text-danger">*</b>Result</label>
+                                  <select class="form-control" name="igm_result" id="igm_result">
+                                    <option value="" disabled {{(is_null(old('igm_result'))) ? 'selected' : ''}}>Choose...</option>
+                                    <option value="POSITIVE" {{(old('igm_result') == 'POSITIVE') ? 'selected' : ''}}>Positive</option>
+                                    <option value="NEGATIVE" {{(old('igm_result') == 'NEGATIVE') ? 'selected' : ''}}>Negative</option>
+                                  </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="igm_collected_by"><b class="text-danger">*</b>Collected by</label>
+                                    <select class="form-control" name="igm_collected_by" id="igm_collected_by">
+                                      <option value="" disabled {{(is_null(old('igm_collected_by'))) ? 'selected' : ''}}>Choose...</option>
+                                      @foreach($rmt_list as $rmt)
+                                      <option value="{{$rmt->getNameWithPr()}};{{$rmt->job_position}};{{$rmt->prc_license_no}}">{{$rmt->getNameWithPr()}}</option>
+                                      @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     @endif
                 </div>
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-success btn-block">Save</button>
+                    <button type="submit" class="btn btn-success btn-block" id="submitBtn">Save (CTRL + S)</button>
                 </div>
             </div>
         </div>
     </form>
+
+    <script>
+        $(document).bind('keydown', function(e) {
+            if(e.ctrlKey && (e.which == 83)) {
+                e.preventDefault();
+                $('#submitBtn').trigger('click');
+                $('#submitBtn').prop('disabled', true);
+                setTimeout(function() {
+                    $('#submitBtn').prop('disabled', false);
+                }, 2000);
+                return false;
+            }
+        });
+    </script>
 
     @if($case_code == 'Dengue')
     <script>
@@ -90,16 +159,54 @@
             if($(this).val() == 'Y') {
                 $('#ifDengueNs1Div').removeClass('d-none');
 
-                $('#date_collected').prop('required', true);
-                $('#result').prop('required', true);
-                $('#collected_by').prop('required', true);
+                $('#ns1_date_collected').prop('required', true);
+                $('#ns1_result').prop('required', true);
+                $('#ns1_collected_by').prop('required', true);
             }
             else {
                 $('#ifDengueNs1Div').addClass('d-none');
 
-                $('#date_collected').prop('required', false);
-                $('#result').prop('required', false);
-                $('#collected_by').prop('required', false);
+                $('#ns1_date_collected').prop('required', false);
+                $('#ns1_result').prop('required', false);
+                $('#ns1_collected_by').prop('required', false);
+            }
+        }).trigger('change');
+
+        $('#performed_igg').change(function (e) { 
+            e.preventDefault();
+            
+            if($(this).val() == 'Y') {
+                $('#ifDengueIggDiv').removeClass('d-none');
+
+                $('#igg_date_collected').prop('required', true);
+                $('#igg_result').prop('required', true);
+                $('#igg_collected_by').prop('required', true);
+            }
+            else {
+                $('#ifDengueIggDiv').addClass('d-none');
+
+                $('#igg_date_collected').prop('required', false);
+                $('#igg_result').prop('required', false);
+                $('#igg_collected_by').prop('required', false);
+            }
+        }).trigger('change');
+        
+        $('#performed_igm').change(function (e) { 
+            e.preventDefault();
+            
+            if($(this).val() == 'Y') {
+                $('#ifDengueIgmDiv').removeClass('d-none');
+
+                $('#igm_date_collected').prop('required', true);
+                $('#igm_result').prop('required', true);
+                $('#igm_collected_by').prop('required', true);
+            }
+            else {
+                $('#ifDengueIgmDiv').addClass('d-none');
+
+                $('#igm_date_collected').prop('required', false);
+                $('#igm_result').prop('required', false);
+                $('#igm_collected_by').prop('required', false);
             }
         }).trigger('change');
     </script>

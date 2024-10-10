@@ -48,7 +48,7 @@ use App\Models\PharmacySupplySub;
 use Illuminate\Support\Facades\DB;
 use App\Models\FhsisTbdotsMorbidity;
 use App\Models\PharmacyPrescription;
-
+use App\Models\SyndromicLabResult;
 use Illuminate\Support\Facades\File;
 use Rap2hpoutre\FastExcel\FastExcel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -2000,13 +2000,27 @@ class SyndromicController extends Controller
         ]);
     }
 
-    public function storeLaboratoryData($id, $case_code,  Request $r) {
+    public function storeLaboratoryData($id, $case_code, Request $r) {
         if($case_code == 'Dengue') {
 
+            if($r->performed_ns1 == 'Y') {
+                $c = SyndromicLabResult::create([
+
+                ]);
+            }
+            
         }
         else {
             
         }
+    }
+
+    public function viewLaboratoryPrintable($id) {
+
+    }
+
+    public function viewOnlineLabResultVerifier($hash) {
+
     }
 
     public function diseasemap() {
