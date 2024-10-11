@@ -2005,7 +2005,34 @@ class SyndromicController extends Controller
 
             if($r->performed_ns1 == 'Y') {
                 $c = SyndromicLabResult::create([
+                    'syndromic_record_id' => $id,
+                    'case_code' => $case_code,
+                    'test_type' => 'Dengue NS1',
+                    //'test_type_others',
+                    //'manufacturer_name',
+                    'date_collected' => $r->ns1_date_collected,
+                    'collected_by' => $r->ns1_collected_by,
+                    //'date_transferred',
+                    //'transferred_to',
+                    'date_received' => $r->ns1_date_collected,
+                    'date_tested' => $r->ns1_date_collected,
+                    'tested_by' => $r->ns1_collected_by,
+                    'result' => $r->ns1_result,
+                    //'result_others_remarks',
+                    'result_date' => $r->ns1_date_collected,
+                    'released_by' => $r->ns1_collected_by,
+                    //'verified_by',
+                    //'noted_by',
+                    'interpretation',
+                    'lab_remarks',
+                    'remarks',
 
+                    'hash_qr',
+                    'facility_id' => auth()->user()->itr_facility_id,
+
+                    'morbidity_week' => date('W', strtotime($r->ns1_date_collected)),
+                    'morbidity_month' => date('n', strtotime($r->ns1_date_collected)),
+                    'year' => date('Y', strtotime($r->ns1_date_collected)),
                 ]);
             }
             
