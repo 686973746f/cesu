@@ -1567,6 +1567,8 @@ class SyndromicController extends Controller
             $unlocktoolbar = true;
         }
 
+        $lab_list = SyndromicLabResult::where('syndromic_record_id', $r->id)->get();
+
         if($r->syndromic_patient->userHasPermissionToAccess()) {
             return view('syndromic.edit_record', [
                 'd' => $r,
@@ -1578,6 +1580,7 @@ class SyndromicController extends Controller
                 'required_symptoms' => $required_symptoms,
                 'required_weight' => $required_weight,
                 'required_height' => $required_height,
+                'lab_list' => $lab_list,
             ]);
         }
         else {
@@ -2001,11 +2004,12 @@ class SyndromicController extends Controller
     }
 
     public function storeLaboratoryData($id, $case_code, Request $r) {
-        if($case_code == 'Dengue') {
+        $d = SyndromicRecords::findOrFail($id);
 
+        if($case_code == 'Dengue') {
             if($r->performed_ns1 == 'Y') {
                 $c = SyndromicLabResult::create([
-                    'syndromic_record_id' => $id,
+                    'syndromic_record_id' => $d->id,
                     'case_code' => $case_code,
                     'test_type' => 'Dengue NS1',
                     //'test_type_others',
@@ -2023,27 +2027,103 @@ class SyndromicController extends Controller
                     'released_by' => $r->ns1_collected_by,
                     //'verified_by',
                     //'noted_by',
-                    'interpretation',
-                    'lab_remarks',
-                    'remarks',
+                    'interpretation' => $r->ns1_interpretation,
+                    'lab_remarks' => $r->ns1_lab_remarks,
+                    'remarks' => $r->ns1_remarks,
 
-                    'hash_qr',
+                    'hash_qr' => $d->hashMaker(),
+                    'created_by' => auth()->user()->id,
                     'facility_id' => auth()->user()->itr_facility_id,
 
                     'morbidity_week' => date('W', strtotime($r->ns1_date_collected)),
                     'morbidity_month' => date('n', strtotime($r->ns1_date_collected)),
                     'year' => date('Y', strtotime($r->ns1_date_collected)),
                 ]);
+
+                if($r->ns1_result == 'POSITIVE') {
+                    //Create EDCS Data for Dengue Confirmed NS1 Positive
+                }
             }
             
+            if($r->performed_igg == 'Y') {
+                $c = SyndromicLabResult::create([
+                    'syndromic_record_id' => $d->id,
+                    'case_code' => $case_code,
+                    'test_type' => 'Dengue IgG',
+                    //'test_type_others',
+                    //'manufacturer_name',
+                    'date_collected' => $r->igg_date_collected,
+                    'collected_by' => $r->igg_collected_by,
+                    //'date_transferred',
+                    //'transferred_to',
+                    'date_received' => $r->igg_date_collected,
+                    'date_tested' => $r->igg_date_collected,
+                    'tested_by' => $r->igg_collected_by,
+                    'result' => $r->igg_result,
+                    //'result_others_remarks',
+                    'result_date' => $r->igg_date_collected,
+                    'released_by' => $r->igg_collected_by,
+                    //'verified_by',
+                    //'noted_by',
+                    'interpretation' => $r->igg_interpretation,
+                    'lab_remarks' => $r->igg_lab_remarks,
+                    'remarks' => $r->igg_remarks,
+
+                    'hash_qr' => $d->hashMaker(),
+                    'created_by' => auth()->user()->id,
+                    'facility_id' => auth()->user()->itr_facility_id,
+
+                    'morbidity_week' => date('W', strtotime($r->igg_date_collected)),
+                    'morbidity_month' => date('n', strtotime($r->igg_date_collected)),
+                    'year' => date('Y', strtotime($r->igg_date_collected)),
+                ]);
+            }
+
+            if($r->performed_igm == 'Y') {
+                $c = SyndromicLabResult::create([
+                    'syndromic_record_id' => $d->id,
+                    'case_code' => $case_code,
+                    'test_type' => 'Dengue IgM',
+                    //'test_type_others',
+                    //'manufacturer_name',
+                    'date_collected' => $r->igm_date_collected,
+                    'collected_by' => $r->igm_collected_by,
+                    //'date_transferred',
+                    //'transferred_to',
+                    'date_received' => $r->igm_date_collected,
+                    'date_tested' => $r->igm_date_collected,
+                    'tested_by' => $r->igm_collected_by,
+                    'result' => $r->igm_result,
+                    //'result_others_remarks',
+                    'result_date' => $r->igm_date_collected,
+                    'released_by' => $r->igm_collected_by,
+                    //'verified_by',
+                    //'noted_by',
+                    'interpretation' => $r->igm_interpretation,
+                    'lab_remarks' => $r->igm_lab_remarks,
+                    'remarks' => $r->igm_remarks,
+
+                    'hash_qr' => $d->hashMaker(),
+                    'created_by' => auth()->user()->id,
+                    'facility_id' => auth()->user()->itr_facility_id,
+
+                    'morbidity_week' => date('W', strtotime($r->igm_date_collected)),
+                    'morbidity_month' => date('n', strtotime($r->igm_date_collected)),
+                    'year' => date('Y', strtotime($r->igm_date_collected)),
+                ]);
+            }
         }
         else {
             
         }
+
+        return redirect(route('syndromic_viewRecord', $d->id).'#labResultsCard')
+        ->with('lab_msg', 'Laboratory data was successfully added.')
+        ->with('lab_msgtype', 'success');
     }
 
     public function viewLaboratoryPrintable($id) {
-
+        
     }
 
     public function viewOnlineLabResultVerifier($hash) {

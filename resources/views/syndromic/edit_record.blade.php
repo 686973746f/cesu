@@ -1065,20 +1065,58 @@
                 </div>
                 @endif
 
-                <div class="card">
+                <div class="card" id="labResultsCard">
                   <div class="card-header">
                     <div class="d-flex justify-content-between">
-                      <div><b>Laboratory Results</b></div>
+                      <div><b>Laboratory Data</b></div>
                       <div><button type="button" class="btn btn-success" data-toggle="modal" data-target="#selectLaboratoryModal">Add</button></div>
                     </div>
                   </div>
                   <div class="card-body text-center">
-
+                    @if(session('lab_msg'))
+                    <div class="alert alert-{{session('lab_msgtype')}}" role="alert">
+                        {{session('lab_msg')}}
+                    </div>
+                    @endif
+                    @if($lab_list->count() != 0)
+                    <div>
+                      <table class="table table-striped table-bordered">
+                        <thead class="text-center thead-light">
+                          <tr>
+                            <th>#</th>
+                            <th>Type of Test</th>
+                            <th>Case Code</th>
+                            <th>Date Collected / by</th>
+                            <th>Result</th>
+                            <th>Created At / By</th>
+                            <th>Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @foreach($lab_list as $ind => $lab)
+                          <tr class="text-center">
+                            <td>{{$ind+1}}</td>
+                            <td>{{$lab->test_type}}</td>
+                            <td>{{$lab->case_code}}</td>
+                            <td>
+                              <div>{{date('M. d, Y (D)', strtotime($lab->date_collected))}}</div>
+                            </td>
+                            <td>{{$lab->result}}</td>
+                            <td>
+                              <div>{{date('M. d, Y (D)', strtotime($lab->date_collected))}}</div>
+                              <div>by {{$lab->user->name}}</div>
+                            </td>
+                            <td><a href="" class="btn btn-primary">View/Edit</a></td>
+                          </tr>
+                          @endforeach
+                        </tbody>
+                      </table>
+                    </div>
+                    @else
+                    <h6 class="text-center">Laboratory data is currently empty.</h6>
+                    @endif
                   </div>
                 </div>
-
-                
-                
             </div>
             <div class="card-footer">
               @if(!$d->isHospitalRecord())
@@ -1167,6 +1205,16 @@ $the_record_id = $d->id;
 @endif
 
 <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const hash = window.location.hash;
+    if (hash) {
+      const element = document.querySelector(hash);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  });
+
   function validateForm() {
       /*
       var checkboxes = document.querySelectorAll('.form-check-input');

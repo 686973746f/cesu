@@ -22,6 +22,7 @@ class CreateRegionsTable extends Migration
             $table->text('alt_name')->nullable();
             $table->text('short_name1')->nullable();
             $table->text('short_name2')->nullable();
+            $table->text('edcs_code')->nullable();
         });
     }
 

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Mail\TestMail;
 use App\Models\Measles;
 use App\Imports\EdcsImport;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Intervention\Image\Image;
 use App\Imports\TkcExcelImport;
@@ -14,8 +15,12 @@ use App\Models\AbtcVaccineBrand;
 use App\Models\AbtcBakunaRecords;
 use App\Models\AbtcVaccineStocks;
 use App\Imports\DohFacilityImport;
+use App\Imports\EdcsGeoExportBrgy;
+use App\Imports\EdcsGeoExportCity;
+use App\Imports\EdcsGeoExportProvince;
 use Illuminate\Support\Facades\DB;
 use App\Models\AbtcVaccinationSite;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Intervention\Image\ImageManager;
 use Maatwebsite\Excel\Facades\Excel;
@@ -38,12 +43,12 @@ class TestController extends Controller
     public function index() {
         //Carbon::parse('2024-01-01')->next(Carbon::SATURDAY)->format('m/d/Y')
 
-        $manager = new ImageManager(new Driver());
+        Excel::import(new EdcsGeoExportProvince, storage_path('edcs_provinces.xlsx'));
 
-        
-        $image = $manager->read(storage_path('TESTIMG.jpg'));
+        Excel::import(new EdcsGeoExportCity, storage_path('edcs_cities.xlsx'));
 
-        // Save the compressed image
-        $save = $image->toJpeg(70)->save(storage_path('test/testimage2.jpg'));
+        Excel::import(new EdcsGeoExportBrgy, storage_path('edcs_brgys.xlsx'));
+
+        dd('done');
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -841,5 +842,9 @@ class SyndromicRecords extends Model
         else {
             return false;
         }
+    }
+
+    public function hashMaker() {
+        return hash('sha256', $this->syndromic_patient->lname.', '.$this->syndromic_patient->fname.' '.$this->syndromic_patient->bdate.' '.now()->format('Y-m-d H:i:s')).Str::random(10);
     }
 }

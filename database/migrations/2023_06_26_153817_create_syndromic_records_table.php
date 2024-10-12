@@ -213,6 +213,9 @@ class CreateSyndromicRecordsTable extends Migration
             $table->dateTime('ics_finished_date')->nullable();
 
             $table->tinyInteger('encodedfrom_tbdots')->default(0);
+            $table->text('disease_tag')->nullable();
+            //$table->text('auto_disease_tag')->nullable();
+            $table->tinyInteger('transferredto_edcs')->default(0);
         });
     }
 

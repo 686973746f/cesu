@@ -1065,7 +1065,7 @@
                 <div class="card">
                   <div class="card-header">
                     <div class="d-flex justify-content-between">
-                      <div><b>Laboratory Results</b></div>
+                      <div><b>Laboratory Data</b></div>
                       <div><button type="button" class="btn btn-success" disabled>Add</button></div>
                     </div>
                   </div>

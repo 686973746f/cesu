@@ -38,5 +38,11 @@ class SyndromicLabResult extends Model
         'morbidity_week',
         'morbidity_month',
         'year',
+
+        'created_by',
     ];
+    
+    public function user() {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }

@@ -46,6 +46,24 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group">
+                          <label for="ns1_interpretation">Interpretation</label>
+                          <input type="text" class="form-control" name="ns1_interpretation" id="ns1_interpretation" value="{{old('ns1_interpretation')}}">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="ns1_lab_remarks">Laboratory Remarks</label>
+                                    <textarea class="form-control" name="ns1_lab_remarks" id="ns1_lab_remarks" rows="2">{{old('ns1_lab_remarks')}}</textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="ns1_remarks">User Remarks</label>
+                                    <textarea class="form-control" name="ns1_remarks" id="ns1_remarks" rows="2">{{old('ns1_remarks')}}</textarea>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <hr>
                     <div class="form-group">
@@ -86,6 +104,24 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="igg_interpretation">Interpretation</label>
+                            <input type="text" class="form-control" name="igg_interpretation" id="igg_interpretation" value="{{old('igg_interpretation')}}">
+                          </div>
+                          <div class="row">
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                      <label for="igg_lab_remarks">Laboratory Remarks</label>
+                                      <textarea class="form-control" name="igg_lab_remarks" id="igg_lab_remarks" rows="2">{{old('igg_lab_remarks')}}</textarea>
+                                  </div>
+                              </div>
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                      <label for="igg_remarks">User Remarks</label>
+                                      <textarea class="form-control" name="igg_remarks" id="igg_remarks" rows="2">{{old('igg_remarks')}}</textarea>
+                                  </div>
+                              </div>
+                          </div>
                     </div>
                     <hr>
                     
@@ -127,6 +163,24 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="igm_interpretation">Interpretation</label>
+                            <input type="text" class="form-control" name="igm_interpretation" id="igm_interpretation" value="{{old('ns1_interpretation')}}">
+                          </div>
+                          <div class="row">
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                      <label for="igm_lab_remarks">Laboratory Remarks</label>
+                                      <textarea class="form-control" name="igm_lab_remarks" id="igm_lab_remarks" rows="2">{{old('igm_lab_remarks')}}</textarea>
+                                  </div>
+                              </div>
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                      <label for="igm_remarks">User Remarks</label>
+                                      <textarea class="form-control" name="igm_remarks" id="igm_remarks" rows="2">{{old('igm_remarks')}}</textarea>
+                                  </div>
+                              </div>
+                          </div>
                     </div>
                     @endif
                 </div>
