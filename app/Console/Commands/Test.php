@@ -4,6 +4,10 @@ namespace App\Console\Commands;
 
 use App\Models\User;
 use Illuminate\Console\Command;
+use App\Imports\EdcsGeoExportBrgy;
+use App\Imports\EdcsGeoExportCity;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\EdcsGeoExportProvince;
 use IlluminateAgnostic\Collection\Support\Str;
 
 class Test extends Command
@@ -13,7 +17,7 @@ class Test extends Command
      *
      * @var string
      */
-    protected $signature = 'test:everyminute';
+    protected $signature = 'test_command';
 
     /**
      * The console command description.
@@ -39,10 +43,10 @@ class Test extends Command
      */
     public function handle()
     {
-        $user = User::find(1);
+        Excel::import(new EdcsGeoExportProvince, storage_path('edcs_provinces.xlsx'));
 
-        $user->name = Str::random(6);
+        Excel::import(new EdcsGeoExportCity, storage_path('edcs_cities.xlsx'));
 
-        $user->save();
+        Excel::import(new EdcsGeoExportBrgy, storage_path('edcs_brgys.xlsx'));
     }
 }

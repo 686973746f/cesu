@@ -41,14 +41,6 @@ ALTER TABLE syndromic_records ADD CONSTRAINT `syndromic_records_facility_id_fore
 class TestController extends Controller
 {
     public function index() {
-        //Carbon::parse('2024-01-01')->next(Carbon::SATURDAY)->format('m/d/Y')
-
-        Excel::import(new EdcsGeoExportProvince, storage_path('edcs_provinces.xlsx'));
-
-        Excel::import(new EdcsGeoExportCity, storage_path('edcs_cities.xlsx'));
-
-        Excel::import(new EdcsGeoExportBrgy, storage_path('edcs_brgys.xlsx'));
-
-        dd('done');
+        
     }
 }
