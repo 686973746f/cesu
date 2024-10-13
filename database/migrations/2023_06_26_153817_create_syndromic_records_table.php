@@ -216,6 +216,7 @@ class CreateSyndromicRecordsTable extends Migration
             $table->text('disease_tag')->nullable();
             //$table->text('auto_disease_tag')->nullable();
             $table->text('alreadyimported_disease_tag')->nullable();
+            $table->text('received_edcs_tag')->nullable();
             //$table->tinyInteger('transferredto_edcs')->default(0);
         });
     }

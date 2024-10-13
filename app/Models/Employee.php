@@ -102,4 +102,15 @@ class Employee extends Model
 
         return $list;
     }
+
+    public static function getMedtechListOnCurrentFacility() {
+        //THIS RELIES ON DOH FACILITIES SYS_EMPLOYEE_CODENAME COLUMN
+
+        $list = Employee::where('office', auth()->user()->opdfacility->sys_employee_codename)
+        ->where('employment_status', 'ACTIVE')
+        ->where('emp_access_list', 'LIKE', '%MEDTECH%')
+        ->get();
+
+        return $list;
+    }
 }

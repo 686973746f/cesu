@@ -206,6 +206,10 @@ class SyndromicRecords extends Model
         'ics_finished_date',
 
         'encodedfrom_tbdots',
+
+        'disease_tag',
+        'alreadyimported_disease_tag',
+        'received_edcs_tag',
     ];
 
     public static function refConsultationType() {
@@ -880,5 +884,40 @@ class SyndromicRecords extends Model
         }
         
         return $this->save();
+    }
+
+    public function addToReceivedEdcsTag($disease) {
+        if(!is_null($this->received_edcs_tag)) {
+            $arr = explode(',', $this->received_edcs_tag);
+
+            if(!in_array($disease, $arr)) {
+                $mergedArray = array_merge($arr, [$disease]);
+
+                $this->received_edcs_tag = implode(',', $mergedArray);
+            }
+        }
+        else {
+            $this->received_edcs_tag = $disease;
+        }
+        
+        return $this->save();
+    }
+
+    public function ifChoRecord() {
+        if($this->facility_id == 10886 || $this->facility_id == 39708 || $this->facility_id == 11730) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function ifMedicareRecord() {
+        if($this->facility_id == 10525) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

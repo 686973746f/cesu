@@ -2008,6 +2008,17 @@ class SyndromicController extends Controller
 
         if($case_code == 'Dengue') {
             if($r->performed_ns1 == 'Y') {
+                $check_existing = SyndromicLabResult::where('syndromic_record_id', $d->id)
+                ->whereDate('date_collected', $r->ns1_date_collected)
+                ->where('test_type', 'Dengue NS1')
+                ->first();
+
+                if($check_existing) {
+                    return redirect()->back()
+                    ->with('msg', 'Error: Dengue NS1 data with the same Date of Collection already exists.')
+                    ->with('msgtype', 'danger');
+                }
+
                 $c = SyndromicLabResult::create([
                     'syndromic_record_id' => $d->id,
                     'case_code' => $case_code,
@@ -2046,6 +2057,17 @@ class SyndromicController extends Controller
             }
             
             if($r->performed_igg == 'Y') {
+                $check_existing = SyndromicLabResult::where('syndromic_record_id', $d->id)
+                ->whereDate('date_collected', $r->igg_date_collected)
+                ->where('test_type', 'Dengue IgG')
+                ->first();
+
+                if($check_existing) {
+                    return redirect()->back()
+                    ->with('msg', 'Error: Dengue IgG data with the same Date of Collection already exists.')
+                    ->with('msgtype', 'danger');
+                }
+
                 $c = SyndromicLabResult::create([
                     'syndromic_record_id' => $d->id,
                     'case_code' => $case_code,
@@ -2080,6 +2102,17 @@ class SyndromicController extends Controller
             }
 
             if($r->performed_igm == 'Y') {
+                $check_existing = SyndromicLabResult::where('syndromic_record_id', $d->id)
+                ->whereDate('date_collected', $r->igm_date_collected)
+                ->where('test_type', 'Dengue IgM')
+                ->first();
+
+                if($check_existing) {
+                    return redirect()->back()
+                    ->with('msg', 'Error: Dengue IgM data with the same Date of Collection already exists.')
+                    ->with('msgtype', 'danger');
+                }
+
                 $c = SyndromicLabResult::create([
                     'syndromic_record_id' => $d->id,
                     'case_code' => $case_code,
@@ -2122,12 +2155,58 @@ class SyndromicController extends Controller
         ->with('lab_msgtype', 'success');
     }
 
-    public function viewLaboratoryPrintable($id) {
+    public function editLaboratoryData($id) {
+
+    }
+
+    public function updateLaboratoryData($id) {
         
     }
 
-    public function viewOnlineLabResultVerifier($hash) {
+    public function viewLaboratoryPrintable($id) {
+        $d = SyndromicLabResult::findOrFail($id);
 
+        $l = $d;
+
+        $p = $d->syndromic_record;
+
+        if($d->case_code == 'Dengue') {
+            //Look for NS1, IGG and IGM and Display All
+            
+            $l = SyndromicLabResult::where('syndromic_record_id', $d->syndromic_record_id)
+            ->whereIn('test_type', ['Dengue NS1', 'Dengue IgG', 'Dengue IgM'])
+            ->whereDate('date_collected', $d->date_collected)
+            ->get();
+        }
+
+        return view('syndromic.laboratory.print_result', [
+            'd' => $d,
+            'l' => $l,
+            'p' => $p,
+        ]);
+    }
+
+    public function viewOnlineLabResultVerifier($hash) {
+        $d = SyndromicLabResult::where('hash_qr', $hash)->first();
+
+        $l = $d;
+
+        $p = $d->syndromic_record;
+
+        if($d->case_code == 'Dengue') {
+            //Look for NS1, IGG and IGM and Display All
+            
+            $l = SyndromicLabResult::where('syndromic_record_id', $d->syndromic_record_id)
+            ->whereIn('test_type', ['Dengue NS1', 'Dengue IgG', 'Dengue IgM'])
+            ->whereDate('date_collected', $d->date_collected)
+            ->get();
+        }
+
+        return view('syndromic.laboratory.online_result_viewer', [
+            'd' => $d,
+            'l' => $l,
+            'p' => $p,
+        ]);
     }
 
     public function diseasemap() {

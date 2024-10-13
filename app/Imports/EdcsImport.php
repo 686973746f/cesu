@@ -26,6 +26,7 @@ use Illuminate\Support\Str;
 use App\Models\Leptospirosis;
 use App\Models\EdcsLaboratoryData;
 use App\Models\SevereAcuteRespiratoryInfection;
+use App\Models\SyndromicRecords;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToModel;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
@@ -2143,6 +2144,16 @@ class DengueImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 ];
 
                 $model = Dengue::create($table_params);
+            }
+
+            //Update Syndromic Record - Mark as Received
+            if(Str::startsWith($row['patient_no'], 'MPSS_')) { //Mark na galing sa OPD System yung Record
+                $search_id = str_replace('MPSS_', '', $row['patient_no']);
+
+                $synd_record = SyndromicRecords::where('id', $search_id)->first();
+                if($synd_record) {
+                    $synd_record->addToReceivedEdcsTag('DENGUE');
+                }
             }
 
             return $model;

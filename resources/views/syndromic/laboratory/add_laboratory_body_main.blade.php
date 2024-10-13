@@ -7,6 +7,11 @@
             <div class="card">
                 <div class="card-header"><b>Add Laboratory Data - {{$case_code}}</b></div>
                 <div class="card-body">
+                    @if(session('msg'))
+                    <div class="alert alert-{{session('msgtype')}}" role="alert">
+                        {{session('msg')}}
+                    </div>
+                    @endif
                     @if($case_code == 'Dengue')
                     <div class="form-group">
                       <label for="performed_ns1"><b class="text-danger">*</b>Dengue NS1</label>

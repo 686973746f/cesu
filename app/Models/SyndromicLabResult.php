@@ -45,4 +45,20 @@ class SyndromicLabResult extends Model
     public function user() {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+    public function syndromic_record() {
+        return $this->belongsTo(SyndromicRecords::class, 'syndromic_record_id');
+    }
+
+    public function resultColor() {
+        if($this->result == 'POSITIVE') {
+            return 'danger';
+        }
+        else if($this->result == 'NEGATIVE') {
+            return 'success';
+        }
+        else {
+            return '';
+        }
+    }
 }

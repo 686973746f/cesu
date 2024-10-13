@@ -37,6 +37,7 @@ ALTER TABLE syndromic_records ADD CONSTRAINT `syndromic_records_facility_id_fore
 10886 - CHO GENTRIAS FACILITY ID
 10525 - MEDICARE 
 11730 - MANGGAHAN
+39708 - SF SUPERHEALTH
 */
 
 class TestController extends Controller

@@ -12,7 +12,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <a href="{{route('syndromic_create_labresult', [$the_record_id, 'Dengue'])}}" class="btn btn-primary btn-lg">Dengue</a>
+                        <a href="{{route('syndromic_create_labresult', [$the_record_id, 'Dengue'])}}" class="btn btn-primary btn-lg btn-block">Dengue (NS1, IgG, IgM)</a>
                     </div>
                     <div class="col-md-4">
 

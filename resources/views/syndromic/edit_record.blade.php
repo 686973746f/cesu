@@ -1106,7 +1106,10 @@
                               <div>{{date('M. d, Y (D)', strtotime($lab->date_collected))}}</div>
                               <div>by {{$lab->user->name}}</div>
                             </td>
-                            <td><a href="" class="btn btn-primary">View/Edit</a></td>
+                            <td>
+                              <a href="" class="btn btn-primary">View/Edit</a>
+                              <a href="{{route('syndromic_print_labresult', $lab->id)}}">Print</a>
+                            </td>
                           </tr>
                           @endforeach
                         </tbody>

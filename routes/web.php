@@ -463,8 +463,13 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessS
     Route::post('/syndromic/patient/{patient_id}/update', [SyndromicController::class, 'updatePatient'])->name('syndromic_updatePatient');
     Route::post('/syndromic/records/{records_id}/update', [SyndromicController::class, 'updateRecord'])->name('syndromic_updateRecord');
     Route::post('/syndromic/records/{records_id}/delete', [SyndromicController::class, 'deleteRecord'])->name('syndromic_deleteRecord');
+
+    //OPD Laboratory
     Route::get('/syndromic/records/{record_id}/lab/{case_code}/add', [SyndromicController::class, 'addLaboratoryData'])->name('syndromic_create_labresult');
     Route::post('/syndromic/records/{record_id}/lab/{case_code}/add/store', [SyndromicController::class, 'storeLaboratoryData'])->name('syndromic_store_labresult');
+    Route::get('/syndromic/lab_data/{id}/view', [SyndromicController::class, 'editLaboratoryData'])->name('syndromic_edit_labresult');
+    Route::get('/syndromic/lab_data/{id}/print', [SyndromicController::class, 'viewLaboratoryPrintable'])->name('syndromic_print_labresult');
+    Route::post('/syndromic/lab_data/{id}/update', [SyndromicController::class, 'updateLaboratoryData'])->name('syndromic_update_labresult');
 
     Route::get('/syndromic/map', [SyndromicController::class, 'diseasemap'])->name('syndromic_map');
     Route::get('/syndromic/disease_list', [SyndromicController::class, 'viewDiseaseList'])->name('syndromic_disease_list');
@@ -784,6 +789,7 @@ Route::post('/abtc/selfreport/store', [ABTCWalkInRegistrationController::class, 
 
 //SYNDROMIC ONLINE MEDCERT
 Route::get('/medcert/verify/{qr}', [SyndromicController::class, 'medcertOnlineVerify'])->name('medcert_online_verify');
+Route::get('/opd_lab/verify/{qr}', [SyndromicController::class, 'viewOnlineLabResultVerifier'])->name('laboratory_online_verify');
 
 //JSON Reports
 Route::get('/json/brgy', [JsonReportController::class, 'brgyCases']);

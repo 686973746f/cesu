@@ -45,6 +45,7 @@ class DohFacility extends Model
 
         'sys_code1',
         'sys_opdaccess_type',
+        'sys_employee_codename',
         'sys_coordinate_x',
         'sys_coordinate_y',
 
