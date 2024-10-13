@@ -51,7 +51,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="profession_suffix">Profession</label>
-                            <input type="text" class="form-control" name="profession_suffix" id="profession_suffix" value="{{old('profession_suffix', $d->profession_suffix)}}" minlength="2" maxlength="30" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" placeholder="RN/MD/RMT/RM, etc.">
+                            <input type="text" class="form-control" name="profession_suffix" id="profession_suffix" value="{{old('profession_suffix', $d->profession_suffix)}}" minlength="2" maxlength="30" style="text-transform: uppercase;" placeholder="RN/MD/RMT/RM, etc.">
                         </div>
                     </div>
                 </div>
