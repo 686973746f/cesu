@@ -377,4 +377,60 @@ class SyndromicPatient extends Model
             }
         }
     }
+
+    public function getEdcsRegionId() {
+        $s = Regions::where('json_code', $this->address_region_code)->first();
+
+        return $s;
+    }
+
+    public function getEdcsProvinceId() {
+        $s = $this->getEdcsRegionId();
+
+        $t = EdcsProvince::where('region_id', $s->id)
+        ->where('name', 'LIKE', '%'.$this->address_province_text.'%')
+        ->first();
+
+        return $t;
+    }
+
+    public function getEdcsCityMunId() {
+        $t = $this->getEdcsProvinceId();
+
+        $u = EdcsCity::where('province_id', $t->id)
+        ->where('name', 'LIKE', '%'.$this->address_province_text.'%')
+        ->first();
+
+        return $u;
+    }
+
+    public function getEdcsBrgyId() {
+        $v = EdcsBrgy::where('city_id', $this->getEdcsCityMunId()->id)
+        ->where(function ($q) {
+            $q->where('name', 'LIKE', '%'.$this->address_brgy_text.'%')
+            ->orWhere('alt_name', $this->address_brgy_text);
+        })
+        ->first();
+
+        return $v;
+    }
+
+    public function getEdcsStreetPurok() {
+        if($this->address_houseno && $this->address_street) {
+            $get_txt = $this->address_houseno.', '.$this->address_street;
+        }
+        else if($this->address_houseno || $this->address_street) {
+            if($this->address_houseno) {
+                $get_txt = $this->address_houseno;
+            }
+            else if($this->address_street) {
+                $get_txt = $this->address_street;
+            }
+        }
+        else {
+            $get_txt = '';
+        }
+        
+        return $get_txt;
+    }
 }

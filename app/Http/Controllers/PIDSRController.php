@@ -42,6 +42,7 @@ use App\Imports\RabiesImport;
 use App\Models\Leptospirosis;
 use App\Models\PidsrThreshold;
 use App\Models\LabResultLogBook;
+use App\Models\SyndromicRecords;
 use App\Models\EdcsLaboratoryData;
 use App\Models\PidsrNotifications;
 use Illuminate\Support\Facades\DB;
@@ -55,9 +56,12 @@ use App\Models\LabResultLogBookGroup;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Session;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use OpenSpout\Common\Entity\Style\Style;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use App\Models\EdcsWeeklySubmissionChecker;
 use App\Models\SevereAcuteRespiratoryInfection;
+use PhpOffice\PhpSpreadsheet\Writer\Csv;
 
 /*
 ALL TABLES
@@ -8948,5 +8952,96 @@ class PIDSRController extends Controller
 
     public function mPoxViewer() {
         return view('pidsr.mpox.list');
+    }
+
+    public function opdExportablesViewer() {
+        $dengue_count = SyndromicRecords::where('disease_tag', 'LIKE', '%DENGUE%')
+        ->where(function ($q) {
+            $q->where('alreadyimported_disease_tag', 'NOT LIKE', '%DENGUE%')
+            ->orWhereNull('alreadyimported_disease_tag');
+        })
+        ->count();
+
+        return view('pidsr.opdexportables', [
+            'dengue_count' => $dengue_count,
+        ]);
+    }
+
+    public function processOpdExportables(Request $r) {
+        if($r->submit == 'Dengue') {
+            $get_list = SyndromicRecords::where('disease_tag', 'LIKE', '%DENGUE%')
+            ->where(function ($q) {
+                $q->where('alreadyimported_disease_tag', 'NOT LIKE', '%DENGUE%')
+                ->orWhereNull('alreadyimported_disease_tag');
+            })
+            ->get();
+
+            if($get_list->count() != 0) {
+                $spreadsheet = IOFactory::load(storage_path('edcs_template\dengue.csv'));
+                $sheet = $spreadsheet->getActiveSheet('VAS Template');
+
+                $row = 2;
+                
+                foreach($get_list as $d) {
+                    $sheet->setCellValue('A'.$row, 'MPSS_'.$d->id); //Patient ID
+                    $sheet->setCellValue('B'.$row, $d->syndromic_patient->fname); //First Name
+                    $sheet->setCellValue('C'.$row, $d->syndromic_patient->mname); //Middle Name
+                    $sheet->setCellValue('D'.$row, $d->syndromic_patient->lname); //Last Name
+                    $sheet->setCellValue('E'.$row, $d->syndromic_patient->suffix); //Suffix
+                    $sheet->setCellValue('F'.$row, substr($d->syndromic_patient->gender,0,1)); //Sex
+                    $sheet->setCellValue('G'.$row, Carbon::parse($d->syndromic_patient->bdate)->format('m/d/Y')); //Bdate
+                    $sheet->setCellValue('H'.$row, $d->age_years); //Age
+
+                    $sheet->setCellValue('I'.$row, $d->syndromic_patient->getEdcsRegionId()->edcs_code); //Current Region
+                    $sheet->setCellValue('J'.$row, $d->syndromic_patient->getEdcsProvinceId()->edcs_code); //Current Province
+                    $sheet->setCellValue('K'.$row, $d->syndromic_patient->getEdcsCityMunId()->edcs_code); //Current MunCity
+                    $sheet->setCellValue('L'.$row, $d->syndromic_patient->getEdcsBrgyId()->edcs_code); //Current Brgy
+                    $sheet->setCellValue('M'.$row, $d->syndromic_patient->getEdcsStreetPurok()); //Current StreetProk
+
+                    $sheet->setCellValue('N'.$row, $d->syndromic_patient->getEdcsRegionId()->edcs_code); //Permanent Region
+                    $sheet->setCellValue('O'.$row, $d->syndromic_patient->getEdcsProvinceId()->edcs_code); //Permanent Province
+                    $sheet->setCellValue('P'.$row, $d->syndromic_patient->getEdcsCityMunId()->edcs_code); //Permanent MunCity
+                    $sheet->setCellValue('Q'.$row, $d->syndromic_patient->getEdcsBrgyId()->edcs_code); //Permanent Brgy
+                    $sheet->setCellValue('R'.$row, $d->syndromic_patient->getEdcsStreetPurok()); //Permanent StreetProk
+
+                    $sheet->setCellValue('S'.$row, $d->syndromic_patient->is_indg); //Member of Indigenous People
+                    $sheet->setCellValue('T'.$row, ''); //Indigenous People Tribe
+                    $sheet->setCellValue('U'.$row, $d->facility->healthfacility_code); //Facility Code
+                    $sheet->setCellValue('V'.$row, $d->asd); //Patient ID
+                    $sheet->setCellValue('W'.$row, $d->asd); //Patient ID
+                    $sheet->setCellValue('X'.$row, $d->asd); //Patient ID
+                    $sheet->setCellValue('Y'.$row, $d->asd); //Patient ID
+                    $sheet->setCellValue('Z'.$row, $d->asd); //Patient ID
+                    $sheet->setCellValue('AA'.$row, $d->asd); //Patient ID
+                    $sheet->setCellValue('AB'.$row, $d->asd); //Patient ID
+                    $sheet->setCellValue('AC'.$row, $d->asd); //Patient ID
+                    $sheet->setCellValue('AD'.$row, $d->asd); //Patient ID
+                    $sheet->setCellValue('AE'.$row, $d->asd); //Patient ID
+                    $sheet->setCellValue('AF'.$row, $d->asd); //Patient ID
+                    $sheet->setCellValue('AG'.$row, $d->asd); //Patient ID
+                    $sheet->setCellValue('AH'.$row, $d->asd); //Patient ID
+                    $sheet->setCellValue('AI'.$row, $d->asd); //Patient ID
+                    $sheet->setCellValue('AJ'.$row, $d->asd); //Patient ID
+                    $sheet->setCellValue('AK'.$row, $d->asd); //Patient ID
+                    $sheet->setCellValue('AL'.$row, $d->asd); //Patient ID
+                    $sheet->setCellValue('AM'.$row, $d->asd); //Patient ID
+                    $sheet->setCellValue('AN'.$row, $d->asd); //Patient ID
+                    $sheet->setCellValue('AO'.$row, $d->asd); //Patient ID
+                    $sheet->setCellValue('AP'.$row, $d->asd); //Patient ID
+                    $sheet->setCellValue('AQ'.$row, $d->asd); //Patient ID
+                    $sheet->setCellValue('AR'.$row, $d->asd); //Patient ID
+                    $sheet->setCellValue('AS'.$row, $d->asd); //Patient ID
+
+                    $row++;
+                }
+
+                $fileName = 'dengue_template_'.strtolower(Str::random(5)).'.csv';
+                ob_clean();
+                $writer = new Csv($spreadsheet);
+                header('Content-Type: text/csv');
+                header('Content-Disposition: attachment; filename="' . urlencode($fileName) . '"');
+                $writer->save('php://output');
+            }
+        }
     }
 }

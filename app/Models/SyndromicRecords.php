@@ -847,4 +847,21 @@ class SyndromicRecords extends Model
     public function hashMaker() {
         return hash('sha256', $this->syndromic_patient->lname.', '.$this->syndromic_patient->fname.' '.$this->syndromic_patient->bdate.' '.now()->format('Y-m-d H:i:s')).Str::random(10);
     }
+
+    public function addToDiseaseTag($disease) {
+        if(!is_null($this->disease_tag)) {
+            $arr = explode(',', $this->disease_tag);
+
+            if(!in_array($disease, $arr)) {
+                $mergedArray = array_merge($arr, [$disease]);
+
+                $this->disease_tag = implode(',', $mergedArray);
+            }
+        }
+        else {
+            $this->disease_tag = $disease;
+        }
+        
+        return $this->save();
+    }
 }

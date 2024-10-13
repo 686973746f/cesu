@@ -18,6 +18,7 @@ class CreateEdcsCitiesTable extends Migration
             $table->foreignId('province_id')->constrained('edcs_provinces')->onDelete('cascade');
             $table->string('edcs_code');
             $table->string('name');
+            $table->string('alt_name')->nullable();
             $table->timestamps();
         });
     }

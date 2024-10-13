@@ -2041,7 +2041,7 @@ class SyndromicController extends Controller
                 ]);
 
                 if($r->ns1_result == 'POSITIVE') {
-                    //Create EDCS Data for Dengue Confirmed NS1 Positive
+                    $d->addToDiseaseTag('DENGUE');
                 }
             }
             

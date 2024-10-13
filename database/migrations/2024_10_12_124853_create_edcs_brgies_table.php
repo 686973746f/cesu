@@ -18,6 +18,7 @@ class CreateEdcsBrgiesTable extends Migration
             $table->foreignId('city_id')->constrained('edcs_cities')->onDelete('cascade');
             $table->string('edcs_code');
             $table->string('name');
+            $table->string('alt_name')->nullable();
             $table->timestamps();
         });
     }

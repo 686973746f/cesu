@@ -55,6 +55,14 @@ class CreateDohFacilitiesTable extends Migration
             $table->text('letterhead_path')->nullable();
             $table->text('sys_coordinate_x')->nullable();
             $table->text('sys_coordinate_y')->nullable();
+            $table->string('edcs_region_code')->nullable();
+            $table->string('edcs_province_code')->nullable();
+            $table->string('edcs_muncity_code')->nullable();
+            $table->string('edcs_brgy_code')->nullable();
+
+            $table->string('edcs_service_capability')->nullable();
+            $table->string('edcs_region_name')->nullable();
+            $table->string('edcs_province_name')->nullable();
             $table->timestamps();
         });
     }

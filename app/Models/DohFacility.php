@@ -47,6 +47,14 @@ class DohFacility extends Model
         'sys_opdaccess_type',
         'sys_coordinate_x',
         'sys_coordinate_y',
+
+        'edcs_region_code',
+        'edcs_province_code',
+        'edcs_muncity_code',
+        'edcs_brgy_code',
+        'edcs_service_capability',
+        'edcs_region_name',
+        'edcs_province_name',
     ];
 
     public function getRegionData() {

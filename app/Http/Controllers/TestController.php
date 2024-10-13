@@ -18,6 +18,7 @@ use App\Imports\DohFacilityImport;
 use App\Imports\EdcsGeoExportBrgy;
 use App\Imports\EdcsGeoExportCity;
 use App\Imports\EdcsGeoExportProvince;
+use App\Imports\EdcsHospitalImport;
 use Illuminate\Support\Facades\DB;
 use App\Models\AbtcVaccinationSite;
 use Illuminate\Support\Facades\Hash;
@@ -41,6 +42,6 @@ ALTER TABLE syndromic_records ADD CONSTRAINT `syndromic_records_facility_id_fore
 class TestController extends Controller
 {
     public function index() {
-        
+        Excel::import(new EdcsHospitalImport, storage_path('edcs_hospitals.xlsx'));
     }
 }

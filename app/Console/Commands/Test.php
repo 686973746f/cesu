@@ -43,10 +43,6 @@ class Test extends Command
      */
     public function handle()
     {
-        Excel::import(new EdcsGeoExportProvince, storage_path('edcs_provinces.xlsx'));
-
-        Excel::import(new EdcsGeoExportCity, storage_path('edcs_cities.xlsx'));
-
-        Excel::import(new EdcsGeoExportBrgy, storage_path('edcs_brgys.xlsx'));
+        
     }
 }

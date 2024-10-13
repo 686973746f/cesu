@@ -401,6 +401,9 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
     Route::post('/pidsr/view_cif/{disease}/{id}/update', [PIDSRController::class, 'caseUpdateV2'])->name('edcs_case_viewedit_update');
 
     Route::get('/edcs/mpox/home', [PIDSRController::class, 'mPoxViewer'])->name('edcs_mpox_home');
+
+    Route::get('/edcs/opd_exportables', [PIDSRController::class, 'opdExportablesViewer'])->name('edcs_opdexportables_view');
+    Route::post('/edcs/opd_exportables/process', [PIDSRController::class, 'processOpdExportables'])->name('edcs_opdexportables_process');
 });
 
 Route::get('/edcs/barangayportal', [PIDSRController::class, 'brgyCaseViewerWelcome'])->name('edcs_barangay_welcome');
