@@ -42,6 +42,6 @@ ALTER TABLE syndromic_records ADD CONSTRAINT `syndromic_records_facility_id_fore
 class TestController extends Controller
 {
     public function index() {
-        Excel::import(new EdcsHospitalImport, storage_path('edcs_hospitals.xlsx'));
+        
     }
 }

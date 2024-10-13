@@ -19,6 +19,8 @@ class CreateEdcsBrgiesTable extends Migration
             $table->string('edcs_code');
             $table->string('name');
             $table->string('alt_name')->nullable();
+            $table->string('psgc_9digit')->nullable();
+            $table->string('psgc_10digit')->nullable();
             $table->timestamps();
         });
     }

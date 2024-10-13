@@ -23,6 +23,8 @@ class CreateRegionsTable extends Migration
             $table->text('short_name1')->nullable();
             $table->text('short_name2')->nullable();
             $table->text('edcs_code')->nullable();
+            $table->string('psgc_9digit')->nullable();
+            $table->string('psgc_10digit')->nullable();
         });
     }
 

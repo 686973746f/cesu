@@ -864,4 +864,21 @@ class SyndromicRecords extends Model
         
         return $this->save();
     }
+
+    public function addToProcessedDiseaseTag($disease) {
+        if(!is_null($this->alreadyimported_disease_tag)) {
+            $arr = explode(',', $this->alreadyimported_disease_tag);
+
+            if(!in_array($disease, $arr)) {
+                $mergedArray = array_merge($arr, [$disease]);
+
+                $this->alreadyimported_disease_tag = implode(',', $mergedArray);
+            }
+        }
+        else {
+            $this->alreadyimported_disease_tag = $disease;
+        }
+        
+        return $this->save();
+    }
 }

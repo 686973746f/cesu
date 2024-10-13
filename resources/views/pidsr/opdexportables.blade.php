@@ -7,7 +7,12 @@
             <div class="card">
                 <div class="card-header"><b>OPD Cases Exportables</b></div>
                 <div class="card-body">
-                    <button type="submit" name="submit" value="Dengue" class="btn btn-primary">Dengue ({{$dengue_count}})</button>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <button type="submit" name="submit" value="Dengue" class="btn btn-primary btn-lg btn-block" {{($dengue_count == 0) ? 'disabled' : ''}}>Dengue ({{$dengue_count}})</button>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
         </div>

@@ -61,6 +61,7 @@ use OpenSpout\Common\Entity\Style\Style;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use App\Models\EdcsWeeklySubmissionChecker;
 use App\Models\SevereAcuteRespiratoryInfection;
+use App\Models\SyndromicLabResult;
 use PhpOffice\PhpSpreadsheet\Writer\Csv;
 
 /*
@@ -8978,11 +8979,44 @@ class PIDSRController extends Controller
 
             if($get_list->count() != 0) {
                 $spreadsheet = IOFactory::load(storage_path('edcs_template\dengue.csv'));
-                $sheet = $spreadsheet->getActiveSheet('VAS Template');
-
+                $sheet = $spreadsheet->getActiveSheet();
+                
                 $row = 2;
                 
                 foreach($get_list as $d) {
+                    //Check first if there is NS1 Positive Lab Data
+                    $lab_data = SyndromicLabResult::where('syndromic_record_id', $d->id)
+                    ->where('case_code', 'DENGUE')
+                    ->where('test_type', 'Dengue NS1')
+                    ->where('result', 'POSITIVE')
+                    ->first();
+
+                    if($lab_data) {
+                        $case_class = 'CON';
+
+                        $specimen_type = 'BLD';
+                        $specimen_date_collected = Carbon::parse($lab_data->date_collected)->format('m/d/Y');
+                        $specimen_sent_to_ritm = 'N';
+                        $specimen_ritm_sent_date = '';
+                        $specimen_ritm_received_date = '';
+                        $specimen_result = 'POS';
+                        $specimen_type_organism = '';
+                        $specimen_typeof_test = 'NS1';
+                        $specimen_interpretation = $lab_data->interpretation;
+                    }
+                    else {
+                        $specimen_type = '';
+                        $specimen_date_collected = '';
+                        $specimen_sent_to_ritm = '';
+                        $specimen_ritm_sent_date = '';
+                        $specimen_ritm_received_date = '';
+                        $specimen_result = '';
+                        $specimen_type_organism = '';
+                        $specimen_typeof_test = '';
+                        $specimen_interpretation = '';
+                        $case_class = 'SUS';
+                    }
+
                     $sheet->setCellValue('A'.$row, 'MPSS_'.$d->id); //Patient ID
                     $sheet->setCellValue('B'.$row, $d->syndromic_patient->fname); //First Name
                     $sheet->setCellValue('C'.$row, $d->syndromic_patient->mname); //Middle Name
@@ -8992,14 +9026,14 @@ class PIDSRController extends Controller
                     $sheet->setCellValue('G'.$row, Carbon::parse($d->syndromic_patient->bdate)->format('m/d/Y')); //Bdate
                     $sheet->setCellValue('H'.$row, $d->age_years); //Age
 
-                    $sheet->setCellValue('I'.$row, $d->syndromic_patient->getEdcsRegionId()->edcs_code); //Current Region
-                    $sheet->setCellValue('J'.$row, $d->syndromic_patient->getEdcsProvinceId()->edcs_code); //Current Province
+                    $sheet->setCellValue('I'.$row, $d->syndromic_patient->getEdcsCityMunId()->province->region->edcs_code); //Current Region
+                    $sheet->setCellValue('J'.$row, $d->syndromic_patient->getEdcsCityMunId()->province->edcs_code); //Current Province
                     $sheet->setCellValue('K'.$row, $d->syndromic_patient->getEdcsCityMunId()->edcs_code); //Current MunCity
                     $sheet->setCellValue('L'.$row, $d->syndromic_patient->getEdcsBrgyId()->edcs_code); //Current Brgy
                     $sheet->setCellValue('M'.$row, $d->syndromic_patient->getEdcsStreetPurok()); //Current StreetProk
 
-                    $sheet->setCellValue('N'.$row, $d->syndromic_patient->getEdcsRegionId()->edcs_code); //Permanent Region
-                    $sheet->setCellValue('O'.$row, $d->syndromic_patient->getEdcsProvinceId()->edcs_code); //Permanent Province
+                    $sheet->setCellValue('N'.$row, $d->syndromic_patient->getEdcsCityMunId()->province->region->edcs_code); //Permanent Region
+                    $sheet->setCellValue('O'.$row, $d->syndromic_patient->getEdcsCityMunId()->province->edcs_code); //Permanent Province
                     $sheet->setCellValue('P'.$row, $d->syndromic_patient->getEdcsCityMunId()->edcs_code); //Permanent MunCity
                     $sheet->setCellValue('Q'.$row, $d->syndromic_patient->getEdcsBrgyId()->edcs_code); //Permanent Brgy
                     $sheet->setCellValue('R'.$row, $d->syndromic_patient->getEdcsStreetPurok()); //Permanent StreetProk
@@ -9007,31 +9041,34 @@ class PIDSRController extends Controller
                     $sheet->setCellValue('S'.$row, $d->syndromic_patient->is_indg); //Member of Indigenous People
                     $sheet->setCellValue('T'.$row, ''); //Indigenous People Tribe
                     $sheet->setCellValue('U'.$row, $d->facility->healthfacility_code); //Facility Code
-                    $sheet->setCellValue('V'.$row, $d->asd); //Patient ID
-                    $sheet->setCellValue('W'.$row, $d->asd); //Patient ID
-                    $sheet->setCellValue('X'.$row, $d->asd); //Patient ID
-                    $sheet->setCellValue('Y'.$row, $d->asd); //Patient ID
-                    $sheet->setCellValue('Z'.$row, $d->asd); //Patient ID
-                    $sheet->setCellValue('AA'.$row, $d->asd); //Patient ID
-                    $sheet->setCellValue('AB'.$row, $d->asd); //Patient ID
-                    $sheet->setCellValue('AC'.$row, $d->asd); //Patient ID
-                    $sheet->setCellValue('AD'.$row, $d->asd); //Patient ID
-                    $sheet->setCellValue('AE'.$row, $d->asd); //Patient ID
-                    $sheet->setCellValue('AF'.$row, $d->asd); //Patient ID
-                    $sheet->setCellValue('AG'.$row, $d->asd); //Patient ID
-                    $sheet->setCellValue('AH'.$row, $d->asd); //Patient ID
-                    $sheet->setCellValue('AI'.$row, $d->asd); //Patient ID
-                    $sheet->setCellValue('AJ'.$row, $d->asd); //Patient ID
-                    $sheet->setCellValue('AK'.$row, $d->asd); //Patient ID
-                    $sheet->setCellValue('AL'.$row, $d->asd); //Patient ID
-                    $sheet->setCellValue('AM'.$row, $d->asd); //Patient ID
-                    $sheet->setCellValue('AN'.$row, $d->asd); //Patient ID
-                    $sheet->setCellValue('AO'.$row, $d->asd); //Patient ID
-                    $sheet->setCellValue('AP'.$row, $d->asd); //Patient ID
-                    $sheet->setCellValue('AQ'.$row, $d->asd); //Patient ID
-                    $sheet->setCellValue('AR'.$row, $d->asd); //Patient ID
-                    $sheet->setCellValue('AS'.$row, $d->asd); //Patient ID
+                    $sheet->setCellValue('V'.$row, $d->facility->edcs_region_code); //DRU Region Code
+                    $sheet->setCellValue('W'.$row, $d->facility->edcs_province_code); //DRU Province Code
+                    $sheet->setCellValue('X'.$row, $d->facility->edcs_muncity_code); //DRU MunCity Code
+                    $sheet->setCellValue('Y'.$row, 'Y'); //Consulted
+                    $sheet->setCellValue('Z'.$row, Carbon::parse($d->consultation_date)->format('m/d/Y')); //Date Consulted
+                    $sheet->setCellValue('AA'.$row, $d->facility->facility_name); //Place Consulted
+                    $sheet->setCellValue('AB'.$row, 'N'); //Admitted
+                    $sheet->setCellValue('AC'.$row, ''); //Date Admitted
+                    $sheet->setCellValue('AD'.$row, Carbon::parse($d->consultation_date)->subDays(2)->format('m/d/Y')); //Date Onset of Illness
+                    $sheet->setCellValue('AE'.$row, 0); //Number of Dengue Vaccine
+                    $sheet->setCellValue('AF'.$row, ''); //Date First Vaccination Dengue
+                    $sheet->setCellValue('AG'.$row, ''); //Date Last Vaccination Dengue
+                    $sheet->setCellValue('AH'.$row, 'DWITHOUTWS'); //Clinical Classification
+                    $sheet->setCellValue('AI'.$row, $case_class); //Case Classification (SUS, PROB, CON)
+                    $sheet->setCellValue('AJ'.$row, substr($d->outcome,0,1)); //Outcome
+                    $sheet->setCellValue('AK'.$row, ($d->outcome == 'DIED') ? Carbon::parse($d->outcome_died_date)->format('m/d/Y') : NULL); //Patient ID
+                    $sheet->setCellValue('AL'.$row, $specimen_type); //Specimen Type (STL - Stool, BLD - Blood, SRM - Saliva)
+                    $sheet->setCellValue('AM'.$row, $specimen_date_collected); //Date Specimen Collected
+                    $sheet->setCellValue('AN'.$row, $specimen_sent_to_ritm); //Sent to RITM
+                    $sheet->setCellValue('AO'.$row, $specimen_ritm_sent_date); //Date Sent to RITM
+                    $sheet->setCellValue('AP'.$row, $specimen_ritm_received_date); //Date Received RITM
+                    $sheet->setCellValue('AQ'.$row, $specimen_result); //Laboratory Reslt
+                    $sheet->setCellValue('AR'.$row, $specimen_type_organism); //Type of Organism
+                    $sheet->setCellValue('AS'.$row, $specimen_typeof_test); //Type of Test Conducted
+                    $sheet->setCellValue('AT'.$row, $specimen_interpretation); //Interpretation
 
+                    $d->addToProcessedDiseaseTag('DENGUE');
+                    
                     $row++;
                 }
 

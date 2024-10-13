@@ -15,6 +15,7 @@ class Regions extends Model
         'alt_name',
         'short_name1',
         'short_name2',
+        'edcs_code',
     ];
 
     public function getPsgcCode() {

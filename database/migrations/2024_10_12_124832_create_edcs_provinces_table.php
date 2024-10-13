@@ -18,6 +18,10 @@ class CreateEdcsProvincesTable extends Migration
             $table->foreignId('region_id')->constrained('regions')->onDelete('cascade');
             $table->string('edcs_code');
             $table->string('name');
+            $table->string('geographic_level')->nullable();
+            $table->string('psgc_9digit')->nullable();
+            $table->string('psgc_10digit')->nullable();
+            $table->string('region_9digit')->nullable();
             $table->timestamps();
         });
     }

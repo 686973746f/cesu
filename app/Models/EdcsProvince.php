@@ -13,5 +13,13 @@ class EdcsProvince extends Model
         'region_id',
         'edcs_code',
         'name',
+        'geographic_level',
+        'psgc_9digit',
+        'psgc_10digit',
+        'region_9digit',
     ];
+
+    public function region() {
+        return $this->belongsTo(Regions::class, 'region_id');
+    }
 }

@@ -13,5 +13,12 @@ class EdcsBrgy extends Model
         'city_id',
         'edcs_code',
         'name',
+        'alt_name',
+        'psgc_9digit',
+        'psgc_10digit',
     ];
+
+    public function city() {
+        return $this->belongsTo(EdcsCity::class, 'city_id');
+    }
 }

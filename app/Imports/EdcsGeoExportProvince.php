@@ -17,12 +17,18 @@ class EdcsGeoExportProvince implements ToModel, WithHeadingRow
 
     public function model(array $r)
     {
-        $s = Regions::where('edcs_code', $r['regioncode'])->first();
+        $s = Regions::where('edcs_code', $r['region_id'])->first();
 
-        $c = EdcsProvince::create([
-            'region_id' => $s->id,
-            'edcs_code' => $r['provincecode'],
-            'name' => $r['provincename'],
-        ]);
+        if($s) {
+            $c = EdcsProvince::create([
+                'region_id' => $s->id,
+                'edcs_code' => $r['id'],
+                'name' => mb_strtoupper($r['province_name']),
+                'geographic_level' => $r['geographic_level'],
+                'psgc_9digit' => $r['9digitpsgc_province'],
+                'psgc_10digit' => $r['10digitpsgc_province'],
+                'region_9digit' => $r['9digit_region'],
+            ]);
+        }
     }
 }

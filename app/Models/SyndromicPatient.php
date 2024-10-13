@@ -378,41 +378,23 @@ class SyndromicPatient extends Model
         }
     }
 
-    public function getEdcsRegionId() {
-        $s = Regions::where('json_code', $this->address_region_code)->first();
-
-        return $s;
-    }
-
-    public function getEdcsProvinceId() {
-        $s = $this->getEdcsRegionId();
-
-        $t = EdcsProvince::where('region_id', $s->id)
-        ->where('name', 'LIKE', '%'.$this->address_province_text.'%')
-        ->first();
-
-        return $t;
-    }
-
     public function getEdcsCityMunId() {
-        $t = $this->getEdcsProvinceId();
+        $padded_string = str_pad($this->address_muncity_code, 9, '0', STR_PAD_RIGHT);
 
-        $u = EdcsCity::where('province_id', $t->id)
-        ->where('name', 'LIKE', '%'.$this->address_province_text.'%')
-        ->first();
+        $d = EdcsCity::where('psgc_9digit', $padded_string)->first();
 
-        return $u;
+        return $d;
     }
 
     public function getEdcsBrgyId() {
-        $v = EdcsBrgy::where('city_id', $this->getEdcsCityMunId()->id)
+        $d = EdcsBrgy::where('city_id', $this->getEdcsCityMunId()->id)
         ->where(function ($q) {
-            $q->where('name', 'LIKE', '%'.$this->address_brgy_text.'%')
-            ->orWhere('alt_name', $this->address_brgy_text);
+            $q->where('name', 'LIKE', $this->address_brgy_code)
+            ->orWhere('alt_name', $this->address_brgy_code);
         })
         ->first();
 
-        return $v;
+        return $d;
     }
 
     public function getEdcsStreetPurok() {
