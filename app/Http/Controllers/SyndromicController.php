@@ -1994,7 +1994,7 @@ class SyndromicController extends Controller
     public function addLaboratoryData($id, $case_code) {
         $d = SyndromicRecords::findOrFail($id);
 
-        $rmt_list = Employee::getMedtechList();
+        $rmt_list = Employee::getMedtechListOnCurrentFacility();
 
         return view('syndromic.laboratory.add_laboratory_body_main', [
             'case_code' => $case_code,
