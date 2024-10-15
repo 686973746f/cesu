@@ -9081,4 +9081,56 @@ class PIDSRController extends Controller
             }
         }
     }
+
+    public function facilityWeeklySubmissionViewer($facility_code) {
+
+        $currentmw = date('W');
+        $currentDay = date('d');
+        $currentMonth = date('m');
+        $currentyear = date('Y');
+
+        $dateCheck = Carbon::parse($currentyear.'-'.$currentMonth.'-'.$currentDay);
+        
+        if(request()->input('mw') && request()->input('year')) {
+            $mw = request()->input('mw');
+            $year = request()->input('year');
+        }
+        else {
+            $mw = $currentmw;
+            $year = $currentyear;
+        }
+
+        if($year >= 2024) {
+            if($year == $currentyear) {
+
+            }
+            else {
+                
+            }
+        }
+        else {
+            return abort(401);
+        }
+
+        $f = DohFacility::where('sys_code1', $facility_code)->first();
+
+        if(!$f) {
+            return abort(401);
+        }
+        
+        $d = EdcsWeeklySubmissionChecker::where('year', $year)
+        ->where('week', $mw)
+        ->where('facility_name', $f->facility_name)
+        ->first();
+
+        return view('pidsr.facility_weeklysubmission.index', [
+            'f' => $f,
+            'mw' => $mw,
+            'year' => $year,
+        ]);
+    }
+
+    public function facilityWeeklySubmissionProcess($facility_code, $year, $mw, Request $r) {
+
+    }
 }

@@ -67,8 +67,11 @@ class Measles extends Model
     public function listSymptoms() {
         $final_arr = [];
 
-        
-        if(!is_null($this->RashOnset)) {
+        if($this->fever == 'Y') {
+            $final_arr[] = 'Fever';
+        }
+
+        if($this->Rash == 'Y') {
             $final_arr[] = 'Rash';
         }
 
@@ -85,7 +88,7 @@ class Measles extends Model
         }
         
         if(!empty($final_arr)) {
-            return implode(',', $final_arr);
+            return implode(', ', $final_arr);
         }
         else {
             return NULL;
