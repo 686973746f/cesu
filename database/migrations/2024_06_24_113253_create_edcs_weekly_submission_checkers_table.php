@@ -19,8 +19,30 @@ class CreateEdcsWeeklySubmissionCheckersTable extends Migration
             $table->string('year');
             $table->string('week');
             $table->string('status');
+            $table->string('type'); //AUTO, MANUAL
             $table->string('waive_status')->nullable();
             $table->dateTime('waive_date')->nullable();
+            
+            $table->integer('abd_count')->nullable();
+            $table->integer('afp_count')->nullable();
+            $table->integer('ames_count')->nullable();
+            $table->integer('hepa_count')->nullable();
+            $table->integer('chikv_count')->nullable();
+            $table->integer('cholera_count')->nullable();
+            $table->integer('dengue_count')->nullable();
+            $table->integer('diph_count')->nullable();
+            $table->integer('hfmd_count')->nullable();
+            $table->integer('ili_count')->nullable();
+            $table->integer('lepto_count')->nullable();
+            $table->integer('measles_count')->nullable();
+            $table->integer('meningo_count')->nullable();
+            $table->integer('nt_count')->nullable();
+            $table->integer('nnt_count')->nullable();
+            $table->integer('pert_count')->nullable();
+            $table->integer('rabies_count')->nullable();
+            $table->integer('rota_count')->nullable();
+            $table->integer('sari_count')->nullable();
+            $table->integer('typhoid_count')->nullable();
             $table->timestamps();
         });
     }

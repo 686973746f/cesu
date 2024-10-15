@@ -1286,6 +1286,8 @@ class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 {
     public function model(array $row) {
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
+            dd($row);
+            
             $birthdate = Carbon::parse(EdcsImport::tDate($row['date_of_birth']));
             $currentDate = Carbon::parse(EdcsImport::tDate($row['timestamp']));
 
@@ -1345,17 +1347,19 @@ class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'DAdmit' => EdcsImport::tDate($row['date_admitted_seen_consulted']),
                 'DONSET' => EdcsImport::tDate($row['date_onset'][0]),
                 'VitaminA' => ($row['was_the_patient_given_vitamin_a_during_this_illness'] == 'Yes') ? 'Y' : 'N',
+                'Fever' => ($row['fever'] == 'Yes') ? 'Y' : 'N',
                 'FeverOnset' => EdcsImport::tDate($row['date_onset'][0]),
+                'Rash' => ($row['rash'] == 'Yes') ? 'Y' : 'N',
                 'RashOnset' => EdcsImport::tDate($row['date_onset'][1]),
-                'MeasVacc' => ($row['patient_received_measles_containing_vaccine_mcv_br_if_yes_indicate_the_number_of_doses_whichever_is_applicable'] == 'Yes') ? 'Y' : 'N',
                 'Cough' => ($row['cough'] == 'Yes') ? 'Y' : 'N',
+                'RunnyNose' => ($row['runny_nosecoryza'] == 'Yes') ? 'Y' : 'N',
+                'RedEyes' => ($row['red_eyes_conjunctivitis'] == 'Yes') ? 'Y' : 'N',
                 'KoplikSpot' => ($row['koplik_sign'] == 'Yes') ? 'Y' : 'N',
+                'MeasVacc' => ($row['patient_received_measles_containing_vaccine_mcv_br_if_yes_indicate_the_number_of_doses_whichever_is_applicable'] == 'Yes') ? 'Y' : 'N',
                 'MVDose' => $row['mv'],
                 'MRDose' => $row['mr'],
                 'MMRDose' => $row['mmr'],
                 'LastVacc' => EdcsImport::tDate($row['date_last_dose_received_mcv']),
-                'RunnyNose' => ($row['runny_nosecoryza'] == 'Yes') ? 'Y' : 'N',
-                'RedEyes' => ($row['red_eyes_conjunctivitis'] == 'Yes') ? 'Y' : 'N',
                 'ArthritisArthralgia' => ($row['arthralgiaarthritis'] == 'Yes') ? 'Y' : 'N',
                 'SwoLympNod' => ($row['swollen_lymphatic_nodules'] == 'Yes') ? 'Y' : 'N',
                 'LympNodLoc' => $row['swollen_lymphatic_specify'],
@@ -1363,10 +1367,13 @@ class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'OthSymptoms' => $row['other_symptoms'],
                 'AreThereAny' => ($row['are_there_any_complications'] == 'Yes') ? 'Y' : 'N',
                 'Complications' => $row['if_yes_specify'],
+                'name_of_parentcaregiver' => $row['name_of_parentcaregiver'],
+                'parent_contactno' => $row['contact_nos'][0],
                 'Reporter' => $row['name_of_reporter'],
+                'RContactNum' => $row['contact_nos'][1],
                 'Investigator' => $row['name_of_investigators'],
-                'RContactNum' => $row['contact_nos_2'] ?? $row['contact_nos'][1] ?? NULL,
-                'ContactNum' => $row['contact_nos_1'] ?? $row['contact_nos'][0] ?? NULL,
+                'ContactNum' => $row['contact_nos'][2],
+
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp']),
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
                 'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],

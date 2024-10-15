@@ -516,6 +516,8 @@
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
+                <div>Symptoms: {{$p['sx']}}</div>
+                <div>Name of Parent/Caregiver - Contact No.: {{$p['name_of_parentcaregiver']}} - {{$p['parent_contactno']}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 <br><br>
             </li>

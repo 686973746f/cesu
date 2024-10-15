@@ -63,4 +63,32 @@ class Measles extends Model
             return 'Street/Purok not Encoded';
         }
     }
+
+    public function listSymptoms() {
+        $final_arr = [];
+
+        
+        if(!is_null($this->RashOnset)) {
+            $final_arr[] = 'Rash';
+        }
+
+        if($this->RunnyNose == 'Y') {
+            $final_arr[] = 'Runny Nose/Coryza';
+        }
+
+        if($this->Cough == 'Y') {
+            $final_arr[] = 'Cough';
+        }
+        
+        if($this->RedEyes == 'Y') {
+            $final_arr[] = 'Red Eyes (Conjunctivitis)';
+        }
+        
+        if(!empty($final_arr)) {
+            return implode(',', $final_arr);
+        }
+        else {
+            return NULL;
+        }
+    }
 }

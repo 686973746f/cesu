@@ -3,6 +3,8 @@
     <p>Please see the list below for the cases imported from EDCS-IS:</p>
     <p><b>Note:</b> The list should be informed to their respective barangays for verification and monitoring.</p>
     @php
+        //When interacting to this view, also apply the changes to pidsrwndr.blade.php
+        
         $afp_list = [];
         $aef_list = [];
         $ant_list = [];
@@ -387,6 +389,8 @@
                 <div>{{$p['age']}} / {{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
+                <div>Symptoms: {{$p['sx']}}</div>
+                <div>Name of Parent/Caregiver - Contact No.: {{$p['name_of_parentcaregiver']}} - {{$p['parent_contactno']}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 <br>
             </li>

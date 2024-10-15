@@ -246,6 +246,14 @@ class EdcsHourlyCaseEmailer extends Command
                                 'cc' => $i->getClassificationString(),
                             ];
                         }
+
+                        if($d == 'Measles') {
+                            $table_params = $table_params + [
+                                'sx' => $i->listSymptoms(),
+                                'name_of_parentcaregiver' => $i->name_of_parentcaregiver,
+                                'parent_contactno' => $i->parent_contactno,
+                            ];
+                        }
  
                         array_push($list, $table_params);
                     }

@@ -341,6 +341,9 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'sx' => $i->listSymptoms(),
+                        'name_of_parentcaregiver' => $i->name_of_parentcaregiver,
+                        'parent_contactno' => $i->parent_contactno,
                         //'lab_data' => $lab_array,
                     ]);
                 }
