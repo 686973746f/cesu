@@ -102,6 +102,17 @@
             icon: L.BeautifyIcon.icon(options),
             draggable: false,
         }).addTo(map).bindPopup("popup").bindPopup("<a href='{{route('pidsr_casechecker_edit', [$case, $lc->EPIID])}}'><b>{{$lc->getName()}}</b></a><br>{{$lc->displayAgeStringToReport()}}/{{$lc->Sex}}<br>{{$lc->getStreetPurok()}}<br>BRGY. {{$lc->Barangay}}");
+
+        @if($case == 'DENGUE')
+        // Add a 300-meter circle around the marker
+        var circle = L.circle([{{$lc->sys_coordinate_x}}, {{$lc->sys_coordinate_y}}], {
+            color: 'blue',        // Circle border color
+            //fillColor: '#f03',    // Circle fill color
+            fillOpacity: 0,     // Fill opacity
+            radius: 300           // Radius in meters (300 meters)
+        }).addTo(map);
+        @endif
+        
         @endif
         @endforeach
 
