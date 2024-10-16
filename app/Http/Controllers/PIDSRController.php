@@ -9102,7 +9102,9 @@ class PIDSRController extends Controller
 
         if($year >= 2024) {
             if($year == $currentyear) {
-
+                if($dateCheck->dayOfWeek == Carbon::TUESDAY) {
+                    
+                }
             }
             else {
                 

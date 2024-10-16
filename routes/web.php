@@ -818,7 +818,7 @@ Route::post('health_event/{event_code}/{facility_code}/store', [HealthEventsCont
 Route::get('health_event/{event_code}/{facility_code}/success', [HealthEventsController::class, 'encodeSuccess'])->name('he_success');
 
 Route::get('edcs_facility/weekly_submission/{facility_code}', [PIDSRController::class, 'facilityWeeklySubmissionViewer'])->name('edcs_facility_weeklysubmission_view');
-Route::post('edcs_facility/weekly_submission/{facility_code}/{year}/{mw}/submit', [PIDSRController::class, 'facilityWeeklySubmissionViewer'])->name('edcs_facility_weeklysubmission_view');
+Route::post('edcs_facility/weekly_submission/{facility_code}/{year}/{mw}/submit', [PIDSRController::class, 'facilityWeeklySubmissionProcess'])->name('edcs_facility_weeklysubmission_process');
 
 Route::get('/forms', function () {
     return redirect('https://drive.google.com/drive/folders/1LAff2uF1gPHQd7jI8cy4PX3q5xbtMqH4?usp=drive_link');
