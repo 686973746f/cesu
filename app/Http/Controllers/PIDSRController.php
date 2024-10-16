@@ -8568,6 +8568,30 @@ class PIDSRController extends Controller
         $list_case = $modelClass::where('enabled', 1)
         ->where('match_casedef', 1)
         ->where($yearcol, $year);
+
+        if(request()->input('type')) {
+            $type = request()->input('type');
+            
+            if($type == 'mw') {
+                $date1 = request()->input('mwStart');
+                $date2 = request()->input('mwEnd');
+
+                $list_case = $list_case->whereBetween('MorbidityWeek', [$date1, $date2]);
+
+                $filter_string = 'Filter: From Morbidity Week '.$date1.' to '.$date2.', Year: '.$year;
+            }
+            else {
+                $date1 = Carbon::parse(request()->input('startDate'));
+                $date2 = Carbon::parse(request()->input('endDate'));
+                
+                $list_case = $list_case->whereBetween('DateOfEntry', [$date1->format('Y-m-d'), $date2->format('Y-m-d')]);
+
+                $filter_string = 'Filter: From '.$date1->format('M d, Y').' to '.$date2->format('M d, Y').', Year: '.$year;
+            }
+        }
+        else {
+            $filter_string = NULL;
+        }
         
         if(!request()->is('*barangayportal*')) {
             $list_case = $list_case->get();
@@ -8598,6 +8622,7 @@ class PIDSRController extends Controller
         return view('pidsr.mapviewer', [
             'list_case' => $list_case,
             'case' => $case,
+            'filter_string' => $filter_string,
         ]);
     }
 

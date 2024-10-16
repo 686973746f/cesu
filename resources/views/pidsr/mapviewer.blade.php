@@ -6,6 +6,26 @@
 <style>
     #map { height: 700px; }
 </style>
+<style>
+    #loading {
+        position: fixed;
+        display: block;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        text-align: center;
+        background-color: #fff;
+        z-index: 99;
+    }
+</style>
+<div id="loading">
+    <div class="text-center">
+        <i class="fas fa-circle-notch fa-spin fa-5x my-3"></i>
+        <h3>Loading...</h3>
+    </div>
+</div>
+
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">
@@ -17,6 +37,14 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-6">
+                        <div class="alert alert-info" role="alert">
+                            @if($filter_string)
+                            <div>{{$filter_string}}</div>
+                            @endif
+                            <div>Total results found: <b>{{$list_case->count()}}</b></div>
+                            <div>Male: {{$list_case->where('Sex', 'M')->count()}} - Female: {{$list_case->where('Sex', 'F')->count()}}</div>
+                            <div>With Geo-tag: {{$list_case->whereNotNull('sys_coordinate_x')->count()}} - Without Geo-tag: {{$list_case->whereNull('sys_coordinate_x')->count()}}</div>
+                        </div>
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped" id="mainTbl">
                                 <thead class="thead-light text-center">
@@ -81,6 +109,45 @@
                             <label for="year"><b class="text-danger">*</b>Year</label>
                             <input type="number" class="form-control" name="year" id="year" min="2010" max="{{date('Y')}}" value="{{date('Y')}}" required>
                         </div>
+                        <div class="form-group">
+                          <label for="type">Filter By</label>
+                          <select class="form-control" name="type" id="type" required>
+                            <option value="mw">Morbidity Week</option>
+                            <option value="date">Date</option>
+                          </select>
+                        </div>
+                        <div id="ifDateDiv" class="d-none">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label for="startDate"><b class="text-danger">*</b>Start Date</label>
+                                      <input type="date" class="form-control" name="startDate" id="startDate" min="2010-01-01" max="{{date('Y-m-d')}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="endDate"><b class="text-danger">*</b>End Date</label>
+                                        <input type="date" class="form-control" name="endDate" id="endDate" min="2010-01-01" max="{{date('Y-m-d')}}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="ifMwDiv" class="d-none">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label for="mwStart"><b class="text-danger">*</b>MW Start</label>
+                                      <input type="number" class="form-control" name="mwStart" id="mwStart" min="1" max="52">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="mwEnd"><b class="text-danger">*</b>MW End</label>
+                                        <input type="number" class="form-control" name="mwEnd" id="mwEnd" min="1" max="52">
+                                      </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success btn-block">Submit</button>
@@ -91,6 +158,10 @@
     </form>
     
     <script>
+        $(document).ready(function () {
+            $('#loading').fadeOut();
+        });
+
         function getColor(brgy, disease, year) {
             $.ajax({
                 url: "{{route('pidsr_case_mapviewerGetColor')}}",
@@ -108,6 +179,44 @@
                 }
             });
         }
+
+        $('#type').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == 'mw') {
+                $('#ifDateDiv').addClass('d-none');
+                $('#ifMwDiv').removeClass('d-none');
+
+                $('#startDate').prop('required', false);
+                $('#endDate').prop('required', false);
+                $('#startDate').prop('disabled', true);
+                $('#endDate').prop('disabled', true);
+                
+                $('#mwStart').prop('required', true);
+                $('#mwEnd').prop('required', true);
+                $('#mwStart').prop('disabled', false);
+                $('#mwEnd').prop('disabled', false);
+                
+            }
+            else {
+                $('#ifDateDiv').removeClass('d-none');
+                $('#ifMwDiv').addClass('d-none');
+
+                $('#startDate').prop('required', true);
+                $('#endDate').prop('required', true);
+                $('#startDate').prop('disabled', false);
+                $('#endDate').prop('disabled', false);
+                
+                $('#mwStart').prop('required', false);
+                $('#mwEnd').prop('required', false);
+                $('#mwStart').prop('disabled', true);
+                $('#mwEnd').prop('disabled', true);
+            }
+        }).trigger('change');
+
+        $('#mwStart').on('input', function() {
+            var mwStartValue = $(this).val();
+            $('#mwEnd').attr('min', mwStartValue);
+        });
 
         $('#mainTbl').dataTable();
 
@@ -171,7 +280,7 @@
                         weight: 1,
                         opacity: 1,
                         color: 'black',
-                        fillOpacity: 0.1,
+                        fillOpacity: 0,
                     };
                 },
                 onEachFeature: function(feature, layer) {
