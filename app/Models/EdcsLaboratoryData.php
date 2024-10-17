@@ -10,6 +10,7 @@ class EdcsLaboratoryData extends Model
     use HasFactory;
 
     protected $fillable = [
+        'enabled',
         'lab_id',
         'case_id',
         'case_code',
@@ -30,5 +31,9 @@ class EdcsLaboratoryData extends Model
         'user_provcode',
         'user_citycode',
         'hfhudcode',
+
+        'morbidity_week',
+        'morbidity_month',
+        'year',
     ];
 }

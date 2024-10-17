@@ -9160,4 +9160,8 @@ class PIDSRController extends Controller
     public function facilityWeeklySubmissionProcess($facility_code, $year, $mw, Request $r) {
 
     }
+
+    public static function getCaseModel($case_code) {
+        
+    }
 }

@@ -15,6 +15,7 @@ class CreateEdcsLaboratoryDataTable extends Migration
     {
         Schema::create('edcs_laboratory_data', function (Blueprint $table) {
             $table->id();
+            $table->tinyInteger('enabled')->default(1);
             $table->string('lab_id')->nullable();
             $table->string('case_id');
             $table->string('case_code');
@@ -31,13 +32,17 @@ class CreateEdcsLaboratoryDataTable extends Migration
 
             $table->text('user_id');
             $table->date('timestamp');
-            $table->text('last_modified_by');
-            $table->date('last_modified_date');
+            $table->text('last_modified_by')->nullable();
+            $table->date('last_modified_date')->nullable();
 
             $table->text('user_regcode');
             $table->text('user_provcode');
             $table->text('user_citycode');
             $table->text('hfhudcode')->nullable();
+
+            $table->integer('morbidity_week');
+            $table->integer('morbidity_month');
+            $table->integer('year');
             $table->timestamps();
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
         });

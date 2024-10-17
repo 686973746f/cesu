@@ -961,7 +961,7 @@ class HepaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 class HfmdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 {
     public function model(array $row) {
-        if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {     
+        if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
             $birthdate = Carbon::parse(EdcsImport::tDate($row['date_of_birth']));
             $currentDate = Carbon::parse(EdcsImport::tDate($row['timestamp']));
 
@@ -3233,6 +3233,10 @@ class LaboratoryImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'user_provcode' => $row['user_provcode'],
                 'user_citycode' => $row['user_citycode'],
                 'hfhudcode' => $row['hfhudcode'],
+                
+                'morbidity_week' => $row['morbidity_week'],
+                'morbidity_month' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
+                'year' => $row['year'],
             ];
 
             $exist_check = EdcsLaboratoryData::where('epi_id', $row['epi_id'])
