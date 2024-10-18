@@ -37,6 +37,10 @@ class CreateEmployeesTable extends Migration
             $table->text('address_street')->nullable();
             $table->text('address_houseno')->nullable();
 
+            $table->string('weight_kg')->nullable();
+            $table->string('height_cm')->nullable();
+            $table->string('shirt_size')->nullable(); //S,M,L,XL,XXL,XXXL
+
             $table->string('type'); //REGULAR, CASUAL, JO
             $table->string('job_position')->nullable(); //NAME OF ITEM
             $table->string('office')->nullable(); //KUNG SAAN NAKA-ASSIGN
