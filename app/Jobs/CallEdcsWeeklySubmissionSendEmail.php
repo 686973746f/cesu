@@ -48,6 +48,12 @@ class CallEdcsWeeklySubmissionSendEmail implements ShouldQueue
             'macvillaviraydoh@gmail.com',
         ];
 
+        if(!is_null($f->email)) {
+            $email_array = $email_array + [
+                $f->email,
+            ];
+        }
+
         Mail::to($email_array)->send(new EdcsWeeklySubmissionSendEmailByFacility($f->id, $this->import_id));
     }
 }
