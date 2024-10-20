@@ -62,8 +62,8 @@ class EdcsWeeklySubmissionChecker extends Model
                 }
                 else {
                     if($currentDay->dayOfWeek == 0) {
-                        //return 'EARLY_CURRENT_WEEK';
-                        return 'CURRENT_WEEK';
+                        return 'EARLY_CURRENT_WEEK';
+                        //return 'CURRENT_WEEK';
                     }
                     else {
                         return 'LATE_CURRENT_WEEK';

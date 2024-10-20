@@ -39,7 +39,7 @@ class EdcsWeeklySubmissionSendEmailByFacility extends Mailable
 
         return $this->view('email.edcs_weeklysubmissionfacility')
         ->from('admin@cesugentri.com', $f->facility_name)
-        ->subject('EDCS MW: '.$d->week.' - Year: '.$d->year.' Submission')
+        ->subject('EDCS MW: '.$d->week.' - Year: '.$d->year.' Weekly Submission by '.$f->facility_name.' - General Trias CESU')
         ->attach(storage_path('app/edcs/weeklysubmission/'.$d->excel_file));
     }
 }

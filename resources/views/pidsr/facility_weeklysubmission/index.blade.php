@@ -38,34 +38,34 @@
                     
                     
                     <div id="ifSubmitted" class="d-none">
-                        <div class="row">
+                        <div class="row mb-3">
                             <div class="col-md-6">
-                                <div class="card mb-3">
+                                <div class="card">
                                     <div class="card-header"><b>Vaccine-Preventable Disease (VPDs)</b></div>
                                     <div class="card-body">
                                         <div class="form-group">
                                           <label for="afp_count"><b class="text-danger">*</b>Acute Flaccid Paralysis</label>
-                                          <input type="number" class="form-control" name="afp_count" id="afp_count" value="{{old('afp_count', $d->afp_count)}}" min="0" max="999">
+                                          <input type="number" class="form-control" name="afp_count" id="afp_count" value="{{old('afp_count', $d->afp_count ?: 0)}}" min="0" max="999">
                                         </div>
                                         <div class="form-group">
                                             <label for="diph_count"><b class="text-danger">*</b>Diphtheria</label>
-                                            <input type="number" class="form-control" name="diph_count" id="diph_count" value="{{old('diph_count', $d->diph_count)}}" min="0" max="999">
+                                            <input type="number" class="form-control" name="diph_count" id="diph_count" value="{{old('diph_count', $d->diph_count ?: 0)}}" min="0" max="999">
                                           </div>
                                           <div class="form-group">
                                             <label for="measles_count"><b class="text-danger">*</b>Measles-Rubella</label>
-                                            <input type="number" class="form-control" name="measles_count" id="measles_count" value="{{old('measles_count', $d->measles_count)}}" min="0" max="999">
+                                            <input type="number" class="form-control" name="measles_count" id="measles_count" value="{{old('measles_count', $d->measles_count ?: 0)}}" min="0" max="999">
                                           </div>
                                           <div class="form-group">
                                             <label for="nt_count"><b class="text-danger">*</b>Neonatal Tetanus</label>
-                                            <input type="number" class="form-control" name="nt_count" id="nt_count" value="{{old('nt_count', $d->nt_count)}}" min="0" max="999">
+                                            <input type="number" class="form-control" name="nt_count" id="nt_count" value="{{old('nt_count', $d->nt_count ?: 0)}}" min="0" max="999">
                                           </div>
                                           <div class="form-group">
                                             <label for="nnt_count"><b class="text-danger">*</b>Non-Neonatal Tetanus</label>
-                                            <input type="number" class="form-control" name="nnt_count" id="nnt_count" value="{{old('nnt_count', $d->nnt_count)}}" min="0" max="999">
+                                            <input type="number" class="form-control" name="nnt_count" id="nnt_count" value="{{old('nnt_count', $d->nnt_count ?: 0)}}" min="0" max="999">
                                           </div>
                                           <div class="form-group">
                                             <label for="pert_count"><b class="text-danger">*</b>Pertussis</label>
-                                            <input type="number" class="form-control" name="pert_count" id="pert_count" value="{{old('pert_count', $d->pert_count)}}" min="0" max="999">
+                                            <input type="number" class="form-control" name="pert_count" id="pert_count" value="{{old('pert_count', $d->pert_count ?: 0)}}" min="0" max="999">
                                           </div>
                                     </div>
                                 </div>
@@ -76,48 +76,48 @@
                                     <div class="card-body">
                                         <div class="form-group">
                                           <label for="chikv_count"><b class="text-danger">*</b>Chikungunya</label>
-                                          <input type="number" class="form-control" name="chikv_count" id="chikv_count" value="{{old('chikv_count', $d->chikv_count)}}" min="0" max="999">
+                                          <input type="number" class="form-control" name="chikv_count" id="chikv_count" value="{{old('chikv_count', $d->chikv_count ?: 0)}}" min="0" max="999">
                                         </div>
                                         <div class="form-group">
                                             <label for="dengue_count"><b class="text-danger">*</b>Dengue</label>
-                                            <input type="number" class="form-control" name="dengue_count" id="dengue_count" value="{{old('dengue_count', $d->dengue_count)}}" min="0" max="999">
+                                            <input type="number" class="form-control" name="dengue_count" id="dengue_count" value="{{old('dengue_count', $d->dengue_count ?: 0)}}" min="0" max="999">
                                         </div>
                                         <div class="form-group">
                                             <label for="lepto_count"><b class="text-danger">*</b>Leptospirosis</label>
-                                            <input type="number" class="form-control" name="lepto_count" id="lepto_count" value="{{old('lepto_count', $d->lepto_count)}}" min="0" max="999">
+                                            <input type="number" class="form-control" name="lepto_count" id="lepto_count" value="{{old('lepto_count', $d->lepto_count ?: 0)}}" min="0" max="999">
                                         </div>
                                         <div class="form-group">
                                             <label for="rabies_count"><b class="text-danger">*</b>Rabies</label>
-                                            <input type="number" class="form-control" name="rabies_count" id="rabies_count" value="{{old('rabies_count', $d->rabies_count)}}" min="0" max="999">
+                                            <input type="number" class="form-control" name="rabies_count" id="rabies_count" value="{{old('rabies_count', $d->rabies_count ?: 0)}}" min="0" max="999">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="card">
                                     <div class="card-header"><b>Food and Waterborne Diseases (FWBDs)</b></div>
                                     <div class="card-body">
                                         <div class="form-group">
                                           <label for="abd_count"><b class="text-danger">*</b>Acute Bloody Diarrhea</label>
-                                          <input type="number" class="form-control" name="abd_count" id="abd_count" value="{{old('abd_count', $d->abd_count)}}" min="0" max="999">
+                                          <input type="number" class="form-control" name="abd_count" id="abd_count" value="{{old('abd_count', $d->abd_count ?: 0)}}" min="0" max="999">
                                         </div>
                                         <div class="form-group">
                                             <label for="hepa_count"><b class="text-danger">*</b>Acute Viral Hepatitis</label>
-                                            <input type="number" class="form-control" name="hepa_count" id="hepa_count" value="{{old('hepa_count', $d->hepa_count)}}" min="0" max="999">
+                                            <input type="number" class="form-control" name="hepa_count" id="hepa_count" value="{{old('hepa_count', $d->hepa_count ?: 0)}}" min="0" max="999">
                                         </div>
                                         <div class="form-group">
                                             <label for="cholera_count"><b class="text-danger">*</b>Cholera</label>
-                                            <input type="number" class="form-control" name="cholera_count" id="cholera_count" value="{{old('cholera_count', $d->cholera_count)}}" min="0" max="999">
+                                            <input type="number" class="form-control" name="cholera_count" id="cholera_count" value="{{old('cholera_count', $d->cholera_count ?: 0)}}" min="0" max="999">
                                         </div>
                                         <div class="form-group">
                                             <label for="rota_count"><b class="text-danger">*</b>RotaVirus</label>
-                                            <input type="number" class="form-control" name="rota_count" id="rota_count" value="{{old('rota_count', $d->rota_count)}}" min="0" max="999">
+                                            <input type="number" class="form-control" name="rota_count" id="rota_count" value="{{old('rota_count', $d->rota_count ?: 0)}}" min="0" max="999">
                                         </div>
                                         <div class="form-group">
                                             <label for="typhoid_count"><b class="text-danger">*</b>Typhoid Fever</label>
-                                            <input type="number" class="form-control" name="typhoid_count" id="typhoid_count" value="{{old('typhoid_count', $d->typhoid_count)}}" min="0" max="999">
+                                            <input type="number" class="form-control" name="typhoid_count" id="typhoid_count" value="{{old('typhoid_count', $d->typhoid_count ?: 0)}}" min="0" max="999">
                                         </div>
                                     </div>
                                 </div>
@@ -128,23 +128,23 @@
                                     <div class="card-body">
                                         <div class="form-group">
                                           <label for="ili_count"><b class="text-danger">*</b>Influenza-Like Illness</label>
-                                          <input type="number" class="form-control" name="ili_count" id="ili_count" value="{{old('ili_count', $d->ili_count)}}" min="0" max="999">
+                                          <input type="number" class="form-control" name="ili_count" id="ili_count" value="{{old('ili_count', $d->ili_count ?: 0)}}" min="0" max="999">
                                         </div>
                                         <div class="form-group">
                                             <label for="ames_count"><b class="text-danger">*</b>Acute Meningitis Encephalitis Syndrome (AMES)</label>
-                                            <input type="number" class="form-control" name="ames_count" id="ames_count" value="{{old('ames_count', $d->ames_count)}}" min="0" max="999">
+                                            <input type="number" class="form-control" name="ames_count" id="ames_count" value="{{old('ames_count', $d->ames_count ?: 0)}}" min="0" max="999">
                                         </div>
                                         <div class="form-group">
                                             <label for="hfmd_count"><b class="text-danger">*</b>HFMD</label>
-                                            <input type="number" class="form-control" name="hfmd_count" id="hfmd_count" value="{{old('hfmd_count', $d->hfmd_count)}}" min="0" max="999">
+                                            <input type="number" class="form-control" name="hfmd_count" id="hfmd_count" value="{{old('hfmd_count', $d->hfmd_count ?: 0)}}" min="0" max="999">
                                         </div>
                                         <div class="form-group">
                                             <label for="meningo_count"><b class="text-danger">*</b>Meningococcemia</label>
-                                            <input type="number" class="form-control" name="meningo_count" id="meningo_count" value="{{old('meningo_count', $d->meningo_count)}}" min="0" max="999">
+                                            <input type="number" class="form-control" name="meningo_count" id="meningo_count" value="{{old('meningo_count', $d->meningo_count ?: 0)}}" min="0" max="999">
                                         </div>
                                         <div class="form-group">
                                             <label for="sari_count"><b class="text-danger">*</b>Severe Acute Respiratory Infection</label>
-                                            <input type="number" class="form-control" name="sari_count" id="sari_count" value="{{old('sari_count', $d->sari_count)}}" min="0" max="999">
+                                            <input type="number" class="form-control" name="sari_count" id="sari_count" value="{{old('sari_count', $d->sari_count ?: 0)}}" min="0" max="999">
                                         </div>
                                     </div>
                                 </div>
@@ -195,7 +195,7 @@
     <script>
         $('#status').change(function (e) { 
             e.preventDefault();
-            if($(this).val() == 'ZERO CASE') {
+            if($(this).val() == 'ZERO CASE' || $(this).val() == null) {
                 $('#ifSubmitted').addClass('d-none');
 
                 $('#abd_count').prop('required', false);
@@ -245,6 +245,6 @@
                 $('#typhoid_count').prop('required', true);
                 $('#excel_file').prop('required', true);
             }
-        });
+        }).trigger('change');
     </script>
 @endsection
