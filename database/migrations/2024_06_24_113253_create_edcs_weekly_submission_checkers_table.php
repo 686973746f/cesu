@@ -18,9 +18,9 @@ class CreateEdcsWeeklySubmissionCheckersTable extends Migration
             $table->string('facility_name');
             $table->string('year');
             $table->string('week');
-            $table->string('status');
+            $table->string('status'); //SUBMITTED, ZERO CASE, NO SUBMISSION
             $table->string('type'); //AUTO, MANUAL
-            $table->string('waive_status')->nullable();
+            $table->string('waive_status')->nullable(); //LATE SUBMIT, LATE ZERO CASE
             $table->dateTime('waive_date')->nullable();
             
             $table->integer('abd_count')->nullable();
@@ -43,6 +43,8 @@ class CreateEdcsWeeklySubmissionCheckersTable extends Migration
             $table->integer('rota_count')->nullable();
             $table->integer('sari_count')->nullable();
             $table->integer('typhoid_count')->nullable();
+
+            $table->text('excel_file')->nullable();
             $table->timestamps();
         });
     }

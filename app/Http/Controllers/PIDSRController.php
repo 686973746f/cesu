@@ -39,6 +39,8 @@ use App\Imports\PidsrImport;
 use App\Models\SiteSettings;
 use Illuminate\Http\Request;
 use App\Imports\RabiesImport;
+use App\Jobs\CallEdcsWeeklySubmissionSendEmail;
+use App\Jobs\EdcsWeeklySubmissionSendEmail;
 use App\Models\Leptospirosis;
 use App\Models\PidsrThreshold;
 use App\Models\LabResultLogBook;
@@ -8664,6 +8666,7 @@ class PIDSRController extends Controller
             'GENERAL TRIAS MATERNITY AND PEDIATRIC HOSPITAL',
             'GENTRI MEDICAL CENTER AND HOSPITAL, INC.',
             'MAMA RACHEL HOSPITAL OF MERCY',
+            'M.V. SANTIAGO MEDICAL CENTER',
         ];
 
         if(request()->input('year')) {
@@ -8672,7 +8675,7 @@ class PIDSRController extends Controller
         }
         else {
             $year = date('Y');
-            $maxweek = date('W');
+            $maxweek = date('W') - 1;
         }
         
         $final_array = [];
@@ -9108,36 +9111,18 @@ class PIDSRController extends Controller
     }
 
     public function facilityWeeklySubmissionViewer($facility_code) {
+        $currentDay =  Carbon::now()->subWeek(1);
 
-        $currentmw = date('W');
-        $currentDay = date('d');
-        $currentMonth = date('m');
-        $currentyear = date('Y');
-
-        $dateCheck = Carbon::parse($currentyear.'-'.$currentMonth.'-'.$currentDay);
-        
         if(request()->input('mw') && request()->input('year')) {
-            $mw = request()->input('mw');
-            $year = request()->input('year');
+            $input_mw = request()->input('mw');
+            $input_year = request()->input('year');
         }
         else {
-            $mw = $currentmw;
-            $year = $currentyear;
+            $input_mw = $currentDay->format('W');
+            $input_year = $currentDay->format('Y');
         }
-
-        if($year >= 2024) {
-            if($year == $currentyear) {
-                if($dateCheck->dayOfWeek == Carbon::TUESDAY) {
-                    
-                }
-            }
-            else {
-                
-            }
-        }
-        else {
-            return abort(401);
-        }
+        
+        $s_type = EdcsWeeklySubmissionChecker::getSubmissionType();
 
         $f = DohFacility::where('sys_code1', $facility_code)->first();
 
@@ -9145,20 +9130,154 @@ class PIDSRController extends Controller
             return abort(401);
         }
         
-        $d = EdcsWeeklySubmissionChecker::where('year', $year)
-        ->where('week', $mw)
+        $d = EdcsWeeklySubmissionChecker::where('year', $input_year)
+        ->where('week', $input_mw)
         ->where('facility_name', $f->facility_name)
         ->first();
 
+        if(!$d) {
+            $d = new EdcsWeeklySubmissionChecker();
+        }
+
         return view('pidsr.facility_weeklysubmission.index', [
             'f' => $f,
-            'mw' => $mw,
-            'year' => $year,
+            'mw' => $input_mw,
+            'year' => $input_year,
+            'd' => $d,
+            's_type' => $s_type,
         ]);
     }
 
     public function facilityWeeklySubmissionProcess($facility_code, $year, $mw, Request $r) {
+        $f = DohFacility::where('sys_code1', $facility_code)->first();
 
+        if(!$f) {
+            return abort(401);
+        }
+
+        $s_type = EdcsWeeklySubmissionChecker::getSubmissionType();
+
+        $check = EdcsWeeklySubmissionChecker::where('facility_name', $f->facility_name)
+        ->where('year', $year)
+        ->where('week', $mw);
+
+        if($r->status == 'SUBMITTED') {
+            $total_check = $r->abd_count +
+            $r->afp_count +
+            $r->ames_count +
+            $r->hepa_count +
+            $r->chikv_count +
+            $r->cholera_count +
+            $r->dengue_count +
+            $r->diph_count +
+            $r->hfmd_count +
+            $r->ili_count +
+            $r->lepto_count +
+            $r->measles_count +
+            $r->meningo_count +
+            $r->nt_count +
+            $r->nnt_count +
+            $r->pert_count +
+            $r->rabies_count +
+            $r->rota_count +
+            $r->sari_count +
+            $r->typhoid_count;
+
+            if($total_check <= 0) {
+                return redirect()->back()
+                ->withInput()
+                ->with('msg', 'Submission should have atleast one or more values on a Disease.')
+                ->with('msgtype', 'danger');
+            }
+
+            $file_name = Str::random(10) . '.' . $r->file('excel_file')->extension();
+
+            $r->file('excel_file')->move(storage_path('app/edcs/weeklysubmission/'), $file_name);
+        }
+
+        $table_params = [
+            'abd_count' => ($r->status == 'SUBMITTED') ? $r->abd_count : NULL,
+            'afp_count' => ($r->status == 'SUBMITTED') ? $r->afp_count : NULL,
+            'ames_count' => ($r->status == 'SUBMITTED') ? $r->ames_count : NULL,
+            'hepa_count' => ($r->status == 'SUBMITTED') ? $r->hepa_count : NULL,
+            'chikv_count' => ($r->status == 'SUBMITTED') ? $r->chikv_count : NULL,
+            'cholera_count' => ($r->status == 'SUBMITTED') ? $r->cholera_count : NULL,
+            'dengue_count' => ($r->status == 'SUBMITTED') ? $r->dengue_count : NULL,
+            'diph_count' => ($r->status == 'SUBMITTED') ? $r->diph_count : NULL,
+            'hfmd_count' => ($r->status == 'SUBMITTED') ? $r->hfmd_count : NULL,
+            'ili_count' => ($r->status == 'SUBMITTED') ? $r->ili_count : NULL,
+            'lepto_count' => ($r->status == 'SUBMITTED') ? $r->lepto_count : NULL,
+            'measles_count' => ($r->status == 'SUBMITTED') ? $r->measles_count : NULL,
+            'meningo_count' => ($r->status == 'SUBMITTED') ? $r->meningo_count : NULL,
+            'nt_count' => ($r->status == 'SUBMITTED') ? $r->nt_count : NULL,
+            'nnt_count' => ($r->status == 'SUBMITTED') ? $r->nnt_count : NULL,
+            'pert_count' => ($r->status == 'SUBMITTED') ? $r->pert_count : NULL,
+            'rabies_count' => ($r->status == 'SUBMITTED') ? $r->rabies_count : NULL,
+            'rota_count' => ($r->status == 'SUBMITTED') ? $r->rota_count : NULL,
+            'sari_count' => ($r->status == 'SUBMITTED') ? $r->sari_count : NULL,
+            'typhoid_count' => ($r->status == 'SUBMITTED') ? $r->typhoid_count : NULL,
+
+            'excel_file' => ($r->status == 'SUBMITTED') ? $file_name : NULL,
+        ];
+
+        if($s_type == 'EARLY_CURRENT_WEEK') {
+            return abort(401);
+        }
+        else if($s_type == 'CURRENT_WEEK') {
+            if((clone $check)->first()) {
+                $u = $check->update($table_params);
+
+                $import_id = $check->id;
+            }
+            else {
+                $table_params = $table_params + [
+                    'facility_name' => $f->facility_name,
+                    'year' => $year,
+                    'week' => $mw,
+
+                    'status' => $r->status,
+                    'type' => 'MANUAL',
+                ];
+
+                $c = EdcsWeeklySubmissionChecker::create($table_params);
+
+                $import_id = $c->id;
+            }
+        }
+        else {
+            $table_params = $table_params + [
+                'waive_status' => ($r->status == 'SUBMITTED') ? 'LATE SUBMIT' : 'LATE ZERO CASE',
+                'waive_date' => date('Y-m-d H:i:s'),
+            ];
+
+            if((clone $check)->first()) {
+                $u = $check->update($table_params);
+
+                $import_id = $check->id;
+            }
+            else {
+                $table_params = $table_params + [
+                    'facility_name' => $f->facility_name,
+                    'year' => $year,
+                    'week' => $mw,
+
+                    'status' => $r->status,
+                    'type' => 'MANUAL',
+                ];
+
+                $c = EdcsWeeklySubmissionChecker::create($table_params);
+
+                $import_id = $c->id;
+            }
+        }
+
+        //Send Email Dispatch
+        CallEdcsWeeklySubmissionSendEmail::dispatch($f->id, $import_id);
+        
+        return redirect()->back()
+        ->withInput()
+        ->with('msg', 'Weekly Submission for MW: '.$mw.' - Year: '.$year.' was successfully submitted.')
+        ->with('msgtype', 'success');
     }
 
     public static function getCaseModel($case_code) {
