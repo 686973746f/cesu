@@ -8659,14 +8659,14 @@ class PIDSRController extends Controller
 
     public function weeklyMonitoring() {
         $facilities_array = [
-            'CITY OF GENERAL TRIAS DOCTORS MEDICAL CENTER, INC.',
-            'CITY OF GENERAL TRIAS MEDICARE HOSPITAL',
-            'DIVINE GRACE MEDICAL CENTER',
+            'CITY OF GENERAL TRIAS DOCTORS MEDICAL CENTER, INC.', //gtdmc.infectioncontrol@gmail.com
+            'CITY OF GENERAL TRIAS MEDICARE HOSPITAL', //cityofgeneraltriasmedicare@gmail.com
+            'DIVINE GRACE MEDICAL CENTER', //infectious@divinegracemedicalcenter.com
             //'GENERAL TRIAS CITY HEALTH OFFICE',
-            'GENERAL TRIAS MATERNITY AND PEDIATRIC HOSPITAL',
-            'GENTRI MEDICAL CENTER AND HOSPITAL, INC.',
-            'MAMA RACHEL HOSPITAL OF MERCY',
-            'M.V. SANTIAGO MEDICAL CENTER',
+            'GENERAL TRIAS MATERNITY AND PEDIATRIC HOSPITAL', //rynpleboy@gmail.com
+            'GENTRI MEDICAL CENTER AND HOSPITAL, INC.', //gentrimed_icc@yahoo.com
+            'MAMA RACHEL HOSPITAL OF MERCY', //mamarachelshospitalofmercy@yahoo.com
+            'M.V. SANTIAGO MEDICAL CENTER', //mvshc.sm@gmail.com
         ];
 
         if(request()->input('year')) {

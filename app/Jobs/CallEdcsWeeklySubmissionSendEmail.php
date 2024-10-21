@@ -43,14 +43,14 @@ class CallEdcsWeeklySubmissionSendEmail implements ShouldQueue
         $email_array = [
             'hihihisto@gmail.com',
             'cesu.gentrias@gmail.com',
-            'resu4a.edcs@gmail.com',
+            //'resu4a.edcs@gmail.com',
             'pesucavite@gmail.com',
             'macvillaviraydoh@gmail.com',
         ];
 
         if(!is_null($f->email)) {
             $email_array = $email_array + [
-                $f->email,
+                $f->email_edcs,
             ];
         }
 
