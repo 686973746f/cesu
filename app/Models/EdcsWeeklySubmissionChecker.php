@@ -61,13 +61,17 @@ class EdcsWeeklySubmissionChecker extends Model
                     return 'CURRENT_WEEK';
                 }
                 else {
+                    /*
                     if($currentDay->dayOfWeek == 0) {
                         return 'EARLY_CURRENT_WEEK';
                         //return 'CURRENT_WEEK';
                     }
                     else {
-                        return 'LATE_CURRENT_WEEK';
+                        
                     }
+                    */
+
+                    return 'LATE_CURRENT_WEEK';
                 }
             }
             else if($input_mw > $currentDay->format('W')) {
@@ -83,6 +87,59 @@ class EdcsWeeklySubmissionChecker extends Model
             }
             else {
                 return 'LATE';
+            }
+        }
+    }
+
+    public static function getAlreadySubmittedType($facility_code) {
+        $currentDay =  Carbon::now()->subWeek(1);
+
+        $f = DohFacility::where('sys_code1', $facility_code)->first();
+
+        if(request()->input('mw') && request()->input('year')) {
+            $input_mw = request()->input('mw');
+            $input_year = request()->input('year');
+        }
+        else {
+            $input_mw = $currentDay->format('W');
+            $input_year = $currentDay->format('Y');
+        }
+
+        $d = EdcsWeeklySubmissionChecker::where('facility_name', $f->facility_name)
+        ->where('year', $input_year)
+        ->where('week', $input_mw)
+        ->first();
+
+        if($d) {
+            if(Carbon::parse($d->created_at)->dayOfWeek == Carbon::MONDAY) {
+                return 'SUBMITTED_ONTIME';
+            }
+            else {
+                if($d->type == 'AUTO') {
+                    if($d->status == 'SUBMITTED') {
+
+                    }
+                    else {
+                        if(!is_null($d->waive_status)) {
+                            return 'SUBMITTED_BUT_LATE';
+                        }
+                        else {
+                            return 'AUTO_NO_SUBMISSION';
+                        }
+                    }
+                    
+                }
+                else {
+                    return 'SUBMITTED_BUT_LATE';
+                }
+            }
+        }
+        else {
+            if(Carbon::now()->dayOfWeek == Carbon::MONDAY) {
+                return 'NOTYET_SUBMITTED_ONTIME';
+            }
+            else {
+                return 'EMPTY_LATE';
             }
         }
     }
