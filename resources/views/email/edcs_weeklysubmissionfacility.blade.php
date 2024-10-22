@@ -11,4 +11,4 @@
 <p>Thank you.</p>
 <br>
 <p>--------------------</p>
-<small>Sent via General Trias CESU Multi-Program Surveillance System. Developed and maintained by Christian James Historillo.</small>
+<small>Sent via General Trias CESU Multi-Program Surveillance System (GTCMPSS). Developed and maintained by Christian James Historillo.</small>

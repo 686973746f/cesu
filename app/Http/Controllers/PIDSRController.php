@@ -9284,14 +9284,18 @@ class PIDSRController extends Controller
             }
         }
 
+        $alert_str = 'Weekly Submission for MW: '.$mw.' - Year: '.$year.' was successfully submitted.';
+
         //Send Email Dispatch
         if($trigger_email) {
             CallEdcsWeeklySubmissionSendEmail::dispatch($f->id, $import_id);
+
+            $alert_str = $alert_str.' A copy will be sent to '.$f->email_edcs.' after a few minutes.';
         }
         
         return redirect()->back()
         ->withInput()
-        ->with('msg', 'Weekly Submission for MW: '.$mw.' - Year: '.$year.' was successfully submitted.')
+        ->with('msg', $alert_str)
         ->with('msgtype', 'success');
     }
 
