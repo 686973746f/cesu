@@ -9220,6 +9220,8 @@ class PIDSRController extends Controller
             'excel_file' => ($r->status == 'SUBMITTED') ? $file_name : NULL,
         ];
 
+        $trigger_email = false;
+
         if($s_type == 'EARLY_CURRENT_WEEK') {
             return abort(401);
         }
@@ -9227,7 +9229,7 @@ class PIDSRController extends Controller
             if((clone $check)->first()) {
                 $u = $check->update($table_params);
 
-                $import_id = $check->id;
+                $import_id = $check->first()->id;
             }
             else {
                 $table_params = $table_params + [
@@ -9242,6 +9244,8 @@ class PIDSRController extends Controller
                 $c = EdcsWeeklySubmissionChecker::create($table_params);
 
                 $import_id = $c->id;
+
+                $trigger_email = true;
             }
         }
         else {
@@ -9253,7 +9257,7 @@ class PIDSRController extends Controller
             if((clone $check)->first()) {
                 $u = $check->update($table_params);
 
-                $import_id = $check->id;
+                $import_id = $check->first()->id;
             }
             else {
                 $table_params = $table_params + [
@@ -9268,11 +9272,15 @@ class PIDSRController extends Controller
                 $c = EdcsWeeklySubmissionChecker::create($table_params);
 
                 $import_id = $c->id;
+
+                //$trigger_email = true;
             }
         }
 
         //Send Email Dispatch
-        CallEdcsWeeklySubmissionSendEmail::dispatch($f->id, $import_id);
+        if($trigger_email) {
+            CallEdcsWeeklySubmissionSendEmail::dispatch($f->id, $import_id);
+        }
         
         return redirect()->back()
         ->withInput()

@@ -1,9 +1,14 @@
-<h4>Facility: <b>{{$f->facility_name}}</b></h4>
-
+<p>Facility: <b>{{$f->facility_name}}</b></p>
+<p>Reporting for <b>Morbidity Week: {{$d->week}}</b> - <b> Year: {{$d->year}}</b></p>
+<br>
 @if($d->status == 'ZERO CASE')
-<h5><b>ZERO CASE</b> Reported for Morbidity Week: {{$d->week}} - Year: {{$d->year}}</h5>
+<p>Status: <b>ZERO REPORT</b></p>
 @else
-<h5>Please see attached file for the weekly submission report.</h5>
+<p>Status: <b>SUBMITTED</b></p>
+<p>Please see the attached file for the weekly report.</p>
 @endif
-<br><br>
-<h5>Thank you.</h5>
+<br>
+<p>Thank you.</p>
+<br>
+<p>--------------------</p>
+<small>Sent via General Trias CESU Multi-Program Surveillance System. Developed and maintained by Christian James Historillo.</small>

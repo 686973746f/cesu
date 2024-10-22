@@ -38,21 +38,23 @@ class EdcsWeeklySubmissionSendEmailByFacility extends Mailable
         $d = EdcsWeeklySubmissionChecker::findOrFail($this->import_id);
 
         if(!is_null($d->excel_file)) {
-            return $this->view('email.edcs_weeklysubmissionfacility', [
+            return $this->view('email.edcs_weeklysubmissionfacility')
+            ->with([
                 'd' => $d,
                 'f' => $f,
             ])
             ->from('admin@cesugentri.com', $f->facility_name)
-            ->subject('EDCS MW: '.$d->week.' - Year: '.$d->year.' Weekly Submission by '.$f->facility_name.' - General Trias CESU')
+            ->subject('EDCS MW: '.$d->week.' - Year: '.$d->year.' Weekly Submission by '.$f->facility_name.' - General Trias CESU MPSS')
             ->attach(storage_path('app/edcs/weeklysubmission/'.$d->excel_file));
         }
         else {
-            return $this->view('email.edcs_weeklysubmissionfacility', [
+            return $this->view('email.edcs_weeklysubmissionfacility')
+            ->with([
                 'd' => $d,
                 'f' => $f,
             ])
             ->from('admin@cesugentri.com', $f->facility_name)
-            ->subject('EDCS MW: '.$d->week.' - Year: '.$d->year.' Weekly Submission by '.$f->facility_name.' - General Trias CESU');
+            ->subject('EDCS MW: '.$d->week.' - Year: '.$d->year.' Weekly Submission by '.$f->facility_name.' - General Trias CESU MPSS');
         }
     }
 }
