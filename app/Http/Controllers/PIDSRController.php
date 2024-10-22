@@ -9273,7 +9273,9 @@ class PIDSRController extends Controller
 
                 $import_id = $c->id;
 
-                //$trigger_email = true;
+                if($s_type == 'LATE_CURRENT_WEEK') {
+                    $trigger_email = true;
+                }
             }
         }
 
