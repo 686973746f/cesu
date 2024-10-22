@@ -9190,7 +9190,9 @@ class PIDSRController extends Controller
                 ->with('msgtype', 'danger');
             }
 
-            $file_name = Str::random(10) . '.' . $r->file('excel_file')->extension();
+            //$file_name = Str::random(10) . '.' . $r->file('excel_file')->extension();
+
+            $file_name = $f->edcs_shortname.'_MW'.$mw.'_Y'.$year.'_'.Str::random(5).'.' . $r->file('excel_file')->extension();
 
             $r->file('excel_file')->move(storage_path('app/edcs/weeklysubmission/'), $file_name);
         }
