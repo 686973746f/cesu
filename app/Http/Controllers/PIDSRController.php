@@ -9137,6 +9137,11 @@ class PIDSRController extends Controller
 
         if(!$d) {
             $d = new EdcsWeeklySubmissionChecker();
+
+            $alreadySubmitted = false;
+        }
+        else {
+            $alreadySubmitted = true;
         }
 
         return view('pidsr.facility_weeklysubmission.index', [
@@ -9145,6 +9150,7 @@ class PIDSRController extends Controller
             'year' => $input_year,
             'd' => $d,
             's_type' => $s_type,
+            'alreadySubmitted' => $alreadySubmitted,
         ]);
     }
 

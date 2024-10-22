@@ -17,6 +17,23 @@
                         {{session('msg')}}
                     </div>
                     @endif
+                    
+                    @if($s_type == 'CURRENT_WEEK')
+                        @if($alreadySubmitted)
+                        <div class="alert alert-info" role="alert">
+                            <div>Submission Status for MW: {{$mw}} - Year: {{$year}} = <b class="text-success">SUBMITTED</b></div>
+                        </div>
+                        @else
+                        <div class="alert alert-info" role="alert">
+                            <div>Submission Status for MW: {{$mw}} - Year: {{$year}} = <b class="text-danger">NOT YET SUBMITTED</b></div>
+                            <div>Please consolidate and submit today to avoid being tagged as late submission.</div>
+                        </div>
+                        @endif
+                    @elseif($s_type == 'LATE_CURRENT_WEEK')
+                        
+                    @else
+
+                    @endif
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
