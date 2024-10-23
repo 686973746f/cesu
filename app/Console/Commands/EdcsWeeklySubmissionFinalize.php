@@ -53,6 +53,9 @@ class EdcsWeeklySubmissionFinalize extends Command
         
         $currentDate = Carbon::now();
 
+        $checkYear = Carbon::now()->subWeek(1)->format('Y');
+        $checkWeek = Carbon::now()->subWeek(1)->format('Y');
+
         $previous_week = $currentDate->format('W') - 2;
         $current_week = $currentDate->format('W') - 1;
 
@@ -100,8 +103,8 @@ class EdcsWeeklySubmissionFinalize extends Command
 
                 if($disease == 'SevereAcuteRespiratoryInfection') {
                     $model_count = $modelClass::where('facility_name', $facility_name)
-                    ->where('year',  $currentDate->subWeek(1)->format('Y'))
-                    ->where('encoded_mw', $currentDate->subWeek(1)->format('W'))
+                    ->where('year',  $checkYear)
+                    ->where('encoded_mw', $checkWeek)
                     ->where('enabled', 1)
                     ->where('match_casedef', 1)
                     ->count();
@@ -112,8 +115,8 @@ class EdcsWeeklySubmissionFinalize extends Command
                 }
                 else {
                     $model_count = $modelClass::where('NameOfDru', $facility_name)
-                    ->where('Year', $currentDate->subWeek(1)->format('Y'))
-                    ->where('encoded_mw', $currentDate->subWeek(1)->format('W'))
+                    ->where('Year', $checkYear)
+                    ->where('encoded_mw', $checkWeek)
                     ->where('enabled', 1)
                     ->where('match_casedef', 1)
                     ->count();
@@ -189,8 +192,8 @@ class EdcsWeeklySubmissionFinalize extends Command
             }
 
             $check = EdcsWeeklySubmissionChecker::where('facility_name', $facility_name)
-            ->where('year', $currentDate->subWeek(1)->format('Y'))
-            ->where('week', $currentDate->subWeek(1)->format('W'));
+            ->where('year', $checkYear)
+            ->where('week', $checkWeek);
 
             $d = (clone $check)->first();
 
@@ -225,8 +228,8 @@ class EdcsWeeklySubmissionFinalize extends Command
             else {
                 $c = EdcsWeeklySubmissionChecker::create([
                     'facility_name' => $facility_name,
-                    'year' => $currentDate->subWeek(1)->format('Y'),
-                    'week' => $currentDate->subWeek(1)->format('W'),
+                    'year' => $checkYear,
+                    'week' => $checkWeek,
                     'status' => $status,
                     'type' => 'AUTO',
 
