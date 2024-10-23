@@ -8680,7 +8680,6 @@ class PIDSRController extends Controller
         
         $final_array = [];
         
-
         foreach($facilities_array as $f) {
             $week_array = [];
 
@@ -8691,20 +8690,36 @@ class PIDSRController extends Controller
                 ->first();
 
                 if($val) {
-                    $val = $val->status;
-
-                    if($val == 'SUBMITTED') {
-                        $val = '✔';
+                    $getType = $val->getAlreadySubmittedTypeFunction();
+                    if($getType == 'SUBMITTED_ONTIME') {
+                        if($val->status == 'SUBMITTED') {
+                            $stat_string = '✔';
+                        }
+                        else {
+                            $stat_string = 'ZERO CASE';
+                        }
                     }
-                    else if($val == 'ZERO CASE') {
-                        $val = 'Z';
+                    else if($getType == 'AUTOSUBMIT_BUT_NOREPORT') {
+                        $stat_string = 'SUBMITTED BUT NO REPORT';
+                    }
+                    else if($getType == 'SUBMITTED_BUT_LATE') {
+                        if($val->status == 'LATE ZERO CASE') {
+                            $stat_string = 'LATE ZERO CASE';
+                        }
+                        else {
+                            $stat_string = 'LATE SUBMISSION';
+                        }
+                        
+                    }
+                    else if($getType == 'AUTO_NO_SUBMISSION') {
+                        $stat_string = 'X';
                     }
                 }
                 else {
-                    $val = 'X';
+                    $stat_string = 'X';
                 }
 
-                $week_array[] = $val;
+                $week_array[] = $stat_string;
             }
 
             $final_array[] = [

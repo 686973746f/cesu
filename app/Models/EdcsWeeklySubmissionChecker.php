@@ -91,6 +91,30 @@ class EdcsWeeklySubmissionChecker extends Model
         }
     }
 
+    public function getAlreadySubmittedTypeFunction() {
+        if(Carbon::parse($this->created_at)->dayOfWeek == Carbon::MONDAY) {
+            return 'SUBMITTED_ONTIME';
+        }
+        else {
+            if($this->type == 'AUTO') {
+                if($this->status == 'SUBMITTED') {
+                    return 'AUTOSUBMIT_BUT_NOREPORT';
+                }
+                else {
+                    if(!is_null($this->waive_status)) {
+                        return 'SUBMITTED_BUT_LATE';
+                    }
+                    else {
+                        return 'AUTO_NO_SUBMISSION';
+                    }
+                }
+            }
+            else {
+                return 'SUBMITTED_BUT_LATE';
+            }
+        }
+    }
+
     public static function getAlreadySubmittedType($facility_code) {
         $currentDay =  Carbon::now()->subWeek(1);
 
@@ -117,7 +141,7 @@ class EdcsWeeklySubmissionChecker extends Model
             else {
                 if($d->type == 'AUTO') {
                     if($d->status == 'SUBMITTED') {
-
+                        return 'AUTOSUBMIT_BUT_NOREPORT';
                     }
                     else {
                         if(!is_null($d->waive_status)) {
@@ -127,7 +151,6 @@ class EdcsWeeklySubmissionChecker extends Model
                             return 'AUTO_NO_SUBMISSION';
                         }
                     }
-                    
                 }
                 else {
                     return 'SUBMITTED_BUT_LATE';
