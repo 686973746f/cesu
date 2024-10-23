@@ -54,7 +54,7 @@ class EdcsWeeklySubmissionFinalize extends Command
         $currentDate = Carbon::now();
 
         $checkYear = Carbon::now()->subWeek(1)->format('Y');
-        $checkWeek = Carbon::now()->subWeek(1)->format('Y');
+        $checkWeek = Carbon::now()->subWeek(1)->format('W');
 
         $previous_week = $currentDate->format('W') - 2;
         $current_week = $currentDate->format('W') - 1;
