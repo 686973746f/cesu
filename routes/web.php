@@ -663,6 +663,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     Route::get('/vaxcert/vquery/template_maker', [VaxcertController::class, 'templateMaker'])->name('vaxcert_vquery_templatemaker');
     Route::post('/vaxcert/vquery/template_maker/process', [VaxcertController::class, 'templateMakerProcess'])->name('vaxcert_vquery_templatemakerprocess');
 
+    Route::get('/vaxcert/lgu/', [VaxcertController::class, 'vaxCertLguHome'])->name('vaxcertlgu_home');
     Route::get('/vaxcert/lgu/create', [VaxcertController::class, 'vaxCertLguCreate'])->name('vaxcertlgu_create');
     Route::post('/vaxcert/lgu/create/store', [VaxcertController::class, 'vaxCertLguStore'])->name('vaxcertlgu_store');
     Route::get('/vaxcert/lgu/print/{id}', [VaxcertController::class, 'vaxCertLguPrint'])->name('vaxcertlgu_print');

@@ -49,7 +49,7 @@
                 <div class="text-center">
                     <img src="{{asset('assets/images/CHO_LETTERHEAD.png')}}" class="img-fluid" style="margin-top: 0px;">
                 </div>
-                <h3 class="text-center mt-3"><b>COVID-19 VACCINATION CERTIFICATION</b></h3>
+                <h3 class="text-center mt-3"><b>CERTIFICATION</b></h3>
                 <h4 class="mt-5">To whom it may concern,</h4>
                 <h4 class="mt-5" style="text-align:justify">This is to certify that <u><b>{{$d->getSalutation()}} {{$d->getName()}}</b></u>, <b><u>{{Carbon\Carbon::parse($d->bdate)->age;}}</u></b> years of age, born on <b><u>{{date('F d, Y', strtotime($d->bdate))}}</u></b>, and currently residing at <u><b>{{mb_strtoupper($d->getFullAddress())}}</b></u> has been vaccinated against COVID-19 at the City Health Office, Brgy. Pinagtipunan, City of General Trias, Cavite.</h4>
                 <h4 class="mt-5">The following details pertain to the vaccination:</h4>
@@ -218,7 +218,12 @@
                 
                 <h4 class="text-center mt-3"><b><span class="text-primary">Let's Join Forces</span> <span class="text-success">For a COVID-19 Free</span> <span class="text-success">Gen</span><span class="text-primary">Tri</span></b></h4>
                 <hr>
-
+                <div class="text-center">
+                    <h6><b>Office of the City Health Officer</b></h6>
+                    <h6>Hospital Rd., Brgy. Pinagtipunan, General Trias, Cavite</h6>
+                    <h6>Website: <a href="">https://generaltrias.gov.ph/cho</a></h6>
+                    <h6>Contact No.: (046) 509 5289</h6>
+                </div>
             </div>
         </div>
     </div>

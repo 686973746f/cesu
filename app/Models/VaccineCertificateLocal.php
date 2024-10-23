@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class VaccineCertificateLocal extends Model
 {
@@ -76,6 +77,19 @@ class VaccineCertificateLocal extends Model
         'facility_id',
     ];
 
+    public function user() {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function getUpdatedBy() {
+        if(!is_null($this->updated_by)) {
+            return $this->belongsTo(User::class, 'updated_by');
+        }
+        else {
+            return NULL;
+        }   
+    }
+
     public function getSalutation() {
         if($this->gender == 'M') {
             return 'MR.';
@@ -98,6 +112,10 @@ class VaccineCertificateLocal extends Model
 
         return $fullname;
         //return $this->lname.", ".$this->fname.' '.$this->suffix." ".$this->mname;
+    }
+
+    public function getAge() {
+        return Carbon::parse($this->bdate)->age;
     }
 
     public function getFullAddress() {

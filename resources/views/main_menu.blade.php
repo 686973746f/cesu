@@ -22,7 +22,15 @@
             <a href="{{route('abtc_home')}}" class="btn btn-block btn-primary btn-lg">Rabies Control Program / ABTC</a>
             @endif
             @if(auth()->user()->canAccessVaxcert())
-            <a href="{{route('vaxcert_home')}}" class="btn btn-block btn-primary btn-lg">VaxCert Concerns @if($vaxcert_pending_count != 0)<span class="badge badge-danger ml-1">{{number_format($vaxcert_pending_count)}}</span>@endif</a>
+            <div class="row my-2">
+                <div class="col-md-6">
+                    <a href="{{route('vaxcert_home')}}" class="btn btn-block btn-primary btn-lg">VaxCert Concerns @if($vaxcert_pending_count != 0)<span class="badge badge-danger ml-1">{{number_format($vaxcert_pending_count)}}</span>@endif</a>
+                </div>
+                <div class="col-md-6">
+                    <a href="{{route('vaxcertlgu_home')}}" class="btn btn-block btn-primary btn-lg">VaxCert LGU</a>
+                </div>
+            </div>
+            
             @endif
             @if(auth()->user()->canAccessSyndromic() || auth()->user()->isTbdotsEncoder())
             <a href="{{route('syndromic_home', ['opd_view' => 1])}}" class="btn btn-block btn-primary btn-lg">{{(auth()->user()->canAccessSyndromic()) ? 'OPD System' : 'TB-DOTS ITR'}}</a>

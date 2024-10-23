@@ -1480,7 +1480,11 @@ class VaxcertController extends Controller
     }
 
     public function vaxCertLguHome() {
+        $list = VaccineCertificateLocal::orderBy('created_at', 'DESC')->paginate(10);
 
+        return view('vaxcert.lgu.home', [
+            'list' => $list,
+        ]);
     }
 
     public function vaxCertLguCreate() {
@@ -1700,6 +1704,10 @@ class VaxcertController extends Controller
     }
 
     public function vaxCertLguOnlineVerify($code) {
+        $d = VaccineCertificateLocal::where('hash', $code)->first();
 
+        return view('vaxcert.lgu.online_view', [
+            'd' => $d,
+        ]);
     }
 }
