@@ -346,7 +346,7 @@
                     <h6 class="mb-5">Prepared by:</h6>
                     <div class="text-center">
                         <h6><b>CHRISTIAN JAMES M. HISTORILLO</b></h6>
-                        <h6>J.O Encoder</h6>
+                        <h6>Administrative Aide III</h6>
                     </div>
                 </div>
                 <div class="col-4">
@@ -718,7 +718,9 @@ foreach($classification_titles as $ind => $ctitle) {
                 data: barData,
                 backgroundColor: 'rgba(255, 236, 0, 1)', // Customize bar color
                 borderColor: 'rgba(0, 0, 0, 1)', // Customize border color
-                borderWidth: 1
+                borderWidth: 1,
+                barPercentage: 1,
+                categoryPercentage: 1,
             },
             ]
         },

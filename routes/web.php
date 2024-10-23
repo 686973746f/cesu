@@ -662,6 +662,10 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
 
     Route::get('/vaxcert/vquery/template_maker', [VaxcertController::class, 'templateMaker'])->name('vaxcert_vquery_templatemaker');
     Route::post('/vaxcert/vquery/template_maker/process', [VaxcertController::class, 'templateMakerProcess'])->name('vaxcert_vquery_templatemakerprocess');
+
+    Route::get('/vaxcert/lgu/create', [VaxcertController::class, 'vaxCertLguCreate'])->name('vaxcertlgu_create');
+    Route::post('/vaxcert/lgu/create/store', [VaxcertController::class, 'vaxCertLguStore'])->name('vaxcertlgu_store');
+    Route::get('/vaxcert/lgu/print/{id}', [VaxcertController::class, 'vaxCertLguPrint'])->name('vaxcertlgu_print');
 });
 
 //PHARMACY
@@ -819,6 +823,9 @@ Route::get('health_event/{event_code}/{facility_code}/success', [HealthEventsCon
 
 Route::get('edcs_facility/weekly_submission/{facility_code}', [PIDSRController::class, 'facilityWeeklySubmissionViewer'])->name('edcs_facility_weeklysubmission_view');
 Route::post('edcs_facility/weekly_submission/{facility_code}/{year}/{mw}/submit', [PIDSRController::class, 'facilityWeeklySubmissionProcess'])->name('edcs_facility_weeklysubmission_process');
+
+//VAXCERT LGU ONLINE VERIFIER
+Route::get('/vaxcert_lgu/verify/{code}', [VaxcertController::class, 'vaxCertLguOnlineVerify'])->name('vaxcertlgu_onlineverify');
 
 Route::get('/forms', function () {
     return redirect('https://drive.google.com/drive/folders/1LAff2uF1gPHQd7jI8cy4PX3q5xbtMqH4?usp=drive_link');

@@ -10,10 +10,12 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\VaxcertConcern;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
 use Rap2hpoutre\FastExcel\FastExcel;
 use Faker\Provider\sv_SE\Municipality;
+use App\Models\VaccineCertificateLocal;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use App\Imports\VaxcertMasterlistImport;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
@@ -815,59 +817,57 @@ class VaxcertController extends Controller
     }
 
     public function templateMaker() {
-        if(request()->input('use_id') || request()->input('concern_id')) {
-            if(request()->input('use_id')) {
-                $s = CovidVaccinePatientMasterlist::findOrFail(request()->input('use_id'));
+        if(request()->input('use_id')) {
+            $s = CovidVaccinePatientMasterlist::findOrFail(request()->input('use_id'));
 
-                $pretemp = [
-                    'category' => $s->category,
-                    'comorbidity' => $s->comorbidity,
-                    'unique_person_id' => $s->unique_person_id,
-                    'pwd' => $s->pwd,
-                    'indigenous_member' => $s->indigenous_member,
-                    'last_name' => $s->last_name,
-                    'first_name' => $s->first_name,
-                    'middle_name' => $s->middle_name,
-                    'suffix' => $s->suffix,
-                    'contact_no' => '0'.$s->contact_no,
-                    'guardian_name' => $s->guardian_name,
-                    'region' => $s->region,
-                    'region_json' => $s->convertRegionToJson(),
-                    'province' => $s->province,
-                    'province_json' => $s->convertProvinceToJson(),
-                    'muni_city' => $s->muni_city,
-                    'muni_city_json' => $s->convertMuncityToJson(),
-                    'barangay' => $s->barangay,
-                    'sex' => $s->sex,
-                    'birthdate' => $s->birthdate,
-                ];
-            }
-            else {
-                $s = VaxcertConcern::findOrFail(request()->input('concern_id'));
+            $pretemp = [
+                'category' => $s->category,
+                'comorbidity' => $s->comorbidity,
+                'unique_person_id' => $s->unique_person_id,
+                'pwd' => $s->pwd,
+                'indigenous_member' => $s->indigenous_member,
+                'last_name' => $s->last_name,
+                'first_name' => $s->first_name,
+                'middle_name' => $s->middle_name,
+                'suffix' => $s->suffix,
+                'contact_no' => '0'.$s->contact_no,
+                'guardian_name' => $s->guardian_name,
+                'region' => $s->region,
+                'region_json' => $s->convertRegionToJson(),
+                'province' => $s->province,
+                'province_json' => $s->convertProvinceToJson(),
+                'muni_city' => $s->muni_city,
+                'muni_city_json' => $s->convertMuncityToJson(),
+                'barangay' => $s->barangay,
+                'sex' => $s->sex,
+                'birthdate' => $s->birthdate,
+            ];
+        }
+        else if(request()->input('concern_id')) {
+            $s = VaxcertConcern::findOrFail(request()->input('concern_id'));
 
-                $pretemp = [
-                    'category' => $s->category,
-                    'comorbidity' => $s->comorbidity,
-                    'unique_person_id' => $s->vaxcard_uniqueid,
-                    'pwd' => $s->pwd_yn,
-                    'indigenous_member' => $s->indigenous_member,
-                    'last_name' => $s->last_name,
-                    'first_name' => $s->first_name,
-                    'middle_name' => $s->middle_name,
-                    'suffix' => $s->suffix,
-                    'contact_no' => $s->contact_number,
-                    'guardian_name' => $s->guardian_name,
-                    'region' => $s->address_region_text,
-                    'region_json' => $s->address_region_code,
-                    'province' => $s->address_province_text,
-                    'province_json' => $s->address_province_code,
-                    'muni_city' => $s->address_muncity_text,
-                    'muni_city_json' => $s->address_muncity_code,
-                    'barangay' => $s->address_brgy_text,
-                    'sex' => $s->gender,
-                    'birthdate' => $s->bdate,
-                ];
-            }
+            $pretemp = [
+                'category' => $s->category,
+                'comorbidity' => $s->comorbidity,
+                'unique_person_id' => $s->vaxcard_uniqueid,
+                'pwd' => $s->pwd_yn,
+                'indigenous_member' => $s->indigenous_member,
+                'last_name' => $s->last_name,
+                'first_name' => $s->first_name,
+                'middle_name' => $s->middle_name,
+                'suffix' => $s->suffix,
+                'contact_no' => $s->contact_number,
+                'guardian_name' => $s->guardian_name,
+                'region' => $s->address_region_text,
+                'region_json' => $s->address_region_code,
+                'province' => $s->address_province_text,
+                'province_json' => $s->address_province_code,
+                'muni_city' => $s->address_muncity_text,
+                'muni_city_json' => $s->address_muncity_code,
+                'barangay' => $s->address_brgy_text,
+                'sex' => $s->gender,
+                'birthdate' => $s->bdate,
+            ];
         }
         else {
             $pretemp = [
@@ -1477,5 +1477,229 @@ class VaxcertController extends Controller
             ->with('msg', 'Error: Invalid Ticket Number. Kindly double check and then try again.')
             ->with('msgtype', 'warning');
         }
+    }
+
+    public function vaxCertLguHome() {
+
+    }
+
+    public function vaxCertLguCreate() {
+        if(request()->input('use_id')) {
+            $s = CovidVaccinePatientMasterlist::findOrFail(request()->input('use_id'));
+
+            $pretemp = [
+                'category' => $s->category,
+                'comorbidity' => $s->comorbidity,
+                'unique_person_id' => $s->unique_person_id,
+                'pwd' => $s->pwd,
+                'indigenous_member' => $s->indigenous_member,
+                'last_name' => $s->last_name,
+                'first_name' => $s->first_name,
+                'middle_name' => $s->middle_name,
+                'suffix' => $s->suffix,
+                'contact_no' => '0'.$s->contact_no,
+                'guardian_name' => $s->guardian_name,
+                'region' => $s->region,
+                'region_json' => $s->convertRegionToJson(),
+                'province' => $s->province,
+                'province_json' => $s->convertProvinceToJson(),
+                'muni_city' => $s->muni_city,
+                'muni_city_json' => $s->convertMuncityToJson(),
+                'barangay' => $s->barangay,
+                'sex' => $s->sex,
+                'birthdate' => $s->birthdate,
+            ];
+        }
+        else if(request()->input('concern_id')) {
+            $s = VaxcertConcern::findOrFail(request()->input('concern_id'));
+
+            $pretemp = [
+                'category' => $s->category,
+                'comorbidity' => $s->comorbidity,
+                'unique_person_id' => $s->vaxcard_uniqueid,
+                'pwd' => $s->pwd_yn,
+                'indigenous_member' => $s->indigenous_member,
+                'last_name' => $s->last_name,
+                'first_name' => $s->first_name,
+                'middle_name' => $s->middle_name,
+                'suffix' => $s->suffix,
+                'contact_no' => $s->contact_number,
+                'guardian_name' => $s->guardian_name,
+                'region' => $s->address_region_text,
+                'region_json' => $s->address_region_code,
+                'province' => $s->address_province_text,
+                'province_json' => $s->address_province_code,
+                'muni_city' => $s->address_muncity_text,
+                'muni_city_json' => $s->address_muncity_code,
+                'barangay' => $s->address_brgy_text,
+                'sex' => $s->gender,
+                'birthdate' => $s->bdate,
+            ];
+        }
+        else {
+            $pretemp = [
+                'category' => NULL,
+                'comorbidity' => NULL,
+                'unique_person_id' => NULL,
+                'pwd' => NULL,
+                'indigenous_member' => NULL,
+                'last_name' => NULL,
+                'first_name' => NULL,
+                'middle_name' => NULL,
+                'suffix' => NULL,
+                'contact_no' => NULL,
+                'guardian_name' => NULL,
+                'region' => NULL,
+                'region_json' => '04',
+                'province' => NULL,
+                'province_json' => '0421',
+                'muni_city' => NULL,
+                'muni_city_json' => '042108',
+                'barangay' => NULL,
+                'sex' => NULL,
+                'birthdate' => NULL,
+            ];
+        }
+
+        return view('vaxcert.lgu.encode', [
+            'pretemp' => $pretemp,
+        ]);
+    }
+
+    public function vaxCertLguStore(Request $r) {
+        $latest_count = VaccineCertificateLocal::whereYear('created_at', date('Y'))->count();
+
+        if($latest_count == 0) {
+            $pad = 1;
+        }
+        else {
+            $pad = $latest_count + 1;
+        }
+
+        $cno = date('Y').'-'.str_pad($pad, 4, '0', STR_PAD_LEFT);
+
+        $foundunique = false;
+    
+        while(!$foundunique) {
+            $hash = Str::random(10);
+
+            $search = VaccineCertificateLocal::where('hash', $hash)->first();
+
+            if(!$search) {
+                $foundunique = true;
+            }
+        }
+
+        $table_params = [
+            'control_no' => $cno,
+            'last_name' => mb_strtoupper($r->last_name),
+            'first_name' => mb_strtoupper($r->first_name),
+            'middle_name' => ($r->filled('middle_name')) ? mb_strtoupper($r->middle_name) : NULL,
+            'suffix' => ($r->filled('suffix')) ? mb_strtoupper($r->suffix) : NULL,
+            'gender' => $r->sex,
+            'bdate' => $r->birthdate,
+            'contact_number' => $r->contact_no,
+            'category' => $r->category,
+            'vaxcard_uniqueid' => ($r->filled('unique_person_id')) ? mb_strtoupper($r->unique_person_id) : NULL,
+
+            'address_region_code' => $r->address_region_code,
+            'address_region_text' => $r->address_region_text,
+            'address_province_code' => $r->address_province_code,
+            'address_province_text' => $r->address_province_text,
+            'address_muncity_code' => $r->address_muncity_code,
+            'address_muncity_text' => $r->address_muncity_text,
+            'address_brgy_code' => mb_strtoupper($r->barangay),
+            'address_brgy_text' => mb_strtoupper($r->barangay),
+
+            'remarks' => $r->remarks,
+            'hash' => $hash,
+            'created_by' => auth()->user()->id,
+            //'updated_by',
+            'facility_id' => auth()->user()->itr_facility_id,
+        ];
+
+        if($r->process_dose1) {
+            $table_params = $table_params + [
+                'process_dose1' => 'Y',
+                'dose1_city' => $r->dose1_city,
+            ];
+
+            if($r->dose1_city == 'Y') {
+                $table_params = $table_params + [
+                    'dose1_vaccination_date' => $r->dose1_vaccination_date,
+                    'dose1_vaccine_manufacturer_name' => $r->dose1_vaccine_manufacturer_name,
+                    'dose1_batch_number' => mb_strtoupper($r->dose1_batch_number),
+                    'dose1_vaccinator_name' => mb_strtoupper($r->dose1_vaccinator_name),
+                    'dose1_vaccinator_licenseno' => $r->dose1_vaccinator_licenseno,
+                ];
+            }
+        }
+
+        if($r->process_dose2) {
+            $table_params = $table_params + [
+                'process_dose2' => 'Y',
+                'dose2_city' => $r->dose2_city,
+            ];
+
+            if($r->dose2_city == 'Y') {
+                $table_params = $table_params + [
+                    'dose2_vaccination_date' => $r->dose2_vaccination_date,
+                    'dose2_vaccine_manufacturer_name' => $r->dose2_vaccine_manufacturer_name,
+                    'dose2_batch_number' => mb_strtoupper($r->dose2_batch_number),
+                    'dose2_vaccinator_name' => mb_strtoupper($r->dose2_vaccinator_name),
+                    'dose2_vaccinator_licenseno' => $r->dose2_vaccinator_licenseno,
+                ];
+            }
+        }
+
+        if($r->process_dose3) {
+            $table_params = $table_params + [
+                'process_dose3' => 'Y',
+                'dose3_city' => $r->dose3_city,
+            ];
+
+            if($r->dose3_city == 'Y') {
+                $table_params = $table_params + [
+                    'dose3_vaccination_date' => $r->dose3_vaccination_date,
+                    'dose3_vaccine_manufacturer_name' => $r->dose3_vaccine_manufacturer_name,
+                    'dose3_batch_number' => mb_strtoupper($r->dose3_batch_number),
+                    'dose3_vaccinator_name' => mb_strtoupper($r->dose3_vaccinator_name),
+                    'dose3_vaccinator_licenseno' => $r->dose3_vaccinator_licenseno,
+                ];
+            }
+        }
+
+        if($r->process_dose4) {
+            $table_params = $table_params + [
+                'process_dose4' => 'Y',
+                'dose4_city' => $r->dose4_city,
+            ];
+
+            if($r->dose4_city == 'Y') {
+                $table_params = $table_params + [
+                    'dose4_vaccination_date' => $r->dose4_vaccination_date,
+                    'dose4_vaccine_manufacturer_name' => $r->dose4_vaccine_manufacturer_name,
+                    'dose4_batch_number' => mb_strtoupper($r->dose4_batch_number),
+                    'dose4_vaccinator_name' => mb_strtoupper($r->dose4_vaccinator_name),
+                    'dose4_vaccinator_licenseno' => $r->dose4_vaccinator_licenseno,
+                ];
+            }
+        }
+
+        $c = VaccineCertificateLocal::create($table_params);
+
+        return redirect()->route('vaxcertlgu_print', $c);
+    }
+
+    public function vaxCertLguPrint($id) {
+        $d = VaccineCertificateLocal::findOrFail($id);
+
+        return view('vaxcert.lgu.print_certificate', [
+            'd' => $d,
+        ]);
+    }
+
+    public function vaxCertLguOnlineVerify($code) {
+
     }
 }
