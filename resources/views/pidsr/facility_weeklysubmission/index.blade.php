@@ -17,6 +17,33 @@
                         {{session('msg')}}
                     </div>
                     @endif
+
+                    @if($g_type == 'SUBMITTED_ONTIME')
+                    <div class="alert alert-info" role="alert">
+                        <div>Submission Status for <b>MW: {{$mw}} - Year: {{$year}}</b> = <b class="text-success">SUBMITTED</b></div>
+                        <div>Thank you for complying and submitting on-time.</div>
+                    </div>
+                    @elseif($g_type == 'SUBMITTED_BUT_LATE')
+                    <div class="alert alert-info" role="alert">
+                        <div>Submission Status for <b>MW: {{$mw}} - Year: {{$year}}</b> = <b class="text-success">SUBMITTED (LATE)</b></div>
+                        <div></div>
+                    </div>
+                    @elseif($g_type == 'AUTO_NO_SUBMISSION')
+                    <div class="alert alert-info" role="alert">
+                        <div>Submission Status for <b>MW: {{$mw}} - Year: {{$year}}</b> = <b class="text-danger">NO SUBMISSION</b></div>
+                        <div>Please consolidate and submit now to waive the No Submission.</div>
+                    </div>
+                    @elseif($g_type == 'NOTYET_SUBMITTED_ONTIME')
+                    <div class="alert alert-info" role="alert">
+                        <div>Submission Status for <b>MW: {{$mw}} - Year: {{$year}}</b> = <b class="text-danger">NOT YET SUBMITTED</b></div>
+                        <div>Please consolidate and submit today (Monday) to avoid being tagged as late submission.</div>
+                    </div>
+                    @elseif($g_type == 'EMPTY_LATE')
+                    <div class="alert alert-info" role="alert">
+                        <div>Submission Status for MW: <b>MW: {{$mw}} - Year: {{$year}}</b> = <b class="text-danger">NOT YET SUBMITTED (FOR LATE SUBMISSION)</b></div>
+                        <div>Reports not submitted every Monday will be automatically tagged as Late Submissions.</div>
+                    </div>
+                    @endif
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -158,7 +185,7 @@
                 </div>
                 
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-success btn-block" {{($s_type == 'EARLY_CURRENT_WEEK') ? 'disabled' : ''}}>Submit</button>
+                    <button type="submit" class="btn btn-success btn-block">Submit</button>
                 </div>
             </div>
         </div>

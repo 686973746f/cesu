@@ -9139,12 +9139,15 @@ class PIDSRController extends Controller
             $d = new EdcsWeeklySubmissionChecker();
         }
 
+        $g_type = EdcsWeeklySubmissionChecker::getAlreadySubmittedType($facility_code);
+
         return view('pidsr.facility_weeklysubmission.index', [
             'f' => $f,
             'mw' => $input_mw,
             'year' => $input_year,
             'd' => $d,
             's_type' => $s_type,
+            'g_type' => $g_type,
         ]);
     }
 
@@ -9190,7 +9193,9 @@ class PIDSRController extends Controller
                 ->with('msgtype', 'danger');
             }
 
-            $file_name = Str::random(10) . '.' . $r->file('excel_file')->extension();
+            //$file_name = Str::random(10) . '.' . $r->file('excel_file')->extension();
+
+            $file_name = $f->edcs_shortname.'_MW'.$mw.'_Y'.$year.'_'.Str::random(5).'.' . $r->file('excel_file')->extension();
 
             $r->file('excel_file')->move(storage_path('app/edcs/weeklysubmission/'), $file_name);
         }
@@ -9273,18 +9278,24 @@ class PIDSRController extends Controller
 
                 $import_id = $c->id;
 
-                //$trigger_email = true;
+                if($s_type == 'LATE_CURRENT_WEEK') {
+                    $trigger_email = true;
+                }
             }
         }
+
+        $alert_str = 'Weekly Submission for MW: '.$mw.' - Year: '.$year.' was successfully submitted.';
 
         //Send Email Dispatch
         if($trigger_email) {
             CallEdcsWeeklySubmissionSendEmail::dispatch($f->id, $import_id);
+
+            $alert_str = $alert_str.' A copy will be sent to '.$f->email_edcs.' after a few minutes.';
         }
         
         return redirect()->back()
         ->withInput()
-        ->with('msg', 'Weekly Submission for MW: '.$mw.' - Year: '.$year.' was successfully submitted.')
+        ->with('msg', $alert_str)
         ->with('msgtype', 'success');
     }
 

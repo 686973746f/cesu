@@ -37,6 +37,8 @@ class DohFacility extends Model
         'fax',
         'email',
         'email2',
+        'email_edcs',
+        'edcs_shortname',
         'website',
         'service_capability',
         'bed_capacity',
