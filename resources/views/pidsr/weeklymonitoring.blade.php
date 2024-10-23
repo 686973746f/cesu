@@ -26,8 +26,11 @@
                                 <td><b>{{$i['name']}}</b></td>
                                 @foreach($i['weeks'] as $w)
                                 @php
-                                if($w == '✔') {
+                                if($w == '✔' || $w == 'ZERO CASE') {
                                     $text_color = 'bg-success';
+                                }
+                                else if($w == 'X') {
+                                    $text_color = 'bg-danger';
                                 }
                                 else {
                                     $text_color = 'bg-warning';
