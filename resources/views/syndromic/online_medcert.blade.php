@@ -47,8 +47,8 @@
             </div>
             @else
             <div class="text-center">
-                <h3 class="text-danger">INVALID QR CODE</h3>
-                <p>Sorry, your QR Code is invalid.</p>
+                <h1 class="text-danger"><i class="fas fa-times-circle fa-2x"></i></h1>
+                <h3 class="text-danger"><b>INVALID QR CODE</b></h3>
             </div>
             @endif
             <div class="mt-3 text-center">

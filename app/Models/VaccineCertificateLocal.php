@@ -125,4 +125,30 @@ class VaccineCertificateLocal extends Model
     public function getFullAddress() {
         return 'BRGY. '.$this->address_brgy_text.', '.$this->address_muncity_text.', '.$this->address_province_text;
     }
+
+    public function numberOfDoses() {
+        $num = 0;
+
+        if($this->process_dose1 == 'Y') {
+            $num++;
+        }
+
+        if($this->process_dose2 == 'Y') {
+            $num++;
+        }
+
+        if($this->process_dose3 == 'Y') {
+            $num++;
+        }
+        
+        if($this->process_dose4 == 'Y') {
+            $num++;
+        }
+
+        return $num;
+    }
+
+    public function listVaccines() {
+
+    }
 }
