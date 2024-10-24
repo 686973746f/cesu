@@ -81,4 +81,49 @@ class Dengue extends Model
             return 'Suspected Case';
         }
     }
+
+    public function ifInsideClusteringDistance() {
+        $lat1 = deg2rad($this->sys_coordinate_y);
+        $lng1 = deg2rad($this->sys_coordinate_x);
+
+        if(request()->input('year')) {
+            $year = request()->input('year');
+        }
+        else {
+            $year = date('Y');
+        }
+
+        $coord_data = Dengue::where('EPIID', '!=', $this->EPIID)
+        ->whereNotNull('sys_coordinate_x')
+        ->where('Year', $year)
+        ->get();
+
+        $condition = false;
+
+        $earthRadius = 6371000;
+
+        if($coord_data->count() != 0) {
+            foreach($coord_data as $c) {
+                $lat2 = deg2rad($c->sys_coordinate_y);
+                $lng2 = deg2rad($c->sys_coordinate_x);
+
+                // Haversine formula
+                $latDelta = $lat2 - $lat1;
+                $lngDelta = $lng2 - $lng1;
+
+                $angle = 2 * asin(sqrt(pow(sin($latDelta / 2), 2) + cos($lat1) * cos($lat2) * pow(sin($lngDelta / 2), 2)));
+
+                $total = $angle * $earthRadius;
+
+                if($total <= 300) {
+                    return true;
+                }
+            }
+        }
+        else {
+            return false;
+        }
+
+        
+    }
 }

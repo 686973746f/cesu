@@ -97,6 +97,37 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
+                          <label for="weight_kg">Weight (in KG)</label>
+                          <input type="number" class="form-control" name="weight_kg" id="weight_kg" min="30" max="900" step=".1">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="height_cm">Height (in CM)</label>
+                            <input type="number" class="form-control" name="height_cm" id="height_cm" min="70" max="500" step=".1">
+                          </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="shirt_size">T-Shirt Size</label>
+                            <select class="form-control" name="shirt_size" id="shirt_size">
+                              <option value="" {{(is_null(old('shirt_size', $d->shirt_size))) ? 'selected' : ''}}>N/A</option>
+                              <option value="S" {{(old('shirt_size', $d->shirt_size) == 'S') ? 'selected' : ''}}>Small</option>
+                              <option value="M" {{(old('shirt_size', $d->shirt_size) == 'M') ? 'selected' : ''}}>Medium</option>
+                              <option value="L" {{(old('shirt_size', $d->shirt_size) == 'L') ? 'selected' : ''}}>Large</option>
+                              <option value="XL" {{(old('shirt_size', $d->shirt_size) == 'XL') ? 'selected' : ''}}>XL</option>
+                              <option value="XXL" {{(old('shirt_size', $d->shirt_size) == 'XXL') ? 'selected' : ''}}>XXL</option>
+                              <option value="XXXL" {{(old('shirt_size', $d->shirt_size) == 'XXXL') ? 'selected' : ''}}>XXXL</option>
+                              <option value="4XL" {{(old('shirt_size', $d->shirt_size) == '4XL') ? 'selected' : ''}}>4XL</option>
+                              <option value="5XL" {{(old('shirt_size', $d->shirt_size) == '5XL') ? 'selected' : ''}}>5XL</option>
+                            </select>
+                          </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
                           <label for="type"><b class="text-danger">*</b>Employee Type</label>
                           <select class="form-control" name="type" id="type" required>
                             <option value="" disabled {{(is_null(old('type', $d->type))) ? 'selected' : ''}}>Choose...</option>

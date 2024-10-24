@@ -35,60 +35,55 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="row">
-                    <div class="col-6">
-                        <div class="alert alert-info" role="alert">
-                            @if($filter_string)
-                            <div>{{$filter_string}}</div>
-                            @endif
-                            <div>Total results found: <b>{{$list_case->count()}}</b></div>
-                            <div>Male: {{$list_case->where('Sex', 'M')->count()}} - Female: {{$list_case->where('Sex', 'F')->count()}}</div>
-                            <div>With Geo-tag: {{$list_case->whereNotNull('sys_coordinate_x')->count()}} - Without Geo-tag: {{$list_case->whereNull('sys_coordinate_x')->count()}}</div>
-                        </div>
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-striped" id="mainTbl">
-                                <thead class="thead-light text-center">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Name</th>
-                                        <th>Age/Sex</th>
-                                        <th>Address</th>
-                                        <th>Outcome</th>
-                                        <th>Morbidity Week</th>
-                                        <th>DRU</th>
-                                        <th>Date Added</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($list_case as $ind => $d)
-                                    <tr>
-                                        <td class="text-center">{{$ind+1}}</td>
-                                        <td>{{$d->getName()}}</td>
-                                        <td class="text-center">{{$d->displayAgeStringToReport()}}/{{$d->Sex}}</td>
-                                        <td class="text-center">
-                                        @if(!is_null($d->sys_coordinate_x))
-                                        <button class="btn btn-link" onclick="flyToMap({{$d->sys_coordinate_x}}, {{$d->sys_coordinate_y}})">
-                                            <div>{{$d->getStreetPurok()}}</div>
-                                            <div>{{$d->Barangay}}</div>
-                                        </button>
-                                        @else
-                                        <div>{{$d->getStreetPurok()}}</div>
-                                        <div>{{$d->Barangay}}</div>
-                                        @endif
-                                        </td>
-                                        <td class="text-center"></td>
-                                        <td class="text-center"></td>
-                                        <td class="text-center"></td>
-                                        <td class="text-center">{{date('m/d/Y h:i A', strtotime($d->created_at))}}</td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div id="map"></div>
-                    </div>
+                <div id="map"></div>
+                <hr>
+                <div class="alert alert-info" role="alert">
+                    @if($filter_string)
+                    <div>{{$filter_string}}</div>
+                    @endif
+                    <div>Total results found: <b>{{$list_case->count()}}</b></div>
+                    <div>Male: {{$list_case->where('Sex', 'M')->count()}} - Female: {{$list_case->where('Sex', 'F')->count()}}</div>
+                    <div>With Geo-tag: {{$list_case->whereNotNull('sys_coordinate_x')->count()}} - Without Geo-tag: {{$list_case->whereNull('sys_coordinate_x')->count()}}</div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped" id="mainTbl">
+                        <thead class="thead-light text-center">
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Age/Sex</th>
+                                <th>Address</th>
+                                <th>Outcome</th>
+                                <th>Morbidity Week</th>
+                                <th>DRU</th>
+                                <th>Date Added</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($list_case as $ind => $d)
+                            <tr>
+                                <td class="text-center">{{$ind+1}}</td>
+                                <td>{{$d->getName()}}</td>
+                                <td class="text-center">{{$d->displayAgeStringToReport()}}/{{$d->Sex}}</td>
+                                <td class="text-center">
+                                @if(!is_null($d->sys_coordinate_x))
+                                <button class="btn btn-link" onclick="flyToMap({{$d->sys_coordinate_x}}, {{$d->sys_coordinate_y}})">
+                                    <div>{{$d->getStreetPurok()}}</div>
+                                    <div>{{$d->Barangay}}</div>
+                                </button>
+                                @else
+                                <div>{{$d->getStreetPurok()}}</div>
+                                <div>{{$d->Barangay}}</div>
+                                @endif
+                                </td>
+                                <td class="text-center"></td>
+                                <td class="text-center"></td>
+                                <td class="text-center"></td>
+                                <td class="text-center">{{date('m/d/Y h:i A', strtotime($d->created_at))}}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -230,7 +225,7 @@
             maxZoom: 21,
         }).addTo(map);
 
-        options = {
+        options_red = {
             icon: 'user',
             iconShape: 'marker',
             borderColor: 'red',
@@ -238,18 +233,63 @@
             textColor: 'white',
         };
 
+        options_blue = {
+            icon: 'user',
+            iconShape: 'marker',
+            borderColor: 'red',
+            backgroundColor: 'red',
+            textColor: 'white',
+        };
+
+        options_green = {
+            icon: 'user',
+            iconShape: 'marker',
+            borderColor: 'green',
+            backgroundColor: 'green',
+            textColor: 'white',
+        };
+
+        options_black = {
+            icon: 'user',
+            iconShape: 'marker',
+            borderColor: 'black',
+            backgroundColor: 'black',
+            textColor: 'white',
+        };
+
+        var currentWeek = {{date('W')}};
+
         @foreach($list_case as $ind => $lc)
         @if(!is_null($lc->sys_coordinate_x))
+        @if($case == 'DENGUE')
+            @if($lc->MorbidityWeek <= (date('W') - 3))
+            var markerOptions = options_green;
+            @elseif($lc->Outcome == 'D')
+            var markerOptions = options_black;
+            @else
+            var markerOptions = options_red;
+            @endif
+        @else
+        var markerOptions = options_red;
+        @endif
+        
         L.marker([{{$lc->sys_coordinate_x}}, {{$lc->sys_coordinate_y}}], {
-            icon: L.BeautifyIcon.icon(options),
+            icon: L.BeautifyIcon.icon(markerOptions),
             draggable: false,
-        }).addTo(map).bindPopup("popup").bindPopup("<a href='{{route('pidsr_casechecker_edit', [$case, $lc->EPIID])}}'><b>{{$lc->getName()}}</b></a><br>{{$lc->displayAgeStringToReport()}}/{{$lc->Sex}}<br>{{$lc->getStreetPurok()}}<br>BRGY. {{$lc->Barangay}}<br>Geotag: {{$lc->sys_coordinate_x}}, {{$lc->sys_coordinate_y}}<br><br>Google Maps:<br><a href='https://www.google.com/maps?q={{ $lc->sys_coordinate_x }},{{$lc->sys_coordinate_y }}'>https://www.google.com/maps?q={{ $lc->sys_coordinate_x }},{{$lc->sys_coordinate_y }}</a>");
+        }).addTo(map).bindPopup("popup").bindPopup("<a href='{{route('pidsr_casechecker_edit', [$case, $lc->EPIID])}}'><b>{{$lc->getName()}}</b></a><br>{{$lc->displayAgeStringToReport()}}/{{$lc->Sex}}<br>{{$lc->getStreetPurok()}}<br>BRGY. {{$lc->Barangay}}<br>Date of Entry: {{date('M. d, Y', strtotime($lc->DateOfEntry))}}<br>Geotag: {{$lc->sys_coordinate_x}}, {{$lc->sys_coordinate_y}}<br><br>Google Maps:<br><a href='https://www.google.com/maps?q={{ $lc->sys_coordinate_x }},{{$lc->sys_coordinate_y }}'>https://www.google.com/maps?q={{ $lc->sys_coordinate_x }},{{$lc->sys_coordinate_y }}</a>");
 
         @if($case == 'DENGUE')
         // Add a 300-meter circle around the marker
+        @if($lc->ifInsideClusteringDistance())
+        var bilogColor = 'red';
+        @else
+        var bilogColor = 'blue';
+        @endif
+
         var circle = L.circle([{{$lc->sys_coordinate_x}}, {{$lc->sys_coordinate_y}}], {
             color: 'blue',        // Circle border color
             //fillColor: '#f03',    // Circle fill color
+            weight: 0.8,
             fillOpacity: 0,     // Fill opacity
             radius: 300           // Radius in meters (300 meters)
         }).addTo(map);
