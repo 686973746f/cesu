@@ -92,13 +92,26 @@ class Dengue extends Model
         else {
             $year = date('Y');
         }
+        
+        
 
         $coord_data = Dengue::where('EPIID', '!=', $this->EPIID)
         ->whereNotNull('sys_coordinate_x')
-        ->where('Year', $year)
-        ->get();
+        ->where('Year', $year);
+
+        if(request()->input('mwStart') && request()->input('mwEnd')) {
+            $mwStart = request()->input('mwStart');
+            $mwEnd = request()->input('mwEnd');
+
+            $coord_data = $coord_data->whereBetween('MorbidityWeek', [$mwStart, $mwEnd])->get();
+        }
+        else {
+            $coord_data = $coord_data->get();
+        }
 
         $earthRadius = 6371000;
+
+        $condition = false;
 
         if($coord_data->count() != 0) {
             foreach($coord_data as $c) {
@@ -114,12 +127,14 @@ class Dengue extends Model
                 $total = $angle * $earthRadius;
 
                 if($total <= 300) {
-                    return true;
+                    $condition = true;
                 }
             }
+
+            return $condition;
         }
         else {
-            return false;
+            return $condition;
         }
     }
 }

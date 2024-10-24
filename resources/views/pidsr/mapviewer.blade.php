@@ -276,7 +276,7 @@
         L.marker([{{$lc->sys_coordinate_x}}, {{$lc->sys_coordinate_y}}], {
             icon: L.BeautifyIcon.icon(markerOptions),
             draggable: false,
-        }).addTo(map).bindPopup("popup").bindPopup("<a href='{{route('pidsr_casechecker_edit', [$case, $lc->EPIID])}}'><b>{{$lc->getName()}}</b></a><br>{{$lc->displayAgeStringToReport()}}/{{$lc->Sex}}<br>{{$lc->getStreetPurok()}}<br>BRGY. {{$lc->Barangay}}<br>Date of Entry: {{date('M. d, Y', strtotime($lc->DateOfEntry))}}<br>Geotag: {{$lc->sys_coordinate_x}}, {{$lc->sys_coordinate_y}}<br><br>Google Maps:<br><a href='https://www.google.com/maps?q={{ $lc->sys_coordinate_x }},{{$lc->sys_coordinate_y }}'>https://www.google.com/maps?q={{ $lc->sys_coordinate_x }},{{$lc->sys_coordinate_y }}</a>");
+        }).addTo(map).bindPopup("popup").bindPopup("<a href='{{route('pidsr_casechecker_edit', [$case, $lc->EPIID])}}'><b>{{$lc->getName()}}</b></a><br>{{$lc->displayAgeStringToReport()}}/{{$lc->Sex}}<br>{{$lc->getStreetPurok()}}<br>BRGY. {{$lc->Barangay}}<br>Date of Entry: {{date('M. d, Y', strtotime($lc->DateOfEntry))}}<br>MW: {{$lc->MorbidityWeek}}<br>Geotag: {{$lc->sys_coordinate_x}}, {{$lc->sys_coordinate_y}}<br><br>Google Maps:<br><a href='https://www.google.com/maps?q={{ $lc->sys_coordinate_x }},{{$lc->sys_coordinate_y }}'>https://www.google.com/maps?q={{ $lc->sys_coordinate_x }},{{$lc->sys_coordinate_y }}</a>");
 
         @if($case == 'DENGUE')
         // Add a 300-meter circle around the marker
