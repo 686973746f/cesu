@@ -41,7 +41,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <div><b>Medical Certificate</b></div>
+                    <div><b>Vaccine Certificate - LGU</b></div>
                     <div><button type="button" class="btn btn-success" onclick="window.print()"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print <i>(CTRL + P)</i></button></div>
                 </div>
             </div>
@@ -54,6 +54,38 @@
                 <h4 class="mt-5" style="text-align:justify">This is to certify that <u><b>{{$d->getSalutation()}} {{$d->getName()}}</b></u>, <b><u>{{Carbon\Carbon::parse($d->bdate)->age;}}</u></b> years of age, born on <b><u>{{date('F d, Y', strtotime($d->bdate))}}</u></b>, and currently residing at <u><b>{{mb_strtoupper($d->getFullAddress())}}</b></u> has been vaccinated against COVID-19 at the City Health Office, Brgy. Pinagtipunan, City of General Trias, Cavite.</h4>
                 <h4 class="mt-5">The following details pertain to the vaccination:</h4>
                 @if($d->dose1_vaccine_manufacturer_name == 'J&J')
+                <div class="row justify-content-center mt-3">
+                    <div class="col-sm-5">
+                        <div class="card">
+                            <div class="card-header"><b>1st and 2nd Dose</b></div>
+                            <div class="card-body">
+                                @if($d->dose1_city == 'Y')
+                                <div class="d-flex justify-content-between">
+                                    <div><b>Date of Vaccination:</b></div>
+                                    <div>{{date('F d, Y', strtotime($d->dose1_vaccination_date))}}</div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <div><b>Manufacturer:</b></div>
+                                    <div>{{$d->dose1_vaccine_manufacturer_name}}</div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <div><b>Batch/Lot No.:</b></div>
+                                    <div>{{$d->dose1_batch_number}}</div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <div><b>Vaccinator:</b></div>
+                                    <div>
+                                        <div>{{$d->dose1_vaccinator_name}}</div>
+                                        <div>License No. {{$d->dose1_vaccinator_licenseno}}</div>
+                                    </div>
+                                </div>
+                                @else
+                                <p class="text-center">Vaccinated outside the City of General Trias</p>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 @else
                 <div class="row justify-content-center mt-3">
                     <div class="col-sm-5">
@@ -121,7 +153,7 @@
                         </div>
                     </div>
                 </div>
-
+                @endif
                 <div class="row justify-content-center my-3">
                     <div class="col-sm-5">
                         <div class="card">
@@ -192,7 +224,6 @@
                         </div>
                     </div>
                 </div>
-                @endif
                 <h4 style="text-align:justify">This certification is issued upon the request of the above-mentioned name on <b><u>{{date('F d, Y', strtotime($d->created_at))}}</u></b> for whatever legal purposes it may serve.</h4>
 
                 <div class="d-flex justify-content-between mt-5">
