@@ -21,6 +21,7 @@ use App\Imports\VaxcertMasterlistImport;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use App\Models\CovidVaccinePatientMasterlist;
+use App\Models\EdcsBrgy;
 use Intervention\Image\Laravel\Facades\Image;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
@@ -1594,6 +1595,9 @@ class VaxcertController extends Controller
             }
         }
 
+        //Get Barangay Code and Texts
+        $brgyData = EdcsBrgy::findOrFail($r->address_brgy_code);
+
         $table_params = [
             'control_no' => $cno,
             'last_name' => mb_strtoupper($r->last_name),
@@ -1606,14 +1610,14 @@ class VaxcertController extends Controller
             'category' => $r->category,
             'vaxcard_uniqueid' => ($r->filled('unique_person_id')) ? mb_strtoupper($r->unique_person_id) : NULL,
 
-            'address_region_code' => $r->address_region_code,
-            'address_region_text' => $r->address_region_text,
-            'address_province_code' => $r->address_province_code,
-            'address_province_text' => $r->address_province_text,
-            'address_muncity_code' => $r->address_muncity_code,
-            'address_muncity_text' => $r->address_muncity_text,
-            'address_brgy_code' => mb_strtoupper($r->barangay),
-            'address_brgy_text' => mb_strtoupper($r->barangay),
+            'address_region_code' => $brgyData->city->province->region->id,
+            'address_region_text' => $brgyData->city->province->region->regionName,
+            'address_province_code' => $brgyData->city->province->id,
+            'address_province_text' => $brgyData->city->province->name,
+            'address_muncity_code' => $brgyData->city->id,
+            'address_muncity_text' => $brgyData->city->name,
+            'address_brgy_code' => $brgyData->id,
+            'address_brgy_text' => $brgyData->name,
 
             'remarks' => $r->remarks,
             'hash' => $hash,

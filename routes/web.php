@@ -59,6 +59,7 @@ use App\Http\Controllers\AcceptanceLetterController;
 use App\Http\Controllers\PregnancyTrackingController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\ABTCWalkInRegistrationController;
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\EmployeesController;
 use App\Http\Controllers\HealthEventsController;
 use App\Http\Controllers\SecondaryTertiaryRecordsController;
@@ -113,6 +114,13 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function
 
     Route::get('/export_jobs', [HomeController::class, 'exportJobsIndex'])->name('export_index');
     Route::post('/export_jobs/{id}/download', [HomeController::class, 'exportJobsDownloadFile'])->name('export_download_file');
+
+    //New Address Routes
+    Route::get('/ga/province/{region_id}', [AddressController::class, 'getProvinces'])->name('address_get_provinces');
+    Route::get('/ga/city/{province_id}', [AddressController::class, 'getCityMun'])->name('address_get_citymun');
+    Route::get('/ga/brgy/{city_id}', [AddressController::class, 'getBrgy'])->name('address_get_brgy');
+
+    Route::get('/test_address', [AddressController::class, 'testAddress'])->name('address_test');
 });
 
 //PASWAB INTERNAL

@@ -81,6 +81,10 @@ class VaccineCertificateLocal extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
+    public function brgy() {
+        return $this->belongsTo(EdcsBrgy::class, 'address_brgy_code');
+    }
+
     public function getUpdatedBy() {
         if(!is_null($this->updated_by)) {
             return $this->belongsTo(User::class, 'updated_by');

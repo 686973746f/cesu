@@ -46,7 +46,7 @@
             </div>
             <ul>
                 <h5 style="margin-bottom: -2px;"><b><u>Summary:</u></b></h5>
-                <li style="margin-bottom: -5px;"><h5>There were {{$current_grand_total}} {{Str::plural('case', $current_grand_total)}} of {{$flavor_name}} reported for Morbidity Week 1-{{$sel_mweek}} (Jan 01 - {{$flavor_enddate->format('M d, Y')}}), with {{$death_count}} {{Str::plural('death', $death_count)}} (CFR {{($current_grand_total != 0) ? round($death_count / $current_grand_total * 100, 2) : 0}}%)</h5></li>
+                <li style="margin-bottom: -5px;"><h5>There were <b>{{$current_grand_total}} {{Str::plural('case', $current_grand_total)}} of {{$flavor_name}}</b> reported for Morbidity Week 1-{{$sel_mweek}} (Jan 01 - {{$flavor_enddate->format('M d, Y')}}), with <b class="text-danger">{{$death_count}} {{Str::plural('death', $death_count)}} (CFR {{($current_grand_total != 0) ? round($death_count / $current_grand_total * 100, 2) : 0}}%)</b></h5></li>
                 @if($death_count != 0 && $sel_disease == 'Pert')
                 <li style="margin-bottom: -5px;"><h5>Profile of death/s:</h5>
                     <ul>

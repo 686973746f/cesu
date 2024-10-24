@@ -39,49 +39,54 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="birthdate"><span class="text-danger font-weight-bold">*</span>Birthdate</label>
-                            <input type="date" class="form-control" id="birthdate" name="birthdate" value="{{old('birthdate', $pretemp['birthdate'])}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="gender"><span class="text-danger font-weight-bold">*</span>Sex</label>
-                            <select class="form-control" name="sex" id="sex" required>
-                              <option disabled {{(is_null(old('sex', $pretemp['sex']))) ? 'selected' : ''}}>Choose...</option>
-                              <option value="M" {{(old('sex', $pretemp['sex']) == 'M') ? 'selected' : ''}}>Male</option>
-                              <option value="F" {{(old('sex', $pretemp['sex']) == 'F') ? 'selected' : ''}}>Female</option>
-                            </select>
-                        </div>
-                        <div id="address_text" class="d-none">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <input type="text" id="address_region_text" name="address_region_text" value="{{old('address_region_text')}}" readonly>
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="text" id="address_province_text" name="address_province_text" value="{{old('address_province_text')}}" readonly>
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="text" id="address_muncity_text" name="address_muncity_text" value="{{old('address_muncity_text')}}" readonly>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="birthdate"><span class="text-danger font-weight-bold">*</span>Birthdate</label>
+                                    <input type="date" class="form-control" id="birthdate" name="birthdate" value="{{old('birthdate', $pretemp['birthdate'])}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="address_region_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Region</label>
-                            <select class="form-control" name="address_region_code" id="address_region_code" tabindex="-1" required>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="address_province_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Province</label>
-                            <select class="form-control" name="address_province_code" id="address_province_code" tabindex="-1" required>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="address_muncity_code" class="form-label"><span class="text-danger font-weight-bold">*</span>City/Municipality</label>
-                            <select class="form-control" name="address_muncity_code" id="address_muncity_code" tabindex="-1" required>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                          <label for="barangay"><b class="text-danger">*</b>Barangay</label>
-                          <input type="text" class="form-control" name="barangay" id="barangay" value="{{old('barangay', $pretemp['barangay'])}}" style="text-transform: uppercase;" required>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gender"><span class="text-danger font-weight-bold">*</span>Sex</label>
+                                    <select class="form-control" name="sex" id="sex" required>
+                                      <option disabled {{(is_null(old('sex', $pretemp['sex']))) ? 'selected' : ''}}>Choose...</option>
+                                      <option value="M" {{(old('sex', $pretemp['sex']) == 'M') ? 'selected' : ''}}>Male</option>
+                                      <option value="F" {{(old('sex', $pretemp['sex']) == 'F') ? 'selected' : ''}}>Female</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="address_region_code"><b class="text-danger">*</b>Region</label>
+                                    <select class="form-control" name="address_region_code" id="address_region_code" tabindex="-1" required>
+                                      @foreach(App\Models\Regions::orderBy('regionName', 'ASC')->get() as $a)
+                                      <option value="{{$a->id}}" {{($a->id == 1) ? 'selected' : ''}}>{{$a->regionName}}</option>
+                                      @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="address_province_code"><b class="text-danger">*</b>Province</label>
+                                    <select class="form-control" name="address_province_code" id="address_province_code" tabindex="-1" required disabled>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="address_muncity_code"><b class="text-danger">*</b>City/Municipality</label>
+                                    <select class="form-control" name="address_muncity_code" id="address_muncity_code" tabindex="-1" required disabled>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="address_brgy_code"><b class="text-danger">*</b>Barangay</label>
+                                    <select class="form-control" name="address_brgy_code" id="address_brgy_code" required disabled>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="contact_no"><span class="text-danger font-weight-bold">*</span>Contact Number</label>
@@ -365,7 +370,11 @@
 	});
 
     //Select2 Init for Address Bar
-    $('#address_region_code, #address_province_code, #address_muncity_code, #dose1_vaccine_manufacturer_name, #dose2_vaccine_manufacturer_name, #dose3_vaccine_manufacturer_name, #dose4_vaccine_manufacturer_name, #category').select2({
+    $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_code').select2({
+        theme: 'bootstrap',
+    });
+
+    $('#dose1_vaccine_manufacturer_name, #dose2_vaccine_manufacturer_name, #dose3_vaccine_manufacturer_name, #dose4_vaccine_manufacturer_name, #category').select2({
         theme: 'bootstrap',
     });
 
@@ -381,121 +390,133 @@
             }
         });
 
-        $('#address_region_text').val('REGION IV-A (CALABARZON)');
-        $('#address_province_text').val('CAVITE');
-        $('#address_muncity_text').val('GENERAL TRIAS');
+        
     });
     
-    //Region Select Initialize
-    $.getJSON("{{asset('json/refregion.json')}}", function(data) {
-        var sorted = data.sort(function(a, b) {
-            if (a.regDesc > b.regDesc) {
-                return 1;
-            }
-            if (a.regDesc < b.regDesc) {
-                return -1;
-            }
-
-            return 0;
-        });
-
-        $.each(sorted, function(key, val) {
-            $('#address_region_code').append($('<option>', {
-                value: val.regCode,
-                text: val.regDesc,
-                selected: (val.regCode == "{{$pretemp['region_json']}}") ? true : false, //default is Region IV-A
-            }));
-        });
-    }).fail(function(jqxhr, textStatus, error) {
-        // Error callback
-        var err = textStatus + ", " + error;
-        console.log("Failed to load Region JSON: " + err);
-        window.location.reload(); // Reload the page
-    });
+    //Default Values for Gentri
+    var regionDefault = 1;
+    var provinceDefault = 18;
+    var cityDefault = 388;
 
     $('#address_region_code').change(function (e) { 
         e.preventDefault();
-        //Empty and Disable
-        $('#address_province_code').empty();
-        $("#address_province_code").append('<option value="" selected disabled>Choose...</option>');
 
-        $('#address_muncity_code').empty();
-        $("#address_muncity_code").append('<option value="" selected disabled>Choose...</option>');
+        var regionId = $(this).val();
 
-        //Re-disable Select
-        $('#address_muncity_code').prop('disabled', true);
-        //$('#address_brgy_text').prop('disabled', true);
+        if (regionId) {
+            $('#address_province_code').prop('disabled', false);
+            $('#address_muncity_code').prop('disabled', true);
+            $('#address_brgy_code').prop('disabled', true);
 
-        //Set Values for Hidden Box
-        $('#address_region_text').val($('#address_region_code option:selected').text());
+            $('#address_province_code').empty();
+            $('#address_muncity_code').empty();
+            $('#address_brgy_code').empty();
 
-        $.getJSON("{{asset('json/refprovince.json')}}", function(data) {
-            var sorted = data.sort(function(a, b) {
-                if (a.provDesc > b.provDesc) {
-                return 1;
-                }
-                if (a.provDesc < b.provDesc) {
-                return -1;
-                }
-                return 0;
-            });
+            $.ajax({
+                url: '/ga/province/' + regionId,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $('#address_province_code').empty();
+                    $('#address_province_code').append('<option value="" disabled selected>Select Province</option>');
 
-            $.each(sorted, function(key, val) {
-                if($('#address_region_code').val() == val.regCode) {
-                    $('#address_province_code').append($('<option>', {
-                        value: val.provCode,
-                        text: val.provDesc,
-                        selected: (val.provCode == "{{$pretemp['province_json']}}") ? true : false, //default for Cavite
-                    }));
+                    let sortedData = Object.entries(data).sort((a, b) => {
+                        return a[1].localeCompare(b[1]); // Compare province names (values)
+                    });
+
+                    $.each(sortedData, function(key, value) {
+                        $('#address_province_code').append('<option value="' + value[0] + '">' + value[1] + '</option>');
+                    });
                 }
             });
-        }).fail(function(jqxhr, textStatus, error) {
-            // Error callback
-            var err = textStatus + ", " + error;
-            console.log("Failed to load Region JSON: " + err);
-            window.location.reload(); // Reload the page
-        });
-    }).trigger('change');
+        } else {
+            $('#address_province_code').empty();
+        }
+    });
 
-    $('#address_province_code').change(function (e) {
+    $('#address_province_code').change(function (e) { 
         e.preventDefault();
-        //Empty and Disable
-        $('#address_muncity_code').empty();
-        $("#address_muncity_code").append('<option value="" selected disabled>Choose...</option>');
 
-        //Re-disable Select
-        $('#address_muncity_code').prop('disabled', false);
-        //$('#address_brgy_text').prop('disabled', true);
+        var provinceId = $(this).val();
 
-        //Set Values for Hidden Box
-        $('#address_province_text').val($('#address_province_code option:selected').text());
+        if (provinceId) {
+            $('#address_province_code').prop('disabled', false);
+            $('#address_muncity_code').prop('disabled', false);
+            $('#address_brgy_code').prop('disabled', true);
 
-        $.getJSON("{{asset('json/refcitymun.json')}}", function(data) {
-            var sorted = data.sort(function(a, b) {
-                if (a.citymunDesc > b.citymunDesc) {
-                    return 1;
-                }
-                if (a.citymunDesc < b.citymunDesc) {
-                    return -1;
-                }
-                return 0;
-            });
-            $.each(sorted, function(key, val) {
-                if($('#address_province_code').val() == val.provCode) {
-                    $('#address_muncity_code').append($('<option>', {
-                        value: val.citymunCode,
-                        text: val.citymunDesc,
-                        selected: (val.citymunCode == "{{$pretemp['muni_city_json']}}") ? true : false, //default for General Trias
-                    })); 
+            $('#address_muncity_code').empty();
+            $('#address_brgy_code').empty();
+
+            $.ajax({
+                url: '/ga/city/' + provinceId,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $('#address_muncity_code').empty();
+                    $('#address_muncity_code').append('<option value="" disabled selected>Select City/Municipality</option>');
+                    
+                    let sortedData = Object.entries(data).sort((a, b) => {
+                        return a[1].localeCompare(b[1]); // Compare province names (values)
+                    });
+
+                    $.each(sortedData, function(key, value) {
+                        $('#address_muncity_code').append('<option value="' + value[0] + '">' + value[1] + '</option>');
+                    });
                 }
             });
-        }).fail(function(jqxhr, textStatus, error) {
-            // Error callback
-            var err = textStatus + ", " + error;
-            console.log("Failed to load CityMun JSON: " + err);
-            window.location.reload(); // Reload the page
-        });
-    }).trigger('change');
+        } else {
+            $('#address_muncity_code').empty();
+        }
+    });
+
+    $('#address_muncity_code').change(function (e) { 
+        e.preventDefault();
+
+        var cityId = $(this).val();
+
+        if (cityId) {
+            $('#address_province_code').prop('disabled', false);
+            $('#address_muncity_code').prop('disabled', false);
+            $('#address_brgy_code').prop('disabled', false);
+
+            $('#address_brgy_code').empty();
+
+            $.ajax({
+                url: '/ga/brgy/' + cityId,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $('#address_brgy_code').empty();
+                    $('#address_brgy_code').append('<option value="" disabled selected>Select Barangay</option>');
+
+                    let sortedData = Object.entries(data).sort((a, b) => {
+                        return a[1].localeCompare(b[1]); // Compare province names (values)
+                    });
+
+                    $.each(sortedData, function(key, value) {
+                        $('#address_brgy_code').append('<option value="' + value[0] + '">' + value[1] + '</option>');
+                    });
+                }
+            });
+        } else {
+            $('#address_brgy_code').empty();
+        }
+    });
+
+    if ($('#address_region_code').val()) {
+        $('#address_region_code').trigger('change'); // Automatically load provinces on page load
+    }
+
+    if (provinceDefault) {
+        setTimeout(function() {
+            $('#address_province_code').val(provinceDefault).trigger('change');
+        }, 500); // Slight delay to ensure province is loaded
+    }
+    if (cityDefault) {
+        setTimeout(function() {
+            $('#address_muncity_code').val(cityDefault).trigger('change');
+        }, 1000); // Slight delay to ensure city is loaded
+    }
 
     //$('#address_region_text').val("{{$pretemp['region']}}");
 
