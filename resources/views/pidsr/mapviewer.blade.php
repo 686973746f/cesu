@@ -287,7 +287,7 @@
         @endif
 
         var circle = L.circle([{{$lc->sys_coordinate_x}}, {{$lc->sys_coordinate_y}}], {
-            color: 'blue',        // Circle border color
+            color: bilogColor,        // Circle border color
             //fillColor: '#f03',    // Circle fill color
             weight: 0.8,
             fillOpacity: 0,     // Fill opacity

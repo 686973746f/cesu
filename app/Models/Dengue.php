@@ -98,8 +98,6 @@ class Dengue extends Model
         ->where('Year', $year)
         ->get();
 
-        $condition = false;
-
         $earthRadius = 6371000;
 
         if($coord_data->count() != 0) {
@@ -123,7 +121,5 @@ class Dengue extends Model
         else {
             return false;
         }
-
-        
     }
 }
