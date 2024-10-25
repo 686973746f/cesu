@@ -7198,6 +7198,74 @@ class PIDSRController extends Controller
         return $array;
     }
 
+    public static function getDiseaseTableProperName($disease) {
+        //Mainly used for disease summary report (for now)
+
+        if($disease == 'Afp') {
+            return 'Acute Flaccid Paralysis (AFP)';
+        }
+        else if($disease == 'Measles') {
+            return 'Measles-Rubella';
+        }
+        else if($disease == 'Meningo') {
+            return 'Meningococcal Disease';
+        }
+        else if($disease == 'Nt') {
+            return 'Neonatal Tetanus';
+        }
+        else if($disease == 'Rabies') {
+            return 'Rabies';
+        }
+        else if($disease == 'Hfmd') {
+            return 'Hand, Foot and Mouth Disease (HFMD)';
+        }
+        else if($disease == 'Abd') {
+            return 'Acute Bloody Diarrhea';
+        }
+        else if($disease == 'Ames') {
+            return 'Acute Meningitis-Encephalitis Syndrome';
+        }
+        else if($disease == 'Hepatitis') {
+            return 'Acute Viral Hepatitis';
+        }
+        else if($disease == 'Chikv') {
+            return 'Chikungunya';
+        }
+        else if($disease == 'Cholera') {
+            return 'Cholera';
+        }
+        else if($disease == 'Dengue') {
+            return 'Dengue';
+        }
+        else if($disease == 'Diph') {
+            return 'Diphtheria';
+        }
+        else if($disease == 'Influenza') {
+            return 'Influeza-Like Illness';
+        }
+        else if($disease == 'Leptospirosis') {
+            return 'Leptospirosis';
+        }
+        else if($disease == 'Nnt') {
+            return 'Non-Neonatal Tetanus';
+        }
+        else if($disease == 'Pert') {
+            return 'Pertussis';
+        }
+        else if($disease == 'Rotavirus') {
+            return 'Rotavirus';
+        }
+        else if($disease == 'Typhoid') {
+            return 'Typhoid Fever';
+        }
+        else if($disease == 'SevereAcuteRespiratoryInfection') {
+            return 'Severe Acute Respiratory Infection (SARI)';
+        }
+        else {
+            return abort(401);
+        }
+    }
+
     public static function edcsGetIcd10Code($disease) {
         if($disease == 'Afp') {
             return 'A80.3; Acute paralytic poliomyelitis, other and unspecified (Acute Flaccid Paralysis)';
@@ -9316,5 +9384,147 @@ class PIDSRController extends Controller
 
     public static function getCaseModel($case_code) {
         
+    }
+
+    public function diseaseSummaryView() {
+        if(request()->input('year') && request()->input('mw')) {
+            $currentDay = Carbon::parse(request()->input('year'));
+            $lastYear = Carbon::parse(request()->input('year'))->subYear(1);
+        }
+        else {
+            $currentDay = Carbon::now()->subWeek(1);
+            $lastYear = Carbon::now()->subYear(1);
+        }
+
+        $vpd_arr = [];
+        $vectorborn_arr = [];
+        $zoonotic_arr = [];
+        $foodnwaterborn_arr = [];
+        $other_arr = [];
+
+        foreach(PIDSRController::listDiseasesTables() as $t) {
+            $modelClass = "App\\Models\\$t";
+
+            if($t == 'SevereAcuteRespiratoryInfection') {
+                $baseq = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('province', 'CAVITE')
+                ->where('muncity', 'GENERAL TRIAS');
+
+                $currentmw_count = (clone $baseq)->where('encoded_mw', $currentDay->format('W'))
+                ->count();
+                $currentmw_died_count = (clone $baseq)->where('encoded_mw', $currentDay->format('W'))
+                ->where('outcome', 'Died')
+                ->count();
+
+                $currentyear_count = (clone $baseq)->where('year', $currentDay->format('Y'))
+                ->count();
+                $currentyear_died_count = (clone $baseq)->where('year', $currentDay->format('Y'))
+                ->where('outcome', 'Died')
+                ->count();
+
+                $lastyear_count = (clone $baseq)->where('Year', $lastYear->format('Y'))
+                ->count();
+            }
+            else {
+                $baseq = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('Province', 'CAVITE')
+                ->where('Muncity', 'GENERAL TRIAS');
+
+                $currentmw_count = (clone $baseq)->where('encoded_mw', $currentDay->format('W'))
+                ->count();
+                $currentmw_died_count = (clone $baseq)->where('encoded_mw', $currentDay->format('W'))
+                ->where('Outcome', 'D')
+                ->count();
+
+                if($currentmw_died_count == 0) {
+                    $currentmw_cfr = 0;
+                }
+                else {
+                    $currentmw_cfr = round(($currentmw_died_count / $currentmw_count)  * 100, 2);
+                }
+
+                $currentyear_count = (clone $baseq)->where('Year', $currentDay->format('Y'))
+                ->count();
+                $currentyear_died_count = (clone $baseq)->where('Year', $currentDay->format('Y'))
+                ->where('Outcome', 'D')
+                ->count();
+
+                if($currentyear_died_count == 0) {
+                    $currentyear_cfr = 0;
+                }
+                else {
+                    $currentyear_cfr = round(($currentyear_died_count / $currentyear_count) * 100, 2);
+                }
+
+                $lastyear_count = (clone $baseq)->where('Year', $lastYear->format('Y'))
+                ->count();
+            }
+
+            //Compare
+            if($lastyear_count > 0) {
+                $percentageChange = round((($currentyear_count - $lastyear_count) / $lastyear_count) * 100, 2);
+
+                if ($percentageChange > 0) {
+                    $compare_type = 'HIGHER';
+                } elseif ($percentageChange < 0) {
+                    $compare_type = 'LOWER';
+                } else {
+                    $compare_type = 'EQUAL';
+                }
+            }
+            else {
+                $percentageChange = round($currentyear_count * 100, 2);
+                
+                $compare_type = 'HIGHER';
+            }
+
+            $table_params = [
+                'name' => PIDSRController::getDiseaseTableProperName($t),
+                
+                'currentmw_count' => $currentmw_count,
+                'currentmw_died_count' => $currentmw_died_count,
+                'currentmw_cfr' => $currentmw_cfr,
+
+                'currentyear_count' => $currentyear_count,
+                'currentyear_died_count' => $currentyear_died_count,
+                'currentyear_cfr' => $currentyear_cfr,
+
+                'lastyear_count' => $lastyear_count,
+                'percentageChange' => $percentageChange,
+                'compare_type' => $compare_type,
+            ];
+
+            if($t == 'Afp' || $t == 'Diph' || $t == 'Measles' || $t == 'Nt' || $t == 'Nnt' || $t == 'Pert') {
+                $vpd_arr[] = $table_params;
+            }
+            else if($t == 'Chikv' || $t == 'Dengue') {
+                $vectorborn_arr[] = $table_params;
+            }
+            else if($t == 'Leptospirosis' || $t == 'Rabies') {
+                $zoonotic_arr[] = $table_params;
+            }
+            else if($t == 'Abd' || $t == 'Hepatitis' || $t == 'Cholera' || $t == 'Rotavirus' || $t == 'Typhoid') {
+                $foodnwaterborn_arr[] = $table_params;
+            }
+            else if($t == 'Influenza' || $t == 'Ames' || $t == 'Hfmd' || $t == 'Meningo' || $t == 'SevereAcuteRespiratoryInfection') {
+                $other_arr[] = $table_params;
+            }
+        }
+
+        return view('pidsr.summary', [
+            'currentDay' => $currentDay,
+            'current_year' => $currentDay->format('Y'),
+            'current_week' => $currentDay->format('W'),
+            'last_year' => $lastYear->format('Y'),
+            //'arr' => $final_arr,
+            
+            'vpd_arr' => $vpd_arr,
+            'vectorborn_arr' => $vectorborn_arr,
+            'zoonotic_arr' => $zoonotic_arr,
+            'foodnwaterborn_arr' => $foodnwaterborn_arr,
+            'other_arr' => $other_arr,
+        ]);
     }
 }

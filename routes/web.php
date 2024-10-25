@@ -412,6 +412,8 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
 
     Route::get('/edcs/opd_exportables', [PIDSRController::class, 'opdExportablesViewer'])->name('edcs_opdexportables_view');
     Route::post('/edcs/opd_exportables/process', [PIDSRController::class, 'processOpdExportables'])->name('edcs_opdexportables_process');
+
+    Route::get('/edcs/diseases_summary', [PIDSRController::class, 'diseaseSummaryView'])->name('edcs_disease_summary_view');
 });
 
 Route::get('/edcs/barangayportal', [PIDSRController::class, 'brgyCaseViewerWelcome'])->name('edcs_barangay_welcome');
