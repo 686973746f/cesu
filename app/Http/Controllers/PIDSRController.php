@@ -9411,9 +9411,11 @@ class PIDSRController extends Controller
                 ->where('province', 'CAVITE')
                 ->where('muncity', 'GENERAL TRIAS');
 
-                $currentmw_count = (clone $baseq)->where('encoded_mw', $currentDay->format('W'))
+                $currentmw_count = (clone $baseq)->where('year', $currentDay->format('Y'))
+                ->where('encoded_mw', $currentDay->format('W'))
                 ->count();
-                $currentmw_died_count = (clone $baseq)->where('encoded_mw', $currentDay->format('W'))
+                $currentmw_died_count = (clone $baseq)->where('year', $currentDay->format('Y'))
+                ->where('encoded_mw', $currentDay->format('W'))
                 ->where('outcome', 'Died')
                 ->count();
 
@@ -9432,9 +9434,11 @@ class PIDSRController extends Controller
                 ->where('Province', 'CAVITE')
                 ->where('Muncity', 'GENERAL TRIAS');
 
-                $currentmw_count = (clone $baseq)->where('encoded_mw', $currentDay->format('W'))
+                $currentmw_count = (clone $baseq)->where('Year', $currentDay->format('Y'))
+                ->where('encoded_mw', $currentDay->format('W'))
                 ->count();
-                $currentmw_died_count = (clone $baseq)->where('encoded_mw', $currentDay->format('W'))
+                $currentmw_died_count = (clone $baseq)->where('Year', $currentDay->format('Y'))
+                ->where('encoded_mw', $currentDay->format('W'))
                 ->where('Outcome', 'D')
                 ->count();
 
