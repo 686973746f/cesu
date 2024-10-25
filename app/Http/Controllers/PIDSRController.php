@@ -9387,7 +9387,7 @@ class PIDSRController extends Controller
     }
 
     public function diseaseSummaryView() {
-        if(request()->input('year') && request()->input('year') != date('Y') && request()->input('mw')) {
+        if(request()->input('year') && request()->input('mw')) {
             $currentDay = Carbon::now()->setISODate(request()->input('year'), request()->input('mw'));
             $lastYear = Carbon::now()->setISODate(request()->input('year')-1, 1);
         }
