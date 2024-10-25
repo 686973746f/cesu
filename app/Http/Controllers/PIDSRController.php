@@ -9412,10 +9412,10 @@ class PIDSRController extends Controller
                 ->where('muncity', 'GENERAL TRIAS');
 
                 $currentmw_count = (clone $baseq)->where('year', $currentDay->format('Y'))
-                ->where('encoded_mw', $currentDay->format('W'))
+                ->where('morbidity_week', $currentDay->format('W'))
                 ->count();
                 $currentmw_died_count = (clone $baseq)->where('year', $currentDay->format('Y'))
-                ->where('encoded_mw', $currentDay->format('W'))
+                ->where('morbidity_week', $currentDay->format('W'))
                 ->where('outcome', 'Died')
                 ->count();
 
@@ -9435,10 +9435,10 @@ class PIDSRController extends Controller
                 ->where('Muncity', 'GENERAL TRIAS');
 
                 $currentmw_count = (clone $baseq)->where('Year', $currentDay->format('Y'))
-                ->where('encoded_mw', $currentDay->format('W'))
+                ->where('MorbidityWeek', $currentDay->format('W'))
                 ->count();
                 $currentmw_died_count = (clone $baseq)->where('Year', $currentDay->format('Y'))
-                ->where('encoded_mw', $currentDay->format('W'))
+                ->where('MorbidityWeek', $currentDay->format('W'))
                 ->where('Outcome', 'D')
                 ->count();
 
