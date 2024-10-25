@@ -136,9 +136,20 @@
                                 <td colspan="9"><b>Other Diseases</b></td>
                             </tr>
                             @foreach($other_arr as $r)
+                            @php
+                            if($r['currentmw_count'] == 0) {
+                                $ctext_color = '';
+                            }
+                            else if($r['currentmw_count'] == 1 || $r['currentmw_count'] == 2) {
+                                $ctext_color = 'bg-warning font-weight-bold';
+                            }
+                            else {
+                                $ctext_color = 'bg-danger text-white font-weight-bold';
+                            }
+                            @endphp
                             <tr>
                                 <td>{{$r['name']}}</td>
-                                <td class="text-center">{{$r['currentmw_count']}}</td>
+                                <td class="text-center {{$ctext_color}}">{{$r['currentmw_count']}}</td>
                                 <td class="text-center">{{$r['currentmw_died_count']}}</td>
                                 <td class="text-center">{{$r['currentmw_cfr']}}%</td>
                                 <td class="text-center">{{$r['currentyear_count']}}</td>
