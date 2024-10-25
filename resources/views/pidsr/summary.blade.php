@@ -39,6 +39,7 @@
                 
                 <h4 class="text-center mt-5"><b>Summary of Notifiable Diseases</b></h4>
                 <h5 class="text-center">City of General Trias, Morbidity Week 1-{{$currentDay->format('W')}} (January 1 - {{$currentDay->format('F d, Y')}})</h5>
+                
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead class="text-center thead-light">
@@ -66,7 +67,7 @@
                             @foreach($vpd_arr as $r)
                             <tr>
                                 <td>{{$r['name']}}</td>
-                                <td class="text-center">{{$r['currentmw_count']}}</td>
+                                <td class="text-center {{$r['text_style']}}">{{$r['currentmw_count']}}</td>
                                 <td class="text-center">{{$r['currentmw_died_count']}}</td>
                                 <td class="text-center">{{$r['currentmw_cfr']}}%</td>
                                 <td class="text-center">{{$r['currentyear_count']}}</td>
@@ -84,7 +85,7 @@
                             @foreach($vectorborn_arr as $r)
                             <tr>
                                 <td>{{$r['name']}}</td>
-                                <td class="text-center">{{$r['currentmw_count']}}</td>
+                                <td class="text-center {{$r['text_style']}}">{{$r['currentmw_count']}}</td>
                                 <td class="text-center">{{$r['currentmw_died_count']}}</td>
                                 <td class="text-center">{{$r['currentmw_cfr']}}%</td>
                                 <td class="text-center">{{$r['currentyear_count']}}</td>
@@ -102,7 +103,7 @@
                             @foreach($zoonotic_arr as $r)
                             <tr>
                                 <td>{{$r['name']}}</td>
-                                <td class="text-center">{{$r['currentmw_count']}}</td>
+                                <td class="text-center {{$r['text_style']}}">{{$r['currentmw_count']}}</td>
                                 <td class="text-center">{{$r['currentmw_died_count']}}</td>
                                 <td class="text-center">{{$r['currentmw_cfr']}}%</td>
                                 <td class="text-center">{{$r['currentyear_count']}}</td>
@@ -120,7 +121,7 @@
                             @foreach($foodnwaterborn_arr as $r)
                             <tr>
                                 <td>{{$r['name']}}</td>
-                                <td class="text-center">{{$r['currentmw_count']}}</td>
+                                <td class="text-center {{$r['text_style']}}">{{$r['currentmw_count']}}</td>
                                 <td class="text-center">{{$r['currentmw_died_count']}}</td>
                                 <td class="text-center">{{$r['currentmw_cfr']}}%</td>
                                 <td class="text-center">{{$r['currentyear_count']}}</td>
@@ -136,20 +137,10 @@
                                 <td colspan="9"><b>Other Diseases</b></td>
                             </tr>
                             @foreach($other_arr as $r)
-                            @php
-                            if($r['currentmw_count'] == 0) {
-                                $ctext_color = '';
-                            }
-                            else if($r['currentmw_count'] == 1 || $r['currentmw_count'] == 2) {
-                                $ctext_color = 'bg-warning font-weight-bold';
-                            }
-                            else {
-                                $ctext_color = 'bg-danger text-white font-weight-bold';
-                            }
-                            @endphp
+                            
                             <tr>
                                 <td>{{$r['name']}}</td>
-                                <td class="text-center {{$ctext_color}}">{{$r['currentmw_count']}}</td>
+                                <td class="text-center {{$r['text_style']}}">{{$r['currentmw_count']}}</td>
                                 <td class="text-center">{{$r['currentmw_died_count']}}</td>
                                 <td class="text-center">{{$r['currentmw_cfr']}}%</td>
                                 <td class="text-center">{{$r['currentyear_count']}}</td>

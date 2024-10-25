@@ -9484,10 +9484,21 @@ class PIDSRController extends Controller
                 $compare_type = 'HIGHER';
             }
 
+            if($currentmw_count == 0) {
+                $text_style = '';
+            }
+            else if($currentmw_count == 1 || $currentmw_count == 2) {
+                $text_style = 'bg-warning font-weight-bold';
+            }
+            else {
+                $text_style = 'bg-danger text-white font-weight-bold';
+            }
+
             $table_params = [
                 'name' => PIDSRController::getDiseaseTableProperName($t),
                 
                 'currentmw_count' => $currentmw_count,
+                'text_style' => $text_style,
                 'currentmw_died_count' => $currentmw_died_count,
                 'currentmw_cfr' => $currentmw_cfr,
 
