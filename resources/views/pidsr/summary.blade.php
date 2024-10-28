@@ -159,17 +159,17 @@
                 <div class="row justify-content-between mx-2 mt-3">
                     <div>
                         <h6>Prepared by:</h6>
-                        <h6 class="mt-3"><b>Christian James M. Historillo</b></h6>
+                        <h6 class="mt-5"><b>Christian James M. Historillo</b></h6>
                         <h6>Administrative Aide III</h6>
                     </div>
                     <div>
                         <h6>Noted by:</h6>
-                        <h6 class="mt-3"><b>Luis P. Broas, RN, RPh, MAN, CAE</b></h6>
+                        <h6 class="mt-5"><b>Luis P. Broas, RN, RPh, MAN, CAE</b></h6>
                         <h6>Nurse III-CESU Designated Head</h6>
                     </div>
                     <div>
                         <h6>Approved by:</h6>
-                        <h6 class="mt-3"><b>Jonathan P. Luseco, MD</b></h6>
+                        <h6 class="mt-5"><b>Jonathan P. Luseco, MD</b></h6>
                         <h6>City Health Officer II</h6>
                     </div>
                 </div>
