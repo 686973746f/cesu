@@ -54,7 +54,10 @@
                 <ul>
                     Legend
                     <li>✔ - Submitted</li>
-                    <li>Z - Zero Case/No Submission</li>
+                    <li>Z - Zero Case</li>
+                    <li>L - Late Submission</li>
+                    <li>X - No Submission</li>
+                    <li>Submitted but No Report - Encoded a Case/s on EDCS-IS on the particular MW but didn't submitted a Weekly Report</li>
                 </ul>
             </div>
         </div>
