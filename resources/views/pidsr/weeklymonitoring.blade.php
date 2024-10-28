@@ -35,6 +35,13 @@
                                 else {
                                     $text_color = 'bg-warning';
                                 }
+
+                                if($w == 'ZERO CASE') {
+                                    $w = 'Z';
+                                }
+                                else if($w == 'LATE SUBMISSION') {
+                                    $w = 'L';
+                                }
                                 @endphp
                                 <td class="text-center {{$text_color}}">{{$w}}</td>
                                 @endforeach

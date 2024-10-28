@@ -44,6 +44,7 @@
                     @endif
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#report">Report</button>
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#snax">sNaX v2</button>
+                    <a href="{{route('edcs_disease_summary_view')}}" class="btn btn-primary btn-block">Weekly Summary of Notifiable Diseases</a>
                     <hr>
                     @if(auth()->user()->isGlobalAdmin() && $unlockweeklyreport)
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#dailyexport">EDCS-IS Daily Import</button>
