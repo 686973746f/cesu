@@ -8768,7 +8768,7 @@ class PIDSRController extends Controller
                         }
                     }
                     else if($getType == 'AUTOSUBMIT_BUT_NOREPORT') {
-                        $stat_string = 'SUBMITTED BUT NO REPORT';
+                        $stat_string = 'ENCODED BUT NO WEEKLY REPORT';
                     }
                     else if($getType == 'SUBMITTED_BUT_LATE') {
                         if($val->status == 'LATE ZERO CASE') {
