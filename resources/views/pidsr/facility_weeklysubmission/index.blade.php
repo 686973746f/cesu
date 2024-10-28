@@ -178,8 +178,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                          <label for="excel_file"><b class="text-danger">*</b>Upload Excel File</label>
-                          <input type="file" class="form-control-file" name="excel_file" id="excel_file" accept=".xls,.xlsx">
+                          <label for="excel_file"><b class="text-danger">*</b>Upload Weekly Summary Report File (Excel or PDF)</label>
+                          <input type="file" class="form-control-file" name="excel_file" id="excel_file" accept=".xls,.xlsx,.pdf">
                         </div>
                     </div>
                 </div>

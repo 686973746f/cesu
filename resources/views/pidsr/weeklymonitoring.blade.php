@@ -35,6 +35,13 @@
                                 else {
                                     $text_color = 'bg-warning';
                                 }
+
+                                if($w == 'ZERO CASE') {
+                                    $w = 'Z';
+                                }
+                                else if($w == 'LATE SUBMISSION') {
+                                    $w = 'L';
+                                }
                                 @endphp
                                 <td class="text-center {{$text_color}}">{{$w}}</td>
                                 @endforeach
@@ -47,7 +54,10 @@
                 <ul>
                     Legend
                     <li>✔ - Submitted</li>
-                    <li>Z - Zero Case/No Submission</li>
+                    <li>Z - Zero Case</li>
+                    <li>L - Late Submission</li>
+                    <li>X - No Submission</li>
+                    <li>Submitted but No Report - Encoded a Case/s on EDCS-IS on the particular MW but didn't submitted a Weekly Report</li>
                 </ul>
             </div>
         </div>

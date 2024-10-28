@@ -190,11 +190,11 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="year"><b class="text-danger">*</b>Year</label>
-                            <input type="number" class="form-control" name="year" id="year" min="{{(date('Y')-5)}}" max="{{date('Y')}}" value="{{date('Y')}}" required>
+                            <input type="number" class="form-control" name="year" id="year" min="{{(date('Y')-5)}}" max="{{date('Y')}}" value="{{(request()->input('year')) ? request()->input('year') : date('Y')}}" required>
                         </div>
                         <div class="form-group">
                             <label for="mw"><b class="text-danger">*</b>Morbidity Week</label>
-                            <input type="number" class="form-control" name="mw" id="mw" value="{{date('W')}}" min="1" max="52" required>
+                            <input type="number" class="form-control" name="mw" id="mw" value="{{(request()->input('mw')) ? request()->input('mw') : date('W')}}" min="1" max="52" required>
                         </div>
                     </div>
                     <div class="modal-footer">
