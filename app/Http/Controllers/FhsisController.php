@@ -3687,4 +3687,105 @@ class FhsisController extends Controller
             ->with('msgtype', 'warning');
         }
     }
+
+    public function reportViewer() {
+        if(request()->input('startDate') && request()->input('endDate') && request()->input('program')) {
+            $startDate = Carbon::parse(request()->input('startDate'))->startOfMonth();
+            $endDate = Carbon::parse(request()->input('endDate'))->startOfMonth();
+
+            $program = request()->input('program');
+
+            $brgy = FhsisBarangay::orderBy('BGY_DESC', 'ASC')->get();
+
+            if($program == 'CHILD CARE') {
+                $cc_arr1 = [];
+
+                foreach($brgy as $b) {
+                    $pop_src = FhsisPopulation::where('POP_YEAR', $startDate->format('Y'))
+                    ->where('BGY_CODE', $b->BGY_CODE)
+                    ->first();
+
+                    $qry = FhsisChildCare::where('BGY_CODE', $b->BGY_DESC);
+
+                    if($startDate->isSameDay($endDate)) {
+                        $d = (clone $qry)->whereDate('DATE', $startDate->format('Y-m-d'))->get();
+                    }
+                    else {
+                        $d = (clone $qry)->whereBetween('DATE', [$startDate->format('Y-m-d'), $endDate->format('Y-m-d')])->get();
+                    }
+
+                    $elig_pop = ($pop_src->POP_UNDER1M + $pop_src->POP_UNDER1F);
+                    $cpb_m = $d->sum('CPB_M');
+                    $cpb_f = $d->sum('CPB_F');
+                    $cpb_total = $cpb_m + $cpb_f;
+                    $cpb_percent = ($elig_pop > 0) ? round(($cpb_total / $elig_pop) * 100, 2) : '-';
+
+                    $bcg_m = $d->sum('IMM_BCG_M');
+                    $bcg_f = $d->sum('IMM_BCG_F');
+                    $bcg_total = $bcg_m + $bcg_f;
+                    $bcg_percent = ($elig_pop > 0) ? round(($bcg_total / $elig_pop) * 100, 2) : '-';
+                    
+                    $hepabwin24_m = $d->sum('IMM_HEPAB1WIN24_M');
+                    $hepabwin24_f = $d->sum('IMM_HEPAB1WIN24_F');
+                    $hepabwin24_total = $hepabwin24_m + $hepabwin24_f;
+                    $hepabwin24_percent = ($elig_pop > 0) ? round(($hepabwin24_total / $elig_pop) * 100, 2) : '-';
+
+                    $dpt1_m = $d->sum('IMM_PENTA1_M');
+                    $dpt1_f = $d->sum('IMM_PENTA1_F');
+                    $dpt1_total = $dpt1_m + $dpt1_f;
+                    $dpt1_percent = ($elig_pop > 0) ? round(($dpt1_total / $elig_pop) * 100, 2) : '-';
+
+                    $dpt2_m = $d->sum('IMM_PENTA2_M');
+                    $dpt2_f = $d->sum('IMM_PENTA2_F');
+                    $dpt2_total = $dpt2_m + $dpt2_f;
+                    $dpt2_percent = ($elig_pop > 0) ? round(($dpt2_total / $elig_pop) * 100, 2) : '-';
+
+                    $dpt3_m = $d->sum('IMM_PENTA3_M');
+                    $dpt3_f = $d->sum('IMM_PENTA3_F');
+                    $dpt3_total = $dpt3_m + $dpt3_f;
+                    $dpt3_percent = ($elig_pop > 0) ? round(($dpt3_total / $elig_pop) * 100, 2) : '-';
+
+                    $cc_arr1[] = [
+                        'brgy' => mb_strtoupper($b->BGY_DESC),
+                        'elig_pop' => $elig_pop,
+                        'cpb_m' => $cpb_m,
+                        'cpb_f' => $cpb_f,
+                        'cpb_total' => $cpb_total,
+                        'cpb_percent' => $cpb_percent,
+
+                        'bcg_m' => $bcg_m,
+                        'bcg_f' => $bcg_f,
+                        'bcg_total' => $bcg_total,
+                        'bcg_percent' => $bcg_percent,
+
+                        'hepabwin24_m' => $hepabwin24_m,
+                        'hepabwin24_f' => $hepabwin24_f,
+                        'hepabwin24_total' => $hepabwin24_total,
+                        'hepabwin24_percent' => $hepabwin24_percent,
+
+                        'dpt1_m' => $dpt1_m,
+                        'dpt1_f' => $dpt1_f,
+                        'dpt1_total' => $dpt1_total,
+                        'dpt1_percent' => $dpt1_percent,
+                        
+                        'dpt2_m' => $dpt2_m,
+                        'dpt2_f' => $dpt2_f,
+                        'dpt2_total' => $dpt2_total,
+                        'dpt2_percent' => $dpt2_percent,
+
+                        'dpt3_m' => $dpt3_m,
+                        'dpt3_f' => $dpt3_f,
+                        'dpt3_total' => $dpt3_total,
+                        'dpt3_percent' => $dpt3_percent,
+                    ];
+                }
+
+                return view('efhsis.reports.childcare', [
+                    'startDate' => $startDate,
+                    'endDate' => $endDate,
+                    'cc_arr1' => $cc_arr1,
+                ]);
+            }
+        }
+    }
 }

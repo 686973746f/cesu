@@ -624,6 +624,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessF
     Route::get('/fhsis/reportv2', [FhsisController::class, 'morbMortReportMain'])->name('fhsis_reportv2');
 
     Route::get('/fhsis/icd10_search', [FhsisController::class, 'icdSearcher'])->name('fhsis_icd10_searcher');
+    Route::get('/fhsis/report2018/', [FhsisController::class, 'reportViewer'])->name('fhsis_2018_report');
 });
 
 //ABTC (WALK IN)

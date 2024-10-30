@@ -51,6 +51,37 @@
                         </button>
                 </div>
                 <div class="modal-body">
+                    <form action="{{route('fhsis_2018_report')}}" method="GET">
+                        <div class="card mb-3">
+                            <div class="card-header"><b>Version 2018 Report and Verifier</b></div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                          <label for="startDate"><b class="text-danger">*</b>Start Date</label>
+                                          <input type="date" class="form-control" name="startDate" id="startDate" min="2020-01-01" max="{{date('Y-m-t')}}" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="endDate"><b class="text-danger">*</b>End Date</label>
+                                            <input type="date" class="form-control" name="endDate" id="endDate" min="2020-01-01" max="{{date('Y-m-t')}}" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                  <label for="program">Program</label>
+                                  <select class="form-control" name="program" id="program" required>
+                                    <option value="CHILD CARE">Child Care</option>
+                                  </select>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-success btn-block">Generate</button>
+                            </div>
+                        </div>
+                    </form>
+
                     <div class="card mb-3">
                         <div class="card-header"><b>Report V1</b></div>
                         <div class="card-body">
