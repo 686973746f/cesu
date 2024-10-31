@@ -3699,6 +3699,7 @@ class FhsisController extends Controller
 
             if($program == 'CHILD CARE') {
                 $cc_arr1 = [];
+                $cc_arr2 = [];
 
                 foreach($brgy as $b) {
                     $pop_src = FhsisPopulation::where('POP_YEAR', $startDate->format('Y'))
@@ -3778,12 +3779,52 @@ class FhsisController extends Controller
                         'dpt3_total' => $dpt3_total,
                         'dpt3_percent' => $dpt3_percent,
                     ];
+
+                    $elig_pop2 = ($pop_src->POP_3YRM + $pop_src->POP_3YRF + $pop_src->POP_4YRM + $pop_src->POP_4YRF);
+
+                    $ipv1_m = $d->sum('IMM_IPV_M');
+                    $ipv1_f = $d->sum('IMM_IPV_F');
+                    $ipv1_total = $ipv1_m + $ipv1_f;
+                    $ipv1_percent = ($elig_pop > 0) ? round(($ipv1_total / $elig_pop) * 100, 2) : '-';
+
+                    $ipv2_m = $d->sum('IMM_ROTA2_M');
+                    $ipv2_f = $d->sum('IMM_ROTA2_F');
+                    $ipv2_total = $ipv2_m + $ipv2_f;
+                    $ipv2_percent = ($elig_pop > 0) ? round(($ipv2_total / $elig_pop) * 100, 2) : '-';
+
+                    $ipv3_m = $d->sum('IMM_ROTA3_M');
+                    $ipv3_f = $d->sum('IMM_ROTA3_F');
+                    $ipv3_total = $ipv3_m + $ipv3_f;
+                    $ipv3_percent = ($elig_pop > 0) ? round(($ipv3_total / $elig_pop) * 100, 2) : '-';
+
+                    $cc_arr2[] = [
+                        'brgy' => mb_strtoupper($b->BGY_DESC),
+                        'elig_pop' => $elig_pop,
+
+                        'ipv1_m' => $ipv1_m,
+                        'ipv1_f' => $ipv1_f,
+                        'ipv1_total' => $ipv1_total,
+                        'ipv1_percent' => $ipv1_percent,
+
+                        'ipv2_m' => $ipv2_m,
+                        'ipv2_f' => $ipv2_f,
+                        'ipv2_total' => $ipv2_total,
+                        'ipv2_percent' => $ipv2_percent,
+
+                        'ipv3_m' => $ipv3_m,
+                        'ipv3_f' => $ipv3_f,
+                        'ipv3_total' => $ipv3_total,
+                        'ipv3_percent' => $ipv3_percent,
+
+                        'elig_pop2' => $elig_pop2,
+                    ];
                 }
 
                 return view('efhsis.reports.childcare', [
                     'startDate' => $startDate,
                     'endDate' => $endDate,
                     'cc_arr1' => $cc_arr1,
+                    'cc_arr2' => $cc_arr2,
                 ]);
             }
         }
