@@ -16,6 +16,7 @@ class EdcsWeeklySubmissionChecker extends Model
         'week',
         'status',
         'type',
+        'consider_submitted_override',
         'waive_status',
         'waive_date',
 
@@ -92,7 +93,7 @@ class EdcsWeeklySubmissionChecker extends Model
     }
 
     public function getAlreadySubmittedTypeFunction() {
-        if(Carbon::now()->setISODate($this->year, $this->week)->addWeek(1)->isSameDay(Carbon::parse($this->created_at))) {
+        if(Carbon::now()->setISODate($this->year, $this->week)->addWeek(1)->isSameDay(Carbon::parse($this->created_at)) || $this->consider_submitted_override == 'Y') {
             return 'SUBMITTED_ONTIME';
         }
         else {
