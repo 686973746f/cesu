@@ -2918,6 +2918,7 @@ class FhsisController extends Controller
                 ->count();
     
                 $early_neonatal_deaths_finaltotal_m += $age1_m;
+                $neonatal_deaths_finaltotal_m += $age1_m;
                 $infant_deaths_finaltotal_m += $age1_m;
                 $uf_deaths_finaltotal_m += $age1_m;
     
@@ -2930,6 +2931,7 @@ class FhsisController extends Controller
                 ->count();
     
                 $early_neonatal_deaths_finaltotal_f += $age1_f;
+                $neonatal_deaths_finaltotal_f += $age1_f;
                 $infant_deaths_finaltotal_f += $age1_f;
                 $uf_deaths_finaltotal_f += $age1_f;
     
@@ -2950,7 +2952,17 @@ class FhsisController extends Controller
     
                 $fetal_deaths_finaltotal_m += $fet_death_m;
                 $fetal_deaths_finaltotal_f += $fet_death_f;
-    
+
+                //New Code November 2024
+                $early_neonatal_deaths_finaltotal_m += $fet_death_m;
+                $early_neonatal_deaths_finaltotal_f += $fet_death_f;
+                $neonatal_deaths_finaltotal_m += $fet_death_m;
+                $neonatal_deaths_finaltotal_f += $fet_death_f;
+                $infant_deaths_finaltotal_m += $fet_death_m;
+                $infant_deaths_finaltotal_f += $fet_death_f;
+                $uf_deaths_finaltotal_m += $fet_death_m;
+                $uf_deaths_finaltotal_f += $fet_death_f;
+
                 //7-28 Days
                 $age2_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
