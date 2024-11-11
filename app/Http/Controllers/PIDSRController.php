@@ -8760,7 +8760,7 @@ class PIDSRController extends Controller
                 if($val) {
                     $getType = $val->getAlreadySubmittedTypeFunction();
                     if($getType == 'SUBMITTED_ONTIME') {
-                        if($val->status == 'SUBMITTED') {
+                        if($val->status == 'SUBMITTED' || $val->consider_submitted_override == 'Y') {
                             $stat_string = '✔';
                         }
                         else {
