@@ -8759,8 +8759,24 @@ class PIDSRController extends Controller
 
                 if($val) {
                     $getType = $val->getAlreadySubmittedTypeFunction();
-                    if($getType == 'SUBMITTED_ONTIME') {
-                        if($val->status == 'SUBMITTED' || $val->consider_submitted_override == 'Y') {
+                    if($getType->consider_submitted_override != 'N') {
+                        $or_status = $getType->consider_submitted_override;
+
+                        if($or_status == 'Y') {
+                            $stat_string = '✔';
+                        }
+                        else if($or_status == 'Z') {
+                            $stat_string = 'ZERO CASE';
+                        }
+                        else if($or_status == 'LS') {
+                            $stat_string = 'ZERO CASE';
+                        }
+                        else if($or_status == 'LZ') {
+                            $stat_string = 'LATE ZERO CAS';
+                        }
+                    }
+                    else if($getType == 'SUBMITTED_ONTIME') {
+                        if($val->status == 'SUBMITTED') {
                             $stat_string = '✔';
                         }
                         else {
