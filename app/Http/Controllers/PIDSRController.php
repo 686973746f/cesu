@@ -8760,7 +8760,7 @@ class PIDSRController extends Controller
                 if($val) {
                     $getType = $val->getAlreadySubmittedTypeFunction();
                     if($getType->consider_submitted_override != 'N') {
-                        $or_status = $getType->consider_submitted_override;
+                        $or_status = $val->consider_submitted_override;
 
                         if($or_status == 'Y') {
                             $stat_string = '✔';
