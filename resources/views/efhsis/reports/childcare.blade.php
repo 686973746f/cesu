@@ -124,7 +124,25 @@
                             </tr>
                         </thead>
                         <tbody>
-
+                            @foreach($cc_arr2 as $r)
+                            <tr>
+                                <td>{{$r['brgy']}}</td>
+                                <td class="text-center">{{$r['elig_pop']}}</td>
+                                <td class="text-center">{{$r['ipv1_m']}}</td>
+                                <td class="text-center">{{$r['ipv1_f']}}</td>
+                                <td class="text-center">{{$r['ipv1_total']}}</td>
+                                <td class="text-center">{{$r['ipv1_percent']}}</td>
+                                <td class="text-center">{{$r['ipv2_m']}}</td>
+                                <td class="text-center">{{$r['ipv2_f']}}</td>
+                                <td class="text-center">{{$r['ipv2_total']}}</td>
+                                <td class="text-center">{{$r['ipv2_percent']}}</td>
+                                <td class="text-center">{{$r['elig_pop2']}}</td>
+                                <td class="text-center">{{$r['ipv3_m']}}</td>
+                                <td class="text-center">{{$r['ipv3_f']}}</td>
+                                <td class="text-center">{{$r['ipv3_total']}}</td>
+                                <td class="text-center">{{$r['ipv3_percent']}}</td>
+                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -134,7 +152,10 @@
                         <thead class="thead-light text-center">
                             <tr>
                                 <th rowspan="2">Area</th>
-                                <th rowspan="2">Elig. Pop</th>
+                                <th rowspan="2">
+                                    <div>Elig. Pop.</div>
+                                    <div>(Under 1 year old)</div>
+                                </th>
                                 <th colspan="4">OPV 1</th>
                                 <th colspan="4">OPV 2</th>
                                 <th colspan="4">OPV 3</th>
@@ -170,7 +191,36 @@
                             </tr>
                         </thead>
                         <tbody>
-                            
+                            @foreach($cc_arr3 as $r)
+                            <tr>
+                                <td>{{$r['brgy']}}</td>
+                                <td class="text-center">{{$r['elig_pop']}}</td>
+                                <td class="text-center">{{$r['opv1_m']}}</td>
+                                <td class="text-center">{{$r['opv1_f']}}</td>
+                                <td class="text-center">{{$r['opv1_total']}}</td>
+                                <td class="text-center">{{$r['opv1_percent']}}</td>
+                                <td class="text-center">{{$r['opv2_m']}}</td>
+                                <td class="text-center">{{$r['opv2_f']}}</td>
+                                <td class="text-center">{{$r['opv2_total']}}</td>
+                                <td class="text-center">{{$r['opv2_percent']}}</td>
+                                <td class="text-center">{{$r['opv3_m']}}</td>
+                                <td class="text-center">{{$r['opv3_f']}}</td>
+                                <td class="text-center">{{$r['opv3_total']}}</td>
+                                <td class="text-center">{{$r['opv3_percent']}}</td>
+                                <td class="text-center">{{$r['pcv1_m']}}</td>
+                                <td class="text-center">{{$r['pcv1_f']}}</td>
+                                <td class="text-center">{{$r['pcv1_total']}}</td>
+                                <td class="text-center">{{$r['pcv1_percent']}}</td>
+                                <td class="text-center">{{$r['pcv2_m']}}</td>
+                                <td class="text-center">{{$r['pcv2_f']}}</td>
+                                <td class="text-center">{{$r['pcv2_total']}}</td>
+                                <td class="text-center">{{$r['pcv2_percent']}}</td>
+                                <td class="text-center">{{$r['pcv3_m']}}</td>
+                                <td class="text-center">{{$r['pcv3_f']}}</td>
+                                <td class="text-center">{{$r['pcv3_total']}}</td>
+                                <td class="text-center">{{$r['pcv3_percent']}}</td>
+                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -217,7 +267,30 @@
                             </tr>
                         </thead>
                         <tbody>
-                            
+                            @foreach($cc_arr4 as $r)
+                            <tr>
+                                <td>{{$r['brgy']}}</td>
+                                <td class="text-center">{{$r['elig_pop']}}</td>
+                                <td class="text-center">{{$r['elig_pop3']}}</td>
+                                <td class="text-center">{{$r['mcv1_m']}}</td>
+                                <td class="text-center">{{$r['mcv1_f']}}</td>
+                                <td class="text-center">{{$r['mcv1_total']}}</td>
+                                <td class="text-center">{{$r['mcv1_percent']}}</td>
+                                <td class="text-center">{{$r['mcv2_m']}}</td>
+                                <td class="text-center">{{$r['mcv2_f']}}</td>
+                                <td class="text-center">{{$r['mcv2_total']}}</td>
+                                <td class="text-center">{{$r['mcv2_percent']}}</td>
+                                <td class="text-center">{{$r['fic_m']}}</td>
+                                <td class="text-center">{{$r['fic_f']}}</td>
+                                <td class="text-center">{{$r['fic_total']}}</td>
+                                <td class="text-center">{{$r['fic_percent']}}</td>
+                                <td class="text-center">{{$r['elig_pop4']}}</td>
+                                <td class="text-center">{{$r['cic_m']}}</td>
+                                <td class="text-center">{{$r['cic_f']}}</td>
+                                <td class="text-center">{{$r['cic_total']}}</td>
+                                <td class="text-center">{{$r['cic_percent']}}</td>
+                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

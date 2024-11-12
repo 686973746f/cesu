@@ -3700,6 +3700,8 @@ class FhsisController extends Controller
             if($program == 'CHILD CARE') {
                 $cc_arr1 = [];
                 $cc_arr2 = [];
+                $cc_arr3 = [];
+                $cc_arr3 = [];
 
                 foreach($brgy as $b) {
                     $pop_src = FhsisPopulation::where('POP_YEAR', $startDate->format('Y'))
@@ -3795,7 +3797,7 @@ class FhsisController extends Controller
                     $ipv3_m = $d->sum('IMM_ROTA3_M');
                     $ipv3_f = $d->sum('IMM_ROTA3_F');
                     $ipv3_total = $ipv3_m + $ipv3_f;
-                    $ipv3_percent = ($elig_pop > 0) ? round(($ipv3_total / $elig_pop) * 100, 2) : '-';
+                    $ipv3_percent = ($elig_pop2 > 0) ? round(($ipv3_total / $elig_pop2) * 100, 2) : '-';
 
                     $cc_arr2[] = [
                         'brgy' => mb_strtoupper($b->BGY_DESC),
@@ -3816,7 +3818,122 @@ class FhsisController extends Controller
                         'ipv3_total' => $ipv3_total,
                         'ipv3_percent' => $ipv3_percent,
 
-                        'elig_pop2' => $elig_pop2,
+                        'elig_pop2' => $elig_pop2, //0-23 months old
+                    ];
+
+                    $opv1_m = $d->sum('IMM_OPV1_M');
+                    $opv1_f = $d->sum('IMM_OPV1_F');
+                    $opv1_total = $opv1_m + $opv1_f;
+                    $opv1_percent = ($elig_pop > 0) ? round(($opv1_total / $elig_pop) * 100, 2) : '-';
+
+                    $opv2_m = $d->sum('IMM_OPV2_M');
+                    $opv2_f = $d->sum('IMM_OPV2_F');
+                    $opv2_total = $opv2_m + $opv2_f;
+                    $opv2_percent = ($elig_pop > 0) ? round(($opv2_total / $elig_pop) * 100, 2) : '-';
+
+                    $opv3_m = $d->sum('IMM_OPV3_M');
+                    $opv3_f = $d->sum('IMM_OPV3_F');
+                    $opv3_total = $opv3_m + $opv3_f;
+                    $opv3_percent = ($elig_pop > 0) ? round(($opv3_total / $elig_pop) * 100, 2) : '-';
+
+                    $pcv1_m = $d->sum('IMM_PCV1_M');
+                    $pcv1_f = $d->sum('IMM_PCV1_F');
+                    $pcv1_total = $pcv1_m + $pcv1_f;
+                    $pcv1_percent = ($elig_pop > 0) ? round(($pcv1_total / $elig_pop) * 100, 2) : '-';
+
+                    $pcv2_m = $d->sum('IMM_PCV2_M');
+                    $pcv2_f = $d->sum('IMM_PCV2_F');
+                    $pcv2_total = $pcv2_m + $pcv2_f;
+                    $pcv2_percent = ($elig_pop > 0) ? round(($pcv2_total / $elig_pop) * 100, 2) : '-';
+
+                    $pcv3_m = $d->sum('IMM_PCV3_M');
+                    $pcv3_f = $d->sum('IMM_PCV3_F');
+                    $pcv3_total = $pcv3_m + $pcv3_f;
+                    $pcv3_percent = ($elig_pop > 0) ? round(($pcv3_total / $elig_pop) * 100, 2) : '-';
+
+                    $cc_arr3[] = [
+                        'brgy' => mb_strtoupper($b->BGY_DESC),
+                        'elig_pop' => $elig_pop, //Under 1 y.o
+
+                        'opv1_m' => $opv1_m,
+                        'opv1_f' => $opv1_f,
+                        'opv1_total' => $opv1_total,
+                        'opv1_percent' => $opv1_percent,
+
+                        'opv2_m' => $opv2_m,
+                        'opv2_f' => $opv2_f,
+                        'opv2_total' => $opv2_total,
+                        'opv2_percent' => $opv2_percent,
+
+                        'opv3_m' => $opv3_m,
+                        'opv3_f' => $opv3_f,
+                        'opv3_total' => $opv3_total,
+                        'opv3_percent' => $opv3_percent,
+
+                        'pcv1_m' => $pcv1_m,
+                        'pcv1_f' => $pcv1_f,
+                        'pcv1_total' => $pcv1_total,
+                        'pcv1_percent' => $pcv1_percent,
+
+                        'pcv2_m' => $pcv2_m,
+                        'pcv2_f' => $pcv2_f,
+                        'pcv2_total' => $pcv2_total,
+                        'pcv2_percent' => $pcv2_percent,
+
+                        'pcv3_m' => $pcv3_m,
+                        'pcv3_f' => $pcv3_f,
+                        'pcv3_total' => $pcv3_total,
+                        'pcv3_percent' => $pcv3_percent,
+                    ];
+
+                    $elig_pop3 = ($pop_src->POP_3YRM + $pop_src->POP_3YRF);
+                    $elig_pop4 = ($pop_src->POP_4YRM + $pop_src->POP_4YRF);
+
+                    $mcv1_m = $d->sum('IMM_MCV1_M');
+                    $mcv1_f = $d->sum('IMM_MCV1_F');
+                    $mcv1_total = $mcv1_m + $mcv1_f;
+                    $mcv1_percent = ($elig_pop > 0) ? round(($mcv1_total / $elig_pop) * 100, 2) : '-';
+
+                    $mcv2_m = $d->sum('IMM_MCV2_M');
+                    $mcv2_f = $d->sum('IMM_MCV2_F');
+                    $mcv2_total = $mcv2_m + $mcv2_f;
+                    $mcv2_percent = ($elig_pop3 > 0) ? round(($mcv2_total / $elig_pop3) * 100, 2) : '-';
+
+                    $fic_m = $d->sum('FIC_M');
+                    $fic_f = $d->sum('FIC_F');
+                    $fic_total = $fic_m + $fic_f;
+                    $fic_percent = ($elig_pop3 > 0) ? round(($fic_total / $elig_pop3) * 100, 2) : '-';
+
+                    $cic_m = $d->sum('CIC_M');
+                    $cic_f = $d->sum('CIC_F');
+                    $cic_total = $cic_m + $cic_f;
+                    $cic_percent = ($elig_pop4 > 0) ? round(($cic_total / $elig_pop4) * 100, 2) : '-';
+
+                    $cc_arr4[] = [
+                        'brgy' => mb_strtoupper($b->BGY_DESC),
+                        'elig_pop' => $elig_pop, //Under 1 y.o
+                        'elig_pop3' => $elig_pop3, //0-12 Months
+                        'elig_pop4' => $elig_pop4, //13-23 Months
+
+                        'mcv1_m' => $mcv1_m,
+                        'mcv1_f' => $mcv1_f,
+                        'mcv1_total' => $mcv1_total,
+                        'mcv1_percent' => $mcv1_percent,
+
+                        'mcv2_m' => $mcv2_m,
+                        'mcv2_f' => $mcv2_f,
+                        'mcv2_total' => $mcv2_total,
+                        'mcv2_percent' => $mcv2_percent,
+
+                        'fic_m' => $fic_m,
+                        'fic_f' => $fic_f,
+                        'fic_total' => $fic_total,
+                        'fic_percent' => $fic_percent,
+
+                        'cic_m' => $cic_m,
+                        'cic_f' => $cic_f,
+                        'cic_total' => $cic_total,
+                        'cic_percent' => $cic_percent,
                     ];
                 }
 
@@ -3825,6 +3942,8 @@ class FhsisController extends Controller
                     'endDate' => $endDate,
                     'cc_arr1' => $cc_arr1,
                     'cc_arr2' => $cc_arr2,
+                    'cc_arr3' => $cc_arr3,
+                    'cc_arr4' => $cc_arr4,
                 ]);
             }
         }
