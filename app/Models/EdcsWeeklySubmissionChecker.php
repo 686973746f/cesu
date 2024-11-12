@@ -16,6 +16,7 @@ class EdcsWeeklySubmissionChecker extends Model
         'week',
         'status',
         'type',
+        'consider_submitted_override',
         'waive_status',
         'waive_date',
 

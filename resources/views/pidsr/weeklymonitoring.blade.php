@@ -26,6 +26,19 @@
                                 <td><b>{{$i['name']}}</b></td>
                                 @foreach($i['weeks'] as $w)
                                 @php
+                                if($w == 'ZERO CASE') {
+                                    $w = 'Z';
+                                }
+                                else if($w == 'LATE SUBMISSION') {
+                                    $w = 'L';
+                                }
+
+                                if(request()->input('simplifiedview')) {
+                                    if($w == 'ENCODED BUT NO WEEKLY REPORT') {
+                                        $w = 'X';
+                                    }
+                                }
+
                                 if($w == '✔' || $w == 'ZERO CASE') {
                                     $text_color = 'bg-success';
                                 }
@@ -35,13 +48,7 @@
                                 else {
                                     $text_color = 'bg-warning';
                                 }
-
-                                if($w == 'ZERO CASE') {
-                                    $w = 'Z';
-                                }
-                                else if($w == 'LATE SUBMISSION') {
-                                    $w = 'L';
-                                }
+                                
                                 @endphp
                                 <td class="text-center {{$text_color}}">{{$w}}</td>
                                 @endforeach
