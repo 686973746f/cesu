@@ -294,6 +294,35 @@
                         </tbody>
                     </table>
                 </div>
+
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead class="thead-light text-center">
+                            <tr>
+                                <th>Area</th>
+                                <th>Total Live Births</th>
+                                <th>Newborn initiated on breastfeeding immediately after birth lasting to 90 mins.</th>
+                                <th>Total Live Births with Low Birth Weight</th>
+                                <th>Total Live Births</th>
+                                <th>Total Live Births</th>
+                                <th>Total Live Births</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td scope="row"></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td scope="row"></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
         </div>
     </div>

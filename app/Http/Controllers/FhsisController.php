@@ -3715,6 +3715,9 @@ class FhsisController extends Controller
                 $cc_arr3 = [];
                 $cc_arr3 = [];
 
+                //Part 2
+                $cc_arr4 = [];
+
                 foreach($brgy as $b) {
                     $pop_src = FhsisPopulation::where('POP_YEAR', $startDate->format('Y'))
                     ->where('BGY_CODE', $b->BGY_CODE)
