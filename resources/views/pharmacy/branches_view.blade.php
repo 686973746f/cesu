@@ -111,6 +111,9 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="pagination justify-content-center mt-3">
+                        {{$get_transactions->appends(request()->input())->links()}}
+                    </div>
                     @else
                     <p class="text-center">No transactions yet.</p>
                     @endif
