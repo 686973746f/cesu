@@ -1422,6 +1422,13 @@ class ABTCVaccinationController extends Controller
         })
         ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id);
 
+        //Day 7 na di pa tapos sa Day 3
+        $ff_total_invi = AbtcBakunaRecords::whereDate('d7_date', $sdate)
+        ->where('d3_done', 0)
+        ->where('d7_done', 0)
+        ->where('is_booster', 0)
+        ->count();
+
         /*
         ->where('outcome', 'INC')
         ->orderBy('created_at', 'ASC')
@@ -1490,6 +1497,7 @@ class ABTCVaccinationController extends Controller
             'ff' => $ff,
             'ff_row' => $ff_row,
             'ff_total' => $ff_total,
+            'ff_total_invi' => $ff_total_invi,
             'completed_count' => $completed_count,
             'sdate' => $sdate,
             'possible_d28_count' => $possible_d28_count,
@@ -1661,6 +1669,8 @@ class ABTCVaccinationController extends Controller
         $templateProcessor->setValue('dplace', $b->case_location);
         $templateProcessor->setValue('dtype', $b->getBiteType());
         $templateProcessor->setValue('dsource', $b->getSource());
+
+        $templateProcessor->setValue('cpri', $b->patient->cardPriority());
         
         if($b->category_level == 3) {
             $templateProcessor->setValue('dcat', '3');

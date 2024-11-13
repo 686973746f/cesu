@@ -2,13 +2,6 @@
 
 @section('content')
 <style>
-    #divToPrint {
-        background-image: url("{{asset('assets/images/gentri_icon_large_watermark.png')}}");
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: 70%;
-    }
-
     @media print {
         #PrintBtn, #titleBody {
             display: none;

@@ -3272,6 +3272,8 @@ class FhsisController extends Controller
                     $above65_f = 0;
                 }
     
+                /*
+                Old Totalization
                 $total_m = $age1_m +
                     $age2_m +
                     $age3_m +
@@ -3309,6 +3311,57 @@ class FhsisController extends Controller
                     $age16_f +
                     $age17_f +
                     $age18_f;
+                */
+
+                $total_m = $age1_m +
+                    $age2_m +
+                    $age3_m +
+                    $age4_m +
+                    $age5_m +
+                    $age6_m +
+                    $age7_m +
+                    $age8_m +
+                    $age9_m +
+                    $age10_m +
+                    $age11_m +
+                    $age12_m +
+                    $age13_m +
+                    $age14_m +
+                    $age15_m +
+                    $age16_m +
+                    $age17_m +
+                    $age18_m +
+                    $early_neonatal_deaths_finaltotal_m +
+                    $fetal_deaths_finaltotal_m +
+                    $neonatal_deaths_finaltotal_m +
+                    $infant_deaths_finaltotal_m +
+                    $uf_deaths_finaltotal_m;
+
+                $total_f = $age1_f +
+                    $age2_f +
+                    $age3_f +
+                    $age4_f +
+                    $age5_f +
+                    $age6_f +
+                    $age7_f +
+                    $age8_f +
+                    $age9_f +
+                    $age10_f +
+                    $age11_f +
+                    $age12_f +
+                    $age13_f +
+                    $age14_f +
+                    $age15_f +
+                    $age16_f +
+                    $age17_f +
+                    $age18_f +
+                    $early_neonatal_deaths_finaltotal_f +
+                    $fetal_deaths_finaltotal_f +
+                    $neonatal_deaths_finaltotal_f +
+                    $infant_deaths_finaltotal_f +
+                    $uf_deaths_finaltotal_f +
+                    $mat_deaths_finaltotal +
+                    $ormat_deaths_finaltotal;
     
                 $total_deaths_m += $total_m;
                 $total_deaths_f += $total_f;

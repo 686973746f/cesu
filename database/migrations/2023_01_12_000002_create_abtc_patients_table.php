@@ -26,6 +26,7 @@ class CreateAbtcPatientsTable extends Migration
             $table->date('bdate')->nullable();
             $table->integer('age')->nullable();
             $table->string('gender');
+            $table->string('is_pregnant', 1)->default('N');
             $table->string('contact_number')->nullable();
             $table->string('philhealth')->nullable();
 

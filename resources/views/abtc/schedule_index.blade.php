@@ -293,11 +293,13 @@
 </form>
 
 <script>
-    $('#putd3here').text($('#d3_text').text());
-    $('#putd7here').text($('#d7_text').text());
+    var d7_hidden = {{$ff_total_invi}};
 
-    $('#put_pendingtotal').text($('#total_pending').text());
-    $('#put_pendingnew').text($('#pending_new').text());
+    $('#putd3here').text($('#d3_text').text());
+    $('#putd7here').text(Number($('#d7_text').text()) + d7_hidden);
+
+    $('#put_pendingtotal').text(Number($('#total_pending').text()) + d7_hidden);
+    $('#put_pendingnew').text(Number($('#pending_new').text()) + d7_hidden);
     $('#put_pendingbooster').text($('#pending_booster').text());
 
     $(function () {

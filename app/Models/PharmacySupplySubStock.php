@@ -15,6 +15,8 @@ class PharmacySupplySubStock extends Model
         'expiration_date',
         'batch_number',
         'lot_number',
+        'barcode_number',
+        
         'current_box_stock',
         'current_piece_stock',
 

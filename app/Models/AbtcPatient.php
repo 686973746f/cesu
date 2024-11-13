@@ -24,6 +24,7 @@ class AbtcPatient extends Model
         'bdate',
         'age',
         'gender',
+        'is_pregnant',
         'contact_number',
         'philhealth',
         'address_region_code',
@@ -295,6 +296,29 @@ class AbtcPatient extends Model
         }
         else {
             return 'MEMBER';
+        }
+    }
+
+    public function cardPriority() {
+        $str = [];
+
+        if($this->is_pregnant == 'Y') {
+            $str[] = 'BUNTIS';
+        }
+
+        if($this->is_seniorcitizen == 'Y') {
+            $str[] = 'SENIOR';
+        }
+
+        if($this->is_pwd == 'Y') {
+            $str[] = 'PWD';
+        }
+
+        if(!empty($str)) {
+            return implode(',', $str);
+        }
+        else {
+            return '';
         }
     }
 }
