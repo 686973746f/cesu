@@ -1,15 +1,54 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    #divToPrint {
+        background-image: url("{{asset('assets/images/gentri_icon_large_watermark.png')}}");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 70%;
+    }
+
+    @media print {
+        #PrintBtn, #titleBody {
+            display: none;
+        }
+
+        @page {
+            margin: 0;
+        }
+
+        body {
+            background-color: white;
+        }
+
+        body * {
+            visibility: hidden;
+        }
+
+        #divToPrint, #divToPrint * {
+            visibility: visible;
+        }
+
+        #divToPrint {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    }
+</style>
     <div class="container">
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
                     <div><b>Summary of Notifiable Diseases</b></div>
-                    <div><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#filterModal">Filter</button></div>
+                    <div>
+                    <button type="button" class="btn btn-success" onclick="window.print()"><i class="fa fa-print mr-2" aria-hidden="true"></i>Print <i>(CTRL + P)</i></button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#filterModal">Filter</button>
+                    </div>
                 </div>
             </div>
-            <div class="card-body">
+            <div class="card-body" id="divToPrint">
                 <div class="row">
                     <div class="col-2 text-center">
                         <img src="{{asset('assets/images/cesu_icon.png')}}" style="width: 10rem;" class="img-responsive">
