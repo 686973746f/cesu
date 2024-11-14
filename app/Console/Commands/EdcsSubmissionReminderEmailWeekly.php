@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use App\Models\DohFacility;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\EdcsWeeklySubmissionReminderMail;
 
 class EdcsSubmissionReminderEmailWeekly extends Command
 {
@@ -43,7 +45,9 @@ class EdcsSubmissionReminderEmailWeekly extends Command
         $list = DohFacility::where('is_weeklyreport_submitter', 'Y')->get();
 
         foreach($list as $l) {
-            
+            $email_arr[] = $l->email_edcs;
         }
+
+        Mail::to($email_arr)->send(new EdcsWeeklySubmissionReminderMail());
     }
 }
