@@ -537,6 +537,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     Route::post('/abtc/init_wastage', [ABTCPatientController::class, 'initDailyWastage'])->name('abtc_init_wastage');
     
     Route::get('/abtc/patient', [ABTCPatientController::class, 'index'])->name('abtc_patient_index');
+    Route::get('/abtc/patient/new_check', [ABTCPatientController::class, 'patientCheck'])->name('abtc_patient_new_check');
     Route::get('/abtc/patient/create', [ABTCPatientController::class, 'create'])->name('abtc_patient_create');
     Route::post('/abtc/patient/create', [ABTCPatientController::class, 'store'])->name('abtc_patient_store');
     Route::get('/abtc/patient/{id}/edit', [ABTCPatientController::class, 'edit'])->name('abtc_patient_edit');

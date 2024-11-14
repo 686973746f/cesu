@@ -4,6 +4,11 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            @if(session('msg'))
+            <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
+                {{session('msg')}}
+            </div>
+            @endif
             <div class="card border-warning">
                 <div class="card-header bg-warning text-center"><strong class="text-danger"><i class="fa-solid fa-triangle-exclamation me-2"></i>Existing Vaccination Record Found!</strong></div>
                 <div class="card-body">

@@ -42,6 +42,27 @@ class ABTCPatientController extends Controller
         ]);
     }
 
+    public function patientCheck(Request $r) {
+        $s = AbtcPatient::ifDuplicateFound($r->lname, $r->fname, $r->mname, $r->suffix, $r->bdate);
+
+        if(!is_null($s)) {
+            return redirect()->route('abtc_encode_existing', $s->id)
+            ->with('msg', 'Error: Animal Bite Record for this Patient already exists. Please see the details below.')
+            ->with('msgtype', 'warning');
+        }
+        else {
+            return redirect()->route('abtc_patient_create', [
+                'lname' => $r->lname,
+                'fname' => $r->fname,
+                'mname' => $r->mname,
+                'suffix' => $r->suffix,
+                'bdate' => $r->bdate,
+            ])
+            ->with('msg', 'No existing patient was found. You may now proceed encoding.')
+            ->with('msgtype', 'success');
+        }
+    }
+
     public function index() {
         if(request()->input('q')) {
             $list = AbtcPatient::where(function ($q) {
@@ -62,6 +83,10 @@ class ABTCPatientController extends Controller
     }
 
     public function create() {
+        if(!request()->input('lname') && !request()->input('fname') && !request()->input('mname') && !request()->input('bdate')) {
+            return abort(401);
+        }
+
         return view('abtc.patientlist_create');
     }
 
@@ -98,6 +123,13 @@ class ABTCPatientController extends Controller
                 $get_age = $request->age;
             }
 
+            if($request->gender == 'FEMALE' && $get_age >= 10) {
+                $is_preggy = $request->is_pregnant;
+            }
+            else {
+                $is_preggy = 'N';
+            }
+
             //BLOCK 09999999999
             if($request->contact_number == '09999999999') {
                 return back()
@@ -117,6 +149,7 @@ class ABTCPatientController extends Controller
                 'philhealth' => $request->philhealth,
                 'age' => $get_age,
                 'gender' => $request->gender,
+                'is_pregnant' => $is_preggy,
                 'contact_number' => $request->contact_number,
                 'address_region_code' => $request->address_region_code,
                 'address_region_text' => $request->address_region_text,
@@ -161,9 +194,17 @@ class ABTCPatientController extends Controller
 
         $bcheck = AbtcBakunaRecords::where('patient_id', $data->id)->first();
 
+        if(!is_null($data->bdate)) {
+            $patientAge = Carbon::parse($data->bdate)->age;
+        }
+        else {
+            $patientAge = $data->age;
+        }
+
         return view('abtc.patientlist_edit', [
             'd' => $data,
             'bcheck' => $bcheck,
+            'patientAge' => $patientAge,
         ]);
     }
 
@@ -198,6 +239,13 @@ class ABTCPatientController extends Controller
                 $get_age = $request->age;
             }
 
+            if($request->gender == 'FEMALE' && $get_age >= 10) {
+                $is_preggy = $request->is_pregnant;
+            }
+            else {
+                $is_preggy = 'N';
+            }
+
             $ageToInt = Carbon::parse($request->bdate)->age;
 
             $p->lname = mb_strtoupper($request->lname);
@@ -207,6 +255,7 @@ class ABTCPatientController extends Controller
             $p->bdate = $request->bdate;
             $p->age = $get_age;
             $p->gender = $request->gender;
+            $p->is_pregnant = $is_preggy;
             $p->contact_number = $request->contact_number;
             $p->philhealth = $request->philhealth;
             $p->address_region_code = $request->address_region_code;

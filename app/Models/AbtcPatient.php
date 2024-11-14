@@ -147,6 +147,16 @@ class AbtcPatient extends Model
     }
 
     public static function ifDuplicateFound($lname, $fname, $mname, $suffix, $bdate) {
+        $lname = mb_strtoupper(str_replace([' ','-'], '', $lname));
+        $fname = mb_strtoupper(str_replace([' ','-'], '', $fname));
+
+        $check = AbtcPatient::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $lname)
+        ->where(function($q) use ($fname) {
+            $q->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $fname)
+            ->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), 'LIKE', "$fname%");
+        })
+        ->whereDate('bdate', $bdate);
+
         if($mname == 'N/A') {
             $mname = NULL;
         }
@@ -161,6 +171,35 @@ class AbtcPatient extends Model
             $suffix = $suffix;
         }
 
+        if(!($check->first())) {
+            if(!is_null($mname)) {
+                $mname = mb_strtoupper(str_replace([' ','-'], '', $mname));
+    
+                $check = $check->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), $mname);
+            }
+    
+            if(!is_null($suffix)) {
+                $suffix = mb_strtoupper(str_replace([' ','-'], '', $suffix));
+    
+                $check = $check->where(DB::raw("REPLACE(REPLACE(REPLACE(suffix,'.',''),'-',''),' ','')"), $suffix)->first();
+            }
+            else {
+                $check = $check->first();
+            }
+    
+            if($check) {
+                return $check;
+            }
+            else {
+                return NULL;
+            }
+        }
+        else {
+            return $check->first();
+        }
+
+        /*
+        Old Codebase
         $check = AbtcPatient::where(function ($q) use ($lname, $fname, $mname, $suffix, $bdate) {
             $q->where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
             ->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $fname)))
@@ -181,9 +220,64 @@ class AbtcPatient extends Model
         else {
             return NULL;
         }
+        */
     }
 
     public static function detectChangeName($lname, $fname, $mname, $suffix, $bdate, $id) {
+        $lname = mb_strtoupper(str_replace([' ','-'], '', $lname));
+        $fname = mb_strtoupper(str_replace([' ','-'], '', $fname));
+
+        $check = AbtcPatient::where('id', '!=', $id)
+        ->where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $lname)
+        ->where(function($q) use ($fname) {
+            $q->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $fname)
+            ->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), 'LIKE', "$fname%");
+        })
+        ->whereDate('bdate', $bdate);
+
+        if($mname == 'N/A') {
+            $mname = NULL;
+        }
+        else {
+            $mname = $mname;
+        }
+
+        if($suffix == 'N/A') {
+            $suffix = NULL;
+        }
+        else {
+            $suffix = $suffix;
+        }
+
+        if(!($check->first())) {
+            if(!is_null($mname)) {
+                $mname = mb_strtoupper(str_replace([' ','-'], '', $mname));
+    
+                $check = $check->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), $mname);
+            }
+    
+            if(!is_null($suffix)) {
+                $suffix = mb_strtoupper(str_replace([' ','-'], '', $suffix));
+    
+                $check = $check->where(DB::raw("REPLACE(REPLACE(REPLACE(suffix,'.',''),'-',''),' ','')"), $suffix)->first();
+            }
+            else {
+                $check = $check->first();
+            }
+    
+            if($check) {
+                return $check;
+            }
+            else {
+                return NULL;
+            }
+        }
+        else {
+            return $check;
+        }
+
+        /*
+        Old Duplicate Checking Codebase
         if(!is_null($mname)) {
             $check = AbtcPatient::where('id', '!=', $id)
             ->where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
@@ -207,7 +301,7 @@ class AbtcPatient extends Model
                 else {
                     return $check;
                 }
-                */
+                
                 return $check;
             }
             else {
@@ -266,6 +360,7 @@ class AbtcPatient extends Model
                 }
             }
         }
+        */
     }
 
     public function getCreatedBy() {

@@ -116,6 +116,14 @@
                                 <option value="FEMALE" {{(old('gender', $d->gender) == 'FEMALE') ? 'selected' : ''}}>Female</option>
                             </select>
                         </div>
+                        <div class="form-group d-none" id="pregnantDiv">
+                            <label for="is_pregnant"><b class="text-danger">*</b>Is Pregnant?</label>
+                            <select class="form-select" name="is_pregnant" id="is_pregnant">
+                              <option value="" disabled {{(is_null(old('is_pregnant'))) ? 'selected' : ''}}>Choose...</option>
+                              <option value="Y" {{(old('is_pregnant') == 'Y') ? 'selected' : ''}}>Yes</option>
+                              <option value="N" {{(old('is_pregnant') == 'N') ? 'selected' : ''}}>No</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="col-md-3">
                         <div class="mb-3">
@@ -397,6 +405,20 @@
     $('#address_region_text').val('{{$d->address_region_text}}');
     $('#address_province_text').val('{{$d->address_province_text}}');
     $('#address_muncity_text').val('{{$d->address_muncity_text}}');
+
+    var patientAge = {{$patientAge}};
+
+    $('#gender').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'FEMALE' && patientAge >= 10) {
+            $('#pregnantDiv').removeClass('d-none');
+            $('#is_pregnant').prop('required', true);
+        }
+        else {
+            $('#pregnantDiv').addClass('d-none');
+            $('#is_pregnant').prop('required', false);
+        }
+    }).trigger('change');
 
     $('#has_bday').change(function (e) { 
         e.preventDefault();

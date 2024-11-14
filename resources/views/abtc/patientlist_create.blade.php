@@ -21,40 +21,25 @@
                     <div class="col-md-3">
                         <div class="mb-3">
                             <label for="lname" class="form-label"><b class="text-danger">*</b>Last Name</label>
-                            <input type="text" class="form-control" name="lname" id="lname" value="{{old('lname')}}" maxlength="50" placeholder="e.g DELA CRUZ" style="text-transform: uppercase;" required autofocus>
+                            <input type="text" class="form-control" name="lname" id="lname" value="{{old('lname', request()->input('lname'))}}" maxlength="50" placeholder="e.g DELA CRUZ" style="text-transform: uppercase;" tabindex="-1" required readonly>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="mb-3">
                             <label for="fname" class="form-label"><b class="text-danger">*</b>First Name</label>
-                            <input type="text" class="form-control" name="fname" id="fname" value="{{old('fname')}}" maxlength="50" placeholder="e.g JUAN" style="text-transform: uppercase;" required>
+                            <input type="text" class="form-control" name="fname" id="fname" value="{{old('fname', request()->input('fname'))}}" maxlength="50" placeholder="e.g JUAN" style="text-transform: uppercase;" tabindex="-1" required readonly>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="mb-3">
                             <label for="mname" class="form-label"><b class="text-danger">*</b>Middle Name</label>
-                            <input type="text" class="form-control" name="mname" id="mname" value="{{old('mname')}}" placeholder="e.g SANCHEZ" style="text-transform: uppercase;" maxlength="50" required>
-                            <i><small>(Type <span class="text-danger">N/A</span> if Not Applicable)</small></i>
+                            <input type="text" class="form-control" name="mname" id="mname" value="{{old('mname', request()->input('mname'))}}" placeholder="e.g SANCHEZ" style="text-transform: uppercase;" maxlength="50" tabindex="-1" required readonly>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="mb-3">
-                            <label for="suffix"><b class="text-danger">*</b>Suffix</label>
-                            <select class="form-select" name="suffix" id="suffix" required>
-                                <option value="" disabled {{is_null(old('suffix')) ? 'selected' : ''}}>Choose...</option>
-                                <option value="I" {{(old('suffix') == 'I') ? 'selected' : ''}}>I</option>
-                                <option value="II" {{(old('suffix') == 'II') ? 'selected' : ''}}>II</option>
-                                <option value="III" {{(old('suffix') == 'III') ? 'selected' : ''}}>III</option>
-                                <option value="IV" {{(old('suffix') == 'IV') ? 'selected' : ''}}>IV</option>
-                                <option value="V" {{(old('suffix') == 'V') ? 'selected' : ''}}>V</option>
-                                <option value="VI" {{(old('suffix') == 'VI') ? 'selected' : ''}}>VI</option>
-                                <option value="VII" {{(old('suffix') == 'VII') ? 'selected' : ''}}>VII</option>
-                                <option value="VIII" {{(old('suffix') == 'VIII') ? 'selected' : ''}}>VIII</option>
-                                <option value="JR" {{(old('suffix') == 'JR') ? 'selected' : ''}}>JR</option>
-                                <option value="JR II" {{(old('suffix') == 'JR II') ? 'selected' : ''}}>JR II</option>
-                                <option value="SR" {{(old('suffix') == 'SR') ? 'selected' : ''}}>SR</option>
-                                <option value="N/A" {{(old('suffix') == 'N/A') ? 'selected' : ''}}>N/A (NOT APPLICABLE)</option>
-                            </select>
+                            <label for="suffix" class="form-label"><b class="text-danger">*</b>Suffix</label>
+                            <input type="text" class="form-control" name="suffix" id="suffix" value="{{old('suffix', request()->input('suffix'))}}" style="text-transform: uppercase;" maxlength="50" tabindex="-1" required readonly>
                         </div>
                     </div>
                 </div>
@@ -68,7 +53,7 @@
                         </div>
                         <div class="mb-3 d-none" id="ybday">
                             <label for="bdate" class="form-label"><b class="text-danger">*</b>Birthdate</label>
-                            <input type="date" class="form-control" name="bdate" id="bdate" value="{{old('bdate')}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('-21 Days'))}}" required>  
+                            <input type="date" class="form-control" name="bdate" id="bdate" value="{{old('bdate', request()->input('bdate'))}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('-21 Days'))}}" tabindex="-1" required readonly>  
                         </div>
                         <div class="mb-3 d-none" id="nbday">
                             <label for="age" class="form-label"><b class="text-danger">*</b>Age (In Years)</label>
@@ -83,6 +68,14 @@
                                 <option value="MALE" {{(old('gender') == 'MALE') ? 'selected' : ''}}>Male</option>
                                 <option value="FEMALE" {{(old('gender') == 'FEMALE') ? 'selected' : ''}}>Female</option>
                             </select>
+                        </div>
+                        <div class="form-group d-none" id="pregnantDiv">
+                          <label for="is_pregnant"><b class="text-danger">*</b>Is Pregnant?</label>
+                          <select class="form-select" name="is_pregnant" id="is_pregnant">
+                            <option value="" disabled {{(is_null(old('is_pregnant'))) ? 'selected' : ''}}>Choose...</option>
+                            <option value="Y" {{(old('is_pregnant') == 'Y') ? 'selected' : ''}}>Yes</option>
+                            <option value="N" {{(old('is_pregnant') == 'N') ? 'selected' : ''}}>No</option>
+                          </select>
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -222,7 +215,7 @@
 	});
 
     //Select2 Init for Address Bar
-    $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_text, #suffix').select2({
+    $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_text').select2({
         theme: 'bootstrap',
     });
 
@@ -379,6 +372,20 @@
     $('#address_region_text').val('REGION IV-A (CALABARZON)');
     $('#address_province_text').val('CAVITE');
     $('#address_muncity_text').val('GENERAL TRIAS');
+
+    var patientAge = {{Carbon\Carbon::parse(request()->input('bdate'))->age}};
+
+    $('#gender').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'FEMALE' && patientAge >= 10) {
+            $('#pregnantDiv').removeClass('d-none');
+            $('#is_pregnant').prop('required', true);
+        }
+        else {
+            $('#pregnantDiv').addClass('d-none');
+            $('#is_pregnant').prop('required', false);
+        }
+    }).trigger('change');
 
     $('#has_bday').change(function (e) { 
         e.preventDefault();
