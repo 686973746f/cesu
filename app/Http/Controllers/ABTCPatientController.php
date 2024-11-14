@@ -84,7 +84,7 @@ class ABTCPatientController extends Controller
 
     public function create() {
         if(!request()->input('lname') && !request()->input('fname') && !request()->input('mname') && !request()->input('bdate')) {
-            return abort(401);
+            return redirect()->route('abtc_patient_index');
         }
 
         return view('abtc.patientlist_create');

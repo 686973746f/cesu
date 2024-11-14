@@ -38,6 +38,7 @@ class DohFacility extends Model
         'email',
         'email2',
         'email_edcs',
+        'is_weeklyreport_submitter',
         'edcs_shortname',
         'website',
         'service_capability',

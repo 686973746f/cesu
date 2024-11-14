@@ -42,6 +42,8 @@ class CreateDohFacilitiesTable extends Migration
             $table->string('fax')->nullable();
             $table->string('email')->nullable();
             $table->string('email2')->nullable();
+            $table->string('email_edcs')->nullable();
+            $table->string('is_weeklyreport_submitter', 1)->default('N');
             $table->text('website')->nullable();
             $table->text('service_capability')->nullable();
             $table->text('bed_capacity')->nullable();
@@ -63,6 +65,7 @@ class CreateDohFacilitiesTable extends Migration
             $table->string('edcs_service_capability')->nullable();
             $table->string('edcs_region_name')->nullable();
             $table->string('edcs_province_name')->nullable();
+            
             $table->timestamps();
         });
     }

@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\DohFacility;
 use Illuminate\Console\Command;
 
 class EdcsSubmissionReminderEmailWeekly extends Command
@@ -37,6 +38,12 @@ class EdcsSubmissionReminderEmailWeekly extends Command
      */
     public function handle()
     {
-        return 0;
+        $email_arr = [];
+
+        $list = DohFacility::where('is_weeklyreport_submitter', 'Y')->get();
+
+        foreach($list as $l) {
+            
+        }
     }
 }
