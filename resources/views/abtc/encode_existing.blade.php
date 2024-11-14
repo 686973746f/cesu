@@ -12,7 +12,9 @@
             <div class="card border-warning">
                 <div class="card-header bg-warning text-center"><strong class="text-danger"><i class="fa-solid fa-triangle-exclamation me-2"></i>Existing Vaccination Record Found!</strong></div>
                 <div class="card-body">
+                    @if($d)
                     <a href="{{route('abtc_print_view', $d->id)}}?t=1" class="btn btn-secondary btn-block mb-3"><i class="fas fa-print mr-2"></i>Print</a>
+                    @endif
                     <div id="divToPrint">
                         <table class="table table-bordered">
                             <thead class="thead-light">
@@ -23,23 +25,24 @@
                             <tbody class="text-center">
                                 <tr>
                                     <td class="bg-light" style="vertical-align: middle"><strong>Name</td>
-                                    <td><a href="{{route('abtc_patient_edit', $d->patient->id)}}">{{$d->patient->getName()}} (#{{$d->id}})</a></td>
-                                    <td rowspan="4" style="vertical-align: middle">{!! QrCode::size(150)->generate($d->patient->qr) !!}</td>
+                                    <td><a href="{{route('abtc_patient_edit', $p->id)}}">{{$p->getName()}} (#{{$p->id}})</a></td>
+                                    <td rowspan="4" style="vertical-align: middle">{!! QrCode::size(150)->generate($p->qr) !!}</td>
                                 </tr>
                                 <tr>
                                     <td class="bg-light" style="vertical-align: middle"><strong>Birthdate/Age/Gender</strong></td>
-                                    <td>{{(!is_null($d->bdate)) ? date('m-d-Y', strtotime($d->patient->bdate)) : 'N/A'}} / {{$d->patient->getAge()}} / {{$d->patient->sg()}}</td>
+                                    <td>{{(!is_null($p->bdate)) ? date('F d, Y', strtotime($p->bdate)) : 'N/A'}} / {{$p->getAge()}} / {{$p->sg()}}</td>
                                 </tr>
                                 <tr>
                                     <td class="bg-light" style="vertical-align: middle"><strong>Address</strong></td>
-                                    <td><small>{{$d->patient->getAddress()}}</small></td>
+                                    <td><small>{{$p->getAddress()}}</small></td>
                                 </tr>
                                 <tr>
                                     <td class="bg-light" style="vertical-align: middle"><strong>Contact No.</strong></td>
-                                    <td>{{(!is_null($d->patient->contact_number)) ? $d->patient->contact_number : 'N/A'}}</td>
+                                    <td>{{$p->contact_number ?: 'N/A'}}</td>
                                 </tr>
                             </tbody>
                         </table>
+                        @if($d)
                         <table class="table table-bordered">
                             <thead class="thead-light">
                                 <tr>
@@ -108,8 +111,14 @@
                                 @endif
                             </tbody>
                         </table>
+                        @else
+                        <hr>
+                        <p class="text-center">No vaccination record found.</p>
+                        @endif
                     </div>
+                    @if($d)
                     <a href="{{route('abtc_encode_edit', ['br_id' => $d->id])}}" class="btn btn-primary btn-block"><i class="fas fa-file mr-2"></i>View/Edit Vaccination Details of Patient</a>
+                    @endif
                 </div>
                 <div class="card-footer text-center">
                     <a href="{{route('abtc_home')}}" class="btn btn-link"><i class="fas fa-backward mr-2"></i>Go Back</a>

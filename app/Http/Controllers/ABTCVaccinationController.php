@@ -44,7 +44,10 @@ class ABTCVaccinationController extends Controller
 
         $data = AbtcBakunaRecords::where('patient_id', $p->id)->orderBy('created_at', 'DESC')->first();
 
-        return view('abtc.encode_existing', ['d' => $data]);
+        return view('abtc.encode_existing', [
+            'p' => $p,
+            'd' => $data,
+        ]);
     }
 
     public function create_new($id) {
