@@ -645,7 +645,7 @@ class SyndromicRecords extends Model
 
         if($this->fever == 1) {
             if(in_array('STIFF NECK', $osymp_list) || $this->alteredmentalstatus == 1 || $this->rash == 1 || $this->headache == 1 || in_array('PHOTOPHOBIA', $osymp_list)) {
-                $list_arr[] = 'Meningococcal Disease';
+                //$list_arr[] = 'Meningococcal Disease';
             }
         }
 

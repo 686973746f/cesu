@@ -34,6 +34,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('automw:daily')->dailyAt('16:03')->evenInMaintenanceMode();
 
         $schedule->command('autoemailreport:daily')->dailyAt('16:06')->evenInMaintenanceMode();
+        $schedule->command('edcs_submission_weekly_reminder')->weeklyOn(1, '08:00')->evenInMaintenanceMode();
         $schedule->command('autoemailcovidreport:weekly')->weeklyOn(5, '16:10')->evenInMaintenanceMode();
         //$schedule->command('ayudaemail:daily')->dailyAt('16:09')->evenInMaintenanceMode();
         

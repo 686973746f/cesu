@@ -11,7 +11,7 @@ class EdcsSubmissionReminderEmailWeekly extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'edcs_submission_weekly_reminder';
 
     /**
      * The console command description.
