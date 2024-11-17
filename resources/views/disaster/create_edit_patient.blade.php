@@ -144,8 +144,8 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="street_purok">House No., Street/Purok/Subdivision</label>
-                                <input type="text" class="form-control" id="street_purok" name="street_purok" value="{{old('street_purok', $p->street_purok)}}" style="text-transform: uppercase;">
+                                <label for="street_purok"><b class="text-danger">*</b>House No., Street/Purok/Subdivision</label>
+                                <input type="text" class="form-control" id="street_purok" name="street_purok" value="{{old('street_purok', $p->street_purok)}}" style="text-transform: uppercase;" required>
                             </div>
                         </div>
                     </div>
