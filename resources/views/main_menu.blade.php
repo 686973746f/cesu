@@ -44,6 +44,9 @@
             @if(auth()->user()->canAccessPharmacy())
             <a href="{{route('pharmacy_home')}}" class="btn btn-block btn-primary btn-lg">Pharmacy Inventory System</a>
             @endif
+            @if(auth()->user()->canAccessDisaster())
+            <a href="{{route('gtsecure_index')}}" class="btn btn-block btn-primary btn-lg">GenTrias SECURE</a>
+            @endif
             @if(auth()->user()->isGlobalAdmin())
             <hr>
             <a href="{{route('settings_home')}}" class="btn btn-block btn-warning btn-lg">Settings</a>

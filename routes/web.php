@@ -60,6 +60,7 @@ use App\Http\Controllers\PregnancyTrackingController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\ABTCWalkInRegistrationController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\DisasterController;
 use App\Http\Controllers\EmployeesController;
 use App\Http\Controllers\HealthEventsController;
 use App\Http\Controllers\SecondaryTertiaryRecordsController;
@@ -529,6 +530,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel3']
     Route::post('facility/{id}/viewPatient', [FacilityController::class, 'initDischarge'])->name('facility.initdischarge');
 });
 
+
 //ANIMAL BITE ABTC
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessAbtc']], function () {
     Route::get('/abtc', [ABTCPatientController::class, 'home'])->name('abtc_home');
@@ -781,6 +783,19 @@ Route::group(['middleware' => ['auth','verified', 'canAccessTask']], function() 
     Route::post('/tasks/{type}/{id}/cancel', [TaskController::class, 'cancelTicket'])->name('task_cancel');
 
     Route::get('/mytask', [TaskController::class, 'myTaskIndex'])->name('mytask_index');
+});
+
+Route::group(['middleware' => ['auth','verified', 'canAccessDisaster']], function() {
+    Route::get('/gtsecure', [DisasterController::class, 'index'])->name('gtsecure_index');
+    Route::post('/gtsecure/disaster/store', [DisasterController::class, 'storeDisaster'])->name('gtsecure_storeDisaster');
+    Route::get('/gtsecure/disaster/view/{id}', [DisasterController::class, 'viewDisaster'])->name('gtsecure_disaster_view');
+
+    Route::post('/gtsecure/disaster/{id}/evacuation_center/store', [DisasterController::class, 'storeEvacuationCenter'])->name('gtsecure_evacuationcenter_store');
+    Route::get('/gtsecure/disaster/evacuation_center/{evac_id}', [DisasterController::class, 'viewEvacuationCenter'])->name('gtsecure_evacuationcenter_view');
+    Route::get('/gtsecure/disaster/evacuation_center/{evac_id}/new_patient', [DisasterController::class, 'newPatient'])->name('gtsecure_newpatient');
+    Route::post('/gtsecure/disaster/evacuation_center/{evac_id}/new_patient/store', [DisasterController::class, 'storePatient'])->name('gtsecure_storepatient');
+    Route::get('/gtsecure/disaster/evacuation_center/view_patient/{id}', [DisasterController::class, 'viewPatient'])->name('gtsecure_viewpatient');
+    Route::post('/gtsecure/disaster/evacuation_center/view_patient/{id}/update', [DisasterController::class, 'updatePatient'])->name('gtsecure_updatepatient');
 });
 
 //VAXCERT (WALK IN)

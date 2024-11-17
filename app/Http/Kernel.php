@@ -85,5 +85,6 @@ class Kernel extends HttpKernel
         'isLoggedInEdcsBrgyPortal' => \App\Http\Middleware\isLoggedInEdcsBrgyPortal::class,
         'isMayor' => \App\Http\Middleware\isMayor::class,
         'canAccessTask' => \App\Http\Middleware\canAccessTask::class,
+        'canAccessDisaster' => \App\Http\Middleware\canAccessDisaster::class,
     ];
 }

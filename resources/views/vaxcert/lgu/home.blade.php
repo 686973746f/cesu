@@ -10,6 +10,11 @@
                 </div>
             </div>
             <div class="card-body">
+                @if(session('msg'))
+                <div class="alert alert-{{session('msgtype')}}" role="alert">
+                    {{session('msg')}}
+                </div>
+                @endif
                 @if($list->count() != 0)
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">
