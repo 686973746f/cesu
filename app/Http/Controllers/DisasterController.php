@@ -203,6 +203,10 @@ class DisasterController extends Controller
             'age_days' => $get_agedays,
             'created_by' => Auth::id(),
         ]);
+
+        return redirect()->route('gtsecure_evacuationcenter_view', $d->id)
+        ->with('msg', 'Patient was successfully encoded and linked to this Evacuation Center.')
+        ->with('msgtype', 'success');
     }
 
     public function viewPatient($id) {
