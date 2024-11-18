@@ -48,6 +48,9 @@ class EdcsSubmissionReminderEmailWeekly extends Command
             $email_arr[] = $l->email_edcs;
         }
 
+        $email_arr[] = 'hihihisto@gmail.com';
+        $email_arr[] = 'cesu.gentrias@gmail.com';
+
         Mail::to($email_arr)->send(new EdcsWeeklySubmissionReminderMail());
     }
 }

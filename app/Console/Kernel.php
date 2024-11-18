@@ -70,11 +70,11 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('fwrireporter:daily')->dailyAt('05:00')->evenInMaintenanceMode();
 
-        $schedule->command('resetcustomholiday:yearly')->yearly()->when(function () {
+        $schedule->command('resetcustomholiday:yearly')->yearly()->when(function() {
             return now()->format('m-d') === '01-01'; // Run on January 1st
         });
 
-        $schedule->command('pidsrgeneratethreshold:yearly')->yearly()->when(function () {
+        $schedule->command('pidsrgeneratethreshold:yearly')->yearly()->when(function() {
             return now()->format('m-d') === '01-01'; // Run on January 1st
         });
 
