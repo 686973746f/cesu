@@ -60,7 +60,12 @@ class FhsisController extends Controller
 
         $s = Icd10Code::where('ICD10_CODE', $code[0])->first();
 
-        return $s;
+        if($s) {
+            return $s;
+        }
+        else {
+            return NULL;
+        }
     }
 
     public function report() {
@@ -106,7 +111,7 @@ class FhsisController extends Controller
             */
 
             $morb_cat_final = [];
-            $morb_cat_final = [];
+            $mort_cat_final = [];
             if($type == 'yearly') {
                 $mort_query = FhsisMortBhs::where('MUN_CODE', 'GENERAL TRIAS')
                 ->whereYear('DATE', $base_year)
@@ -236,6 +241,30 @@ class FhsisController extends Controller
                     'count_female' => $count_female,
                     'count' => $count,
                 ]);
+
+                $newCategory = [
+                    'disease' => (!is_null($this->getIcd10Code($s))) ? $this->getIcd10Code($s)->ICD10_CAT : 'UNCATEGORIZED',
+                    'count' => $count,
+                    'count_male' => $count_male,
+                    'count_female' => $count_female,
+                ];
+
+                //Push into the Category
+                $exists = false;
+                foreach ($mort_final_list as &$entry) {
+                    if ($entry['disease'] === $newCategory['disease']) {
+                        $entry['count'] += $newCategory['count'];
+                        $entry['count_male'] += $newCategory['count_male'];
+                        $entry['count_female'] += $newCategory['count_female'];
+                        $exists = true;
+                        break;
+                    }
+                }
+
+                // If the disease doesn't exist, add it to the array
+                if (!$exists) {
+                    $mort_final_list[] = $newCategory;
+                }
             }
 
             //FETCHING MORBIDITY
@@ -333,7 +362,7 @@ class FhsisController extends Controller
                 ]);
 
                 $newCategory = [
-                    'disease' => $this->getIcd10Code($s),
+                    'disease' => (!is_null($this->getIcd10Code($s))) ? $this->getIcd10Code($s)->ICD10_CAT : 'UNCATEGORIZED',
                     'count' => $count,
                     'count_male' => $count_male,
                     'count_female' => $count_female,
@@ -353,7 +382,7 @@ class FhsisController extends Controller
 
                 // If the disease doesn't exist, add it to the array
                 if (!$exists) {
-                    $data[] = $newCategory;
+                    $morb_final_list[] = $newCategory;
                 }
             }
 
@@ -862,6 +891,8 @@ class FhsisController extends Controller
             return view('efhsis.report', [
                 'mort_final_list' => $mort_final_list,
                 'morb_final_list' => $morb_final_list,
+                'mort_cat_final' => $mort_cat_final,
+                'morb_cat_final' => $morb_cat_final,
                 'bgy_nm_list' => $bgy_nm_list,
                 'bgy_mone_list' => $bgy_mone_list,
             ]);

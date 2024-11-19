@@ -371,6 +371,65 @@
                         </div>
                     </div>
                 </div>
+                <div class="card mb-3">
+                    <div class="card-header"><b class="text-primary">MORBIDITY AND MORTALITY</b></div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered" id="mortable">
+                                        <thead class="thead-light text-center">
+                                            <tr>
+                                                <th>No.</th>
+                                                <th>Top 10 Mortality by Category<i>(Highest to Lowest)</i></th>
+                                                <th style="color: blue;">Male</th>
+                                                <th style="color: red;">Female</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($mort_cat_final as $m)
+                                            <tr>
+                                                <td scope="row" class="text-center"></td>
+                                                <td>{{$m['disease']}}</td>
+                                                <td class="text-center" style="color: blue;">{{$m['count_male']}}</td>
+                                                <td class="text-center" style="color: red;">{{$m['count_female']}}</td>
+                                                <td class="text-center"><b>{{$m['count']}}</b></td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered" id="morbtable">
+                                        <thead class="thead-light text-center">
+                                            <tr>
+                                                <th>No.</th>
+                                                <th>Top 10 Morbidity by Category <i>(Highest to Lowest)</i></th>
+                                                <th style="color: blue;">Male</th>
+                                                <th style="color: red;">Female</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($morb_cat_final as $m)
+                                            <tr>
+                                                <td scope="row" class="text-center"></td>
+                                                <td>{{$m['disease']}}</td>
+                                                <td class="text-center" style="color: blue;">{{$m['count_male']}}</td>
+                                                <td class="text-center" style="color: red;">{{$m['count_female']}}</td>
+                                                <td class="text-center"><b>{{$m['count']}}</b></td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="alert alert-info" role="alert">
                     <b class="text-danger">DISCLAIMER:</b> eFHSIS Report was generated using CESU General Trias Integrated Web System (Developed and Maintained by Christian James Historillo - J.O Encoder). Every effort has been made to provide accurate and updated information; however, errors can still occur. By using the information in this report, the reader assumes all risks concerning such use. The City Health Office of General Trias City shall not be held responsible for errors, nor liable for damage(s) resulting from the use or reliance upon this material.
                 </div>
