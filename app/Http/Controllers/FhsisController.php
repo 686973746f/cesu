@@ -55,6 +55,14 @@ class FhsisController extends Controller
         ]);
     }
 
+    public static function getIcd10Code($disease) {
+        $code = explode(";", $disease);
+
+        $s = Icd10Code::where('ICD10_CODE', $code[0])->first();
+
+        return $s;
+    }
+
     public function report() {
         if(request()->input('type') && request()->input('year')) {
             $bgy_list = FhsisBarangay::where('MUN_CODE', 'GENERAL TRIAS')
@@ -92,6 +100,13 @@ class FhsisController extends Controller
             }
 
             //TOP 10 MORBIDITY AND MORTALITY
+            
+            /*
+            Category added Nov. 19, 2024
+            */
+
+            $morb_cat_final = [];
+            $morb_cat_final = [];
             if($type == 'yearly') {
                 $mort_query = FhsisMortBhs::where('MUN_CODE', 'GENERAL TRIAS')
                 ->whereYear('DATE', $base_year)
@@ -127,7 +142,6 @@ class FhsisController extends Controller
                 ->distinct()
                 ->pluck('DISEASE');
             }
-
             
             //FETCHING MORTALITY
             foreach($mort_query as $s) {
@@ -317,6 +331,30 @@ class FhsisController extends Controller
                     'count_male' => $count_male,
                     'count_female' => $count_female,
                 ]);
+
+                $newCategory = [
+                    'disease' => $this->getIcd10Code($s),
+                    'count' => $count,
+                    'count_male' => $count_male,
+                    'count_female' => $count_female,
+                ];
+
+                //Push into the Category
+                $exists = false;
+                foreach ($morb_final_list as &$entry) {
+                    if ($entry['disease'] === $newCategory['disease']) {
+                        $entry['count'] += $newCategory['count'];
+                        $entry['count_male'] += $newCategory['count_male'];
+                        $entry['count_female'] += $newCategory['count_female'];
+                        $exists = true;
+                        break;
+                    }
+                }
+
+                // If the disease doesn't exist, add it to the array
+                if (!$exists) {
+                    $data[] = $newCategory;
+                }
             }
 
             //MORT AND NATALITY
