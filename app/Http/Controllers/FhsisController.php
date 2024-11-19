@@ -235,6 +235,8 @@ class FhsisController extends Controller
                     $t['29DAYS_11MOS_F'];
                 }
 
+                $cat = $this->getIcd10Code($s);
+
                 array_push($mort_final_list, [
                     'disease' => $s,
                     'count_male' => $count_male,
@@ -242,28 +244,23 @@ class FhsisController extends Controller
                     'count' => $count,
                 ]);
 
-                $newCategory = [
-                    'disease' => (!is_null($this->getIcd10Code($s))) ? $this->getIcd10Code($s)->ICD10_CAT : 'UNCATEGORIZED',
-                    'count' => $count,
-                    'count_male' => $count_male,
-                    'count_female' => $count_female,
-                ];
+                if(!is_null($cat)) {
+                    $categories = array_column($mort_cat_final, trim($cat->ICD10_CAT));
 
-                //Push into the Category
-                $exists = false;
-                foreach ($mort_final_list as &$entry) {
-                    if ($entry['disease'] === $newCategory['disease']) {
-                        $entry['count'] += $newCategory['count'];
-                        $entry['count_male'] += $newCategory['count_male'];
-                        $entry['count_female'] += $newCategory['count_female'];
-                        $exists = true;
-                        break;
+                    if (($index = array_search(trim($cat->ICD10_CAT), $categories)) !== false) {
+                        // Update the counts for the existing disease
+                        $mort_cat_final[$index]['count'] += $count;
+                        $mort_cat_final[$index]['count_male'] += $count_male;
+                        $mort_cat_final[$index]['count_female'] += $count_female;
                     }
-                }
-
-                // If the disease doesn't exist, add it to the array
-                if (!$exists) {
-                    $mort_final_list[] = $newCategory;
+                    else {
+                        array_push($mort_cat_final, [
+                            'disease' => trim($cat->ICD10_CAT),
+                            'count_male' => $count_male,
+                            'count_female' => $count_female,
+                            'count' => $count,
+                        ]);
+                    }
                 }
             }
 
@@ -361,28 +358,25 @@ class FhsisController extends Controller
                     'count_female' => $count_female,
                 ]);
 
-                $newCategory = [
-                    'disease' => (!is_null($this->getIcd10Code($s))) ? $this->getIcd10Code($s)->ICD10_CAT : 'UNCATEGORIZED',
-                    'count' => $count,
-                    'count_male' => $count_male,
-                    'count_female' => $count_female,
-                ];
+                $cat = $this->getIcd10Code($s);
 
-                //Push into the Category
-                $exists = false;
-                foreach ($morb_final_list as &$entry) {
-                    if ($entry['disease'] === $newCategory['disease']) {
-                        $entry['count'] += $newCategory['count'];
-                        $entry['count_male'] += $newCategory['count_male'];
-                        $entry['count_female'] += $newCategory['count_female'];
-                        $exists = true;
-                        break;
+                if(!is_null($cat)) {
+                    $categories = array_column($morb_cat_final, $cat->ICD10_CAT);
+
+                    if (($index = array_search(trim($cat->ICD10_CAT), $categories)) !== false) {
+                        // Update the counts for the existing disease
+                        $morb_cat_final[$index]['count'] += $count;
+                        $morb_cat_final[$index]['count_male'] += $count_male;
+                        $morb_cat_final[$index]['count_female'] += $count_female;
                     }
-                }
-
-                // If the disease doesn't exist, add it to the array
-                if (!$exists) {
-                    $morb_final_list[] = $newCategory;
+                    else {
+                        array_push($morb_cat_final, [
+                            'disease' => trim($cat->ICD10_CAT),
+                            'count_male' => $count_male,
+                            'count_female' => $count_female,
+                            'count' => $count,
+                        ]);
+                    }
                 }
             }
 
