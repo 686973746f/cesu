@@ -157,8 +157,22 @@
                                 <select class="form-control" name="is_headoffamily" id="is_headoffamily" required>
                                   <option disabled {{(is_null(old('sex', $p->is_headoffamily))) ? 'selected' : ''}}>Choose...</option>
                                   <option value="Y" {{(old('sex', $p->is_headoffamily) == 'Y') ? 'selected' : ''}}>Yes</option>
+                                  @if($heads_list->count() != 0)
                                   <option value="N" {{(old('sex', $p->is_headoffamily) == 'N') ? 'selected' : ''}}>No</option>
+                                  @endif
                                 </select>
+                                <small class="text-muted">This field is used to determine number of families inside the evacuation center.</small>
+                            </div>
+                            <div id="isHeadOfFamily" class="d-none">
+                                <div class="form-group">
+                                  <label for="family_patient_id"><b class="text-danger">*</b>Link to Head of Family</label>
+                                  <select class="form-control" name="family_patient_id" id="family_patient_id">
+                                    <option disabled {{(is_null(old('family_patient_id', $p->family_patient_id))) ? 'selected' : ''}}>Choose...</option>
+                                    @foreach($heads_list as $h)
+                                    <option value="{{$h->id}}">{{$h->getName()}} - {{$h->getAge()}}/{{$h->sex}}</option>
+                                    @endforeach
+                                  </select>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -251,10 +265,20 @@
         });
     });
 
-    
+    $('#is_headoffamily').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'Y') {
+            $('#isHeadOfFamily').addClass('d-none');
+            $('#family_patient_id').prop('required', true);
+        }
+        else {
+            $('#isHeadOfFamily').removeClass('d-none');
+            $('#family_patient_id').prop('required', false);
+        }
+    });
 
     //Select2 Init for Address Bar
-    $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_code').select2({
+    $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_code, #family_patient_id').select2({
         theme: 'bootstrap',
     });
 

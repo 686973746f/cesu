@@ -7,7 +7,7 @@
                 <div class="d-flex justify-content-between">
                     <div><b>View Evacuation Center</b></div>
                     <div>
-                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#newEvacuationCenter">Settings</button>
+                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#newEvacuationCenter">Options</button>
                         <a href="{{route('gtsecure_newpatient', $d->id)}}" class="btn btn-success">New Patient</a>
                     </div>
                 </div>
