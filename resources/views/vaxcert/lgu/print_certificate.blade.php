@@ -126,21 +126,21 @@
                                     @if($d->dose2_city == 'Y')
                                     <div class="d-flex justify-content-between">
                                         <div><b>Date of Vaccination:</b></div>
-                                        <div>{{date('F d, Y', strtotime($d->dose1_vaccination_date))}}</div>
+                                        <div>{{date('F d, Y', strtotime($d->dose2_vaccination_date))}}</div>
                                     </div>
                                     <div class="d-flex justify-content-between">
                                         <div><b>Manufacturer:</b></div>
-                                        <div>{{$d->dose1_vaccine_manufacturer_name}}</div>
+                                        <div>{{$d->dose2_vaccine_manufacturer_name}}</div>
                                     </div>
                                     <div class="d-flex justify-content-between">
                                         <div><b>Batch/Lot No.:</b></div>
-                                        <div>{{$d->dose1_batch_number}}</div>
+                                        <div>{{$d->dose2_batch_number}}</div>
                                     </div>
                                     <div class="d-flex justify-content-between">
                                         <div><b>Vaccinator:</b></div>
                                         <div>
-                                            <div>{{$d->dose1_vaccinator_name}}</div>
-                                            <div>License No. {{$d->dose1_vaccinator_licenseno}}</div>
+                                            <div>{{$d->dose2_vaccinator_name}}</div>
+                                            <div>License No. {{$d->dose2_vaccinator_licenseno}}</div>
                                         </div>
                                     </div>
                                     @else
