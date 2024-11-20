@@ -76,7 +76,7 @@ class FhsisController extends Controller
         if($s) {
             $cat = $s->ICD10_CAT;
 
-            if($disease == 'W54; Bitten or struck by animal') {
+            if($disease == 'W54-W55; Bitten or struck by animal') {
                 return 'Animal Bite (W50-W64)';
             }
             else if($cat == 'Other acute lower respiratory infections (J20-J22)' ||
@@ -378,8 +378,8 @@ class FhsisController extends Controller
                 }
 
                 if($count != 0) {
-                    if($s == 'W54; Bitten or struck by dog') {
-                        $s = 'W54; Bitten or struck by animal';
+                    if($s == 'W54; Bitten or struck by dog' || $s == 'W55; Bitten or struck by other mammals') {
+                        $s = 'W54-W55; Bitten or struck by animal';
                     }
 
                     array_push($morb_final_list, [
