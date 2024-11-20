@@ -369,11 +369,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="card mb-3">
-                    <div class="card-header"><b class="text-primary">MORBIDITY AND MORTALITY</b></div>
-                    <div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="table-responsive">
@@ -388,10 +383,10 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach($mort_cat_final as $m)
+                                            @foreach($mort_cat_final as $cat => $m)
                                             <tr>
                                                 <td scope="row" class="text-center"></td>
-                                                <td>{{$m['disease']}}</td>
+                                                <td>{{$cat}}</td>
                                                 <td class="text-center" style="color: blue;">{{$m['count_male']}}</td>
                                                 <td class="text-center" style="color: red;">{{$m['count_female']}}</td>
                                                 <td class="text-center"><b>{{$m['count']}}</b></td>
@@ -414,10 +409,10 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach($morb_cat_final as $m)
+                                            @foreach($morb_cat_final as $cat => $m)
                                             <tr>
                                                 <td scope="row" class="text-center"></td>
-                                                <td>{{$m['disease']}}</td>
+                                                <td>{{$cat}}</td>
                                                 <td class="text-center" style="color: blue;">{{$m['count_male']}}</td>
                                                 <td class="text-center" style="color: red;">{{$m['count_female']}}</td>
                                                 <td class="text-center"><b>{{$m['count']}}</b></td>

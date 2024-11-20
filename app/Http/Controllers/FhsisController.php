@@ -68,6 +68,34 @@ class FhsisController extends Controller
         }
     }
 
+    public static function getIcd10CodeCategory($disease) {
+        $code = explode(";", $disease);
+
+        $s = Icd10Code::where('ICD10_CODE', $code[0])->first();
+
+        if($s) {
+            $cat = $s->ICD10_CAT;
+
+            if($disease == 'W54; Bitten or struck by animal') {
+                return 'Animal Bite (W50-W64)';
+            }
+            else if($cat == 'Other acute lower respiratory infections (J20-J22)' ||
+            $cat == 'Acute upper respiratory infections (J00-J06)' ||
+            $cat == 'Chronic lower respiratory diseases (J40-J47)' || 
+            $cat == 'Other diseases of upper respiratory tract (J30-J39)' ||
+            $cat == 'Other respiratory diseases principally affecting the interstitium (J80-J84)' ||
+            $cat == 'Other diseases of the respiratory system (J95-J99)') {
+                return 'Diseases of the respiratory system (J00-J99)';
+            }
+            else {
+                return $cat;
+            }
+        }
+        else {
+            return 'N/A';
+        }
+    }
+
     public function report() {
         if(request()->input('type') && request()->input('year')) {
             $bgy_list = FhsisBarangay::where('MUN_CODE', 'GENERAL TRIAS')
@@ -110,8 +138,8 @@ class FhsisController extends Controller
             Category added Nov. 19, 2024
             */
 
-            $morb_cat_final = [];
-            $mort_cat_final = [];
+            $morb_cat_final = collect();
+            $mort_cat_final = collect();
             if($type == 'yearly') {
                 $mort_query = FhsisMortBhs::where('MUN_CODE', 'GENERAL TRIAS')
                 ->whereYear('DATE', $base_year)
@@ -235,34 +263,32 @@ class FhsisController extends Controller
                     $t['29DAYS_11MOS_F'];
                 }
 
-                $cat = $this->getIcd10Code($s);
-
-                array_push($mort_final_list, [
-                    'disease' => $s,
-                    'count_male' => $count_male,
-                    'count_female' => $count_female,
-                    'count' => $count,
-                ]);
-
-                if(!is_null($cat)) {
-                    $categories = array_column($mort_cat_final, trim($cat->ICD10_CAT));
-
-                    if (($index = array_search(trim($cat->ICD10_CAT), $categories)) !== false) {
-                        // Update the counts for the existing disease
-                        $mort_cat_final[$index]['count'] += $count;
-                        $mort_cat_final[$index]['count_male'] += $count_male;
-                        $mort_cat_final[$index]['count_female'] += $count_female;
-                    }
-                    else {
-                        array_push($mort_cat_final, [
-                            'disease' => trim($cat->ICD10_CAT),
-                            'count_male' => $count_male,
-                            'count_female' => $count_female,
-                            'count' => $count,
-                        ]);
-                    }
+                if($count != 0) {
+                    array_push($mort_final_list, [
+                        'disease' => $s,
+                        'count_male' => $count_male,
+                        'count_female' => $count_female,
+                        'count' => $count,
+                        'category' => $this->getIcd10CodeCategory($s),
+                    ]);
                 }
             }
+
+            $mort_cat_list = collect($mort_final_list)->groupBy('category');
+
+            $sums_per_category = $mort_cat_list->map(function ($items) {
+                return [
+                    'count' => $items->sum('count'),
+                    'count_male' => $items->sum('count_male'),
+                    'count_female' => $items->sum('count_female'),
+                ];
+            });
+            
+            // Output the result
+            //print_r($sums_per_category->toArray());
+
+            //dd($mort_cat_list);
+            $mort_cat_final = $sums_per_category->toArray();
 
             //FETCHING MORBIDITY
             foreach($morb_query as $s) {
@@ -351,34 +377,35 @@ class FhsisController extends Controller
                     $t['29DAYS_11MOS_F'];
                 }
 
-                array_push($morb_final_list, [
-                    'disease' => $s,
-                    'count' => $count,
-                    'count_male' => $count_male,
-                    'count_female' => $count_female,
-                ]);
-
-                $cat = $this->getIcd10Code($s);
-
-                if(!is_null($cat)) {
-                    $categories = array_column($morb_cat_final, $cat->ICD10_CAT);
-
-                    if (($index = array_search(trim($cat->ICD10_CAT), $categories)) !== false) {
-                        // Update the counts for the existing disease
-                        $morb_cat_final[$index]['count'] += $count;
-                        $morb_cat_final[$index]['count_male'] += $count_male;
-                        $morb_cat_final[$index]['count_female'] += $count_female;
+                if($count != 0) {
+                    if($s == 'W54; Bitten or struck by dog') {
+                        $s = 'W54; Bitten or struck by animal';
                     }
-                    else {
-                        array_push($morb_cat_final, [
-                            'disease' => trim($cat->ICD10_CAT),
-                            'count_male' => $count_male,
-                            'count_female' => $count_female,
-                            'count' => $count,
-                        ]);
-                    }
+
+                    array_push($morb_final_list, [
+                        'disease' => $s,
+                        'count' => $count,
+                        'count_male' => $count_male,
+                        'count_female' => $count_female,
+                        'category' => $this->getIcd10CodeCategory($s),
+                    ]);
                 }
             }
+
+            $morb_cat_list = collect($morb_final_list)->groupBy('category');
+
+            $sums_per_category = $morb_cat_list->map(function ($items) {
+                return [
+                    'count' => $items->sum('count'),
+                    'count_male' => $items->sum('count_male'),
+                    'count_female' => $items->sum('count_female'),
+                ];
+            });
+
+            //$cat_column = array_column($morb_final_list, 'category');
+            //$unique_cat = array_unique($cat_column);
+
+            $morb_cat_final = $sums_per_category->toArray();
 
             //MORT AND NATALITY
             foreach($bgy_list as $b) {
