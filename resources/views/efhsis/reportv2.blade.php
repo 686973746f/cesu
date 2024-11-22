@@ -278,6 +278,38 @@
                                 @endif
                             </div>
                         </div>
+
+                        <table class="table table-bordered table-striped">
+                            <thead class="thead-light text-center">
+                                <tr>
+                                    <th rowspan="2">Barangay</th>
+                                    <th colspan="3">Actual Deaths</th>
+                                    <th colspan="3">Outsider Deaths</th>
+                                </tr>
+                                <tr>
+                                    <th>M</th>
+                                    <th>F</th>
+                                    <th>T</th>
+                                    <th>M</th>
+                                    <th>F</th>
+                                    <th>T</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($death_table as $r)
+                                <tr>
+                                    <td>{{$r['brgy']}}</td>
+                                    <td>{{$r['btot_deaths_m']}}</td>
+                                    <td>{{$r['btot_deaths_f']}}</td>
+                                    <td><b>{{$r['btot_deaths_total']}}</b></td>
+                                    <td>{{$r['btotdeaths_outside_m']}}</td>
+                                    <td>{{$r['btotdeaths_outside_f']}}</td>
+                                    <td><b>{{$r['btotdeahts_outside_total']}}</b></td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+
                     </div>
                 </div>
             </div>

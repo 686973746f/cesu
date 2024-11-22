@@ -2370,24 +2370,6 @@ class FhsisController extends Controller
             ->where('gender', 'FEMALE')
             ->count();
 
-            $death_table = [];
-            if($brgy == 'ALL') {
-                $brgy_list = Brgy::where('displayInList', 1)
-                ->where('city_id', 1)
-                ->orderBy('brgyNameFhsis', 'ASC')
-                ->get();
-
-                foreach($brgy_list as $b) {
-                    
-                }
-
-                $death_table[] = [
-                    'brgy',
-                    'total_deaths',
-                    'total_deaths_outside',
-                ];
-            }
-
             $tot_infdeaths_m = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
             ->whereBetween('DATE', [$search_startDate, $search_endDate]);
             $tot_infdeaths_f = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
@@ -2494,6 +2476,62 @@ class FhsisController extends Controller
                 $gtot_matorigdeaths = $gtot_matorigdeaths->where('BGY_CODE', $brgy)->sum('MATDEATHORIG_F');
             }
 
+            $death_table = [];
+            if($brgy == 'ALL') {
+                $brgy_list = Brgy::where('displayInList', 1)
+                ->where('city_id', 1)
+                ->orderBy('brgyNameFhsis', 'ASC')
+                ->get();
+
+                foreach($brgy_list as $b) {
+                    $btotdeaths_outside_m = DeathCertificate::whereBetween('date_died', [$search_startDate, $search_endDate2])
+                    ->where('pod_address_muncity_text', 'GENERAL TRIAS')
+                    ->where('pod_address_brgy_text', $b->brgyName)
+                    ->where('address_muncity_text', '!=', 'GENERAL TRIAS')
+                    ->where('gender', 'MALE')
+                    ->count();
+
+                    $btotdeaths_outside_f = DeathCertificate::whereBetween('date_died', [$search_startDate, $search_endDate2])
+                    ->where('pod_address_muncity_text', 'GENERAL TRIAS')
+                    ->where('pod_address_brgy_text', $b->brgyName)
+                    ->where('address_muncity_text', '!=', 'GENERAL TRIAS')
+                    ->where('gender', 'FEMALE')
+                    ->count();
+
+                    $btotdeahts_outside_total = $btotdeaths_outside_m + $btotdeaths_outside_f;
+
+                    $btot_deaths_m = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+                    ->whereBetween('DATE', [$search_startDate, $search_endDate])
+                    ->where('BGY_CODE', $b->brgyNameFhsis)
+                    ->sum('TOTDEATH_M');
+
+                    if($btot_deaths_m > $btotdeaths_outside_m) {
+                        $btot_deaths_m -= $btotdeaths_outside_m;
+                    }
+
+                    $btot_deaths_f = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+                    ->whereBetween('DATE', [$search_startDate, $search_endDate])
+                    ->where('BGY_CODE', $b->brgyNameFhsis)
+                    ->sum('TOTDEATH_F');
+
+                    if($btot_deaths_f > $btotdeaths_outside_f) {
+                        $btot_deaths_f -= $btotdeaths_outside_f;
+                    }
+
+                    $btot_deaths_total = $btot_deaths_m + $btot_deaths_f;
+
+                    $death_table[] = [
+                        'brgy' => mb_strtoupper($b->brgyNameFhsis),
+                        'btotdeahts_outside_total' => $btotdeahts_outside_total,
+                        'btotdeaths_outside_m' => $btotdeaths_outside_m,
+                        'btotdeaths_outside_f' => $btotdeaths_outside_f,
+                        'btot_deaths_m' => $btot_deaths_m,
+                        'btot_deaths_f' => $btot_deaths_f,
+                        'btot_deaths_total' => $btot_deaths_total,
+                    ];
+                }
+            }
+
             $gtot_deaths = $tot_deaths_m + $tot_deaths_f;
             $gtot_infdeaths = $tot_infdeaths_m + $tot_infdeaths_f;
             $gtot_matdeaths = $tot_matdeaths_m + $tot_matdeaths_f;
@@ -2504,7 +2542,7 @@ class FhsisController extends Controller
             $gtot_perinataldeaths = $tot_perinataldeaths_m + $tot_perinataldeaths_f;
             $gtot_livebirths = $tot_livebirths_m + $tot_livebirths_f;
 
-            $mortality_rate = ($gtot_deaths != 0) ? round($gtot_deaths / $data_demographic->total_population * 1000, 2) : 0;
+            $mortality_rate = ($data_demographic->total_population != 0) ? round($gtot_deaths / $data_demographic->total_population * 1000, 2) : 0;
             $imr = ($gtot_livebirths != 0) ? round($gtot_infdeaths / $gtot_livebirths * 1000, 2) : 0;
             $mmr = ($gtot_livebirths != 0) ? round($gtot_matdeaths / $gtot_livebirths * 100000, 2) : 0;
             $ufmr = ($gtot_livebirths != 0) ? round($gtot_und5deaths / $gtot_livebirths * 1000, 2) : 0;
@@ -2764,6 +2802,7 @@ class FhsisController extends Controller
                 'gtot_livebirths_outside' => $gtot_livebirths_outside,
                 'tot_deaths_outsidecity_m' => $tot_deaths_outsidecity_m,
                 'tot_deaths_outsidecity_f' => $tot_deaths_outsidecity_f,
+                'death_table' => $death_table,
             ]);
         }
     }
