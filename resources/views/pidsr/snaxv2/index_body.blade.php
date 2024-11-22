@@ -20,11 +20,11 @@
             
         </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col-2 text-center">
+            <div class="row justify-content-center">
+                <div class="col-md-2 text-center">
                     <img src="{{asset('assets/images/cesu_icon.png')}}" style="width: 10rem;" class="img-responsive">
                 </div>
-                <div class="col-8 text-center">
+                <div class="col-md-8 text-center">
                     <h5>Republic of the Philippines</h5>
                     <h5><b>GENERAL TRIAS CITY HEALTH OFFICE</b></h5>
                     <h5><b>CITY EPIDEMIOLOGY AND SURVEILLANCE UNIT (CESU)</b></h5>
@@ -32,7 +32,7 @@
                     <h5>Telephone No.: (046) 509-5289 / (046) 437-9195</h5>
                     <h5>Email: <a href="">cesu.gentrias@gmail.com</a></h5>
                 </div>
-                <div class="col-2 text-center">
+                <div class="col-md-2 text-center">
                     <img src="{{asset('assets/images/cho_icon_large.png')}}" style="width: 10rem;" class="img-responsive">
                 </div>
             </div>
@@ -82,7 +82,10 @@
                 @else
                 <li style="margin-bottom: -5px;"><h5>This year's cases are {{($previous_grand_total != 0) ? round((($current_grand_total - $previous_grand_total) / $previous_grand_total) * 100) : 0}}% higher than last year ({{$previous_grand_total}} cases).</h5></li>
                 @endif
-                <li style="margin-bottom: -5px;"><h5>Of the total cases reported this period, {{$hospitalized_count}} ({{($current_grand_total != 0) ? round($hospitalized_count / $current_grand_total * 100) :0}}%) were hospitalized and {{$current_confirmed_grand_total}} ({{($current_grand_total != 0) ? round($current_confirmed_grand_total / $current_grand_total * 100,0) : 0}}%) were laboratory confirmed.</h5></li>
+                @if($sel_disease == 'Dengue')
+                <li style="margin-bottom: -5px;"><h5>Of the total cases reported, {{$severe_total}} ({{($current_grand_total != 0) ? round($severe_total / $current_grand_total * 100, 2) :0}}%) were severe, {{$withwarning_total}} ({{($current_grand_total != 0) ? round($withwarning_total / $current_grand_total * 100, 2) :0}}%) with warning signs, and {{$woutwarning_total}} ({{($current_grand_total != 0) ? round($woutwarning_total / $current_grand_total * 100, 2) :0}}%) with no warning signs.</li>
+                @endif
+                <li style="margin-bottom: -5px;"><h5>There were {{$hospitalized_count}} ({{($current_grand_total != 0) ? round($hospitalized_count / $current_grand_total * 100) :0}}%) hospitalized dengue and {{$current_confirmed_grand_total}} ({{($current_grand_total != 0) ? round($current_confirmed_grand_total / $current_grand_total * 100,0) : 0}}%) were laboratory confirmed.</h5></li>
                 @if($current_grand_total > 1)
                 <li style="margin-bottom: -5px;"><h5>The Barangay with the most reported number of cases is {{$top10Brgys[0]['brgy_name']}} ({{$top10Brgys[0]['brgy_grand_total_cases']}} {{Str::plural('case', $top10Brgys[0]['brgy_grand_total_cases'])}} [{{($current_grand_total != 0) ? round($top10Brgys[0]['brgy_grand_total_cases'] / $current_grand_total * 100) : 0}}%])</h5></li>
                 <li style="margin-bottom: -5px;"><h5>Age ranged from {{$min_age_display}} to {{$max_age}} years (Median={{$median_display}}). The Majority of the cases were {{strtolower($majority_flavor)}} ({{$majority_percent}}%).</h5></li>

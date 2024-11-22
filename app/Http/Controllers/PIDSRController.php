@@ -4969,6 +4969,26 @@ class PIDSRController extends Controller
                 ->count();
             }
             else {
+                if($sel_disease == 'Dengue') {
+                    $severe_total = $modelClass::where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('Year', $sel_year)
+                    ->where('ClinClass', 'SEVERE DENGUE')
+                    ->count();
+
+                    $withwarning_total = $modelClass::where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('Year', $sel_year)
+                    ->where('ClinClass', 'WITH WARNING SIGNS')
+                    ->count();
+
+                    $woutwarning_total = $modelClass::where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('Year', $sel_year)
+                    ->where('ClinClass', 'NO WARNING SIGNS')
+                    ->count();
+                }
+
                 $previous_grand_total = $modelClass::where('enabled', 1)
                 ->where('match_casedef', 1)
                 ->where('Year', $sel_year - 1)
@@ -5634,13 +5654,67 @@ class PIDSRController extends Controller
                 ->first();
 
                 if($search_zeroage) {
-                    $min_age = $modelClass::where('enabled', 1)
+                    $search_zeromons = $modelClass::where('enabled', 1)
                     ->where('match_casedef', 1)
                     ->where('Year', $sel_year)
                     ->where('MorbidityWeek', '<=', $sel_week)
-                    ->min('AgeMons');
+                    ->where('AgeMons', 0)
+                    ->first();
+                    
+                    if($search_zeromons) {
+                        $min_age =  $modelClass::where('enabled', 1)
+                        ->where('match_casedef', 1)
+                        ->where('Year', $sel_year)
+                        ->where('MorbidityWeek', '<=', $sel_week)
+                        ->min('AgeDays');
+                        
+                        $min_age_display = $min_age.' '.Str::plural('Day', $min_age).' old';
+                    }
+                    else {
+                        $min_age = $modelClass::where('enabled', 1)
+                        ->where('match_casedef', 1)
+                        ->where('Year', $sel_year)
+                        ->where('MorbidityWeek', '<=', $sel_week)
+                        ->min('AgeMons');
 
-                    $min_age = $min_age / 100;
+                        $min_age = $min_age / 100;
+
+                        $min_age_display = $min_age;
+
+                        if($min_age_display == 0.01) {
+                            $min_age_display = '1 Month';
+                        }
+                        else if($min_age_display == 0.02) {
+                            $min_age_display = '2 Months';
+                        }
+                        else if($min_age_display == 0.03) {
+                            $min_age_display = '3 Months';
+                        }
+                        else if($min_age_display == 0.04) {
+                            $min_age_display = '4 Months';
+                        }
+                        else if($min_age_display == 0.05) {
+                            $min_age_display = '5 Months';
+                        }
+                        else if($min_age_display == 0.06) {
+                            $min_age_display = '6 Months';
+                        }
+                        else if($min_age_display == 0.07) {
+                            $min_age_display = '7 Months';
+                        }
+                        else if($min_age_display == 0.08) {
+                            $min_age_display = '8 Months';
+                        }
+                        else if($min_age_display == 0.09) {
+                            $min_age_display = '9 Months';
+                        }
+                        else if($min_age_display == 0.10) {
+                            $min_age_display = '10 Months';
+                        }
+                        else if($min_age_display == 0.11) {
+                            $min_age_display = '11 Months';
+                        }
+                    }
                 }
                 else {
                     $min_age = $modelClass::where('enabled', 1)
@@ -5649,42 +5723,6 @@ class PIDSRController extends Controller
                     ->where('MorbidityWeek', '<=', $sel_week)
                     ->min('AgeYears');
                 }
-            }
-
-            $min_age_display = $min_age;
-
-            if($min_age_display == 0.01) {
-                $min_age_display = '1 Month';
-            }
-            else if($min_age_display == 0.02) {
-                $min_age_display = '2 Months';
-            }
-            else if($min_age_display == 0.03) {
-                $min_age_display = '3 Months';
-            }
-            else if($min_age_display == 0.04) {
-                $min_age_display = '4 Months';
-            }
-            else if($min_age_display == 0.05) {
-                $min_age_display = '5 Months';
-            }
-            else if($min_age_display == 0.06) {
-                $min_age_display = '6 Months';
-            }
-            else if($min_age_display == 0.07) {
-                $min_age_display = '7 Months';
-            }
-            else if($min_age_display == 0.08) {
-                $min_age_display = '8 Months';
-            }
-            else if($min_age_display == 0.09) {
-                $min_age_display = '9 Months';
-            }
-            else if($min_age_display == 0.10) {
-                $min_age_display = '10 Months';
-            }
-            else if($min_age_display == 0.11) {
-                $min_age_display = '11 Months';
             }
 
             if($sel_disease == 'COVID') {
@@ -6256,6 +6294,14 @@ class PIDSRController extends Controller
                 'suggestedMaxAge' => $suggestedMaxAge,
                 'age_highest_value' => $age_highest_value,
             ];
+
+            if($sel_disease == 'Dengue') {
+                $returnVars = $returnVars + [
+                    'severe_total' => $severe_total,
+                    'withwarning_total' => $withwarning_total,
+                    'woutwarning_total' => $woutwarning_total,
+                ];
+            }
 
             if($sel_disease == 'Pert') {
                 $alive_suspect = $modelClass::where('enabled', 1)
