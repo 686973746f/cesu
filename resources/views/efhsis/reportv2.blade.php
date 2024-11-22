@@ -131,6 +131,7 @@
                                     <td>
                                         <h5 class="font-weight-bold">Total Deaths</h5>
                                         <h5>{{number_format($gtot_deaths)}}</h5>
+                                        <h6>Male: {{$tot_deaths_m}} Female: {{$tot_deaths_f}}</h6>
                                     </td>
                                     <td>
                                         <h5 class="font-weight-bold">Infant Deaths</h5>

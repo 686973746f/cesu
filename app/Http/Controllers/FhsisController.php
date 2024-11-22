@@ -2715,6 +2715,8 @@ class FhsisController extends Controller
                 'data_demographic' => $data_demographic,
 
                 'gtot_deaths' => $gtot_deaths,
+                'tot_deaths_m' => $tot_deaths_m,
+                'tot_deaths_f' => $tot_deaths_f,
                 'gtot_infdeaths' => $gtot_infdeaths,
                 'gtot_matdeaths' => $gtot_matdeaths,
                 'gtot_und5deaths' => $gtot_und5deaths,
