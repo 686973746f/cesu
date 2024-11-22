@@ -753,7 +753,7 @@ class SyndromicRecords extends Model
             return date('M. d, Y', strtotime($this->medcert_start_date));
         }
         else {
-            return '____________________';
+            return '-';
         }
     }
 
@@ -762,7 +762,7 @@ class SyndromicRecords extends Model
             return date('M. d, Y', strtotime($this->medcert_end_date));
         }
         else {
-            return '____________________';
+            return '-';
         }
     }
 

@@ -1180,14 +1180,14 @@ $the_record_id = $d->id;
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label for="medcert_start_date"><b class="text-danger">*</b>Start Date (From)</label>
-                <input type="date" class="form-control" value="{{old('medcert_start_date', $d->medcert_start_date)}}" name="medcert_start_date" id="medcert_start_date" max="{{date('Y-m-d')}}" required>
+                <label for="medcert_start_date">Start Date (From)</label>
+                <input type="date" class="form-control" value="{{old('medcert_start_date', $d->medcert_start_date)}}" name="medcert_start_date" id="medcert_start_date" max="{{date('Y-m-d')}}">
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label for="medcert_end_date"><b class="text-danger">*</b>End Date (To)</label>
-                <input type="date" class="form-control" value="{{old('medcert_end_date', $d->medcert_end_date)}}" name="medcert_end_date" id="medcert_end_date" max="{{date('Y-m-t')}}" required>
+                <label for="medcert_end_date">End Date (To)</label>
+                <input type="date" class="form-control" value="{{old('medcert_end_date', $d->medcert_end_date)}}" name="medcert_end_date" id="medcert_end_date" max="{{date('Y-m-t')}}">
               </div>
             </div>
           </div>

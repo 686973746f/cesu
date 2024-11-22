@@ -2370,6 +2370,24 @@ class FhsisController extends Controller
             ->where('gender', 'FEMALE')
             ->count();
 
+            $death_table = [];
+            if($brgy == 'ALL') {
+                $brgy_list = Brgy::where('displayInList', 1)
+                ->where('city_id', 1)
+                ->orderBy('brgyNameFhsis', 'ASC')
+                ->get();
+
+                foreach($brgy_list as $b) {
+                    
+                }
+
+                $death_table[] = [
+                    'brgy',
+                    'total_deaths',
+                    'total_deaths_outside',
+                ];
+            }
+
             $tot_infdeaths_m = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
             ->whereBetween('DATE', [$search_startDate, $search_endDate]);
             $tot_infdeaths_f = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
