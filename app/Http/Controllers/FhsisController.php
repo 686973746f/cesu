@@ -2351,11 +2351,24 @@ class FhsisController extends Controller
 
             $search_startDate = Carbon::parse($startDate)->startOfMonth()->format('Y-m-d');
             $search_endDate = Carbon::parse($endDate)->startOfMonth()->format('Y-m-d');
+            $search_endDate2 = Carbon::parse($endDate)->endOfMonth()->format('Y-m-d');
 
             $tot_deaths_m = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
             ->whereBetween('DATE', [$search_startDate, $search_endDate]);
             $tot_deaths_f = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
             ->whereBetween('DATE', [$search_startDate, $search_endDate]);
+
+            $tot_deaths_outsidecity_m = DeathCertificate::whereBetween('date_died', [$search_startDate, $search_endDate2])
+            ->where('pod_address_muncity_text', 'GENERAL TRIAS')
+            ->where('address_muncity_text', '!=', 'GENERAL TRIAS')
+            ->where('gender', 'MALE')
+            ->count();
+
+            $tot_deaths_outsidecity_f = DeathCertificate::whereBetween('date_died', [$search_startDate, $search_endDate2])
+            ->where('pod_address_muncity_text', 'GENERAL TRIAS')
+            ->where('address_muncity_text', '!=', 'GENERAL TRIAS')
+            ->where('gender', 'FEMALE')
+            ->count();
 
             $tot_infdeaths_m = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
             ->whereBetween('DATE', [$search_startDate, $search_endDate]);
@@ -2473,7 +2486,7 @@ class FhsisController extends Controller
             $gtot_perinataldeaths = $tot_perinataldeaths_m + $tot_perinataldeaths_f;
             $gtot_livebirths = $tot_livebirths_m + $tot_livebirths_f;
 
-            $mortality_rate = round($gtot_deaths / $data_demographic->total_population * 1000, 2);
+            $mortality_rate = ($gtot_deaths != 0) ? round($gtot_deaths / $data_demographic->total_population * 1000, 2) : 0;
             $imr = ($gtot_livebirths != 0) ? round($gtot_infdeaths / $gtot_livebirths * 1000, 2) : 0;
             $mmr = ($gtot_livebirths != 0) ? round($gtot_matdeaths / $gtot_livebirths * 100000, 2) : 0;
             $ufmr = ($gtot_livebirths != 0) ? round($gtot_und5deaths / $gtot_livebirths * 1000, 2) : 0;
@@ -2729,6 +2742,8 @@ class FhsisController extends Controller
                 'donut2_values' => $donut2_values,
 
                 'gtot_livebirths_outside' => $gtot_livebirths_outside,
+                'tot_deaths_outsidecity_m' => $tot_deaths_outsidecity_m,
+                'tot_deaths_outsidecity_f' => $tot_deaths_outsidecity_f,
             ]);
         }
     }

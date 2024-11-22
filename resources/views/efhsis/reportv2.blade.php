@@ -197,7 +197,7 @@
                                 </tr>
                             </tbody>
                         </table>
-
+                        <h5>Total Deaths occured inside the City but the Patient Adress was Outside the City = {{$tot_deaths_outsidecity_m + $tot_deaths_outsidecity_f}} (Male: {{$tot_deaths_outsidecity_m}} Female: {{$tot_deaths_outsidecity_d}})</h5>
                         <div class="row">
                             <div class="col-6">
                                 <div class="table-responsive">

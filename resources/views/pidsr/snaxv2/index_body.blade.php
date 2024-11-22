@@ -84,8 +84,8 @@
                 @endif
                 @if($sel_disease == 'Dengue')
                 <li style="margin-bottom: -5px;"><h5>Of the total cases reported, {{$severe_total}} ({{($current_grand_total != 0) ? round($severe_total / $current_grand_total * 100, 2) :0}}%) were severe, {{$withwarning_total}} ({{($current_grand_total != 0) ? round($withwarning_total / $current_grand_total * 100, 2) :0}}%) with warning signs, and {{$woutwarning_total}} ({{($current_grand_total != 0) ? round($woutwarning_total / $current_grand_total * 100, 2) :0}}%) with no warning signs.</li>
-                @endif
                 <li style="margin-bottom: -5px;"><h5>There were {{$hospitalized_count}} ({{($current_grand_total != 0) ? round($hospitalized_count / $current_grand_total * 100) :0}}%) hospitalized dengue and {{$current_confirmed_grand_total}} ({{($current_grand_total != 0) ? round($current_confirmed_grand_total / $current_grand_total * 100,0) : 0}}%) were laboratory confirmed.</h5></li>
+                @endif
                 @if($current_grand_total > 1)
                 <li style="margin-bottom: -5px;"><h5>The Barangay with the most reported number of cases is {{$top10Brgys[0]['brgy_name']}} ({{$top10Brgys[0]['brgy_grand_total_cases']}} {{Str::plural('case', $top10Brgys[0]['brgy_grand_total_cases'])}} [{{($current_grand_total != 0) ? round($top10Brgys[0]['brgy_grand_total_cases'] / $current_grand_total * 100) : 0}}%])</h5></li>
                 <li style="margin-bottom: -5px;"><h5>Age ranged from {{$min_age_display}} to {{$max_age}} years (Median={{$median_display}}). The Majority of the cases were {{strtolower($majority_flavor)}} ({{$majority_percent}}%).</h5></li>
@@ -431,11 +431,14 @@
                     </table>
                 </div>
                 <div class="col-md-6">
-                    <h5><b>Proportion of Cases by Case Classification</b></h5>
-                    <h6>GENERAL TRIAS, MW 1-{{$sel_mweek}}, {{$sel_year}}</h6>
-                    <h6>N={{$current_grand_total}}</h6>
-                    <canvas id="pieChart" style="width: 500px;"></canvas>
-                    <hr>
+                    <div class="{{(!$show_classification_piegraph) ? 'd-none' : ''}}">
+                        <h5><b>Proportion of Cases by Case Classification</b></h5>
+                        <h6>GENERAL TRIAS, MW 1-{{$sel_mweek}}, {{$sel_year}}</h6>
+                        <h6>N={{$current_grand_total}}</h6>
+                        <canvas id="pieChart" style="width: 500px;"></canvas>
+                        <hr>
+                    </div>
+                    
                     @if($sel_disease != 'Pert')
                     <h5><b>Proportion of Cases by Sex and Age Group</b></h5>
                     <h6>GENERAL TRIAS, MW 1-{{$sel_mweek}}, {{$sel_year}}</h6>

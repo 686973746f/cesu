@@ -4875,12 +4875,20 @@ class PIDSRController extends Controller
             }
 
             //Initialize Display Params (Period na bibilangin sa Mapping, etc.)
-            if($sel_disease == 'Pert' || $sel_disease == 'Measles' || $sel_disease == 'Influenza' || $sel_disease == 'COVID') {
+            if($sel_disease == 'Pert' || $sel_disease == 'Measles' || $sel_disease == 'Influenza' || $sel_disease == 'COVID' || $sel_disease == 'Rabies') {
                 $set_display_params = 'yearly';
             }
             else {
                 $set_display_params = 'last3mws';
             }
+            
+            if($sel_disease == 'Rabies') {
+                $show_classification_piegraph = false;
+            }
+            else {
+                $show_classification_piegraph = true;
+            }
+            
 
             //INITIALIZE CURRENT MW
             $current_grand_total = 0;
@@ -5668,7 +5676,7 @@ class PIDSRController extends Controller
                         ->where('MorbidityWeek', '<=', $sel_week)
                         ->min('AgeDays');
                         
-                        $min_age_display = $min_age.' '.Str::plural('Day', $min_age).' old';
+                        $min_age_display = $min_age.' '.Str::plural('day', $min_age).' old';
                     }
                     else {
                         $min_age = $modelClass::where('enabled', 1)
@@ -5722,6 +5730,8 @@ class PIDSRController extends Controller
                     ->where('Year', $sel_year)
                     ->where('MorbidityWeek', '<=', $sel_week)
                     ->min('AgeYears');
+
+                    $min_age_display = $min_age.' '.Str::plural('year', $min_age).' old';
                 }
             }
 
@@ -6293,6 +6303,7 @@ class PIDSRController extends Controller
                 'suggestedMinAge' => $suggestedMinAge,
                 'suggestedMaxAge' => $suggestedMaxAge,
                 'age_highest_value' => $age_highest_value,
+                'show_classification_piegraph' => $show_classification_piegraph,
             ];
 
             if($sel_disease == 'Dengue') {
