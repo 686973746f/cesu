@@ -36,12 +36,12 @@
                     @elseif($g_type == 'NOTYET_SUBMITTED_ONTIME')
                     <div class="alert alert-info" role="alert">
                         <div>Submission Status for <b>MW: {{$mw}} - Year: {{$year}}</b> = <b class="text-danger">NOT YET SUBMITTED</b></div>
-                        <div>Please consolidate and submit today (Monday) to avoid being tagged as late submission.</div>
+                        <div><h5><b>Note:</b>Please encode the diseases first in the EDCS-IS Website before submitting here. Submit today (Monday) to avoid being tagged as late submission.</h5></div>
                     </div>
                     @elseif($g_type == 'EMPTY_LATE')
                     <div class="alert alert-info" role="alert">
                         <div>Submission Status for MW: <b>MW: {{$mw}} - Year: {{$year}}</b> = <b class="text-danger">NOT YET SUBMITTED (FOR LATE SUBMISSION)</b></div>
-                        <div>Reports not submitted every Monday will be automatically tagged as Late Submissions.</div>
+                        <div><h5><b>Note:</b>Please encode the diseases first in the EDCS-IS Website before submitting here. This will be automatically tagged as LATE SUBMIT.</h5></div>
                     </div>
                     @endif
                     <div class="row">
