@@ -234,7 +234,7 @@ class EmployeesController extends Controller
     }
 
     public function updateDuty($duty_id, Request $r) {
-
+        
     }
 
     public function storeEmployeeToDuty($duty_id, Request $r) {
@@ -268,5 +268,9 @@ class EmployeesController extends Controller
         return redirect()->back()
         ->with('msg', 'Successfully added as responder.')
         ->with('msgtype', 'success');
+    }
+
+    public function removeEmployeeToDuty($duty_id, Request $r) {
+
     }
 }
