@@ -21,13 +21,13 @@
             <table class="table table-striped table-bordered">
                 <thead class="thead-light text-center">
                     <tr>
-                        <th colspan="5">{{$d->event_name}}</th>
+                        <th colspan="6">{{$d->event_name}}</th>
                     </tr>
                     <tr>
                         <th>#</th>
                         <th>Name</th>
                         <th>Team</th>
-                        <th>Age/Sex</th>
+                        <th>Sex</th>
                         <th>BLS Trained</th>
                         <th>Action</th>
                     </tr>
@@ -37,9 +37,9 @@
                     <tr>
                         <td class="text-center">{{$ind+1}}</td>
                         <td>{{$c->employee->getName()}}</td>
-                        <td>{{$c->employee->duty_team}}</td>
-                        <td class="text-center"></td>
-                        <td class="text-center"></td>
+                        <td class="text-center">{{$c->employee->duty_team}}</td>
+                        <td class="text-center">{{$c->employee->gender}}</td>
+                        <td class="text-center">{{$c->employee->gender}}</td>
                         <td class="text-center"></td>
                     </tr>
                     @endforeach
