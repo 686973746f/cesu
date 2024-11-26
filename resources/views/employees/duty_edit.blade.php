@@ -39,7 +39,7 @@
                         <td>{{$c->employee->getName()}}</td>
                         <td class="text-center">{{$c->employee->duty_team}}</td>
                         <td class="text-center">{{$c->employee->gender}}</td>
-                        <td class="text-center">{{$c->employee->gender}}</td>
+                        <td class="text-center">{{$c->employee->is_blstrained}}</td>
                         <td class="text-center"></td>
                     </tr>
                     @endforeach
