@@ -26,6 +26,7 @@
                     <tr>
                         <th>#</th>
                         <th>Name</th>
+                        <th>Team</th>
                         <th>Age/Sex</th>
                         <th>BLS Trained</th>
                         <th>Action</th>
@@ -36,6 +37,7 @@
                     <tr>
                         <td class="text-center">{{$ind+1}}</td>
                         <td>{{$c->employee->getName()}}</td>
+                        <td>{{$c->employee->duty_team}}</td>
                         <td class="text-center"></td>
                         <td class="text-center"></td>
                         <td class="text-center"></td>
