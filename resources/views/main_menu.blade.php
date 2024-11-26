@@ -47,6 +47,10 @@
             @if(auth()->user()->canAccessDisaster())
             <a href="{{route('gtsecure_index')}}" class="btn btn-block btn-primary btn-lg">GenTrias SECURE</a>
             @endif
+            @if(auth()->user()->canAccessEmployees())
+            <hr>
+            <button type="button" class="btn btn-primary btn-block btn-lg" data-toggle="modal" data-target="#employeesModal">Employees</button>
+            @endif
             @if(auth()->user()->isGlobalAdmin())
             <hr>
             <a href="{{route('settings_home')}}" class="btn btn-block btn-warning btn-lg">Settings</a>
@@ -57,6 +61,7 @@
         </div>
     </div>
 </div>
+
 @if($showmodal)
 <div class="modal fade" id="privacymodal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
@@ -73,6 +78,25 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">I Understand</button>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
+
+@if(auth()->user()->canAccessEmployees())
+<div class="modal fade" id="employeesModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Employees Menu</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+                <a href="{{route('employees_index')}}" class="btn btn-primary btn-block">List of Employees</a>
+                <a href="{{route('duty_index')}}" class="btn btn-primary btn-block">HERT Duties</a>
             </div>
         </div>
     </div>

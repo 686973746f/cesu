@@ -86,5 +86,6 @@ class Kernel extends HttpKernel
         'isMayor' => \App\Http\Middleware\isMayor::class,
         'canAccessTask' => \App\Http\Middleware\canAccessTask::class,
         'canAccessDisaster' => \App\Http\Middleware\canAccessDisaster::class,
+        'canAccessEmployees' => \App\Http\Middleware\canAccessEmployees::class,
     ];
 }

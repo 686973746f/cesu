@@ -226,6 +226,14 @@
                               <option value="N" {{(old('duty_canbedeployed', $d->duty_canbedeployed) == 'N') ? 'selected' : ''}}>No</option>
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label for="duty_canbedeployedagain"><b class="text-danger">*</b>Can be Repeatedly Deployed? (For Drivers, Team Leaders)</label>
+                            <select class="form-control" name="duty_canbedeployedagain" id="duty_canbedeployedagain" required>
+                              <option value="" disabled {{(is_null(old('duty_canbedeployedagain', $d->duty_canbedeployedagain))) ? 'selected' : ''}}>Choose...</option>
+                              <option value="Y" {{(old('duty_canbedeployedagain', $d->duty_canbedeployedagain) == 'Y') ? 'selected' : ''}}>Yes</option>
+                              <option value="N" {{(old('duty_canbedeployedagain', $d->duty_canbedeployedagain) == 'N') ? 'selected' : ''}}>No</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">

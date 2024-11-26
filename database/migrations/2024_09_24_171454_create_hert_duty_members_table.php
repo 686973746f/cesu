@@ -18,6 +18,9 @@ class CreateHertDutyMembersTable extends Migration
             $table->foreignId('event_id')->constrained('hert_duties')->onDelete('cascade');
             $table->foreignId('employee_id')->constrained('employees')->onDelete('cascade');
             $table->string('locked_in', 1)->default('N');
+
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

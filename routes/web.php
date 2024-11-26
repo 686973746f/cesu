@@ -514,12 +514,21 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isGlobalAd
 
     //TASKS ADMIN
     Route::resource('taskgenerator', TaskGeneratorController::class);
+});
 
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessEmployees']], function() {
     Route::get('employees', [EmployeesController::class, 'index'])->name('employees_index');
     Route::get('employees/add', [EmployeesController::class, 'addEmployee'])->name('employees_add');
     Route::post('employees/add/store', [EmployeesController::class, 'storeEmployee'])->name('employees_store');
     Route::get('employees/edit/{id}', [EmployeesController::class, 'editEmployee'])->name('employees_edit');
     Route::post('employees/edit/{id}/update', [EmployeesController::class, 'updateEmployee'])->name('employees_update');
+
+    Route::get('duties', [EmployeesController::class, 'dutyIndex'])->name('duty_index');
+    Route::post('duties/store', [EmployeesController::class, 'storeDuty'])->name('duty_store');
+
+    Route::get('duties/{duty_id}/view', [EmployeesController::class, 'viewDuty'])->name('duty_view');
+    Route::post('duties/{duty_id}/view/store_employee', [EmployeesController::class, 'storeEmployeeToDuty'])->name('duty_storeemployee');
+    Route::post('duties/{duty_id}/view/add_responder', [EmployeesController::class, 'updateDuty'])->name('duty_update');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel3']], function() {

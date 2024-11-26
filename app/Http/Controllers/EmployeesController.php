@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
+use App\Models\HertDuty;
 use Illuminate\Http\Request;
+use App\Models\HertDutyMember;
+use Illuminate\Support\Facades\Auth;
 
 class EmployeesController extends Controller
 {
@@ -74,6 +77,7 @@ class EmployeesController extends Controller
             'bls_typeofrescuer' => ($r->is_blstrained == 'Y') ? $r->bls_typeofrescuer : NULL,
             //'bls_codename',
             'duty_canbedeployed' => $r->duty_canbedeployed,
+            'duty_canbedeployedagain' => $r->duty_canbedeployedagain,
             'duty_team' => $r->duty_team,
             'duty_completedcycle' => 'N',
             'created_by' => auth()->user()->id,
@@ -159,6 +163,7 @@ class EmployeesController extends Controller
             'bls_typeofrescuer' => ($r->is_blstrained == 'Y') ? $r->bls_typeofrescuer : NULL,
             //'bls_codename',
             'duty_canbedeployed' => $r->duty_canbedeployed,
+            'duty_canbedeployedagain' => $r->duty_canbedeployedagain,
             'duty_team' => $r->duty_team,
             //'duty_completedcycle' => 'N',
             //'created_by' => auth()->user()->id,
@@ -169,6 +174,99 @@ class EmployeesController extends Controller
 
         return redirect()->route('employees_index')
         ->with('msg', 'Employee ID: '.$id.' - '.$lname.', '.$fname.' was updated successfully.')
+        ->with('msgtype', 'success');
+    }
+
+    public function dutyIndex() {
+        $duty_qry = Employee::where('employment_status', 'ACTIVE')
+        ->where('duty_canbedeployed', 'Y');
+
+        $tot_emp_duty = (clone $duty_qry)->count();
+
+        $list = HertDuty::orderBy('created_at', 'DESC')->paginate(10);
+
+        return view('employees.duty_index', [
+            'list' => $list,
+        ]);
+    }
+
+    public function storeDuty(Request $r) {
+        $c = HertDuty::create([
+            'event_name' => mb_strtoupper($r->event_name),
+            'description' => ($r->description) ? mb_strtoupper($r->description) : NULL,
+            'event_date' => $r->event_date,
+            'status' => 'OPEN',
+
+            'created_by' => Auth::id(),
+        ]);
+
+        return redirect()->route('duty_view', $c->id)
+        ->with('msg', 'Duty was successfully created. You may now encode employees to deploy as responders.')
+        ->with('msgtype', 'success');
+    }
+
+    public function viewDuty($duty_id) {
+        $d = HertDuty::findOrFail($duty_id);
+
+        $duty_qry = Employee::where('employment_status', 'ACTIVE')
+        ->where('duty_canbedeployed', 'Y')
+        ->where(function ($q) {
+            $q->where('duty_canbedeployedagain', 'Y')
+            ->orWhere('duty_completedcycle', 'N');
+        });
+
+        $teama_list = (clone $duty_qry)->where('duty_team', 'A')->orderBy('lname', 'ASC')->get();
+        $teamb_list = (clone $duty_qry)->where('duty_team', 'B')->orderBy('lname', 'ASC')->get();
+        $teamc_list = (clone $duty_qry)->where('duty_team', 'C')->orderBy('lname', 'ASC')->get();
+        $teamd_list = (clone $duty_qry)->where('duty_team', 'D')->orderBy('lname', 'ASC')->get();
+        
+        $current_list = HertDutyMember::where('event_id', $d->id)->get();
+
+        return view('employees.duty_edit', [
+            'd' => $d,
+            'teama_list' => $teama_list,
+            'teamb_list' => $teamb_list,
+            'teamc_list' => $teamc_list,
+            'teamd_list' => $teamd_list,
+
+            'current_list' => $current_list,
+        ]);
+    }
+
+    public function updateDuty($duty_id, Request $r) {
+
+    }
+
+    public function storeEmployeeToDuty($duty_id, Request $r) {
+        $d = HertDuty::findOrFail($duty_id);
+
+        $check = HertDutyMember::where('event_id', $d->id)
+        ->where('employee_id', $r->employee_id)
+        ->first();
+
+        if(!$check) {
+            $c = HertDutyMember::create([
+                'event_id' => $d->id,
+                'employee_id' => $r->employee_id,
+                'created_by' => Auth::id(),
+            ]);
+        }
+        else {
+            return redirect()->back()
+            ->with('msg', 'Employee already exists in this Event. Please try another.')
+            ->with('msgtype', 'warning');
+        }
+
+        $u = Employee::findOrFail($r->employee_id);
+
+        $u->duty_completedcycle = 'Y';
+
+        if($u->isDirty()) {
+            $u->save();
+        }
+
+        return redirect()->back()
+        ->with('msg', 'Successfully added as responder.')
         ->with('msgtype', 'success');
     }
 }

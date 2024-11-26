@@ -18,8 +18,11 @@ class CreateHertDutiesTable extends Migration
             $table->string('event_name');
             $table->text('description')->nullable();
 
-            $table->date('event_date');
+            $table->date('event_date')->nullable();
             $table->string('status'); //OPEN, PENDING, COMPLETED
+
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

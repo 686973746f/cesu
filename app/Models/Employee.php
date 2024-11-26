@@ -116,4 +116,17 @@ class Employee extends Model
 
         return $list;
     }
+
+    public function ifAlreadyInEvent($event_id) {
+        $check = HertDutyMember::where('event_id', $event_id)
+        ->where('employee_id', $this->id)
+        ->first();
+
+        if(!$check) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
 }
