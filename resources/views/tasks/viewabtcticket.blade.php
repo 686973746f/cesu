@@ -124,6 +124,7 @@
                             <div class="form-group">
                                 <label for="philhealth" class="text-danger">Philhealth Number</label>
                                 <input type="text" class="form-control" name="philhealth" id="philhealth" value="{{$d->patient->philhealth ?: 'NOT FOUND. TRY CLICKING THE PIN SEARCH ICON ON ICLINICSYS.'}}" readonly>
+                                <small><b>Note:</b> You may also try searching using <a href="https://cec.philhealth.gov.ph/">Philhealth Claims Eligibility Checking (CEC) Tool - Click this this link to access the website</a>, and use the credentials given by staff to login.</small>
                             </div>
                             <div class="form-group">
                                 <label for="philhealth" class="text-danger">Philhealth Status Type</label>
