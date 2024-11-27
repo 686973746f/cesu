@@ -5,7 +5,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <div><b>GenTrias SECURE Tool (System for Evacuation Center Encoding, Utilization, and Reporting Efficiency)</b></div>
+                    <div><b>GenTrias SECURE Tool (<span class="text-success">S</span>ystem for <span class="text-success">E</span>vacuation <span class="text-success">C</span>enter encoding, <span class="text-success">U</span>tilization, and <span class="text-success">R</span>eporting <span class="text-success">E</span>fficiency)</b></div>
                     <div><button type="button" class="btn btn-success" data-toggle="modal" data-target="#newDisaster">New Disaster</button></div>
                 </div>
             </div>
@@ -18,20 +18,30 @@
                 <table class="table table-bordered table-striped">
                     <thead class="text-center thead-light">
                         <tr>
-                            <th>ID</th>
+                            <th>#</th>
                             <th>Disaster Name</th>
-                            <th>Created at/by</th>
-                            <th>Actions</th>
+                            <th>City/Municipality</th>
+                            <th>Date Start/End</th>
+                            <th>Status</th>
+                            <th>Created At/By</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($list as $l)
                         <tr>
                             <td class="text-center">{{$l->id}}</td>
-                            <td>{{$l->name}}</td>
-                            <td class="text-center"></td>
+                            <td><a href="{{route('gtsecure_disaster_view', $l->id)}}">{{$l->name}}</a></td>
+                            <td class="text-center">{{$l->city->name}}</td>
                             <td class="text-center">
-                                <a href="{{route('gtsecure_disaster_view', $l->id)}}" class="btn btn-primary">View</a>
+                                <div>Started: {{date('M. d, Y', strtotime($l->date_start))}}</div>
+                                @if($l->date_end)
+                                <div>Started: {{date('M. d, Y', strtotime($l->date_end))}}</div>
+                                @endif
+                            </td>
+                            <td class="text-center">{{$l->status}}</td>
+                            <td class="text-center">
+                                <div>{{date('M. d, Y h:i A', strtotime($l->created_at))}}</div>
+                                <div>by {{$l->user->name}}</div>
                             </td>
                         </tr>
                         @endforeach

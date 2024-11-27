@@ -17,6 +17,7 @@ class CreateDisastersTable extends Migration
             $table->id();
             $table->string('enabled', 1)->default('Y');
             $table->string('name');
+            $table->text('description')->nullable();
             $table->foreignId('city_id')->constrained('edcs_cities')->onDelete('cascade');
             $table->date('date_start');
             $table->date('date_end')->nullable();

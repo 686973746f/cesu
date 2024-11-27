@@ -189,7 +189,7 @@ class DisasterController extends Controller
             'contact_number' => $r->contact_number,
             'philhealth_number' => $r->philhealth_number,
             'religion' => $r->religion,
-            'street_purok' => $r->street_purok,
+            'street_purok' => mb_strtoupper($r->street_purok),
             'address_brgy_code' => $r->address_brgy_code,
             'is_headoffamily' => $r->is_headoffamily,
             'is_pwd' => $r->is_pwd,
@@ -214,11 +214,76 @@ class DisasterController extends Controller
 
         $d = EvacuationCenter::findOrFail($p->evacuation_center_id);
 
+        $heads_list = EvacuationCenterPatient::where('id', '!=', $p->id)
+        ->where('evacuation_center_id', $d->id)
+        ->where('is_headoffamily', 'Y')
+        ->where('enabled', 'Y')
+        ->orderBy('lname', 'ASC')
+        ->get();
+
         return $this->editPatient($p)
-        ->with('d', $d);
+        ->with('d', $d)
+        ->with('heads_list', $heads_list);
     }
 
     public function updatePatient($id, Request $r) {
+        $d = EvacuationCenterPatient::findOrFail($id);
+
+        $lname = mb_strtoupper($r->lname);
+        $fname = mb_strtoupper($r->fname);
+        $mname = ($r->mname) ? mb_strtoupper($r->mname) : NULL;
+        $suffix = ($r->suffix) ? mb_strtoupper($r->suffix) : NULL;
+
+        $bdate = $r->bdate;
+
+        $birthdate = Carbon::parse($bdate);
+        $currentDate = Carbon::now();
+
+        $get_ageyears = $birthdate->diffInYears($currentDate);
+        $get_agemonths = $birthdate->diffInMonths($currentDate);
+        $get_agedays = $birthdate->diffInDays($currentDate);
+
+        $update_params = [
+            'lname' => $lname,
+            'fname' => $fname,
+            'mname' => $mname,
+            'suffix' => $suffix,
+            'nickname' => ($r->nickname) ? mb_strtoupper($r->nickname) : NULL,
+            'sex' => $r->sex,
+            'is_pregnant' => ($r->sex == 'F') ? $r->is_pregnant : 'N',
+            'is_lactating' => ($r->sex == 'F') ? $r->is_lactating : 'N',
+            'bdate' => $r->bdate,
+            'email' => $r->email,
+            'contact_number' => $r->contact_number,
+            'philhealth_number' => $r->philhealth_number,
+            'religion' => $r->religion,
+            'street_purok' => mb_strtoupper($r->street_purok),
+            'address_brgy_code' => $r->address_brgy_code,
+            'is_headoffamily' => $r->is_headoffamily,
+            'is_pwd' => $r->is_pwd,
+            'is_injured' => $r->is_injured,
+            'outcome' => $r->outcome,
+
+            'remarks' => $r->remarks,
+            'age_years' => $get_ageyears,
+            'age_months' => $get_agemonths,
+            'age_days' => $get_agedays,
+            'updated_by' => Auth::id(),
+        ];
+
+        $u = EvacuationCenterPatient::where('id', $id)
+        ->update($update_params);
+
+        return redirect()->route('gtsecure_evacuationcenter_view', $d->evacuation_center_id)
+        ->with('msg', 'Details of '.$d->getName().' was updated successfully.')
+        ->with('msgtype', 'success');
+    }
+
+    public function evacPostUpdate($evac_id, Request $r) {
+        
+    }
+
+    public function disasterGenerateReport($disaster_id) {
 
     }
 }

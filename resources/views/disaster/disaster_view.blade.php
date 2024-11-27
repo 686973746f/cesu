@@ -7,6 +7,7 @@
             <div class="d-flex justify-content-between">
                 <div><b>View Disaster</b></div>
                 <div>
+                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#options">Options</button>
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#newEvacuationCenter">Add Evacuation Center</button>
                 </div>
             </div>
@@ -23,25 +24,53 @@
                         <th>#</th>
                         <th>Evacuation Center</th>
                         <th>Barangay</th>
-                        <th>Action</th>
+                        <th>Status</th>
+                        <th>Created at/by</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($list_evac as $ind => $l)
                     <tr>
                         <td class="text-center">{{$ind+1}}</td>
-                        <td>{{$l->name}}</td>
+                        <td><a href="{{route('gtsecure_evacuationcenter_view', $l->id)}}">{{$l->name}}</a></td>
                         <td class="text-center">{{$l->brgy->name}}</td>
+                        <td class="text-center">{{$l->status}}</td>
                         <td class="text-center">
-                            <a href="{{route('gtsecure_evacuationcenter_view', $l->id)}}" class="btn btn-primary">View</a>
+                            <div>{{date('M. d, Y h:i A', strtotime($l->created_at))}}</div>
+                            <div>by {{$l->user->name}}</div>
                         </td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
+        <div class="card-footer">
+            
+        </div>
     </div>
 </div>
+
+<form action="" method="POST">
+    @csrf
+    <div class="modal fade" id="options" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Disaster Options</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    Body
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 
 <form action="{{route('gtsecure_evacuationcenter_store', $d->id)}}" method="POST">
     @csrf

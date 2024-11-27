@@ -50,31 +50,33 @@
                 </div>
             </div>
 
-            <table class="table table-bordered table-striped">
-                <thead class="text-center thead-light">
-                    <tr>
-                        <th>#</th>
-                        <th>Event Name</th>
-                        <th>Event Date</th>
-                        <th>Status</th>
-                        <th>Created at / by</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($list as $l)
-                    <tr>
-                        <td class="text-center">{{$l->id}}</td>
-                        <td><a href="{{route('duty_view', $l->id)}}">{{$l->event_name}}</a></td>
-                        <td class="text-center">{{($l->event_date) ? date('M. d, Y - D', strtotime($l->event_date)) : 'N/A'}}</td>
-                        <td class="text-center">{{$l->status}}</td>
-                        <td class="text-center">
-                            <div>{{date('M. d, Y h:i A', strtotime($l->created_at))}}</div>
-                            <div>by {{$l->user->name}}</div>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="text-center thead-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Event Name</th>
+                            <th>Event Date</th>
+                            <th>Status</th>
+                            <th>Created at / by</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($list as $l)
+                        <tr>
+                            <td class="text-center">{{$l->id}}</td>
+                            <td><a href="{{route('duty_view', $l->id)}}">{{$l->event_name}}</a></td>
+                            <td class="text-center">{{($l->event_date) ? date('M. d, Y - D', strtotime($l->event_date)) : 'N/A'}}</td>
+                            <td class="text-center">{{$l->status}}</td>
+                            <td class="text-center">
+                                <div>{{date('M. d, Y h:i A', strtotime($l->created_at))}}</div>
+                                <div>by {{$l->user->name}}</div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

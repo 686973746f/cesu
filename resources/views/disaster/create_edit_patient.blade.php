@@ -60,7 +60,7 @@
                             <div class="form-group">
                                 <label for="gender"><span class="text-danger font-weight-bold">*</span>Sex</label>
                                 <select class="form-control" name="sex" id="sex" required>
-                                  <option disabled {{(is_null(old('sex', $p->sex))) ? 'selected' : ''}}>Choose...</option>
+                                  <option value="" disabled {{(is_null(old('sex', $p->sex))) ? 'selected' : ''}}>Choose...</option>
                                   <option value="M" {{(old('sex', $p->sex) == 'M') ? 'selected' : ''}}>Male</option>
                                   <option value="F" {{(old('sex', $p->sex) == 'F') ? 'selected' : ''}}>Female</option>
                                 </select>
@@ -86,14 +86,14 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="contact_no"><span class="text-danger font-weight-bold">*</span>Contact Number</label>
-                                <input type="text" class="form-control" id="contact_no" name="contact_no" value="{{old('contact_number', $p->contact_number)}}" pattern="[0-9]{11}" placeholder="09*********" required>
+                                <label for="contact_number"><span class="text-danger font-weight-bold">*</span>Contact Number</label>
+                                <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{old('contact_number', $p->contact_number)}}" pattern="[0-9]{11}" placeholder="09*********" required>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="religion">Religion</label>
-                                <input type="text" class="form-control" id="religion" name="religion" value="{{old('religion', $d->religion)}}" style="text-transform: uppercase;">
+                                <input type="text" class="form-control" id="religion" name="religion" value="{{old('religion', $p->religion)}}" style="text-transform: uppercase;">
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -155,10 +155,12 @@
                             <div class="form-group">
                                 <label for="is_headoffamily"><span class="text-danger font-weight-bold">*</span>Is the Head of the Family?</label>
                                 <select class="form-control" name="is_headoffamily" id="is_headoffamily" required>
-                                  <option disabled {{(is_null(old('sex', $p->is_headoffamily))) ? 'selected' : ''}}>Choose...</option>
-                                  <option value="Y" {{(old('sex', $p->is_headoffamily) == 'Y') ? 'selected' : ''}}>Yes</option>
+                                    @if(!$p->exists)
+                                    <option value="" disabled {{(is_null(old('sex', $p->is_headoffamily))) ? 'selected' : ''}}>Choose...</option>
+                                    @endif
+                                    <option value="Y" {{(old('sex', $p->is_headoffamily) == 'Y') ? 'selected' : ''}}>Yes</option>
                                   @if($heads_list->count() != 0)
-                                  <option value="N" {{(old('sex', $p->is_headoffamily) == 'N') ? 'selected' : ''}}>No</option>
+                                    <option value="N" {{(old('sex', $p->is_headoffamily) == 'N') ? 'selected' : ''}}>No</option>
                                   @endif
                                 </select>
                                 <small class="text-muted">This field is used to determine number of families inside the evacuation center.</small>
@@ -167,7 +169,7 @@
                                 <div class="form-group">
                                   <label for="family_patient_id"><b class="text-danger">*</b>Link to Head of Family</label>
                                   <select class="form-control" name="family_patient_id" id="family_patient_id">
-                                    <option disabled {{(is_null(old('family_patient_id', $p->family_patient_id))) ? 'selected' : ''}}>Choose...</option>
+                                    <option value="" disabled {{(is_null(old('family_patient_id', $p->family_patient_id))) ? 'selected' : ''}}>Choose...</option>
                                     @foreach($heads_list as $h)
                                     <option value="{{$h->id}}">{{$h->getName()}} - {{$h->getAge()}}/{{$h->sex}}</option>
                                     @endforeach
@@ -179,7 +181,7 @@
                             <div class="form-group">
                                 <label for="is_pwd"><span class="text-danger font-weight-bold">*</span>Is PWD?</label>
                                 <select class="form-control" name="is_pwd" id="is_pwd" required>
-                                    <option disabled {{(is_null(old('is_pwd', $p->is_pwd))) ? 'selected' : ''}}>Choose...</option>
+                                    <option value="" disabled {{(is_null(old('is_pwd', $p->is_pwd))) ? 'selected' : ''}}>Choose...</option>
                                     <option value="Y" {{(old('is_pwd', $p->is_pwd) == 'Y') ? 'selected' : ''}}>Yes</option>
                                     <option value="N" {{(old('is_pwd', $p->is_pwd) == 'N') ? 'selected' : ''}}>No</option>
                                 </select>
@@ -187,7 +189,7 @@
                             <div class="form-group">
                                 <label for="is_injured"><span class="text-danger font-weight-bold">*</span>Is Injured?</label>
                                 <select class="form-control" name="is_injured" id="is_injured" required>
-                                    <option disabled {{(is_null(old('is_injured', $p->is_injured))) ? 'selected' : ''}}>Choose...</option>
+                                    <option value="" {{(is_null(old('is_injured', $p->is_injured))) ? 'selected' : ''}}>Choose...</option>
                                     <option value="Y" {{(old('is_injured', $p->is_injured) == 'Y') ? 'selected' : ''}}>Yes</option>
                                     <option value="N" {{(old('is_injured', $p->is_injured) == 'N') ? 'selected' : ''}}>No</option>
                                 </select>
@@ -197,7 +199,7 @@
                             <div class="form-group">
                                 <label for="outcome"><span class="text-danger font-weight-bold">*</span>Outcome</label>
                                 <select class="form-control" name="outcome" id="outcome" required>
-                                  <option disabled {{(is_null(old('outcome', $p->outcome))) ? 'selected' : ''}}>Choose...</option>
+                                  <option value="" disabled {{(is_null(old('outcome', $p->outcome))) ? 'selected' : ''}}>Choose...</option>
                                   <option value="ALIVE" {{(old('outcome', $p->outcome) == 'ALIVE') ? 'selected' : ''}}>Alive</option>
                                   <option value="DIED" {{(old('outcome', $p->outcome) == 'DIED') ? 'selected' : ''}}>Died</option>
                                   <option value="MISSING" {{(old('outcome', $p->outcome) == 'MISSING') ? 'selected' : ''}}>Missing</option>
@@ -208,7 +210,7 @@
                     </div>
                     <div class="form-group">
                       <label for="remarks">Remarks</label>
-                      <textarea class="form-control" name="remarks" id="remarks" rows="3">{{old('remarks', $d->remarks)}}</textarea>
+                      <textarea class="form-control" name="remarks" id="remarks" rows="3">{{old('remarks', $p->remarks)}}</textarea>
                     </div>
                 </div>
                 <div class="card-footer">
@@ -267,25 +269,34 @@
 
     $('#is_headoffamily').change(function (e) { 
         e.preventDefault();
-        if($(this).val() == 'Y') {
+        if($(this).val() == 'Y' || $(this).val() == null) {
             $('#isHeadOfFamily').addClass('d-none');
-            $('#family_patient_id').prop('required', true);
+            $('#family_patient_id').prop('required', false);
         }
         else {
             $('#isHeadOfFamily').removeClass('d-none');
-            $('#family_patient_id').prop('required', false);
+            $('#family_patient_id').prop('required', true);
         }
-    });
+    }).trigger('change');
 
     //Select2 Init for Address Bar
     $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_code, #family_patient_id').select2({
         theme: 'bootstrap',
     });
 
+    
+    @if($p->exists)
+    //Default Values for Gentri
+    var regionDefault = {{$p->brgy->city->province->region->id}};
+    var provinceDefault = {{$p->brgy->city->province->id}};
+    var cityDefault = {{$p->brgy->city->id}};
+    var brgyDefault = {{$p->address_brgy_code}};
+    @else
     //Default Values for Gentri
     var regionDefault = 1;
     var provinceDefault = 18;
     var cityDefault = 388;
+    @endif
 
     $('#address_region_code').change(function (e) { 
         e.preventDefault();
@@ -406,5 +417,12 @@
             $('#address_muncity_code').val(cityDefault).trigger('change');
         }, 1000); // Slight delay to ensure city is loaded
     }
+    @if($p->exists)
+    if (brgyDefault) {
+        setTimeout(function() {
+            $('#address_brgy_code').val(brgyDefault).trigger('change');
+        }, 1500); // Slight delay to ensure city is loaded
+    }
+    @endif
 </script>
 @endsection

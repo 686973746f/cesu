@@ -23,38 +23,52 @@
             </div>
             @endif
 
-            <table class="table table-striped table-bordered" id="dutyListTbl">
-                <thead class="thead-light text-center">
-                    <tr>
-                        <th colspan="6">{{$d->event_name}} ({{($d->event_date) ? mb_strtoupper(date('M. d, Y', strtotime($d->event_date))) : ''}})</th>
-                    </tr>
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Team</th>
-                        <th>Gender</th>
-                        <th>BLS Trained</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($current_list as $ind => $c)
-                    <tr>
-                        <td class="text-center">{{$ind+1}}</td>
-                        <td>{{$c->employee->getName()}}</td>
-                        <td class="text-center">{{$c->employee->duty_team}}</td>
-                        <td class="text-center">{{$c->employee->gender}}</td>
-                        <td class="text-center">{{$c->employee->is_blstrained}}</td>
-                        <td class="text-center">
-                            <form action="{{route('duty_removeemployee', [$d->id, $c->id])}}" method="POST">
-                                @csrf
-                                <button type="submit" class="btn btn-danger">X</button>
-                            </form>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered" id="dutyListTbl">
+                    <thead class="thead-light text-center">
+                        <tr>
+                            <th colspan="6">{{$d->event_name}} ({{($d->event_date) ? mb_strtoupper(date('M. d, Y', strtotime($d->event_date))) : ''}})</th>
+                        </tr>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Team</th>
+                            <th>Gender</th>
+                            <th>BLS Trained</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($current_list as $ind => $c)
+                        <tr>
+                            <td class="text-center">{{$ind+1}}</td>
+                            <td>{{$c->employee->getName()}}</td>
+                            <td class="text-center">{{$c->employee->duty_team}}</td>
+                            <td class="text-center">
+                                @php
+                                if($c->employee->gender == 'M') {
+                                    $style = 'background-color: aqua';
+                                }
+                                else {
+                                    $style = 'background-color: pink';
+                                }
+                                @endphp
+                                <span class="badge p-2" style="{{$style}}">
+                                    {{$c->employee->gender}}
+                                </span>
+                            </td>
+                            <td class="text-center">{{$c->employee->is_blstrained}}</td>
+                            <td class="text-center">
+                                <form action="{{route('duty_removeemployee', [$d->id, $c->id])}}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger">X</button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

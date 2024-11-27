@@ -50,6 +50,10 @@ class EvacuationCenterPatient extends Model
         return $this->belongsTo(EvacuationCenter::class, 'evacuation_center_id');
     }
 
+    public function user() {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
     public function brgy() {
         return $this->belongsTo(EdcsBrgy::class, 'address_brgy_code');
     }

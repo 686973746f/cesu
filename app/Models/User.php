@@ -64,6 +64,11 @@ AR_APPROVER
 
 TASK_MEMBER
 PREGNANCYTRACKING
+
+DISASTER_ADMIN
+DISASTER_ENCODER
+
+EMPLOYEE_ACCESS
 */
 
 class User extends Authenticatable implements MustVerifyEmail

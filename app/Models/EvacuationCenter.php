@@ -14,6 +14,7 @@ class EvacuationCenter extends Model
         'disaster_id',
         'name',
         'description',
+        'street_purok',
         'address_brgy_code',
         'longlat',
         'status',
@@ -37,5 +38,9 @@ class EvacuationCenter extends Model
 
     public function brgy() {
         return $this->belongsTo(EdcsBrgy::class, 'address_brgy_code');
+    }
+
+    public function user() {
+        return $this->belongsTo(User::class, 'created_by');
     }
 }

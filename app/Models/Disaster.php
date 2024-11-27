@@ -12,6 +12,7 @@ class Disaster extends Model
     protected $fillable = [
         'enabled',
         'name',
+        'description',
         'city_id',
         'date_start',
         'date_end',
@@ -19,4 +20,12 @@ class Disaster extends Model
         'hash',
         'created_by',
     ];
+
+    public function city() {
+        return $this->belongsTo(EdcsCity::class, 'city_id');
+    }
+
+    public function user() {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }
