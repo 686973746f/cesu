@@ -26,7 +26,7 @@
             <table class="table table-striped table-bordered" id="dutyListTbl">
                 <thead class="thead-light text-center">
                     <tr>
-                        <th colspan="6">{{$d->event_name}}</th>
+                        <th colspan="6">{{$d->event_name}} ({{($d->event_date) ? mb_strtoupper(date('M. d, Y', strtotime($d->event_date))) : ''}})</th>
                     </tr>
                     <tr>
                         <th>#</th>

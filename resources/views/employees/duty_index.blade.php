@@ -5,9 +5,11 @@
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <div><b>List of Duties</b> (Sorted by Newest to Oldest)</div>
+                <div><b>List of HERT Duties/Events</b> (Sorted by Newest to Oldest)</div>
                 <div>
+                    @if(auth()->user()->isGlobalAdmin())
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#options">Options</button>
+                    @endif
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#newDuty">New Event</button>
                 </div>
             </div>
@@ -55,7 +57,7 @@
                         <th>Event Name</th>
                         <th>Event Date</th>
                         <th>Status</th>
-                        <th>Date Created</th>
+                        <th>Created at / by</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -63,9 +65,12 @@
                     <tr>
                         <td class="text-center">{{$l->id}}</td>
                         <td><a href="{{route('duty_view', $l->id)}}">{{$l->event_name}}</a></td>
-                        <td class="text-center">{{($l->event_date) ? date('M. d, Y', strtotime($l->event_date)) : 'N/A'}}</td>
+                        <td class="text-center">{{($l->event_date) ? date('M. d, Y - D', strtotime($l->event_date)) : 'N/A'}}</td>
                         <td class="text-center">{{$l->status}}</td>
-                        <td class="text-center">{{date('M. d, Y h:i A', strtotime($l->created_at))}}</td>
+                        <td class="text-center">
+                            <div>{{date('M. d, Y h:i A', strtotime($l->created_at))}}</div>
+                            <div>by {{$l->user->name}}</div>
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -107,6 +112,7 @@
     </div>
 </form>
 
+@if(auth()->user()->isGlobalAdmin())
 <div class="modal fade" id="options" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -129,4 +135,5 @@
         </div>
     </div>
 </div>
+@endif
 @endsection
