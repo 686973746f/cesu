@@ -34,7 +34,7 @@
                 <tbody>
                     @foreach($list as $ind => $d)
                     <tr>
-                        <td>{{$ind+1}}</td>
+                        <td class="text-center">{{$ind+1}}</td>
                         <td><a href="{{route('employees_edit', $d->id)}}"><b>{{$d->getFullName()}}</b></a></td>
                         <td class="text-center">{{$d->gender}}</td>
                         <td class="text-center">{{$d->type}}</td>

@@ -87,9 +87,15 @@
                     <div class="form-group">
                       <label for="status"><b class="text-danger">*</b>Set Status</label>
                       <select class="form-control" name="status" id="status" required>
+                        @if($d->status == 'OPEN')
                         <option value="OPEN" {{(old('status', $d->status) == 'OPEN') ? 'selected' : ''}}>Open (List of Responders can still be updated)</option>
                         <option value="PENDING" {{(old('status', $d->status) == 'PENDING') ? 'selected' : ''}}>Pending (Event is Ongoing and list of Responders are final)</option>
                         <option value="CLOSED" {{(old('status', $d->status) == 'CLOSED') ? 'selected' : ''}}>Closed (Event is over)</option>
+                        @elseif($d->status == 'PENDING')
+                        <option value="PENDING" {{(old('status', $d->status) == 'PENDING') ? 'selected' : ''}}>Pending (Event is Ongoing and list of Responders are final)</option>
+                        @elseif($d->status == 'CLOSED')
+                        <option value="CLOSED" {{(old('status', $d->status) == 'CLOSED') ? 'selected' : ''}}>Closed (Event is over)</option>
+                        @endif
                       </select>
                     </div>
                 </div>

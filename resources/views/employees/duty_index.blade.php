@@ -7,6 +7,7 @@
             <div class="d-flex justify-content-between">
                 <div><b>List of Duties</b> (Sorted by Newest to Oldest)</div>
                 <div>
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#options">Options</button>
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#newDuty">New Event</button>
                 </div>
             </div>
@@ -53,6 +54,7 @@
                         <th>#</th>
                         <th>Event Name</th>
                         <th>Event Date</th>
+                        <th>Status</th>
                         <th>Date Created</th>
                     </tr>
                 </thead>
@@ -62,7 +64,8 @@
                         <td class="text-center">{{$l->id}}</td>
                         <td><a href="{{route('duty_view', $l->id)}}">{{$l->event_name}}</a></td>
                         <td class="text-center">{{($l->event_date) ? date('M. d, Y', strtotime($l->event_date)) : 'N/A'}}</td>
-                        <td class="text-center">{{date('M. d, Y', strtotime($l->created_at))}}</td>
+                        <td class="text-center">{{$l->status}}</td>
+                        <td class="text-center">{{date('M. d, Y h:i A', strtotime($l->created_at))}}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -103,4 +106,27 @@
         </div>
     </div>
 </form>
+
+<div class="modal fade" id="options" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Options</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{route('duty_mainoptions')}}" method="POST">
+                    @csrf
+                    <button type="submit" name="submit" value="reset_cycle" class="btn btn-primary btn-block" onclick="return confirm('Are you sure you want to Reset the Duty Cycle?')">Reset Cycle</button>
+                </form>
+
+                <form action="">
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

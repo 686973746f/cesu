@@ -525,6 +525,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessE
 
     Route::get('duties', [EmployeesController::class, 'dutyIndex'])->name('duty_index');
     Route::post('duties/store', [EmployeesController::class, 'storeDuty'])->name('duty_store');
+    Route::post('duties/update_options', [EmployeesController::class, 'dutyMainOptions'])->name('duty_mainoptions');
 
     Route::get('duties/{duty_id}/view', [EmployeesController::class, 'viewDuty'])->name('duty_view');
     Route::post('duties/{duty_id}/view/store_employee', [EmployeesController::class, 'storeEmployeeToDuty'])->name('duty_storeemployee');

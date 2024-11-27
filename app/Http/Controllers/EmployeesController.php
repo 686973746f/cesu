@@ -188,21 +188,21 @@ class EmployeesController extends Controller
         $tot_emp_duty_alreadyassigned = (clone $duty_qry)->where('duty_completedcycle', 'Y')->count();
         $tot_emp_duty_notyetassigned = $tot_emp_duty - $tot_emp_duty_alreadyassigned;
 
-        $ta_total = $tot_emp_duty = (clone $duty_qry)->where('duty_team', 'A')->count();
-        $tb_total = $tot_emp_duty = (clone $duty_qry)->where('duty_team', 'B')->count();
-        $tc_total = $tot_emp_duty = (clone $duty_qry)->where('duty_team', 'C')->count();
-        $td_total = $tot_emp_duty = (clone $duty_qry)->where('duty_team', 'D')->count();
+        $ta_total = (clone $duty_qry)->where('duty_team', 'A')->count();
+        $tb_total = (clone $duty_qry)->where('duty_team', 'B')->count();
+        $tc_total = (clone $duty_qry)->where('duty_team', 'C')->count();
+        $td_total = (clone $duty_qry)->where('duty_team', 'D')->count();
 
-        $ta_deployed = $tot_emp_duty = (clone $duty_qry)->where('duty_team', 'A')->where('duty_completedcycle', 'Y')->count();
+        $ta_deployed = (clone $duty_qry)->where('duty_team', 'A')->where('duty_completedcycle', 'Y')->count();
         $ta_notdeployed = $ta_total - $ta_deployed;
 
-        $tb_deployed = $tot_emp_duty = (clone $duty_qry)->where('duty_team', 'B')->where('duty_completedcycle', 'Y')->count();
+        $tb_deployed = (clone $duty_qry)->where('duty_team', 'B')->where('duty_completedcycle', 'Y')->count();
         $tb_notdeployed = $tb_total - $tb_deployed;
 
-        $tc_deployed = $tot_emp_duty = (clone $duty_qry)->where('duty_team', 'C')->where('duty_completedcycle', 'Y')->count();
+        $tc_deployed = (clone $duty_qry)->where('duty_team', 'C')->where('duty_completedcycle', 'Y')->count();
         $tc_notdeployed = $tc_total - $tc_deployed;
 
-        $td_deployed = $tot_emp_duty = (clone $duty_qry)->where('duty_team', 'D')->where('duty_completedcycle', 'Y')->count();
+        $td_deployed = (clone $duty_qry)->where('duty_team', 'D')->where('duty_completedcycle', 'Y')->count();
         $td_notdeployed = $td_total - $td_deployed;
 
         $list = HertDuty::orderBy('created_at', 'DESC')->paginate(10);
@@ -249,6 +249,41 @@ class EmployeesController extends Controller
         ->with('msgtype', 'success');
     }
 
+    public function dutyMainOptions(Request $r) {
+        if($r->submit == 'reset_cycle') {
+            //Create Duty Cycle Mark
+            $s = DutyCycle::latest()->first();
+            if($s) {
+                $s->date_ended = date('Y-m-d');
+                if($s->isDirty()) {
+                    $s->save();
+                }
+
+                $c = DutyCycle::create([
+                    'date_started' => date('Y-m-d'),
+                ]);
+            }
+            else {
+                $c = DutyCycle::create([
+                    'date_started' => date('Y-m-d'),
+                    'date_ended' => date('Y-m-d'),
+                ]);
+            }
+
+            $u = Employee::where('duty_completedcycle', 'Y')
+            ->update([
+                'duty_completedcycle' => 'N',
+            ]);
+
+            return redirect()->back()
+            ->with('msg', 'Reset of Duty Cycle was processed successfully. New Cycle Count was added.')
+            ->with('msgtype', 'success');
+        }
+        else {
+
+        }
+    }
+
     public function viewDuty($duty_id) {
         $d = HertDuty::findOrFail($duty_id);
 
@@ -283,8 +318,32 @@ class EmployeesController extends Controller
         ]);
     }
 
-    public function updateDuty($duty_id, Request $r) {
-        
+    public function updateDuty($event_id, Request $r) {
+        $d = HertDuty::findOrFail($event_id);
+
+        $d->event_name = mb_strtoupper($r->event_name);
+        $d->description = ($r->description) ? mb_strtoupper($r->description) : NULL;
+        $d->event_date = $r->event_date;
+        $d->status = $r->status;
+
+        if($d->isDirty('status')) {
+            if($r->status == 'PENDING' || $r->status == 'COMPLETED') {
+                //Lock in all Responders
+
+                $u = HertDutyMember::where('event_id', $event_id)
+                ->update([
+                    'locked_in' => 'Y',
+                ]);
+            }
+        }
+
+        if($d->isDirty()) {
+            $d->save();
+        }
+
+        return redirect()->back()
+        ->with('msg', 'Event details were successfully updated.')
+        ->with('msgtype', 'success');
     }
 
     public function storeEmployeeToDuty($duty_id, Request $r) {
