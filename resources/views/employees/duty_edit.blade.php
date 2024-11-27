@@ -8,7 +8,11 @@
                 <div><b>List of Responders</b></div>
                 <div>
                     <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#options">Options</button>
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addEmployee">Add Employee</button>
+                    @if($d->status == 'OPEN')
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addEmployee">Add Responder</button>
+                    @else
+                    <button type="button" class="btn btn-success" disabled>Add Responder</button>
+                    @endif
                 </div>
             </div>
         </div>
@@ -157,5 +161,18 @@
         dropdownParent: $("#addEmployee"),
         theme: "bootstrap",
     });
+
+    $('#dutyListTbl').dataTable({
+        iDisplayLength: -1,
+        dom: 'Bfrit',
+        buttons: [
+            {
+                extend: 'excel',
+                title: '',
+            },
+            'copy',
+        ],
+    });
 </script>
+
 @endsection

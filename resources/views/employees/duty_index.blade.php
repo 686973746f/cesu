@@ -7,7 +7,7 @@
             <div class="d-flex justify-content-between">
                 <div><b>List of Duties</b> (Sorted by Newest to Oldest)</div>
                 <div>
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#newDuty">New Duty</button>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#newDuty">New Event</button>
                 </div>
             </div>
         </div>
@@ -52,6 +52,7 @@
                     <tr>
                         <th>#</th>
                         <th>Event Name</th>
+                        <th>Event Date</th>
                         <th>Date Created</th>
                     </tr>
                 </thead>
@@ -60,7 +61,8 @@
                     <tr>
                         <td class="text-center">{{$l->id}}</td>
                         <td><a href="{{route('duty_view', $l->id)}}">{{$l->event_name}}</a></td>
-                        <td class="text-center">{{date('F d, Y', strtotime($l->created_at))}}</td>
+                        <td class="text-center">{{($l->event_date) ? date('M. d, Y', strtotime($l->event_date)) : 'N/A'}}</td>
+                        <td class="text-center">{{date('M. d, Y', strtotime($l->created_at))}}</td>
                     </tr>
                     @endforeach
                 </tbody>
