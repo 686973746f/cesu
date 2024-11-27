@@ -34,7 +34,7 @@
                     @foreach($list as $ind => $d)
                     <tr>
                         <td>{{$ind+1}}</td>
-                        <td><a href="{{route('employees_edit', $d->id)}}"><b>{{$d->getName()}}</b></a></td>
+                        <td><a href="{{route('employees_edit', $d->id)}}"><b>{{$d->getFullName()}}</b></a></td>
                         <td class="text-center">{{$d->gender}}</td>
                         <td class="text-center">{{$d->type}}</td>
                         <td class="text-center">{{$d->job_position}}</td>
@@ -52,6 +52,15 @@
 </div>
 
 <script>
-    $('#mainTbl').dataTable();
+    $('#mainTbl').dataTable({
+        dom: 'QBfritp',
+        buttons: [
+            {
+                extend: 'excel',
+                title: '',
+            },
+            'copy',
+        ],
+    });
 </script>
 @endsection

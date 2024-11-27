@@ -48,6 +48,7 @@ class Employee extends Model
         'bls_typeofrescuer',
         'bls_codename',
         'duty_canbedeployed',
+        'duty_canbedeployedagain',
         'duty_team',
         'duty_completedcycle',
 
@@ -65,6 +66,16 @@ class Employee extends Model
 
         if(!is_null($this->mname)) {
             $final = $final.' '.substr($this->mname,0,1).'.';
+        }
+
+        return $final;
+    }
+
+    public function getFullName() {
+        $final = $this->lname.', '.$this->fname;
+
+        if(!is_null($this->mname)) {
+            $final = $final.' '.$this->mname;
         }
 
         return $final;
@@ -128,5 +139,10 @@ class Employee extends Model
         else {
             return true;
         }
+    }
+
+    public function duties()
+    {
+        return $this->hasMany(HertDuty::class);
     }
 }

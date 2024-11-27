@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DutyCycle;
 use App\Models\Employee;
 use App\Models\HertDuty;
 use Illuminate\Http\Request;
@@ -182,11 +183,54 @@ class EmployeesController extends Controller
         ->where('duty_canbedeployed', 'Y');
 
         $tot_emp_duty = (clone $duty_qry)->count();
+        $tot_emp_duty_male = (clone $duty_qry)->where('gender', 'M')->count();
+        $tot_emp_duty_female = (clone $duty_qry)->where('gender', 'F')->count();
+        $tot_emp_duty_alreadyassigned = (clone $duty_qry)->where('duty_completedcycle', 'Y')->count();
+        $tot_emp_duty_notyetassigned = $tot_emp_duty - $tot_emp_duty_alreadyassigned;
+
+        $ta_total = $tot_emp_duty = (clone $duty_qry)->where('duty_team', 'A')->count();
+        $tb_total = $tot_emp_duty = (clone $duty_qry)->where('duty_team', 'B')->count();
+        $tc_total = $tot_emp_duty = (clone $duty_qry)->where('duty_team', 'C')->count();
+        $td_total = $tot_emp_duty = (clone $duty_qry)->where('duty_team', 'D')->count();
+
+        $ta_deployed = $tot_emp_duty = (clone $duty_qry)->where('duty_team', 'A')->where('duty_completedcycle', 'Y')->count();
+        $ta_notdeployed = $ta_total - $ta_deployed;
+
+        $tb_deployed = $tot_emp_duty = (clone $duty_qry)->where('duty_team', 'B')->where('duty_completedcycle', 'Y')->count();
+        $tb_notdeployed = $tb_total - $tb_deployed;
+
+        $tc_deployed = $tot_emp_duty = (clone $duty_qry)->where('duty_team', 'C')->where('duty_completedcycle', 'Y')->count();
+        $tc_notdeployed = $tc_total - $tc_deployed;
+
+        $td_deployed = $tot_emp_duty = (clone $duty_qry)->where('duty_team', 'D')->where('duty_completedcycle', 'Y')->count();
+        $td_notdeployed = $td_total - $td_deployed;
 
         $list = HertDuty::orderBy('created_at', 'DESC')->paginate(10);
 
+        $cycle_count = DutyCycle::count() + 3;
+
         return view('employees.duty_index', [
             'list' => $list,
+            'tot_emp_duty' => $tot_emp_duty,
+            'tot_emp_duty_male' => $tot_emp_duty_male,
+            'tot_emp_duty_female' => $tot_emp_duty_female,
+            'tot_emp_duty_alreadyassigned' => $tot_emp_duty_alreadyassigned,
+            'tot_emp_duty_notyetassigned' => $tot_emp_duty_notyetassigned,
+            'cycle_count' => $cycle_count,
+
+            'ta_total' => $ta_total,
+            'tb_total' => $tb_total,
+            'tc_total' => $tc_total,
+            'td_total' => $td_total,
+
+            'ta_deployed' => $ta_deployed,
+            'ta_notdeployed' => $ta_notdeployed,
+            'tb_deployed' => $tb_deployed,
+            'tb_notdeployed' => $tb_notdeployed,
+            'tc_deployed' => $tc_deployed,
+            'tc_notdeployed' => $tc_notdeployed,
+            'td_deployed' => $td_deployed,
+            'td_notdeployed' => $td_notdeployed,
         ]);
     }
 
@@ -220,7 +264,13 @@ class EmployeesController extends Controller
         $teamc_list = (clone $duty_qry)->where('duty_team', 'C')->orderBy('lname', 'ASC')->get();
         $teamd_list = (clone $duty_qry)->where('duty_team', 'D')->orderBy('lname', 'ASC')->get();
         
-        $current_list = HertDutyMember::where('event_id', $d->id)->get();
+        $current_list = HertDutyMember::with('employee')
+        ->where('event_id', $d->id)
+        ->get()
+        ->sortBy(function ($duty) {
+            return $duty->employee->lname;
+        })
+        ->values();
 
         return view('employees.duty_edit', [
             'd' => $d,
@@ -270,7 +320,22 @@ class EmployeesController extends Controller
         ->with('msgtype', 'success');
     }
 
-    public function removeEmployeeToDuty($duty_id, Request $r) {
+    public function removeEmployeeToDuty($duty_id, $member_id) {
+        $d = HertDuty::findOrFail($duty_id);
 
+        $m = HertDutyMember::find($member_id);
+
+        //Reset Completed Cycle to N
+        $p = Employee::findOrFail($m->employee_id);
+        $p->duty_completedcycle = 'N';
+        if($p->isDirty()) {
+            $p->save();
+        }
+
+        $m->delete();
+
+        return redirect()->back()
+        ->with('msg', 'Responder '.$p->getName().' has been removed from the list.')
+        ->with('msgtype', 'success');
     }
 }

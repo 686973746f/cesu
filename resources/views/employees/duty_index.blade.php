@@ -17,6 +17,35 @@
                 {{session('msg')}}
             </div>
             @endif
+            <div class="alert alert-info" role="alert">
+                <div class="text-center">
+                    <h4>Total Responders: <b>{{$tot_emp_duty}}</b> (Male: {{$tot_emp_duty_male}}, Female: {{$tot_emp_duty_female}})</h4>
+                    <h5><b>Cycle {{$cycle_count}}</b> (Already Deployed: {{$tot_emp_duty_alreadyassigned}} - Not Yet Deployed: {{$tot_emp_duty_notyetassigned}})</h5>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-3">
+                        <h5 class="text-center">Team A (Total: {{$ta_total}})</h5>
+                        <h6>Deployed: {{$ta_deployed}}</h6>
+                        <h6>Not Yet Deployed: {{$ta_notdeployed}}</h6>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 class="text-center">Team B (Total: {{$tb_total}})</h5>
+                        <h6>Deployed: {{$tb_deployed}}</h6>
+                        <h6>Not Yet Deployed: {{$tb_notdeployed}}</h6>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 class="text-center">Team C (Total: {{$tc_total}})</h5>
+                        <h6>Deployed: {{$tc_deployed}}</h6>
+                        <h6>Not Yet Deployed: {{$tc_notdeployed}}</h6>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 class="text-center">Team D (Total: {{$td_total}})</h5>
+                        <h6>Deployed: {{$td_deployed}}</h6>
+                        <h6>Not Yet Deployed: {{$td_notdeployed}}</h6>
+                    </div>
+                </div>
+            </div>
 
             <table class="table table-bordered table-striped">
                 <thead class="text-center thead-light">
@@ -31,7 +60,7 @@
                     <tr>
                         <td class="text-center">{{$l->id}}</td>
                         <td><a href="{{route('duty_view', $l->id)}}">{{$l->event_name}}</a></td>
-                        <td class="text-center"></td>
+                        <td class="text-center">{{date('F d, Y', strtotime($l->created_at))}}</td>
                     </tr>
                     @endforeach
                 </tbody>

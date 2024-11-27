@@ -5,8 +5,9 @@
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <div><b>List of Duties</b> (Sorted by Newest to Oldest)</div>
+                <div><b>List of Responders</b></div>
                 <div>
+                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#options">Options</button>
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addEmployee">Add Employee</button>
                 </div>
             </div>
@@ -18,7 +19,7 @@
             </div>
             @endif
 
-            <table class="table table-striped table-bordered">
+            <table class="table table-striped table-bordered" id="dutyListTbl">
                 <thead class="thead-light text-center">
                     <tr>
                         <th colspan="6">{{$d->event_name}}</th>
@@ -27,7 +28,7 @@
                         <th>#</th>
                         <th>Name</th>
                         <th>Team</th>
-                        <th>Sex</th>
+                        <th>Gender</th>
                         <th>BLS Trained</th>
                         <th>Action</th>
                     </tr>
@@ -40,7 +41,12 @@
                         <td class="text-center">{{$c->employee->duty_team}}</td>
                         <td class="text-center">{{$c->employee->gender}}</td>
                         <td class="text-center">{{$c->employee->is_blstrained}}</td>
-                        <td class="text-center"></td>
+                        <td class="text-center">
+                            <form action="{{route('duty_removeemployee', [$d->id, $c->id])}}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-danger">X</button>
+                            </form>
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -48,6 +54,48 @@
         </div>
     </div>
 </div>
+
+<form action="{{route('duty_update', $d->id)}}" method="POST">
+    @csrf
+    <div class="modal fade" id="options" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Options</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="event_name"><b class="text-danger">*</b>Event Name</label>
+                        <input type="text" class="form-control" name="event_name" id="event_name" value="{{old('event_name', $d->event_name)}}" style="text-transform: uppercase" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <input type="text" class="form-control" name="description" id="description" value="{{old('description', $d->description)}}" style="text-transform: uppercase">
+                    </div>
+                    <div class="form-group">
+                        <label for="event_date">Date of Event (Leave blank if TBA)</label>
+                        <input type="date" class="form-control" name="event_date" id="event_date" value="{{old('event_date', $d->event_date)}}">
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                      <label for="status"><b class="text-danger">*</b>Set Status</label>
+                      <select class="form-control" name="status" id="status" required>
+                        <option value="OPEN" {{(old('status', $d->status) == 'OPEN') ? 'selected' : ''}}>Open (List of Responders can still be updated)</option>
+                        <option value="PENDING" {{(old('status', $d->status) == 'PENDING') ? 'selected' : ''}}>Pending (Event is Ongoing and list of Responders are final)</option>
+                        <option value="CLOSED" {{(old('status', $d->status) == 'CLOSED') ? 'selected' : ''}}>Closed (Event is over)</option>
+                      </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-block">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 
 <form action="{{route('duty_storeemployee', $d->id)}}" method="POST">
     @csrf
@@ -64,6 +112,7 @@
                     <div class="form-group">
                       <label for="employee_id"><b>*</b>Select Employee to Add</label>
                       <select class="form-control" name="employee_id" id="employee_id" required>
+                        <option value="" {{(is_null(old('employee_id'))) ? 'disabled' : ''}} selected>Choose...</option>
                         <optgroup label="Team A">
                             @foreach($teama_list as $p)
                             @if(!$p->ifAlreadyInEvent($d->id))

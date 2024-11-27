@@ -528,7 +528,8 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessE
 
     Route::get('duties/{duty_id}/view', [EmployeesController::class, 'viewDuty'])->name('duty_view');
     Route::post('duties/{duty_id}/view/store_employee', [EmployeesController::class, 'storeEmployeeToDuty'])->name('duty_storeemployee');
-    Route::post('duties/{duty_id}/view/add_responder', [EmployeesController::class, 'updateDuty'])->name('duty_update');
+    Route::post('duties/{duty_id}/view/update', [EmployeesController::class, 'updateDuty'])->name('duty_update');
+    Route::post('duties/{duty_id}/{employee_id}/remove', [EmployeesController::class, 'removeEmployeeToDuty'])->name('duty_removeemployee');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel3']], function() {
