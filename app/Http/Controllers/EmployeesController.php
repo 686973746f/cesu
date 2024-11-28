@@ -270,7 +270,9 @@ class EmployeesController extends Controller
                 ]);
             }
 
-            $u = Employee::where('duty_completedcycle', 'Y')
+            $u = Employee::where('employment_status', 'ACTIVE')
+            ->where('duty_canbedeployed', 'Y')
+            ->where('duty_completedcycle', 'Y')
             ->update([
                 'duty_completedcycle' => 'N',
             ]);
@@ -374,8 +376,46 @@ class EmployeesController extends Controller
             $u->save();
         }
 
+        //Reset Cycle if All Employees Completed the Cycle
+        $cycle_check = Employee::where('employment_status', 'ACTIVE')
+        ->where('duty_canbedeployed', 'Y')
+        ->where('duty_completedcycle', 'N')
+        ->first();
+
+        $msg = 'Responder '.$u->getName().' was successfully added to the list.';
+
+        if(!$cycle_check) {
+            //Create Duty Cycle Mark
+            $s = DutyCycle::latest()->first();
+            if($s) {
+                $s->date_ended = date('Y-m-d');
+                if($s->isDirty()) {
+                    $s->save();
+                }
+
+                $c = DutyCycle::create([
+                    'date_started' => date('Y-m-d'),
+                ]);
+            }
+            else {
+                $c = DutyCycle::create([
+                    'date_started' => date('Y-m-d'),
+                    'date_ended' => date('Y-m-d'),
+                ]);
+            }
+
+            $u = Employee::where('employment_status', 'ACTIVE')
+            ->where('duty_canbedeployed', 'Y')
+            ->where('duty_completedcycle', 'Y')
+            ->update([
+                'duty_completedcycle' => 'N',
+            ]);
+
+            $msg = $msg.' Duty Cycle Reset was also processed.';
+        }
+
         return redirect()->back()
-        ->with('msg', 'Successfully added as responder.')
+        ->with('msg', $msg)
         ->with('msgtype', 'success');
     }
 

@@ -198,15 +198,15 @@
                               <option value="N" {{(old('is_blstrained', $d->is_blstrained) == 'N') ? 'selected' : ''}}>No</option>
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label for="bls_typeofrescuer"><b class="text-danger">*</b>Type of Rescuer</label>
+                            <select class="form-control" name="bls_typeofrescuer" id="bls_typeofrescuer" required>
+                              <option value="" disabled {{(is_null(old('bls_typeofrescuer', $d->bls_typeofrescuer))) ? 'selected' : ''}}>Choose...</option>
+                              <option value="LR" {{(old('bls_typeofrescuer', $d->bls_typeofrescuer) == 'LR') ? 'selected' : ''}}>Lay Rescuer</option>
+                              <option value="HCP" {{(old('bls_typeofrescuer', $d->bls_typeofrescuer) == 'HCP') ? 'selected' : ''}}>Health Care Provider</option>
+                            </select>
+                        </div>
                         <div id="ifBlsTrainedDiv" class="d-none">
-                            <div class="form-group">
-                                <label for="bls_typeofrescuer"><b class="text-danger">*</b>Type of Rescuer</label>
-                                <select class="form-control" name="bls_typeofrescuer" id="bls_typeofrescuer">
-                                  <option value="" disabled {{(is_null(old('bls_typeofrescuer', $d->bls_typeofrescuer))) ? 'selected' : ''}}>Choose...</option>
-                                  <option value="LR" {{(old('bls_typeofrescuer', $d->bls_typeofrescuer) == 'LR') ? 'selected' : ''}}>Lay Rescuer</option>
-                                  <option value="HCP" {{(old('bls_typeofrescuer', $d->bls_typeofrescuer) == 'HCP') ? 'selected' : ''}}>Health Care Provider</option>
-                                </select>
-                            </div>
                             <div class="form-group">
                                 <label for="recent_bls_date">Recent BLS/SFA Training Date</label>
                                 <input type="date" class="form-control" name="recent_bls_date" id="recent_bls_date" value="{{old('recent_bls_date', $d->recent_bls_date)}}" max="{{date('Y-m-d')}}">
@@ -302,11 +302,9 @@
             e.preventDefault();
             if($(this).val() == 'Y') {
                 $('#ifBlsTrainedDiv').removeClass('d-none');
-                $('#bls_typeofrescuer').prop('required', true);
             }
             else {
                 $('#ifBlsTrainedDiv').addClass('d-none');
-                $('#bls_typeofrescuer').prop('required', false);
             }
         }).trigger('change');
     </script>
