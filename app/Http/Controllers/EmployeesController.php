@@ -7,6 +7,7 @@ use App\Models\Employee;
 use App\Models\HertDuty;
 use Illuminate\Http\Request;
 use App\Models\HertDutyMember;
+use App\Models\HertDutyPatient;
 use Illuminate\Support\Facades\Auth;
 
 class EmployeesController extends Controller
@@ -436,5 +437,118 @@ class EmployeesController extends Controller
         return redirect()->back()
         ->with('msg', 'Responder '.$p->getName().' has been removed from the list.')
         ->with('msgtype', 'success');
+    }
+
+    public function viewDutyPatients($id) {
+        if(auth()->check()) {
+            $d = HertDuty::findOrFail($id);
+
+            $index_route = route('duty_viewpatients', $d->id);
+            $store_route = route('duty_storepatient', $d->id);
+            $update_route = 'duty_updatepatient';
+            $edit_route = 'duty_editpatient';
+        }
+        else {
+            $d = HertDuty::where('code', $id)->first();
+
+            if(!$d) {
+                return abort(401);
+            }
+
+            $index_route = route('online_duty_viewpatients', $d->id);
+            $store_route = route('online_duty_storepatient', $d->id);
+            $update_route = 'online_duty_updatepatient';
+            $update_route = 'online_duty_updatepatient';
+        }
+
+        $list = HertDutyPatient::where('event_id', $d->id)
+        ->get();
+
+        return view('employees.duty_patient_index', [
+            'd' => $d,
+            'list' => $list,
+
+            'index_route' => $index_route,
+            'store_route' => $store_route,
+            'update_route' => $update_route,
+        ]);
+    }
+
+    public function storeDutyPatients($id, Request $r) {
+        $lname = mb_strtoupper($r->lname);
+        $fname = mb_strtoupper($r->fname);
+        
+        $table_params = [
+            'lname' => $lname,
+            'fname' => $fname,
+            'mname' => ($r->mname) ? mb_strtoupper($r->mname) : NULL,
+            'age_years' => $r->age_years,
+            'sex' => $r->sex,
+
+            'contact_number' => $r->contact_number,
+            'street_purok' => $r->street_purok,
+            'address_brgy_code' => $r->address_brgy_code,
+            'chief_complaint' => mb_strtoupper($r->chief_complaint),
+            'actions_taken' => $r->actions_taken,
+            'remarks' => ($r->remarks) ? mb_strtoupper($r->remarks) : NULL,
+        ];
+
+        if(auth()->check()) {
+            $d = HertDuty::findOrFail($id);
+
+            $table_params = $table_params + [
+                'event_id' => $d->id,
+                'created_by' => Auth::id(),
+            ];            
+        }
+        else {
+            $d = HertDuty::where('code', $id)->first();
+
+            if($d) {
+                $table_params = $table_params + [
+                    'event_id' => $d->id,
+                ];
+            }
+            else {
+                return abort(401);
+            }
+        }
+
+        $check = HertDutyPatient::where('event_id', $d->id)
+        ->where('lname', $lname)
+        ->where('fname', $fname)
+        ->first();
+
+        if($check) {
+
+        }
+        else {
+            $c = HertDutyPatient::create($table_params);
+        }
+
+        return redirect()->back()
+        ->with('msg', 'Patient '.$c->getName().' was added to the list successfully.')
+        ->with('msgtype', 'success');
+    }
+
+    public function editDutyPatients($id, $patient_id) {
+        if(auth()->check()) {
+            $d = HertDuty::findOrFail($id);
+        }
+        else {
+            $d = HertDuty::where('code', $id)->first();
+        }
+    }
+
+    public function updateDutyPatients($patient_id, Request $r) {
+        if($r->submit == 'update') {
+
+        }
+        else if($r->submit == 'delete') {
+
+        }
+        else {
+            return abort(401);
+        }
     }
 }

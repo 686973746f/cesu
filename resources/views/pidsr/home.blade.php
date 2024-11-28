@@ -151,7 +151,7 @@
                     <div class="form-group">
                         <label for="disease"><b class="text-danger">*</b>Select Disease</label>
                         <select class="form-control" name="disease" id="disease" required>
-                            <option value="COVID">COVID-19</option>
+                            
                             <optgroup label="EDCS-IS">
                                 <option value="Abd">Acute Bloody Diarrhea</option>
                                 <option value="Afp">Acute Flaccid Paralysis (AFP)</option>
@@ -173,7 +173,7 @@
                                 <option value="Rotavirus">RotaVirus</option>
                                 <option value="Typhoid">Typhoid and Parathypoid Fever</option>
                             </optgroup>
-                            <optgroup label="PIDSR">
+                            <optgroup label="PIDSR (Old)">
                                 <option value="Aes">Acute Encephalitis Syndrome</option>
                                 <option value="Ahf">Acute Hemorrhagic-Fever Syndrome</option>
                                 <option value="Aefi">Adverse Event Following Immunization (AEFI)</option>
@@ -181,6 +181,10 @@
                                 <option value="Malaria">Malaria</option>
                                 <option value="Meningitis">Meningitis</option>
                                 <option value="Psp">Paralytic Shellfish Poisoning</option>
+                            </optgroup>
+                            <optgroup label="Others">
+                                <option value="COVID">COVID-19</option>
+                                <option value="ABTC">Animal Bite</option>
                             </optgroup>
                         </select>
                     </div>

@@ -415,6 +415,8 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
     Route::post('/edcs/opd_exportables/process', [PIDSRController::class, 'processOpdExportables'])->name('edcs_opdexportables_process');
 
     Route::get('/edcs/diseases_summary', [PIDSRController::class, 'diseaseSummaryView'])->name('edcs_disease_summary_view');
+
+    Route::post('/edcs/tkc_import', [PIDSRController::class, 'tkcImport'])->name('tkc_import');
 });
 
 Route::get('/edcs/barangayportal', [PIDSRController::class, 'brgyCaseViewerWelcome'])->name('edcs_barangay_welcome');
@@ -527,16 +529,22 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessE
     Route::post('duties/store', [EmployeesController::class, 'storeDuty'])->name('duty_store');
     Route::post('duties/update_options', [EmployeesController::class, 'dutyMainOptions'])->name('duty_mainoptions');
 
-    Route::get('duties/{duty_id}/view', [EmployeesController::class, 'viewDuty'])->name('duty_view');
+    Route::get('duties/{duty_id}/view_responders', [EmployeesController::class, 'viewDuty'])->name('duty_view');
     Route::post('duties/{duty_id}/view/store_employee', [EmployeesController::class, 'storeEmployeeToDuty'])->name('duty_storeemployee');
     Route::post('duties/{duty_id}/view/update', [EmployeesController::class, 'updateDuty'])->name('duty_update');
     Route::post('duties/{duty_id}/{employee_id}/remove', [EmployeesController::class, 'removeEmployeeToDuty'])->name('duty_removeemployee');
+
+    Route::get('duties/{duty_id}/view_patients', [EmployeesController::class, 'viewDutyPatients'])->name('duty_viewpatients');
+    Route::post('duties/{duty_id}/view_patients/store', [EmployeesController::class, 'storeDutyPatients'])->name('duty_storepatient');
+    Route::get('duties/{duty_id}/view_patients/{patient_id}/edit', [EmployeesController::class, 'editDutyPatients'])->name('duty_editpatient');
+    Route::post('duties/{duty_id}/view_patients/{patient_id}/update', [EmployeesController::class, 'updateDutyPatients'])->name('duty_updatepatient');
+    
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel3']], function() {
     //Facility Account Middleware
     Route::get('facility/home', [FacilityController::class, 'index'])->name('facility.home');
-    Route::get('facility/{id}/viewPatient', [FacilityController::class, 'viewPatient'])->name('facility.viewdischarge');
+    Route::get('facility/{id}/viewPatient', [FacilityController::class, 'viewPatient'])->name('faclity.viewdischarge');
     Route::post('facility/{id}/update', [FacilityController::class, 'update'])->name('facility.update');
     Route::post('facility/{id}/viewPatient', [FacilityController::class, 'initDischarge'])->name('facility.initdischarge');
 });
@@ -865,6 +873,12 @@ Route::post('edcs_facility/weekly_submission/{facility_code}/{year}/{mw}/submit'
 
 //VAXCERT LGU ONLINE VERIFIER
 Route::get('/vaxcert_lgu/verify/{code}', [VaxcertController::class, 'vaxCertLguOnlineVerify'])->name('vaxcertlgu_onlineverify');
+
+//HERT DUTY ONLINE
+Route::get('hert_duty/{code}', [EmployeesController::class, 'viewDutyPatients'])->name('online_duty_viewpatients');
+Route::post('hert_duty/{code}/view_patients/store', [EmployeesController::class, 'storeDutyPatients'])->name('online_duty_storepatient');
+Route::get('hert_duty/{code}/view_patients/{patient_id}/edit', [EmployeesController::class, 'editDutyPatients'])->name('online_duty_editpatient');
+Route::post('hert_duty/{code}/view_patients/{patient_id}/update', [EmployeesController::class, 'updateDutyPatients'])->name('online_duty_updatepatient');
 
 Route::get('/forms', function () {
     return redirect('https://drive.google.com/drive/folders/1LAff2uF1gPHQd7jI8cy4PX3q5xbtMqH4?usp=drive_link');

@@ -23,31 +23,31 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="lname"><span class="text-danger font-weight-bold">*</span>Last Name</label>
-                                <input type="text" class="form-control" id="lname" name="lname" value="{{old('lname', $p->lname)}}" minlength="2" maxlength="50" style="text-transform: uppercase;" required>
+                                <input type="text" class="form-control" id="lname" name="lname" value="{{old('lname', $p->lname)}}" minlength="2" maxlength="50" pattern="[A-Za-z\- 'Ññ]+" style="text-transform: uppercase;" required>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="fname"><span class="text-danger font-weight-bold">*</span>First Name</label>
-                                <input type="text" class="form-control" id="fname" name="fname" value="{{old('fname', $p->fname)}}" minlength="2" maxlength="50" style="text-transform: uppercase;" required>
+                                <input type="text" class="form-control" id="fname" name="fname" value="{{old('fname', $p->fname)}}" minlength="2" maxlength="50" pattern="[A-Za-z\- 'Ññ]+" style="text-transform: uppercase;" required>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="mname">Middle Name</label>
-                                <input type="text" class="form-control" id="mname" name="mname" value="{{old('mname', $p->mname)}}" minlength="2" maxlength="50" style="text-transform: uppercase;">
+                                <input type="text" class="form-control" id="mname" name="mname" value="{{old('mname', $p->mname)}}" minlength="2" maxlength="50" pattern="[A-Za-z\- 'Ññ]+" style="text-transform: uppercase;">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="suffix">Suffix <small>(ex. JR, SR, II, III, etc.)</small></label>
-                                <input type="text" class="form-control" id="suffix" name="suffix" value="{{old('suffix', $p->suffix)}}" minlength="2" maxlength="6" style="text-transform: uppercase;">
+                                <input type="text" class="form-control" id="suffix" name="suffix" value="{{old('suffix', $p->suffix)}}" minlength="2" maxlength="6" pattern="[A-Za-z\- 'Ññ]+" style="text-transform: uppercase;">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="nickname">Nickname/Alias</label>
-                                <input type="text" class="form-control" id="nickname" name="nickname" value="{{old('nickname', $p->nickname)}}" style="text-transform: uppercase;">
+                                <input type="text" class="form-control" id="nickname" name="nickname" value="{{old('nickname', $p->nickname)}}" minlength="2" maxlength="50" pattern="[A-Za-z\- 'Ññ]+" style="text-transform: uppercase;">
                             </div>
                         </div>
                         <div class="col-md-3">

@@ -17,6 +17,7 @@ class CreateExportJobsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('for_module');
+            $table->string('type');
             $table->string('status');
             $table->dateTime('date_finished')->nullable();
             $table->text('filename')->nullable();

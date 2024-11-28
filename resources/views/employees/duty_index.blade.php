@@ -65,7 +65,16 @@
                         @foreach($list as $l)
                         <tr>
                             <td class="text-center">{{$l->id}}</td>
-                            <td><a href="{{route('duty_view', $l->id)}}">{{$l->event_name}}</a></td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{$l->event_name}}</button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a href="{{route('duty_view', $l->id)}}" class="dropdown-item">Responders</a>
+                                        <a href="{{route('duty_viewpatients', $l->id)}}" class="dropdown-item">Patients</a>
+                                    </div>
+                                </div>
+                                
+                            </td>
                             <td class="text-center">{{($l->event_date) ? date('M. d, Y - D', strtotime($l->event_date)) : 'N/A'}}</td>
                             <td class="text-center">{{$l->status}}</td>
                             <td class="text-center">

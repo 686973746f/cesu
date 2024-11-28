@@ -131,6 +131,7 @@
                     </div>
                     @endif
                     <hr>
+                    <button type="button" class="btn btn-success btn-block btn-lg" data-toggle="modal" data-target="#tkcImportModal">TKC Import Tool</button>
                     <a href="{{route('options.index')}}" class="btn btn-secondary btn-lg btn-block"><i class="fa fa-cog mr-2" aria-hidden="true"></i>Options</i></a>
                     @if(auth()->user()->isAdmin == 1)
                     <hr>
@@ -213,6 +214,31 @@
         </div>
     </div>
 </div>
+
+<form action="{{route('tkc_import')}}" method="POST" enctype="multipart/form-data">
+    @csrf
+    <div class="modal fade" id="tkcImportModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tanod Kontra Covid (TKC) Import Tool</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                      <label for="csv_file"><b class="text-danger">*</b>Select TKC .CSV File</label>
+                      <input type="file" class="form-control-file" name="csv_file" id="csv_file" accept=".csv" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-block">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 
 <script>
     $('#newList').select2({

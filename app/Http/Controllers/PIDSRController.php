@@ -62,6 +62,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use OpenSpout\Common\Entity\Style\Style;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use App\Models\EdcsWeeklySubmissionChecker;
+use App\Models\ExportJobs;
 use App\Models\SevereAcuteRespiratoryInfection;
 use App\Models\SyndromicLabResult;
 use PhpOffice\PhpSpreadsheet\Writer\Csv;
@@ -9614,5 +9615,27 @@ class PIDSRController extends Controller
             'foodnwaterborn_arr' => $foodnwaterborn_arr,
             'other_arr' => $other_arr,
         ]);
+    }
+
+    public function tkcImport(Request $r) {
+        //Upload CSV
+        $foundUnique = false;
+
+        while(!$foundUnique) {
+            $filename = 'tkc_'.Str::random(10).'.'.$r->file('csv_file')->extension();
+
+            if(!file_exists(storage_path('app/tkc/').$filename)) {
+                $foundUnique = true;
+            }
+        }
+        
+        $r->file('csv_file')->move(storage_path('app/tkc'), $filename);
+
+        //Create Export Job
+        $c = ExportJobs::create([
+
+        ]);
+        
+        //Call the Import Job
     }
 }

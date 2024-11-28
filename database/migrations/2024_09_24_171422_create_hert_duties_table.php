@@ -20,6 +20,7 @@ class CreateHertDutiesTable extends Migration
 
             $table->date('event_date')->nullable();
             $table->string('status'); //OPEN, PENDING, COMPLETED
+            $table->string('code');
 
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');

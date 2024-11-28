@@ -3899,6 +3899,7 @@ class FhsisController extends Controller
             $c = ExportJobs::create([
                 'name' => 'M2 BHS Export for '.$start->format('M Y'),
                 'for_module' => 'FHSIS',
+                'type' => 'EXPORT',
                 'status' => 'pending',
                 //'date_finished'
                 //'filename',
