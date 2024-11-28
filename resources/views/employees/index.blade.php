@@ -26,6 +26,7 @@
                         <th>Office</th>
                         <th>Sub-Office</th>
                         <th>BLS Trained</th>
+                        <th>Type of Responder</th>
                         <th>Deployable in Duties</th>
                         <th>HERT Team</th>
                         <th>Status</th>
@@ -42,6 +43,7 @@
                         <td class="text-center">{{$d->office}}</td>
                         <td class="text-center">{{$d->sub_office}}</td>
                         <td class="text-center">{{$d->is_blstrained}}</td>
+                        <td class="text-center">{{$d->bls_typeofrescuer}}</td>
                         <td class="text-center">{{$d->duty_canbedeployed}}</td>
                         <td class="text-center">{{$d->duty_team}}</td>
                         <td class="text-center">{{$d->employment_status}}</td>
