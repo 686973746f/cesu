@@ -687,4 +687,43 @@ class Records extends Model
             }
         }
     }
+
+    public static function tkcIfDuplicateFound($lname, $fname, $mname, $suffix, $bdate) {
+        $lname = mb_strtoupper(str_replace([' ','-'], '', $lname));
+        $fname = mb_strtoupper(str_replace([' ','-'], '', $fname));
+
+        $check = SyndromicPatient::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $lname)
+        ->where(function($q) use ($fname) {
+            $q->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $fname)
+            ->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), 'LIKE', "$fname%");
+        })
+        ->whereDate('bdate', $bdate);
+
+        if(!($check->first())) {
+            if(!is_null($mname)) {
+                $mname = mb_strtoupper(str_replace([' ','-'], '', $mname));
+    
+                $check = $check->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), $mname);
+            }
+    
+            if(!is_null($suffix)) {
+                $suffix = mb_strtoupper(str_replace([' ','-'], '', $suffix));
+    
+                $check = $check->where(DB::raw("REPLACE(REPLACE(REPLACE(suffix,'.',''),'-',''),' ','')"), $suffix)->first();
+            }
+            else {
+                $check = $check->first();
+            }
+    
+            if($check) {
+                return $check;
+            }
+            else {
+                return NULL;
+            }
+        }
+        else {
+            return $check->first();
+        }
+    }
 }

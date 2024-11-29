@@ -9,66 +9,30 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithBatchInserts;
 
-class TkcExcelImport implements ToModel, WithHeadingRow
+class TkcExcelImport implements ToModel, WithHeadingRow, WithBatchInserts
 {
     public function model(array $row)
     {
         if($row['hasbeenpositive'] == "true") {
-            dd($row);
-            
             //Check if TKC ID exists
             $check1 = Forms::where('tkc_id', $row['tkc_id'])
             ->first();
 
             if(!($check1)) {
+                dd($row);
                 if($row['last_name'] != "" && $row['first_name'] != "") {
                     $lname = mb_strtoupper(str_replace([' ','-'], '', $row['last_name']));
                     $fname = mb_strtoupper(str_replace([' ','-'], '', $row['first_name']));
                     $mname = ($row['middle_name'] != "") ? mb_strtoupper(str_replace([' ','-'], '', $row['middle_name'])) : NULL;
                     $suffix = ($row['suffix'] != "") ? mb_strtoupper(str_replace([' ','-','.'], '', $row['suffix'])) : NULL;
                     $bdate = ($row['birthdate'] != "") ? Carbon::parse($row['birthdate'])->format('Y-m-d') : '1900-01-01';
-                    
-                    //Check if existing name and birthday exist
-                    $check = Records::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $lname)
-                    ->where(function($q) use ($fname) {
-                        $q->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), $fname)
-                        ->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), 'LIKE', "$fname%");
-                    })
-                    ->whereDate('bdate', $bdate);
 
-                    if(!($check->first())) {
-                        if(!is_null($mname)) {
-                            $check = $check->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), $mname);
-                        }
-                
-                        if(!is_null($suffix)) {
-                            $final_fname = $fname.' '.$suffix;
+                    $check = Records::tkcIfDuplicateFound($lname, $fname, $mname, $suffix, $bdate);
 
-                            $check = $check->where(DB::raw("REPLACE(REPLACE(REPLACE(suffix,'.',''),'-',''),' ','')"), $suffix)->first();
-                        }
-                        else {
-                            $final_fname = $fname;
-
-                            $check = $check->first();
-                        }
-                
-                        if($check) {
-                            $newRecord = false;
-                            $frecord = $check;
-                        }
-                        else {
-                            $newRecord = true;
-                        }
-                    }
-                    else {
-                        $newRecord = false;
-                        $frecord = $check;
-                    }
-
-                    if($newRecord) {
-                        //CREATE NEW RECORD
-
+                    if(is_null($check)) {
+                        //Create NEW Patient Record
                         $final_houseno = '';
 
                         if($row['house_lot_number'] != "") {
@@ -96,12 +60,12 @@ class TkcExcelImport implements ToModel, WithHeadingRow
                         }
 
                         //42 = CESU BOT
-                        $create_record = Records::create([
+                        $c = Records::create([
                             'is_confidential' => 0,
                             'user_id' => 42,
                             'status' => 'pending',
                             'lname' => mb_strtoupper(str_replace(['.',':'], '', $row['last_name'])),
-                            'fname' => str_replace(['.',':'], '', $final_fname),
+                            'fname' => str_replace(['.',':'], '', $row['first_name']),
                             'mname' => (!is_null($mname)) ? mb_strtoupper($row['middle_name']) : NULL,
                             'gender' => mb_strtoupper($row['sex']),
                             'isPregnant' => ($row['illness_pregnancy'] == 'TRUE') ? 1 : 0,
@@ -109,9 +73,9 @@ class TkcExcelImport implements ToModel, WithHeadingRow
                             'nationality' => ($row['nationality'] != '') ? mb_strtoupper($row['nationality']) : 'FILIPINO',
                             'bdate' => $bdate,
                             'mobile' => $row['cellphone_number'],
-                            'phoneno' => ($row['telephone_number'] != "") ? $row['telephone_number'] : NULL,
-                            'email' => ($row['email_address'] != "") ? $row['email_address'] : NULL,
-                            'philhealth' => ($row['philhealth_number'] != "") ? $row['philhealth_number'] : NULL,
+                            'phoneno' => $row['telephone_number'],
+                            'email' => $row['email_address'],
+                            'philhealth' => $row['philhealth_number'],
                             'address_houseno' => mb_strtoupper($final_houseno),
                             'address_street' => mb_strtoupper($row['current_address_street']),
                             'address_brgy' => mb_strtoupper($row['current_address_barangay']),
@@ -206,18 +170,24 @@ class TkcExcelImport implements ToModel, WithHeadingRow
 
                             'from_tkc' => 1,
                         ]);
+                    }
 
-                        $get_patient_id = $create_record->id;
-                    }
-                    else {
-                        //FETCH PATIENT ID
-                        $get_patient_id = $frecord->id;
-                    }
+                    $existing_case_check = Forms::where('records_id', $c->id)->first();
+
+                    $timestamp = Carbon::parse($row['created_at']);
+
+                    //get age in years, month, days
+                    $birthdate = Carbon::parse($c->bdate);
+                    $currentDate = Carbon::now($row['created_at']);
+
+                    $get_ageyears = $birthdate->diffInYears($currentDate);
+                    $get_agemonths = $birthdate->diffInMonths($currentDate);
+                    $get_agedays = $birthdate->diffInDays($currentDate);
 
                     //CREATE NEW FORM
                     $create_form = Forms::create([
                         'from_tkc' => 1,
-                        'system_isverified' => 0,
+                        'system_isverified' => 1,
 
                         'isPriority' => 0,
                         'reinfected' => 0,
@@ -229,36 +199,36 @@ class TkcExcelImport implements ToModel, WithHeadingRow
                         'dateReported' => Carbon::parse($row['date_result_received'])->format('Y-m-d H:i:s'),
                         'status_by' => $row['status_by'],
                         'status_remarks' => $row['status_remarks'],
-                        'user_id' => $row['user_id'],
-                        'records_id' => $row['records_id'],
-                        'isExported' => $row['isExported'],
-                        'exportedDate' => $row['exportedDate'],
-                        'isPresentOnSwabDay' => $row['isPresentOnSwabDay'],
-                        'isForHospitalization' => $row['isForHospitalization'],
-                        'drunit' => $row['drunit'],
+                        'user_id' => 42,
+                        'records_id' => $c->id,
+                        'isExported' => 0,
+                        //'exportedDate' => $row['exportedDate'],
+                        'isPresentOnSwabDay' => 0,
+                        'isForHospitalization' => 0,
+                        'drunit' => ($row['disease_reporting_unit']) ? mb_strtoupper($row['disease_reporting_unit']) : mb_strtoupper($row['nonhealth_dru']),
                         'drregion' => $row['drregion'],
                         'drprovince' => $row['drprovince'],
-                        'interviewerName' => $row['interviewerName'],
-                        'interviewerMobile' => $row['interviewerMobile'],
-                        'interviewDate' => $row['interviewDate'],
-                        'informantName' => $row['informantName'],
-                        'informantRelationship' => $row['informantRelationship'],
-                        'informantMobile' => $row['informantMobile'],
-                        'existingCaseList' => $row['existingCaseList'],
-                        'ecOthersRemarks' => $row['ecOthersRemarks'],
-                        'pType' => $row['pType'],
-                        'ccType' => $row['ccType'],
-                        'is_primarycc' => $row['is_primarycc'],
-                        'is_secondarycc' => $row['is_secondarycc'],
-                        'is_tertiarycc' => $row['is_tertiarycc'],
-                        'is_primarycc_date' => $row['is_primarycc_date'],
-                        'is_secondarycc_date' => $row['is_secondarycc_date'],
-                        'is_tertiarycc_date' => $row['is_tertiarycc_date'],
-                        'is_primarycc_date_set' => $row['is_primarycc_date_set'],
-                        'is_secondarycc_date_set' => $row['is_secondarycc_date_set'],
-                        'is_tertiarycc_date_set' => $row['is_tertiarycc_date_set'],
-                        'testingCat' => $row['testingCat'],
-                        'havePreviousCovidConsultation' => $row['havePreviousCovidConsultation'],
+                        'interviewerName' => mb_strtoupper($row['created_by_name']),
+                        'interviewerMobile' => '09190664324',
+                        'interviewDate' => date('Y-m-d', strtotime($row['investigation_date'])),
+                        //'informantName' => $row['informantName'],
+                        //'informantRelationship' => $row['informantRelationship'],
+                        //'informantMobile' => $row['informantMobile'],
+                        'existingCaseList' => 2,
+                        //'ecOthersRemarks' => $row['ecOthersRemarks'],
+                        'pType' => 'PROBABLE',
+                        //'ccType' => $row['ccType'],
+                        //'is_primarycc' => $row['is_primarycc'],
+                        //'is_secondarycc' => $row['is_secondarycc'],
+                        //'is_tertiarycc' => $row['is_tertiarycc'],
+                        //'is_primarycc_date' => $row['is_primarycc_date'],
+                        //'is_secondarycc_date' => $row['is_secondarycc_date'],
+                        //'is_tertiarycc_date' => $row['is_tertiarycc_date'],
+                        //'is_primarycc_date_set' => $row['is_primarycc_date_set'],
+                        //'is_secondarycc_date_set' => $row['is_secondarycc_date_set'],
+                        //'is_tertiarycc_date_set' => $row['is_tertiarycc_date_set'],
+                        'testingCat' => 'A4',
+                        'havePreviousCovidConsultation' => 0,
                         'dateOfFirstConsult' => $row['dateOfFirstConsult'],
                         'facilityNameOfFirstConsult' => $row['facilityNameOfFirstConsult'],
                         'dispoType' => $row['dispoType'],
@@ -424,23 +394,33 @@ class TkcExcelImport implements ToModel, WithHeadingRow
                         'disobedient_remarks' => $row['disobedient_remarks'],
                         'antigenqr' => $row['antigenqr'],
                         'sent' => $row['sent'],
-                        'age_years' => $row['age_years'],
-                        'age_months' => $row['age_months'],
-                        'age_days' => $row['age_days'],
+
+                        'age_years' => $get_ageyears,
+                        'age_months' => $get_agemonths,
+                        'age_days' => $get_agedays,
+
                         'tkc_id' => $row['tkc_id'],
-                        'tkc_lgu_id' => $row['tkc_lgu_id'],
-                        'tkc_casetracking_status' => $row['tkc_casetracking_status'],
-                        'tkc_created_by' => $row['tkc_created_by'],
+                        'tkc_lgu_id' => $row['lgu_id'],
+                        'tkc_casetracking_status' => $row['case_tracking_status'],
+                        'tkc_created_by' => $row['created_by_name'],
                         'tkc_date_verified' => $row['tkc_date_verified'],
-                        'tkc_verified_assessment' => $row['tkc_verified_assessment'],
+                        'tkc_verified_assessment' => $row['verified_assessment'],
                         'tkc_nonhealth_dru' => $row['tkc_nonhealth_dru'],
-                        'tkc_sentinel_reporting_unit' => $row['tkc_sentinel_reporting_unit'],
+                        'tkc_sentinel_reporting_unit' => $row['sentinel_reporting_unit'],
                         'system_isverified' => $row['system_isverified'],
-                        'from_tkc' => $row['from_tkc'],
+                        'from_tkc' => 1,
                         
+                        'morb_week' => $timestamp->format('W'),
+                        'morb_month' => $timestamp->format('n'),
+                        'year' => $timestamp->format('Y'),
                     ]);
                 }
             }
         }
+    }
+
+    public function batchSize(): int
+    {
+        return 1000;
     }
 }

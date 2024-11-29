@@ -814,7 +814,11 @@ class VaxcertController extends Controller
     }
 
     public function walkinmenu() {
-        return view('vaxcert.walkin_menu');
+        $is_maintenance = 1;
+
+        return view('vaxcert.walkin_menu', [
+            'is_maintenance' => $is_maintenance,
+        ]);
     }
 
     public function templateMaker() {

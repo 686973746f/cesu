@@ -39,7 +39,9 @@ use App\Imports\PidsrImport;
 use App\Models\SiteSettings;
 use Illuminate\Http\Request;
 use App\Imports\RabiesImport;
+use App\Imports\TkcExcelImport;
 use App\Jobs\CallEdcsWeeklySubmissionSendEmail;
+use App\Jobs\CallTkcImport;
 use App\Jobs\EdcsWeeklySubmissionSendEmail;
 use App\Models\Leptospirosis;
 use App\Models\PidsrThreshold;
@@ -9618,6 +9620,10 @@ class PIDSRController extends Controller
     }
 
     public function tkcImport(Request $r) {
+        Excel::import(new TkcExcelImport(), $r->file('csv_file'));
+    }
+
+    public function tkcImport2(Request $r) {
         //Upload CSV
         $foundUnique = false;
 
@@ -9631,11 +9637,18 @@ class PIDSRController extends Controller
         
         $r->file('csv_file')->move(storage_path('app/tkc'), $filename);
 
-        //Create Export Job
+        //Create Import Job
         $c = ExportJobs::create([
-
+            'name' => 'TKC Import '.date('M. d, Y h:i A'),
+            'for_module' => 'COVID',
+            'type' => 'IMPORT',
+            'status' => 'pending',
+            'filename' => $filename,
+            'created_by' => auth()->user()->id,
+            'facility_id' => auth()->user()->itr_facility_id,
         ]);
-        
+
         //Call the Import Job
+        CallTkcImport::dispatch($c->id);
     }
 }

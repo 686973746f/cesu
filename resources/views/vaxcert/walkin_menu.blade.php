@@ -84,6 +84,28 @@
     </div>
 </div>
 
+@if($is_maintenance == 1)
+<div class="modal fade" id="serverDown" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger"><b>DOH VaxCert Website is Down</b></h5>
+            </div>
+            <div class="modal-body">
+                <h5>Since September 2024 pa po naka-down and Website ng DOH na ginagamit po namin upang makapag-print at makapag-ayos ng VaxCert. Walang update ang DOH at DICT kung kailan babalik ang mga ito.</h5>
+                <h5>Ang tanging paraan sa ngayon upang makapag-generate ng inyong VaxCert ay gamit ng <b>eGovPH App</b> via <a href="https://play.google.com/store/apps/details?id=egov.app&hl=en&pli=1">Play Store (Android)</a> or <a href="https://apps.apple.com/ph/app/egovph/id6447682225">App Store (iOS/iPhone)</a>. Mag-register gamit ng inyong mobile number at personal details at i-click ang "Health" Section at doon makikita ang inyong VaxCertPH.</h5>
+                <h5>Salamat po at pasensya na po sa abala.</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$('#serverDown').modal({backdrop: 'static', keyboard: false});
+$('#serverDown').modal('show');
+</script>
+@endif
+
 <script>
     $("#clickbtn").click(function() {
       // Set a timeout for 3 seconds
