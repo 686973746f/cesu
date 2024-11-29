@@ -92,7 +92,7 @@
                 <h5 class="modal-title text-danger"><b>DOH VaxCert Website is currently Unavailable</b></h5>
             </div>
             <div class="modal-body">
-                <h5>Since September 2024 pa po naka-down ang website ng DOH na ginagamit po namin upang makapag-print at makapag-ayos ng mga problema VaxCert. Walang update ang DOH at DICT kung kailan babalik ang mga ito.</h5>
+                <h5>Since September 2024 pa po naka-down ang website ng DOH na ginagamit po namin upang makapag-print at makapag-ayos ng mga problema sa VaxCert. Walang update ang DOH at DICT kung kailan babalik ang mga ito.</h5>
                 <h5>Ang tanging paraan sa ngayon upang makapag-generate ng inyong VaxCert ay gamit ng <b>eGovPH App</b> via <a href="https://play.google.com/store/apps/details?id=egov.app&hl=en&pli=1">Play Store (Android)</a> or <a href="https://apps.apple.com/ph/app/egovph/id6447682225">App Store (iOS/iPhone)</a>. Mag-register gamit ng inyong mobile number at personal details at i-click ang "Health" Section at doon makikita ang inyong VaxCertPH.</h5>
                 <hr>
                 <h5>For urgent concerns regarding VaxCertPH, maaari niyo pong subukang tumawag sa Central Office ng DOH or DICT.</h5>
