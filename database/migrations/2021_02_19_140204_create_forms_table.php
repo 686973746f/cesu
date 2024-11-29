@@ -35,8 +35,8 @@ class CreateFormsTable extends Migration
             $table->tinyInteger('isForHospitalization');
             
             $table->string('drunit');
-            $table->string('drregion');
-            $table->string('drprovince');
+            $table->string('drregion')->nullable();
+            $table->string('drprovince')->nullable();
             $table->string('interviewerName');
             $table->string('interviewerMobile'); 
             $table->date('interviewDate');
@@ -272,6 +272,7 @@ class CreateFormsTable extends Migration
 
             $table->text('tkc_nonhealth_dru')->nullable();
             $table->text('tkc_sentinel_reporting_unit')->nullable();
+            $table->text('tkc_outcome')->nullable();
             $table->string('system_isverified', 1)->nullable();
         });
     }

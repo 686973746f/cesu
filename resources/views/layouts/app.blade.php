@@ -51,7 +51,7 @@ else {
                     @elseif(Str::contains(request()->url(), 'syndromic'))
                     <img src="{{asset('assets/images/cho_icon_large.png')}}" style="width: 3rem;">
                     <img src="{{asset('assets/images/cesu_icon.png')}}" style="width: 3rem;">
-                    CBDSS
+                    OPD
                     @else
                     <img src="{{asset('assets/images/cesu_icon.png')}}" style="width: 3rem;">
                     {{ config('app.name', 'Laravel') }}

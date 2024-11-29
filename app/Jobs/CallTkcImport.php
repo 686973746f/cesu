@@ -4,11 +4,13 @@ namespace App\Jobs;
 
 use App\Models\ExportJobs;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
+use App\Imports\TkcExcelImport;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
 
 class CallTkcImport implements ShouldQueue
 {
@@ -37,6 +39,6 @@ class CallTkcImport implements ShouldQueue
     {
         $d = ExportJobs::findOrFail($this->job_id);
 
-        Excel::import(new TkcExcelImport(), $r->file('csv_file'));
+        Excel::import(new TkcExcelImport(), $d->file);
     }
 }
