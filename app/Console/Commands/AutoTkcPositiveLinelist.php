@@ -52,6 +52,7 @@ class AutoTkcPositiveLinelist extends Command
         ->whereDate('morbidityMonth', date('Y-m-d'))
         ->where('outcomeCondition', 'Active')
         ->whereIn('caseClassification', ['Suspect', 'Probable', 'Confirmed'])
+        ->where('from_tkc', 0)
         ->get();
 
         if($query->count() != 0) {

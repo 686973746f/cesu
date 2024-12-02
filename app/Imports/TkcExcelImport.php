@@ -98,7 +98,7 @@ class TkcExcelImport implements ToModel, WithHeadingRow, WithBatchInserts
                                     $table_params = $table_params + [
                                         'vaccinationDate2' => $vac['date'],
                                         'vaccinationName2' => $vac['brand'],
-                                        'vaccinationNoOfDose2' => 1,
+                                        'vaccinationNoOfDose2' => 2,
                                         'vaccinationFacility2' => NULL,
                                         'vaccinationRegion2' => NULL,
                                         'haveAdverseEvents2' => 0,
@@ -346,7 +346,7 @@ class TkcExcelImport implements ToModel, WithHeadingRow, WithBatchInserts
                         if($ind == 0) {
                             $testDateCollected = Carbon::parse($lab_datecollecteds[0])->format('Y-m-d');
                             $testLab = $lab_names[0];
-                            $labResult = $lab_results[0];
+                            $labResult = mb_strtoupper($lab_results[0]);
                             $testType = $l;
                         }
 
@@ -366,6 +366,16 @@ class TkcExcelImport implements ToModel, WithHeadingRow, WithBatchInserts
 
                     $dateReported = explode("::", $row['date_result_received']);
                     $invDate_array = explode("::", $row['investigation_date']);
+
+                    if($row['disease_reporting_unit']) {
+                        $dru = mb_strtoupper($row['disease_reporting_unit']);
+                    }
+                    else if($row['nonhealth_dru']) {
+                        $dru = mb_strtoupper($row['nonhealth_dru']);
+                    }
+                    else {
+                        $dru = 'UNSPECIFIED';
+                    }
 
                     //CREATE NEW FORM
                     $create_form = Forms::create([
@@ -388,7 +398,7 @@ class TkcExcelImport implements ToModel, WithHeadingRow, WithBatchInserts
                         //'exportedDate' => $row['exportedDate'],
                         'isPresentOnSwabDay' => 0,
                         'isForHospitalization' => 0,
-                        'drunit' => ($row['disease_reporting_unit']) ? mb_strtoupper($row['disease_reporting_unit']) : mb_strtoupper($row['nonhealth_dru']),
+                        'drunit' => $dru,
                         //'drregion' => $row['drregion'],
                         //'drprovince' => $row['drprovince'],
                         'interviewerName' => mb_strtoupper($row['created_by_name']),
@@ -443,10 +453,10 @@ class TkcExcelImport implements ToModel, WithHeadingRow, WithBatchInserts
                         'isIndg' => '0',
                         //'indgSpecify' => $row['indgSpecify'],
                         'dateOnsetOfIllness' => ($row['symptoms_onset_at']) ? Carbon::parse($row['symptoms_onset_at'])->format('Y-m-d') : NULL,
-                        'SAS' => implode(",", $symptoms_array),
+                        'SAS' => (!empty($symptoms_array)) ? implode(",", $symptoms_array) : NULL,
                         //'SASFeverDeg' => $row['SASFeverDeg'],
                         //'SASOtherRemarks' => $row['SASOtherRemarks'],
-                        'COMO' => implode(",", $como_array),
+                        'COMO' => (!empty($como_array)) ? implode(",", $como_array) : NULL,
                         //'COMOOtherRemarks' => $row['COMOOtherRemarks'],
                         //'PregnantLMP' => $row['PregnantLMP'],
                         //'PregnantEDC' => $row['PregnantEDC'],
@@ -559,7 +569,7 @@ class TkcExcelImport implements ToModel, WithHeadingRow, WithBatchInserts
                         'tkc_id' => $row['tkc_id'],
                         'tkc_lgu_id' => $row['lgu_id'],
                         'tkc_casetracking_status' => $row['case_tracking_status'],
-                        'tkc_created_by' => mb_strtoupper($row['created_by_name']),
+                        'tkc_created_by' => ($row['created_by_name']) ? mb_strtoupper($row['created_by_name']) : NULL,
                         'tkc_date_verified' => ($row['date_verified']) ? Carbon::parse($row['date_verified'])->format('Y-m-d H:i:s') : NULL,
                         'tkc_verified_assessment' => $row['verified_assessment'],
                         'tkc_nonhealth_dru' => $row['nonhealth_dru'],
