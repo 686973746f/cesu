@@ -689,8 +689,8 @@ class Records extends Model
     }
 
     public static function tkcIfDuplicateFound($lname, $fname, $mname, $suffix, $bdate) {
-        $lname = mb_strtoupper(str_replace([' ','-'], '', $lname));
-        $fname = mb_strtoupper(str_replace([' ','-'], '', $fname));
+        $lname = mb_strtoupper(str_replace([' ','-',':','--','---'], '', $lname));
+        $fname = mb_strtoupper(str_replace([' ','-',':','--','---'], '', $fname));
 
         $check = SyndromicPatient::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), $lname)
         ->where(function($q) use ($fname) {
@@ -700,13 +700,13 @@ class Records extends Model
         ->whereDate('bdate', $bdate);
 
         if(!($check->first())) {
-            if(!is_null($mname)) {
+            if(!is_null($mname) && $mname != 'NO MIDDLE NAME' && $mname != 'NULL' && $mname != 'NONE') {
                 $mname = mb_strtoupper(str_replace([' ','-'], '', $mname));
     
                 $check = $check->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), $mname);
             }
     
-            if(!is_null($suffix)) {
+            if(!is_null($suffix) && $suffix != 'N' && $suffix != 'NA' && $suffix != 'N/A' && $suffix != 'NONE') {
                 $suffix = mb_strtoupper(str_replace([' ','-'], '', $suffix));
     
                 $check = $check->where(DB::raw("REPLACE(REPLACE(REPLACE(suffix,'.',''),'-',''),' ','')"), $suffix)->first();
@@ -724,6 +724,36 @@ class Records extends Model
         }
         else {
             return $check->first();
+        }
+    }
+
+    public static function convertTkcVaccineToSystem($vaccine_brand) {
+        if($vaccine_brand == 'CoronaVac') {
+            return 'SINOVAC CORONAVAC';
+        }
+        else if($vaccine_brand == 'COVID-19 vaccine AstraZeneca') {
+            return 'OXFORD ASTRAZENECA';
+        }
+        else if($vaccine_brand == 'Comirnaty') {
+            return 'PFIZER';
+        }
+        else if($vaccine_brand == 'Janssen COVID-19 vaccine') {
+            return 'JANSSEN';
+        }
+        else if($vaccine_brand == 'COVID-19 vaccine inact (Vero) HB02') {
+            return 'SINOPHARM';
+        }
+        else if($vaccine_brand == 'Sputnik V') {
+            return 'GAMALEYA SPUTNIK V';
+        }
+        else if($vaccine_brand == 'Sputnik V Boost') {
+            return mb_strtoupper($vaccine_brand);
+        }
+        else if($vaccine_brand == 'COVID-19 vaccine Moderna') {
+            return 'MODERNA';
+        }
+        else {
+            return mb_strtoupper($vaccine_brand);
         }
     }
 }

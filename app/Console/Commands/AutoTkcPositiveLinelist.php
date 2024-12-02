@@ -232,7 +232,7 @@ class AutoTkcPositiveLinelist extends Command
                 $sheet->setCellValue('DS'.$ind, ''); //advised
                 $sheet->setCellValue('DT'.$ind, ''); //advised_date
                 $sheet->setCellValue('DU'.$ind, ''); //local travel address
-                $sheet->setCellValue('DV'.$ind, 'TRUE'); //has community transmission
+                $sheet->setCellValue('DV'.$ind, 'FALSE'); //has community transmission
                 $sheet->setCellValue('DW'.$ind, ''); //community transmission address
                 $sheet->setCellValue('DX'.$ind, ''); //last conctact date
                 $sheet->setCellValue('DY'.$ind, 'Unavailable'); //has exposure

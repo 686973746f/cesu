@@ -13,11 +13,19 @@ use Maatwebsite\Excel\Concerns\WithBatchInserts;
 
 class TkcExcelImport implements ToModel, WithHeadingRow, WithBatchInserts
 {
+    protected $user_id;
+
+    public function __construct($user_id)
+    {
+        $this->user_id = $user_id; // Store the string in a property
+    }
+
     public function model(array $row)
     {
         if($row['hasbeenpositive'] == "true") {
             //Check if TKC ID exists
             $check1 = Forms::where('tkc_id', $row['tkc_id'])
+            ->where('from_tkc', 1)
             ->first();
 
             if(!($check1)) {
@@ -58,11 +66,51 @@ class TkcExcelImport implements ToModel, WithHeadingRow, WithBatchInserts
                             $final_houseno = $final_houseno.' '.$row['current_address_house_number'];
                         }
 
-                        //42 = CESU BOT
-                        $c = Records::create([
+                        //Check Vaccination
+                        $vac_array = collect();
+                        $table_params = [];
+
+                        if($row['is_vaccinated'] == 'YES') {
+                            $vacdate_array = explode("::", $row['vaccination_date']);
+                            $vacname_array = explode("::", $row['vaccine_name']);
+
+                            foreach($vacdate_array as $ind => $vd) {
+                                $vac_array->push([
+                                    'date' => Carbon::parse($vd)->format('Y-m-d'),
+                                    'brand' => Records::convertTkcVaccineToSystem($vacname_array[$ind]),
+                                ]);
+                            }
+
+                            $vac_array = collect($vac_array)->sortBy('date')->toArray();
+
+                            foreach($vac_array as $ind => $vac) {
+                                if($ind == 0) {
+                                    $table_params = $table_params + [
+                                        'vaccinationDate1' => $vac['date'],
+                                        'vaccinationName1' => $vac['brand'],
+                                        'vaccinationNoOfDose1' => 1,
+                                        'vaccinationFacility1' => NULL,
+                                        'vaccinationRegion1' => NULL,
+                                        'haveAdverseEvents1' => 0,
+                                    ];
+                                }
+                                else if($ind == 1) {
+                                    $table_params = $table_params + [
+                                        'vaccinationDate2' => $vac['date'],
+                                        'vaccinationName2' => $vac['brand'],
+                                        'vaccinationNoOfDose2' => 1,
+                                        'vaccinationFacility2' => NULL,
+                                        'vaccinationRegion2' => NULL,
+                                        'haveAdverseEvents2' => 0,
+                                    ];
+                                }
+                            }
+                        }
+
+                        $table_params = $table_params + [
                             'is_confidential' => 0,
-                            'user_id' => 42,
-                            'status' => 'pending',
+                            'user_id' => $this->user_id,
+                            'status' => 'approved',
                             'lname' => mb_strtoupper(str_replace(['.',':'], '', $row['last_name'])),
                             'fname' => str_replace(['.',':'], '', $row['first_name']),
                             'mname' => (!is_null($mname)) ? mb_strtoupper($row['middle_name']) : NULL,
@@ -110,36 +158,6 @@ class TkcExcelImport implements ToModel, WithHeadingRow, WithBatchInserts
                             'natureOfWork' => NULL,
                             'natureOfWorkIfOthers' => NULL,
 
-                            /*
-                            'vaccinationDate1',
-                            'vaccinationName1',
-                            'vaccinationNoOfDose1',
-                            'vaccinationFacility1',
-                            'vaccinationRegion1',
-                            'haveAdverseEvents1',
-
-                            'vaccinationDate2',
-                            'vaccinationName2',
-                            'vaccinationNoOfDose2',
-                            'vaccinationFacility2',
-                            'vaccinationRegion2',
-                            'haveAdverseEvents2',
-
-                            'vaccinationDate3',
-                            'vaccinationName3',
-                            'vaccinationNoOfDose3',
-                            'vaccinationFacility3',
-                            'vaccinationRegion3',
-                            'haveAdverseEvents3',
-
-                            'vaccinationDate4',
-                            'vaccinationName4',
-                            'vaccinationNoOfDose4',
-                            'vaccinationFacility4',
-                            'vaccinationRegion4',
-                            'haveAdverseEvents4',
-                            */
-
                             'remarks' => NULL,
                             'sharedOnId' => NULL,
 
@@ -170,7 +188,10 @@ class TkcExcelImport implements ToModel, WithHeadingRow, WithBatchInserts
                             'occupation_address_brgy_psgc' => NULL,
 
                             'from_tkc' => 1,
-                        ]);
+                        ];
+
+                        //42 = CESU BOT
+                        $c = Records::create($table_params);
                     }
                     else {
                         $c = $check;
@@ -299,8 +320,6 @@ class TkcExcelImport implements ToModel, WithHeadingRow, WithBatchInserts
                     }
 
                     //Lab Result Array
-
-
                     //Case Classification
                     /*
                     if($row['hasbeenpositive']) {
@@ -346,6 +365,7 @@ class TkcExcelImport implements ToModel, WithHeadingRow, WithBatchInserts
                     }
 
                     $dateReported = explode("::", $row['date_result_received']);
+                    $invDate_array = explode("::", $row['investigation_date']);
 
                     //CREATE NEW FORM
                     $create_form = Forms::create([
@@ -362,7 +382,7 @@ class TkcExcelImport implements ToModel, WithHeadingRow, WithBatchInserts
                         'dateReported' => Carbon::parse($dateReported[0])->format('Y-m-d H:i:s'),
                         //'status_by' => $row['status_by'],
                         //'status_remarks' => $row['status_remarks'],
-                        'user_id' => 42, //CESU Bot
+                        'user_id' => $this->user_id,
                         'records_id' => $c->id,
                         'isExported' => 0,
                         //'exportedDate' => $row['exportedDate'],
@@ -373,7 +393,7 @@ class TkcExcelImport implements ToModel, WithHeadingRow, WithBatchInserts
                         //'drprovince' => $row['drprovince'],
                         'interviewerName' => mb_strtoupper($row['created_by_name']),
                         'interviewerMobile' => '09190664324',
-                        'interviewDate' => Carbon::parse($row['investigation_date'])->format('Y-m-d'),
+                        'interviewDate' => Carbon::parse($invDate_array[0])->format('Y-m-d'),
                         //'informantName' => $row['informantName'],
                         //'informantRelationship' => $row['informantRelationship'],
                         //'informantMobile' => $row['informantMobile'],

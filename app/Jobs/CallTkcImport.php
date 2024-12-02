@@ -38,7 +38,15 @@ class CallTkcImport implements ShouldQueue
     public function handle()
     {
         $d = ExportJobs::findOrFail($this->job_id);
+        
+        Excel::import(new TkcExcelImport($d->created_by), storage_path('app/tkc/').$d->filename);
 
-        Excel::import(new TkcExcelImport(), $d->file);
+        //After the Job is Finished
+        $d->status = 'completed';
+        $d->date_finished = date('Y-m-d H:i:s');
+
+        if($d->isDirty()) {
+            $d->save();
+        }
     }
 }

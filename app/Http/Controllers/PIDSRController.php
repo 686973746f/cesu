@@ -9619,11 +9619,13 @@ class PIDSRController extends Controller
         ]);
     }
 
+    /*
     public function tkcImport(Request $r) {
-        Excel::import(new TkcExcelImport(), $r->file('csv_file'));
+        Excel::import(new TkcExcelImport(Auth::id()), $r->file('csv_file'));
     }
+    */
 
-    public function tkcImport2(Request $r) {
+    public function tkcImport(Request $r) {
         //Upload CSV
         $foundUnique = false;
 
