@@ -9652,5 +9652,9 @@ class PIDSRController extends Controller
 
         //Call the Import Job
         CallTkcImport::dispatch($c->id);
+
+        return redirect()->route('export_index')
+        ->with('msg', 'TKC .CSV File was successfully uploaded and being imported.')
+        ->with('msgtype', 'success');
     }
 }

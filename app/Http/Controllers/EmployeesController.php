@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DutyCycle;
 use App\Models\Employee;
 use App\Models\HertDuty;
+use App\Models\DutyCycle;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\HertDutyMember;
 use App\Models\HertDutyPatient;
@@ -241,7 +242,7 @@ class EmployeesController extends Controller
             'description' => ($r->description) ? mb_strtoupper($r->description) : NULL,
             'event_date' => $r->event_date,
             'status' => 'OPEN',
-
+            'code' => mb_strtoupper(Str::random(5)),
             'created_by' => Auth::id(),
         ]);
 
@@ -550,5 +551,29 @@ class EmployeesController extends Controller
         else {
             return abort(401);
         }
+    }
+
+    public function blsIndex() {
+
+    }
+
+    public function viewBlsMasterlist() {
+
+    }
+
+    public function storeBlsEvent(Request $r) {
+        
+    }
+
+    public function viewBlsEvent($bls_id) {
+
+    }
+
+    public function updateBlsEvent($bls_id, Request $r) {
+        
+    }
+
+    public function storeBlsMemberOnEvent($bls_id, Request $r) {
+
     }
 }

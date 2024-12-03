@@ -338,6 +338,22 @@ class TkcExcelImport implements ToModel, WithHeadingRow, WithBatchInserts
                     $lab_dateresultreceiveds = explode('::', $row['date_result_received']);
                     $date_of_positive = NULL;
 
+                    $lab_group = [];
+
+                    foreach(explode("::", $row['lab_info_type']) as $ind => $l) {
+                        if($l == 'RTPCR') {
+                            $l = 'OPS AND NPS';
+                        }
+
+                        $lab_group[] = [
+                            'test_type' => $l,
+                            'date_collected' => Carbon::parse($lab_datecollecteds[$ind])->format('Y-m-d'),
+                            'lab_name' => $lab_names[$ind],
+                            'lab_reult' => mb_strtoupper($lab_results[$ind]),
+                        ];
+                    }
+
+                    /*
                     foreach(explode("::", $row['lab_info_type']) as $ind => $l) {
                         if($l == 'RTPCR') {
                             $l = 'OPS AND NPS';
@@ -350,7 +366,7 @@ class TkcExcelImport implements ToModel, WithHeadingRow, WithBatchInserts
                             $testType = $l;
                         }
 
-                        if($lab_results[$ind] == 'Positive' && $l == 'RTPCR') {
+                        if($lab_results[$ind] == 'Positive' && $l == 'OPS AND NPS') {
                             $classification = 'Confirmed';
                             $date_of_positive = Carbon::parse($lab_dateresultreceiveds[$ind])->format('Y-m-d');
                             $testType = $l;
@@ -363,6 +379,7 @@ class TkcExcelImport implements ToModel, WithHeadingRow, WithBatchInserts
                             break;
                         }
                     }
+                    */
 
                     $dateReported = explode("::", $row['date_result_received']);
                     $invDate_array = explode("::", $row['investigation_date']);
@@ -389,7 +406,7 @@ class TkcExcelImport implements ToModel, WithHeadingRow, WithBatchInserts
                         'majikCode' => NULL, //FOR ANTIGEN
                         //'updated_by' => $row['updated_by'],
                         'status' => 'approved',
-                        'dateReported' => Carbon::parse($dateReported[0])->format('Y-m-d H:i:s'),
+                        'dateReported' => (!is_null($dateReported[0])) ? Carbon::parse($dateReported[0])->format('Y-m-d H:i:s') : Carbon::parse($row['created_at'])->format('Y-m-d'),
                         //'status_by' => $row['status_by'],
                         //'status_remarks' => $row['status_remarks'],
                         'user_id' => $this->user_id,
@@ -456,7 +473,7 @@ class TkcExcelImport implements ToModel, WithHeadingRow, WithBatchInserts
                         'SAS' => (!empty($symptoms_array)) ? implode(",", $symptoms_array) : NULL,
                         //'SASFeverDeg' => $row['SASFeverDeg'],
                         //'SASOtherRemarks' => $row['SASOtherRemarks'],
-                        'COMO' => (!empty($como_array)) ? implode(",", $como_array) : NULL,
+                        'COMO' => (!empty($como_array)) ? implode(",", $como_array) : 'None',
                         //'COMOOtherRemarks' => $row['COMOOtherRemarks'],
                         //'PregnantLMP' => $row['PregnantLMP'],
                         //'PregnantEDC' => $row['PregnantEDC'],
@@ -473,7 +490,7 @@ class TkcExcelImport implements ToModel, WithHeadingRow, WithBatchInserts
                         'testDateCollected1' => $testDateCollected,
                         //'testDateReleased1' => $row['testDateReleased1'],
                         //'oniTimeCollected1' => $row['oniTimeCollected1'],
-                        'testLaboratory1' => ($testLab != '') ? mb_strtoupper($testLab) : NULL,
+                        'testLaboratory1' => ($testLab) ? mb_strtoupper($testLab) : NULL,
                         'testType1' => $testType,
                         //'testTypeAntigenRemarks1' => $row['testTypeAntigenRemarks1'],
                         //'antigenKit1' => $row['antigenKit1'],
