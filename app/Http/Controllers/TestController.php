@@ -43,6 +43,34 @@ ALTER TABLE syndromic_records ADD CONSTRAINT `syndromic_records_facility_id_fore
 class TestController extends Controller
 {
     public function index() {
-        
+        $lab_group = [];
+
+        $lab_group[] = [
+            'test_type' => 'RTPCR',
+            'date_collected' => '2024-10-12',
+            'lab_name' => 'LASALLE',
+            'lab_result' => 'NEGATIVE',
+        ];
+
+        $lab_group[] = [
+            'test_type' => 'ANTIGEN',
+            'date_collected' => '2024-10-13',
+            'lab_name' => 'LASALLE',
+            'lab_result' => 'NEGATIVE',
+        ];
+
+        $lab_group[] = [
+            'test_type' => 'RTPCR',
+            'date_collected' => '2024-10-14',
+            'lab_name' => 'LASALLE',
+            'lab_result' => 'POSITIVE',
+        ];
+
+        $lab_group[] = [
+            'test_type' => 'RTPCR',
+            'date_collected' => '2024-10-15',
+            'lab_name' => 'LASALLE',
+            'lab_result' => 'NEGATIVE',
+        ];
     }
 }

@@ -21,6 +21,7 @@
                         <th>#</th>
                         <th>Name</th>
                         <th>Gender</th>
+                        <th>Status</th>
                         <th>Type</th>
                         <th>Position</th>
                         <th>Office</th>
@@ -29,7 +30,7 @@
                         <th>Type of Responder</th>
                         <th>Deployable in Duties</th>
                         <th>HERT Team</th>
-                        <th>Status</th>
+                        <th>Duty Cycle Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,6 +39,7 @@
                         <td class="text-center">{{$ind+1}}</td>
                         <td><a href="{{route('employees_edit', $d->id)}}"><b>{{$d->getFullName()}}</b></a></td>
                         <td class="text-center">{{$d->gender}}</td>
+                        <td class="text-center">{{$d->employment_status}}</td>
                         <td class="text-center">{{$d->type}}</td>
                         <td class="text-center">{{$d->job_position}}</td>
                         <td class="text-center">{{$d->office}}</td>
@@ -46,7 +48,7 @@
                         <td class="text-center">{{$d->bls_typeofrescuer}}</td>
                         <td class="text-center">{{$d->duty_canbedeployed}}</td>
                         <td class="text-center">{{$d->duty_team}}</td>
-                        <td class="text-center">{{$d->employment_status}}</td>
+                        <td class="text-center">{{($d->duty_completedcycle == 'Y') ? 'DONE' : 'PENDING'}}</td>
                     </tr>
                     @endforeach
                 </tbody>
