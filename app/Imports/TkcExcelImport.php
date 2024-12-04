@@ -22,13 +22,66 @@ class TkcExcelImport implements ToModel, WithHeadingRow, WithBatchInserts
 
     public function model(array $row)
     {
-        if($row['hasbeenpositive'] == "true") {
+        if($row['hasbeenpositive']) {
             //Check if TKC ID exists
             $check1 = Forms::where('tkc_id', $row['tkc_id'])
             ->where('from_tkc', 1)
             ->first();
 
             if(!($check1)) {
+                $lab_results = explode('::', $row['lab_result']);
+                $lab_names = explode('::', $row['lab_name']);
+                $lab_datecollecteds = explode('::', $row['date_specimen_collected']);
+                $lab_datereceiveds = explode('::', $row['date_specimen_received']);
+                $lab_dateresultreceiveds = explode('::', $row['date_result_received']);
+                $date_of_positive = NULL;
+
+                $lab_group = [];
+
+                $classification = 'Suspect';
+
+                foreach(explode("::", $row['lab_info_type']) as $ind => $l) {
+                    $lab_group[] = [
+                        'test_type' => $l,
+                        'date_collected' => Carbon::parse($lab_datecollecteds[$ind])->format('Y-m-d'),
+                        'lab_name' => ($lab_names[$ind]) ? mb_strtoupper($lab_names[$ind]) : NULL,
+                        'result' => mb_strtoupper($lab_results[$ind]),
+                        'date_result' => ($lab_dateresultreceiveds[$ind]) ? Carbon::parse($lab_dateresultreceiveds[$ind])->format('Y-m-d') : NULL,
+                    ];
+                }
+
+                $cy_search = collect($lab_group)->search(function ($item) {
+                    return $item['result'] === 'POSITIVE';
+                });
+
+                $index = collect($lab_group)->search(function ($item) {
+                    return $item['result'] === 'POSITIVE';
+                });
+
+                if ($index !== false) {
+                    $testType = ($lab_group[$index]['test_type'] == 'RTPCR') ? 'OPS AND NPS' : $lab_group[$index]['test_type'];
+                    $testDateCollected = $lab_group[$index]['date_collected'];
+                    $testLab = $lab_group[$index]['lab_name'];
+                    $labResult = $lab_group[$index]['result'];
+                    $labResult_date = $lab_group[$index]['date_result'];
+
+                    $date_of_positive = $lab_group['date_result'];
+
+                    if($testType == 'OPS AND NPS' || $testType == 'CARTRIDGE') {
+                        $classification = 'Confirmed';
+                    }
+                    else {
+                        $classification = 'Probable';
+                    }
+                }
+                else {
+                    $testType = NULL;
+                    $testDateCollected = NULL;
+                    $testLab = NULL;
+                    $labResult = NULL;
+                    $labResult_date = NULL;
+                }
+
                 if($row['last_name'] != "" && $row['first_name'] != "") {
                     $lname = mb_strtoupper(str_replace([' ','-'], '', $row['last_name']));
                     $fname = mb_strtoupper(str_replace([' ','-'], '', $row['first_name']));
@@ -318,178 +371,6 @@ class TkcExcelImport implements ToModel, WithHeadingRow, WithBatchInserts
                     else {
                         $outcome = $row['outcome'];
                     }
-
-                    //Lab Result Array
-                    //Case Classification
-                    /*
-                    if($row['hasbeenpositive']) {
-                        $classification = 'Confirmed';
-                    }
-                    */
-
-                    $labtest_final_array = [];
-
-                    $lab_results = explode('::', $row['lab_result']);
-                    $lab_names = explode('::', $row['lab_name']);
-                    $lab_datecollecteds = explode('::', $row['date_specimen_collected']);
-                    $lab_datereceiveds = explode('::', $row['date_specimen_received']);
-                    $lab_dateresultreceiveds = explode('::', $row['date_result_received']);
-                    $date_of_positive = NULL;
-
-                    $lab_group = [];
-                    $rtpcr_positive_group = [];
-                    $antigen_positive_group = [];
-                    $cartrige_positive_group = [];
-
-                    foreach(explode("::", $row['lab_info_type']) as $ind => $l) {
-                        if($l == 'RTPCR') {
-                            $l = 'OPS AND NPS';
-                        }
-
-                        $var = [
-                            'test_type' => $l,
-                            'date_collected' => Carbon::parse($lab_datecollecteds[$ind])->format('Y-m-d'),
-                            'date_result' => ($lab_dateresultreceiveds[$ind]) ? Carbon::parse($lab_dateresultreceiveds[$ind])->format('Y-m-d') : NULL,
-                            'lab_name' => ($lab_names[$ind]) ? mb_strtoupper($lab_names[$ind]) : NULL,
-                            'result' => mb_strtoupper($lab_results[$ind]),
-                        ];
-
-                        if(mb_strtoupper($lab_results[$ind]) == 'POSITIVE' && $l == 'OPS AND NPS') {
-                            $rtpcr_positive_group[] = $var;
-                        }
-                        else if(mb_strtoupper($lab_results[$ind]) == 'POSITIVE' && $l == 'ANTIGEN') {
-                            $antigen_positive_group[] = $var;
-                        }
-                        else if(mb_strtoupper($lab_results[$ind]) == 'POSITIVE' && $l == 'CARTRIDGE') {
-                            $cartrige_positive_group[] = $var;
-                        }
-                        else{
-                            $lab_group[] = $var;
-                        }
-                    }
-                    
-                    if(!empty($rtpcr_positive_data)) {
-                        $classification = 'Confirmed';
-
-                        $testType = $rtpcr_positive_group[0]['test_type'];
-                        $testDateCollected = $rtpcr_positive_group[0]['date_collected'];
-                        $testLab = $rtpcr_positive_group[0]['lab_name'];
-                        $labResult = $rtpcr_positive_group[0]['result'];
-                        $labResult_date = $rtpcr_positive_group[0]['date_result'];
-                    }
-                    else if(!empty($antigen_positive_group)) {
-                        $classification = 'Probable';
-
-                        $testType = $antigen_positive_group[0]['test_type'];
-                        $testDateCollected = $antigen_positive_group[0]['date_collected'];
-                        $testLab = $antigen_positive_group[0]['lab_name'];
-                        $labResult = $antigen_positive_group[0]['result'];
-                        $labResult_date = $antigen_positive_group[0]['date_result'];
-                    }
-                    else if(!empty($cartrige_positive_group)) {
-                        $classification = 'Confirmed';
-
-                        $testType = $cartrige_positive_group[0]['test_type'];
-                        $testDateCollected = $cartrige_positive_group[0]['date_collected'];
-                        $testLab = $cartrige_positive_group[0]['lab_name'];
-                        $labResult = $cartrige_positive_group[0]['result'];
-                        $labResult_date = $cartrige_positive_group[0]['date_result'];
-                    }
-                    else {
-                        $classification = 'Suspect';
-
-                        $testType = $lab_group[0]['test_type'];
-                        $testDateCollected = $lab_group[0]['date_collected'];
-                        $testLab = $lab_group[0]['lab_name'];
-                        $labResult = $lab_group[0]['result'];
-                        $labResult_date = $lab_group[0]['date_result'];
-                    }
-
-                    /*
-                    // Filter for POSITIVE results with test_type RTPCR
-                    $rtpcr_positive_data = array_filter($lab_group, function ($entry) {
-                        return $entry['result'] === 'POSITIVE' && $entry['test_type'] === 'OPS AND NPS';
-                    });
-
-                    $cartridge_positive_data = array_filter($lab_group, function ($entry) {
-                        return $entry['result'] === 'POSITIVE' && $entry['test_type'] === 'CARTRIDGE';
-                    });
-
-                    $antigen_postitive_data = array_filter($lab_group, function ($entry) {
-                        return $entry['result'] === 'POSITIVE' && $entry['test_type'] === 'ANTIGEN';
-                    });
-
-                    if($rtpcr_positive_data) {
-                        $classification = 'Confirmed';
-
-                        $lab_data = reset($rtpcr_positive_data);
-                        $date_of_positive = $lab_data['date_collected'];
-
-                        $testDateCollected = $lab_data['date_collected'];
-                        $testLab = $lab_data['lab_name'];
-                        $labResult = $lab_data['result'];
-                        $testType = $lab_data['test_type'];
-                    }
-                    if($cartridge_positive_data) {
-                        $classification = 'Confirmed';
-
-                        $lab_data = reset($cartridge_positive_data);
-                        $date_of_positive = $lab_data['date_collected'];
-
-                        $testDateCollected = $lab_data['date_collected'];
-                        $testLab = $lab_data['lab_name'];
-                        $labResult = $lab_data['result'];
-                        $testType = $lab_data['test_type'];
-                    }
-                    else if($antigen_postitive_data) {
-                        $classification = 'Probable';
-
-                        $lab_data = reset($antigen_postitive_data);
-                        $date_of_positive = $lab_data['date_collected'];
-
-                        $testDateCollected = $lab_data['date_collected'];
-                        $testLab = $lab_data['lab_name'];
-                        $labResult = $lab_data['result'];
-                        $testType = $lab_data['test_type'];
-                    }
-                    else {
-                        $date_of_positive = NULL;
-
-                        $testDateCollected = NULL;
-                        $testLab = NULL;
-                        $labResult = NULL;
-                        $testType = NULL;
-                    }
-                    */
-
-                    /*
-                    foreach(explode("::", $row['lab_info_type']) as $ind => $l) {
-                        if($l == 'RTPCR') {
-                            $l = 'OPS AND NPS';
-                        }
-
-                        if($ind == 0) {
-                            $testDateCollected = Carbon::parse($lab_datecollecteds[0])->format('Y-m-d');
-                            $testLab = $lab_names[0];
-                            $labResult = mb_strtoupper($lab_results[0]);
-                            $testType = $l;
-                        }
-                        
-
-                        if($lab_results[$ind] == 'Positive' && $l == 'OPS AND NPS') {
-                            $classification = 'Confirmed';
-                            $date_of_positive = Carbon::parse($lab_dateresultreceiveds[$ind])->format('Y-m-d');
-                            $testType = $l;
-                            break;
-                        }
-                        else if($lab_results[$ind] == 'Positive' && $l == 'ANTIGEN') {
-                            $classification = 'Probable';
-                            $date_of_positive = Carbon::parse($lab_dateresultreceiveds[$ind])->format('Y-m-d');
-                            $testType = $l;
-                            break;
-                        }
-                    }
-                    */
 
                     $dateReported = explode("::", $row['date_result_received']);
                     $invDate_array = explode("::", $row['investigation_date']);

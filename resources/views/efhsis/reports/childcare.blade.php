@@ -12,7 +12,7 @@
                 </div>
 
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered">
+                    <table class="table table-striped table-bordered" id="table1">
                         <thead class="thead-light text-center">
                             <tr>
                                 <th rowspan="2">Area</th>
@@ -326,4 +326,8 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $('#table1').dataTable();
+    </script>
 @endsection

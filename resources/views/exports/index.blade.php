@@ -52,10 +52,14 @@
                                     @endif
                                 </td>
                                 <td class="text-center">
+                                    @if($d->for_module != 'COVID')
                                     <form action="{{route('export_download_file', $d->id)}}" method="POST">
                                         @csrf
                                         <button type="submit" class="btn btn-success" {{($d->status == 'pending') ? 'disabled' : ''}}>Download</button>
                                     </form>
+                                    @else
+                                    -
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
