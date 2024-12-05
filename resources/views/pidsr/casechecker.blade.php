@@ -95,68 +95,7 @@
             </form>
             @if(isset($list))
             <hr>
-            @if(request()->input('case') != 'MPOX')
-            <table class="table table-bordered table-striped table-hover" id="list_table" style="width:100%">
-                <thead class="thead-light text-center">
-                    <tr>
-                        <!-- <th></th> -->
-                        <th>#</th>
-                        <th>Details</th>
-                        @foreach($columns as $c)
-                        <th>{{ucfirst($c)}}</th>
-                        @endforeach
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($list as $key => $l)
-                    @php
-                    $setBgColor = '';
-
-                    if($l->match_casedef == 0) {
-                        $setBgColor = 'bg-warning';
-                    }
-
-                    if($l->enabled == 0) {
-                        $setBgColor = 'bg-danger text-white';
-                    }
-                    @endphp
-                    <tr class="{{$setBgColor}}">
-                        <!-- <td></td> -->
-                        <td class="text-center">{{$key+1}}</td>
-                        <td class="text-center btn-group">
-                            @php
-                            if(request()->input('case') == 'SARI') {
-                                $epi_id = $l->epi_id;
-                            }
-                            else {
-                                $epi_id = $l->EPIID;
-                            }
-                            @endphp 
-                            <a href="{{route('pidsr_viewcif', [$case_name, $epi_id])}}" class="btn btn-primary"><i class="fa fa-file" aria-hidden="true"></i></a>
-                            <a href="{{route('pidsr_casechecker_edit', [$case_name, $epi_id])}}" class="btn btn-secondary"><i class="fa fa-cog" aria-hidden="true"></i></a>
-                            <a href="{{route('pidsr_laboratory_linkedcs')}}?case_id={{$l->edcs_caseid}}&disease={{$case_name}}" class="btn btn-primary"><i class="fa fa-flask" aria-hidden="true"></i></a>
-                        </td>
-                        @foreach($columns as $c)
-                        <td>{{mb_strtoupper($l->$c)}}</td>
-                        @endforeach
-                        <td class="text-center">
-                            @if($l->enabled == 1)
-                            <a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'DEL', 'epi_id' => $epi_id])}}" class="btn btn-warning mb-3" onclick="return confirm('Proceed to disable? The record will not be listed anymore after processing.')">Disable</a>
-                            @else
-                            <a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'ENB', 'epi_id' => $epi_id])}}" class="btn btn-success mb-3" onclick="return confirm('Proceed to enable? The record will return to the official list after processing.')">Enable</a>
-                            @endif
-                            @if($l->match_casedef == 1)
-                            <a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'NOTMATCH_CASEDEF', 'epi_id' => $epi_id])}}" class="btn btn-secondary" onclick="return confirm('Proceed to enable? The record will be marked as NOT MATCH in Case Definition after processing.')">NOT MATCH in CaseDef</a>
-                            @else
-                            <a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'MATCH_CASEDEF', 'epi_id' => $epi_id])}}" class="btn btn-primary" onclick="return confirm('Proceed to enable? The record will be marked as MATCH in Case Definition after processing.')">MATCH in CaseDef</a>
-                            @endif
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            @else
+            @if(request()->input('case') == 'MPOX')
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">
                     <thead class="thead-light text-center">
@@ -221,6 +160,90 @@
                     </tbody>
                 </table>
             </div>
+            @elseif(request()->input('case') == 'COVID')
+            <table class="table table-bordered table-striped">
+                <thead class="thead-light text-center">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Sex</th>
+                        <th>Street/Purok</th>
+                        <th>City/Municipality</th>
+                        <th>Province</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($list as $ind => $l)
+                    <tr>
+                        <td class="text-center">{{$l->id}}</td>
+                        <td>{{$l->records->getName()}}</td>
+                        <td></td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            @else
+            <table class="table table-bordered table-striped table-hover" id="list_table" style="width:100%">
+                <thead class="thead-light text-center">
+                    <tr>
+                        <!-- <th></th> -->
+                        <th>#</th>
+                        <th>Details</th>
+                        @foreach($columns as $c)
+                        <th>{{ucfirst($c)}}</th>
+                        @endforeach
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($list as $key => $l)
+                    @php
+                    $setBgColor = '';
+
+                    if($l->match_casedef == 0) {
+                        $setBgColor = 'bg-warning';
+                    }
+
+                    if($l->enabled == 0) {
+                        $setBgColor = 'bg-danger text-white';
+                    }
+                    @endphp
+                    <tr class="{{$setBgColor}}">
+                        <!-- <td></td> -->
+                        <td class="text-center">{{$key+1}}</td>
+                        <td class="text-center btn-group">
+                            @php
+                            if(request()->input('case') == 'SARI') {
+                                $epi_id = $l->epi_id;
+                            }
+                            else {
+                                $epi_id = $l->EPIID;
+                            }
+                            @endphp 
+                            <a href="{{route('pidsr_viewcif', [$case_name, $epi_id])}}" class="btn btn-primary"><i class="fa fa-file" aria-hidden="true"></i></a>
+                            <a href="{{route('pidsr_casechecker_edit', [$case_name, $epi_id])}}" class="btn btn-secondary"><i class="fa fa-cog" aria-hidden="true"></i></a>
+                            <a href="{{route('pidsr_laboratory_linkedcs')}}?case_id={{$l->edcs_caseid}}&disease={{$case_name}}" class="btn btn-primary"><i class="fa fa-flask" aria-hidden="true"></i></a>
+                        </td>
+                        @foreach($columns as $c)
+                        <td>{{mb_strtoupper($l->$c)}}</td>
+                        @endforeach
+                        <td class="text-center">
+                            @if($l->enabled == 1)
+                            <a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'DEL', 'epi_id' => $epi_id])}}" class="btn btn-warning mb-3" onclick="return confirm('Proceed to disable? The record will not be listed anymore after processing.')">Disable</a>
+                            @else
+                            <a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'ENB', 'epi_id' => $epi_id])}}" class="btn btn-success mb-3" onclick="return confirm('Proceed to enable? The record will return to the official list after processing.')">Enable</a>
+                            @endif
+                            @if($l->match_casedef == 1)
+                            <a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'NOTMATCH_CASEDEF', 'epi_id' => $epi_id])}}" class="btn btn-secondary" onclick="return confirm('Proceed to enable? The record will be marked as NOT MATCH in Case Definition after processing.')">NOT MATCH in CaseDef</a>
+                            @else
+                            <a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'MATCH_CASEDEF', 'epi_id' => $epi_id])}}" class="btn btn-primary" onclick="return confirm('Proceed to enable? The record will be marked as MATCH in Case Definition after processing.')">MATCH in CaseDef</a>
+                            @endif
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
             @endif
             
             @endif

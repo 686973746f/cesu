@@ -1382,12 +1382,21 @@ class PIDSRController extends Controller
 
                 $tbl_name = 'monkey_poxes';
             }
+            else if($case == 'COVID') {
+                $query = Forms::where('year', $year);
+            }
 
-            $ctxt = "SHOW COLUMNS FROM $tbl_name";
-            $c = DB::select($ctxt);
-            $columns = array_map(function ($column) {
-                return $column->Field;
-            }, $c);
+            if($case == 'COVID') {
+                $columns = NULL;
+            }
+            else {
+                $ctxt = "SHOW COLUMNS FROM $tbl_name";
+                $c = DB::select($ctxt);
+                $columns = array_map(function ($column) {
+                    return $column->Field;
+                }, $c);
+            }
+            
 
             if($case == 'SARI') {
                 $query = $query->where('muncity', 'GENERAL TRIAS')
@@ -1397,27 +1406,37 @@ class PIDSRController extends Controller
                 $query = $query->where('address_muncity_text', 'GENERAL TRIAS')
                 ->where('address_province_text', 'CAVITE');
             }
+            else if($case == 'COVID') {
+                $query = $query->whereHas('records', function ($q) {
+                    $q->where('address_city', 'GENERAL TRIAS')
+                    ->where('address_province', 'CAVITE');
+                });
+            }
             else {
                 $query = $query->where('Muncity', 'GENERAL TRIAS')
                 ->where('Province', 'CAVITE');
             }
 
-            if(request()->input('showDisabled')) {
-                //$query = $query->whereIn('enabled', [0,1]);
-            }
-            else {
-                $query = $query->where('enabled', 1);
+            if(!request()->input('showDisabled')) {
+                if($case == 'COVID') {
+                    $query = $query->where('status', 'approved');
+                }
+                else {
+                    $query = $query->where('enabled', 1);
+                }
             }
 
-            if(request()->input('showNonMatchCaseDef')) {
-                //$query = $query->whereIn('enabled', [0,1]);
-            }
-            else {
+            if(!request()->input('showNonMatchCaseDef')) {
                 $query = $query->where('match_casedef', 1);
             }
 
             if(request()->input('mw')) {
-                $query = $query->where('encoded_mw', request()->input('mw'));
+                if($case == 'COVID') {
+                    $query = $query->where('morb_week', request()->input('mw'));
+                }
+                else {
+                    $query = $query->where('encoded_mw', request()->input('mw'));
+                }
             }
 
             $query = $query->orderBy('created_at', 'DESC')->get();
@@ -8191,6 +8210,8 @@ class PIDSRController extends Controller
         $psp_route = route('edcs_barangay_view_list', ['case' => 'Psp', 'year' => $year]);
         $mpox_route = route('edcs_barangay_view_list', ['case' => 'Mpox', 'year' => $year]);
 
+        $covid_route = route('edcs_barangay_view_list', ['case' => 'COVID', 'year' => $year]);
+
         return view('pidsr.barangay.brgy_case_viewer_home', [
             'abd_count' => $abd_count,
             'afp_count' => $afp_count,
@@ -8252,6 +8273,7 @@ class PIDSRController extends Controller
             'meningitis_route' => $meningitis_route,
             'psp_route' => $psp_route,
             'mpox_route' => $mpox_route,
+            'covid_route' => $covid_route,
 
             'abd_count_death' => $abd_count_death,
             'afp_count_death' => $afp_count_death,
@@ -8574,6 +8596,8 @@ class PIDSRController extends Controller
         $psp_route = route('pidsr.casechecker', ['case' => 'PSP', 'year' => $year]);
         $mpox_route = route('pidsr.casechecker', ['case' => 'MPOX', 'year' => $year]);
 
+        $covid_route = route('pidsr.casechecker', ['case' => 'COVID', 'year' => $year]);
+
         return view('pidsr.epdrone_home', [
             'abd_count' => $abd_count,
             'afp_count' => $afp_count,
@@ -8665,6 +8689,7 @@ class PIDSRController extends Controller
             'meningitis_route' => $meningitis_route,
             'psp_route' => $psp_route,
             'mpox_route' => $mpox_route,
+            'covid_route' => $covid_route,
         ]);
     }
 

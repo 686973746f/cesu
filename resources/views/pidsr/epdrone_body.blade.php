@@ -110,7 +110,7 @@
         </a>
     </div>
     <div class="col-md-3 mb-3">
-        <a href="">
+        <a href="{{$covid_route}}">
             <div class="card bg-primary">
                 <div class="card-body">
                     <h4 class="text-white">COVID-19</h4>
