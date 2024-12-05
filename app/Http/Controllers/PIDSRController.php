@@ -9682,4 +9682,40 @@ class PIDSRController extends Controller
         ->with('msg', 'TKC .CSV File was successfully uploaded and being imported.')
         ->with('msgtype', 'success');
     }
+
+    public function ajaxCaseViewerList($case, Request $r) {
+        $final_array = [];
+
+        if(request()->input('year')) {
+            $year = request()->input('year');
+        }
+        else {
+            $year = date('Y');
+        }
+
+        if($case == 'DENGUE') {
+            $query = Dengue::where('Year', $year)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1);
+        }
+
+        $search = $r->input('search.value'); // Search term from DataTables
+
+        if (!empty($search)) {
+            $query->where('FullName', 'LIKE', "%{$search}%");
+        }
+
+        // Handle pagination
+        $page = $r->input('start') / $r->input('length') + 1; // Calculate current page
+        $perPage = $r->input('length', 10);
+
+        $paginated = $query->paginate($perPage, ['*'], 'page', $page);
+
+        return response()->json([
+            'draw' => $r->input('draw'),
+            'recordsTotal' => $paginated->total(),
+            'recordsFiltered' => $paginated->total(),
+            'data' => $paginated->items(),
+        ]);
+    }
 }

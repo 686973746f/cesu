@@ -183,6 +183,23 @@
                     @endforeach
                 </tbody>
             </table>
+            @elseif(request()->input('case') == 'DENGUE')
+            <table class="table table-striped table-bordered" id="mainTbl">
+                <thead class="thead-light text-center">
+                    <tr>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Sex</th>
+                        <th>Birthdate</th>
+                        <th>City/Municipality</th>
+                        <th>Barangay</th>
+                        <th>Street/Purok</th>
+                        <th>Disease Reporting Unit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
             @else
             <table class="table table-bordered table-striped table-hover" id="list_table" style="width:100%">
                 <thead class="thead-light text-center">
@@ -255,7 +272,34 @@
     $(document).ready(function () {
         $('#loading').fadeOut();
     });
+</script>
 
+@if(request()->input('case') == 'DENGUE')
+<script>
+    $(document).ready(function() {
+        $('#mainTbl').DataTable({
+            processing: true,
+            serverSide: true,
+            destroy: true, // Allow reinitialization
+            ajax: {
+                url: "{{route('pidsr_casechecker_ajax', [request()->input('case')])}}",
+                dataSrc: function (json) {
+                    // Pass data and update pagination metadata
+                    return json.data;
+                }
+            },
+            columns: [
+                { data: 'FullName' },
+                { data: 'AgeYears' , className: 'text-center'},
+                { data: 'Streetpurok' },
+            ],
+            pageLength: 10, // Set page size to match the server
+            serverMethod: 'GET',
+        });
+    });
+</script>
+@else
+<script>
     $('#list_table').dataTable({
         //responsive: true,
         //fixedHeader: true,
@@ -269,4 +313,5 @@
         ],
     });
 </script>
+@endif
 @endsection
