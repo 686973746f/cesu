@@ -82,6 +82,27 @@ class Dengue extends Model
         }
     }
 
+    public function getCaseClassification() {
+        if($this->CaseClassification == 'C') {
+            return 'Confirmed';
+        }
+        else if($this->CaseClassification == 'P') {
+            return 'Probable';
+        }
+        else {
+            return 'Suspected';
+        }
+    }
+
+    public function getOutcome() {
+        if($this->Outcome == 'A') {
+            return 'Alive';
+        }
+        else if($this->Outcome == 'D') {
+            return 'Died';
+        }
+    }
+
     public function ifInsideClusteringDistance() {
         $lat1 = deg2rad($this->sys_coordinate_y);
         $lng1 = deg2rad($this->sys_coordinate_x);

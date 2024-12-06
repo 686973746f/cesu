@@ -26,7 +26,7 @@
         <div class="card-header">
             <div class="d-flex justify-content-between">
                 <div><b>EDCS-IS In-house List of Case Viewer</b></div>
-                <div><a href="{{route('pidsr_case_mapviewer', ['case' => request()->input('case'), 'year' => request()->input('year')])}}" class="btn btn-primary"><i class="fas fa-map-marked-alt mr-2"></i>View Spot Map</a></div>
+                <div><a href="{{route('pidsr_case_mapviewer', ['case' => $case, 'year' => request()->input('year')])}}" class="btn btn-primary"><i class="fas fa-map-marked-alt mr-2"></i>View Spot Map</a></div>
             </div>
         </div>
         <div class="card-body">
@@ -93,7 +93,7 @@
                     </label>
                 </div>
             </form>
-            @if(isset($list))
+            @if(isset($list) || $ajaxMode)
             <hr>
             @if(request()->input('case') == 'MPOX')
             <div class="table-responsive">
@@ -184,22 +184,38 @@
                 </tbody>
             </table>
             @elseif(request()->input('case') == 'DENGUE')
-            <table class="table table-striped table-bordered" id="mainTbl">
-                <thead class="thead-light text-center">
-                    <tr>
-                        <th>Name</th>
-                        <th>Age</th>
-                        <th>Sex</th>
-                        <th>Birthdate</th>
-                        <th>City/Municipality</th>
-                        <th>Barangay</th>
-                        <th>Street/Purok</th>
-                        <th>Disease Reporting Unit</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered" id="mainTbl">
+                    <thead class="thead-light text-center">
+                        <tr>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Sex</th>
+                            <th>Birthdate</th>
+                            <th>City/Municipality</th>
+                            <th>Barangay</th>
+                            <th>Street/Purok</th>
+                            <th>Disease Reporting Unit</th>
+                            <th>Admitted</th>
+                            <th>Date Admitted</th>
+                            <th>Clinical Classification</th>
+                            <th>Case Classification</th>
+                            <th>Outcome</th>
+                            <th>Date Died</th>
+                            <th>Morbidity Week</th>
+                            <th>Morbidity Month</th>
+                            <th>Year</th>
+                            <th>Enabled</th>
+                            <th>Match Case Definition</th>
+                            <th>EPI ID</th>
+                            <th>Created at</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
             @else
             <table class="table table-bordered table-striped table-hover" id="list_table" style="width:100%">
                 <thead class="thead-light text-center">
@@ -289,9 +305,46 @@
                 }
             },
             columns: [
-                { data: 'FullName' },
-                { data: 'AgeYears' , className: 'text-center'},
-                { data: 'Streetpurok' },
+                { data: 'name' },
+                { data: 'age' , className: 'text-center'},
+                { data: 'sex' , className: 'text-center'},
+                { data: 'bdate' , className: 'text-center'},
+                { data: 'city' , className: 'text-center'},
+                { data: 'barangay' , className: 'text-center'},
+                { data: 'street_purok' , className: 'text-center'},
+                { data: 'dru' , className: 'text-center'},
+                { data: 'admitted' , className: 'text-center'},
+                { data: 'date_admitted' , className: 'text-center'},
+                { data: 'clinical_classification' , className: 'text-center'},
+                { data: 'case_classification' , className: 'text-center'},
+                { data: 'outcome' , className: 'text-center'},
+                { data: 'date_died' , className: 'text-center'},
+                { data: 'morbidity_week' , className: 'text-center'},
+                { data: 'morbidity_month' , className: 'text-center'},
+                { data: 'year' , className: 'text-center'},
+                { data: 'enabled' , className: 'text-center'},
+                { data: 'match_casedef' , className: 'text-center'},
+                { data: 'epi_id' , className: 'text-center'},
+                { data: 'encoded_at' , className: 'text-center'},
+                {
+                    data: null,
+                    orderable: false,
+                    searchable: false,
+                    className: 'text-center',
+                    render: function (data, type, row) {
+                        // Render buttons based on condition
+                        if (row.enabled == 1) {
+                            return `
+                                <a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'DEL', 'epi_id' => ${row.epi_id}])}}" class="btn btn-warning mb-3" onclick="return confirm('Proceed to disable? The record will not be listed anymore after processing.')">Disable</a>
+                                <button class="btn btn-success btn-sm activate-btn" data-id="${row.epi_id}">Activate</button>
+                            `;
+                        } else {
+                            return `
+                                <button class="btn btn-success btn-sm activate-btn" data-id="${row.epi_id}">Test</button>
+                            `;
+                        }
+                    }
+                }
             ],
             pageLength: 10, // Set page size to match the server
             serverMethod: 'GET',

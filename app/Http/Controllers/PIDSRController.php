@@ -1208,6 +1208,14 @@ class PIDSRController extends Controller
         if(request()->input('case')) {
             $case = request()->input('case');
             $year = request()->input('year');
+
+            //AJAX MODE
+            if($case == 'DENGUE') {
+                return view('pidsr.casechecker', [
+                    'case' => $case,
+                    'ajaxMode' => true,
+                ]);
+            }
             
             if($case == 'ABD') {
                 $query = Abd::where('year', $year);
@@ -5465,12 +5473,32 @@ class PIDSRController extends Controller
                     ->count();
                 }
                 else {
+                    $brgy_total_cases_m = $modelClass::where('Year', $sel_year)
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('MorbidityWeek', '<=', $sel_week)
+                    ->where('Barangay', $brgy->brgyName)
+                    ->where('Sex', 'M')
+                    ->count();
+
+                    $brgy_total_cases_f = $modelClass::where('Year', $sel_year)
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('MorbidityWeek', '<=', $sel_week)
+                    ->where('Barangay', $brgy->brgyName)
+                    ->where('Sex', 'F')
+                    ->count();
+
+                    $brgy_grand_total_cases = $brgy_total_cases_m + $brgy_total_cases_f;
+
+                    /*
                     $brgy_grand_total_cases = $modelClass::where('Year', $sel_year)
                     ->where('enabled', 1)
                     ->where('match_casedef', 1)
                     ->where('MorbidityWeek', '<=', $sel_week)
                     ->where('Barangay', $brgy->brgyName)
                     ->count();
+                    */
 
                     $brgy_previousyear_total_cases = $modelClass::where('Year', $sel_year-1)
                     ->where('enabled', 1)
@@ -5482,6 +5510,8 @@ class PIDSRController extends Controller
                 $brgy_cases_array[] = [
                     'brgy_name' => $brgy->brgyName,
                     'brgy_last3mw' => $brgy_last3mw,
+                    'brgy_total_cases_m' => $brgy_total_cases_m,
+                    'brgy_total_cases_f' => $brgy_total_cases_f,
                     'brgy_grand_total_cases' => $brgy_grand_total_cases,
                     'brgy_previousyear_total_cases' => $brgy_previousyear_total_cases, 
                     'brgy_mw1' => $brgy_mw1,
@@ -9711,11 +9741,38 @@ class PIDSRController extends Controller
 
         $paginated = $query->paginate($perPage, ['*'], 'page', $page);
 
+        $final_array = [];
+        foreach ($paginated->items() as $d) {
+            $final_array[] = [
+                'name' => $d->getName(),
+                'age' => $d->displayAgeStringToReport(),
+                'sex' => $d->Sex,
+                'bdate' => Carbon::parse($d->DOB)->format('m/d/Y'),
+                'city' => $d->Muncity,
+                'barangay' => $d->Barangay,
+                'street_purok' => $d->getStreetPurok(),
+                'dru' => $d->NameOfDru,
+                'admitted' => ($d->Admitted == 1) ? 'Yes' : 'No',
+                'date_admitted' => ($d->Admitted == 1) ? Carbon::parse($d->DAdmit)->format('m/d/Y') : 'N/A',
+                'clinical_classification' => $d->ClinClass,
+                'case_classification' => $d->getCaseClassification(),
+                'outcome' => $d->getOutcome(),
+                'date_died' => ($d->Outcome == 'D') ? Carbon::parse($d->DateDied)->format('m/d/Y') : 'N/A',
+                'morbidity_week' => $d->MorbidityWeek,
+                'morbidity_month' => $d->MorbidityMonth,
+                'year' => $d->Year,
+                'enabled' => ($d->enabled == 1) ? 'Yes' : 'No',
+                'match_casedef' => ($d->match_casedef == 1) ? 'Yes' : 'No',
+                'epi_id' => $d->EPIID,
+                'encoded_at' => Carbon::parse($d->DateOfEntry)->format('m/d/Y'),
+            ];
+        }
+
         return response()->json([
             'draw' => $r->input('draw'),
             'recordsTotal' => $paginated->total(),
             'recordsFiltered' => $paginated->total(),
-            'data' => $paginated->items(),
+            'data' => $final_array,
         ]);
     }
 }

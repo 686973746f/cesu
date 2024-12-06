@@ -384,8 +384,8 @@
                     <table class="table table-bordered table-sm">
                         <thead class="text-center thead-light">
                             <tr>
-                                <th rowspan="2">Barangays</th>
-                                <th rowspan="2">
+                                <th rowspan="3">Barangays</th>
+                                <th rowspan="3">
                                     <h6><b>MWs</b></h6>
                                     @if($sel_mweek == 1)
                                     <h6><b>1</b></h6>
@@ -395,16 +395,23 @@
                                     <h6><b>{{$sel_mweek-2}}-{{$sel_mweek}}</b></h6>
                                     @endif
                                 </th>
-                                <th colspan="2">MWs 1-52</th>
+                                <th colspan="4">MWs 1-52</th>
                             </tr>
                             <tr>
-                                <th>{{$sel_year}}</th>
-                                <th class="text-muted">{{($sel_year - 1)}}</th>
+                                <th colspan="3">{{$sel_year}}</th>
+                                <th class="text-muted" rowspan="2">{{($sel_year - 1)}}</th>
+                            </tr>
+                            <tr>
+                                <th style="color: blue;">M</th>
+                                <th style="color: violet;">F</th>
+                                <th>T</th>
                             </tr>
                         </thead>
                         <tbody>
                             @php
                             $last3mw_total = 0;
+                            $currentyear_total_m = 0;
+                            $currentyear_total_f = 0;
                             $currentyear_total = 0;
                             $lastyear_total = 0;
                             @endphp
@@ -412,11 +419,15 @@
                             <tr>
                                 <td>{{$b['brgy_name']}}</td>
                                 <td class="text-center" style="{{\App\Http\Controllers\PidsrController::setBgColor($b['brgy_last3mw'])}}">{{$b['brgy_last3mw']}}</td>
+                                <td class="text-center" style="color: blue;">{{$b['brgy_total_cases_m']}}</td>
+                                <td class="text-center" style="color: violet;">{{$b['brgy_total_cases_f']}}</td>
                                 <td class="text-center"><b>{{$b['brgy_grand_total_cases']}}</b></td>
                                 <td class="text-center text-muted">{{$b['brgy_previousyear_total_cases']}}</td>
                             </tr>
                             @php
                             $last3mw_total += $b['brgy_last3mw'];
+                            $currentyear_total_m += $b['brgy_total_cases_m'];
+                            $currentyear_total_f += $b['brgy_total_cases_f'];
                             $currentyear_total += $b['brgy_grand_total_cases'];
                             $lastyear_total += $b['brgy_previousyear_total_cases'];
                             @endphp
@@ -424,6 +435,8 @@
                             <tr class="text-center">
                                 <td><b>TOTAL</b></td>
                                 <td><b>{{$last3mw_total}}</b></td>
+                                <td style="color: blue;"><b>{{$currentyear_total_m}}</b></td>
+                                <td style="color: violet;"><b>{{$currentyear_total_f}}</b></td>
                                 <td><b>{{$currentyear_total}}</b></td>
                                 <td class="text-muted"><b>{{$lastyear_total}}</b></td>
                             </tr>
