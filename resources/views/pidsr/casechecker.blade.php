@@ -188,6 +188,7 @@
                 <table class="table table-striped table-bordered" id="mainTbl">
                     <thead class="thead-light text-center">
                         <tr>
+                            <th>Created at</th>
                             <th>Name</th>
                             <th>Age</th>
                             <th>Sex</th>
@@ -208,7 +209,6 @@
                             <th>Enabled</th>
                             <th>Match Case Definition</th>
                             <th>EPI ID</th>
-                            <th>Created at</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -254,9 +254,9 @@
                                 $epi_id = $l->EPIID;
                             }
                             @endphp 
-                            <a href="{{route('pidsr_viewcif', [$case_name, $epi_id])}}" class="btn btn-primary"><i class="fa fa-file" aria-hidden="true"></i></a>
-                            <a href="{{route('pidsr_casechecker_edit', [$case_name, $epi_id])}}" class="btn btn-secondary"><i class="fa fa-cog" aria-hidden="true"></i></a>
-                            <a href="{{route('pidsr_laboratory_linkedcs')}}?case_id={{$l->edcs_caseid}}&disease={{$case_name}}" class="btn btn-primary"><i class="fa fa-flask" aria-hidden="true"></i></a>
+                            <a href="{{route('pidsr_viewcif', [$case, $epi_id])}}" class="btn btn-primary"><i class="fa fa-file" aria-hidden="true"></i></a>
+                            <a href="{{route('pidsr_casechecker_edit', [$case, $epi_id])}}" class="btn btn-secondary"><i class="fa fa-cog" aria-hidden="true"></i></a>
+                            <a href="{{route('pidsr_laboratory_linkedcs')}}?case_id={{$l->edcs_caseid}}&disease={{$case}}" class="btn btn-primary"><i class="fa fa-flask" aria-hidden="true"></i></a>
                         </td>
                         @foreach($columns as $c)
                         <td>{{mb_strtoupper($l->$c)}}</td>
@@ -298,14 +298,42 @@
             serverSide: true,
             destroy: true, // Allow reinitialization
             ajax: {
-                url: "{{route('pidsr_casechecker_ajax', [request()->input('case')])}}",
+                url: "{{route('pidsr_casechecker_ajax', ['disease' => request()->input('case'), 'year' => request()->input('year')])}}",
                 dataSrc: function (json) {
                     // Pass data and update pagination metadata
                     return json.data;
                 }
             },
             columns: [
-                { data: 'name' },
+                { data: 'encoded_at' , className: 'text-center'},
+                {
+                    data: 'name',
+                    orderable: false,
+                    searchable: false,
+                    render: function (data, type, row) {
+                        let url1 = "{{route('pidsr_viewcif', [$case, 'PLACEHOLDER'])}}";
+                        url1 = url1.replace('PLACEHOLDER', row.epi_id);
+
+                        let url2 = "{{route('pidsr_casechecker_edit', [$case, 'PLACEHOLDER'])}}";
+                        url2 = url2.replace('PLACEHOLDER', row.epi_id);
+
+                        let url3 = "{{route('pidsr_laboratory_linkedcs')}}?case_id=PLACEHOLDER&disease={{$case}}";
+                        url3 = url3.replace('PLACEHOLDER', row.edcs_caseid);
+
+                        return `
+                            <div class="dropdown">
+                            <button class="btn btn-link text-left" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                ${row.name}
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="${url1}">View CIF</a>
+                                <a class="dropdown-item" href="${url2}">Edit</a>
+                                <a class="dropdown-item" href="${url3}">Create Laboratory</a>
+                            </div>
+                            </div>
+                        `;
+                    }
+                },
                 { data: 'age' , className: 'text-center'},
                 { data: 'sex' , className: 'text-center'},
                 { data: 'bdate' , className: 'text-center'},
@@ -325,24 +353,48 @@
                 { data: 'enabled' , className: 'text-center'},
                 { data: 'match_casedef' , className: 'text-center'},
                 { data: 'epi_id' , className: 'text-center'},
-                { data: 'encoded_at' , className: 'text-center'},
                 {
                     data: null,
                     orderable: false,
                     searchable: false,
                     className: 'text-center',
                     render: function (data, type, row) {
+                        let buttons = '';
+
                         // Render buttons based on condition
-                        if (row.enabled == 1) {
-                            return `
-                                <a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'DEL', 'epi_id' => ${row.epi_id}])}}" class="btn btn-warning mb-3" onclick="return confirm('Proceed to disable? The record will not be listed anymore after processing.')">Disable</a>
-                                <button class="btn btn-success btn-sm activate-btn" data-id="${row.epi_id}">Activate</button>
+                        if (row.enabled == 'Yes') {
+                            let url = "{{ route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'DEL', 'epi_id' => 'PLACEHOLDER']) }}";
+                            url = url.replace('PLACEHOLDER', row.epi_id);
+
+                            buttons += `
+                                <a href="${url}" class="btn btn-warning mb-3" onclick="return confirm('Proceed to disable? The record will not be listed anymore after processing.')">Disable</a>
                             `;
                         } else {
-                            return `
-                                <button class="btn btn-success btn-sm activate-btn" data-id="${row.epi_id}">Test</button>
+                            let url = "{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'ENB', 'epi_id' => 'PLACEHOLDER'])}}";
+                            url = url.replace('PLACEHOLDER', row.epi_id);
+
+                            buttons += `
+                                <a href="${url}" class="btn btn-success mb-3" onclick="return confirm('Proceed to enable? The record will return to the official list after processing.')">Enable</a>
                             `;
                         }
+
+                        /*
+                        @if($l->match_casedef == 1)
+                        <a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'NOTMATCH_CASEDEF', 'epi_id' => $epi_id])}}" class="btn btn-secondary" onclick="return confirm('Proceed to enable? The record will be marked as NOT MATCH in Case Definition after processing.')">NOT MATCH in CaseDef</a>
+                        @else
+                        <a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'MATCH_CASEDEF', 'epi_id' => $epi_id])}}" class="btn btn-primary" onclick="return confirm('Proceed to enable? The record will be marked as MATCH in Case Definition after processing.')">MATCH in CaseDef</a>
+                        @endif
+                        */
+
+                        if(row.match_casedef == 'Yes') {
+                            let url = "{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'NOTMATCH_CASEDEF', 'epi_id' => 'PLACEHOLDER'])}}";
+                            url = url.replace('PLACEHOLDER', row.epi_id);
+                        } else {
+                            let url = "{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'MATCH_CASEDEF', 'epi_id' => 'PLACEHOLDER'])}}";
+                            url = url.replace('PLACEHOLDER', row.epi_id);
+                        }
+
+                        return buttons;
                     }
                 }
             ],

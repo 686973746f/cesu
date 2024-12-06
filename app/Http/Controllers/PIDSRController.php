@@ -1452,7 +1452,7 @@ class PIDSRController extends Controller
             return view('pidsr.casechecker', [
                 'list' => $query,
                 'columns' => $columns,
-                'case_name' => $case,
+                'case' => $case,
             ]);
         }
         else {
@@ -9764,6 +9764,7 @@ class PIDSRController extends Controller
                 'enabled' => ($d->enabled == 1) ? 'Yes' : 'No',
                 'match_casedef' => ($d->match_casedef == 1) ? 'Yes' : 'No',
                 'epi_id' => $d->EPIID,
+                'edcs_caseid' => $d->edcs_caseid,
                 'encoded_at' => Carbon::parse($d->DateOfEntry)->format('m/d/Y'),
             ];
         }
