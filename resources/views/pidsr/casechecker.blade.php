@@ -294,6 +294,7 @@
 <script>
     $(document).ready(function() {
         $('#mainTbl').DataTable({
+            dom: 'QBfritp',
             processing: true,
             serverSide: true,
             destroy: true, // Allow reinitialization

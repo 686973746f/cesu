@@ -521,7 +521,9 @@ class EmployeesController extends Controller
         ->first();
 
         if($check) {
-
+            return redirect()->back()
+            ->with('msg', 'Error: Patient already exists in this event. Kindly double check and try again.')
+            ->with('msgtype', 'warning');
         }
         else {
             $c = HertDutyPatient::create($table_params);

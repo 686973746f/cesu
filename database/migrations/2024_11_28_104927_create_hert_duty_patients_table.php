@@ -27,7 +27,7 @@ class CreateHertDutyPatientsTable extends Migration
 
             $table->string('contact_number')->nullable();
             $table->string('street_purok')->nullable();
-            $table->foreignId('address_brgy_code')->constrained('edcs_brgies')->onDelete('cascade');
+            $table->foreignId('address_brgy_code')->nullable()->constrained('edcs_brgies')->onDelete('cascade');
 
             $table->text('chief_complaint');
             $table->string('actions_taken')->nullable();

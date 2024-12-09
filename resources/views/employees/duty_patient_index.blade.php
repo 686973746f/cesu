@@ -7,7 +7,7 @@
             <div class="d-flex justify-content-between">
                 <div><b>List of Patients</b> (Event Name: {{$d->event_name}})</div>
                 <div>
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#newPatient">New Patient</button>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#newPatient">Add Patient</button>
                 </div>
             </div>
         </div>
@@ -39,7 +39,7 @@
                         </td>
                         <td class="text-center">{{$l->age_years}}</td>
                         <td class="text-center">{{$l->sex}}</td>
-                        <td class="text-center">{{$l->brgy->name}}</td>
+                        <td class="text-center">{{($l->address_brgy_code) ? $l->brgy->name : 'N/A'}}</td>
                         <td class="text-center">{{$l->chief_complaint}}</td>
                         <td class="text-center">
                             <div>{{date('M. d, Y h:i A', strtotime($l->created_at))}}</div>
@@ -76,7 +76,7 @@
                         <input type="text" class="form-control" name="fname" id="fname" style="text-transform: uppercase" required>
                     </div>
                     <div class="form-group">
-                        <label for="mname"><b class="text-danger">*</b>Middle Name</label>
+                        <label for="mname">Middle Name</label>
                         <input type="text" class="form-control" name="mname" id="mname" style="text-transform: uppercase">
                     </div>
                     <div class="row">
@@ -125,15 +125,15 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="address_brgy_code"><b class="text-danger">*</b>Barangay</label>
-                                <select class="form-control" name="address_brgy_code" id="address_brgy_code" required disabled>
+                                <label for="address_brgy_code">Barangay</label>
+                                <select class="form-control" name="address_brgy_code" id="address_brgy_code" disabled>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="street_purok"><b class="text-danger">*</b>House No., Street/Purok/Subdivision</label>
-                                <input type="text" class="form-control" id="street_purok" name="street_purok" value="{{old('street_purok')}}" style="text-transform: uppercase;" required>
+                                <label for="street_purok">House No., Street/Purok/Subdivision</label>
+                                <input type="text" class="form-control" id="street_purok" name="street_purok" value="{{old('street_purok')}}" style="text-transform: uppercase;">
                             </div>
                         </div>
                     </div>
@@ -151,8 +151,8 @@
                       <input type="text" class="form-control" name="actions_taken" id="actions_taken" style="text-transform: uppercase">
                     </div>
                     <div class="form-group">
-                        <label for="remarks">Remarks</label>
-                        <input type="text" class="form-control" name="remarks" id="remarks" style="text-transform: uppercase">
+                      <label for="remarks">Remarks</label>
+                      <textarea class="form-control" name="remarks" id="remarks" rows="3"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
