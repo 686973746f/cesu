@@ -196,6 +196,7 @@ class EdcsImport implements WithMultipleSheets, SkipsUnknownSheets
 
             'DENGUE' => new DengueImport(),
             'dengue_view' => new DengueImport(),
+            'dengue_v2' => new DengueV2Import(),
 
             'DIPH' => new DiphImport(),
             'diph_view' => new DiphImport(),
@@ -2004,6 +2005,161 @@ class TyphoidImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 ];
 
                 $model = Typhoid::create($table_params);
+            }
+
+            return $model;
+        }
+    }
+}
+
+class DengueV2Import implements ToModel, WithHeadingRow, WithGroupedHeadingRow
+{
+    public function model(array $row) {
+        if($row['permanentaddresscitymunicipality'] == 'City of General Trias' && $row['permanentaddressprovince'] == 'Cavite' && $row['epiid']) {
+            $birthdate = Carbon::parse(EdcsImport::tDate($row['dob']));
+            $currentDate = Carbon::parse(EdcsImport::tDate($row['timestamp_disease']));
+
+            $getAgeMonths = $birthdate->diffInMonths($currentDate);
+            $getAgeDays = $birthdate->diffInDays($currentDate);
+
+            $hfcode = $row['health_facility_code'];
+            $fac_name = $row['nameofdru'];
+
+            //GET FULL NAME
+            $getFullName = $row['familyname'].', '.$row['firstname'];
+
+            if(!is_null($row['middlename']) && $row['middlename'] != "" && $row['middlename'] != 'N/A' && $row['middlename'] != "NONE") {
+                $getFullName = $getFullName.' '.$row['middlename'];
+            }
+
+            if(!is_null($row['suffixname']) && $row['suffixname'] != "" && $row['suffixname'] != 'N/A' && $row['suffixname'] != "NONE") {
+                $getFullName = $getFullName.' '.$row['suffixname'];
+            }
+
+            //CLASSIFICATION FIX
+            if($row['clinclass'] == 'Dengue Without Warning Signs') {
+                $get_classi = 'NO WARNING SIGNS';
+            }
+            else if($row['clinclass'] == 'Dengue With Warning Signs' || $row['clinclass'] == 'Dengue With Warning ') {
+                $get_classi = 'WITH WARNING SIGNS';
+            }
+            else {
+                $get_classi = mb_strtoupper($row['clinclass']);
+            }
+
+            if(is_null($row['health_facility_code']) || is_null(EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name))) {
+                $getDruRegionText = NULL;
+                $getDruProvinceText = NULL;
+                $getDruMuncityText = NULL;
+
+                $getDruFacilityTypeText = NULL;
+            }
+            else {
+                $getDruRegionText = (!is_null(EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name))) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL;
+                $getDruProvinceText = EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province;
+                $getDruMuncityText = EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity;
+
+                $getDruFacilityTypeText = EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type;
+            }
+
+            $table_params = [
+                'Icd10Code' => 'A90',
+                'RegionOFDrU' => $getDruRegionText,
+                'ProvOfDRU' => $getDruProvinceText,
+                'MuncityOfDRU' => $getDruMuncityText,
+                'DRU' => $getDruFacilityTypeText,
+                'NameOfDru' => $row['nameofdru'],
+                'AddressOfDRU' => NULL,
+                
+                'Region' => '04A',
+                'Province' => 'CAVITE',
+                'Muncity' => 'GENERAL TRIAS',
+                'DateOfEntry' => EdcsImport::tDate($row['timestamp_disease']),
+                
+                'PatientNumber' => $row['patientnumber'],
+                'FirstName' => $row['firstname'],
+                'FamilyName' => $row['familyname'],
+                'FullName' => $getFullName,
+                'AgeYears' => $row['ageyears'],
+                'AgeMons' => $getAgeMonths,
+                'AgeDays' => $getAgeDays,
+                'Sex' => $row['sex'],
+                'DOB' => EdcsImport::tDate($row['dob']),
+                'Admitted' => ($row['admitted'] == 'Y') ? 1 : 0,
+                'DAdmit' => EdcsImport::tDate($row['dadmit']),
+                'DOnset' => EdcsImport::tDate($row['donset']),
+                'Type' => 'DF',
+                'LabTest' => NULL,
+                'LabRes' => NULL,
+                'ClinClass' => $get_classi,
+                'Outcome' => mb_strtoupper(substr($row['outcome'],0,1)),
+                'EPIID' => $row['epiid'],
+                'DateDied' => EdcsImport::tDate($row['datedied']),
+                
+                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp_disease']))->format('n'),
+                'MorbidityWeek' => Carbon::parse(EdcsImport::tDate($row['timestamp_disease']))->format('W'),
+                'AdmitToEntry' => $row['admittoentry'],
+                'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
+                'SentinelSite' => NULL,
+                'DeleteRecord' => NULL,
+                'Year' => Carbon::parse(EdcsImport::tDate($row['timestamp_disease']))->format('Y'),
+                'Recstatus' => NULL,
+                'UniqueKey' => Dengue::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
+                
+                'ILHZ' => 'GENTAMAR',
+                'District' => 6,
+                
+                //'TYPEHOSPITALCLINIC' => $row['verification_level'],
+                'SENT' => 'Y',
+                'ip' => 'N',
+                'ipgroup' => NULL,
+
+                'middle_name' => ($row['middlename'] != '' && !is_null($row['middlename'] && $row['middlename'] != 'NONE' && $row['middlename'] != 'N/A') && $row['middlename'] != 'N/A') ? $row['middlename'] : NULL,
+                'suffix' => ($row['suffixname'] != '' && !is_null($row['suffixname']) && $row['suffixname'] != 'N/A' && $row['suffixname'] != 'NONE') ? $row['suffixname'] : NULL,
+                'edcs_caseid' => $row['case_id'],
+                'edcs_healthFacilityCode' => $row['health_facility_code'],
+                //'edcs_verificationLevel' => $row['verification_level'],
+                'edcs_investigatorName' => isset($row['name_of_investigator']) ? $row['name_of_investigator'] : NULL,
+                'edcs_contactNo' => isset($row['contact_no']) ? $row['contact_no'] : NULL,
+                'edcs_ageGroup' => isset($row['age_group']) ? $row['age_group'] : NULL,
+                'from_edcs' => 1,
+
+                'edcs_userid' => $row['userid'],
+                'edcs_last_modifiedby' => $row['lastmodifiedby'],
+                'edcs_last_modified_date' => EdcsImport::tDate($row['lastmodifieddate']),
+                'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['permanentaddressbarangay']),
+            ];
+
+            $exist_check = Dengue::where('EPIID', $row['epiid'])->first();
+
+            if($exist_check) {
+                $old_modified_date = $exist_check->edcs_last_modified_date;
+                $new_modified_date = EdcsImport::tDate($row['lastmodifieddate']);
+                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
+                    $model = $exist_check->update($table_params);
+                }
+
+                $model = $exist_check;
+            }
+            else {
+                $table_params = $table_params + [
+                    'CaseClassification' => mb_strtoupper(substr($row['caseclassification'],0,1)),
+                    'Streetpurok' => ($row['permanentaddresssitiopurokstreetname'] != '' && !is_null($row['permanentaddresssitiopurokstreetname']) && mb_strtoupper($row['permanentaddresssitiopurokstreetname']) != 'N/A') ? $row['permanentaddresssitiopurokstreetname'] : NULL,
+                    'Barangay' => EdcsImport::brgySetter($row['permanentaddressbarangay']),
+                    'created_by' => auth()->user()->id,
+                ];
+
+                $model = Dengue::create($table_params);
+            }
+
+            //Update Syndromic Record - Mark as Received
+            if(Str::startsWith($row['patientnumber'], 'MPSS_')) { //Mark na galing sa OPD System yung Record
+                $search_id = str_replace('MPSS_', '', $row['patientnumber']);
+
+                $synd_record = SyndromicRecords::where('id', $search_id)->first();
+                if($synd_record) {
+                    $synd_record->addToReceivedEdcsTag('DENGUE');
+                }
             }
 
             return $model;
