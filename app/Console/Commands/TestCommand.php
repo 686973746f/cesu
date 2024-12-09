@@ -2,15 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App\Models\User;
+use Carbon\Carbon;
+use App\Models\Forms;
 use Illuminate\Console\Command;
-use App\Imports\EdcsGeoExportBrgy;
-use App\Imports\EdcsGeoExportCity;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Imports\EdcsGeoExportProvince;
-use IlluminateAgnostic\Collection\Support\Str;
 
-class Test extends Command
+class TestCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -43,6 +39,18 @@ class Test extends Command
      */
     public function handle()
     {
-        
+        $list = Forms::whereYear('morbidityMonth', 2024)->get();
+
+        foreach($list as $d) {
+            $cFromDate = Carbon::parse($d->morbidityMonth);
+
+            $d->morb_week = $cFromDate->format('W');
+            $d->morb_month = $cFromDate->format('n');
+            $d->year = $cFromDate->format('Y');
+
+            if($d->isDirty()) {
+                $d->save();
+            }
+        }
     }
 }

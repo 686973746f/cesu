@@ -1208,6 +1208,14 @@ class PIDSRController extends Controller
         if(request()->input('case')) {
             $case = request()->input('case');
             $year = request()->input('year');
+
+            //AJAX MODE
+            if($case == 'DENGUE') {
+                return view('pidsr.casechecker', [
+                    'case' => $case,
+                    'ajaxMode' => true,
+                ]);
+            }
             
             if($case == 'ABD') {
                 $query = Abd::where('year', $year);
@@ -1382,12 +1390,21 @@ class PIDSRController extends Controller
 
                 $tbl_name = 'monkey_poxes';
             }
+            else if($case == 'COVID') {
+                $query = Forms::where('year', $year);
+            }
 
-            $ctxt = "SHOW COLUMNS FROM $tbl_name";
-            $c = DB::select($ctxt);
-            $columns = array_map(function ($column) {
-                return $column->Field;
-            }, $c);
+            if($case == 'COVID') {
+                $columns = NULL;
+            }
+            else {
+                $ctxt = "SHOW COLUMNS FROM $tbl_name";
+                $c = DB::select($ctxt);
+                $columns = array_map(function ($column) {
+                    return $column->Field;
+                }, $c);
+            }
+            
 
             if($case == 'SARI') {
                 $query = $query->where('muncity', 'GENERAL TRIAS')
@@ -1397,27 +1414,37 @@ class PIDSRController extends Controller
                 $query = $query->where('address_muncity_text', 'GENERAL TRIAS')
                 ->where('address_province_text', 'CAVITE');
             }
+            else if($case == 'COVID') {
+                $query = $query->whereHas('records', function ($q) {
+                    $q->where('address_city', 'GENERAL TRIAS')
+                    ->where('address_province', 'CAVITE');
+                });
+            }
             else {
                 $query = $query->where('Muncity', 'GENERAL TRIAS')
                 ->where('Province', 'CAVITE');
             }
 
-            if(request()->input('showDisabled')) {
-                //$query = $query->whereIn('enabled', [0,1]);
-            }
-            else {
-                $query = $query->where('enabled', 1);
+            if(!request()->input('showDisabled')) {
+                if($case == 'COVID') {
+                    $query = $query->where('status', 'approved');
+                }
+                else {
+                    $query = $query->where('enabled', 1);
+                }
             }
 
-            if(request()->input('showNonMatchCaseDef')) {
-                //$query = $query->whereIn('enabled', [0,1]);
-            }
-            else {
+            if(!request()->input('showNonMatchCaseDef')) {
                 $query = $query->where('match_casedef', 1);
             }
 
             if(request()->input('mw')) {
-                $query = $query->where('encoded_mw', request()->input('mw'));
+                if($case == 'COVID') {
+                    $query = $query->where('morb_week', request()->input('mw'));
+                }
+                else {
+                    $query = $query->where('encoded_mw', request()->input('mw'));
+                }
             }
 
             $query = $query->orderBy('created_at', 'DESC')->get();
@@ -1425,7 +1452,7 @@ class PIDSRController extends Controller
             return view('pidsr.casechecker', [
                 'list' => $query,
                 'columns' => $columns,
-                'case_name' => $case,
+                'case' => $case,
             ]);
         }
         else {
@@ -5446,12 +5473,32 @@ class PIDSRController extends Controller
                     ->count();
                 }
                 else {
+                    $brgy_total_cases_m = $modelClass::where('Year', $sel_year)
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('MorbidityWeek', '<=', $sel_week)
+                    ->where('Barangay', $brgy->brgyName)
+                    ->where('Sex', 'M')
+                    ->count();
+
+                    $brgy_total_cases_f = $modelClass::where('Year', $sel_year)
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('MorbidityWeek', '<=', $sel_week)
+                    ->where('Barangay', $brgy->brgyName)
+                    ->where('Sex', 'F')
+                    ->count();
+
+                    $brgy_grand_total_cases = $brgy_total_cases_m + $brgy_total_cases_f;
+
+                    /*
                     $brgy_grand_total_cases = $modelClass::where('Year', $sel_year)
                     ->where('enabled', 1)
                     ->where('match_casedef', 1)
                     ->where('MorbidityWeek', '<=', $sel_week)
                     ->where('Barangay', $brgy->brgyName)
                     ->count();
+                    */
 
                     $brgy_previousyear_total_cases = $modelClass::where('Year', $sel_year-1)
                     ->where('enabled', 1)
@@ -5463,6 +5510,8 @@ class PIDSRController extends Controller
                 $brgy_cases_array[] = [
                     'brgy_name' => $brgy->brgyName,
                     'brgy_last3mw' => $brgy_last3mw,
+                    'brgy_total_cases_m' => $brgy_total_cases_m,
+                    'brgy_total_cases_f' => $brgy_total_cases_f,
                     'brgy_grand_total_cases' => $brgy_grand_total_cases,
                     'brgy_previousyear_total_cases' => $brgy_previousyear_total_cases, 
                     'brgy_mw1' => $brgy_mw1,
@@ -8191,6 +8240,8 @@ class PIDSRController extends Controller
         $psp_route = route('edcs_barangay_view_list', ['case' => 'Psp', 'year' => $year]);
         $mpox_route = route('edcs_barangay_view_list', ['case' => 'Mpox', 'year' => $year]);
 
+        $covid_route = route('edcs_barangay_view_list', ['case' => 'COVID', 'year' => $year]);
+
         return view('pidsr.barangay.brgy_case_viewer_home', [
             'abd_count' => $abd_count,
             'afp_count' => $afp_count,
@@ -8252,6 +8303,7 @@ class PIDSRController extends Controller
             'meningitis_route' => $meningitis_route,
             'psp_route' => $psp_route,
             'mpox_route' => $mpox_route,
+            'covid_route' => $covid_route,
 
             'abd_count_death' => $abd_count_death,
             'afp_count_death' => $afp_count_death,
@@ -8574,6 +8626,8 @@ class PIDSRController extends Controller
         $psp_route = route('pidsr.casechecker', ['case' => 'PSP', 'year' => $year]);
         $mpox_route = route('pidsr.casechecker', ['case' => 'MPOX', 'year' => $year]);
 
+        $covid_route = route('pidsr.casechecker', ['case' => 'COVID', 'year' => $year]);
+
         return view('pidsr.epdrone_home', [
             'abd_count' => $abd_count,
             'afp_count' => $afp_count,
@@ -8665,6 +8719,7 @@ class PIDSRController extends Controller
             'meningitis_route' => $meningitis_route,
             'psp_route' => $psp_route,
             'mpox_route' => $mpox_route,
+            'covid_route' => $covid_route,
         ]);
     }
 
@@ -9656,5 +9711,69 @@ class PIDSRController extends Controller
         return redirect()->route('export_index')
         ->with('msg', 'TKC .CSV File was successfully uploaded and being imported.')
         ->with('msgtype', 'success');
+    }
+
+    public function ajaxCaseViewerList($case, Request $r) {
+        $final_array = [];
+
+        if(request()->input('year')) {
+            $year = request()->input('year');
+        }
+        else {
+            $year = date('Y');
+        }
+
+        if($case == 'DENGUE') {
+            $query = Dengue::where('Year', $year)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1);
+        }
+
+        $search = $r->input('search.value'); // Search term from DataTables
+
+        if (!empty($search)) {
+            $query->where('FullName', 'LIKE', "%{$search}%");
+        }
+
+        // Handle pagination
+        $page = $r->input('start') / $r->input('length') + 1; // Calculate current page
+        $perPage = $r->input('length', 10);
+
+        $paginated = $query->paginate($perPage, ['*'], 'page', $page);
+
+        $final_array = [];
+        foreach ($paginated->items() as $d) {
+            $final_array[] = [
+                'name' => $d->getName(),
+                'age' => $d->displayAgeStringToReport(),
+                'sex' => $d->Sex,
+                'bdate' => Carbon::parse($d->DOB)->format('m/d/Y'),
+                'city' => $d->Muncity,
+                'barangay' => $d->Barangay,
+                'street_purok' => $d->getStreetPurok(),
+                'dru' => $d->NameOfDru,
+                'admitted' => ($d->Admitted == 1) ? 'Yes' : 'No',
+                'date_admitted' => ($d->Admitted == 1) ? Carbon::parse($d->DAdmit)->format('m/d/Y') : 'N/A',
+                'clinical_classification' => $d->ClinClass,
+                'case_classification' => $d->getCaseClassification(),
+                'outcome' => $d->getOutcome(),
+                'date_died' => ($d->Outcome == 'D') ? Carbon::parse($d->DateDied)->format('m/d/Y') : 'N/A',
+                'morbidity_week' => $d->MorbidityWeek,
+                'morbidity_month' => $d->MorbidityMonth,
+                'year' => $d->Year,
+                'enabled' => ($d->enabled == 1) ? 'Yes' : 'No',
+                'match_casedef' => ($d->match_casedef == 1) ? 'Yes' : 'No',
+                'epi_id' => $d->EPIID,
+                'edcs_caseid' => $d->edcs_caseid,
+                'encoded_at' => Carbon::parse($d->DateOfEntry)->format('m/d/Y'),
+            ];
+        }
+
+        return response()->json([
+            'draw' => $r->input('draw'),
+            'recordsTotal' => $paginated->total(),
+            'recordsFiltered' => $paginated->total(),
+            'data' => $final_array,
+        ]);
     }
 }

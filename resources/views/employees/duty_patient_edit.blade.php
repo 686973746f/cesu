@@ -44,7 +44,7 @@
                         <input type="text" class="form-control" name="fname" id="fname" style="text-transform: uppercase" required>
                     </div>
                     <div class="form-group">
-                        <label for="mname"><b class="text-danger">*</b>Middle Name</label>
+                        <label for="mname">Middle Name</label>
                         <input type="text" class="form-control" name="mname" id="mname" style="text-transform: uppercase">
                     </div>
                     <div class="row">
@@ -93,15 +93,15 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="address_brgy_code"><b class="text-danger">*</b>Barangay</label>
-                                <select class="form-control" name="address_brgy_code" id="address_brgy_code" required disabled>
+                                <label for="address_brgy_code">Barangay</label>
+                                <select class="form-control" name="address_brgy_code" id="address_brgy_code" disabled>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="street_purok"><b class="text-danger">*</b>House No., Street/Purok/Subdivision</label>
-                                <input type="text" class="form-control" id="street_purok" name="street_purok" value="{{old('street_purok')}}" style="text-transform: uppercase;" required>
+                                <label for="street_purok">House No., Street/Purok/Subdivision</label>
+                                <input type="text" class="form-control" id="street_purok" name="street_purok" value="{{old('street_purok')}}" style="text-transform: uppercase;">
                             </div>
                         </div>
                     </div>
