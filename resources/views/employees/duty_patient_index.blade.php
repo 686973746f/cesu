@@ -156,7 +156,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success btn-block">Save</button>
+                    <button type="submit" class="btn btn-success btn-block" id="submitBtn">Save</button>
                 </div>
             </div>
         </div>
@@ -164,8 +164,21 @@
 </form>
 
 <script>
+    $(document).bind('keydown', function(e) {
+        if(e.ctrlKey && (e.which == 83)) {
+            e.preventDefault();
+            $('#submitBtn').trigger('click');
+            $('#submitBtn').prop('disabled', true);
+            setTimeout(function() {
+                $('#submitBtn').prop('disabled', false);
+            }, 2000);
+            return false;
+        }
+    });
+
     $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_code').select2({
         theme: 'bootstrap',
+        dropdownParent: $("#newPatient"),
     });
 
     var regionDefault = 1;
