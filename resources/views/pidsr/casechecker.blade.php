@@ -378,14 +378,6 @@
                             `;
                         }
 
-                        /*
-                        @if($l->match_casedef == 1)
-                        <a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'NOTMATCH_CASEDEF', 'epi_id' => $epi_id])}}" class="btn btn-secondary" onclick="return confirm('Proceed to enable? The record will be marked as NOT MATCH in Case Definition after processing.')">NOT MATCH in CaseDef</a>
-                        @else
-                        <a href="{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'MATCH_CASEDEF', 'epi_id' => $epi_id])}}" class="btn btn-primary" onclick="return confirm('Proceed to enable? The record will be marked as MATCH in Case Definition after processing.')">MATCH in CaseDef</a>
-                        @endif
-                        */
-
                         if(row.match_casedef == 'Yes') {
                             let url = "{{route('pidsr_casechecker_action', ['d' => request()->input('case'), 'action' => 'NOTMATCH_CASEDEF', 'epi_id' => 'PLACEHOLDER'])}}";
                             url = url.replace('PLACEHOLDER', row.epi_id);
