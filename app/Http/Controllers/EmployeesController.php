@@ -292,16 +292,20 @@ class EmployeesController extends Controller
         $d = HertDuty::findOrFail($duty_id);
 
         $duty_qry = Employee::where('employment_status', 'ACTIVE')
-        ->where('duty_canbedeployed', 'Y')
-        ->where(function ($q) {
-            $q->where('duty_canbedeployedagain', 'Y')
-            ->orWhere('duty_completedcycle', 'N');
-        });
+        ->where('duty_canbedeployed', 'Y');
+
+        if(!request()->input('override')) {
+            $duty_qry = $duty_qry->where(function ($q) {
+                $q->where('duty_canbedeployedagain', 'Y')
+                ->orWhere('duty_completedcycle', 'N');
+            });
+        }
 
         $teama_list = (clone $duty_qry)->where('duty_team', 'A')->orderBy('lname', 'ASC')->get();
         $teamb_list = (clone $duty_qry)->where('duty_team', 'B')->orderBy('lname', 'ASC')->get();
         $teamc_list = (clone $duty_qry)->where('duty_team', 'C')->orderBy('lname', 'ASC')->get();
         $teamd_list = (clone $duty_qry)->where('duty_team', 'D')->orderBy('lname', 'ASC')->get();
+        
         
         $current_list = HertDutyMember::with('employee')
         ->where('event_id', $d->id)

@@ -23,6 +23,13 @@
             </div>
             @endif
 
+            @if($d->status == 'CLOSED')
+            <div class="alert alert-primary" role="alert">
+                <h5>This Event was marked as <b class="text-danger">CLOSED</b></h5>
+                <h6>Adding and Updating List of Responders is not allowed anymore.</h6>
+            </div>
+            @endif
+
             <div class="table-responsive">
                 <table class="table table-striped table-bordered" id="dutyListTbl">
                     <thead class="thead-light text-center">
@@ -59,10 +66,14 @@
                             </td>
                             <td class="text-center">{{$c->employee->is_blstrained}}</td>
                             <td class="text-center">
+                                @if($d->status == 'OPEN')
                                 <form action="{{route('duty_removeemployee', [$d->id, $c->id])}}" method="POST">
                                     @csrf
                                     <button type="submit" class="btn btn-danger">X</button>
                                 </form>
+                                @else
+                                <button type="button" class="btn btn-danger" disabled>X</button>
+                                @endif
                             </td>
                         </tr>
                         @endforeach
@@ -167,9 +178,14 @@
                         </optgroup>
                       </select>
                     </div>
+                    @if(request()->input('override'))
+                    <small><b>Override Mode Enabled.</b> Kasama sa listahan lahat kahit ang mga nakapag-duty na sa current cycle. Upang i-reset sa default view, <a href="{{route('duty_view', $d->id)}}" class="text-danger"><b>Pindutin ito</b></a></small>
+                    @else
+                    <small>Ang mga nasa listahan ay ang mga responders na <b>hindi pa na-duty sa current cycle</b>. Kung may nais ulit dumuty kahit tapos na, <a href="{{route('duty_view', $d->id)}}?override=1" class="text-success"><b>Pindutin ito</b></a></small>
+                    @endif
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-success">Add</button>
                 </div>
             </div>
         </div>
