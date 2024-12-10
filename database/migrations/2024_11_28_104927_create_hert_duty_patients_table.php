@@ -30,6 +30,10 @@ class CreateHertDutyPatientsTable extends Migration
             $table->foreignId('address_brgy_code')->nullable()->constrained('edcs_brgies')->onDelete('cascade');
 
             $table->text('chief_complaint');
+            $table->text('other_complains')->nullable();
+            $table->string('bp')->nullable();
+            $table->string('lastmeal_taken')->nullable();
+            $table->string('diagnosis')->nullable();
             $table->string('actions_taken')->nullable();
             $table->text('remarks')->nullable();
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use ZipArchive;
 use App\Models\Nt;
 use Carbon\Carbon;
 use App\Models\Abd;
@@ -30,8 +31,10 @@ use App\Models\Hepatitis;
 use App\Models\Influenza;
 use App\Models\MonkeyPox;
 use App\Models\Rotavirus;
+use App\Models\ExportJobs;
 use App\Models\Meningitis;
 use App\Imports\EdcsImport;
+use App\Jobs\CallTkcImport;
 use App\Models\DohFacility;
 use App\Models\Subdivision;
 use Illuminate\Support\Str;
@@ -39,16 +42,15 @@ use App\Imports\PidsrImport;
 use App\Models\SiteSettings;
 use Illuminate\Http\Request;
 use App\Imports\RabiesImport;
-use App\Imports\TkcExcelImport;
-use App\Jobs\CallEdcsWeeklySubmissionSendEmail;
-use App\Jobs\CallTkcImport;
-use App\Jobs\EdcsWeeklySubmissionSendEmail;
 use App\Models\Leptospirosis;
 use App\Models\PidsrThreshold;
+use App\Imports\TkcExcelImport;
+use App\Jobs\CallEdcsImportJobV2;
 use App\Models\LabResultLogBook;
 use App\Models\SyndromicRecords;
 use App\Models\EdcsLaboratoryData;
 use App\Models\PidsrNotifications;
+use App\Models\SyndromicLabResult;
 use Illuminate\Support\Facades\DB;
 use RebaseData\Converter\Converter;
 use RebaseData\InputFile\InputFile;
@@ -62,12 +64,12 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Session;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use OpenSpout\Common\Entity\Style\Style;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use App\Models\EdcsWeeklySubmissionChecker;
-use App\Models\ExportJobs;
-use App\Models\SevereAcuteRespiratoryInfection;
-use App\Models\SyndromicLabResult;
 use PhpOffice\PhpSpreadsheet\Writer\Csv;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use App\Jobs\EdcsWeeklySubmissionSendEmail;
+use App\Models\EdcsWeeklySubmissionChecker;
+use App\Jobs\CallEdcsWeeklySubmissionSendEmail;
+use App\Models\SevereAcuteRespiratoryInfection;
 
 /*
 ALL TABLES
@@ -9775,5 +9777,101 @@ class PIDSRController extends Controller
             'recordsFiltered' => $paginated->total(),
             'data' => $final_array,
         ]);
+    }
+
+    public function uploadEdcsZipFile(Request $r) {
+        $r->validate([
+            'zip_file' => 'required|file|mimes:zip|max:10240', // Max size: 10MB
+        ]);
+
+        // Get the uploaded ZIP file and folder name
+        $zipFile = $r->file('zip_file');
+        $folderName = date('mdY_his').'_'.Str::random(5);
+
+        $storagePath = storage_path('app/edcs/uploads'); // Make sure the directory exists
+        $zipFilePath = $storagePath . '/' . $zipFile->getClientOriginalName();
+
+        // Move the uploaded ZIP file to the storage path
+        $zipFile->move($storagePath, $zipFile->getClientOriginalName());
+
+        $extractPath = $storagePath . '/' . $folderName;
+        if (!file_exists($extractPath)) {
+            mkdir($extractPath, 0755, true);
+        }
+
+        // Extract files from the ZIP
+        $zip = new ZipArchive;
+        if ($zip->open($zipFilePath) === true) {
+            for ($i = 0; $i < $zip->numFiles; $i++) {
+                $filename = $zip->getNameIndex($i);
+
+                // Skip directories; process only files
+                if (substr($filename, -1) === '/') {
+                    continue;
+                }
+
+                // Get the file's base name (ignore subdirectories)
+                $baseFilename = basename($filename);
+
+                // Define the path to save the file
+                $filePath = $extractPath . '/' . $baseFilename;
+
+                // Ensure the file does not overwrite existing ones by renaming duplicates
+                $counter = 1;
+                $originalFilePath = $filePath;
+                while (file_exists($filePath)) {
+                    $filePath = $extractPath . '/' . pathinfo($baseFilename, PATHINFO_FILENAME) . "_{$counter}." . pathinfo($baseFilename, PATHINFO_EXTENSION);
+                    $counter++;
+                }
+
+                // Extract and save the file
+                $stream = $zip->getStream($filename);
+                if ($stream) {
+                    file_put_contents($filePath, stream_get_contents($stream));
+                    fclose($stream);
+                } else {
+                    return response()->json([
+                        'message' => 'Failed to extract a file from the ZIP.',
+                        'file' => $filename,
+                    ], 500);
+                }
+            }
+            
+            $zip->close();
+
+            // Optionally delete the ZIP file after extraction
+            unlink($zipFilePath);
+
+            if($r->submit == 'daily') {
+                $jobName = 'EDCS-IS Daily Import '.date('M. d, Y');
+            }
+            else {
+                $jobName = 'EDCS-IS Weekly Import '.date('M. d, Y');
+            }
+
+            //Create Import Job ID
+            $c = ExportJobs::create([
+                'name' => $jobName,
+                'for_module' => 'EDCS-IS',
+                'type' => 'IMPORT',
+                'status' => 'pending',
+                'filename' => $folderName,
+                'created_by' => auth()->user()->id,
+                'facility_id' => auth()->user()->itr_facility_id,
+            ]);
+
+            CallEdcsImportJobV2::dispatch($folderName, $c->id, $r->submit);
+
+            /*
+            return response()->json([
+                'message' => 'ZIP file uploaded and files extracted successfully.',
+                'folder' => $folderName,
+            ]);
+            */
+        } else {
+            return response()->json([
+                'message' => 'Failed to open the ZIP file.',
+            ], 500);
+        }
     }
 }

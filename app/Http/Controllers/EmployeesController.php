@@ -482,6 +482,8 @@ class EmployeesController extends Controller
     public function storeDutyPatients($id, Request $r) {
         $lname = mb_strtoupper($r->lname);
         $fname = mb_strtoupper($r->fname);
+
+        $complaint_array = $r->chief_complaint;
         
         $table_params = [
             'lname' => $lname,
@@ -491,12 +493,27 @@ class EmployeesController extends Controller
             'sex' => $r->sex,
 
             'contact_number' => $r->contact_number,
-            'street_purok' => $r->street_purok,
+            'street_purok' => ($r->street_purok) ? mb_strtoupper($r->street_purok) : NULL,
             'address_brgy_code' => $r->address_brgy_code,
-            'chief_complaint' => mb_strtoupper($r->chief_complaint),
-            'actions_taken' => $r->actions_taken,
+            'chief_complaint' => implode(",", $complaint_array),
+            'lastmeal_taken' => $r->lastmeal_taken,
+            'diagnosis' => ($r->diagnosis) ? mb_strtoupper($r->diagnosis) : NULL,
+            'actions_taken' => ($r->actions_taken) ? mb_strtoupper($r->actions_taken) : NULL,
+            
             'remarks' => ($r->remarks) ? mb_strtoupper($r->remarks) : NULL,
         ];
+
+        if(in_array("CHECK BP", $complaint_array)) {
+            $table_params = $table_params + [
+                'bp' => $r->bp1.'/'.$r->bp2,
+            ];
+        }
+
+        if(in_array("OTHERS", $complaint_array)) {
+            $table_params = $table_params + [
+                'other_complains' => mb_strtoupper($r->other_complains),
+            ];
+        }
 
         if(auth()->check()) {
             $d = HertDuty::findOrFail($id);

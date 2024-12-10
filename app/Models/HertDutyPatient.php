@@ -22,7 +22,12 @@ class HertDutyPatient extends Model
         'contact_number',
         'street_purok',
         'address_brgy_code',
+
         'chief_complaint',
+        'other_complains',
+        'bp',
+        'lastmeal_taken',
+        'diagnosis',
         'actions_taken',
         'remarks',
         'created_by',

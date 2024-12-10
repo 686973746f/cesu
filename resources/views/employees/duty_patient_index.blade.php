@@ -61,24 +61,31 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">New Patient</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                    <h5 class="modal-title"><b>New Patient</b></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
                       <label for="lname"><b class="text-danger">*</b>Last Name</label>
                       <input type="text" class="form-control" name="lname" id="lname" style="text-transform: uppercase" required>
                     </div>
-                    <div class="form-group">
-                        <label for="fname"><b class="text-danger">*</b>First Name</label>
-                        <input type="text" class="form-control" name="fname" id="fname" style="text-transform: uppercase" required>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label for="fname"><b class="text-danger">*</b>First Name</label>
+                                <input type="text" class="form-control" name="fname" id="fname" style="text-transform: uppercase" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="mname">Middle Initial</label>
+                                <input type="text" class="form-control" name="mname" id="mname" style="text-transform: uppercase" minlength="1">
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="mname">Middle Name</label>
-                        <input type="text" class="form-control" name="mname" id="mname" style="text-transform: uppercase">
-                    </div>
+
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -142,21 +149,72 @@
                         <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{old('contact_number')}}" pattern="[0-9]{11}" placeholder="09*********">
                     </div>
                     <hr>
-                    <div class="form-group">
-                      <label for="chief_complaint"><b class="text-danger">*</b>Chief Complaint</label>
-                      <input type="text" class="form-control" name="chief_complaint" id="chief_complaint" style="text-transform: uppercase" required>
+                    <div id="chief_complaint_div">
+                        <div class="form-group">
+                            <label for="chief_complaint"><b class="text-danger">*</b>Chief Complaint <i>(Select all that applies)</i></label>
+                            <select class="form-control" name="chief_complaint[]" id="chief_complaint" multiple required>
+                              <option value="PASSED OUT">Passed Out</option>
+                              <option value="FRACTURE">Fracture</option>
+                              <option value="INJURY/WOUND">Injury/Wounds</option>
+                              <option value="FEVER">Fever</option>
+                              <option value="DIZZINESS">Dizziness</option>
+                              <option value="HEADACHE">Headache</option>
+                              <option value="STOMACH PAIN">Stomach Pain</option>
+                              <option value="VOMITING">Vomiting</option>
+                              <option value="SEIZURE">Seizure</option>
+                              <option value="DIFFICULTY OF BREATHING">Difficulty Of Breathing</option>
+                              <option value="CHECK BP">Check Blood Pressure (BP)</option>
+                              <option value="OTHERS">Others</option>
+                            </select>
+                          </div>
+                    </div>
+                    <div id="ifCheckBP" class="d-none">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="bp1"><b class="text-danger">*</b>Systolic</label>
+                                    <input type="number" class="form-control" name="bp1" id="bp1" min="1" max="300">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="bp2"><b class="text-danger">*</b>Diastolic</label>
+                                    <input type="number" class="form-control" name="bp2" id="bp2" min="1" max="300">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="ifOthers" class="d-none">
+                        <div class="form-group">
+                            <label for="other_complains"><b class="text-danger">*</b>List Other Complaints</label>
+                            <input type="text" class="form-control" name="other_complains" id="other_complains" style="text-transform: uppercase">
+                        </div>
                     </div>
                     <div class="form-group">
-                      <label for="actions_taken">Actions Taken/Recommendations</label>
-                      <input type="text" class="form-control" name="actions_taken" id="actions_taken" style="text-transform: uppercase">
+                      <label for="lastmeal_taken"><b class="text-danger">*</b>Last Meal Taken</label>
+                      <select class="form-control" name="lastmeal_taken" id="lastmeal_taken" required>
+                        <option value="" disabled {{(is_null(old('lastmeal_taken'))) ? 'selected' : ''}}>Choose...</option>
+                        <option value="BREAKFAST">Breakfast</option>
+                        <option value="LUNCH">Lunch</option>
+                        <option value="PM SNACK">PM Snack</option>
+                        <option value="DINNFER">Dinner</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="diagnosis">Diagnosis</label>
+                        <input type="text" class="form-control" name="diagnosis" id="diagnosis" style="text-transform: uppercase">
+                    </div>
+                    <div class="form-group">
+                        <label for="actions_taken">Actions Taken/Meds Given</label>
+                        <textarea class="form-control" name="actions_taken" id="actions_taken" rows="3" style="text-transform: uppercase">{{old('actions_taken')}}</textarea>
                     </div>
                     <div class="form-group">
                       <label for="remarks">Remarks</label>
-                      <textarea class="form-control" name="remarks" id="remarks" rows="3"></textarea>
+                      <textarea class="form-control" name="remarks" id="remarks" rows="2" style="text-transform: uppercase">{{old('remarks')}}</textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success btn-block" id="submitBtn">Save</button>
+                    <button type="submit" class="btn btn-success btn-block" id="submitBtn">Save (CTRL + S)</button>
                 </div>
             </div>
         </div>
@@ -176,10 +234,34 @@
         }
     });
 
-    $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_code').select2({
+    $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_code, #chief_complaint').select2({
         theme: 'bootstrap',
-        dropdownParent: $("#newPatient"),
+        dropdownParent: $("#chief_complaint_div"),
     });
+
+    $('#chief_complaint').change(function (e) { 
+        e.preventDefault();
+        
+        let selectedValues = $(this).val();
+
+        if (selectedValues && selectedValues.includes('CHECK BP')) {
+            $('#ifCheckBP').removeClass('d-none');
+            $('#bp1').prop('required', true);
+            $('#bp2').prop('required', true);
+        } else {
+            $('#ifCheckBP').addClass('d-none');
+            $('#bp1').prop('required', false);
+            $('#bp2').prop('required', false);
+        }
+
+        if (selectedValues && selectedValues.includes('OTHERS')) {
+            $('#ifOthers').removeClass('d-none');
+            $('#other_complains').prop('required', true);
+        } else {
+            $('#ifOthers').addClass('d-none');
+            $('#other_complains').prop('required', false);
+        }
+    }).trigger('change');
 
     var regionDefault = 1;
     var provinceDefault = 18;

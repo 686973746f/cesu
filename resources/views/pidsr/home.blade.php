@@ -46,6 +46,7 @@
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#snax">sNaX v2</button>
                     <a href="{{route('edcs_disease_summary_view')}}" class="btn btn-primary btn-block">Weekly Summary of Notifiable Diseases</a>
                     <hr>
+                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#zipexport">EDCS Importer Tool V2</button>
                     @if(auth()->user()->isGlobalAdmin() && $unlockweeklyreport)
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#dailyexport">EDCS-IS Daily Import</button>
                     @endif
@@ -345,6 +346,31 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success btn-block">Start Merging</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<form action="{{route('edcs_importv2')}}" method="POST" enctype="multipart/form-data">
+    @csrf
+    <div class="modal fade" id="zipexport" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">EDCS-IS Import Tool v2</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                      <label for="zip_file"><b class="text-danger">*</b>Select .ZIP File downloaded from EDCS-IS</label>
+                      <input type="file" class="form-control-file" name="zip_file" id="zip_file" accept=".zip" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-block" name="submit" value="daily">Start Merging</button>
                 </div>
             </div>
         </div>
