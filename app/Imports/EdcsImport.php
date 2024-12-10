@@ -1310,7 +1310,7 @@ class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
             //Check Case Definition
             if(!is_null($row['date_onset'])) {
-                if($row['cough'] == 'Yes' || $row['runny_nosecoryza'] == 'Yes' || $row['red_eyes_conjunctivitis'] == 'Yes') {
+                if($row['cough'] == 'Y' || $row['runny_nosecoryza'] == 'Y' || $row['red_eyes_conjunctivitis'] == 'Y') {
                     $match_casedef = 1;
                 }
                 else {
