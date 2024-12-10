@@ -686,7 +686,7 @@ class AmesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'Muncity' => 'GENERAL TRIAS',
                 'NHTS' => NULL,
                 'Admitted' => ($row['patient_admitted'] == 'Yes') ? 1 : 0,
-                'DAdmit' => EdcsImport::tDate($row['date_admitted_font_stylecolorred_font']),
+                'DAdmit' => (isset($row['date_admitted_font_stylecolorred_font'])) ? EdcsImport::tDate($row['date_admitted_font_stylecolorred_font']) : EdcsImport::tDate($row['date_admitted']),
                 'DOnset' => EdcsImport::tDate($row['date_onse_of_illness']),
                 'DateRep' => EdcsImport::tDate($row['timestamp']),
                 'DateInv' => EdcsImport::tDate($row['date_of_investigation']),
