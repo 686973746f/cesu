@@ -794,7 +794,9 @@ foreach($classification_titles as $ind => $ctitle) {
             datasets: [{
                 label: "My Chart",
                 data: pieDatas,
-                //backgroundColor: ['rgba(148,55,52,255)', 'rgba(119,146,61,255)', 'rgba(166,167,167,255)']
+                @if(!is_null($classification_colors))
+                backgroundColor: {!! json_encode($classification_colors) !!},
+                @endif
             }]
         },
 

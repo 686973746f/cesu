@@ -5544,12 +5544,14 @@ class PIDSRController extends Controller
             $classification_counts = [];
             $confirmed_titles = [];
             $current_confirmed_grand_total = 0;
+            $classification_colors = NULL;
 
             if($sel_disease == 'Dengue') {
                 $ccstr = 'CaseClassification';
 
                 $classification_titles = ['S', 'P', 'C'];
                 $confirmed_titles = ['C'];
+                $classification_colors = ['rgba(115, 115, 115, 1)', 'rgba(255, 178, 0, 1)', 'rgba(255, 0, 0, 1)'];
                 
                 /*
                 $ccsuspected_str = 'S';
@@ -6345,6 +6347,7 @@ class PIDSRController extends Controller
                 'threemws_total' => $threemws_total,
                 'classification_titles' => $classification_titles,
                 'classification_counts' => $classification_counts,
+                'classification_colors' => $classification_colors,
                 'mWeekCalendarDate' => $mWeekCalendarDate,
                 'startDateBasedOnMw' => $startDateBasedOnMw,
                 'endDateBasedOnMw' => $endDateBasedOnMw,
