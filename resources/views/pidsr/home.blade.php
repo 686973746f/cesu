@@ -46,7 +46,9 @@
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#snax">sNaX v2</button>
                     <a href="{{route('edcs_disease_summary_view')}}" class="btn btn-primary btn-block">Weekly Summary of Notifiable Diseases</a>
                     <hr>
-                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#zipexport">EDCS Importer Tool V2</button>
+                    <!--
+                        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#zipexport">EDCS Importer Tool V2</button>
+                    -->
                     @if(auth()->user()->isGlobalAdmin() && $unlockweeklyreport)
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#dailyexport">EDCS-IS Daily Import</button>
                     @endif
@@ -352,6 +354,7 @@
     </div>
 </form>
 
+<!--
 <form action="{{route('edcs_importv2')}}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="modal fade" id="zipexport" tabindex="-1" role="dialog">
@@ -376,6 +379,7 @@
         </div>
     </div>
 </form>
+-->
 
 @if($unlockweeklyreport || request()->input('override'))
 <div class="modal fade" id="export" tabindex="-1" role="dialog">
