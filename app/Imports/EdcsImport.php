@@ -1286,6 +1286,7 @@ class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 {
     public function model(array $row) {
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite') {
+            dd($row);
             $birthdate = Carbon::parse(EdcsImport::tDate($row['date_of_birth']));
             $currentDate = Carbon::parse(EdcsImport::tDate($row['timestamp']));
 
@@ -1309,7 +1310,7 @@ class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             $match_casedef = 1;
 
             //Check Case Definition
-            if(!is_null($row['date_onset'][0]) && !is_null($row['date_onset'][1])) {
+            if(!is_null($row['date_onset'])) {
                 if($row['cough'] == 'Yes' || $row['runny_nosecoryza'] == 'Yes' || $row['red_eyes_conjunctivitis'] == 'Yes') {
                     $match_casedef = 1;
                 }
