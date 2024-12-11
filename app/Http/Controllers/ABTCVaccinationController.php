@@ -1795,4 +1795,78 @@ class ABTCVaccinationController extends Controller
             ->with('msgtype', 'warning');
         }
     }
+
+    public function printPhilhealthForms($record_id, Request $r) {
+        $d = AbtcBakunaRecords::findOrFail($record_id);
+        header("Content-type: application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+        header("Content-Disposition: attachment; filename=PHILHEALTH.docx");
+
+        $bodyparts_arr = explode(",", $d->body_site);
+
+        if($r->submit == 'card') {
+            $templateProcessor  = new TemplateProcessor(storage_path('ABTC_PHILHEALTH_CARD.docx'));
+            $templateProcessor->setValue('case_id', $d->case_id);
+            $templateProcessor->setValue('created_at', Carbon::parse($d->created_at)->format('m/d/Y'));
+
+            $templateProcessor->setValue('philhealth_pin', $d->patient->philhealth);
+            $templateProcessor->setValue('get_name', $d->patient->getName());
+            $templateProcessor->setValue('address', $d->patient->getAddressMini());
+            $templateProcessor->setValue('age', $d->patient->getAgeInt().' y.o');
+            $templateProcessor->setValue('bdate', Carbon::parse($d->patient->bdate)->format('m/d/Y'));
+            $templateProcessor->setValue('sex', $d->patient->sg());
+            $templateProcessor->setValue('weight', $d->weight.' kg');
+
+            $templateProcessor->setValue('cat', $d->category_level);
+            $templateProcessor->setValue('bite_date', Carbon::parse($d->bite_date)->format('m/d/Y'));
+            $templateProcessor->setValue('d0_date', Carbon::parse($d->d0_date)->format('m/d/Y'));
+
+            $templateProcessor->setValue('fhead', (in_array('HEAD', $bodyparts_arr)) ? '✔' : ' ');
+            $templateProcessor->setValue('fop', (!in_array('HEAD', $bodyparts_arr)) ? '✔' : ' ');
+            $templateProcessor->setValue('fop_specify', (!in_array('HEAD', $bodyparts_arr)) ? $d->body_site : '');
+            $templateProcessor->setValue('fdg', ($d->animal_type == 'D' || $d->animal_type == 'PD' || $d->animal_type == 'SD') ? '✔' : ' ');
+            $templateProcessor->setValue('fct', ($d->animal_type == 'C' || $d->animal_type == 'PC' || $d->animal_type == 'SC') ? '✔' : ' ');
+            $templateProcessor->setValue('fot', ($d->animal_type == 'O') ? '✔' : '');
+            $templateProcessor->setValue('fot_sp', ($d->animal_type == 'O') ? $d->animal_type_others : '');
+
+            $templateProcessor->setValue('d3_date', Carbon::parse($d->d3_date)->format('m/d/Y'));
+            $templateProcessor->setValue('d7_date', Carbon::parse($d->d7_date)->format('m/d/Y'));
+            $templateProcessor->setValue('d28_date', Carbon::parse($d->d28_date)->format('m/d/Y'));
+            $templateProcessor->setValue('erig_date', ($d->category_level == 3) ? Carbon::parse($d->rig_date_given)->format('m/d/Y') : '');
+
+            $templateProcessor->setValue('ficd1', ($d->philhealthGetIcdCode() == 'T14.1 W54') ? '✔' : '');
+            $templateProcessor->setValue('ficd2', ($d->philhealthGetIcdCode() == 'T14.1 W55') ? '✔' : '');
+
+            
+        }
+        else if($r->submit == 'cf2') {
+            $templateProcessor  = new TemplateProcessor(storage_path('ABTC_PHILHEALTH_CF2.docx'));
+            
+            $templateProcessor->setValue('lname', $d->patient->lname);
+            $templateProcessor->setValue('fname', $d->patient->fname);
+            $templateProcessor->setValue('suffix', $d->patient->suffix ?: 'N/A');
+            $templateProcessor->setValue('mname', $d->patient->lname ?: 'N/A');
+
+            $templateProcessor->setValue('date_admitted', Carbon::parse($d->d0_date)->format('m   d   Y'));
+
+            $templateProcessor->setValue('body_site', $d->body_site);
+            $templateProcessor->setValue('cat', $d->category_level);
+            $templateProcessor->setValue('animal', $d->getSource());
+            $templateProcessor->setValue('icd10', $d->philhealthGetIcdCode());
+
+            $templateProcessor->setValue('d0_date', Carbon::parse($d->d0_date)->format('m/d/Y'));
+            $templateProcessor->setValue('d3_date', Carbon::parse($d->d3_date)->format('m/d/Y'));
+            $templateProcessor->setValue('d7_date', Carbon::parse($d->d7_date)->format('m/d/Y'));
+            $templateProcessor->setValue('d28_date', Carbon::parse($d->d28_date)->format('m/d/Y'));
+            $templateProcessor->setValue('erig_date', ($d->category_level == 3) ? Carbon::parse($d->rig_date_given)->format('m/d/Y') : '');
+            
+            $templateProcessor->setValue('others', '');
+
+            $templateProcessor->setValue('get_name', $d->patient->getNameFormal());
+        }
+        else {
+
+        }
+
+        $templateProcessor->saveAs('php://output');
+    }
 }

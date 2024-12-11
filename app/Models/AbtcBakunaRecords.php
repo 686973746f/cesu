@@ -675,10 +675,10 @@ class AbtcBakunaRecords extends Model
     }
 
     public function icsGetAnimalType() {
-        if($this->animal_type == 'PD' || $this->animal_type == 'SD') {
+        if($this->animal_type == 'D' || $this->animal_type == 'PD' || $this->animal_type == 'SD') {
             return 'DOG';
         }
-        else if($this->animal_type == 'PC' || $this->animal_type == 'SC') {
+        else if($this->animal_type == 'C' || $this->animal_type == 'PC' || $this->animal_type == 'SC') {
             return 'CAT';
         }
         else {
@@ -736,6 +736,15 @@ class AbtcBakunaRecords extends Model
             else {
                 return false;
             }
+        }
+    }
+
+    public function philhealthGetIcdCode() {
+        if($this->animal_type == 'PD' || $this->animal_type == 'D' || $this->animal_type == 'SD') {
+            return 'T14.1 W54';
+        }
+        else {
+            return 'T14.1 W55';
         }
     }
 }

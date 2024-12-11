@@ -584,6 +584,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     Route::get('/abtc/encode/new/{id}', [ABTCVaccinationController::class, 'create_new'])->name('abtc_encode_create_new');
     Route::post('/abtc/encode/new/{id}', [ABTCVaccinationController::class, 'create_store'])->name('abtc_encode_store');
     Route::get('/abtc/encode/print/{id}', [ABTCVaccinationController::class, 'print_view'])->name('abtc_print_view');
+    Route::post('/abtc/encode/print/{id}/philhealth_forms', [ABTCVaccinationController::class, 'printPhilhealthForms'])->name('abtc_print_philhealth');
     Route::get('/abtc/encode/print/new/{id}', [ABTCVaccinationController::class, 'newprint'])->name('abtc_print_new'); //Card
 
     Route::get('/abtc/encode/edit/{br_id}', [ABTCVaccinationController::class, 'encode_edit'])->name('abtc_encode_edit');
@@ -619,6 +620,8 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     Route::get('/abtc/remaining_pt', [ABTCVaccinationController::class, 'remainingPt'])->name('abtc_remainingpt');
 
     Route::post('/abtc/qpd28/{id}', [ABTCVaccinationController::class, 'quickFinishDay28'])->name('abtc_quickprocessd28');
+
+    
 });
 
 //FHSIS

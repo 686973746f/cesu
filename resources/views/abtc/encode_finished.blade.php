@@ -30,8 +30,16 @@
             <div class="card">
                 <div class="card-header">
                     <div id="printDiv">
-                        <a href="{{route('abtc_print_new', $f->id)}}" type="button" class="btn btn-primary btn-block" id="printnew">PRINT NEW CARD</a>
-                        <button type="button" class="btn btn-primary btn-block" onclick="window.print()" id="printbtn"><i class="fas fa-print mr-2"></i>PRINT</button>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <a href="{{route('abtc_print_new', $f->id)}}" type="button" class="btn btn-primary btn-block" id="printnew">Print (New Card)</a>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#philhealthForms">Print PhilHealth Forms</button>
+                            </div>
+                        </div>
+                        
+                        <button type="button" class="btn btn-primary btn-block" onclick="window.print()" id="printbtn"><i class="fas fa-print mr-2"></i>Print (Old Form)</button>
                         <hr>
                         <div class="d-flex justify-content-between">
                             <div><a href="{{route('abtc_schedule_index')}}" class="btn btn-link"><i class="fas fa-calendar-alt mr-2"></i>Back to Todays Schedule</a></div>
@@ -204,6 +212,26 @@
         </div>
     </div>
 </div>
+
+<form action="{{route('abtc_print_philhealth', $f->id)}}" method="POST">
+    @csrf
+    <div class="modal fade" id="philhealthForms" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Print Philhealth Forms</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <button type="submit" class="btn btn-primary btn-block" name="submit" value="card">Card</button>
+                    <button type="submit" class="btn btn-primary btn-block" name="submit" value="cf2">CF2</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 
 <script>
     @if(request()->input('t'))
