@@ -225,8 +225,41 @@
                         </button>
                 </div>
                 <div class="modal-body">
+                    <div class="alert alert-primary" role="alert">
+                        <h5>Paki-handa na po sa pasyente ang kopya ng kanyang <b>Philhealth Member Data Record (MDR)</b>, <b>Valid ID</b>, at <b>Philhealth Benefit Eligibility Form</b></h5>
+                    </div>
+                    @if(!$f->patient->philhealth)
+                    <div class="form-group">
+                        <label for="philhealth" class="form-label">Philhealth Identification No. (PIN)</label>
+                        <input type="text" class="form-control" id="philhealth" name="philhealth" value="{{old('philhealth')}}" pattern="[0-9]{12}" required>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="status_type">Philhealth Status Type</label>
+                      <select class="form-control" name="philhealth_statustype" id="philhealth_statustype" required>
+                        <option value="" disalbed {{(is_null(old('status_type'))) ? 'selected' : ''}}>Choose...</option>
+                        <option value="MEMBER">Member</option>
+                        <option value="DEPENDENT">Dependent</option>
+                      </select>
+                    </div>
+                    <div id="ifDependentDiv" class="d-none">
+
+                    </div>
+                    <div class="form-group">
+                        <label for="status_type">Philhealth Status Type</label>
+                        <select class="form-control" name="philhealth_statustype" id="philhealth_statustype" required>
+                          <option value="" disalbed {{(is_null(old('status_type'))) ? 'selected' : ''}}>Choose...</option>
+                          <option value="MEMBER">Member</option>
+                          <option value="DEPENDENT">Dependent</option>
+                        </select>
+                    </div>
+                    @endif
+                    <hr>
                     <button type="submit" class="btn btn-primary btn-block" name="submit" value="card">Card</button>
+                    <button type="submit" class="btn btn-primary btn-block" name="submit" value="csf">CSF</button>
                     <button type="submit" class="btn btn-primary btn-block" name="submit" value="cf2">CF2</button>
+                    <button type="submit" class="btn btn-primary btn-block" name="submit" value="soa">SOA</button>
+
                 </div>
             </div>
         </div>
@@ -239,5 +272,15 @@
             $('#printnew').click();
         });
     @endif
+
+    $('#philhealth_statustype').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'MEMBER') {
+
+        }
+        else {
+
+        }
+    }).trigger('change');
 </script>
 @endsection

@@ -1859,9 +1859,72 @@ class ABTCVaccinationController extends Controller
             $templateProcessor->setValue('d28_date', Carbon::parse($d->d28_date)->format('m/d/Y'));
             $templateProcessor->setValue('erig_date', ($d->category_level == 3) ? Carbon::parse($d->rig_date_given)->format('m/d/Y') : '');
             
-            $templateProcessor->setValue('others', '');
+            $templateProcessor->setValue('others', 'TETANUS TOXOID');
 
             $templateProcessor->setValue('get_name', $d->patient->getNameFormal());
+        }
+        else if($r->submit == 'soa') {
+            $templateProcessor  = new TemplateProcessor(storage_path('ABTC_PHILHEALTH_SOA.docx'));
+
+            $templateProcessor->setValue('name', $d->patient->getName());
+            $templateProcessor->setValue('address', $d->patient->getAddressMini());
+            $templateProcessor->setValue('d0_date', Carbon::parse($d->d0_date)->format('m/d/Y'));
+            $templateProcessor->setValue('icd10', $d->philhealthGetIcdCode());
+
+            $templateProcessor->setValue('body_site', $d->body_site);
+
+            $templateProcessor->setValue('name_formal', $d->patient->getNameFormal());
+            $templateProcessor->setValue('patient_contact', $d->patient->contact_number);
+
+            $templateProcessor->setValue('diagnosis', $d->body_site.','.$d->getSource().' BITE, CATEGORY '.$d->category_level);
+
+            if($d->vaccination_site_id == 1) {
+                $templateProcessor->setValue('vaccinator', 'MELINDA R. PAMULAYA, RN');
+                $templateProcessor->setValue('vacc_contact', '0935 297 6887');
+            }
+            else if($d->vaccination_site_id == 2) {
+                $templateProcessor->setValue('vaccinator', 'MINNIE L. SALAZAR, RN');
+                $templateProcessor->setValue('vacc_contact', '');
+            }
+            else {
+                return dd('Default Vaccinator Name was not initialized yet on this facility.');
+            }
+
+            $check_condition = false;
+
+            if($d->patient->is_seniorcitizen == 'Y') {
+                $templateProcessor->setValue('c3', '✔');
+
+                $check_condition = true;
+            }
+            else {
+                $templateProcessor->setValue('c3', ' ');
+            }
+
+            if($d->patient->is_indg == 'Y') {
+                $templateProcessor->setValue('c2', '✔');
+
+                $check_condition = true;
+            }
+            else {
+                $templateProcessor->setValue('c2', ' ');
+            }
+
+            if($d->patient->is_nhts == 'Y' || $d->patient->is_4ps == 'Y') {
+                $templateProcessor->setValue('c4', '✔');
+
+                $check_condition = true;
+            }
+            else {
+                $templateProcessor->setValue('c4', ' ');
+            }
+
+            if(!$check_condition) {
+                $templateProcessor->setValue('c1', '✔');
+            }
+            else {
+                $templateProcessor->setValue('c1', ' ');
+            }
         }
         else {
 

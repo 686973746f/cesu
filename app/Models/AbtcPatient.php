@@ -428,4 +428,13 @@ class AbtcPatient extends Model
             return '';
         }
     }
+
+    public function isSeniorCitizen() {
+        if($this->getAgeInt() >= 60) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }

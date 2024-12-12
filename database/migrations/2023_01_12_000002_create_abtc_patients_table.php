@@ -29,6 +29,7 @@ class CreateAbtcPatientsTable extends Migration
             $table->string('is_pregnant', 1)->default('N');
             $table->string('contact_number')->nullable();
             $table->string('philhealth')->nullable();
+            $table->string('philhealth_statustype')->nullable();
 
             $table->text('address_region_code');
             $table->text('address_region_text');
@@ -49,6 +50,22 @@ class CreateAbtcPatientsTable extends Migration
             $table->string('is_singleparent', 1)->default('N');
             $table->string('is_others', 1)->default('N');
             $table->string('is_others_specify')->nullable();
+
+            $table->string('linkphilhealth_lname')->nullable();
+            $table->string('linkphilhealth_fname')->nullable();
+            $table->string('linkphilhealth_mname')->nullable();
+            $table->string('linkphilhealth_suffix')->nullable();
+            $table->string('linkphilhealth_sex', 1)->nullable();
+            $table->date('linkphilhealth_bdate')->nullable();
+            $table->string('linkphilhealth_phnumber')->nullable();
+            $table->string('linkphilhealth_relationship')->nullable();
+
+            $table->string('linkphilhealth_hasjob', 1)->default('N');
+            $table->string('linkphilhealth_businessname')->nullable();
+            $table->string('linkphilhealth_pen')->nullable();
+            $table->string('linkphilhealth_contactno')->nullable();
+            $table->string('linkphilhealth_employer_name')->nullable();
+            $table->string('linkphilhealth_employer_position')->nullable();
             
             $table->text('remarks')->nullable();
             $table->text('qr');
