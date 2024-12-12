@@ -100,11 +100,11 @@
                     </div>
                 </div>
                 <div class="card mt-3">
-                    <div class="card-header bg-success text-white"><b>ABTC to iClinicSys Tickets</b> - Total: {{$open_abtclist->total()}}</div>
+                    <div class="card-header bg-success text-white"><b>ABTC to iClinicSys Tickets</b> - Total: {{$open_abtclist->count()}}</div>
                     <div class="card-body">
                         @if($open_abtclist->count() != 0)
                         <div class="table-responsive">
-                            <table class="table table-bordered table-striped">
+                            <table class="table table-bordered table-striped" id="abtcTable">
                                 <thead class="thead-light text-center">
                                     <tr>
                                         <th>
@@ -113,6 +113,7 @@
                                         </th>
                                         <th>Name</th>
                                         <th>Age/Sex</th>
+                                        <th>Category</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -125,6 +126,7 @@
                                         </td>
                                         <td>{{$d->patient->getName()}}</td>
                                         <td class="text-center">{{$d->patient->getAge()}}/{{$d->patient->sg()}}</td>
+                                        <td class="text-center">{{$d->category_level}}</td>
                                         <td class="text-center">
                                             <form action="{{route('task_grab', [
                                                 'ticket_id' => $d->id,
@@ -147,4 +149,8 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $('#abtcTable').dataTable();
+    </script>
 @endsection

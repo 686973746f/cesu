@@ -43,7 +43,7 @@ class TaskController extends Controller
         ->whereNull('ics_grabbedby')
         ->whereDate('created_at', '>=', '2024-10-01')
         ->orderBy('created_at', 'DESC')
-        ->paginate(10);
+        ->get();
         
         return view('tasks.index', [
             'open_worklist' => $open_worklist,
