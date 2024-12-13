@@ -228,38 +228,97 @@
                     <div class="alert alert-primary" role="alert">
                         <h5>Paki-handa na po sa pasyente ang kopya ng kanyang <b>Philhealth Member Data Record (MDR)</b>, <b>Valid ID</b>, at <b>Philhealth Benefit Eligibility Form</b></h5>
                     </div>
-                    @if(!$f->patient->philhealth)
                     <div class="form-group">
-                        <label for="philhealth" class="form-label">Philhealth Identification No. (PIN)</label>
-                        <input type="text" class="form-control" id="philhealth" name="philhealth" value="{{old('philhealth')}}" pattern="[0-9]{12}" required>
-                    </div>
-
-                    <div class="form-group">
-                      <label for="status_type">Philhealth Status Type</label>
-                      <select class="form-control" name="philhealth_statustype" id="philhealth_statustype" required>
-                        <option value="" disalbed {{(is_null(old('status_type'))) ? 'selected' : ''}}>Choose...</option>
-                        <option value="MEMBER">Member</option>
-                        <option value="DEPENDENT">Dependent</option>
-                      </select>
-                    </div>
-                    <div id="ifDependentDiv" class="d-none">
-
-                    </div>
-                    <div class="form-group">
-                        <label for="status_type">Philhealth Status Type</label>
+                        <label for="status_type"><b class="text-danger">*</b>Philhealth Membership Type</label>
                         <select class="form-control" name="philhealth_statustype" id="philhealth_statustype" required>
-                          <option value="" disalbed {{(is_null(old('status_type'))) ? 'selected' : ''}}>Choose...</option>
-                          <option value="MEMBER">Member</option>
-                          <option value="DEPENDENT">Dependent</option>
+                          <option value="" disalbed {{(is_null(old('philhealth_statustype'))) ? 'selected' : ''}}>Choose...</option>
+                          <option value="MEMBER" {{(old('philhealth_statustype', $f->patient->philhealth_statustype) == 'MEMBER') ? 'selected' : ''}}>Member</option>
+                          <option value="DEPENDENT" {{(old('philhealth_statustype', $f->patient->philhealth_statustype) == 'DEPENDENT') ? 'selected' : ''}}>Dependent</option>
                         </select>
                     </div>
+                    @if(!$f->patient->philhealth)
+                    <div class="form-group">
+                        <label for="philhealth" class="form-label"><b class="text-danger">*</b>Input Philhealth Number (PIN) of the Patient</label>
+                        <input type="text" class="form-control" id="philhealth" name="philhealth" value="{{old('philhealth', $f->patient->philhealth)}}" pattern="[0-9]{12}" required>
+                    </div>
                     @endif
+                    
+                    <div id="ifDependentDiv" class="d-none">
+                        <hr>
+                        <div class="alert alert-info" role="alert">
+                            Please input the Personal Details of the Member where the Patient was Declared as Dependent on their Philhealth Account (ex. Mother, Father)
+                        </div>
+                        <div class="form-group">
+                            <label for="linkphilhealth_lname"><b class="text-danger">*</b>Last Name of Philhealth Member</label>
+                            <input type="text" class="form-control" id="linkphilhealth_lname" name="linkphilhealth_lname" value="{{old('linkphilhealth_lname', $f->patient->linkphilhealth_lname)}}" minlength="2" maxlength="50" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
+                        </div>
+                        <div class="form-group">
+                            <label for="linkphilhealth_fname"><b class="text-danger">*</b>First Name of Philhealth Member</label>
+                            <input type="text" class="form-control" id="linkphilhealth_fname" name="linkphilhealth_fname" value="{{old('linkphilhealth_fname', $f->patient->linkphilhealth_fname)}}" minlength="2" maxlength="50" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
+                        </div>
+                        <div class="form-group">
+                            <label for="linkphilhealth_mname"><b class="text-danger">*</b>Middle Name of Philhealth Member</label>
+                            <input type="text" class="form-control" id="linkphilhealth_mname" name="linkphilhealth_mname" value="{{old('linkphilhealth_mname', $f->patient->linkphilhealth_mname)}}" minlength="2" maxlength="50" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ/]+">
+                            <i><small>(Type <span class="text-danger">N/A</span> if Not Applicable)</small></i>
+                        </div>
+                        <div class="form-group">
+                            <label for="suffix"><b class="text-danger">*</b>Name Extension of Philhealth Member</label>
+                            <select class="form-control" name="suffix" id="suffix">
+                              <option value="" disabled {{is_null(old('suffix', $f->patient->linkphilhealth_suffix)) ? 'selected' : ''}}>Choose...</option>
+                              <option value="I" {{(old('suffix', $f->patient->linkphilhealth_suffix) == 'I') ? 'selected' : ''}}>I</option>
+                              <option value="II" {{(old('suffix', $f->patient->linkphilhealth_suffix) == 'II') ? 'selected' : ''}}>II</option>
+                              <option value="III" {{(old('suffix', $f->patient->linkphilhealth_suffix) == 'III') ? 'selected' : ''}}>III</option>
+                              <option value="IV" {{(old('suffix', $f->patient->linkphilhealth_suffix) == 'IV') ? 'selected' : ''}}>IV</option>
+                              <option value="V" {{(old('suffix', $f->patient->linkphilhealth_suffix) == 'V') ? 'selected' : ''}}>V</option>
+                              <option value="VI" {{(old('suffix', $f->patient->linkphilhealth_suffix) == 'VI') ? 'selected' : ''}}>VI</option>
+                              <option value="VII" {{(old('suffix', $f->patient->linkphilhealth_suffix) == 'VII') ? 'selected' : ''}}>VII</option>
+                              <option value="VIII" {{(old('suffix', $f->patient->linkphilhealth_suffix) == 'VIII') ? 'selected' : ''}}>VIII</option>
+                              <option value="JR" {{(old('suffix', $f->patient->linkphilhealth_suffix) == 'JR') ? 'selected' : ''}}>JR</option>
+                              <option value="JR II" {{(old('suffix', $f->patient->linkphilhealth_suffix) == 'JR II') ? 'selected' : ''}}>JR II</option>
+                              <option value="SR" {{(old('suffix', $f->patient->linkphilhealth_suffix) == 'SR') ? 'selected' : ''}}>SR</option>
+                              <option value="N/A" {{(old('suffix', $f->patient->linkphilhealth_suffix) == 'N/A') ? 'selected' : ''}}>N/A (NOT APPLICABLE)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="linkphilhealth_bdate"><span class="text-danger font-weight-bold">*</span>Birthdate</label>
+                            <input type="date" class="form-control" id="linkphilhealth_bdate" name="linkphilhealth_bdate" value="{{old('linkphilhealth_bdate', $f->patient->linkphilhealth_bdate)}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('-21 Days'))}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="linkphilhealth_sex"><b class="text-danger">*</b>Gender of Philhealth Member</label>
+                            <select class="form-control" name="linkphilhealth_sex" id="linkphilhealth_sex">
+                                <option value="" disabled {{is_null(old('suffix', $f->patient->linkphilhealth_suffix)) ? 'selected' : ''}}>Choose...</option>
+                                <option value="M" {{(old('linkphilhealth_sex', $f->patient->linkphilhealth_sex) == 'M') ? 'selected' : ''}}>Male</option>
+                                <option value="F" {{(old('linkphilhealth_sex', $f->patient->linkphilhealth_sex) == 'F') ? 'selected' : ''}}>Female</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="linkphilhealth_phnumber" class="form-label"><b class="text-danger">*</b>Philhealth Number (PIN) of the Member</label>
+                            <input type="text" class="form-control" id="linkphilhealth_phnumber" name="linkphilhealth_phnumber" value="{{old('linkphilhealth_phnumber', $f->patient->linkphilhealth_phnumber)}}" pattern="[0-9]{12}">
+                        </div>
+                        <div class="form-group">
+                            <label for="linkphilhealth_relationship"><b class="text-danger">*</b>Relationship to the Patient</label>
+                            <select class="form-control" name="linkphilhealth_relationship" id="linkphilhealth_relationship">
+                                <option value="" disabled {{is_null(old('suffix', $f->patient->linkphilhealth_relationship)) ? 'selected' : ''}}>Choose...</option>
+                                <option value="CHILD" {{(old('linkphilhealth_relationship', $f->patient->linkphilhealth_relationship) == 'CHILD') ? 'selected' : ''}}>Child (Anak)</option>
+                                <option value="PARENT" {{(old('linkphilhealth_relationship', $f->patient->linkphilhealth_relationship) == 'PARENT') ? 'selected' : ''}}>Parent (Magulang)</option>
+                                <option value="SPOUSE" {{(old('linkphilhealth_relationship', $f->patient->linkphilhealth_relationship) == 'SPOUSE') ? 'selected' : ''}}>Spouse (Asawa)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <label for="linkphilhealth_businessname"><span id="employerNameSpan"></span></label>
+                        <input type="text" class="form-control" id="linkphilhealth_businessname" name="linkphilhealth_businessname" value="{{old('linkphilhealth_businessname', $f->patient->linkphilhealth_businessname)}}" minlength="5" maxlength="200" style="text-transform: uppercase;">
+                    </div>
+                    <div class="form-group">
+                        <label for="linkphilhealth_pen"><span id="penSpan"></span></label>
+                        <input type="text" class="form-control" id="linkphilhealth_pen" name="linkphilhealth_pen" value="{{old('linkphilhealth_pen', $f->patient->linkphilhealth_pen)}}" pattern="[0-9]{20}">
+                    </div>
                     <hr>
                     <button type="submit" class="btn btn-primary btn-block" name="submit" value="card">Card</button>
                     <button type="submit" class="btn btn-primary btn-block" name="submit" value="csf">CSF</button>
                     <button type="submit" class="btn btn-primary btn-block" name="submit" value="cf2">CF2</button>
                     <button type="submit" class="btn btn-primary btn-block" name="submit" value="soa">SOA</button>
-
                 </div>
             </div>
         </div>
@@ -275,11 +334,33 @@
 
     $('#philhealth_statustype').change(function (e) { 
         e.preventDefault();
-        if($(this).val() == 'MEMBER') {
+        if($(this).val() == 'MEMBER' || $(this).val() == '') {
+            $('#ifDependentDiv').addClass('d-none');
+            $('#employerNameSpan').text('Name of Workplace/Business');
+            $('#penSpan').text('Business/Workplace Philhealth Employer Number (PEN)');
 
+            $('#linkphilhealth_lname').prop('required', false);
+            $('#linkphilhealth_fname').prop('required', false);
+            $('#linkphilhealth_mname').prop('required', false);
+            $('#linkphilhealth_suffix').prop('required', false);
+            $('#linkphilhealth_sex').prop('required', false);
+            $('#linkphilhealth_bdate').prop('required', false);
+            $('#linkphilhealth_phnumber').prop('required', false);
+            $('#linkphilhealth_relationship').prop('required', false);
         }
-        else {
+        else if($(this).val() == 'DEPENDENT') {
+            $('#ifDependentDiv').removeClass('d-none');
+            $('#employerNameSpan').text('Name of Workplace/Business of Philhealth Member');
+            $('#penSpan').text('Business/Workplace Philhealth Employer Number (PEN) of Philhealth Member');
 
+            $('#linkphilhealth_lname').prop('required', true);
+            $('#linkphilhealth_fname').prop('required', true);
+            $('#linkphilhealth_mname').prop('required', true);
+            $('#linkphilhealth_suffix').prop('required', true);
+            $('#linkphilhealth_sex').prop('required', true);
+            $('#linkphilhealth_bdate').prop('required', true);
+            $('#linkphilhealth_phnumber').prop('required', true);
+            $('#linkphilhealth_relationship').prop('required', true);
         }
     }).trigger('change');
 </script>
