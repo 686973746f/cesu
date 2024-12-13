@@ -54,6 +54,9 @@ class Employee extends Model
 
         'prc_license_no',
         'tin_no',
+        'philhealth_pan',
+
+        'abtc_vaccinator_branch',
 
         'emp_access_list',
 

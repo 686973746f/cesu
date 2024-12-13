@@ -80,16 +80,22 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="prc_license_no">PRC License Number (If Applicable)</label>
                             <input type="text" class="form-control" name="prc_license_no" id="prc_license_no" value="{{old('prc_license_no', $d->prc_license_no)}}" style="text-transform: uppercase;">
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="tin_no">TIN Number</label>
                             <input type="text" class="form-control" name="tin_no" id="tin_no" value="{{old('tin_no', $d->tin_no)}}" style="text-transform: uppercase;">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="philhealth_pan">Philhealth Accreditation Number (PAN)</label>
+                            <input type="text" class="form-control" name="philhealth_pan" id="philhealth_pan" value="{{old('philhealth_pan', $d->philhealth_pan)}}" pattern="[0-9]{12}">
                         </div>
                     </div>
                 </div>
@@ -245,6 +251,15 @@
                               <option value="C" {{(old('duty_team', $d->duty_team) == 'C') ? 'selected' : ''}}>Team C</option>
                               <option value="D" {{(old('duty_team', $d->duty_team) == 'D') ? 'selected' : ''}}>Team D</option>
                             </select>
+                        </div>
+                        <div class="form-group">
+                          <label for="abtc_vaccinator_branch">ABTC Vaccination Branch</label>
+                          <select class="form-control" name="abtc_vaccinator_branch" id="abtc_vaccinator_branch">
+                            <option value="" {{(is_null(old('abtc_vaccinator_branch', $d->abtc_vaccinator_branch))) ? 'selected' : ''}}>N/A</option>
+                            @foreach($atbc_branch_list as $a)
+                            <option value="{{$a->id}}" {{(old('abtc_vaccinator_branch', $d->abtc_vaccinator_branch) == $a->id) ? 'selected' : ''}}>{{$a->site_name}}</option>
+                            @endforeach
+                          </select>
                         </div>
                     </div>
                 </div>

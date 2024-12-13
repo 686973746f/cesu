@@ -47,6 +47,22 @@ class AbtcPatient extends Model
         'is_others',
         'is_others_specify',
 
+        'linkphilhealth_lname',
+        'linkphilhealth_fname',
+        'linkphilhealth_mname',
+        'linkphilhealth_suffix',
+        'linkphilhealth_sex',
+        'linkphilhealth_bdate',
+        'linkphilhealth_phnumber',
+        'linkphilhealth_relationship',
+
+        'linkphilhealth_hasjob',
+        'linkphilhealth_businessname',
+        'linkphilhealth_pen',
+        'linkphilhealth_contactno',
+        'linkphilhealth_employer_name',
+        'linkphilhealth_employer_position',
+
         'remarks',
         'qr',
 

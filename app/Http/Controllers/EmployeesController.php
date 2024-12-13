@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AbtcVaccinationSite;
 use App\Models\Employee;
 use App\Models\HertDuty;
 use App\Models\DutyCycle;
@@ -48,8 +49,9 @@ class EmployeesController extends Controller
             'gender' => $r->gender,
             'bdate' => $r->bdate ?: NULL,
             'contact_number' => $r->contact_number ?: NULL,
-            'prc_license_no' => ($r->prc_license_no) ? mb_strtoupper($r->prc_license_no) : NULL,
-            'tin_no' => ($r->tin_no) ? mb_strtoupper($r->tin_no) : NULL,
+            'prc_license_no' => $r->prc_license_no,
+            'tin_no' => $r->tin_no,
+            'philhealth_pan' => $r->philhealth_pan,
             'weight_kg' => $r->weight_kg,
             'height_cm' => $r->height_cm,
             'shirt_size' => $r->shirt_size,
@@ -83,6 +85,7 @@ class EmployeesController extends Controller
             'duty_canbedeployedagain' => $r->duty_canbedeployedagain,
             'duty_team' => $r->duty_team,
             'duty_completedcycle' => 'N',
+            'abtc_vaccinator_branch' => $r->abtc_vaccinator_branch,
             'created_by' => auth()->user()->id,
 
             'emp_access_list' => (!is_null($r->emp_access_list)) ? implode(",", $r->emp_access_list) : NULL,
@@ -101,11 +104,13 @@ class EmployeesController extends Controller
 
     public function newOrEdit(Employee $record, $mode) {
         $emp_access_list = Employee::getEmpAccessList();
+        $atbc_branch_list = AbtcVaccinationSite::where('enabled', 1)->get();
 
         return view('employees.new_or_edit', [
             'd' => $record,
             'mode' => $mode,
             'emp_access_list' => $emp_access_list,
+            'atbc_branch_list' => $atbc_branch_list,
         ]);
     }
 
@@ -134,8 +139,9 @@ class EmployeesController extends Controller
             'gender' => $r->gender,
             'bdate' => $r->bdate ?: NULL,
             'contact_number' => $r->contact_number ?: NULL,
-            'prc_license_no' => ($r->prc_license_no) ? mb_strtoupper($r->prc_license_no) : NULL,
-            'tin_no' => ($r->tin_no) ? mb_strtoupper($r->tin_no) : NULL,
+            'prc_license_no' => $r->prc_license_no,
+            'tin_no' => $r->tin_no,
+            'philhealth_pan' => $r->philhealth_pan,
             'weight_kg' => $r->weight_kg,
             'height_cm' => $r->height_cm,
             'shirt_size' => $r->shirt_size,
@@ -168,6 +174,7 @@ class EmployeesController extends Controller
             'duty_canbedeployed' => $r->duty_canbedeployed,
             'duty_canbedeployedagain' => $r->duty_canbedeployedagain,
             'duty_team' => $r->duty_team,
+            'abtc_vaccinator_branch' => $r->abtc_vaccinator_branch,
             //'duty_completedcycle' => 'N',
             //'created_by' => auth()->user()->id,
             'updated_by' => auth()->user()->id,

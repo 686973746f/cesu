@@ -65,7 +65,7 @@ class CreateEmployeesTable extends Migration
 
             $table->string('prc_license_no')->nullable();
             $table->string('tin_no')->nullable();
-            $table->string('philhealt_pan')->nullable();
+            $table->string('philhealth_pan')->nullable();
 
             $table->foreignId('abtc_vaccinator_branch')->nullable()->constrained('users')->onDelete('cascade');
 
