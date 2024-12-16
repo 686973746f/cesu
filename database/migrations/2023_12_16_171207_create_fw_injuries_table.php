@@ -26,6 +26,7 @@ class CreateFwInjuriesTable extends Migration
             $table->string('suffix')->nullable();
             $table->date('bdate');
             $table->string('gender');
+            $table->string('is_4ps', 1)->default('N');
 
             $table->string('contact_number')->nullable();
             $table->string('contact_number2')->nullable();

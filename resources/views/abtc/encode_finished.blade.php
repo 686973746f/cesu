@@ -262,21 +262,21 @@
                             <i><small>(Type <span class="text-danger">N/A</span> if Not Applicable)</small></i>
                         </div>
                         <div class="form-group">
-                            <label for="suffix"><b class="text-danger">*</b>Name Extension of Philhealth Member</label>
-                            <select class="form-control" name="suffix" id="suffix">
-                              <option value="" disabled {{is_null(old('suffix', $f->patient->linkphilhealth_suffix)) ? 'selected' : ''}}>Choose...</option>
-                              <option value="I" {{(old('suffix', $f->patient->linkphilhealth_suffix) == 'I') ? 'selected' : ''}}>I</option>
-                              <option value="II" {{(old('suffix', $f->patient->linkphilhealth_suffix) == 'II') ? 'selected' : ''}}>II</option>
-                              <option value="III" {{(old('suffix', $f->patient->linkphilhealth_suffix) == 'III') ? 'selected' : ''}}>III</option>
-                              <option value="IV" {{(old('suffix', $f->patient->linkphilhealth_suffix) == 'IV') ? 'selected' : ''}}>IV</option>
-                              <option value="V" {{(old('suffix', $f->patient->linkphilhealth_suffix) == 'V') ? 'selected' : ''}}>V</option>
-                              <option value="VI" {{(old('suffix', $f->patient->linkphilhealth_suffix) == 'VI') ? 'selected' : ''}}>VI</option>
-                              <option value="VII" {{(old('suffix', $f->patient->linkphilhealth_suffix) == 'VII') ? 'selected' : ''}}>VII</option>
-                              <option value="VIII" {{(old('suffix', $f->patient->linkphilhealth_suffix) == 'VIII') ? 'selected' : ''}}>VIII</option>
-                              <option value="JR" {{(old('suffix', $f->patient->linkphilhealth_suffix) == 'JR') ? 'selected' : ''}}>JR</option>
-                              <option value="JR II" {{(old('suffix', $f->patient->linkphilhealth_suffix) == 'JR II') ? 'selected' : ''}}>JR II</option>
-                              <option value="SR" {{(old('suffix', $f->patient->linkphilhealth_suffix) == 'SR') ? 'selected' : ''}}>SR</option>
-                              <option value="N/A" {{(old('suffix', $f->patient->linkphilhealth_suffix) == 'N/A') ? 'selected' : ''}}>N/A (NOT APPLICABLE)</option>
+                            <label for="linkphilhealth_suffix"><b class="text-danger">*</b>Name Extension of Philhealth Member</label>
+                            <select class="form-control" name="linkphilhealth_suffix" id="linkphilhealth_suffix">
+                              <option value="" disabled {{is_null(old('linkphilhealth_suffix', $f->patient->linkphilhealth_suffix)) ? 'selected' : ''}}>Choose...</option>
+                              <option value="I" {{(old('linkphilhealth_suffix', $f->patient->linkphilhealth_suffix) == 'I') ? 'selected' : ''}}>I</option>
+                              <option value="II" {{(old('linkphilhealth_suffix', $f->patient->linkphilhealth_suffix) == 'II') ? 'selected' : ''}}>II</option>
+                              <option value="III" {{(old('linkphilhealth_suffix', $f->patient->linkphilhealth_suffix) == 'III') ? 'selected' : ''}}>III</option>
+                              <option value="IV" {{(old('linkphilhealth_suffix', $f->patient->linkphilhealth_suffix) == 'IV') ? 'selected' : ''}}>IV</option>
+                              <option value="V" {{(old('linkphilhealth_suffix', $f->patient->linkphilhealth_suffix) == 'V') ? 'selected' : ''}}>V</option>
+                              <option value="VI" {{(old('linkphilhealth_suffix', $f->patient->linkphilhealth_suffix) == 'VI') ? 'selected' : ''}}>VI</option>
+                              <option value="VII" {{(old('linkphilhealth_suffix', $f->patient->linkphilhealth_suffix) == 'VII') ? 'selected' : ''}}>VII</option>
+                              <option value="VIII" {{(old('linkphilhealth_suffix', $f->patient->linkphilhealth_suffix) == 'VIII') ? 'selected' : ''}}>VIII</option>
+                              <option value="JR" {{(old('linkphilhealth_suffix', $f->patient->linkphilhealth_suffix) == 'JR') ? 'selected' : ''}}>JR</option>
+                              <option value="JR II" {{(old('linkphilhealth_suffix', $f->patient->linkphilhealth_suffix) == 'JR II') ? 'selected' : ''}}>JR II</option>
+                              <option value="SR" {{(old('linkphilhealth_suffix', $f->patient->linkphilhealth_suffix) == 'SR') ? 'selected' : ''}}>SR</option>
+                              <option value="N/A" {{(old('linkphilhealth_suffix', $f->patient->linkphilhealth_suffix) == 'N/A') ? 'selected' : ''}}>N/A (NOT APPLICABLE)</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -286,7 +286,7 @@
                         <div class="form-group">
                             <label for="linkphilhealth_sex"><b class="text-danger">*</b>Gender of Philhealth Member</label>
                             <select class="form-control" name="linkphilhealth_sex" id="linkphilhealth_sex">
-                                <option value="" disabled {{is_null(old('suffix', $f->patient->linkphilhealth_suffix)) ? 'selected' : ''}}>Choose...</option>
+                                <option value="" disabled {{is_null(old('linkphilhealth_sex', $f->patient->linkphilhealth_suffix)) ? 'selected' : ''}}>Choose...</option>
                                 <option value="M" {{(old('linkphilhealth_sex', $f->patient->linkphilhealth_sex) == 'M') ? 'selected' : ''}}>Male</option>
                                 <option value="F" {{(old('linkphilhealth_sex', $f->patient->linkphilhealth_sex) == 'F') ? 'selected' : ''}}>Female</option>
                             </select>
@@ -298,7 +298,7 @@
                         <div class="form-group">
                             <label for="linkphilhealth_relationship"><b class="text-danger">*</b>Relationship to the Patient</label>
                             <select class="form-control" name="linkphilhealth_relationship" id="linkphilhealth_relationship">
-                                <option value="" disabled {{is_null(old('suffix', $f->patient->linkphilhealth_relationship)) ? 'selected' : ''}}>Choose...</option>
+                                <option value="" disabled {{is_null(old('linkphilhealth_relationship', $f->patient->linkphilhealth_relationship)) ? 'selected' : ''}}>Choose...</option>
                                 <option value="CHILD" {{(old('linkphilhealth_relationship', $f->patient->linkphilhealth_relationship) == 'CHILD') ? 'selected' : ''}}>Child (Anak)</option>
                                 <option value="PARENT" {{(old('linkphilhealth_relationship', $f->patient->linkphilhealth_relationship) == 'PARENT') ? 'selected' : ''}}>Parent (Magulang)</option>
                                 <option value="SPOUSE" {{(old('linkphilhealth_relationship', $f->patient->linkphilhealth_relationship) == 'SPOUSE') ? 'selected' : ''}}>Spouse (Asawa)</option>
@@ -315,10 +315,10 @@
                         <input type="text" class="form-control" id="linkphilhealth_pen" name="linkphilhealth_pen" value="{{old('linkphilhealth_pen', $f->patient->linkphilhealth_pen)}}" pattern="[0-9]{20}">
                     </div>
                     <hr>
-                    <button type="submit" class="btn btn-primary btn-block" name="submit" value="card">Card</button>
-                    <button type="submit" class="btn btn-primary btn-block" name="submit" value="csf">CSF</button>
-                    <button type="submit" class="btn btn-primary btn-block" name="submit" value="cf2">CF2</button>
-                    <button type="submit" class="btn btn-primary btn-block" name="submit" value="soa">SOA</button>
+                    <button type="submit" class="btn btn-primary btn-block" name="submit" value="card">Print ABTC Card</button>
+                    <button type="submit" class="btn btn-primary btn-block" name="submit" value="csf">Print CSF</button>
+                    <button type="submit" class="btn btn-primary btn-block" name="submit" value="cf2">Print CF2</button>
+                    <button type="submit" class="btn btn-primary btn-block" name="submit" value="soa">Print SOA</button>
                 </div>
             </div>
         </div>

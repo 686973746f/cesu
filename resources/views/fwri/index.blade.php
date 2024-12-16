@@ -64,7 +64,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="suffix">Suffix <i>(If Applicable)</i></label>
+                                        <label for="suffix">Name Extension <i>(If Applicable)</i></label>
                                         <input type="text" class="form-control" name="suffix" id="suffix" value="{{old('suffix')}}" minlength="2" maxlength="3" placeholder="JR, SR, III, IV" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
                                     </div>
                                 </div>
@@ -72,19 +72,35 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="bdate"><b class="text-danger">*</b>Birthdate</label>
+                                        <label for="bdate"><b class="text-danger">*</b>Date of Birth</label>
                                         <input type="date" class="form-control" name="bdate" id="bdate" value="{{old('bdate')}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="gender"><span class="text-danger font-weight-bold">*</span>Sex</label>
-                                          <select class="form-control" name="gender" id="gender" required>
-                                              <option value="" disabled {{(is_null(old('gender'))) ? 'selected' : ''}}>Choose...</option>
-                                              <option value="MALE" {{(old('gender') == 'MALE') ? 'selected' : ''}}>Male</option>
-                                              <option value="FEMALE" {{(old('gender') == 'FEMALE') ? 'selected' : ''}}>Female</option>
-                                          </select>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="gender"><span class="text-danger font-weight-bold">*</span>Gender</label>
+                                                <select class="form-control" name="gender" id="gender" required>
+                                                    <option value="" disabled {{(is_null(old('gender'))) ? 'selected' : ''}}>Choose...</option>
+                                                    <option value="MALE" {{(old('gender') == 'MALE') ? 'selected' : ''}}>Male</option>
+                                                    <option value="FEMALE" {{(old('gender') == 'FEMALE') ? 'selected' : ''}}>Female</option>
+                                                </select>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                            <label for="is_4ps"><span class="text-danger font-weight-bold">*</span>4P's Member?</label>
+                                                <select class="form-control" name="is_4ps" id="is_4ps" required>
+                                                    <option value="" disabled {{(is_null(old('is_4ps'))) ? 'selected' : ''}}>Choose...</option>
+                                                    <option value="Y" {{(old('is_4ps') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                                    <option value="N" {{(old('is_4ps') == 'N') ? 'selected' : ''}}>No</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
+                                    
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -388,6 +404,7 @@
                                             <option value="TREATED AND SENT HOME" {{(old('disposition_after_consultation') == 'TREATED AND SENT HOME') ? 'selected' : ''}}>TREATED AND SENT HOME</option>
                                             <option value="ADMITTED" {{(old('disposition_after_consultation') == 'ADMITTED') ? 'selected' : ''}}>ADMITTED</option>
                                             <option value="REFUSED ADMISSION" {{(old('disposition_after_consultation') == 'REFUSED ADMISSION') ? 'selected' : ''}}>REFUSED ADMISSION</option>
+                                            <option value="ABSCONDED" {{(old('disposition_after_consultation') == 'ABSCONDED') ? 'selected' : ''}}>ABSCONDED</option>
                                             <option value="TRANSFERRED TO ANOTHER HOSPITAL" {{(old('disposition_after_consultation') == 'TRANSFERRED TO ANOTHER HOSPITAL') ? 'selected' : ''}}>TRANSFERRED TO ANOTHER HOSPITAL</option>
                                             <option value="ER DEATH" {{(old('disposition_after_consultation') == 'ER DEATH') ? 'selected' : ''}}>ER DEATH</option>
                                             <option value="DEAD ON ARRIVAL (DOA)" {{(old('disposition_after_consultation') == 'DEAD ON ARRIVAL (DOA)') ? 'selected' : ''}}>DEAD ON ARRIVAL (DOA)</option>
@@ -405,11 +422,11 @@
                                     <label for="disposition_after_admission"><span class="text-danger font-weight-bold">*</span>Disposition after admission</label>
                                         <select class="form-control" name="disposition_after_admission" id="disposition_after_admission" required>
                                             <option value="" disabled {{(is_null(old('disposition_after_admission'))) ? 'selected' : ''}}>Choose...</option>
-                                            <option value="DISCHARGED IMPROVED" {{(old('disposition_after_admission') == 'DISCHARGED IMPROVED') ? 'selected' : ''}} id="da_option1">DISCHARGED IMPROVED</option>
+                                            <option value="DISCHARGED" {{(old('disposition_after_admission') == 'DISCHARGED') ? 'selected' : ''}} id="da_option1">DISCHARGED</option>
+                                            <option value="ABSCONDED" {{(old('disposition_after_admission') == 'ABSCONDED') ? 'selected' : ''}} id="da_option3">ABSCONDED</option>
                                             <option value="HOME AGAINST MEDICAL ADVICE (HAMA)" {{(old('disposition_after_admission') == 'HOME AGAINST MEDICAL ADVICE (HAMA)') ? 'selected' : ''}} id="da_option2">HOME AGAINST MEDICAL ADVICE (HAMA)</option>
-                                            <option value="ABSCONDED" {{(old('disposition_after_admission') == 'ABSCONDED') ? 'selected' : ''}} id="da_option3">ABSCONDED/UMALIS</option>
                                             <option value="TRANSFERRED TO ANOTHER HOSPITAL" {{(old('disposition_after_admission') == 'TRANSFERRED TO ANOTHER HOSPITAL') ? 'selected' : ''}} id="da_option4">TRANSFERRED TO ANOTHER HOSPITAL</option>
-                                            <option value="DIED DURING ADMISSION" {{(old('disposition_after_admission') == 'DIED DURING ADMISSION') ? 'selected' : ''}} id="da_option5">DIED DURING ADMISSION</option>
+                                            <option value="DIED DURING ADMISSION" {{(old('disposition_after_admission') == 'DIED DURING ADMISSION') ? 'selected' : ''}} id="da_option5">DEAD</option>
                                         </select>
                                     </div>
                                     <div id="afterAdmissionDiv" class="d-none">
@@ -449,7 +466,7 @@
                 <div class="card-footer">
                     <button type="submit" class="btn btn-success btn-block" id="submitBtn">Submit (CTRL + S)</button>
                     <hr>
-                    <h6 class="text-center">DOH-EB-AEHMD-FWRIPIS-2021-0</h6>
+                    <h6 class="text-center">DOH-EB-AEHMD-FWRIPIS-2023-2</h6>
                 </div>
             </div>
             <p class="text-center mt-3">Developed and Maintained by <b class="text-primary">Christian James Historillo</b> for CESU General Trias, Cavite</p>

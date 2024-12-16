@@ -1798,10 +1798,37 @@ class ABTCVaccinationController extends Controller
 
     public function printPhilhealthForms($record_id, Request $r) {
         $d = AbtcBakunaRecords::findOrFail($record_id);
+        
+        $bodyparts_arr = explode(",", $d->body_site);
+
+        //Updating Philhealth Details
+        if($r->philhealth) {
+            $d->patient->philhealth = $r->philhealth;
+        }
+
+        if($r->philhealth_statustype != 'MEMBER') {
+            $d->patient->linkphilhealth_lname = mb_strtoupper($r->linkphilhealth_lname);
+            $d->patient->linkphilhealth_fname = mb_strtoupper($r->linkphilhealth_fname);
+            $d->patient->linkphilhealth_mname = ($r->linkphilhealth_mname != 'N/A') ? mb_strtoupper($r->linkphilhealth_mname) : NULL;
+            $d->patient->linkphilhealth_suffix = ($r->$r->linkphilhealth_suffix != 'N/A') ? mb_strtoupper($r->linkphilhealth_suffix) : NULL;
+            $d->patient->linkphilhealth_sex = $r->linkphilhealth_sex;
+            $d->patient->linkphilhealth_bdate = $r->linkphilhealth_bdate;
+            $d->patient->linkphilhealth_phnumber = $r->linkphilhealth_phnumber;
+            $d->patient->linkphilhealth_relationship = $r->linkphilhealth_relationship;
+        }
+
+        if($r->linkphilhealth_businessname && $r->linkphilhealth_pen) {
+            $d->patient->linkphilhealth_hasjob = 'Y';
+            $d->patient->linkphilhealth_businessname = mb_strtoupper($r->linkphilhealth_businessname);
+            $d->patient->linkphilhealth_pen = $r->linkphilhealth_pen;
+        }
+
+        if($d->patient->isDirty()) {
+            $d->patient->save();
+        }
+
         header("Content-type: application/vnd.openxmlformats-officedocument.wordprocessingml.document");
         header("Content-Disposition: attachment; filename=PHILHEALTH.docx");
-
-        $bodyparts_arr = explode(",", $d->body_site);
 
         if($r->submit == 'card') {
             $templateProcessor  = new TemplateProcessor(storage_path('ABTC_PHILHEALTH_CARD.docx'));

@@ -27,6 +27,7 @@ class FwInjury extends Model
         'suffix',
         'bdate',
         'gender',
+        'is_4ps',
         'contact_number',
         'contact_number2',
         'address_region_code',
