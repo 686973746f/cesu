@@ -27,6 +27,7 @@ class AbtcPatient extends Model
         'is_pregnant',
         'contact_number',
         'philhealth',
+        'philhealth_statustype',
         'address_region_code',
         'address_region_text',
         'address_province_code',

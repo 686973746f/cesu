@@ -1953,6 +1953,16 @@ class ABTCVaccinationController extends Controller
                 $templateProcessor->setValue('c1', ' ');
             }
         }
+        else if($r->submit == 'csf') {
+            $templateProcessor  = new TemplateProcessor(storage_path('ABTC_PHILHEALTH_CSF.docx'));
+
+            if($d->patient->philhealth_statustype == 'MEMBER') {
+                $name1_lname = '';
+            }
+            else {
+
+            }
+        }
         else {
 
         }
