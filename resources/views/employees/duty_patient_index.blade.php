@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between">
@@ -27,6 +27,11 @@
                             <th>Sex</th>
                             <th>Barangay</th>
                             <th>Chief Complaint</th>
+                            <th>Blood Pressure</th>
+                            <th>Last Meal Taken</th>
+                            <th>Diagnosis</th>
+                            <th>Actions Taken</th>
+                            <th>Remarks</th>
                             <th>Created at/by</th>
                         </tr>
                     </thead>
@@ -41,6 +46,11 @@
                             <td class="text-center">{{$l->sex}}</td>
                             <td class="text-center">{{($l->address_brgy_code) ? $l->brgy->name : 'N/A'}}</td>
                             <td class="text-center">{{$l->chief_complaint}}</td>
+                            <td class="text-center">{{$l->bp ?: 'N/A'}}</td>
+                            <td class="text-center">{{$l->lastmeal_taken}}</td>
+                            <td class="text-center">{{$l->diagnosis}}</td>
+                            <td class="text-center">{{$l->actions_taken}}</td>
+                            <td class="text-center">{{$l->remarks ?: 'N/A'}}</td>
                             <td class="text-center">
                                 <div>{{date('M. d, Y h:i A', strtotime($l->created_at))}}</div>
                                 @if(!is_null($l->created_by))
@@ -154,9 +164,9 @@
                         <div class="form-group">
                             <label for="chief_complaint"><b class="text-danger">*</b>Chief Complaint <i>(Select all that applies)</i></label>
                             <select class="form-control" name="chief_complaint[]" id="chief_complaint" multiple required>
-                              <option value="PASSED OUT">Passed Out</option>
+                              <option value="LOSS OF CONSCIOUSNESS">Loss of Consciousness (Passed Out)</option>
                               <option value="FRACTURE">Fracture</option>
-                              <option value="INJURY/WOUND">Injury/Wounds</option>
+                              <option value="ABRASION">Injury/Wounds (Abrasion)</option>
                               <option value="FEVER">Fever</option>
                               <option value="DIZZINESS">Dizziness</option>
                               <option value="HEADACHE">Headache</option>
