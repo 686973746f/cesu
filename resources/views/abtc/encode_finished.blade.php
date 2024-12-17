@@ -279,17 +279,23 @@
                               <option value="N/A" {{(old('linkphilhealth_suffix', $f->patient->linkphilhealth_suffix) == 'N/A') ? 'selected' : ''}}>N/A (NOT APPLICABLE)</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label for="linkphilhealth_bdate"><span class="text-danger font-weight-bold">*</span>Birthdate</label>
-                            <input type="date" class="form-control" id="linkphilhealth_bdate" name="linkphilhealth_bdate" value="{{old('linkphilhealth_bdate', $f->patient->linkphilhealth_bdate)}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('-21 Days'))}}">
-                        </div>
-                        <div class="form-group">
-                            <label for="linkphilhealth_sex"><b class="text-danger">*</b>Gender of Philhealth Member</label>
-                            <select class="form-control" name="linkphilhealth_sex" id="linkphilhealth_sex">
-                                <option value="" disabled {{is_null(old('linkphilhealth_sex', $f->patient->linkphilhealth_suffix)) ? 'selected' : ''}}>Choose...</option>
-                                <option value="M" {{(old('linkphilhealth_sex', $f->patient->linkphilhealth_sex) == 'M') ? 'selected' : ''}}>Male</option>
-                                <option value="F" {{(old('linkphilhealth_sex', $f->patient->linkphilhealth_sex) == 'F') ? 'selected' : ''}}>Female</option>
-                            </select>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="linkphilhealth_bdate"><span class="text-danger font-weight-bold">*</span>Birthdate</label>
+                                    <input type="date" class="form-control" id="linkphilhealth_bdate" name="linkphilhealth_bdate" value="{{old('linkphilhealth_bdate', $f->patient->linkphilhealth_bdate)}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('-21 Days'))}}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="linkphilhealth_sex"><b class="text-danger">*</b>Gender of Philhealth Member</label>
+                                    <select class="form-control" name="linkphilhealth_sex" id="linkphilhealth_sex">
+                                        <option value="" disabled {{is_null(old('linkphilhealth_sex', $f->patient->linkphilhealth_suffix)) ? 'selected' : ''}}>Choose...</option>
+                                        <option value="M" {{(old('linkphilhealth_sex', $f->patient->linkphilhealth_sex) == 'M') ? 'selected' : ''}}>Male</option>
+                                        <option value="F" {{(old('linkphilhealth_sex', $f->patient->linkphilhealth_sex) == 'F') ? 'selected' : ''}}>Female</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="linkphilhealth_phnumber" class="form-label"><b class="text-danger">*</b>Philhealth Number (PIN) of the Member</label>

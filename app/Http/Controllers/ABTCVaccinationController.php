@@ -1805,8 +1805,11 @@ class ABTCVaccinationController extends Controller
         if($r->philhealth) {
             $d->patient->philhealth = $r->philhealth;
         }
+        
+        $d->patient->philhealth_statustype = $r->philhealth_statustype;
 
         if($r->philhealth_statustype != 'MEMBER') {
+            
             $d->patient->linkphilhealth_lname = mb_strtoupper($r->linkphilhealth_lname);
             $d->patient->linkphilhealth_fname = mb_strtoupper($r->linkphilhealth_fname);
             $d->patient->linkphilhealth_mname = ($r->linkphilhealth_mname != 'N/A') ? mb_strtoupper($r->linkphilhealth_mname) : NULL;
@@ -1873,7 +1876,9 @@ class ABTCVaccinationController extends Controller
             $templateProcessor->setValue('suffix', $d->patient->suffix ?: 'N/A');
             $templateProcessor->setValue('mname', $d->patient->lname ?: 'N/A');
 
-            $templateProcessor->setValue('date_admitted', Carbon::parse($d->d0_date)->format('m   d   Y'));
+            $sepa_array = str_split(Carbon::parse($d->d0_date)->format('mdY'));
+
+            $templateProcessor->setValue('date_admitted', $sepa_array[0].'   '.$sepa_array[1].'     '.$sepa_array[2].'   '.$sepa_array[3].'    '.$sepa_array[4].'   '.$sepa_array[5].'   '.$sepa_array[6].'   '.$sepa_array[7]);
 
             $templateProcessor->setValue('body_site', $d->body_site);
             $templateProcessor->setValue('cat', $d->category_level);
