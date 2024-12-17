@@ -25,7 +25,7 @@
 
 <form action="{{$store_route}}" method="POST">
     @csrf
-    <div class="modal fade" id="newPatient" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal fade" id="newPatient" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">

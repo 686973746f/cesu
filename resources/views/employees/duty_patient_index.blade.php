@@ -17,47 +17,48 @@
                 {{session('msg')}}
             </div>
             @endif
-
-            <table class="table table-bordered table-striped">
-                <thead class="thead-light text-center">
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Age</th>
-                        <th>Sex</th>
-                        <th>Barangay</th>
-                        <th>Chief Complaint</th>
-                        <th>Created at/by</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($list as $ind => $l)
-                    <tr>
-                        <td class="text-center">{{$ind+1}}</td>
-                        <td>
-                            <a href="{{route('online_duty_editpatient', [$d->id, $l->id])}}">{{$l->getName()}}</a>
-                        </td>
-                        <td class="text-center">{{$l->age_years}}</td>
-                        <td class="text-center">{{$l->sex}}</td>
-                        <td class="text-center">{{($l->address_brgy_code) ? $l->brgy->name : 'N/A'}}</td>
-                        <td class="text-center">{{$l->chief_complaint}}</td>
-                        <td class="text-center">
-                            <div>{{date('M. d, Y h:i A', strtotime($l->created_at))}}</div>
-                            @if(!is_null($l->created_by))
-                            <div>by {{$l->user->name}}</div>
-                            @endif
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped" id="patientTable">
+                    <thead class="thead-light text-center">
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Sex</th>
+                            <th>Barangay</th>
+                            <th>Chief Complaint</th>
+                            <th>Created at/by</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($list as $ind => $l)
+                        <tr>
+                            <td class="text-center">{{$ind+1}}</td>
+                            <td>
+                                <a href="{{route('online_duty_editpatient', [$d->id, $l->id])}}">{{$l->getName()}}</a>
+                            </td>
+                            <td class="text-center">{{$l->age_years}}</td>
+                            <td class="text-center">{{$l->sex}}</td>
+                            <td class="text-center">{{($l->address_brgy_code) ? $l->brgy->name : 'N/A'}}</td>
+                            <td class="text-center">{{$l->chief_complaint}}</td>
+                            <td class="text-center">
+                                <div>{{date('M. d, Y h:i A', strtotime($l->created_at))}}</div>
+                                @if(!is_null($l->created_by))
+                                <div>by {{$l->user->name}}</div>
+                                @endif
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
 
 <form action="{{$store_route}}" method="POST">
     @csrf
-    <div class="modal fade" id="newPatient" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal fade" id="newPatient" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -105,7 +106,7 @@
                         </div>
                     </div>
                     <hr>
-                    <div class="row">
+                    <div class="row" id="addressDiv">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="address_region_code"><b class="text-danger">*</b>Region</label>
@@ -234,7 +235,24 @@
         }
     });
 
-    $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_code, #chief_complaint').select2({
+    $('#patientTable').dataTable({
+        iDisplayLength: -1,
+        dom: 'Bfrit',
+        buttons: [
+            {
+                extend: 'excel',
+                title: '',
+            },
+            'copy',
+        ],
+    });
+
+    $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_code').select2({
+        theme: 'bootstrap',
+        dropdownParent: $('#addressDiv'),
+    });
+
+    $('#chief_complaint').select2({
         theme: 'bootstrap',
         dropdownParent: $("#chief_complaint_div"),
     });
