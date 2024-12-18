@@ -33,6 +33,7 @@ class AbtcBakunaRecords extends Model
         'weight',
         'd0_date',
         'd0_done',
+        'd0_facility_name',
         'd0_vaccinated_inbranch',
         'd0_brand',
         'd0_done_by',

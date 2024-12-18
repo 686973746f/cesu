@@ -1801,34 +1801,36 @@ class ABTCVaccinationController extends Controller
         
         $bodyparts_arr = explode(",", $d->body_site);
 
-        //Updating Philhealth Details
-        if($r->philhealth) {
-            $d->patient->philhealth = $r->philhealth;
+        if($r->submit != 'transfer_waiver') {
+            //Updating Philhealth Details
+            if($r->philhealth) {
+                $d->patient->philhealth = $r->philhealth;
+            }
+            
+            $d->patient->philhealth_statustype = $r->philhealth_statustype;
+
+            if($r->philhealth_statustype != 'MEMBER') {
+                $d->patient->linkphilhealth_lname = mb_strtoupper($r->linkphilhealth_lname);
+                $d->patient->linkphilhealth_fname = mb_strtoupper($r->linkphilhealth_fname);
+                $d->patient->linkphilhealth_mname = ($r->linkphilhealth_mname != 'N/A') ? mb_strtoupper($r->linkphilhealth_mname) : NULL;
+                $d->patient->linkphilhealth_suffix = ($r->linkphilhealth_suffix != 'N/A') ? mb_strtoupper($r->linkphilhealth_suffix) : NULL;
+                $d->patient->linkphilhealth_sex = $r->linkphilhealth_sex;
+                $d->patient->linkphilhealth_bdate = $r->linkphilhealth_bdate;
+                $d->patient->linkphilhealth_phnumber = $r->linkphilhealth_phnumber;
+                $d->patient->linkphilhealth_relationship = $r->linkphilhealth_relationship;
+            }
+
+            if($r->linkphilhealth_businessname && $r->linkphilhealth_pen) {
+                $d->patient->linkphilhealth_hasjob = 'Y';
+                $d->patient->linkphilhealth_businessname = mb_strtoupper($r->linkphilhealth_businessname);
+                $d->patient->linkphilhealth_pen = $r->linkphilhealth_pen;
+            }
+
+            if($d->patient->isDirty()) {
+                $d->patient->save();
+            }
         }
         
-        $d->patient->philhealth_statustype = $r->philhealth_statustype;
-
-        if($r->philhealth_statustype != 'MEMBER') {
-            $d->patient->linkphilhealth_lname = mb_strtoupper($r->linkphilhealth_lname);
-            $d->patient->linkphilhealth_fname = mb_strtoupper($r->linkphilhealth_fname);
-            $d->patient->linkphilhealth_mname = ($r->linkphilhealth_mname != 'N/A') ? mb_strtoupper($r->linkphilhealth_mname) : NULL;
-            $d->patient->linkphilhealth_suffix = ($r->linkphilhealth_suffix != 'N/A') ? mb_strtoupper($r->linkphilhealth_suffix) : NULL;
-            $d->patient->linkphilhealth_sex = $r->linkphilhealth_sex;
-            $d->patient->linkphilhealth_bdate = $r->linkphilhealth_bdate;
-            $d->patient->linkphilhealth_phnumber = $r->linkphilhealth_phnumber;
-            $d->patient->linkphilhealth_relationship = $r->linkphilhealth_relationship;
-        }
-
-        if($r->linkphilhealth_businessname && $r->linkphilhealth_pen) {
-            $d->patient->linkphilhealth_hasjob = 'Y';
-            $d->patient->linkphilhealth_businessname = mb_strtoupper($r->linkphilhealth_businessname);
-            $d->patient->linkphilhealth_pen = $r->linkphilhealth_pen;
-        }
-
-        if($d->patient->isDirty()) {
-            $d->patient->save();
-        }
-
         if($r->submit == 'card') {
             $templateProcessor  = new TemplateProcessor(storage_path('ABTC_PHILHEALTH_CARD.docx'));
             $templateProcessor->setValue('case_id', $d->case_id);
@@ -2081,8 +2083,40 @@ class ABTCVaccinationController extends Controller
             
             $filename = 'CSF_'.$d->patient->lname.'_'.$d->patient->fname.'_'.Carbon::now()->format('mdY').'.docx';
         }
-        else {
+        else if($r->submit == 'transfer_waiver') {
+            $d->d0_facility_name = mb_strtoupper($r->d0_facility_name);
+            if($d->isDirty()) {
+                $d->save();
+            }
 
+            $templateProcessor  = new TemplateProcessor(storage_path('ABTC_PHILHEALTH_WAIVER.docx'));
+
+            if($d->patient->philhealth_statustype == 'MEMBER') {
+                $body = 'I, '.$d->patient->getNameFormal().', hereby confirm that I availed the 1st Dose of Rabies Vaccine at '.mb_strtoupper($r->d0_facility_name).' on '.Carbon::parse($d->d0_date)->format('F d, Y').', and completed the remaining doses at General Trias CHO Animal Bite Treatment Center.';
+                
+                $signature_name = $d->patient->getNameFormal();
+            }
+            else {
+                if(!$d->patient->linkphilhealth_phnumber) {
+                    return redirect()->back()
+                    ->withInput()
+                    ->with('msg', 'Error: Please declare name of Philhealth Member first because the Patient Philhealth Type is Dependent.')
+                    ->with('msgtype', 'warning');
+                }
+
+                $body = 'I, '.$d->patient->getNameFormalOfPhilhealthMember().', the '.$d->patient->philhealthGetRelationshipToMember().' of '.$d->patient->getNameFormal().', hereby confirm that the 1st Dose of Rabies Vaccine was availed at '.mb_strtoupper($r->d0_facility_name).' on '.Carbon::parse($d->d0_date)->format('F d, Y').', and the remaining doses were completed at General Trias CHO Animal Bite Treatment Center.';
+
+                $signature_name = $d->patient->getNameFormalOfPhilhealthMember();
+            }
+
+            $templateProcessor->setValue('date', date('M. d, Y'));
+            $templateProcessor->setValue('message_body', $body);
+            $templateProcessor->setValue('signature_name', $signature_name);
+
+            $filename = 'WAIVER_'.$d->patient->lname.'_'.$d->patient->fname.'_'.Carbon::now()->format('mdY').'.docx';
+        }
+        else {
+            
         }
 
         header("Content-type: application/vnd.openxmlformats-officedocument.wordprocessingml.document");

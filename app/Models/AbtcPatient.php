@@ -439,6 +439,23 @@ class AbtcPatient extends Model
         }
     }
 
+    public function philhealthGetRelationshipToMember() {
+        if($this->linkphilhealth_relationship == 'PARENT') {
+            if($this->linkphilhealth_sex == 'M') {
+                return 'FATHER';
+            }
+            else {
+                return 'MOTHER';
+            }
+        }
+        else if($this->linkphilhealth_relationship == 'CHILD') {
+            return 'CHILD';
+        }
+        else if($this->linkphilhealth_relationship == 'SPOUSE') {
+            return 'SPOUSE';
+        }
+    }
+
     public function cardPriority() {
         $str = [];
 
