@@ -1864,6 +1864,15 @@ class ABTCVaccinationController extends Controller
             $templateProcessor->setValue('ficd1', ($d->philhealthGetIcdCode() == 'T14.1 W54') ? '✔' : '');
             $templateProcessor->setValue('ficd2', ($d->philhealthGetIcdCode() == 'T14.1 W55') ? '✔' : '');
 
+            if($d->patient->philhealth_statustype == 'MEMBER') {
+                $templateProcessor->setValue('ifm', '✔');
+                $templateProcessor->setValue('ifd', ' ');
+            }
+            else {
+                $templateProcessor->setValue('ifm', ' ');
+                $templateProcessor->setValue('ifd', '✔');
+            }
+
             $filename = 'CARD_'.$d->patient->lname.'_'.$d->patient->fname.'_'.Carbon::now()->format('mdY').'.docx';
         }
         else if($r->submit == 'cf2') {

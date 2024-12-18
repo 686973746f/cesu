@@ -236,9 +236,11 @@
                 <div class="form-group">
                     <label for="status_type"><b class="text-danger">*</b>Philhealth Membership Type</label>
                     <select class="form-control" name="philhealth_statustype" id="philhealth_statustype" required>
-                    <option value="" disalbed {{(is_null(old('philhealth_statustype'))) ? 'selected' : ''}}>Choose...</option>
-                    <option value="MEMBER" {{(old('philhealth_statustype', $f->patient->philhealth_statustype) == 'MEMBER') ? 'selected' : ''}}>Member (May sarili nang Philhealth Account)</option>
-                    <option value="DEPENDENT" {{(old('philhealth_statustype', $f->patient->philhealth_statustype) == 'DEPENDENT') ? 'selected' : ''}}>Dependent (Wala pang Philhealth Account)</option>
+                        @if($f->patient->getAge() >= 16)
+                        <option value="" disalbed {{(is_null(old('philhealth_statustype'))) ? 'selected' : ''}}>Choose...</option>
+                        <option value="MEMBER" {{(old('philhealth_statustype', $f->patient->philhealth_statustype) == 'MEMBER') ? 'selected' : ''}}>Member (May sarili nang Philhealth Account)</option>
+                        @endif
+                        <option value="DEPENDENT" {{(old('philhealth_statustype', $f->patient->philhealth_statustype) == 'DEPENDENT') ? 'selected' : ''}}>Dependent (Wala pang Philhealth Account)</option>
                     </select>
                 </div>
                 @if(!$f->patient->philhealth)
@@ -292,7 +294,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="linkphilhealth_bdate"><span class="text-danger font-weight-bold">*</span>Birthdate</label>
+                                <label for="linkphilhealth_bdate"><span class="text-danger font-weight-bold">*</span>Birthdate of Philhealth Member</label>
                                 <input type="date" class="form-control" id="linkphilhealth_bdate" name="linkphilhealth_bdate" value="{{old('linkphilhealth_bdate', $f->patient->linkphilhealth_bdate)}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('-21 Days'))}}">
                             </div>
                         </div>
@@ -312,7 +314,7 @@
                         <input type="text" class="form-control" id="linkphilhealth_phnumber" name="linkphilhealth_phnumber" value="{{old('linkphilhealth_phnumber', $f->patient->linkphilhealth_phnumber)}}" pattern="[0-9]{12}">
                     </div>
                     <div class="form-group">
-                        <label for="linkphilhealth_relationship"><b class="text-danger">*</b>Relationship to the Member</label>
+                        <label for="linkphilhealth_relationship"><b class="text-danger">*</b>Relationship of the Patient to the Philhealth Member</label>
                         <select class="form-control" name="linkphilhealth_relationship" id="linkphilhealth_relationship">
                             <option value="" disabled {{is_null(old('linkphilhealth_relationship', $f->patient->linkphilhealth_relationship)) ? 'selected' : ''}}>Choose...</option>
                             <option value="CHILD" {{(old('linkphilhealth_relationship', $f->patient->linkphilhealth_relationship) == 'CHILD') ? 'selected' : ''}}>Child (Anak)</option>
@@ -346,7 +348,7 @@
                 <div class="form-group">
                     <label for="d0_facility_name"><b class="text-danger">*</b>Facility Name kung saan nag-1st Dose si Patient</label>
                     <input type="text" class="form-control" name="d0_facility_name" id="d0_facility_name" style="text-transform: uppercase;" required>
-                    <small><b>Note:</b> Write the full name of the facility, not the acronym.</small>
+                    <small><b>Note:</b> Isulat ang buong pangalan ng facility kung saan nagpabakuna ng 1st Dose ang Pasyente, wag isulat ang acronym lamang.</small>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block" name="submit" value="transfer_waiver">Print Waiver</button>
             </form>
