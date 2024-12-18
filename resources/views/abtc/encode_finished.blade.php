@@ -264,7 +264,6 @@
                         <div class="form-group">
                             <label for="linkphilhealth_suffix"><b class="text-danger">*</b>Name Extension of Philhealth Member</label>
                             <select class="form-control" name="linkphilhealth_suffix" id="linkphilhealth_suffix">
-                              <option value="" disabled {{is_null(old('linkphilhealth_suffix', $f->patient->linkphilhealth_suffix)) ? 'selected' : ''}}>Choose...</option>
                               <option value="I" {{(old('linkphilhealth_suffix', $f->patient->linkphilhealth_suffix) == 'I') ? 'selected' : ''}}>I</option>
                               <option value="II" {{(old('linkphilhealth_suffix', $f->patient->linkphilhealth_suffix) == 'II') ? 'selected' : ''}}>II</option>
                               <option value="III" {{(old('linkphilhealth_suffix', $f->patient->linkphilhealth_suffix) == 'III') ? 'selected' : ''}}>III</option>
@@ -276,7 +275,7 @@
                               <option value="JR" {{(old('linkphilhealth_suffix', $f->patient->linkphilhealth_suffix) == 'JR') ? 'selected' : ''}}>JR</option>
                               <option value="JR II" {{(old('linkphilhealth_suffix', $f->patient->linkphilhealth_suffix) == 'JR II') ? 'selected' : ''}}>JR II</option>
                               <option value="SR" {{(old('linkphilhealth_suffix', $f->patient->linkphilhealth_suffix) == 'SR') ? 'selected' : ''}}>SR</option>
-                              <option value="N/A" {{(old('linkphilhealth_suffix', $f->patient->linkphilhealth_suffix) == 'N/A') ? 'selected' : ''}}>N/A (NOT APPLICABLE)</option>
+                              <option value="N/A" {{is_null(old('linkphilhealth_suffix', $f->patient->linkphilhealth_suffix)) ? 'selected' : ''}}>N/A (NOT APPLICABLE)</option>
                             </select>
                         </div>
                         <div class="row">
@@ -318,13 +317,16 @@
                     </div>
                     <div class="form-group">
                         <label for="linkphilhealth_pen"><span id="penSpan"></span></label>
-                        <input type="text" class="form-control" id="linkphilhealth_pen" name="linkphilhealth_pen" value="{{old('linkphilhealth_pen', $f->patient->linkphilhealth_pen)}}" pattern="[0-9]{20}">
+                        <input type="text" class="form-control" id="linkphilhealth_pen" name="linkphilhealth_pen" value="{{old('linkphilhealth_pen', $f->patient->linkphilhealth_pen)}}" pattern="[0-9]{12}">
                     </div>
                     <hr>
                     <button type="submit" class="btn btn-primary btn-block" name="submit" value="card">Print ABTC Card</button>
                     <button type="submit" class="btn btn-primary btn-block" name="submit" value="csf">Print CSF</button>
                     <button type="submit" class="btn btn-primary btn-block" name="submit" value="cf2">Print CF2</button>
                     <button type="submit" class="btn btn-primary btn-block" name="submit" value="soa">Print SOA</button>
+                    @if(!Carbon::parse($d->d0_date)->isSameDay($d->created_at))
+                    <hr>
+                    @endif
                 </div>
             </div>
         </div>

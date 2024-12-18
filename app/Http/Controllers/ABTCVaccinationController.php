@@ -1809,11 +1809,10 @@ class ABTCVaccinationController extends Controller
         $d->patient->philhealth_statustype = $r->philhealth_statustype;
 
         if($r->philhealth_statustype != 'MEMBER') {
-            
             $d->patient->linkphilhealth_lname = mb_strtoupper($r->linkphilhealth_lname);
             $d->patient->linkphilhealth_fname = mb_strtoupper($r->linkphilhealth_fname);
             $d->patient->linkphilhealth_mname = ($r->linkphilhealth_mname != 'N/A') ? mb_strtoupper($r->linkphilhealth_mname) : NULL;
-            $d->patient->linkphilhealth_suffix = ($r->$r->linkphilhealth_suffix != 'N/A') ? mb_strtoupper($r->linkphilhealth_suffix) : NULL;
+            $d->patient->linkphilhealth_suffix = ($r->linkphilhealth_suffix != 'N/A') ? mb_strtoupper($r->linkphilhealth_suffix) : NULL;
             $d->patient->linkphilhealth_sex = $r->linkphilhealth_sex;
             $d->patient->linkphilhealth_bdate = $r->linkphilhealth_bdate;
             $d->patient->linkphilhealth_phnumber = $r->linkphilhealth_phnumber;
@@ -1829,9 +1828,6 @@ class ABTCVaccinationController extends Controller
         if($d->patient->isDirty()) {
             $d->patient->save();
         }
-
-        header("Content-type: application/vnd.openxmlformats-officedocument.wordprocessingml.document");
-        header("Content-Disposition: attachment; filename=PHILHEALTH.docx");
 
         if($r->submit == 'card') {
             $templateProcessor  = new TemplateProcessor(storage_path('ABTC_PHILHEALTH_CARD.docx'));
@@ -1866,7 +1862,7 @@ class ABTCVaccinationController extends Controller
             $templateProcessor->setValue('ficd1', ($d->philhealthGetIcdCode() == 'T14.1 W54') ? '✔' : '');
             $templateProcessor->setValue('ficd2', ($d->philhealthGetIcdCode() == 'T14.1 W55') ? '✔' : '');
 
-            
+            $filename = 'CARD_'.$d->patient->lname.'_'.$d->patient->fname.'_'.Carbon::now()->format('mdY').'.docx';
         }
         else if($r->submit == 'cf2') {
             $templateProcessor  = new TemplateProcessor(storage_path('ABTC_PHILHEALTH_CF2.docx'));
@@ -1876,7 +1872,7 @@ class ABTCVaccinationController extends Controller
             $templateProcessor->setValue('suffix', $d->patient->suffix ?: 'N/A');
             $templateProcessor->setValue('mname', $d->patient->lname ?: 'N/A');
 
-            $sepa_array = str_split(Carbon::parse($d->d0_date)->format('mdY'));
+            $sepa_array = str_split(Carbon::parse($d->created_at)->format('mdY'));
 
             $templateProcessor->setValue('date_admitted', $sepa_array[0].'   '.$sepa_array[1].'     '.$sepa_array[2].'   '.$sepa_array[3].'    '.$sepa_array[4].'   '.$sepa_array[5].'   '.$sepa_array[6].'   '.$sepa_array[7]);
 
@@ -1893,7 +1889,14 @@ class ABTCVaccinationController extends Controller
             
             $templateProcessor->setValue('others', 'TETANUS TOXOID');
 
-            $templateProcessor->setValue('get_name', $d->patient->getNameFormal());
+            if($d->patient->philhealth_statustype == 'MEMBER') {
+                $templateProcessor->setValue('get_name', $d->patient->getNameFormal());
+            }
+            else {
+                $templateProcessor->setValue('get_name', $d->patient->getNameFormalOfPhilhealthMember());
+            }
+
+            $filename = 'CF2_'.$d->patient->lname.'_'.$d->patient->fname.'_'.Carbon::now()->format('mdY').'.docx';
         }
         else if($r->submit == 'soa') {
             $templateProcessor  = new TemplateProcessor(storage_path('ABTC_PHILHEALTH_SOA.docx'));
@@ -1957,20 +1960,133 @@ class ABTCVaccinationController extends Controller
             else {
                 $templateProcessor->setValue('c1', ' ');
             }
+
+            $filename = 'SOA_'.$d->patient->lname.'_'.$d->patient->fname.'_'.Carbon::now()->format('mdY').'.docx';
         }
         else if($r->submit == 'csf') {
             $templateProcessor  = new TemplateProcessor(storage_path('ABTC_PHILHEALTH_CSF.docx'));
 
             if($d->patient->philhealth_statustype == 'MEMBER') {
-                $name1_lname = '';
+                $member_lname = $d->patient->lname;
+                $member_fname = $d->patient->fname;
+                $member_mname = $d->patient->mname;
+                $member_suffix = $d->patient->suffix ?: 'N/A';
+
+                $sepa_array = str_split($d->patient->philhealth);
+                $member_pin = $sepa_array[0].'    '.$sepa_array[1].'       '.$sepa_array[2].'   '.$sepa_array[3].'    '.$sepa_array[4].'    '.$sepa_array[5].'   '.$sepa_array[6].'    '.$sepa_array[7].'    '.$sepa_array[8].'   '.$sepa_array[9].'   '.$sepa_array[10].'       '.$sepa_array[11];
+
+                $sepa_array = str_split(Carbon::parse($d->patient->bdate)->format('mdY'));
+                $member_bdate = $sepa_array[0].'    '.$sepa_array[1].'      '.$sepa_array[2].'    '.$sepa_array[3].'      '.$sepa_array[4].'    '.$sepa_array[5].'    '.$sepa_array[6].'    '.$sepa_array[7];
+
+                $dep_lname = '';
+                $dep_fname = '';
+                $dep_mname = '';
+                $dep_suffix = '';
+
+                //$sepa_array = $sepa_array = str_split($d->patient->linkphilhealth_phnumber);
+                $dep_pin = '';
+
+                //$sepa_array = $sepa_array = str_split(Carbon::parse($d->patient->linkphilhealth_bdate)->format('mdY'));
+                $dep_bdate = '';
+
+                $signature1_name = $d->patient->getNameFormal();
+                $signature2_name = '';
+
+                $consent_signature_name = $d->patient->getNameFormal();
             }
             else {
+                $member_lname = $d->patient->linkphilhealth_lname;
+                $member_fname = $d->patient->linkphilhealth_fname;
+                $member_mname = $d->patient->linkphilhealth_mname;
+                $member_suffix = $d->patient->linkphilhealth_suffix ?: 'N/A';
 
+                $sepa_array = $sepa_array = str_split($d->patient->linkphilhealth_phnumber);
+                $member_pin = $sepa_array[0].'    '.$sepa_array[1].'       '.$sepa_array[2].'   '.$sepa_array[3].'    '.$sepa_array[4].'    '.$sepa_array[5].'   '.$sepa_array[6].'    '.$sepa_array[7].'    '.$sepa_array[8].'   '.$sepa_array[9].'   '.$sepa_array[10].'       '.$sepa_array[11];
+
+                $sepa_array = $sepa_array = str_split(Carbon::parse($d->patient->linkphilhealth_bdate)->format('mdY'));
+                $member_bdate = $sepa_array[0].'    '.$sepa_array[1].'      '.$sepa_array[2].'    '.$sepa_array[3].'      '.$sepa_array[4].'    '.$sepa_array[5].'    '.$sepa_array[6].'    '.$sepa_array[7];
+
+                $dep_lname = $d->patient->lname;
+                $dep_fname = $d->patient->fname;
+                $dep_mname = $d->patient->mname;
+                $dep_suffix = $d->patient->suffix ?: 'N/A';
+
+                $sepa_array = str_split($d->patient->philhealth);
+                $dep_pin = $sepa_array[0].'    '.$sepa_array[1].'       '.$sepa_array[2].'   '.$sepa_array[3].'    '.$sepa_array[4].'    '.$sepa_array[5].'   '.$sepa_array[6].'    '.$sepa_array[7].'    '.$sepa_array[8].'   '.$sepa_array[9].'   '.$sepa_array[10].'       '.$sepa_array[11];
+
+                $sepa_array = str_split(Carbon::parse($d->patient->bdate)->format('mdY'));
+                $dep_bdate = $sepa_array[0].'    '.$sepa_array[1].'      '.$sepa_array[2].'    '.$sepa_array[3].'      '.$sepa_array[4].'    '.$sepa_array[5].'    '.$sepa_array[6].'    '.$sepa_array[7];
+
+                $signature1_name = $d->patient->getNameFormalOfPhilhealthMember();
+                $signature2_name = '';
+
+                $consent_signature_name = $d->patient->getNameFormalOfPhilhealthMember();
             }
+
+            $templateProcessor->setValue('member_pin', $member_pin);
+            $templateProcessor->setValue('member_lname', $member_lname);
+            $templateProcessor->setValue('member_fname', $member_fname);
+            $templateProcessor->setValue('member_mname', $member_mname);
+            $templateProcessor->setValue('member_suffix', $member_suffix);
+            $templateProcessor->setValue('member_bdate', $member_bdate);
+
+            $templateProcessor->setValue('dep_pin', $dep_pin);
+            $templateProcessor->setValue('dep_lname', $dep_lname);
+            $templateProcessor->setValue('dep_fname', $dep_fname);
+            $templateProcessor->setValue('dep_mname', $dep_mname);
+            $templateProcessor->setValue('dep_suffix', $dep_suffix);
+            $templateProcessor->setValue('dep_bdate', $dep_bdate);
+
+            $sepa_array = str_split(Carbon::parse($d->patient->created_at)->format('mdY'));
+            $date_admitted = $sepa_array[0].'    '.$sepa_array[1].'      '.$sepa_array[2].'    '.$sepa_array[3].'      '.$sepa_array[4].'    '.$sepa_array[5].'    '.$sepa_array[6].'    '.$sepa_array[7];
+            $templateProcessor->setValue('date_admitted', $date_admitted);
+
+            $templateProcessor->setValue('signature1_name', $signature1_name);
+            $templateProcessor->setValue('signature2_name', $signature2_name);
+            
+            $templateProcessor->setValue('signature1_date', $date_admitted);
+            $templateProcessor->setValue('signature2_date', '');
+
+            $templateProcessor->setValue('consent_signature_name', $consent_signature_name);
+            $templateProcessor->setValue('consent_signature_date', $date_admitted);
+
+            $sepa_array = str_split($d->patient->linkphilhealth_pen);
+            $linkphilhealth_pen = $sepa_array[0].'    '.$sepa_array[1].'       '.$sepa_array[2].'   '.$sepa_array[3].'    '.$sepa_array[4].'    '.$sepa_array[5].'   '.$sepa_array[6].'    '.$sepa_array[7].'    '.$sepa_array[8].'   '.$sepa_array[9].'   '.$sepa_array[10].'       '.$sepa_array[11];
+            $templateProcessor->setValue('linkphilhealth_pen', $linkphilhealth_pen);
+
+            $templateProcessor->setValue('linkphilhealth_businessname', $d->patient->linkphilhealth_businessname);
+
+            if($d->patient->philhealth_statustype != 'MEMBER') {
+                if($d->patient->linkphilhealth_relationship == 'CHILD') {
+                    $templateProcessor->setValue('ifc','✔');
+                    $templateProcessor->setValue('ifp', '');
+                    $templateProcessor->setValue('ifs', '');
+                }
+                else if($d->patient->linkphilhealth_relationship == 'PARENT') {
+                    $templateProcessor->setValue('ifc','');
+                    $templateProcessor->setValue('ifp', '✔');
+                    $templateProcessor->setValue('ifs', '');
+                }
+                else if($d->patient->linkphilhealth_relationship == 'SPOUSE') {
+                    $templateProcessor->setValue('ifc','');
+                    $templateProcessor->setValue('ifp', '');
+                    $templateProcessor->setValue('ifs', '✔');
+                }
+            }
+            else {
+                $templateProcessor->setValue('ifc','');
+                $templateProcessor->setValue('ifp', '');
+                $templateProcessor->setValue('ifs', '');
+            }
+            
+            $filename = 'CSF_'.$d->patient->lname.'_'.$d->patient->fname.'_'.Carbon::now()->format('mdY').'.docx';
         }
         else {
 
         }
+
+        header("Content-type: application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+        header("Content-Disposition: attachment; filename=".$filename);
 
         $templateProcessor->saveAs('php://output');
     }

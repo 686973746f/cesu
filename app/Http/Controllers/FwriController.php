@@ -218,7 +218,7 @@ class FwriController extends Controller
             }            
         }
 
-        $list = $list->whereBetween('created_at', [$date1, $date2])->paginate(10);
+        $list = $list->whereBetween('created_at', [$date1, $date2])->get();
 
         return view('fwri.home', [
             'list' => $list,

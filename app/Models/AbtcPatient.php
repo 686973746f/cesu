@@ -107,6 +107,22 @@ class AbtcPatient extends Model
         return $fullname;
     }
 
+    public function getNameFormalOfPhilhealthMember() {
+        $fullname = $this->linkphilhealth_fname;
+
+        if(!is_null($this->linkphilhealth_mname)) {
+            $fullname = $fullname." ".substr($this->linkphilhealth_mname,0,1).'.';
+        }
+
+        $fullname = $fullname." ".$this->linkphilhealth_lname;
+
+        if(!is_null($this->linkphilhealth_suffix)) {
+            $fullname = $fullname." ".$this->linkphilhealth_suffix;
+        }
+
+        return $fullname;
+    }
+
     public function getAddress() {
         if(!is_null($this->address_houseno) || !is_null($this->address_street)) {
             return $this->address_houseno.' '.$this->address_street.', BRGY. '.$this->address_brgy_text.', '.$this->address_muncity_text.', '.$this->address_province_text;

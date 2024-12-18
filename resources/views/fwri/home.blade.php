@@ -5,7 +5,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <div><b>Fireworks-Related Injury (FWRI) - Home</b> (Total: {{$list->total()}})</div>
+                    <div><b>Fireworks-Related Injury (FWRI) - Home</b> (Total: {{$list->count()}})</div>
                     <div>
                         <a href="{{route('fwri_export')}}" class="btn btn-success">Export</a>
                         <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#filterBtn">Filter</button>
@@ -16,45 +16,60 @@
             <div class="card-body">
                 @if($list->count() != 0)
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped">
+                    <table class="table table-bordered table-striped" id="mainTbl">
                         <thead class="thead-light text-center">
                             <tr>
                                 <th>#</th>
                                 <th>Date Submitted</th>
-                                <th>from Facility - Reporter</th>
+                                <th>Reporting Facility</th>
                                 <th>Patient Name</th>
-                                <th>Age/Sex</th>
-                                <th>Address</th>
+                                <th>Age</th>
+                                <th>Sex</th>
+                                <th>Street/Purok</th>
+                                <th>Barangay</th>
+                                <th>City/Municipality</th>
                                 <th>Contact Number</th>
                                 <th>Date Reported</th>
                                 <th>Nature of Injury</th>
+                                <th>Anatomical Location</th>
                                 <th>Injury Occurred at</th>
                                 <th>Name of Firecracker</th>
                                 <th>Date of Injury</th>
+                                <th>Liquor Intoxication</th>
+                                <th>Treatment Given</th>
+                                <th>Disposition After Consultation</th>
+                                <th>Disposition After Admission</th>
+                                <th>Reporter</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($list as $ind => $d)
                             <tr>
-                                <td class="text-center"><b>{{$list->total() - $ind}}</b></td>
+                                <td class="text-center"><b>{{$ind+1}}</b></td>
                                 <td class="text-center">{{date('m/d/Y h:i A', strtotime($d->created_at))}}</td>
-                                <td class="text-center"><small>{{$d->hospital_name}} - {{$d->reported_by}}</small></td>
+                                <td class="text-center"><small>{{$d->hospital_name}}</small></td>
                                 <td><b><a href="{{route('fwri_view', $d->id)}}">{{$d->getName()}}</a></b></td>
-                                <td class="text-center">{{$d->getAge()}}/{{$d->sg()}}</td>
-                                <td class="text-center"><small>{{$d->getCompleteAddress()}}</small></td>
+                                <td class="text-center">{{$d->age_years}}</td>
+                                <td class="text-center">{{$d->sg()}}</td>
+                                <td class="text-center">{{$d->getStreetPurok()}}</td>
+                                <td class="text-center">{{$d->address_brgy_text}}</td>
+                                <td class="text-center">{{$d->address_muncity_text}}</td>
                                 <td class="text-center">{{$d->contact_number}}</td>
                                 <td class="text-center">{{date('m/d/Y', strtotime($d->report_date))}}</td>
                                 <td class="text-center">{{$d->nature_injury}}</td>
+                                <td class="text-center">{{$d->anatomical_location}}</td>
                                 <td class="text-center"><small>{{$d->getInjuryAddStr()}}</small></td>
                                 <td class="text-center">{{$d->firework_name}}</td>
                                 <td class="text-center">{{date('m/d/Y h:i A', strtotime($d->injury_date))}}</td>
+                                <th class="text-center">{{$d->liquor_intoxication}}</th>
+                                <th class="text-center">{{$d->treatment_given}}</th>
+                                <th class="text-center">{{$d->disposition_after_consultation}}</th>
+                                <th class="text-center">{{$d->disposition_after_admission}}</th>
+                                <td class="text-center">{{$d->reported_by}}</td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
-                </div>
-                <div class="pagination justify-content-center mt-3">
-                    {{$list->appends(request()->input())->links()}}
                 </div>
                 @else
                 <p class="text-center">No results found.</p>
@@ -106,4 +121,18 @@
             </div>
         </div>
     </form>
+
+    <script>
+        $('#mainTbl').dataTable({
+            iDisplayLength: -1,
+            dom: 'Bfrit',
+            buttons: [
+                {
+                    extend: 'excel',
+                    title: '',
+                },
+                'copy',
+            ],
+        });
+    </script>
 @endsection
