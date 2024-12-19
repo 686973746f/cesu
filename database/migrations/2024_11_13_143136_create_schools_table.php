@@ -27,6 +27,7 @@ class CreateSchoolsTable extends Migration
             $table->string('schoolhead_position')->nullable();
             $table->string('focalperson_name')->nullable();
             $table->string('longlat')->nullable();
+            $table->string('qr');
             $table->timestamps();
         });
     }

@@ -62,7 +62,10 @@ use App\Http\Controllers\ABTCWalkInRegistrationController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\DisasterController;
 use App\Http\Controllers\EmployeesController;
+use App\Http\Controllers\FacilityReportingController;
 use App\Http\Controllers\HealthEventsController;
+use App\Http\Controllers\InjuryController;
+use App\Http\Controllers\SchoolBasedSurveillanceController;
 use App\Http\Controllers\SecondaryTertiaryRecordsController;
 
 /*
@@ -418,7 +421,9 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
     Route::get('/edcs/diseases_summary', [PIDSRController::class, 'diseaseSummaryView'])->name('edcs_disease_summary_view');
 
     Route::post('/edcs/tkc_import', [PIDSRController::class, 'tkcImport'])->name('tkc_import');
-    Route::post('/edcs/edcs_importv2', [PIDSRController::class, 'uploadEdcsZipFile'])->name('edcs_importv2');
+    Route::post('/edcs/edcs_importv2', [PIDSRController::class, 'uploadEdcsZipFile'])->name('edcs_importv2');\
+
+    Route::get('/edcs/sbs', [SchoolBasedSurveillanceController::class, 'adminHome'])->name('sbs_admin_home');
 });
 
 Route::get('/edcs/barangayportal', [PIDSRController::class, 'brgyCaseViewerWelcome'])->name('edcs_barangay_welcome');
@@ -867,6 +872,16 @@ Route::get('json/mwcombine', [JsonReportController::class, 'mwcombine']);
 Route::get('fwri/{code}', [FwriController::class, 'index'])->name('fwri_index');
 Route::post('fwri/{code}/add', [FwriController::class, 'store'])->name('fwri_store');
 Route::get('fwri/{code}/success', [FwriController::class, 'success'])->name('fwri_success');
+
+//INJURY - VEHICLE INJURY REPORTING
+Route::get('facility_report/{code}', [FacilityReportingController::class, 'index'])->name('facility_report_index');
+Route::get('facility_report/{code}/injury_reporting', [InjuryController::class, 'index'])->name('facility_report_injury_index');
+Route::post('facility_report/{code}/injury_reporting/store', [InjuryController::class, 'store'])->name('facility_report_injury_store');
+
+//SCHOOL BASED SURVEILLANCE
+Route::get('sbs/{code}', [SchoolBasedSurveillanceController::class, 'index'])->name('sbs_index');
+Route::get('sbs/{code}/list', [SchoolBasedSurveillanceController::class, 'viewList'])->name('sbs_view');
+Route::post('sbs/{code}/store', [SchoolBasedSurveillanceController::class, 'store'])->name('sbs_store');
 
 Route::get('health_event/{event_code}/{facility_code}', [HealthEventsController::class, 'encodeIndex'])->name('he_index');
 Route::get('health_event/{event_code}/{facility_code}/encode', [HealthEventsController::class, 'encodeCheck'])->name('he_check');
