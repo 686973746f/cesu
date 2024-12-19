@@ -32,6 +32,7 @@
         $rtv_list = [];
         $typ_list = [];
         $sari_list = [];
+        $covid_list = [];
     @endphp
     @foreach($list as $l)
         @php
@@ -302,6 +303,14 @@
             }
 
             $sari_list[$barangay][] = $l;
+        }
+        else if($l['type'] == 'COVID-19') {
+            $barangay = $l['brgy'];
+            if (!isset($covid_list[$barangay])) {
+                $covid_list[$barangay] = [];
+            }
+
+            $covid_list[$barangay][] = $l;
         }
         @endphp
     @endforeach
@@ -634,9 +643,32 @@
 
     @endif
 
-    @if(!empty($abd_list) || !empty($aes_list) || !empty($ahf_list) || !empty($hep_list) || !empty($ame_list) || !empty($mgt_list) || !empty($chi_list) || !empty($cho_list) || !empty($den_list) || !empty($dip_list) || !empty($ili_list) || !empty($lep_list) || !empty($mal_list) || !empty($nnt_list) || !empty($per_list) || !empty($rtv_list) || !empty($typ_list))
+    @if(!empty($abd_list) || !empty($aes_list) || !empty($ahf_list) || !empty($hep_list) || !empty($ame_list) || !empty($mgt_list) || !empty($chi_list) || !empty($cho_list) || !empty($den_list) || !empty($dip_list) || !empty($ili_list) || !empty($lep_list) || !empty($mal_list) || !empty($nnt_list) || !empty($per_list) || !empty($rtv_list) || !empty($typ_list) || !empty($covid_list))
     <p><b>Category II (Weekly Notifiable)</b></p>
     <h2 style="color: red;">MW{{date('W, Y', strtotime('-1 Week'))}}</h2>
+    @if(!empty($covid_list))
+    <ul>
+        <b>COVID-19:</b>
+        @foreach($covid_list as $brgy => $rows)
+        <li>COVID-19 <b>- BRGY. {{$brgy}}</b>:</li>
+        <br>
+        <ul>
+            @foreach($rows as $ind => $p)
+            <li>
+                <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
+                <div>{{$p['age']}} / {{$p['sex']}}</div>
+                <div>Address: {{mb_strtoupper($p['address'])}}</div>
+                <div>Contact No.: {{$p['mobile']}}</div>
+                <div>Date of Entry: {{date('M. d, Y', strtotime($p['doe']))}}</div>
+                <div>Classification: {{$p['cc']}}</div>
+                <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
+                <br>
+            </li>
+            @endforeach
+        </ul>
+        @endforeach
+    </ul>
+    @endif
     @if(!empty($abd_list))
     <ul>
         <b>Acute Bloody Diarrhea:</b>

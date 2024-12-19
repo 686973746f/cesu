@@ -4,6 +4,7 @@ namespace App\Models;
 
 //use App\Models\Records;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -810,6 +811,42 @@ class Forms extends Model
         }
         else {
             return 'KNOWN';
+        }
+    }
+
+    public function displayAgeStringToReport() {
+        if($this->age_years == 0) {
+            if($this->age_months == 0) {
+                return $this->age_days.' '.Str::plural('day', $this->age_days).' old';
+            }
+            else {
+                return $this->age_months.' '.Str::plural('month', $this->age_months).' old';
+            }
+        }
+        else {
+            return $this->age_years.' '.Str::plural('year', $this->age_years).' old';
+        }
+    }
+
+    public function getClassificationString() {
+        if($this->caseClassification == 'Suspect') {
+            return 'Suspected Case';
+        }
+        else if($this->caseClassification == 'Probable') {
+            if($this->testType1 == 'ANTIGEN' && $this->testResult1 == 'POSITIVE') {
+                return 'Probable Case (Antigen Positive)';
+            }
+            else {
+                return 'Probable Case';
+            }
+        }
+        if($this->caseClassification == 'Confirmed') {
+            if(!is_null($this->testType1)) {
+                return 'Confirmed Case ('.$this->testType1.')';
+            }
+            else {
+                return 'Confirmed Case';
+            }
         }
     }
 }

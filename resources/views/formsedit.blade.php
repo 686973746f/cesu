@@ -180,6 +180,7 @@
                                 <option value="OPS AND NPS" {{(old('temp_testType2', $records->testType2) == 'OPS AND NPS') ? 'selected' : ''}}>RT-PCR (OPS+NPS)</option>
                                 <option value="ANTIGEN" {{(old('temp_testType2', $records->testType2) == 'ANTIGEN') ? 'selected' : ''}}>Antigen Test</option>
                                 <option value="ANTIBODY" {{(old('temp_testType2', $records->testType2) == 'ANTIBODY') ? 'selected' : ''}}>Antibody Test</option>
+                                <option value="CARTRIDGE" {{(old('temp_testType2', $records->testType2) == 'CARTRIDGE') ? 'selected' : ''}}>Cartridge</option>
                                 <option value="OTHERS" {{(old('temp_testType2', $records->testType2) == 'OTHERS') ? 'selected' : ''}}>Others</option>
                             </select>
                         </div>
@@ -2178,6 +2179,7 @@
                                                     <option value="OPS AND NPS" {{(old('testType1', $records->testType1) == 'OPS AND NPS') ? 'selected' : ''}}>RT-PCR (OPS and NPS)</option>
                                                     <option value="ANTIGEN" {{(old('testType1', $records->testType1) == 'ANTIGEN') ? 'selected' : ''}}>Antigen Test</option>
                                                     <option value="ANTIBODY" {{(old('testType1', $records->testType1) == 'ANTIBODY') ? 'selected' : ''}}>Antibody Test</option>
+                                                    <option value="CARTRIDGE" {{(old('testType1', $records->testType1) == 'CARTRIDGE') ? 'selected' : ''}}>Cartridge</option>
                                                     <option value="OTHERS" {{(old('testType1', $records->testType1) == 'OTHERS') ? 'selected' : ''}}>Others</option>
                                                 </select>
                                               </div>
@@ -2268,6 +2270,7 @@
                                                     <option value="OPS AND NPS" {{(old('testType2', $records->testType2) == 'OPS AND NPS') ? 'selected' : ''}}>RT-PCR (OPS and NPS)</option>
                                                     <option value="ANTIGEN" {{(old('testType2', $records->testType2) == 'ANTIGEN') ? 'selected' : ''}}>Antigen Test</option>
                                                     <option value="ANTIBODY" {{(old('testType2', $records->testType2) == 'ANTIBODY') ? 'selected' : ''}}>Antibody Test</option>
+                                                    <option value="CARTRIDGE" {{(old('testType2', $records->testType2) == 'CARTRIDGE') ? 'selected' : ''}}>Cartridge</option>
                                                     <option value="OTHERS" {{(old('testType2', $records->testType2) == 'OTHERS') ? 'selected' : ''}}>Others</option>
                                               </select>
                                             </div>

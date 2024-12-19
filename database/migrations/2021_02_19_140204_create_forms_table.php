@@ -274,6 +274,7 @@ class CreateFormsTable extends Migration
             $table->text('tkc_sentinel_reporting_unit')->nullable();
             $table->text('tkc_outcome')->nullable();
             $table->string('system_isverified', 1)->nullable();
+            $table->tinyInteger('notify_email_sent')->default(0);
         });
     }
 

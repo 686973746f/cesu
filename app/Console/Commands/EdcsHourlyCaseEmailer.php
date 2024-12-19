@@ -2,11 +2,12 @@
 
 namespace App\Console\Commands;
 
-use App\Http\Controllers\PIDSRController;
 use Carbon\Carbon;
+use App\Models\Forms;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EdcsHourlyCaseCheckerMail;
+use App\Http\Controllers\PIDSRController;
 
 class EdcsHourlyCaseEmailer extends Command
 {
@@ -16,6 +17,8 @@ class EdcsHourlyCaseEmailer extends Command
      * @var string
      */
     protected $signature = 'edcscaseemailer:hourly';
+
+    //Not Hourly Anymore, Every minute na. Tinamad lang ako mag-rename
 
     /**
      * The console command description.
@@ -109,15 +112,27 @@ class EdcsHourlyCaseEmailer extends Command
                 'Rotavirus',
                 'Typhoid',
                 'SevereAcuteRespiratoryInfection',
+
+                'Covid',
             ];
 
             foreach($diseases as $d) {
-                $modelClass = "App\\Models\\$d";
+                if($d != 'Covid') {
+                    $modelClass = "App\\Models\\$d";
 
-                $fetch_case = $modelClass::where('enabled', 1)
-                ->where('match_casedef', 1)
-                ->where('notify_email_sent', 0);
-
+                    $fetch_case = $modelClass::where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('notify_email_sent', 0);
+                }
+                else {
+                    $fetch_case = Forms::where('status', 'approved')
+                    ->whereHas('records', function ($q) {
+                        $q->where('records.address_province', 'CAVITE')
+                        ->where('records.address_city', 'GENERAL TRIAS');
+                    })
+                    ->where('notify_email_sent', 0);
+                }
+                
                 if($fetch_case->count() != 0) {
                     $l = $fetch_case->get();
 
@@ -181,10 +196,14 @@ class EdcsHourlyCaseEmailer extends Command
                     else if($d == 'SevereAcuteRespiratoryInfection') {
                         $get_type = 'Severe Acute Respiratory Infection';
                     }
+                    else if($d == 'Covid') {
+                        $get_type = 'COVID-19';
+                    }
 
                     $lab_array = [];
 
                     foreach($l as $i) {
+                        /*
                         //Check Lab Details
                         if($d == 'SevereAcuteRespiratoryInfection') {
                             $get_epiid = $i->epi_id;
@@ -195,7 +214,6 @@ class EdcsHourlyCaseEmailer extends Command
                             $get_caseid = $i->edcs_caseid;
                         }
 
-                        /*
                         $getLabDetails = PIDSRController::getLabDetails($get_epiid, $get_caseid);
 
                         if($getLabDetails->count() != 0) {
@@ -218,6 +236,14 @@ class EdcsHourlyCaseEmailer extends Command
                             $get_address = (!is_null($i->streetpurok)) ? mb_strtoupper($i->streetpurok) : 'NO ADDRESS ENCODED';
                             $get_doe = $i->created_at;
                             $get_dru = $i->facility_name;
+                        }
+                        else if($d == 'Covid') {
+                            $get_fullname = $i->records->getName();
+                            $get_sex = substr($i->records->gender,0,1);
+                            $get_brgy = $i->records->address_brgy;
+                            $get_address = $i->records->getStreetPurok();
+                            $get_doe = ($i->from_tkc == 1) ? $i->dateReported : $i->created_at;
+                            $get_dru = $i->drunit;
                         }
                         else {
                             $get_fullname = $i->FullName;
@@ -252,6 +278,13 @@ class EdcsHourlyCaseEmailer extends Command
                                 'sx' => $i->listSymptoms(),
                                 'name_of_parentcaregiver' => $i->name_of_parentcaregiver,
                                 'parent_contactno' => $i->parent_contactno,
+                            ];
+                        }
+
+                        if($d == 'Covid') {
+                            $table_params = $table_params + [
+                                'cc' => $i->getClassificationString(),
+                                'mobile' => $i->records->mobile,
                             ];
                         }
  

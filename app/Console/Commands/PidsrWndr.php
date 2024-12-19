@@ -16,6 +16,7 @@ use App\Models\Diph;
 use App\Models\Hfmd;
 use App\Models\Pert;
 use App\Models\Chikv;
+use App\Models\Forms;
 use App\Models\Dengue;
 use App\Models\Rabies;
 use App\Models\Anthrax;
@@ -39,8 +40,8 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use PhpOffice\PhpWord\TemplateProcessor;
 use App\Http\Controllers\PIDSRController;
-use App\Models\SevereAcuteRespiratoryInfection;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use App\Models\SevereAcuteRespiratoryInfection;
 use PhpOffice\PhpWord\IOFactory as WordFactory;
 use PhpOffice\PhpSpreadsheet\IOFactory as ExcelFactory;
 
@@ -1618,6 +1619,62 @@ class PidsrWndr extends Command
             $sari_count = $sari->count();
 
             $sari_update = $sari->update([
+                'systemsent' => 1,
+                'notify_email_sent' => 1,
+                'notify_email_sent_datetime' => date('Y-m-d H:i:s'),
+                'encoded_mw' => (date('W') - 1),
+            ]);
+
+            $covid = Forms::whereHas('records', function ($q) {
+                $q->where('records.address_province', 'CAVITE')
+                ->where('records.address_city', 'GENERAL TRIAS');
+            })
+            ->where('status', 'approved')
+            ->where('systemsent', 0)
+            ->where('year', date('Y', strtotime('-1 Week')))
+            ->where('morb_week', '<=', date('W', strtotime('-1 Week')));
+
+            if($covid->count() != 0) {
+                $l = $covid->get();
+                $get_type = 'COVID-19';
+
+                //$lab_array = [];
+
+                foreach($l as $i) {
+                    /*
+                    //Check Lab Details
+                    $getLabDetails = PIDSRController::getLabDetails($i->epi_id, $i->edcs_caseid);
+
+                    if($getLabDetails->count() != 0) {
+                        foreach($getLabDetails as $ld) {
+                            $lab_array[] = [
+                                'test_type' => $ld->test_type,
+                                'specimen_type' => $ld->specimen_type,
+                                'date_collected' => Carbon::parse($ld->specimen_collected_date)->format('m/d/Y'),
+                                'result' => $ld->result,
+                            ];
+                        }
+                    }
+                    */
+
+                    array_push($list, [
+                        'type' => $get_type,
+                        'name' => $i->records->getName(),
+                        'age' => $i->age_years,
+                        'sex' => substr($i->records->gender,0,1),
+                        'brgy' => $i->records->address_brgy,
+                        'address' => $i->records->getStreetPurok(),
+                        'doe' => ($i->from_tkc == 1) ? $i->dateReported : $i->created_at,
+                        'dru' => $i->drunit,
+                        'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        //'lab_data' => $lab_array,
+                    ]);
+                }
+            }
+
+            $covid_count = $covid->count();
+
+            $covid_update = $covid->update([
                 'systemsent' => 1,
                 'notify_email_sent' => 1,
                 'notify_email_sent_datetime' => date('Y-m-d H:i:s'),

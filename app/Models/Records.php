@@ -166,6 +166,25 @@ class Records extends Model
         }
     }
 
+    public function getStreetPurok() {
+        if($this->address_houseno != '' || $this->address_street != '') {
+            $str = '';
+
+            if($this->address_houseno != '') {
+                $str = $this->address_houseno;
+            }
+
+            if($this->address_street != '') {
+                $str = $str.' '.$this->address_street;
+            }
+
+            return $str;
+        }
+        else {
+            return 'Street/Purok not Encoded';
+        }
+    }
+
     public function getAddress() {
         return $this->address_houseno.', '.$this->address_street.', BRGY. '.$this->address_brgy.', '.$this->address_city.', '.$this->address_province;
     }
@@ -175,10 +194,6 @@ class Records extends Model
 
         if(!is_null($this->mname)) {
             $final = $final.' '.$this->mname;
-            
-        }
-        else {
-            return $final;
         }
 
         return $final;

@@ -30,10 +30,14 @@
                                 <th>City/Municipality</th>
                                 <th>Contact Number</th>
                                 <th>Date Reported</th>
+                                <th>Involvement Type</th>
                                 <th>Nature of Injury</th>
+                                <th>Type of Injury</th>
+                                <th>Diagnosis</th>
                                 <th>Anatomical Location</th>
                                 <th>Injury Occurred at</th>
                                 <th>Name of Firecracker</th>
+                                <th>Fireworks Illegal</th>
                                 <th>Date of Injury</th>
                                 <th>Liquor Intoxication</th>
                                 <th>Treatment Given</th>
@@ -56,10 +60,14 @@
                                 <td class="text-center">{{$d->address_muncity_text}}</td>
                                 <td class="text-center">{{$d->contact_number}}</td>
                                 <td class="text-center">{{date('m/d/Y', strtotime($d->report_date))}}</td>
+                                <td class="text-center">{{$d->involvement_type}}</td>
                                 <td class="text-center">{{$d->nature_injury}}</td>
+                                <td class="text-center">{{$d->iffw_typeofinjury}}</td>
+                                <td class="text-center">{{$d->complete_diagnosis}}</td>
                                 <td class="text-center">{{$d->anatomical_location}}</td>
                                 <td class="text-center"><small>{{$d->getInjuryAddStr()}}</small></td>
                                 <td class="text-center">{{$d->firework_name}}</td>
+                                <td class="text-center">{{$d->firework_illegal}}</td>
                                 <td class="text-center">{{date('m/d/Y h:i A', strtotime($d->injury_date))}}</td>
                                 <th class="text-center">{{$d->liquor_intoxication}}</th>
                                 <th class="text-center">{{$d->treatment_given}}</th>

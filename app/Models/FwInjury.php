@@ -207,11 +207,15 @@ class FwInjury extends Model
     }
 
     public function getInjuryAddStr() {
+        /*
         if($this->injury_sameadd == 'Y') {
-            return 'SAME AS CURRENT ADDRESS';
+            return $this->getInjuryAddress();
         }
         else {
             return $this->getInjuryAddress();
         }
+        */
+
+        return $this->getInjuryAddress();
     }
 }
