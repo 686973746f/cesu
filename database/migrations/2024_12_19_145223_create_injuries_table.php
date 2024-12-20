@@ -113,16 +113,16 @@ class CreateInjuriesTable extends Migration
             $table->text('other_vehicle_involved')->nullable();
             $table->text('other_vehicle_involved_others')->nullable();
             $table->string('patient_position')->nullable();
-            $table->string('patient_position_others')->nullable();
+            $table->text('patient_position_others')->nullable();
             $table->string('placeof_occurrence')->nullable();
             $table->string('placeof_occurrence_workplace_specify')->nullable();
-            $table->string('placeof_occurrence_others_specify')->nullable();
+            $table->text('placeof_occurrence_others_specify')->nullable();
             $table->string('activitypatient_duringincident')->nullable();
-            $table->string('activitypatient_duringincident_others')->nullable();
+            $table->text('activitypatient_duringincident_others')->nullable();
             $table->string('otherrisk_factors')->nullable();
-            $table->string('otherrisk_factors_others')->nullable();
+            $table->text('otherrisk_factors_others')->nullable();
             $table->string('safety')->nullable();
-            $table->string('safety_others')->nullable();
+            $table->text('safety_others')->nullable();
 
             //HOSPITAL/FACILITY DATA
             $table->string('transferred_fromanotherhospital', 1);
@@ -131,7 +131,7 @@ class CreateInjuriesTable extends Migration
             $table->string('status_reachingfacility');
             $table->string('status_ifalive_type')->nullable();
             $table->string('modeof_transport');
-            $table->string('modeof_transport_others')->nullable();
+            $table->text('modeof_transport_others')->nullable();
             $table->text('initial_impression')->nullable();
             $table->string('icd10_nature')->nullable();
             $table->string('icd10_external')->nullable();
@@ -141,13 +141,14 @@ class CreateInjuriesTable extends Migration
 
             $table->text('inp_completefinal_diagnosis')->nullable();
             $table->string('inp_disposition')->nullable();
-            $table->string('inp_disposition_others')->nullable();
+            $table->text('inp_disposition_others')->nullable();
             $table->string('inp_disposition_transferred')->nullable();
             $table->string('inp_outcome')->nullable();
             $table->string('inp_icd10_nature')->nullable();
             $table->string('inp_icd10_external')->nullable();
 
             $table->text('comments')->nullable();
+            $table->string('qr');
             
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');

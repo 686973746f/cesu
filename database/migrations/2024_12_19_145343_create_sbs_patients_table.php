@@ -56,6 +56,10 @@ class CreateSbsPatientsTable extends Migration
             $table->integer('report_month');
             $table->integer('report_week');
 
+            $table->string('had_checkuponfacilityafter', 1)->default('N');
+            $table->string('name_facility')->nullable();
+            $table->string('qr');
+
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->timestamps();
