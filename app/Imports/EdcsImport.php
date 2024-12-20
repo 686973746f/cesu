@@ -1130,7 +1130,6 @@ class HfmdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_contactNo' => isset($row['contact_no']) ? $row['contact_no'] : NULL,
                 'edcs_ageGroup' => isset($row['age_group']) ? $row['age_group'] : NULL,
                 'from_edcs' => 1,
-                'match_casedef' => $match_casedef,
 
                 'edcs_userid' => $row['user_id'],
                 'edcs_last_modifiedby' => $row['last_modified_by'],
@@ -1151,6 +1150,7 @@ class HfmdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             }
             else {
                 $table_params = $table_params + [
+                    'match_casedef' => $match_casedef,
                     'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
                     'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
                     'created_by' => auth()->user()->id,

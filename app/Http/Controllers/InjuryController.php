@@ -19,4 +19,10 @@ class InjuryController extends Controller
             return abort(401);
         }
     }
+
+    public function store($code, Request $r) {
+        $d = DohFacility::where('sys_code1', $code)->first();
+
+        
+    }
 }

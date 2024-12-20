@@ -30,6 +30,6 @@ class FwriZeroCase extends Mailable
     {
         return $this->view('email.fwrizerocase')
         ->from('admin@cesugentri.com', 'Christian James Historillo')
-        ->subject('FWRI Daily Report - ZERO CASE - CESU General Trias '.date('m/d/Y'));
+        ->subject('General Trias CESU - FWRI Zero Case Report '.date('M. d, Y'));
     }
 }

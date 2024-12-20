@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex justify-content-between">
-                        <div><b>Weekly Submission</b></div>
+                        <div><b>City of General Trias - Online EDCS-IS Weekly Submission Tool</b></div>
                         <div><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modelId">Change Reporting Period</button></div>
                     </div>
                 </div>
