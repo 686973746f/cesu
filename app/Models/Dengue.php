@@ -7,6 +7,60 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/*
+ALTER TABLE dengue ADD sys_interviewer_name VARCHAR(255);
+ALTER TABLE dengue ADD sys_interviewer_contactno VARCHAR(255);
+ALTER TABLE dengue ADD sys_occupationtype VARCHAR(255);
+ALTER TABLE dengue ADD sys_businessorschool_name TEXT;
+ALTER TABLE dengue ADD sys_businessorschool_address TEXT;
+ALTER TABLE dengue ADD sys_feverdegrees VARCHAR(2);
+
+ALTER TABLE dengue ADD sys_headache VARCHAR(1) DEFAULT 'N';
+ALTER TABLE dengue ADD sys_retropain VARCHAR(1) DEFAULT 'N';
+ALTER TABLE dengue ADD sys_jointpain VARCHAR(1) DEFAULT 'N';
+ALTER TABLE dengue ADD sys_jointswelling VARCHAR(1) DEFAULT 'N';
+ALTER TABLE dengue ADD sys_musclepain VARCHAR(1) DEFAULT 'N';
+ALTER TABLE dengue ADD sys_sorethroat VARCHAR(1) DEFAULT 'N';
+ALTER TABLE dengue ADD sys_nausea VARCHAR(1) DEFAULT 'N';
+ALTER TABLE dengue ADD sys_vomiting VARCHAR(1) DEFAULT 'N';
+ALTER TABLE dengue ADD sys_diarrhea VARCHAR(1) DEFAULT 'N';
+ALTER TABLE dengue ADD sys_abdominalpain VARCHAR(1) DEFAULT 'N';
+ALTER TABLE dengue ADD sys_positivetonique VARCHAR(1) DEFAULT 'N';
+ALTER TABLE dengue ADD sys_petechiae VARCHAR(1) DEFAULT 'N';
+ALTER TABLE dengue ADD sys_echhymosis VARCHAR(1) DEFAULT 'N';
+ALTER TABLE dengue ADD sys_maculopapularrash VARCHAR(1) DEFAULT 'N';
+ALTER TABLE dengue ADD sys_gumbleeding VARCHAR(1) DEFAULT 'N';
+ALTER TABLE dengue ADD sys_gibleeding VARCHAR(1) DEFAULT 'N';
+ALTER TABLE dengue ADD sys_nosebleeding VARCHAR(1) DEFAULT 'N';
+ALTER TABLE dengue ADD sys_hepatomegaly VARCHAR(1) DEFAULT 'N';
+ALTER TABLE dengue ADD sys_lymphadenopathy VARCHAR(1) DEFAULT 'N';
+ALTER TABLE dengue ADD sys_leucopenia VARCHAR(1) DEFAULT 'N';
+ALTER TABLE dengue ADD sys_thrombocytopenia VARCHAR(1) DEFAULT 'N';
+ALTER TABLE dengue ADD sys_thrombo_initial VARCHAR(10);
+ALTER TABLE dengue ADD sys_thrombo_lowest VARCHAR(10);
+ALTER TABLE dengue ADD sys_haemaconcentration VARCHAR(1) DEFAULT 'N';
+
+ALTER TABLE dengue ADD sys_medication_taken TEXT;
+ALTER TABLE dengue ADD sys_hospitalized_name TEXT;
+ALTER TABLE dengue ADD sys_hospitalized_datestart DATE;
+ALTER TABLE dengue ADD sys_hospitalized_dateend DATE;
+ALTER TABLE dengue ADD sys_outcome VARCHAR(10);
+ALTER TABLE dengue ADD sys_outcome_date DATE;
+ALTER TABLE dengue ADD sys_historytravel2weeks VARCHAR(1) DEFAULT 'N';
+ALTER TABLE dengue ADD sys_historytravel2weeks_where TEXT;
+ALTER TABLE dengue ADD sys_exposedtosimilarcontact VARCHAR(1) DEFAULT 'N';
+
+ALTER TABLE dengue ADD sys_contactnames TEXT;
+ALTER TABLE dengue ADD sys_contactaddress TEXT;
+
+ALTER TABLE dengue ADD sys_animal_presence_list TEXT;
+ALTER TABLE dengue ADD sys_animal_presence_others TEXT;
+
+ALTER TABLE dengue ADD sys_water_presence_inside_list TEXT;
+ALTER TABLE dengue ADD sys_water_presence_outside_list TEXT;
+ALTER TABLE dengue ADD sys_water_presence_outside_others TEXT;
+*/
+
 class Dengue extends Model
 {
     use HasFactory;

@@ -583,27 +583,23 @@ class EmployeesController extends Controller
         }
     }
 
-    public function blsIndex() {
+    public function blsHome() {
 
     }
 
-    public function viewBlsMasterlist() {
+    public function viewBlsBatch($batch_id) {
 
     }
 
-    public function storeBlsEvent(Request $r) {
+    public function storeBlsBatch(Request $r) {
         
     }
 
-    public function viewBlsEvent($bls_id) {
-
-    }
-
-    public function updateBlsEvent($bls_id, Request $r) {
+    public function updateBlsEvent($batch_id, Request $r) {
         
     }
 
-    public function storeBlsMemberOnEvent($bls_id, Request $r) {
+    public function storeBlsProvider($batch_id, Request $r) {
 
     }
 }

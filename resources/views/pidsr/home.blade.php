@@ -81,6 +81,7 @@
                       <label for="disease"><b class="text-danger">*</b>Select Case</label>
                       <select class="form-control" name="disease" id="disease" required>
                         <option value="" disabled selected>Choose...</option>
+                        <option value="DENGUE">Dengue</option>
                         <option value="MPOX">Monkeypox</option>
                       </select>
                     </div>
@@ -110,9 +111,14 @@
                         <label for="bdate"><b class="text-danger">*</b>Birthdate</label>
                         <input type="date" class="form-control" name="bdate" id="bdate" value="{{old('bdate')}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
                     </div>
+                    <hr>
+                    <div class="form-group">
+                        <label for="entry_date"><b class="text-danger">*</b>Date Admitted/Seen/Consulted</label>
+                        <input type="date" class="form-control" name="entry_date" id="entry_date" value="{{old('entry_date')}}" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}" required>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Next</button>
+                    <button type="submit" class="btn btn-success btn-block">Next</button>
                 </div>
             </div>
         </div>

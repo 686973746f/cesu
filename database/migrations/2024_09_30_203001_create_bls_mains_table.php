@@ -15,6 +15,15 @@ class CreateBlsMainsTable extends Migration
     {
         Schema::create('bls_mains', function (Blueprint $table) {
             $table->id();
+
+            $table->string('batch_number');
+            $table->string('agency');
+            $table->string('training_date_start');
+            $table->string('training_date_end');
+            $table->string('venue')->nullable();
+
+            $table->text('instructors_list')->nullable();
+            $table->string('prepared_by')->nullable();
             $table->timestamps();
         });
     }

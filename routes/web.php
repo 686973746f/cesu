@@ -430,6 +430,9 @@ Route::get('/edcs/barangayportal', [PIDSRController::class, 'brgyCaseViewerWelco
 Route::get('/edcs/barangayportal/quicklogin', [PIDSRController::class, 'brgyCaseViewerQuickLogin'])->name('edcs_barangay_quicklogin');
 Route::post('/edcs/barangayportal/login', [PIDSRController::class, 'brgyCaseViewerLogin'])->name('edcs_barangay_login');
 
+Route::get('/edcs/{facility_code}/report_case/check', [PIDSRController::class, 'addCaseCheck'])->name('edcs_facility_addcase_check');
+Route::post('/edcs/{facility_code}/disease_reporting/{disease}/store', [PIDSRController::class, 'addCaseStore'])->name('edcs_facility_addcase_store');
+
 Route::group(['middleware' => ['isLoggedInEdcsBrgyPortal']], function() {
     Route::get('/edcs/barangayportal/home', [PIDSRController::class, 'brgyCaseViewerHome'])->name('edcs_barangay_home');
     Route::get('/edcs/barangayportal/{case}/view', [PIDSRController::class, 'brgyCaseViewerViewList'])->name('edcs_barangay_view_list');
@@ -546,6 +549,11 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessE
     Route::get('duties/{duty_id}/view_patients/{patient_id}/edit', [EmployeesController::class, 'editDutyPatients'])->name('duty_editpatient');
     Route::post('duties/{duty_id}/view_patients/{patient_id}/update', [EmployeesController::class, 'updateDutyPatients'])->name('duty_updatepatient');
     
+    Route::get('bls_home', [EmployeesController::class, 'blsHome'])->name('bls_home');
+    Route::get('bls/{batch_id}/view', [EmployeesController::class, 'viewBlsBatch'])->name('bls_viewbatch');
+    Route::post('bls_home/store', [EmployeesController::class, 'storeBlsBatch'])->name('bls_storebatch');
+    Route::post('bls/{batch_id}/view/store', [EmployeesController::class, 'viewDutyPatients'])->name('bls_storeparticipants');
+    Route::post('bls/{batch_id}/view/update', [EmployeesController::class, 'updateBlsEvent'])->name('bls_updatebatch');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel3']], function() {

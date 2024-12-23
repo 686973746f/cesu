@@ -44,6 +44,9 @@ class CreateDohFacilitiesTable extends Migration
             $table->string('email2')->nullable();
             $table->string('email_edcs')->nullable();
             $table->string('is_weeklyreport_submitter', 1)->default('N');
+            $table->text('edcs_defaultreporter_name')->nullable();
+            $table->text('edcs_defaultreporter_position')->nullable();
+            $table->text('edcs_defaultreporter_contactno')->nullable();
             $table->text('website')->nullable();
             $table->text('service_capability')->nullable();
             $table->text('bed_capacity')->nullable();

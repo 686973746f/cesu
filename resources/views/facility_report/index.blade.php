@@ -7,9 +7,68 @@
             <div class="card-body">
                 <a href="{{route('fwri_index', $d->sys_code1)}}" class="btn btn-primary btn-lg btn-block">Report Fireworks-Related Injury</a>
                 <a href="{{route('facility_report_injury_index', $d->sys_code1)}}" class="btn btn-primary btn-lg btn-block">Report Vehicular Accident and other Injuries</a>
+                <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#addCase">Encode Case of Reportable Disease</button>
                 <hr>
                 <a href="{{route('edcs_facility_weeklysubmission_view', $d->sys_code1)}}" class="btn btn-primary btn-lg btn-block">EDCS-IS Weekly Submission</a>
             </div>
         </div>
     </div>
+
+    <form action="{{route('edcs_facility_addcase_check', $d->sys_code1)}}" method="GET">
+        <div class="modal fade" id="addCase" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add New Case</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                          <label for="disease"><b class="text-danger">*</b>Select Case</label>
+                          <select class="form-control" name="disease" id="disease" required>
+                            <option value="" disabled selected>Choose...</option>
+                            <option value="DENGUE">Dengue</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="lname"><b class="text-danger">*</b>Last Name</label>
+                            <input type="text" class="form-control" name="lname" id="lname" value="{{old('lname')}}" minlength="2" maxlength="50" placeholder="ex: DELA CRUZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="fname"><b class="text-danger">*</b>First Name</label>
+                            <input type="text" class="form-control" name="fname" id="fname" value="{{old('fname')}}" minlength="2" maxlength="50" placeholder="ex: JUAN" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="mname">Middle Name <i>(If Applicable)</i></label>
+                                    <input type="text" class="form-control" name="mname" id="mname" value="{{old('mname')}}" minlength="2" maxlength="50" placeholder="ex: SANCHEZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="suffix">Suffix <i>(If Applicable)</i></label>
+                                    <input type="text" class="form-control" name="suffix" id="suffix" value="{{old('suffix')}}" minlength="2" maxlength="3" placeholder="ex: JR, SR, III, IV" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="bdate"><b class="text-danger">*</b>Birthdate</label>
+                            <input type="date" class="form-control" name="bdate" id="bdate" value="{{old('bdate')}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <label for="entry_date"><b class="text-danger">*</b>Date Admitted/Seen/Consulted</label>
+                            <input type="date" class="form-control" name="entry_date" id="entry_date" value="{{old('entry_date')}}" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success btn-block">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 @endsection

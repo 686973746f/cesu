@@ -69,6 +69,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use App\Jobs\EdcsWeeklySubmissionSendEmail;
 use App\Models\EdcsWeeklySubmissionChecker;
 use App\Jobs\CallEdcsWeeklySubmissionSendEmail;
+use App\Models\EdcsBrgy;
 use App\Models\SevereAcuteRespiratoryInfection;
 
 /*
@@ -8953,6 +8954,8 @@ class PIDSRController extends Controller
         $suffix = (!is_null(request()->input('mname'))) ? mb_strtoupper(request()->input('suffix')) : NULL;
         $bdate = request()->input('bdate');
 
+        $entry_date = Carbon::parse(request()->input('entry_date'));
+
         if($disease == 'MPOX') {
             $check = MonkeyPox::where('lname', $lname)
             ->where('fname', $fname)
@@ -8963,6 +8966,17 @@ class PIDSRController extends Controller
 
             if(!$check) {
                 return $this->mPoxNewOrEdit(new MonkeyPox())->with('mode', 'NEW');
+            }
+        }
+        else if($disease == 'DENGUE') {
+            $check = Dengue::where('FamilyName', $lname)
+            ->where('FirstName', $fname)
+            ->where('Year', $entry_date->format('Y'))
+            ->where('MorbidityMonth', $entry_date->format('n'))
+            ->first();
+
+            if(!$check) {
+                return $this->dengueNewOrEdit(new Dengue())->with('mode', 'NEW');
             }
         }
     }
@@ -9159,6 +9173,9 @@ class PIDSRController extends Controller
                 ->with('msgtype', 'warning');
             }
         }
+        else if($disease == 'DENGUE') {
+            
+        }
     }
 
     public function caseViewEditV2($disease, $id) {
@@ -9195,6 +9212,31 @@ class PIDSRController extends Controller
             'd' => $record,
             'f' => $f,
             'mode' => 'EDIT',
+        ]);
+    }
+
+    public function dengueNewOrEdit(Dengue $record) {
+        //Get Facility
+        if(request()->route('facility_code')) {
+            $facility_code = request()->route('facility_code');
+            $route = route('edcs_facility_addcase_store', [$facility_code, 'DENGUE']);
+
+            $f = DohFacility::where('sys_code1', $facility_code)->first();
+        }
+        else {
+            $route = route('edcs_addcase_store');
+
+            $f = DohFacility::where('id', auth()->user()->itr_facility_id)->first();
+        }
+
+        $brgy_list = EdcsBrgy::where('city_id', 388)->orderBy('name', 'ASC')->get();
+
+        return view('pidsr.dengue.cif', [
+            'd' => $record,
+            'f' => $f,
+            'mode' => 'EDIT',
+            'route' => $route,
+            'brgy_list' => $brgy_list,
         ]);
     }
 

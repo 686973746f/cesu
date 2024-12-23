@@ -97,6 +97,8 @@
             <div class="modal-body">
                 <a href="{{route('employees_index')}}" class="btn btn-primary btn-block">List of Employees</a>
                 <a href="{{route('duty_index')}}" class="btn btn-primary btn-block">HERT Duties</a>
+                <hr>
+                <a href="{{route('bls_home')}}" class="btn btn-primary btn-block">BLS/SFA</a>
             </div>
         </div>
     </div>
