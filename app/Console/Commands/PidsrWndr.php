@@ -1611,8 +1611,6 @@ class PidsrWndr extends Command
                         'doe' => $i->created_at,
                         'dru' => $i->facility_name,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
-                        'cc' => $i->getClassificationString(),
-                        'mobile' => $i->records->mobile,
                         //'lab_data' => $lab_array,
                     ]);
                 }
@@ -1669,6 +1667,8 @@ class PidsrWndr extends Command
                         'doe' => ($i->from_tkc == 1) ? $i->dateReported : $i->created_at,
                         'dru' => $i->drunit,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'cc' => $i->getClassificationString(),
+                        'mobile' => $i->records->mobile,
                         //'lab_data' => $lab_array,
                     ]);
                 }
