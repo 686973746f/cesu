@@ -171,31 +171,31 @@
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_musclepain" name="sys_musclepain">
                             <label class="form-check-label" for="sys_musclepain">
-                              Muscle Pain
+                              Muscle Pain (Masakit ang mga kalamnan)
                             </label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_sorethroat" name="sys_sorethroat">
                             <label class="form-check-label" for="sys_sorethroat">
-                              Sore Throat
+                              Sore Throat (Masakit ang lalamunan)
                             </label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_nausea" name="sys_nausea">
                             <label class="form-check-label" for="sys_nausea">
-                              Nausea
+                              Nausea (Nahihilo)
                             </label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_vomiting" name="sys_vomiting">
                             <label class="form-check-label" for="sys_vomiting">
-                              Vomiting
+                              Vomiting (Pagsusuka)
                             </label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_diarrhea" name="sys_diarrhea">
                             <label class="form-check-label" for="sys_diarrhea">
-                              Diarrhea
+                              Diarrhea (Pagtatae)
                             </label>
                         </div>
                     </div>
@@ -203,7 +203,7 @@
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_abdominalpain" name="sys_abdominalpain">
                             <label class="form-check-label" for="sys_abdominalpain">
-                              Abdominal Pain
+                              Abdominal Pain (Pananakit ng Tiyan)
                             </label>
                         </div>
                         <div class="form-check">
@@ -215,13 +215,13 @@
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_petechiae" name="sys_petechiae">
                             <label class="form-check-label" for="sys_petechiae">
-                              Petechiae
+                              Petechiae (Purpuric Spots)
                             </label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_echhymosis" name="sys_echhymosis">
                             <label class="form-check-label" for="sys_echhymosis">
-                              sys_echhymosis
+                              Echhymosis (Pagsusugat ng Balat)
                             </label>
                         </div>
                         <div class="form-check">
@@ -239,7 +239,7 @@
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_gibleeding" name="sys_gibleeding">
                             <label class="form-check-label" for="sys_gibleeding">
-                              GI Bleeding
+                                Gastrointestinal Bleeding (Dugo sa Dumi)
                             </label>
                         </div>
                         <div class="form-check">
@@ -251,7 +251,7 @@
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_hepatomegaly" name="sys_hepatomegaly">
                             <label class="form-check-label" for="sys_hepatomegaly">
-                              Hepatomegaly
+                              Hepatomegaly (Pamamaga ng Atay)
                             </label>
                         </div>
                     </div>
@@ -259,25 +259,25 @@
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_hepatomegaly" name="sys_hepatomegaly">
                             <label class="form-check-label" for="sys_lymphadenopathy">
-                              Lymphadenopathy
+                              Lymphadenopathy (Pamamaga ng Lymph Nodes)
                             </label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_hepatomegaly" name="sys_hepatomegaly">
                             <label class="form-check-label" for="sys_leucopenia">
-                              Leucopenia
+                              Leucopenia (Mababa ang White Blood Cells)
                             </label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_hepatomegaly" name="sys_hepatomegaly">
                             <label class="form-check-label" for="sys_thrombocytopenia">
-                              Thrombocytopenia
+                              Thrombocytopenia (Mababa ang Platelet Count)
                             </label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_hepatomegaly" name="sys_hepatomegaly">
                             <label class="form-check-label" for="sys_hemaconcentration">
-                              Haemaconcentration (lowest-highest)
+                              Haemaconcentration (Mataas ang Hematocrit)
                             </label>
                         </div>
                     </div>
@@ -342,14 +342,29 @@
                     </div>
                 </div>
                 <hr>
-                <div class="form-group">
-                    <label for="is_ns1positive"><span class="text-danger font-weight-bold">*</span>Is Dengue NS1 Positive?</label>
-                    <select class="form-control" name="is_ns1positive" id="is_ns1positive" required>
-                        <option value="" disabled {{(is_null(old('is_ns1positive'))) ? 'selected' : ''}}>Choose...</option>
-                        <option value="Y" {{(old('is_ns1positive') == 'Y') ? 'selected' : ''}}>Yes</option>
-                        <option value="N" {{(old('is_ns1positive') == 'N') ? 'selected' : ''}}>No</option>
-                    </select>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="is_ns1positive"><span class="text-danger font-weight-bold">*</span>Is Dengue NS1 Positive?</label>
+                            <select class="form-control" name="is_ns1positive" id="is_ns1positive" required>
+                                <option value="" disabled {{(is_null(old('is_ns1positive'))) ? 'selected' : ''}}>Choose...</option>
+                                <option value="Y" {{(old('is_ns1positive') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                <option value="N" {{(old('is_ns1positive') == 'N') ? 'selected' : ''}}>No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="sys_is_igmpositive"><span class="text-danger font-weight-bold">*</span>Is Dengue IgM Positive?</label>
+                            <select class="form-control" name="sys_is_igmpositive" id="sys_is_igmpositive" required>
+                                <option value="" disabled {{(is_null(old('sys_is_igmpositive'))) ? 'selected' : ''}}>Choose...</option>
+                                <option value="Y" {{(old('sys_is_igmpositive') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                <option value="N" {{(old('sys_is_igmpositive') == 'N') ? 'selected' : ''}}>No</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
+                
                 <div class="form-group">
                     <label for="sys_historytravel2weeks"><span class="text-danger font-weight-bold">*</span>History of Travel the Past 2 Weeks?</label>
                     <select class="form-control" name="sys_historytravel2weeks" id="sys_historytravel2weeks" required>
@@ -389,7 +404,7 @@
                                         <input type="text" class="form-control" name="sys_contactaddress[]" style="text-transform: uppercase;">
                                     </div>
                                 </div>
-                                <div class="col-md-2 text-center">
+                                <div class="col-md-2 text-center d-flex align-items-center justify-content-center">
                                     <button type="button" class="btn btn-danger removeContact">Remove</button>
                                 </div>
                             </div>
@@ -447,13 +462,25 @@
                 </div>
             </div>
             <div class="card-footer">
-                <button type="submit" class="btn btn-success btn-block">Submit</button>
+                <button type="submit" class="btn btn-success btn-block" id="submitBtn">Submit (CTRL + S)</button>
             </div>
         </div>
     </div>
 </form>
 
 <script>
+    $(document).bind('keydown', function(e) {
+		if(e.ctrlKey && (e.which == 83)) {
+			e.preventDefault();
+			$('#submitBtn').trigger('click');
+			$('#submitBtn').prop('disabled', true);
+			setTimeout(function() {
+				$('#submitBtn').prop('disabled', false);
+			}, 2000);
+			return false;
+		}
+	});
+
     $('#brgy_id').select2({
         theme: 'bootstrap',
         dropdownparent: $('#brgyDiv'),

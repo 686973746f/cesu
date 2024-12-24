@@ -8969,8 +8969,8 @@ class PIDSRController extends Controller
             }
         }
         else if($disease == 'DENGUE') {
-            $check = Dengue::where('FamilyName', $lname)
-            ->where('FirstName', $fname)
+            $check = Dengue::where('FamilyName', mb_strtoupper($lname))
+            ->where('FirstName', mb_strtoupper($fname))
             ->where('Year', $entry_date->format('Y'))
             ->where('MorbidityMonth', $entry_date->format('n'))
             ->first();
@@ -9174,7 +9174,234 @@ class PIDSRController extends Controller
             }
         }
         else if($disease == 'DENGUE') {
-            
+            if(!Auth::check()) {
+                $f = DohFacility::where('sys_code1', request()->route('facility_code'))->first();
+            }
+            else {
+                $f = DohFacility::findOrFail(auth()->user()->itr_facility_id);
+            }
+
+            $entry_date = Carbon::parse($r->entry_date);
+
+            $check = Dengue::where('FamilyName', mb_strtoupper($r->lname))
+            ->where('FirstName', mb_strtoupper($r->fname))
+            ->where('Year', $entry_date->format('Y'))
+            ->where('MorbidityMonth', $entry_date->format('n'))
+            ->first();
+
+            if(!$check) {
+                $fullName = mb_strtoupper($r->lname).', '.mb_strtoupper($r->fname);
+
+                if(!is_null($r->mname)) {
+                    $fullName .= ' '.mb_strtoupper($r->mname);
+                }
+
+                if(!is_null($r->suffix)) {
+                    $fullName .= ' '.mb_strtoupper($r->suffix);
+                }
+
+                $birthdate = Carbon::parse($r->bdate);
+                $currentDate = Carbon::parse($r->entry_date);
+
+                $get_ageyears = $birthdate->diffInYears($currentDate);
+                $get_agemonths = $birthdate->diffInMonths($currentDate);
+                $get_agedays = $birthdate->diffInDays($currentDate);
+
+                $match_casedef = 0;
+                $clinClass = 'NO WARNING SIGNS';
+                $symptoms_count = 0;
+
+                //Get Clinical Classification
+                if($r->sys_abdominalpain || $r->sys_gumbleeding || $r->sys_gibleeding || $r->sys_nosebleeding || $r->sys_hepatomegaly || $r->sys_thrombocytopenia) {
+                    $match_casedef = 1;
+                    $clinClass = 'WITH WARNING SIGNS';
+                }
+                else {
+                    if($r->sys_headache) {
+                        $symptoms_count++;
+                    }
+                    if($r->sys_musclepain) {
+                        $symptoms_count++;
+                    }
+                    if($r->sys_jointpain) {
+                        $symptoms_count++;
+                    }
+                    if($r->sys_jointswelling) {
+                        $symptoms_count++;
+                    }
+                    if($r->sys_retropain) {
+                        $symptoms_count++;
+                    }
+                    if($r->sys_nausea) {
+                        $symptoms_count++;
+                    }
+                    if($r->sys_vomiting) {
+                        $symptoms_count++;
+                    }
+                    if($r->sys_diarrhea) {
+                        $symptoms_count++;
+                    }
+                    if($r->sys_petechiae) {
+                        $symptoms_count++;
+                    }
+                    if($r->sys_echhymosis) {
+                        $symptoms_count++;
+                    }
+                    if($r->sys_maculopapularrash) {
+                        $symptoms_count++;
+                    }
+                }
+
+                if($symptoms_count >= 2) {
+                    $match_casedef = 1;
+                    $clinClass = 'NO WARNING SIGNS';
+                }
+
+                $caseClass = 'S';
+
+                if($r->is_igmpositive == 'Y') {
+                    $caseClass = 'P';
+                }
+
+                if($r->is_ns1positive == 'Y') {
+                    $caseClass = 'C';
+                }
+
+                //Outcome
+                if($r->sys_outcome == 'ALIVE' || $r->sys_outcome == 'RECOVERED' || $r->sys_outcome == 'NOT IMPROVED') {
+                    $outcome = 'A';
+                }
+                else if($r->sys_outcome == 'DIED') {
+                    $outcome = 'D';
+                }
+                else if($r->sys_outcome == 'UNKNOWN') {
+                    $outcome = 'U';
+                }
+
+                $b = EdcsBrgy::findOrFail($r->brgy_id);
+
+                //Count Days Differce of Date Admitted to Entry Date
+                $hospitalizedDateStart = Carbon::parse($r->sys_hospitalized_datestart);
+                $admitToEntry = $hospitalizedDateStart->diffInDays($entry_date);
+                $onsetDate = Carbon::parse($r->DOnset);
+                $OnsetToAdmit = $hospitalizedDateStart->diffInDays($onsetDate);
+
+                $table_params = [
+                    'Region' => '04A',
+                    'Province' => 'CAVITE',
+                    'Muncity' => 'GENERAL TRIAS',
+                    'Streetpurok' => $r->Streetpurok,
+                    'DateOfEntry' => $r->entry_date,
+                    'PatientNumber' => $r->PatientNumber,
+                    'FamilyName' => mb_strtoupper($r->lname),
+                    'FirstName' => mb_strtoupper($r->fname),
+                    'middle_name' => (!is_null($r->mname)) ? mb_strtoupper($r->mname) : NULL,
+                    'suffix' => (!is_null($r->suffix)) ? mb_strtoupper($r->suffix) : NULL,
+                    'FullName' => $fullName,
+                    'AgeYears' => $get_ageyears,
+                    'AgeMonths' => $get_agemonths,
+                    'AgeDays' => $get_agedays,
+                    'Sex' => $r->sex,
+                    'DRU' => $f->getFacilityTypeShort(),
+                    'NameOfDru' => $f->facility_name,
+                    //AddressOfDRU => $r->AddressOfDRU,
+                    'RegionOfDrU' => $f->address_region,
+                    'ProvOfDRU' => $f->address_province,
+                    'MunCityOfDRU' => $f->address_muncity,
+                    'DOB' => $r->bdate,
+                    'Admitted' => ($r->Admitted == 'Y') ? 1 : 0,
+                    'DAdmit' => ($r->Admitted == 'Y') ? $r->sys_hospitalized_datestart : NULL,
+                    'sys_hospitalized_datestart' => ($r->Admitted == 'Y') ? $r->sys_hospitalized_datestart : NULL,
+                    'sys_hospitalized_dateend' => ($r->Admitted == 'Y') ? $r->sys_hospitalized_dateend : NULL,
+                    'DOnset' => $r->DOnset,
+                    'Type' => 'DF',
+                    //'LabTest' => $r->LabTest,
+                    //'LabRes' => $r->LabRes,
+                    'ClinClass' => $clinClass,
+                    'CaseClassification' => $caseClass,
+                    'is_ns1positive' => ($r->is_ns1positive == 'Y') ? 1 : 0,
+                    'sys_is_igmpositive' => ($r->is_igmpositive == 'Y') ? 1 : 0,
+                    'Outcome' => $outcome,
+                    'DateDied' => ($r->sys_outcome == 'DIED') ? $r->sys_outcome_date : NULL,
+                    
+                    'EPIID' => 'DENGUE_MPSS_TEMP_'.mb_strtoupper(Str::random(10)),
+                    'Icd10Code' => 'A90',
+                    'MorbidityMonth' => $entry_date->format('n'),
+                    'MorbidityWeek' => $entry_date->format('W'),
+                    'Year' => $entry_date->format('Y'),
+                    'AdmitToEntry' => $admitToEntry,
+                    'OnsetToAdmit' => $OnsetToAdmit,
+                    //'SentinelSite' => 'N',
+                    //'DeleteRecord' => 'N',
+                    //'UniqueKey' => 'N',
+                    'Barangay' => $b->name,
+                    //'TYPEHOSPITALCLINIC' => 'N',
+                    'SENT' => 'Y',
+                    //'ip' => 'N',
+                    //'ipgroup' => 'N',
+                    'systemsent' => 0,
+                    'match_casedef' => $match_casedef,
+                    'from_inhouse' => 1,
+
+                    'sys_interviewer_name' => mb_strtoupper($r->sys_interviewer_name),
+                    'sys_interviewer_contactno' => $r->sys_interviewer_contactno,
+                    'sys_occupationtype' => $r->sys_interviewer_contactno,
+                    'sys_businessorschool_address' => ($r->sys_occupationtype != 'NONE') ? mb_strtoupper($r->sys_businessorschool_address) : NULL,
+                    'sys_businessorschool_name' => ($r->sys_occupationtype != 'NONE') ? mb_strtoupper($r->sys_businessorschool_name) : NULL,
+                    'sys_feverdegrees' => $r->sys_feverdegrees,
+                    'sys_headache' => ($r->sys_headache) ? 'Y' : 'N',
+                    'sys_retropain' => ($r->sys_retropain) ? 'Y' : 'N',
+                    'sys_jointpain' => ($r->sys_jointpain) ? 'Y' : 'N',
+                    'sys_jointswelling' => ($r->sys_jointswelling) ? 'Y' : 'N',
+                    'sys_musclepain' => ($r->sys_musclepain) ? 'Y' : 'N',
+                    'sys_sorethroat' => ($r->sys_sorethroat) ? 'Y' : 'N',
+                    'sys_nausea' => ($r->sys_nausea) ? 'Y' : 'N',
+                    'sys_vomiting' => ($r->sys_vomiting) ? 'Y' : 'N',
+                    'sys_diarrhea' => ($r->sys_diarrhea) ? 'Y' : 'N',
+                    'sys_abdominalpain' => ($r->sys_abdominalpain) ? 'Y' : 'N',
+                    'sys_positivetonique' => ($r->sys_positivetonique) ? 'Y' : 'N',
+                    'sys_petechiae' => ($r->sys_petechiae) ? 'Y' : 'N',
+                    'sys_echhymosis' => ($r->sys_echhymosis) ? 'Y' : 'N',
+                    'sys_maculopapularrash' => ($r->sys_maculopapularrash) ? 'Y' : 'N',
+                    'sys_gumbleeding' => ($r->sys_gumbleeding) ? 'Y' : 'N',
+                    'sys_gibleeding' => ($r->sys_gibleeding) ? 'Y' : 'N',
+                    'sys_nosebleeding' => ($r->sys_nosebleeding) ? 'Y' : 'N',
+                    'sys_hepatomegaly' => ($r->sys_hepatomegaly) ? 'Y' : 'N',
+                    'sys_lymphadenopathy' => ($r->sys_lymphadenopathy) ? 'Y' : 'N',
+                    'sys_leucopenia' => ($r->sys_leucopenia) ? 'Y' : 'N',
+                    'sys_thrombocytopenia' => ($r->sys_thrombocytopenia) ? 'Y' : 'N',
+
+                    'sys_haemaconcentration' => ($r->sys_haemaconcentration) ? 'Y' : 'N',
+                    'sys_medication_taken' => $r->sys_medication_taken,
+                    'sys_hospitalized_datestart' => ($r->Admitted == 'Y') ? $r->sys_hospitalized_datestart : NULL,
+                    'sys_hospitalized_dateend' => ($r->Admitted == 'Y') ? $r->sys_hospitalized_dateend : NULL,
+                    'sys_hospitalized_name' => ($r->Admitted == 'Y') ? mb_strtoupper($r->sys_hospitalized_name) : NULL,
+                    'sys_outcome' => $r->sys_outcome,
+                    'sys_outcome_date' => ($r->sys_outcome == 'RECOVERED' || $r->outcome == 'NOT IMPROVED' || $r->outcome == 'DIED') ? $r->sys_outcome_date : NULL,
+                    'sys_historytravel2weeks' => $r->sys_historytravel2weeks,
+                    'sys_historytravel2weeks_where' => ($r->sys_historytravel2weeks == 'Y') ? mb_strtoupper($r->sys_historytravel2weeks_where) : NULL,
+                    'sys_exposedtosimilarcontact' => $r->sys_exposedtosimilarcontact,
+                    'sys_contactnames' => (!empty($r->sys_contactnames)) ? implode(',', $r->sys_contactnames) : NULL,
+                    'sys_contactaddress' => (!empty($r->sys_contactaddress)) ? implode(',', $r->sys_contactaddress) : NULL,
+
+                    'sys_animal_presence_list' => (!empty($r->sys_animal_presence_list)) ? implode(',', $r->sys_animal_presence_list) : NULL,
+                    'sys_animal_presence_others' => (in_array('OTHERS', $r->sys_animal_presence_list)) ? mb_strtoupper($r->sys_animal_presence_others) : NULL,
+
+                    'sys_water_presence_inside_list' => (!empty($r->sys_water_presence_inside_list)) ? implode(',', $r->sys_water_presence_inside_list) : NULL,
+                    'sys_water_presence_outside_list' => (!empty($r->sys_water_presence_outside_list)) ? implode(',', $r->sys_water_presence_outside_list) : NULL,
+                    'sys_water_presence_outside_others' => (in_array('OTHERS', $r->sys_water_presence_outside_list)) ? mb_strtoupper($r->sys_water_presence_outside_others) : NULL,
+                ];
+
+                return redirect()->route('pidsr.casechecker', ['case' => 'DENGUE', 'year' => date('Y')])
+                ->with('msg', 'Dengue Case Successfully encoded.')
+                ->with('msgtype', 'success');
+            }
+            else {
+                return redirect()->back()
+                ->withInput()
+                ->with('msg', 'Dengue Case already exists!')
+                ->with('msgtype', 'warning');
+            }
         }
     }
 
