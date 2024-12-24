@@ -1611,6 +1611,8 @@ class PidsrWndr extends Command
                         'doe' => $i->created_at,
                         'dru' => $i->facility_name,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'cc' => $i->getClassificationString(),
+                        'mobile' => $i->records->mobile,
                         //'lab_data' => $lab_array,
                     ]);
                 }
