@@ -408,8 +408,8 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
 
     Route::get('/pidsr/weeklymonitoring', [PIDSRController::class, 'weeklyMonitoring'])->name('pidsr_weeklymonitoring');
 
-    Route::get('/pidsr/add_case', [PIDSRController::class, 'addCaseCheck'])->name('edcs_addcase_check');
-    Route::post('/pidsr/add_case/{disease}/store', [PIDSRController::class, 'addCaseStore'])->name('edcs_addcase_store');
+    //Route::get('/pidsr/add_case', [PIDSRController::class, 'addCaseCheck'])->name('edcs_addcase_check');
+    //Route::post('/pidsr/add_case/{disease}/store', [PIDSRController::class, 'addCaseStore'])->name('edcs_addcase_store');
     Route::get('/pidsr/view_cif/{disease}/{id}', [PIDSRController::class, 'caseViewEditV2'])->name('edcs_case_viewedit');
     Route::post('/pidsr/view_cif/{disease}/{id}/update', [PIDSRController::class, 'caseUpdateV2'])->name('edcs_case_viewedit_update');
 
@@ -430,8 +430,8 @@ Route::get('/edcs/barangayportal', [PIDSRController::class, 'brgyCaseViewerWelco
 Route::get('/edcs/barangayportal/quicklogin', [PIDSRController::class, 'brgyCaseViewerQuickLogin'])->name('edcs_barangay_quicklogin');
 Route::post('/edcs/barangayportal/login', [PIDSRController::class, 'brgyCaseViewerLogin'])->name('edcs_barangay_login');
 
-Route::get('/edcs/{facility_code}/report_case/check', [PIDSRController::class, 'addCaseCheck'])->name('edcs_facility_addcase_check');
-Route::post('/edcs/{facility_code}/disease_reporting/{disease}/store', [PIDSRController::class, 'addCaseStore'])->name('edcs_facility_addcase_store');
+Route::get('/edcs/report_case/check', [PIDSRController::class, 'addCaseCheck'])->name('edcs_addcase_check');
+Route::post('/edcs/disease_reporting/{disease}/store', [PIDSRController::class, 'addCaseStore'])->name('edcs_addcase_store');
 Route::get('/edcs/{facility_code}/disease_reporting/{disease}/success', [PIDSRController::class, 'addCaseSuccess'])->name('edcs_facility_addcase_success');
 
 Route::group(['middleware' => ['isLoggedInEdcsBrgyPortal']], function() {

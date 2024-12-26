@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<form action="{{$route}}" method="POST">
+<form action="{{route('edcs_addcase_store', 'DENGUE')}}" method="POST">
     @csrf
     <div class="container">
         <div class="card">

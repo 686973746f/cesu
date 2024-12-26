@@ -8978,11 +8978,19 @@ class PIDSRController extends Controller
             if(!$check) {
                 return $this->dengueNewOrEdit(new Dengue())->with('mode', 'NEW');
             }
+            else {
+                return redirect()->back()
+                ->withInput()
+                ->with('openEncodeModal', true)
+                ->with('modalmsg', 'Error: Dengue Case already exists in the database.')
+                ->with('modalmsgtype', 'warning');
+            }
         }
     }
 
     public function addCaseStore($disease, Request $r) {
-        if(request()->route('facility_code')) {
+        if(request()->)
+        if($from == 'outside') {
             $f = DohFacility::where('sys_code1', request()->route('facility_code'))->first();
             $created_by = NULL;
         }
@@ -9464,17 +9472,8 @@ class PIDSRController extends Controller
 
     public function dengueNewOrEdit(Dengue $record) {
         //Get Facility
-        if(request()->route('facility_code')) {
-            $facility_code = request()->route('facility_code');
-            $route = route('edcs_facility_addcase_store', [$facility_code, 'DENGUE']);
-
-            $f = DohFacility::where('sys_code1', $facility_code)->first();
-        }
-        else {
-            $route = route('edcs_addcase_store', [NULL, 'disease' => 'DENGUE']);
-
-            $f = DohFacility::where('id', auth()->user()->itr_facility_id)->first();
-        }
+        $route = route('edcs_addcase_store', ['DENGUE']);
+        $f = DohFacility::where('id', request()->input('facility_code'))->first();
 
         $brgy_list = EdcsBrgy::where('city_id', 388)->orderBy('name', 'ASC')->get();
 
