@@ -432,6 +432,7 @@ Route::post('/edcs/barangayportal/login', [PIDSRController::class, 'brgyCaseView
 
 Route::get('/edcs/{facility_code}/report_case/check', [PIDSRController::class, 'addCaseCheck'])->name('edcs_facility_addcase_check');
 Route::post('/edcs/{facility_code}/disease_reporting/{disease}/store', [PIDSRController::class, 'addCaseStore'])->name('edcs_facility_addcase_store');
+Route::get('/edcs/{facility_code}/disease_reporting/{disease}/success', [PIDSRController::class, 'addCaseSuccess'])->name('edcs_facility_addcase_success');
 
 Route::group(['middleware' => ['isLoggedInEdcsBrgyPortal']], function() {
     Route::get('/edcs/barangayportal/home', [PIDSRController::class, 'brgyCaseViewerHome'])->name('edcs_barangay_home');

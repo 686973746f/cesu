@@ -60,9 +60,9 @@ ALTER TABLE dengue ADD sys_water_presence_inside_list TEXT;
 ALTER TABLE dengue ADD sys_water_presence_outside_list TEXT;
 ALTER TABLE dengue ADD sys_water_presence_outside_others TEXT;
 
-ALTER TABLE dengue ADD sys_is_igmpositive VARCHAR(1) DEFAULT 'N';
-ALTER TABLE dengue ADD sys_igm_date DATE;
-ALTER TABLE dengue ADD sys_ns1_date DATE;
+ALTER TABLE dengue ADD is_igmpositive VARCHAR(1) DEFAULT 'N';
+ALTER TABLE dengue ADD igm_date DATE;
+ALTER TABLE dengue ADD ns1_date DATE;
 */
 
 class Dengue extends Model

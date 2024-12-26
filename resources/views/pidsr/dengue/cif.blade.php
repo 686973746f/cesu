@@ -12,6 +12,9 @@
                 </b>
             </div>
             <div class="card-body">
+                <div class="alert alert-info" role="alert">
+                    <b>Note:</b> All fields marked with <b class="text-danger">*</b> are required. By filling out this form, the patient agrees to the collection of their data in accordance to the Data Privacy Act of 2012 and Republic Act 11332.
+                </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -26,11 +29,11 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="sys_interviewer_name"><b class="text-danger">*</b>Name of Reporter/Interviewer</label>
-                            <input type="text" class="form-control" name="sys_interviewer_name" id="sys_interviewer_name" value="{{old('sys_interviewer_name')}}" style="text-transform: uppercase;" required>
+                            <input type="text" class="form-control" name="sys_interviewer_name" id="sys_interviewer_name" value="{{old('sys_interviewer_name', $f->edcs_defaultreporter_name)}}" style="text-transform: uppercase;" required>
                         </div>
                         <div class="form-group">
                             <label for="sys_interviewer_contactno"><b class="text-danger">*</b>Contact No. of Reporter/Interviewer</label>
-                            <input type="text" class="form-control" id="sys_interviewer_contactno" name="sys_interviewer_contactno" value="{{old('sys_interviewer_contactno')}}" pattern="[0-9]{11}" placeholder="09*********" required>
+                            <input type="text" class="form-control" id="sys_interviewer_contactno" name="sys_interviewer_contactno" value="{{old('sys_interviewer_contactno', $f->edcs_defaultreporter_contactno)}}" pattern="[0-9]{11}" placeholder="09*********" required>
                         </div>
                     </div>
                 </div>
@@ -285,7 +288,7 @@
 
                 <hr>
                 <div class="form-group">
-                    <label for="Admitted"><span class="text-danger font-weight-bold">*</span>Hospitalized?</label>
+                    <label for="Admitted"><span class="text-danger font-weight-bold">*</span>Hospitalized/Admitted?</label>
                     <select class="form-control" name="Admitted" id="Admitted" required>
                         <option value="" disabled {{(is_null(old('Admitted'))) ? 'selected' : ''}}>Choose...</option>
                         <option value="Y" {{(old('Admitted') == 'Y') ? 'selected' : ''}}>Yes</option>
@@ -330,7 +333,6 @@
                                 <option value="RECOVERED" {{(old('sys_outcome') == 'RECOVERED') ? 'selected' : ''}}>Recovered</option>
                                 <option value="NOT IMPROVED" {{(old('sys_outcome') == 'NOT IMPROVED') ? 'selected' : ''}}>Not Improved</option>
                                 <option value="DIED" {{(old('sys_outcome') == 'DIED') ? 'selected' : ''}}>Died</option>
-                                <option value="UNKNOWN" {{(old('sys_outcome') == 'UNKNOWN') ? 'selected' : ''}}>Unknown</option>
                             </select>
                         </div>
                         <div id="outcomeDiv" class="d-none">
@@ -355,40 +357,44 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="sys_is_igmpositive"><span class="text-danger font-weight-bold">*</span>Is Dengue IgM Positive?</label>
-                            <select class="form-control" name="sys_is_igmpositive" id="sys_is_igmpositive" required>
-                                <option value="" disabled {{(is_null(old('sys_is_igmpositive'))) ? 'selected' : ''}}>Choose...</option>
-                                <option value="Y" {{(old('sys_is_igmpositive') == 'Y') ? 'selected' : ''}}>Yes</option>
-                                <option value="N" {{(old('sys_is_igmpositive') == 'N') ? 'selected' : ''}}>No</option>
+                            <label for="is_igmpositive"><span class="text-danger font-weight-bold">*</span>Is Dengue IgM Positive?</label>
+                            <select class="form-control" name="is_igmpositive" id="is_igmpositive" required>
+                                <option value="" disabled {{(is_null(old('is_igmpositive'))) ? 'selected' : ''}}>Choose...</option>
+                                <option value="Y" {{(old('is_igmpositive') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                <option value="N" {{(old('is_igmpositive') == 'N') ? 'selected' : ''}}>No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="sys_historytravel2weeks"><span class="text-danger font-weight-bold">*</span>History of Travel the Past 2 Weeks?</label>
+                            <select class="form-control" name="sys_historytravel2weeks" id="sys_historytravel2weeks" required>
+                                <option value="" disabled {{(is_null(old('sys_historytravel2weeks'))) ? 'selected' : ''}}>Choose...</option>
+                                <option value="Y" {{(old('sys_historytravel2weeks') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                <option value="N" {{(old('sys_historytravel2weeks') == 'N') ? 'selected' : ''}}>No</option>
+                            </select>
+                        </div>
+                        <div id="historyTravelDiv" class="d-none">
+                            <div class="form-group">
+                                <label for="sys_historytravel2weeks_where"><b class="text-danger">*</b>Where?</label>
+                                <input type="text" class="form-control" name="sys_historytravel2weeks_where" id="sys_historytravel2weeks_where" style="text-transform: uppercase;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="sys_exposedtosimilarcontact"><span class="text-danger font-weight-bold">*</span>Exposed to Person of Similar Manifestation?</label>
+                            <select class="form-control" name="sys_exposedtosimilarcontact" id="sys_exposedtosimilarcontact" required>
+                                <option value="" disabled {{(is_null(old('sys_exposedtosimilarcontact'))) ? 'selected' : ''}}>Choose...</option>
+                                <option value="Y" {{(old('sys_exposedtosimilarcontact') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                <option value="N" {{(old('sys_exposedtosimilarcontact') == 'N') ? 'selected' : ''}}>No</option>
                             </select>
                         </div>
                     </div>
                 </div>
-                
-                <div class="form-group">
-                    <label for="sys_historytravel2weeks"><span class="text-danger font-weight-bold">*</span>History of Travel the Past 2 Weeks?</label>
-                    <select class="form-control" name="sys_historytravel2weeks" id="sys_historytravel2weeks" required>
-                        <option value="" disabled {{(is_null(old('sys_historytravel2weeks'))) ? 'selected' : ''}}>Choose...</option>
-                        <option value="Y" {{(old('sys_historytravel2weeks') == 'Y') ? 'selected' : ''}}>Yes</option>
-                        <option value="N" {{(old('sys_historytravel2weeks') == 'N') ? 'selected' : ''}}>No</option>
-                    </select>
-                </div>
-                <div id="historyTravelDiv" class="d-none">
-                    <div class="form-group">
-                        <label for="sys_historytravel2weeks_where"><b class="text-danger">*</b>Where?</label>
-                        <input type="text" class="form-control" name="sys_historytravel2weeks_where" id="sys_historytravel2weeks_where" style="text-transform: uppercase;">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="sys_exposedtosimilarcontact"><span class="text-danger font-weight-bold">*</span>Exposed to Person of Similar Manifestation?</label>
-                    <select class="form-control" name="sys_exposedtosimilarcontact" id="sys_exposedtosimilarcontact" required>
-                        <option value="" disabled {{(is_null(old('sys_exposedtosimilarcontact'))) ? 'selected' : ''}}>Choose...</option>
-                        <option value="Y" {{(old('sys_exposedtosimilarcontact') == 'Y') ? 'selected' : ''}}>Yes</option>
-                        <option value="N" {{(old('sys_exposedtosimilarcontact') == 'N') ? 'selected' : ''}}>No</option>
-                    </select>
-                </div>
+
                 <div class="card">
-                    <div class="card-header">List Name and Address of Contacts</div>
+                    <div class="card-header">List Name and Address of Close Contacts (Mga nakasalamuha sa bahay/school/trabaho, Mga kasama sa bahay, etc.)</div>
                     <div class="card-body">
                         <div id="toCloneDiv">
                             <div class="row">
@@ -421,7 +427,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="sys_animal_presence_list"><b class="text-danger">*</b>Select Presence of animal/vectors around the house or within the neighborhood 50 meters from the house of Patient</label>
+                            <label for="sys_animal_presence_list">Select Presence of animal/vectors around the house or within the neighborhood 50 meters from the house of Patient</label>
                             <select class="form-control" name="sys_animal_presence_list[]" id="sys_animal_presence_list" multiple>
                                 <option value="CHICKEN">Chicken</option>
                                 <option value="MOSQUITO">Mosquito</option>
@@ -436,7 +442,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="sys_water_presence_inside_list"><b class="text-danger">*</b>Select Presence of water containers INSIDE the house of Patient</label>
+                            <label for="sys_water_presence_inside_list">Select Presence of water containers INSIDE the house of Patient</label>
                             <select class="form-control" name="sys_water_presence_inside_list[]" id="sys_water_presence_inside_list" multiple>
                                 <option value="WATER STORAGE CONTAINERS">Water Storage Containers</option>
                                 <option value="FLOWER VASE">Flower Vase</option>
@@ -446,7 +452,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="sys_water_presence_outside_list"><b class="text-danger">*</b>Select Presence of water containers OUTSIDE the house of the Patient or within 10 meters within the neighborhood</label>
+                            <label for="sys_water_presence_outside_list">Select Presence of water containers OUTSIDE the house of the Patient or within 10 meters within the neighborhood</label>
                             <select class="form-control" name="sys_water_presence_outside_list[]" id="sys_water_presence_outside_list" multiple>
                                 <option value="TIN CANS">Tin Cans</option>
                                 <option value="LAGOONS">Lagoons</option>
@@ -459,6 +465,11 @@
                             </select>
                         </div>
                     </div>
+                </div>
+                <hr>
+                <div class="form-group">
+                  <label for="system_remarks">Remarks</label>
+                  <textarea class="form-control" name="system_remarks" id="system_remarks" rows="3">{{old('system_remarks')}}</textarea>
                 </div>
             </div>
             <div class="card-footer">
@@ -480,11 +491,6 @@
 			return false;
 		}
 	});
-
-    $('#brgy_id').select2({
-        theme: 'bootstrap',
-        dropdownparent: $('#brgyDiv'),
-    });
 
     $('#sys_animal_presence_list').select2({
         theme: 'bootstrap',
@@ -580,6 +586,18 @@
         else {
             $('#outcomeDiv').addClass('d-none');
             $('#sys_outcome_date').prop('required', false);
+        }
+    }).trigger('change');
+
+    $('#sys_historytravel2weeks').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'Y') {
+            $('#historyTravelDiv').removeClass('d-none');
+            $('sys_historytravel2weeks_where').prop('required', true);
+        }
+        else {
+            $('#historyTravelDiv').addClass('d-none');
+            $('sys_historytravel2weeks_where').prop('required', false);
         }
     }).trigger('change');
 </script>

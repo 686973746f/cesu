@@ -8982,8 +8982,14 @@ class PIDSRController extends Controller
     }
 
     public function addCaseStore($disease, Request $r) {
-        //Get Facility
-        $f = DohFacility::where('id', auth()->user()->itr_facility_id)->first();
+        if(request()->route('facility_code')) {
+            $f = DohFacility::where('sys_code1', request()->route('facility_code'))->first();
+            $created_by = NULL;
+        }
+        else {
+            $f = DohFacility::findOrFail(auth()->user()->itr_facility_id);
+            $created_by = Auth::id();
+        }
 
         $birthdate = Carbon::parse($r->bdate);
         $currentDate = Carbon::parse($r->date_investigation);
@@ -8991,31 +8997,6 @@ class PIDSRController extends Controller
         $get_ageyears = $birthdate->diffInYears($currentDate);
         $get_agemonths = $birthdate->diffInMonths($currentDate);
         $get_agedays = $birthdate->diffInDays($currentDate);
-
-        if($r->permaddress_isdifferent == 'Y') {
-            $perm_address_region_code = $r->perm_address_region_code;
-            $perm_address_region_text = $r->perm_address_region_text;
-            $perm_address_province_code = $r->perm_address_province_code;
-            $perm_address_province_text = $r->perm_address_province_text;
-            $perm_address_muncity_code = $r->perm_address_muncity_code;
-            $perm_address_muncity_text = $r->perm_address_muncity_text;
-            $perm_address_brgy_code = $r->perm_address_brgy_text;
-            $perm_address_brgy_text = $r->perm_address_brgy_text;
-            $perm_address_street = mb_strtoupper($r->perm_address_street);
-            $perm_address_houseno = mb_strtoupper($r->perm_address_houseno);
-        }
-        else {
-            $perm_address_region_code = $r->address_region_code;
-            $perm_address_region_text = $r->address_region_text;
-            $perm_address_province_code = $r->address_province_code;
-            $perm_address_province_text = $r->address_province_text;
-            $perm_address_muncity_code = $r->address_muncity_code;
-            $perm_address_muncity_text = $r->address_muncity_text;
-            $perm_address_brgy_code = $r->address_brgy_text;
-            $perm_address_brgy_text = $r->address_brgy_text;
-            $perm_address_street = mb_strtoupper($r->address_street);
-            $perm_address_houseno = mb_strtoupper($r->address_houseno);
-        }
 
         if($disease == 'MPOX') {
             //Second layer Record Checking
@@ -9027,6 +9008,31 @@ class PIDSRController extends Controller
             ->first();
 
             if(!$check) {
+                if($r->permaddress_isdifferent == 'Y') {
+                    $perm_address_region_code = $r->perm_address_region_code;
+                    $perm_address_region_text = $r->perm_address_region_text;
+                    $perm_address_province_code = $r->perm_address_province_code;
+                    $perm_address_province_text = $r->perm_address_province_text;
+                    $perm_address_muncity_code = $r->perm_address_muncity_code;
+                    $perm_address_muncity_text = $r->perm_address_muncity_text;
+                    $perm_address_brgy_code = $r->perm_address_brgy_text;
+                    $perm_address_brgy_text = $r->perm_address_brgy_text;
+                    $perm_address_street = mb_strtoupper($r->perm_address_street);
+                    $perm_address_houseno = mb_strtoupper($r->perm_address_houseno);
+                }
+                else {
+                    $perm_address_region_code = $r->address_region_code;
+                    $perm_address_region_text = $r->address_region_text;
+                    $perm_address_province_code = $r->address_province_code;
+                    $perm_address_province_text = $r->address_province_text;
+                    $perm_address_muncity_code = $r->address_muncity_code;
+                    $perm_address_muncity_text = $r->address_muncity_text;
+                    $perm_address_brgy_code = $r->address_brgy_text;
+                    $perm_address_brgy_text = $r->address_brgy_text;
+                    $perm_address_street = mb_strtoupper($r->address_street);
+                    $perm_address_houseno = mb_strtoupper($r->address_houseno);
+                }
+
                 $c = MonkeyPox::create([
                     'date_investigation' => $r->date_investigation,
                     'laboratory_id' => (!is_null($r->laboratory_id)) ? mb_strtoupper($r->laboratory_id) : NULL,
@@ -9152,7 +9158,7 @@ class PIDSRController extends Controller
                     'year' => $currentDate->format('Y'),
                     //'gps_x'
                     //'gps_y',
-                    'created_by' => Auth::id(),
+                    'created_by' => $created_by,
                     //'updated_by',
                 ]);
 
@@ -9174,13 +9180,6 @@ class PIDSRController extends Controller
             }
         }
         else if($disease == 'DENGUE') {
-            if(!Auth::check()) {
-                $f = DohFacility::where('sys_code1', request()->route('facility_code'))->first();
-            }
-            else {
-                $f = DohFacility::findOrFail(auth()->user()->itr_facility_id);
-            }
-
             $entry_date = Carbon::parse($r->entry_date);
 
             $check = Dengue::where('FamilyName', mb_strtoupper($r->lname))
@@ -9299,9 +9298,10 @@ class PIDSRController extends Controller
                     'suffix' => (!is_null($r->suffix)) ? mb_strtoupper($r->suffix) : NULL,
                     'FullName' => $fullName,
                     'AgeYears' => $get_ageyears,
-                    'AgeMonths' => $get_agemonths,
+                    'AgeMons' => $get_agemonths,
                     'AgeDays' => $get_agedays,
                     'Sex' => $r->sex,
+                    'edcs_patientcontactnum' => $r->contact_number,
                     'DRU' => $f->getFacilityTypeShort(),
                     'NameOfDru' => $f->facility_name,
                     //AddressOfDRU => $r->AddressOfDRU,
@@ -9320,7 +9320,7 @@ class PIDSRController extends Controller
                     'ClinClass' => $clinClass,
                     'CaseClassification' => $caseClass,
                     'is_ns1positive' => ($r->is_ns1positive == 'Y') ? 1 : 0,
-                    'sys_is_igmpositive' => ($r->is_igmpositive == 'Y') ? 1 : 0,
+                    'is_igmpositive' => ($r->is_igmpositive == 'Y') ? 1 : 0,
                     'Outcome' => $outcome,
                     'DateDied' => ($r->sys_outcome == 'DIED') ? $r->sys_outcome_date : NULL,
                     
@@ -9334,7 +9334,7 @@ class PIDSRController extends Controller
                     //'SentinelSite' => 'N',
                     //'DeleteRecord' => 'N',
                     //'UniqueKey' => 'N',
-                    'Barangay' => $b->name,
+                    'Barangay' => $b->alt_name ?: $b->name,
                     //'TYPEHOSPITALCLINIC' => 'N',
                     'SENT' => 'Y',
                     //'ip' => 'N',
@@ -9342,10 +9342,14 @@ class PIDSRController extends Controller
                     'systemsent' => 0,
                     'match_casedef' => $match_casedef,
                     'from_inhouse' => 1,
-
+                    'edcs_healthFacilityCode' => $f->healthfacility_code,
+                    
                     'sys_interviewer_name' => mb_strtoupper($r->sys_interviewer_name),
+                    'edcs_investigatorName' => mb_strtoupper($r->sys_interviewer_name),
                     'sys_interviewer_contactno' => $r->sys_interviewer_contactno,
-                    'sys_occupationtype' => $r->sys_interviewer_contactno,
+                    'edcs_contactNo' => $r->sys_interviewer_contactno,
+
+                    'sys_occupationtype' => $r->sys_occupationtype,
                     'sys_businessorschool_address' => ($r->sys_occupationtype != 'NONE') ? mb_strtoupper($r->sys_businessorschool_address) : NULL,
                     'sys_businessorschool_name' => ($r->sys_occupationtype != 'NONE') ? mb_strtoupper($r->sys_businessorschool_name) : NULL,
                     'sys_feverdegrees' => $r->sys_feverdegrees,
@@ -9373,28 +9377,40 @@ class PIDSRController extends Controller
 
                     'sys_haemaconcentration' => ($r->sys_haemaconcentration) ? 'Y' : 'N',
                     'sys_medication_taken' => $r->sys_medication_taken,
+                    'sys_hospitalized_name' => ($r->Admitted == 'Y') ? mb_strtoupper($r->sys_hospitalized_name) : NULL,
                     'sys_hospitalized_datestart' => ($r->Admitted == 'Y') ? $r->sys_hospitalized_datestart : NULL,
                     'sys_hospitalized_dateend' => ($r->Admitted == 'Y') ? $r->sys_hospitalized_dateend : NULL,
-                    'sys_hospitalized_name' => ($r->Admitted == 'Y') ? mb_strtoupper($r->sys_hospitalized_name) : NULL,
                     'sys_outcome' => $r->sys_outcome,
                     'sys_outcome_date' => ($r->sys_outcome == 'RECOVERED' || $r->outcome == 'NOT IMPROVED' || $r->outcome == 'DIED') ? $r->sys_outcome_date : NULL,
                     'sys_historytravel2weeks' => $r->sys_historytravel2weeks,
                     'sys_historytravel2weeks_where' => ($r->sys_historytravel2weeks == 'Y') ? mb_strtoupper($r->sys_historytravel2weeks_where) : NULL,
                     'sys_exposedtosimilarcontact' => $r->sys_exposedtosimilarcontact,
-                    'sys_contactnames' => (!empty($r->sys_contactnames)) ? implode(',', $r->sys_contactnames) : NULL,
-                    'sys_contactaddress' => (!empty($r->sys_contactaddress)) ? implode(',', $r->sys_contactaddress) : NULL,
+                    'sys_contactnames' => ($r->filled('sys_contactnames')) ? implode(',', $r->sys_contactnames) : NULL,
+                    'sys_contactaddress' => ($r->filled('sys_contactnames') && $r->filled('sys_contactaddress')) ? implode(',', $r->sys_contactaddress) : NULL,
 
-                    'sys_animal_presence_list' => (!empty($r->sys_animal_presence_list)) ? implode(',', $r->sys_animal_presence_list) : NULL,
-                    'sys_animal_presence_others' => (in_array('OTHERS', $r->sys_animal_presence_list)) ? mb_strtoupper($r->sys_animal_presence_others) : NULL,
+                    'sys_animal_presence_list' => ($r->filled('sys_animal_presence_list')) ? implode(',', $r->sys_animal_presence_list) : NULL,
+                    'sys_animal_presence_others' => ($r->filled('sys_animal_presence_list') && in_array('OTHERS', $r->sys_animal_presence_list)) ? mb_strtoupper($r->sys_animal_presence_others) : NULL,
 
-                    'sys_water_presence_inside_list' => (!empty($r->sys_water_presence_inside_list)) ? implode(',', $r->sys_water_presence_inside_list) : NULL,
-                    'sys_water_presence_outside_list' => (!empty($r->sys_water_presence_outside_list)) ? implode(',', $r->sys_water_presence_outside_list) : NULL,
-                    'sys_water_presence_outside_others' => (in_array('OTHERS', $r->sys_water_presence_outside_list)) ? mb_strtoupper($r->sys_water_presence_outside_others) : NULL,
+                    'sys_water_presence_inside_list' => ($r->filled('sys_water_presence_inside_list')) ? implode(',', $r->sys_water_presence_inside_list) : NULL,
+                    'sys_water_presence_outside_list' => ($r->filled('sys_water_presence_outside_list')) ? implode(',', $r->sys_water_presence_outside_list) : NULL,
+                    'sys_water_presence_outside_others' => ($r->filled('sys_water_presence_outside_list') && in_array('OTHERS', $r->sys_water_presence_outside_list)) ? mb_strtoupper($r->sys_water_presence_outside_others) : NULL,
+                    'system_remarks' => $r->system_remarks,
+
+                    'created_by' => $created_by,
                 ];
 
-                return redirect()->route('pidsr.casechecker', ['case' => 'DENGUE', 'year' => date('Y')])
-                ->with('msg', 'Dengue Case Successfully encoded.')
-                ->with('msgtype', 'success');
+                $c = Dengue::create($table_params);
+
+                if(request()->route('facility_code')) {
+                    return redirect()->route('pidsr.casechecker', ['case' => 'DENGUE', 'year' => date('Y')])
+                    ->with('msg', 'Dengue Case was encoded successfully.')
+                    ->with('msgtype', 'success');
+                }
+                else {
+                    return redirect()->route('edcs_addcase_success', ['DENGUE'])
+                    ->with('msg', 'Dengue Case was encoded successfully.')
+                    ->with('msgtype', 'success');
+                }
             }
             else {
                 return redirect()->back()
@@ -9403,6 +9419,10 @@ class PIDSRController extends Controller
                 ->with('msgtype', 'warning');
             }
         }
+    }
+
+    public function addCaseSuccess($facility_code, $disease) {
+        return view('pidsr.dengue.success');
     }
 
     public function caseViewEditV2($disease, $id) {
@@ -9451,7 +9471,7 @@ class PIDSRController extends Controller
             $f = DohFacility::where('sys_code1', $facility_code)->first();
         }
         else {
-            $route = route('edcs_addcase_store');
+            $route = route('edcs_addcase_store', [NULL, 'disease' => 'DENGUE']);
 
             $f = DohFacility::where('id', auth()->user()->itr_facility_id)->first();
         }
