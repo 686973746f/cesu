@@ -4613,6 +4613,5 @@ class SyndromicController extends Controller
             ->with('msg', 'Your download request is now being requested. The server will now prepare the file. Please refresh this page after 5-10 minutes or more until the status turns to completed.')
             ->with('msgtype', 'success');
         }
-        
     }
 }
