@@ -60,9 +60,13 @@ ALTER TABLE dengue ADD sys_water_presence_inside_list TEXT;
 ALTER TABLE dengue ADD sys_water_presence_outside_list TEXT;
 ALTER TABLE dengue ADD sys_water_presence_outside_others TEXT;
 
-ALTER TABLE dengue ADD sys_is_igmpositive VARCHAR(1) DEFAULT 'N';
-ALTER TABLE dengue ADD sys_igm_date DATE;
-ALTER TABLE dengue ADD sys_ns1_date DATE;
+ALTER TABLE dengue ADD is_igmpositive VARCHAR(1) DEFAULT 'N';
+ALTER TABLE dengue ADD igm_date DATE;
+ALTER TABLE dengue ADD ns1_date DATE;
+
+ALTER TABLE dengue ADD brgy_id bigint UNSIGNED DEFAULT NULL;
+ALTER TABLE dengue ADD KEY `dengue_brgy_id_foreign` (`brgy_id`);
+ALTER TABLE dengue ADD CONSTRAINT `dengue_brgy_id_foreign` FOREIGN KEY (`brgy_id`) REFERENCES `edcs_brgies` (`id`) ON DELETE CASCADE;
 */
 
 class Dengue extends Model
@@ -214,6 +218,34 @@ class Dengue extends Model
         }
         else {
             return $condition;
+        }
+    }
+
+    public function brgy() {
+        return $this->belongsTo(EdcsBrgy::class, 'brgy_id');
+    }
+
+    public function getEdcsCsvClinicalClass() {
+        if($this->ClinClass == 'NO WARNING SIGNS') {
+            return 'DWITHOUTWS';
+        }
+        else if($this->ClinClass == 'WITH WARNING SIGNS') {
+            return 'DWITHWS';
+        }
+        else {
+            return 'SEVERE';
+        }
+    }
+
+    public function getEdcsCsvCaseClass() {
+        if($this->CaseClassification == 'C') {
+            return 'CON';
+        }
+        else if($this->CaseClassification == 'P') {
+            return 'PROB';
+        }
+        else {
+            return 'SUS';
         }
     }
 }

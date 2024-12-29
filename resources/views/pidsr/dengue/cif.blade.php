@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<form action="{{$route}}" method="POST">
+<form action="{{route('edcs_addcase_store', 'DENGUE')}}" method="POST">
     @csrf
     <div class="container">
         <div class="card">
@@ -12,6 +12,15 @@
                 </b>
             </div>
             <div class="card-body">
+                <div class="alert alert-info" role="alert">
+                    <b>Note:</b> All fields marked with <b class="text-danger">*</b> are required. By filling out this form, the patient agrees to the collection of their data in accordance to the Data Privacy Act of 2012 and Republic Act 11332.
+                </div>
+                @if(!auth()->check())
+                <div class="form-group d-none">
+                    <label for="facility_code">Facility Code</label>
+                    <input type="text" class="form-control" name="facility_code" id="facility_code" value="{{request()->input('facility_code')}}" readonly>
+                  </div>
+                @endif
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -26,11 +35,11 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="sys_interviewer_name"><b class="text-danger">*</b>Name of Reporter/Interviewer</label>
-                            <input type="text" class="form-control" name="sys_interviewer_name" id="sys_interviewer_name" value="{{old('sys_interviewer_name')}}" style="text-transform: uppercase;" required>
+                            <input type="text" class="form-control" name="sys_interviewer_name" id="sys_interviewer_name" value="{{old('sys_interviewer_name', $f->edcs_defaultreporter_name)}}" style="text-transform: uppercase;" required>
                         </div>
                         <div class="form-group">
                             <label for="sys_interviewer_contactno"><b class="text-danger">*</b>Contact No. of Reporter/Interviewer</label>
-                            <input type="text" class="form-control" id="sys_interviewer_contactno" name="sys_interviewer_contactno" value="{{old('sys_interviewer_contactno')}}" pattern="[0-9]{11}" placeholder="09*********" required>
+                            <input type="text" class="form-control" id="sys_interviewer_contactno" name="sys_interviewer_contactno" value="{{old('sys_interviewer_contactno', $f->edcs_defaultreporter_contactno)}}" pattern="[0-9]{11}" placeholder="09*********" required>
                         </div>
                     </div>
                 </div>
@@ -147,31 +156,31 @@
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_headache" name="sys_headache">
                             <label class="form-check-label" for="sys_headache">
-                              Headache
+                              Headache (Masakit ang ulo)
                             </label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_retropain" name="sys_retropain">
                             <label class="form-check-label" for="sys_retropain">
-                              Retro Ocular Pain (Masakit ang Likod ng Mata)
+                              Retro Ocular Pain (Masakit ang likod ng mata)
                             </label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_" name="sys_jointpain">
                             <label class="form-check-label" for="sys_jointpain">
-                              Joint Pain (Masakit na kasukasuan)
+                              Joint Pain (Masakit ang kasukasuan)
                             </label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_jointswelling" name="sys_jointswelling">
                             <label class="form-check-label" for="sys_jointswelling">
-                              Joint Swelling (Pamamaga ng kasukasuan)
+                              Joint Swelling (Namamaga ang kasukasuan)
                             </label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_musclepain" name="sys_musclepain">
                             <label class="form-check-label" for="sys_musclepain">
-                              Muscle Pain (Masakit ang mga kalamnan)
+                              Muscle Pain (Masakit ang kalamnan)
                             </label>
                         </div>
                         <div class="form-check">
@@ -183,19 +192,19 @@
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_nausea" name="sys_nausea">
                             <label class="form-check-label" for="sys_nausea">
-                              Nausea (Nahihilo)
+                              Nausea (Nahihilo/Naduduwal)
                             </label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_vomiting" name="sys_vomiting">
                             <label class="form-check-label" for="sys_vomiting">
-                              Vomiting (Pagsusuka)
+                              Vomiting (Nagsusuka)
                             </label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_diarrhea" name="sys_diarrhea">
                             <label class="form-check-label" for="sys_diarrhea">
-                              Diarrhea (Pagtatae)
+                              Diarrhea (Pagdurumi)
                             </label>
                         </div>
                     </div>
@@ -203,55 +212,49 @@
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_abdominalpain" name="sys_abdominalpain">
                             <label class="form-check-label" for="sys_abdominalpain">
-                              Abdominal Pain (Pananakit ng Tiyan)
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="1" id="sys_positivetonique" name="sys_positivetonique">
-                            <label class="form-check-label" for="sys_positivetonique">
-                              Positive Tourniquet Test
+                              Abdominal Pain (Masakit ang Tiyan)
                             </label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_petechiae" name="sys_petechiae">
                             <label class="form-check-label" for="sys_petechiae">
-                              Petechiae (Purpuric Spots)
+                              Petechiae (May pulang batik sa balat)
                             </label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_echhymosis" name="sys_echhymosis">
                             <label class="form-check-label" for="sys_echhymosis">
-                              Echhymosis (Pagsusugat ng Balat)
+                              Echhymosis (May mga pasa sa katawan)
                             </label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_maculopapularrash" name="sys_maculopapularrash">
                             <label class="form-check-label" for="sys_maculopapularrash">
-                              Maculo-papular Rash
+                              Maculo-papular Rash (May batik at butlig sa balat)
                             </label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_gumbleeding" name="sys_gumbleeding">
                             <label class="form-check-label" for="sys_gumbleeding">
-                              Gum Bleeding
+                              Gum Bleeding (Nagdudugo ang gilagid)
                             </label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_gibleeding" name="sys_gibleeding">
                             <label class="form-check-label" for="sys_gibleeding">
-                                Gastrointestinal Bleeding (Dugo sa Dumi)
+                                Gastrointestinal Bleeding (Pagdurugo ng tiyan o dumi)
                             </label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_nosebleeding" name="sys_nosebleeding">
                             <label class="form-check-label" for="sys_nosebleeding">
-                              Nose Bleeding
+                              Nose Bleeding (Pagdurugo ng Ilong)
                             </label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_hepatomegaly" name="sys_hepatomegaly">
                             <label class="form-check-label" for="sys_hepatomegaly">
-                              Hepatomegaly (Pamamaga ng Atay)
+                              Hepatomegaly (Paglaki/pamamaga ng Atay)
                             </label>
                         </div>
                     </div>
@@ -259,7 +262,7 @@
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_hepatomegaly" name="sys_hepatomegaly">
                             <label class="form-check-label" for="sys_lymphadenopathy">
-                              Lymphadenopathy (Pamamaga ng Lymph Nodes)
+                              Lymphadenopathy (Pamamaga ng Lymph Node)
                             </label>
                         </div>
                         <div class="form-check">
@@ -271,13 +274,13 @@
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_hepatomegaly" name="sys_hepatomegaly">
                             <label class="form-check-label" for="sys_thrombocytopenia">
-                              Thrombocytopenia (Mababa ang Platelet Count)
+                              Thrombocytopenia (Mababa ang Platelet)
                             </label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_hepatomegaly" name="sys_hepatomegaly">
                             <label class="form-check-label" for="sys_hemaconcentration">
-                              Haemaconcentration (Mataas ang Hematocrit)
+                              Haemaconcentration (Pagkapal ng Dugo)
                             </label>
                         </div>
                     </div>
@@ -285,7 +288,7 @@
 
                 <hr>
                 <div class="form-group">
-                    <label for="Admitted"><span class="text-danger font-weight-bold">*</span>Hospitalized?</label>
+                    <label for="Admitted"><span class="text-danger font-weight-bold">*</span>Hospitalized/Admitted?</label>
                     <select class="form-control" name="Admitted" id="Admitted" required>
                         <option value="" disabled {{(is_null(old('Admitted'))) ? 'selected' : ''}}>Choose...</option>
                         <option value="Y" {{(old('Admitted') == 'Y') ? 'selected' : ''}}>Yes</option>
@@ -330,7 +333,6 @@
                                 <option value="RECOVERED" {{(old('sys_outcome') == 'RECOVERED') ? 'selected' : ''}}>Recovered</option>
                                 <option value="NOT IMPROVED" {{(old('sys_outcome') == 'NOT IMPROVED') ? 'selected' : ''}}>Not Improved</option>
                                 <option value="DIED" {{(old('sys_outcome') == 'DIED') ? 'selected' : ''}}>Died</option>
-                                <option value="UNKNOWN" {{(old('sys_outcome') == 'UNKNOWN') ? 'selected' : ''}}>Unknown</option>
                             </select>
                         </div>
                         <div id="outcomeDiv" class="d-none">
@@ -355,40 +357,44 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="sys_is_igmpositive"><span class="text-danger font-weight-bold">*</span>Is Dengue IgM Positive?</label>
-                            <select class="form-control" name="sys_is_igmpositive" id="sys_is_igmpositive" required>
-                                <option value="" disabled {{(is_null(old('sys_is_igmpositive'))) ? 'selected' : ''}}>Choose...</option>
-                                <option value="Y" {{(old('sys_is_igmpositive') == 'Y') ? 'selected' : ''}}>Yes</option>
-                                <option value="N" {{(old('sys_is_igmpositive') == 'N') ? 'selected' : ''}}>No</option>
+                            <label for="is_igmpositive"><span class="text-danger font-weight-bold">*</span>Is Dengue IgM Positive?</label>
+                            <select class="form-control" name="is_igmpositive" id="is_igmpositive" required>
+                                <option value="" disabled {{(is_null(old('is_igmpositive'))) ? 'selected' : ''}}>Choose...</option>
+                                <option value="Y" {{(old('is_igmpositive') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                <option value="N" {{(old('is_igmpositive') == 'N') ? 'selected' : ''}}>No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="sys_historytravel2weeks"><span class="text-danger font-weight-bold">*</span>History of Travel the Past 2 Weeks?</label>
+                            <select class="form-control" name="sys_historytravel2weeks" id="sys_historytravel2weeks" required>
+                                <option value="" disabled {{(is_null(old('sys_historytravel2weeks'))) ? 'selected' : ''}}>Choose...</option>
+                                <option value="Y" {{(old('sys_historytravel2weeks') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                <option value="N" {{(old('sys_historytravel2weeks') == 'N') ? 'selected' : ''}}>No</option>
+                            </select>
+                        </div>
+                        <div id="historyTravelDiv" class="d-none">
+                            <div class="form-group">
+                                <label for="sys_historytravel2weeks_where"><b class="text-danger">*</b>Where?</label>
+                                <input type="text" class="form-control" name="sys_historytravel2weeks_where" id="sys_historytravel2weeks_where" style="text-transform: uppercase;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="sys_exposedtosimilarcontact"><span class="text-danger font-weight-bold">*</span>Exposed to Person of Similar Manifestation?</label>
+                            <select class="form-control" name="sys_exposedtosimilarcontact" id="sys_exposedtosimilarcontact" required>
+                                <option value="" disabled {{(is_null(old('sys_exposedtosimilarcontact'))) ? 'selected' : ''}}>Choose...</option>
+                                <option value="Y" {{(old('sys_exposedtosimilarcontact') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                <option value="N" {{(old('sys_exposedtosimilarcontact') == 'N') ? 'selected' : ''}}>No</option>
                             </select>
                         </div>
                     </div>
                 </div>
-                
-                <div class="form-group">
-                    <label for="sys_historytravel2weeks"><span class="text-danger font-weight-bold">*</span>History of Travel the Past 2 Weeks?</label>
-                    <select class="form-control" name="sys_historytravel2weeks" id="sys_historytravel2weeks" required>
-                        <option value="" disabled {{(is_null(old('sys_historytravel2weeks'))) ? 'selected' : ''}}>Choose...</option>
-                        <option value="Y" {{(old('sys_historytravel2weeks') == 'Y') ? 'selected' : ''}}>Yes</option>
-                        <option value="N" {{(old('sys_historytravel2weeks') == 'N') ? 'selected' : ''}}>No</option>
-                    </select>
-                </div>
-                <div id="historyTravelDiv" class="d-none">
-                    <div class="form-group">
-                        <label for="sys_historytravel2weeks_where"><b class="text-danger">*</b>Where?</label>
-                        <input type="text" class="form-control" name="sys_historytravel2weeks_where" id="sys_historytravel2weeks_where" style="text-transform: uppercase;">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="sys_exposedtosimilarcontact"><span class="text-danger font-weight-bold">*</span>Exposed to Person of Similar Manifestation?</label>
-                    <select class="form-control" name="sys_exposedtosimilarcontact" id="sys_exposedtosimilarcontact" required>
-                        <option value="" disabled {{(is_null(old('sys_exposedtosimilarcontact'))) ? 'selected' : ''}}>Choose...</option>
-                        <option value="Y" {{(old('sys_exposedtosimilarcontact') == 'Y') ? 'selected' : ''}}>Yes</option>
-                        <option value="N" {{(old('sys_exposedtosimilarcontact') == 'N') ? 'selected' : ''}}>No</option>
-                    </select>
-                </div>
+
                 <div class="card">
-                    <div class="card-header">List Name and Address of Contacts</div>
+                    <div class="card-header">List Name and Address of Close Contacts (Mga nakasalamuha sa bahay/school/trabaho, Mga kasama sa bahay, etc.)</div>
                     <div class="card-body">
                         <div id="toCloneDiv">
                             <div class="row">
@@ -421,7 +427,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="sys_animal_presence_list"><b class="text-danger">*</b>Select Presence of animal/vectors around the house or within the neighborhood 50 meters from the house of Patient</label>
+                            <label for="sys_animal_presence_list">Select Presence of animal/vectors around the house or within the neighborhood 50 meters from the house of Patient</label>
                             <select class="form-control" name="sys_animal_presence_list[]" id="sys_animal_presence_list" multiple>
                                 <option value="CHICKEN">Chicken</option>
                                 <option value="MOSQUITO">Mosquito</option>
@@ -436,7 +442,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="sys_water_presence_inside_list"><b class="text-danger">*</b>Select Presence of water containers INSIDE the house of Patient</label>
+                            <label for="sys_water_presence_inside_list">Select Presence of water containers INSIDE the house of Patient</label>
                             <select class="form-control" name="sys_water_presence_inside_list[]" id="sys_water_presence_inside_list" multiple>
                                 <option value="WATER STORAGE CONTAINERS">Water Storage Containers</option>
                                 <option value="FLOWER VASE">Flower Vase</option>
@@ -446,7 +452,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="sys_water_presence_outside_list"><b class="text-danger">*</b>Select Presence of water containers OUTSIDE the house of the Patient or within 10 meters within the neighborhood</label>
+                            <label for="sys_water_presence_outside_list">Select Presence of water containers OUTSIDE the house of the Patient or within 10 meters within the neighborhood</label>
                             <select class="form-control" name="sys_water_presence_outside_list[]" id="sys_water_presence_outside_list" multiple>
                                 <option value="TIN CANS">Tin Cans</option>
                                 <option value="LAGOONS">Lagoons</option>
@@ -459,6 +465,11 @@
                             </select>
                         </div>
                     </div>
+                </div>
+                <hr>
+                <div class="form-group">
+                  <label for="system_remarks">Remarks</label>
+                  <textarea class="form-control" name="system_remarks" id="system_remarks" rows="3">{{old('system_remarks')}}</textarea>
                 </div>
             </div>
             <div class="card-footer">
@@ -480,11 +491,6 @@
 			return false;
 		}
 	});
-
-    $('#brgy_id').select2({
-        theme: 'bootstrap',
-        dropdownparent: $('#brgyDiv'),
-    });
 
     $('#sys_animal_presence_list').select2({
         theme: 'bootstrap',
@@ -580,6 +586,18 @@
         else {
             $('#outcomeDiv').addClass('d-none');
             $('#sys_outcome_date').prop('required', false);
+        }
+    }).trigger('change');
+
+    $('#sys_historytravel2weeks').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'Y') {
+            $('#historyTravelDiv').removeClass('d-none');
+            $('sys_historytravel2weeks_where').prop('required', true);
+        }
+        else {
+            $('#historyTravelDiv').addClass('d-none');
+            $('sys_historytravel2weeks_where').prop('required', false);
         }
     }).trigger('change');
 </script>

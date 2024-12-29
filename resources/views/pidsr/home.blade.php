@@ -77,6 +77,15 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    @if(session('modalmsg'))
+                    <div class="alert alert-{{session('modalmsgtype')}} text-center" role="alert">
+                        {{ session('modalmsg') }}
+                    </div>
+                    @endif
+                    <div class="form-group d-none">
+                        <label for="facility_code"><b class="text-danger">*</b>Facility Code</label>
+                        <input type="text" class="form-control" name="facility_code" id="facility_code" value="{{old('facility_code')}}" readonly>
+                    </div>
                     <div class="form-group">
                       <label for="disease"><b class="text-danger">*</b>Select Case</label>
                       <select class="form-control" name="disease" id="disease" required>
@@ -510,6 +519,14 @@
         </div>
     </div>
 </form>
+
+@if(session('openEncodeModal'))
+<script>
+    $(document).ready(function(){
+        $('#addCase').modal('show');
+    });
+</script>
+@endif
 
 <script>
     $('#rtype').change(function (e) { 

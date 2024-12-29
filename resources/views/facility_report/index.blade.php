@@ -5,6 +5,7 @@
         <div class="card">
             <div class="card-header"><b>CESU General Trias - Facility Reporting Tool</b></div>
             <div class="card-body">
+                
                 <a href="{{route('fwri_index', $d->sys_code1)}}" class="btn btn-primary btn-lg btn-block">Report Fireworks-Related Injury</a>
                 <a href="{{route('facility_report_injury_index', $d->sys_code1)}}" class="btn btn-primary btn-lg btn-block">Report Vehicular Accident and other Injuries</a>
                 <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#addCase">Encode Case of Reportable Disease</button>
@@ -14,7 +15,7 @@
         </div>
     </div>
 
-    <form action="{{route('edcs_facility_addcase_check', $d->sys_code1)}}" method="GET">
+    <form action="{{route('edcs_addcase_check')}}" method="GET">
         <div class="modal fade" id="addCase" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -25,11 +26,20 @@
                         </button>
                     </div>
                     <div class="modal-body">
+                        @if(session('modalmsg'))
+                        <div class="alert alert-{{session('modalmsgtype')}} text-center" role="alert">
+                            {{ session('modalmsg') }}
+                        </div>
+                        @endif
+                        <div class="form-group d-none">
+                          <label for="facility_code"><b class="text-danger">*</b>Facility Code</label>
+                          <input type="text" class="form-control" name="facility_code" id="facility_code" value="{{old('facility_code', $d->sys_code1)}}" readonly>
+                        </div>
                         <div class="form-group">
                           <label for="disease"><b class="text-danger">*</b>Select Case</label>
                           <select class="form-control" name="disease" id="disease" required>
-                            <option value="" disabled selected>Choose...</option>
-                            <option value="DENGUE">Dengue</option>
+                            <option value="" disabled {{(is_null(old('disease'))) ? 'selected' : ''}}>Choose...</option>
+                            <option value="DENGUE" {{(old('disease') == 'DENGUE') ? 'selected' : ''}}>Dengue</option>
                           </select>
                         </div>
                         <div class="form-group">
@@ -71,4 +81,12 @@
             </div>
         </div>
     </form>
+    
+    @if(session('openEncodeModal'))
+    <script>
+        $(document).ready(function(){
+            $('#addCase').modal('show');
+        });
+    </script>
+    @endif
 @endsection

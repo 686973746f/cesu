@@ -8978,12 +8978,29 @@ class PIDSRController extends Controller
             if(!$check) {
                 return $this->dengueNewOrEdit(new Dengue())->with('mode', 'NEW');
             }
+            else {
+                return redirect()->back()
+                ->withInput()
+                ->with('openEncodeModal', true)
+                ->with('modalmsg', 'Error: Dengue Case already exists in the database.')
+                ->with('modalmsgtype', 'warning');
+            }
         }
     }
 
     public function addCaseStore($disease, Request $r) {
-        //Get Facility
-        $f = DohFacility::where('id', auth()->user()->itr_facility_id)->first();
+        if($r->facility_code) {
+            $f = DohFacility::where('sys_code1', request()->input('facility_code'))->first();
+            if(!$f) {
+                return abort(404);
+            }
+
+            $created_by = NULL;
+        }
+        else {
+            $f = DohFacility::findOrFail(auth()->user()->itr_facility_id);
+            $created_by = Auth::id();
+        }
 
         $birthdate = Carbon::parse($r->bdate);
         $currentDate = Carbon::parse($r->date_investigation);
@@ -8991,31 +9008,6 @@ class PIDSRController extends Controller
         $get_ageyears = $birthdate->diffInYears($currentDate);
         $get_agemonths = $birthdate->diffInMonths($currentDate);
         $get_agedays = $birthdate->diffInDays($currentDate);
-
-        if($r->permaddress_isdifferent == 'Y') {
-            $perm_address_region_code = $r->perm_address_region_code;
-            $perm_address_region_text = $r->perm_address_region_text;
-            $perm_address_province_code = $r->perm_address_province_code;
-            $perm_address_province_text = $r->perm_address_province_text;
-            $perm_address_muncity_code = $r->perm_address_muncity_code;
-            $perm_address_muncity_text = $r->perm_address_muncity_text;
-            $perm_address_brgy_code = $r->perm_address_brgy_text;
-            $perm_address_brgy_text = $r->perm_address_brgy_text;
-            $perm_address_street = mb_strtoupper($r->perm_address_street);
-            $perm_address_houseno = mb_strtoupper($r->perm_address_houseno);
-        }
-        else {
-            $perm_address_region_code = $r->address_region_code;
-            $perm_address_region_text = $r->address_region_text;
-            $perm_address_province_code = $r->address_province_code;
-            $perm_address_province_text = $r->address_province_text;
-            $perm_address_muncity_code = $r->address_muncity_code;
-            $perm_address_muncity_text = $r->address_muncity_text;
-            $perm_address_brgy_code = $r->address_brgy_text;
-            $perm_address_brgy_text = $r->address_brgy_text;
-            $perm_address_street = mb_strtoupper($r->address_street);
-            $perm_address_houseno = mb_strtoupper($r->address_houseno);
-        }
 
         if($disease == 'MPOX') {
             //Second layer Record Checking
@@ -9027,6 +9019,31 @@ class PIDSRController extends Controller
             ->first();
 
             if(!$check) {
+                if($r->permaddress_isdifferent == 'Y') {
+                    $perm_address_region_code = $r->perm_address_region_code;
+                    $perm_address_region_text = $r->perm_address_region_text;
+                    $perm_address_province_code = $r->perm_address_province_code;
+                    $perm_address_province_text = $r->perm_address_province_text;
+                    $perm_address_muncity_code = $r->perm_address_muncity_code;
+                    $perm_address_muncity_text = $r->perm_address_muncity_text;
+                    $perm_address_brgy_code = $r->perm_address_brgy_text;
+                    $perm_address_brgy_text = $r->perm_address_brgy_text;
+                    $perm_address_street = mb_strtoupper($r->perm_address_street);
+                    $perm_address_houseno = mb_strtoupper($r->perm_address_houseno);
+                }
+                else {
+                    $perm_address_region_code = $r->address_region_code;
+                    $perm_address_region_text = $r->address_region_text;
+                    $perm_address_province_code = $r->address_province_code;
+                    $perm_address_province_text = $r->address_province_text;
+                    $perm_address_muncity_code = $r->address_muncity_code;
+                    $perm_address_muncity_text = $r->address_muncity_text;
+                    $perm_address_brgy_code = $r->address_brgy_text;
+                    $perm_address_brgy_text = $r->address_brgy_text;
+                    $perm_address_street = mb_strtoupper($r->address_street);
+                    $perm_address_houseno = mb_strtoupper($r->address_houseno);
+                }
+
                 $c = MonkeyPox::create([
                     'date_investigation' => $r->date_investigation,
                     'laboratory_id' => (!is_null($r->laboratory_id)) ? mb_strtoupper($r->laboratory_id) : NULL,
@@ -9152,7 +9169,7 @@ class PIDSRController extends Controller
                     'year' => $currentDate->format('Y'),
                     //'gps_x'
                     //'gps_y',
-                    'created_by' => Auth::id(),
+                    'created_by' => $created_by,
                     //'updated_by',
                 ]);
 
@@ -9174,13 +9191,6 @@ class PIDSRController extends Controller
             }
         }
         else if($disease == 'DENGUE') {
-            if(!Auth::check()) {
-                $f = DohFacility::where('sys_code1', request()->route('facility_code'))->first();
-            }
-            else {
-                $f = DohFacility::findOrFail(auth()->user()->itr_facility_id);
-            }
-
             $entry_date = Carbon::parse($r->entry_date);
 
             $check = Dengue::where('FamilyName', mb_strtoupper($r->lname))
@@ -9299,9 +9309,10 @@ class PIDSRController extends Controller
                     'suffix' => (!is_null($r->suffix)) ? mb_strtoupper($r->suffix) : NULL,
                     'FullName' => $fullName,
                     'AgeYears' => $get_ageyears,
-                    'AgeMonths' => $get_agemonths,
+                    'AgeMons' => $get_agemonths,
                     'AgeDays' => $get_agedays,
                     'Sex' => $r->sex,
+                    'edcs_patientcontactnum' => $r->contact_number,
                     'DRU' => $f->getFacilityTypeShort(),
                     'NameOfDru' => $f->facility_name,
                     //AddressOfDRU => $r->AddressOfDRU,
@@ -9320,7 +9331,7 @@ class PIDSRController extends Controller
                     'ClinClass' => $clinClass,
                     'CaseClassification' => $caseClass,
                     'is_ns1positive' => ($r->is_ns1positive == 'Y') ? 1 : 0,
-                    'sys_is_igmpositive' => ($r->is_igmpositive == 'Y') ? 1 : 0,
+                    'is_igmpositive' => ($r->is_igmpositive == 'Y') ? 1 : 0,
                     'Outcome' => $outcome,
                     'DateDied' => ($r->sys_outcome == 'DIED') ? $r->sys_outcome_date : NULL,
                     
@@ -9334,7 +9345,8 @@ class PIDSRController extends Controller
                     //'SentinelSite' => 'N',
                     //'DeleteRecord' => 'N',
                     //'UniqueKey' => 'N',
-                    'Barangay' => $b->name,
+                    'Barangay' => $b->alt_name ?: $b->name,
+                    'brgy_id' => $b->id,
                     //'TYPEHOSPITALCLINIC' => 'N',
                     'SENT' => 'Y',
                     //'ip' => 'N',
@@ -9342,10 +9354,14 @@ class PIDSRController extends Controller
                     'systemsent' => 0,
                     'match_casedef' => $match_casedef,
                     'from_inhouse' => 1,
-
+                    'edcs_healthFacilityCode' => $f->healthfacility_code,
+                    
                     'sys_interviewer_name' => mb_strtoupper($r->sys_interviewer_name),
+                    'edcs_investigatorName' => mb_strtoupper($r->sys_interviewer_name),
                     'sys_interviewer_contactno' => $r->sys_interviewer_contactno,
-                    'sys_occupationtype' => $r->sys_interviewer_contactno,
+                    'edcs_contactNo' => $r->sys_interviewer_contactno,
+
+                    'sys_occupationtype' => $r->sys_occupationtype,
                     'sys_businessorschool_address' => ($r->sys_occupationtype != 'NONE') ? mb_strtoupper($r->sys_businessorschool_address) : NULL,
                     'sys_businessorschool_name' => ($r->sys_occupationtype != 'NONE') ? mb_strtoupper($r->sys_businessorschool_name) : NULL,
                     'sys_feverdegrees' => $r->sys_feverdegrees,
@@ -9373,34 +9389,254 @@ class PIDSRController extends Controller
 
                     'sys_haemaconcentration' => ($r->sys_haemaconcentration) ? 'Y' : 'N',
                     'sys_medication_taken' => $r->sys_medication_taken,
+                    'sys_hospitalized_name' => ($r->Admitted == 'Y') ? mb_strtoupper($r->sys_hospitalized_name) : NULL,
                     'sys_hospitalized_datestart' => ($r->Admitted == 'Y') ? $r->sys_hospitalized_datestart : NULL,
                     'sys_hospitalized_dateend' => ($r->Admitted == 'Y') ? $r->sys_hospitalized_dateend : NULL,
-                    'sys_hospitalized_name' => ($r->Admitted == 'Y') ? mb_strtoupper($r->sys_hospitalized_name) : NULL,
                     'sys_outcome' => $r->sys_outcome,
                     'sys_outcome_date' => ($r->sys_outcome == 'RECOVERED' || $r->outcome == 'NOT IMPROVED' || $r->outcome == 'DIED') ? $r->sys_outcome_date : NULL,
                     'sys_historytravel2weeks' => $r->sys_historytravel2weeks,
                     'sys_historytravel2weeks_where' => ($r->sys_historytravel2weeks == 'Y') ? mb_strtoupper($r->sys_historytravel2weeks_where) : NULL,
                     'sys_exposedtosimilarcontact' => $r->sys_exposedtosimilarcontact,
-                    'sys_contactnames' => (!empty($r->sys_contactnames)) ? implode(',', $r->sys_contactnames) : NULL,
-                    'sys_contactaddress' => (!empty($r->sys_contactaddress)) ? implode(',', $r->sys_contactaddress) : NULL,
+                    'sys_contactnames' => ($r->filled('sys_contactnames')) ? implode(',', $r->sys_contactnames) : NULL,
+                    'sys_contactaddress' => ($r->filled('sys_contactnames') && $r->filled('sys_contactaddress')) ? implode(',', $r->sys_contactaddress) : NULL,
 
-                    'sys_animal_presence_list' => (!empty($r->sys_animal_presence_list)) ? implode(',', $r->sys_animal_presence_list) : NULL,
-                    'sys_animal_presence_others' => (in_array('OTHERS', $r->sys_animal_presence_list)) ? mb_strtoupper($r->sys_animal_presence_others) : NULL,
+                    'sys_animal_presence_list' => ($r->filled('sys_animal_presence_list')) ? implode(',', $r->sys_animal_presence_list) : NULL,
+                    'sys_animal_presence_others' => ($r->filled('sys_animal_presence_list') && in_array('OTHERS', $r->sys_animal_presence_list)) ? mb_strtoupper($r->sys_animal_presence_others) : NULL,
 
-                    'sys_water_presence_inside_list' => (!empty($r->sys_water_presence_inside_list)) ? implode(',', $r->sys_water_presence_inside_list) : NULL,
-                    'sys_water_presence_outside_list' => (!empty($r->sys_water_presence_outside_list)) ? implode(',', $r->sys_water_presence_outside_list) : NULL,
-                    'sys_water_presence_outside_others' => (in_array('OTHERS', $r->sys_water_presence_outside_list)) ? mb_strtoupper($r->sys_water_presence_outside_others) : NULL,
+                    'sys_water_presence_inside_list' => ($r->filled('sys_water_presence_inside_list')) ? implode(',', $r->sys_water_presence_inside_list) : NULL,
+                    'sys_water_presence_outside_list' => ($r->filled('sys_water_presence_outside_list')) ? implode(',', $r->sys_water_presence_outside_list) : NULL,
+                    'sys_water_presence_outside_others' => ($r->filled('sys_water_presence_outside_list') && in_array('OTHERS', $r->sys_water_presence_outside_list)) ? mb_strtoupper($r->sys_water_presence_outside_others) : NULL,
+                    'system_remarks' => $r->system_remarks,
+
+                    'created_by' => $created_by,
                 ];
 
-                return redirect()->route('pidsr.casechecker', ['case' => 'DENGUE', 'year' => date('Y')])
-                ->with('msg', 'Dengue Case Successfully encoded.')
-                ->with('msgtype', 'success');
+                $c = Dengue::create($table_params);
+
+                if(!$r->facility_code) {
+                    return redirect()->route('pidsr.casechecker', ['case' => 'DENGUE', 'year' => date('Y')])
+                    ->with('msg', 'Dengue Case was encoded successfully.')
+                    ->with('msgtype', 'success');
+                }
+                else {
+                    return redirect()->route('edcs_addcase_success', ['DENGUE'])
+                    ->with('msg', 'Dengue Case was encoded successfully.')
+                    ->with('msgtype', 'success');
+                }
             }
             else {
                 return redirect()->back()
                 ->withInput()
                 ->with('msg', 'Dengue Case already exists!')
                 ->with('msgtype', 'warning');
+            }
+        }
+    }
+
+    public function addCaseSuccess($facility_code, $disease) {
+        return view('pidsr.dengue.success');
+    }
+
+    public function viewEdcsExportables($facility_code, $disease) {
+        if(auth()->check()) {
+            $f = DohFacility::where('id', auth()->user()->itr_facility_id)->first();
+        }
+        else {
+            $f = DohFacility::where('sys_code1', $facility_code)->first();
+        }
+        
+        if(!$f) {
+            return abort(404);
+        }
+
+        if($disease == 'DENGUE') {
+            $list = Dengue::where('from_inhouse', 1)
+            ->where('inhouse_exportedtocsv', 0)
+            ->where('edcs_healthFacilityCode', $f->healthfacility_code)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->get();
+
+            return view('pidsr.dengue.view_exportables', [
+                'list' => $list,
+                'f' => $f,
+            ]);
+        }
+        else {
+            return abort(404);
+        }
+    }
+
+    public function processEdcsExportables($facility_code, $disease, Request $r) {
+        $f = DohFacility::where('sys_code1', $facility_code)->first();
+
+        if(!$f) {
+            return abort(404);
+        }
+
+        if($disease == 'DENGUE') {
+            if($r->submit == 'downloadCsv') {
+                $spreadsheet = IOFactory::load(storage_path('edcs_template\dengue.csv'));
+                $sheet = $spreadsheet->getActiveSheet();
+
+                $list = Dengue::whereIn('id', $r->ids)->get();
+                
+                if($list->count() != 0) {
+                    $row = 2;
+                    
+                    foreach($list as $d) {
+                        /*
+                        //Check first if there is NS1 Positive Lab Data
+                        $lab_data = SyndromicLabResult::where('syndromic_record_id', $d->id)
+                        ->where('case_code', 'DENGUE')
+                        ->where('test_type', 'Dengue NS1')
+                        ->where('result', 'POSITIVE')
+                        ->first();
+        
+                        if($lab_data) {
+                            $case_class = 'CON';
+        
+                            $specimen_type = 'BLD';
+                            $specimen_date_collected = Carbon::parse($lab_data->date_collected)->format('m/d/Y');
+                            $specimen_sent_to_ritm = 'N';
+                            $specimen_ritm_sent_date = '';
+                            $specimen_ritm_received_date = '';
+                            $specimen_result = 'POS';
+                            $specimen_type_organism = '';
+                            $specimen_typeof_test = 'NS1';
+                            $specimen_interpretation = $lab_data->interpretation;
+                        }
+                        else {
+                            $specimen_type = '';
+                            $specimen_date_collected = '';
+                            $specimen_sent_to_ritm = '';
+                            $specimen_ritm_sent_date = '';
+                            $specimen_ritm_received_date = '';
+                            $specimen_result = '';
+                            $specimen_type_organism = '';
+                            $specimen_typeof_test = '';
+                            $specimen_interpretation = '';
+                            $case_class = 'SUS';
+                        }
+                        */
+
+                        if($d->is_ns1positive == 1) {
+                            $specimen_type = 'BLD';
+                            $specimen_date_collected = Carbon::parse($d->DateOfEntry)->format('m/d/Y');
+                            $specimen_sent_to_ritm = 'N';
+                            $specimen_ritm_sent_date = '';
+                            $specimen_ritm_received_date = '';
+                            $specimen_result = 'POS';
+                            $specimen_type_organism = '';
+                            $specimen_typeof_test = 'NS1';
+                            $specimen_interpretation = '';
+                        }
+                        else if($d->is_igmpositive == 1) {
+                            $specimen_type = 'BLD';
+                            $specimen_date_collected = Carbon::parse($d->DateOfEntry)->format('m/d/Y');
+                            $specimen_sent_to_ritm = 'N';
+                            $specimen_ritm_sent_date = '';
+                            $specimen_ritm_received_date = '';
+                            $specimen_result = 'POS';
+                            $specimen_type_organism = '';
+                            $specimen_typeof_test = 'IGM';
+                            $specimen_interpretation = '';
+                        }
+                        else if($d->sys_thrombocytopenia == 'Y') {
+                            $specimen_type = 'BLD';
+                            $specimen_date_collected = Carbon::parse($d->DateOfEntry)->format('m/d/Y');
+                            $specimen_sent_to_ritm = 'N';
+                            $specimen_ritm_sent_date = '';
+                            $specimen_ritm_received_date = '';
+                            $specimen_result = 'POS';
+                            $specimen_type_organism = '';
+                            $specimen_typeof_test = 'CBC';
+                            $specimen_interpretation = '';
+                        }
+                        else {
+                            $specimen_type = '';
+                            $specimen_date_collected = '';
+                            $specimen_sent_to_ritm = '';
+                            $specimen_ritm_sent_date = '';
+                            $specimen_ritm_received_date = '';
+                            $specimen_result = '';
+                            $specimen_type_organism = '';
+                            $specimen_typeof_test = '';
+                            $specimen_interpretation = '';
+                        }
+
+                        $cf = DohFacility::where('healthfacility_code', $d->edcs_healthFacilityCode)->first();
+        
+                        $sheet->setCellValue('A'.$row, 'MPSS_'.$d->id.'E'); //Patient ID
+                        $sheet->setCellValue('B'.$row, $d->FirstName); //First Name
+                        $sheet->setCellValue('C'.$row, $d->middle_name); //Middle Name
+                        $sheet->setCellValue('D'.$row, $d->FamilyName); //Last Name
+                        $sheet->setCellValue('E'.$row, $d->suffix); //Suffix
+                        $sheet->setCellValue('F'.$row, $d->Sex); //Sex
+                        $sheet->setCellValue('G'.$row, Carbon::parse($d->DOB)->format('m/d/Y')); //Bdate
+                        $sheet->setCellValue('H'.$row, $d->AgeYears); //Age
+        
+                        $sheet->setCellValue('I'.$row, $d->brgy->city->province->region->edcs_code); //Current Region
+                        $sheet->setCellValue('J'.$row, $d->brgy->city->province->edcs_code); //Current Province
+                        $sheet->setCellValue('K'.$row, $d->brgy->city->edcs_code); //Current MunCity
+                        $sheet->setCellValue('L'.$row, $d->brgy->edcs_code); //Current Brgy
+                        $sheet->setCellValue('M'.$row, $d->Streetpurok); //Current StreetProk
+        
+                        $sheet->setCellValue('N'.$row, $d->brgy->city->province->region->edcs_code); //Permanent Region
+                        $sheet->setCellValue('O'.$row, $d->brgy->city->province->edcs_code); //Permanent Province
+                        $sheet->setCellValue('P'.$row, $d->brgy->city->edcs_code); //Permanent MunCity
+                        $sheet->setCellValue('Q'.$row, $d->brgy->edcs_code); //Permanent Brgy
+                        $sheet->setCellValue('R'.$row, $d->Streetpurok); //Permanent StreetProk
+        
+                        $sheet->setCellValue('S'.$row, 'N'); //Member of Indigenous People
+                        $sheet->setCellValue('T'.$row, ''); //Indigenous People Tribe
+                        $sheet->setCellValue('U'.$row, ''); //Indigenous People Tribe
+                        $sheet->setCellValue('V'.$row, $cf->healthfacility_code); //Facility Code
+                        $sheet->setCellValue('W'.$row, $cf->edcs_region_code); //DRU Region Code
+                        $sheet->setCellValue('X'.$row, $cf->edcs_province_code); //DRU Province Code
+                        $sheet->setCellValue('Y'.$row, $cf->edcs_muncity_code); //DRU MunCity Code
+                        $sheet->setCellValue('Z'.$row, 'Y'); //Consulted
+                        $sheet->setCellValue('AA'.$row, Carbon::parse($d->DateOfEntry)->format('m/d/Y')); //Date Consulted
+                        $sheet->setCellValue('AB'.$row, $cf->facility_name); //Place Consulted
+                        $sheet->setCellValue('AC'.$row, ($d->Admitted == 1) ? 'Y' : 'N'); //Admitted
+                        $sheet->setCellValue('AD'.$row, ($d->Admitted == 1) ? Carbon::parse($d->DAdmit)->parse('m/d/Y') : ''); //Date Admitted
+                        $sheet->setCellValue('AE'.$row, Carbon::parse($d->DOnset)->format('m/d/Y')); //Date Onset of Illness
+                        $sheet->setCellValue('AF'.$row, 0); //Number of Dengue Vaccine
+                        $sheet->setCellValue('AG'.$row, ''); //Date First Vaccination Dengue
+                        $sheet->setCellValue('AH'.$row, ''); //Date Last Vaccination Dengue
+                        $sheet->setCellValue('AI'.$row, $d->getEdcsCsvClinicalClass()); //Clinical Classification
+                        $sheet->setCellValue('AJ'.$row, $d->getEdcsCsvCaseClass()); //Case Classification (SUS, PROB, CON)
+                        $sheet->setCellValue('AK'.$row, $d->Outcome); //Outcome
+                        $sheet->setCellValue('AL'.$row, ($d->Outcome == 'D') ? Carbon::parse($d->DateDied)->format('m/d/Y') : NULL); //Patient ID
+                        $sheet->setCellValue('AM'.$row, $specimen_type); //Specimen Type (STL - Stool, BLD - Blood, SRM - Saliva)
+                        $sheet->setCellValue('AN'.$row, $specimen_date_collected); //Date Specimen Collected
+                        $sheet->setCellValue('AO'.$row, $specimen_sent_to_ritm); //Sent to RITM
+                        $sheet->setCellValue('AP'.$row, $specimen_ritm_sent_date); //Date Sent to RITM
+                        $sheet->setCellValue('AQ'.$row, $specimen_ritm_received_date); //Date Received RITM
+                        $sheet->setCellValue('AR'.$row, $specimen_result); //Laboratory Reslt
+                        $sheet->setCellValue('AS'.$row, $specimen_type_organism); //Type of Organism
+                        $sheet->setCellValue('AT'.$row, $specimen_typeof_test); //Type of Test Conducted
+                        $sheet->setCellValue('AU'.$row, $specimen_interpretation); //Interpretation
+        
+                        //$d->addToProcessedDiseaseTag('DENGUE');
+
+                        $d->inhouse_exportedtocsv = 1;
+                        $d->inhouse_exported_date = date('Y-m-d H:i:s');
+
+                        if($d->isDirty()) {
+                            $d->save();
+                        }
+                        
+                        $row++;
+                    }
+        
+                    $fileName = 'dengue_template_'.strtolower(Str::random(5)).'.csv';
+                    ob_clean();
+                    $writer = new Csv($spreadsheet);
+                    header('Content-Type: text/csv');
+                    header('Content-Disposition: attachment; filename="' . urlencode($fileName) . '"');
+                    $writer->save('php://output');
+                }
             }
         }
     }
@@ -9444,25 +9680,23 @@ class PIDSRController extends Controller
 
     public function dengueNewOrEdit(Dengue $record) {
         //Get Facility
-        if(request()->route('facility_code')) {
-            $facility_code = request()->route('facility_code');
-            $route = route('edcs_facility_addcase_store', [$facility_code, 'DENGUE']);
+        if(request()->input('facility_code')) {
+            $f = DohFacility::where('sys_code1', request()->input('facility_code'))->first();
 
-            $f = DohFacility::where('sys_code1', $facility_code)->first();
+            if(!$f) {
+                return abort(404);
+            }
         }
         else {
-            $route = route('edcs_addcase_store');
-
             $f = DohFacility::where('id', auth()->user()->itr_facility_id)->first();
         }
-
+        
         $brgy_list = EdcsBrgy::where('city_id', 388)->orderBy('name', 'ASC')->get();
 
         return view('pidsr.dengue.cif', [
             'd' => $record,
             'f' => $f,
             'mode' => 'EDIT',
-            'route' => $route,
             'brgy_list' => $brgy_list,
         ]);
     }
@@ -9533,7 +9767,7 @@ class PIDSRController extends Controller
                         $case_class = 'SUS';
                     }
 
-                    $sheet->setCellValue('A'.$row, 'MPSS_'.$d->id); //Patient ID
+                    $sheet->setCellValue('A'.$row, 'MPSS_'.$d->id.'S'); //Patient ID
                     $sheet->setCellValue('B'.$row, $d->syndromic_patient->fname); //First Name
                     $sheet->setCellValue('C'.$row, $d->syndromic_patient->mname); //Middle Name
                     $sheet->setCellValue('D'.$row, $d->syndromic_patient->lname); //Last Name
