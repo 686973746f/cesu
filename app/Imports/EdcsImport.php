@@ -1681,7 +1681,7 @@ class RabiesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'OtherTypeOfExposure' => $row['other_specify'][0],
                 'DateBitten' => EdcsImport::tDate($row['date_exposure']),
                 'TypeOfAnimal' => $row['type_animal'],
-                'OtherTypeOfAnimal' => (isset($row['other_specify'][1])) ? $row['other_specify'][1] : $row['other_specify'][2],
+                'OtherTypeOfAnimal' => (isset($row['other_specify'][0])) ? $row['other_specify'][0] : $row['other_specify'][1],
                 'LabDiagnosis' => NULL,
                 'LabResult' => NULL,
                 'AnimalStatus' => $row['animal_status'],
