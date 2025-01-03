@@ -397,7 +397,7 @@
                                     <label for="disposition_after_consultation"><span class="text-danger font-weight-bold">*</span>Disposition after consultation</label>
                                         <select class="form-control" name="disposition_after_consultation" id="disposition_after_consultation" required>
                                             <option value="" disabled {{(is_null(old('disposition_after_consultation', $d->disposition_after_consultation))) ? 'selected' : ''}}>Choose...</option>
-                                            <option value="TREATED AND SENT HOME" {{(old('disposition_after_consultation', $d->disposition_after_consultation) == 'TREATED AND SENT HOME') ? 'selected' : ''}}>TREATED AND SENT HOME</option>
+                                            <option value="TREATED AND SENT HOME" {{(old('disposition_after_consultation', $d->disposition_after_consultation) == 'TREATED AND SENT HOME') ? 'selected' : ''}}>TREATED AND SENT HOME (TRASH)</option>
                                             <option value="ADMITTED" {{(old('disposition_after_consultation', $d->disposition_after_consultation) == 'ADMITTED') ? 'selected' : ''}}>ADMITTED</option>
                                             <option value="REFUSED ADMISSION" {{(old('disposition_after_consultation', $d->disposition_after_consultation) == 'REFUSED ADMISSION') ? 'selected' : ''}}>REFUSED ADMISSION</option>
                                             <option value="ABSCONDED" {{(old('disposition_after_consultation', $d->disposition_after_consultation) == 'ABSCONDED') ? 'selected' : ''}}>ABSCONDED</option>
