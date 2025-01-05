@@ -779,6 +779,8 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     Route::get('fwri_admin/{id}/print', [FwriController::class, 'printCif'])->name('fwri_print');
     Route::get('fwri_admin/report', [FwriController::class, 'report'])->name('fwri_report');
     Route::get('fwri_admin/export', [FwriController::class, 'export'])->name('fwri_export');
+
+    Route::post('fwri_admin/upload', [FwriController::class, 'uploadExcel'])->name('fwri_upload');
 });
 
 //QES DIARRHEA
@@ -880,10 +882,10 @@ Route::get('json/mwly', [JsonReportController::class, 'mwly']);
 Route::get('json/mwcy', [JsonReportController::class, 'mwcy']);
 Route::get('json/mwcombine', [JsonReportController::class, 'mwcombine']);
 
-//FIREWORK RELATED INJURY FWRI
-Route::get('fwri/{code}', [FwriController::class, 'index'])->name('fwri_index');
-Route::post('fwri/{code}/add', [FwriController::class, 'store'])->name('fwri_store');
-Route::get('fwri/{code}/success', [FwriController::class, 'success'])->name('fwri_success');
+//FIREWORK RELATED INJURY FWRI - CLOSED AS OF JANUARY 05, 2025 TO BE REPLACED BY FWRI IMPORT TOOL
+//Route::get('fwri/{code}', [FwriController::class, 'index'])->name('fwri_index');
+//Route::post('fwri/{code}/add', [FwriController::class, 'store'])->name('fwri_store');
+//Route::get('fwri/{code}/success', [FwriController::class, 'success'])->name('fwri_success');
 
 //INJURY - VEHICLE INJURY REPORTING
 Route::get('facility_report/{code}', [FacilityReportingController::class, 'index'])->name('facility_report_index');

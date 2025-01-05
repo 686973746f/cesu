@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\FwInjury;
+use App\Imports\FwriImport;
 use App\Models\DohFacility;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\BarangayHealthStation;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -458,6 +460,17 @@ class FwriController extends Controller
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
             header('Content-Disposition: attachment; filename="'. urlencode($fileName).'"');
             $writer1->save('php://output');
+        }
+    }
+
+    public function uploadExcel(Request $r) {
+        try {
+            Excel::import(new FwriImport, $r->file('excel_file'));
+        }
+        catch(\Exception $e) {
+            return redirect()->back()
+            ->with('msg', 'Error: '.$e->getMessage())
+            ->with('msgtype', 'danger');
         }
     }
 }
