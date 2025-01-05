@@ -15,7 +15,14 @@ class CreateFwInjuriesTable extends Migration
     {
         Schema::create('fw_injuries', function (Blueprint $table) {
             $table->id();
-            $table->date('report_date');
+            $table->string('oneiss_pno')->nullable();
+            $table->string('oneiss_status')->nullable();
+            $table->string('oneiss_dataentrystatus')->nullable();
+            $table->string('oneiss_regno')->nullable();
+            $table->string('oneiss_tempregno')->nullable();
+            $table->string('oneiss_patfacilityno')->nullable();
+
+            $table->dateTime('report_date');
             $table->string('facility_code');
             $table->string('account_type');
             $table->text('hospital_name');

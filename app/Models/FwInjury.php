@@ -16,6 +16,13 @@ class FwInjury extends Model
     use HasFactory;
 
     protected $fillable = [
+        'oneiss_pno',
+        'oneiss_status',
+        'oneiss_dataentrystatus',
+        'oneiss_regno',
+        'oneiss_tempregno',
+        'oneiss_patfacilityno',
+        
         'reported_by',
         'report_date',
         'facility_code',
