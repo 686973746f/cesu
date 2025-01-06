@@ -41,7 +41,7 @@
                     @elseif($g_type == 'EMPTY_LATE')
                     <div class="alert alert-info" role="alert">
                         <div><h5>Submission Status for MW: <b>MW: {{$mw}} - Year: {{$year}}</b> = <b class="text-danger">NOT YET SUBMITTED (FOR LATE SUBMISSION)</b></h5></div>
-                        <div><h5><b class="text-danger">TAKE NOTE:</b> Please encode the diseases first in the EDCS-IS Website before submitting here. This will be automatically tagged as LATE SUBMIT.</h5></div>
+                        <div><h5><b class="text-danger">TAKE NOTE:</b> Please encode the cases first in the EDCS-IS Website (<a href="https://pidsr.doh.gov.ph">https://pidsr.doh.gov.ph</a>) before submitting here. This will be automatically tagged as LATE SUBMIT.</h5></div>
                     </div>
                     @endif
                     <div class="row">
