@@ -150,7 +150,7 @@
                   }
                   @endphp
                   <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="checkbox" id="type_{{$ind}}" name="consultation_type[]" value="{{mb_strtoupper($ref1)}}" {{($get_disabled) ? 'disabled' : ''}} {{in_array(mb_strtoupper($ref1), explode(",", old('consultation_type', $d->consultation_type))) ? 'checked' : ''}}>
+                      <input class="form-check-input" type="checkbox" id="type_{{$ind}}" name="consultation_type[]" value="{{mb_strtoupper($ref1)}}" {{($get_disabled) ? 'disabled' : ''}} {{in_array(mb_strtoupper($ref1), explode(",", $d->consultation_type)) ? 'checked' : ''}}>
                       <label class="form-check-label">{{$ref1}}</label>
                   </div>
                   @endforeach
