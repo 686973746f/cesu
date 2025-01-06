@@ -7,6 +7,7 @@
                 <div class="d-flex justify-content-between">
                     <div><b>Fireworks-Related Injury (FWRI) - Home</b> (Total: {{$list->count()}})</div>
                     <div>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#uploadModal">Upload</button>
                         <a href="{{route('fwri_export')}}" class="btn btn-success">Export</a>
                         <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#filterBtn">Filter</button>
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reportMod">Report</button>
@@ -124,6 +125,31 @@
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success btn-block">Filter</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <form action="{{route('fwri_upload')}}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Upload ONEISS Excel File</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                          <label for="excel_file"><b class="text-danger">*</b>Select ONEISS Excel File to Upload</label>
+                          <input type="file" class="form-control-file" name="excel_file" id="excel_file" accept=".xlsx" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success btn-block">Start Upload</button>
                     </div>
                 </div>
             </div>
