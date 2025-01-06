@@ -5,8 +5,6 @@
         <div class="card">
             <div class="card-header"><b>CESU General Trias - Facility Reporting Tool</b></div>
             <div class="card-body">
-                
-                <a href="{{route('fwri_index', $d->sys_code1)}}" class="btn btn-primary btn-lg btn-block">Report Fireworks-Related Injury</a>
                 <a href="{{route('facility_report_injury_index', $d->sys_code1)}}" class="btn btn-primary btn-lg btn-block">Report Vehicular Accident and other Injuries</a>
                 <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#addCase">Encode Case of Reportable Disease</button>
                 <hr>
