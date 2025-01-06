@@ -43,6 +43,7 @@ ALTER TABLE syndromic_records ADD CONSTRAINT `syndromic_records_facility_id_fore
 class TestController extends Controller
 {
     public function index() {
+        dd(Carbon::now()->subWeek(1)->format('Y-m-d W'));
         Excel::import(new TkcExcelImport(1), storage_path('app/tkc/tkc_csv_test.csv'));
     }
 }

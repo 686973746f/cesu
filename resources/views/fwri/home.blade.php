@@ -69,10 +69,10 @@
                                 <td class="text-center">{{$d->firework_name}}</td>
                                 <td class="text-center">{{$d->firework_illegal}}</td>
                                 <td class="text-center">{{date('m/d/Y h:i A', strtotime($d->injury_date))}}</td>
-                                <th class="text-center">{{$d->liquor_intoxication}}</th>
-                                <th class="text-center">{{$d->treatment_given}}</th>
-                                <th class="text-center">{{$d->disposition_after_consultation}}</th>
-                                <th class="text-center">{{$d->disposition_after_admission}}</th>
+                                <td class="text-center">{{$d->liquor_intoxication}}</td>
+                                <td class="text-center">{{$d->treatment_given}}</td>
+                                <td class="text-center">{{$d->disposition_after_consultation}}</td>
+                                <td class="text-center">{{$d->disposition_after_admission}}</td>
                                 <td class="text-center">{{$d->reported_by}}</td>
                             </tr>
                             @endforeach

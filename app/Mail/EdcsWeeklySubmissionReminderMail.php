@@ -30,6 +30,6 @@ class EdcsWeeklySubmissionReminderMail extends Mailable
     {
         return $this->view('email.edcs_weeklysubmission_reminder')
         ->from('admin@cesugentri.com', 'CESU General Trias')
-        ->subject('Reminder of Encoding and Submitting MW'.date('W', strtotime('-1 Week')).' - Year '.date('Y', strtotime('-1 Week')).' EDCS Weekly Report');
+        ->subject('Reminder of Encoding and Submitting MW'.date('W', strtotime('-1 Week')).' - Year '.date('Y', strtotime('-1 Day')).' EDCS Weekly Report');
     }
 }

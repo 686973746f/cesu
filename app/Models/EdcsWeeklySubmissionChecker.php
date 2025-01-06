@@ -45,15 +45,23 @@ class EdcsWeeklySubmissionChecker extends Model
     ];
 
     public static function getSubmissionType() {
-        $currentDay =  Carbon::now()->subWeek(1);
-
         if(request()->input('mw') && request()->input('year')) {
             $input_mw = request()->input('mw');
             $input_year = request()->input('year');
         }
         else {
-            $input_mw = $currentDay->format('W');
-            $input_year = $currentDay->format('Y');
+            if(date('W') == 02) {
+                $currentDay = Carbon::now();
+
+                $input_mw = $currentDay->clone()->subWeek(1)->format('W');
+                $input_year = $currentDay->clone()->subDay(1)->format('Y');
+            }
+            else {
+                $currentDay =  Carbon::now()->subWeek(1);
+
+                $input_mw = $currentDay->format('W');
+                $input_year = $currentDay->format('Y');
+            }
         }
 
         if($input_year == $currentDay->format('Y')) {
@@ -117,8 +125,6 @@ class EdcsWeeklySubmissionChecker extends Model
     }
 
     public static function getAlreadySubmittedType($facility_code) {
-        $currentDay =  Carbon::now()->subWeek(1);
-
         $f = DohFacility::where('sys_code1', $facility_code)->first();
 
         if(request()->input('mw') && request()->input('year')) {
@@ -126,8 +132,18 @@ class EdcsWeeklySubmissionChecker extends Model
             $input_year = request()->input('year');
         }
         else {
-            $input_mw = $currentDay->format('W');
-            $input_year = $currentDay->format('Y');
+            if(date('W') == 02) {
+                $currentDay = Carbon::now();
+
+                $input_mw = $currentDay->clone()->subWeek(1)->format('W');
+                $input_year = $currentDay->clone()->subDay(1)->format('Y');
+            }
+            else {
+                $currentDay =  Carbon::now()->subWeek(1);
+
+                $input_mw = $currentDay->format('W');
+                $input_year = $currentDay->format('Y');
+            }
         }
 
         $d = EdcsWeeklySubmissionChecker::where('facility_name', $f->facility_name)
