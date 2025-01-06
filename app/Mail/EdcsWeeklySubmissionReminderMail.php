@@ -28,8 +28,15 @@ class EdcsWeeklySubmissionReminderMail extends Mailable
      */
     public function build()
     {
+        if(date('W') == 02) {
+            $year = date('Y', strtotime('-1 Day'));
+        }
+        else {
+            $year = date('Y', strtotime('-1 Week'));
+        }
+
         return $this->view('email.edcs_weeklysubmission_reminder')
         ->from('admin@cesugentri.com', 'CESU General Trias')
-        ->subject('Reminder of Encoding and Submitting MW'.date('W', strtotime('-1 Week')).' - Year '.date('Y', strtotime('-1 Day')).' EDCS Weekly Report');
+        ->subject('Reminder of Encoding and Submitting MW'.date('W', strtotime('-1 Week')).' - Year '.$year.' EDCS Weekly Report');
     }
 }
