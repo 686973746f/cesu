@@ -26,22 +26,23 @@
                     @elseif($g_type == 'SUBMITTED_BUT_LATE')
                     <div class="alert alert-info" role="alert">
                         <div>Submission Status for <b>MW: {{$mw}} - Year: {{$year}}</b> = <b class="text-success">SUBMITTED (LATE)</b></div>
-                        <div></div>
+                        <div>We encourage to submit on-time on the next coming weeks of submission. Thank you.</div>
                     </div>
                     @elseif($g_type == 'AUTO_NO_SUBMISSION')
                     <div class="alert alert-info" role="alert">
                         <div>Submission Status for <b>MW: {{$mw}} - Year: {{$year}}</b> = <b class="text-danger">NO SUBMISSION</b></div>
                         <div>Please consolidate and submit now to waive the No Submission.</div>
+                        <div><h5><b class="text-danger">TAKE NOTE:</b> If there is a reportable case/s discovered in your respective facility, please encode it first in the EDCS-IS Website (<a href="https://pidsr.doh.gov.ph">https://pidsr.doh.gov.ph</a>) before proceeding. Submit today (Monday) to avoid being tagged as late submission.</h5></div>
                     </div>
                     @elseif($g_type == 'NOTYET_SUBMITTED_ONTIME')
                     <div class="alert alert-info" role="alert">
                         <div><h5>Submission Status for <b>MW: {{$mw}} - Year: {{$year}}</b> = <b class="text-danger">NOT YET SUBMITTED</b></h5></div>
-                        <div><h5><b class="text-danger">TAKE NOTE:</b> Please encode the diseases first in the EDCS-IS Website before submitting here. Submit today (Monday) to avoid being tagged as late submission.</h5></div>
+                        <div><h5><b class="text-danger">TAKE NOTE:</b> If there is a reportable cases/s discovered in your respective facility, please encode it first in the EDCS-IS Website (<a href="https://pidsr.doh.gov.ph">https://pidsr.doh.gov.ph</a>) before proceeding. Submit today (Monday) to avoid being tagged as late submission.</h5></div>
                     </div>
                     @elseif($g_type == 'EMPTY_LATE')
                     <div class="alert alert-info" role="alert">
                         <div><h5>Submission Status for MW: <b>MW: {{$mw}} - Year: {{$year}}</b> = <b class="text-danger">NOT YET SUBMITTED (FOR LATE SUBMISSION)</b></h5></div>
-                        <div><h5><b class="text-danger">TAKE NOTE:</b> Please encode the cases first in the EDCS-IS Website (<a href="https://pidsr.doh.gov.ph">https://pidsr.doh.gov.ph</a>) before submitting here. This will be automatically tagged as LATE SUBMIT.</h5></div>
+                        <div><h5><b class="text-danger">TAKE NOTE:</b> If there is a reportable case/s discovered in your respective facility, please encode it first in the EDCS-IS Website (<a href="https://pidsr.doh.gov.ph">https://pidsr.doh.gov.ph</a>) before proceeding. This will be automatically tagged as LATE SUBMIT.</h5></div>
                     </div>
                     @endif
                     <div class="row">
@@ -218,6 +219,25 @@
             </div>
         </div>
     </form>
+
+    <div class="modal fade" id="warningModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <h4><b>NOTE:</b> Please encode the cases at the EDCS-IS Website first () before proceeding.</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success btn-block" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     
     <script>
         $('#status').change(function (e) { 
