@@ -130,14 +130,27 @@ class PidsrWndr extends Command
                 });
             });
             */
+            
+            if(date('W') == 01) {
+                $sel_year = date('Y') - 1;
+                $sel_week = 52;
+            }
+            else if(date('W') == 02) { //To Avoid First Week Submittal Year Bug
+                $sel_year = date('Y');
+                $sel_week = 1;
+            }
+            else {
+                $sel_year = date('Y', strtotime('-1 Week'));
+                $sel_week = Carbon::now()->week - 1;
+            }
 
             $afp = Afp::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where('Year', date('Y', strtotime('-1 Week')))
-            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
+            ->where('Year', $sel_year)
+            ->where('MorbidityWeek', '<=', $sel_week);
 
             if($afp->count() != 0) {
                 $l = $afp->get();
@@ -193,8 +206,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where('Year', date('Y', strtotime('-1 Week')))
-            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
+            ->where('Year', $sel_year)
+            ->where('MorbidityWeek', '<=', $sel_week);
 
             if($aefi->count() != 0) {
                 $l = $aefi->get();
@@ -249,8 +262,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where('Year', date('Y', strtotime('-1 Week')))
-            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
+            ->where('Year', $sel_year)
+            ->where('MorbidityWeek', '<=', $sel_week);
 
             if($ant->count() != 0) {
                 $l = $ant->get();
@@ -306,8 +319,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where('Year', date('Y', strtotime('-1 Week')))
-            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
+            ->where('Year', $sel_year)
+            ->where('MorbidityWeek', '<=', $sel_week);
 
             if($mea->count() != 0) {
                 $l = $mea->get();
@@ -364,8 +377,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where('Year', date('Y', strtotime('-1 Week')))
-            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
+            ->where('Year', $sel_year)
+            ->where('MorbidityWeek', '<=', $sel_week);
 
             if($mgc->count() != 0) {
                 $l = $mgc->get();
@@ -419,8 +432,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where('Year', date('Y', strtotime('-1 Week')))
-            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
+            ->where('Year', $sel_year)
+            ->where('MorbidityWeek', '<=', $sel_week);
 
             if($nt->count() != 0) {
                 $l = $nt->get();
@@ -474,8 +487,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where('Year', date('Y', strtotime('-1 Week')))
-            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
+            ->where('Year', $sel_year)
+            ->where('MorbidityWeek', '<=', $sel_week);
 
             if($psp->count() != 0) {
                 $l = $psp->get();
@@ -529,8 +542,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where('Year', date('Y', strtotime('-1 Week')))
-            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
+            ->where('Year', $sel_year)
+            ->where('MorbidityWeek', '<=', $sel_week);
 
             if($rab->count() != 0) {
                 $l = $rab->get();
@@ -586,8 +599,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where('Year', date('Y', strtotime('-1 Week')))
-            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
+            ->where('Year', $sel_year)
+            ->where('MorbidityWeek', '<=', $sel_week);
 
             if($abd->count() != 0) {
                 $l = $abd->get();
@@ -641,8 +654,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where('Year', date('Y', strtotime('-1 Week')))
-            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
+            ->where('Year', $sel_year)
+            ->where('MorbidityWeek', '<=', $sel_week);
 
             if($aes->count() != 0) {
                 $l = $aes->get();
@@ -696,8 +709,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where('Year', date('Y', strtotime('-1 Week')))
-            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
+            ->where('Year', $sel_year)
+            ->where('MorbidityWeek', '<=', $sel_week);
 
             if($ahf->count() != 0) {
                 $l = $ahf->get();
@@ -751,8 +764,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where('Year', date('Y', strtotime('-1 Week')))
-            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
+            ->where('Year', $sel_year)
+            ->where('MorbidityWeek', '<=', $sel_week);
 
             if($hep->count() != 0) {
                 $l = $hep->get();
@@ -806,8 +819,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where('Year', date('Y', strtotime('-1 Week')))
-            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
+            ->where('Year', $sel_year)
+            ->where('MorbidityWeek', '<=', $sel_week);
 
             if($ame->count() != 0) {
                 $l = $ame->get();
@@ -861,8 +874,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where('Year', date('Y', strtotime('-1 Week')))
-            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
+            ->where('Year', $sel_year)
+            ->where('MorbidityWeek', '<=', $sel_week);
             
             if($mgt->count() != 0) {
                 $l = $mgt->get();
@@ -916,8 +929,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where('Year', date('Y', strtotime('-1 Week')))
-            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
+            ->where('Year', $sel_year)
+            ->where('MorbidityWeek', '<=', $sel_week);
 
             if($chi->count() != 0) {
                 $l = $chi->get();
@@ -971,8 +984,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where('Year', date('Y', strtotime('-1 Week')))
-            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
+            ->where('Year', $sel_year)
+            ->where('MorbidityWeek', '<=', $sel_week);
 
             if($cho->count() != 0) {
                 $l = $cho->get();
@@ -1026,8 +1039,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where('Year', date('Y', strtotime('-1 Week')))
-            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
+            ->where('Year', $sel_year)
+            ->where('MorbidityWeek', '<=', $sel_week);
 
             if($den->count() != 0) {
                 $l = $den->get();
@@ -1082,8 +1095,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where('Year', date('Y', strtotime('-1 Week')))
-            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
+            ->where('Year', $sel_year)
+            ->where('MorbidityWeek', '<=', $sel_week);
 
             if($dip->count() != 0) {
                 $l = $dip->get();
@@ -1137,8 +1150,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where('Year', date('Y', strtotime('-1 Week')))
-            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
+            ->where('Year', $sel_year)
+            ->where('MorbidityWeek', '<=', $sel_week);
 
             if($ili->count() != 0) {
                 $l = $ili->get();
@@ -1192,8 +1205,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where('Year', date('Y', strtotime('-1 Week')))
-            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
+            ->where('Year', $sel_year)
+            ->where('MorbidityWeek', '<=', $sel_week);
 
             if($lep->count() != 0) {
                 $l = $lep->get();
@@ -1247,8 +1260,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where('Year', date('Y', strtotime('-1 Week')))
-            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
+            ->where('Year', $sel_year)
+            ->where('MorbidityWeek', '<=', $sel_week);
 
             if($mal->count() != 0) {
                 $l = $mal->get();
@@ -1302,8 +1315,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where('Year', date('Y', strtotime('-1 Week')))
-            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
+            ->where('Year', $sel_year)
+            ->where('MorbidityWeek', '<=', $sel_week);
 
             if($nnt->count() != 0) {
                 $l = $nnt->get();
@@ -1357,8 +1370,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where('Year', date('Y', strtotime('-1 Week')))
-            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
+            ->where('Year', $sel_year)
+            ->where('MorbidityWeek', '<=', $sel_week);
 
             if($per->count() != 0) {
                 $l = $per->get();
@@ -1412,8 +1425,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where('Year', date('Y', strtotime('-1 Week')))
-            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
+            ->where('Year', $sel_year)
+            ->where('MorbidityWeek', '<=', $sel_week);
 
             if($rtv->count() != 0) {
                 $l = $rtv->get();
@@ -1467,8 +1480,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where('Year', date('Y', strtotime('-1 Week')))
-            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
+            ->where('Year', $sel_year)
+            ->where('MorbidityWeek', '<=', $sel_week);
 
             if($typ->count() != 0) {
                 $l = $typ->get();
@@ -1522,8 +1535,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where('Year', date('Y', strtotime('-1 Week')))
-            ->where('MorbidityWeek', '<=', date('W', strtotime('-1 Week')));
+            ->where('Year', $sel_year)
+            ->where('MorbidityWeek', '<=', $sel_week);
 
             if($hfm->count() != 0) {
                 $l = $hfm->get();
@@ -1577,8 +1590,8 @@ class PidsrWndr extends Command
             ->where('systemsent', 0)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
-            ->where('year', date('Y', strtotime('-1 Week')))
-            ->where('morbidity_week', '<=', date('W', strtotime('-1 Week')));
+            ->where('Year', $sel_year)
+            ->where('morbidity_week', '<=', $sel_week);
 
             if($sari->count() != 0) {
                 $l = $sari->get();
@@ -1631,8 +1644,8 @@ class PidsrWndr extends Command
             })
             ->where('status', 'approved')
             ->where('systemsent', 0)
-            ->where('year', date('Y', strtotime('-1 Week')))
-            ->where('morb_week', '<=', date('W', strtotime('-1 Week')));
+            ->where('Year', $sel_year)
+            ->where('morb_week', '<=', $sel_week);
 
             if($covid->count() != 0) {
                 $l = $covid->get();

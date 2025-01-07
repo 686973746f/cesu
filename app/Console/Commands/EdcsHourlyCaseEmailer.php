@@ -46,7 +46,7 @@ class EdcsHourlyCaseEmailer extends Command
     {
         $now = Carbon::now();
 
-        $startDateTime = Carbon::now()->setTime(13, 0, 0);
+        $startDateTime = Carbon::now()->setTime(14, 0, 0);
         $endDateTime = Carbon::now()->setTime(23, 59, 59);
 
         if($now->dayOfWeek == Carbon::TUESDAY) {
