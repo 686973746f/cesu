@@ -1659,8 +1659,13 @@ class ABTCVaccinationController extends Controller
         header("Content-type: application/vnd.openxmlformats-officedocument.wordprocessingml.document");
         header("Content-Disposition: attachment; filename=CARDABTC.docx");
 
-        $templateProcessor  = new TemplateProcessor(storage_path('CARDABTC.docx'));
-
+        if(auth()->user()->abtc_default_vaccinationsite_id == 2) {
+            $templateProcessor  = new TemplateProcessor(storage_path('CARDABTC_MANGGAHAN.docx'));
+        }
+        else {
+            $templateProcessor  = new TemplateProcessor(storage_path('CARDABTC.docx'));
+        }
+        
         $templateProcessor->setValue('rid', $b->case_id);
         $templateProcessor->setValue('rdate', date('m/d/Y', strtotime($b->case_date)));
         $templateProcessor->setValue('fullname', $b->patient->getName());
