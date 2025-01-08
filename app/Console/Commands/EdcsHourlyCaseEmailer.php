@@ -265,26 +265,31 @@ class EdcsHourlyCaseEmailer extends Command
                             'doe' => $get_doe,
                             'dru' => $get_dru,
                             //'lab_data' => $lab_array,
+                            
                         ];
 
                         if($d == 'Dengue') {
                             $table_params = $table_params + [
                                 'cc' => $i->getClassificationString(),
+                                'mobile' => $i->edcs_patientcontactnum,
                             ];
                         }
-
-                        if($d == 'Measles') {
+                        else if($d == 'Measles') {
                             $table_params = $table_params + [
                                 'sx' => $i->listSymptoms(),
                                 'name_of_parentcaregiver' => $i->name_of_parentcaregiver,
                                 'parent_contactno' => $i->parent_contactno,
                             ];
                         }
-
-                        if($d == 'Covid') {
+                        else if($d == 'Covid') {
                             $table_params = $table_params + [
                                 'cc' => $i->getClassificationString(),
                                 'mobile' => $i->records->mobile,
+                            ];
+                        }
+                        else {
+                            $table_params = $table_params + [
+                                'mobile' => $i->edcs_patientcontactnum,
                             ];
                         }
  

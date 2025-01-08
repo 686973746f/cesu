@@ -9300,7 +9300,7 @@ class PIDSRController extends Controller
                     'Region' => '04A',
                     'Province' => 'CAVITE',
                     'Muncity' => 'GENERAL TRIAS',
-                    'Streetpurok' => $r->Streetpurok,
+                    'Streetpurok' => mb_strtoupper($r->Streetpurok),
                     'DateOfEntry' => $r->entry_date,
                     'PatientNumber' => $r->PatientNumber,
                     'FamilyName' => mb_strtoupper($r->lname),
@@ -9388,7 +9388,7 @@ class PIDSRController extends Controller
                     'sys_thrombocytopenia' => ($r->sys_thrombocytopenia) ? 'Y' : 'N',
 
                     'sys_haemaconcentration' => ($r->sys_haemaconcentration) ? 'Y' : 'N',
-                    'sys_medication_taken' => $r->sys_medication_taken,
+                    'sys_medication_taken' => ($r->sys_medication_taken) ? mb_strtoupper($r->sys_medication_taken) : NULL,
                     'sys_hospitalized_name' => ($r->Admitted == 'Y') ? mb_strtoupper($r->sys_hospitalized_name) : NULL,
                     'sys_hospitalized_datestart' => ($r->Admitted == 'Y') ? $r->sys_hospitalized_datestart : NULL,
                     'sys_hospitalized_dateend' => ($r->Admitted == 'Y') ? $r->sys_hospitalized_dateend : NULL,

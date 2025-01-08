@@ -185,6 +185,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'mobile' => $i->edcs_patientcontactnum,
                         //'lab_data' => $lab_array,
                     ]);
                 }
@@ -242,6 +243,7 @@ class PidsrWndr extends Command
                         'aefi_type' => $i->Kaso,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'mobile' => $i->edcs_patientcontactnum,
                         //'lab_data' => $lab_array,
                     ]);
                 }
@@ -298,6 +300,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'mobile' => $i->edcs_patientcontactnum,
                         //'lab_data' => $lab_array,
                     ]);
                 }
@@ -355,6 +358,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'mobile' => $i->edcs_patientcontactnum,
                         'sx' => $i->listSymptoms(),
                         'name_of_parentcaregiver' => $i->name_of_parentcaregiver,
                         'parent_contactno' => $i->parent_contactno,
@@ -413,6 +417,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'mobile' => $i->edcs_patientcontactnum,
                         //'lab_data' => $lab_array,
                     ]);
                 }
@@ -468,6 +473,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'mobile' => $i->edcs_patientcontactnum,
                         //'lab_data' => $lab_array,
                     ]);
                 }
@@ -523,6 +529,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'mobile' => $i->edcs_patientcontactnum,
                         //'lab_data' => $lab_array,
                     ]);
                 }
@@ -578,6 +585,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'mobile' => $i->edcs_patientcontactnum,
                         //'lab_data' => $lab_array,
                     ]);
                 }
@@ -635,6 +643,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'mobile' => $i->edcs_patientcontactnum,
                         //'lab_data' => $lab_array,
                     ]);
                 }
@@ -690,6 +699,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'mobile' => $i->edcs_patientcontactnum,
                         //'lab_data' => $lab_array,
                     ]);
                 }
@@ -745,6 +755,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'mobile' => $i->edcs_patientcontactnum,
                         //'lab_data' => $lab_array,
                     ]);
                 }
@@ -800,6 +811,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'mobile' => $i->edcs_patientcontactnum,
                         //'lab_data' => $lab_array,
                     ]);
                 }
@@ -855,6 +867,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'mobile' => $i->edcs_patientcontactnum,
                         //'lab_data' => $lab_array,
                     ]);
                 }
@@ -910,6 +923,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'mobile' => $i->edcs_patientcontactnum,
                         //'lab_data' => $lab_array,
                     ]);
                 }
@@ -965,6 +979,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'mobile' => $i->edcs_patientcontactnum,
                         //'lab_data' => $lab_array,
                     ]);
                 }
@@ -1020,6 +1035,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'mobile' => $i->edcs_patientcontactnum,
                         //'lab_data' => $lab_array,
                     ]);
                 }
@@ -1075,6 +1091,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'mobile' => $i->edcs_patientcontactnum,
                         //'lab_data' => $lab_array,
                         'cc' => $i->getClassificationString(),
                     ]);
@@ -1131,6 +1148,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'mobile' => $i->edcs_patientcontactnum,
                         //'lab_data' => $lab_array,
                     ]);
                 }
@@ -1186,6 +1204,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'mobile' => $i->edcs_patientcontactnum,
                         //'lab_data' => $lab_array,
                     ]);
                 }
@@ -1241,6 +1260,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'mobile' => $i->edcs_patientcontactnum,
                         //'lab_data' => $lab_array,
                     ]);
                 }
@@ -1296,6 +1316,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'mobile' => $i->edcs_patientcontactnum,
                         //'lab_data' => $lab_array,
                     ]);
                 }
@@ -1351,6 +1372,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'mobile' => $i->edcs_patientcontactnum,
                         //'lab_data' => $lab_array,
                     ]);
                 }
@@ -1406,6 +1428,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'mobile' => $i->edcs_patientcontactnum,
                         //'lab_data' => $lab_array,
                     ]);
                 }
@@ -1461,6 +1484,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'mobile' => $i->edcs_patientcontactnum,
                         //'lab_data' => $lab_array,
                     ]);
                 }
@@ -1516,6 +1540,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'mobile' => $i->edcs_patientcontactnum,
                         //'lab_data' => $lab_array,
                     ]);
                 }
@@ -1571,6 +1596,7 @@ class PidsrWndr extends Command
                         'doe' => $i->DateOfEntry,
                         'dru' => $i->NameOfDru,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'mobile' => $i->edcs_patientcontactnum,
                         //'lab_data' => $lab_array,
                     ]);
                 }
@@ -1624,6 +1650,7 @@ class PidsrWndr extends Command
                         'doe' => $i->created_at,
                         'dru' => $i->facility_name,
                         'early_sent' => ($i->notify_email_sent == 1) ? '(SENT EARLIER)' : '',
+                        'mobile' => $i->edcs_patientcontactnum,
                         //'lab_data' => $lab_array,
                     ]);
                 }

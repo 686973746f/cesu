@@ -439,6 +439,9 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b> {{$p['early_sent']}}</div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
+                @if(!is_null($p['mobile']))
+                <div>Contact #: {{$p['mobile']}}</div>
+                @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 <br>
@@ -460,6 +463,9 @@
                 <div>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
+                @if(!is_null($p['mobile']))
+                <div>Contact #: {{$p['mobile']}}</div>
+                @endif
                 <div>{{$p['aefi_type']}} Case</div>
                 <div>Date Admitted: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
@@ -482,6 +488,9 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b> {{$p['early_sent']}}</div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
+                @if(!is_null($p['mobile']))
+                <div>Contact #: {{$p['mobile']}}</div>
+                @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 <br>
@@ -503,6 +512,9 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b> {{$p['early_sent']}}</div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
+                @if(!is_null($p['mobile']))
+                <div>Contact #: {{$p['mobile']}}</div>
+                @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 <br>
@@ -524,6 +536,9 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b> {{$p['early_sent']}}</div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
+                @if(!is_null($p['mobile']))
+                <div>Contact #: {{$p['mobile']}}</div>
+                @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>Symptoms: {{$p['sx']}}</div>
                 <div>Name of Parent/Caregiver - Contact No.: {{$p['name_of_parentcaregiver']}} - {{$p['parent_contactno']}}</div>
@@ -547,6 +562,9 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b> {{$p['early_sent']}}</div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
+                @if(!is_null($p['mobile']))
+                <div>Contact #: {{$p['mobile']}}</div>
+                @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 <br>
@@ -568,6 +586,9 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b> {{$p['early_sent']}}</div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
+                @if(!is_null($p['mobile']))
+                <div>Contact #: {{$p['mobile']}}</div>
+                @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 <br>
@@ -589,6 +610,9 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b> {{$p['early_sent']}}</div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
+                @if(!is_null($p['mobile']))
+                <div>Contact #: {{$p['mobile']}}</div>
+                @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 <br>
@@ -610,6 +634,9 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b> {{$p['early_sent']}}</div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
+                @if(!is_null($p['mobile']))
+                <div>Contact #: {{$p['mobile']}}</div>
+                @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 <br>
@@ -631,6 +658,9 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
+                @if(!is_null($p['mobile']))
+                <div>Contact #: {{$p['mobile']}}</div>
+                @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 <br>
@@ -658,6 +688,9 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}} / {{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
+                @if(!is_null($p['mobile']))
+                <div>Contact #: {{$p['mobile']}}</div>
+                @endif
                 <div>Contact No.: {{$p['mobile']}}</div>
                 <div>Date of Entry: {{date('M. d, Y', strtotime($p['doe']))}}</div>
                 <div>Classification: {{$p['cc']}}</div>
@@ -681,6 +714,9 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b> {{$p['early_sent']}}</div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
+                @if(!is_null($p['mobile']))
+                <div>Contact #: {{$p['mobile']}}</div>
+                @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 <br>
@@ -702,6 +738,9 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b> {{$p['early_sent']}}</div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
+                @if(!is_null($p['mobile']))
+                <div>Contact #: {{$p['mobile']}}</div>
+                @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 <br>
@@ -723,6 +762,9 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b> {{$p['early_sent']}}</div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
+                @if(!is_null($p['mobile']))
+                <div>Contact #: {{$p['mobile']}}</div>
+                @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 <br>
@@ -744,6 +786,9 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b> {{$p['early_sent']}}</div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
+                @if(!is_null($p['mobile']))
+                <div>Contact #: {{$p['mobile']}}</div>
+                @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 <br>
@@ -765,6 +810,9 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b> {{$p['early_sent']}}</div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
+                @if(!is_null($p['mobile']))
+                <div>Contact #: {{$p['mobile']}}</div>
+                @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 <br>
@@ -786,6 +834,9 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b> {{$p['early_sent']}}</div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
+                @if(!is_null($p['mobile']))
+                <div>Contact #: {{$p['mobile']}}</div>
+                @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 <br>
@@ -807,6 +858,9 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b> {{$p['early_sent']}}</div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
+                @if(!is_null($p['mobile']))
+                <div>Contact #: {{$p['mobile']}}</div>
+                @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 <br>
@@ -828,6 +882,9 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b> {{$p['early_sent']}}</div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
+                @if(!is_null($p['mobile']))
+                <div>Contact #: {{$p['mobile']}}</div>
+                @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 <br>
@@ -849,6 +906,9 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b> {{$p['early_sent']}}</div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
+                @if(!is_null($p['mobile']))
+                <div>Contact #: {{$p['mobile']}}</div>
+                @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>Classification: {{$p['cc']}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
@@ -871,6 +931,9 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b> {{$p['early_sent']}}</div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
+                @if(!is_null($p['mobile']))
+                <div>Contact #: {{$p['mobile']}}</div>
+                @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 <br>
@@ -892,6 +955,9 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b> {{$p['early_sent']}}</div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
+                @if(!is_null($p['mobile']))
+                <div>Contact #: {{$p['mobile']}}</div>
+                @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 <br>
@@ -913,6 +979,9 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b> {{$p['early_sent']}}</div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
+                @if(!is_null($p['mobile']))
+                <div>Contact #: {{$p['mobile']}}</div>
+                @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 <br>
@@ -934,6 +1003,9 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b> {{$p['early_sent']}}</div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
+                @if(!is_null($p['mobile']))
+                <div>Contact #: {{$p['mobile']}}</div>
+                @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 <br>
@@ -955,6 +1027,9 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b> {{$p['early_sent']}}</div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
+                @if(!is_null($p['mobile']))
+                <div>Contact #: {{$p['mobile']}}</div>
+                @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 <br>
@@ -976,6 +1051,9 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b> {{$p['early_sent']}}</div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
+                @if(!is_null($p['mobile']))
+                <div>Contact #: {{$p['mobile']}}</div>
+                @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 <br>
@@ -997,6 +1075,9 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b> {{$p['early_sent']}}</div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
+                @if(!is_null($p['mobile']))
+                <div>Contact #: {{$p['mobile']}}</div>
+                @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 <br>
@@ -1018,6 +1099,9 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b> {{$p['early_sent']}}</div>
                 <div>{{$p['age']}}/{{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
+                @if(!is_null($p['mobile']))
+                <div>Contact #: {{$p['mobile']}}</div>
+                @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
                 <div>DRU: {{mb_strtoupper($p['dru'])}}</div>
                 <br>
