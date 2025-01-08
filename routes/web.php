@@ -528,6 +528,10 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isGlobalAd
     Route::get('/syndromic/admin/doctors/{id}/edit', [SyndromicAdminController::class, 'doctors_edit'])->name('syndromic_admin_doctors_edit');
     Route::post('/syndromic/admin/doctors/{id}/update', [SyndromicAdminController::class, 'doctors_update'])->name('syndromic_admin_doctors_update');
 
+    //Syndromic AJAX Records
+    Route::get('/syndromic/patient/{patient_id}/viewAjaxList', [SyndromicController::class, 'ajaxListRecords'])->name('syndromic_ajaxListRecords');
+    Route::post('/syndromic/records/{records_id}/admin_options_init', [SyndromicController::class, 'recordAdminOptions'])->name('syndromic_adminoptions_init');
+
     //TASKS ADMIN
     Route::resource('taskgenerator', TaskGeneratorController::class);
 });

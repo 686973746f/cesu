@@ -4616,4 +4616,56 @@ class SyndromicController extends Controller
             ->with('msgtype', 'success');
         }
     }
+
+    public function ajaxListRecords($record_id, Request $r) {
+        $list = [];
+
+        if($r->has('q') && strlen($r->input('q')) > 1) {
+            $search = mb_strtoupper($r->q);
+
+            $data = SyndromicPatient::where(function ($query) use ($search, $record_id) {
+                $query->where('id','!=', $record_id)
+                ->where(function ($r) use ($search) {
+                    $r->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','', $search)."%")
+                    ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%")
+                    ->orWhere('id', $search);
+                });
+            })->get();
+
+            foreach($data as $item) {
+                array_push($list, [
+                    'id' => $item->id,
+                    'text' => '#'.$item->id.' - '.$item->getName().' | '.$item->getAge().'/'.substr($item->gender,0,1).' | '.date('m/d/Y', strtotime($item->bdate)),
+                ]);
+            }
+        }
+        
+        return response()->json($list);
+    }
+
+    public function recordAdminOptions($record_id, Request $r) {
+        $d = SyndromicRecords::findOrFail($record_id);
+        $old_id = $d->syndromic_patient_id;
+
+        if($r->submit == 'transfer_patient_id') {
+            $d->syndromic_patient_id = $r->newList;
+
+            if($d->isDirty()) {
+                $d->save();
+            }
+            
+            if($r->deletePatientAfterTransfer) {
+                $p = SyndromicPatient::findOrFail($old_id);
+
+                $p->delete();
+            }
+
+            return redirect()->route('syndromic_viewRecord', $record_id)
+            ->with('msg', 'Record was successfully tranferred (From Patient #: '.$old_id.' transferred to Patient #: '.$r->newList.').')
+            ->with('msgtype', 'success');
+        }
+        else {
+            return abort(404);
+        }
+    }
 }

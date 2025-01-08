@@ -2,14 +2,86 @@
 
 @section('content')
 <div class="container">
-  @if($d->hasPermissionToDelete())
   <div class="text-right mb-3">
-    <form action="{{route('syndromic_deleteRecord', $d->id)}}" method="POST">
-      @csrf
-      <button type="submit" class="btn btn-outline-danger" onclick="return confirm('You cannot undo this process. Are you sure you want to delete this record associated with the Patient?')"><i class="fa fa-trash mr-2" aria-hidden="true"></i>Delete this Record</button>
-    </form>
+    <div class="btn-group">
+      @if(auth()->user()->isGlobalAdmin())
+      <button type="button" class="btn btn-warning mr-2" data-toggle="modal" data-target="#adminOptions">Admin Options</button>
+      @endif
+
+      @if($d->hasPermissionToDelete())
+      <form action="{{route('syndromic_deleteRecord', $d->id)}}" method="POST">
+        @csrf
+        <button type="submit" class="btn btn-outline-danger" onclick="return confirm('You cannot undo this process. Are you sure you want to delete this record associated with the Patient?')"><i class="fa fa-trash mr-2" aria-hidden="true"></i>Delete this Record</button>
+      </form>
+      @endif
+    </div>
   </div>
+
+  @if(auth()->user()->isGlobalAdmin())
+  <div class="modal fade" id="adminOptions" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Admin Options</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+          <form action="{{route('syndromic_adminoptions_init', $d->id)}}" method="POST">
+            @csrf
+            <div class="card" id="transferBody">
+              <div class="card-header">
+                <div><b>Transfer Record to other Patient</b></div>
+                <div><i>(Mostly used to delete duplicate records)</i></div>
+              </div>
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="newList">Select the Patient ID where to transfer the Record</label>
+                  <select class="form-control" name="newList" id="newList" required></select>
+                </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" name="deletePatientAfterTransfer" id="deletePatientAfterTransfer" value="1">
+                    Delete this Patient after transfer?
+                  </label>
+                </div>
+              </div>
+              <div class="card-footer">
+                <button type="submit" class="btn btn-success btn-block" name="submit" value="transfer_patient_id">Proceed</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $('#newList').select2({
+        dropdownParent: $('#transferBody'),
+        theme: "bootstrap",
+        placeholder: 'Search by Name / Patient ID ...',
+        ajax: {
+            url: "{{route('syndromic_ajaxListRecords', $d->syndromic_patient->id)}}",
+            dataType: 'json',
+            delay: 250,
+            processResults: function (data) {
+                return {
+                    results:  $.map(data, function (item) {
+                        return {
+                            text: item.text,
+                            id: item.id,
+                        }
+                    })
+                };
+            },
+            cache: true
+        }
+    });
+  </script>
   @endif
+
     <form action="{{route('syndromic_updateRecord', $d->id)}}" method="POST" onsubmit="return validateForm()">
         @csrf
         <div class="card">
