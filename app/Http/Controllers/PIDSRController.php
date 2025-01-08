@@ -8847,6 +8847,7 @@ class PIDSRController extends Controller
     }
 
     public function weeklyMonitoring() {
+        /*
         $facilities_array = [
             'CITY OF GENERAL TRIAS DOCTORS MEDICAL CENTER, INC.', //gtdmc.infectioncontrol@gmail.com
             'CITY OF GENERAL TRIAS MEDICARE HOSPITAL', //cityofgeneraltriasmedicare@gmail.com
@@ -8857,6 +8858,9 @@ class PIDSRController extends Controller
             'MAMA RACHEL HOSPITAL OF MERCY', //mamarachelshospitalofmercy@yahoo.com
             'M.V. SANTIAGO MEDICAL CENTER', //mvshc.sm@gmail.com
         ];
+        */
+
+        $facilities_array = DohFacility::where('is_weeklyreport_submitter', 'Y')->get();
 
         if(request()->input('year')) {
             $year = request()->input('year');
@@ -8873,13 +8877,14 @@ class PIDSRController extends Controller
             $week_array = [];
 
             for($i=1; $i <= $maxweek; $i++) {
-                $val = EdcsWeeklySubmissionChecker::where('facility_name', $f)
+                $val = EdcsWeeklySubmissionChecker::where('facility_name', $f->facility_name)
                 ->where('year', $year)
                 ->where('week', $i)
                 ->first();
 
                 if($val) {
                     $getType = $val->getAlreadySubmittedTypeFunction();
+                    
                     if($val->consider_submitted_override != 'N') {
                         $or_status = $val->consider_submitted_override;
 
@@ -8928,7 +8933,7 @@ class PIDSRController extends Controller
             }
 
             $final_array[] = [
-                'name' => $f,
+                'name' => $f->facility_name,
                 'weeks' => $week_array,
             ];
         }
