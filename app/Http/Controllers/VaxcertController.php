@@ -774,22 +774,31 @@ class VaxcertController extends Controller
     }
 
     public function report() {
+        if(request()->input('year')) {
+            $year = request()->input('year');
+            $month = 12;
+        }
+        else {
+            $year = date('Y');
+            $month = date('m');
+        }
+        
         $get_total = VaxcertConcern::where('status', 'COMPLETED')->count();
 
         $get_total_current_year = VaxcertConcern::where('status', 'COMPLETED')
-        ->whereYear('created_at', date('Y'))
+        ->whereYear('created_at', $year)
         ->count();
 
         $get_total_previous_year = VaxcertConcern::where('status', 'COMPLETED')
-        ->whereYear('created_at', '!=', date('Y'))
+        ->whereYear('created_at', '!=', $year)
         ->count();
 
         $get_total_current_month = VaxcertConcern::where('status', 'COMPLETED')
-        ->whereMonth('created_at', date('m'))
+        ->whereMonth('created_at', $month)
         ->count();
 
         $get_total_previous_month = VaxcertConcern::where('status', 'COMPLETED')
-        ->whereMonth('created_at', date('m', strtotime('-1 Month')))
+        ->whereMonth('created_at', $month - 1)
         ->count();
 
         //MONTHLY VAXCERT NUMBER OF RESOLVED
@@ -797,6 +806,7 @@ class VaxcertController extends Controller
 
         for($i=1;$i<=12;$i++) {
             $gcount = VaxcertConcern::where('status', 'COMPLETED')
+            ->whereYear('created_at', $year)
             ->whereMonth('created_at', $i)
             ->count();
 
