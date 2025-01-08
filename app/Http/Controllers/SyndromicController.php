@@ -1730,6 +1730,7 @@ class SyndromicController extends Controller
                 'updated_by' => auth()->user()->id,
             ];
 
+            /*
             if($d->facility_id == 11730) { //Manggahan Facility ID Checking
                 $fid_check = SyndromicRecords::where('id', '!=', $record_id)
                 ->where('facility_controlnumber', $r->facility_controlnumber)->first();
@@ -1746,6 +1747,7 @@ class SyndromicController extends Controller
                     ];
                 }
             }
+            */
 
             if($d->isHospitalRecord()) {
                 $values_array = $values_array + [

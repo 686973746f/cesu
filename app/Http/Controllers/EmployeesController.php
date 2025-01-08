@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\AbtcVaccinationSite;
+use App\Models\BlsMain;
+use App\Models\BlsMember;
 use App\Models\Employee;
 use App\Models\HertDuty;
 use App\Models\DutyCycle;
@@ -584,11 +586,27 @@ class EmployeesController extends Controller
     }
 
     public function blsHome() {
+        $list = BlsMember::orderBy('created_at', 'DESC')->paginate(10);
 
+        return view('employees.bls.view_batches', [
+            'list' => $list,
+        ]);
+    }
+
+    public function blsHomeBatches() {
+        $list = BlsMain::orderBy('created_at', 'DESC')->paginate(10);
+
+        return view('employees.bls.view_batches', [
+            'list' => $list,
+        ]);
     }
 
     public function viewBlsBatch($batch_id) {
+        $d = BlsMain::findOrFail($batch_id);
 
+        return view('employees.bls.view_batch', [
+            'd' => $d,
+        ]);
     }
 
     public function storeBlsBatch(Request $r) {
