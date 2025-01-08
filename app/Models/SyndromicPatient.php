@@ -221,7 +221,7 @@ class SyndromicPatient extends Model
         })
         ->whereDate('bdate', $bdate);
 
-        if(!($check->first())) {
+        if(!((clone $check)->first())) {
             if(!is_null($mname)) {
                 $mname = mb_strtoupper(str_replace([' ','-'], '', $mname));
     

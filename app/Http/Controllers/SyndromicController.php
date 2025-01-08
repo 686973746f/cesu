@@ -375,6 +375,7 @@ class SyndromicController extends Controller
         }
         else {
             return redirect()->back()
+            ->withInput()
             ->with('msg', 'Error: Patient ('.mb_strtoupper($getname).') already exists in the database.')
             ->with('p', SyndromicPatient::find($s->id))
             ->with('msgtype', 'warning');

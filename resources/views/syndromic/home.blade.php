@@ -278,7 +278,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="lname"><b class="text-danger">*</b>Last Name</label>
+                        <label for="lname"><b class="text-danger">*</b>Surname/Last Name/Apelyido</label>
                         <input type="text" class="form-control" name="lname" id="lname" value="{{old('lname')}}" minlength="2" maxlength="50" placeholder="ex: DELA CRUZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required>
                     </div>
                     <div class="form-group">
@@ -288,13 +288,13 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="mname">Middle Name <i>(If Applicable)</i></label>
+                                <label for="mname">Middle Name <i>(If Any)</i></label>
                                 <input type="text" class="form-control" name="mname" id="mname" value="{{old('mname')}}" minlength="2" maxlength="50" placeholder="ex: SANCHEZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="suffix">Suffix <i>(If Applicable)</i></label>
+                                <label for="suffix">Suffix/Name Extension <i>(If Any)</i></label>
                                 <input type="text" class="form-control" name="suffix" id="suffix" value="{{old('suffix')}}" minlength="2" maxlength="3" placeholder="ex: JR, SR, III, IV" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
                             </div>
                         </div>
