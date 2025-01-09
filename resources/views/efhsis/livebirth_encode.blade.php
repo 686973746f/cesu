@@ -20,9 +20,7 @@
                     </div>
                     @endif
                     <div class="alert alert-primary" role="alert">
-                        <b class="text-danger">NOTE: </b>Encoding for Month: <b class="h4 font-weight-bold">{{date('F', strtotime(request()->input('year').'-'.request()->input('month').'-01'))}}</b> - Year: <b class="h4 font-weight-bold">{{request()->input('year')}}.</b> <span class="text-danger font-weight-bold"><-- PLEASE ALWAYS CHECK THIS BEFORE SUBMITTING</span>
-                        <hr>
-                        Kapag late report (Year {{(request()->input('year') - 1)}} pababa pinanganak), hindi na kailangan ie-encode.
+                        <b>Note: </b>Kapag late report (Year {{(request()->input('year') - 1)}} pababa pinanganak), hindi na kailangan ie-encode.
                         @if($recent)
                         <hr>
                         Palatandaan ng huling encode for this month: <b>{{$recent->registryno}}</b>
@@ -158,6 +156,10 @@
                                 </select>
                             </div>
                         </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="datelcr"><b class="text-danger">*</b>Date Registered at the Office of the Civil Registrar</label>
+                      <input type="date" class="form-control" name="datelcr" id="datelcr" min="{{Carbon\Carbon::create(request()->input('year'), 1, 1, 0, 0, 0)->format('Y-m-d')}}" max="{{Carbon\Carbon::create(request()->input('year'), 12, 31, 0, 0, 0)->format('Y-m-d')}}" value="{{old('datelcr')}}" required>
                     </div>
                 </div>
                 <div class="card-footer">

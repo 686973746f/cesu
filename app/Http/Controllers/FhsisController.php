@@ -1595,9 +1595,11 @@ class FhsisController extends Controller
     }
 
     public function liveBirthsEncode() {
-        if(request()->input('month') && request()->input('year')) {
-            $month = request()->input('month');
+        if(request()->input('year')) {
+            //$month = request()->input('month');
             $year = request()->input('year');
+
+            /*
 
             $current = Carbon::create(date('Y'), date('m'), 1, 0, 0, 0);
             $selected = Carbon::create($year, $month, 1, 0, 0, 0);
@@ -1607,13 +1609,15 @@ class FhsisController extends Controller
                 ->with('msg', 'Error: The selected encoding month is greater than the present month.')
                 ->with('msgtype', 'warning');
             }
+                
+            */
 
             //Get last Encoded for that month
             $recent = LiveBirth::latest()
             ->first();
 
             return view('efhsis.livebirth_encode', [
-                'month' => $month,
+                //'month' => $month,
                 'year' => $year,
                 'recent' => $recent,
             ]);
@@ -1624,7 +1628,9 @@ class FhsisController extends Controller
     }
 
     public function liveBirthsStore(Request $r) {
-        $current_check = Carbon::create($r->year, $r->month, 1, 0, 0, 0);
+        $datelcr = Carbon::parse($r->datelcr);
+
+        //$current_check = Carbon::create($r->year, $r->month, 1, 0, 0, 0);
         $dob_check = Carbon::create($r->input_year, $r->input_month, 1, 0, 0, 0);
         $dob_final = Carbon::create($r->input_year, $r->input_month, $r->input_day, 0, 0, 0);
 
@@ -1643,17 +1649,17 @@ class FhsisController extends Controller
             ->with('msg', 'ERROR: Invalid Birthdate of Newborn. Double check the fields and then try again.')
             ->with('msgtype', 'warning');
         }
-        else if($dob_check->gt($current_check)) {
+        else if($dob_check->gt($datelcr)) {
             return redirect()->back()
             ->withInput()
-            ->with('msg', 'ERROR: Newborn Birthdate is greater than the Selected Encoding Period. Double check or change the encoding period and then try again.')
+            ->with('msg', 'ERROR: Newborn Birthdate is greater than the Date Registered at the Office of the Civil Registrar.')
             ->with('msgtype', 'warning');
         }
 
         $c = $r->user()->livebirth()->create([
             'registryno' => $r->registryno,
-            'year' => $r->year,
-            'month' => $r->month,
+            'year' => $datelcr->format('Y'),
+            'month' => $datelcr->format('n'),
             'sex' => $r->sex,
             'dob' => $dob_final->format('Y-m-d'),
 
