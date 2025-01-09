@@ -27,7 +27,7 @@
                                 @foreach($i['weeks'] as $w)
                                 @php
                                 if($w == 'ZERO CASE') {
-                                    $w = 'Z';
+                                    $w = '✔Z';
                                 }
                                 else if($w == 'LATE SUBMISSION') {
                                     $w = 'L';
@@ -39,7 +39,7 @@
                                     }
                                 }
 
-                                if($w == '✔' || $w == 'ZERO CASE') {
+                                if($w == '✔' || $w == '✔Z') {
                                     $text_color = 'bg-success';
                                 }
                                 else if($w == 'X') {
