@@ -75,11 +75,11 @@
                 @if($d->facility_id == 10886 || $d->facility_id == 39708 || $d->facility_id == 11730)
                 <p style="font-size: 25px;" class="text-center mb-3"><b>MEDICAL CERTIFICATE</b></p>
                 <div class="text-right mb-3">
-                    <h5>Date: <u>{{date('M. d,Y', strtotime($d->medcert_generated_date))}}</u></h5>
+                    <h5>Date: <u>{{date('M. d, Y', strtotime($d->medcert_generated_date))}}</u></h5>
                 </div>
 
                 <p style="font-size: 20px;">To whom it may concern:</p>
-                <p style="font-size: 20px;text-align:justify">This is to certify that {{ucwords($d->syndromic_patient->getPrefix())}} <b><u>{{$d->syndromic_patient->getName()}}</u></b>, <b><u>{{$d->syndromic_patient->getAge()}}</u></b> years old <u><b>{{$d->syndromic_patient->gender}} / {{$d->syndromic_patient->cs}}</b></u>, a resident of <u><b>{{$d->syndromic_patient->getFullAddress()}}</b></u> was seen, examined or treated from <u>{{$d->getMedCertStartDate()}}</u> to <u>{{$d->getMedCertEndDate()}}</u>.</p>
+                <p style="font-size: 20px;text-align:justify">This is to certify that {{ucwords($d->syndromic_patient->getPrefix())}} <b><u>{{$d->syndromic_patient->getName()}}</u></b>, <b><u>{{$d->syndromic_patient->getAge()}}</u></b> years old <u><b>{{$d->syndromic_patient->gender}} / {{$d->syndromic_patient->cs}}</b></u>, a resident of <u><b>{{$d->syndromic_patient->getFullAddress()}}</b></u> was seen, examined or treated on our facility. @if($d->getMedCertStartDate() != '-') From <u>{{$d->getMedCertStartDate()}}</u> to <u>{{$d->getMedCertEndDate()}}</u>. @endif</p>
                 <p style="font-size: 20px;">BP: <u class="mr-3">{{(!is_null($d->bloodpressure)) ? $d->bloodpressure : '_____'}}</u> PR: <u class="mr-3">{{(!is_null($d->pulserate)) ? $d->pulserate : '_____'}}</u> RR: <u class="mr-3">{{(!is_null($d->respiratoryrate)) ? $d->respiratoryrate : '_____'}}</u> HT: <u class="mr-3">{{(!is_null($d->height)) ? $d->height.'cm' : '_____'}}</u> WT: <u class="mr-3">{{(!is_null($d->weight)) ? $d->weight.'kg' : '_____'}}</u> TEMP: <u>{{(!is_null($d->temperature)) ? $d->temperature.'°C' : '_____'}}</u></p>
                 <p style="font-size: 20px;"><b>FINDINGS / IMPRESSION:</b></p>
                 <p style="font-size: 20px;margin-bottom: 200px;margin-left: 50px;">{!! nl2br($d->dcnote_assessment) !!}</p>
