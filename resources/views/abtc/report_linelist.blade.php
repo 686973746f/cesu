@@ -58,6 +58,7 @@
                 <table class="table table-bordered table-striped table-sm" id="mytable">
                     <thead class="text-center thead-light" style="vertical-align: middle;">
                         <tr>
+                            <th>ID</th>
                             <th>No.</th>.
                             <th>Reg. Date</th>
                             <th>Name of Patient</th>
@@ -90,6 +91,7 @@
                     <tbody>
                         @forelse($list as $d)
                         <tr class="text-center" style="vertical-align: middle;">
+                            <td>{{$d->id}}</td>
                             <td><a href="{{route('abtc_encode_edit', $d->id)}}">{{$d->case_id}}</a></td>
                             <td>{{date('m/d/Y', strtotime($d->case_date))}}</td>
                             <td><a href="{{route('abtc_patient_edit', ['id' => $d->patient->id])}}">{{$d->patient->getName()}}</a></td>
