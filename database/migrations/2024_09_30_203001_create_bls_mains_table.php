@@ -26,6 +26,9 @@ class CreateBlsMainsTable extends Migration
 
             $table->text('instructors_list')->nullable();
             $table->string('prepared_by')->nullable();
+
+            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

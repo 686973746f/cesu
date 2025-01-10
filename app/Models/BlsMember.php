@@ -51,7 +51,12 @@ class BlsMember extends Model
         'sfa_id_number',
         'bls_expiration_date',
         'picture',
+        'created_by',
     ];
+
+    public function batch() {
+        return $this->belongsTo(BlsMain::class, 'batch_id');
+    }
 
     public function brgy() {
         return $this->belongsTo(EdcsBrgy::class, 'address_brgy_code');
@@ -97,5 +102,11 @@ class BlsMember extends Model
 
     public function sg() {
         return substr($this->gender, 0,1);
+    }
+
+    public function getAddress() {
+        $final = $this->street_purok.', BRGY. '.$this->brgy->name.', '.$this->brgy->city->name.', '.$this->brgy->city->province->name;
+
+        return $final;
     }
 }

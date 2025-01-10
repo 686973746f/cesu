@@ -646,7 +646,9 @@ class EmployeesController extends Controller
             'training_date_end' => $r->training_date_end,
             'venue' => mb_strtoupper($r->venue),
             'instructors_list' => mb_strtoupper($r->instructors_list),
-            'prepared_by' => Auth::id(),
+            'prepared_by' => mb_strtoupper($r->prepared_by),
+
+            'created_by' => Auth::id(),
         ]);
 
         return redirect()->route('bls_viewbatch', $c->id)
@@ -682,7 +684,7 @@ class EmployeesController extends Controller
             'bdate' => $r->bdate,
             'provider_type' => $r->provider_type,
             'position' => mb_strtoupper($r->position),
-            'institution' => ($r->institution != 'UNLISTED') ? mb_strtoupper($r->institution) : mb_strtoupper($r->institution_others),
+            'institution' => ($r->institution != 'UNLISTED') ? mb_strtoupper($r->institution) : mb_strtoupper($r->institution_other),
             'employee_type' => $r->employee_type,
             
             'street_purok' => mb_strtoupper($r->street_purok),
@@ -690,11 +692,28 @@ class EmployeesController extends Controller
             'email' => $r->email,
             'contact_number' => $r->contact_number,
             'codename' => mb_strtoupper($r->codename),
+
+            'sfa_ispassed' => 'W',
+            'bls_cognitive_ispassed' => 'W',
+            'bls_psychomotor_ispassed' => 'W',
+            'bls_finalremarks' => 'W',
         ]);
 
         return redirect()->back()
         ->with('msg', 'Participant '.$c->getName().' was successfully added to the list.')
         ->with('msgtype', 'success');
+    }
+
+    public function viewBlsMember($member_id) {
+        $d = BlsMember::findOrFail($member_id);
+
+        $list_institutions = BlsMember::distinct()
+        ->pluck('institution');
+
+        return view('employees.bls.participant_edit', [
+            'd' => $d,
+            'list_institutions' => $list_institutions,
+        ]);
     }
 
     public function updateBlsMember($member_id, Request $r) {

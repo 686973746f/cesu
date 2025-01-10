@@ -19,5 +19,6 @@ class BlsMain extends Model
         'venue',
         'instructors_list',
         'prepared_by',
+        'created_by',
     ];
 }

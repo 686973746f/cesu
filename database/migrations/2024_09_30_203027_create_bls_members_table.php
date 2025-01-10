@@ -62,6 +62,9 @@ class CreateBlsMembersTable extends Migration
             $table->string('sfa_id_number')->nullable();
             $table->date('bls_expiration_date')->nullable();
             $table->text('picture')->nullable();
+
+            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

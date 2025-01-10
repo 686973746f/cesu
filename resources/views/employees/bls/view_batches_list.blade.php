@@ -74,6 +74,11 @@
                         <label for="instructors_list"><b class="text-danger">*</b>List of Instructors (Separate by Slash [/])</label>
                         <input type="text" class="form-control" name="instructors_list" id="instructors_list" style="text-transform: uppercase" value="{{old('instructors_list')}}" required>
                     </div>
+                    <hr>
+                    <div class="form-group">
+                        <label for="prepared_by"><b class="text-danger">*</b>Prepared By</label>
+                        <input type="text" class="form-control" name="prepared_by" id="prepared_by" style="text-transform: uppercase" value="{{old('prepared_by')}}" required>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success btn-block">Submit</button>
