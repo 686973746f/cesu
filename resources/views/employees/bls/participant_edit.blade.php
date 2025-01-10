@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <form action="{{route('bls_updatemember', $d->id)}}" method="POST">
+    <form action="{{route('bls_updatemember', $d->id)}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="card">
             <div class="card-header">
@@ -103,11 +103,10 @@
                         <div class="form-group">
                             <label for="employee_type"><b class="text-danger">*</b>Status of Employment</label>
                             <select class="form-control" name="employee_type" id="employee_type" required>
-                            <option value="" disabled {{(is_null(old('employee_type'))) ? 'selected' : ''}}>Choose...</option>
-                            <option value="JO" {{(old('employee_type') == 'JO') ? 'selected' : ''}}>Job Order (JO)</option>
-                            <option value="CASUAL" {{(old('employee_type') == 'CASUAL') ? 'selected' : ''}}>Casual</option>
-                            <option value="CWA" {{(old('employee_type') == 'CWA') ? 'selected' : ''}}>Contract of Service (CWA)</option>
-                            <option value="PERMANENT" {{(old('employee_type') == 'PERMANENT') ? 'selected' : ''}}>Permanent</option>
+                            <option value="JO" {{(old('employee_type', $d->employee_type) == 'JO') ? 'selected' : ''}}>Job Order (JO)</option>
+                            <option value="CASUAL" {{(old('employee_type', $d->employee_type) == 'CASUAL') ? 'selected' : ''}}>Casual</option>
+                            <option value="CWA" {{(old('employee_type', $d->employee_type) == 'CWA') ? 'selected' : ''}}>Contract of Service (CWA)</option>
+                            <option value="PERMANENT" {{(old('employee_type', $d->employee_type) == 'PERMANENT') ? 'selected' : ''}}>Permanent</option>
                             </select>
                         </div>
                     </div>
@@ -295,7 +294,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="bls_affective"><b class="text-danger">*</b>Affective (10%)</label>
+                                    <label for="bls_affective">Affective (10%)</label>
                                     <input type="number" class="form-control" name="bls_affective" id="bls_affective" value="{{old('bls_affective', $d->bls_affective)}}" min="0" max="10">
                                 </div>
                             </div>
@@ -315,27 +314,57 @@
                             <textarea class="form-control" name="bls_notes" id="bls_notes" rows="3">{{old('bls_notes', $d->bls_notes)}}</textarea>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            
-                        </div>
-                        <div class="col-md-4">
+                </div>
 
+                <div class="row mt-3">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="bls_id_number">BLS ID Number</label>
+                            <input type="text" class="form-control" name="bls_id_number" id="bls_id_number" style="text-transform: uppercase" value="{{old('bls_id_number', $d->bls_id_number)}}">
                         </div>
-                        <div class="col-md-4">
-
+                        <div class="form-group">
+                            <label for="bls_expiration_date">BLS Expiration Date</label>
+                            <input type="date" class="form-control" name="bls_expiration_date" id="bls_expiration_date" value="{{old('bls_expiration_date', $d->bls_expiration_date)}}">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="sfa_id_number">SFA ID Number</label>
+                            <input type="text" class="form-control" name="sfa_id_number" id="sfa_id_number" style="text-transform: uppercase" value="{{old('sfa_id_number', $d->sfa_id_number)}}">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        @if(!is_null($d->picture))
+                        <img src="{{asset('assets/bls/members/'.$d->picture)}}" class="img-fluid mb-3">
+                        @endif
+                        <div class="form-group">
+                            <label for="picture">Upload/Update Picture</label>
+                            <input type="file" class="form-control-file" name="picture" id="picture" accept="image/*">
                         </div>
                     </div>
                 </div>
+
             </div>
             <div class="card-footer">
-                <button type="submit" class="btn btn-success btn-block">Update (CTRL + S)</button>
+                <button type="submit" class="btn btn-success btn-block" id="submitbtn">Update (CTRL + S)</button>
             </div>
         </div>
     </form>
 </div>
 
 <script>
+    $(document).bind('keydown', function(e) {
+		if(e.ctrlKey && (e.which == 83)) {
+			e.preventDefault();
+			$('#submitbtn').trigger('click');
+			$('#submitbtn').prop('disabled', true);
+			setTimeout(function() {
+				$('#submitbtn').prop('disabled', false);
+			}, 2000);
+			return false;
+		}
+	});
+
     $('#institution').select2({
         theme: 'bootstrap',
         dropdownParent: $('#institution_fields'),
@@ -380,9 +409,10 @@
     });
 
     //Default Values for Gentri
-    var regionDefault = 1;
-    var provinceDefault = 18;
-    var cityDefault = 388;
+    var regionDefault = {{$d->brgy->city->province->region->id}};
+    var provinceDefault = {{$d->brgy->city->province->id}};
+    var cityDefault = {{$d->brgy->city->id}};
+    var brgyDefault = {{$d->address_brgy_code}};
 
     $('#address_region_code').change(function (e) { 
         e.preventDefault();
@@ -502,6 +532,11 @@
         setTimeout(function() {
             $('#address_muncity_code').val(cityDefault).trigger('change');
         }, 1000); // Slight delay to ensure city is loaded
+    }
+    if (brgyDefault) {
+        setTimeout(function() {
+            $('#address_brgy_code').val(brgyDefault).trigger('change');
+        }, 1500); // Slight delay to ensure city is loaded
     }
 
     $('#cho_employee').change(function (e) { 

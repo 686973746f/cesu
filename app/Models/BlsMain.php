@@ -21,4 +21,8 @@ class BlsMain extends Model
         'prepared_by',
         'created_by',
     ];
+
+    public function user() {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }

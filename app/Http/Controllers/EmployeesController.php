@@ -14,6 +14,8 @@ use App\Models\HertDutyPatient;
 use Illuminate\Support\Facades\DB;
 use App\Models\AbtcVaccinationSite;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class EmployeesController extends Controller
 {
@@ -697,6 +699,8 @@ class EmployeesController extends Controller
             'bls_cognitive_ispassed' => 'W',
             'bls_psychomotor_ispassed' => 'W',
             'bls_finalremarks' => 'W',
+
+            'created_by' => Auth::id(),
         ]);
 
         return redirect()->back()
@@ -717,7 +721,82 @@ class EmployeesController extends Controller
     }
 
     public function updateBlsMember($member_id, Request $r) {
+        $d = BlsMember::findOrFail($member_id);
 
+        $update_params = [
+            'cho_employee' => ($r->cho_employee) ? 'Y' : 'N',
+            'employee_id' => ($r->cho_employee) ? $r->employee_id : NULL,
+            'lname' => mb_strtoupper($r->lname),
+            'fname' => mb_strtoupper($r->fname),
+            'mname' => ($r->mname) ? mb_strtoupper($r->mname) : NULL,
+            'suffix' => ($r->suffix) ? mb_strtoupper($r->suffix) : NULL,
+            'bdate' => $r->bdate,
+            'provider_type' => $r->provider_type,
+            'position' => mb_strtoupper($r->position),
+            'institution' => ($r->institution != 'UNLISTED') ? mb_strtoupper($r->institution) : mb_strtoupper($r->institution_other),
+            'employee_type' => $r->employee_type,
+            
+            'street_purok' => mb_strtoupper($r->street_purok),
+            'address_brgy_code' => $r->address_brgy_code,
+            'email' => $r->email,
+            'contact_number' => $r->contact_number,
+            'codename' => mb_strtoupper($r->codename),
+
+            'sfa_pretest' => $r->sfa_pretest,
+            'sfa_posttest' => $r->sfa_posttest,
+            'sfa_remedial' => $r->sfa_remedial,
+            'sfa_ispassed' => $r->sfa_ispassed,
+
+            'sfa_notes' => ($r->filled('sfa_notes')) ? mb_strtoupper($r->sfa_notes) : NULL,
+            'bls_pretest' => $r->bls_pretest,
+            'bls_posttest' => $r->bls_posttest,
+            'bls_remedial' => $r->bls_remedial,
+            'bls_cognitive_ispassed' => $r->bls_cognitive_ispassed,
+            'bls_cpr_adult' => $r->bls_cpr_adult,
+            'bls_cpr_infant' => $r->bls_cpr_infant,
+            'bls_fbao_adult' => $r->bls_fbao_adult,
+            'bls_fbao_infant' => $r->bls_fbao_infant,
+            'bls_rb_adult' => $r->bls_rb_adult,
+            'bls_rb_infant' => $r->bls_rb_infant,
+            'bls_psychomotor_ispassed' => $r->bls_psychomotor_ispassed,
+            'bls_affective' => $r->bls_affective,
+            'bls_finalremarks' => $r->bls_finalremarks,
+            'bls_notes' => ($r->filled('bls_notes')) ? mb_strtoupper($r->bls_notes) : NULL,
+            'bls_id_number' => $r->bls_id_number,
+            'sfa_id_number' => $r->sfa_id_number,
+            'bls_expiration_date' => $r->bls_expiration_date,
+            'updated_by' => Auth::id(),
+        ];
+
+        if($r->hasFile('picture')) {
+            if ($r->file('picture')->isValid()) {
+                //$file = $r->file('picture');
+                $r->validate([
+                    'picture' => 'image|mimes:jpeg,png,jpg,gif|max:10240', // 10MB max size
+                ]);
+                
+                $id_file_name = Str::random(10) . '.' . $r->file('picture')->extension();
+                $r->file('picture')->move($_SERVER['DOCUMENT_ROOT'].'/assets/bls/members/', $id_file_name);
+
+                //Delete Old Picture
+                $oldPicture = $d->picture;
+
+                if(!is_null($oldPicture)) {
+                    File::delete('bls/members/'.$oldPicture);
+                }
+
+                $update_params = $update_params + [
+                    'picture' => $id_file_name,
+                ];
+            }
+        }
+
+        $u = BlsMember::where('id', $member_id)
+        ->update($update_params);
+        
+        return redirect()->route('bls_viewbatch', $d->batch->id)
+        ->with('msg', 'Participant '.$d->getName().' was successfully updated.')
+        ->with('msgtype', 'success');
     }
 
     public function ajaxListEmployees(Request $r) {
@@ -743,5 +822,9 @@ class EmployeesController extends Controller
         }
         
         return response()->json($list);
+    }
+
+    public function downloadBlsDatabase($batch_id) {
+        
     }
 }

@@ -54,6 +54,10 @@ class BlsMember extends Model
         'created_by',
     ];
 
+    public function user() {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
     public function batch() {
         return $this->belongsTo(BlsMain::class, 'batch_id');
     }

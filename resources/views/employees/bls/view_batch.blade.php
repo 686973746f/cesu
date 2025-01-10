@@ -8,7 +8,7 @@
                 <div><b>{{$d->batch_name}}</b></div>
                 <div>
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addParticipant">Add Participant</button>
-                    <a href="" class="btn btn-primary">Download Database</a>
+                    <a href="{{route('bls_download_db', $d->id)}}" class="btn btn-primary">Download Database</a>
                 </div>
             </div>
         </div>
@@ -105,7 +105,9 @@
                             <td class="text-center">{{$d->bls_finalremarks}}</td>
                             <td class="text-center">{{$d->bls_id_number}}</td>
                             <td class="text-center">{{($d->bls_expiration_date) ? Carbon\Carbon::parse($d->bls_expiration_date) : 'N/A'}}</td>
-                            <td class="text-center">PICTURE</td>
+                            <td class="text-center">
+                                <img src="{{asset('assets/bls/members/'.$d->picture)}}" class="img-fluid">
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
