@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AbtcVaccinationSite;
 use App\Models\BlsMain;
-use App\Models\BlsMember;
 use App\Models\Employee;
 use App\Models\HertDuty;
+use App\Models\BlsMember;
 use App\Models\DutyCycle;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\HertDutyMember;
 use App\Models\HertDutyPatient;
+use Illuminate\Support\Facades\DB;
+use App\Models\AbtcVaccinationSite;
 use Illuminate\Support\Facades\Auth;
 
 class EmployeesController extends Controller
@@ -604,8 +605,12 @@ class EmployeesController extends Controller
     public function viewBlsBatch($batch_id) {
         $d = BlsMain::findOrFail($batch_id);
 
+        $list_institutions = BlsMember::distinct()
+        ->pluck('institution');
+
         return view('employees.bls.view_batch', [
             'd' => $d,
+            'list_institutions' => $list_institutions,
         ]);
     }
 
@@ -615,6 +620,7 @@ class EmployeesController extends Controller
         
         if($check) {
             return redirect()->back()
+            ->withInput()
             ->with('msg', 'Batch Number already exists. Please double check and try again.')
             ->with('msgtype', 'warning');
         }
@@ -623,6 +629,7 @@ class EmployeesController extends Controller
 
         if($check) {
             return redirect()->back()
+            ->withInput()
             ->with('msg', 'Batch Name already exists. Please double check and try again.')
             ->with('msgtype', 'warning');
         }
@@ -649,49 +656,70 @@ class EmployeesController extends Controller
     }
 
     public function storeBlsMember($batch_id, Request $r) {
+        $check = BlsMember::where('batch_id', $batch_id)
+        ->where('lname', mb_strtoupper($r->lname))
+        ->where('fname', mb_strtoupper($r->fname))
+        ->first();
+
+        if($check) {
+            return redirect()->back()
+            ->withInput()
+            ->with('msg', 'Participant already exists in this batch. Please double check and try again.')
+            ->with('msgtype', 'warning');
+        }
+
         $c = BlsMember::create([
-            'cho_employee',
-            'employee_id',
-            'lname',
-            'fname',
-            'mname',
-            'provider_type',
-            'position',
-            'institution',
-            'employee_type',
-            'bdate',
-            'street_purok',
-            'address_brgy_code ',
-            'email',
-            'contact_number',
-            'codename',
-            'sfa_pretest',
-            'sfa_posttest',
-            'sfa_remedial',
-            'sfa_ispassed',
-            'sfa_notes',
-            'bls_pretest',
-            'bls_posttest',
-            'bls_remedial',
-            'bls_cognitive_ispassed',
-            'bls_cpr_adult',
-            'bls_cpr_infant',
-            'bls_fbao_adult',
-            'bls_fbao_infant',
-            'bls_rb_adult',
-            'bls_rb_infant',
-            'bls_psychomotor_ispassed',
-            'bls_affective',
-            'bls_finalremarks',
-            'bls_notes',
-            'bls_id_number',
-            'sfa_id_number',
-            'bls_expiration_date',
-            'picture',
+            'batch_id' => $batch_id,
+            'cho_employee' => ($r->cho_employee) ? 'Y' : 'N',
+            'employee_id' => ($r->cho_employee) ? $r->employee_id : NULL,
+            'lname' => mb_strtoupper($r->lname),
+            'fname' => mb_strtoupper($r->fname),
+            'mname' => ($r->mname) ? mb_strtoupper($r->mname) : NULL,
+            'suffix' => ($r->suffix) ? mb_strtoupper($r->suffix) : NULL,
+            'bdate' => $r->bdate,
+            'provider_type' => $r->provider_type,
+            'position' => mb_strtoupper($r->position),
+            'institution' => ($r->institution != 'UNLISTED') ? mb_strtoupper($r->institution) : mb_strtoupper($r->institution_others),
+            'employee_type' => $r->employee_type,
+            
+            'street_purok' => mb_strtoupper($r->street_purok),
+            'address_brgy_code' => $r->address_brgy_code,
+            'email' => $r->email,
+            'contact_number' => $r->contact_number,
+            'codename' => mb_strtoupper($r->codename),
         ]);
+
+        return redirect()->back()
+        ->with('msg', 'Participant '.$c->getName().' was successfully added to the list.')
+        ->with('msgtype', 'success');
     }
 
     public function updateBlsMember($member_id, Request $r) {
 
+    }
+
+    public function ajaxListEmployees(Request $r) {
+        $list = [];
+
+        if($r->has('q') && strlen($r->input('q')) > 1) {
+            $search = mb_strtoupper($r->q);
+
+            $data = Employee::where(function ($query) use ($search) {
+                $query->where(function ($r) use ($search) {
+                    $r->where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','', $search)."%")
+                    ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%")
+                    ->orWhere('id', $search);
+                });
+            })->get();
+
+            foreach($data as $item) {
+                array_push($list, [
+                    'id' => $item->id,
+                    'text' => '#'.$item->id.' - '.$item->getName(),
+                ]);
+            }
+        }
+        
+        return response()->json($list);
     }
 }

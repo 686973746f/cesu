@@ -2,26 +2,29 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class BlsMember extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'batch_id',
         'cho_employee',
         'employee_id',
         'lname',
         'fname',
         'mname',
+        'suffix',
         'provider_type',
         'position',
         'institution',
         'employee_type',
         'bdate',
         'street_purok',
-        'address_brgy_code ',
+        'address_brgy_code',
         'email',
         'contact_number',
         'codename',
@@ -49,4 +52,50 @@ class BlsMember extends Model
         'bls_expiration_date',
         'picture',
     ];
+
+    public function brgy() {
+        return $this->belongsTo(EdcsBrgy::class, 'address_brgy_code');
+    }
+
+    public function getName() {
+        $fullname = $this->lname.", ".$this->fname;
+
+        if(!is_null($this->mname)) {
+            $fullname = $fullname." ".$this->mname;
+        }
+
+        if(!is_null($this->suffix)) {
+            $fullname = $fullname." ".$this->suffix;
+        }
+
+        return $fullname;
+        //return $this->lname.", ".$this->fname.' '.$this->suffix." ".$this->mname;
+    }
+
+    public function getAge() {
+        if(!is_null($this->bdate)) {
+            if(Carbon::parse($this->attributes['bdate'])->age > 0) {
+                return Carbon::parse($this->attributes['bdate'])->age;
+            }
+            else {
+                if (Carbon::parse($this->attributes['bdate'])->diff(\Carbon\Carbon::now())->format('%m') == 0) {
+                    return Carbon::parse($this->attributes['bdate'])->diff(\Carbon\Carbon::now())->format('%d DAYS');
+                }
+                else {
+                    return Carbon::parse($this->attributes['bdate'])->diff(\Carbon\Carbon::now())->format('%m MOS');
+                }
+            }
+        }
+        else {
+            return $this->age;
+        }
+    }
+
+    public function getAgeInt() {
+        return Carbon::parse($this->attributes['bdate'])->age;
+    }
+
+    public function sg() {
+        return substr($this->gender, 0,1);
+    }
 }

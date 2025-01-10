@@ -17,7 +17,7 @@ class CreateBlsMembersTable extends Migration
             $table->id();
             $table->foreignId('batch_id')->nullable()->constrained('bls_mains')->onDelete('cascade');
             $table->string('cho_employee', 1)->default('N');
-            $table->foreignId('employee_id')->nullable()->constrained('edcs_brgies')->onDelete('cascade');
+            $table->foreignId('employee_id')->nullable()->constrained('employees')->onDelete('cascade');
             
             $table->string('lname');
             $table->string('fname');

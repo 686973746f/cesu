@@ -564,6 +564,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessE
     Route::post('bls/{batch_id}/view/store', [EmployeesController::class, 'storeBlsMember'])->name('bls_storemember');
     Route::post('bls/{batch_id}/view/update', [EmployeesController::class, 'updateBlsBatch'])->name('bls_updatebatch');
     Route::post('bls_member/{member_id}/update', [EmployeesController::class, 'updateBlsMember'])->name('bls_updatemember');
+    Route::get('bls_home/list_employees', [EmployeesController::class, 'ajaxListEmployees'])->name('bls_ajax_listemployees');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel3']], function() {
