@@ -557,12 +557,13 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessE
     Route::get('duties/{duty_id}/view_patients/{patient_id}/edit', [EmployeesController::class, 'editDutyPatients'])->name('duty_editpatient');
     Route::post('duties/{duty_id}/view_patients/{patient_id}/update', [EmployeesController::class, 'updateDutyPatients'])->name('duty_updatepatient');
     
-    Route::get('bls_home_masterlist', [EmployeesController::class, 'blsHome'])->name('bls_home_masterlist');
+    Route::get('bls_home_masterlist', [EmployeesController::class, 'blsHomeMasterlist'])->name('bls_home_masterlist');
     Route::get('bls_home_batches', [EmployeesController::class, 'blsHomeBatches'])->name('bls_home_batches');
     Route::get('bls/{batch_id}/view', [EmployeesController::class, 'viewBlsBatch'])->name('bls_viewbatch');
     Route::post('bls_home/store', [EmployeesController::class, 'storeBlsBatch'])->name('bls_storebatch');
-    Route::post('bls/{batch_id}/view/store', [EmployeesController::class, 'viewDutyPatients'])->name('bls_storeparticipants');
-    Route::post('bls/{batch_id}/view/update', [EmployeesController::class, 'updateBlsEvent'])->name('bls_updatebatch');
+    Route::post('bls/{batch_id}/view/store', [EmployeesController::class, 'storeBlsMember'])->name('bls_storemember');
+    Route::post('bls/{batch_id}/view/update', [EmployeesController::class, 'updateBlsBatch'])->name('bls_updatebatch');
+    Route::post('bls_member/{member_id}/update', [EmployeesController::class, 'updateBlsMember'])->name('bls_updatemember');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel3']], function() {

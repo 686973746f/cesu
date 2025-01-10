@@ -8,4 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class BlsMain extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'batch_number',
+        'batch_name',
+        'is_refresher',
+        'agency',
+        'training_date_start',
+        'training_date_end',
+        'venue',
+        'instructors_list',
+        'prepared_by',
+    ];
 }

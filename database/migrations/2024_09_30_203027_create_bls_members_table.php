@@ -15,6 +15,7 @@ class CreateBlsMembersTable extends Migration
     {
         Schema::create('bls_members', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('batch_id')->nullable()->constrained('bls_mains')->onDelete('cascade');
             $table->string('cho_employee', 1)->default('N');
             $table->foreignId('employee_id')->nullable()->constrained('edcs_brgies')->onDelete('cascade');
             

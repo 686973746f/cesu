@@ -17,9 +17,11 @@ class CreateBlsMainsTable extends Migration
             $table->id();
 
             $table->string('batch_number');
+            $table->string('batch_name');
+            $table->string('is_refresher', 1)->default('N');
             $table->string('agency');
             $table->string('training_date_start');
-            $table->string('training_date_end');
+            $table->string('training_date_end')->nullable();
             $table->string('venue')->nullable();
 
             $table->text('instructors_list')->nullable();

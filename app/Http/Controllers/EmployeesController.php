@@ -585,10 +585,10 @@ class EmployeesController extends Controller
         }
     }
 
-    public function blsHome() {
+    public function blsHomeMasterlist() {
         $list = BlsMember::orderBy('created_at', 'DESC')->paginate(10);
 
-        return view('employees.bls.view_batches', [
+        return view('employees.bls.view_master_list', [
             'list' => $list,
         ]);
     }
@@ -596,7 +596,7 @@ class EmployeesController extends Controller
     public function blsHomeBatches() {
         $list = BlsMain::orderBy('created_at', 'DESC')->paginate(10);
 
-        return view('employees.bls.view_batches', [
+        return view('employees.bls.view_batches_list', [
             'list' => $list,
         ]);
     }
@@ -610,14 +610,88 @@ class EmployeesController extends Controller
     }
 
     public function storeBlsBatch(Request $r) {
+
+        $check = BlsMain::where('batch_number', $r->batch_number)->first();
+        
+        if($check) {
+            return redirect()->back()
+            ->with('msg', 'Batch Number already exists. Please double check and try again.')
+            ->with('msgtype', 'warning');
+        }
+
+        $check = BlsMain::where('batch_name', mb_strtoupper($r->batch_name))->first();
+
+        if($check) {
+            return redirect()->back()
+            ->with('msg', 'Batch Name already exists. Please double check and try again.')
+            ->with('msgtype', 'warning');
+        }
+
+        $c = BlsMain::create([
+            'batch_number' => $r->batch_number,
+            'batch_name' => mb_strtoupper($r->batch_name),
+            'is_refresher' => ($r->is_refresher) ? 'Y' : 'N',
+            'agency' => mb_strtoupper($r->agency),
+            'training_date_start' => $r->training_date_start,
+            'training_date_end' => $r->training_date_end,
+            'venue' => mb_strtoupper($r->venue),
+            'instructors_list' => mb_strtoupper($r->instructors_list),
+            'prepared_by' => Auth::id(),
+        ]);
+
+        return redirect()->route('bls_viewbatch', $c->id)
+        ->with('msg', 'BLS Batch was successfully created. You may now encode participants to this batch.')
+        ->with('msgtype', 'success');
+    }
+
+    public function updateBlsBatch($batch_id, Request $r) {
         
     }
 
-    public function updateBlsEvent($batch_id, Request $r) {
-        
+    public function storeBlsMember($batch_id, Request $r) {
+        $c = BlsMember::create([
+            'cho_employee',
+            'employee_id',
+            'lname',
+            'fname',
+            'mname',
+            'provider_type',
+            'position',
+            'institution',
+            'employee_type',
+            'bdate',
+            'street_purok',
+            'address_brgy_code ',
+            'email',
+            'contact_number',
+            'codename',
+            'sfa_pretest',
+            'sfa_posttest',
+            'sfa_remedial',
+            'sfa_ispassed',
+            'sfa_notes',
+            'bls_pretest',
+            'bls_posttest',
+            'bls_remedial',
+            'bls_cognitive_ispassed',
+            'bls_cpr_adult',
+            'bls_cpr_infant',
+            'bls_fbao_adult',
+            'bls_fbao_infant',
+            'bls_rb_adult',
+            'bls_rb_infant',
+            'bls_psychomotor_ispassed',
+            'bls_affective',
+            'bls_finalremarks',
+            'bls_notes',
+            'bls_id_number',
+            'sfa_id_number',
+            'bls_expiration_date',
+            'picture',
+        ]);
     }
 
-    public function storeBlsProvider($batch_id, Request $r) {
+    public function updateBlsMember($member_id, Request $r) {
 
     }
 }
