@@ -1,18 +1,79 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between">
                 <div><b>{{$d->batch_name}}</b></div>
                 <div>
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addParticipant">Add Participant</button>
+                    <a href="" class="btn btn-primary">Download Database</a>
                 </div>
             </div>
         </div>
         <div class="card-body">
+            @if(session('msg'))
+            <div class="alert alert-{{session('msgtype')}}" role="alert">
+                {{session('msg')}}
+            </div>
+            @endif
 
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="thead-light text-center">
+                        <tr>
+                            <th rowspan="4">No.</th>
+                            <th rowspan="4">Name</th>
+                            <th rowspan="4">Type of Provider</th>
+                            <th rowspan="4">Institution/Agency</th>
+                            <th rowspan="4">Status of Employment</th>
+                            <th rowspan="4">Date of Birth</th>
+                            <th rowspan="4">Address</th>
+                            <th rowspan="4">Contact Details</th>
+                            <th rowspan="4">Email Address</th>
+                            <th rowspan="4">Code Name</th>
+                            <th colspan="4" rowspan="2">SFA</th>
+                            <th colspan="13">BLS</th>
+                            <th rowspan="4">Pass/Fail</th>
+                            <th rowspan="4">Affective (10%)</th>
+                            <th rowspan="4">Final Remarks</th>
+                        </tr>
+                        <tr>
+                            <th colspan="4">COGNITIVE (30%)</th>
+                            <th colspan="7">PSYCHOMOTOR (60%)</th>
+                        </tr>
+                        <tr>
+                            <th rowspan="2">Pre-Test</th>
+                            <th rowspan="2">Post Test</th>
+                            <th rowspan="2">Remedial</th>
+                            <th rowspan="2">Pass/Fail</th>
+                            <th rowspan="2">Pre-Test</th>
+                            <th rowspan="2">Post Test</th>
+                            <th rowspan="2">Remedial</th>
+                            <th rowspan="2">Pass/Fail</th>
+                        </tr>
+                        <tr>
+                            <th colspan="2">CPR w/ AED</th>
+                            <th colspan="2">FBAO</th>
+                            <th colspan="2">RB</th>
+                        </tr>
+                        
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td scope="row"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td scope="row"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

@@ -13,7 +13,11 @@
             </div>
         </div>
         <div class="card-body">
-
+            @if(session('msg'))
+            <div class="alert alert-{{session('msgtype')}}" role="alert">
+                {{session('msg')}}
+            </div>
+            @endif
         </div>
     </div>
 </div>

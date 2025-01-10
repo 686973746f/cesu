@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between">
@@ -10,6 +10,11 @@
             </div>
         </div>
         <div class="card-body">
+            @if(session('msg'))
+            <div class="alert alert-{{session('msgtype')}}" role="alert">
+                {{session('msg')}}
+            </div>
+            @endif
             <div class="table-responsive">
                 <table class="table table-bordered table-striped" id="mainTbl">
                     <thead class="thead-light text-center">

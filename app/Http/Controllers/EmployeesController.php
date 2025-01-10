@@ -605,11 +605,14 @@ class EmployeesController extends Controller
     public function viewBlsBatch($batch_id) {
         $d = BlsMain::findOrFail($batch_id);
 
+        $member_list = BlsMember::where('batch_id', $batch_id)->get();
+
         $list_institutions = BlsMember::distinct()
         ->pluck('institution');
 
         return view('employees.bls.view_batch', [
             'd' => $d,
+            'member_list' => $member_list,
             'list_institutions' => $list_institutions,
         ]);
     }
