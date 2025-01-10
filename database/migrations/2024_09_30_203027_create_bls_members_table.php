@@ -39,6 +39,7 @@ class CreateBlsMembersTable extends Migration
             $table->integer('sfa_posttest')->nullable();
             $table->integer('sfa_remedial')->nullable();
             $table->string('sfa_ispassed', 1)->default('F');
+            $table->text('sfa_notes')->nullable();
 
             $table->integer('bls_pretest')->nullable();
             $table->integer('bls_posttest')->nullable();
@@ -54,6 +55,7 @@ class CreateBlsMembersTable extends Migration
             $table->string('bls_psychomotor_ispassed', 1)->default('F');
             $table->integer('bls_affective')->nullable();
             $table->string('bls_finalremarks', 1)->default('F');
+            $table->text('bls_notes')->nullable();
 
             $table->string('bls_id_number')->nullable();
             $table->string('sfa_id_number')->nullable();
