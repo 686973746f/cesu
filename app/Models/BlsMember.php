@@ -133,7 +133,7 @@ class BlsMember extends Model
 
     public function ifForRefresher() {
         if(!is_null($this->getLastTrainingData())) {
-            if(($this->getLastTrainingYear() + 2) >= date('Y')) {
+            if(($this->getLastTrainingYear() + 2) <= date('Y')) {
                 return 'Y';
             }
             else {
