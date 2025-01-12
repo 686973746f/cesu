@@ -12,6 +12,7 @@
                 <div>
                     <!-- Button trigger modal -->
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#joinParticipant">Join a Participant</button>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addParticipant">Create and Join Participant</button>
                     <a href="{{route('bls_download_db', $d->id)}}" class="btn btn-primary">Download Database</a>
                 </div>
             </div>
@@ -154,6 +155,8 @@
         </div>
     </div>
 </form>
+
+@include('employees.bls.store_member_modal')
 
 <script>
     $('#member_id').select2({

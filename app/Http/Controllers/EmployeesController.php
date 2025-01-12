@@ -625,10 +625,14 @@ class EmployeesController extends Controller
             $possible_participants_list = BlsMember::get();
         }
 
+        $list_institutions = BlsMember::distinct()
+        ->pluck('institution');
+
         return view('employees.bls.view_batch', [
             'd' => $d,
             'member_list' => $member_list,
             'possible_participants_list' => $possible_participants_list,
+            'list_institutions' => $list_institutions,
         ]);
     }
 
@@ -709,6 +713,34 @@ class EmployeesController extends Controller
             
             'created_by' => Auth::id(),
         ]);
+
+        if($r->autojoin_batchid) {
+            $autojoin_params = [
+                'batch_id' => $r->autojoin_batchid,
+                'member_id' => $r->member_id,
+
+                'created_by' => Auth::id(),
+            ];
+
+            if($r->autopass) {
+                $autojoin_params = $autojoin_params + [
+                    'sfa_ispassed' => 'P',
+                    'bls_cognitive_ispassed' => 'P',
+                    'bls_psychomotor_ispassed' => 'P',
+                    'bls_finalremarks' => 'P',
+                ];
+            }
+            else {
+                $autojoin_params = $autojoin_params + [
+                    'sfa_ispassed' => 'W',
+                    'bls_cognitive_ispassed' => 'W',
+                    'bls_psychomotor_ispassed' => 'W',
+                    'bls_finalremarks' => 'W',
+                ];
+            }
+
+            $d = BlsBatchParticipant::create($autojoin_params);
+        }
 
         return redirect()->back()
         ->with('msg', 'Participant '.$c->getName().' was successfully added to the list.')
