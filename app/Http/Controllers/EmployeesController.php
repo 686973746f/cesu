@@ -717,7 +717,7 @@ class EmployeesController extends Controller
         if($r->autojoin_batchid) {
             $autojoin_params = [
                 'batch_id' => $r->autojoin_batchid,
-                'member_id' => $r->member_id,
+                'member_id' => $c->id,
 
                 'created_by' => Auth::id(),
             ];
