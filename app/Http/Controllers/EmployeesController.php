@@ -13,6 +13,7 @@ use App\Models\HertDutyMember;
 use App\Models\HertDutyPatient;
 use Illuminate\Support\Facades\DB;
 use App\Models\AbtcVaccinationSite;
+use App\Models\BlsBatchParticipant;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -599,23 +600,32 @@ class EmployeesController extends Controller
     public function blsHomeBatches() {
         $list = BlsMain::orderBy('created_at', 'DESC')->paginate(10);
 
+        $list_institutions = BlsMember::distinct()
+        ->pluck('institution');
+
         return view('employees.bls.view_batches_list', [
             'list' => $list,
+            'list_institutions' => $list_institutions,
         ]);
     }
 
     public function viewBlsBatch($batch_id) {
         $d = BlsMain::findOrFail($batch_id);
 
-        $member_list = BlsMember::where('batch_id', $batch_id)->get();
+        $member_list = BlsBatchParticipant::where('batch_id', $batch_id)->get();
 
-        $list_institutions = BlsMember::distinct()
-        ->pluck('institution');
+        if($member_list->count() != 0) {
+
+        }
+        else {
+            $possible_participants_list = BlsMember::
+        }
+        
 
         return view('employees.bls.view_batch', [
             'd' => $d,
             'member_list' => $member_list,
-            'list_institutions' => $list_institutions,
+            
         ]);
     }
 

@@ -11,7 +11,6 @@ class BlsMember extends Model
     use HasFactory;
 
     protected $fillable = [
-        'batch_id',
         'cho_employee',
         'employee_id',
         'lname',
@@ -112,5 +111,20 @@ class BlsMember extends Model
         $final = $this->street_purok.', BRGY. '.$this->brgy->name.', '.$this->brgy->city->name.', '.$this->brgy->city->province->name;
 
         return $final;
+    }
+
+    public function getLastTrainingYear() {
+        $year = Carbon::parse($this->batch->training_date_start)->format('Y');
+
+        return $year;
+    }
+
+    public function ifForRefresher() {
+        if(($this->getLastTrainingYear() + 2) >= date('Y')) {
+            return 'Y';
+        }
+        else {
+            return 'N';
+        }
     }
 }

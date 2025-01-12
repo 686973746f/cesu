@@ -8,8 +8,8 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between">
                     <div>
-                        <div><b>{{$d->batch->batch_name}}</b></div>
-                        <div></div>
+                        <div><b>{{$d->batch->batch_name}} - View Participant</b></div>
+                        <div><a href="{{url()->previous()}}">Go Back</a></div>
                     </div>
                     <div></div>
                 </div>

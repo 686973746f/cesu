@@ -39,6 +39,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach($list as $ind => $d)
                         <tr>
                             <td></td>
                             <td></td>
@@ -55,9 +56,10 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td></td>
+                            <td>{{$d->ifForRefresher()}}</td>
                             <td></td>
                         </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
