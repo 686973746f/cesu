@@ -115,7 +115,7 @@ class BlsMember extends Model
     }
 
     public function getLastTrainingData() {
-        $d = BlsBatchParticipant::where('member_id', $this->member_id)->latest()->first();
+        $d = BlsBatchParticipant::where('member_id', $this->id)->latest()->first();
 
         return $d;
     }
