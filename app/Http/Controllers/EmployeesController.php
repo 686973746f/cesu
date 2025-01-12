@@ -716,11 +716,12 @@ class EmployeesController extends Controller
     }
 
     public function joinParticipant($batch_id, Request $r) {
-        $check = BlsBatchParticipant::where('member_id', $r->member_id)->first();
+        $check = BlsBatchParticipant::where('batch_id', $batch_id)
+        ->where('member_id', $r->member_id)->first();
 
         if($check) {
             return redirect()->back()
-            ->with('msg', 'Error: Participant '.$check->getName().' was already inside the list. Kindly double check and try again.')
+            ->with('msg', 'Error: Participant '.$check->member->getName().' was already inside the list. Kindly double check and try again.')
             ->with('msgtype', 'warning');
         }
 
