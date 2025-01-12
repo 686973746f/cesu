@@ -10,7 +10,8 @@
                     <div><a href="{{route('bls_home_batches')}}">Go Back</a></div>
                 </div>
                 <div>
-                    
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#joinParticipant">Join a Participant</button>
                     <a href="{{route('bls_download_db', $d->id)}}" class="btn btn-primary">Download Database</a>
                 </div>
             </div>
@@ -79,16 +80,16 @@
                         @foreach($member_list as $ind => $d)
                         <tr>
                             <td class="text-center">{{$ind+1}}</td>
-                            <td><a href="{{route('bls_viewmember', $d->id)}}"><b>{{$d->getName()}}</b></a></td>
-                            <td class="text-center">{{$d->provider_type}}</td>
-                            <td class="text-center">{{$d->position}}</td>
-                            <td class="text-center">{{$d->institution}}</td>
-                            <td class="text-center">{{$d->employee_type}}</td>
-                            <td class="text-center">{{Carbon\Carbon::parse($d->bdate)->format('m/d/Y')}}</td>
-                            <td class="text-center">{{$d->getAddress()}}</td>
-                            <td class="text-center">{{$d->contact_number}}</td>
-                            <td class="text-center">{{$d->email}}</td>
-                            <td class="text-center">{{$d->codename}}</td>
+                            <td><a href="{{route('bls_viewparticipant', $d->id)}}"><b>{{$d->member->getName()}}</b></a></td>
+                            <td class="text-center">{{$d->member->provider_type}}</td>
+                            <td class="text-center">{{$d->member->position}}</td>
+                            <td class="text-center">{{$d->member->institution}}</td>
+                            <td class="text-center">{{$d->member->employee_type}}</td>
+                            <td class="text-center">{{Carbon\Carbon::parse($d->member->bdate)->format('m/d/Y')}}</td>
+                            <td class="text-center">{{$d->member->getAddress()}}</td>
+                            <td class="text-center">{{$d->member->contact_number}}</td>
+                            <td class="text-center">{{$d->member->email}}</td>
+                            <td class="text-center">{{$d->member->codename}}</td>
                             <td class="text-center">{{$d->sfa_pretest}}</td>
                             <td class="text-center">{{$d->sfa_posttest}}</td>
                             <td class="text-center">{{$d->sfa_remedial}}</td>
@@ -109,7 +110,11 @@
                             <td class="text-center">{{$d->bls_id_number}}</td>
                             <td class="text-center">{{($d->bls_expiration_date) ? Carbon\Carbon::parse($d->bls_expiration_date) : 'N/A'}}</td>
                             <td class="text-center">
+                                @if($d->picture)
                                 <img src="{{asset('assets/bls/members/'.$d->picture)}}" class="img-fluid">
+                                @else
+                                <div>N/A</div>
+                                @endif
                             </td>
                         </tr>
                         @endforeach
@@ -120,5 +125,41 @@
     </div>
 </div>
 
+<form action="{{route('bls_joinparticipant', $d->id)}}" method="POST">
+    @csrf
+    <div class="modal fade" id="joinParticipant" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Join a Participant to this Batch</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group" id="member_parent">
+                      <label for="member_id"><b class="text-danger">*</b>Select Participant to Join</label>
+                      <select class="form-control" name="member_id" id="member_id" required>
+                        <option value="" disabled {{(is_null(old('member_id')) ? 'selected' : '')}}>Choose...</option>
+                        @foreach($possible_participants_list as $p)
+                        <option value="{{$p->id}}">{{$p->getName()}} (ID: {{$p->id}})</option>
+                        @endforeach
+                      </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-block">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 
+<script>
+    $('#member_id').select2({
+        theme: 'bootstrap',
+        dropdownParent: $('#member_parent'),
+        placeholder: 'Search by Name or Member ID...',
+    });
+</script>
 @endsection

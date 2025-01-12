@@ -22,6 +22,7 @@ class BlsMember extends Model
         'institution',
         'employee_type',
         'bdate',
+        'gender',
         'street_purok',
         'address_brgy_code',
         'email',
@@ -113,15 +114,31 @@ class BlsMember extends Model
         return $final;
     }
 
+    public function getLastTrainingData() {
+        $d = BlsBatchParticipant::where('member_id', $this->member_id)->latest()->first();
+
+        return $d;
+    }
+
     public function getLastTrainingYear() {
-        $year = Carbon::parse($this->batch->training_date_start)->format('Y');
+        if(!is_null($this->getLastTrainingData())) {
+            $year = Carbon::parse($this->getLastTrainingData()->batch->training_date_start)->format('Y');
+        }
+        else {
+            $year = NULL;
+        }
 
         return $year;
     }
 
     public function ifForRefresher() {
-        if(($this->getLastTrainingYear() + 2) >= date('Y')) {
-            return 'Y';
+        if(!is_null($this->getLastTrainingData())) {
+            if(($this->getLastTrainingYear() + 2) >= date('Y')) {
+                return 'Y';
+            }
+            else {
+                return 'N';
+            }
         }
         else {
             return 'N';

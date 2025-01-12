@@ -35,6 +35,15 @@ class BlsBatchParticipant extends Model
         'sfa_id_number',
         'bls_expiration_date',
         'picture',
+
+        'created_by',
     ];
 
+    public function member() {
+        return $this->belongsTo(BlsMember::class, 'member_id');
+    }
+
+    public function batch() {
+        return $this->belongsTo(BlsMain::class, 'batch_id');
+    }
 }

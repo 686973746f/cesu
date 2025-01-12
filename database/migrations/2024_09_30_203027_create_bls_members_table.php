@@ -28,6 +28,7 @@ class CreateBlsMembersTable extends Migration
             $table->string('institution');
             $table->string('employee_type');
             $table->date('bdate')->nullable();
+            $table->string('gender', 1);
 
             $table->text('street_purok')->nullable();
             $table->foreignId('address_brgy_code')->constrained('edcs_brgies')->onDelete('cascade');

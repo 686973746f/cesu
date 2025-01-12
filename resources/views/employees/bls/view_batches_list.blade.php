@@ -137,13 +137,13 @@
     </div>
 </form>
 
-<form action="{{route('bls_storemember', $d->id)}}" method="POST">
+<form action="{{route('bls_storemember')}}" method="POST">
     @csrf
     <div class="modal fade" id="addParticipant" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add Participant</h5>
+                    <h5 class="modal-title">New Participant Data</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -194,6 +194,18 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
+                                <label for="gender"><b class="text-danger">*</b>Gender</label>
+                                <select class="form-control" name="gender" id="gender" required>
+                                  <option value="" disabled {{(is_null(old('gender'))) ? 'selected' : ''}}>Choose...</option>
+                                  <option value="M" {{(old('gender') == 'M') ? 'selected' : ''}}>Male</option>
+                                  <option value="F" {{(old('gender') == 'F') ? 'selected' : ''}}>Female</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
                                 <label for="provider_type"><b class="text-danger">*</b>Provider Type</label>
                                 <select class="form-control" name="provider_type" id="provider_type" required>
                                   <option value="" disabled {{(is_null(old('provider_type'))) ? 'selected' : ''}}>Choose...</option>
@@ -202,11 +214,12 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="position"><b class="text-danger">*</b>Position</label>
-                        <input type="text" class="form-control" name="position" id="position" style="text-transform: uppercase" value="{{old('position')}}" required>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="position"><b class="text-danger">*</b>Position</label>
+                                <input type="text" class="form-control" name="position" id="position" style="text-transform: uppercase" value="{{old('position')}}" required>
+                            </div>
+                        </div>
                     </div>
                     <div id="institution_fields">
                         <div class="form-group mt-2">

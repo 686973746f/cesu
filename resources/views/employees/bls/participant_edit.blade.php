@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <form action="{{route('bls_updatemember', $d->id)}}" method="POST" enctype="multipart/form-data">
+    <form action="{{route('bls_updateparticipant', $d->id)}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="card">
             <div class="card-header">
@@ -23,7 +23,7 @@
                 
                 <div class="form-check">
                     <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" name="cho_employee" id="cho_employee" value="1" {{($d->cho_employee == 'Y') ? 'checked' : ''}}>
+                        <input type="checkbox" class="form-check-input" name="cho_employee" id="cho_employee" value="1" {{($d->member->cho_employee == 'Y') ? 'checked' : ''}}>
                         Is CHO Employee?
                     </label>
                 </div>
@@ -39,25 +39,25 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="lname"><b class="text-danger">*</b>Surname</label>
-                            <input type="text" class="form-control" name="lname" id="lname" style="text-transform: uppercase" value="{{old('lname', $d->lname)}}" minlength="2" max="50" required>
+                            <input type="text" class="form-control" name="lname" id="lname" style="text-transform: uppercase" value="{{old('lname', $d->member->lname)}}" minlength="2" max="50" required>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="fname"><b class="text-danger">*</b>First Name</label>
-                            <input type="text" class="form-control" name="fname" id="fname" style="text-transform: uppercase" value="{{old('fname', $d->fname)}}" minlength="2" max="50" required>
+                            <input type="text" class="form-control" name="fname" id="fname" style="text-transform: uppercase" value="{{old('fname', $d->member->fname)}}" minlength="2" max="50" required>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="mname">Middle Name</label>
-                            <input type="text" class="form-control" name="mname" id="mname" style="text-transform: uppercase" value="{{old('mname' , $d->mname)}}" minlength="2" max="50">
+                            <input type="text" class="form-control" name="mname" id="mname" style="text-transform: uppercase" value="{{old('mname' , $d->member->mname)}}" minlength="2" max="50">
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="suffix">Name Extension (Jr./Sr./III/IV, etc.)</label>
-                            <input type="text" class="form-control" name="suffix" id="suffix" style="text-transform: uppercase" value="{{old('suffix', $d->suffix)}}" minlength="2" max="5">
+                            <input type="text" class="form-control" name="suffix" id="suffix" style="text-transform: uppercase" value="{{old('suffix', $d->member->suffix)}}" minlength="2" max="5">
                         </div>
                     </div>
                 </div>
@@ -66,20 +66,36 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="bdate"><b class="text-danger">*</b>Date of Birth</label>
-                            <input type="date" class="form-control" name="bdate" id="bdate" max="{{date('Y-m-d')}}" value="{{old('bdate', $d->bdate)}}" required>
+                            <input type="date" class="form-control" name="bdate" id="bdate" max="{{date('Y-m-d')}}" value="{{old('bdate', $d->member->bdate)}}" required>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="provider_type"><b class="text-danger">*</b>Provider Type</label>
-                            <select class="form-control" name="provider_type" id="provider_type" required>
-                            <option value="HCP" {{(old('provider_type', $d->provider_type) == 'HCP') ? 'selected' : ''}}>Health Care Provider (HCP)</option>
-                            <option value="LR" {{(old('provider_type', $d->provider_type) == 'LR') ? 'selected' : ''}}>Lay Rescuer (LR)</option>
+                            <label for="gender"><b class="text-danger">*</b>Gender</label>
+                            <select class="form-control" name="gender" id="gender" required>
+                              <option value="M" {{(old('gender', $d->member->gender) == 'M') ? 'selected' : ''}}>Male</option>
+                              <option value="F" {{(old('gender', $d->member->gender) == 'F') ? 'selected' : ''}}>Female</option>
                             </select>
                         </div>
                     </div>
                 </div>
-    
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="provider_type"><b class="text-danger">*</b>Provider Type</label>
+                            <select class="form-control" name="provider_type" id="provider_type" required>
+                            <option value="HCP" {{(old('provider_type', $d->member->provider_type) == 'HCP') ? 'selected' : ''}}>Health Care Provider (HCP)</option>
+                            <option value="LR" {{(old('provider_type', $d->member->provider_type) == 'LR') ? 'selected' : ''}}>Lay Rescuer (LR)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="position"><b class="text-danger">*</b>Position</label>
+                            <input type="text" class="form-control" name="position" id="position" style="text-transform: uppercase" value="{{old('position', $d->member->position)}}" required>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div id="institution_fields">
@@ -88,9 +104,9 @@
                                 <select class="form-control" name="institution" id="institution" required>
                                     <option value="" disabled {{(is_null(old('provider_type'))) ? 'selected' : ''}}>Choose...</option>
                                     @foreach($list_institutions as $a)
-                                    <option value="{{$a}}" {{(old('institution', $d->institution) == $a) ? 'selected' : ''}}>{{$a}}</option>
+                                    <option value="{{$a}}" {{(old('institution', $d->member->institution) == $a) ? 'selected' : ''}}>{{$a}}</option>
                                     @endforeach
-                                    <option value="UNLISTED" {{(old('institution', $d->institution) == 'UNLISTED') ? 'selected' : ''}}>UNLISTED</option>
+                                    <option value="UNLISTED" {{(old('institution', $d->member->institution) == 'UNLISTED') ? 'selected' : ''}}>UNLISTED</option>
                                 </select>
                             </div>
                             <div class="form-group d-none" id="institution_other_fields">
@@ -103,19 +119,16 @@
                         <div class="form-group">
                             <label for="employee_type"><b class="text-danger">*</b>Status of Employment</label>
                             <select class="form-control" name="employee_type" id="employee_type" required>
-                            <option value="JO" {{(old('employee_type', $d->employee_type) == 'JO') ? 'selected' : ''}}>Job Order (JO)</option>
-                            <option value="CASUAL" {{(old('employee_type', $d->employee_type) == 'CASUAL') ? 'selected' : ''}}>Casual</option>
-                            <option value="CWA" {{(old('employee_type', $d->employee_type) == 'CWA') ? 'selected' : ''}}>Contract of Service (CWA)</option>
-                            <option value="PERMANENT" {{(old('employee_type', $d->employee_type) == 'PERMANENT') ? 'selected' : ''}}>Permanent</option>
+                            <option value="JO" {{(old('employee_type', $d->member->employee_type) == 'JO') ? 'selected' : ''}}>Job Order (JO)</option>
+                            <option value="CASUAL" {{(old('employee_type', $d->member->employee_type) == 'CASUAL') ? 'selected' : ''}}>Casual</option>
+                            <option value="CWA" {{(old('employee_type', $d->member->employee_type) == 'CWA') ? 'selected' : ''}}>Contract of Service (CWA)</option>
+                            <option value="PERMANENT" {{(old('employee_type', $d->member->employee_type) == 'PERMANENT') ? 'selected' : ''}}>Permanent</option>
                             </select>
                         </div>
                     </div>
                 </div>
     
-                <div class="form-group">
-                    <label for="position"><b class="text-danger">*</b>Position</label>
-                    <input type="text" class="form-control" name="position" id="position" style="text-transform: uppercase" value="{{old('position', $d->position)}}" required>
-                </div>
+                
                 
                 
                 <hr>
@@ -154,26 +167,26 @@
                 </div>
                 <div class="form-group">
                     <label for="street_purok"><b class="text-danger">*</b>Street/Purok/Sitio/Subdivision</label>
-                    <input type="text" class="form-control" name="street_purok" id="street_purok" style="text-transform: uppercase" value="{{old('street_purok', $d->street_purok)}}" required>
+                    <input type="text" class="form-control" name="street_purok" id="street_purok" style="text-transform: uppercase" value="{{old('street_purok', $d->member->street_purok)}}" required>
                 </div>
                 <hr>
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="email"><b class="text-danger">*</b>Email Address</label>
-                            <input type="email" class="form-control" name="email" id="email" value="{{old('email', $d->email)}}" required>
+                            <input type="email" class="form-control" name="email" id="email" value="{{old('email', $d->member->email)}}" required>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="contact_number">Contact Number</label>
-                            <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{old('contact_number', $d->contact_number)}}" pattern="[0-9]{11}" placeholder="09*********" required>
+                            <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{old('contact_number', $d->member->contact_number)}}" pattern="[0-9]{11}" placeholder="09*********" required>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="codename"><b class="text-danger">*</b>Code Name</label>
-                            <input type="text" class="form-control" name="codename" id="codename" style="text-transform: uppercase" value="{{old('codename', $d->codename)}}" required>
+                            <input type="text" class="form-control" name="codename" id="codename" style="text-transform: uppercase" value="{{old('codename', $d->member->codename)}}" required>
                         </div>
                     </div>
                 </div>
@@ -409,10 +422,10 @@
     });
 
     //Default Values for Gentri
-    var regionDefault = {{$d->brgy->city->province->region->id}};
-    var provinceDefault = {{$d->brgy->city->province->id}};
-    var cityDefault = {{$d->brgy->city->id}};
-    var brgyDefault = {{$d->address_brgy_code}};
+    var regionDefault = {{$d->member->brgy->city->province->region->id}};
+    var provinceDefault = {{$d->member->brgy->city->province->id}};
+    var cityDefault = {{$d->member->brgy->city->id}};
+    var brgyDefault = {{$d->member->address_brgy_code}};
 
     $('#address_region_code').change(function (e) { 
         e.preventDefault();

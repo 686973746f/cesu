@@ -21,14 +21,16 @@
                         <tr>
                             <th>No.</th>
                             <th>Name</th>
+                            <th>Age</th>
+                            <th>Gender</th>
+                            <th>Date of Birth</th>
                             <th>Type of Provider</th>
                             <th>Position</th>
                             <th>Institution/Agency</th>
                             <th>Status of Employment</th>
-                            <th>Date of Birth</th>
                             <th>Address</th>
-                            <th>Contact Details</th>
-                            <th>Email Address</th>
+                            <th>Contact Number</th>
+                            <th>Email</th>
                             <th>Code Name</th>
                             <th>ID No.</th>
                             <th>Expiration Date</th>
@@ -41,23 +43,25 @@
                     <tbody>
                         @foreach($list as $ind => $d)
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>{{$d->ifForRefresher()}}</td>
-                            <td></td>
+                            <td class="text-center">{{$d->id}}</td>
+                            <td>{{$d->getName()}}</td>
+                            <td class="text-center">{{$d->getAge()}}</td>
+                            <td class="text-center">{{$d->gender}}</td>
+                            <td class="text-center">{{Carbon\Carbon::parse($d->bdate)->format('m/d/Y')}}</td>
+                            <td class="text-center">{{$d->provider_type}}</td>
+                            <td class="text-center">{{$d->position}}</td>
+                            <td class="text-center">{{$d->institution}}</td>
+                            <td class="text-center">{{$d->employee_type}}</td>
+                            <td>{{$d->getAddress()}}</td>
+                            <td class="text-center">{{$d->contact_number}}</td>
+                            <td class="text-center">{{$d->email}}</td>
+                            <td class="text-center">{{$d->codename}}</td>
+                            <td class="text-center">{{($d->getLastTrainingData()) ? $d->getLastTrainingData()->bls_id_number : 'N/A'}}</td>
+                            <td class="text-center">{{($d->getLastTrainingData()) ? date('m/d/Y', strtotime($d->getLastTrainingData()->bls_expiration_date)) : 'N/A'}}</td>
+                            <td class="text-center">{{($d->getLastTrainingData()) ? Carbon\Carbon::parse($d->getLastTrainingData()->batch->training_date_start)->format('m/d/Y') : 'N/A'}}</td>
+                            <td class="text-center">{{($d->getLastTrainingData()) ? Carbon\Carbon::parse($d->getLastTrainingData()->batch->training_date_start)->format('Y') : 'N/A'}}</td>
+                            <td class="text-center">{{$d->ifForRefresher()}}</td>
+                            <td class="text-center"></td>
                         </tr>
                         @endforeach
                     </tbody>

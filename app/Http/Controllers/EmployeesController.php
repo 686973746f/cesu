@@ -590,7 +590,7 @@ class EmployeesController extends Controller
     }
 
     public function blsHomeMasterlist() {
-        $list = BlsMember::orderBy('created_at', 'DESC')->paginate(10);
+        $list = BlsMember::orderBy('lname', 'DESC')->get();
 
         return view('employees.bls.view_master_list', [
             'list' => $list,
@@ -612,20 +612,23 @@ class EmployeesController extends Controller
     public function viewBlsBatch($batch_id) {
         $d = BlsMain::findOrFail($batch_id);
 
-        $member_list = BlsBatchParticipant::where('batch_id', $batch_id)->get();
+        $qry = BlsBatchParticipant::where('batch_id', $batch_id);
+
+        $member_list = (clone $qry)->get();
 
         if($member_list->count() != 0) {
+            $exclude_ids = (clone $qry)->pluck('member_id')->toArray();
 
+            $possible_participants_list = BlsMember::whereNotIn('id', $exclude_ids)->orderBy('lname', 'DESC')->get();
         }
         else {
-            $possible_participants_list = BlsMember::
+            $possible_participants_list = BlsMember::get();
         }
-        
 
         return view('employees.bls.view_batch', [
             'd' => $d,
             'member_list' => $member_list,
-            
+            'possible_participants_list' => $possible_participants_list,
         ]);
     }
 
@@ -672,9 +675,8 @@ class EmployeesController extends Controller
         
     }
 
-    public function storeBlsMember($batch_id, Request $r) {
-        $check = BlsMember::where('batch_id', $batch_id)
-        ->where('lname', mb_strtoupper($r->lname))
+    public function storeBlsMember(Request $r) {
+        $check = BlsMember::where('lname', mb_strtoupper($r->lname))
         ->where('fname', mb_strtoupper($r->fname))
         ->first();
 
@@ -686,7 +688,6 @@ class EmployeesController extends Controller
         }
 
         $c = BlsMember::create([
-            'batch_id' => $batch_id,
             'cho_employee' => ($r->cho_employee) ? 'Y' : 'N',
             'employee_id' => ($r->cho_employee) ? $r->employee_id : NULL,
             'lname' => mb_strtoupper($r->lname),
@@ -694,6 +695,7 @@ class EmployeesController extends Controller
             'mname' => ($r->mname) ? mb_strtoupper($r->mname) : NULL,
             'suffix' => ($r->suffix) ? mb_strtoupper($r->suffix) : NULL,
             'bdate' => $r->bdate,
+            'gender' => $r->gender,
             'provider_type' => $r->provider_type,
             'position' => mb_strtoupper($r->position),
             'institution' => ($r->institution != 'UNLISTED') ? mb_strtoupper($r->institution) : mb_strtoupper($r->institution_other),
@@ -704,6 +706,27 @@ class EmployeesController extends Controller
             'email' => $r->email,
             'contact_number' => $r->contact_number,
             'codename' => mb_strtoupper($r->codename),
+            
+            'created_by' => Auth::id(),
+        ]);
+
+        return redirect()->back()
+        ->with('msg', 'Participant '.$c->getName().' was successfully added to the list.')
+        ->with('msgtype', 'success');
+    }
+
+    public function joinParticipant($batch_id, Request $r) {
+        $check = BlsBatchParticipant::where('member_id', $r->member_id)->first();
+
+        if($check) {
+            return redirect()->back()
+            ->with('msg', 'Error: Participant '.$check->getName().' was already inside the list. Kindly double check and try again.')
+            ->with('msgtype', 'warning');
+        }
+
+        $c = BlsBatchParticipant::create([
+            'batch_id' => $batch_id,
+            'member_id' => $r->member_id,
 
             'sfa_ispassed' => 'W',
             'bls_cognitive_ispassed' => 'W',
@@ -714,12 +737,12 @@ class EmployeesController extends Controller
         ]);
 
         return redirect()->back()
-        ->with('msg', 'Participant '.$c->getName().' was successfully added to the list.')
+        ->with('msg', 'Participant '.$c->member->getName().' was successfully added to the list.')
         ->with('msgtype', 'success');
     }
 
-    public function viewBlsMember($member_id) {
-        $d = BlsMember::findOrFail($member_id);
+    public function viewBlsMember($participant_id) {
+        $d = BlsBatchParticipant::findOrFail($participant_id);
 
         $list_institutions = BlsMember::distinct()
         ->pluck('institution');
@@ -730,10 +753,19 @@ class EmployeesController extends Controller
         ]);
     }
 
-    public function updateBlsMember($member_id, Request $r) {
-        $d = BlsMember::findOrFail($member_id);
+    public function updateBlsMember($participant_id, Request $r) {
+        $d = BlsBatchParticipant::findOrFail($participant_id);
 
-        $update_params = [
+        if($r->bls_finalremarks == 'P') {
+            if($r->sfa_ispassed != 'P' || $r->bls_cognitive_ispassed != 'P' || $r->bls_psychomotor_ispassed != 'P') {
+                return redirect()->back()
+                ->withInput()
+                ->with('msg', 'Error: You cannot use "Passed" as Final Remarks if SFA or BLS (Cognitive) or BLS Psychomotor is FAILED or PENDING. Kindly double check and try again.')
+                ->with('msgtype', 'warning');
+            }
+        }
+
+        $member_params = [
             'cho_employee' => ($r->cho_employee) ? 'Y' : 'N',
             'employee_id' => ($r->cho_employee) ? $r->employee_id : NULL,
             'lname' => mb_strtoupper($r->lname),
@@ -741,6 +773,7 @@ class EmployeesController extends Controller
             'mname' => ($r->mname) ? mb_strtoupper($r->mname) : NULL,
             'suffix' => ($r->suffix) ? mb_strtoupper($r->suffix) : NULL,
             'bdate' => $r->bdate,
+            'gender' => $r->gender,
             'provider_type' => $r->provider_type,
             'position' => mb_strtoupper($r->position),
             'institution' => ($r->institution != 'UNLISTED') ? mb_strtoupper($r->institution) : mb_strtoupper($r->institution_other),
@@ -752,6 +785,10 @@ class EmployeesController extends Controller
             'contact_number' => $r->contact_number,
             'codename' => mb_strtoupper($r->codename),
 
+            'updated_by' => Auth::id(),
+        ];
+
+        $batch_params = [
             'sfa_pretest' => $r->sfa_pretest,
             'sfa_posttest' => $r->sfa_posttest,
             'sfa_remedial' => $r->sfa_remedial,
@@ -775,6 +812,7 @@ class EmployeesController extends Controller
             'bls_id_number' => $r->bls_id_number,
             'sfa_id_number' => $r->sfa_id_number,
             'bls_expiration_date' => $r->bls_expiration_date,
+
             'updated_by' => Auth::id(),
         ];
 
@@ -789,23 +827,26 @@ class EmployeesController extends Controller
                 $r->file('picture')->move($_SERVER['DOCUMENT_ROOT'].'/assets/bls/members/', $id_file_name);
 
                 //Delete Old Picture
-                $oldPicture = $d->picture;
+                $oldPicture = $d->member->picture;
 
                 if(!is_null($oldPicture)) {
                     File::delete('bls/members/'.$oldPicture);
                 }
 
-                $update_params = $update_params + [
+                $member_params = $member_params + [
                     'picture' => $id_file_name,
                 ];
             }
         }
 
-        $u = BlsMember::where('id', $member_id)
-        ->update($update_params);
+        $u = BlsMember::where('id', $d->member->id)
+        ->update($member_params);
+
+        $u = BlsBatchParticipant::where('id', $d->id)
+        ->update($batch_params);
         
         return redirect()->route('bls_viewbatch', $d->batch->id)
-        ->with('msg', 'Participant '.$d->getName().' was successfully updated.')
+        ->with('msg', 'Participant '.$d->member->getName().' was successfully updated.')
         ->with('msgtype', 'success');
     }
 
