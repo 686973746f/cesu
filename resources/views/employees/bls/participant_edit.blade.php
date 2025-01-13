@@ -421,13 +421,13 @@
     // Set default value if present
     const defaultEmployeeId = "{{ $d->member->employee_id }}";
     const defaultEmployeeText = "{{ '#'.$d->member->choemployee->id.' - '.$d->member->choemployee->getName()}}"; // Replace with actual default text
-    @endif
     
     if (defaultEmployeeId && defaultEmployeeText) {
         const defaultOption = new Option(defaultEmployeeText, defaultEmployeeId, true, true);
         $('#employee_id').append(defaultOption).trigger('change');
     }
-
+    @endif
+    
     $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_code').select2({
         theme: 'bootstrap',
         dropdownParent: $('#address_fields'),
