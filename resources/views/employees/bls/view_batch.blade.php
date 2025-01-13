@@ -147,6 +147,14 @@
                         @endforeach
                       </select>
                     </div>
+                    @if(auth()->user()->isGlobalAdmin())
+                    <div class="form-check">
+                        <label class="form-check-label">
+                          <input type="checkbox" class="form-check-input" name="autopass" id="autopass" value="1" checked>
+                          Auto Pass
+                        </label>
+                      </div>
+                    @endif
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success btn-block">Submit</button>

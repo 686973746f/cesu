@@ -763,10 +763,10 @@ class EmployeesController extends Controller
             'batch_id' => $batch_id,
             'member_id' => $r->member_id,
 
-            'sfa_ispassed' => 'W',
-            'bls_cognitive_ispassed' => 'W',
-            'bls_psychomotor_ispassed' => 'W',
-            'bls_finalremarks' => 'W',
+            'sfa_ispassed' => ($r->autopass) ? 'P' : 'W',
+            'bls_cognitive_ispassed' => ($r->autopass) ? 'P' : 'W',
+            'bls_psychomotor_ispassed' => ($r->autopass) ? 'P' : 'W',
+            'bls_finalremarks' => ($r->autopass) ? 'P' : 'W',
 
             'created_by' => Auth::id(),
         ]);
