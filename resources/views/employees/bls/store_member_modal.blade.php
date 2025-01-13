@@ -162,7 +162,7 @@
                     @if(auth()->user()->isGlobalAdmin())
                     @if(Str::contains(request()->url(), 'view'))
                     <div class="form-group d-none">
-                      <input type="text" class="form-control" name="autojoin_batchid" id="autojoin_batchid" value="{{$d->id}}">
+                      <input type="text" class="form-control" name="autojoin_batchid" id="autojoin_batchid" value="{{$batch_id}}">
                     </div>
                     @endif
                     <div class="form-check">
