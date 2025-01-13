@@ -902,7 +902,9 @@ class EmployeesController extends Controller
                     ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $search)."%")
                     ->orWhere('id', $search);
                 });
-            })->get();
+            })
+            ->where('employment_status', 'ACTIVE')
+            ->get();
 
             foreach($data as $item) {
                 array_push($list, [
