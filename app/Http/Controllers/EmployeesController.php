@@ -601,6 +601,7 @@ class EmployeesController extends Controller
         $list = BlsMain::orderBy('created_at', 'DESC')->paginate(10);
 
         $list_institutions = BlsMember::distinct()
+        ->orderBy('institution', 'asc')
         ->pluck('institution');
 
         return view('employees.bls.view_batches_list', [
@@ -626,6 +627,7 @@ class EmployeesController extends Controller
         }
 
         $list_institutions = BlsMember::distinct()
+        ->orderBy('institution', 'asc')
         ->pluck('institution');
 
         return view('employees.bls.view_batch', [
@@ -779,6 +781,7 @@ class EmployeesController extends Controller
         $d = BlsBatchParticipant::findOrFail($participant_id);
 
         $list_institutions = BlsMember::distinct()
+        ->orderBy('institution', 'asc')
         ->pluck('institution');
 
         return view('employees.bls.participant_edit', [
