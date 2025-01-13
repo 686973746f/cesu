@@ -590,7 +590,7 @@ class EmployeesController extends Controller
     }
 
     public function blsHomeMasterlist() {
-        $list = BlsMember::orderBy('lname', 'DESC')->get();
+        $list = BlsMember::orderBy('lname', 'ASC')->get();
 
         return view('employees.bls.view_master_list', [
             'list' => $list,

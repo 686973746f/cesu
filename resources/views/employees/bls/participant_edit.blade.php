@@ -23,7 +23,7 @@
                 
                 <div class="form-check">
                     <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" name="cho_employee" id="cho_employee" value="1" {{($d->member->cho_employee == 'Y') ? 'checked' : ''}}>
+                        <input type="checkbox" class="form-check-input" name="cho_employee" id="cho_employee" value="1" {{(old('cho_employee', $d->member->cho_employee) == 'Y') ? 'checked' : ''}}>
                         Is CHO Employee?
                     </label>
                 </div>
@@ -31,6 +31,7 @@
                     <div class="form-group mt-2">
                     <label for="employee_id"><b class="text-danger">*</b>Link to Employee ID</label>
                     <select class="form-control" name="employee_id" id="employee_id">
+                        <option value="{{$d->employee_id}}" selected>Test</option>
                     </select>
                     </div>
                 </div>
@@ -415,6 +416,15 @@
             cache: true
         }
     });
+
+    // Set default value if present
+    const defaultEmployeeId = "{{ $d->member->employee_id }}";
+    const defaultEmployeeText = "{{ '#'.$d->member->choemployee->id.' - '.$d->member->choemployee->getName()}}"; // Replace with actual default text
+    
+    if (defaultEmployeeId && defaultEmployeeText) {
+        const defaultOption = new Option(defaultEmployeeText, defaultEmployeeId, true, true);
+        $('#employee_id').append(defaultOption).trigger('change');
+    }
 
     $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_code').select2({
         theme: 'bootstrap',

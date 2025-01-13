@@ -66,6 +66,10 @@ class BlsMember extends Model
         return $this->belongsTo(EdcsBrgy::class, 'address_brgy_code');
     }
 
+    public function choemployee() {
+        return $this->belongsTo(Employee::class, 'employee_id');
+    }
+
     public function getName() {
         $fullname = $this->lname.", ".$this->fname;
 

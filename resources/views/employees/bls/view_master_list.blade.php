@@ -43,7 +43,7 @@
                     <tbody>
                         @foreach($list as $ind => $d)
                         <tr>
-                            <td class="text-center">{{$d->id}}</td>
+                            <td class="text-center">{{$ind + 1}}</td>
                             <td>{{$d->getName()}}</td>
                             <td class="text-center">{{$d->getAge()}}</td>
                             <td class="text-center">{{$d->gender}}</td>
