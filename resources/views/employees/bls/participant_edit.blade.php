@@ -417,9 +417,11 @@
         }
     });
 
+    @if($d->member->employee_id)
     // Set default value if present
     const defaultEmployeeId = "{{ $d->member->employee_id }}";
     const defaultEmployeeText = "{{ '#'.$d->member->choemployee->id.' - '.$d->member->choemployee->getName()}}"; // Replace with actual default text
+    @endif
     
     if (defaultEmployeeId && defaultEmployeeText) {
         const defaultOption = new Option(defaultEmployeeText, defaultEmployeeId, true, true);
