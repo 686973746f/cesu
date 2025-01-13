@@ -1613,7 +1613,8 @@ class FhsisController extends Controller
             */
 
             //Get last Encoded for that month
-            $recent = LiveBirth::latest()
+            $recent = LiveBirth::where('created_by', Auth::id())
+            ->latest()
             ->first();
 
             return view('efhsis.livebirth_encode', [
