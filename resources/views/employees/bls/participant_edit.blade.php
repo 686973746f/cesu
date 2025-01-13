@@ -128,9 +128,6 @@
                         </div>
                     </div>
                 </div>
-    
-                
-                
                 
                 <hr>
                 <div class="row" id="address_fields">
