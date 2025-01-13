@@ -631,7 +631,6 @@ class EmployeesController extends Controller
         ->pluck('institution');
 
         return view('employees.bls.view_batch', [
-            'batch_id' => $batch_id,
             'd' => $d,
             'member_list' => $member_list,
             'possible_participants_list' => $possible_participants_list,

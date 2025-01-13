@@ -78,41 +78,41 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($member_list as $ind => $d)
+                        @foreach($member_list as $ind => $l)
                         <tr>
                             <td class="text-center">{{$ind+1}}</td>
-                            <td><a href="{{route('bls_viewparticipant', $d->id)}}"><b>{{$d->member->getName()}}</b></a></td>
-                            <td class="text-center">{{$d->member->provider_type}}</td>
-                            <td class="text-center">{{$d->member->position}}</td>
-                            <td class="text-center">{{$d->member->institution}}</td>
-                            <td class="text-center">{{$d->member->employee_type}}</td>
-                            <td class="text-center">{{Carbon\Carbon::parse($d->member->bdate)->format('m/d/Y')}}</td>
-                            <td class="text-center">{{$d->member->getAddress()}}</td>
-                            <td class="text-center">{{$d->member->contact_number}}</td>
-                            <td class="text-center">{{$d->member->email}}</td>
-                            <td class="text-center">{{$d->member->codename}}</td>
-                            <td class="text-center">{{$d->sfa_pretest}}</td>
-                            <td class="text-center">{{$d->sfa_posttest}}</td>
-                            <td class="text-center">{{$d->sfa_remedial}}</td>
-                            <td class="text-center">{{$d->sfa_ispassed}}</td>
-                            <td class="text-center">{{$d->bls_pretest}}</td>
-                            <td class="text-center">{{$d->bls_posttest}}</td>
-                            <td class="text-center">{{$d->bls_remedial}}</td>
-                            <td class="text-center">{{$d->bls_cognitive_ispassed}}</td>
-                            <td class="text-center">{{$d->bls_cpr_adult}}</td>
-                            <td class="text-center">{{$d->bls_cpr_infant}}</td>
-                            <td class="text-center">{{$d->bls_fbao_adult}}</td>
-                            <td class="text-center">{{$d->bls_fbao_infant}}</td>
-                            <td class="text-center">{{$d->bls_rb_adult}}</td>
-                            <td class="text-center">{{$d->bls_rb_infant}}</td>
-                            <td class="text-center">{{$d->bls_psychomotor_ispassed}}</td>
-                            <td class="text-center">{{$d->bls_affective}}</td>
-                            <td class="text-center">{{$d->bls_finalremarks}}</td>
-                            <td class="text-center">{{$d->bls_id_number}}</td>
-                            <td class="text-center">{{($d->bls_expiration_date) ? Carbon\Carbon::parse($d->bls_expiration_date) : 'N/A'}}</td>
+                            <td><a href="{{route('bls_viewparticipant', $l->id)}}"><b>{{$l->member->getName()}}</b></a></td>
+                            <td class="text-center">{{$l->member->provider_type}}</td>
+                            <td class="text-center">{{$l->member->position}}</td>
+                            <td class="text-center">{{$l->member->institution}}</td>
+                            <td class="text-center">{{$l->member->employee_type}}</td>
+                            <td class="text-center">{{Carbon\Carbon::parse($l->member->bdate)->format('m/d/Y')}}</td>
+                            <td class="text-center">{{$l->member->getAddress()}}</td>
+                            <td class="text-center">{{$l->member->contact_number}}</td>
+                            <td class="text-center">{{$l->member->email}}</td>
+                            <td class="text-center">{{$l->member->codename}}</td>
+                            <td class="text-center">{{$l->sfa_pretest}}</td>
+                            <td class="text-center">{{$l->sfa_posttest}}</td>
+                            <td class="text-center">{{$l->sfa_remedial}}</td>
+                            <td class="text-center">{{$l->sfa_ispassed}}</td>
+                            <td class="text-center">{{$l->bls_pretest}}</td>
+                            <td class="text-center">{{$l->bls_posttest}}</td>
+                            <td class="text-center">{{$l->bls_remedial}}</td>
+                            <td class="text-center">{{$l->bls_cognitive_ispassed}}</td>
+                            <td class="text-center">{{$l->bls_cpr_adult}}</td>
+                            <td class="text-center">{{$l->bls_cpr_infant}}</td>
+                            <td class="text-center">{{$l->bls_fbao_adult}}</td>
+                            <td class="text-center">{{$l->bls_fbao_infant}}</td>
+                            <td class="text-center">{{$l->bls_rb_adult}}</td>
+                            <td class="text-center">{{$l->bls_rb_infant}}</td>
+                            <td class="text-center">{{$l->bls_psychomotor_ispassed}}</td>
+                            <td class="text-center">{{$l->bls_affective}}</td>
+                            <td class="text-center">{{$l->bls_finalremarks}}</td>
+                            <td class="text-center">{{$l->bls_id_number}}</td>
+                            <td class="text-center">{{($l->bls_expiration_date) ? Carbon\Carbon::parse($l->bls_expiration_date) : 'N/A'}}</td>
                             <td class="text-center">
-                                @if($d->picture)
-                                <img src="{{asset('assets/bls/members/'.$d->picture)}}" class="img-fluid">
+                                @if($l->picture)
+                                <img src="{{asset('assets/bls/members/'.$l->picture)}}" class="img-fluid">
                                 @else
                                 <div>N/A</div>
                                 @endif
