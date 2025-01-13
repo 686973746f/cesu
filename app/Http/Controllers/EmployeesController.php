@@ -825,11 +825,6 @@ class EmployeesController extends Controller
         ];
 
         $batch_params = [
-            'sfa_pretest' => $r->sfa_pretest,
-            'sfa_posttest' => $r->sfa_posttest,
-            'sfa_remedial' => $r->sfa_remedial,
-            'sfa_ispassed' => $r->sfa_ispassed,
-
             'sfa_notes' => ($r->filled('sfa_notes')) ? mb_strtoupper($r->sfa_notes) : NULL,
             'bls_pretest' => $r->bls_pretest,
             'bls_posttest' => $r->bls_posttest,
@@ -851,6 +846,15 @@ class EmployeesController extends Controller
 
             'updated_by' => Auth::id(),
         ];
+
+        if($d->batch->is_refresher == 'N') {
+            $batch_params = $batch_params + [
+                'sfa_pretest' => $r->sfa_pretest,
+                'sfa_posttest' => $r->sfa_posttest,
+                'sfa_remedial' => $r->sfa_remedial,
+                'sfa_ispassed' => $r->sfa_ispassed,
+            ];
+        }
 
         if($r->hasFile('picture')) {
             if ($r->file('picture')->isValid()) {
