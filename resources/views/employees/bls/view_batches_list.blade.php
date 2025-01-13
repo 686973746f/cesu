@@ -85,7 +85,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                       <label for="batch_number"><b class="text-danger">*</b>Batch Number</label>
-                      <input type="text" class="form-control" name="batch_number" id="batch_number" style="text-transform: uppercase" value="{{old('batch_number')}}" pattern="[0-9]" required>
+                      <input type="number" class="form-control" name="batch_number" id="batch_number" style="text-transform: uppercase" value="{{old('batch_number')}}" min="1" max="999999" required>
                     </div>
                     <div class="form-group">
                         <label for="batch_name"><b class="text-danger">*</b>Batch Name</label>
