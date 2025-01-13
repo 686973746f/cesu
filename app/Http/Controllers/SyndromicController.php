@@ -755,10 +755,38 @@ class SyndromicController extends Controller
         
         $getopd_num = date('Y').'-'.$patient_yearcount;
 
+        //check if record exist today
+        if(!auth()->user()->isTbdotsEncoder()) {
+            if(auth()->user()->itr_facility_id == 11730) { //Multiple follow-up on same day on Manggahan
+                $existing_record_count = SyndromicRecords::where('syndromic_patient_id', $p->id)
+                ->where('facility_id', auth()->user()->itr_facility_id)
+                ->whereDate('created_at', date('Y-m-d'))
+                ->count();
+
+                if($existing_record_count >= 2) {
+                    $check1 = true;
+                }
+                else {
+                    $check1 = false;
+                }
+            }
+            else {
+                $check1 = SyndromicRecords::where('syndromic_patient_id', $p->id)
+                ->where('facility_id', auth()->user()->itr_facility_id)
+                ->whereDate('created_at', date('Y-m-d'))
+                ->first();
+            }
+        }
+        else {
+            $check1 = false;
+        }
+
+        /*
         $check1 = SyndromicRecords::where('syndromic_patient_id', $p->id)
         ->where('facility_id', auth()->user()->itr_facility_id)
         ->whereDate('created_at', date('Y-m-d'))
         ->first();
+        */
 
         $foundunique = false;
         while(!$foundunique) {
