@@ -792,7 +792,7 @@ class EmployeesController extends Controller
     public function updateBlsMember($participant_id, Request $r) {
         $d = BlsBatchParticipant::findOrFail($participant_id);
 
-        if($r->bls_finalremarks == 'P') {
+        if($r->bls_finalremarks == 'P' && $d->batch->is_refresher == 'N') {
             if($r->sfa_ispassed != 'P' || $r->bls_cognitive_ispassed != 'P' || $r->bls_psychomotor_ispassed != 'P') {
                 return redirect()->back()
                 ->withInput()
