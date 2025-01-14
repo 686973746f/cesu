@@ -333,7 +333,7 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}} / {{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
-                @if(!is_null($p['mobile']))
+                @if(!is_null($p['mobile']) && $p['mobile'] != '09999999999')
                 <div>Contact #: {{$p['mobile']}}</div>
                 @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
@@ -357,7 +357,7 @@
                 <div>{{($ind + 1)}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}} / {{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
-                @if(!is_null($p['mobile']))
+                @if(!is_null($p['mobile']) && $p['mobile'] != '09999999999')
                 <div>Contact #: {{$p['mobile']}}</div>
                 @endif
                 <div>{{$p['aefi_type']}} Case</div>
@@ -382,7 +382,7 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}} / {{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
-                @if(!is_null($p['mobile']))
+                @if(!is_null($p['mobile']) && $p['mobile'] != '09999999999')
                 <div>Contact #: {{$p['mobile']}}</div>
                 @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
@@ -406,7 +406,7 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}} / {{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
-                @if(!is_null($p['mobile']))
+                @if(!is_null($p['mobile']) && $p['mobile'] != '09999999999')
                 <div>Contact #: {{$p['mobile']}}</div>
                 @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
@@ -432,7 +432,7 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}} / {{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
-                @if(!is_null($p['mobile']))
+                @if(!is_null($p['mobile']) && $p['mobile'] != '09999999999')
                 <div>Contact #: {{$p['mobile']}}</div>
                 @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
@@ -456,7 +456,7 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}} / {{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
-                @if(!is_null($p['mobile']))
+                @if(!is_null($p['mobile']) && $p['mobile'] != '09999999999')
                 <div>Contact #: {{$p['mobile']}}</div>
                 @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
@@ -480,7 +480,7 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}} / {{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
-                @if(!is_null($p['mobile']))
+                @if(!is_null($p['mobile']) && $p['mobile'] != '09999999999')
                 <div>Contact #: {{$p['mobile']}}</div>
                 @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
@@ -504,7 +504,7 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}} / {{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
-                @if(!is_null($p['mobile']))
+                @if(!is_null($p['mobile']) && $p['mobile'] != '09999999999')
                 <div>Contact #: {{$p['mobile']}}</div>
                 @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
@@ -534,10 +534,10 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}} / {{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
-                @if(!is_null($p['mobile']))
+                @if(!is_null($p['mobile']) && $p['mobile'] != '09999999999')
                 <div>Contact #: {{$p['mobile']}}</div>
                 @endif
-                @if(!is_null($p['mobile']))
+                @if(!is_null($p['mobile']) && $p['mobile'] != '09999999999')
                 <div>Contact #: {{$p['mobile']}}</div>
                 @endif
                 <div>Date of Entry: {{date('M. d, Y', strtotime($p['doe']))}}</div>
@@ -562,7 +562,7 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}} / {{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
-                @if(!is_null($p['mobile']))
+                @if(!is_null($p['mobile']) && $p['mobile'] != '09999999999')
                 <div>Contact #: {{$p['mobile']}}</div>
                 @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
@@ -586,7 +586,7 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}} / {{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
-                @if(!is_null($p['mobile']))
+                @if(!is_null($p['mobile']) && $p['mobile'] != '09999999999')
                 <div>Contact #: {{$p['mobile']}}</div>
                 @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
@@ -610,7 +610,7 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}} / {{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
-                @if(!is_null($p['mobile']))
+                @if(!is_null($p['mobile']) && $p['mobile'] != '09999999999')
                 <div>Contact #: {{$p['mobile']}}</div>
                 @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
@@ -634,7 +634,7 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}} / {{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
-                @if(!is_null($p['mobile']))
+                @if(!is_null($p['mobile']) && $p['mobile'] != '09999999999')
                 <div>Contact #: {{$p['mobile']}}</div>
                 @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
@@ -658,7 +658,7 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}} / {{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
-                @if(!is_null($p['mobile']))
+                @if(!is_null($p['mobile']) && $p['mobile'] != '09999999999')
                 <div>Contact #: {{$p['mobile']}}</div>
                 @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
@@ -682,7 +682,7 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}} / {{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
-                @if(!is_null($p['mobile']))
+                @if(!is_null($p['mobile']) && $p['mobile'] != '09999999999')
                 <div>Contact #: {{$p['mobile']}}</div>
                 @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
@@ -706,7 +706,7 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}} / {{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
-                @if(!is_null($p['mobile']))
+                @if(!is_null($p['mobile']) && $p['mobile'] != '09999999999')
                 <div>Contact #: {{$p['mobile']}}</div>
                 @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
@@ -730,7 +730,7 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}} / {{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
-                @if(!is_null($p['mobile']))
+                @if(!is_null($p['mobile']) && $p['mobile'] != '09999999999')
                 <div>Contact #: {{$p['mobile']}}</div>
                 @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
@@ -755,7 +755,7 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}} / {{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
-                @if(!is_null($p['mobile']))
+                @if(!is_null($p['mobile']) && $p['mobile'] != '09999999999')
                 <div>Contact #: {{$p['mobile']}}</div>
                 @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
@@ -779,7 +779,7 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}} / {{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
-                @if(!is_null($p['mobile']))
+                @if(!is_null($p['mobile']) && $p['mobile'] != '09999999999')
                 <div>Contact #: {{$p['mobile']}}</div>
                 @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
@@ -803,7 +803,7 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}} / {{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
-                @if(!is_null($p['mobile']))
+                @if(!is_null($p['mobile']) && $p['mobile'] != '09999999999')
                 <div>Contact #: {{$p['mobile']}}</div>
                 @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
@@ -827,7 +827,7 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}} / {{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
-                @if(!is_null($p['mobile']))
+                @if(!is_null($p['mobile']) && $p['mobile'] != '09999999999')
                 <div>Contact #: {{$p['mobile']}}</div>
                 @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
@@ -851,7 +851,7 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}} / {{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
-                @if(!is_null($p['mobile']))
+                @if(!is_null($p['mobile']) && $p['mobile'] != '09999999999')
                 <div>Contact #: {{$p['mobile']}}</div>
                 @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
@@ -875,7 +875,7 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}} / {{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
-                @if(!is_null($p['mobile']))
+                @if(!is_null($p['mobile']) && $p['mobile'] != '09999999999')
                 <div>Contact #: {{$p['mobile']}}</div>
                 @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
@@ -899,7 +899,7 @@
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}} / {{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>
-                @if(!is_null($p['mobile']))
+                @if(!is_null($p['mobile']) && $p['mobile'] != '09999999999')
                 <div>Contact #: {{$p['mobile']}}</div>
                 @endif
                 <div>Date of Entry: {{date('m/d/Y', strtotime($p['doe']))}}</div>
