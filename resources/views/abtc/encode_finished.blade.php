@@ -333,6 +333,16 @@
                     <input type="text" class="form-control" id="linkphilhealth_pen" name="linkphilhealth_pen" value="{{old('linkphilhealth_pen', $f->patient->linkphilhealth_pen)}}" pattern="[0-9]{12}">
                 </div>
                 <hr>
+                <div class="form-group">
+                    <label for="vaccinator_name" class="form-label"><b class="text-danger">*</b>Name of Vaccinator</label>
+                    <select class="form-control" name="vaccinator_name" id="vaccinator_name" required>
+                        <option value="" disabled {{is_null(old('vaccinator_name')) ? 'selected' : ''}}>Choose...</option>
+                        @foreach(App\Models\Employee::where('abtc_vaccinator_branch', auth()->user()->abtc_default_vaccinationsite_id)->get() as $v)
+                        <option value="{{$v->getNameWithPr()}}">{{$v->getNameWithPr()}}</option>
+                        @endforeach
+                  </select>
+                </div>
+                <hr>
                 <button type="submit" class="btn btn-primary btn-block" name="submit" value="card">Print ABTC Card</button>
                 <button type="submit" class="btn btn-primary btn-block" name="submit" value="csf">Print CSF</button>
                 <button type="submit" class="btn btn-primary btn-block" name="submit" value="cf2">Print CF2</button>
