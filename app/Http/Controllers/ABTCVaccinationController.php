@@ -2075,7 +2075,7 @@ class ABTCVaccinationController extends Controller
             $templateProcessor->setValue('dep_suffix', $dep_suffix);
             $templateProcessor->setValue('dep_bdate', $dep_bdate);
 
-            $sepa_array = str_split(Carbon::parse($d->patient->created_at)->format('mdY'));
+            $sepa_array = str_split(Carbon::parse($d->case_date)->format('mdY'));
             $date_admitted = $sepa_array[0].'    '.$sepa_array[1].'      '.$sepa_array[2].'    '.$sepa_array[3].'      '.$sepa_array[4].'    '.$sepa_array[5].'    '.$sepa_array[6].'    '.$sepa_array[7];
             $templateProcessor->setValue('date_admitted', $date_admitted);
 
@@ -2088,11 +2088,16 @@ class ABTCVaccinationController extends Controller
             $templateProcessor->setValue('consent_signature_name', $consent_signature_name);
             $templateProcessor->setValue('consent_signature_date', $date_admitted);
 
-            $sepa_array = str_split($d->patient->linkphilhealth_pen);
-            $linkphilhealth_pen = $sepa_array[0].'    '.$sepa_array[1].'       '.$sepa_array[2].'   '.$sepa_array[3].'    '.$sepa_array[4].'    '.$sepa_array[5].'   '.$sepa_array[6].'    '.$sepa_array[7].'    '.$sepa_array[8].'   '.$sepa_array[9].'   '.$sepa_array[10].'       '.$sepa_array[11];
-            $templateProcessor->setValue('linkphilhealth_pen', $linkphilhealth_pen);
-
-            $templateProcessor->setValue('linkphilhealth_businessname', $d->patient->linkphilhealth_businessname);
+            if(!is_null($d->patient->linkphilhealth_pen)) {
+                $sepa_array = str_split($d->patient->linkphilhealth_pen);
+                $linkphilhealth_pen = $sepa_array[0].'    '.$sepa_array[1].'       '.$sepa_array[2].'   '.$sepa_array[3].'    '.$sepa_array[4].'    '.$sepa_array[5].'   '.$sepa_array[6].'    '.$sepa_array[7].'    '.$sepa_array[8].'   '.$sepa_array[9].'   '.$sepa_array[10].'       '.$sepa_array[11];
+                $templateProcessor->setValue('linkphilhealth_pen', $linkphilhealth_pen);
+                $templateProcessor->setValue('linkphilhealth_businessname', $d->patient->linkphilhealth_businessname);
+            }
+            else {
+                $templateProcessor->setValue('linkphilhealth_pen', '');
+                $templateProcessor->setValue('linkphilhealth_businessname', '');
+            }
 
             if($d->patient->philhealth_statustype != 'MEMBER') {
                 if($d->patient->linkphilhealth_relationship == 'CHILD') {
