@@ -143,28 +143,28 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-6" id="regionCol">
                             <div class="form-group">
                                 <label for="address_region_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Region</label>
                                 <select class="form-control" name="address_region_code" id="address_region_code" required>
                                 </select>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-6" id="provinceCol">
                             <div class="form-group">
                                 <label for="address_province_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Province</label>
                                 <select class="form-control" name="address_province_code" id="address_province_code" required>
                                 </select>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-6" id="muncityCol">
                             <div class="form-group">
                                 <label for="address_muncity_code" class="form-label"><span class="text-danger font-weight-bold">*</span>City/Municipality</label>
                                 <select class="form-control" name="address_muncity_code" id="address_muncity_code" required>
                                 </select>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-6" id="brgyCol">
                             <div class="form-group">
                                 <label for="address_brgy_text" class="form-label"><span class="text-danger font-weight-bold">*</span>Barangay</label>
                                 <select class="form-control" name="address_brgy_text" id="address_brgy_text" required>
@@ -694,22 +694,22 @@
     //Select2 Init for Address Bar
     $('#address_region_code').select2({
         theme: 'bootstrap',
-        dropdownParent: $('#newPatient'),
+        dropdownParent: $('#regionCol'),
     });
 
     $('#address_province_code').select2({
         theme: 'bootstrap',
-        dropdownParent: $('#newPatient'),
+        dropdownParent: $('#provinceCol'),
     });
 
     $('#address_muncity_code').select2({
         theme: 'bootstrap',
-        dropdownParent: $('#newPatient'),
+        dropdownParent: $('#muncityCol'),
     });
 
     $('#address_brgy_text').select2({
         theme: 'bootstrap',
-        dropdownParent: $('#newPatient'),
+        dropdownParent: $('#brgyCol'),
     });
 
     $('#has_symptoms').change(function (e) { 
