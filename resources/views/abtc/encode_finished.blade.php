@@ -40,7 +40,7 @@
                                 <a href="{{route('abtc_print_new', $f->id)}}" type="button" class="btn btn-primary btn-block" id="printnew">Print (New Card)</a>
                             </div>
                             <div class="col-md-6">
-                                <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#philhealthForms">Print PhilHealth Forms (for Category 3)</button>
+                                <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#philhealthForms" {{($f->category_level == 2 || $f->category_level == 3) ? '' : 'disabled'}}>Print PhilHealth Forms</button>
                             </div>
                         </div>
                         
@@ -236,8 +236,7 @@
                 <div class="form-group">
                     <label for="status_type"><b class="text-danger">*</b>Philhealth Membership Type</label>
                     <select class="form-control" name="philhealth_statustype" id="philhealth_statustype" required>
-                        @if($f->patient->getAge() >= 16)
-                        <option value="" disalbed {{(is_null(old('philhealth_statustype'))) ? 'selected' : ''}}>Choose...</option>
+                        @if($f->patient->getAge() >= 21)
                         <option value="MEMBER" {{(old('philhealth_statustype', $f->patient->philhealth_statustype) == 'MEMBER') ? 'selected' : ''}}>Member (May sarili nang Philhealth Account)</option>
                         @endif
                         <option value="DEPENDENT" {{(old('philhealth_statustype', $f->patient->philhealth_statustype) == 'DEPENDENT') ? 'selected' : ''}}>Dependent (Wala pang Philhealth Account)</option>
@@ -253,7 +252,7 @@
                 <div id="ifDependentDiv" class="d-none">
                     <hr>
                     <div class="alert alert-info" role="alert">
-                        Paki-lagay ang detalye ng Philhealth Member kung saan naka-declare ang Patient (halimbawa: Nanay o Tatay). Makikita ito sa MDR na ip-provide ng Patient.
+                        Paki-lagay ang detalye ng Philhealth Member kung saan naka-declare ang Patient (halimbawa: Nanay/Mother o Tatay/Father). Makikita ito sa MDR na ip-provide ng Patient.
                     </div>
                     <div class="form-group">
                         <label for="linkphilhealth_lname"><b class="text-danger">*</b>Last Name of Philhealth Member</label>
@@ -323,22 +322,29 @@
                         </select>
                     </div>
                 </div>
-                <hr>
-                <div class="form-group">
-                    <label for="linkphilhealth_businessname"><span id="employerNameSpan"></span></label>
-                    <input type="text" class="form-control" id="linkphilhealth_businessname" name="linkphilhealth_businessname" value="{{old('linkphilhealth_businessname', $f->patient->linkphilhealth_businessname)}}" minlength="5" maxlength="200" style="text-transform: uppercase;">
+                <div id="penDiv" class="{{($f->category_level == 3) ? '' : 'd-none'}}">
+                    <hr>
+                    <div class="form-group">
+                        <label for="linkphilhealth_businessname"><span id="employerNameSpan"></span></label>
+                        <input type="text" class="form-control" id="linkphilhealth_businessname" name="linkphilhealth_businessname" value="{{old('linkphilhealth_businessname', $f->patient->linkphilhealth_businessname)}}" minlength="5" maxlength="200" style="text-transform: uppercase;">
+                    </div>
+                    <div class="form-group">
+                        <label for="linkphilhealth_pen"><span id="penSpan"></span></label>
+                        <input type="text" class="form-control" id="linkphilhealth_pen" name="linkphilhealth_pen" value="{{old('linkphilhealth_pen', $f->patient->linkphilhealth_pen)}}" pattern="[0-9]{12}">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="linkphilhealth_pen"><span id="penSpan"></span></label>
-                    <input type="text" class="form-control" id="linkphilhealth_pen" name="linkphilhealth_pen" value="{{old('linkphilhealth_pen', $f->patient->linkphilhealth_pen)}}" pattern="[0-9]{12}">
-                </div>
                 <hr>
+                @if($f->category_level == 3)
                 <button type="submit" class="btn btn-primary btn-block" name="submit" value="card">Print ABTC Card</button>
                 <button type="submit" class="btn btn-primary btn-block" name="submit" value="csf">Print CSF</button>
                 <button type="submit" class="btn btn-primary btn-block" name="submit" value="cf2">Print CF2</button>
                 <button type="submit" class="btn btn-primary btn-block" name="submit" value="soa">Print SOA</button>
+                @elseif($f->category_level == 2)
+                <button type="submit" class="btn btn-primary btn-block" name="submit" value="ekonsulta">Print eKonsulta</button>
+                @endif
             </form>
-            @if(!Carbon\Carbon::parse($f->d0_date)->isSameDay(Carbon\Carbon::parse($f->created_at)))
+            
+            @if(!Carbon\Carbon::parse($f->d0_date)->isSameDay(Carbon\Carbon::parse($f->created_at)) && $f->category_level == 3)
             <form action="{{route('abtc_print_philhealth', $f->id)}}" method="POST">
                 @csrf
                 <hr>

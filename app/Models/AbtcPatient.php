@@ -487,4 +487,20 @@ class AbtcPatient extends Model
             return false;
         }
     }
+
+    public function getPhilhealthMemberName() {
+        $fullname = $this->linkphilhealth_fname;
+
+        if(!is_null($this->linkphilhealth_mname)) {
+            $fullname = $fullname." ".substr($this->linkphilhealth_mname,0,1).'.';
+        }
+
+        $fullname = $fullname." ".$this->linkphilhealth_lname;
+
+        if(!is_null($this->linkphilhealth_suffix)) {
+            $fullname = $fullname." ".$this->linkphilhealth_suffix;
+        }
+
+        return $fullname;
+    }
 }

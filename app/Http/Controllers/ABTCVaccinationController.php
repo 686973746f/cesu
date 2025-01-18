@@ -2129,6 +2129,31 @@ class ABTCVaccinationController extends Controller
 
             $filename = 'WAIVER_'.$d->patient->lname.'_'.$d->patient->fname.'_'.Carbon::now()->format('mdY').'.docx';
         }
+        else if($r->submit == 'ekonsulta') {
+            $templateProcessor  = new TemplateProcessor(storage_path('PHILHEALTH_EKONSULTA.docx'));
+
+            $templateProcessor->setValue('p_name', $d->patient->getNameFormal());
+            $templateProcessor->setValue('p_age', $d->patient->getAgeInt());
+            $templateProcessor->setValue('p_contact', $d->patient->contact_number);
+            $templateProcessor->setValue('case_date', Carbon::parse($d->case_date)->format('m/d/Y'));
+
+            if($d->patient->philhealth_statustype == 'MEMBER') {
+                $templateProcessor->setValue('ism', '✔');
+                $templateProcessor->setValue('isd', '');
+
+                $templateProcessor->setValue('p_philhealth', $d->patient->philhealth);
+                $templateProcessor->setValue('s_name', $d->patient->getNameFormal());
+            }
+            else {
+                $templateProcessor->setValue('ism', '');
+                $templateProcessor->setValue('isd', '✔');
+
+                $templateProcessor->setValue('p_philhealth', $d->patient->linkphilhealth_phnumber);
+                $templateProcessor->setValue('s_name', $d->patient->getPhilhealthMemberName());
+            }
+
+            $filename = 'EKONSULTA_'.$d->patient->lname.'_'.$d->patient->fname.'_'.Carbon::now()->format('mdY').'.docx';
+        }
         else {
             
         }
