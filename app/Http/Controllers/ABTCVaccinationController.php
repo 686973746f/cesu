@@ -11,6 +11,7 @@ use App\Models\AbtcVaccineBrand;
 use App\Models\AbtcBakunaRecords;
 use App\Models\AbtcVaccineStocks;
 use App\Models\AbtcVaccinationSite;
+use App\Models\Employee;
 use Illuminate\Support\Facades\Auth;
 use PhpOffice\PhpWord\TemplateProcessor;
 
@@ -1839,7 +1840,7 @@ class ABTCVaccinationController extends Controller
         if($r->submit == 'card') {
             $templateProcessor  = new TemplateProcessor(storage_path('ABTC_PHILHEALTH_CARD.docx'));
             $templateProcessor->setValue('case_id', $d->case_id);
-            $templateProcessor->setValue('created_at', Carbon::parse($d->created_at)->format('m/d/Y'));
+            $templateProcessor->setValue('created_at', Carbon::parse($d->case_date)->format('m/d/Y'));
 
             $templateProcessor->setValue('philhealth_pin', $d->patient->philhealth);
             $templateProcessor->setValue('get_name', $d->patient->getName());
@@ -1864,7 +1865,7 @@ class ABTCVaccinationController extends Controller
             $templateProcessor->setValue('d3_date', Carbon::parse($d->d3_date)->format('m/d/Y'));
             $templateProcessor->setValue('d7_date', Carbon::parse($d->d7_date)->format('m/d/Y'));
             $templateProcessor->setValue('d28_date', Carbon::parse($d->d28_date)->format('m/d/Y'));
-            $templateProcessor->setValue('erig_date', ($d->category_level == 3) ? Carbon::parse($d->rig_date_given)->format('m/d/Y') : '');
+            $templateProcessor->setValue('erig_date', ($d->category_level == 3) ? Carbon::parse($d->d3_date)->format('m/d/Y') : '');
 
             $templateProcessor->setValue('ficd1', ($d->philhealthGetIcdCode() == 'T14.1 W54') ? '✔' : '');
             $templateProcessor->setValue('ficd2', ($d->philhealthGetIcdCode() == 'T14.1 W55') ? '✔' : '');
@@ -1888,7 +1889,7 @@ class ABTCVaccinationController extends Controller
             $templateProcessor->setValue('suffix', $d->patient->suffix ?: 'N/A');
             $templateProcessor->setValue('mname', $d->patient->lname ?: 'N/A');
 
-            $sepa_array = str_split(Carbon::parse($d->created_at)->format('mdY'));
+            $sepa_array = str_split(Carbon::parse($d->case_date)->format('mdY'));
 
             $templateProcessor->setValue('date_admitted', $sepa_array[0].'   '.$sepa_array[1].'     '.$sepa_array[2].'   '.$sepa_array[3].'    '.$sepa_array[4].'   '.$sepa_array[5].'   '.$sepa_array[6].'   '.$sepa_array[7]);
 
@@ -1901,7 +1902,7 @@ class ABTCVaccinationController extends Controller
             $templateProcessor->setValue('d3_date', Carbon::parse($d->d3_date)->format('m/d/Y'));
             $templateProcessor->setValue('d7_date', Carbon::parse($d->d7_date)->format('m/d/Y'));
             $templateProcessor->setValue('d28_date', Carbon::parse($d->d28_date)->format('m/d/Y'));
-            $templateProcessor->setValue('erig_date', ($d->category_level == 3) ? Carbon::parse($d->rig_date_given)->format('m/d/Y') : '');
+            $templateProcessor->setValue('erig_date', ($d->category_level == 3) ? Carbon::parse($d->d0_date)->format('m/d/Y') : '');
             
             $templateProcessor->setValue('others', 'TETANUS TOXOID');
 
@@ -1929,6 +1930,7 @@ class ABTCVaccinationController extends Controller
 
             $templateProcessor->setValue('diagnosis', $d->body_site.','.$d->getSource().' BITE, CATEGORY '.$d->category_level);
 
+            /*
             if($d->vaccination_site_id == 1) {
                 $templateProcessor->setValue('vaccinator', 'MELINDA R. PAMULAYA, RN');
                 $templateProcessor->setValue('vacc_contact', '0935 297 6887');
@@ -1940,6 +1942,10 @@ class ABTCVaccinationController extends Controller
             else {
                 return dd('Default Vaccinator Name was not initialized yet on this facility.');
             }
+            */
+            
+            $templateProcessor->setValue('vaccinator', $r->vaccinator_name);
+            $templateProcessor->setValue('vacc_contact', '0962 545 6998');
 
             $check_condition = false;
 
@@ -1975,6 +1981,22 @@ class ABTCVaccinationController extends Controller
             }
             else {
                 $templateProcessor->setValue('c1', ' ');
+            }
+
+            if($d->vaccination_site_id == 1) {
+                $templateProcessor->setValue('hcp1_name', '1. JONATHAN P. LUSECO, MD');
+                $templateProcessor->setValue('hcp2_name', '');
+            }
+            else if($d->vaccination_site_id == 2) {
+                $templateProcessor->setValue('hcp1_name', '1. ABE D. ESCARIO, MD');
+                $templateProcessor->setValue('hcp2_name', '2. CHERRY L. ASPURIA, MD');
+            }
+            else if($d->vaccination_site_id == 3) {
+                $templateProcessor->setValue('hcp1_name', '1. EDGARDO R. FIGUEROA, MD, MMHoA');
+                $templateProcessor->setValue('hcp2_name', '');
+            }
+            else {
+                return abort(401);
             }
 
             $filename = 'SOA_'.$d->patient->lname.'_'.$d->patient->fname.'_'.Carbon::now()->format('mdY').'.docx';
@@ -2053,7 +2075,7 @@ class ABTCVaccinationController extends Controller
             $templateProcessor->setValue('dep_suffix', $dep_suffix);
             $templateProcessor->setValue('dep_bdate', $dep_bdate);
 
-            $sepa_array = str_split(Carbon::parse($d->patient->created_at)->format('mdY'));
+            $sepa_array = str_split(Carbon::parse($d->case_date)->format('mdY'));
             $date_admitted = $sepa_array[0].'    '.$sepa_array[1].'      '.$sepa_array[2].'    '.$sepa_array[3].'      '.$sepa_array[4].'    '.$sepa_array[5].'    '.$sepa_array[6].'    '.$sepa_array[7];
             $templateProcessor->setValue('date_admitted', $date_admitted);
 
@@ -2066,11 +2088,16 @@ class ABTCVaccinationController extends Controller
             $templateProcessor->setValue('consent_signature_name', $consent_signature_name);
             $templateProcessor->setValue('consent_signature_date', $date_admitted);
 
-            $sepa_array = str_split($d->patient->linkphilhealth_pen);
-            $linkphilhealth_pen = $sepa_array[0].'    '.$sepa_array[1].'       '.$sepa_array[2].'   '.$sepa_array[3].'    '.$sepa_array[4].'    '.$sepa_array[5].'   '.$sepa_array[6].'    '.$sepa_array[7].'    '.$sepa_array[8].'   '.$sepa_array[9].'   '.$sepa_array[10].'       '.$sepa_array[11];
-            $templateProcessor->setValue('linkphilhealth_pen', $linkphilhealth_pen);
-
-            $templateProcessor->setValue('linkphilhealth_businessname', $d->patient->linkphilhealth_businessname);
+            if(!is_null($d->patient->linkphilhealth_pen)) {
+                $sepa_array = str_split($d->patient->linkphilhealth_pen);
+                $linkphilhealth_pen = $sepa_array[0].'    '.$sepa_array[1].'       '.$sepa_array[2].'   '.$sepa_array[3].'    '.$sepa_array[4].'    '.$sepa_array[5].'   '.$sepa_array[6].'    '.$sepa_array[7].'    '.$sepa_array[8].'   '.$sepa_array[9].'   '.$sepa_array[10].'       '.$sepa_array[11];
+                $templateProcessor->setValue('linkphilhealth_pen', $linkphilhealth_pen);
+                $templateProcessor->setValue('linkphilhealth_businessname', $d->patient->linkphilhealth_businessname);
+            }
+            else {
+                $templateProcessor->setValue('linkphilhealth_pen', '');
+                $templateProcessor->setValue('linkphilhealth_businessname', '');
+            }
 
             if($d->patient->philhealth_statustype != 'MEMBER') {
                 if($d->patient->linkphilhealth_relationship == 'CHILD') {
@@ -2094,6 +2121,49 @@ class ABTCVaccinationController extends Controller
                 $templateProcessor->setValue('ifp', '');
                 $templateProcessor->setValue('ifs', '');
             }
+
+            if($d->vaccination_site_id == 1) {
+                $templateProcessor->setValue('hcp1_name', 'YVES M. TALOSIG, MD');
+
+                $sepa_array = str_split('110022558694');
+                
+                $templateProcessor->setValue('hcp_optional_number', '');
+                $templateProcessor->setValue('hcp_optional_name', '');
+            }
+            else if($d->vaccination_site_id == 2) {
+                $templateProcessor->setValue('hcp1_name', 'ABE D. ESCARIO, MD');
+
+                $sepa_array = NULL;
+                
+                $sepa_array_optional = str_split('110013279311');
+                $hcp_optional_number = $sepa_array_optional[0].'   '.$sepa_array_optional[1].'    '.$sepa_array_optional[2].'    '.$sepa_array_optional[3].'       '.$sepa_array_optional[4].'   '.$sepa_array_optional[5].'    '.$sepa_array_optional[6].'   '.$sepa_array_optional[7].'   '.$sepa_array_optional[8].'    '.$sepa_array_optional[9].'    '.$sepa_array_optional[10].'       '.$sepa_array_optional[11];
+                $templateProcessor->setValue('hcp_optional_number', $hcp_optional_number);
+                $templateProcessor->setValue('hcp_optional_name', 'CHERRY L. ASPURIA, MD');
+                
+            }
+            else if($d->vaccination_site_id == 3) {
+                $templateProcessor->setValue('hcp1_name', 'EDGARDO R. FIGUEROA, MD, MMHoA');
+
+                $sepa_array = NULL;
+
+                $templateProcessor->setValue('hcp_optional_number', '');
+                $templateProcessor->setValue('hcp_optional_name', '');
+            }
+            else {
+                return abort(401);
+            }
+
+            if(!is_null($sepa_array)) {
+                $hcp1_number = $sepa_array[0].'   '.$sepa_array[1].'    '.$sepa_array[2].'    '.$sepa_array[3].'       '.$sepa_array[4].'   '.$sepa_array[5].'    '.$sepa_array[6].'   '.$sepa_array[7].'   '.$sepa_array[8].'    '.$sepa_array[9].'    '.$sepa_array[10].'       '.$sepa_array[11];
+            }
+            else {
+                $hcp1_number = '';
+            }
+            
+            $templateProcessor->setValue('hcp1_number', $hcp1_number);
+
+            $templateProcessor->setValue('hcp2_name', 'JONATHAN P. LUSECO, MD');
+            $templateProcessor->setValue('hcp2_position', 'CITY HEALTH OFFICER II');
             
             $filename = 'CSF_'.$d->patient->lname.'_'.$d->patient->fname.'_'.Carbon::now()->format('mdY').'.docx';
         }
