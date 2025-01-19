@@ -65,6 +65,7 @@ use App\Http\Controllers\EmployeesController;
 use App\Http\Controllers\FacilityReportingController;
 use App\Http\Controllers\HealthEventsController;
 use App\Http\Controllers\InjuryController;
+use App\Http\Controllers\RiskAssessmentController;
 use App\Http\Controllers\SchoolBasedSurveillanceController;
 use App\Http\Controllers\SecondaryTertiaryRecordsController;
 
@@ -486,6 +487,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessS
     Route::post('/syndromic/patient/{patient_id}/delete', [SyndromicController::class, 'deletePatient'])->name('syndromic_deletePatient');
     Route::get('/syndromic/patient/{patient_id}/record_list', [SyndromicController::class, 'viewExistingRecordList'])->name('syndromic_viewItrList');
     Route::get('/syndromic/records/{records_id}/view', [SyndromicController::class, 'viewRecord'])->name('syndromic_viewRecord');
+    Route::get('/syndromic/records/{records_id}/create_raf', [RiskAssessmentController::class, 'createFromSyndromic'])->name('syndromic_createRaf');
     Route::get('/syndromic/records/{records_id}/download_itr', [SyndromicController::class, 'downloadItrDocx'])->name('syndromic_downloadItr');
     Route::post('/syndromic/patient/{patient_id}/update', [SyndromicController::class, 'updatePatient'])->name('syndromic_updatePatient');
     Route::post('/syndromic/records/{records_id}/update', [SyndromicController::class, 'updateRecord'])->name('syndromic_updateRecord');
@@ -684,6 +686,11 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessF
 
     Route::get('/fhsis/icd10_search', [FhsisController::class, 'icdSearcher'])->name('fhsis_icd10_searcher');
     Route::get('/fhsis/report2018/', [FhsisController::class, 'reportViewer'])->name('fhsis_2018_report');
+
+    Route::get('/fhsis/noncomm/riskassess/create', [RiskAssessmentController::class, 'createFromScratch'])->name('raf_create');
+    Route::post('/fhsis/noncomm/riskassess/store', [RiskAssessmentController::class, 'store'])->name('raf_store');
+    Route::get('/fhsis/noncomm/riskassess/view/{id}', [RiskAssessmentController::class, 'edit'])->name('raf_edit');
+    Route::post('/fhsis/noncomm/riskassess/view/{id}/update', [RiskAssessmentController::class, 'update'])->name('raf_update');
 });
 
 //ABTC (WALK IN)
