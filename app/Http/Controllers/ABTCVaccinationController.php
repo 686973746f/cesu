@@ -2206,6 +2206,7 @@ class ABTCVaccinationController extends Controller
             $templateProcessor->setValue('p_age', $d->patient->getAgeInt());
             $templateProcessor->setValue('p_contact', $d->patient->contact_number);
             $templateProcessor->setValue('case_date', Carbon::parse($d->case_date)->format('m/d/Y'));
+            $templateProcessor->setValue('dob', Carbon::parse($d->patient->bdate)->format('m/d/Y'));
 
             if($d->patient->philhealth_statustype == 'MEMBER') {
                 $templateProcessor->setValue('ism', '✔');
@@ -2213,6 +2214,8 @@ class ABTCVaccinationController extends Controller
 
                 $templateProcessor->setValue('p_philhealth', $d->patient->philhealth);
                 $templateProcessor->setValue('s_name', $d->patient->getNameFormal());
+
+                $templateProcessor->setValue('dob_parent', '');
             }
             else {
                 $templateProcessor->setValue('ism', '');
@@ -2220,6 +2223,8 @@ class ABTCVaccinationController extends Controller
 
                 $templateProcessor->setValue('p_philhealth', $d->patient->linkphilhealth_phnumber);
                 $templateProcessor->setValue('s_name', $d->patient->getPhilhealthMemberName());
+
+                $templateProcessor->setValue('dob_parent', 'DOB Parent: '.Carbon::parse($d->patient->linkphilhealth_bdate)->format('m/d/Y'));
             }
 
             $filename = 'EKONSULTA_'.$d->patient->lname.'_'.$d->patient->fname.'_'.Carbon::now()->format('mdY').'.docx';

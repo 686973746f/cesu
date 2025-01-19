@@ -236,16 +236,17 @@
                 <div class="form-group">
                     <label for="status_type"><b class="text-danger">*</b>Philhealth Membership Type</label>
                     <select class="form-control" name="philhealth_statustype" id="philhealth_statustype" required>
-                        @if($f->patient->getAge() >= 21)
+                        @if($f->patient->getAgeInt() <= 21)
+                        <option value="DEPENDENT" {{(old('philhealth_statustype', $f->patient->philhealth_statustype) == 'DEPENDENT') ? 'selected' : ''}}>Dependent (Wala pang Philhealth Account)</option>
+                        @else
                         <option value="MEMBER" {{(old('philhealth_statustype', $f->patient->philhealth_statustype) == 'MEMBER') ? 'selected' : ''}}>Member (May sarili nang Philhealth Account)</option>
                         @endif
-                        <option value="DEPENDENT" {{(old('philhealth_statustype', $f->patient->philhealth_statustype) == 'DEPENDENT') ? 'selected' : ''}}>Dependent (Wala pang Philhealth Account)</option>
                     </select>
                 </div>
                 @if(!$f->patient->philhealth)
                 <div class="form-group">
                     <label for="philhealth" class="form-label"><b class="text-danger">*</b>Input Philhealth Number (PIN) of the Patient</label>
-                    <input type="text" class="form-control" id="philhealth" name="philhealth" value="{{old('philhealth', $f->patient->philhealth)}}" pattern="[0-9]{12}" required>
+                    <input type="text" class="form-control" id="philhealth" name="philhealth" value="{{old('philhealth', $f->patient->philhealth)}}" pattern="[0-9]{12}" {{($f->category_level  == 3) ? 'required' : ''}}>
                 </div>
                 @endif
                 
@@ -334,7 +335,6 @@
                     </div>
                 </div>
                 <hr>
-                
                 @if($f->category_level == 3)
                 <div class="form-group">
                     <label for="vaccinator_name" class="form-label"><b class="text-danger">*</b>Name of Vaccinator</label>
