@@ -274,15 +274,15 @@
                       <div class="form-group">
                           <label for="weight">
                             @if($required_weight)
-                            <b class="text-danger required_before">*</b>
+                            <b class="text-danger required_before" id="w_ast">*</b>
                             @endif
-                            Weight (in kilograms)</label>
+                            Weight (kg)</label>
                           <input type="number" step="0.1" pattern="\d+(\.\d{1})?" class="form-control" name="weight" id="weight" value="{{old('weight', $d->weight)}}" {{($required_weight) ? 'required' : ''}}>
                       </div>
                     </div>
                     <div class="col-md-3">
                       <div class="form-group">
-                        <label for="height">Height (in Centimeters)</label>
+                        <label for="height"><b class="text-danger" id="h_ast">*</b>Height (cm)</label>
                         <input type="number" class="form-control" name="height" id="height" value="{{old('height', $d->height)}}">
                       </div>
                     </div>
@@ -1835,6 +1835,29 @@ $the_record_id = $d->id;
       $('#if_hospitalized').addClass('d-none');
       $('#hospital_name').prop('required', false);
       $('#date_admitted').prop('required', false);
+    }
+  });
+
+  var rq_height = {{$required_height}};
+  var rq_weight = {{$required_weight}};
+
+  $('input[name="consultation_type[]"][value="DENTAL CARE"]').change(function() {
+    if ($(this).is(':checked')) {
+      $('#weight').prop('required', false);
+      $('#height').prop('required', false);
+
+      $('#w_ast').text('');
+      $('#h_ast').text('');
+    } else {
+      if(rq_height == 1) {
+        $('#height').prop('required', true);
+        $('#h_ast').text('*');
+      }
+
+      if(rq_weight == 1) {
+        $('#weight').prop('required', true);
+        $('#w_ast').text('*');
+      }
     }
   });
 </script>
