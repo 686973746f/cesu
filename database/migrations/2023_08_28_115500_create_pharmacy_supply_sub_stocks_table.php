@@ -20,6 +20,7 @@ class CreatePharmacySupplySubStocksTable extends Migration
             $table->text('batch_number')->nullable();
             $table->text('lot_number')->nullable();
             $table->string('barcode_number')->nullable();
+            $table->string('source')->nullable();
 
             $table->integer('current_box_stock')->nullable();
             $table->integer('current_piece_stock')->nullable();

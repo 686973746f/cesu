@@ -16,6 +16,7 @@ class PharmacySupplySubStock extends Model
         'batch_number',
         'lot_number',
         'barcode_number',
+        'source',
         
         'current_box_stock',
         'current_piece_stock',

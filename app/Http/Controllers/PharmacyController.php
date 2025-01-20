@@ -1638,6 +1638,13 @@ class PharmacyController extends Controller
             ->where('expiration_date', $r->expiration_date)
             ->first();
 
+            $new_params = [
+                'subsupply_id' => $d->id,
+                'expiration_date' => $r->expiration_date,
+                'batch_number' => mb_strtoupper($r->batch_number),
+                'source' => $r->source,
+            ];
+
             if($d->pharmacysupplymaster->quantity_type == 'BOX') {
                 if($substock) {
                     $substock->current_box_stock =+ $r->qty_to_process;
@@ -1648,13 +1655,13 @@ class PharmacyController extends Controller
                     }
                 }
                 else {
-                    $new_substock = $r->user()->pharmacysupplysubstock()->create([
-                        'subsupply_id' => $d->id,
-                        'expiration_date' => $r->expiration_date,
-                        'batch_number' => mb_strtoupper($r->batch_number),
+
+                    $new_params = $new_params + [
                         'current_box_stock' => $r->qty_to_process,
                         'current_piece_stock' => ($r->qty_to_process * $d->pharmacysupplymaster->config_piecePerBox),
-                    ]);
+                    ];
+
+                    $new_substock = $r->user()->pharmacysupplysubstock()->create($new_params);
                 }
             }
             else {
@@ -1666,12 +1673,12 @@ class PharmacyController extends Controller
                     }
                 }
                 else {
-                    $new_substock = $r->user()->pharmacysupplysubstock()->create([
-                        'subsupply_id' => $d->id,
-                        'expiration_date' => $r->expiration_date,
-                        //'current_box_stock' => $r->qty_to_process,
+
+                    $new_params = $new_params + [
                         'current_piece_stock' => $r->qty_to_process,
-                    ]);
+                    ];
+
+                    $new_substock = $r->user()->pharmacysupplysubstock()->create($new_params);
                 }
             }
             
@@ -1948,6 +1955,7 @@ class PharmacyController extends Controller
         if($d->ifUserAuthorized()) {
             $d->expiration_date = $r->expiration_date;
             $d->batch_number = $r->batch_number;
+            $d->source = $r->source;
             $d->lot_number = $r->lot_number;
             $d->updated_by = Auth::id();
 

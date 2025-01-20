@@ -35,10 +35,20 @@
                             <input type="date" class="form-control" name="expiration_date" id="expiration_date" value="{{old('expiration_date', $d->expiration_date)}}">
                         </div>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="batch_number">Batch Number</label>
                             <input type="text" class="form-control" name="batch_number" id="batch_number" value="{{old('batch_number', $d->batch_number)}}">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="expiration_date"><b class="text-danger">*</b>Source</label>
+                            <select class="form-control" name="source" id="source" required>
+                                <option value="" disabled {{(is_null(old('source', $d->source))) ? 'selected' : ''}}>Choose...</option>
+                                <option value="LGU" {{(old('source', $d->source) == 'LGU') ? 'selected' : ''}}>LGU</option>
+                                <option value="DOH" {{(old('source', $d->source) == 'DOH') ? 'selected' : ''}}>DOH</option>
+                            </select>
                         </div>
                     </div>
                 </div>

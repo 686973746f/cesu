@@ -46,6 +46,7 @@ class CreateEmployeesTable extends Migration
             $table->string('office')->nullable(); //KUNG SAAN NAKA-ASSIGN
             $table->string('sub_office')->nullable();
             $table->date('date_hired')->nullable();
+            $table->string('source')->nullable(); //LGU, DOH, OTHERS
             $table->string('employment_status'); //ACTIVE, RESIGNED, RETIRED
             $table->date('date_resigned')->nullable();
             $table->string('remarks')->nullable();
