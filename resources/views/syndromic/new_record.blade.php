@@ -185,7 +185,7 @@
                         <div class="form-group">
                             <label for="weight">
                               @if($required_weight)
-                              <b class="text-danger">*</b>
+                              <b class="text-danger" id="w_ast">*</b>
                               @endif
                               Weight (kg)
                             </label>
@@ -196,7 +196,7 @@
                       <div class="form-group">
                         <label for="height">
                           @if($required_height)
-                          <b class="text-danger">*</b>
+                          <b class="text-danger" id="h_ast">*</b>
                           @endif
                           Height (cm)
                         </label>
@@ -1665,6 +1665,29 @@
       $('#if_hospitalized').addClass('d-none');
       $('#hospital_name').prop('required', false);
       $('#date_admitted').prop('required', false);
+    }
+  });
+
+  var rq_height = {{$required_height}};
+  var rq_weight = {{$required_weight}};
+
+  $('input[name="consultation_type[]"][value="DENTAL CARE"]').change(function() {
+    if ($(this).is(':checked')) {
+      $('#weight').prop('required', false);
+      $('#height').prop('required', false);
+
+      $('#w_ast').text('');
+      $('#h_ast').text('');
+    } else {
+      if(rq_height == 1) {
+        $('#height').prop('required', true);
+        $('#h_ast').text('*');
+      }
+
+      if(rq_weight == 1) {
+        $('#weight').prop('required', true);
+        $('#w_ast').text('*');
+      }
     }
   });
 </script>
