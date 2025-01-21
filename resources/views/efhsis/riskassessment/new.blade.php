@@ -13,15 +13,18 @@
                 @endif
                 <div class="row">
                   <div class="col-md-3">
-                    <div class="form-group">
-                      <label for="height">Height (cm)</label>
-                      <input type="number" class="form-control" name="height" id="height">
+                    <div><label for="height">Height (cm)</label></div>
+                    <div class="input-group mb-3">
+                      <input type="number" step="0.1" class="form-control" name="height" id="height" min="1" max="600">
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-primary" type="button" data-toggle="modal" data-target="#heightConverter">Convert feet to cm</button>
+                      </div>
                     </div>
                   </div>
                   <div class="col-md-3">
                     <div class="form-group">
                       <label for="weight">Weight (kg)</label>
-                      <input type="number" class="form-control" name="weight" id="weight">
+                      <input type="number" class="form-control" name="weight" id="weight" min="1" max="500" step="0.1">
                     </div>
                   </div>
                   <div class="col-md-3">
@@ -407,6 +410,62 @@
     </form>
 </div>
 
+<div class="modal fade" id="heightConverter" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Foot to Centimeter Converter</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="feet"><b class="text-danger">*</b>Feet</label>
+                <input type="number" class="form-control" name="feet" id="feet">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="inches"><b class="text-danger">*</b>Inches</label>
+                <input type="number" class="form-control" name="inches" id="inches">
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" name="convertBtn" id="convertBtn" class="btn btn-success btn-block">Convert</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+      $('#convertBtn').click(function () {
+          // Get values from input fields
+          const feet = parseInt($('#feet').val());
+          const inches = parseInt($('#inches').val());
+
+          // Validate input
+          if (isNaN(feet) || isNaN(inches) || feet < 0 || inches < 0) {
+              alert('Please enter valid values for feet and inches.');
+              return;
+          }
+
+          // Convert height to centimeters
+          const totalInches = (feet * 12) + inches;
+          const cm = totalInches * 2.54;
+
+          // Display result
+          $('#height').val(cm.toFixed(2));
+
+          $('#heightConverter').modal('toggle');
+      });
+  });
+</script>
 
 <script>
   

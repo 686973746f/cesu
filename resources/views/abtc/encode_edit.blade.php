@@ -9,7 +9,7 @@
         @csrf
         @method('delete')
         <div class="text-right mb-3">
-            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to DELETE? Click OK to Confirm.')"><i class="fa fa-trash mr-2" aria-hidden="true"></i>Delete Vaccination Record</button>
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to DELETE? Click OK to Confirm.')"><i class="fa fa-trash mr-2"></i>Delete Vaccination Record</button>
         </div>
     </form>
 </div>
@@ -163,16 +163,19 @@
                 <div id="divpostexp">
                     <hr>
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="weight" class="form-label"><strong class="text-danger">*</strong>Weight (kg)</label>
                                 <input type="number" class="form-control" name="weight" id="weight" value="{{old('weight', $d->weight)}}" min="1" max="700">
                             </div>
                         </div>
-                        <div class="col-6">
-                            <div class="mb-3">
-                                <label for="height" class="form-label"><strong class="text-danger">*</strong>Height (cm)</label>
+                        <div class="col-md-6">
+                            <div><label for="height" class="form-label"><strong class="text-danger">*</strong>Height (cm)</label></div>
+                            <div class="input-group mb-3">
                                 <input type="number" class="form-control" name="height" id="height" value="{{old('height', $d->height)}}" min="1" max="700">
+                                <div class="input-group-append">
+                                  <button class="btn btn-outline-primary" type="button" data-toggle="modal" data-target="#heightConverter">Convert feet to cm</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -458,7 +461,7 @@
             <div class="modal-header">
                 <h5 class="modal-title">Create Referral Slip</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <span >&times;</span>
                     </button>
             </div>
             <div class="modal-body text-center">
@@ -469,6 +472,63 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="heightConverter" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Foot to Centimeter Converter</h5>
+                <button type="button" id="heightCloseBtn" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="feet"><b class="text-danger">*</b>Feet</label>
+                            <input type="number" class="form-control" name="feet" id="feet">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="inches"><b class="text-danger">*</b>Inches</label>
+                            <input type="number" class="form-control" name="inches" id="inches">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" name="convertBtn" id="convertBtn" class="btn btn-success btn-block">Convert</button>
+            </div>
+        </div>
+    </div>
+</div>
+  
+<script>
+$(document).ready(function () {
+    $('#convertBtn').click(function () {
+        // Get values from input fields
+        const feet = parseInt($('#feet').val());
+        const inches = parseInt($('#inches').val());
+
+        // Validate input
+        if (isNaN(feet) || isNaN(inches) || feet < 0 || inches < 0) {
+            alert('Please enter valid values for feet and inches.');
+            return;
+        }
+
+        // Convert height to centimeters
+        const totalInches = (feet * 12) + inches;
+        const cm = totalInches * 2.54;
+
+        // Display result
+        $('#height').val(cm.toFixed(2));
+
+        $('#heightCloseBtn').click();
+    });
+});
+</script>
 
 <script>
     $(document).bind('keydown', function(e) {
