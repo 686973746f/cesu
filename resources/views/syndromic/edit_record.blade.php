@@ -285,7 +285,7 @@
                       <div class="input-group mb-3">
                         <input type="number" class="form-control" step="0.1" name="height" id="height" min="1" max="600" value="{{old('height', $d->height)}}">
                         <div class="input-group-append">
-                          <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#heightConverter">Convert feet to cm</button>
+                          <button class="btn btn-outline-primary" type="button" data-toggle="modal" data-target="#heightConverter">Convert feet to cm</button>
                         </div>
                       </div>
                     </div>
