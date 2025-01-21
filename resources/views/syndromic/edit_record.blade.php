@@ -277,13 +277,13 @@
                             <b class="text-danger required_before" id="w_ast">*</b>
                             @endif
                             Weight (kg)</label>
-                          <input type="number" step="0.1" pattern="\d+(\.\d{1})?" class="form-control" name="weight" id="weight" value="{{old('weight', $d->weight)}}" {{($required_weight) ? 'required' : ''}}>
+                          <input type="number" step="0.1" class="form-control" name="weight" id="weight" min="1" max="900" value="{{old('weight', $d->weight)}}" {{($required_weight) ? 'required' : ''}}>
                       </div>
                     </div>
                     <div class="col-md-3">
                       <div class="form-group">
                         <label for="height"><b class="text-danger" id="h_ast">*</b>Height (cm)</label>
-                        <input type="number" class="form-control" name="height" id="height" value="{{old('height', $d->height)}}">
+                        <input type="number" step="0.1" class="form-control" name="height" id="height" min="1" max="600" value="{{old('height', $d->height)}}">
                       </div>
                     </div>
                     <div class="col-md-3">

@@ -189,7 +189,7 @@
                               @endif
                               Weight (kg)
                             </label>
-                            <input type="number" step="0.1" pattern="\d+(\.\d{1})?" class="form-control" name="weight" id="weight" min="1" max="900" value="{{old('weight')}}" {{($required_weight) ? 'required' : ''}}>
+                            <input type="number" step="0.1" class="form-control" name="weight" id="weight" min="1" max="900" value="{{old('weight')}}" {{($required_weight) ? 'required' : ''}}>
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -200,7 +200,7 @@
                           @endif
                           Height (cm)
                         </label>
-                        <input type="number" class="form-control" name="height" id="height" value="{{old('height')}}" min="1" max="600" {{($required_height) ? 'required' : ''}}>
+                        <input type="number" step="0.1" class="form-control" name="height" id="height" min="1" max="600" value="{{old('height')}}" {{($required_height) ? 'required' : ''}}>
                       </div>
                     </div>
                     <div class="col-md-3">

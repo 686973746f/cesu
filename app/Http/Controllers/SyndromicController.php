@@ -1639,7 +1639,7 @@ class SyndromicController extends Controller
                 'consultation_date' => $r->consultation_date,
                 'temperature' => $r->temperature,
                 'bloodpressure' => ($r->filled('bloodpressure')) ? $r->bloodpressure : NULL,
-                'weight' => $r->weight,
+                'weight' => ($r->filled('weight')) ? $r->weight : NULL,
                 'height' => ($r->filled('height')) ? $r->height : NULL,
                 'respiratoryrate' => $r->respiratoryrate,
                 'pulserate' => $r->pulserate,
@@ -1839,6 +1839,9 @@ class SyndromicController extends Controller
             }
 
             $msg = 'Record was marked verified by Barangay successfully';
+        }
+        else {
+            $msg = '';
         }
 
         return redirect()->back()
