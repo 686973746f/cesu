@@ -36,6 +36,9 @@
             <a href="{{route('abtc_schedule_index')}}" class="btn btn-primary btn-lg btn-block"><i class="fas fa-calendar-alt mr-2"></i>Todays Schedule</a>
             <hr>
             <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#reportpanel"><i class="fas fa-chart-bar mr-2"></i>ABTC Reports</button>
+            <hr>
+            <a href="{{route('abtcinv_home')}}" class="btn btn-primary btn-lg btn-block">ABTC Inventory</a>
+            
             @if(auth()->user()->isAdmin == 1)
             <hr>
             <a href="" class="btn btn-warning btn-lg btn-block" data-toggle="modal" data-target="#adminpanel"><i class="fas fa-user-lock mr-2"></i>Admin Panel</a>

@@ -32,6 +32,7 @@ use App\Http\Controllers\LineListController;
 use App\Http\Controllers\PharmacyController;
 use App\Http\Controllers\ReportV2Controller;
 use App\Http\Controllers\ABTCAdminController;
+use App\Http\Controllers\AbtcInventoryController;
 use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\MonkeyPoxController;
 use App\Http\Controllers\SyndromicController;
@@ -653,9 +654,25 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     Route::post('/abtc/xlimport', [ABTCAdminController::class, 'xlimport'])->name('abtc_xlimport');
     Route::get('/abtc/remaining_pt', [ABTCVaccinationController::class, 'remainingPt'])->name('abtc_remainingpt');
 
-    Route::post('/abtc/qpd28/{id}', [ABTCVaccinationController::class, 'quickFinishDay28'])->name('abtc_quickprocessd28');
+    Route::post('/abtc/qpd28/{id}', [ABTCVaccinationController::class, 'quickFinishDay28'])->name('abtc_quickprocessd28');    
+});
 
-    
+Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessAbtcInventory']], function () {
+    Route::get('/abtc_inventory', [AbtcInventoryController::class, 'home'])->name('abtcinv_home');
+    Route::get('/abtc_inventory/masterlist', [AbtcInventoryController::class, 'masterInventoryHome'])->name('abtcinv_masterlist_home');
+    Route::post('/abtc_inventory/masterlist/store', [AbtcInventoryController::class, 'storeMaster'])->name('abtcinv_masterlist_store');
+    Route::get('/abtc_inventory/masterlist/{id}/view', [AbtcInventoryController::class, 'masterInventoryHome'])->name('abtcinv_masterlist_view');
+
+    Route::get('/abtc_inventory/branch_inventory', [AbtcInventoryController::class, 'branchInventoryHome'])->name('abtcinv_branchinv_home');
+    Route::get('/abtc_inventory/branch_inventory/{id}/view', [AbtcInventoryController::class, 'viewBranchInventoryItem'])->name('abtcinv_branchinv_view');
+    Route::get('/abtc_inventory/branch_inventory/{id}/update', [AbtcInventoryController::class, 'updateBranchInventoryItem'])->name('abtcinv_branchinv_update');
+    //Route::get('/abtc_inventory/branch_inventory/{id}/new_stock', [AbtcInventoryController::class, 'home'])->name('abtcinv_branchinv_newstock');
+    //Route::post('/abtc_inventory/branch_inventory/{id}/new_stock/store', [AbtcInventoryController::class, 'home'])->name('abtcinv_branchinv_newstock_store');
+
+    Route::get('/abtc_inventory/stock/{id}/view', [AbtcInventoryController::class, 'home'])->name('abtcinv_stock_view');
+    //Route::get('/abtc_inventory/stock/{id}/create_transaction', [AbtcInventoryController::class, 'home'])->name('abtcinv_create_transaction');
+    Route::post('/abtc_inventory/transaction/process', [AbtcInventoryController::class, 'processTransaction'])->name('abtcinv_process_transaction');
+    Route::get('/abtc_inventory/get_stocks_list/{id}', [AbtcInventoryController::class, 'getInventoryStocks'])->name('abtcinv_list_stocks');
 });
 
 //FHSIS

@@ -11,6 +11,7 @@ class BlsMember extends Model
     use HasFactory;
 
     protected $fillable = [
+        'enabled',
         'cho_employee',
         'employee_id',
         'lname',
