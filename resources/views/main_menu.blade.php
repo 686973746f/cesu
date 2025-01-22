@@ -43,6 +43,9 @@
             @endif
             @if(auth()->user()->canAccessPharmacy())
             <a href="{{route('pharmacy_home')}}" class="btn btn-block btn-primary btn-lg">Pharmacy Inventory System</a>
+                @if(auth()->user()->isActualPharmacyUser())
+                <a href="{{route('abtcinv_home')}}" class="btn btn-block btn-primary btn-lg">ABTC Inventory</a>
+                @endif
             @endif
             @if(auth()->user()->canAccessDisaster())
             <a href="{{route('gtsecure_index')}}" class="btn btn-block btn-primary btn-lg">GenTrias SECURE</a>
