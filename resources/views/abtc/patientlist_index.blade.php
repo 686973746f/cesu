@@ -128,4 +128,11 @@
         </div>
     </div>
 </form>
+
+@if(session('openCreateModal'))
+<script>
+  $('#addPatient').modal('show');
+</script>
+@endif
+<script>
 @endsection
