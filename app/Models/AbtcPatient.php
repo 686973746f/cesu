@@ -479,6 +479,15 @@ class AbtcPatient extends Model
         }
     }
 
+    public function isPriority() {
+        if($this->cardPriority() != '') {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     public function isSeniorCitizen() {
         if($this->getAgeInt() >= 60) {
             return true;

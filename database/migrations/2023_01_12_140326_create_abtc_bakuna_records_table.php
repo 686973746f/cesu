@@ -20,6 +20,11 @@ class CreateAbtcBakunaRecordsTable extends Migration
             $table->text('case_id')->nullable();
             $table->tinyInteger('is_booster')->default(0);
             $table->tinyInteger('is_preexp')->default(0);
+            $table->integer('queue_number')->nullable();
+            $table->integer('priority_queue_number')->nullable();
+            $table->integer('ff_queue_number')->nullable();
+            $table->integer('ff_priority_queue_number')->nullable();
+            $table->date('ff_queue_date')->nullable();
             $table->date('case_date')->nullable();
             $table->text('case_location')->nullable();
             $table->string('animal_type')->nullable();

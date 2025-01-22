@@ -236,12 +236,29 @@ class ABTCVaccinationController extends Controller
             $get_agemonths = $birthdate->diffInMonths($currentDate);
             $get_agedays = $birthdate->diffInDays($currentDate);
 
+            //Create Queue Number
+            if($pdata->isPriority()) {
+                $queue_number = NULL;
+                
+                $priority_queue_number = AbtcBakunaRecords::whereDate('created_at', date('Y-m-d'))
+                ->whereNotNull('priority_queue_number')
+                ->count() + 1;
+            }
+            else {
+                $queue_number = AbtcBakunaRecords::whereDate('created_at', date('Y-m-d'))
+                ->count() + 1;
+
+                $priority_queue_number = NULL;
+            }
+
             $f = $request->user()->abtcbakunarecord()->create([
                 'patient_id' => $id,
                 'vaccination_site_id' => $request->vaccination_site_id,
                 'case_id' => $case_id,
                 'is_booster' => $is_booster,
                 'is_preexp' => $is_preexp,
+                'queue_number' => $queue_number,
+                'priority_queue_number' => $priority_queue_number,
                 'case_date' => $request->case_date,
                 'case_location' => $case_location,
                 'animal_type' => $animal_type,
@@ -1665,6 +1682,18 @@ class ABTCVaccinationController extends Controller
         }
         else {
             $templateProcessor  = new TemplateProcessor(storage_path('CARDABTC.docx'));
+        }
+        
+        if(Carbon::parse(date('Y-m-d'))->isSameDay($b->created_at)) {
+            if($b->patient->isPriority()) {
+                $templateProcessor->setValue('qn', 'P'.$b->priority_queue_number);
+            }
+            else {
+                $templateProcessor->setValue('qn', '#'.$b->queue_number);
+            }
+        }
+        else {
+            $templateProcessor->setValue('qn', '');
         }
         
         $templateProcessor->setValue('rid', $b->case_id);
