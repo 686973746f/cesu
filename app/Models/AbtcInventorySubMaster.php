@@ -19,4 +19,8 @@ class AbtcInventorySubMaster extends Model
     public function master() {
         return $this->belongsTo(AbtcInventoryMaster::class, 'master_id');
     }
+
+    public function facility() {
+        return $this->belongsTo(AbtcVaccinationSite::class, 'abtc_facility_id');
+    }
 }

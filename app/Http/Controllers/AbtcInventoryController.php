@@ -86,13 +86,26 @@ class AbtcInventoryController extends Controller
         ->with('msgtype', 'success');
     }
 
-    public function branchInventoryHome() {
-        $list = AbtcInventorySubMaster::where('abtc_facility_id', auth()->user()->abtc_default_vaccinationsite_id)->get();
-        
+    public function updateMaster($master_id, Request $r) {
+        $d = AbtcInventoryMaster::findOrFail($master_id);
+
+        $d->enabled = $r->enabled;
+        $d->name = $r->name;
+        $d->description = $r->description;
+        $d->uom = $r->uom;
+
+        if($d->isDirty()) {
+            $d->updated_by = Auth::id();
+            $d->save();
+        }
+
+        return redirect()->back()
+        ->with('msg', 'Masterlist ID: '.$d->id.' ('.$d->name.') was updated successfully.')
+        ->with('msgtype', 'success');
     }
 
-    public function viewBranchInventoryItem($sub_id) {
-
+    public function branchInventoryHome() {
+        $list = AbtcInventorySubMaster::where('abtc_facility_id', auth()->user()->abtc_default_vaccinationsite_id)->get();
     }
 
     public function updateBranchInventoryItem($sub_id, Request $r) {
@@ -138,10 +151,10 @@ class AbtcInventoryController extends Controller
                     'transaction_date' => $r->transaction_date,
                     'stock_id' => $s->id,
                     'type' => 'ISSUED',
-                    'process_qty' => $r->current_qty,
+                    'process_qty' => $r->qty_to_process,
                     'before_qty' => $before_qty,
                     'after_qty' => $after_qty,
-                    //'po_number',
+                    'po_number', ($r->po_number) ? mb_strtoupper($r->po_number) : NULL,
                     'unit_price' => $r->unit_price,
                     'unit_price_amount' => ($r->current_qty * $r->unit_price),
                     'remarks' => ($r->remarks) ? mb_strtoupper($r->remarks) : NULL,
@@ -150,9 +163,18 @@ class AbtcInventoryController extends Controller
             }
         }
         else if($r->transaction_type == 'RECEIVED') {
+            $batch_no = mb_strtoupper($r->batch_no);
+            $check = AbtcInventoryStock::where('batch_no', $batch_no)->first();
+
+            if($check) {
+                return redirect()->back()
+                ->with('msg', 'Error: Same Batch Number already exists in the database. Kindly double check and try again.')
+                ->with('msgtype', 'warning');
+            }
+
             $c = AbtcInventoryStock::create([
                 'sub_id' => $d->id,
-                'batch_no' => mb_strtoupper($r->batch_no),
+                'batch_no' => $batch_no,
                 'expiry_date' => $r->expiry_date,
                 'source' => $r->source,
 

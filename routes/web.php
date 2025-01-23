@@ -662,7 +662,8 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     Route::get('/abtc_inventory', [AbtcInventoryController::class, 'home'])->name('abtcinv_home');
     Route::get('/abtc_inventory/masterlist', [AbtcInventoryController::class, 'masterInventoryHome'])->name('abtcinv_masterlist_home');
     Route::post('/abtc_inventory/masterlist/store', [AbtcInventoryController::class, 'storeMaster'])->name('abtcinv_masterlist_store');
-    Route::get('/abtc_inventory/masterlist/{id}/view', [AbtcInventoryController::class, 'masterInventoryHome'])->name('abtcinv_masterlist_view');
+    Route::post('/abtc_inventory/masterlist/{id}/update', [AbtcInventoryController::class, 'updateMaster'])->name('abtcinv_masterlist_item_update');
+    //Route::get('/abtc_inventory/masterlist/{id}/view', [AbtcInventoryController::class, 'masterInventoryHome'])->name('abtcinv_masterlist_view');
 
     Route::get('/abtc_inventory/branch_inventory', [AbtcInventoryController::class, 'branchInventoryHome'])->name('abtcinv_branchinv_home');
     Route::get('/abtc_inventory/branch_inventory/{id}/view', [AbtcInventoryController::class, 'viewBranchInventoryItem'])->name('abtcinv_branchinv_view');

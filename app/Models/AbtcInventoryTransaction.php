@@ -27,4 +27,26 @@ class AbtcInventoryTransaction extends Model
     public function stock() {
         return $this->belongsTo(AbtcInventoryStock::class, 'stock_id');
     }
+
+    public function user() {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function displayProcessQty() {
+        if($this->type == 'ISSUED') {
+            return '- '.$this->process_qty;
+        }
+        else {
+            return '+ '.$this->process_qty;
+        }
+    }
+
+    public function displayType() {
+        if($this->type == 'ISSUED') {
+            return 'USED';
+        }
+        else {
+            return 'RECEIVED';
+        }
+    }
 }

@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
                     <div><b>ABTC Inventory</b></div>
                     <div>
                         @if(auth()->user()->isGlobalAdmin())
-                        <a href="{{route('abtcinv_masterlist_home')}}" class="btn btn-primary">View Masterlist</a>
+                        <a href="{{route('abtcinv_masterlist_home')}}" class="btn btn-outline-warning">View Masterlist</a>
                         @endif
                         <a href="{{route('abtcinv_branchinv_home')}}" class="btn btn-primary">View Inventory</a>
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#quickTransactionModal">Create Transaction</button>
@@ -22,7 +22,40 @@
                 </div>
                 @endif
 
-                
+                <table class="table table-bordered table-striped">
+                    <thead class="thead-light text-center">
+                        <tr>
+                            <th>Transaction ID</th>
+                            <th>Transaction Date</th>
+                            <th>Facility</th>
+                            <th>Type</th>
+                            <th>Source</th>
+                            <th>Item</th>
+                            <th>Quantity</th>
+                            <th>Quantity After</th>
+                            <th>Remarks</th>
+                            <th>Date Posted</th>
+                            <th>Encoder</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($list as $d)
+                        <tr>
+                            <td class="text-center">{{$d->id}}</td>
+                            <td class="text-center">{{date('m/d/Y', strtotime($d->transaction_date))}}</td>
+                            <td class="text-center">{{$d->stock->submaster->facility->site_name}}</td>
+                            <td class="text-center">{{$d->displayType()}}</td>
+                            <td class="text-center">{{($d->type == 'RECEIVED') ? $d->stock->source : 'N/A'}}</td>
+                            <td class="text-center">{{$d->stock->submaster->master->name}}</td>
+                            <td class="text-center">{{$d->displayProcessQty()}}</td>
+                            <td class="text-center">{{$d->after_qty}}</td>
+                            <td class="text-center">{{$d->remarks ?: 'N/A'}}</td>
+                            <td class="text-center">{{date('m/d/Y H:i:s', strtotime($d->created_at))}}</td>
+                            <td class="text-center">{{$d->user->name}}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -67,10 +100,10 @@
                             </div>
                             <div class="form-group">
                                 <label for="transaction_date"><b class="text-danger">*</b>Transaction Date</label>
-                                <input type="date" class="form-control" name="transaction_date" id="transaction_date" max="{{date('Y-m-d')}}">
+                                <input type="date" class="form-control" name="transaction_date" id="transaction_date" max="{{date('Y-m-d')}}" value="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
-                                <label for="qty_to_process"><b class="text-danger">*</b>Amount</label>
+                                <label for="qty_to_process"><b class="text-danger">*</b>Quantity Used</label>
                                 <input type="number" class="form-control" name="qty_to_process" id="qty_to_process" min="1">
                             </div>
                         </div>
@@ -92,8 +125,12 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="current_qty"><b class="text-danger">*</b>Amount</label>
+                                <label for="current_qty"><b class="text-danger">*</b>Quantity Received</label>
                                 <input type="number" class="form-control" name="current_qty" id="current_qty" min="1">
+                            </div>
+                            <div class="form-group">
+                                <label for="po_number">P.O Number</label>
+                                <input type="text" class="form-control" name="po_number" id="po_number" value="{{old('po_number')}}" style="text-transform: uppercase;">
                             </div>
                             <div class="form-group">
                                 <label for="unit_price"><b class="text-danger">*</b>Unit Price</label>
@@ -106,7 +143,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Submit</button>
+                        <button type="submit" class="btn btn-success btn-block">Submit</button>
                     </div>
                 </div>
             </div>
