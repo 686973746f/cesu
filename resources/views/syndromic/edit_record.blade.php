@@ -1905,9 +1905,8 @@ $the_record_id = $d->id;
   let year = today.getFullYear();
   let month = String(today.getMonth() + 1).padStart(2, '0'); // Add leading zero to month
   let day = String(today.getDate()).padStart(2, '0'); // Add leading zero to day
-
-  // Format the date as 'YYYY-MM-DD'
-  let currentDate = `${year}-${month}-${day}`;
+  
+  let currentDate = "{{date('Y-m-d')}}";
 
   $('input[name="consultation_type[]"][value="DENTAL CARE"]').change(function() {
     if ($(this).is(':checked')) {
