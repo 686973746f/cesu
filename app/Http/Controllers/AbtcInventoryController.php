@@ -106,6 +106,10 @@ class AbtcInventoryController extends Controller
 
     public function branchInventoryHome() {
         $list = AbtcInventorySubMaster::where('abtc_facility_id', auth()->user()->abtc_default_vaccinationsite_id)->get();
+
+        return view('abtc.inventory.branch_itemlist', [
+            'list' => $list,
+        ]);
     }
 
     public function updateBranchInventoryItem($sub_id, Request $r) {
