@@ -144,15 +144,28 @@
                 @endif
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="sys_coordinate_x">GPS Coordinate X (Latitude)</label>
-                            <input type="text" class="form-control" value="{{old('sys_coordinate_x', $d->sys_coordinate_x)}}" pattern="\d+(\.\d+)?" id="sys_coordinate_x" name="sys_coordinate_x">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="sys_coordinate_x">GPS Coordinate X (Latitude)</label>
+                                    <input type="text" class="form-control" value="{{old('sys_coordinate_x', $d->sys_coordinate_x)}}" pattern="\d+(\.\d+)?" id="sys_coordinate_x" name="sys_coordinate_x">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="sys_coordinate_y">GPS Coordinate Y (Longitude)</label>
+                                    <input type="text" class="form-control" value="{{old('sys_coordinate_y', $d->sys_coordinate_y)}}" pattern="\d+(\.\d+)?" id="sys_coordinate_y" name="sys_coordinate_y">
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="sys_coordinate_y">GPS Coordinate Y (Longitude)</label>
-                            <input type="text" class="form-control" value="{{old('sys_coordinate_y', $d->sys_coordinate_y)}}" pattern="\d+(\.\d+)?" id="sys_coordinate_y" name="sys_coordinate_y">
+                            <label for="outcome"><b class="text-danger">*</b>Outcome</label>
+                            <select class="form-control" name="outcome" id="outcome" required>
+                                <option value="A" {{(old('outcome', $d->Outcome) == 'A') ? 'selected' : ''}}>Alive</option>
+                                <option value="D" {{(old('outcome', $d->Outcome) == 'D') ? 'selected' : ''}}>Died</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -171,7 +184,7 @@
                 </div>
                 @endif
                 @if (!request()->is('*barangayportal*'))
-                <div class="alert alert-info" role="alert">
+                <div class="alert alert-info mt-3" role="alert">
                     <h6><b class="text-danger">Note:</b></h6>
                     <ul>
                         <li>Minsan nakasulat sa Street/Purok field yung Hint sa correct na subdivision na ilalagay.</li>

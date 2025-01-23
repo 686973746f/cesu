@@ -406,6 +406,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
     Route::get('/pidsr/viewcif/{case}/{epi_id}', [PIDSRController::class, 'viewCif'])->name('pidsr_viewcif');
 
     Route::get('/pidsr/map_viewer/{case}', [PIDSRController::class, 'mapViewerIndex'])->name('pidsr_case_mapviewer');
+    Route::get('/pidsr/download_excel/{case}', [PIDSRController::class, 'mapViewerIndex'])->name('pidsr_download_excel');
     Route::get('/pidsr/mpGetColor', [PIDSRController::class, 'mapViewerGetColor'])->name('pidsr_case_mapviewerGetColor');
 
     Route::get('/pidsr/weeklymonitoring', [PIDSRController::class, 'weeklyMonitoring'])->name('pidsr_weeklymonitoring');

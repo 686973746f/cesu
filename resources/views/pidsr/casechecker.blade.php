@@ -26,7 +26,10 @@
         <div class="card-header">
             <div class="d-flex justify-content-between">
                 <div><b>EDCS-IS In-house List of Case Viewer</b></div>
-                <div><a href="{{route('pidsr_case_mapviewer', ['case' => $case, 'year' => request()->input('year')])}}" class="btn btn-primary"><i class="fas fa-map-marked-alt mr-2"></i>View Spot Map</a></div>
+                <div>
+                    <a href="{{route('pidsr_download_excel', ['case' => $modelName, 'year' => request()->input('year')])}}" class="btn btn-success">Download Excel File</a>
+                    <a href="{{route('pidsr_case_mapviewer', ['case' => $case, 'year' => request()->input('year')])}}" class="btn btn-primary"><i class="fas fa-map-marked-alt mr-2"></i>View Spot Map</a>
+                </div>
             </div>
         </div>
         <div class="card-body">
@@ -188,6 +191,7 @@
                 <table class="table table-striped table-bordered" id="mainTbl">
                     <thead class="thead-light text-center">
                         <tr>
+                            <th>ID</th>
                             <th>Created at</th>
                             <th>Name</th>
                             <th>Age</th>
@@ -294,7 +298,6 @@
 <script>
     $(document).ready(function() {
         $('#mainTbl').DataTable({
-            dom: 'QBfritp',
             processing: true,
             serverSide: true,
             destroy: true, // Allow reinitialization
@@ -306,6 +309,7 @@
                 }
             },
             columns: [
+                { data: 'id', className: 'text-center'},
                 { data: 'encoded_at' , className: 'text-center'},
                 {
                     data: 'name',

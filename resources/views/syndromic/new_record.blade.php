@@ -1299,7 +1299,7 @@
   });
   */
 
-  var getage = {{$patient->getAge()}};
+  var getage = {{$patient->getAgeInt()}};
 
   $('#name_of_physician').select2({
     theme: 'bootstrap',
@@ -1751,6 +1751,6 @@
         $('#w_ast').text('*');
       }
     }
-  });
+  }).trigger('change');
 </script>
 @endsection

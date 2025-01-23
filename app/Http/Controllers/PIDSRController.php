@@ -1215,6 +1215,7 @@ class PIDSRController extends Controller
             //AJAX MODE
             if($case == 'DENGUE') {
                 return view('pidsr.casechecker', [
+                    'modelName' => 'Dengue',
                     'case' => $case,
                     'ajaxMode' => true,
                 ]);
@@ -1225,6 +1226,7 @@ class PIDSRController extends Controller
                 //$columns = Schema::getColumnListing('abd');
 
                 $tbl_name = 'abd';
+                $modelName = 'Abd';
             }
             else if($case == 'AEFI') {
                 $query = Aefi::whereYear('DAdmit', $year);
@@ -1236,24 +1238,29 @@ class PIDSRController extends Controller
                     //$columns = Schema::getColumnListing('pidsr_AEFI');
                     $tbl_name = 'pidsr_AEFI';
                 }
+
+                $modelName = 'Aefi';
             }
             else if($case == 'AES') {
                 $query = Aes::where('year', $year);
                 //$columns = Schema::getColumnListing('aes');
 
                 $tbl_name = 'aes';
+                $modelName = 'Aes';
             }
             else if($case == 'AFP') {
                 $query = Afp::where('year', $year);
                 //$columns = Schema::getColumnListing('afp');
 
                 $tbl_name = 'afp';
+                $modelName = 'Afp';
             }
             else if($case == 'AHF') {
                 $query = Ahf::where('year', $year);
                 //$columns = Schema::getColumnListing('ahf');
 
                 $tbl_name = 'ahf';
+                $modelName = 'Ahf';
             }
             else if($case == 'AMES') {
                 $query = Ames::where('year', $year);
@@ -1266,135 +1273,158 @@ class PIDSRController extends Controller
                 //$columns = Schema::getColumnListing('anthrax');
 
                 $tbl_name = 'anthrax';
+                $modelName = 'Anthrax';
             }
             else if($case == 'CHIKV') {
                 $query = Chikv::where('year', $year);
                 //$columns = Schema::getColumnListing('chikv');
 
                 $tbl_name = 'chikv';
+                $modelName = 'Chikv';
             }
             else if($case == 'CHOLERA') {
                 $query = Cholera::where('year', $year);
                 //$columns = Schema::getColumnListing('cholera');
 
                 $tbl_name = 'cholera';
+                $modelName = 'Cholera';
             }
             else if($case == 'DENGUE') {
                 $query = Dengue::where('year', $year);
                 //$columns = Schema::getColumnListing('dengue');
 
                 $tbl_name = 'dengue';
+                $modelName = 'Dengue';
             }
             else if($case == 'DIPH') {
                 $query = Diph::where('year', $year);
                 //$columns = Schema::getColumnListing('diph');
 
                 $tbl_name = 'diph';
+                $modelName = 'Diph';
             }
             else if($case == 'HEPATITIS') {
                 $query = Hepatitis::where('year', $year);
                 //$columns = Schema::getColumnListing('hepatitis');
 
                 $tbl_name = 'hepatitis';
+                $modelName = 'Hepatitis';
             }
             else if($case == 'HFMD') {
                 $query = Hfmd::where('year', $year);
                 //$columns = Schema::getColumnListing('hfmd');
 
                 $tbl_name = 'hfmd';
+                $modelName = 'Hfmd';
             }
             else if($case == 'INFLUENZA') {
                 $query = Influenza::where('year', $year);
                 //$columns = Schema::getColumnListing('influenza');
 
                 $tbl_name = 'influenza';
+                $modelName = 'Influenza';
             }
             else if($case == 'LEPTOSPIROSIS') {
                 $query = Leptospirosis::where('year', $year);
                 //$columns = Schema::getColumnListing('leptospirosis');
 
                 $tbl_name = 'leptospirosis';
+                $modelName = 'Leptospirosis';
             }
             else if($case == 'MALARIA') {
                 $query = Malaria::where('year', $year);
                 //$columns = Schema::getColumnListing('malaria');
 
                 $tbl_name = 'malaria';
+                $modelName = 'Malaria';
             }
             else if($case == 'MEASLES') {
                 $query = Measles::where('year', $year);
                 //$columns = Schema::getColumnListing('measles');
 
                 $tbl_name = 'measles';
+                $modelName = 'Measles';
             }
             else if($case == 'MENINGITIS') {
                 $query = Meningitis::where('year', $year);
                 //$columns = Schema::getColumnListing('meningitis');
 
                 $tbl_name = 'meningitis';
+                $modelName = 'Meningitis';
             }
             else if($case == 'MENINGO') {
                 $query = Meningo::where('year', $year);
                 //$columns = Schema::getColumnListing('meningo');
 
                 $tbl_name = 'meningo';
+                $modelName = 'Meningo';
             }
             else if($case == 'NNT') {
                 $query = Nnt::where('year', $year);
                 //$columns = Schema::getColumnListing('nnt');
 
                 $tbl_name = 'nnt';
+                $modelName = 'Nnt';
             }
             else if($case == 'NT') {
                 $query = Nt::where('year', $year);
                 //$columns = Schema::getColumnListing('nt');
 
                 $tbl_name = 'nt';
+                $modelName = 'Nt';
             }
             else if($case == 'PERT') {
                 $query = Pert::where('year', $year);
                 //$columns = Schema::getColumnListing('pert');
 
                 $tbl_name = 'pert';
+                $modelName = 'Pert';
             }
             else if($case == 'PSP') {
                 $query = Psp::where('year', $year);
                 //$columns = Schema::getColumnListing('psp');
 
                 $tbl_name = 'psp';
+                $modelName = 'Psp';
             }
             else if($case == 'RABIES') {
                 $query = Rabies::where('year', $year);
                 //$columns = Schema::getColumnListing('rabies');
 
                 $tbl_name = 'rabies';
+                $modelName = 'Rabies';
             }
             else if($case == 'ROTAVIRUS') {
                 $query = Rotavirus::where('year', $year);
                 //$columns = Schema::getColumnListing('rotavirus');
 
                 $tbl_name = 'rotavirus';
+                $modelName = 'Rotavirus';
             }
             else if($case == 'SARI') {
                 $query = SevereAcuteRespiratoryInfection::where('year', $year);
                 //$columns = Schema::getColumnListing('rotavirus');
 
                 $tbl_name = 'severe_acute_respiratory_infections';
+                $modelName = 'Sari';
             }
             else if($case == 'TYPHOID') {
                 $query = Typhoid::where('year', $year);
                 //$columns = Schema::getColumnListing('typhoid');
 
                 $tbl_name = 'typhoid';
+                $modelName = 'Typhoid';
             }
             else if($case == 'MPOX') {
                 $query = MonkeyPox::where('year', $year);
                 //$columns = Schema::getColumnListing('typhoid');
 
                 $tbl_name = 'monkey_poxes';
+                $modelName = 'MonkeyPox';
             }
             else if($case == 'COVID') {
                 $query = Forms::where('year', $year);
+                $modelName = 'Forms';
             }
 
             if($case == 'COVID') {
@@ -1453,6 +1483,7 @@ class PIDSRController extends Controller
             $query = $query->orderBy('created_at', 'DESC')->get();
 
             return view('pidsr.casechecker', [
+                'modelName' => $modelName,
                 'list' => $query,
                 'columns' => $columns,
                 'case' => $case,
@@ -1806,6 +1837,7 @@ class PIDSRController extends Controller
 
                 $d->streetpurok = $r->Streetpurok;
                 $d->barangay = Brgy::find($r->Barangay)->brgyName;
+                $d->outcome = $r->outcome;
             }
             else {
                 $d->FamilyName = $r->FamilyName;
@@ -1815,6 +1847,7 @@ class PIDSRController extends Controller
 
                 $d->Streetpurok = $r->Streetpurok;
                 $d->Barangay = Brgy::find($r->Barangay)->brgyName;
+                $d->Outcome = $r->outcome;
 
                 $getFullName = $d->FamilyName.', '.$d->FirstName;
 
@@ -10265,6 +10298,7 @@ class PIDSRController extends Controller
         $final_array = [];
         foreach ($paginated->items() as $d) {
             $final_array[] = [
+                'id' => $d->id,
                 'name' => $d->getName(),
                 'age' => $d->displayAgeStringToReport(),
                 'sex' => $d->Sex,
@@ -10392,5 +10426,9 @@ class PIDSRController extends Controller
                 'message' => 'Failed to open the ZIP file.',
             ], 500);
         }
+    }
+
+    public function downloadExcel($case) {
+
     }
 }
