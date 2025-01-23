@@ -73,14 +73,18 @@
                 @endif
 
                 @if($d->facility_id == 10886 || $d->facility_id == 39708 || $d->facility_id == 11730)
+                @if(in_array('DENTAL CARE', explode(",", $d->consultation_type)))
+                <p style="font-size: 25px;" class="text-center mb-3"><b>DENTAL CERTIFICATE</b></p>
+                @else
                 <p style="font-size: 25px;" class="text-center mb-3"><b>MEDICAL CERTIFICATE</b></p>
+                @endif
                 <div class="text-right mb-3">
                     <h5>Date: <u>{{date('M. d, Y', strtotime($d->medcert_generated_date))}}</u></h5>
                 </div>
 
                 <p style="font-size: 20px;">To whom it may concern:</p>
                 @if($d->facility_id == 11730)
-                <p style="font-size: 20px;text-align:justify">This is to certify that I have examined/treated {{ucwords($d->syndromic_patient->getPrefix())}} <b><u>{{$d->syndromic_patient->getName()}}</u></b>, <b><u>{{$d->syndromic_patient->getAge()}}</u></b> years old, <u><b>{{$d->syndromic_patient->gender}}, {{$d->syndromic_patient->cs}}</b></u>, a resident of <u><b>{{$d->syndromic_patient->getFullAddress()}}</b></u> from ______________________ to ______________________.</p>
+                <p style="font-size: 20px;text-align:justify">This is to certify that I have examined/treated {{ucwords($d->syndromic_patient->getPrefix())}} <b><u>{{$d->syndromic_patient->getName()}}</u></b>, <b><u>{{$d->syndromic_patient->getAge()}}</u></b> years old, <u><b>{{$d->syndromic_patient->gender}}, {{$d->syndromic_patient->cs}}</b></u>, a resident of <u><b>{{$d->syndromic_patient->getFullAddress()}}</b></u> from <u>{{($d->medcert_start_date) ? date('F d, Y', strtotime($d->medcert_start_date)) : '                      '}}</u> to ______________________.</p>
                 <p style="font-size: 20px;">BP: <u class="mr-3">{{(!is_null($d->bloodpressure)) ? $d->bloodpressure : '_____'}}</u> @if(!is_null($d->height))HT: <u class="mr-3">{{(!is_null($d->height)) ? $d->height.'cm' : '_____'}}</u>@endif @if(!is_null($d->weight))WT: <u class="mr-3">{{(!is_null($d->weight)) ? $d->weight.'kg' : '_____'}}</u>@endif TEMP: <u>{{(!is_null($d->temperature)) ? $d->temperature.'°C' : '_____'}}</u></p>
                 @else
                 <p style="font-size: 20px;text-align:justify">This is to certify that {{ucwords($d->syndromic_patient->getPrefix())}} <b><u>{{$d->syndromic_patient->getName()}}</u></b>, <b><u>{{$d->syndromic_patient->getAge()}}</u></b> years old <u><b>{{$d->syndromic_patient->gender}} / {{$d->syndromic_patient->cs}}</b></u>, a resident of <u><b>{{$d->syndromic_patient->getFullAddress()}}</b></u> was seen, examined or treated on our facility. @if($d->getMedCertStartDate() != '-') From <u>{{$d->getMedCertStartDate()}}</u> to <u>{{$d->getMedCertEndDate()}}</u>. @endif</p>

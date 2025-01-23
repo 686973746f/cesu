@@ -1982,8 +1982,11 @@ class SyndromicController extends Controller
         //$d->outcome = 'RECOVERED';
         //$d->outcome_recovered_date = $r->medcert_validity_date;
 
-        if($r->filled('medcert_start_date') && $r->filled('medcert_end_date')) {
+        if($r->filled('medcert_start_date')) {
             $d->medcert_start_date = $r->medcert_start_date;
+        }
+
+        if($r->filled('medcert_start_date') && $r->filled('medcert_end_date')) {
             $d->medcert_end_date = $r->medcert_end_date;
         }
 
