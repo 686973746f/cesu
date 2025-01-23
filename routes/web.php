@@ -667,7 +667,8 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
 
     Route::get('/abtc_inventory/branch_inventory', [AbtcInventoryController::class, 'branchInventoryHome'])->name('abtcinv_branchinv_home');
     Route::get('/abtc_inventory/branch_inventory/{id}/view', [AbtcInventoryController::class, 'viewBranchInventoryItem'])->name('abtcinv_branchinv_view');
-    Route::get('/abtc_inventory/branch_inventory/{id}/update', [AbtcInventoryController::class, 'updateBranchInventoryItem'])->name('abtcinv_branchinv_update');
+    Route::get('/abtc_inventory/branch_inventory/{id}/view/more_transactions', [AbtcInventoryController::class, 'viewMoreTransactions'])->name('abtc_viewmore_transactions');
+    //Route::get('/abtc_inventory/branch_inventory/{id}/update', [AbtcInventoryController::class, 'updateBranchInventoryItem'])->name('abtcinv_branchinv_update');
     //Route::get('/abtc_inventory/branch_inventory/{id}/new_stock', [AbtcInventoryController::class, 'home'])->name('abtcinv_branchinv_newstock');
     //Route::post('/abtc_inventory/branch_inventory/{id}/new_stock/store', [AbtcInventoryController::class, 'home'])->name('abtcinv_branchinv_newstock_store');
 

@@ -5,7 +5,10 @@
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <div><b>ABTC Inventory</b></div>
+                    <div>
+                        <div><b>ABTC Inventory</b></div>
+                        <div>(Sorted from Newest to Oldest)</div>
+                    </div>
                     <div>
                         @if(auth()->user()->isGlobalAdmin())
                         <a href="{{route('abtcinv_masterlist_home')}}" class="btn btn-outline-warning">View Masterlist</a>
@@ -22,45 +25,52 @@
                 </div>
                 @endif
 
-                <table class="table table-bordered table-striped">
-                    <thead class="thead-light text-center">
-                        <tr>
-                            <th>Transaction ID</th>
-                            <th>Transaction Date</th>
-                            <th>Facility</th>
-                            <th>Type</th>
-                            <th>Source</th>
-                            <th>Item</th>
-                            <th>Quantity</th>
-                            <th>Quantity After</th>
-                            <th>Remarks</th>
-                            <th>Date Posted</th>
-                            <th>Encoder</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($list as $d)
-                        <tr>
-                            <td class="text-center">{{$d->id}}</td>
-                            <td class="text-center">{{date('m/d/Y', strtotime($d->transaction_date))}}</td>
-                            <td class="text-center">{{$d->stock->submaster->facility->site_name}}</td>
-                            <td class="text-center">{{$d->displayType()}}</td>
-                            <td class="text-center">{{($d->type == 'RECEIVED') ? $d->stock->source : 'N/A'}}</td>
-                            <td class="text-center">{{$d->stock->submaster->master->name}}</td>
-                            <td class="text-center">{{$d->displayProcessQty()}}</td>
-                            <td class="text-center">{{$d->after_qty}}</td>
-                            <td class="text-center">{{$d->remarks ?: 'N/A'}}</td>
-                            <td class="text-center">{{date('m/d/Y H:i:s', strtotime($d->created_at))}}</td>
-                            <td class="text-center">{{$d->user->name}}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead class="thead-light text-center">
+                            <tr>
+                                <th>Transaction ID</th>
+                                <th>Transaction Date</th>
+                                <th>Facility</th>
+                                <th>Type</th>
+                                <th>Source</th>
+                                <th>Item</th>
+                                <th>Batch No.</th>
+                                <th>Quantity</th>
+                                <th>Quantity After</th>
+                                <th>Remarks</th>
+                                <th>Date Posted</th>
+                                <th>Encoder</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($list as $d)
+                            <tr>
+                                <td class="text-center">{{$d->id}}</td>
+                                <td class="text-center">{{date('m/d/Y', strtotime($d->transaction_date))}}</td>
+                                <td class="text-center">{{$d->stock->submaster->facility->site_name}}</td>
+                                <td class="text-center">{{$d->displayType()}}</td>
+                                <td class="text-center">{{$d->stock->source}}</td>
+                                <td class="text-center">{{$d->stock->submaster->master->name}}</td>
+                                <td class="text-center">{{$d->stock->batch_no}}</td>
+                                <td class="text-center">{{$d->displayProcessQty()}}</td>
+                                <td class="text-center">{{$d->after_qty}}</td>
+                                <td class="text-center">{{$d->remarks ?: 'N/A'}}</td>
+                                <td class="text-center">{{date('m/d/Y H:i:s', strtotime($d->created_at))}}</td>
+                                <td class="text-center">{{$d->user->name}}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination justify-content-center mt-3">
+                    {{$list->appends(request()->input())->links()}}
+                </div>
             </div>
         </div>
     </div>
 
-    <form action="{{route('abtcinv_process_transaction')}}" method="POST">
+    <form action="{{route('abtcinv_process_transaction')}}" method="POST" autocomplete="off">
         @csrf
         <div class="modal fade" id="quickTransactionModal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">

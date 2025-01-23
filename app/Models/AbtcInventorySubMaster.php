@@ -23,4 +23,23 @@ class AbtcInventorySubMaster extends Model
     public function facility() {
         return $this->belongsTo(AbtcVaccinationSite::class, 'abtc_facility_id');
     }
+
+    public function user() {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function getUpdatedBy() {
+        if(!is_null($this->updated_by)) {
+            return $this->belongsTo(User::class, 'updated_by');
+        }
+        else {
+            return NULL;
+        }
+    }
+
+    public function getTotalQuantityAvailable() {
+        $total = AbtcInventoryStock::where('sub_id', $this->id)->sum('current_qty');
+
+        return $total;
+    }
 }

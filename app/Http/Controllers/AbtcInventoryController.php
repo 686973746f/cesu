@@ -112,6 +112,79 @@ class AbtcInventoryController extends Controller
         ]);
     }
 
+    public function viewBranchInventoryItem($sub_id) {
+        $d = AbtcInventorySubMaster::findOrFail($sub_id);
+
+        if(!auth()->user()->isGlobalAdmin()) {
+            if($d->abtc_facility_id != auth()->user()->abtc_default_vaccinationsite_id) {
+                return redirect()->back()
+                ->with('msg', 'You are not allowed to do that.')
+                ->with('msgtype', 'warning');
+            }
+        }
+
+        //List Stocks
+        $stock_list = AbtcInventoryStock::where('sub_id', $d->id)
+        ->orderBy('created_at', 'DESC')
+        ->paginate(10);
+
+        //List Recent Transactions
+        $transaction_list = AbtcInventoryTransaction::whereHas('stock', function ($q) use ($d) {
+            $q->where('sub_id', $d->id);
+        })->orderBy('created_at', 'DESC')
+        ->paginate(30);
+
+        return view('abtc.inventory.branch_viewitem', [
+            'd' => $d,
+            'stock_list' => $stock_list,
+            'transaction_list' => $transaction_list,
+        ]);
+    }
+
+    public function viewMoreStocks($sub_id) {
+        $d = AbtcInventorySubMaster::findOrFail($sub_id);
+
+        if(!auth()->user()->isGlobalAdmin()) {
+            if($d->abtc_facility_id != auth()->user()->abtc_default_vaccinationsite_id) {
+                return redirect()->back()
+                ->with('msg', 'You are not allowed to do that.')
+                ->with('msgtype', 'warning');
+            }
+        }
+
+        //List Stocks
+        $list = AbtcInventoryStock::where('sub_id', $d->id)
+        ->orderBy('created_at', 'DESC')
+        ->paginate(10);
+
+        return view('abtc.inventory.branch_viewitem', [
+            'd' => $d,
+            'list' => $list,
+        ]);
+    }
+
+    public function viewMoreTransactions($sub_id) {
+        $d = AbtcInventorySubMaster::findOrFail($sub_id);
+
+        if(!auth()->user()->isGlobalAdmin()) {
+            if($d->abtc_facility_id != auth()->user()->abtc_default_vaccinationsite_id) {
+                return redirect()->back()
+                ->with('msg', 'You are not allowed to do that.')
+                ->with('msgtype', 'warning');
+            }
+        }
+
+        $list = AbtcInventoryTransaction::whereHas('stock', function ($q) use ($d) {
+            $q->where('sub_id', $d->id);
+        })->orderBy('created_at', 'DESC')
+        ->paginate(30);
+        
+        return view('abtc.inventory.branch_more_transactions', [
+            'd' => $d,
+            'list' => $list,
+        ]);
+    }
+
     public function updateBranchInventoryItem($sub_id, Request $r) {
 
     }
@@ -168,7 +241,10 @@ class AbtcInventoryController extends Controller
         }
         else if($r->transaction_type == 'RECEIVED') {
             $batch_no = mb_strtoupper($r->batch_no);
-            $check = AbtcInventoryStock::where('batch_no', $batch_no)->first();
+            
+            $check = AbtcInventoryStock::where('sub_id', $d->id)
+            ->where('batch_no', $batch_no)
+            ->first();
 
             if($check) {
                 return redirect()->back()
@@ -208,8 +284,11 @@ class AbtcInventoryController extends Controller
 
     public function getInventoryStocks($sub_id) {
         $list = [];
-        $data = AbtcInventoryStock::where('sub_id', $sub_id)
+
+        $data = AbtcInventoryStock::where('enabled', 'Y')
+        ->where('sub_id', $sub_id)
         ->where('current_qty', '>', 0)
+        ->whereDate('expiry_date', '>=', date('Y-m-d'))
         ->get();
         
         foreach($data as $item) {
