@@ -189,7 +189,7 @@
                             <table class="table table-bordered table-striped" id="card_tbl">
                                 <thead class="thead-light text-center">
                                     <tr>
-                                        <th>#</th>
+                                        <th>Transaction ID</th>
                                         <th>Date</th>
                                         <th>Received</th>
                                         <th>Issued</th>
@@ -203,7 +203,7 @@
                                 <tbody>
                                     @foreach($scard as $ind => $s)
                                     <tr class="text-center">
-                                        <td class="text-center">{{$ind+1}}</td>
+                                        <td class="text-center">{{$s->id}}</td>
                                         <td>{{date('m/d/Y h:i A', strtotime($s->created_at))}}</td>
                                         <td class="text-success">{{($s->type == 'RECEIVED') ? '+ '.$s->getQtyAndType() : ''}}</td>
                                         <td class="text-danger">{{($s->type == 'ISSUED') ? '- '.$s->getQtyAndType() : ''}}</td>
@@ -218,6 +218,11 @@
                             </table>
                         </div>
                     </div>
+                    @if($scard->total() > 10)
+                    <div class="card-footer text-right">
+                        <a href="{{route('pharmacy_itemlist_viewmoretransactions', $d->id)}}">View More Transactions</a>
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -262,8 +267,5 @@
         });
 
         $('#batch_tbl').dataTable();
-
-        $('#card_tbl').dataTable({
-        });
     </script>
 @endsection

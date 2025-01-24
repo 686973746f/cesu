@@ -1829,12 +1829,30 @@ class PharmacyController extends Controller
 
             $scard = PharmacyStockCard::where('subsupply_id', $item->id)
             ->orderBy('created_at', 'DESC')
-            ->get();
+            ->paginate(10);
 
             return view('pharmacy.itemlist_viewSub', [
                 'd' => $item,
                 'sub_list' => $sub_list,
                 'scard' => $scard,
+            ]);
+        }
+        else {
+            return abort(401);
+        }
+    }
+
+    public function viewMoreTransactions($item_id) {
+        $item = PharmacySupplySub::findOrFail($item_id);
+
+        if($item->pharmacy_branch_id == auth()->user()->pharmacy_branch_id) {
+            $list = PharmacyStockCard::where('subsupply_id', $item->id)
+            ->orderBy('created_at', 'DESC')
+            ->paginate(10);
+
+            return view('pharmacy.itemlist_viewSub_moreTransactions', [
+                'd' => $item,
+                'list' => $list,
             ]);
         }
         else {
