@@ -9628,33 +9628,32 @@ class PIDSRController extends Controller
         
                         $sheet->setCellValue('S'.$row, 'N'); //Member of Indigenous People
                         $sheet->setCellValue('T'.$row, ''); //Indigenous People Tribe
-                        $sheet->setCellValue('U'.$row, ''); //Indigenous People Tribe
-                        $sheet->setCellValue('V'.$row, $cf->healthfacility_code); //Facility Code
-                        $sheet->setCellValue('W'.$row, $cf->edcs_region_code); //DRU Region Code
-                        $sheet->setCellValue('X'.$row, $cf->edcs_province_code); //DRU Province Code
-                        $sheet->setCellValue('Y'.$row, $cf->edcs_muncity_code); //DRU MunCity Code
-                        $sheet->setCellValue('Z'.$row, 'Y'); //Consulted
-                        $sheet->setCellValue('AA'.$row, Carbon::parse($d->DateOfEntry)->format('m/d/Y')); //Date Consulted
-                        $sheet->setCellValue('AB'.$row, $cf->facility_name); //Place Consulted
-                        $sheet->setCellValue('AC'.$row, ($d->Admitted == 1) ? 'Y' : 'N'); //Admitted
-                        $sheet->setCellValue('AD'.$row, ($d->Admitted == 1) ? Carbon::parse($d->DAdmit)->parse('m/d/Y') : ''); //Date Admitted
-                        $sheet->setCellValue('AE'.$row, Carbon::parse($d->DOnset)->format('m/d/Y')); //Date Onset of Illness
-                        $sheet->setCellValue('AF'.$row, 0); //Number of Dengue Vaccine
-                        $sheet->setCellValue('AG'.$row, ''); //Date First Vaccination Dengue
-                        $sheet->setCellValue('AH'.$row, ''); //Date Last Vaccination Dengue
-                        $sheet->setCellValue('AI'.$row, $d->getEdcsCsvClinicalClass()); //Clinical Classification
-                        $sheet->setCellValue('AJ'.$row, $d->getEdcsCsvCaseClass()); //Case Classification (SUS, PROB, CON)
-                        $sheet->setCellValue('AK'.$row, $d->Outcome); //Outcome
-                        $sheet->setCellValue('AL'.$row, ($d->Outcome == 'D') ? Carbon::parse($d->DateDied)->format('m/d/Y') : NULL); //Patient ID
-                        $sheet->setCellValue('AM'.$row, $specimen_type); //Specimen Type (STL - Stool, BLD - Blood, SRM - Saliva)
-                        $sheet->setCellValue('AN'.$row, $specimen_date_collected); //Date Specimen Collected
-                        $sheet->setCellValue('AO'.$row, $specimen_sent_to_ritm); //Sent to RITM
-                        $sheet->setCellValue('AP'.$row, $specimen_ritm_sent_date); //Date Sent to RITM
-                        $sheet->setCellValue('AQ'.$row, $specimen_ritm_received_date); //Date Received RITM
-                        $sheet->setCellValue('AR'.$row, $specimen_result); //Laboratory Reslt
-                        $sheet->setCellValue('AS'.$row, $specimen_type_organism); //Type of Organism
-                        $sheet->setCellValue('AT'.$row, $specimen_typeof_test); //Type of Test Conducted
-                        $sheet->setCellValue('AU'.$row, $specimen_interpretation); //Interpretation
+                        $sheet->setCellValue('U'.$row, $cf->healthfacility_code); //Facility Code
+                        $sheet->setCellValue('V'.$row, $cf->edcs_region_code); //DRU Region Code
+                        $sheet->setCellValue('W'.$row, $cf->edcs_province_code); //DRU Province Code
+                        $sheet->setCellValue('X'.$row, $cf->edcs_muncity_code); //DRU MunCity Code
+                        $sheet->setCellValue('Y'.$row, 'Y'); //Consulted
+                        $sheet->setCellValue('Z'.$row, Carbon::parse($d->DateOfEntry)->format('m/d/Y')); //Date Consulted
+                        $sheet->setCellValue('AA'.$row, $cf->facility_name); //Place Consulted
+                        $sheet->setCellValue('AB'.$row, ($d->Admitted == 1) ? 'Y' : 'N'); //Admitted
+                        $sheet->setCellValue('AC'.$row, ($d->Admitted == 1) ? Carbon::parse($d->DAdmit)->parse('m/d/Y') : ''); //Date Admitted
+                        $sheet->setCellValue('AD'.$row, Carbon::parse($d->DOnset)->format('m/d/Y')); //Date Onset of Illness
+                        $sheet->setCellValue('AE'.$row, 0); //Number of Dengue Vaccine
+                        $sheet->setCellValue('AF'.$row, ''); //Date First Vaccination Dengue
+                        $sheet->setCellValue('AG'.$row, ''); //Date Last Vaccination Dengue
+                        $sheet->setCellValue('AH'.$row, $d->getEdcsCsvClinicalClass()); //Clinical Classification
+                        $sheet->setCellValue('AI'.$row, $d->getEdcsCsvCaseClass()); //Case Classification (SUS, PROB, CON)
+                        $sheet->setCellValue('AJ'.$row, $d->Outcome); //Outcome
+                        $sheet->setCellValue('AK'.$row, ($d->Outcome == 'D') ? Carbon::parse($d->DateDied)->format('m/d/Y') : NULL); //Patient ID
+                        $sheet->setCellValue('AL'.$row, $specimen_type); //Specimen Type (STL - Stool, BLD - Blood, SRM - Saliva)
+                        $sheet->setCellValue('AM'.$row, $specimen_date_collected); //Date Specimen Collected
+                        $sheet->setCellValue('AN'.$row, $specimen_sent_to_ritm); //Sent to RITM
+                        $sheet->setCellValue('AO'.$row, $specimen_ritm_sent_date); //Date Sent to RITM
+                        $sheet->setCellValue('AP'.$row, $specimen_ritm_received_date); //Date Received RITM
+                        $sheet->setCellValue('AQ'.$row, $specimen_result); //Laboratory Reslt
+                        $sheet->setCellValue('AR'.$row, $specimen_type_organism); //Type of Organism
+                        $sheet->setCellValue('AS'.$row, $specimen_typeof_test); //Type of Test Conducted
+                        $sheet->setCellValue('AT'.$row, $specimen_interpretation); //Interpretation
         
                         //$d->addToProcessedDiseaseTag('DENGUE');
 
