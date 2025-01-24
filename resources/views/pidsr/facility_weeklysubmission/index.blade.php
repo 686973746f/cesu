@@ -205,7 +205,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="year"><b class="text-danger">*</b>Year</label>
-                            <input type="number" class="form-control" name="year" id="year" min="2024" max="{{date('Y')}}" value="{{(request()->input('year')) ? request()->input('year') : date('Y')}}" required>
+                            <input type="number" class="form-control" name="year" id="year" min="2025" max="{{date('Y')}}" value="{{(request()->input('year')) ? request()->input('year') : date('Y')}}" required>
                         </div>
                         <div class="form-group">
                             <label for="mw"><b class="text-danger">*</b>Morbidity Week</label>
