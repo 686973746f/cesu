@@ -27,7 +27,8 @@
             <div class="d-flex justify-content-between">
                 <div><b>EDCS-IS In-house List of Case Viewer</b></div>
                 <div>
-                    <a href="{{route('pidsr_download_excel', ['case' => $modelName, 'year' => request()->input('year')])}}" class="btn btn-success">Download Excel File</a>
+                    <a href="{{route('pidsr_download_excel', ['case' => $modelName, 'year' => request()->input('year')])}}" class="btn btn-success">Export to Excel</a>
+                    <a href="{{route('edcs_view_exportables', [auth()->user()->opdfacility->sys_code1, $case])}}" class="btn btn-primary">View Imports to EDCS</a>
                     <a href="{{route('pidsr_case_mapviewer', ['case' => $case, 'year' => request()->input('year')])}}" class="btn btn-primary"><i class="fas fa-map-marked-alt mr-2"></i>View Spot Map</a>
                 </div>
             </div>
