@@ -63,7 +63,7 @@ class Kernel extends ConsoleKernel
         */
 
         $schedule->command('autotkc:daily')->dailyAt('16:40')->evenInMaintenanceMode();
-        $schedule->command('abtcstockreport:daily')->dailyAt('16:40')->evenInMaintenanceMode();
+        //$schedule->command('abtcstockreport:daily')->dailyAt('16:40')->evenInMaintenanceMode();
         
         $schedule->command('pharmacy:check_expiry')->dailyAt('00:00')->evenInMaintenanceMode();
         $schedule->command('resetmedicalevent:daily')->dailyAt('00:05')->evenInMaintenanceMode();

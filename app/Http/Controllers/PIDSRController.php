@@ -9040,6 +9040,14 @@ class PIDSRController extends Controller
             $created_by = Auth::id();
         }
 
+        if($f->id == 10886) {
+            //CUSTOM DOH FACILITY CODE FOR EDCS-IS
+            $health_facility_code = 'DOH000000000046386';
+        }
+        else {
+            $health_facility_code = $f->healthfacility_code;
+        }
+
         $birthdate = Carbon::parse($r->bdate);
         $currentDate = Carbon::parse($r->date_investigation);
 
@@ -9392,7 +9400,7 @@ class PIDSRController extends Controller
                     'systemsent' => 0,
                     'match_casedef' => $match_casedef,
                     'from_inhouse' => 1,
-                    'edcs_healthFacilityCode' => $f->healthfacility_code,
+                    'edcs_healthFacilityCode' => $health_facility_code,
                     
                     'sys_interviewer_name' => mb_strtoupper($r->sys_interviewer_name),
                     'edcs_investigatorName' => mb_strtoupper($r->sys_interviewer_name),

@@ -26,7 +26,7 @@
                                     <th>Age/Sex</th>
                                     <th>Street/Purok</th>
                                     <th>Barangay</th>
-                                    <th>Created At</th>
+                                    <th>Created at/by</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -36,7 +36,14 @@
                                         <input type="checkbox" name="ids[]" class="ids" value="{{$d->id}}">
                                     </td>
                                     <td class="text-center">{{$d->id}}</td>
-                                    <td></td>
+                                    <td>{{$d->getName()}}</td>
+                                    <td class="text-center">{{$d->AgeYears}}/{{$d->Sex}}</td>
+                                    <td>{{$d->Streetpurok}}</td>
+                                    <td class="text-center">{{$d->Barangay}}</td>
+                                    <td class="text-center">
+                                        <div>{{date('m/d/Y H:i:s', strtotime($d->created_at))}}</div>
+                                        <div>by {{$d->user->name}}</div>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>

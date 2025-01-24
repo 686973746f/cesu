@@ -79,6 +79,10 @@ class Dengue extends Model
 
     public $guarded = [];
 
+    public function user() {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
     public function getEdcsFacilityName() {
         $s = DohFacility::where('healthfacility_code', $this->edcs_healthFacilityCode)->first();
 

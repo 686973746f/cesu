@@ -2061,96 +2061,128 @@ class DengueImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 $getDruFacilityTypeText = EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type;
             }
 
-            $table_params = [
-                'Icd10Code' => 'A90',
-                'RegionOFDrU' => $getDruRegionText,
-                'ProvOfDRU' => $getDruProvinceText,
-                'MuncityOfDRU' => $getDruMuncityText,
-                'DRU' => $getDruFacilityTypeText,
-                'NameOfDru' => $row['facilityname'],
-                'AddressOfDRU' => NULL,
-                
-                'Region' => '04A',
-                'Province' => 'CAVITE',
-                'Muncity' => 'GENERAL TRIAS',
-                'DateOfEntry' => EdcsImport::tDate($row['timestamp']),
-                
-                'PatientNumber' => $row['patient_no'],
-                'FirstName' => $row['first_name'],
-                'FamilyName' => $row['last_name'],
-                'FullName' => $getFullName,
-                'AgeYears' => $row['age_in_years'],
-                'AgeMons' => $getAgeMonths,
-                'AgeDays' => $getAgeDays,
-                'Sex' => strtoupper(substr($row['sex'],0,1)),
-                'DOB' => EdcsImport::tDate($row['date_of_birth']),
-                'Admitted' => ($row['patient_admitted'] == 'Y') ? 1 : 0,
-                'DAdmit' => EdcsImport::tDate($row['date_admitted_seen']),
-                'DOnset' => EdcsImport::tDate($row['date_on_set_of_illness_first_symptoms']),
-                'Type' => 'DF',
-                'LabTest' => NULL,
-                'LabRes' => NULL,
-                'ClinClass' => $get_classi,
-                'Outcome' => (isset($row['outcome'])) ? mb_strtoupper(substr($row['outcome'],0,1)) : mb_strtoupper(substr($row['outcome2'],0,1)),
-                'EPIID' => $row['epi_id'],
-                'DateDied' => EdcsImport::tDate($row['date_died']),
-                
-                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
-                'MorbidityWeek' => $row['morbidity_week'],
-                'AdmitToEntry' => preg_replace('/[^0-9]/', '', $row['timelapse_dateadmittodateencode']),
-                'OnsetToAdmit' => preg_replace('/[^0-9]/', '', $row['timelapse_dateonsettodateencode']),
-                'SentinelSite' => NULL,
-                'DeleteRecord' => NULL,
-                'Year' => $row['year'],
-                'Recstatus' => NULL,
-                'UniqueKey' => Dengue::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
-                
-                'ILHZ' => 'GENTAMAR',
-                'District' => 6,
-                
-                'TYPEHOSPITALCLINIC' => $row['verification_level'],
-                'SENT' => 'Y',
-                'ip' => 'N',
-                'ipgroup' => NULL,
+            if(Str::startsWith($row['patient_no'], 'MPSS_') && Str::endsWith($row['patient_no'], 'E')) {
+                preg_match('/\d+/', $row['patient_no'], $matches);
 
-                'middle_name' => ($row['middle_name'] != '' && !is_null($row['middle_name'] && $row['middle_name'] != 'NONE' && $row['middle_name'] != 'N/A') && $row['middle_name'] != 'N/A') ? $row['middle_name'] : NULL,
-                'suffix' => ($row['suffix_name'] != '' && !is_null($row['suffix_name']) && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != 'NONE') ? $row['suffix_name'] : NULL,
-                'edcs_caseid' => (isset($row['case_id'])) ? $row['case_id'] : $row['21'],
-                'edcs_healthFacilityCode' => $row['health_facility_code'],
-                'edcs_verificationLevel' => $row['verification_level'],
-                'edcs_investigatorName' => isset($row['name_of_investigator']) ? $row['name_of_investigator'] : NULL,
-                'edcs_contactNo' => isset($row['contact_no']) ? $row['contact_no'] : NULL,
-                'edcs_ageGroup' => isset($row['age_group']) ? $row['age_group'] : NULL,
-                'from_edcs' => 1,
+                $extracted_id = $matches[0];
 
-                'edcs_userid' => $row['user_id'],
-                'edcs_last_modifiedby' => $row['last_modified_by'],
-                'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
-                'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
-            ];
+                /*
+                $model = Dengue::where('id', $extracted_id)
+                ->where('from_edcs', 0)
+                ->where('from_inhouse', 1)
+                ->update([
+                    'from_edcs' => 1,
+                    'EPIID' => $row['epi_id'],
+                ]);
+                */
 
-            $exist_check = Dengue::where('EPIID', $row['epi_id'])->first();
+                $model = Dengue::where('id', $extracted_id)->first();
 
-            if($exist_check) {
-                $old_modified_date = $exist_check->edcs_last_modified_date;
-                $new_modified_date = EdcsImport::tDate($row['last_modified_date']);
-                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
-                    $model = $exist_check->update($table_params);
+                if($model) {
+                    if($model->from_edcs == 0) {
+                        $model->from_edcs = 1;
+                        $model->EPIID = $row['epi_id'];
+                        $model->edcs_caseid = $row['case_id'];
+    
+                        if($model->isDirty()) {
+                            $model->save();
+                        }
+                    }
                 }
-
-                $model = $exist_check;
             }
             else {
-                $table_params = $table_params + [
-                    'CaseClassification' => mb_strtoupper(substr($row['case_classification'],0,1)),
-                    'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && mb_strtoupper($row['current_address_sitio_purok_street_name']) != 'N/A') ? $row['current_address_sitio_purok_street_name'] : NULL,
-                    'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
-                    'created_by' => auth()->user()->id,
+                $table_params = [
+                    'Icd10Code' => 'A90',
+                    'RegionOFDrU' => $getDruRegionText,
+                    'ProvOfDRU' => $getDruProvinceText,
+                    'MuncityOfDRU' => $getDruMuncityText,
+                    'DRU' => $getDruFacilityTypeText,
+                    'NameOfDru' => $row['facilityname'],
+                    'AddressOfDRU' => NULL,
+                    
+                    'Region' => '04A',
+                    'Province' => 'CAVITE',
+                    'Muncity' => 'GENERAL TRIAS',
+                    'DateOfEntry' => EdcsImport::tDate($row['timestamp']),
+                    
+                    'PatientNumber' => $row['patient_no'],
+                    'FirstName' => $row['first_name'],
+                    'FamilyName' => $row['last_name'],
+                    'FullName' => $getFullName,
+                    'AgeYears' => $row['age_in_years'],
+                    'AgeMons' => $getAgeMonths,
+                    'AgeDays' => $getAgeDays,
+                    'Sex' => strtoupper(substr($row['sex'],0,1)),
+                    'DOB' => EdcsImport::tDate($row['date_of_birth']),
+                    'Admitted' => ($row['patient_admitted'] == 'Y') ? 1 : 0,
+                    'DAdmit' => EdcsImport::tDate($row['date_admitted_seen']),
+                    'DOnset' => EdcsImport::tDate($row['date_on_set_of_illness_first_symptoms']),
+                    'Type' => 'DF',
+                    'LabTest' => NULL,
+                    'LabRes' => NULL,
+                    'ClinClass' => $get_classi,
+                    'Outcome' => (isset($row['outcome'])) ? mb_strtoupper(substr($row['outcome'],0,1)) : mb_strtoupper(substr($row['outcome2'],0,1)),
+                    'EPIID' => $row['epi_id'],
+                    'DateDied' => EdcsImport::tDate($row['date_died']),
+                    
+                    'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
+                    'MorbidityWeek' => $row['morbidity_week'],
+                    'AdmitToEntry' => preg_replace('/[^0-9]/', '', $row['timelapse_dateadmittodateencode']),
+                    'OnsetToAdmit' => preg_replace('/[^0-9]/', '', $row['timelapse_dateonsettodateencode']),
+                    'SentinelSite' => NULL,
+                    'DeleteRecord' => NULL,
+                    'Year' => $row['year'],
+                    'Recstatus' => NULL,
+                    'UniqueKey' => Dengue::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
+                    
+                    'ILHZ' => 'GENTAMAR',
+                    'District' => 6,
+                    
+                    'TYPEHOSPITALCLINIC' => $row['verification_level'],
+                    'SENT' => 'Y',
+                    'ip' => 'N',
+                    'ipgroup' => NULL,
+    
+                    'middle_name' => ($row['middle_name'] != '' && !is_null($row['middle_name'] && $row['middle_name'] != 'NONE' && $row['middle_name'] != 'N/A') && $row['middle_name'] != 'N/A') ? $row['middle_name'] : NULL,
+                    'suffix' => ($row['suffix_name'] != '' && !is_null($row['suffix_name']) && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != 'NONE') ? $row['suffix_name'] : NULL,
+                    'edcs_caseid' => (isset($row['case_id'])) ? $row['case_id'] : $row['21'],
+                    'edcs_healthFacilityCode' => $row['health_facility_code'],
+                    'edcs_verificationLevel' => $row['verification_level'],
+                    'edcs_investigatorName' => isset($row['name_of_investigator']) ? $row['name_of_investigator'] : NULL,
+                    'edcs_contactNo' => isset($row['contact_no']) ? $row['contact_no'] : NULL,
+                    'edcs_ageGroup' => isset($row['age_group']) ? $row['age_group'] : NULL,
+                    'from_edcs' => 1,
+    
+                    'edcs_userid' => $row['user_id'],
+                    'edcs_last_modifiedby' => $row['last_modified_by'],
+                    'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
+                    'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
                 ];
 
-                $model = Dengue::create($table_params);
+                $exist_check = Dengue::where('EPIID', $row['epi_id'])->first();
+
+                if($exist_check) {
+                    $old_modified_date = $exist_check->edcs_last_modified_date;
+                    $new_modified_date = EdcsImport::tDate($row['last_modified_date']);
+                    if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
+                        $model = $exist_check->update($table_params);
+                    }
+
+                    $model = $exist_check;
+                }
+                else {
+                    $table_params = $table_params + [
+                        'CaseClassification' => mb_strtoupper(substr($row['case_classification'],0,1)),
+                        'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && mb_strtoupper($row['current_address_sitio_purok_street_name']) != 'N/A') ? $row['current_address_sitio_purok_street_name'] : NULL,
+                        'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
+                        'created_by' => auth()->user()->id,
+                    ];
+
+                    $model = Dengue::create($table_params);
+                }
             }
 
+            /*
             //Update Syndromic Record - Mark as Received
             if(Str::startsWith($row['patient_no'], 'MPSS_')) { //Mark na galing sa OPD System yung Record
                 $search_id = str_replace('MPSS_', '', $row['patient_no']);
@@ -2160,6 +2192,7 @@ class DengueImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                     $synd_record->addToReceivedEdcsTag('DENGUE');
                 }
             }
+            */
 
             return $model;
         }
