@@ -209,7 +209,7 @@
                         </div>
                         <div class="form-group">
                             <label for="mw"><b class="text-danger">*</b>Morbidity Week</label>
-                            <input type="number" class="form-control" name="mw" id="mw" min="1" max="52" value="{{(request()->input('mw')) ? request()->input('mw') : Carbon\Carbon::now()->subWeek(1)->format('W')}}">
+                            <input type="number" class="form-control" name="mw" id="mw" min="1" max="52" value="{{(request()->input('mw')) ? request()->input('mw') : Carbon\Carbon::now()->subWeek(1)->week}}">
                         </div>
                     </div>
                     <div class="modal-footer">

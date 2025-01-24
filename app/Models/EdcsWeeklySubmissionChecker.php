@@ -137,13 +137,13 @@ class EdcsWeeklySubmissionChecker extends Model
             if(date('W') == 02) {
                 $currentDay = Carbon::now();
 
-                $input_mw = $currentDay->clone()->subWeek(1)->format('W');
+                $input_mw = $currentDay->clone()->subWeek(1)->week;
                 $input_year = $currentDay->clone()->subDay(1)->format('Y');
             }
             else {
                 $currentDay =  Carbon::now()->subWeek(1);
 
-                $input_mw = $currentDay->format('W');
+                $input_mw = $currentDay->week;
                 $input_year = $currentDay->format('Y');
             }
         }
