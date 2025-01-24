@@ -9514,7 +9514,7 @@ class PIDSRController extends Controller
 
         if($disease == 'DENGUE') {
             if($r->submit == 'downloadCsv') {
-                $spreadsheet = IOFactory::load(storage_path('edcs_template\dengue.csv'));
+                $spreadsheet = IOFactory::load(storage_path('edcs_template/dengue.csv'));
                 $sheet = $spreadsheet->getActiveSheet();
 
                 $list = Dengue::whereIn('id', $r->ids)->get();
