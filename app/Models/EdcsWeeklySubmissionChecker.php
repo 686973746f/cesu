@@ -48,6 +48,8 @@ class EdcsWeeklySubmissionChecker extends Model
         if(request()->input('mw') && request()->input('year')) {
             $input_mw = request()->input('mw');
             $input_year = request()->input('year');
+
+            $currentDay = Carbon::now();
         }
         else {
             if(date('W') == 02) {
