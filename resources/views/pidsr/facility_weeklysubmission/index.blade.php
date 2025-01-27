@@ -190,37 +190,51 @@
                 </div>
             </div>
 
-            <div class="card mt-3">
-                <div class="card-header">Weekly Submission Status Report ({{$year}})</div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered text-center">
-                            <thead class="thead-light">
-                                <tr>
-                                    @for($i=1;$i < $maxWeek; $i++)
-                                    <th>MW {{$i}}</th>
-                                    @endfor
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    @foreach($week_array as $w)
-                                    @php
-                                    if($w == '✔' || $w == '✔Z') {
-                                        $text_color = 'bg-success';
-                                    }
-                                    else if($w == 'X') {
-                                        $text_color = 'bg-danger';
-                                    }
-                                    else {
-                                        $text_color = 'bg-warning';
-                                    }
-                                    @endphp
-                                    <td class="{{$text_color}}">{{$w}}</td>
-                                    @endforeach
-                                </tr>
-                            </tbody>
-                        </table>
+            <div id="accordianId" role="tablist" aria-multiselectable="true">
+                <div class="card mt-3">
+                    <div class="card-header" role="tab" id="section1HeaderId">
+                        <a data-toggle="collapse" data-parent="#accordianId" href="#section1ContentId" aria-expanded="true" aria-controls="section1ContentId">View Weekly Submission Status Report ({{$year}})</a>
+                    </div>
+                    <div id="section1ContentId" class="collapse in" role="tabpanel" aria-labelledby="section1HeaderId">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered text-center">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            @for($i=1;$i < $maxWeek; $i++)
+                                            <th>MW {{$i}}</th>
+                                            @endfor
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            @foreach($week_array as $w)
+                                            @php
+                                            if($w == '✔' || $w == '✔Z') {
+                                                $text_color = 'bg-success';
+                                            }
+                                            else if($w == 'X') {
+                                                $text_color = 'bg-danger';
+                                            }
+                                            else {
+                                                $text_color = 'bg-warning';
+                                            }
+                                            @endphp
+                                            <td class="{{$text_color}}">{{$w}}</td>
+                                            @endforeach
+                                        </tr>
+                                    </tbody>
+                                </table>
+        
+                                <ul>
+                                    Legend:
+                                    <li>✔ - Submitted</li>
+                                    <li>✔Z - Submitted (Zero Case)</li>
+                                    <li>L - Late Submission</li>
+                                    <li>X - No Submission</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
