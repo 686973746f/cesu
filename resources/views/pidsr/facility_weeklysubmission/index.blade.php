@@ -224,6 +224,10 @@
                     </div>
                 </div>
             </div>
+            
+            <div class="text-center mt-3">
+                <small>Developed and maintained by Christian James Historillo. For any questions, comments, and suggestions, you may contact us via email or direct message us on facebook.</small>
+            </div>
         </div>
     </form>
 
