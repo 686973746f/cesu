@@ -9506,7 +9506,7 @@ class PIDSRController extends Controller
         if($disease == 'DENGUE') {
             $list = Dengue::where('from_inhouse', 1)
             ->where('inhouse_exportedtocsv', 0)
-            ->where('edcs_healthFacilityCode', $f->healthfacility_code)
+            ->where('edcs_healthFacilityCode', $health_facility_code)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
             ->get();
