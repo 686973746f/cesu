@@ -9490,6 +9490,14 @@ class PIDSRController extends Controller
         else {
             $f = DohFacility::where('sys_code1', $facility_code)->first();
         }
+
+        if($f->id == 10886) {
+            //CHO CUSTOM DOH ID
+            $health_facility_code = 'DOH000000000046386';
+        }
+        else {
+            $health_facility_code = $f->healthfacility_code;
+        }
         
         if(!$f) {
             return abort(404);
