@@ -9652,7 +9652,7 @@ class PIDSRController extends Controller
                         $sheet->setCellValue('Z'.$row, Carbon::parse($d->DateOfEntry)->format('m/d/Y')); //Date Consulted
                         $sheet->setCellValue('AA'.$row, $cf->facility_name); //Place Consulted
                         $sheet->setCellValue('AB'.$row, ($d->Admitted == 1) ? 'Y' : 'N'); //Admitted
-                        $sheet->setCellValue('AC'.$row, ($d->Admitted == 1) ? Carbon::parse($d->DAdmit)->parse('m/d/Y') : ''); //Date Admitted
+                        $sheet->setCellValue('AC'.$row, ($d->Admitted == 1) ? Carbon::parse($d->DAdmit)->format('m/d/Y') : ''); //Date Admitted
                         $sheet->setCellValue('AD'.$row, Carbon::parse($d->DOnset)->format('m/d/Y')); //Date Onset of Illness
                         $sheet->setCellValue('AE'.$row, 0); //Number of Dengue Vaccine
                         $sheet->setCellValue('AF'.$row, ''); //Date First Vaccination Dengue
