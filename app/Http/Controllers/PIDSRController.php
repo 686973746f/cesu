@@ -9490,6 +9490,14 @@ class PIDSRController extends Controller
         else {
             $f = DohFacility::where('sys_code1', $facility_code)->first();
         }
+
+        if($f->id == 10886) {
+            //CHO CUSTOM DOH ID
+            $health_facility_code = 'DOH000000000046386';
+        }
+        else {
+            $health_facility_code = $f->healthfacility_code;
+        }
         
         if(!$f) {
             return abort(404);
@@ -9498,7 +9506,7 @@ class PIDSRController extends Controller
         if($disease == 'DENGUE') {
             $list = Dengue::where('from_inhouse', 1)
             ->where('inhouse_exportedtocsv', 0)
-            ->where('edcs_healthFacilityCode', $f->healthfacility_code)
+            ->where('edcs_healthFacilityCode', $health_facility_code)
             ->where('enabled', 1)
             ->where('match_casedef', 1)
             ->get();
@@ -9644,7 +9652,7 @@ class PIDSRController extends Controller
                         $sheet->setCellValue('Z'.$row, Carbon::parse($d->DateOfEntry)->format('m/d/Y')); //Date Consulted
                         $sheet->setCellValue('AA'.$row, $cf->facility_name); //Place Consulted
                         $sheet->setCellValue('AB'.$row, ($d->Admitted == 1) ? 'Y' : 'N'); //Admitted
-                        $sheet->setCellValue('AC'.$row, ($d->Admitted == 1) ? Carbon::parse($d->DAdmit)->parse('m/d/Y') : ''); //Date Admitted
+                        $sheet->setCellValue('AC'.$row, ($d->Admitted == 1) ? Carbon::parse($d->DAdmit)->format('m/d/Y') : ''); //Date Admitted
                         $sheet->setCellValue('AD'.$row, Carbon::parse($d->DOnset)->format('m/d/Y')); //Date Onset of Illness
                         $sheet->setCellValue('AE'.$row, 0); //Number of Dengue Vaccine
                         $sheet->setCellValue('AF'.$row, ''); //Date First Vaccination Dengue
