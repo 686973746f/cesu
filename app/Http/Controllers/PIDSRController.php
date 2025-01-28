@@ -4988,7 +4988,13 @@ class PIDSRController extends Controller
                 }
                 else {
                     if($x <= $sel_week) {
-                        ${'current_mw'.$x} = PidsrThreshold::where('year', $sel_year)->where('disease', mb_strtoupper($sel_disease))->first()->{'mw'.$x};
+                        //${'current_mw'.$x} = PidsrThreshold::where('year', $sel_year)->where('disease', mb_strtoupper($sel_disease))->first()->{'mw'.$x};
+                        ${'current_mw'.$x} = $modelClass::where('Year', $sel_year)
+                        ->where('enabled', 1)
+                        ->where('match_casedef', 1)
+                        ->where('Year', $sel_year)
+                        ->where('MorbidityWeek', $x)
+                        ->count();
                     }
                     else {
                         ${'current_mw'.$x} = 0;
