@@ -5087,6 +5087,7 @@ class PIDSRController extends Controller
                 $hospitalized_count = $modelClass::where('enabled', 1)
                 ->where('match_casedef', 1)
                 ->where('Year', $sel_year)
+                ->where('MorbidityWeek', '<=', $sel_week)
                 ->where('Admitted', 1)
                 ->count();
 
