@@ -8931,7 +8931,7 @@ class PIDSRController extends Controller
                             $stat_string = 'ZERO CASE';
                         }
                         else if($or_status == 'LZ') {
-                            $stat_string = 'LATE ZERO CAS';
+                            $stat_string = 'LATE ZERO CASE';
                         }
                     }
                     else if($getType == 'SUBMITTED_ONTIME') {
@@ -9904,6 +9904,13 @@ class PIDSRController extends Controller
                 $input_year = $currentDay->format('Y');
             }
         }
+
+        if($input_year != date('Y')) {
+            $maxWeek = 52;
+        }
+        else {
+            $maxWeek = Carbon::now()->week;
+        }
         
         $s_type = EdcsWeeklySubmissionChecker::getSubmissionType();
 
@@ -9924,6 +9931,22 @@ class PIDSRController extends Controller
 
         $g_type = EdcsWeeklySubmissionChecker::getAlreadySubmittedType($facility_code);
 
+        //Fetch Weekly Submission Data
+        $week_array = [];
+        for($i=1;$i < $maxWeek; $i++) {
+            $w_check = EdcsWeeklySubmissionChecker::where('year', $input_year)
+            ->where('week', $i)
+            ->where('facility_name', $f->facility_name)
+            ->first();
+
+            if($w_check) {
+                $week_array[] = $w_check->getAlreadySubmittedTypeSimplified();
+            }
+            else {
+                $week_array[] = 'X';
+            }
+        }
+
         return view('pidsr.facility_weeklysubmission.index', [
             'f' => $f,
             'mw' => $input_mw,
@@ -9931,6 +9954,8 @@ class PIDSRController extends Controller
             'd' => $d,
             's_type' => $s_type,
             'g_type' => $g_type,
+            'maxWeek' => $maxWeek,
+            'week_array' => $week_array,
         ]);
     }
 

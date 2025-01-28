@@ -126,6 +126,25 @@ class EdcsWeeklySubmissionChecker extends Model
         }
     }
 
+    public function getAlreadySubmittedTypeSimplified() {
+        if($this->getAlreadySubmittedTypeFunction() == 'SUBMITTED_ONTIME') {
+            if($this->status == 'SUBMITTED') {
+                return '✔';
+            }
+            else {
+                return '✔Z';
+            }
+        }
+        else if($this->getAlreadySubmittedTypeFunction() == 'SUBMITTED_BUT_LATE') {
+            if($this->status == 'LATE ZERO CASE') {
+                return 'LZ';
+            }
+            else {
+                return 'L';
+            }
+        }
+    }
+
     public static function getAlreadySubmittedType($facility_code) {
         $f = DohFacility::where('sys_code1', $facility_code)->first();
 

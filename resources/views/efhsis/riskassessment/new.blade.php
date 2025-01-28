@@ -9,8 +9,9 @@
                 @if(isset($s))
 
                 @else
-
+                
                 @endif
+                <hr>
                 <div class="row">
                   <div class="col-md-3">
                     <div><label for="height">Height (cm)</label></div>
