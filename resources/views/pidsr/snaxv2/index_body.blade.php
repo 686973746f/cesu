@@ -44,7 +44,7 @@
                         @if(date('Y') == $sel_year)
                         {{date('F d, Y')}}
                         @else
-                        {{$flavor_enddate->format('M d, Y')}}
+                        {{$flavor_enddate->format('F d, Y')}}
                         @endif
                     </h6>
                     <h6>Morbidity Week 1-{{$sel_mweek}}</h6>
