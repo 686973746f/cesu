@@ -40,7 +40,13 @@
                 <div class="col-2"></div>
                 <div class="col-8 d-flex justify-content-center align-items-center text-center"><h4><b>{{mb_strtoupper($flavor_title)}} SURVEILLANCE REPORT</b></h4></div>
                 <div class="col-2 text-center">
-                    <h6>{{date('F d, Y')}}</h6>
+                    <h6>
+                        @if(date('Y') == $sel_year)
+                        {{date('F d, Y')}}
+                        @else
+                        {{$flavor_enddate->format('M d, Y')}}
+                        @endif
+                    </h6>
                     <h6>Morbidity Week 1-{{$sel_mweek}}</h6>
                 </div>
             </div>
