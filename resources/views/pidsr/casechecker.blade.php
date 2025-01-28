@@ -299,6 +299,14 @@
 <script>
     $(document).ready(function() {
         $('#mainTbl').DataTable({
+            dom: 'QBfritp',
+            buttons: [
+                {
+                    extend: 'excel',
+                    title: '',
+                },
+                'copy',
+            ],
             processing: true,
             serverSide: true,
             destroy: true, // Allow reinitialization
