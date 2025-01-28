@@ -6375,6 +6375,32 @@ class PIDSRController extends Controller
                 */
             }
 
+            //Current Total vs Previous Year Total Percent and Compare (Higher/Lower)
+            if($current_grand_total == $previous_grand_total) {
+                $compare_type = 'EQUAL';
+            }
+            else if($previous_grand_total > 0) {
+                if($current_grand_total > $previous_grand_total) {
+                    $compare_type = 'HIGHER';
+    
+                    $small_count = $previous_grand_total;
+                    $large_count = $current_grand_total;
+                }
+                else {
+                    $compare_type = 'LOWER';
+    
+                    $small_count = $current_grand_total;
+                    $large_count = $previous_grand_total;
+                }
+
+                $comparePercentage = round(($small_count / $large_count) * 100, 2);
+            }
+            else {
+                $comparePercentage = round($current_grand_total * 100, 2);
+
+                $compare_type = 'HIGHER';
+            }
+
             $returnVars = [
                 'flavor_title' => $flavor_title,
                 'sel_disease' => $sel_disease,
@@ -6428,6 +6454,8 @@ class PIDSRController extends Controller
                 'suggestedMaxAge' => $suggestedMaxAge,
                 'age_highest_value' => $age_highest_value,
                 'show_classification_piegraph' => $show_classification_piegraph,
+                'comparePercentage' => $comparePercentage,
+                'compare_type' => $compare_type,
             ];
 
             if($sel_disease == 'Dengue') {
@@ -10226,15 +10254,26 @@ class PIDSRController extends Controller
 
             //Compare
             if($lastyear_count > 0) {
-                $percentageChange = round((($currentyear_count - $lastyear_count) / $lastyear_count) * 100, 2);
+                //$percentageChange = round((($currentyear_count - $lastyear_count) / $lastyear_count) * 100, 2);
 
-                if ($percentageChange > 0) {
-                    $compare_type = 'HIGHER';
-                } elseif ($percentageChange < 0) {
-                    $compare_type = 'LOWER';
-                } else {
+                //get the smallest number
+                if($currentyear_count == $lastyear_count) {
                     $compare_type = 'EQUAL';
                 }
+                else if($currentyear_count > $lastyear_count) {
+                    $small_count = $lastyear_count;
+                    $large_count = $currentyear_count;
+
+                    $compare_type = 'HIGHER';
+                }
+                else {
+                    $small_count = $currentyear_count;
+                    $large_count = $lastyear_count;
+
+                    $compare_type = 'LOWER';
+                }
+
+                $percentageChange = round(($small_count / $large_count) * 100, 2);
             }
             else {
                 $percentageChange = round($currentyear_count * 100, 2);
