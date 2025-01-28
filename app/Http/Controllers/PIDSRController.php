@@ -4987,7 +4987,12 @@ class PIDSRController extends Controller
                     }
                 }
                 else {
-                    ${'current_mw'.$x} = PidsrThreshold::where('year', $sel_year)->where('disease', mb_strtoupper($sel_disease))->first()->{'mw'.$x};
+                    if($x <= $sel_week) {
+                        ${'current_mw'.$x} = PidsrThreshold::where('year', $sel_year)->where('disease', mb_strtoupper($sel_disease))->first()->{'mw'.$x};
+                    }
+                    else {
+                        ${'current_mw'.$x} = 0;
+                    }
                 }
                 
                 $current_grand_total += ${'current_mw'.$x};
