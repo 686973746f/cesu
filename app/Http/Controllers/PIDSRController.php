@@ -5052,25 +5052,36 @@ class PIDSRController extends Controller
                     $severe_total = $modelClass::where('enabled', 1)
                     ->where('match_casedef', 1)
                     ->where('Year', $sel_year)
+                    ->where('MorbidityWeek', '<=', $sel_week)
                     ->where('ClinClass', 'SEVERE DENGUE')
                     ->count();
 
                     $withwarning_total = $modelClass::where('enabled', 1)
                     ->where('match_casedef', 1)
                     ->where('Year', $sel_year)
+                    ->where('MorbidityWeek', '<=', $sel_week)
                     ->where('ClinClass', 'WITH WARNING SIGNS')
                     ->count();
 
                     $woutwarning_total = $modelClass::where('enabled', 1)
                     ->where('match_casedef', 1)
                     ->where('Year', $sel_year)
+                    ->where('MorbidityWeek', '<=', $sel_week)
                     ->where('ClinClass', 'NO WARNING SIGNS')
                     ->count();
                 }
 
+                /*
                 $previous_grand_total = $modelClass::where('enabled', 1)
                 ->where('match_casedef', 1)
                 ->where('Year', $sel_year - 1)
+                ->count();
+                */
+
+                $previous_grand_total = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('Year', $sel_year - 1)
+                ->where('MorbidityWeek', '<=', $sel_week)
                 ->count();
 
                 $hospitalized_count = $modelClass::where('enabled', 1)
@@ -5079,15 +5090,25 @@ class PIDSRController extends Controller
                 ->where('Admitted', 1)
                 ->count();
 
+                /*
                 $previous_death_count = $modelClass::where('enabled', 1)
                 ->where('match_casedef', 1)
                 ->where('Year', $sel_year - 1)
+                ->where('Outcome', 'D')
+                ->count();
+                */
+
+                $previous_death_count = $modelClass::where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->where('Year', $sel_year - 1)
+                ->where('MorbidityWeek', '<=', $sel_week)
                 ->where('Outcome', 'D')
                 ->count();
                 
                 $death_count = $modelClass::where('enabled', 1)
                 ->where('match_casedef', 1)
                 ->where('Year', $sel_year)
+                ->where('MorbidityWeek', '<=', $sel_week)
                 ->where('Outcome', 'D')
                 ->count();
             }
