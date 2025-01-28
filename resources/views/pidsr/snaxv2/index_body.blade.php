@@ -84,7 +84,7 @@
                 </li>
                 @endif
                 @if($current_grand_total < $previous_grand_total)
-                <li style="margin-bottom: -5px;"><h5>This year's cases are {{round(100 - ($current_grand_total / $previous_grand_total * 100))}}% lower than last year ({{$previous_grand_total}} cases).</h5></li>
+                <li style="margin-bottom: -5px;"><h5>This year's cases are {{round(100 - ($current_grand_total / $previous_grand_total * 100))}}% lower compared to the same period last year ({{$previous_grand_total}} cases).</h5></li>
                 @else
                 <li style="margin-bottom: -5px;"><h5>This year's cases are {{($previous_grand_total != 0) ? round((($current_grand_total - $previous_grand_total) / $previous_grand_total) * 100) : 0}}% higher compared to the same period last year ({{$previous_grand_total}} cases).</h5></li>
                 @endif
