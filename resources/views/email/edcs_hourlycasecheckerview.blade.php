@@ -727,6 +727,7 @@
         <ul>
             @foreach($rows as $ind => $p)
             <li>
+                <div>Case ID: #{{$p['id']}}</div>
                 <div>{{$ind+1}}.) <b style="color: blue">{{$p['name']}}</b></div>
                 <div>{{$p['age']}} / {{$p['sex']}}</div>
                 <div>Address: {{mb_strtoupper($p['address'])}}</div>

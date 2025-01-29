@@ -1082,6 +1082,7 @@ class PidsrWndr extends Command
                     */
 
                     array_push($list, [
+                        'id' => $i->id,
                         'type' => $get_type,
                         'name' => $i->FullName,
                         'age' => $i->displayAgeStringToReport(),

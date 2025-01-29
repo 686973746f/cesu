@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\EdcsGenericExport;
 use ZipArchive;
 use App\Models\Nt;
 use Carbon\Carbon;
@@ -9463,7 +9464,7 @@ class PIDSRController extends Controller
                     'ClinClass' => $clinClass,
                     'CaseClassification' => $caseClass,
                     'is_ns1positive' => ($r->is_ns1positive == 'Y') ? 1 : 0,
-                    'is_igmpositive' => ($r->is_igmpositive == 'Y') ? 1 : 0,
+                    'is_igmpositive' => ($r->is_igmpositive == 'Y') ? 'Y' : 'N',
                     'Outcome' => $outcome,
                     'DateDied' => ($r->sys_outcome == 'DIED') ? $r->sys_outcome_date : NULL,
                     
@@ -9485,6 +9486,7 @@ class PIDSRController extends Controller
                     //'ipgroup' => 'N',
                     'systemsent' => 0,
                     'match_casedef' => $match_casedef,
+                    'from_edcs' => 0,
                     'from_inhouse' => 1,
                     'edcs_healthFacilityCode' => $health_facility_code,
                     
@@ -10566,6 +10568,8 @@ class PIDSRController extends Controller
     }
 
     public function downloadExcel($case) {
+        $year = request()->input('year');
 
+        return Excel::download(new EdcsGenericExport($case, $year), "Gentrias_$case".'_'."$year.xlsx");
     }
 }

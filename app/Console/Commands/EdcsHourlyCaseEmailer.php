@@ -270,6 +270,7 @@ class EdcsHourlyCaseEmailer extends Command
 
                         if($d == 'Dengue') {
                             $table_params = $table_params + [
+                                'id' => $i->id,
                                 'cc' => $i->getClassificationString(),
                                 'mobile' => $i->edcs_patientcontactnum,
                             ];

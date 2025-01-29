@@ -426,7 +426,7 @@
                 <hr>
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="form-group">
+                        <div class="form-group" id="s1_div">
                             <label for="sys_animal_presence_list">Select Presence of animal/vectors around the house or within the neighborhood 50 meters from the house of Patient</label>
                             <select class="form-control" name="sys_animal_presence_list[]" id="sys_animal_presence_list" multiple>
                                 <option value="CHICKEN">Chicken</option>
@@ -441,7 +441,7 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="form-group">
+                        <div class="form-group" id="s2_div">
                             <label for="sys_water_presence_inside_list">Select Presence of water containers INSIDE the house of Patient</label>
                             <select class="form-control" name="sys_water_presence_inside_list[]" id="sys_water_presence_inside_list" multiple>
                                 <option value="WATER STORAGE CONTAINERS">Water Storage Containers</option>
@@ -451,7 +451,7 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="form-group">
+                        <div class="form-group" id="s3_div">
                             <label for="sys_water_presence_outside_list">Select Presence of water containers OUTSIDE the house of the Patient or within 10 meters within the neighborhood</label>
                             <select class="form-control" name="sys_water_presence_outside_list[]" id="sys_water_presence_outside_list" multiple>
                                 <option value="TIN CANS">Tin Cans</option>
