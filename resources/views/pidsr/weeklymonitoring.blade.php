@@ -13,7 +13,7 @@
                         <thead class="thead-light text-center">
                             <tr>
                                 <th>#</th>
-                                <th>Facility 2024</th>
+                                <th>Facility {{date('Y')}}</th>
                                 @for($i=1; $i <= $maxweek; $i++)
                                 <th>MW{{$i}}</th>
                                 @endfor
