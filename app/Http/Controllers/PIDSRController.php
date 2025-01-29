@@ -70,6 +70,7 @@ use App\Jobs\EdcsWeeklySubmissionSendEmail;
 use App\Models\EdcsWeeklySubmissionChecker;
 use App\Jobs\CallEdcsWeeklySubmissionSendEmail;
 use App\Models\EdcsBrgy;
+use App\Models\EdcsWeeklySubmissionTrigger;
 use App\Models\SevereAcuteRespiratoryInfection;
 
 /*
@@ -7001,13 +7002,37 @@ class PIDSRController extends Controller
     }
 
     public function weeklyMergeProcess(Request $r) {
-        //Call EdcsImport
-        Excel::import(new EdcsImport(), $r->excel_file);
+        if(Carbon::now()->week == 2) {
+            $year = date('Y');
+            $week = 1;
+        }
+        else {
+            $currentDay = Carbon::now()->subWeek('1');
 
-        PIDSRController::searchConfirmedDengue();
-        
+            $year = $currentDay->format('Y');
+            $week = $currentDay->week;
+        }
+
         //Send Automated Email
-        Artisan::call('pidsrwndr:weekly');
+        $check = EdcsWeeklySubmissionTrigger::where('year', $year)
+        ->where('week', $week)
+        ->first();
+
+        if(!$check) {
+            //Call EdcsImport
+            Excel::import(new EdcsImport(), $r->excel_file);
+
+            PIDSRController::searchConfirmedDengue();
+            
+            Artisan::call('pidsrwndr:weekly');
+
+            $c = EdcsWeeklySubmissionTrigger::create([
+                'year' => $year,
+                'week' => $week,
+
+                'created_by' => Auth::id(),
+            ]);
+        }
 
         return redirect()->back()
         ->with('msg', 'EDCS Feedback Excel File imported successfully. Please check the Email Report at cesu.gentrias@gmail.com after a few minutes.')
