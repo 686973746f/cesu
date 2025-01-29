@@ -17,15 +17,16 @@ use App\Models\AbtcVaccineStocks;
 use App\Imports\DohFacilityImport;
 use App\Imports\EdcsGeoExportBrgy;
 use App\Imports\EdcsGeoExportCity;
-use App\Imports\EdcsGeoExportProvince;
-use App\Imports\EdcsHospitalImport;
 use Illuminate\Support\Facades\DB;
+use App\Imports\EdcsHospitalImport;
 use App\Models\AbtcVaccinationSite;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Intervention\Image\ImageManager;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\EdcsGeoExportProvince;
 use Intervention\Image\Drivers\Imagick\Driver;
+use App\Jobs\CallEdcsWeeklySubmissionSendEmail;
 
 /*
 Adding ForeignID
@@ -43,6 +44,8 @@ ALTER TABLE syndromic_records ADD CONSTRAINT `syndromic_records_facility_id_fore
 class TestController extends Controller
 {
     public function index() {
-        dd(Carbon::now()->week);
+        CallEdcsWeeklySubmissionSendEmail::dispatch(10525, 330);
+
+        CallEdcsWeeklySubmissionSendEmail::dispatch(10716, 332);
     }
 }
