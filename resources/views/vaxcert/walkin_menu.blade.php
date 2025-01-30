@@ -103,8 +103,10 @@
 </div>
 
 <script>
+/*
 $('#serverDown').modal({backdrop: 'static', keyboard: false});
 $('#serverDown').modal('show');
+*/
 </script>
 @endif
 

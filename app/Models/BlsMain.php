@@ -34,4 +34,58 @@ class BlsMain extends Model
             return NULL;
         }
     }
+
+    public function getTotalParticipantsCount() {
+        $c = BlsBatchParticipant::where('batch_id', $this->id)->count();
+
+        return $c;
+    }
+
+    public function getTotalParticipantsCountMale() {
+        $c = BlsBatchParticipant::where('batch_id', $this->id)
+        ->whereHas('member', function ($q) {
+            $q->where('gender', 'M');
+        })
+        ->count();
+
+        return $c;
+    }
+
+    public function getTotalParticipantsCountFemale() {
+        $c = BlsBatchParticipant::where('batch_id', $this->id)
+        ->whereHas('member', function ($q) {
+            $q->where('gender', 'F');
+        })
+        ->count();
+
+        return $c;
+    }
+
+    public function getTotalParticipantsCountLr() {
+        $c = BlsBatchParticipant::where('batch_id', $this->id)
+        ->whereHas('member', function ($q) {
+            $q->where('provider_type', 'LR');
+        })
+        ->count();
+
+        return $c;
+    }
+
+    public function getTotalParticipantsCountHcp() {
+        $c = BlsBatchParticipant::where('batch_id', $this->id)
+        ->whereHas('member', function ($q) {
+            $q->where('provider_type', 'HCP');
+        })
+        ->count();
+
+        return $c;
+    }
+
+    public function getTotalParticipantsPassedCount() {
+        $c = BlsBatchParticipant::where('batch_id', $this->id)
+        ->where('bls_finalremarks', 'P')
+        ->count();
+
+        return $c;
+    }
 }

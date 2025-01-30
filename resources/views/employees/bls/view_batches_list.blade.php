@@ -31,6 +31,8 @@
                             <th>Agency</th>
                             <th>Date of Training</th>
                             <th>Venue</th>
+                            <th>Total Participants</th>
+                            <th>Total Passed</th>
                             <th>Created by/at</th>
                             <th>Updated by/at</th>
                         </tr>
@@ -50,6 +52,12 @@
                                 @endif
                             </td>
                             <td class="text-center">{{$d->venue}}</td>
+                            <td class="text-center">
+                                <div><b>{{$d->getTotalParticipantsCount()}}</b></div>
+                                <div>Male: {{$d->getTotalParticipantsCountMale()}} - Female: {{$d->getTotalParticipantsCountFemale()}}</div>
+                                <div>LR: {{$d->getTotalParticipantsCountLr()}} - HCP: {{$d->getTotalParticipantsCountHcp()}}</div>
+                            </td>
+                            <td class="text-center">{{$d->getTotalParticipantsPassedCount()}}</td>
                             <td class="text-center">
                                 <div>{{Carbon\Carbon::parse($d->created_at)->format('m/d/Y h:i A')}}</div>
                                 <div>by {{$d->user->name}}</div>
