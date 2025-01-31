@@ -22,6 +22,10 @@ class RiskAssessmentController extends Controller
     }
 
     public function createFromScratch() {
+        if(request()->input('syndromic_record_id')) {
+            
+        }
+
         if(!request()->input('lname') || !request()->input('fname') || !request()->input('bdate')) {
             return abort(401);
         }

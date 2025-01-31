@@ -46,7 +46,7 @@
                         <div class="card">
                             <div class="card-header">Family History</div>
                             <div class="card-body">
-                                <h6>Does patient have 1st degree relative with:</h6>
+                                <h6>Do you have 1st Degree Relative with (Ikaw ba ay magulang o kapatid na may sumusunod):</h6>
                                 <div class="form-check">
                                     <label class="form-check-label">
                                       <input type="checkbox" class="form-check-input" name="fh_hypertension" id="fh_hypertension" value="Y">

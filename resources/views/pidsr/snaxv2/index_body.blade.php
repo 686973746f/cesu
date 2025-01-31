@@ -454,7 +454,10 @@
                         <h5><b>Proportion of Cases by Case Classification</b></h5>
                         <h6>GENERAL TRIAS, MW 1-{{$sel_mweek}}, {{$sel_year}}</h6>
                         <h6>N={{$current_grand_total}}</h6>
-                        <canvas id="pieChart" style="width: 500px;"></canvas>
+                        <div style="height: 400px">
+                            <canvas id="pieChart" width="" height=""></canvas>
+                        </div>
+                        
                         <hr>
                     </div>
                     
@@ -670,7 +673,7 @@ foreach($classification_titles as $ind => $ctitle) {
         }
 
         $cgetpercentage = ($current_grand_total != 0) ? round($classification_counts[$ind] / $current_grand_total * 100) : 0;
-        $finalpie_titles[] = $ctitle_str.' ('.$classification_counts[$ind].')';
+        $finalpie_titles[] = $ctitle_str;
         $finalpie_counts[] = $classification_counts[$ind];
     }
 }
@@ -793,6 +796,107 @@ foreach($classification_titles as $ind => $ctitle) {
 
     var ctx = document.getElementById('pieChart').getContext('2d');
     var chart = new Chart(ctx, {
+        type: 'bar',
+
+        /*
+        @foreach($top10Brgys as $barangay)
+            @if($barangay['brgy_grand_total_cases'] != 0)
+            labels.push("{{ $barangay['brgy_name'] }}");
+            data.push({{ $barangay['brgy_grand_total_cases'] }});
+            @endif
+        @endforeach
+
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Number of Cases",
+                data: data,
+                backgroundColor: 'rgba(254,192,1,255)', // Customize bar color
+                borderColor: 'rgba(0, 0, 0, 1)', // Customize border color
+                borderWidth: 1,
+            }]
+        },
+
+        data: {
+            labels: pieTitles,
+            datasets: [{
+                label: "My Chart",
+                data: pieDatas,
+                @if(!is_null($classification_colors))
+                backgroundColor: {!! json_encode($classification_colors) !!},
+                @endif
+            }]
+        },
+        */
+
+        data: {
+            labels: pieTitles,
+            datasets: [{
+                label: "My Chart",
+                data: pieDatas,
+                @if(!is_null($classification_colors))
+                backgroundColor: {!! json_encode($classification_colors) !!},
+                @endif
+            }]
+        },
+
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            indexAxis: 'y',
+            title: {
+                text: "Barangay",
+                display: true,
+            },
+            scales: {
+                y: {
+                    ticks: {
+                        font: {
+                            size: 14 //this change the font size
+                        }
+                    },
+                    grid: {
+                        display: false,
+                    },
+                },
+                x: {
+                    grid: {
+                        display: false,
+                    },
+                    ticks: {
+                        stepSize: 1,
+                    },
+                    title: {
+                        display: true,
+                        text: 'No. of Cases',  // Title for the y-axis
+                    },
+                    
+                }
+            },
+            events: [],
+            tooltips: {
+                mode: ''
+            },
+            plugins: {
+                legend: {
+                    display: false,
+                },
+                datalabels: {
+                    anchor: 'end',
+                    align: 'end',
+                }
+            },
+            layout: {
+                padding: {
+                    right: 50,
+                },
+            },
+            animation: {}
+        }
+    });
+    
+    /*
+    var chart = new Chart(ctx, {
         type: 'pie',
 
         data: {
@@ -835,6 +939,7 @@ foreach($classification_titles as $ind => $ctitle) {
             animation: {}
         }
     });
+    */
     
     @if($sel_disease == 'Pert')
     @php
