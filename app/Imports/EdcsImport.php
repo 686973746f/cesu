@@ -3230,6 +3230,7 @@ class InfluenzaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow 
 
 class LaboratoryImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
     public function model(array $row) {
+        $user_id = $row['user_id'] ?: 'hihihisto';
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite' && $row['epi_id'] && $row['date_specimen_collected']) {
             //Search for duplicate to avoid duplicate
             /*
@@ -3258,7 +3259,7 @@ class LaboratoryImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'result' => $row['laboratory_result'],
                 'test_type' => $row['type_of_test_conducted'],
                 'interpretation' => $row['interpretation'],
-                'user_id' => $row['user_id'],
+                'user_id' => $user_id,
                 'timestamp' => EdcsImport::tDate($row['timestamp']),
                 'last_modified_by' => $row['last_modified_by'],
                 'last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
@@ -3279,7 +3280,7 @@ class LaboratoryImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             ->where('specimen_type', $row['specimen_type'])
             ->where('test_type', $row['type_of_test_conducted'])
             ->where('result', $row['laboratory_result'])
-            ->where('user_id', $row['user_id'])
+            ->where('user_id', $user_id)
             ->first();
             
             if($exist_check) {
