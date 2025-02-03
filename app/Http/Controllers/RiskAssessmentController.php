@@ -219,7 +219,7 @@ class RiskAssessmentController extends Controller
             'stroke_ortia' => $r->stroke_ortia,
             'question8' => $r->question8,
             'diabetes' => ($r->diabetes) ? 'Y' : 'N',
-            'diabetes_medication' => ($r->diabetes_medication) ? 'Y' : 'N',
+            'diabetes_medication' => ($r->diabetes == 'Y') ? $r->diabetes_medication : 'N',
             'polyphagia' => $r->polyphagia,
             'polydipsia' => $r->polydipsia,
             'polyuria' => $r->polyuria,

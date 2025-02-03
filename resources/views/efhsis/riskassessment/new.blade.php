@@ -289,15 +289,16 @@
                         <option value="U" {{(old('diabetes') == 'U') ? 'selected' : ''}}>Do not know/Hindi alam</option>
                       </select>
                     </div>
-                    <div class="form-group">
-                      <label for="diabetes_medication">With Medications</label>
-                      <select class="form-control" name="diabetes_medication" id="diabetes_medication" required>
-                        <option value="" disabled {{(is_null(old('diabetes_medication'))) ? 'selected' : ''}}>Choose...</option>
-                        <option value="Y" {{(old('diabetes_medication') == 'Y') ? 'selected' : ''}}>With Medications</option>
-                        <option value="N" {{(old('diabetes_medication') == 'N') ? 'selected' : ''}}>Without Medications</option>
-                      </select>
+                    <div id="medication_div" class="d-none">
+                      <div class="form-group">
+                        <label for="diabetes_medication">With Medications</label>
+                        <select class="form-control" name="diabetes_medication" id="diabetes_medication">
+                          <option value="" disabled {{(is_null(old('diabetes_medication'))) ? 'selected' : ''}}>Choose...</option>
+                          <option value="Y" {{(old('diabetes_medication') == 'Y') ? 'selected' : ''}}>With Medications</option>
+                          <option value="N" {{(old('diabetes_medication') == 'N') ? 'selected' : ''}}>Without Medications</option>
+                        </select>
+                      </div>
                     </div>
-
                     <div class="form-group">
                       <label for="polyphagia">Polyphagia (Laging gutom)</label>
                       <select class="form-control" name="polyphagia" id="polyphagia" required>
@@ -724,6 +725,18 @@
       $('#ketones_div').addClass('d-none');
       $('#ketones').prop('required', false);
       $('#ketones_date').prop('required', false);
+    }
+  }).trigger('change');
+
+  $('#diabetes').change(function (e) { 
+    e.preventDefault();
+    if($(this).val() == 'Y') {
+      $('#medication_div').removeClass('d-none');
+      $('#diabetes_medication').prop('required', true);
+    }
+    else {
+      $('#medication_div').addClass('d-none');
+      $('#diabetes_medication').prop('required', false);
     }
   }).trigger('change');
 </script>
