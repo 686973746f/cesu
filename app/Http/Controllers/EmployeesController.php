@@ -17,6 +17,9 @@ use App\Models\BlsBatchParticipant;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
 class EmployeesController extends Controller
 {
@@ -590,10 +593,15 @@ class EmployeesController extends Controller
     }
 
     public function blsHomeMasterlist() {
-        $list = BlsMember::orderBy('lname', 'ASC')->get();
+        $total_trained = BlsMember::count();
+
+        $list = BlsMember::where('enabled', 'Y')
+        ->orderBy('lname', 'ASC')
+        ->get();
 
         return view('employees.bls.view_master_list', [
             'list' => $list,
+            'total_trained' => $total_trained,
         ]);
     }
 
@@ -873,7 +881,7 @@ class EmployeesController extends Controller
                     File::delete('bls/members/'.$oldPicture);
                 }
 
-                $member_params = $member_params + [
+                $batch_params = $batch_params + [
                     'picture' => $id_file_name,
                 ];
             }
@@ -918,6 +926,45 @@ class EmployeesController extends Controller
     }
 
     public function downloadBlsDatabase($batch_id) {
+        $d = BlsMain::findOrFail($batch_id);
+
+        $list = BlsBatchParticipant::where('batch_id', $d->id)->get();
+
+        $spreadsheet = IOFactory::load(storage_path('BLSDATABASE_2024.xlsx'));
+        $sheet = $spreadsheet->getActiveSheet('SFA');
+
+        $c = 12;
+
+        foreach($list as $l) {
+            //$imagePath = realpath(public_path('assets/bls/members/'.$d->picture));
+            $imagePath = public_path('assets/bls/members/'.$d->picture);
+
+            // Convert forward slashes to backslashes for Windows compatibility
+            $imagePath = str_replace('/', DIRECTORY_SEPARATOR, $imagePath);
+            //dd($imagePath);
+
+            if (file_exists($imagePath)) {
+                $drawing = new Drawing();
+                $drawing->setName('Member Image');
+                $drawing->setDescription('BLS Member Photo');
+                $drawing->setPath($imagePath);
+                $drawing->setHeight(100); // Adjust the image height
+                $drawing->setCoordinates('L'.$c); // Adjust position as needed
+                $drawing->setWorksheet($sheet);
+            } else {
+                $sheet->setCellValue('L'.$c, 'Image not found');
+            }
+
+            //$sheet->setCellValue('L'.$c, 'PICTURE HERE');
+            $c++;
+        }
         
+
+        $fileName = 'bls_test_'.strtolower(Str::random(5)).'.xlsx';
+        ob_clean();
+        $writer = new Xlsx($spreadsheet);
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="'. urlencode($fileName).'"');
+        $writer->save('php://output');
     }
 }

@@ -7,10 +7,101 @@
             <div class="card-header"><b>New CVD/NCD Risk Assessment Form</b></div>
             <div class="card-body">
                 @if(isset($s))
-
+                
                 @else
                 
                 @endif
+                <div class="form-group">
+                  <label for="assessment_date"><b class="text-danger">*</b>Date of Assessment</label>
+                  <input type="date" class="form-control" name="assessment_date" id="assessment_date" value="{{old('assessment_date', date('Y-m-d'))}}" min="1900-01-01" max="{{date('Y-m-d')}}" required>
+                </div>
+                <div class="row">
+                  <div class="col-md-3">
+                      <div class="form-group">
+                          <label for="lname"><b class="text-danger">*</b>Last Name</label>
+                          <input type="text" class="form-control" name="lname" id="lname" value="{{request()->input('lname')}}" minlength="2" maxlength="50" placeholder="ex: DELA CRUZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required readonly tabindex="-1">
+                      </div>
+                  </div>
+                  <div class="col-md-3">
+                      <div class="form-group">
+                          <label for="fname"><b class="text-danger">*</b>First Name</label>
+                          <input type="text" class="form-control" name="fname" id="fname" value="{{request()->input('fname')}}" minlength="2" maxlength="50" placeholder="ex: JUAN" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required readonly tabindex="-1">
+                      </div>
+                  </div>
+                  <div class="col-md-3">
+                      <div class="form-group">
+                          <label for="mname">Middle Name</label>
+                          <input type="text" class="form-control" name="mname" id="mname" value="{{request()->input('mname')}}" minlength="2" maxlength="50" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" readonly tabindex="-1">
+                      </div>
+                  </div>
+                  <div class="col-md-3">
+                      <div class="form-group">
+                          <label for="suffix">Suffix</label>
+                          <input type="text" class="form-control" name="suffix" id="suffix" value="{{request()->input('suffix')}}" minlength="2" maxlength="3" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" readonly tabindex="-1">
+                      </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                      <div class="form-group">
+                          <label for="bdate"><b class="text-danger">*</b>Birthdate</label>
+                          <input type="date" class="form-control" name="bdate" id="bdate" value="{{request()->input('bdate')}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" required readonly tabindex="-1">
+                      </div>
+                  </div>
+                  <div class="col-md-4">
+                      <div class="form-group">
+                          <label for="sex"><span class="text-danger font-weight-bold">*</span>Gender</label>
+                          <select class="form-control" name="sex" id="sex" required>
+                              <option value="" disabled {{(is_null(old('gender'))) ? 'selected' : ''}}>Choose...</option>
+                              <option value="M" {{(old('gender') == 'M') ? 'selected' : ''}}>Male</option>
+                              <option value="F" {{(old('gender') == 'F') ? 'selected' : ''}}>Female</option>
+                          </select>
+                      </div>
+                  </div>
+                  <div class="col-md-4">
+                      <div class="form-group">
+                          <label for="contact_number"><b class="text-danger">*</b>Contact Number</label>
+                          <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{old('contact_number')}}" pattern="[0-9]{11}" placeholder="09*********" required>
+                      </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                      <div class="form-group" id="brgyDiv">
+                          <label for="brgy_id" class="form-label"><b class="text-danger">*</b>Barangay</label>
+                          <select class="form-control" name="brgy_id" id="brgy_id" required>
+                              <option value="" disabled {{(is_null(old('brgy_id'))) ? 'selected' : ''}}>Choose...</option>
+                              @foreach ($brgy_list as $b)
+                                  <option value="{{$b->id}}">{{$b->name}}</option>
+                              @endforeach
+                          </select>
+                      </div>
+                  </div>
+                  <div class="col-md-6">
+                      <div class="form-group">
+                          <label for="street_purok" class="form-label"><b class="text-danger">*</b>House/Lot No./Street/Purok/Subdivision</label>
+                          <input type="text" class="form-control" id="street_purok" name="street_purok" style="text-transform: uppercase;" value="{{old('street_purok')}}" placeholder="ex. S1 B2 L3 PHASE 4 SUBDIVISION HOMES" pattern="(^[a-zA-Z0-9 ]+$)+" required>
+                      </div>
+                  </div>
+                </div>
+                <hr>
+                <div class="form-group">
+                  <label for="educational_attainment" class="form-label"><b class="text-danger">*</b>Educational Attainment</label>
+                  <select class="form-control" name="educational_attainment" id="educational_attainment" required>
+                    <option value="" disabled {{(is_null(old('educational_attainment'))) ? 'selected' : ''}}>Choose...</option>
+                    <option value="no_formal_education" {{(old('educational_attainment') == 'no_formal_education')}}>No Formal Education</option>
+                    <option value="elementary_undergraduate" {{(old('educational_attainment') == 'elementary_undergraduate')}}>Elementary Undergraduate</option>
+                    <option value="elementary_graduate" {{(old('educational_attainment') == 'elementary_graduate')}}>Elementary Graduate</option>
+                    <option value="highschool_undergraduate" {{(old('educational_attainment') == 'highschool_undergraduate')}}>High School Undergraduate</option>
+                    <option value="highschool_graduate" {{(old('educational_attainment') == 'highschool_graduate')}}>High School Graduate</option>
+                    <option value="shs_undergraduate" {{(old('educational_attainment') == 'shs_undergraduate')}}>Senior High School Undergraduate</option>
+                    <option value="shs_graduate" {{(old('educational_attainment') == 'shs_graduate')}}>Senior High School Graduate</option>
+                    <option value="vocational_course" {{(old('educational_attainment') == 'vocational_course')}}>Vocational Course</option>
+                    <option value="college_undergraduate" {{(old('educational_attainment') == 'college_undergraduate')}}>College Undergraduate</option>
+                    <option value="college_graduate" {{(old('educational_attainment') == 'college_graduate')}}>College Graduate</option>
+                    <option value="postgraduate" {{(old('educational_attainment') == 'postgraduate')}}>Postgraduate (Master's/Doctorate)</option>
+                  </select>
+                </div>
                 <hr>
                 <div class="row">
                   <div class="col-md-3">

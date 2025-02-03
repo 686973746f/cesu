@@ -19,9 +19,8 @@
                 <h3>Demographics</h3>
                 <div class="row">
                     <div class="col-md-4">
-                        <h5>Total Trained:</h5>
-                        <h5>Male:</h5>
-                        <h5>Female:</h5>
+                        <h5>Total Trained: {{$total_trained}} - Total Active: {{$list->count()}}</h5>
+                        <h5>Male: {{$list->where('gender', 'M')->count()}} - Female: {{$list->where('gender', 'F')->count()}}</h5>
                     </div>
                     <div class="col-md-4">
 

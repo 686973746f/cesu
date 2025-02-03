@@ -10572,4 +10572,8 @@ class PIDSRController extends Controller
 
         return Excel::download(new EdcsGenericExport($case, $year), "Gentrias_$case".'_'."$year.xlsx");
     }
+    
+    public function printCrf($id) {
+        
+    }
 }
