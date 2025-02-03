@@ -707,11 +707,19 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessF
 
     Route::get('/fhsis/icd10_search', [FhsisController::class, 'icdSearcher'])->name('fhsis_icd10_searcher');
     Route::get('/fhsis/report2018/', [FhsisController::class, 'reportViewer'])->name('fhsis_2018_report');
+});
 
+//NONCOMM
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessNonComm']], function()
+{
     Route::get('/fhsis/noncomm/riskassess/create', [RiskAssessmentController::class, 'createFromScratch'])->name('raf_create');
     Route::post('/fhsis/noncomm/riskassess/store', [RiskAssessmentController::class, 'store'])->name('raf_store');
     Route::get('/fhsis/noncomm/riskassess/view/{id}', [RiskAssessmentController::class, 'edit'])->name('raf_edit');
     Route::post('/fhsis/noncomm/riskassess/view/{id}/update', [RiskAssessmentController::class, 'update'])->name('raf_update');
+});
+
+Route::group(['middleware' => ['guest']], function() {
+    Route::get('/noncomm', [RiskAssessmentController::class, 'nonCommOnlineIndex'])->name('onlinenc_home');
 });
 
 //ABTC (WALK IN)

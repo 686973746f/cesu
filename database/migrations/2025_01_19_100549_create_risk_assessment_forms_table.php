@@ -15,8 +15,11 @@ class CreateRiskAssessmentFormsTable extends Migration
     {
         Schema::create('risk_assessment_forms', function (Blueprint $table) {
             $table->id();
-
-            $table->foreignId('link_opdrecord_id')->nullable()->constrained('syndromic_records')->onDelete('cascade');
+            
+            $table->integer('year');
+            $table->integer('month');
+            $table->string('from_online', 1)->default('N');
+            $table->foreignId('link_opdpatient_id')->nullable()->constrained('syndromic_patients')->onDelete('cascade');
             $table->date('assessment_date');
 
             $table->string('lname');
@@ -25,6 +28,9 @@ class CreateRiskAssessmentFormsTable extends Migration
             $table->string('suffix')->nullable();
             $table->string('sex', 1);
             $table->date('bdate');
+            $table->integer('age_years');
+            $table->integer('age_months');
+            $table->integer('age_days');
             $table->string('street_purok')->nullable();
             $table->foreignId('address_brgy_code')->constrained('edcs_brgies')->onDelete('cascade');
 
@@ -104,10 +110,12 @@ class CreateRiskAssessmentFormsTable extends Migration
             $table->string('risk_level')->nullable();
             $table->text('finding')->nullable();
             $table->text('assessed_by')->nullable();
+            $table->text('remarks')->nullable();
             
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreignId('facility_id')->constrained('doh_facilities')->onDelete('cascade');
+            $table->string('qr');
             $table->timestamps();
         });
     }

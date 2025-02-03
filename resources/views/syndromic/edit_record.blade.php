@@ -90,6 +90,7 @@
                 <div><b>Edit ITR</b></div>
                 <div>
                   @if($unlocktoolbar)
+                  <div>
                     @if($d->outcome != 'DIED' && $d->outcome != 'DOA')
                     <a href="{{route('syndromic_newRecord', $d->syndromic_patient->id)}}" class="btn btn-success">New Consultation</a>
                     @endif
@@ -100,6 +101,12 @@
                     @if($d->outcome != 'DIED')
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#generateMedCert">Generate Medical Certificate</button>
                     @endif
+                  </div>
+                  @if($d->syndromic_patient->getAgeInt() >= 20)
+                  <div class="mt-3 text-right">
+                    <a class="btn btn-success" href="{{route('syndromic_createRaf', $d->id)}}" role="button">Create Risk Assessment Form (Non-Comm)</a>
+                  </div>
+                  @endif
                   @else
                   <div class="alert alert-info" role="alert">
                     <b>Please complete the consultation details below.</b>

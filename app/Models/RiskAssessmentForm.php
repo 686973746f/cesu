@@ -10,7 +10,10 @@ class RiskAssessmentForm extends Model
     use HasFactory;
 
     protected $fillable = [
-        'link_opdrecord_id',
+        'year',
+        'month',
+        'from_online',
+        'link_opdpatient_id',
         'assessment_date',
         'lname',
         'fname',
@@ -18,8 +21,12 @@ class RiskAssessmentForm extends Model
         'suffix',
         'sex',
         'bdate',
+        'age_years',
+        'age_months',
+        'age_days',
         'street_purok',
         'address_brgy_code',
+        'occupation',
         'educational_attainment',
         
         'fh_hypertension',
@@ -80,5 +87,7 @@ class RiskAssessmentForm extends Model
         'assessed_by',
         'created_by',
         'facility_id',
+        'qr',
+        'remarks',
     ];
 }

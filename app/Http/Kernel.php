@@ -88,5 +88,6 @@ class Kernel extends HttpKernel
         'canAccessDisaster' => \App\Http\Middleware\canAccessDisaster::class,
         'canAccessEmployees' => \App\Http\Middleware\canAccessEmployees::class,
         'canAccessAbtcInventory' => \App\Http\Middleware\canAccessAbtcInventory::class,
+        'canAccessNonComm' => \App\Http\Middleware\canAccessNonComm::class,
     ];
 }

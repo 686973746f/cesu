@@ -69,6 +69,9 @@ DISASTER_ADMIN
 DISASTER_ENCODER
 
 EMPLOYEE_ACCESS
+
+NONCOMM_ENCODER
+NONCOMM_ADMIN
 */
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -651,6 +654,17 @@ class User extends Authenticatable implements MustVerifyEmail
         $plist = $this->getPermissions();
 
         if(in_array('GLOBAL_ADMIN', $plist) || in_array('EMPLOYEE_ACCESS', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function canAccessNonComm() {
+        $plist = $this->getPermissions();
+
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('NONCOMM_ENCODER', $plist) || in_array('NONCOMM_ADMIN', $plist) || in_array('FHSIS_ENCODER', $plist) || in_array('FHSIS_ADMIN', $plist)) {
             return true;
         }
         else {

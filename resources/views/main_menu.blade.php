@@ -58,6 +58,11 @@
             <hr>
             <a href="{{route('settings_home')}}" class="btn btn-block btn-warning btn-lg">Settings</a>
             @else
+            @if(auth()->user()->canAccessNonComm() && !auth()->user()->canAccessFhsis())
+            <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#ncModal">Non-Comm</button>
+
+            @include('efhsis.riskassessment.modal_body')
+            @endif
             <hr>
             @endif
             <a href="{{route('encoder_stats_index')}}" class="btn btn-block btn-secondary btn-lg">Daily Encoding Status</a>

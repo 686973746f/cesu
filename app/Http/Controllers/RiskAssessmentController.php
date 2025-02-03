@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Brgy;
+use App\Models\EdcsBrgy;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\SyndromicRecords;
 use App\Models\RiskAssessmentForm;
+use App\Models\SyndromicPatient;
 use Illuminate\Support\Facades\Auth;
 
 class RiskAssessmentController extends Controller
@@ -21,19 +24,49 @@ class RiskAssessmentController extends Controller
             ->with('msgtype', 'warning');
         }
 
+        $check = RiskAssessmentForm::where('link_opdpatient_id', $d->syndromic_patient->id)
+        ->where('year', Carbon::parse($d->consultation_date)->format('Y'))
+        ->first();
+
+        if($check) {
+            return redirect()->back()
+            ->withInput()
+            ->with('msg', 'Error: OPD Patient already has Risk Assessment Form Existing for this Year.')
+            ->with('msgtype', 'warning');
+        }
+
+        return redirect()->route('raf_create', [
+            'link_opdpatient_id' => $d->syndromic_patient->id,
+            'lname' => $d->syndromic_patient->lname,
+            'fname' => $d->syndromic_patient->fname,
+            'bdate' => $d->syndromic_patient->bdate,
+        ]);
+    }
+
+    public function nonCommOnlineIndex() {
+
     }
 
     public function createFromScratch() {
-        if(request()->input('syndromic_record_id')) {
-            
+        if(request()->input('link_opdpatient_id')) {
+            $d = SyndromicPatient::findOrFail(request()->input('link_opdpatient_id'));
+
+            $check = RiskAssessmentForm::where('link_opdpatient_id', $d->id)->first();
+
+            if($check) {
+                return redirect()->back()
+                ->withInput()
+                ->with('msg', 'Error: OPD Patient already has Risk Assessment Form Existing for this Year.')
+                ->with('msgtype', 'warning');
+            }
         }
 
         if(!request()->input('lname') || !request()->input('fname') || !request()->input('bdate')) {
             return abort(401);
         }
 
-        $brgy_list = Brgy::where('city_id', 1)
-        ->where('displayInList', 1)
+        $brgy_list = EdcsBrgy::where('city_id', 388)
+        ->orderBy('name', 'ASC')
         ->get();
 
         $lname = mb_strtoupper(request()->input('lname'));
@@ -43,10 +76,24 @@ class RiskAssessmentController extends Controller
         $bdate = request()->input('bdate');
 
         $age_check = Carbon::parse($bdate)->age;
+
         if($age_check < 20) {
             return redirect()->back()
             ->withInput()
             ->with('msg', 'Error: Patient Age should be greater than or equal to 20 years old in order to proceed encoding.')
+            ->with('msgtype', 'warning');
+        }
+
+        $check = RiskAssessmentForm::where('lname', $lname)
+        ->where('fname', $fname)
+        ->whereDate('bdate', $bdate)
+        ->where('year', date('Y'))
+        ->first();
+
+        if($check) {
+            return redirect()->back()
+            ->withInput()
+            ->with('msg', 'Error: Record already has risk assessed this year. There is no need to encode again.')
             ->with('msgtype', 'warning');
         }
         
@@ -56,8 +103,70 @@ class RiskAssessmentController extends Controller
     }
 
     public function store(Request $r) {
+        $foundUnique = false;
+
+        while(!$foundUnique) {
+            $qr = mb_strtoupper(Str::random(7));
+
+            $qr_check = RiskAssessmentForm::where('qr', $qr)->first();
+
+            if(!$qr_check) {
+                $foundUnique = true;
+            }
+        }
+
+        if(isset($r->link_opdpatient_id)) {
+            $d = SyndromicPatient::findOrFail($r->link_opdpatient_id);
+
+            $check = RiskAssessmentForm::where('link_opdpatient_id', $d->id)
+            ->where('year', date('Y'))
+            ->first();
+
+            if($check) {
+                return redirect()->back()
+                ->withInput()
+                ->with('msg', 'Error: OPD Patient already has Risk Assessment Form Existing for this Year.')
+                ->with('msgtype', 'warning');
+            }
+
+            $lname = mb_strtoupper($d->lname);
+            $fname = mb_strtoupper($d->fname);
+            $mname = ($d->mname) ? mb_strtoupper($d->mname) : NULL;
+            $suffix = ($d->suffix) ? mb_strtoupper($d->suffix) : NULL;
+            $bdate = $d->bdate;
+        }
+        else {
+            $lname = mb_strtoupper($r->lname);
+            $fname = mb_strtoupper($r->fname);
+            $mname = ($r->mname) ? mb_strtoupper($r->mname) : NULL;
+            $suffix = ($r->suffix) ? mb_strtoupper($r->suffix) : NULL;
+            $bdate = $r->bdate;
+        }
+
+        $check = RiskAssessmentForm::where('lname', $lname)
+        ->where('fname', $fname)
+        ->whereDate('bdate', $bdate)
+        ->where('year', date('Y'))
+        ->first();
+
+        if($check) {
+            return redirect()->back()
+            ->withInput()
+            ->with('msg', 'Error: Record already has risk assessed this year. There is no need to encode again.')
+            ->with('msgtype', 'warning');
+        }
+        
+        $birthdate = Carbon::parse($bdate);
+        $currentDate = Carbon::parse($r->assessment_date);
+
+        $get_ageyears = $birthdate->diffInYears($currentDate);
+        $get_agemonths = $birthdate->diffInMonths($currentDate);
+        $get_agedays = $birthdate->diffInDays($currentDate);
+        
         $c = RiskAssessmentForm::create([
-            'link_opdrecord_id',
+            'year' => $currentDate->format('Y'),
+            'month' => $currentDate->format('n'),
+            'link_opdpatient_id' => $r->link_opdpatient_id ?: NULL,
             'assessment_date' => $r->assessment_date,
             'lname' => $r->lname,
             'fname' => $r->fname,
@@ -65,8 +174,12 @@ class RiskAssessmentController extends Controller
             'suffix'  => $r->suffix,
             'sex' => $r->sex,
             'bdate' => $r->bdate,
-            'street_purok' => $r->street_purok,
+            'age_years' => $get_ageyears,
+            'age_months' => $get_agemonths,
+            'age_days' => $get_agedays,
+            'street_purok' => mb_strtoupper($r->street_purok),
             'address_brgy_code' => $r->brgy_id,
+            'occupation' => ($r->occupation) ? mb_strtoupper($r->occupation) : NULL,
             'educational_attainment' => $r->educational_attainment,
             
             'height' => $r->height,
@@ -111,32 +224,39 @@ class RiskAssessmentController extends Controller
             'polydipsia' => $r->polydipsia,
             'polyuria' => $r->polyuria,
             'raised_bloodglucose' => $r->raised_bloodglucose,
-            'fbs_rbs',
-            'fbs_rbs_date',
-            'raised_bloodlipids' => $r->raised_bloodglucose,
-            'cholesterol',
-            'cholesterol_date',
+            'fbs_rbs' => ($r->raised_bloodglucose == 'Y') ? $r->fbs_rbs : NULL,
+            'fbs_rbs_date' => ($r->raised_bloodglucose == 'Y') ? $r->fbs_rbs_date : NULL,
+            'raised_bloodlipids' => $r->raised_bloodlipids,
+            'cholesterol' => ($r->raised_bloodlipids == 'Y') ? $r->cholesterol : NULL,
+            'cholesterol_date' => ($r->raised_bloodlipids == 'Y') ? $r->cholesterol_date : NULL,
             'urine_protein' => $r->urine_protein,
-            'protein',
-            'protein_date',
+            'protein' => ($r->urine_protein == 'Y') ? $r->protein : NULL,
+            'protein_date' => ($r->urine_protein == 'Y') ? $r->protein_date : NULL,
             'urine_ketones' => $r->urine_ketones,
-            'ketones',
-            'ketones_date',
+            'ketones' => ($r->urine_ketones == 'Y') ? $r->ketones : NULL,
+            'ketones_date' => ($r->urine_ketones == 'Y') ? $r->ketones_date : NULL,
             'management' => $r->management,
             'meds' => $r->meds,
             'date_followup' => ($r->date_followup) ? mb_strtoupper($r->date_followup) : NULL,
-            'risk_level',
+            //'risk_level',
             'finding' => $r->finding,
-            'assessed_by',
+            //'assessed_by',
             'created_by' => Auth::id(),
             'facility_id' => auth()->user()->itr_facility_id,
+            'qr' => $qr,
         ]);
 
-        if(isset($r->syndromic_record_id)) {
-            
+        if(isset($r->link_opdpatient_id)) {
+            $record_id = $d->getLastCheckup()->id;
+
+            return redirect()->route('syndromic_viewRecord', $record_id)
+            ->with('msg', 'Risk Assessment Form was successfully created and linked to this patient.')
+            ->with('msgtype', 'success');
         }
         else {
-            
+            return redirect()->route('home')
+            ->with('msg', 'Risk Assessment Form was successfully created.')
+            ->with('msgtype', 'success');
         }
     }
 

@@ -3,6 +3,7 @@
 @section('content')
 <div class="container">
     <form action="{{route('raf_store')}}" method="POST">
+      @csrf
         <div class="card">
             <div class="card-header"><b>New CVD/NCD Risk Assessment Form</b></div>
             <div class="card-body">
@@ -85,23 +86,34 @@
                   </div>
                 </div>
                 <hr>
-                <div class="form-group">
-                  <label for="educational_attainment" class="form-label"><b class="text-danger">*</b>Educational Attainment</label>
-                  <select class="form-control" name="educational_attainment" id="educational_attainment" required>
-                    <option value="" disabled {{(is_null(old('educational_attainment'))) ? 'selected' : ''}}>Choose...</option>
-                    <option value="no_formal_education" {{(old('educational_attainment') == 'no_formal_education')}}>No Formal Education</option>
-                    <option value="elementary_undergraduate" {{(old('educational_attainment') == 'elementary_undergraduate')}}>Elementary Undergraduate</option>
-                    <option value="elementary_graduate" {{(old('educational_attainment') == 'elementary_graduate')}}>Elementary Graduate</option>
-                    <option value="highschool_undergraduate" {{(old('educational_attainment') == 'highschool_undergraduate')}}>High School Undergraduate</option>
-                    <option value="highschool_graduate" {{(old('educational_attainment') == 'highschool_graduate')}}>High School Graduate</option>
-                    <option value="shs_undergraduate" {{(old('educational_attainment') == 'shs_undergraduate')}}>Senior High School Undergraduate</option>
-                    <option value="shs_graduate" {{(old('educational_attainment') == 'shs_graduate')}}>Senior High School Graduate</option>
-                    <option value="vocational_course" {{(old('educational_attainment') == 'vocational_course')}}>Vocational Course</option>
-                    <option value="college_undergraduate" {{(old('educational_attainment') == 'college_undergraduate')}}>College Undergraduate</option>
-                    <option value="college_graduate" {{(old('educational_attainment') == 'college_graduate')}}>College Graduate</option>
-                    <option value="postgraduate" {{(old('educational_attainment') == 'postgraduate')}}>Postgraduate (Master's/Doctorate)</option>
-                  </select>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="occupation" class="form-label">Occupation</label>
+                      <input type="text" class="form-control" id="occupation" name="occupation" style="text-transform: uppercase;" value="{{old('occupation')}}">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="educational_attainment" class="form-label"><b class="text-danger">*</b>Educational Attainment</label>
+                      <select class="form-control" name="educational_attainment" id="educational_attainment" required>
+                        <option value="" disabled {{(is_null(old('educational_attainment'))) ? 'selected' : ''}}>Choose...</option>
+                        <option value="no_formal_education" {{(old('educational_attainment') == 'no_formal_education')}}>No Formal Education</option>
+                        <option value="elementary_undergraduate" {{(old('educational_attainment') == 'elementary_undergraduate')}}>Elementary Undergraduate</option>
+                        <option value="elementary_graduate" {{(old('educational_attainment') == 'elementary_graduate')}}>Elementary Graduate</option>
+                        <option value="highschool_undergraduate" {{(old('educational_attainment') == 'highschool_undergraduate')}}>High School Undergraduate</option>
+                        <option value="highschool_graduate" {{(old('educational_attainment') == 'highschool_graduate')}}>High School Graduate</option>
+                        <option value="shs_undergraduate" {{(old('educational_attainment') == 'shs_undergraduate')}}>Senior High School Undergraduate</option>
+                        <option value="shs_graduate" {{(old('educational_attainment') == 'shs_graduate')}}>Senior High School Graduate</option>
+                        <option value="vocational_course" {{(old('educational_attainment') == 'vocational_course')}}>Vocational Course</option>
+                        <option value="college_undergraduate" {{(old('educational_attainment') == 'college_undergraduate')}}>College Undergraduate</option>
+                        <option value="college_graduate" {{(old('educational_attainment') == 'college_graduate')}}>College Graduate</option>
+                        <option value="postgraduate" {{(old('educational_attainment') == 'postgraduate')}}>Postgraduate (Master's/Doctorate)</option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
+                
                 <hr>
                 <div class="row">
                   <div class="col-md-3">
@@ -137,7 +149,7 @@
                         <div class="card">
                             <div class="card-header">Family History</div>
                             <div class="card-body">
-                                <h6>Do you have 1st Degree Relative with (Ikaw ba ay magulang o kapatid na may sumusunod):</h6>
+                                <h6>Do you have 1st Degree Relative with (Ang pasyente ba ay may magulang o kapatid na may sumusunod):</h6>
                                 <div class="form-check">
                                     <label class="form-check-label">
                                       <input type="checkbox" class="form-check-input" name="fh_hypertension" id="fh_hypertension" value="Y">
@@ -185,7 +197,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                          <label for="smoking">Smoking (Tobacco/Cigarette/Vape)</label>
+                          <label for="smoking"><b class="text-danger">*</b>Smoking (Tobacco/Cigarette/Vape)</label>
                           <select class="form-control" name="smoking" id="smoking" required>
                             <option value="" disabled {{(is_null(old('smoking'))) ? 'selected' : ''}}>Choose...</option>
                             <option value="NEVER">Never smoked</option>
@@ -319,6 +331,22 @@
                         <option value="N" {{(old('raised_bloodglucose') == 'N') ? 'selected' : ''}}>No/Hindi</option>
                       </select>
                     </div>
+                    <div id="fbsrbs_div" class="d-none">
+                      <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="fbs_rbs"><b class="text-danger">*</b>FBS/RBS</label>
+                              <input type="text" class="form-control" name="fbs_rbs" id="fbs_rbs" value="{{old('fbs_rbs')}}">
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="fbs_rbs_date"><b class="text-danger">*</b>Date Taken</label>
+                              <input type="date" class="form-control" name="fbs_rbs_date" id="fbs_rbs_date" value="{{old('fbs_rbs_date')}}" max="{{date('Y-m-d')}}">
+                            </div>
+                          </div>
+                      </div>
+                    </div>
                     <div class="form-group">
                       <label for="raised_bloodlipids">Raised Blood Lipids</label>
                       <select class="form-control" name="raised_bloodlipids" id="raised_bloodlipids" required>
@@ -326,6 +354,22 @@
                         <option value="Y" {{(old('raised_bloodlipids') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
                         <option value="N" {{(old('raised_bloodlipids') == 'N') ? 'selected' : ''}}>No/Hindi</option>
                       </select>
+                    </div>
+                    <div id="cholesterol_div" class="d-none">
+                      <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="cholesterol"><b class="text-danger">*</b>Cholesterol</label>
+                              <input type="text" class="form-control" name="cholesterol" id="cholesterol" value="{{old('cholesterol')}}">
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="cholesterol_date"><b class="text-danger">*</b>Date Taken</label>
+                              <input type="date" class="form-control" name="cholesterol_date" id="cholesterol_date" value="{{old('cholesterol_date')}}" max="{{date('Y-m-d')}}">
+                            </div>
+                          </div>
+                      </div>
                     </div>
                     <div class="form-group">
                       <label for="urine_protein">Presence of Urine Protein</label>
@@ -335,6 +379,22 @@
                         <option value="N" {{(old('urine_protein') == 'N') ? 'selected' : ''}}>No/Hindi</option>
                       </select>
                     </div>
+                    <div id="protein_div" class="d-none">
+                      <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="protein"><b class="text-danger">*</b>Protein</label>
+                              <input type="text" class="form-control" name="protein" id="protein" value="{{old('protein')}}">
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="protein_date"><b class="text-danger">*</b>Date Taken</label>
+                              <input type="date" class="form-control" name="protein_date" id="protein_date" value="{{old('protein_date')}}" max="{{date('Y-m-d')}}">
+                            </div>
+                          </div>
+                      </div>
+                    </div>
                     <div class="form-group">
                       <label for="urine_ketones">Presence of Urine Ketones (for newly diagnosed DM)</label>
                       <select class="form-control" name="urine_ketones" id="urine_ketones" required>
@@ -342,6 +402,22 @@
                         <option value="Y" {{(old('urine_ketones') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
                         <option value="N" {{(old('urine_ketones') == 'N') ? 'selected' : ''}}>No/Hindi</option>
                       </select>
+                    </div>
+                    <div id="ketones_div" class="d-none">
+                      <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="ketones"><b class="text-danger">*</b>FBS/RBS</label>
+                              <input type="text" class="form-control" name="ketones" id="ketones" value="{{old('ketones')}}">
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="ketones_date"><b class="text-danger">*</b>Date Taken</label>
+                              <input type="date" class="form-control" name="ketones_date" id="ketones_date" value="{{old('ketones_date')}}" max="{{date('Y-m-d')}}">
+                            </div>
+                          </div>
+                      </div>
                     </div>
                   </div>
 
@@ -475,11 +551,12 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label for="management">Management</label>
+                      <label for="management"><b class="text-danger">*</b>Management</label>
                       <select class="form-control" name="management" id="management" required>
                         <option value="" disabled {{(is_null(old('management'))) ? 'selected' : ''}}>Choose...</option>
                         <option value="STYLE MODIFICATION" {{(old('management') == 'STYLE MODIFICATION') ? 'selected' : ''}}>Style Modification</option>
                         <option value="MEDICATIONS" {{(old('management') == 'MEDICATIONS') ? 'selected' : ''}}>Medications</option>
+                        <option value="N/A" {{(old('management') == 'N/A') ? 'selected' : ''}}>None</option>
                       </select>
                     </div>
                     <div class="form-group">
@@ -492,8 +569,6 @@
                     </div>
                   </div>
                 </div>
-                
-
             </div>
             <div class="card-footer">
                 <button type="submit" class="btn btn-success btn-block" id="submitBtn">Submit</button>
@@ -595,5 +670,61 @@
       $('#question7').prop('required', true);
     }
   });
+
+  $('#raised_bloodglucose').change(function (e) { 
+    e.preventDefault();
+    if($(this).val() == 'Y') {
+      $('#fbsrbs_div').removeClass('d-none');
+      $('#fbs_rbs').prop('required', true);
+      $('#fbs_rbs_date').prop('required', true);
+    }
+    else {
+      $('#fbsrbs_div').addClass('d-none');
+      $('#fbs_rbs').prop('required', false);
+      $('#fbs_rbs_date').prop('required', false);
+    }
+  }).trigger('change');
+
+  $('#raised_bloodlipids').change(function (e) { 
+    e.preventDefault();
+    if($(this).val() == 'Y') {
+      $('#cholesterol_div').removeClass('d-none');
+      $('#cholesterol').prop('required', true);
+      $('#cholesterol_date').prop('required', true);
+    }
+    else {
+      $('#cholesterol_div').addClass('d-none');
+      $('#cholesterol').prop('required', false);
+      $('#cholesterol_date').prop('required', false);
+    }
+  }).trigger('change');
+
+  $('#urine_protein').change(function (e) { 
+    e.preventDefault();
+    if($(this).val() == 'Y') {
+      $('#protein_div').removeClass('d-none');
+      $('#protein').prop('required', true);
+      $('#protein_date').prop('required', true);
+    }
+    else {
+      $('#protein_div').addClass('d-none');
+      $('#protein').prop('required', false);
+      $('#protein_date').prop('required', false);
+    }
+  }).trigger('change');
+
+  $('#urine_ketones').change(function (e) {
+    e.preventDefault();
+    if($(this).val() == 'Y') {
+      $('#ketones_div').removeClass('d-none');
+      $('#ketones').prop('required', true);
+      $('#ketones_date').prop('required', true);
+    }
+    else {
+      $('#ketones_div').addClass('d-none');
+      $('#ketones').prop('required', false);
+      $('#ketones_date').prop('required', false);
+    }
+  }).trigger('change');
 </script>
 @endsection
