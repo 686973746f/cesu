@@ -22,7 +22,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="assessed_by"><b class="text-danger">*</b>Assessed By</label>
-                      <input type="text" class="form-control" name="assessed_by" id="assessed_by" value="{{old('assessed_by')}}" style="text-transform: uppercase;">
+                      <input type="text" class="form-control" name="assessed_by" id="assessed_by" value="{{old('assessed_by')}}" style="text-transform: uppercase;" required>
                     </div>
                   </div>
                 </div>
@@ -128,9 +128,9 @@
                 <hr>
                 <div class="row">
                   <div class="col-md-3">
-                    <div><label for="height">Height (cm)</label></div>
+                    <div><label for="height"><b class="text-danger">*</b>Height (cm)</label></div>
                     <div class="input-group mb-3">
-                      <input type="number" step="0.01" class="form-control" name="height" id="height" min="1" max="600">
+                      <input type="number" step="0.01" class="form-control" name="height" id="height" min="1" max="600" required>
                       <div class="input-group-append">
                         <button class="btn btn-outline-primary" type="button" data-toggle="modal" data-target="#heightConverter">Convert feet to cm</button>
                       </div>
@@ -138,8 +138,8 @@
                   </div>
                   <div class="col-md-3">
                     <div class="form-group">
-                      <label for="weight">Weight (kg)</label>
-                      <input type="number" class="form-control" name="weight" id="weight" min="1" max="500" step="0.1">
+                      <label for="weight"><b class="text-danger">*</b>Weight (kg)</label>
+                      <input type="number" class="form-control" name="weight" id="weight" min="1" max="500" step="0.1" required>
                     </div>
                   </div>
                   <div class="col-md-3">

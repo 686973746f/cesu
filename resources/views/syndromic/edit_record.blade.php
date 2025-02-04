@@ -1060,7 +1060,7 @@
                         <option value="THOC" {{(old('disposition', $d->disposition) == 'THOC') ? 'selected' : ''}}>THOC (Transfer to Hospital of Choice)</option>
                         <option value="HAMA" {{(old('disposition', $d->disposition) == 'HAMA') ? 'selected' : ''}}>HAMA (Home Against Medical Advice)</option>
                         <option value="ADMITTED" {{(old('disposition', $d->disposition) == 'ADMITTED') ? 'selected' : ''}}>ADMITTED</option>
-                        <option value="TB DOTS" {{(old('disposition', $d->disposition) == 'TB DOTS') ? 'selected' : ''}}>TB DOTS</option>
+                        <option value="TB DOTS" {{(old('disposition', $d->disposition) == 'TB DOTS') ? 'selected' : ''}}>TB-DOTS</option>
                         <option value="SENT TO JAIL" {{(old('disposition', $d->disposition) == 'SENT TO JAIL') ? 'selected' : ''}}>SENT TO JAIL</option>
                       </select>
                     </div>

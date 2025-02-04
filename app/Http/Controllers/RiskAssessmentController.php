@@ -93,7 +93,7 @@ class RiskAssessmentController extends Controller
         if($check) {
             return redirect()->back()
             ->withInput()
-            ->with('msg', 'Error: Record already has risk assessed this year. There is no need to encode again.')
+            ->with('msg', 'Error: Patient already has risk assessment record for this year. Patient can fillout the risk assessment form again next year.')
             ->with('msgtype', 'warning');
         }
         
@@ -169,16 +169,19 @@ class RiskAssessmentController extends Controller
         else {
             $created_by = Auth::id();
         }
+
+        $height_m = $r->height / 100; // Convert cm to meters
+        $bmi = $r->weight / ($height_m * $height_m);
         
         $c = RiskAssessmentForm::create([
             'year' => $currentDate->format('Y'),
             'month' => $currentDate->format('n'),
             'link_opdpatient_id' => $r->link_opdpatient_id ?: NULL,
             'assessment_date' => $r->assessment_date,
-            'lname' => $r->lname,
-            'fname' => $r->fname,
-            'mname'  => $r->mname,
-            'suffix'  => $r->suffix,
+            'lname' => $lname,
+            'fname' => $fname,
+            'mname'  => $mname,
+            'suffix'  => $suffix,
             'sex' => $r->sex,
             'bdate' => $r->bdate,
             'age_years' => $get_ageyears,
@@ -191,6 +194,7 @@ class RiskAssessmentController extends Controller
             
             'height' => $r->height,
             'weight' => $r->weight,
+            'bmi' => round($bmi, 2),
             'systolic' => $r->systolic,
             'diastolic' => $r->diastolic,
 

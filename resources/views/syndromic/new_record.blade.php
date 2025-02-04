@@ -979,7 +979,7 @@
                         <option value="THOC" {{(old('disposition') == 'THOC') ? 'selected' : ''}}>THOC (Transfer to Hospital of Choice)</option>
                         <option value="HAMA" {{(old('disposition') == 'HAMA') ? 'selected' : ''}}>HAMA (Home Against Medical Advice)</option>
                         <option value="ADMITTED" {{(old('disposition') == 'ADMITTED') ? 'selected' : ''}}>ADMITTED</option>
-                        <option value="TB DOTS" {{(old('disposition') == 'TB DOTS') ? 'selected' : ''}}>TB DOTS</option>
+                        <option value="TB DOTS" {{(old('disposition') == 'TB DOTS') ? 'selected' : ''}}>TB-DOTS</option>
                         <option value="SENT TO JAIL" {{(old('disposition') == 'SENT TO JAIL') ? 'selected' : ''}}>SENT TO JAIL</option>
                       </select>
                     </div>
