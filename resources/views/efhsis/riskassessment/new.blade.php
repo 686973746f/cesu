@@ -2,20 +2,31 @@
 
 @section('content')
 <div class="container">
-    <form action="{{route('raf_store')}}" method="POST">
+    <form action="{{route('onlinenc_store')}}" method="POST">
       @csrf
         <div class="card">
             <div class="card-header"><b>New CVD/NCD Risk Assessment Form</b></div>
             <div class="card-body">
-                @if(isset($s))
-                
-                @else
-                
-                @endif
-                <div class="form-group">
-                  <label for="assessment_date"><b class="text-danger">*</b>Date of Assessment</label>
-                  <input type="date" class="form-control" name="assessment_date" id="assessment_date" value="{{old('assessment_date', date('Y-m-d'))}}" min="1900-01-01" max="{{date('Y-m-d')}}" required>
+              @if(session('msg'))
+              <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
+                  {{session('msg')}}
+              </div>
+              @endif
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="assessment_date"><b class="text-danger">*</b>Date of Assessment</label>
+                      <input type="date" class="form-control" name="assessment_date" id="assessment_date" value="{{old('assessment_date', date('Y-m-d'))}}" min="1900-01-01" max="{{date('Y-m-d')}}" required>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="assessed_by"><b class="text-danger">*</b>Assessed By</label>
+                      <input type="text" class="form-control" name="assessed_by" id="assessed_by" value="{{old('assessed_by')}}" style="text-transform: uppercase;">
+                    </div>
+                  </div>
                 </div>
+                <hr>
                 <div class="row">
                   <div class="col-md-3">
                       <div class="form-group">
@@ -119,7 +130,7 @@
                   <div class="col-md-3">
                     <div><label for="height">Height (cm)</label></div>
                     <div class="input-group mb-3">
-                      <input type="number" step="0.1" class="form-control" name="height" id="height" min="1" max="600">
+                      <input type="number" step="0.01" class="form-control" name="height" id="height" min="1" max="600">
                       <div class="input-group-append">
                         <button class="btn btn-outline-primary" type="button" data-toggle="modal" data-target="#heightConverter">Convert feet to cm</button>
                       </div>
@@ -147,7 +158,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="card">
-                            <div class="card-header">Family History</div>
+                            <div class="card-header"><b>Family History</b></div>
                             <div class="card-body">
                                 <h6>Do you have 1st Degree Relative with (Ang pasyente ba ay may magulang o kapatid na may sumusunod):</h6>
                                 <div class="form-check">
@@ -194,6 +205,176 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="form-check mt-3">
+                          <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" name="obese" id="obese" value="Y">
+                            Obese
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" name="overweight" id="overweight" value="Y">
+                            Overweight
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" name="central_adiposity" id="central_adiposity" value="Y">
+                            Central Adiposity (Taba sa tiyan)
+                          </label>
+                        </div>
+                        <div class="form-group">
+                          <label for="waist_cm">Waist Circumference / Sukat ng Bewang (cm)</label>
+                          <input type="number" class="form-control" name="waist_cm" id="waist_cm" step=".1">
+                        </div>
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" name="raised_bp" id="raised_bp" value="Y">
+                            Raised BP
+                          </label>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                          <label for="diabetes">Was patient diagnosed as having diabetes?</label>
+                          <select class="form-control" name="diabetes" id="diabetes" required>
+                            <option value="" disabled {{(is_null(old('diabetes'))) ? 'selected' : ''}}>Choose...</option>
+                            <option value="Y" {{(old('diabetes') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
+                            <option value="N" {{(old('diabetes') == 'N') ? 'selected' : ''}}>No/Hindi</option>
+                            <option value="U" {{(old('diabetes') == 'U') ? 'selected' : ''}}>Do not know/Hindi alam</option>
+                          </select>
+                        </div>
+                        <div id="medication_div" class="d-none">
+                          <div class="form-group">
+                            <label for="diabetes_medication">With Medications</label>
+                            <select class="form-control" name="diabetes_medication" id="diabetes_medication">
+                              <option value="" disabled {{(is_null(old('diabetes_medication'))) ? 'selected' : ''}}>Choose...</option>
+                              <option value="Y" {{(old('diabetes_medication') == 'Y') ? 'selected' : ''}}>With Medications</option>
+                              <option value="N" {{(old('diabetes_medication') == 'N') ? 'selected' : ''}}>Without Medications</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="polyphagia">Polyphagia (Laging gutom)</label>
+                          <select class="form-control" name="polyphagia" id="polyphagia" required>
+                            <option value="" disabled {{(is_null(old('polyphagia'))) ? 'selected' : ''}}>Choose...</option>
+                            <option value="Y" {{(old('polyphagia') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
+                            <option value="N" {{(old('polyphagia') == 'N') ? 'selected' : ''}}>No/Hindi</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label for="polydipsia">Polydipsia (Laging uhaw)</label>
+                          <select class="form-control" name="polydipsia" id="polydipsia" required>
+                            <option value="" disabled {{(is_null(old('polydipsia'))) ? 'selected' : ''}}>Choose...</option>
+                            <option value="Y" {{(old('polydipsia') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
+                            <option value="N" {{(old('polydipsia') == 'N') ? 'selected' : ''}}>No/Hindi</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label for="polyuria">Polyuria (Laging umiihi)</label>
+                          <select class="form-control" name="polyuria" id="polyuria" required>
+                            <option value="" disabled {{(is_null(old('polyuria'))) ? 'selected' : ''}}>Choose...</option>
+                            <option value="Y" {{(old('polyuria') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
+                            <option value="N" {{(old('polyuria') == 'N') ? 'selected' : ''}}>No/Hindi</option>
+                          </select>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                          <label for="raised_bloodglucose">Raised Blood Glucose</label>
+                          <select class="form-control" name="raised_bloodglucose" id="raised_bloodglucose" required>
+                            <option value="" disabled {{(is_null(old('raised_bloodglucose'))) ? 'selected' : ''}}>Choose...</option>
+                            <option value="Y" {{(old('raised_bloodglucose') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
+                            <option value="N" {{(old('raised_bloodglucose') == 'N') ? 'selected' : ''}}>No/Hindi</option>
+                          </select>
+                        </div>
+                        <div id="fbsrbs_div" class="d-none">
+                          <div class="row">
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="fbs_rbs"><b class="text-danger">*</b>FBS/RBS</label>
+                                  <input type="text" class="form-control" name="fbs_rbs" id="fbs_rbs" value="{{old('fbs_rbs')}}">
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="fbs_rbs_date"><b class="text-danger">*</b>Date Taken</label>
+                                  <input type="date" class="form-control" name="fbs_rbs_date" id="fbs_rbs_date" value="{{old('fbs_rbs_date')}}" max="{{date('Y-m-d')}}">
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="raised_bloodlipids">Raised Blood Lipids</label>
+                          <select class="form-control" name="raised_bloodlipids" id="raised_bloodlipids" required>
+                            <option value="" disabled {{(is_null(old('raised_bloodlipids'))) ? 'selected' : ''}}>Choose...</option>
+                            <option value="Y" {{(old('raised_bloodlipids') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
+                            <option value="N" {{(old('raised_bloodlipids') == 'N') ? 'selected' : ''}}>No/Hindi</option>
+                          </select>
+                        </div>
+                        <div id="cholesterol_div" class="d-none">
+                          <div class="row">
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="cholesterol"><b class="text-danger">*</b>Cholesterol</label>
+                                  <input type="text" class="form-control" name="cholesterol" id="cholesterol" value="{{old('cholesterol')}}">
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="cholesterol_date"><b class="text-danger">*</b>Date Taken</label>
+                                  <input type="date" class="form-control" name="cholesterol_date" id="cholesterol_date" value="{{old('cholesterol_date')}}" max="{{date('Y-m-d')}}">
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="urine_protein">Presence of Urine Protein</label>
+                          <select class="form-control" name="urine_protein" id="urine_protein" required>
+                            <option value="" disabled {{(is_null(old('urine_protein'))) ? 'selected' : ''}}>Choose...</option>
+                            <option value="Y" {{(old('urine_protein') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
+                            <option value="N" {{(old('urine_protein') == 'N') ? 'selected' : ''}}>No/Hindi</option>
+                          </select>
+                        </div>
+                        <div id="protein_div" class="d-none">
+                          <div class="row">
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="protein"><b class="text-danger">*</b>Protein</label>
+                                  <input type="text" class="form-control" name="protein" id="protein" value="{{old('protein')}}">
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="protein_date"><b class="text-danger">*</b>Date Taken</label>
+                                  <input type="date" class="form-control" name="protein_date" id="protein_date" value="{{old('protein_date')}}" max="{{date('Y-m-d')}}">
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="urine_ketones">Presence of Urine Ketones (for newly diagnosed DM)</label>
+                          <select class="form-control" name="urine_ketones" id="urine_ketones" required>
+                            <option value="" disabled {{(is_null(old('urine_ketones'))) ? 'selected' : ''}}>Choose...</option>
+                            <option value="Y" {{(old('urine_ketones') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
+                            <option value="N" {{(old('urine_ketones') == 'N') ? 'selected' : ''}}>No/Hindi</option>
+                          </select>
+                        </div>
+                        <div id="ketones_div" class="d-none">
+                          <div class="row">
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="ketones"><b class="text-danger">*</b>FBS/RBS</label>
+                                  <input type="text" class="form-control" name="ketones" id="ketones" value="{{old('ketones')}}">
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="ketones_date"><b class="text-danger">*</b>Date Taken</label>
+                                  <input type="date" class="form-control" name="ketones_date" id="ketones_date" value="{{old('ketones_date')}}" max="{{date('Y-m-d')}}">
+                                </div>
+                              </div>
+                          </div>
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
@@ -221,325 +402,176 @@
                           </label>
                         </div>
 
-                        <hr>
-                        <div class="form-check">
-                          <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" name="high_fatsalt_intake" id="high_fatsalt_intake" value="Y">
-                            Eats processed/fast foods (e.g. instant noodles, hamburgers, fries, fried chicken skin, etc.) and ihaw-ihaw (e.g. isaw, adidas, etc.) weekly.
-                          </label>
+                        <div class="card mt-3">
+                          <div class="card-header"><b>High Fat / High Salt Food Intake</b></div>
+                          <div class="card-body">
+                            <div class="form-check">
+                              <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" name="high_fatsalt_intake" id="high_fatsalt_intake" value="Y">
+                                Eats processed/fast foods (e.g. instant noodles, hamburgers, fries, fried chicken skin, etc.) and ihaw-ihaw (e.g. isaw, adidas, etc.) weekly.
+                              </label>
+                            </div>
+                          </div>
                         </div>
-                        <div class="form-check">
-                          <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" name="vegetable_serving" id="vegetable_serving" value="Y">
-                            Eats 3 servings of vegetables daily
-                          </label>
+
+                        <div class="card mt-3">
+                          <div class="card-header"><b>Dietary Fiber Intake</b></div>
+                          <div class="card-body">
+                            <div class="form-check">
+                              <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" name="vegetable_serving" id="vegetable_serving" value="Y">
+                                Eats 3 servings of vegetables daily
+                              </label>
+                            </div>
+
+                            <div class="form-check">
+                              <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" name="fruits_serving" id="fruits_serving" value="Y">
+                                Eats 2-3 servings of fruits daily
+                              </label>
+                            </div>
+                          </div>
                         </div>
-                        <div class="form-check">
-                          <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" name="fruits_serving" id="fruits_serving" value="Y">
-                            Eats 2-3 servings of fruits daily
-                          </label>
+
+                        <div class="card mt-3">
+                          <div class="card-header"><b>Physical Activity</b></div>
+                          <div class="card-body">
+                            <div class="form-check">
+                              <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" name="physical_activity" id="physical_activity" value="Y">
+                                Does at least 2 and a half hours of a WEEK of moderate intensity physical activity
+                              </label>
+                            </div>
+                          </div>
                         </div>
-                        <div class="form-check">
-                          <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" name="physical_activity" id="physical_activity" value="Y">
-                            Does at least 2 and a half hours of a WEEK of moderate intensity physical activity
-                          </label>
+
+                        <div class="card mt-3">
+                          <div class="card-header"><b>Questionnaire to Determine Probable Angina, Heart Attack, Stroke or Transient Ischemic Attack</b></div>
+                          <div class="card-body">
+                            <div class="form-group">
+                              <label for="heart_attack">Angina or Heart Attack</label>
+                              <select class="form-control" name="heart_attack" id="heart_attack" required>
+                                <option value="" disabled {{(is_null(old('heart_attack'))) ? 'selected' : ''}}>Choose...</option>
+                                <option value="Y" {{(old('heart_attack') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
+                                <option value="N" {{(old('heart_attack') == 'N') ? 'selected' : ''}}>No/Hindi</option>
+                              </select>
+                            </div>
+    
+                            <div class="form-group">
+                              <label for="question1">
+                                <div>1. Have you had any pain or discomfort or any pressure or heaviness in your chest?</div>
+                                <div>Nakaramdam ka ba ng pananakit o kabigatan sa iyong dibdib?</div>
+                              </label>
+                              <select class="form-control" name="question1" id="question1" required>
+                                <option value="" disabled {{(is_null(old('question1'))) ? 'selected' : ''}}>Choose...</option>
+                                <option value="Y" {{(old('question1') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
+                                <option value="N" {{(old('question1') == 'N') ? 'selected' : ''}}>No/Hindi</option>
+                              </select>
+                            </div>
+                            <div id="q2_div" class="d-none">
+                              <div class="form-group">
+                                <label for="question2">
+                                  <div>2. Do you get the pain in the center of the chest or left chest or left arm?</div>
+                                  <div>Ang sakit ba ay nasa gitna ng dibdib, sa kaliwang bahagi ng dibdib o sa kaliwang braso?</div>
+                                </label>
+                                <select class="form-control" name="question2" id="question2">
+                                  <option value="" disabled {{(is_null(old('question2'))) ? 'selected' : ''}}>Choose...</option>
+                                  <option value="Y" {{(old('question2') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
+                                  <option value="N" {{(old('question2') == 'N') ? 'selected' : ''}}>No/Hindi</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div id="addtl_questions" class="d-none">
+                              <div class="form-group">
+                                <label for="question3">
+                                  <div>3. Do you get it when you walk uphill or hurry?</div>
+                                  <div>Nararamdaman mo ba ito kung ikaw ay nagmamadali o naglalakad nang mabilis o paakyat?</div>
+                                </label>
+                                <select class="form-control" name="question3" id="question3">
+                                  <option value="" disabled {{(is_null(old('question3'))) ? 'selected' : ''}}>Choose...</option>
+                                  <option value="Y" {{(old('question3') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
+                                  <option value="N" {{(old('question3') == 'N') ? 'selected' : ''}}>No/Hindi</option>
+                                </select>
+                              </div>
+                              <div class="form-group">
+                                <label for="question4">
+                                  <div>4. Do you slowdown if you get the pain while walking?</div>
+                                  <div>Tumitigil ka ba sa paglalakad kapag sumakit ang iyong dibdib?</div>
+                                </label>
+                                <select class="form-control" name="question4" id="question4">
+                                  <option value="" disabled {{(is_null(old('question4'))) ? 'selected' : ''}}>Choose...</option>
+                                  <option value="Y" {{(old('question4') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
+                                  <option value="N" {{(old('question4') == 'N') ? 'selected' : ''}}>No/Hindi</option>
+                                </select>
+                              </div>
+                              <div class="form-group">
+                                <label for="question5">
+                                  <div>Does the pain go away if you stand still or if you take tablet under tongue?</div>
+                                  <div>Nawawala ba ang sakit kapag ikaw ay di kumilos o kapag naglagay ka ng gamot sa ilalim ng iyong dila?</div>
+                                </label>
+                                <select class="form-control" name="question5" id="question5">
+                                  <option value="" disabled {{(is_null(old('question5'))) ? 'selected' : ''}}>Choose...</option>
+                                  <option value="Y" {{(old('question5') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
+                                  <option value="N" {{(old('question5') == 'N') ? 'selected' : ''}}>No/Hindi</option>
+                                </select>
+                              </div>
+                              <div class="form-group">
+                                <label for="question6">
+                                  <div>6. Does the pain go away in less than 10 minutes?</div>
+                                  <div>Nawawala ba ang sakit sa loob ng 10 minuto?</div>
+                                </label>
+                                <select class="form-control" name="question6" id="question6">
+                                  <option value="" disabled {{(is_null(old('question6'))) ? 'selected' : ''}}>Choose...</option>
+                                  <option value="Y" {{(old('question6') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
+                                  <option value="N" {{(old('question6') == 'N') ? 'selected' : ''}}>No/Hindi</option>
+                                </select>
+                              </div>
+                              <div class="form-group">
+                                <label for="question7">
+                                  <div>7. Have you ever had a severe chest pain across the front of your chest lasting for half an hour or more?</div>
+                                  <div>Nakakaramdam ka na ba ng pananakit ng dibdib na tumatagal ng kalahating oras o higit pa?</div>
+                                </label>
+                                <select class="form-control" name="question7" id="question7">
+                                  <option value="" disabled {{(is_null(old('question7'))) ? 'selected' : ''}}>Choose...</option>
+                                  <option value="Y" {{(old('question7') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
+                                  <option value="N" {{(old('question7') == 'N') ? 'selected' : ''}}>No/Hindi</option>
+                                </select>
+                              </div>
+                            </div>
+    
+                            <div class="form-group">
+                              <label for="stroke_ortia">
+                                <div>Stroke and TIA</div>
+                              </label>
+                              <select class="form-control" name="stroke_ortia" id="stroke_ortia">
+                                <option value="" disabled {{(is_null(old('stroke_ortia'))) ? 'selected' : ''}}>Choose...</option>
+                                <option value="Y" {{(old('stroke_ortia') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
+                                <option value="N" {{(old('stroke_ortia') == 'N') ? 'selected' : ''}}>No/Hindi</option>
+                              </select>
+                            </div>
+                            <div class="form-group">
+                              <label for="question8">
+                                <div>8. Have you ever had any of the following: difficulty in talking, weakness of arm and/or leg on one side of the body or numbness on one side of the body?</div>
+                                <div>Nakaramdam ka na ba ng mga sumusunod? hirap sa pagsasalita, panghihina ng braso at/o ng binti o pamamanhid sa kalahating bahagi ng katawan.</div>
+                              </label>
+                              <select class="form-control" name="question8" id="question8" required>
+                                <option value="" disabled {{(is_null(old('question8'))) ? 'selected' : ''}}>Choose...</option>
+                                <option value="Y" {{(old('question8') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
+                                <option value="N" {{(old('question8') == 'N') ? 'selected' : ''}}>No/Hindi</option>
+                              </select>
+                            </div>
+                          </div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="row">
                   <div class="col-md-6">
-                    <div class="form-check">
-                      <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" name="obese" id="obese" value="Y">
-                        Obese
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" name="overweight" id="overweight" value="Y">
-                        Overweight
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" name="central_adiposity" id="central_adiposity" value="Y">
-                        Central Adiposity (Taba sa tiyan)
-                      </label>
-                    </div>
-                    <div class="form-group">
-                      <label for="waist_cm">Waist Circumference (cm)</label>
-                      <input type="number" class="form-control" name="waist_cm" id="waist_cm" step=".1">
-                    </div>
-                    <div class="form-check">
-                      <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" name="raised_bp" id="raised_bp" value="Y">
-                        Raised BP
-                      </label>
-                    </div>
-                    <hr>
-                    <div class="form-group">
-                      <label for="diabetes">Was patient diagnosed as having diabetes?</label>
-                      <select class="form-control" name="diabetes" id="diabetes" required>
-                        <option value="" disabled {{(is_null(old('diabetes'))) ? 'selected' : ''}}>Choose...</option>
-                        <option value="Y" {{(old('diabetes') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
-                        <option value="N" {{(old('diabetes') == 'N') ? 'selected' : ''}}>No/Hindi</option>
-                        <option value="U" {{(old('diabetes') == 'U') ? 'selected' : ''}}>Do not know/Hindi alam</option>
-                      </select>
-                    </div>
-                    <div id="medication_div" class="d-none">
-                      <div class="form-group">
-                        <label for="diabetes_medication">With Medications</label>
-                        <select class="form-control" name="diabetes_medication" id="diabetes_medication">
-                          <option value="" disabled {{(is_null(old('diabetes_medication'))) ? 'selected' : ''}}>Choose...</option>
-                          <option value="Y" {{(old('diabetes_medication') == 'Y') ? 'selected' : ''}}>With Medications</option>
-                          <option value="N" {{(old('diabetes_medication') == 'N') ? 'selected' : ''}}>Without Medications</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label for="polyphagia">Polyphagia (Laging gutom)</label>
-                      <select class="form-control" name="polyphagia" id="polyphagia" required>
-                        <option value="" disabled {{(is_null(old('polyphagia'))) ? 'selected' : ''}}>Choose...</option>
-                        <option value="Y" {{(old('polyphagia') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
-                        <option value="N" {{(old('polyphagia') == 'N') ? 'selected' : ''}}>No/Hindi</option>
-                      </select>
-                    </div>
-                    <div class="form-group">
-                      <label for="polydipsia">Polydipsia (Laging uhaw)</label>
-                      <select class="form-control" name="polydipsia" id="polydipsia" required>
-                        <option value="" disabled {{(is_null(old('polydipsia'))) ? 'selected' : ''}}>Choose...</option>
-                        <option value="Y" {{(old('polydipsia') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
-                        <option value="N" {{(old('polydipsia') == 'N') ? 'selected' : ''}}>No/Hindi</option>
-                      </select>
-                    </div>
-                    <div class="form-group">
-                      <label for="polyuria">Polyuria (Laging umiihi)</label>
-                      <select class="form-control" name="polyuria" id="polyuria" required>
-                        <option value="" disabled {{(is_null(old('polyuria'))) ? 'selected' : ''}}>Choose...</option>
-                        <option value="Y" {{(old('polyuria') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
-                        <option value="N" {{(old('polyuria') == 'N') ? 'selected' : ''}}>No/Hindi</option>
-                      </select>
-                    </div>
-                    <hr>
-                    <div class="form-group">
-                      <label for="raised_bloodglucose">Raised Blood Glucose</label>
-                      <select class="form-control" name="raised_bloodglucose" id="raised_bloodglucose" required>
-                        <option value="" disabled {{(is_null(old('raised_bloodglucose'))) ? 'selected' : ''}}>Choose...</option>
-                        <option value="Y" {{(old('raised_bloodglucose') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
-                        <option value="N" {{(old('raised_bloodglucose') == 'N') ? 'selected' : ''}}>No/Hindi</option>
-                      </select>
-                    </div>
-                    <div id="fbsrbs_div" class="d-none">
-                      <div class="row">
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="fbs_rbs"><b class="text-danger">*</b>FBS/RBS</label>
-                              <input type="text" class="form-control" name="fbs_rbs" id="fbs_rbs" value="{{old('fbs_rbs')}}">
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="fbs_rbs_date"><b class="text-danger">*</b>Date Taken</label>
-                              <input type="date" class="form-control" name="fbs_rbs_date" id="fbs_rbs_date" value="{{old('fbs_rbs_date')}}" max="{{date('Y-m-d')}}">
-                            </div>
-                          </div>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label for="raised_bloodlipids">Raised Blood Lipids</label>
-                      <select class="form-control" name="raised_bloodlipids" id="raised_bloodlipids" required>
-                        <option value="" disabled {{(is_null(old('raised_bloodlipids'))) ? 'selected' : ''}}>Choose...</option>
-                        <option value="Y" {{(old('raised_bloodlipids') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
-                        <option value="N" {{(old('raised_bloodlipids') == 'N') ? 'selected' : ''}}>No/Hindi</option>
-                      </select>
-                    </div>
-                    <div id="cholesterol_div" class="d-none">
-                      <div class="row">
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="cholesterol"><b class="text-danger">*</b>Cholesterol</label>
-                              <input type="text" class="form-control" name="cholesterol" id="cholesterol" value="{{old('cholesterol')}}">
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="cholesterol_date"><b class="text-danger">*</b>Date Taken</label>
-                              <input type="date" class="form-control" name="cholesterol_date" id="cholesterol_date" value="{{old('cholesterol_date')}}" max="{{date('Y-m-d')}}">
-                            </div>
-                          </div>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label for="urine_protein">Presence of Urine Protein</label>
-                      <select class="form-control" name="urine_protein" id="urine_protein" required>
-                        <option value="" disabled {{(is_null(old('urine_protein'))) ? 'selected' : ''}}>Choose...</option>
-                        <option value="Y" {{(old('urine_protein') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
-                        <option value="N" {{(old('urine_protein') == 'N') ? 'selected' : ''}}>No/Hindi</option>
-                      </select>
-                    </div>
-                    <div id="protein_div" class="d-none">
-                      <div class="row">
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="protein"><b class="text-danger">*</b>Protein</label>
-                              <input type="text" class="form-control" name="protein" id="protein" value="{{old('protein')}}">
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="protein_date"><b class="text-danger">*</b>Date Taken</label>
-                              <input type="date" class="form-control" name="protein_date" id="protein_date" value="{{old('protein_date')}}" max="{{date('Y-m-d')}}">
-                            </div>
-                          </div>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label for="urine_ketones">Presence of Urine Ketones (for newly diagnosed DM)</label>
-                      <select class="form-control" name="urine_ketones" id="urine_ketones" required>
-                        <option value="" disabled {{(is_null(old('urine_ketones'))) ? 'selected' : ''}}>Choose...</option>
-                        <option value="Y" {{(old('urine_ketones') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
-                        <option value="N" {{(old('urine_ketones') == 'N') ? 'selected' : ''}}>No/Hindi</option>
-                      </select>
-                    </div>
-                    <div id="ketones_div" class="d-none">
-                      <div class="row">
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="ketones"><b class="text-danger">*</b>FBS/RBS</label>
-                              <input type="text" class="form-control" name="ketones" id="ketones" value="{{old('ketones')}}">
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="ketones_date"><b class="text-danger">*</b>Date Taken</label>
-                              <input type="date" class="form-control" name="ketones_date" id="ketones_date" value="{{old('ketones_date')}}" max="{{date('Y-m-d')}}">
-                            </div>
-                          </div>
-                      </div>
-                    </div>
+                    
                   </div>
 
                   <div class="col-md-6">
-                    <div class="card mt-3">
-                      <div class="card-header">Questionnaire to Determine Probable Angina, Heart Attack, Stroke or Transient Ischemic Attack</div>
-                      <div class="card-body">
-                        <div class="form-group">
-                          <label for="heart_attack">Angina or Heart Attack</label>
-                          <select class="form-control" name="heart_attack" id="heart_attack" required>
-                            <option value="" disabled {{(is_null(old('heart_attack'))) ? 'selected' : ''}}>Choose...</option>
-                            <option value="Y" {{(old('heart_attack') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
-                            <option value="N" {{(old('heart_attack') == 'N') ? 'selected' : ''}}>No/Hindi</option>
-                          </select>
-                        </div>
-
-                        <div class="form-group">
-                          <label for="question1">
-                            <div>1. Have you had any pain or discomfort or any pressure or heaviness in your chest?</div>
-                            <div>Nakaramdam ka ba ng pananakit o kabigatan sa iyong dibdib?</div>
-                          </label>
-                          <select class="form-control" name="question1" id="question1" required>
-                            <option value="" disabled {{(is_null(old('question1'))) ? 'selected' : ''}}>Choose...</option>
-                            <option value="Y" {{(old('question1') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
-                            <option value="N" {{(old('question1') == 'N') ? 'selected' : ''}}>No/Hindi</option>
-                          </select>
-                        </div>
-                        <div id="q2_div" class="d-none">
-                          <div class="form-group">
-                            <label for="question2">
-                              <div>2. Do you get the pain in the center of the chest or left chest or left arm?</div>
-                              <div>Ang sakit ba ay nasa gitna ng dibdib, sa kaliwang bahagi ng dibdib o sa kaliwang braso?</div>
-                            </label>
-                            <select class="form-control" name="question2" id="question2">
-                              <option value="" disabled {{(is_null(old('question2'))) ? 'selected' : ''}}>Choose...</option>
-                              <option value="Y" {{(old('question2') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
-                              <option value="N" {{(old('question2') == 'N') ? 'selected' : ''}}>No/Hindi</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div id="addtl_questions" class="d-none">
-                          <div class="form-group">
-                            <label for="question3">
-                              <div>3. Do you get it when you walk uphill or hurry?</div>
-                              <div>Nararamdaman mo ba ito kung ikaw ay nagmamadali o naglalakad nang mabilis o paakyat?</div>
-                            </label>
-                            <select class="form-control" name="question3" id="question3">
-                              <option value="" disabled {{(is_null(old('question3'))) ? 'selected' : ''}}>Choose...</option>
-                              <option value="Y" {{(old('question3') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
-                              <option value="N" {{(old('question3') == 'N') ? 'selected' : ''}}>No/Hindi</option>
-                            </select>
-                          </div>
-                          <div class="form-group">
-                            <label for="question4">
-                              <div>4. Do you slowdown if you get the pain while walking?</div>
-                              <div>Tumitigil ka ba sa paglalakad kapag sumakit ang iyong dibdib?</div>
-                            </label>
-                            <select class="form-control" name="question4" id="question4">
-                              <option value="" disabled {{(is_null(old('question4'))) ? 'selected' : ''}}>Choose...</option>
-                              <option value="Y" {{(old('question4') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
-                              <option value="N" {{(old('question4') == 'N') ? 'selected' : ''}}>No/Hindi</option>
-                            </select>
-                          </div>
-                          <div class="form-group">
-                            <label for="question5">
-                              <div>Does the pain go away if you stand still or if you take tablet under tongue?</div>
-                              <div>Nawawala ba ang sakit kapag ikaw ay di kumilos o kapag naglagay ka ng gamot sa ilalim ng iyong dila?</div>
-                            </label>
-                            <select class="form-control" name="question5" id="question5">
-                              <option value="" disabled {{(is_null(old('question5'))) ? 'selected' : ''}}>Choose...</option>
-                              <option value="Y" {{(old('question5') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
-                              <option value="N" {{(old('question5') == 'N') ? 'selected' : ''}}>No/Hindi</option>
-                            </select>
-                          </div>
-                          <div class="form-group">
-                            <label for="question6">
-                              <div>6. Does the pain go away in less than 10 minutes?</div>
-                              <div>Nawawala ba ang sakit sa loob ng 10 minuto?</div>
-                            </label>
-                            <select class="form-control" name="question6" id="question6">
-                              <option value="" disabled {{(is_null(old('question6'))) ? 'selected' : ''}}>Choose...</option>
-                              <option value="Y" {{(old('question6') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
-                              <option value="N" {{(old('question6') == 'N') ? 'selected' : ''}}>No/Hindi</option>
-                            </select>
-                          </div>
-                          <div class="form-group">
-                            <label for="question7">
-                              <div>7. Have you ever had a severe chest pain across the front of your chest lasting for half an hour or more?</div>
-                              <div>Nakakaramdam ka na ba ng pananakit ng dibdib na tumatagal ng kalahating oras o higit pa?</div>
-                            </label>
-                            <select class="form-control" name="question7" id="question7">
-                              <option value="" disabled {{(is_null(old('question7'))) ? 'selected' : ''}}>Choose...</option>
-                              <option value="Y" {{(old('question7') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
-                              <option value="N" {{(old('question7') == 'N') ? 'selected' : ''}}>No/Hindi</option>
-                            </select>
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <label for="stroke_ortia">
-                            <div>Stroke and TIA</div>
-                          </label>
-                          <select class="form-control" name="stroke_ortia" id="stroke_ortia">
-                            <option value="" disabled {{(is_null(old('stroke_ortia'))) ? 'selected' : ''}}>Choose...</option>
-                            <option value="Y" {{(old('stroke_ortia') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
-                            <option value="N" {{(old('stroke_ortia') == 'N') ? 'selected' : ''}}>No/Hindi</option>
-                          </select>
-                        </div>
-                        <div class="form-group">
-                          <label for="question8">
-                            <div>8. Have you ever had any of the following: difficulty in talking, weakness of arm and/or leg on one side of the body or numbness on one side of the body?</div>
-                            <div>Nakaramdam ka na ba ng mga sumusunod? hirap sa pagsasalita, panghihina ng braso at/o ng binti o pamamanhid sa kalahating bahagi ng katawan.</div>
-                          </label>
-                          <select class="form-control" name="question8" id="question8" required>
-                            <option value="" disabled {{(is_null(old('question8'))) ? 'selected' : ''}}>Choose...</option>
-                            <option value="Y" {{(old('question8') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
-                            <option value="N" {{(old('question8') == 'N') ? 'selected' : ''}}>No/Hindi</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
+                    
                   </div>
                 </div>
 

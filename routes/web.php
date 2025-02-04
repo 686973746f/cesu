@@ -720,6 +720,8 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessN
 
 Route::group(['middleware' => ['guest']], function() {
     Route::get('/noncomm', [RiskAssessmentController::class, 'nonCommOnlineIndex'])->name('onlinenc_home');
+    Route::get('/noncomm/register', [RiskAssessmentController::class, 'createFromScratch'])->name('onlinenc_register');
+    Route::post('/noncomm/register/store', [RiskAssessmentController::class, 'store'])->name('onlinenc_store');
 });
 
 //ABTC (WALK IN)

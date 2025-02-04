@@ -44,7 +44,7 @@ class RiskAssessmentController extends Controller
     }
 
     public function nonCommOnlineIndex() {
-
+        return view('efhsis.riskassessment.online_home');
     }
 
     public function createFromScratch() {
@@ -143,10 +143,17 @@ class RiskAssessmentController extends Controller
             $bdate = $r->bdate;
         }
 
+        $birthdate = Carbon::parse($bdate);
+        $currentDate = Carbon::parse($r->assessment_date);
+
+        $get_ageyears = $birthdate->diffInYears($currentDate);
+        $get_agemonths = $birthdate->diffInMonths($currentDate);
+        $get_agedays = $birthdate->diffInDays($currentDate);
+
         $check = RiskAssessmentForm::where('lname', $lname)
         ->where('fname', $fname)
         ->whereDate('bdate', $bdate)
-        ->where('year', date('Y'))
+        ->where('year', $currentDate->format('Y'))
         ->first();
 
         if($check) {
@@ -155,13 +162,13 @@ class RiskAssessmentController extends Controller
             ->with('msg', 'Error: Record already has risk assessed this year. There is no need to encode again.')
             ->with('msgtype', 'warning');
         }
-        
-        $birthdate = Carbon::parse($bdate);
-        $currentDate = Carbon::parse($r->assessment_date);
 
-        $get_ageyears = $birthdate->diffInYears($currentDate);
-        $get_agemonths = $birthdate->diffInMonths($currentDate);
-        $get_agedays = $birthdate->diffInDays($currentDate);
+        if(Auth::guest()) {
+            $created_by = NULL;
+        }
+        else {
+            $created_by = Auth::id();
+        }
         
         $c = RiskAssessmentForm::create([
             'year' => $currentDate->format('Y'),
@@ -240,9 +247,9 @@ class RiskAssessmentController extends Controller
             'date_followup' => ($r->date_followup) ? mb_strtoupper($r->date_followup) : NULL,
             //'risk_level',
             'finding' => $r->finding,
-            //'assessed_by',
-            'created_by' => Auth::id(),
-            'facility_id' => auth()->user()->itr_facility_id,
+            'assessed_by' => mb_strtoupper($r->assessed_by),
+            'created_by' => $created_by,
+            'facility_id' => isset(auth()->user()->itr_facility_id) ? auth()->user()->itr_facility_id : 10886,
             'qr' => $qr,
         ]);
 
@@ -254,9 +261,17 @@ class RiskAssessmentController extends Controller
             ->with('msgtype', 'success');
         }
         else {
-            return redirect()->route('home')
-            ->with('msg', 'Risk Assessment Form was successfully created.')
-            ->with('msgtype', 'success');
+            if(Auth::guest()) {
+                return redirect()->route('onlinenc_home')
+                ->with('msg', 'Risk Assessment Form was successfully created to '.$c->getName().'. For another submission, you may fill-out the form again.')
+                ->with('msgtype', 'success');
+            }
+            else {
+                return redirect()->route('home')
+                ->with('msg', 'Risk Assessment Form was successfully created.')
+                ->with('msgtype', 'success');
+            }
+            
         }
     }
 

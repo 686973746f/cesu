@@ -610,9 +610,15 @@ class CallM2Export implements ShouldQueue
         }
 
         //ABTC M2
+        /*
         $abtc_cat = [
             'W54; Bitten or struck by dog',
             'W55; Bitten or struck by other mammals',
+        ];
+        */
+
+        $abtc_cat = [
+            'T14.1 (animal bite)',
         ];
 
         foreach($abtc_cat as $c) {
@@ -624,12 +630,14 @@ class CallM2Export implements ShouldQueue
                 })
                 ->whereBetween('bite_date', [$start->format('Y-m-d'), $end->format('Y-m-d')]);
 
+                /*
                 if($c == 'W54; Bitten or struck by dog') {
                     $base = $base->whereIn('animal_type', ['SD', 'PD']);
                 }
                 else {
                     $base = $base->whereNotIn('animal_type', ['SD', 'PD']);
                 }
+                */
     
                 if((clone $base)->exists()) {
                     $age1_base = (clone $base)->whereBetween('age_days', [0,6]);
