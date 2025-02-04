@@ -7433,6 +7433,39 @@ class PIDSRController extends Controller
         return $array;
     }
 
+    public static function listDiseasesTablesRev2() {
+        $array = [
+            'Afp',
+            'Measles',
+            'Meningo',
+            'Nt',
+            'Rabies',
+            'Hfmd',
+
+            'Abd',
+            'Ames',
+            'Hepatitis',
+            'Chikv',
+            'Cholera',
+            'DengueWithoutWarningSigns',
+            'DengueWithWarningSigns',
+            'DengueSevere',
+            'Diph',
+            'Influenza',
+            'Leptospirosis',
+            'Nnt',
+            'Pert',
+            'Rotavirus',
+            'Typhoid',
+            'SevereAcuteRespiratoryInfection',
+            //'EdcsLaboratoryData',
+        ];
+
+        sort($array);
+
+        return $array;
+    }
+
     public static function getDiseaseTableProperName($disease) {
         //Mainly used for disease summary report (for now)
 
@@ -7536,7 +7569,16 @@ class PIDSRController extends Controller
             return 'A00; Cholera';
         }
         else if($disease == 'Dengue') {
-            return 'A90; Dengue fever [Classical Dengue] (Dengue Suspect) (DENGUE FEVER SYNDROME)';
+            return 'A97; Dengue';
+        }
+        else if($disease == 'DengueWithoutWarningSigns') {
+            return 'A97.0; Dengue without warning signs';
+        }
+        else if($disease == 'DengueWithWarningSigns') {
+            return 'A97.1; Dengue with warning signs';
+        }
+        else if($disease == 'DengueSevere') {
+            return 'A97.2; Severe Dengue';
         }
         else if($disease == 'Diph') {
             return 'A36; Diphtheria';

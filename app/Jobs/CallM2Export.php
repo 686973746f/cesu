@@ -94,11 +94,17 @@ class CallM2Export implements ShouldQueue
             */
 
             
-            foreach(PIDSRController::listDiseasesTables() as $d) {
-                $modelClass = "App\\Models\\$d";
+            foreach(PIDSRController::listDiseasesTablesRev2() as $d) {
+                if($d == 'DengueWithoutWarningSigns' || $d == 'DengueWithWarningSigns' || $d == 'DengueSevere') {
+                    $modelClass = "App\\Models\\Dengue";
+                }
+                else {
+                    $modelClass = "App\\Models\\$d";
+                }
+                
 
                 $disease_title = PIDSRController::edcsGetIcd10Code($d);
-
+                
                 if($d == 'SevereAcuteRespiratoryInfection') {
                     $col_muncity = 'muncity';
                     $col_brgy = 'barangay';
@@ -128,6 +134,13 @@ class CallM2Export implements ShouldQueue
                 ->where($col_brgy, $b->brgyName)
                 ->where($col_year, $start->format('Y'))
                 ->where($col_mmonth, $start->format('n'));
+
+                if($d == 'DengueWithoutWarningSigns') {
+
+                }
+                else {
+                    
+                }
 
                 if((clone $base)->count() != 0) {
                     $age1_base = (clone $base)->whereBetween($col_ageday, [0,6]);
@@ -618,7 +631,7 @@ class CallM2Export implements ShouldQueue
         */
 
         $abtc_cat = [
-            'T14.1 (animal bite)',
+            'T14.1 (animal bite); Open wound of unspecified body region (Animal Bites NOS)',
         ];
 
         foreach($abtc_cat as $c) {
