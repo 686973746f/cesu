@@ -172,6 +172,19 @@ class RiskAssessmentController extends Controller
 
         $height_m = $r->height / 100; // Convert cm to meters
         $bmi = $r->weight / ($height_m * $height_m);
+
+        //heart_attack
+        if($r->question1 == 'Y' && $r->question2 == 'Y') {
+            if($r->question3 == 'Y' || $r->question4 == 'Y' || $r->question5 == 'Y' || $r->question6 == 'Y' || $r->question7 == 'Y') {
+                $heart_attack = 'Y';
+            }
+            else {
+                $heart_attack = 'N';
+            }
+        }
+        else {
+            $heart_attack = 'N';
+        }
         
         $c = RiskAssessmentForm::create([
             'year' => $currentDate->format('Y'),
@@ -219,7 +232,7 @@ class RiskAssessmentController extends Controller
             'vegetable_serving' => ($r->vegetable_serving) ? 'Y' : 'N',
             'fruits_serving' => ($r->fruits_serving) ? 'Y' : 'N',
             'physical_activity' => ($r->physical_activity) ? 'Y' : 'N',
-            'heart_attack' => $r->heart_attack,
+            'heart_attack' => $heart_attack,
             'question1' => $r->question1,
             'question2' => ($r->question1 == 'Y') ? $r->question2 : 'N',
             'question3' => ($r->question2 == 'Y') ? $r->question3 : 'N',
@@ -227,13 +240,13 @@ class RiskAssessmentController extends Controller
             'question5' => ($r->question2 == 'Y') ? $r->question5 : 'N',
             'question6' => ($r->question2 == 'Y') ? $r->question6 : 'N',
             'question7' => ($r->question2 == 'Y') ? $r->question7 : 'N',
-            'stroke_ortia' => $r->stroke_ortia,
+            'stroke_ortia' => ($r->question8 == 'Y') ? 'Y' : 'N',
             'question8' => $r->question8,
             'diabetes' => ($r->diabetes) ? 'Y' : 'N',
             'diabetes_medication' => ($r->diabetes == 'Y') ? $r->diabetes_medication : 'N',
-            'polyphagia' => $r->polyphagia,
-            'polydipsia' => $r->polydipsia,
-            'polyuria' => $r->polyuria,
+            'polyphagia' => ($r->diabetes == 'N' || $r->diabetes == 'U') ? $r->polyphagia : 'N',
+            'polydipsia' => ($r->diabetes == 'N' || $r->diabetes == 'U') ? $r->polydipsia : 'N',
+            'polyuria' => ($r->diabetes == 'N' || $r->diabetes == 'U') ? $r->polyuria : 'N',
             'raised_bloodglucose' => $r->raised_bloodglucose,
             'fbs_rbs' => ($r->raised_bloodglucose == 'Y') ? $r->fbs_rbs : NULL,
             'fbs_rbs_date' => ($r->raised_bloodglucose == 'Y') ? $r->fbs_rbs_date : NULL,

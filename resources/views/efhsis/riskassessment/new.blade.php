@@ -235,48 +235,55 @@
                           </label>
                         </div>
                         <hr>
-                        <div class="form-group">
-                          <label for="diabetes">Was patient diagnosed as having diabetes?</label>
-                          <select class="form-control" name="diabetes" id="diabetes" required>
-                            <option value="" disabled {{(is_null(old('diabetes'))) ? 'selected' : ''}}>Choose...</option>
-                            <option value="Y" {{(old('diabetes') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
-                            <option value="N" {{(old('diabetes') == 'N') ? 'selected' : ''}}>No/Hindi</option>
-                            <option value="U" {{(old('diabetes') == 'U') ? 'selected' : ''}}>Do not know/Hindi alam</option>
-                          </select>
-                        </div>
-                        <div id="medication_div" class="d-none">
-                          <div class="form-group">
-                            <label for="diabetes_medication">With Medications</label>
-                            <select class="form-control" name="diabetes_medication" id="diabetes_medication">
-                              <option value="" disabled {{(is_null(old('diabetes_medication'))) ? 'selected' : ''}}>Choose...</option>
-                              <option value="Y" {{(old('diabetes_medication') == 'Y') ? 'selected' : ''}}>With Medications</option>
-                              <option value="N" {{(old('diabetes_medication') == 'N') ? 'selected' : ''}}>Without Medications</option>
-                            </select>
+                        <div class="card">
+                          <div class="card-header"><b>Presence or absence of Diabetes</b></div>
+                          <div class="card-body">
+                            <div class="form-group">
+                              <label for="diabetes">Was patient diagnosed as having diabetes?</label>
+                              <select class="form-control" name="diabetes" id="diabetes" required>
+                                <option value="" disabled {{(is_null(old('diabetes'))) ? 'selected' : ''}}>Choose...</option>
+                                <option value="Y" {{(old('diabetes') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
+                                <option value="N" {{(old('diabetes') == 'N') ? 'selected' : ''}}>No/Hindi</option>
+                                <option value="U" {{(old('diabetes') == 'U') ? 'selected' : ''}}>Do not know/Hindi alam</option>
+                              </select>
+                            </div>
+                            <div id="medication_div" class="d-none">
+                              <div class="form-group">
+                                <label for="diabetes_medication">With Medications</label>
+                                <select class="form-control" name="diabetes_medication" id="diabetes_medication">
+                                  <option value="" disabled {{(is_null(old('diabetes_medication'))) ? 'selected' : ''}}>Choose...</option>
+                                  <option value="Y" {{(old('diabetes_medication') == 'Y') ? 'selected' : ''}}>With Medications</option>
+                                  <option value="N" {{(old('diabetes_medication') == 'N') ? 'selected' : ''}}>Without Medications</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div id="diabetes_div" class="d-none">
+                              <div class="form-group">
+                                <label for="polyphagia">Polyphagia (Laging gutom)</label>
+                                <select class="form-control" name="polyphagia" id="polyphagia">
+                                  <option value="" disabled {{(is_null(old('polyphagia'))) ? 'selected' : ''}}>Choose...</option>
+                                  <option value="Y" {{(old('polyphagia') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
+                                  <option value="N" {{(old('polyphagia') == 'N') ? 'selected' : ''}}>No/Hindi</option>
+                                </select>
+                              </div>
+                              <div class="form-group">
+                                <label for="polydipsia">Polydipsia (Laging uhaw)</label>
+                                <select class="form-control" name="polydipsia" id="polydipsia">
+                                  <option value="" disabled {{(is_null(old('polydipsia'))) ? 'selected' : ''}}>Choose...</option>
+                                  <option value="Y" {{(old('polydipsia') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
+                                  <option value="N" {{(old('polydipsia') == 'N') ? 'selected' : ''}}>No/Hindi</option>
+                                </select>
+                              </div>
+                              <div class="form-group">
+                                <label for="polyuria">Polyuria (Laging umiihi)</label>
+                                <select class="form-control" name="polyuria" id="polyuria">
+                                  <option value="" disabled {{(is_null(old('polyuria'))) ? 'selected' : ''}}>Choose...</option>
+                                  <option value="Y" {{(old('polyuria') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
+                                  <option value="N" {{(old('polyuria') == 'N') ? 'selected' : ''}}>No/Hindi</option>
+                                </select>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                        <div class="form-group">
-                          <label for="polyphagia">Polyphagia (Laging gutom)</label>
-                          <select class="form-control" name="polyphagia" id="polyphagia" required>
-                            <option value="" disabled {{(is_null(old('polyphagia'))) ? 'selected' : ''}}>Choose...</option>
-                            <option value="Y" {{(old('polyphagia') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
-                            <option value="N" {{(old('polyphagia') == 'N') ? 'selected' : ''}}>No/Hindi</option>
-                          </select>
-                        </div>
-                        <div class="form-group">
-                          <label for="polydipsia">Polydipsia (Laging uhaw)</label>
-                          <select class="form-control" name="polydipsia" id="polydipsia" required>
-                            <option value="" disabled {{(is_null(old('polydipsia'))) ? 'selected' : ''}}>Choose...</option>
-                            <option value="Y" {{(old('polydipsia') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
-                            <option value="N" {{(old('polydipsia') == 'N') ? 'selected' : ''}}>No/Hindi</option>
-                          </select>
-                        </div>
-                        <div class="form-group">
-                          <label for="polyuria">Polyuria (Laging umiihi)</label>
-                          <select class="form-control" name="polyuria" id="polyuria" required>
-                            <option value="" disabled {{(is_null(old('polyuria'))) ? 'selected' : ''}}>Choose...</option>
-                            <option value="Y" {{(old('polyuria') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
-                            <option value="N" {{(old('polyuria') == 'N') ? 'selected' : ''}}>No/Hindi</option>
-                          </select>
                         </div>
                         <hr>
                         <div class="form-group">
@@ -381,25 +388,33 @@
                           <label for="smoking"><b class="text-danger">*</b>Smoking (Tobacco/Cigarette/Vape)</label>
                           <select class="form-control" name="smoking" id="smoking" required>
                             <option value="" disabled {{(is_null(old('smoking'))) ? 'selected' : ''}}>Choose...</option>
-                            <option value="NEVER">Never smoked</option>
-                            <option value="STOPPED<1Y">Recently Stopped (Less than 1 year ago)</option>
-                            <option value="STOPPED>1Y">Stopped 2 or more years ago</option>
-                            <option value="CURRENT">Current Smoker</option>
-                            <option value="MASSIVE">Massive Smoker</option>
+                            <option value="NEVER">Never smoked / Hindi talaga naninigarilyo</option>
+                            <option value="STOPPED<1Y">Recently Stopped (Less than 1 year ago) / Huminto na nung nakaraang taon</option>
+                            <option value="STOPPED>1Y">Stopped 2 or more years ago / Huminto na dalawang taon na nakakalipas</option>
+                            <option value="CURRENT">Current Smoker / Kasalukuyang Naninigarilyo</option>
+                            <option value="MASSIVE">Massive Smoker / Malakas Manigarilyo</option>
                           </select>
                         </div>
                         <hr>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                              <input type="checkbox" class="form-check-input" name="alcohol_intake" id="alcohol_intake" value="Y">
-                              Alcohol Intake?
-                            </label>
-                        </div>
-                        <div class="form-check">
-                          <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" name="excessive_alcohol_intake" id="excessive_alcohol_intake" value="Y">
-                            Excessive Alcohol Intake (Had 5 drinks in one occasion in the past month)
-                          </label>
+                        <div class="card mt-3">
+                          <div class="card-header"><b>Alcohol Intake</b></div>
+                          <div class="card-body">
+                            <div class="form-check">
+                              <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" name="alcohol_intake" id="alcohol_intake" value="Y">
+                                Alcohol Intake? / Umiinom ng Alak, Nakakalasing na Inumin
+                              </label>
+                            </div>
+                            <div id="excessAlcohol_div" class="d-none">
+                              <div class="form-check mt-3">
+                                <label class="form-check-label">
+                                  <input type="checkbox" class="form-check-input" name="excessive_alcohol_intake" id="excessive_alcohol_intake" value="Y">
+                                  <div>Excessive Alcohol Intake (Had 5 drinks in one occasion in the past month)</div>
+                                  <div>Malakas Uminom ng mga Alak (Nakakainom ng 5 Alak sa isang okasyon lamang ng nakaraang buwan)</div>
+                                </label>
+                              </div>
+                            </div>
+                          </div>
                         </div>
 
                         <div class="card mt-3">
@@ -448,15 +463,6 @@
                         <div class="card mt-3">
                           <div class="card-header"><b>Questionnaire to Determine Probable Angina, Heart Attack, Stroke or Transient Ischemic Attack</b></div>
                           <div class="card-body">
-                            <div class="form-group">
-                              <label for="heart_attack">Angina or Heart Attack</label>
-                              <select class="form-control" name="heart_attack" id="heart_attack" required>
-                                <option value="" disabled {{(is_null(old('heart_attack'))) ? 'selected' : ''}}>Choose...</option>
-                                <option value="Y" {{(old('heart_attack') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
-                                <option value="N" {{(old('heart_attack') == 'N') ? 'selected' : ''}}>No/Hindi</option>
-                              </select>
-                            </div>
-    
                             <div class="form-group">
                               <label for="question1">
                                 <div>1. Have you had any pain or discomfort or any pressure or heaviness in your chest?</div>
@@ -538,17 +544,6 @@
                                 </select>
                               </div>
                             </div>
-    
-                            <div class="form-group">
-                              <label for="stroke_ortia">
-                                <div>Stroke and TIA</div>
-                              </label>
-                              <select class="form-control" name="stroke_ortia" id="stroke_ortia">
-                                <option value="" disabled {{(is_null(old('stroke_ortia'))) ? 'selected' : ''}}>Choose...</option>
-                                <option value="Y" {{(old('stroke_ortia') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
-                                <option value="N" {{(old('stroke_ortia') == 'N') ? 'selected' : ''}}>No/Hindi</option>
-                              </select>
-                            </div>
                             <div class="form-group">
                               <label for="question8">
                                 <div>8. Have you ever had any of the following: difficulty in talking, weakness of arm and/or leg on one side of the body or numbness on one side of the body?</div>
@@ -608,6 +603,9 @@
             </div>
         </div>
     </form>
+    <div class="text-center mt-3">
+      <small>Developed and Maintained by Christian James Historillo for General Trias City Health Office.</small>
+    </div>
 </div>
 
 <div class="modal fade" id="heightConverter" tabindex="-1" role="dialog">
@@ -765,11 +763,29 @@
     if($(this).val() == 'Y') {
       $('#medication_div').removeClass('d-none');
       $('#diabetes_medication').prop('required', true);
+
+      $('#diabetes_div').addClass('d-none');
+      $('#polyphagia').prop('required', true);
+      $('#polydipsia').prop('required', true);
+      $('#polyuria').prop('required', true);
     }
     else {
       $('#medication_div').addClass('d-none');
       $('#diabetes_medication').prop('required', false);
+
+      $('#diabetes_div').removeClass('d-none');
+      $('#polyphagia').prop('required', false);
+      $('#polydipsia').prop('required', false);
+      $('#polyuria').prop('required', false);
     }
+  });
+
+  $('#alcohol_intake').change(function(){
+      if ($(this).is(':checked')) {
+        $('#excessAlcohol_div').removeClass('d-none');
+      } else {
+        $('#excessAlcohol_div').addClass('d-none');
+      }
   }).trigger('change');
 </script>
 @endsection

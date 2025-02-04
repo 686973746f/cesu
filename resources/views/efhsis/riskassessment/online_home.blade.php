@@ -20,6 +20,10 @@
                         </div>
                     </div>
                 </form>
+
+                <div class="text-center mt-3">
+                    <small>Developed and Maintained by Christian James Historillo for General Trias City Health Office.</small>
+                </div>
             </div>
         </div>
     </div>
