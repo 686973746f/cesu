@@ -24,14 +24,20 @@ class RiskAssessmentController extends Controller
             ->with('msgtype', 'warning');
         }
 
+        /*
         $check = RiskAssessmentForm::where('link_opdpatient_id', $d->syndromic_patient->id)
         ->where('year', Carbon::parse($d->consultation_date)->format('Y'))
+        ->first();
+        */
+
+        $check = RiskAssessmentForm::where('link_opdpatient_id', $d->syndromic_patient->id)
+        ->whereDate('assessment_date', Carbon::parse($d->consultation_date)->format('Y-m-d'))
         ->first();
 
         if($check) {
             return redirect()->back()
             ->withInput()
-            ->with('msg', 'Error: OPD Patient already has Risk Assessment Form Existing for this Year.')
+            ->with('msg', 'Error: Duplicate OPD Patient already risk assessed on the consultation date.')
             ->with('msgtype', 'warning');
         }
 
@@ -51,12 +57,14 @@ class RiskAssessmentController extends Controller
         if(request()->input('link_opdpatient_id')) {
             $d = SyndromicPatient::findOrFail(request()->input('link_opdpatient_id'));
 
-            $check = RiskAssessmentForm::where('link_opdpatient_id', $d->id)->first();
+            $check = RiskAssessmentForm::where('link_opdpatient_id', $d->id)
+            ->whereDate('assessment_date', Carbon::parse($d->getLastCheckup()->consultation_date)->format('Y-m-d'))
+            ->first();
 
             if($check) {
                 return redirect()->back()
                 ->withInput()
-                ->with('msg', 'Error: OPD Patient already has Risk Assessment Form Existing for this Year.')
+                ->with('msg', 'Error: Duplicate OPD Patient already risk assessed on the consultation date.')
                 ->with('msgtype', 'warning');
             }
         }
@@ -87,13 +95,13 @@ class RiskAssessmentController extends Controller
         $check = RiskAssessmentForm::where('lname', $lname)
         ->where('fname', $fname)
         ->whereDate('bdate', $bdate)
-        ->where('year', date('Y'))
+        ->whereDate('assessment_date', date('Y-m-d')) //should be ranged from 1-3 Days, pero tsaka na muna
         ->first();
 
         if($check) {
             return redirect()->back()
             ->withInput()
-            ->with('msg', 'Error: Patient already has risk assessment record for this year. Patient can fillout the risk assessment form again next year.')
+            ->with('msg', 'Error: Patient Risk Assessment Data was already encoded today.')
             ->with('msgtype', 'warning');
         }
         
@@ -103,6 +111,7 @@ class RiskAssessmentController extends Controller
     }
 
     public function store(Request $r) {
+        $is_followup = false;
         $foundUnique = false;
 
         while(!$foundUnique) {
@@ -118,6 +127,7 @@ class RiskAssessmentController extends Controller
         if(isset($r->link_opdpatient_id)) {
             $d = SyndromicPatient::findOrFail($r->link_opdpatient_id);
 
+            /*
             $check = RiskAssessmentForm::where('link_opdpatient_id', $d->id)
             ->where('year', date('Y'))
             ->first();
@@ -128,6 +138,7 @@ class RiskAssessmentController extends Controller
                 ->with('msg', 'Error: OPD Patient already has Risk Assessment Form Existing for this Year.')
                 ->with('msgtype', 'warning');
             }
+            */
 
             $lname = mb_strtoupper($d->lname);
             $fname = mb_strtoupper($d->fname);
@@ -153,14 +164,24 @@ class RiskAssessmentController extends Controller
         $check = RiskAssessmentForm::where('lname', $lname)
         ->where('fname', $fname)
         ->whereDate('bdate', $bdate)
-        ->where('year', $currentDate->format('Y'))
+        ->whereDate('assessment_date', $currentDate->format('Y-m-d'))
         ->first();
 
         if($check) {
             return redirect()->back()
             ->withInput()
-            ->with('msg', 'Error: Record already has risk assessed this year. There is no need to encode again.')
+            ->with('msg', 'Error: Patient Risk Assessment Data was already encoded today.')
             ->with('msgtype', 'warning');
+        }
+
+        $check = RiskAssessmentForm::where('lname', $lname)
+        ->where('fname', $fname)
+        ->whereDate('bdate', $bdate)
+        ->where('year', $currentDate->format('Y'))
+        ->first();
+
+        if($check) {
+            $is_followup = true;
         }
 
         if(Auth::guest()) {
@@ -191,6 +212,7 @@ class RiskAssessmentController extends Controller
             'month' => $currentDate->format('n'),
             'link_opdpatient_id' => $r->link_opdpatient_id ?: NULL,
             'assessment_date' => $r->assessment_date,
+            'is_followup' => ($is_followup) ? 'Y' : 'N',
             'lname' => $lname,
             'fname' => $fname,
             'mname'  => $mname,
