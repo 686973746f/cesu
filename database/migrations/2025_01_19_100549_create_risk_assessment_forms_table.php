@@ -49,8 +49,9 @@ class CreateRiskAssessmentFormsTable extends Migration
             $table->string('smoking');
             $table->string('alcohol_intake', 1)->default('N');
             $table->string('excessive_alcohol_intake', 1)->default('N');
-            $table->string('obese', 1)->default('N');
-            $table->string('overweight', 1)->default('N');
+            $table->string('weight_classification');
+            //$table->string('obese', 1)->default('N');
+            //$table->string('overweight', 1)->default('N');
             $table->string('height')->nullable();
             $table->string('weight')->nullable();
             $table->string('bmi')->nullable();
