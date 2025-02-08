@@ -147,11 +147,19 @@ class RiskAssessmentController extends Controller
             ->with('msg', 'Error: Patient Risk Assessment Data was already encoded today.')
             ->with('msgtype', 'warning');
         }
+
+        if(Auth::guest()) {
+            $route = route('onlinenc_store');
+        }
+        else {
+            $route = route('raf_store');
+        }
         
         return view('efhsis.riskassessment.new', [
             'f' => $facility_code,
             'brgy_list' => $brgy_list,
             'age_check' => $age_check,
+            'route' => $route,
         ]);
     }
 
@@ -280,19 +288,19 @@ class RiskAssessmentController extends Controller
 
         //Weight Classification
         if($bmi < 18.5) {
-            $weight_classsification = 'UNDERWEIGHT';
+            $weight_classification = 'UNDERWEIGHT';
             $central_adiposity = 'N';
         }
         else if($bmi >= 18.5 && $bmi <= 24.9) {
-            $weight_classsification = 'NORMAL';
+            $weight_classification = 'NORMAL';
             $central_adiposity = 'N';
         }
         else if($bmi >= 25 && $bmi <= 29.9) {
-            $weight_classsification = 'OVERWEIGHT';
+            $weight_classification = 'OVERWEIGHT';
             $central_adiposity = 'Y';
         }
         else {
-            $weight_classsification = 'OBESE';
+            $weight_classification = 'OBESE';
             $central_adiposity = 'Y';
         }
 
@@ -360,7 +368,7 @@ class RiskAssessmentController extends Controller
             'weight' => $r->weight,
             'waist_cm' => $r->waist_cm,
             'bmi' => $bmi,
-            'weight_classsification' => $weight_classsification,
+            'weight_classification' => $weight_classification,
             'systolic' => $r->systolic,
             'diastolic' => $r->diastolic,
             'raised_bp' => $raised_bp,

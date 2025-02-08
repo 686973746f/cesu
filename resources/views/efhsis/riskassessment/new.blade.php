@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <form action="{{route('onlinenc_store')}}" method="POST">
+    <form action="{{$route}}" method="POST">
       @csrf
         <div class="card">
             <div class="card-header">
@@ -576,7 +576,7 @@
                               </div>
                               <div class="form-group">
                                 <label for="question5">
-                                  <div>Does the pain go away if you stand still or if you take tablet under tongue?</div>
+                                  <div>5. Does the pain go away if you stand still or if you take tablet under tongue?</div>
                                   <div>Nawawala ba ang sakit kapag ikaw ay di kumilos o kapag naglagay ka ng gamot sa ilalim ng iyong dila?</div>
                                 </label>
                                 <select class="form-control" name="question5" id="question5">
