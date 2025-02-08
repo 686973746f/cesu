@@ -425,6 +425,13 @@
                               </div>
                           </div>
                         </div>
+
+                        @if(!Auth::guest())
+                        <div class="form-group">
+                          <label for="finding">Finding/s</label>
+                          <textarea class="form-control" name="finding" id="finding" rows="3">{{old('finding')}}</textarea>
+                        </div>
+                        @endif
                     </div>
                     <div class="col-md-6">
                       <div class="card">
@@ -606,40 +613,26 @@
                           </div>
                         </div>
 
-                        
+                        <div class="form-group mt-3">
+                          <label for="management"><b class="text-danger">*</b>Management</label>
+                          <select class="form-control" name="management" id="management" required>
+                            <option value="" disabled {{(is_null(old('management'))) ? 'selected' : ''}}>Choose...</option>
+                            <option value="STYLE MODIFICATION" {{(old('management') == 'STYLE MODIFICATION') ? 'selected' : ''}}>Style Modification</option>
+                            <option value="MEDICATIONS" {{(old('management') == 'MEDICATIONS') ? 'selected' : ''}}>Medications</option>
+                            <option value="N/A" {{(old('management') == 'N/A') ? 'selected' : ''}}>None</option>
+                          </select>
+                        </div>
+                        @if(!Auth::guest())
+                        <div class="form-group">
+                          <label for="date_followup">Date of Follow-up</label>
+                          <input type="text" class="form-control" name="date_followup" id="date_followup" style="text-transform: uppercase">
+                        </div>
+                        <div class="form-group">
+                          <label for="meds">Meds</label>
+                          <textarea class="form-control" name="meds" id="meds" rows="3">{{old('meds')}}</textarea>
+                        </div>
+                        @endif
                     </div>
-                </div>
-
-                <div class="row mt-3">
-                  <div class="col-md-6">
-                    @if(!Auth::guest())
-                    <div class="form-group">
-                      <label for="finding">Finding/s</label>
-                      <textarea class="form-control" name="finding" id="finding" rows="3">{{old('finding')}}</textarea>
-                    </div>
-                    @endif
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="management"><b class="text-danger">*</b>Management</label>
-                      <select class="form-control" name="management" id="management" required>
-                        <option value="" disabled {{(is_null(old('management'))) ? 'selected' : ''}}>Choose...</option>
-                        <option value="STYLE MODIFICATION" {{(old('management') == 'STYLE MODIFICATION') ? 'selected' : ''}}>Style Modification</option>
-                        <option value="MEDICATIONS" {{(old('management') == 'MEDICATIONS') ? 'selected' : ''}}>Medications</option>
-                        <option value="N/A" {{(old('management') == 'N/A') ? 'selected' : ''}}>None</option>
-                      </select>
-                    </div>
-                    @if(!Auth::guest())
-                    <div class="form-group">
-                      <label for="date_followup">Date of Follow-up</label>
-                      <input type="text" class="form-control" name="date_followup" id="date_followup" style="text-transform: uppercase">
-                    </div>
-                    <div class="form-group">
-                      <label for="meds">Meds</label>
-                      <textarea class="form-control" name="meds" id="meds" rows="3">{{old('meds')}}</textarea>
-                    </div>
-                    @endif
-                  </div>
                 </div>
             </div>
             <div class="card-footer">
