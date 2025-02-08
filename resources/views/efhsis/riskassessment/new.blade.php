@@ -5,28 +5,42 @@
     <form action="{{route('onlinenc_store')}}" method="POST">
       @csrf
         <div class="card">
-            <div class="card-header"><b>New CVD/NCD Risk Assessment Form</b></div>
+            <div class="card-header">
+              <div><b>New CVD/NCD Risk Assessment Form</b></div>
+              @if(!is_null($f))
+              <div>BHS: {{$f->name}}</div>
+              @endif
+            </div>
             <div class="card-body">
               @if(session('msg'))
               <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
                   {{session('msg')}}
               </div>
               @endif
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="assessment_date"><b class="text-danger">*</b>Date of Assessment</label>
-                      <input type="date" class="form-control" name="assessment_date" id="assessment_date" value="{{old('assessment_date', date('Y-m-d'))}}" min="1900-01-01" max="{{date('Y-m-d')}}" required>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="assessed_by"><b class="text-danger">*</b>Assessed By</label>
-                      <input type="text" class="form-control" name="assessed_by" id="assessed_by" value="{{old('assessed_by')}}" style="text-transform: uppercase;" required>
-                    </div>
+              @if(!is_null($f))
+              <input type="hidden" name="facility_code" value="{{$f->sys_code1}}" required>
+              @endif
+
+              @if(Auth::guest())
+              
+              @else
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="assessment_date"><b class="text-danger">*</b>Date of Assessment</label>
+                    <input type="date" class="form-control" name="assessment_date" id="assessment_date" value="{{old('assessment_date', date('Y-m-d'))}}" min="1900-01-01" max="{{date('Y-m-d')}}" required>
                   </div>
                 </div>
-                <hr>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="assessed_by"><b class="text-danger">*</b>Assessed By</label>
+                    <input type="text" class="form-control" name="assessed_by" id="assessed_by" value="{{old('assessed_by')}}" style="text-transform: uppercase;" required>
+                  </div>
+                </div>
+              </div>
+              <hr>
+              @endif
+                
                 <div class="row">
                   <div class="col-md-3">
                       <div class="form-group">
@@ -62,12 +76,8 @@
                   </div>
                   <div class="col-md-4">
                       <div class="form-group">
-                          <label for="sex"><span class="text-danger font-weight-bold">*</span>Gender</label>
-                          <select class="form-control" name="sex" id="sex" required>
-                              <option value="" disabled {{(is_null(old('gender'))) ? 'selected' : ''}}>Choose...</option>
-                              <option value="M" {{(old('gender') == 'M') ? 'selected' : ''}}>Male</option>
-                              <option value="F" {{(old('gender') == 'F') ? 'selected' : ''}}>Female</option>
-                          </select>
+                        <label for="sex"><b class="text-danger">*</b>Gender</label>
+                        <input type="text" class="form-control" name="sex" id="sex" value="{{request()->input('sex')}}" required readonly>
                       </div>
                   </div>
                   <div class="col-md-4">
@@ -127,31 +137,42 @@
                 
                 <hr>
                 <div class="row">
-                  <div class="col-md-3">
-                    <div><label for="height"><b class="text-danger">*</b>Height (cm)</label></div>
-                    <div class="input-group mb-3">
-                      <input type="number" step="0.01" class="form-control" name="height" id="height" min="1" max="600" required>
-                      <div class="input-group-append">
-                        <button class="btn btn-outline-primary" type="button" data-toggle="modal" data-target="#heightConverter">Convert feet to cm</button>
+                  <div class="col-md-6">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div><label for="height"><b class="text-danger">*</b>Height (cm)</label></div>
+                        <div class="input-group mb-3">
+                          <input type="number" step="0.01" class="form-control" name="height" id="height" min="1" max="600" required>
+                          <div class="input-group-append">
+                            <button class="btn btn-outline-primary" type="button" data-toggle="modal" data-target="#heightConverter">Convert feet to cm</button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="weight"><b class="text-danger">*</b>Weight (kg)</label>
+                          <input type="number" class="form-control" name="weight" id="weight" min="1" max="500" step="0.1" required>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-3">
-                    <div class="form-group">
-                      <label for="weight"><b class="text-danger">*</b>Weight (kg)</label>
-                      <input type="number" class="form-control" name="weight" id="weight" min="1" max="500" step="0.1" required>
+                  <div class="col-md-6">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="systolic"><b class="text-danger">*</b>BP (Systolic)</label>
+                          <input type="number" class="form-control" name="systolic" id="systolic" value="{{old('systolic')}}" max="300" required>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="diastolic"><b class="text-danger">*</b>BP (Diastolic)</label>
+                          <input type="number" class="form-control" name="diastolic" id="diastolic" value="{{old('diastolic')}}" max="200" required>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div class="col-md-3">
-                    <div class="form-group">
-                      <label for="systolic">BP (Systolic)</label>
-                      <input type="number" class="form-control" name="systolic" id="systolic">
-                    </div>
-                  </div>
-                  <div class="col-md-3">
-                    <div class="form-group">
-                      <label for="diastolic">BP (Diastolic)</label>
-                      <input type="number" class="form-control" name="diastolic" id="diastolic">
+                    <div class="alert alert-info" role="alert">
+                      <b>Note:</b> Raised BP is automatically determined by the system based on the Blood Pressure input.
                     </div>
                   </div>
                 </div>
@@ -160,7 +181,7 @@
                         <div class="card">
                             <div class="card-header"><b>Family History</b></div>
                             <div class="card-body">
-                                <h6>Do you have 1st Degree Relative with (Ang pasyente ba ay may magulang o kapatid na may sumusunod):</h6>
+                                <h6>Do you have 1st Degree Relative with (Ikaw ba ay may magulang o kapatid na may sumusunod):</h6>
                                 <div class="form-check">
                                     <label class="form-check-label">
                                       <input type="checkbox" class="form-check-input" name="fh_hypertension" id="fh_hypertension" value="Y">
@@ -205,41 +226,23 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="form-check mt-3">
-                          <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" name="obese" id="obese" value="Y">
-                            Obese
-                          </label>
+                        <div class="card mt-3">
+                          <div class="card-header"><b>Weight Classification</b></div>
+                          <div class="card-body">
+                            <div class="alert alert-info" role="alert">
+                              <b>Note:</b> Weight Classification (Normal/Obese/Overweight) is automatically determined by the system based on the Height and Weight input.
+                            </div>
+                            <div class="form-group">
+                              <label for="waist_cm"><b class="text-danger">*</b>Waist Circumference / Sukat ng Bewang (cm)</label>
+                              <input type="number" class="form-control" name="waist_cm" id="waist_cm" step=".1" required>
+                            </div>                            
+                          </div>
                         </div>
-                        <div class="form-check">
-                          <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" name="overweight" id="overweight" value="Y">
-                            Overweight
-                          </label>
-                        </div>
-                        <div class="form-check">
-                          <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" name="central_adiposity" id="central_adiposity" value="Y">
-                            Central Adiposity (Taba sa tiyan)
-                          </label>
-                        </div>
-                        <div class="form-group">
-                          <label for="waist_cm">Waist Circumference / Sukat ng Bewang (cm)</label>
-                          <input type="number" class="form-control" name="waist_cm" id="waist_cm" step=".1">
-                        </div>
-                        <div class="form-check">
-                          <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" name="raised_bp" id="raised_bp" value="Y">
-                            Raised BP
-                          </label>
-                        </div>
-                        <hr>
-                        <div class="card">
+                        <div class="card mt-3">
                           <div class="card-header"><b>Presence or absence of Diabetes</b></div>
                           <div class="card-body">
                             <div class="form-group">
-                              <label for="diabetes">Was patient diagnosed as having diabetes?</label>
+                              <label for="diabetes"><b class="text-danger">*</b>Was patient diagnosed as having diabetes?</label>
                               <select class="form-control" name="diabetes" id="diabetes" required>
                                 <option value="" disabled {{(is_null(old('diabetes'))) ? 'selected' : ''}}>Choose...</option>
                                 <option value="Y" {{(old('diabetes') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
@@ -249,7 +252,7 @@
                             </div>
                             <div id="medication_div" class="d-none">
                               <div class="form-group">
-                                <label for="diabetes_medication">With Medications</label>
+                                <label for="diabetes_medication"><b class="text-danger">*</b>With Medications</label>
                                 <select class="form-control" name="diabetes_medication" id="diabetes_medication">
                                   <option value="" disabled {{(is_null(old('diabetes_medication'))) ? 'selected' : ''}}>Choose...</option>
                                   <option value="Y" {{(old('diabetes_medication') == 'Y') ? 'selected' : ''}}>With Medications</option>
@@ -258,8 +261,10 @@
                               </div>
                             </div>
                             <div id="diabetes_div" class="d-none">
+                              <hr>
+                              <h6><b>Ikaw ay nakakaranas ng mga sumusunod na sintomas:</b></h6>
                               <div class="form-group">
-                                <label for="polyphagia">Polyphagia (Laging gutom)</label>
+                                <label for="polyphagia"><b class="text-danger">*</b>Polyphagia (Laging gutom)</label>
                                 <select class="form-control" name="polyphagia" id="polyphagia">
                                   <option value="" disabled {{(is_null(old('polyphagia'))) ? 'selected' : ''}}>Choose...</option>
                                   <option value="Y" {{(old('polyphagia') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
@@ -267,7 +272,7 @@
                                 </select>
                               </div>
                               <div class="form-group">
-                                <label for="polydipsia">Polydipsia (Laging uhaw)</label>
+                                <label for="polydipsia"><b class="text-danger">*</b>Polydipsia (Laging uhaw)</label>
                                 <select class="form-control" name="polydipsia" id="polydipsia">
                                   <option value="" disabled {{(is_null(old('polydipsia'))) ? 'selected' : ''}}>Choose...</option>
                                   <option value="Y" {{(old('polydipsia') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
@@ -275,7 +280,7 @@
                                 </select>
                               </div>
                               <div class="form-group">
-                                <label for="polyuria">Polyuria (Laging umiihi)</label>
+                                <label for="polyuria"><b class="text-danger">*</b>Polyuria (Laging umiihi)</label>
                                 <select class="form-control" name="polyuria" id="polyuria">
                                   <option value="" disabled {{(is_null(old('polyuria'))) ? 'selected' : ''}}>Choose...</option>
                                   <option value="Y" {{(old('polyuria') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
@@ -285,9 +290,47 @@
                             </div>
                           </div>
                         </div>
+                        @if(request()->input('sex') == 'F')
+                        <div class="card mt-3">
+                          <div class="card-header"><b>Breast Examination (For Women)</b></div>
+                          <div class="card-body">
+                            <div class="form-group">
+                              <label for="female_hasbreastmass"><b class="text-danger">*</b>May nakakakapang bukol sa suso/dibdib?</label>
+                              <select class="form-control" name="female_hasbreastmass" id="female_hasbreastmass" required>
+                                <option value="" disabled {{(is_null(old('female_hasbreastmass'))) ? 'selected' : ''}}>Choose...</option>
+                                <option value="Y" {{(old('female_hasbreastmass') == 'Y') ? 'selected' : ''}}>Yes/Meron</option>
+                                <option value="N" {{(old('female_hasbreastmass') == 'N') ? 'selected' : ''}}>No/Wala</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        @endif
+                        @if($age_check >= 60)
+                        <div class="card mt-3">
+                          <div class="card-header"><b>Visual Acuity Screening</b></div>
+                          <div class="card-body">
+                            <div class="form-group">
+                              <label for="senior_blurryeyes"><b class="text-danger">*</b>May panlalabo sa mata?</label>
+                              <select class="form-control" name="senior_blurryeyes" id="senior_blurryeyes" required>
+                                <option value="" disabled {{(is_null(old('senior_blurryeyes'))) ? 'selected' : ''}}>Choose...</option>
+                                <option value="Y" {{(old('female_hasbreastmass') == 'Y') ? 'selected' : ''}}>Yes/Meron</option>
+                                <option value="N" {{(old('female_hasbreastmass') == 'N') ? 'selected' : ''}}>No/Wala</option>
+                              </select>
+                            </div>
+                            <div class="form-group">
+                              <label for="senior_diagnosedeyedisease"><b class="text-danger">*</b>Ikaw ba ay na-diagnose na may Sakit sa Mata (Eye Disease)?</label>
+                              <select class="form-control" name="senior_diagnosedeyedisease" id="senior_diagnosedeyedisease" required>
+                                <option value="" disabled {{(is_null(old('senior_diagnosedeyedisease'))) ? 'selected' : ''}}>Choose...</option>
+                                <option value="Y" {{(old('female_hasbreastmass') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
+                                <option value="N" {{(old('female_hasbreastmass') == 'N') ? 'selected' : ''}}>No/Hindi</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        @endif
                         <hr>
                         <div class="form-group">
-                          <label for="raised_bloodglucose">Raised Blood Glucose</label>
+                          <label for="raised_bloodglucose"><b class="text-danger">*</b>Raised Blood Glucose</label>
                           <select class="form-control" name="raised_bloodglucose" id="raised_bloodglucose" required>
                             <option value="" disabled {{(is_null(old('raised_bloodglucose'))) ? 'selected' : ''}}>Choose...</option>
                             <option value="Y" {{(old('raised_bloodglucose') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
@@ -311,7 +354,7 @@
                           </div>
                         </div>
                         <div class="form-group">
-                          <label for="raised_bloodlipids">Raised Blood Lipids</label>
+                          <label for="raised_bloodlipids"><b class="text-danger">*</b>Raised Blood Lipids</label>
                           <select class="form-control" name="raised_bloodlipids" id="raised_bloodlipids" required>
                             <option value="" disabled {{(is_null(old('raised_bloodlipids'))) ? 'selected' : ''}}>Choose...</option>
                             <option value="Y" {{(old('raised_bloodlipids') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
@@ -335,7 +378,7 @@
                           </div>
                         </div>
                         <div class="form-group">
-                          <label for="urine_protein">Presence of Urine Protein</label>
+                          <label for="urine_protein"><b class="text-danger">*</b>Presence of Urine Protein</label>
                           <select class="form-control" name="urine_protein" id="urine_protein" required>
                             <option value="" disabled {{(is_null(old('urine_protein'))) ? 'selected' : ''}}>Choose...</option>
                             <option value="Y" {{(old('urine_protein') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
@@ -346,7 +389,7 @@
                           <div class="row">
                               <div class="col-md-6">
                                 <div class="form-group">
-                                  <label for="protein"><b class="text-danger">*</b>Protein</label>
+                                  <label for="protein"><b class="text-danger">*</b>Urine Protein</label>
                                   <input type="text" class="form-control" name="protein" id="protein" value="{{old('protein')}}">
                                 </div>
                               </div>
@@ -359,7 +402,7 @@
                           </div>
                         </div>
                         <div class="form-group">
-                          <label for="urine_ketones">Presence of Urine Ketones (for newly diagnosed DM)</label>
+                          <label for="urine_ketones"><b class="text-danger">*</b>Presence of Urine Ketones (for newly diagnosed DM)</label>
                           <select class="form-control" name="urine_ketones" id="urine_ketones" required>
                             <option value="" disabled {{(is_null(old('urine_ketones'))) ? 'selected' : ''}}>Choose...</option>
                             <option value="Y" {{(old('urine_ketones') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
@@ -370,7 +413,7 @@
                           <div class="row">
                               <div class="col-md-6">
                                 <div class="form-group">
-                                  <label for="ketones"><b class="text-danger">*</b>FBS/RBS</label>
+                                  <label for="ketones"><b class="text-danger">*</b>Urine Ketones</label>
                                   <input type="text" class="form-control" name="ketones" id="ketones" value="{{old('ketones')}}">
                                 </div>
                               </div>
@@ -384,18 +427,22 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
-                          <label for="smoking"><b class="text-danger">*</b>Smoking (Tobacco/Cigarette/Vape)</label>
-                          <select class="form-control" name="smoking" id="smoking" required>
-                            <option value="" disabled {{(is_null(old('smoking'))) ? 'selected' : ''}}>Choose...</option>
-                            <option value="NEVER">Never smoked / Hindi talaga naninigarilyo</option>
-                            <option value="STOPPED<1Y">Recently Stopped (Less than 1 year ago) / Huminto na nung nakaraang taon</option>
-                            <option value="STOPPED>1Y">Stopped 2 or more years ago / Huminto na dalawang taon na nakakalipas</option>
-                            <option value="CURRENT">Current Smoker / Kasalukuyang Naninigarilyo</option>
-                            <option value="MASSIVE">Massive Smoker / Malakas Manigarilyo</option>
-                          </select>
+                      <div class="card">
+                        <div class="card-header"><b>Smoking</b></div>
+                        <div class="card-body">
+                          <div class="form-group">
+                            <label for="smoking"><b class="text-danger">*</b>Smoking (Tobacco/Cigarette/Vape)</label>
+                            <select class="form-control" name="smoking" id="smoking" required>
+                              <option value="" disabled {{(is_null(old('smoking'))) ? 'selected' : ''}}>Choose...</option>
+                              <option value="NEVER">Never smoked / Hindi talaga naninigarilyo</option>
+                              <option value="STOPPED<1Y">Recently Stopped (Less than 1 year ago) / Huminto na nung nakaraang taon</option>
+                              <option value="STOPPED>1Y">Stopped 2 or more years ago / Huminto na dalawang taon na nakakalipas</option>
+                              <option value="CURRENT">Current Smoker / Kasalukuyang Naninigarilyo</option>
+                              <option value="MASSIVE">Massive Smoker / Malakas Manigarilyo</option>
+                            </select>
+                          </div>
                         </div>
-                        <hr>
+                      </div>
                         <div class="card mt-3">
                           <div class="card-header"><b>Alcohol Intake</b></div>
                           <div class="card-body">
@@ -545,6 +592,7 @@
                               </div>
                             </div>
                             <div class="form-group">
+                              <hr>
                               <label for="question8">
                                 <div>8. Have you ever had any of the following: difficulty in talking, weakness of arm and/or leg on one side of the body or numbness on one side of the body?</div>
                                 <div>Nakaramdam ka na ba ng mga sumusunod? hirap sa pagsasalita, panghihina ng braso at/o ng binti o pamamanhid sa kalahating bahagi ng katawan.</div>
@@ -557,25 +605,19 @@
                             </div>
                           </div>
                         </div>
-                    </div>
-                </div>
-                
-                <div class="row">
-                  <div class="col-md-6">
-                    
-                  </div>
 
-                  <div class="col-md-6">
-                    
-                  </div>
+                        
+                    </div>
                 </div>
 
                 <div class="row mt-3">
                   <div class="col-md-6">
+                    @if(!Auth::guest())
                     <div class="form-group">
                       <label for="finding">Finding/s</label>
                       <textarea class="form-control" name="finding" id="finding" rows="3">{{old('finding')}}</textarea>
                     </div>
+                    @endif
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
@@ -587,6 +629,7 @@
                         <option value="N/A" {{(old('management') == 'N/A') ? 'selected' : ''}}>None</option>
                       </select>
                     </div>
+                    @if(!Auth::guest())
                     <div class="form-group">
                       <label for="date_followup">Date of Follow-up</label>
                       <input type="text" class="form-control" name="date_followup" id="date_followup" style="text-transform: uppercase">
@@ -595,6 +638,7 @@
                       <label for="meds">Meds</label>
                       <textarea class="form-control" name="meds" id="meds" rows="3">{{old('meds')}}</textarea>
                     </div>
+                    @endif
                   </div>
                 </div>
             </div>

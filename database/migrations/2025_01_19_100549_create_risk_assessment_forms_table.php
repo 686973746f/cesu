@@ -49,15 +49,15 @@ class CreateRiskAssessmentFormsTable extends Migration
             $table->string('smoking');
             $table->string('alcohol_intake', 1)->default('N');
             $table->string('excessive_alcohol_intake', 1)->default('N');
-            $table->string('weight_classification');
-            //$table->string('obese', 1)->default('N');
-            //$table->string('overweight', 1)->default('N');
             $table->string('height')->nullable();
             $table->string('weight')->nullable();
-            $table->string('bmi')->nullable();
-            
-            $table->string('central_adiposity', 1)->default('N');
             $table->double('waist_cm')->nullable();
+            $table->string('bmi')->nullable();
+            $table->string('weight_classification');
+            $table->string('central_adiposity', 1)->default('N');
+            //$table->string('obese', 1)->default('N');
+            //$table->string('overweight', 1)->default('N');
+            
             $table->string('raised_bp', 1)->default('N');
             $table->double('systolic')->nullable();
             $table->double('diastolic')->nullable();
@@ -108,6 +108,11 @@ class CreateRiskAssessmentFormsTable extends Migration
 
             $table->string('sleep_greaterthan6', 1)->default('N');
 
+            $table->string('senior_blurryeyes', 1)->default('N');
+            $table->string('senior_diagnosedeyedisease', 1)->default('N');
+            
+            $table->string('female_hasbreastmass', 1)->default('N');
+
             $table->string('date_followup')->nullable();
             $table->string('risk_level')->nullable();
             $table->text('finding')->nullable();
@@ -116,6 +121,7 @@ class CreateRiskAssessmentFormsTable extends Migration
             
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
+            $table->text('from_facility')->nullable();
             $table->foreignId('facility_id')->constrained('doh_facilities')->onDelete('cascade');
             $table->string('qr');
             $table->timestamps();

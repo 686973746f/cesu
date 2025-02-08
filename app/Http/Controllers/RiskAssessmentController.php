@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BarangayHealthStation;
 use Carbon\Carbon;
 use App\Models\Brgy;
 use App\Models\EdcsBrgy;
@@ -31,7 +32,10 @@ class RiskAssessmentController extends Controller
         */
 
         $check = RiskAssessmentForm::where('link_opdpatient_id', $d->syndromic_patient->id)
-        ->whereDate('assessment_date', Carbon::parse($d->consultation_date)->format('Y-m-d'))
+        ->where(function ($q) use ($d) {
+            $q->whereDate('assessment_date', Carbon::parse($d->consultation_date)->format('Y-m-d'))
+            ->orWhereDate('created_at', date('Y-m-d'));
+        })
         ->first();
 
         if($check) {
@@ -46,14 +50,53 @@ class RiskAssessmentController extends Controller
             'lname' => $d->syndromic_patient->lname,
             'fname' => $d->syndromic_patient->fname,
             'bdate' => $d->syndromic_patient->bdate,
+            'sex' => $d->syndromic_patient->gender,
         ]);
     }
 
     public function nonCommOnlineIndex() {
-        return view('efhsis.riskassessment.online_home');
+        if(request()->input('code')) {
+            //BHS Unique Code
+            $code = request()->input('code');
+
+            $s = BarangayHealthStation::where('sys_code1', $code)->first();
+
+            if(!$s) {
+                return abort(401);
+            }
+
+            $facility_code = $s;
+        }
+        else {
+            $facility_code = NULL;
+        }
+
+        return view('efhsis.riskassessment.online_home', [
+            'f' => $facility_code,
+        ]);
     }
 
-    public function createFromScratch() {
+    public function createFromScratch(Request $r) {
+        $r->validate([
+            'sex' => 'required|in:M,F',
+        ]);
+
+        if(request()->input('facility_code')) {
+            //BHS Unique Code
+            $code = request()->input('facility_code');
+
+            $s = BarangayHealthStation::where('sys_code1', $code)->first();
+
+            if(!$s) {
+                return abort(401);
+            }
+
+            $facility_code = $s;
+        }
+        else {
+            $facility_code = NULL;
+        }
+
         if(request()->input('link_opdpatient_id')) {
             $d = SyndromicPatient::findOrFail(request()->input('link_opdpatient_id'));
 
@@ -69,7 +112,7 @@ class RiskAssessmentController extends Controller
             }
         }
 
-        if(!request()->input('lname') || !request()->input('fname') || !request()->input('bdate')) {
+        if(!request()->input('lname') || !request()->input('fname') || !request()->input('bdate') || !request()->input('sex')) {
             return abort(401);
         }
 
@@ -106,7 +149,9 @@ class RiskAssessmentController extends Controller
         }
         
         return view('efhsis.riskassessment.new', [
+            'f' => $facility_code,
             'brgy_list' => $brgy_list,
+            'age_check' => $age_check,
         ]);
     }
 
@@ -122,6 +167,22 @@ class RiskAssessmentController extends Controller
             if(!$qr_check) {
                 $foundUnique = true;
             }
+        }
+
+         if($r->facility_code) {
+            //BHS Unique Code
+            $code = $r->facility_code;
+
+            $s = BarangayHealthStation::where('sys_code1', $code)->first();
+
+            if(!$s) {
+                return abort(401);
+            }
+
+            $facility_code = $s;
+        }
+        else {
+            $facility_code = NULL;
         }
 
         if(isset($r->link_opdpatient_id)) {
@@ -154,8 +215,15 @@ class RiskAssessmentController extends Controller
             $bdate = $r->bdate;
         }
 
+        if(Auth::guest()) {
+            $assessment_date = date('Y-m-d');
+        }
+        else {
+            $assessment_date = $r->assessment_date;
+        }
+
         $birthdate = Carbon::parse($bdate);
-        $currentDate = Carbon::parse($r->assessment_date);
+        $currentDate = Carbon::parse($assessment_date);
 
         $get_ageyears = $birthdate->diffInYears($currentDate);
         $get_agemonths = $birthdate->diffInMonths($currentDate);
@@ -164,7 +232,10 @@ class RiskAssessmentController extends Controller
         $check = RiskAssessmentForm::where('lname', $lname)
         ->where('fname', $fname)
         ->whereDate('bdate', $bdate)
-        ->whereDate('assessment_date', $currentDate->format('Y-m-d'))
+        ->where(function ($q) use ($currentDate) {
+            $q->whereDate('assessment_date', $currentDate->format('Y-m-d'))
+            ->orWhereDate('created_at', date('Y-m-d'));
+        })
         ->first();
 
         if($check) {
@@ -192,7 +263,7 @@ class RiskAssessmentController extends Controller
         }
 
         $height_m = $r->height / 100; // Convert cm to meters
-        $bmi = $r->weight / ($height_m * $height_m);
+        $bmi = round($r->weight / ($height_m * $height_m), 2);
 
         //heart_attack
         if($r->question1 == 'Y' && $r->question2 == 'Y') {
@@ -206,12 +277,69 @@ class RiskAssessmentController extends Controller
         else {
             $heart_attack = 'N';
         }
-        
-        $c = RiskAssessmentForm::create([
+
+        //Weight Classification
+        if($bmi < 18.5) {
+            $weight_classsification = 'UNDERWEIGHT';
+            $central_adiposity = 'N';
+        }
+        else if($bmi >= 18.5 && $bmi <= 24.9) {
+            $weight_classsification = 'NORMAL';
+            $central_adiposity = 'N';
+        }
+        else if($bmi >= 25 && $bmi <= 29.9) {
+            $weight_classsification = 'OVERWEIGHT';
+            $central_adiposity = 'Y';
+        }
+        else {
+            $weight_classsification = 'OBESE';
+            $central_adiposity = 'Y';
+        }
+
+        //Raised BP
+        if ($r->systolic >= 120 && $r->systolic <= 129 && $r->diastolic < 80) {
+            //return "Raised BP (Elevated)";
+            
+            $raised_bp = 'Y';
+        } elseif (($r->systolic >= 130 && $r->systolic <= 139) && ($r->diastolic >= 80 && $r->diastolic <= 89)) {
+            //return "Hypertension Stage 1";
+
+            $raised_bp = 'Y';
+        } elseif ($r->systolic >= 140 || $r->diastolic >= 90) {
+            //return "Hypertension Stage 2";
+
+            $raised_bp = 'Y';
+        } elseif ($r->systolic > 180 || $r->diastolic > 120) {
+            //return "Hypertensive Crisis (Seek Emergency Care)";
+
+            $raised_bp = 'Y';
+        } else {
+            //return "Normal BP";
+
+            $raised_bp = 'N';
+        }
+
+        $meds_array = [];
+
+        if($raised_bp == 'Y') {
+            $meds_array[] = 'LOSARTAN 50/100MG';
+            $meds_array[] = 'AMLODIPINE 5/10MG';
+            $meds_array[] = 'SIMVASTATIN 20MG';
+            $meds_array[] = 'GLICLAZIDE 30MG/80MG';
+            $meds_array[] = 'METFORMIN 500MG';
+        }
+
+        if($r->diabetes == 'Y') {
+            $meds_array[] = 'BIPHASIC 70/30 (RED/BROWN)';
+            $meds_array[] = 'ISOPHANE (GREEN)';
+            $meds_array[] = 'REGULAR (YELLOW)';
+        }
+
+        $table_params = [
             'year' => $currentDate->format('Y'),
             'month' => $currentDate->format('n'),
             'link_opdpatient_id' => $r->link_opdpatient_id ?: NULL,
-            'assessment_date' => $r->assessment_date,
+            'assessment_date' => $assessment_date,
             'is_followup' => ($is_followup) ? 'Y' : 'N',
             'lname' => $lname,
             'fname' => $fname,
@@ -229,9 +357,12 @@ class RiskAssessmentController extends Controller
             
             'height' => $r->height,
             'weight' => $r->weight,
-            'bmi' => round($bmi, 2),
+            'waist_cm' => $r->waist_cm,
+            'bmi' => $bmi,
+            'weight_classsification' => $weight_classsification,
             'systolic' => $r->systolic,
             'diastolic' => $r->diastolic,
+            'raised_bp' => $raised_bp,
 
             'fh_hypertension' => ($r->fh_hypertension) ? 'Y' : 'N',
             'fh_stroke' => ($r->fh_stroke) ? 'Y' : 'N',
@@ -243,13 +374,11 @@ class RiskAssessmentController extends Controller
             'smoking' => $r->smoking,
             'alcohol_intake' => ($r->alcohol_intake) ? 'Y' : 'N',
             'excessive_alcohol_intake' => ($r->excessive_alcohol_intake) ? 'Y' : 'N',
-            'obese' => ($r->obese) ? 'Y' : 'N',
-            'overweight' => ($r->overweight) ? 'Y' : 'N',
             
-            'central_adiposity' => ($r->overweight) ? 'Y' : 'N',
-            'waist_cm' => $r->waist_cm,
-            'raised_bp' => ($r->raised_bp) ? 'Y' : 'N',
+            //'obese' => ($r->obese) ? 'Y' : 'N',
+            //'overweight' => ($r->overweight) ? 'Y' : 'N',
             
+            'central_adiposity' => $central_adiposity,
             'high_fatsalt_intake' => ($r->high_fatsalt_intake) ? 'Y' : 'N',
             'vegetable_serving' => ($r->vegetable_serving) ? 'Y' : 'N',
             'fruits_serving' => ($r->fruits_serving) ? 'Y' : 'N',
@@ -264,7 +393,7 @@ class RiskAssessmentController extends Controller
             'question7' => ($r->question2 == 'Y') ? $r->question7 : 'N',
             'stroke_ortia' => ($r->question8 == 'Y') ? 'Y' : 'N',
             'question8' => $r->question8,
-            'diabetes' => ($r->diabetes) ? 'Y' : 'N',
+            'diabetes' => $r->diabetes,
             'diabetes_medication' => ($r->diabetes == 'Y') ? $r->diabetes_medication : 'N',
             'polyphagia' => ($r->diabetes == 'N' || $r->diabetes == 'U') ? $r->polyphagia : 'N',
             'polydipsia' => ($r->diabetes == 'N' || $r->diabetes == 'U') ? $r->polydipsia : 'N',
@@ -282,15 +411,31 @@ class RiskAssessmentController extends Controller
             'ketones' => ($r->urine_ketones == 'Y') ? $r->ketones : NULL,
             'ketones_date' => ($r->urine_ketones == 'Y') ? $r->ketones_date : NULL,
             'management' => $r->management,
-            'meds' => $r->meds,
+            'meds' => !empty($meds_array) ? implode(", ", $meds_array) : NULL,
             'date_followup' => ($r->date_followup) ? mb_strtoupper($r->date_followup) : NULL,
             //'risk_level',
             'finding' => $r->finding,
-            'assessed_by' => mb_strtoupper($r->assessed_by),
+            'assessed_by' => ($r->assessed_by) ? mb_strtoupper($r->assessed_by) : NULL,
             'created_by' => $created_by,
             'facility_id' => isset(auth()->user()->itr_facility_id) ? auth()->user()->itr_facility_id : 10886,
+            'from_facility' => (!is_null($facility_code)) ? $facility_code->name : NULL,
             'qr' => $qr,
-        ]);
+        ];
+
+        if($get_ageyears >= 60) {
+            $table_params = $table_params + [
+                'senior_blurryeyes' => $r->senior_blurryeyes,
+                'senior_diagnosedeyedisease' => $r->senior_diagnosedeyedisease,
+            ];
+        }
+
+        if($r->sex == 'F') {
+            $table_params = $table_params + [
+                'female_hasbreastmass' => $r->female_hasbreastmass,
+            ];
+        }
+
+        $c = RiskAssessmentForm::create($table_params);
 
         if(isset($r->link_opdpatient_id)) {
             $record_id = $d->getLastCheckup()->id;
