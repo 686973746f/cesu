@@ -20,10 +20,10 @@
               @if(!is_null($f))
               <input type="hidden" name="facility_code" value="{{$f->sys_code1}}" required>
               @endif
-
-              @if(Auth::guest())
-              
-              @else
+              <div class="alert alert-info" role="alert">
+                <b class="text-danger">Note:</b> All fields marked with an asterisk (<b class="text-danger">*</b>) are required to be filled out. For ticking the field, checking means Yes or You Agree to the question.
+              </div>
+              @if(!Auth::guest())
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
@@ -40,7 +40,6 @@
               </div>
               <hr>
               @endif
-                
                 <div class="row">
                   <div class="col-md-3">
                       <div class="form-group">
@@ -62,7 +61,7 @@
                   </div>
                   <div class="col-md-3">
                       <div class="form-group">
-                          <label for="suffix">Suffix</label>
+                          <label for="suffix">Name Extension</label>
                           <input type="text" class="form-control" name="suffix" id="suffix" value="{{request()->input('suffix')}}" minlength="2" maxlength="3" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" readonly tabindex="-1">
                       </div>
                   </div>
@@ -79,6 +78,17 @@
                         <label for="sex"><b class="text-danger">*</b>Gender</label>
                         <input type="text" class="form-control" name="sex" id="sex" value="{{request()->input('sex')}}" required readonly>
                       </div>
+
+                      @if(request()->input('sex') == 'F')
+                      <div class="form-group">
+                        <label for="is_pregnant"><b class="text-danger">*</b>Pregnant</label>
+                        <select class="form-control" name="is_pregnant" id="is_pregnant" required>
+                          <option value="" disabled {{(is_null(old('is_pregnant'))) ? 'selected' : ''}}>Choose...</option>
+                          <option value="Y" {{(old('is_pregnant') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
+                          <option value="N" {{(old('is_pregnant') == 'N') ? 'selected' : ''}}>No/Hindi</option>
+                        </select>
+                      </div>
+                      @endif
                   </div>
                   <div class="col-md-4">
                       <div class="form-group">
@@ -508,7 +518,7 @@
                             <div class="form-check">
                               <label class="form-check-label">
                                 <input type="checkbox" class="form-check-input" name="physical_activity" id="physical_activity" value="Y">
-                                Does at least 2 and a half hours of a WEEK of moderate intensity physical activity
+                                Does at least 2 and a half hours of moderate intensity physical activity PER WEEK
                               </label>
                             </div>
                           </div>
@@ -636,7 +646,7 @@
                 </div>
             </div>
             <div class="card-footer">
-                <button type="submit" class="btn btn-success btn-block" id="submitBtn">Submit</button>
+                <button type="submit" class="btn btn-success btn-block" id="submitBtn">Submit (CTRL + S)</button>
             </div>
         </div>
     </form>
@@ -678,6 +688,18 @@
 </div>
 
 <script>
+  $(document).bind('keydown', function(e) {
+      if(e.ctrlKey && (e.which == 83)) {
+          e.preventDefault();
+          $('#submitBtn').trigger('click');
+          $('#submitBtn').prop('disabled', true);
+          setTimeout(function() {
+              $('#submitBtn').prop('disabled', false);
+          }, 2000);
+          return false;
+      }
+  });
+
   $(document).ready(function () {
       $('#convertBtn').click(function () {
           // Get values from input fields

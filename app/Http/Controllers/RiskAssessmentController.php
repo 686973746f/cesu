@@ -346,6 +346,7 @@ class RiskAssessmentController extends Controller
             'mname'  => $mname,
             'suffix'  => $suffix,
             'sex' => $r->sex,
+            'is_pregnant' => ($r->sex == 'F') ? $r->is_pregnant : 'N',
             'bdate' => $r->bdate,
             'age_years' => $get_ageyears,
             'age_months' => $get_agemonths,

@@ -28,6 +28,7 @@ class CreateRiskAssessmentFormsTable extends Migration
             $table->string('mname')->nullable();
             $table->string('suffix')->nullable();
             $table->string('sex', 1);
+            $table->string('is_pregnant', 1)->default('N');
             $table->date('bdate');
             $table->integer('age_years');
             $table->integer('age_months');

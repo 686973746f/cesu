@@ -21,6 +21,7 @@ class RiskAssessmentForm extends Model
         'mname',
         'suffix',
         'sex',
+        'is_pregnant',
         'bdate',
         'age_years',
         'age_months',

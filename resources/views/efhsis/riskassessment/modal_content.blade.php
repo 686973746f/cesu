@@ -16,7 +16,7 @@
     </div>
     <div class="col-md-6">
         <div class="form-group">
-            <label for="suffix">Suffix <i>(If Applicable)</i></label>
+            <label for="suffix">Name Extension <i>(If Applicable)</i></label>
             <input type="text" class="form-control" name="suffix" id="suffix" value="{{old('suffix')}}" minlength="2" maxlength="3" placeholder="JR, SR, III, IV" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
         </div>
     </div>
@@ -33,6 +33,8 @@
     <label for="bdate"><b class="text-danger">*</b>Birthdate</label>
     <input type="date" class="form-control" name="bdate" id="bdate" value="{{old('bdate')}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
 </div>
+@if(Auth::guest())
 @if(!is_null($f))
 <input type="hidden" name="facility_code" value="{{$f->sys_code1}}" required>
+@endif
 @endif
