@@ -446,9 +446,19 @@ class RiskAssessmentController extends Controller
         }
         else {
             if(Auth::guest()) {
-                return redirect()->route('onlinenc_home')
-                ->with('msg', 'Risk Assessment Form was successfully created to '.$c->getName().'. For another submission, you may fill-out the form again.')
-                ->with('msgtype', 'success');
+                if((!is_null($facility_code))) {
+                    return redirect()->route('onlinenc_home', [
+                        'code' => $facility_code->sys_code1,
+                    ])
+                    ->with('msg', 'Risk Assessment Form was successfully created to '.$c->getName().'. For another submission, you may fill-out the form again.')
+                    ->with('msgtype', 'success');
+                }
+                else {
+                    return redirect()->route('onlinenc_home')
+                    ->with('msg', 'Risk Assessment Form was successfully created to '.$c->getName().'. For another submission, you may fill-out the form again.')
+                    ->with('msgtype', 'success');
+                }
+                
             }
             else {
                 return redirect()->route('home')
