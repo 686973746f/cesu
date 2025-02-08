@@ -45,6 +45,7 @@ class RiskAssessmentForm extends Model
         'height',
         'weight',
         'bmi',
+        'weight_classsification',
         'central_adiposity',
         'waist_cm',
         'raised_bp',
