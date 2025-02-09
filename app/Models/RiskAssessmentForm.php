@@ -15,6 +15,7 @@ class RiskAssessmentForm extends Model
         'from_online',
         'link_opdpatient_id',
         'assessment_date',
+        'is_newrecord',
         'is_followup',
         'lname',
         'fname',

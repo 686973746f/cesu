@@ -716,6 +716,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessN
     Route::post('/fhsis/noncomm/riskassess/store', [RiskAssessmentController::class, 'store'])->name('raf_store');
     Route::get('/fhsis/noncomm/riskassess/view/{id}', [RiskAssessmentController::class, 'edit'])->name('raf_edit');
     Route::post('/fhsis/noncomm/riskassess/view/{id}/update', [RiskAssessmentController::class, 'update'])->name('raf_update');
+    Route::get('/fhsis/noncomm/report_v1', [RiskAssessmentController::class, 'reportV1'])->name('raf_reportv1');
 });
 
 Route::group(['middleware' => ['guest']], function() {

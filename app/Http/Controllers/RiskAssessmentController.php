@@ -165,6 +165,7 @@ class RiskAssessmentController extends Controller
 
     public function store(Request $r) {
         $is_followup = false;
+        $is_newrecord = true;
         $foundUnique = false;
 
         while(!$foundUnique) {
@@ -263,6 +264,15 @@ class RiskAssessmentController extends Controller
             $is_followup = true;
         }
 
+        $check = RiskAssessmentForm::where('lname', $lname)
+        ->where('fname', $fname)
+        ->whereDate('bdate', $bdate)
+        ->first();
+
+        if($check) {
+            $is_newrecord = false;
+        }
+
         if(Auth::guest()) {
             $created_by = NULL;
         }
@@ -348,6 +358,7 @@ class RiskAssessmentController extends Controller
             'month' => $currentDate->format('n'),
             'link_opdpatient_id' => $r->link_opdpatient_id ?: NULL,
             'assessment_date' => $assessment_date,
+            'is_newrecord' => ($is_newrecord) ? 'Y' : 'N',
             'is_followup' => ($is_followup) ? 'Y' : 'N',
             'lname' => $lname,
             'fname' => $fname,
@@ -484,5 +495,91 @@ class RiskAssessmentController extends Controller
 
     public function update($id, Request $r) {
         
+    }
+
+    public function reportV1() {
+        if(!request()->input('year') || !(request()->input('brgy'))) {
+            return abort(401);
+        }
+
+        $year = request()->input('year');
+        $brgy = request()->input('brgy');
+
+        $final_arr = [];
+
+        $query = RiskAssessmentForm::where('year', $year)
+        ->where('is_followup', 'N');
+
+        for($i = 1; $i <= 12; $i++) {
+            $pen_m = (clone $query)->where('month', 1)
+            ->where('sex', 'M')
+            ->count();
+
+            $pen_f = (clone $query)->where('month', 1)
+            ->where('sex', 'F')
+            ->count();
+
+            $pen_total = $pen_m + $pen_f;
+
+            $current_smoker_m = (clone $query)->where('month', 1)
+            ->where('sex', 'M')
+            ->whereIn('smoking', ['CURRENT', 'MASSIVE'])
+            ->count();
+
+            $current_smoker_f = (clone $query)->where('month', 1)
+            ->where('sex', 'F')
+            ->whereIn('smoking', ['CURRENT', 'MASSIVE'])
+            ->count();
+
+            $current_smoker_total = $current_smoker_m + $current_smoker_f;
+
+            $binge_drinker_m = (clone $query)->where('month', 1)
+            ->where('sex', 'M')
+            ->where('excessive_alcohol_intake', 'Y')
+            ->count();
+
+            $binge_drinker_f = (clone $query)->where('month', 1)
+            ->where('sex', 'F')
+            ->where('excessive_alcohol_intake', 'Y')
+            ->count();
+
+            $bringe_drinker_total = $binge_drinker_m + $binge_drinker_f;
+
+            $over_obese_m = (clone $query)->where('month', 1)
+            ->where('sex', 'M')
+            ->whereIn('weight_classification', ['OVERWEIGHT', 'OBESE'])
+            ->count();
+
+            $over_obese_f = (clone $query)->where('month', 1)
+            ->where('sex', 'F')
+            ->whereIn('weight_classification', ['OVERWEIGHT', 'OBESE'])
+            ->count();
+
+            $over_obese_total = $over_obese_m + $over_obese_f;
+
+            $newly_hypertensive_m = (clone $query)->where('month', 1)
+            ->where('sex', 'M')
+            ->where('raised_bp', 'Y')
+            ->count();
+
+            $newly_hypertensive_f = (clone $query)->where('month', 1)
+            ->where('sex', 'F')
+            ->where('raised_bp', 'Y')
+            ->count();
+
+            $newly_diabetes_m = (clone $query)->where('month', 1)
+            ->where('sex', 'M')
+            ->where('diabetes', 'Y')
+            ->count();
+
+            $newly_diabetes_f = (clone $query)->where('month', 1)
+            ->where('sex', 'F')
+            ->where('diabetes', 'Y')
+            ->count();
+
+            $newly_hypertensive_total = $newly_hypertensive_m + $newly_hypertensive_f;
+
+
+        }
     }
 }

@@ -21,6 +21,7 @@ class CreateRiskAssessmentFormsTable extends Migration
             $table->string('from_online', 1)->default('N');
             $table->foreignId('link_opdpatient_id')->nullable()->constrained('syndromic_patients')->onDelete('cascade');
             $table->date('assessment_date');
+            $table->string('is_newrecord', 1)->default('Y');
             $table->string('is_followup', 1)->default('N');
 
             $table->string('lname');

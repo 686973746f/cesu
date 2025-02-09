@@ -34,6 +34,33 @@
                             </div>
                         </div>
                     </div>
+                    <div class="card">
+                        <div class="card-header" role="tab" id="ncSection3Header">
+                            <a data-toggle="collapse" data-parent="#ncAccordian" href="#ncSection3" aria-expanded="true" aria-controls="ncSection3">View Report</a>
+                        </div>
+                        <div id="ncSection3" class="collapse in" role="tabpanel" aria-labelledby="ncSection3Header">
+                            <form action="{{route('raf_reportv1')}}" method="GET">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="year"><b class="text-danger">*</b>Year</label>
+                                        <input type="number" class="form-control" name="year" id="year" min="{{(date('Y')-5)}}" max="{{date('Y')}}" value="{{date('Y')}}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="brgy"><b class="text-danger">*</b>Barangay</label>
+                                        <select class="form-control" name="brgy" id="brgy" required>
+                                            <option value="" disabled selected>Choose...</option>
+                                            @foreach (App\Models\EdcsBrgy::where('city_id', 388)->orderBy('name', 'ASC')->get() as $b)
+                                                <option value="{{$b->name}}">{{$b->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <button type="submit" class="btn btn-success btn-block">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
