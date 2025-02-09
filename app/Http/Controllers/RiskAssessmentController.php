@@ -508,9 +508,56 @@ class RiskAssessmentController extends Controller
         $final_arr = [];
 
         $query = RiskAssessmentForm::where('year', $year)
-        ->where('is_followup', 'N');
+        ->where('is_followup', 'N')
+        ->where('address_brgy_code', $brgy);
 
-        for($i = 1; $i <= 12; $i++) {
+        $b = EdcsBrgy::findOrFail($brgy);
+
+        if($year == date('Y')) {
+            $maxMonth = date('n');
+        }
+        else {
+            $maxMonth = 12;
+        }
+
+        for($i = 1; $i <= $maxMonth; $i++) {
+            if($i == 1) {
+                $month = 'JANUARY';
+            }
+            else if($i == 2) {
+                $month = 'FEBRUARY';
+            }
+            else if($i == 3) {
+                $month = 'MARCH';
+            }
+            else if($i == 4) {
+                $month = 'APRIL';
+            }
+            else if($i == 5) {
+                $month = 'MAY';
+            }
+            else if($i == 6) {
+                $month = 'JUNE';
+            }
+            else if($i == 7) {
+                $month = 'JULY';
+            }
+            else if($i == 8) {
+                $month = 'AUGUST';
+            }
+            else if($i == 9) {
+                $month = 'SEPTEMBER';
+            }
+            else if($i == 10) {
+                $month = 'OCTOBER';
+            }
+            else if($i == 11) {
+                $month = 'NOVEMBER';
+            }
+            else if($i == 12) {
+                $month = 'DECEMBER';
+            }
+
             $pen_m = (clone $query)->where('month', 1)
             ->where('sex', 'M')
             ->count();
@@ -557,29 +604,129 @@ class RiskAssessmentController extends Controller
 
             $over_obese_total = $over_obese_m + $over_obese_f;
 
-            $newly_hypertensive_m = (clone $query)->where('month', 1)
+            //NEW - bagong received
+            //UPDATED - may lumang record na pero yung new record nila ay naging hypertensive/diabetic na
+
+            $newly_hypertensive_m_new = (clone $query)->where('month', 1)
+            ->where('is_newrecord', 'Y')
             ->where('sex', 'M')
             ->where('raised_bp', 'Y')
             ->count();
 
-            $newly_hypertensive_f = (clone $query)->where('month', 1)
+            $newly_hypertensive_f_new = (clone $query)->where('month', 1)
+            ->where('is_newrecord', 'Y')
             ->where('sex', 'F')
             ->where('raised_bp', 'Y')
             ->count();
 
-            $newly_diabetes_m = (clone $query)->where('month', 1)
+            $newly_hypertensive_m_updated = (clone $query)->where('month', 1)
+            ->where('is_newrecord', 'N')
+            ->where('sex', 'M')
+            ->where('raised_bp', 'Y')
+            ->count();
+
+            $newly_hypertensive_f_updated = (clone $query)->where('month', 1)
+            ->where('is_newrecord', 'N')
+            ->where('sex', 'F')
+            ->where('raised_bp', 'Y')
+            ->count();
+
+            $newly_hypertensive_total = $newly_hypertensive_m_new + $newly_hypertensive_f_new + $newly_hypertensive_m_updated + $newly_hypertensive_f_updated;
+
+            $newly_diabetes_m_new = (clone $query)->where('month', 1)
+            ->where('is_newrecord', 'Y')
             ->where('sex', 'M')
             ->where('diabetes', 'Y')
             ->count();
 
-            $newly_diabetes_f = (clone $query)->where('month', 1)
+            $newly_diabetes_f_new = (clone $query)->where('month', 1)
+            ->where('is_newrecord', 'Y')
             ->where('sex', 'F')
             ->where('diabetes', 'Y')
             ->count();
 
-            $newly_hypertensive_total = $newly_hypertensive_m + $newly_hypertensive_f;
+            $newly_diabetes_m_updated = (clone $query)->where('month', 1)
+            ->where('is_newrecord', 'N')
+            ->where('sex', 'M')
+            ->where('diabetes', 'Y')
+            ->count();
 
+            $newly_diabetes_f_updated = (clone $query)->where('month', 1)
+            ->where('is_newrecord', 'N')
+            ->where('sex', 'F')
+            ->where('diabetes', 'Y')
+            ->count();
 
+            $newlly_diabetes_total = $newly_diabetes_m_new + $newly_diabetes_f_new + $newly_diabetes_m_updated + $newly_diabetes_f_updated;
+
+            $susp_breastmass = (clone $query)->where('month', 1)
+            ->where('sex', 'F')
+            ->where('female_hasbreastmass', 'Y')
+            ->count();
+
+            $senior_visual_m = (clone $query)->where('month', 1)
+            ->where('age_years', '>=', 60)
+            ->where('sex', 'M')
+            ->count();
+
+            $senior_visual_f = (clone $query)->where('month', 1)
+            ->where('age_years', '>=', 60)
+            ->where('sex', 'F')
+            ->count();
+
+            $senior_visual_total = $senior_visual_m + $senior_visual_f;
+
+            $senior_eyedisease_m = (clone $query)->where('month', 1)
+            ->where('age_years', '>=', 60)
+            ->where('senior_diagnosedeyedisease', 'Y')
+            ->where('sex', 'M')
+            ->count();
+
+            $senior_eyedisease_f = (clone $query)->where('month', 1)
+            ->where('age_years', '>=', 60)
+            ->where('senior_diagnosedeyedisease', 'Y')
+            ->where('sex', 'F')
+            ->count();
+
+            $senior_eyedisease_total = $senior_eyedisease_m + $senior_eyedisease_f;
+
+            $final_arr[] = [
+                'month' => $month,
+                'pen_m' => $pen_m,
+                'pen_f' => $pen_f,
+                'pen_total' => $pen_total,
+                'current_smoker_m' => $current_smoker_m,
+                'current_smoker_f' => $current_smoker_f,
+                'current_smoker_total' => $current_smoker_total,
+                'binge_drinker_m' => $binge_drinker_m,
+                'binge_drinker_f' => $binge_drinker_f,
+                'bringe_drinker_total' => $bringe_drinker_total,
+                'over_obese_m' => $over_obese_m,
+                'over_obese_f' => $over_obese_f,
+                'over_obese_total' => $over_obese_total,
+                'newly_hypertensive_m_new' => $newly_hypertensive_m_new,
+                'newly_hypertensive_f_new' => $newly_hypertensive_f_new,
+                'newly_hypertensive_m_updated' => $newly_hypertensive_m_updated,
+                'newly_hypertensive_f_updated' => $newly_hypertensive_f_updated,
+                'newly_hypertensive_total' => $newly_hypertensive_total,
+                'newly_diabetes_m_new' => $newly_diabetes_m_new,
+                'newly_diabetes_f_new' => $newly_diabetes_f_new,
+                'newly_diabetes_m_updated' => $newly_diabetes_m_updated,
+                'newly_diabetes_f_updated' => $newly_diabetes_f_updated,
+                'newlly_diabetes_total' => $newlly_diabetes_total,
+                'susp_breastmass' => $susp_breastmass,
+                'senior_visual_m' => $senior_visual_m,
+                'senior_visual_f' => $senior_visual_f,
+                'senior_visual_total' => $senior_visual_total,
+                'senior_eyedisease_m' => $senior_eyedisease_m,
+                'senior_eyedisease_f' => $senior_eyedisease_f,
+                'senior_eyedisease_total' => $senior_eyedisease_total,
+            ];
         }
+
+        return view('efhsis.riskassessment.reportv1', [
+            'final_arr' => $final_arr,
+            'b' => $b,
+        ]);
     }
 }

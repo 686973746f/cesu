@@ -50,7 +50,7 @@
                                         <select class="form-control" name="brgy" id="brgy" required>
                                             <option value="" disabled selected>Choose...</option>
                                             @foreach (App\Models\EdcsBrgy::where('city_id', 388)->orderBy('name', 'ASC')->get() as $b)
-                                                <option value="{{$b->name}}">{{$b->name}}</option>
+                                                <option value="{{$b->id}}">{{$b->name}}</option>
                                             @endforeach
                                         </select>
                                     </div>

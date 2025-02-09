@@ -886,6 +886,8 @@ class CallM2Export implements ShouldQueue
             ];
         }
 
+        //ADD NON-COMM ARRAY
+
         $sheets = new SheetCollection([
             'M2 BHS' => $final_arr,
             'ABTC' => $abtc_array,

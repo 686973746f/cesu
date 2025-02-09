@@ -115,4 +115,8 @@ class RiskAssessmentForm extends Model
         return $fullname;
         //return $this->lname.", ".$this->fname.' '.$this->suffix." ".$this->mname;
     }
+
+    public function brgy() {
+        return $this->belongsTo(EdcsBrgy::class, 'address_brgy_code');
+    }
 }
