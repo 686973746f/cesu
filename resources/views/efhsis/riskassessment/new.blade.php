@@ -21,13 +21,13 @@
               <input type="hidden" name="facility_code" value="{{$f->sys_code1}}" required>
               @endif
               <div class="alert alert-info" role="alert">
-                <b class="text-danger">Note:</b> All fields marked with an asterisk (<b class="text-danger">*</b>) are required to be filled out. For ticking the field, checking means Yes or You Agree to the question.
+                <b class="text-danger">Note:</b> All fields marked with an asterisk (<b class="text-danger">*</b>) are required to be filled out. You agree to accomplish the Risk Assessment Form with your true, correct, and complete data. For ticking the field, checking means Yes or You Agree to the question.
               </div>
               @if(!Auth::guest())
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="assessment_date"><b class="text-danger">*</b>Date of Assessment</label>
+                    <label for="assessment_date"><b class="text-danger">*</b>Date of Assessment/Consultation</label>
                     <input type="date" class="form-control" name="assessment_date" id="assessment_date" value="{{old('assessment_date', date('Y-m-d'))}}" min="1900-01-01" max="{{date('Y-m-d')}}" required>
                   </div>
                 </div>
@@ -120,13 +120,13 @@
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label for="occupation" class="form-label">Occupation</label>
+                      <label for="occupation" class="form-label">Occupation (Trabaho)</label>
                       <input type="text" class="form-control" id="occupation" name="occupation" style="text-transform: uppercase;" value="{{old('occupation')}}">
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label for="educational_attainment" class="form-label"><b class="text-danger">*</b>Educational Attainment</label>
+                      <label for="educational_attainment" class="form-label"><b class="text-danger">*</b>Educational Attainment (Antas ng Edukasyon)</label>
                       <select class="form-control" name="educational_attainment" id="educational_attainment" required>
                         <option value="" disabled {{(is_null(old('educational_attainment'))) ? 'selected' : ''}}>Choose...</option>
                         <option value="no_formal_education" {{(old('educational_attainment') == 'no_formal_education')}}>No Formal Education</option>
@@ -150,7 +150,7 @@
                   <div class="col-md-6">
                     <div class="row">
                       <div class="col-md-6">
-                        <div><label for="height"><b class="text-danger">*</b>Height (cm)</label></div>
+                        <div><label for="height"><b class="text-danger">*</b>Height/Tangkad (cm)</label></div>
                         <div class="input-group mb-3">
                           <input type="number" step="0.01" class="form-control" name="height" id="height" min="1" max="600" required>
                           <div class="input-group-append">
@@ -160,7 +160,7 @@
                       </div>
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label for="weight"><b class="text-danger">*</b>Weight (kg)</label>
+                          <label for="weight"><b class="text-danger">*</b>Weight/Timbang (kg)</label>
                           <input type="number" class="form-control" name="weight" id="weight" min="1" max="500" step="0.1" required>
                         </div>
                       </div>
@@ -182,7 +182,7 @@
                       </div>
                     </div>
                     <div class="alert alert-info" role="alert">
-                      <b>Note:</b> Raised BP is automatically determined by the system based on the Blood Pressure input.
+                      <b>Note:</b> Raised BP/Hypertension is automatically determined by the system based on the Blood Pressure input.
                     </div>
                   </div>
                 </div>
@@ -240,7 +240,7 @@
                           <div class="card-header"><b>Weight Classification</b></div>
                           <div class="card-body">
                             <div class="alert alert-info" role="alert">
-                              <b>Note:</b> Weight Classification (Normal/Obese/Overweight) is automatically determined by the system based on the Height and Weight input.
+                              <b>Note:</b> Weight Classification (Normal/Obese/Overweight) and BMI is automatically determined by the system based on the Height and Weight input.
                             </div>
                             <div class="form-group">
                               <label for="waist_cm"><b class="text-danger">*</b>Waist Circumference / Sukat ng Bewang (cm)</label>
@@ -252,7 +252,7 @@
                           <div class="card-header"><b>Presence or absence of Diabetes</b></div>
                           <div class="card-body">
                             <div class="form-group">
-                              <label for="diabetes"><b class="text-danger">*</b>Was patient diagnosed as having diabetes?</label>
+                              <label for="diabetes"><b class="text-danger">*</b>Are you diagnosed as having diabetes? ()</label>
                               <select class="form-control" name="diabetes" id="diabetes" required>
                                 <option value="" disabled {{(is_null(old('diabetes'))) ? 'selected' : ''}}>Choose...</option>
                                 <option value="Y" {{(old('diabetes') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>
@@ -262,11 +262,11 @@
                             </div>
                             <div id="medication_div" class="d-none">
                               <div class="form-group">
-                                <label for="diabetes_medication"><b class="text-danger">*</b>With Medications</label>
+                                <label for="diabetes_medication"><b class="text-danger">*</b>Medications</label>
                                 <select class="form-control" name="diabetes_medication" id="diabetes_medication">
                                   <option value="" disabled {{(is_null(old('diabetes_medication'))) ? 'selected' : ''}}>Choose...</option>
-                                  <option value="Y" {{(old('diabetes_medication') == 'Y') ? 'selected' : ''}}>With Medications</option>
-                                  <option value="N" {{(old('diabetes_medication') == 'N') ? 'selected' : ''}}>Without Medications</option>
+                                  <option value="Y" {{(old('diabetes_medication') == 'Y') ? 'selected' : ''}}>With Medications/Kasalukuyang Nainom ng Gamot</option>
+                                  <option value="N" {{(old('diabetes_medication') == 'N') ? 'selected' : ''}}>Without Medications/Wala pang gamutan</option>
                                 </select>
                               </div>
                             </div>
@@ -499,14 +499,14 @@
                             <div class="form-check">
                               <label class="form-check-label">
                                 <input type="checkbox" class="form-check-input" name="vegetable_serving" id="vegetable_serving" value="Y">
-                                Eats 3 servings of vegetables daily
+                                Eats 3 servings of vegetables daily (Nakakain ng mga gulay 3 beses sa araw-araw)
                               </label>
                             </div>
 
                             <div class="form-check">
                               <label class="form-check-label">
                                 <input type="checkbox" class="form-check-input" name="fruits_serving" id="fruits_serving" value="Y">
-                                Eats 2-3 servings of fruits daily
+                                Eats 2-3 servings of fruits daily (Nakakakain ng mga prutas dalawa o tatlong beses sa araw-araw)
                               </label>
                             </div>
                           </div>
@@ -518,7 +518,7 @@
                             <div class="form-check">
                               <label class="form-check-label">
                                 <input type="checkbox" class="form-check-input" name="physical_activity" id="physical_activity" value="Y">
-                                Does at least 2 and a half hours of moderate intensity physical activity PER WEEK
+                                Does at least 2 and a half hours of moderate intensity physical activity PER WEEK (Nage-ehersisyo na umaabot sa dalawa't kalahating oras KADA LINGGO)
                               </label>
                             </div>
                           </div>
@@ -612,7 +612,7 @@
                               <hr>
                               <label for="question8">
                                 <div>8. Have you ever had any of the following: difficulty in talking, weakness of arm and/or leg on one side of the body or numbness on one side of the body?</div>
-                                <div>Nakaramdam ka na ba ng mga sumusunod? hirap sa pagsasalita, panghihina ng braso at/o ng binti o pamamanhid sa kalahating bahagi ng katawan.</div>
+                                <div>Nakaramdam ka na ba ng mga sumusunod: hirap sa pagsasalita, panghihina ng braso at/o ng binti o pamamanhid sa kalahating bahagi ng katawan.</div>
                               </label>
                               <select class="form-control" name="question8" id="question8" required>
                                 <option value="" disabled {{(is_null(old('question8'))) ? 'selected' : ''}}>Choose...</option>
@@ -646,7 +646,7 @@
                 </div>
             </div>
             <div class="card-footer">
-                <button type="submit" class="btn btn-success btn-block" id="submitBtn">Submit (CTRL + S)</button>
+              <button type="submit" class="btn btn-success btn-block" id="submitBtn">Submit (CTRL + S)</button>
             </div>
         </div>
     </form>
