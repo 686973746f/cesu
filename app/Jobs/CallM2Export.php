@@ -15,7 +15,9 @@ use Illuminate\Queue\InteractsWithQueue;
 use OpenSpout\Common\Entity\Style\Style;
 use App\Http\Controllers\PIDSRController;
 use App\Models\AbtcBakunaRecords;
+use App\Models\EdcsBrgy;
 use App\Models\Rabies;
+use App\Models\RiskAssessmentForm;
 use Rap2hpoutre\FastExcel\SheetCollection;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -63,6 +65,10 @@ class CallM2Export implements ShouldQueue
         $brgy_list = Brgy::where('city_id', 1)
         ->where('displayInList', 1)
         ->orderBy('brgyName', 'ASC')
+        ->get();
+
+        $edcs_brgy_list = EdcsBrgy::where('city_id', 388)
+        ->orderBy('brgyNameFhsis', 'ASC')
         ->get();
 
         $final_arr = [];
@@ -887,10 +893,152 @@ class CallM2Export implements ShouldQueue
         }
 
         //ADD NON-COMM ARRAY
+        $noncomm_array = [];
+        $ra_query = RiskAssessmentForm::where('year', $start->format('Y'))
+        ->where('month', $start->format('n'));
+
+        foreach($edcs_brgy_list as $b) {
+            $current_smoker_m = (clone $ra_query)->where('address_brgy_code', $b->id)
+            ->where('is_followup', 'N')
+            ->where('sex', 'M')
+            ->whereIn('smoking', ['CURRENT', 'MASSIVE'])
+            ->count();
+
+            $current_smoker_f = (clone $ra_query)->where('address_brgy_code', $b->id)
+            ->where('is_followup', 'N')
+            ->where('sex', 'F')
+            ->whereIn('smoking', ['CURRENT', 'MASSIVE'])
+            ->count();
+
+            $abd_m = (clone $ra_query)->where('address_brgy_code', $b->id)
+            ->where('is_followup', 'N')
+            ->where('sex', 'M')
+            ->where('excessive_alcohol_intake', 'Y')
+            ->count();
+
+            $abd_f = (clone $ra_query)->where('address_brgy_code', $b->id)
+            ->where('is_followup', 'N')
+            ->where('sex', 'F')
+            ->where('excessive_alcohol_intake', 'Y')
+            ->count();
+
+            $ow_m = (clone $ra_query)->where('address_brgy_code', $b->id)
+            ->where('is_followup', 'N')
+            ->where('sex', 'M')
+            ->whereIn('weight_classification', ['OVERWEIGHT', 'OBESE'])
+            ->count();
+
+            $ow_f = (clone $ra_query)->where('address_brgy_code', $b->id)
+            ->where('is_followup', 'N')
+            ->where('sex', 'F')
+            ->whereIn('weight_classification', ['OVERWEIGHT', 'OBESE'])
+            ->count();
+
+            $bmsusp_f = (clone $ra_query)->where('address_brgy_code', $b->id)
+            ->where('is_followup', 'N')
+            ->where('sex', 'F')
+            ->where('female_hasbreastmass', 'Y')
+            ->count();
+
+            $hpn_m = (clone $ra_query)->where('address_brgy_code', $b->id)
+            ->where('is_newrecord', 'Y')
+            ->where('is_followup', 'N')
+            ->where('sex', 'M')
+            ->where('raised_bp', 'Y')
+            ->count();
+
+            $hpn_f = (clone $ra_query)->where('address_brgy_code', $b->id)
+            ->where('is_newrecord', 'Y')
+            ->where('is_followup', 'N')
+            ->where('sex', 'F')
+            ->where('raised_bp', 'Y')
+            ->count();
+
+            $dm_m = (clone $ra_query)->where('address_brgy_code', $b->id)
+            ->where('is_newrecord', 'Y')
+            ->where('is_followup', 'N')
+            ->where('sex', 'M')
+            ->where('diabetes', 'Y')
+            ->count();
+
+            $dm_f = (clone $ra_query)->where('address_brgy_code', $b->id)
+            ->where('is_newrecord', 'Y')
+            ->where('is_followup', 'N')
+            ->where('sex', 'F')
+            ->where('diabetes', 'Y')
+            ->count();
+
+            $va_m = (clone $ra_query)->where('address_brgy_code', $b->id)
+            ->where('is_followup', 'N')
+            ->where('sex', 'M')
+            ->where('age_years', '>=', 60)
+            ->count();
+
+            $va_f = (clone $ra_query)->where('address_brgy_code', $b->id)
+            ->where('is_followup', 'N')
+            ->where('sex', 'F')
+            ->where('age_years', '>=', 60)
+            ->count();
+
+            $ed_m = (clone $ra_query)->where('address_brgy_code', $b->id)
+            ->where('is_followup', 'N')
+            ->where('sex', 'M')
+            ->where('age_years', '>=', 60)
+            ->where('senior_diagnosedeyedisease', 'Y')
+            ->count();
+
+            $ed_f = (clone $ra_query)->where('address_brgy_code', $b->id)
+            ->where('is_followup', 'N')
+            ->where('sex', 'F')
+            ->where('age_years', '>=', 60)
+            ->where('senior_diagnosedeyedisease', 'Y')
+            ->count();
+
+            $noncomm_array[] = [
+                'REG_CODE' => 'REGION IV-A (CALABARZON)',
+                'PROV_CODE' => 'CAVITE',
+                'MUN_CODE' => 'GENERAL TRIAS',
+                'BGY_CODE' => $b->brgyNameFhsis,
+                'DATE' => $start->format('m/d/y'),
+                'NONCOM_PPENCS_M' => $current_smoker_m,
+                'NONCOM_PPENCS_F' => $current_smoker_f,
+                'NONCOM_PPENABD_M' => $abd_m,
+                'NONCOM_PPENABD_F' => $abd_f,
+                'NONCOM_PPENOW_M' => $ow_m,
+                'NONCOM_PPENOW_F' => $ow_f,
+                'NONCOM_CC_F' => 0,
+                'NONCOM_CCPOS_F' => 0,
+                'NONCOM_BM_F' => 0,
+                'NONCOM_BMSUSP_F' => $bmsusp_f,
+                'NONCOM_HPN_M' => $hpn_m,
+                'NONCOM_HPN_F' => $hpn_f,
+                'NONCOM_DM_M' => $dm_m,
+                'NONCOM_DM_F' => $dm_f,
+                'NONCOM_VA_M' => $va_m,
+                'NONCOM_VA_F' => $va_f,
+                'NONCOM_ED_M' => $ed_m,
+                'NONCOM_ED_F' => $ed_f,
+                'NONCOM_PPV_M' => 0,
+                'NONCOM_PPV_F' => 0,
+                'NONCOM_IV_M' => 0,
+                'NONCOM_IV_F' => 0,
+                'NONCOM_PPEN_M',
+                'NONCOM_PPEN_F',
+                'NONCOM_DMMED_M' => 0,
+                'NONCOM_DMMED_F' => 0,
+                'NONCOM_HPNMED_M' => 0,
+                'NONCOM_HPNMED_F' => 0,
+                'NONCOM_PPENCSI_M' => 0,
+                'NONCOM_PPENCSI_F' => 0,
+                'NONCOM_PPENABDI_M' => 0,
+                'NONCOM_PPENABDI_F' => 0,
+            ];
+        }
 
         $sheets = new SheetCollection([
             'M2 BHS' => $final_arr,
             'ABTC' => $abtc_array,
+            'NONCOMM' => $noncomm_array,
         ]);
 
         $header_style = (new Style())->setFontBold();

@@ -112,7 +112,7 @@
                   <div class="col-md-6">
                       <div class="form-group">
                           <label for="street_purok" class="form-label"><b class="text-danger">*</b>House/Lot No./Street/Purok/Subdivision</label>
-                          <input type="text" class="form-control" id="street_purok" name="street_purok" style="text-transform: uppercase;" value="{{old('street_purok')}}" placeholder="ex. S1 B2 L3 PHASE 4 SUBDIVISION HOMES" pattern="(^[a-zA-Z0-9 ]+$)+" required>
+                          <input type="text" class="form-control" id="street_purok" name="street_purok" style="text-transform: uppercase;" value="{{old('street_purok')}}" placeholder="ex. S1 B2 L3 PHASE 4 SUBDIVISION HOMES" required>
                       </div>
                   </div>
                 </div>
@@ -252,7 +252,7 @@
                           <div class="card-header"><b>Presence or absence of Diabetes</b></div>
                           <div class="card-body">
                             <div class="form-group">
-                              <label for="diabetes"><b class="text-danger">*</b>Are you diagnosed as having diabetes? ()</label>
+                              <label for="diabetes"><b class="text-danger">*</b>Are you diagnosed as having diabetes?</label>
                               <select class="form-control" name="diabetes" id="diabetes" required>
                                 <option value="" disabled {{(is_null(old('diabetes'))) ? 'selected' : ''}}>Choose...</option>
                                 <option value="Y" {{(old('diabetes') == 'Y') ? 'selected' : ''}}>Yes/Oo</option>

@@ -14,6 +14,7 @@ class EdcsBrgy extends Model
         'edcs_code',
         'name',
         'alt_name',
+        'brgyNameFhsis',
         'psgc_9digit',
         'psgc_10digit',
     ];

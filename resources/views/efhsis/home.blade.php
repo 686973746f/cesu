@@ -21,7 +21,7 @@
                         <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#liveBirthReport">Natality Report</button>
                         <hr>
                         <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#deathModal">Encode Death Certificates/Mortality</button>
-                        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#deathReport">Mortality/M2 Report</button>
+                        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#deathReport">BE Export Report</button>
                         @if(auth()->user()->canAccessPregnancyTracking())
                         <hr>
                         <a href="{{route('ptracking_index')}}" class="btn btn-block btn-primary">Pregnancy Tracking</a>
@@ -338,7 +338,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Mortality Report</h5>
+                        <h5 class="modal-title">BE Export Report</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -379,8 +379,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success btn-block" id="mortGenerateBtn" name="submit" value="generate">Generate</button>
-                        <button type="submit" class="btn btn-success btn-block" id="mortDownloadBtn" name="submit" value="download">Download Mortality Excel File</button>
-                        <button type="submit" class="btn btn-success btn-block" id="m2DownloadBtn" name="submit" value="m2download">Download M2 Excel File</button>
+                        <button type="submit" class="btn btn-success btn-block" id="mortDownloadBtn" name="submit" value="download">Download Mortality BE Excel File</button>
+                        <button type="submit" class="btn btn-success btn-block" id="m2DownloadBtn" name="submit" value="m2download">Download M2/Noncomm BE Excel File</button>
                     </div>
                 </div>
             </div>
