@@ -50,7 +50,7 @@ class RiskAssessmentController extends Controller
             'lname' => $d->syndromic_patient->lname,
             'fname' => $d->syndromic_patient->fname,
             'bdate' => $d->syndromic_patient->bdate,
-            'sex' => $d->syndromic_patient->gender,
+            'sex' => substr($d->syndromic_patient->gender,0,1),
         ]);
     }
 
