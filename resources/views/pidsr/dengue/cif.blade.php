@@ -138,21 +138,19 @@
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="DOnset"><b class="text-danger">*</b>Fever Onset Date</label>
-                            <input type="date" class="form-control" name="DOnset" id="DOnset" value="{{old('DOnset')}}" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="sys_feverdegrees"><b class="text-danger">*</b>Temperature (in Celcius)</label>
-                            <input type="number" class="form-control" name="sys_feverdegrees" id="sys_feverdegrees" min="1" max="90" step=".1" value="{{old('sys_feverdegrees')}}">
-                          </div>
-                    </div>
-                </div>
-                <div class="row">
                     <div class="col-md-4">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="1" id="sys_fever" name="sys_fever" required>
+                            <label class="form-check-label" for="sys_fever">
+                              Fever (Lagnat)
+                            </label>
+                            <div id="fever_div" class="d-none">
+                                <div class="form-group">
+                                    <label for="DOnset"><b class="text-danger">*</b>Fever Onset Date (Kailan nagkaroon ng lagnat)</label>
+                                    <input type="date" class="form-control" name="DOnset" id="DOnset" value="{{old('DOnset')}}" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_headache" name="sys_headache">
                             <label class="form-check-label" for="sys_headache">
@@ -160,9 +158,15 @@
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="1" id="sys_retropain" name="sys_retropain">
-                            <label class="form-check-label" for="sys_retropain">
-                              Retro Ocular Pain (Masakit ang likod ng mata)
+                            <input class="form-check-input" type="checkbox" value="1" id="sys_bodymalaise" name="sys_bodymalaise">
+                            <label class="form-check-label" for="sys_bodymalaise">
+                              Body Malaise (Nanghihina ang katawan)
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="1" id="sys_musclepain" name="sys_musclepain">
+                            <label class="form-check-label" for="sys_musclepain">
+                              Muscle Pain (Masakit ang kalamnan)
                             </label>
                         </div>
                         <div class="form-check">
@@ -178,15 +182,15 @@
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="1" id="sys_musclepain" name="sys_musclepain">
-                            <label class="form-check-label" for="sys_musclepain">
-                              Muscle Pain (Masakit ang kalamnan)
+                            <input class="form-check-input" type="checkbox" value="1" id="sys_retropain" name="sys_retropain">
+                            <label class="form-check-label" for="sys_retropain">
+                              Retro-orbital Pain (Masakit ang likod ng mata)
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="1" id="sys_sorethroat" name="sys_sorethroat">
-                            <label class="form-check-label" for="sys_sorethroat">
-                              Sore Throat (Masakit ang lalamunan)
+                            <input class="form-check-input" type="checkbox" value="1" id="sys_anorexia" name="sys_anorexia">
+                            <label class="form-check-label" for="sys_anorexia">
+                              Anorexia (Walang gana kumain)
                             </label>
                         </div>
                         <div class="form-check">
@@ -207,12 +211,36 @@
                               Diarrhea (Pagdurumi)
                             </label>
                         </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="1" id="sys_flushedskin" name="sys_flushedskin">
+                            <label class="form-check-label" for="sys_flushedskin">
+                              Flushed Skin (Namumula ang balat)
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="1" id="sys_maculopapularrash" name="sys_maculopapularrash">
+                            <label class="form-check-label" for="sys_maculopapularrash">
+                              Rash (May batik at butlig sa balat)
+                            </label>
+                        </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="sys_abdominalpain" name="sys_abdominalpain">
                             <label class="form-check-label" for="sys_abdominalpain">
-                              Abdominal Pain (Masakit ang Tiyan)
+                              Abdominal Pain or Tenderness (Masakit ang Tiyan)
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="1" id="sys_persistent_vomiting" name="sys_persistent_vomiting">
+                            <label class="form-check-label" for="sys_persistent_vomiting">
+                              Persistent Vomiting (Patuloy na pagsusuka)
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="1" id="sys_fluid_accumulation" name="sys_fluid_accumulation">
+                            <label class="form-check-label" for="sys_fluid_accumulation">
+                              Clinical Signs of Fluid Accumulation
                             </label>
                         </div>
                         <div class="form-check">
@@ -225,12 +253,6 @@
                             <input class="form-check-input" type="checkbox" value="1" id="sys_echhymosis" name="sys_echhymosis">
                             <label class="form-check-label" for="sys_echhymosis">
                               Echhymosis (May mga pasa sa katawan)
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="1" id="sys_maculopapularrash" name="sys_maculopapularrash">
-                            <label class="form-check-label" for="sys_maculopapularrash">
-                              Maculo-papular Rash (May batik at butlig sa balat)
                             </label>
                         </div>
                         <div class="form-check">
@@ -249,6 +271,12 @@
                             <input class="form-check-input" type="checkbox" value="1" id="sys_nosebleeding" name="sys_nosebleeding">
                             <label class="form-check-label" for="sys_nosebleeding">
                               Nose Bleeding (Pagdurugo ng Ilong)
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="1" id="sys_lethargy_restlessness" name="sys_lethargy_restlessness">
+                            <label class="form-check-label" for="sys_lethargy_restlessness">
+                              Lethargy/Restlessness (Pagkabalisa)
                             </label>
                         </div>
                         <div class="form-check">
@@ -287,6 +315,28 @@
                 </div>
 
                 <hr>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="is_ns1positive"><span class="text-danger font-weight-bold">*</span>Is Dengue NS1 Positive?</label>
+                            <select class="form-control" name="is_ns1positive" id="is_ns1positive" required>
+                                <option value="" disabled {{(is_null(old('is_ns1positive'))) ? 'selected' : ''}}>Choose...</option>
+                                <option value="Y" {{(old('is_ns1positive') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                <option value="N" {{(old('is_ns1positive') == 'N') ? 'selected' : ''}}>No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="is_igmpositive"><span class="text-danger font-weight-bold">*</span>Is Dengue IgM Positive?</label>
+                            <select class="form-control" name="is_igmpositive" id="is_igmpositive" required>
+                                <option value="" disabled {{(is_null(old('is_igmpositive'))) ? 'selected' : ''}}>Choose...</option>
+                                <option value="Y" {{(old('is_igmpositive') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                <option value="N" {{(old('is_igmpositive') == 'N') ? 'selected' : ''}}>No</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label for="Admitted"><span class="text-danger font-weight-bold">*</span>Hospitalized/Admitted?</label>
                     <select class="form-control" name="Admitted" id="Admitted" required>
@@ -330,8 +380,6 @@
                             <select class="form-control" name="sys_outcome" id="sys_outcome" required>
                                 <option value="" disabled {{(is_null(old('sys_outcome'))) ? 'selected' : ''}}>Choose...</option>
                                 <option value="ALIVE" {{(old('sys_outcome') == 'ALIVE') ? 'selected' : ''}}>Alive</option>
-                                <option value="RECOVERED" {{(old('sys_outcome') == 'RECOVERED') ? 'selected' : ''}}>Recovered</option>
-                                <option value="NOT IMPROVED" {{(old('sys_outcome') == 'NOT IMPROVED') ? 'selected' : ''}}>Not Improved</option>
                                 <option value="DIED" {{(old('sys_outcome') == 'DIED') ? 'selected' : ''}}>Died</option>
                             </select>
                         </div>
@@ -345,26 +393,6 @@
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="is_ns1positive"><span class="text-danger font-weight-bold">*</span>Is Dengue NS1 Positive?</label>
-                            <select class="form-control" name="is_ns1positive" id="is_ns1positive" required>
-                                <option value="" disabled {{(is_null(old('is_ns1positive'))) ? 'selected' : ''}}>Choose...</option>
-                                <option value="Y" {{(old('is_ns1positive') == 'Y') ? 'selected' : ''}}>Yes</option>
-                                <option value="N" {{(old('is_ns1positive') == 'N') ? 'selected' : ''}}>No</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="is_igmpositive"><span class="text-danger font-weight-bold">*</span>Is Dengue IgM Positive?</label>
-                            <select class="form-control" name="is_igmpositive" id="is_igmpositive" required>
-                                <option value="" disabled {{(is_null(old('is_igmpositive'))) ? 'selected' : ''}}>Choose...</option>
-                                <option value="Y" {{(old('is_igmpositive') == 'Y') ? 'selected' : ''}}>Yes</option>
-                                <option value="N" {{(old('is_igmpositive') == 'N') ? 'selected' : ''}}>No</option>
-                            </select>
-                        </div>
-                    </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="sys_historytravel2weeks"><span class="text-danger font-weight-bold">*</span>History of Travel the Past 2 Weeks?</label>
@@ -598,6 +626,17 @@
         else {
             $('#historyTravelDiv').addClass('d-none');
             $('sys_historytravel2weeks_where').prop('required', false);
+        }
+    }).trigger('change');
+
+    $('#sys_fever').change(function (e) { 
+        e.preventDefault();
+        if ($(this).is(':checked')) {
+            $('#fever_div').removeClass('d-none');
+            $('#DOnset').prop('required', true);
+        } else {
+            $('#fever_div').addClass('d-none');
+            $('#DOnset').prop('required', true);
         }
     }).trigger('change');
 </script>
