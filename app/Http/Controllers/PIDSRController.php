@@ -9399,7 +9399,7 @@ class PIDSRController extends Controller
                 $symptoms_count = 0;
 
                 //Get Clinical Classification
-                if($r->fever) {
+                if($r->sys_fever) {
                     if($r->sys_abdominalpain || $r->sys_gumbleeding || $r->sys_gibleeding || $r->sys_nosebleeding || $r->sys_hepatomegaly || $r->sys_thrombocytopenia || $r->sys_persistent_vomiting || $r->sys_fluid_accumulation || $r->sys_lethargy_restlessness || $r->sys_lymphadenopathy) {
                         $match_casedef = 1;
                         $clinClass = 'WITH WARNING SIGNS';
