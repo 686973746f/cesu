@@ -7,11 +7,60 @@
         <b class="text-danger">Note:</b> Use <a href="https://gofullpage.com/"><b>GoFullPage</b></a> Browser Extension to save the page as JPEG and paste every page on Microsoft Word for proper printing.
     </div>
     @endif
+
+    <div class="modal fade" id="thresholdModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Threshold Data</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    @for($i=1;$i<=52;$i++)
+                                    <th>MW{{$i}}</th>
+                                    @endfor
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><b>Alert Threshold</b></td>
+                                    @foreach($alertmw_array as $c)
+                                    <td class="text-center">{{$c}}</td>
+                                    @endforeach
+                                </tr>
+                                <tr>
+                                    <td><b>Epidemic Threshold</b></td>
+                                    @foreach($epidemicmw_array as $c)
+                                    <td class="text-center">{{$c}}</td>
+                                    @endforeach
+                                </tr>
+                                <tr>
+                                    <td><b>{{request()->input('year')}} Data</b></td>
+                                    @foreach($currentmw_array as $c)
+                                    <td class="text-center">{{$c}}</td>
+                                    @endforeach
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="card mb-3">
         <div class="card-header bg-transparent">
             <div class="d-flex justify-content-between">
                 <div><b>sNaX Version 2 - Page 1/3</b></div>
                 <div>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#thresholdModal">Show Threshold Data</button>
                     @if(!(request()->input('print')))
                     <a href="{{route('pidsr_snaxv2')}}?{{$queryString}}&print=1" class="btn btn-success">Print</a>
                     @endif

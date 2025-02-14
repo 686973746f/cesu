@@ -6385,17 +6385,19 @@ class PIDSRController extends Controller
                 if($current_grand_total > $previous_grand_total) {
                     $compare_type = 'HIGHER';
     
-                    $small_count = $previous_grand_total;
-                    $large_count = $current_grand_total;
+                    //$small_count = $previous_grand_total;
+                    //$large_count = $current_grand_total;
                 }
                 else {
                     $compare_type = 'LOWER';
     
-                    $small_count = $current_grand_total;
-                    $large_count = $previous_grand_total;
+                    //$small_count = $current_grand_total;
+                    //$large_count = $previous_grand_total;
                 }
 
-                $comparePercentage = round(($small_count / $large_count) * 100, 2);
+                //$comparePercentage = round(($small_count / $large_count) * 100, 2);
+
+                $comparePercentage = abs(round((($current_grand_total - $previous_grand_total) / $previous_grand_total) * 100, 2));
             }
             else {
                 $comparePercentage = round($current_grand_total * 100, 2);
