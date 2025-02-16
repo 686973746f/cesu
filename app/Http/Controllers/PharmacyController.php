@@ -3119,72 +3119,139 @@ class PharmacyController extends Controller
     }
 
     public function generateMedicineDispensary(Request $r) {
-
-        if(Carbon::parse($r->start_date)->isSameDay(Carbon::parse($r->end_date))) {
-            $list_query = PharmacyStockCard::whereDate('created_at', $r->start_date);
-        }
-        else {
-            $list_query = PharmacyStockCard::whereBetween('created_at', [$r->start_date, $r->end_date]);
-        }
-
-        /*
-        $list_query = $list_query->whereNotNull('receiving_patient_id')
-        ->where('type', 'ISSUED');
-        */
-
-        $list_query = $list_query->where('type', 'ISSUED');
-
-        if($r->select_branch != 'ALL') {
-            $list_query = $list_query->whereHas('pharmacysub', function ($q) use ($r) {
-                $q->where('pharmacy_branch_id', $r->select_branch);
-            });
-        }
-
-        $list_query = $list_query->orderBy('created_at', 'DESC');
-
-        function queryGenerator($query) {
-            foreach ($query->cursor() as $u) {
-                yield $u;
-            }
-        }
-
-        $sheets = new SheetCollection([
-            'MAIN' => queryGenerator($list_query),
-        ]);
-
-        $header_style = (new Style())->setFontBold();
-        //$rows_style = (new Style())->setShouldWrapText();
-
-        $file_name = 'PHARMACY_MEDICINE_DISPENSARY_'.date('mdY').'.xlsx';
-
-        return (new FastExcel($sheets))
-        ->headerStyle($header_style)
-        ->download($file_name, function ($f) {
-
-            if(!is_null($f->receiving_patient_id)) {
-                $name = $f->getReceivingPatient->lname.', '.$f->getReceivingPatient->fname;
-                $age = $f->getReceivingPatient->getAge();
-                $sex = substr($f->getReceivingPatient->gender,0,1);
-                $barangay = $f->getReceivingPatient->address_brgy_text;
+        if($r->submit == 'generateV1') {
+            if(Carbon::parse($r->start_date)->isSameDay(Carbon::parse($r->end_date))) {
+                $list_query = PharmacyStockCard::whereDate('created_at', $r->start_date);
             }
             else {
-                $name = $f->getReceivingBranch->name;
-                $age = 'N/A';
-                $sex = 'N/A';
-                $barangay = (!is_null($f->getReceivingBranch->if_bhs_id)) ? $f->getReceivingBranch->bhs->brgy->brgyName : "N/A";
+                $list_query = PharmacyStockCard::whereBetween('created_at', [$r->start_date, $r->end_date]);
+            }
+    
+            /*
+            $list_query = $list_query->whereNotNull('receiving_patient_id')
+            ->where('type', 'ISSUED');
+            */
+    
+            $list_query = $list_query->where('type', 'ISSUED');
+    
+            if($r->select_branch != 'ALL') {
+                $list_query = $list_query->whereHas('pharmacysub', function ($q) use ($r) {
+                    $q->where('pharmacy_branch_id', $r->select_branch);
+                });
+            }
+    
+            $list_query = $list_query->orderBy('created_at', 'DESC');
+    
+            function queryGenerator($query) {
+                foreach ($query->cursor() as $u) {
+                    yield $u;
+                }
+            }
+    
+            $sheets = new SheetCollection([
+                'MAIN' => queryGenerator($list_query),
+            ]);
+    
+            $header_style = (new Style())->setFontBold();
+            //$rows_style = (new Style())->setShouldWrapText();
+    
+            $file_name = 'PHARMACY_MEDICINE_DISPENSARY_'.date('mdY').'.xlsx';
+    
+            return (new FastExcel($sheets))
+            ->headerStyle($header_style)
+            ->download($file_name, function ($f) {
+    
+                if(!is_null($f->receiving_patient_id)) {
+                    $name = $f->getReceivingPatient->lname.', '.$f->getReceivingPatient->fname;
+                    $age = $f->getReceivingPatient->getAge();
+                    $sex = substr($f->getReceivingPatient->gender,0,1);
+                    $barangay = $f->getReceivingPatient->address_brgy_text;
+                }
+                else {
+                    $name = $f->getReceivingBranch->name;
+                    $age = 'N/A';
+                    $sex = 'N/A';
+                    $barangay = (!is_null($f->getReceivingBranch->if_bhs_id)) ? $f->getReceivingBranch->bhs->brgy->brgyName : "N/A";
+                }
+    
+                return [
+                    'DATE/TIME' => date('m/d/Y h:i A', strtotime($f->created_at)),
+                    'NAME' => $name,
+                    'AGE' => $age,
+                    'SEX' => $sex,
+                    'BARANGAY' => $barangay,
+                    'MEDICINE GIVEN' => $f->pharmacysub->pharmacysupplymaster->name,
+                    'QUANTITY' => $f->qty_to_process.' '.Str::plural($f->qty_type, $f->qty_to_process),
+                    'ENCODER' => $f->user->name,
+                ];
+            });
+        }
+        else if($r->submit == 'generateV2') {
+            if(Carbon::parse($r->start_date)->isSameDay(Carbon::parse($r->end_date))) {
+                $list_query = PharmacyCartMain::whereDate('created_at', $r->start_date);
+            }
+            else {
+                $list_query = PharmacyCartMain::whereBetween('created_at', [$r->start_date, $r->end_date]);
             }
 
-            return [
-                'DATE/TIME' => date('m/d/Y h:i A', strtotime($f->created_at)),
-                'NAME' => $name,
-                'AGE' => $age,
-                'SEX' => $sex,
-                'BARANGAY' => $barangay,
-                'MEDICINE GIVEN' => $f->pharmacysub->pharmacysupplymaster->name,
-                'QUANTITY' => $f->qty_to_process.' '.Str::plural($f->qty_type, $f->qty_to_process),
-                'ENCODER' => $f->user->name,
-            ];
-        });
+            if($r->select_branch != 'ALL') {
+                $list_query = $list_query->where('branch_id', $r->select_branch);
+            }
+
+            $list_query = $list_query->orderBy('created_at', 'DESC');
+
+            function queryGenerator($query) {
+                foreach ($query->cursor() as $u) {
+                    yield $u;
+                }
+            }
+
+            $sheets = new SheetCollection([
+                'MAIN' => queryGenerator($list_query),
+            ]);
+
+            $header_style = (new Style())->setFontBold();
+
+            $file_name = 'PHARMACY_MEDICINE_DISPENSARY_V2_'.date('mdY').'.xlsx';
+
+            return (new FastExcel($sheets))
+            ->headerStyle($header_style)
+            ->download($file_name, function ($f) {
+    
+                /*
+                if(!is_null($f->receiving_patient_id)) {
+                    $name = $f->getReceivingPatient->lname.', '.$f->getReceivingPatient->fname;
+                    $age = $f->getReceivingPatient->getAge();
+                    $sex = substr($f->getReceivingPatient->gender,0,1);
+                    $barangay = $f->getReceivingPatient->address_brgy_text;
+                }
+                else {
+                    $name = $f->getReceivingBranch->name;
+                    $age = 'N/A';
+                    $sex = 'N/A';
+                    $barangay = (!is_null($f->getReceivingBranch->if_bhs_id)) ? $f->getReceivingBranch->bhs->brgy->brgyName : "N/A";
+                }
+                */
+
+                $list_medicines = PharmacyCartSub::where('main_cart_id', $f->id)->get();
+                $final_med_list = [];
+
+                foreach($list_medicines as $m) {
+                    $final_med_list[] = $m->pharmacysub->pharmacysupplymaster->name.'('.$m->qty_to_process.' '.$m->type_to_process.')';
+                }
+    
+                return [
+                    'DATE/TIME' => date('m/d/Y h:i A', strtotime($f->created_at)),
+                    'NAME' => $f->pharmacypatient->getName(),
+                    'AGE' => $f->pharmacypatient->getAgeInt(),
+                    'SEX' => substr($f->pharmacypatient->gender,0,1),
+                    'BARANGAY' => $f->pharmacypatient->address_brgy_text,
+                    'DIAGNOSIS' => $f->prescription->concerns_list,
+                    'MEDICINE GIVEN' => implode(",", $final_med_list),
+                    'ENCODER' => $f->user->name,
+                ];
+            });
+        }
     }
 
     public function report2() {

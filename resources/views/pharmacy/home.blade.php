@@ -104,7 +104,8 @@
                                         
                                     </div>
                                     <div class="card-footer">
-                                        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                                        <button type="submit" class="btn btn-primary btn-block" name="submit" value="generateV1">Generate</button>
+                                        <button type="submit" class="btn btn-primary btn-block" name="submit" value="generateV2">Generate (Version 2)</button>
                                     </div>
                                 </div>
                             </div>

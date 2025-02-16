@@ -23,4 +23,12 @@ class PharmacyCartMain extends Model
     public function pharmacycartsub() {
         return $this->hasMany(PharmacyCartSub::class, 'main_cart_id');
     }
+
+    public function pharmacypatient() {
+        return $this->belongsTo(PharmacyPatient::class, 'patient_id');
+    }
+
+    public function prescription() {
+        return $this->belongsTo(PharmacyPrescription::class, 'prescription_id');
+    }
 }
