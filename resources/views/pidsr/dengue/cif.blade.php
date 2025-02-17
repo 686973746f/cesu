@@ -109,7 +109,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="Streetpurok" class="form-label"><b class="text-danger">*</b>House/Lot No./Street/Purok/Subdivision</label>
-                            <input type="text" class="form-control" id="Streetpurok" name="Streetpurok" style="text-transform: uppercase;" value="{{old('Streetpurok')}}" placeholder="ex. S1 B2 L3 PHASE 4 SUBDIVISION HOMES" pattern="(^[a-zA-Z0-9 ]+$)+" required>
+                            <input type="text" class="form-control" id="Streetpurok" name="Streetpurok" style="text-transform: uppercase;" value="{{old('Streetpurok')}}" placeholder="ex. S1 B2 L3 PHASE 4 SUBDIVISION HOMES" required>
                         </div>
                     </div>
                 </div>
@@ -126,7 +126,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="sys_businessorschool_name" class="form-label"><b class="text-danger">*</b><span id="occupationNameText"></span></label>
-                            <input type="text" class="form-control" id="sys_businessorschool_name" name="sys_businessorschool_name" style="text-transform: uppercase;" value="{{old('sys_businessorschool_name')}}" pattern="(^[a-zA-Z0-9 ]+$)+">
+                            <input type="text" class="form-control" id="sys_businessorschool_name" name="sys_businessorschool_name" style="text-transform: uppercase;" value="{{old('sys_businessorschool_name')}}">
                         </div>
                     </div>
                     <div class="col-md-6">

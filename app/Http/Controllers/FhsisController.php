@@ -1661,8 +1661,17 @@ class FhsisController extends Controller
             'registryno' => $r->registryno,
             'year' => $datelcr->format('Y'),
             'month' => $datelcr->format('n'),
+            'lname' => mb_strtoupper($r->lname),
+            'fname' => mb_strtoupper($r->fname),
+            'mname' => ($r->filled('mname')) ? mb_strtoupper($r->mname) : NULL,
+            'suffix' => ($r->filled('suffix')) ? mb_strtoupper($r->suffix) : NULL,
             'sex' => $r->sex,
             'dob' => $dob_final->format('Y-m-d'),
+
+            'parent_lname' => mb_strtoupper($r->parent_lname),
+            'parent_fname' => mb_strtoupper($r->parent_fname),
+            'parent_mname' => ($r->filled('parent_mname')) ? mb_strtoupper($r->parent_mname) : NULL,
+            'parent_suffix' => ($r->filled('parent_suffix')) ? mb_strtoupper($r->parent_suffix) : NULL,
 
             'address_region_code' => $r->address_region_code,
             'address_region_text' => $r->address_region_text,
@@ -1672,8 +1681,8 @@ class FhsisController extends Controller
             'address_muncity_text' => $r->address_muncity_text,
             'address_brgy_code' => $r->address_brgy_text,
             'address_brgy_text' => $r->address_brgy_text,
-            'address_street' => ($r->filled('address_street')) ? mb_strtoupper($r->address_street) : NULL,
-            'address_houseno' => ($r->filled('address_houseno')) ? mb_strtoupper($r->address_houseno) : NULL,
+            'street_purok' => ($r->filled('street_purok')) ? mb_strtoupper($r->street_purok) : NULL,
+            //'address_houseno' => ($r->filled('address_houseno')) ? mb_strtoupper($r->address_houseno) : NULL,
             
             'hospital_lyingin' => ($r->filled('hospital_lyingin')) ? mb_strtoupper($r->hospital_lyingin) : NULL,
             'mother_age' => $r->mother_age,

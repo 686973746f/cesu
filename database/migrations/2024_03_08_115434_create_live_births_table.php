@@ -19,8 +19,17 @@ class CreateLiveBirthsTable extends Migration
             $table->string('year');
             $table->string('month');
 
+            $table->string('lname')->nullable();
+            $table->string('fname')->nullable();
+            $table->string('mname')->nullable();
+            $table->string('suffix')->nullable();
             $table->string('sex');
             $table->date('dob');
+
+            $table->string('parent_lname')->nullable();
+            $table->string('parent_fname')->nullable();
+            $table->string('parent_mname')->nullable();
+            $table->string('parent_suffix')->nullable();
 
             $table->text('address_region_code');
             $table->text('address_region_text');
@@ -30,8 +39,8 @@ class CreateLiveBirthsTable extends Migration
             $table->text('address_muncity_text');
             $table->text('address_brgy_code');
             $table->text('address_brgy_text');
-            $table->text('address_street')->nullable();
-            $table->text('address_houseno')->nullable();
+            $table->text('street_purok')->nullable();
+            //$table->text('address_houseno')->nullable();
             
             $table->string('hospital_lyingin')->nullable();
             $table->integer('mother_age');

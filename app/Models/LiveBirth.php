@@ -13,8 +13,17 @@ class LiveBirth extends Model
         'registryno',
         'year',
         'month',
+        'lname',
+        'fname',
+        'mname',
+        'suffix',
         'sex',
         'dob',
+
+        'parent_lname',
+        'parent_fname',
+        'parent_mname',
+        'parent_suffix',
 
         'address_region_code',
         'address_region_text',
@@ -24,8 +33,8 @@ class LiveBirth extends Model
         'address_muncity_text',
         'address_brgy_code',
         'address_brgy_text',
-        'address_street',
-        'address_houseno',
+        'street_purok',
+        //'address_houseno',
         
         'hospital_lyingin',
         'mother_age',

@@ -26,53 +26,82 @@
                         Palatandaan ng huling encode for this month: <b>{{$recent->registryno}}</b>
                         @endif
                     </div>
-                    
-                    <div class="row">
-                        <div class="col-3">
+                    <div class="card">
+                        <div class="card-header"><b>Newborn Details</b></div>
+                        <div class="card-body">
                             <div class="form-group">
                                 <label for="registryno"><b class="text-danger">*</b>Registry No.</label>
                                 <input type="text" class="form-control" name="registryno" id="registryno" value="{{old('registryno', request()->input('year').'-')}}" minlength="6" maxlength="11" required>
                             </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="form-group">
-                                <label for="sex"><b class="text-danger">*</b>Sex of Newborn</label>
-                                <select class="form-control" name="sex" id="sex" required>
-                                  <option value="" disabled {{(is_null(old('sex'))) ? 'selected' : ''}}>Choose...</option>
-                                  <option value="M" {{(old('sex') == 'M') ? 'selected' : ''}}>Male</option>
-                                  <option value="F" {{(old('sex') == 'F') ? 'selected' : ''}}>Female</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-6">
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="input_day"><b class="text-danger">*</b>Birth Day (DD)</label>
-                                        <input type="number" class="form-control" name="input_day" id="input_day" min="1" value="{{old('input_day')}}" max="31" required>
+                                        <label for="lname"><b class="text-danger">*</b>Last Name</label>
+                                        <input type="text" class="form-control" name="lname" id="lname" value="{{old('lname')}}" minlength="2" maxlength="50" placeholder="ex: DELA CRUZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required>
                                     </div>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="input_month"><b class="text-danger">*</b>Birth Month (MM)</label>
-                                        <input type="number" class="form-control" name="input_month" id="input_month" value="{{old('input_month')}}" min="1" max="12" required>
+                                        <label for="fname"><b class="text-danger">*</b>First Name</label>
+                                        <input type="text" class="form-control" name="fname" id="fname" value="{{old('fname')}}" minlength="2" maxlength="50" placeholder="ex: JUAN" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required>
                                     </div>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="input_year"><b class="text-danger">*</b>Birth Year (YYYY)</label>
-                                        <input type="number" class="form-control" name="input_year" id="input_year" value="{{old('input_year', request()->input('year'))}}" min="{{request()->input('year')}}" max="{{date('Y')}}" tabindex="-1" readonly required>
+                                        <label for="mname">Middle Name <i>(If Applicable)</i></label>
+                                        <input type="text" class="form-control" name="mname" id="mname" value="{{old('mname')}}" minlength="2" maxlength="50" placeholder="ex: SANCHEZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="suffix">Name Extension <i>(If Applicable)</i></label>
+                                        <input type="text" class="form-control" name="suffix" id="suffix" value="{{old('suffix')}}" minlength="2" maxlength="3" placeholder="ex: JR, SR, III, IV" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
                                     </div>
                                 </div>
                             </div>
-                            <!--
-                                <div class="form-group">
-                                    <label for="dob"><b class="text-danger">*</b>Date of Birth</label>
-                                    <input type="date" class="form-control" name="dob" id="dob" max="{{date('Y-m-d')}}" value="{{old('dob')}}" required>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="sex"><b class="text-danger">*</b>Sex of Newborn</label>
+                                        <select class="form-control" name="sex" id="sex" required>
+                                          <option value="" disabled {{(is_null(old('sex'))) ? 'selected' : ''}}>Choose...</option>
+                                          <option value="M" {{(old('sex') == 'M') ? 'selected' : ''}}>Male</option>
+                                          <option value="F" {{(old('sex') == 'F') ? 'selected' : ''}}>Female</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            -->
+                                <div class="col-6">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label for="input_day"><b class="text-danger">*</b>Birth Day (DD)</label>
+                                                <input type="number" class="form-control" name="input_day" id="input_day" min="1" value="{{old('input_day')}}" max="31" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label for="input_month"><b class="text-danger">*</b>Birth Month (MM)</label>
+                                                <input type="number" class="form-control" name="input_month" id="input_month" value="{{old('input_month')}}" min="1" max="12" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label for="input_year"><b class="text-danger">*</b>Birth Year (YYYY)</label>
+                                                <input type="number" class="form-control" name="input_year" id="input_year" value="{{old('input_year', request()->input('year'))}}" min="{{request()->input('year')}}" max="{{date('Y')}}" tabindex="-1" readonly required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--
+                                        <div class="form-group">
+                                            <label for="dob"><b class="text-danger">*</b>Date of Birth</label>
+                                            <input type="date" class="form-control" name="dob" id="dob" max="{{date('Y-m-d')}}" value="{{old('dob')}}" required>
+                                        </div>
+                                    -->
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    
                     <div id="address_text" class="d-none">
                         <div class="row">
                             <div class="col-md-6">
@@ -86,9 +115,35 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card mb-3">
-                        <div class="card-header"><b>Address of PARENT (MOTHER/FATHER)</b></div>
+                    <div class="card mb-3 mt-3">
+                        <div class="card-header"><b>Details and Address of PARENT (Preferrably MOTHER)</b></div>
                         <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="parent_lname"><b class="text-danger">*</b>Parent Last Name</label>
+                                        <input type="text" class="form-control" name="parent_lname" id="parent_lname" value="{{old('parent_lname')}}" minlength="2" maxlength="50" placeholder="ex: DELA CRUZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="parent_fname"><b class="text-danger">*</b>Parent First Name</label>
+                                        <input type="text" class="form-control" name="parent_fname" id="parent_fname" value="{{old('parent_fname')}}" minlength="2" maxlength="50" placeholder="ex: MARCI" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="parent_mname">Parent Middle Name <i>(If Applicable)</i></label>
+                                        <input type="text" class="form-control" name="parent_mname" id="parent_mname" value="{{old('parent_mname')}}" minlength="2" maxlength="50" placeholder="ex: TANGGOL" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="parent_suffix">Parent Name Extension <i>(If Applicable)</i></label>
+                                        <input type="text" class="form-control" name="parent_suffix" id="parent_suffix" value="{{old('parent_suffix')}}" minlength="2" maxlength="3" placeholder="ex: JR, SR, III, IV" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group">
@@ -120,6 +175,10 @@
                                         </select>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="street_purok" class="form-label"><b class="text-danger">*</b>Street/Purok/Subdivision</label>
+                                <input type="text" class="form-control" id="street_purok" name="street_purok" style="text-transform: uppercase;" value="{{old('street_purok')}}" placeholder="ex. S1 B2 L3 PHASE 4 SUBDIVISION HOMES" required>
                             </div>
                         </div>
                     </div>
