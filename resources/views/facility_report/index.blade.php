@@ -7,6 +7,7 @@
             <div class="card-body">
                 <a href="{{route('facility_report_injury_index', $d->sys_code1)}}" class="btn btn-primary btn-lg btn-block">Report Vehicular Accident and other Injuries</a>
                 <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#addCase">Encode Case of Reportable Disease</button>
+                <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#edcsImportModal">View Imports to EDCS-IS</button>
                 <hr>
                 <a href="{{route('edcs_facility_weeklysubmission_view', $d->sys_code1)}}" class="btn btn-primary btn-lg btn-block">EDCS-IS Weekly Submission</a>
             </div>
@@ -79,6 +80,22 @@
             </div>
         </div>
     </form>
+
+    <div class="modal fade" id="edcsImportModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Imports to EDCS-IS</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <a href="{{route('edcs_view_exportables', [$d->sys_code1, 'DENGUE'])}}" class="btn btn-primary btn-block">Dengue</a>
+                </div>
+            </div>
+        </div>
+    </div>
     
     @if(session('openEncodeModal'))
     <script>

@@ -9618,7 +9618,7 @@ class PIDSRController extends Controller
                     ->with('msgtype', 'success');
                 }
                 else {
-                    return redirect()->route('edcs_addcase_success', ['DENGUE'])
+                    return redirect()->route('edcs_facility_addcase_success', [$r->facility_code, 'DENGUE',])
                     ->with('msg', 'Dengue Case was encoded successfully.')
                     ->with('msgtype', 'success');
                 }

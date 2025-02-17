@@ -3,11 +3,11 @@
 @section('content')
     <form action="{{route('edcs_process_exportables', [$f->sys_code1, 'DENGUE'])}}" method="POST">
         @csrf
-        <div class="container">
+        <div class="container-fluid">
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex justify-content-between">
-                        <div>Dengue - List of to Upload in EDCS-IS</div>
+                        <div><b>Dengue - List of to Upload in EDCS-IS</b></div>
                         <div>
                             <button type="submit" class="btn btn-success" id="downloadCsv" name="submit" value="downloadCsv" disabled>Download as CSV</button>
                         </div>
@@ -26,6 +26,9 @@
                                     <th>Age/Sex</th>
                                     <th>Street/Purok</th>
                                     <th>Barangay</th>
+                                    <th>Type</th>
+                                    <th>Case Classification</th>
+                                    <th>Outcome</th>
                                     <th>Created at/by</th>
                                 </tr>
                             </thead>
@@ -40,9 +43,14 @@
                                     <td class="text-center">{{$d->AgeYears}}/{{$d->Sex}}</td>
                                     <td>{{$d->Streetpurok}}</td>
                                     <td class="text-center">{{$d->Barangay}}</td>
+                                    <td class="text-center">{{$d->ClinClass}}</td>
+                                    <td class="text-center">{{$d->getClassificationString()}}</td>
+                                    <td class="text-center">{{$d->getOutcome()}}</td>
                                     <td class="text-center">
                                         <div>{{date('m/d/Y H:i:s', strtotime($d->created_at))}}</div>
+                                        @if($d->created_by)
                                         <div>by {{$d->user->name}}</div>
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach
