@@ -37,6 +37,10 @@
             @if(session('msg'))
             <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
                 {{session('msg')}}
+
+                @if(session('encode_again'))
+                <a href="{{route('pidsr.home')}}?encode_again={{request()->input('case')}}">Submit Another</a>
+                @endif
             </div>
             @endif
             <form action="" method="GET">

@@ -9615,7 +9615,8 @@ class PIDSRController extends Controller
                 if(!$r->facility_code) {
                     return redirect()->route('pidsr.casechecker', ['case' => 'DENGUE', 'year' => date('Y')])
                     ->with('msg', 'Dengue Case was encoded successfully.')
-                    ->with('msgtype', 'success');
+                    ->with('msgtype', 'success')
+                    ->with('encode_again', $disease);
                 }
                 else {
                     return redirect()->route('edcs_facility_addcase_success', [$r->facility_code, 'DENGUE',])

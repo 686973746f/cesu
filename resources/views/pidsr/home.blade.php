@@ -528,6 +528,16 @@
 </script>
 @endif
 
+@if(request()->input('encode_again'))
+<script>
+    let disease = "{{request()->input('encode_again')}}";
+    $(document).ready(function(){
+        $('#addCase').modal('show');
+        $('#disease').val(disease);
+    });
+</script>
+@endif
+
 <script>
     $('#rtype').change(function (e) { 
         e.preventDefault();
