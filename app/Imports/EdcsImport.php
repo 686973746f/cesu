@@ -1903,6 +1903,7 @@ class TyphoidImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 {
     public function model(array $row) {
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite' && $row['epi_id']) {
+            dd($row);
             $birthdate = Carbon::parse(EdcsImport::tDate($row['date_of_birth']));
             $currentDate = Carbon::parse(EdcsImport::tDate($row['timestamp']));
 
@@ -1942,7 +1943,7 @@ class TyphoidImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'Region' => '04A',
                 'Province' => 'CAVITE',
                 'Muncity' => 'GENERAL TRIAS',
-                
+                'Streetpurok' => $row['current_address_sitio_purok_street_name'],
                 'Admitted' => ($row['patient_admitted'] == 'Y') ? 1 : 0,
                 'DAdmit' => EdcsImport::tDate($row['date_admitted_seen_consult']),
                 'DOnset' => EdcsImport::tDate($row['date_onset_of_illness']),
