@@ -29,6 +29,7 @@ class CreateEdcsWeeklySubmissionCheckersTable extends Migration
             $table->integer('hepa_count')->nullable();
             $table->integer('chikv_count')->nullable();
             $table->integer('cholera_count')->nullable();
+            $table->integer('covid_count')->nullable();
             $table->integer('dengue_count')->nullable();
             $table->integer('diph_count')->nullable();
             $table->integer('hfmd_count')->nullable();
@@ -36,6 +37,7 @@ class CreateEdcsWeeklySubmissionCheckersTable extends Migration
             $table->integer('lepto_count')->nullable();
             $table->integer('measles_count')->nullable();
             $table->integer('meningo_count')->nullable();
+            $table->integer('mpox_count')->nullable();
             $table->integer('nt_count')->nullable();
             $table->integer('nnt_count')->nullable();
             $table->integer('pert_count')->nullable();

@@ -303,19 +303,12 @@
 <script>
     $(document).ready(function() {
         $('#mainTbl').DataTable({
-            dom: 'QBfritp',
-            buttons: [
-                {
-                    extend: 'excel',
-                    title: '',
-                },
-                'copy',
-            ],
+            dom: 'fritp',
             processing: true,
             serverSide: true,
             destroy: true, // Allow reinitialization
             ajax: {
-                url: "{{route('pidsr_casechecker_ajax', ['disease' => request()->input('case'), 'year' => request()->input('year')])}}",
+                url: "{!! route('pidsr_casechecker_ajax', ['disease' => request()->input('case'), 'year' => request()->input('year'), 'showDisabled' => request()->input('showDisabled') ?: 0, 'showNonMatchCaseDef' => request()->input('showNonMatchCaseDef') ?: 0]) !!}",
                 dataSrc: function (json) {
                     // Pass data and update pagination metadata
                     return json.data;

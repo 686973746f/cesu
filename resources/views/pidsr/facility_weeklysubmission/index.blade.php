@@ -155,6 +155,10 @@
                                     <div class="card-header"><b>Other Diseases</b></div>
                                     <div class="card-body">
                                         <div class="form-group">
+                                            <label for="covid_count"><b class="text-danger">*</b>COVID-19</label>
+                                            <input type="number" class="form-control" name="covid_count" id="covid_count" value="{{old('covid_count', $d->covid_count ?: 0)}}" min="0" max="999">
+                                        </div>
+                                        <div class="form-group">
                                           <label for="ili_count"><b class="text-danger">*</b>Influenza-Like Illness</label>
                                           <input type="number" class="form-control" name="ili_count" id="ili_count" value="{{old('ili_count', $d->ili_count ?: 0)}}" min="0" max="999">
                                         </div>
@@ -171,7 +175,11 @@
                                             <input type="number" class="form-control" name="meningo_count" id="meningo_count" value="{{old('meningo_count', $d->meningo_count ?: 0)}}" min="0" max="999">
                                         </div>
                                         <div class="form-group">
-                                            <label for="sari_count"><b class="text-danger">*</b>Severe Acute Respiratory Infection</label>
+                                            <label for="mpox_count"><b class="text-danger">*</b>MPox</label>
+                                            <input type="number" class="form-control" name="mpox_count" id="mpox_count" value="{{old('mpox_count', $d->mpox_count ?: 0)}}" min="0" max="999">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="sari_count"><b class="text-danger">*</b>Severe Acute Respiratory Infection (SARI)</label>
                                             <input type="number" class="form-control" name="sari_count" id="sari_count" value="{{old('sari_count', $d->sari_count ?: 0)}}" min="0" max="999">
                                         </div>
                                     </div>

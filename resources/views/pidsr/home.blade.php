@@ -43,8 +43,14 @@
                     <hr>
                     @endif
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#report">Report</button>
-                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#snax">sNaX v2</button>
-                    <a href="{{route('edcs_disease_summary_view')}}" class="btn btn-primary btn-block">Weekly Summary of Notifiable Diseases</a>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#snax">sNaX v2</button>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{{route('edcs_disease_summary_view')}}" class="btn btn-primary btn-block">Weekly Summary of Notifiable Diseases</a>
+                        </div>
+                    </div>
                     <hr>
                     <!--
                         <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#zipexport">EDCS Importer Tool V2</button>

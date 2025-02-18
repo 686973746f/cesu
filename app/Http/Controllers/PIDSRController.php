@@ -10146,7 +10146,9 @@ class PIDSRController extends Controller
             $r->rabies_count +
             $r->rota_count +
             $r->sari_count +
-            $r->typhoid_count;
+            $r->typhoid_count +
+            $r->covid_count +
+            $r->mpox_count;
 
             if($total_check <= 0) {
                 return redirect()->back()
@@ -10169,6 +10171,7 @@ class PIDSRController extends Controller
             'hepa_count' => ($r->status == 'SUBMITTED') ? $r->hepa_count : NULL,
             'chikv_count' => ($r->status == 'SUBMITTED') ? $r->chikv_count : NULL,
             'cholera_count' => ($r->status == 'SUBMITTED') ? $r->cholera_count : NULL,
+            'covid_count' => ($r->status == 'SUBMITTED') ? $r->covid_count : NULL,
             'dengue_count' => ($r->status == 'SUBMITTED') ? $r->dengue_count : NULL,
             'diph_count' => ($r->status == 'SUBMITTED') ? $r->diph_count : NULL,
             'hfmd_count' => ($r->status == 'SUBMITTED') ? $r->hfmd_count : NULL,
@@ -10176,6 +10179,7 @@ class PIDSRController extends Controller
             'lepto_count' => ($r->status == 'SUBMITTED') ? $r->lepto_count : NULL,
             'measles_count' => ($r->status == 'SUBMITTED') ? $r->measles_count : NULL,
             'meningo_count' => ($r->status == 'SUBMITTED') ? $r->meningo_count : NULL,
+            'mpox_count' => ($r->status == 'SUBMITTED') ? $r->mpox_count : NULL,
             'nt_count' => ($r->status == 'SUBMITTED') ? $r->nt_count : NULL,
             'nnt_count' => ($r->status == 'SUBMITTED') ? $r->nnt_count : NULL,
             'pert_count' => ($r->status == 'SUBMITTED') ? $r->pert_count : NULL,
@@ -10483,9 +10487,15 @@ class PIDSRController extends Controller
         }
 
         if($case == 'DENGUE') {
-            $query = Dengue::where('Year', $year)
-            ->where('enabled', 1)
-            ->where('match_casedef', 1);
+            $query = Dengue::where('Year', $year);
+        }
+
+        if(request()->input('showDisabled') == 0) {
+            $query = $query->where('enabled', 1);
+        }
+
+        if(request()->input('showNonMatchCaseDef') == 0) {
+            $query = $query->where('match_casedef', 1);
         }
 
         $search = $r->input('search.value'); // Search term from DataTables
