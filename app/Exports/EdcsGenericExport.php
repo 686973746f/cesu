@@ -12,11 +12,15 @@ class EdcsGenericExport implements FromCollection, WithHeadings
     protected $year;
     protected $modelInstance;
     protected $columns;
+    protected $showDisabled;
+    protected $showNonMatchCaseDef;
 
-    public function __construct($case, $year)
+    public function __construct($case, $year, $showDisabled, $showNonMatchCaseDef)
     {
         $this->case = $case;
         $this->year = $year;
+        $this->showDisabled = $showDisabled;
+        $this->showNonMatchCaseDef = $showNonMatchCaseDef;
         
         // Dynamically instantiate the model
         $modelClass = "App\\Models\\$case";
@@ -41,10 +45,17 @@ class EdcsGenericExport implements FromCollection, WithHeadings
     */
     public function collection()
     {
-        return "App\\Models\\$this->case"::where('Year', $this->year)
-        ->where('enabled', 1)
-        ->where('match_casedef', 1)
-        ->get()
+        $qry = "App\\Models\\$this->case"::where('Year', $this->year);
+
+        if($this->showDisabled == 0) {
+            $qry = $qry->where('enabled', 1);
+        }
+
+        if($this->showNonMatchCaseDef == 0) {
+            $qry = $qry->where('match_casedef', 1);
+        }
+
+        return $qry->get()
         ->map(function ($item) {
             return collect($item)->only($this->columns); // Preserve column order
         });

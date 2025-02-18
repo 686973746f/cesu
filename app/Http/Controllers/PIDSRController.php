@@ -10646,7 +10646,7 @@ class PIDSRController extends Controller
     public function downloadExcel($case) {
         $year = request()->input('year');
 
-        return Excel::download(new EdcsGenericExport($case, $year), "Gentrias_$case".'_'."$year.xlsx");
+        return Excel::download(new EdcsGenericExport($case, $year, request()->input('showDisabled') ?: 0, request()->input('showNonMatchCaseDef') ?: 0), "Gentrias_$case".'_'."$year.xlsx");
     }
     
     public function printCrf($id) {
