@@ -1894,7 +1894,7 @@ class ABTCVaccinationController extends Controller
             $templateProcessor->setValue('d3_date', Carbon::parse($d->d3_date)->format('m/d/Y'));
             $templateProcessor->setValue('d7_date', Carbon::parse($d->d7_date)->format('m/d/Y'));
             $templateProcessor->setValue('d28_date', Carbon::parse($d->d28_date)->format('m/d/Y'));
-            $templateProcessor->setValue('erig_date', ($d->category_level == 3) ? Carbon::parse($d->d3_date)->format('m/d/Y') : '');
+            $templateProcessor->setValue('erig_date', ($d->category_level == 3) ? Carbon::parse($d->d0_date)->format('m/d/Y') : '');
 
             $templateProcessor->setValue('ficd1', ($d->philhealthGetIcdCode() == 'T14.1 W54') ? '✔' : '');
             $templateProcessor->setValue('ficd2', ($d->philhealthGetIcdCode() == 'T14.1 W55') ? '✔' : '');
