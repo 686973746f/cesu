@@ -73,7 +73,8 @@
                                                         <select class="form-control" name="uom" id="uom" required>
                                                             <option value="VIAL" {{(old('oum', $d->uom) == 'VIAL') ? 'selected' : ''}}>Vial</option>
                                                             <option value="BOX" {{(old('oum', $d->uom) == 'BOX') ? 'selected' : ''}}>Box</option>
-                                                            <option value="Piece" {{(old('oum', $d->uom) == 'BOX') ? 'selected' : ''}}>Piece</option>
+                                                            <option value="PIECE" {{(old('oum', $d->uom) == 'PIECE') ? 'selected' : ''}}>Piece</option>
+                                                            <option value="AMPS" {{(old('oum', $d->uom) == 'AMPS') ? 'selected' : ''}}>Amps</option>
                                                         </select>
                                                     </div>
                                                 </div>
