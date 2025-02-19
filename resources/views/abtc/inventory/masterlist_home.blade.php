@@ -133,7 +133,8 @@
                             <option value="" disabled {{(is_null(old('oum')) ? 'selected' : '')}}>Choose...</option>
                             <option value="VIAL" {{(old('oum') == 'VIAL') ? 'selected' : ''}}>Vial</option>
                             <option value="BOX" {{(old('oum') == 'BOX') ? 'selected' : ''}}>Box</option>
-                            <option value="Piece" {{(old('oum') == 'BOX') ? 'selected' : ''}}>Piece</option>
+                            <option value="PIECE" {{(old('oum') == 'PIECE') ? 'selected' : ''}}>Piece</option>
+                            <option value="AMPS" {{(old('oum') == 'AMPS') ? 'selected' : ''}}>Amps</option>
                           </select>
                         </div>
                     </div>
