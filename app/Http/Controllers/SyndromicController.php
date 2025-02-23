@@ -132,12 +132,18 @@ class SyndromicController extends Controller
             if(request()->input('q')) {
                 $q = request()->input('q');
 
-                $ll = SyndromicPatient::where(function ($qry) use ($q) {
+                $base_query = SyndromicPatient::where(function ($qry) use ($q) {
                     $qry->where('id', $q)
                     ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper($q))."%");
-                })
-                ->where('encodedfrom_tbdots', 1)
-                ->paginate(10);
+                });
+
+                //Manggahan View All Records
+                if(auth()->user()->itr_facility_id != 11730) {
+                    $ll = (clone $base_query)->where('encodedfrom_tbdots', 1)->paginate(10);
+                }
+                else {
+                    $ll = (clone $base_query)->paginate(10);
+                }
 
                 $select_view = 'search';
             }
@@ -149,13 +155,19 @@ class SyndromicController extends Controller
                     $sdate = date('Y-m-d');
                 }
     
-                $ll = SyndromicRecords::whereDate('created_at', $sdate)
+                $base_query = SyndromicRecords::whereDate('created_at', $sdate)
                 ->orderBy('created_at', 'DESC')
                 ->where('checkup_type', 'CHECKUP')
-                ->where('facility_id', auth()->user()->itr_facility_id)
-                ->where('encodedfrom_tbdots', 1)
-                ->paginate(10);
-    
+                ->where('facility_id', auth()->user()->itr_facility_id);
+
+                //Manggahan View All Records
+                if(auth()->user()->itr_facility_id != 11730) {
+                    $ll = (clone $base_query)->where('encodedfrom_tbdots', 1)->paginate(10);
+                }
+                else {
+                    $ll = (clone $base_query)->paginate(10);
+                }
+                
                 $select_view = 'home';
             }
         }
