@@ -105,7 +105,7 @@
                             </div>
                         </div>
                         <div id="transfer_div" class="d-none">
-                            <div class="form-group" id="stock_id_div">
+                            <div class="form-group">
                                 <label for="transferto_facility"><b class="text-danger">*</b>Select ABTC Facility to Transfer</label>
                                 <select class="form-control" name="transferto_facility" id="transferto_facility">
                                     <option value="" disabled {{(is_null(old('transferto_facility'))) ? 'selected' : ''}}>Choose...</option>
