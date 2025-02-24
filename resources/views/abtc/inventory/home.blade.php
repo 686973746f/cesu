@@ -223,6 +223,9 @@
                 $.ajax({
                     url: `/abtc_inventory/get_stocks_list/${sub_id}`,
                     type: 'GET',
+                    beforeSend: function () {
+                        $('#stock_id').empty().append('<option value="">Select Stock</option>'); // Clear previous options
+                    },
                     success: function (data) {
                         if (data.length > 0) {
                             data.forEach(stock => {
@@ -279,6 +282,9 @@
                 $.ajax({
                     url: `/abtc_inventory/get_stocks_list/${sub_id}`,
                     type: 'GET',
+                    beforeSend: function () {
+                        $('#stock_id').empty().append('<option value="">Select Stock</option>'); // Clear previous options
+                    },
                     success: function (data) {
                         if (data.length > 0) {
                             data.forEach(stock => {
