@@ -1269,7 +1269,7 @@ $the_record_id = $d->id;
             <div class="col-md-6">
               <div class="form-group">
                 <label for="medcert_end_date">End Date (To)</label>
-                <input type="date" class="form-control" value="{{old('medcert_end_date', $d->medcert_end_date)}}" name="medcert_end_date" id="medcert_end_date" max="{{date('Y-m-t')}}">
+                <input type="date" class="form-control" value="{{old('medcert_end_date', $d->medcert_end_date)}}" name="medcert_end_date" id="medcert_end_date" max="{{date('Y-m-d', strtotime('+2 Months'))}}">
               </div>
             </div>
           </div>
