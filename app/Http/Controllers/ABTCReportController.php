@@ -535,7 +535,9 @@ class ABTCReportController extends Controller
 
                 */
 
-                $tcv_count = $male_count + $female_count;
+                //$tcv_count = $male_count + $female_count;
+
+                $tcv_count = $cat2_count + $cat3_count;
 
                 //$tcv_count = $cat2_count + $cat3_count;
 
