@@ -37,9 +37,12 @@ class AbtcInventoryController extends Controller
 
         $qt_list = AbtcInventorySubMaster::where('abtc_facility_id', auth()->user()->abtc_default_vaccinationsite_id)->get();
 
+        $transfer_branches_list = AbtcVaccinationSite::where('id', '!=', auth()->user()->abtc_default_vaccinationsite_id)->get();
+
         return view('abtc.inventory.home', [
             'list' => $list,
             'qt_list' => $qt_list,
+            'transfer_branches_list' => $transfer_branches_list,
         ]);
     }
 
@@ -275,6 +278,94 @@ class AbtcInventoryController extends Controller
                 'remarks' => ($r->remarks) ? mb_strtoupper($r->remarks) : NULL,
                 'created_by' => Auth::id(),
             ]);
+        }
+        else if($r->transaction_type == 'TRANSFERRED') {
+            $s = AbtcInventoryStock::findOrFail($r->stock_id);
+
+            if($s->sub_id != $d->id) {
+                return redirect()->back()
+                ->with('msg', 'You are not allowed to do that.')
+                ->with('msgtype', 'warning');
+            }
+
+            if($r->qty_to_process > $s->current_qty) {
+                return redirect()->back()
+                ->with('msg', 'Error: Quantity to Process is greater than the Available Quantity. Kindly double check and try again.')
+                ->with('msgtype', 'warning');
+            }
+            else {
+                //Create Transfer Transaction
+                $before_qty = $s->current_qty;
+                $s->current_qty = $s->current_qty - $r->qty_to_process;
+                $after_qty = $s->current_qty;
+
+                if($s->isDirty()) {
+                    $s->save();
+                }
+
+                $d = AbtcInventoryTransaction::create([
+                    'transaction_date' => $r->transaction_date,
+                    'stock_id' => $s->id,
+                    'type' => 'TRANSFERRED',
+                    'transferto_facility' => $r->transferto_facility,
+                    'process_qty' => $r->qty_to_process,
+                    'before_qty' => $before_qty,
+                    'after_qty' => $after_qty,
+                    'po_number', ($r->po_number) ? mb_strtoupper($r->po_number) : NULL,
+                    'unit_price' => $r->unit_price,
+                    'unit_price_amount' => ($r->current_qty * $r->unit_price),
+                    'remarks' => ($r->remarks) ? mb_strtoupper($r->remarks) : NULL,
+                    'created_by' => Auth::id(),
+                ]);
+
+                //Create Received Transaction
+                //Search Transfer Branch Stock ID
+                $branch_submaster = AbtcInventorySubMaster::where('master_id', $s->submaster->master->id)
+                ->where('abtc_facility_id', $r->transferto_facility)
+                ->first();
+
+                $branch_stock = AbtcInventoryStock::where('sub_id', $branch_submaster->id)
+                ->where('batch_no', $s->batch_no)
+                ->first();
+
+                if($branch_stock) {
+                    $bs_before = $branch_stock->current_qty;
+                    $branch_stock->current_qty = $branch_stock->current_qty + $r->qty_to_process;
+                    $bs_after = $branch_stock->current_qty;
+
+                    if($branch_stock->isDirty()) {
+                        $d->updated_by = Auth::id();
+                        $d->save();
+                    }
+                }
+                else {
+                    $bs_before = 0;
+                    $bs_after = $r->qty_to_process;
+
+                    $branch_stock = AbtcInventoryStock::create([
+                        'sub_id' => $branch_submaster->id,
+                        'batch_no' => $s->batch_no,
+                        'expiry_date' => $s->expiry_date,
+                        'source' => $s->source,
+                        'current_qty' => $r->qty_to_process,
+                        'created_by' => Auth::id(),
+                    ]);
+                }
+
+                $d1 = AbtcInventoryTransaction::create([
+                    'transaction_date' => $r->transaction_date,
+                    'stock_id' => $branch_stock->id,
+                    'type' => 'RECEIVED',
+                    'process_qty' => $r->qty_to_process,
+                    'before_qty' => $bs_before,
+                    'after_qty' => $bs_after,
+                    //'po_number',
+                    'unit_price' => $s->getOriginTransaction()->unit_price,
+                    'unit_price_amount' => ($r->qty_to_process * $s->getOriginTransaction()->unit_price),
+                    //'remarks' => ($r->remarks) ? mb_strtoupper($r->remarks) : NULL,
+                    'created_by' => Auth::id(),
+                ]);
+            }
         }
 
         return redirect()->back()

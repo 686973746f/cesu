@@ -76,7 +76,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Create ABTC Inventory Transaction</h5>
+                        <h5 class="modal-title"><b>Create ABTC Inventory Transaction</b></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -97,7 +97,21 @@
                                 <select class="form-control" name="transaction_type" id="transaction_type" required>
                                   <option value="" disabled {{(is_null(old('transaction_type'))) ? 'selected' : ''}}>Choose...</option>
                                   <option value="ISSUED" {{(old('transaction_type') == 'ISSUED') ? 'selected' : ''}}>Use Stock</option>
+                                  @if(auth()->user()->isAdminAbtc())
                                   <option value="RECEIVED" {{(old('transaction_type') == 'RECEIVED') ? 'selected' : ''}}>Received Stock</option>
+                                  <option value="TRANSFERRED" {{(old('transaction_type') == 'TRANSFERRED') ? 'selected' : ''}}>Transfer Stock</option>
+                                  @endif
+                                </select>
+                            </div>
+                        </div>
+                        <div id="transfer_div" class="d-none">
+                            <div class="form-group">
+                                <label for="transferto_facility"><b class="text-danger">*</b>Select ABTC Facility to Transfer</label>
+                                <select class="form-control" name="transferto_facility" id="transferto_facility">
+                                    <option value="" disabled {{(is_null(old('transferto_facility'))) ? 'selected' : ''}}>Choose...</option>
+                                    @foreach($transfer_branches_list as $tb)
+                                    <option value="{{$tb->id}}" {{(old('transferto_facility') == $tb->id) ? 'selected' : ''}}>{{$tb->site_name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -113,7 +127,7 @@
                                 <input type="date" class="form-control" name="transaction_date" id="transaction_date" max="{{date('Y-m-d')}}" value="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group">
-                                <label for="qty_to_process"><b class="text-danger">*</b>Quantity Used</label>
+                                <label for="qty_to_process"><b class="text-danger">*</b><span id="qty_string"></span></label>
                                 <input type="number" class="form-control" name="qty_to_process" id="qty_to_process" min="1">
                             </div>
                         </div>
@@ -201,9 +215,17 @@
                 $('#current_qty').prop('required', false);
                 $('#unit_price').prop('required', false);
 
+                $('#transfer_div').addClass('d-none');
+                $('#transferto_facility').prop('required', false);
+
+                $('#qty_string').text('Quantity Used');
+
                 $.ajax({
                     url: `/abtc_inventory/get_stocks_list/${sub_id}`,
                     type: 'GET',
+                    beforeSend: function () {
+                        $('#stock_id').empty().append('<option value="">Select Stock</option>'); // Clear previous options
+                    },
                     success: function (data) {
                         if (data.length > 0) {
                             data.forEach(stock => {
@@ -234,6 +256,50 @@
                 $('#current_qty').prop('required', true);
                 $('#unit_price').prop('required', true);
                 //$('#remarks').prop('required', true);
+
+                $('#transfer_div').addClass('d-none');
+                $('#transferto_facility').prop('required', false);
+            }
+            else if($(this).val() == 'TRANSFERRED') {
+                //Same as Issued Div but Branch will be selected
+                $('#transfer_div').removeClass('d-none');
+                $('#transferto_facility').prop('required', true);
+                $('#issued_div').removeClass('d-none');
+                $('#received_div').addClass('d-none');
+
+                $('#stock_id').prop('required', true);
+                $('#qty_to_process').prop('required', true);
+                $('#transaction_date').prop('required', true);
+
+                $('#batch_no').prop('required', false);
+                $('#expiry_date').prop('required', false);
+                $('#source').prop('required', false);
+                $('#current_qty').prop('required', false);
+                $('#unit_price').prop('required', false);
+
+                $('#qty_string').text('Quantity to Transfer');
+
+                $.ajax({
+                    url: `/abtc_inventory/get_stocks_list/${sub_id}`,
+                    type: 'GET',
+                    beforeSend: function () {
+                        $('#stock_id').empty().append('<option value="">Select Stock</option>'); // Clear previous options
+                    },
+                    success: function (data) {
+                        if (data.length > 0) {
+                            data.forEach(stock => {
+                                $('#stock_id').append(
+                                    `<option value="${stock.id}">${stock.text}</option>`
+                                );
+                            });
+                        } else {
+                            alert('No stocks found for the selected masterlist.');
+                        }
+                    },
+                    error: function () {
+                        alert('Failed to fetch stocks. Please try again.');
+                    }
+                });
             }
         });
     </script>

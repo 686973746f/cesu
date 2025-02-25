@@ -14,6 +14,7 @@ class AbtcInventoryTransaction extends Model
         'transaction_date',
         'stock_id',
         'type',
+        'transferto_facility',
         'process_qty',
         'before_qty',
         'after_qty',
@@ -42,7 +43,7 @@ class AbtcInventoryTransaction extends Model
     }
 
     public function displayProcessQty() {
-        if($this->type == 'ISSUED') {
+        if($this->type == 'ISSUED' || $this->type == 'TRANSFERRED') {
             return '- '.$this->process_qty;
         }
         else {
@@ -50,12 +51,21 @@ class AbtcInventoryTransaction extends Model
         }
     }
 
+    
+
+    public function transferred_to() {
+        return $this->belongsTo(AbtcVaccinationSite::class, 'transferto_facility');
+    }
+
     public function displayType() {
         if($this->type == 'ISSUED') {
             return 'USED';
         }
-        else {
+        else if($this->type == 'RECEIVED') {
             return 'RECEIVED';
+        }
+        else {
+            return 'TRANSFERRED TO '.$this->transferred_to->site_name;
         }
     }
 }

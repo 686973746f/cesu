@@ -36,4 +36,13 @@ class AbtcInventoryStock extends Model
             return NULL;
         }
     }
+
+    public function getOriginTransaction() {
+        $d = AbtcInventoryTransaction::where('stock_id', $this->id)
+        ->where('type', 'RECEIVED')
+        ->orderBy('id', 'ASC')
+        ->first();
+
+        return $d;
+    }
 }
