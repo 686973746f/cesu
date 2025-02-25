@@ -1286,6 +1286,7 @@ class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 {
     public function model(array $row) {
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite' && $row['epi_id']) {
+            dd($row);
             $birthdate = Carbon::parse(EdcsImport::tDate($row['date_of_birth']));
             $currentDate = Carbon::parse(EdcsImport::tDate($row['timestamp']));
 
@@ -1309,13 +1310,16 @@ class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             $match_casedef = 1;
 
             //Check Case Definition
-            if(!is_null($row['date_onset'])) {
+            if($row['fever'] == 'Y' && $row['rash'] == 'Y') {
                 if($row['cough'] == 'Y' || $row['runny_nosecoryza'] == 'Y' || $row['red_eyes_conjunctivitis'] == 'Y') {
                     $match_casedef = 1;
                 }
                 else {
                     $match_casedef = 0;
                 }
+            }
+            else {
+                $match_casedef = 0;
             }
 
             $table_params = [
@@ -1343,12 +1347,12 @@ class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'AgeDays' => $getAgeDays,
                 'Admitted' => ($row['patient_admitted'] == 'Yes' || $row['patient_admitted'] == 'Y') ? 1 : 0,
                 'DAdmit' => EdcsImport::tDate($row['date_admitted_seen_consulted']),
-                'DONSET' => EdcsImport::tDate($row['date_onset']),
+                'DONSET' => EdcsImport::tDate($row['rash_date_onset']),
                 'VitaminA' => ($row['was_the_patient_given_vitamin_a_during_this_illness'] == 'Yes' || $row['was_the_patient_given_vitamin_a_during_this_illness'] == 'Y') ? 'Y' : 'N',
                 'Fever' => ($row['fever'] == 'Yes' || $row['fever'] == 'Y') ? 'Y' : 'N',
-                'FeverOnset' => EdcsImport::tDate($row['date_onset']),
+                'FeverOnset' => EdcsImport::tDate($row['fever_date_onset']),
                 'Rash' => ($row['rash'] == 'Yes' || $row['rash'] == 'Y') ? 'Y' : 'N',
-                'RashOnset' => EdcsImport::tDate($row['date_onset']),
+                'RashOnset' => EdcsImport::tDate($row['rash_date_onset']),
                 'Cough' => ($row['cough'] == 'Yes' || $row['cough'] == 'Y') ? 'Y' : 'N',
                 'RunnyNose' => ($row['runny_nosecoryza'] == 'Yes' || $row['runny_nosecoryza'] == 'Y') ? 'Y' : 'N',
                 'RedEyes' => ($row['red_eyes_conjunctivitis'] == 'Yes' || $row['red_eyes_conjunctivitis'] == 'Y') ? 'Y' : 'N',
