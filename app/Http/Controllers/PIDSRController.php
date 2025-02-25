@@ -7025,16 +7025,16 @@ class PIDSRController extends Controller
             //Call EdcsImport
             Excel::import(new EdcsImport(), $r->excel_file);
 
-            PIDSRController::searchConfirmedDengue();
-            
-            Artisan::call('pidsrwndr:weekly');
-
             $c = EdcsWeeklySubmissionTrigger::create([
                 'year' => $year,
                 'week' => $week,
 
                 'created_by' => Auth::id(),
             ]);
+
+            PIDSRController::searchConfirmedDengue();
+            
+            Artisan::call('pidsrwndr:weekly');
         }
 
         return redirect()->back()
