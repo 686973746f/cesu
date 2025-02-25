@@ -87,4 +87,8 @@ class FhsisSystemPopulation extends Model
         'POP_60YRABOVEM',
         'POP_60YRABOVEF',
     ];
+
+    public function brgy() {
+        return $this->belongsTo(EdcsBrgy::class, 'brgy_id');
+    }
 }

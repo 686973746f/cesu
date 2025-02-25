@@ -72,6 +72,7 @@ use App\Models\EdcsWeeklySubmissionChecker;
 use App\Jobs\CallEdcsWeeklySubmissionSendEmail;
 use App\Models\EdcsBrgy;
 use App\Models\EdcsWeeklySubmissionTrigger;
+use App\Models\FhsisSystemPopulation;
 use App\Models\SevereAcuteRespiratoryInfection;
 
 /*
@@ -5519,6 +5520,8 @@ class PIDSRController extends Controller
                     }
                 }
 
+                $attack_rate_array = [];
+
                 if($sel_disease == 'COVID') {
                     $brgy_grand_total_cases = $modelClass::with('records')
                     ->whereHas('records', function ($q) use ($brgy) {
@@ -5543,7 +5546,18 @@ class PIDSRController extends Controller
                     ->whereYear('morbidityMonth', $sel_year)
                     ->count();
                 }
-                else {
+                else { 
+                    $population_query = FhsisSystemPopulation::where('year', $sel_year)
+                    ->whereHas('brgy', function ($q) use ($brgy) {
+                        $q->where('city_id', 388)
+                        ->where(function ($r) use ($brgy) {
+                            $r->where('name', $brgy->brgyName)
+                            ->orWhere('alt_name', $brgy->brgyName);
+                        });
+                    })->first();
+
+                    $population = $population_query->population_actual_total ?: $population_query->population_estimate_total;
+                    
                     $brgy_total_cases_m = $modelClass::where('Year', $sel_year)
                     ->where('enabled', 1)
                     ->where('match_casedef', 1)
@@ -5561,6 +5575,9 @@ class PIDSRController extends Controller
                     ->count();
 
                     $brgy_grand_total_cases = $brgy_total_cases_m + $brgy_total_cases_f;
+
+                    //Attack Rate
+                    $attack_rate = round(($brgy_grand_total_cases / $population) * 1000, 2);
 
                     /*
                     $brgy_grand_total_cases = $modelClass::where('Year', $sel_year)
@@ -5581,9 +5598,11 @@ class PIDSRController extends Controller
                 $brgy_cases_array[] = [
                     'brgy_name' => $brgy->brgyName,
                     'brgy_last3mw' => $brgy_last3mw,
+                    'population' => $population,
                     'brgy_total_cases_m' => $brgy_total_cases_m,
                     'brgy_total_cases_f' => $brgy_total_cases_f,
                     'brgy_grand_total_cases' => $brgy_grand_total_cases,
+                    'attack_rate' => $attack_rate,
                     'brgy_previousyear_total_cases' => $brgy_previousyear_total_cases, 
                     'brgy_mw1' => $brgy_mw1,
                     'brgy_mw2' => $brgy_mw2,
