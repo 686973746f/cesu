@@ -6991,8 +6991,6 @@ class PIDSRController extends Controller
     }
     */
 
-
-
     public function dailyMergeProcess(Request $r) {
         //Call EdcsImport
         Excel::import(new EdcsImport(), $r->excel_file);

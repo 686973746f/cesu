@@ -20,6 +20,7 @@ use App\Models\FhsisDemographic;
 use App\Models\AbtcBakunaRecords;
 use App\Imports\FhsisTbdotsImport;
 use App\Jobs\CallM2Export;
+use App\Models\EdcsBrgy;
 use App\Models\ExportJobs;
 use Illuminate\Support\Facades\DB;
 use App\Models\FhsisFamilyPlanning1;
@@ -35,6 +36,8 @@ use App\Models\FhsisEnvironmentalHealth;
 use OpenSpout\Common\Entity\Style\Style;
 use Rap2hpoutre\FastExcel\SheetCollection;
 use App\Models\FhsisSystemDemographicProfile;
+use App\Models\FhsisSystemIcdTenCode;
+use App\Models\FhsisSystemPopulation;
 use App\Models\Influenza;
 use App\Models\SyndromicRecords;
 
@@ -1529,7 +1532,108 @@ class FhsisController extends Controller
 
         DB::unprepared($sql);
 
+        //Extract Population
+        for($y = date('Y')-1; $y <= 2025; $y++) {
+            $generaltrias_cityid = 388;
+
+            $pop_year_search = FhsisSystemPopulation::where('year', $y)->first();
+
+            if(!$pop_year_search) {
+                foreach(EdcsBrgy::where('city_id', $generaltrias_cityid)->get() as $b) {
+                    $pop_search = FhsisSystemPopulation::where('year', $y)
+                    ->where('brgy_id', $b->id)
+                    ->first();
+    
+                    if(!$pop_search) {
+                        $fhsis_pop = FhsisPopulation::where('POP_YEAR', $y)
+                        ->where('BGY_CODE', $b->psgc_9digit)
+                        ->first();
+    
+                        $create_population = FhsisSystemPopulation::create([
+                            'brgy_id' => $b->id,
+                            'year' => $y,
+                            //'population_m',
+                            //'population_f',
+                            'population_estimate_total' => $fhsis_pop->POP_BGY,
+                            //'population_actual_total',
+                            'household_estimate_total' => $fhsis_pop->NO_HH,
+                            'household_actual_total' => $fhsis_pop->NO_HHACT,
+    
+                            'END_POP_FIL' => $fhsis_pop->END_POP_FIL,
+                            'END_POP_MAL' => $fhsis_pop->END_POP_MAL,
+                            'END_POP_SCH' => $fhsis_pop->END_POP_SCH,
+                            'POP_UNDER1M' => $fhsis_pop->POP_UNDER1M,
+                            'POP_UNDER1F' => $fhsis_pop->POP_UNDER1F,
+                            'POP_0_6MOSM' => $fhsis_pop->POP_0_6MOSM,
+                            'POP_0_6MOSF' => $fhsis_pop->POP_0_6MOSF,
+                            'POP_0_59MOSM' => $fhsis_pop->POP_0_59MOSM,
+                            'POP_0_59MOSF' => $fhsis_pop->POP_0_59MOSF,
+                            'POP_6MOSM' => $fhsis_pop->POP_6MOSM,
+                            'POP_6MOSF' => $fhsis_pop->POP_6MOSF,
+                            'POP_6_11MOSM' => $fhsis_pop->POP_6_11MOSM,
+                            'POP_6_11MOSF' => $fhsis_pop->POP_6_11MOSF,
+                            'POP_12_23MOSM' => $fhsis_pop->POP_12_23MOSM,
+                            'POP_12_23MOSF' => $fhsis_pop->POP_12_23MOSF,
+                            'POP_12_59MOSM' => $fhsis_pop->POP_12_59MOSM,
+                            'POP_12_59MOSF' => $fhsis_pop->POP_12_59MOSF,
+                            'POP_0_1YRM' => $fhsis_pop->POP_0_1YRM,
+                            'POP_0_1YRF' => $fhsis_pop->POP_0_1YRF,
+                            'POP_0_14YRM' => $fhsis_pop->POP_0_14YRM,
+                            'POP_0_14YRF' => $fhsis_pop->POP_0_14YRF,
+                            'POP_1YRM' => $fhsis_pop->POP_1YRM,
+                            'POP_1YRF' => $fhsis_pop->POP_1YRF,
+                            'POP_2YRM' => $fhsis_pop->POP_2YRM,
+                            'POP_2YRF' => $fhsis_pop->POP_2YRF,
+                            'POP_2YRABOVEM' => $fhsis_pop->POP_2YRABOVEM,
+                            'POP_2YRABOVEF' => $fhsis_pop->POP_2YRABOVEF,
+                            'POP_3YRM' => $fhsis_pop->POP_3YRM,
+                            'POP_3YRF' => $fhsis_pop->POP_3YRF,
+                            'POP_4YRM' => $fhsis_pop->POP_4YRM,
+                            'POP_4YRF' => $fhsis_pop->POP_4YRF,
+                            'POP_1_4M' => $fhsis_pop->POP_1_4M,
+                            'POP_1_4F' => $fhsis_pop->POP_1_4F,
+                            'POP_5_9M' => $fhsis_pop->POP_5_9M,
+                            'POP_5_9F' => $fhsis_pop->POP_5_9F,
+                            'POP_5_65YRM' => $fhsis_pop->POP_5_65YRM,
+                            'POP_5_65YRF' => $fhsis_pop->POP_5_65YRF,
+                            'POP_5YRABOVEM' => $fhsis_pop->POP_5YRABOVEM,
+                            'POP_5YRABOVEF' => $fhsis_pop->POP_5YRABOVEF,
+                            'POP_6YRM' => $fhsis_pop->POP_6YRM,
+                            'POP_6YRF' => $fhsis_pop->POP_6YRF,
+                            'POP_9_14YRM' => $fhsis_pop->POP_9_14YRM,
+                            'POP_9_14YRF' => $fhsis_pop->POP_9_14YRF,
+                            'POP_10_14YRM' => $fhsis_pop->POP_10_14YRM,
+                            'POP_10_14YRF' => $fhsis_pop->POP_10_14YRF,
+                            'POP_10_19YRM' => $fhsis_pop->POP_10_19YRM,
+                            'POP_10_19YRF' => $fhsis_pop->POP_10_19YRF,
+                            'POP_10_49YRM' => $fhsis_pop->POP_10_49YRM,
+                            'POP_10_49YRF' => $fhsis_pop->POP_10_49YRF,
+                            'POP_12YRM' => $fhsis_pop->POP_12YRM,
+                            'POP_12YRF' => $fhsis_pop->POP_12YRF,
+                            'POP_15_19YRM' => $fhsis_pop->POP_15_19YRM,
+                            'POP_15_19YRF' => $fhsis_pop->POP_15_19YRF,
+                            'POP_15_49YRM' => $fhsis_pop->POP_15_49YRM,
+                            'POP_15_49YRF' => $fhsis_pop->POP_15_49YRF,
+                            'POP_20_49YRM' => $fhsis_pop->POP_20_49YRM,
+                            'POP_20_49YRF' => $fhsis_pop->POP_20_49YRF,
+                            'POP_20_59YRM' => $fhsis_pop->POP_20_59YRM,
+                            'POP_20_59YRF' => $fhsis_pop->POP_20_59YRF,
+                            'POP_20YRABOVEM' => $fhsis_pop->POP_20YRABOVEM,
+                            'POP_20YRABOVEF' => $fhsis_pop->POP_20YRABOVEF,
+                            'POP_25YRABOVEM' => $fhsis_pop->POP_25YRABOVEM,
+                            'POP_25YRABOVEF' => $fhsis_pop->POP_25YRABOVEF,
+                            'POP_60_65YRM' => $fhsis_pop->POP_60_65YRM,
+                            'POP_60_65YRF' => $fhsis_pop->POP_60_65YRF,
+                            'POP_60YRABOVEM' => $fhsis_pop->POP_60YRABOVEM,
+                            'POP_60YRABOVEF' => $fhsis_pop->POP_60YRABOVEF,
+                        ]);
+                    }
+                }
+            }
+        }
+
         //Check if Demographic Profile Exists and Create if not existing
+        /*
         $demographics = FhsisDemographic::where('MUN_CODE', 'GENERAL TRIAS')
         ->orderBy('DATE', 'ASC')->get();
 
@@ -1584,6 +1688,7 @@ class FhsisController extends Controller
                 }
             }
         }
+        */
 
         return redirect()->back()
         ->with('msg', 'Import Successful.')
