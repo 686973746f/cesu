@@ -7010,7 +7010,7 @@ class PIDSRController extends Controller
             $week = 1;
         }
         else {
-            $currentDay = Carbon::now()->subWeek('1');
+            $currentDay = Carbon::now()->subWeek(1);
 
             $year = $currentDay->format('Y');
             $week = $currentDay->week;
