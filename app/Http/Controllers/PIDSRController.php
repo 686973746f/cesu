@@ -74,6 +74,7 @@ use App\Models\EdcsBrgy;
 use App\Models\EdcsWeeklySubmissionTrigger;
 use App\Models\FhsisSystemPopulation;
 use App\Models\SevereAcuteRespiratoryInfection;
+use App\Models\SubdivisionV2;
 
 /*
 ALL TABLES
@@ -1786,8 +1787,8 @@ class PIDSRController extends Controller
             $disease = 'SARI';
         }
         
-        $brgy_list = Brgy::where('city_id', 1)
-        ->where('displayInList', 1)
+        $brgy_list = EdcsBrgy::where('city_id', 388)
+        ->orderBy('name', 'ASC')
         ->get();
 
         if($disease == 'SARI') {
@@ -1832,6 +1833,10 @@ class PIDSRController extends Controller
         }
 
         if($d) {
+            $brgy_id = $r->Barangay;
+            $fetch_brgy = EdcsBrgy::find($brgy_id);
+            $brgy_name = $fetch_brgy->alt_name ?: $fetch_brgy->name;
+            
             if($disease == 'SARI') {
                 $d->lname = $r->FamilyName;
                 $d->fname = $r->FirstName;
@@ -1839,7 +1844,7 @@ class PIDSRController extends Controller
                 $d->suffix = $r->suffix;
 
                 $d->streetpurok = $r->Streetpurok;
-                $d->barangay = Brgy::find($r->Barangay)->brgyName;
+                $d->barangay = $brgy_name;
                 $d->outcome = $r->outcome;
             }
             else {
@@ -1849,7 +1854,7 @@ class PIDSRController extends Controller
                 $d->suffix = $r->suffix;
 
                 $d->Streetpurok = $r->Streetpurok;
-                $d->Barangay = Brgy::find($r->Barangay)->brgyName;
+                $d->Barangay = $brgy_name;
                 $d->Outcome = $r->outcome;
 
                 $getFullName = $d->FamilyName.', '.$d->FirstName;
@@ -1865,6 +1870,7 @@ class PIDSRController extends Controller
                 $d->FullName = $getFullName;
             }
 
+            /*
             if(!request()->is('*barangayportal*')) {
                 if(!is_null($r->system_subdivision_id) && $r->system_subdivision_id != 'NOT LISTED') {
                     //Get Subdivision Details
@@ -1875,6 +1881,51 @@ class PIDSRController extends Controller
                 }
                 else if($r->system_subdivision_id == 'NOT LISTED') {
                     $d->system_subdivision_name = $r->system_subdivision_name;
+                }
+            }
+            */
+
+            $subdivision_group = mb_strtoupper($r->subdivision_group);
+            $previous_subdivision = $d->subdivision_group;
+
+            if($r->subdivision_group != 'UNLISTED') {
+                $d->subdivision_group = $subdivision_group;
+            }
+            else {
+                $subdivision_group = mb_strtoupper($r->subdivision_group_new);
+                $d->subdivision_group = $subdivision_group;
+
+                if($subdivision_group == 'UNLISTED') {
+                    return redirect()->back()
+                    ->with('msg', 'You are not allowed to do that.')
+                    ->with('msgtype', 'warning');
+                }
+
+                //Add to Subdivision Table if not yet existing
+                $subd_search = SubdivisionV2::where('brgy_id', $brgy_id)
+                ->where('name', $subdivision_group)
+                ->first();
+
+                if(!$subd_search) {
+                    $subd_create = SubdivisionV2::create([
+                        'brgy_id' => $brgy_id,
+                        'name' => $subdivision_group,
+                    ]);
+                }                
+            }
+
+            if(!is_null($previous_subdivision)) {
+                //Search if Previous Subdivision is being used by other data. If not, delete it
+
+                $prev_search = $modelClass::where($epiCol, '!=', $epi_id)
+                ->where('Barangay', $brgy_name)
+                ->where('subdivision_group', $previous_subdivision)
+                ->count();
+
+                if($prev_search == 0) {
+                    $delete_prev = SubdivisionV2::where('brgy_id', $brgy_id)
+                    ->where('name', $previous_subdivision)
+                    ->delete();
                 }
             }
             

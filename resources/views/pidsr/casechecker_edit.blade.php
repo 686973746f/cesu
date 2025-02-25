@@ -83,21 +83,21 @@
                             <label for="Barangay"><b class="text-danger">*</b>Barangay</label>
                             <select class="form-control" name="Barangay" id="Barangay" required>
                                 @foreach($brgy_list as $b)
-                                <option value="{{$b->id}}" {{($b->brgyName == old('Barangay', $d->Barangay)) ? 'selected' : ''}}>{{$b->brgyName}}</option>
+                                <option value="{{$b->id}}" {{($b->name == old('Barangay', $d->Barangay) || $b->alt_name == old('Barangay', $d->Barangay)) ? 'selected' : ''}}>{{$b->alt_name ?: $b->name}}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="system_subdivision_id"><b class="text-danger">*</b>Subdivision Geo-tagging</label>
-                            <select class="form-control" name="system_subdivision_id" id="system_subdivision_id" required>
-                            </select>
+                          <label for="subdivision_group"><b class="text-danger">*</b>Group to Subdivision/Area/Sitio/Purok</label>
+                          <select class="form-control" name="subdivision_group" id="subdivision_group" required>
+                          </select>
                         </div>
-                        <div id="subdNotListedDiv" class="d-none">
+                        <div id="unlisted_div" class="d-none">
                             <div class="form-group">
-                                <label for="system_subdivision_name"><b class="text-danger">*</b>Subdivision Name (Manual Input)</label>
-                                <input type="text" class="form-control" value="{{old('system_subdivision_name', $d->system_subdivision_name)}}" style="text-transform: uppercase;" id="system_subdivision_name" name="system_subdivision_name">
+                                <label for="subdivision_group"><b class="text-danger">*</b>Please Specify the Subdivision/Area/Sitio/Purok</label>
+                                <input type="text" class="form-control" name="subdivision_group_new" id="subdivision_group_new" style="text-transform: uppercase;">
                             </div>
                         </div>
                     </div>
@@ -341,7 +341,7 @@
             }
         });
 
-        @if(!request()->is('*barangayportal*'))
+        /*
         $('#Barangay').on('change', function() {
             var brgy_id = $(this).val();
             if (brgy_id) {
@@ -381,7 +381,50 @@
                 $('#system_subdivision_name').prop('required', false);
             }
         }).trigger('change');
-        @endif
+        */
+
+        $('#Barangay').change(function (e) { 
+            e.preventDefault();
+            var brgy_id = $(this).val();
+
+            if (brgy_id) {
+                $.ajax({
+                    url: '{{ route("getSubdivisionsV2", ":id") }}'.replace(':id', brgy_id),
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {
+                        $('#subdivision_group').empty();
+                        $('#subdivision_group').append('<option value="" selected disabled>Choose...</option>');
+                        $.each(data, function(key, value) {
+                            $('#subdivision_group').append('<option value="'+ value +'">'+ value +'</option>');
+                        });
+                        $('#subdivision_group').select2({
+                            theme: 'bootstrap',
+                        });
+                        var existingSubdivisionId = '{{ $d->subdivision_group }}'; // Assuming you pass the existing subdivision ID from the backend
+                        if(existingSubdivisionId) {
+                            $('#subdivision_group').val(existingSubdivisionId).trigger('change');
+                        }
+                        $('#subdivision_group').append('<option value="UNLISTED">NOT ON THE LIST (N/A)</option>');
+                    }
+                });
+            } else {
+                $('#subdivision_group').empty();
+            }
+        }).trigger('change');
+        
+        $('#subdivision_group').change(function (e) { 
+            e.preventDefault();
+
+            if($(this).val() == 'UNLISTED') {
+                $('#unlisted_div').removeClass('d-none');
+                $('#subdivision_group_new').prop('required', true);
+            }
+            else {
+                $('#unlisted_div').addClass('d-none');
+                $('#subdivision_group_new').prop('required', false);
+            }
+        });
     });
 
 </script>

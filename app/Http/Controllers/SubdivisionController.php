@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Imports\SubdivisionImport;
 use App\Models\Subdivision;
+use App\Models\SubdivisionV2;
 use Maatwebsite\Excel\Facades\Excel;
 
 class SubdivisionController extends Controller
@@ -29,5 +30,10 @@ class SubdivisionController extends Controller
         ->with('msg', 'Import Successful.')
         ->with('msgtype', 'success');
     }
-    
+
+    public function getSubdivisionsV2($brgy_id) {
+        $subdivisions = SubdivisionV2::where('brgy_id', $brgy_id)->pluck('name', 'id');
+
+        return response()->json($subdivisions);
+    }
 }

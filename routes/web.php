@@ -113,6 +113,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function
     Route::post('/account/changepw', [ChangePasswordController::class, 'initChangePw'])->name('changepw.init');
 
     Route::get('getSubdivisions/{brgy_id}', [SubdivisionController::class, 'getSubdivisions'])->name('getSubdivisions');
+    Route::get('getSubdivisionsV2/{brgy_id}', [SubdivisionController::class, 'getSubdivisionsV2'])->name('getSubdivisionsV2');
 
     //Encoder Stats
     Route::get('/encoder_stats', [AdminPanelController::class, 'encoderStatsIndex'])->name('encoder_stats_index');
