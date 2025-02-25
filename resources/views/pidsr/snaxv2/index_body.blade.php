@@ -60,8 +60,8 @@
             <div class="d-flex justify-content-between">
                 <div><b>sNaX Version 2 - Page 1/3</b></div>
                 <div>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#thresholdModal">Show Threshold Data</button>
                     @if(!(request()->input('print')))
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#thresholdModal">Show Threshold Data</button>
                     <a href="{{route('pidsr_snaxv2')}}?{{$queryString}}&print=1" class="btn btn-success">Print</a>
                     @endif
                 </div>
