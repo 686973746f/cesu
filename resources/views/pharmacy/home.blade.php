@@ -143,9 +143,11 @@
                                             <select class="form-control" name="type" id="type" required>
                                               <option value="" disabled selected>Choose...</option>
                                               <option value="YEARLY">YEARLY (CURRENT)</option>
-                                              <option value="QUARTERLY">QUARTERLY</option>
-                                              <option value="MONTHLY">MONTHLY</option>
-                                              <option value="WEEKLY">WEEKLY</option>
+                                              <!--
+                                                <option value="QUARTERLY">QUARTERLY</option>
+                                                <option value="MONTHLY">MONTHLY</option>
+                                                <option value="WEEKLY">WEEKLY</option>
+                                              -->
                                             </select>
                                         </div>
                                         <div class="form-group d-none" id="squarter">
@@ -180,7 +182,8 @@
                                         </div>
                                     </div>
                                     <div class="card-footer">
-                                        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                                        <button type="submit" class="btn btn-primary btn-block" name="submit" value="view_report">Submit</button>
+                                        <button type="submit" class="btn btn-primary btn-block" name="submit" value="generate_inoutreport">Generate In/Out Report</button>
                                     </div>
                                 </div>
                             </div>

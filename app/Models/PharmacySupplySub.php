@@ -161,4 +161,49 @@ class PharmacySupplySub extends Model
     public function ifPatientReachedQtyLimit($patient_id) {
         
     }
+
+    public function displayYearEndStock($year) {
+        if($year < date('Y')) {
+            $s = PharmacyStockCard::where('subsupply_id', $this->id)
+            ->whereYear('created_at', $year)
+            ->orderBy('created_at', 'DESC')
+            ->first();
+
+            if($s) {
+                if($this->pharmacysupplymaster->quantity_type == 'BOX') {
+                    return $s->after_qty_box.' '.Str::plural('BOX', $s->after_qty_box);
+                }
+                else {
+                    return $s->after_qty_piece.' '.Str::plural('PC', $s->after_qty_piece);
+                }
+            }
+            else {
+                return 'N/A';
+            }
+            
+        }
+        else {
+            if(date('n') != 12) {
+                return 'NOT YET AVAILABLE';
+            }
+            else {
+                $s = PharmacyStockCard::where('subsupply_id', $this->id)
+                ->whereYear('created_at', $year)
+                ->orderBy('created_at', 'DESC')
+                ->first();
+
+                if($s) {
+                    if($this->pharmacysupplymaster->quantity_type == 'BOX') {
+                        return $s->after_qty_box.' '.Str::plural('BOX', $s->after_qty_box);
+                    }
+                    else {
+                        return $s->after_qty_piece.' '.Str::plural('PC', $s->after_qty_piece);
+                    }
+                }
+                else {
+                    return 'N/A';
+                }
+            }
+        }
+    }
 }
