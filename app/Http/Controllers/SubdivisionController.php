@@ -32,7 +32,7 @@ class SubdivisionController extends Controller
     }
 
     public function getSubdivisionsV2($brgy_id) {
-        $subdivisions = SubdivisionV2::where('brgy_id', $brgy_id)->pluck('name', 'id');
+        $subdivisions = SubdivisionV2::where('brgy_id', $brgy_id)->orderBy('name', 'ASC')->pluck('name', 'id');
 
         return response()->json($subdivisions);
     }
