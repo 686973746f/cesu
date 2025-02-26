@@ -819,25 +819,35 @@
 
   $('#diabetes').change(function (e) { 
     e.preventDefault();
+
     if($(this).val() == 'Y') {
       $('#medication_div').removeClass('d-none');
       $('#diabetes_medication').prop('required', true);
 
       $('#diabetes_div').addClass('d-none');
-      $('#polyphagia').prop('required', true);
-      $('#polydipsia').prop('required', true);
-      $('#polyuria').prop('required', true);
-    }
-    else {
-      $('#medication_div').addClass('d-none');
-      $('#diabetes_medication').prop('required', false);
-
-      $('#diabetes_div').removeClass('d-none');
       $('#polyphagia').prop('required', false);
       $('#polydipsia').prop('required', false);
       $('#polyuria').prop('required', false);
     }
-  });
+    else if($(this).val() === null) {
+      $('#medication_div').addClass('d-none');
+      $('#diabetes_medication').prop('required', false);
+
+      $('#diabetes_div').addClass('d-none');
+      $('#polyphagia').prop('required', false);
+      $('#polydipsia').prop('required', false);
+      $('#polyuria').prop('required', false);
+    }
+    else { //No and Unknown
+      $('#medication_div').addClass('d-none');
+      $('#diabetes_medication').prop('required', false);
+
+      $('#diabetes_div').removeClass('d-none');
+      $('#polyphagia').prop('required', true);
+      $('#polydipsia').prop('required', true);
+      $('#polyuria').prop('required', true);
+    }
+  }).trigger('change');
 
   $('#alcohol_intake').change(function(){
       if ($(this).is(':checked')) {
