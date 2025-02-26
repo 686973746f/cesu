@@ -33,8 +33,7 @@ class SubdivisionController extends Controller
 
     public function getSubdivisionsV2($brgy_id) {
         $subdivisions = SubdivisionV2::where('brgy_id', $brgy_id)->pluck('name', 'id');
-        asort($subdivisions, SORT_NATURAL | SORT_FLAG_CASE);
-        
+
         return response()->json($subdivisions);
     }
 }
