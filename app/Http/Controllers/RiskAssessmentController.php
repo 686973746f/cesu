@@ -730,7 +730,7 @@ class RiskAssessmentController extends Controller
                 ->where('is_followup', 'N')
                 ->where('month', request()->input('month'));
 
-                $brgy_list = EdcsBrgy::where('city_id', 388)->get();
+                $brgy_list = EdcsBrgy::where('city_id', 388)->orderBy('name')->get();
 
                 $i = request()->input('month');
 
@@ -868,7 +868,7 @@ class RiskAssessmentController extends Controller
                     $senior_eyedisease_total = $senior_eyedisease_m + $senior_eyedisease_f;
 
                     $final_arr[] = [
-                        'var' => $b->name,
+                        'var' => $b->alt_name ?: $b->name,
                         'pen_m' => $pen_m,
                         'pen_f' => $pen_f,
                         'pen_total' => $pen_total,
