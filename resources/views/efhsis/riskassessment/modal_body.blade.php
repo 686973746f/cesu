@@ -42,13 +42,33 @@
                             <form action="{{route('raf_reportv1')}}" method="GET">
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <label for="year"><b class="text-danger">*</b>Year</label>
-                                        <input type="number" class="form-control" name="year" id="year" min="{{(date('Y')-5)}}" max="{{date('Y')}}" value="{{date('Y')}}" required>
+                                        <label for="nc_year"><b class="text-danger">*</b>Year</label>
+                                        <input type="number" class="form-control" name="year" id="nc_year" min="{{(date('Y')-5)}}" max="{{date('Y')}}" value="{{date('Y')}}" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="brgy"><b class="text-danger">*</b>Barangay</label>
-                                        <select class="form-control" name="brgy" id="brgy" required>
+                                        <label for="nc_month"><b class="text-danger">*</b>Month</label>
+                                        <select class="form-control" name="month" id="nc_month" required>
                                             <option value="" disabled selected>Choose...</option>
+                                            <option value="WHOLE_YEAR">Show Whole Year</option>
+                                            <option value="1">January</option>
+                                            <option value="2">February</option>
+                                            <option value="3">March</option>
+                                            <option value="4">April</option>
+                                            <option value="5">May</option>
+                                            <option value="6">June</option>
+                                            <option value="7">July</option>
+                                            <option value="8">August</option>
+                                            <option value="9">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12">December</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="nc_brgy"><b class="text-danger">*</b>Barangay</label>
+                                        <select class="form-control" name="brgy" id="nc_brgy" required>
+                                            <option value="" disabled selected>Choose...</option>
+                                            <option value="ALL_BRGY" id="nc_select_allbrgy">Show All Barangays</option>
                                             @foreach (App\Models\EdcsBrgy::where('city_id', 388)->orderBy('name', 'ASC')->get() as $b)
                                                 <option value="{{$b->id}}">{{$b->name}}</option>
                                             @endforeach
@@ -66,3 +86,16 @@
         </div>
     </div>
 </div>
+
+<script>
+    $('#nc_month').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'WHOLE_YEAR') {
+            $('#nc_select_allbrgy').addClass('d-none');
+            $('#nc_brgy').val(null);
+        }
+        else {
+            $('#nc_select_allbrgy').removeClass('d-none');
+        }
+    }).trigger('change');
+</script>
