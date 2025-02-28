@@ -5162,7 +5162,6 @@ class PIDSRController extends Controller
                 $previous_death_count = $modelClass::where('enabled', 1)
                 ->where('match_casedef', 1)
                 ->where('Year', $sel_year - 1)
-                ->where('MorbidityWeek', '<=', $sel_week)
                 ->where('Outcome', 'D')
                 ->count();
                 
