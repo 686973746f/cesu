@@ -57,7 +57,7 @@
                         <tbody>
                             @foreach($final_arr as $d)
                             <tr class="text-center">
-                                <td><b>{{$d['month']}}</b></td>
+                                <td><b>{{$d['var']}}</b></td>
                                 <td>{{$d['pen_m']}}</td>
                                 <td>{{$d['pen_f']}}</td>
                                 <td>{{$d['current_smoker_m']}}</td>
