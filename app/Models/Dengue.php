@@ -180,8 +180,6 @@ class Dengue extends Model
             $year = date('Y');
         }
         
-        
-
         $coord_data = Dengue::where('EPIID', '!=', $this->EPIID)
         ->whereNotNull('sys_coordinate_x')
         ->where('Year', $year);

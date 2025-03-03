@@ -354,8 +354,7 @@
                 <button type="submit" class="btn btn-primary btn-block" name="submit" value="ekonsulta">Print eKonsulta</button>
                 @endif
             </form>
-            
-            @if(!Carbon\Carbon::parse($f->d0_date)->isSameDay(Carbon\Carbon::parse($f->created_at)) && $f->category_level == 3)
+
             <form action="{{route('abtc_print_philhealth', $f->id)}}" method="POST">
                 @csrf
                 <hr>
@@ -369,7 +368,6 @@
                 </div>
                 <button type="submit" class="btn btn-primary btn-block" name="submit" value="transfer_waiver">Print Waiver</button>
             </form>
-            @endif
             </div>
         </div>
     </div>
