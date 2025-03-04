@@ -1954,7 +1954,13 @@ class ABTCVaccinationController extends Controller
 
             $templateProcessor->setValue('body_site', $d->body_site);
 
-            $templateProcessor->setValue('name_formal', $d->patient->getNameFormal());
+            if($d->patient->philhealth_statustype == 'MEMBER') {
+                $templateProcessor->setValue('name_formal', $d->patient->getNameFormal());
+            }
+            else {
+                $templateProcessor->setValue('name_formal', $d->patient->getPhilhealthMemberName());
+            }
+            
             $templateProcessor->setValue('patient_contact', $d->patient->contact_number);
 
             $templateProcessor->setValue('diagnosis', $d->body_site.','.$d->getSource().' BITE, CATEGORY '.$d->category_level);
