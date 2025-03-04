@@ -2255,7 +2255,7 @@ class DiphImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'DOnset' => EdcsImport::tDate($row['date_onse_of_illness']),
                 'DptDoses' => $row['number_of_total_doses_diphtheria_containing_vaccine'],
                 'DateLastDose' => EdcsImport::tDate($row['date_of_last_vaccination']),
-                'CaseClassification' => $row['caseclassification'],
+                'CaseClassification' => $row['final_classi'],
                 'Outcome' => mb_strtoupper(substr($row['outcome'],0,1)),
                 'DateDied' => EdcsImport::tDate($row['datedied']),
 
