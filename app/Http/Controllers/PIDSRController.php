@@ -9801,10 +9801,14 @@ class PIDSRController extends Controller
                             $specimen_sent_to_ritm = 'N';
                             $specimen_ritm_sent_date = '';
                             $specimen_ritm_received_date = '';
+                            $specimen_ritm_received_time = '';
+                            $specimen_ritm_testing_date = '';
                             $specimen_result = 'POS';
+                            $specimen_ritm_result_date = '';
                             $specimen_type_organism = '';
                             $specimen_typeof_test = 'NS1';
                             $specimen_interpretation = '';
+                            $lab_remarks = '';
                         }
                         else if($d->is_igmpositive == 1) {
                             $specimen_type = 'BLD';
@@ -9812,10 +9816,14 @@ class PIDSRController extends Controller
                             $specimen_sent_to_ritm = 'N';
                             $specimen_ritm_sent_date = '';
                             $specimen_ritm_received_date = '';
+                            $specimen_ritm_received_time = '';
+                            $specimen_ritm_testing_date = '';
                             $specimen_result = 'POS';
+                            $specimen_ritm_result_date = '';
                             $specimen_type_organism = '';
                             $specimen_typeof_test = 'IGM';
                             $specimen_interpretation = '';
+                            $lab_remarks = '';
                         }
                         else if($d->sys_thrombocytopenia == 'Y') {
                             $specimen_type = 'BLD';
@@ -9823,10 +9831,14 @@ class PIDSRController extends Controller
                             $specimen_sent_to_ritm = 'N';
                             $specimen_ritm_sent_date = '';
                             $specimen_ritm_received_date = '';
+                            $specimen_ritm_received_time = '';
+                            $specimen_ritm_testing_date = '';
                             $specimen_result = 'POS';
+                            $specimen_ritm_result_date = '';
                             $specimen_type_organism = '';
                             $specimen_typeof_test = 'CBC';
                             $specimen_interpretation = '';
+                            $lab_remarks = '';
                         }
                         else {
                             $specimen_type = '';
@@ -9834,10 +9846,14 @@ class PIDSRController extends Controller
                             $specimen_sent_to_ritm = '';
                             $specimen_ritm_sent_date = '';
                             $specimen_ritm_received_date = '';
+                            $specimen_ritm_received_time = '';
+                            $specimen_ritm_testing_date = '';
                             $specimen_result = '';
+                            $specimen_ritm_result_date = '';
                             $specimen_type_organism = '';
                             $specimen_typeof_test = '';
                             $specimen_interpretation = '';
+                            $lab_remarks = '';
                         }
 
                         $cf = DohFacility::where('healthfacility_code', $d->edcs_healthFacilityCode)->first();
@@ -9887,10 +9903,14 @@ class PIDSRController extends Controller
                         $sheet->setCellValue('AN'.$row, $specimen_sent_to_ritm); //Sent to RITM
                         $sheet->setCellValue('AO'.$row, $specimen_ritm_sent_date); //Date Sent to RITM
                         $sheet->setCellValue('AP'.$row, $specimen_ritm_received_date); //Date Received RITM
-                        $sheet->setCellValue('AQ'.$row, $specimen_result); //Laboratory Reslt
-                        $sheet->setCellValue('AR'.$row, $specimen_type_organism); //Type of Organism
-                        $sheet->setCellValue('AS'.$row, $specimen_typeof_test); //Type of Test Conducted
-                        $sheet->setCellValue('AT'.$row, $specimen_interpretation); //Interpretation
+                        $sheet->setCellValue('AQ'.$row, $specimen_ritm_received_time); //Time Received RITM
+                        $sheet->setCellValue('AR'.$row, $specimen_ritm_testing_date); //Date Testing RITM
+                        $sheet->setCellValue('AS'.$row, $specimen_result); //Laboratory Reslt
+                        $sheet->setCellValue('AT'.$row, $specimen_ritm_result_date); //Date Result RITM
+                        $sheet->setCellValue('AU'.$row, $specimen_type_organism); //Type of Organism
+                        $sheet->setCellValue('AV'.$row, $specimen_typeof_test); //Type of Test Conducted
+                        $sheet->setCellValue('AW'.$row, $specimen_interpretation); //Interpretation
+                        $sheet->setCellValue('AX'.$row, $lab_remarks); //Interpretation
         
                         //$d->addToProcessedDiseaseTag('DENGUE');
 
