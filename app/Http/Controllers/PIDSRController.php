@@ -10797,7 +10797,40 @@ class PIDSRController extends Controller
         ]);
     }
 
-    public function dengueClusteringUpdate($id, Request $r) {
+    public function dengueClusteringEditSchedule($id) {
+        $d = DengueClusteringSchedule::findOrFail($id);
 
+        return view('pidsr.clustering.schedule_edit', [
+            'd' => $d,
+        ]);
+    }
+
+    public function dengueClusteringUpdate($id, Request $r) {
+        $d = DengueClusteringSchedule::findOrFail($id);
+
+        $d->assigned_team = $r->assigned_team;
+        $oldStatus = $d->getOriginal('status');
+        
+        if($r->status == 'CYCLE1' && $oldStatus == 'PENDING') {
+            //Generate Date for 2nd, 3rd, 4th Cycle
+            
+            $d1_date = Carbon::parse($r->cycle1_date);
+
+            $d->cycle1_date = $d1_date->copy()->addDays(7)->format('Y-m-d H:i:s');
+            $d->cycle2_date = $d1_date->copy()->addDays(14)->format('Y-m-d H:i:s');
+            $d->cycle3_date = $d1_date->copy()->addDays(21)->format('Y-m-d H:i:s');
+            $d->cycle4_date = $d1_date->copy()->addDays(28)->format('Y-m-d H:i:s');
+        }
+        else {
+            
+        }
+
+        if($d->isDirty()) {
+            $d->save();
+        }
+
+        return redirect()->route('dengue_clustering_viewer')
+        ->with('msg', 'Clustering Schedule (ID: '.$d->id.') was updated successfully.')
+        ->with('msgtype', 'success');
     }
 }
