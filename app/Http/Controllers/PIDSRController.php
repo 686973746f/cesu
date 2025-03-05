@@ -1887,7 +1887,7 @@ class PIDSRController extends Controller
             */
 
             $subdivision_group = mb_strtoupper($r->subdivision_group);
-            $previous_subdivision = $d->subdivision_group;
+            $previous_subdivision = $d->getOriginal('subdivision_group');
 
             if($r->subdivision_group != 'UNLISTED') {
                 $d->subdivision_group = $subdivision_group;
@@ -1903,13 +1903,13 @@ class PIDSRController extends Controller
                 }
 
                 //Add to Subdivision Table if not yet existing
-                $subd_search = SubdivisionV2::where('brgy_id', $brgy_id)
+                $subd_search = SubdivisionV2::where('brgy_id', $fetch_brgy->id)
                 ->where('name', $subdivision_group)
                 ->first();
 
                 if(!$subd_search) {
                     $subd_create = SubdivisionV2::create([
-                        'brgy_id' => $brgy_id,
+                        'brgy_id' => $fetch_brgy->id,
                         'name' => $subdivision_group,
                     ]);
                 }                
@@ -1924,7 +1924,7 @@ class PIDSRController extends Controller
                 ->count();
 
                 if($prev_search == 0) {
-                    $delete_prev = SubdivisionV2::where('brgy_id', $brgy_id)
+                    $delete_prev = SubdivisionV2::where('brgy_id', $fetch_brgy->id)
                     ->where('name', $previous_subdivision)
                     ->delete();
                 }
