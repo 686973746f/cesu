@@ -21,7 +21,8 @@
                             <th>Total Cases</th>
                             <th>Responsible Team</th>
                             <th>Status</th>
-                            <th>Schedule Date/Cycle</th>
+                            <th>Schedule Date</th>
+                            <th>Cycle</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -46,6 +47,7 @@
                             <td class="text-center">{{$d->assigned_team ?: 'N/A'}}</td>
                             <td class="text-center">{{$d->getStatus()}}</td>
                             <td class="text-center">{{$d->getUpcomingCycleDate()}}</td>
+                            <td class="text-center">{{$d->getUpcomingCycle()}}</td>
                         </tr>
                         @endforeach
                     </tbody>

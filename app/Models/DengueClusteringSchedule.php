@@ -73,4 +73,19 @@ class DengueClusteringSchedule extends Model
             return '3RD CYCLE DONE';
         }
     }
+
+    public function getUpcomingCycle() {
+        if($this->status == 'PENDING') {
+            return 'FOR 1ST CYCLE';
+        }
+        else if($this->status == 'CYCLE1') {
+            return 'FOR 2ND CYCLE';
+        }
+        else if($this->status == 'CYCLE2') {
+            return 'FOR 3RD CYCLE';
+        }
+        else if($this->status == 'CYCLE3') {
+            return 'COMPLETED';
+        }
+    }
 }
