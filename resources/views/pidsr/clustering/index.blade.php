@@ -37,7 +37,7 @@
                                 @if($d->getTotalPatients() != 0)
                                 <ul>
                                     @foreach($d->fetchClusteringList() as $ind => $cl)
-                                    <li>#{{$ind+1}}.) {{$cl->Streetpurok}} ({{$cl->getName()}})</li>
+                                    <li>#{{$ind+1}}.) {{$cl->Streetpurok}} (<a href="{{route('pidsr_casechecker_edit', ['DENGUE', $cl->EPIID])}}" class="text-dark">{{$cl->getName()}}</a>)</li>
                                     @endforeach
                                 </ul>
                                 @endif
