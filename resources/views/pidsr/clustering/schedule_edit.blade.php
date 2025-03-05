@@ -29,7 +29,6 @@
                         <option value="PENDING" {{(old('status', $d->assigned_team)) == 'PENDING'}}>PENDING</option>
                         <option value="CYCLE1" {{(old('status', $d->assigned_team)) == 'CYCLE1'}}>1ST CYCLE DONE</option>
                         @else
-                        <option value="PENDING" {{(old('status', $d->assigned_team)) == 'PENDING'}}>PENDING</option>
                         <option value="CYCLE1" {{(old('status', $d->assigned_team)) == 'CYCLE1'}}>1ST CYCLE DONE</option>
                         <option value="CYCLE2" {{(old('status', $d->assigned_team)) == 'CYCLE2'}}>2ND CYCLE DONE</option>
                         <option value="CYCLE3" {{(old('status', $d->assigned_team)) == 'CYCLE3'}}>3RD CYCLE DONE (COMPLETED)</option>
@@ -41,20 +40,24 @@
                 @if($d->status == 'PENDING')
                 <div class="form-group">
                     <label for="cycle1_date">1st Cycle Date</label>
-                    <input type="datetime-local" class="form-control" name="cycle1_date" id="cycle1_date" aria-describedby="cycle1_date">
+                    <input type="datetime-local" class="form-control" name="cycle1_date" id="cycle1_date" value="{{old('cycle1_date', $d->cycle1_date)}}" aria-describedby="cycle1_date">
                 </div>
                 @else
                 <div class="form-group">
+                    <label for="cycle1_date">1st Cycle Date</label>
+                    <input type="datetime-local" class="form-control" name="cycle1_date" id="cycle1_date" value="{{old('cycle1_date', $d->cycle1_date)}}" aria-describedby="cycle1_date">
+                </div>
+                <div class="form-group">
                     <label for="cycle2_date">2nd Cycle Date</label>
-                    <input type="datetime-local" class="form-control" name="cycle2_date" id="cycle2_date" aria-describedby="cycle2_date">
+                    <input type="datetime-local" class="form-control" name="cycle2_date" id="cycle2_date" value="{{old('cycle2_date', $d->cycle2_date)}}" aria-describedby="cycle2_date">
                 </div>
                 <div class="form-group">
                     <label for="cycle3_date">3rd Cycle Date</label>
-                    <input type="datetime-local" class="form-control" name="cycle3_date" id="cycle3_date" aria-describedby="cycle3_date">
+                    <input type="datetime-local" class="form-control" name="cycle3_date" id="cycle3_date" value="{{old('cycle3_date', $d->cycle3_date)}}" aria-describedby="cycle3_date">
                 </div>
                 <div class="form-group">
                     <label for="cycle4_date">4th Cycle Date (Optional)</label>
-                    <input type="datetime-local" class="form-control" name="cycle4_date" id="cycle4_date" aria-describedby="cycle4_date">
+                    <input type="datetime-local" class="form-control" name="cycle4_date" id="cycle4_date" value="{{old('cycle4_date', $d->cycle4_date)}}" aria-describedby="cycle4_date">
                 </div>
                 @endif
             </div>
