@@ -24,10 +24,9 @@
                         <option value="CHO" {{(old('assigned_team', $d->assigned_team)) == 'CHO'}}>CHO</option>
                         <option value="CENRO" {{(old('assigned_team', $d->assigned_team)) == 'CENRO'}}>CENRO</option>
                         <option value="GSO" {{(old('assigned_team', $d->assigned_team)) == 'GSO'}}>GSO</option>
-                        <option value="DOH REGIONAL" {{(old('assigned_team', $d->assigned_team)) == 'CHO'}}>DOH REGIONAL</option>
+                        <option value="DOH REGIONAL" {{(old('assigned_team', $d->assigned_team)) == 'DOH REGIONAL'}}>DOH REGIONAL</option>
                     </select>
                     </div>
-    
                     <div class="form-group">
                         <label for="status"><b class="text-danger">*</b>Status</label>
                         <select class="form-control" name="status" id="status" required>
