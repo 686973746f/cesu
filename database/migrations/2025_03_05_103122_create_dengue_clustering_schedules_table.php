@@ -15,6 +15,7 @@ class CreateDengueClusteringSchedulesTable extends Migration
     {
         Schema::create('dengue_clustering_schedules', function (Blueprint $table) {
             $table->id();
+            $table->integer('enabled', 1)->default(1);
             $table->integer('year');
             $table->integer('morbidity_week');
             $table->foreignId('brgy_id')->constrained('edcs_brgies')->onDelete('cascade');
