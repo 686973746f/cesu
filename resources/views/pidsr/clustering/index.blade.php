@@ -3,7 +3,19 @@
 @section('content')
 <div class="container-fluid">
     <div class="card">
-        <div class="card-header"><b>Clustering View</b></div>
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <div><b>Dengue Clustering View</b></div>
+                <div>
+                    @if(request()->input('showNonClustering'))
+                    <a href="{{route('dengue_clustering_viewer')}}" class="btn btn-warning">Show Clustering Cases Only</a>
+                    @else
+                    <a href="{{route('dengue_clustering_viewer')}}?showNonClustering=1" class="btn btn-primary">Show Non-Clustering Cases</a>
+                    @endif
+                    
+                </div>
+            </div>
+        </div>
         <div class="card-body">
             @if(session('msg'))
             <div class="alert alert-{{session('msgtype')}}" role="alert">
@@ -27,6 +39,20 @@
                     </thead>
                     <tbody>
                         @foreach($list as $d)
+                        @php
+                            if(request()->input('showNonClustering')) {
+                                $allow = true;
+                            }
+                            else {
+                                if($d->getTotalPatients() <= 1) {
+                                    $allow = false;
+                                }
+                                else {
+                                    $allow = true;
+                                }
+                            }
+                        @endphp
+                        @if($allow)
                         <tr>
                             <td>{{date('m/d/Y h:i A', strtotime($d->created_at))}}</td>
                             <td class="text-center">{{$d->morbidity_week}}</td>
@@ -49,6 +75,7 @@
                             <td class="text-center">{{$d->getUpcomingCycleDate()}}</td>
                             <td class="text-center">{{$d->getUpcomingCycle()}}</td>
                         </tr>
+                        @endif
                         @endforeach
                     </tbody>
                 </table>
