@@ -70,6 +70,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use App\Jobs\EdcsWeeklySubmissionSendEmail;
 use App\Models\EdcsWeeklySubmissionChecker;
 use App\Jobs\CallEdcsWeeklySubmissionSendEmail;
+use App\Models\DengueClusteringSchedule;
 use App\Models\EdcsBrgy;
 use App\Models\EdcsWeeklySubmissionTrigger;
 use App\Models\FhsisSystemPopulation;
@@ -1967,6 +1968,46 @@ class PIDSRController extends Controller
 
             if($d->isDirty()) {
                 $d->save();
+            }
+            
+            //Clustering Check
+            if($disease == 'DENGUE') {
+                if(is_null($d->sys_clustering_schedule_id)) {
+                    if($d->MorbidityWeek >= 1 && $d->MorbidityWeek <= 3) {
+                        $previous_mw = 1;
+                        $current_mw = $d->MorbidityWeek;
+                    }
+                    else {
+                        $previous_mw = $d->MorbidityWeek - 2;
+                        $current_mw = $d->MorbidityWeek;
+                    }
+    
+                    //Kung isa, create single clustering schedule
+                    //If dalawa na, tag as clustering
+                    $cs = DengueClusteringSchedule::where('year', $d->Year)
+                    ->where('brgy_id', $fetch_brgy->id)
+                    ->where('purok_subdivision', $d->subdivision_group)
+                    ->whereBetween('morbidity_week', [$previous_mw, $current_mw])
+                    ->first();
+    
+                    if($cs) {
+                        $d->sys_clustering_schedule_id = $cs->id;
+    
+                        if($d->isDirty()) {
+                            $d->save();
+                        }
+                    }
+                    else {
+                        //Create Single Clustering Schedule
+                        $create_cs = DengueClusteringSchedule::create([
+                            'year' => $d->Year,
+                            'morbidity_week' => $d->MorbidityWeek,
+                            'brgy_id' => $fetch_brgy->id,
+                            'purok_subdivision' => $d->subdivision_group,
+                            'created_by' => Auth::id(),
+                        ]);
+                    }
+                }
             }
 
             if($r->fromVerifier == 1) {
@@ -6377,7 +6418,11 @@ class PIDSRController extends Controller
 
             // Get the end date of the week
             $endDate = Carbon::now()->isoWeekYear($sel_year)->isoWeek($sel_week)->endOfWeek();
-            if($sel_week == date('W')) {
+
+            if($sel_week == 52 || $sel_week == 53) {
+                $flavor_enddate = Carbon::createFromYear($sel_year)->endOfYear();
+            }
+            else if($sel_week == date('W')) {
                 $flavor_enddate = Carbon::now();
             }
             else {

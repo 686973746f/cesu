@@ -436,75 +436,82 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
-                    <table class="table table-bordered table-sm">
-                        <thead class="text-center thead-light">
-                            <tr>
-                                <th rowspan="3">Barangays</th>
-                                <th rowspan="3">
-                                    <h6><b>MWs</b></h6>
-                                    @if($sel_mweek == 1)
-                                    <h6><b>1</b></h6>
-                                    @elseif($sel_mweek == 2)
-                                    <h6><b>1-2</b></h6>
-                                    @else
-                                    <h6><b>{{$sel_mweek-2}}-{{$sel_mweek}}</b></h6>
-                                    @endif
-                                </th>
-                                <th colspan="6">MWs 1-52</th>
-                            </tr>
-                            <tr>
-                                <th colspan="5">{{$sel_year}}</th>
-                                <th class="text-muted" rowspan="2">{{($sel_year - 1)}}</th>
-                            </tr>
-                            <tr>
-                                <th>Population</th>
-                                <th style="color: blue;">M</th>
-                                <th style="color: violet;">F</th>
-                                <th>T</th>
-                                <th>Attack Rate/Ranking</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @php
-                            $last3mw_total = 0;
-                            $currentyear_total_m = 0;
-                            $currentyear_total_f = 0;
-                            $currentyear_total = 0;
-                            $lastyear_total = 0;
-                            $population_total = 0;
-                            @endphp
-                            @foreach($brgy_sortedtohighestweek_array as $b)
-                            <tr>
-                                <td>{{$b['brgy_name']}}</td>
-                                <td class="text-center" style="{{\App\Http\Controllers\PidsrController::setBgColor($b['brgy_last3mw'])}}">{{$b['brgy_last3mw']}}</td>
-                                <td class="text-center">{{number_format($b['population'])}}</td>
-                                <td class="text-center" style="color: blue;">{{$b['brgy_total_cases_m']}}</td>
-                                <td class="text-center" style="color: violet;">{{$b['brgy_total_cases_f']}}</td>
-                                <td class="text-center"><b>{{$b['brgy_grand_total_cases']}}</b></td>
-                                <td class="text-center">{{$b['attack_rate']}}</td>
-                                <td class="text-center text-muted">{{$b['brgy_previousyear_total_cases']}}</td>
-                            </tr>
-                            @php
-                            $last3mw_total += $b['brgy_last3mw'];
-                            $population_total += $b['population'];
-                            $currentyear_total_m += $b['brgy_total_cases_m'];
-                            $currentyear_total_f += $b['brgy_total_cases_f'];
-                            $currentyear_total += $b['brgy_grand_total_cases'];
-                            $lastyear_total += $b['brgy_previousyear_total_cases'];
-                            @endphp
-                            @endforeach
-                            <tr class="text-center">
-                                <td><b>TOTAL</b></td>
-                                <td><b>{{$last3mw_total}}</b></td>
-                                <td><b></b></td>
-                                <td style="color: blue;"><b>{{$currentyear_total_m}}</b></td>
-                                <td style="color: violet;"><b>{{$currentyear_total_f}}</b></td>
-                                <td><b>{{$currentyear_total}}</b></td>
-                                <td><b></b></td>
-                                <td class="text-muted"><b>{{$lastyear_total}}</b></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-sm" id="barangayTable1">
+                            <thead class="text-center thead-light">
+                                <tr>
+                                    <th rowspan="3">Barangays</th>
+                                    <th rowspan="3">
+                                        <h6><b>MWs</b></h6>
+                                        @if($sel_mweek == 1)
+                                        <h6><b>1</b></h6>
+                                        @elseif($sel_mweek == 2)
+                                        <h6><b>1-2</b></h6>
+                                        @else
+                                        <h6><b>{{$sel_mweek-2}}-{{$sel_mweek}}</b></h6>
+                                        @endif
+                                    </th>
+                                    <th colspan="6">MWs 1-52</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="5">{{$sel_year}}</th>
+                                    <th class="text-muted" rowspan="2">{{($sel_year - 1)}}</th>
+                                </tr>
+                                <tr>
+                                    <th>Population</th>
+                                    <th style="color: blue;">M</th>
+                                    <th style="color: violet;">F</th>
+                                    <th>T</th>
+                                    <th>Attack Rate</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                $last3mw_total = 0;
+                                $currentyear_total_m = 0;
+                                $currentyear_total_f = 0;
+                                $currentyear_total = 0;
+                                $lastyear_total = 0;
+                                $population_total = 0;
+                                @endphp
+                                @foreach($brgy_sortedtohighestweek_array as $b)
+                                <tr>
+                                    <td>{{$b['brgy_name']}}</td>
+                                    <td class="text-center" style="{{\App\Http\Controllers\PidsrController::setBgColor($b['brgy_last3mw'])}}">{{$b['brgy_last3mw']}}</td>
+                                    <td class="text-center">{{number_format($b['population'])}}</td>
+                                    <td class="text-center" style="color: blue;">{{$b['brgy_total_cases_m']}}</td>
+                                    <td class="text-center" style="color: violet;">{{$b['brgy_total_cases_f']}}</td>
+                                    <td class="text-center"><b>{{$b['brgy_grand_total_cases']}}</b></td>
+                                    <td class="text-center">{{$b['attack_rate']}}</td>
+                                    <td class="text-center text-muted">{{$b['brgy_previousyear_total_cases']}}</td>
+                                </tr>
+                                @php
+                                $last3mw_total += $b['brgy_last3mw'];
+                                $population_total += $b['population'];
+                                $currentyear_total_m += $b['brgy_total_cases_m'];
+                                $currentyear_total_f += $b['brgy_total_cases_f'];
+                                $currentyear_total += $b['brgy_grand_total_cases'];
+                                $lastyear_total += $b['brgy_previousyear_total_cases'];
+                                @endphp
+                                @endforeach
+                                @php
+                                $attack_rate_total = round(($lastyear_total/$population_total) * 1000, 2);
+                                @endphp
+                                <tfoot>
+                                    <tr class="text-center">
+                                        <td><b>TOTAL</b></td>
+                                        <td><b>{{number_format($last3mw_total)}}</b></td>
+                                        <td><b>{{number_format($population_total)}}</b></td>
+                                        <td style="color: blue;"><b>{{number_format($currentyear_total_m)}}</b></td>
+                                        <td style="color: violet;"><b>{{number_format($currentyear_total_f)}}</b></td>
+                                        <td><b>{{number_format($currentyear_total)}}</b></td>
+                                        <td><b>{{$attack_rate_total}}</b></td>
+                                        <td class="text-muted"><b>{{number_format($lastyear_total)}}</b></td>
+                                    </tr>
+                                </tfoot>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="{{(!$show_classification_piegraph) ? 'd-none' : ''}}">
@@ -766,6 +773,11 @@ foreach($classification_titles as $ind => $ctitle) {
             $('#signature3').hide();
         }
     }).trigger('change');
+
+    $('#barangayTable1').dataTable({
+        iDisplayLength: -1,
+        'dom': 't',
+    });
 
     var ctx = document.getElementById('myChart').getContext('2d');
 
