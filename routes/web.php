@@ -429,7 +429,11 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
     Route::post('/edcs/edcs_importv2', [PIDSRController::class, 'uploadEdcsZipFile'])->name('edcs_importv2');
 
     Route::get('/edcs/sbs', [SchoolBasedSurveillanceController::class, 'adminHome'])->name('sbs_admin_home');
-});
+
+    //Dengue Clustering Viewer
+    Route::get('/edcs/dengue_clustering', [PIDSRController::class, 'dengueClusteringViewer'])->name('dengue_clustering_viewer');
+    Route::post('/edcs/dengue_clustering/{id}/update', [PIDSRController::class, 'dengueClusteringUpdate'])->name('dengue_clustering_update');
+}); 
 
 Route::get('/edcs/barangayportal', [PIDSRController::class, 'brgyCaseViewerWelcome'])->name('edcs_barangay_welcome');
 Route::get('/edcs/barangayportal/quicklogin', [PIDSRController::class, 'brgyCaseViewerQuickLogin'])->name('edcs_barangay_quicklogin');

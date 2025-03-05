@@ -1991,11 +1991,7 @@ class PIDSRController extends Controller
                     ->first();
     
                     if($cs) {
-                        $d->sys_clustering_schedule_id = $cs->id;
-    
-                        if($d->isDirty()) {
-                            $d->save();
-                        }
+                        $tagto_clustering_id = $cs->id;
                     }
                     else {
                         //Create Single Clustering Schedule
@@ -2006,6 +2002,14 @@ class PIDSRController extends Controller
                             'purok_subdivision' => $d->subdivision_group,
                             'created_by' => Auth::id(),
                         ]);
+
+                        $tagto_clustering_id = $create_cs->id;
+                    }
+
+                    $d->sys_clustering_schedule_id = $tagto_clustering_id;
+    
+                    if($d->isDirty()) {
+                        $d->save();
                     }
                 }
             }
@@ -10783,5 +10787,17 @@ class PIDSRController extends Controller
     
     public function printCrf($id) {
         
+    }
+
+    public function dengueClusteringViewer() {
+        $list = DengueClusteringSchedule::where('year', date('Y'))->get();
+
+        return view('pidsr.clustering.index', [
+            'list' => $list,
+        ]);
+    }
+
+    public function dengueClusteringUpdate($id, Request $r) {
+
     }
 }

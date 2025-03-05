@@ -22,4 +22,16 @@ class DengueClusteringSchedule extends Model
         'cycle4_date',
         'created_by',
     ];
+
+    public function user() {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function brgy() {
+        return $this->belongsTo(EdcsBrgy::class, 'brgy_id');
+    }
+
+    public function getTotalPatients() {
+        return Dengue::where('sys_clustering_schedule_id', $this->id)->count();
+    }
 }

@@ -27,7 +27,7 @@ class CreateDengueClusteringSchedulesTable extends Migration
             $table->dateTime('cycle4_date')->nullable();
 
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
-            $table->foreignId('updated_by')->constrained('users')->onDelete('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
