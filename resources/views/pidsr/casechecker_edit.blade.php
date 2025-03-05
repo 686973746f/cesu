@@ -406,6 +406,7 @@
                             $('#subdivision_group').val(existingSubdivisionId).trigger('change');
                         }
                         $('#subdivision_group').append('<option value="UNLISTED">NOT ON THE LIST (N/A)</option>');
+                        $('#subdivision_group').val(null);
                     }
                 });
             } else {
