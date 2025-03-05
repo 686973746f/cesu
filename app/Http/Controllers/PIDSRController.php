@@ -10811,6 +10811,7 @@ class PIDSRController extends Controller
         $d->assigned_team = $r->assigned_team;
         $d->enabled = $r->enabled;
         $oldStatus = $d->getOriginal('status');
+        $d->status = $r->status;
         
         if($r->status == 'CYCLE1' && $oldStatus == 'PENDING') {
             //Generate Date for 2nd, 3rd, 4th Cycle
