@@ -5,6 +5,11 @@
     <div class="card">
         <div class="card-header"><b>Clustering View</b></div>
         <div class="card-body">
+            @if(session('msg'))
+            <div class="alert alert-{{session('msgtype')}}" role="alert">
+                {{session('msg')}}
+            </div>
+            @endif
             <div class="table-responsive">
                 <table class="table table-striped table-bordered" id="mainTbl">
                     <thead class="thead-light text-center">
