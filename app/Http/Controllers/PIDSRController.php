@@ -1972,45 +1972,43 @@ class PIDSRController extends Controller
             
             //Clustering Check
             if($disease == 'DENGUE') {
-                if(is_null($d->sys_clustering_schedule_id)) {
-                    if($d->MorbidityWeek >= 1 && $d->MorbidityWeek <= 3) {
-                        $previous_mw = 1;
-                        $current_mw = $d->MorbidityWeek;
-                    }
-                    else {
-                        $previous_mw = $d->MorbidityWeek - 2;
-                        $current_mw = $d->MorbidityWeek;
-                    }
-    
-                    //Kung isa, create single clustering schedule
-                    //If dalawa na, tag as clustering
-                    $cs = DengueClusteringSchedule::where('year', $d->Year)
-                    ->where('brgy_id', $fetch_brgy->id)
-                    ->where('purok_subdivision', $d->subdivision_group)
-                    ->whereBetween('morbidity_week', [$previous_mw, $current_mw])
-                    ->first();
-    
-                    if($cs) {
-                        $tagto_clustering_id = $cs->id;
-                    }
-                    else {
-                        //Create Single Clustering Schedule
-                        $create_cs = DengueClusteringSchedule::create([
-                            'year' => $d->Year,
-                            'morbidity_week' => $d->MorbidityWeek,
-                            'brgy_id' => $fetch_brgy->id,
-                            'purok_subdivision' => $d->subdivision_group,
-                            'created_by' => Auth::id(),
-                        ]);
+                if($d->MorbidityWeek >= 1 && $d->MorbidityWeek <= 3) {
+                    $previous_mw = 1;
+                    $current_mw = $d->MorbidityWeek;
+                }
+                else {
+                    $previous_mw = $d->MorbidityWeek - 2;
+                    $current_mw = $d->MorbidityWeek;
+                }
 
-                        $tagto_clustering_id = $create_cs->id;
-                    }
+                //Kung isa, create single clustering schedule
+                //If dalawa na, tag as clustering
+                $cs = DengueClusteringSchedule::where('year', $d->Year)
+                ->where('brgy_id', $fetch_brgy->id)
+                ->where('purok_subdivision', $d->subdivision_group)
+                ->whereBetween('morbidity_week', [$previous_mw, $current_mw])
+                ->first();
 
-                    $d->sys_clustering_schedule_id = $tagto_clustering_id;
-    
-                    if($d->isDirty()) {
-                        $d->save();
-                    }
+                if($cs) {
+                    $tagto_clustering_id = $cs->id;
+                }
+                else {
+                    //Create Single Clustering Schedule
+                    $create_cs = DengueClusteringSchedule::create([
+                        'year' => $d->Year,
+                        'morbidity_week' => $d->MorbidityWeek,
+                        'brgy_id' => $fetch_brgy->id,
+                        'purok_subdivision' => $d->subdivision_group,
+                        'created_by' => Auth::id(),
+                    ]);
+
+                    $tagto_clustering_id = $create_cs->id;
+                }
+
+                $d->sys_clustering_schedule_id = $tagto_clustering_id;
+
+                if($d->isDirty()) {
+                    $d->save();
                 }
             }
 
