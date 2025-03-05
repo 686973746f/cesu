@@ -10809,11 +10809,11 @@ class PIDSRController extends Controller
         $d = DengueClusteringSchedule::findOrFail($id);
 
         $d->assigned_team = $r->assigned_team;
+        $d->enabled = $r->enabled;
         $oldStatus = $d->getOriginal('status');
         
         if($r->status == 'CYCLE1' && $oldStatus == 'PENDING') {
             //Generate Date for 2nd, 3rd, 4th Cycle
-            
             $d1_date = Carbon::parse($r->cycle1_date);
 
             $d->cycle1_date = $d1_date->copy()->addDays(7)->format('Y-m-d H:i:s');
@@ -10822,7 +10822,10 @@ class PIDSRController extends Controller
             $d->cycle4_date = $d1_date->copy()->addDays(28)->format('Y-m-d H:i:s');
         }
         else {
-            
+            $d->cycle1_date = $r->cycle1_date;
+            $d->cycle2_date = $r->cycle2_date;
+            $d->cycle3_date = $r->cycle3_date;
+            $d->cycle4_date = $r->cycle4_date;
         }
 
         if($d->isDirty()) {

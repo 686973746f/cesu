@@ -60,14 +60,14 @@ class DengueClusteringSchedule extends Model
                 return 'N/A';
             }
             else {
-                return date('M d, Y h:i A', strtotime($this->cycle1_date));
+                return date('M d, Y (D) h:i A', strtotime($this->cycle1_date));
             }
         }
         else if($this->status == 'CYCLE1') {
-            return date('M d, Y h:i A', strtotime($this->cycle2_date));
+            return date('M d, Y (D) h:i A', strtotime($this->cycle2_date));
         }
         else if($this->status == 'CYCLE2') {
-            return date('M d, Y h:i A', strtotime($this->cycle3_date));
+            return date('M d, Y (D) h:i A', strtotime($this->cycle3_date));
         }
         else if($this->status == 'CYCLE3') {
             return '3RD CYCLE DONE';
