@@ -21,23 +21,23 @@
                     <label for="assigned_team"><b class="text-danger">*</b>Responsible Team</label>
                     <select class="form-control" name="assigned_team" id="assigned_team" required>
                         <option value="" disabled {{(is_null(old('assigned_team', $d->assigned_team))) ? 'selected' : ''}}>Choose...</option>
-                        <option value="CHO" {{(old('assigned_team', $d->assigned_team)) == 'CHO'}}>CHO</option>
-                        <option value="CENRO" {{(old('assigned_team', $d->assigned_team)) == 'CENRO'}}>CENRO</option>
-                        <option value="GSO" {{(old('assigned_team', $d->assigned_team)) == 'GSO'}}>GSO</option>
-                        <option value="DOH REGIONAL" {{(old('assigned_team', $d->assigned_team)) == 'DOH REGIONAL'}}>DOH REGIONAL</option>
+                        <option value="CHO" {{((old('assigned_team', $d->assigned_team)) == 'CHO') ? 'selected' : ''}}>CHO</option>
+                        <option value="CENRO" {{((old('assigned_team', $d->assigned_team)) == 'CENRO') ? 'selected' : ''}}>CENRO</option>
+                        <option value="GSO" {{((old('assigned_team', $d->assigned_team)) == 'GSO') ? 'selected' : ''}}>GSO</option>
+                        <option value="DOH REGIONAL" {{((old('assigned_team', $d->assigned_team)) == 'DOH REGIONAL') ? 'selected' : ''}}>DOH REGIONAL</option>
                     </select>
                     </div>
                     <div class="form-group">
                         <label for="status"><b class="text-danger">*</b>Status</label>
                         <select class="form-control" name="status" id="status" required>
                             @if($d->status == 'PENDING')
-                            <option value="PENDING" {{(old('status', $d->assigned_team)) == 'PENDING'}}>PENDING</option>
-                            <option value="CYCLE1" {{(old('status', $d->assigned_team)) == 'CYCLE1'}}>1ST CYCLE DONE</option>
+                            <option value="PENDING" {{(old('status', $d->assigned_team) == 'PENDING') ? 'selected' : ''}}>PENDING</option>
+                            <option value="CYCLE1" {{(old('status', $d->assigned_team) == 'CYCLE1') ? 'selected' : ''}}>1ST CYCLE DONE</option>
                             @else
-                            <option value="CYCLE1" {{(old('status', $d->assigned_team)) == 'CYCLE1'}}>1ST CYCLE DONE</option>
-                            <option value="CYCLE2" {{(old('status', $d->assigned_team)) == 'CYCLE2'}}>2ND CYCLE DONE</option>
-                            <option value="CYCLE3" {{(old('status', $d->assigned_team)) == 'CYCLE3'}}>3RD CYCLE DONE (COMPLETED)</option>
-                            <option value="CYCLE4" {{(old('status', $d->assigned_team)) == 'CYCLE4'}}>4TH CYCLE DONE (OPTIONAL)</option>
+                            <option value="CYCLE1" {{(old('status', $d->assigned_team) == 'CYCLE1') ? 'selected' : ''}}>1ST CYCLE DONE</option>
+                            <option value="CYCLE2" {{(old('status', $d->assigned_team) == 'CYCLE2') ? 'selected' : ''}}>2ND CYCLE DONE</option>
+                            <option value="CYCLE3" {{(old('status', $d->assigned_team) == 'CYCLE3') ? 'selected' : ''}}>3RD CYCLE DONE (COMPLETED)</option>
+                            <option value="CYCLE4" {{(old('status', $d->assigned_team) == 'CYCLE4') ? 'selected' : ''}}>4TH CYCLE DONE (OPTIONAL)</option>
                             @endif
                         </select>
                     </div>
