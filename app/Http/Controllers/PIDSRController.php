@@ -1966,10 +1966,6 @@ class PIDSRController extends Controller
                     }
                 }
             }
-
-            if($d->isDirty()) {
-                $d->save();
-            }
             
             //Clustering Check
             if($disease == 'DENGUE') {
@@ -2008,10 +2004,10 @@ class PIDSRController extends Controller
                 }
 
                 $d->sys_clustering_schedule_id = $tagto_clustering_id;
+            }
 
-                if($d->isDirty()) {
-                    $d->save();
-                }
+            if($d->isDirty()) {
+                $d->save();
             }
 
             if($r->fromVerifier == 1) {
