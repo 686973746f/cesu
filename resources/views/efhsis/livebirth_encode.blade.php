@@ -36,12 +36,6 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="lname"><b class="text-danger">*</b>Last Name</label>
-                                        <input type="text" class="form-control" name="lname" id="lname" value="{{old('lname')}}" minlength="2" maxlength="50" placeholder="ex: DELA CRUZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
                                         <label for="fname"><b class="text-danger">*</b>First Name</label>
                                         <input type="text" class="form-control" name="fname" id="fname" value="{{old('fname')}}" minlength="2" maxlength="50" placeholder="ex: JUAN" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required>
                                     </div>
@@ -50,6 +44,12 @@
                                     <div class="form-group">
                                         <label for="mname">Middle Name <i>(If Applicable)</i></label>
                                         <input type="text" class="form-control" name="mname" id="mname" value="{{old('mname')}}" minlength="2" maxlength="50" placeholder="ex: SANCHEZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="lname"><b class="text-danger">*</b>Last Name</label>
+                                        <input type="text" class="form-control" name="lname" id="lname" value="{{old('lname')}}" minlength="2" maxlength="50" placeholder="ex: DELA CRUZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -121,20 +121,21 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="parent_lname"><b class="text-danger">*</b>Parent Last Name</label>
-                                        <input type="text" class="form-control" name="parent_lname" id="parent_lname" value="{{old('parent_lname')}}" minlength="2" maxlength="50" placeholder="ex: DELA CRUZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
                                         <label for="parent_fname"><b class="text-danger">*</b>Parent First Name</label>
                                         <input type="text" class="form-control" name="parent_fname" id="parent_fname" value="{{old('parent_fname')}}" minlength="2" maxlength="50" placeholder="ex: MARCI" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required>
                                     </div>
+                                    
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="parent_mname">Parent Middle Name <i>(If Applicable)</i></label>
                                         <input type="text" class="form-control" name="parent_mname" id="parent_mname" value="{{old('parent_mname')}}" minlength="2" maxlength="50" placeholder="ex: TANGGOL" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="parent_lname"><b class="text-danger">*</b>Parent Last Name</label>
+                                        <input type="text" class="form-control" name="parent_lname" id="parent_lname" value="{{old('parent_lname')}}" minlength="2" maxlength="50" placeholder="ex: DELA CRUZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required>
                                     </div>
                                 </div>
                                 <div class="col-md-3">

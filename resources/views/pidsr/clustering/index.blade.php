@@ -24,7 +24,15 @@
                         <tr>
                             <td>{{date('m/d/Y h:i A', strtotime($d->created_at))}}</td>
                             <td class="text-center">{{$d->morbidity_week}}</td>
-                            <td>{{$d->brgy->name}}</td>
+                            <td>
+                                <div><b>{{$d->brgy->name}}</b></div>
+                                <hr>
+                                <ul>
+                                    @foreach($d->fetchClusteringList() as $cl)
+                                    <div></div>
+                                    @endforeach
+                                </ul>
+                            </td>
                             <td>{{$d->purok_subdivision}}</td>
                             <td class="text-center">{{$d->getTotalPatients()}}</td>
                             <td class="text-center">{{$d->assigned_team ?: 'N/A'}}</td>
