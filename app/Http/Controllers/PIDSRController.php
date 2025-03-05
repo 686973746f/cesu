@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\EdcsGenericExport;
 use ZipArchive;
 use App\Models\Nt;
 use Carbon\Carbon;
@@ -28,6 +27,7 @@ use App\Models\Malaria;
 use App\Models\Measles;
 use App\Models\Meningo;
 use App\Models\Typhoid;
+use App\Models\EdcsBrgy;
 use App\Models\Hepatitis;
 use App\Models\Influenza;
 use App\Models\MonkeyPox;
@@ -38,17 +38,20 @@ use App\Imports\EdcsImport;
 use App\Jobs\CallTkcImport;
 use App\Models\DohFacility;
 use App\Models\Subdivision;
+use Carbon\CarbonImmutable;
 use Illuminate\Support\Str;
 use App\Imports\PidsrImport;
 use App\Models\SiteSettings;
 use Illuminate\Http\Request;
 use App\Imports\RabiesImport;
 use App\Models\Leptospirosis;
+use App\Models\SubdivisionV2;
 use App\Models\PidsrThreshold;
 use App\Imports\TkcExcelImport;
-use App\Jobs\CallEdcsImportJobV2;
 use App\Models\LabResultLogBook;
 use App\Models\SyndromicRecords;
+use App\Jobs\CallEdcsImportJobV2;
+use App\Exports\EdcsGenericExport;
 use App\Models\EdcsLaboratoryData;
 use App\Models\PidsrNotifications;
 use App\Models\SyndromicLabResult;
@@ -59,23 +62,21 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
 use Rap2hpoutre\FastExcel\FastExcel;
+use App\Models\FhsisSystemPopulation;
 use App\Models\LabResultLogBookGroup;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Session;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use App\Models\DengueClusteringSchedule;
 use OpenSpout\Common\Entity\Style\Style;
 use PhpOffice\PhpSpreadsheet\Writer\Csv;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use App\Jobs\EdcsWeeklySubmissionSendEmail;
 use App\Models\EdcsWeeklySubmissionChecker;
-use App\Jobs\CallEdcsWeeklySubmissionSendEmail;
-use App\Models\DengueClusteringSchedule;
-use App\Models\EdcsBrgy;
 use App\Models\EdcsWeeklySubmissionTrigger;
-use App\Models\FhsisSystemPopulation;
+use App\Jobs\CallEdcsWeeklySubmissionSendEmail;
 use App\Models\SevereAcuteRespiratoryInfection;
-use App\Models\SubdivisionV2;
 
 /*
 ALL TABLES
@@ -10815,12 +10816,12 @@ class PIDSRController extends Controller
         
         if($r->status == 'CYCLE1' && $oldStatus == 'PENDING') {
             //Generate Date for 2nd, 3rd, 4th Cycle
-            $d1_date = Carbon::parse($r->cycle1_date);
+            $d1_date = CarbonImmutable::parse($r->cycle1_date);
 
-            $d->cycle1_date = $d1_date->copy()->addDays(7)->format('Y-m-d H:i:s');
-            $d->cycle2_date = $d1_date->copy()->addDays(14)->format('Y-m-d H:i:s');
-            $d->cycle3_date = $d1_date->copy()->addDays(21)->format('Y-m-d H:i:s');
-            $d->cycle4_date = $d1_date->copy()->addDays(28)->format('Y-m-d H:i:s');
+            $d->cycle1_date = $d1_date->copy()->format('Y-m-d H:i:s');
+            $d->cycle2_date = $d1_date->copy()->addDays(7)->format('Y-m-d H:i:s');
+            $d->cycle3_date = $d1_date->copy()->addDays(14)->format('Y-m-d H:i:s');
+            $d->cycle4_date = $d1_date->copy()->addDays(21)->format('Y-m-d H:i:s');
         }
         else {
             $d->cycle1_date = $r->cycle1_date;
