@@ -1988,6 +1988,7 @@ class PIDSRController extends Controller
                 ->where('brgy_id', $fetch_brgy->id)
                 ->where('purok_subdivision', $d->subdivision_group)
                 ->whereBetween('morbidity_week', [$previous_mw, $current_mw])
+                ->orderBy('created_at', 'ASC')
                 ->first();
 
                 if($cs) {
