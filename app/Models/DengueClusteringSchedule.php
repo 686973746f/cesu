@@ -34,4 +34,8 @@ class DengueClusteringSchedule extends Model
     public function getTotalPatients() {
         return Dengue::where('sys_clustering_schedule_id', $this->id)->count();
     }
+
+    public function fetchClusteringList() {
+        return Dengue::where('sys_clustering_schedule_id', $this->id)->get();
+    }
 }
