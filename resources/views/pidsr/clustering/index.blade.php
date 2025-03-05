@@ -10,6 +10,7 @@
                     <thead class="thead-light text-center">
                         <tr>
                             <th>Created at</th>
+                            <th>Morbidity Week</th>
                             <th>Barangay</th>
                             <th>Purok/Subdivision</th>
                             <th>Total Patients</th>
@@ -22,6 +23,7 @@
                         @foreach($list as $d)
                         <tr>
                             <td>{{date('m/d/Y h:i A', strtotime($d->created_at))}}</td>
+                            <td class="text-center">{{$d->morbidity_week}}</td>
                             <td>{{$d->brgy->name}}</td>
                             <td>{{$d->purok_subdivision}}</td>
                             <td class="text-center">{{$d->getTotalPatients()}}</td>
