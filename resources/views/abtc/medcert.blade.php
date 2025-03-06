@@ -62,8 +62,24 @@
                         @endif
                         <p>Thank you very much.</p>
                         <p style="margin-bottom: 100px;">Sincerely,</p>
+                        @if(auth()->user()->itr_facility_id == 10886)
                         <p><b>JONATHAN P. LUSECO, MD</b></p>
                         <p style="margin-top: -20px;">City Health Officer II</p>
+                        @elseif(auth()->user()->itr_facility_id == 11730)
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><b>ABE D. ESCARIO, MD</b></p>
+                                <p style="margin-top: -20px;">City Health Officer I</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><b>CHERRY L. ASPURIA, MD</b></p>
+                                <p style="margin-top: -20px;">Medical Officer IV</p>
+                            </div>
+                        </div>
+                        @else
+                        <p><b>JONATHAN P. LUSECO, MD</b></p>
+                        <p style="margin-top: -20px;">City Health Officer II</p>
+                        @endif
                     </div>
                 </div>
             </div>

@@ -98,7 +98,6 @@ class CallM2Export implements ShouldQueue
             'Typhoid',
             'SevereAcuteRespiratoryInfection',
             */
-
             
             foreach(PIDSRController::listDiseasesTablesRev2() as $d) {
                 if($d == 'DengueWithoutWarningSigns' || $d == 'DengueWithWarningSigns' || $d == 'DengueSevere') {
