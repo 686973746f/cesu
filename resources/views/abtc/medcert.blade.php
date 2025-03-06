@@ -66,10 +66,8 @@
                         <p><b>JONATHAN P. LUSECO, MD</b></p>
                         <p style="margin-top: -20px;">City Health Officer II</p>
                         @elseif(auth()->user()->itr_facility_id == 11730)
-                        <div class="row">
-                            <p><b>CHERRY L. ASPURIA, MD</b></p>
-                            <p style="margin-top: -20px;">Medical Officer IV</p>
-                        </div>
+                        <p><b>CHERRY L. ASPURIA, MD</b></p>
+                        <p style="margin-top: -20px;">Medical Officer IV</p>
                         @else
                         <p><b>JONATHAN P. LUSECO, MD</b></p>
                         <p style="margin-top: -20px;">City Health Officer II</p>
