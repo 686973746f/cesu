@@ -3756,7 +3756,7 @@ class FhsisController extends Controller
                     'MUN_CODE' => 'GENERAL TRIAS',
                     'BGY_CODE' => $brgyNameFhsis,
                     'DATE' => $start->format('m/d/y'),
-                    'DISEASE' => '',
+                    'DISEASE' => '000',
                     'UNDER1_M' => 0,
                     'UNDER1_F' => 0,
                     '1_4_M' => 0,
