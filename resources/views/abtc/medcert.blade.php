@@ -62,8 +62,23 @@
                         @endif
                         <p>Thank you very much.</p>
                         <p style="margin-bottom: 100px;">Sincerely,</p>
+
+                        @if(request()->input('doctor') == 'DOC_ATHAN')
                         <p><b>JONATHAN P. LUSECO, MD</b></p>
                         <p style="margin-top: -20px;">City Health Officer II</p>
+                        @elseif(request()->input('doctor') == 'DOC_ABE')
+                        <p><b>ABE D. ESCARIO, MD</b></p>
+                        <p style="margin-top: -20px;">City Health Officer I</p>
+                        @elseif(request()->input('doctor') == 'DOC_YVES')
+                        <p><b>YVES M. TALOSIG, MD</b></p>
+                        <p style="margin-top: -20px;">Medical Officer III</p>
+                        @elseif(request()->input('doctor') == 'DRA_CHERRY')
+                        <p><b>CHERRY L. ASPURIA, MD</b></p>
+                        <p style="margin-top: -20px;">Medical Officer IV</p>
+                        @elseif(request()->input('doctor') == 'DOC_ED')
+                        <p><b>EDGARDO R. FIGUEROA, MD</b></p>
+                        <p style="margin-top: -20px;">Medical Officer III</p>
+                        @endif
                     </div>
                 </div>
             </div>

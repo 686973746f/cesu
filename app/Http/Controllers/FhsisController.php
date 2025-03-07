@@ -3557,8 +3557,7 @@ class FhsisController extends Controller
                     $above65_f = 0;
                 }
     
-                /*
-                Old Totalization
+                //Old Totalization
                 $total_m = $age1_m +
                     $age2_m +
                     $age3_m +
@@ -3596,8 +3595,8 @@ class FhsisController extends Controller
                     $age16_f +
                     $age17_f +
                     $age18_f;
-                */
 
+                /*
                 $total_m = $age1_m +
                     $age2_m +
                     $age3_m +
@@ -3647,6 +3646,7 @@ class FhsisController extends Controller
                     $uf_deaths_finaltotal_f +
                     $mat_deaths_finaltotal +
                     $ormat_deaths_finaltotal;
+                */
     
                 $total_deaths_m += $total_m;
                 $total_deaths_f += $total_f;
@@ -3756,7 +3756,7 @@ class FhsisController extends Controller
                     'MUN_CODE' => 'GENERAL TRIAS',
                     'BGY_CODE' => $brgyNameFhsis,
                     'DATE' => $start->format('m/d/y'),
-                    'DISEASE' => '',
+                    'DISEASE' => '000',
                     'UNDER1_M' => 0,
                     'UNDER1_F' => 0,
                     '1_4_M' => 0,

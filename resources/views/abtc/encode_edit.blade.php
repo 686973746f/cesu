@@ -62,7 +62,7 @@
                     <div>
                         <a href="{{route('abtc_itr', $d->id)}}" class="btn btn-primary"><i class="fas fa-print mr-2"></i>Print ITR</a>
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#rfrbtn">Print Referral Slip</button>
-                        <a href="{{route('abtc_medcert', $d->id)}}" class="btn btn-primary"><i class="fas fa-print mr-2"></i>Print MedCert</a>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#printMedCert"><i class="fas fa-print mr-2"></i>Print MedCert</button>
                         <a href="{{route('abtc_print_view', $d->id)}}?t=1" class="btn btn-primary"><i class="fas fa-print mr-2"></i>Print Card</a>
                     </div>
                 </div>
@@ -504,6 +504,37 @@
         </div>
     </div>
 </div>
+
+<form action="{{route('abtc_medcert', $d->id)}}" method="GET">
+    <div class="modal fade" id="printMedCert" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Print Medical Certificate</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                      <label for="doctor"><b class="text-danger">*</b>Select Doctor</label>
+                      <select class="form-select" name="doctor" id="doctor" required>
+                        <option value="" disabled selected>Choose...</option>
+                        <option value="DOC_ATHAN">Jonathan P. Luseco, MD</option>
+                        <option value="DOC_ABE">Abe D. Escario, MD</option>
+                        <option value="DOC_YVES">Yves M. Talosig, MD</option>
+                        <option value="DRA_CHERRY">Cherry L. Aspuria, MD</option>
+                        <option value="DOC_ED">Edgardo R. Figueroa, MD</option>
+                      </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-block">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
   
 <script>
 $(document).ready(function () {

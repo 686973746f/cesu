@@ -250,28 +250,46 @@ class AbtcInventoryController extends Controller
             ->first();
 
             if($check) {
+                /*
                 return redirect()->back()
                 ->with('msg', 'Error: Same Batch Number already exists in the database. Kindly double check and try again.')
                 ->with('msgtype', 'warning');
+                */
+
+                //Add to Existing Batch the Quantity
+
+                $before_qty = $check->current_qty;
+                $check->current_qty = $check->current_qty + $r->current_qty;
+                $after_qty = $check->current_qty;
+
+                if($check->isDirty()) {
+                    $check->save();
+                }
+
+                $stock_id = $check->id;
             }
-
-            $c = AbtcInventoryStock::create([
-                'sub_id' => $d->id,
-                'batch_no' => $batch_no,
-                'expiry_date' => $r->expiry_date,
-                'source' => $r->source,
-
-                'current_qty' => $r->current_qty,
-                'created_by' => Auth::id(),
-            ]);
+            else {
+                $c = AbtcInventoryStock::create([
+                    'sub_id' => $d->id,
+                    'batch_no' => $batch_no,
+                    'expiry_date' => $r->expiry_date,
+                    'source' => $r->source,
+    
+                    'current_qty' => $r->current_qty,
+                    'created_by' => Auth::id(),
+                ]);
+                $stock_id = $c->id;
+                $before_qty = 0;
+                $after_qty = $r->current_qty;
+            }
 
             $d = AbtcInventoryTransaction::create([
                 'transaction_date' => date('Y-m-d'),
-                'stock_id' => $c->id,
+                'stock_id' => $stock_id,
                 'type' => 'RECEIVED',
                 'process_qty' => $r->current_qty,
-                'before_qty' => 0,
-                'after_qty' => $r->current_qty,
+                'before_qty' => $before_qty,
+                'after_qty' => $after_qty,
                 //'po_number',
                 'unit_price' => $r->unit_price,
                 'unit_price_amount' => ($r->current_qty * $r->unit_price),
@@ -390,5 +408,10 @@ class AbtcInventoryController extends Controller
         }
 
         return response()->json($list);
+    }
+
+    public function monthlyStockReport() {
+        //For Pharmacy Use
+
     }
 }
