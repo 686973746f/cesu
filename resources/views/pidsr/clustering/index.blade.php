@@ -73,7 +73,7 @@
                             <td class="text-center">{{$d->getStatus()}}</td>
                             <td class="text-center">
                                 @if($d->getUpcomingCycleDate() != 'N/A' && $d->getUpcomingCycleDate() != '3RD CYCLE DONE')
-                                <div>{{Carbon\Carbon::parse($d->getUpcomingCycleDate())->format('m/d/Y')}}</div>
+                                <div>{{Carbon\Carbon::parse($d->getUpcomingCycleDate())->format('m/d/Y (D)')}}</div>
                                 <div>{{Carbon\Carbon::parse($d->getUpcomingCycleDate())->format('H:i / h:i A')}}</div>
                                 <div>{{$d->getUpcomingCycle()}}</div>
                                 @else
