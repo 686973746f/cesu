@@ -39,17 +39,7 @@
                     <tbody>
                         @foreach($list as $d)
                         @php
-                            if(request()->input('showNonClustering')) {
-                                $allow = true;
-                            }
-                            else {
-                                if($d->getTotalPatients() <= 1) {
-                                    $allow = false;
-                                }
-                                else {
-                                    $allow = true;
-                                }
-                            }
+                            $allow = true;
                         @endphp
                         @if($allow)
                         <tr>
