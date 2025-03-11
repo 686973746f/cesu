@@ -776,6 +776,7 @@ foreach($classification_titles as $ind => $ctitle) {
 
     $('#barangayTable1').dataTable({
         iDisplayLength: -1,
+        order: [[1, 'desc']],
         'dom': 't',
     });
 

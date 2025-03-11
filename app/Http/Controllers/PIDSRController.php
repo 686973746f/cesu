@@ -10801,6 +10801,7 @@ class PIDSRController extends Controller
     public function dengueClusteringViewer() {
         $list = DengueClusteringSchedule::where('enabled', 1)
         ->where('year', date('Y'))
+        ->whereNotIn('status', ['CYCLE3', 'CYCLE4'])
         ->get();
 
         return view('pidsr.clustering.index', [

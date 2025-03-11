@@ -83,6 +83,8 @@
 <script>
     $('#mainTbl').dataTable({
         iDisplayLength: -1,
+        fixedHeader: true,
+        order: [[7, 'asc']],
         dom: 'Qbftrip',
     });
 </script>
