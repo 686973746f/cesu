@@ -1934,6 +1934,14 @@ class PIDSRController extends Controller
             $d->sys_coordinate_x = $r->sys_coordinate_x;
             $d->sys_coordinate_y = $r->sys_coordinate_y;
             $d->edcs_contactNo = $r->edcs_contactNo;
+
+            if(!is_null($r->sys_clustering_schedule_id)) {
+                $fc = DengueClusteringSchedule::where('id', $r->sys_clustering_schedule_id)->first();
+
+                if($fc) {
+                    $d->sys_clustering_schedule_id = $r->sys_clustering_schedule_id;
+                }
+            }
             
             if(request()->is('*barangayportal*')) {
                 $d->brgy_remarks = ($r->brgy_remarks) ? mb_strtoupper($r->brgy_remarks) : $d->brgy_remarks;
