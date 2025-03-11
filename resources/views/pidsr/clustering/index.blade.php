@@ -33,8 +33,7 @@
                             <th>Total Cases</th>
                             <th>Responsible Team</th>
                             <th>Status</th>
-                            <th>Schedule Date</th>
-                            <th>Cycle</th>
+                            <th>Schedule Date/Cycle</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -72,8 +71,15 @@
                             <td class="text-center">{{$d->getTotalPatients()}}</td>
                             <td class="text-center">{{$d->assigned_team ?: 'N/A'}}</td>
                             <td class="text-center">{{$d->getStatus()}}</td>
-                            <td class="text-center">{{$d->getUpcomingCycleDate()}}</td>
-                            <td class="text-center">{{$d->getUpcomingCycle()}}</td>
+                            <td class="text-center">
+                                @if($d->getUpcomingCycleDate() != 'N/A' && $d->getUpcomingCycleDate() != '3RD CYCLE DONE')
+                                <div>{{Carbon\Carbon::parse($d->getUpcomingCycleDate())->format('m/d/Y (D)')}}</div>
+                                <div>{{Carbon\Carbon::parse($d->getUpcomingCycleDate())->format('H:i / h:i A')}}</div>
+                                <div>{{$d->getUpcomingCycle()}}</div>
+                                @else
+                                <div>{{$d->getUpcomingCycleDate()}}</div>
+                                @endif
+                            </td>
                         </tr>
                         @endif
                         @endforeach
