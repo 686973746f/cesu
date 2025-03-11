@@ -92,6 +92,7 @@
 
 <script>
     $('#mainTbl').dataTable({
+        iDisplayLength: -1,
         dom: 'Qbftrip',
     });
 </script>
