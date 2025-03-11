@@ -107,7 +107,7 @@
                         <div id="override_div" class="d-none">
                             <div class="form-group">
                                 <label for="sys_clustering_schedule_id">Override to Clustering Schedule ID</label>
-                                <input type="number" class="form-control" name="sys_clustering_schedule_id" id="sys_clustering_schedule_id" min="1" max="9999999" value="{{old('sys_clustering_schedule_id', $b->sys_clustering_schedule_id)}}">
+                                <input type="number" class="form-control" name="sys_clustering_schedule_id" id="sys_clustering_schedule_id" min="1" max="9999999" value="{{old('sys_clustering_schedule_id', $d->sys_clustering_schedule_id)}}">
                             </div>
                         </div>
                     </div>
