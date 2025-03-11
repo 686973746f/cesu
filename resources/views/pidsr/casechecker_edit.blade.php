@@ -100,9 +100,15 @@
                                 <input type="text" class="form-control" name="subdivision_group_new" id="subdivision_group_new" style="text-transform: uppercase;">
                             </div>
                         </div>
-                        <div class="form-group">
-                          <label for="sys_clustering_schedule_id">Override to Clustering Schedule ID</label>
-                          <input type="number" class="form-control" name="sys_clustering_schedule_id" id="sys_clustering_schedule_id" min="1" max="9999999" value="{{old('sys_clustering_schedule_id', $b->sys_clustering_schedule_id)}}">
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" name="override_clustering" id="override_clustering" value="1">Override Clustering ID</label>
+                        </div>
+                        <div id="override_div" class="d-none">
+                            <div class="form-group">
+                                <label for="sys_clustering_schedule_id">Override to Clustering Schedule ID</label>
+                                <input type="number" class="form-control" name="sys_clustering_schedule_id" id="sys_clustering_schedule_id" min="1" max="9999999" value="{{old('sys_clustering_schedule_id', $b->sys_clustering_schedule_id)}}">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -434,5 +440,16 @@
         });
     });
 
+    $('#override_clustering').change(function (e) { 
+        e.preventDefault();
+        if($(this).is(':checked')) {
+            $('#override_div').removeClass('d-none');
+            $('#sys_clustering_schedule_id').prop('required', true);
+        }
+        else {
+            $('#override_div').addClass('d-none');
+            $('#sys_clustering_schedule_id').prop('required', false);
+        }
+    }).trigger('change');
 </script>
 @endsection

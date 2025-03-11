@@ -2003,17 +2003,20 @@ class PIDSRController extends Controller
                     $tagto_clustering_id = $create_cs->id;
                 }
 
-                /*
-                    if($r->sys_clustering_schedule_id) {
+                if($r->override_div == 1) {
                     $fc = DengueClusteringSchedule::where('id', $r->sys_clustering_schedule_id)->first();
-
-                    if($fc) {
-                        $d->sys_clustering_schedule_id = $r->sys_clustering_schedule_id;
+                    
+                    if(!$fc) {
+                        return redirect()->back()
+                        ->with('msg', 'Error: Invalid Clustering Schedule ID. Please double check and try again.')
+                        ->with('msgtype', 'warning');
                     }
-                }
-                */
 
-                $d->sys_clustering_schedule_id = $tagto_clustering_id;
+                    $d->sys_clustering_schedule_id = $fc->id;
+                }
+                else {
+                    $d->sys_clustering_schedule_id = $tagto_clustering_id;
+                }
             }
 
             if($d->isDirty()) {
