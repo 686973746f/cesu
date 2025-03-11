@@ -437,7 +437,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="table-responsive">
-                        <table class="table table-bordered table-sm" id="barangayTable1">
+                        <table class="table table-bordered table-sm" id="barangayTable1" style="font-size: 10px;">
                             <thead class="text-center thead-light">
                                 <tr>
                                     <th rowspan="3">Barangays</th>
@@ -476,7 +476,7 @@
                                 @endphp
                                 @foreach($brgy_sortedtohighestweek_array as $b)
                                 <tr>
-                                    <td>{{$b['brgy_name']}}</td>
+                                    <td><b>{{$b['brgy_name']}}</b></td>
                                     <td class="text-center" style="{{\App\Http\Controllers\PidsrController::setBgColor($b['brgy_last3mw'])}}">{{$b['brgy_last3mw']}}</td>
                                     <td class="text-center">{{number_format($b['population'])}}</td>
                                     <td class="text-center" style="color: blue;">{{$b['brgy_total_cases_m']}}</td>

@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Models\AbtcInventoryMaster;
 use App\Models\AbtcInventoryStock;
+use App\Models\AbtcInventoryMaster;
+use App\Models\AbtcVaccinationSite;
 use Illuminate\Support\Facades\Auth;
 use App\Models\AbtcInventorySubMaster;
 use App\Models\AbtcInventoryTransaction;
-use App\Models\AbtcVaccinationSite;
 
 class AbtcInventoryController extends Controller
 {
@@ -413,5 +414,21 @@ class AbtcInventoryController extends Controller
     public function monthlyStockReport() {
         //For Pharmacy Use
 
+        $date = Carbon::createFromDate(2025, 2, 1);
+
+        $lgu_final = [];
+        $doh_final = [];
+
+        foreach(AbtcInventorySubMaster::where('abtc_facility_id', auth()->user()->abtc_default_vaccinationsite_id)->get() as $l) {
+            $lgu_stock_list = AbtcInventoryStock::where('sub_id', $l->id)
+            ->where('source', 'LGU')
+            ->get();
+
+            foreach($lgu_stock_list as $m) {
+                $lgu_final[] = [
+                    'name' => '',
+                ];
+            }
+        }
     }
 }
