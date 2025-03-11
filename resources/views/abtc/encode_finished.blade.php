@@ -236,7 +236,7 @@
                 <div class="form-group">
                     <label for="status_type"><b class="text-danger">*</b>Philhealth Membership Type</label>
                     <select class="form-control" name="philhealth_statustype" id="philhealth_statustype" required>
-                        @if($f->patient->getAgeInt() <= 21)
+                        @if($f->patient->getAgeInt() <= 19)
                         <option value="DEPENDENT" {{(old('philhealth_statustype', $f->patient->philhealth_statustype) == 'DEPENDENT') ? 'selected' : ''}}>Dependent (Wala pang Philhealth Account)</option>
                         @else
                         <option value="MEMBER" {{(old('philhealth_statustype', $f->patient->philhealth_statustype) == 'MEMBER') ? 'selected' : ''}}>Member (May sarili nang Philhealth Account)</option>
