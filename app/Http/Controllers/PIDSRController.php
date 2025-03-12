@@ -10812,8 +10812,13 @@ class PIDSRController extends Controller
     public function dengueClusteringEditSchedule($id) {
         $d = DengueClusteringSchedule::findOrFail($id);
 
+        $brgy_list = EdcsBrgy::where('city_id', 388)
+        ->orderBy('name', 'ASC')
+        ->get();
+
         return view('pidsr.clustering.schedule_edit', [
             'd' => $d,
+            'brgy_list' => $brgy_list,
         ]);
     }
 
@@ -10824,6 +10829,8 @@ class PIDSRController extends Controller
         $d->enabled = $r->enabled;
         $oldStatus = $d->getOriginal('status');
         $d->status = $r->status;
+        $d->purok_subdivision = mb_strtoupper($r->purok_subdivision);
+        $d->brgy_id = $r->brgy_id;
         
         if($r->status == 'CYCLE1' && $oldStatus == 'PENDING') {
             //Generate Date for 2nd, 3rd, 4th Cycle

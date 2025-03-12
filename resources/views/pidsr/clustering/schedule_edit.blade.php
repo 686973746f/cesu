@@ -17,6 +17,25 @@
                   <input type="number" class="form-control" name="enabled" id="enabled" min="0" max="1" value="{{$d->enabled}}" required>
                 </div>
                 <div id="enabled_div" class="d-none">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="purok_subdivision"><b class="text-danger">*</b>Override Area Name</label>
+                                <input type="text" class="form-control" name="purok_subdivision" id="purok_subdivision" value="{{old('purok_subdivision', $d->purok_subdivision)}}" style="text-transform: uppercase" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="brgy_id"><b class="text-danger">*</b>Override Barangay</label>
+                                <select class="form-control" name="brgy_id" id="brgy_id" required>
+                                    @foreach($brgy_list as $b)
+                                    <option value="{{$b->id}}" {{($b->id == old('brgy_id', $d->brgy_id)) ? 'selected' : ''}}>{{$b->alt_name ?: $b->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
                     <div class="form-group">
                     <label for="assigned_team"><b class="text-danger">*</b>Responsible Team</label>
                     <select class="form-control" name="assigned_team" id="assigned_team" required>
@@ -68,13 +87,25 @@
                 </div>
             </div>
             <div class="card-footer">
-                <button type="submit" class="btn btn-success btn-block">Save</button>
+                <button type="submit" class="btn btn-success btn-block" id="submitBtn">Save (CTRL + S)</button>
             </div>
         </div>
     </form>
 </div>
 
 <script>
+    $(document).bind('keydown', function(e) {
+        if(e.ctrlKey && (e.which == 83)) {
+            e.preventDefault();
+            $('#submitBtn').trigger('click');
+            $('#submitBtn').prop('disabled', true);
+            setTimeout(function() {
+                $('#submitBtn').prop('disabled', false);
+            }, 2000);
+            return false;
+        }
+    });
+
     $('#enabled').change(function (e) { 
         e.preventDefault();
         if($(this).val() == 1) {
