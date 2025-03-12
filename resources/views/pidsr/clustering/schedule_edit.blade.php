@@ -31,13 +31,13 @@
                         <label for="status"><b class="text-danger">*</b>Status</label>
                         <select class="form-control" name="status" id="status" required>
                             @if($d->status == 'PENDING')
-                            <option value="PENDING" {{(old('status', $d->assigned_team) == 'PENDING') ? 'selected' : ''}}>PENDING</option>
-                            <option value="CYCLE1" {{(old('status', $d->assigned_team) == 'CYCLE1') ? 'selected' : ''}}>1ST CYCLE DONE</option>
+                            <option value="PENDING" {{(old('status', $d->status) == 'PENDING') ? 'selected' : ''}}>PENDING</option>
+                            <option value="CYCLE1" {{(old('status', $d->status) == 'CYCLE1') ? 'selected' : ''}}>1ST CYCLE DONE</option>
                             @else
-                            <option value="CYCLE1" {{(old('status', $d->assigned_team) == 'CYCLE1') ? 'selected' : ''}}>1ST CYCLE DONE</option>
-                            <option value="CYCLE2" {{(old('status', $d->assigned_team) == 'CYCLE2') ? 'selected' : ''}}>2ND CYCLE DONE</option>
-                            <option value="CYCLE3" {{(old('status', $d->assigned_team) == 'CYCLE3') ? 'selected' : ''}}>3RD CYCLE DONE (COMPLETED)</option>
-                            <option value="CYCLE4" {{(old('status', $d->assigned_team) == 'CYCLE4') ? 'selected' : ''}}>4TH CYCLE DONE (OPTIONAL)</option>
+                            <option value="CYCLE1" {{(old('status', $d->status) == 'CYCLE1') ? 'selected' : ''}}>1ST CYCLE DONE</option>
+                            <option value="CYCLE2" {{(old('status', $d->status) == 'CYCLE2') ? 'selected' : ''}}>2ND CYCLE DONE</option>
+                            <option value="CYCLE3" {{(old('status', $d->status) == 'CYCLE3') ? 'selected' : ''}}>3RD CYCLE DONE (COMPLETED)</option>
+                            <option value="CYCLE4" {{(old('status', $d->status) == 'CYCLE4') ? 'selected' : ''}}>4TH CYCLE DONE (OPTIONAL)</option>
                             @endif
                         </select>
                     </div>
