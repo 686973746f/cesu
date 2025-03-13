@@ -412,21 +412,32 @@ class AbtcInventoryController extends Controller
     }
 
     public function monthlyStockReport() {
-        //For Pharmacy Use
+        $year = request()->input('year');
+        $month = request()->input('month');
 
-        $date = Carbon::createFromDate(2025, 2, 1);
+        //For Pharmacy Use
+        $date = Carbon::createFromDate($year, $month, 1);
+        $previous_month = $date->copy()->subMonth(1);
 
         $lgu_final = [];
         $doh_final = [];
-
         foreach(AbtcInventorySubMaster::where('abtc_facility_id', auth()->user()->abtc_default_vaccinationsite_id)->get() as $l) {
             $lgu_stock_list = AbtcInventoryStock::where('sub_id', $l->id)
             ->where('source', 'LGU')
             ->get();
 
+            //Previous Month, get the last transaction
+
             foreach($lgu_stock_list as $m) {
+                $edpm = AbtcInventoryTransaction::where('stock_id', $m->id)
+                ->whereYear('transaction_date', $previous_month->format('Y'))
+                ->whereMonth('transaction_date', $previous_month->format('n'))
+                ->latest()
+                ->first();
+
                 $lgu_final[] = [
-                    'name' => '',
+                    'name' => $m->submaster->master->name,
+                    'ending_previous_month' => $edpm->after_qty,
                 ];
             }
         }

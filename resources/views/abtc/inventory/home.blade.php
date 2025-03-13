@@ -10,6 +10,7 @@
                         <div>(Sorted from Newest to Oldest)</div>
                     </div>
                     <div>
+                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#reportsModal">Reports</button>
                         @if(auth()->user()->isGlobalAdmin())
                         <a href="{{route('abtcinv_masterlist_home')}}" class="btn btn-outline-warning">View Masterlist</a>
                         @endif
@@ -173,6 +174,53 @@
             </div>
         </div>
     </form>
+
+    <div class="modal fade" id="reportsModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reports</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <form action="">
+                        <div class="card">
+                            <div class="card-header"><b>Pharmacy Monthly Report</b></div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="year"><b class="text-danger">*</b>Year</label>
+                                    <input type="number" class="form-control" name="year" id="phr_year" min="2025" max="{{date('Y')}}" value="{{date('Y')}}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="month"><b class="text-danger">*</b>Month</label>
+                                    <select class="form-control" name="month" id="phr_month" required>
+                                      <option value="" disabled selected>Choose...</option>
+                                      <option value="1">January</option>
+                                      <option value="2">February</option>
+                                      <option value="3">March</option>
+                                      <option value="4">April</option>
+                                      <option value="5">May</option>
+                                      <option value="6">June</option>
+                                      <option value="7">July</option>
+                                      <option value="8">August</option>
+                                      <option value="9">September</option>
+                                      <option value="10">October</option>
+                                      <option value="11">November</option>
+                                      <option value="12">December</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-success btn-block">Generate</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         $('#sub_id').select2({

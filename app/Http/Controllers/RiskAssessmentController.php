@@ -730,7 +730,7 @@ class RiskAssessmentController extends Controller
                 ->where('is_followup', 'N')
                 ->where('month', request()->input('month'));
 
-                $brgy_list = EdcsBrgy::where('city_id', 388)->orderBy('name')->get();
+                $brgy_list = EdcsBrgy::where('city_id', 388)->orderBy('noncomm_customOrderNo', 'ASC')->get();
 
                 $i = request()->input('month');
 

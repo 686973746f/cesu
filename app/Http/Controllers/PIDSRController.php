@@ -2003,7 +2003,7 @@ class PIDSRController extends Controller
                     $tagto_clustering_id = $create_cs->id;
                 }
 
-                if($r->override_div == 1) {
+                if($r->override_clustering == 1) {
                     $fc = DengueClusteringSchedule::where('id', $r->sys_clustering_schedule_id)->first();
                     
                     if(!$fc) {
