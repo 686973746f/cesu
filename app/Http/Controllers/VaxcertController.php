@@ -1433,13 +1433,13 @@ class VaxcertController extends Controller
 
                 $sheet->setCellValue('A'.$c, $set_category);
                 $sheet->setCellValue('B'.$c, $r->filled('comorbidity') ? mb_strtoupper($r->comorbidity) : ''); //COMORBID
-                $sheet->setCellValue('C'.$c, (!is_null($r->unique_person_id)) ? $r->unique_person_id : 'NONE'); //UNIQUE PERSON ID
+                $sheet->setCellValue('C'.$c, (!is_null($r->unique_person_id)) ? mb_strtoupper($r->unique_person_id) : 'NONE'); //UNIQUE PERSON ID
                 $sheet->setCellValue('D'.$c, $r->pwd); //PWD
                 $sheet->setCellValue('E'.$c, $r->indigenous_member); //INDIGENOUS MEMBER
-                $sheet->setCellValue('F'.$c, $r->last_name);
-                $sheet->setCellValue('G'.$c, $r->first_name);
-                $sheet->setCellValue('H'.$c, (!is_null($r->middle_name)) ? $r->middle_name : 'NONE');
-                $sheet->setCellValue('I'.$c, (!is_null($r->suffix)) ? $r->suffix : '');
+                $sheet->setCellValue('F'.$c, mb_strtoupper($r->last_name));
+                $sheet->setCellValue('G'.$c, mb_strtoupper($r->first_name));
+                $sheet->setCellValue('H'.$c, (!is_null($r->middle_name)) ? mb_strtoupper($r->middle_name) : 'NONE');
+                $sheet->setCellValue('I'.$c, (!is_null($r->suffix)) ? mb_strtoupper($r->suffix) : '');
                 $sheet->setCellValue('J'.$c, substr($r->contact_no, 1));
                 $sheet->setCellValue('K'.$c, (!is_null($set_guardian)) ? $set_guardian : ''); //GUARDIAN NAME
                 $sheet->setCellValue('L'.$c, $region_code); //REGION
