@@ -185,7 +185,7 @@
                         </button>
                 </div>
                 <div class="modal-body">
-                    <form action="">
+                    <form action="{{route('abtcinv_pharmacy_inventory')}}" method="GET">
                         <div class="card">
                             <div class="card-header"><b>Pharmacy Monthly Report</b></div>
                             <div class="card-body">

@@ -683,6 +683,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     //Route::get('/abtc_inventory/stock/{id}/create_transaction', [AbtcInventoryController::class, 'home'])->name('abtcinv_create_transaction');
     Route::post('/abtc_inventory/transaction/process', [AbtcInventoryController::class, 'processTransaction'])->name('abtcinv_process_transaction');
     Route::get('/abtc_inventory/get_stocks_list/{id}', [AbtcInventoryController::class, 'getInventoryStocks'])->name('abtcinv_list_stocks');
+    Route::get('/abtc_inventory/pharmacy_inventory', [AbtcInventoryController::class, 'monthlyStockReport'])->name('abtcinv_pharmacy_inventory');
 });
 
 //FHSIS

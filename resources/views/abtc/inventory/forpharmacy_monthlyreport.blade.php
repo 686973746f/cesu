@@ -5,25 +5,82 @@
     <div class="card">
         <div class="card-header"><b>ABTC Pharmacy Report</b></div>
         <div class="card-body">
-            <table class="table">
-                <thead>
+            <table class="table table-striped table-bordered">
+                <thead class="thead-light text-center">
                     <tr>
-                        <th></th>
-                        <th></th>
-                        <th></th>
+                        <th rowspan="2">Rabies Program</th>
+                        <th rowspan="2">Ending Inventory from the Previous Month ({{$previous_month->format('M')}})</th>
+                        <th colspan="4">Deliveries</th>
+                        <th colspan="2">Stock Transfer (DM 2014-0317)</th>
+                        <th rowspan="2">Monthly Consumption</th>
+                        <th rowspan="2">Expired Stocks</th>
+                        <th rowspan="2">End of Stocks for the Month</th>
+                    </tr>
+                    <tr>
+                        <th>Quantity</th>
+                        <th>Date</th>
+                        <th>LN/BN</th>
+                        <th>Exp. Date</th>
+                        <th>Received</th>
+                        <th>Transferred</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($lgu_final as $l)
                     <tr>
-                        <td scope="row"></td>
-                        <td></td>
-                        <td></td>
+                        <td>{{$l['name']}}</td>
+                        <td class="text-center">{{$l['ending_previous_month']}}</td>
+                        <td class="text-center">
+                            @if(!empty($l['deliveries_array']))
+                            <ul>
+                                @foreach($l['deliveries_array'] as $m)
+                                <li>{{$m['quantity']}}</li>
+                                @endforeach
+                            </ul>
+                            @else
+                            N/A
+                            @endif
+                        </td>
+                        <td class="text-center">
+                            @if(!empty($l['deliveries_array']))
+                            <ul>
+                                @foreach($l['deliveries_array'] as $m)
+                                <li>{{$m['date']}}</li>
+                                @endforeach
+                            </ul>
+                            @else
+                            N/A
+                            @endif
+                        </td>
+                        <td class="text-center">
+                            @if(!empty($l['deliveries_array']))
+                            <ul>
+                                @foreach($l['deliveries_array'] as $m)
+                                <li>{{$m['batchlot_no']}}</li>
+                                @endforeach
+                            </ul>
+                            @else
+                            N/A
+                            @endif
+                        </td>
+                        <td class="text-center">
+                            @if(!empty($l['deliveries_array']))
+                            <ul>
+                                @foreach($l['deliveries_array'] as $m)
+                                <li>{{$m['expiry_date']}}</li>
+                                @endforeach
+                            </ul>
+                            @else
+                            N/A
+                            @endif
+                        </td>
+                        <td class="text-center">{{$l['used_qty']}}</td>
+                        <td class="text-center">{{$l['branch_received_total']}}</td>
+                        <td class="text-center">{{$l['branch_transfer_total']}}</td>
+                        <td class="text-center">{{$l['expired_qty']}}</td>
+                        <td class="text-center">{{$l['ending_current_month']}}</td>
                     </tr>
-                    <tr>
-                        <td scope="row"></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

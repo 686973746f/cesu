@@ -43,7 +43,7 @@ class AbtcInventoryTransaction extends Model
     }
 
     public function displayProcessQty() {
-        if($this->type == 'ISSUED' || $this->type == 'TRANSFERRED') {
+        if($this->type == 'ISSUED' || $this->type == 'TRANSFERRED' || $this->type == 'EXPIRED') {
             return '- '.$this->process_qty;
         }
         else {
@@ -63,6 +63,9 @@ class AbtcInventoryTransaction extends Model
         }
         else if($this->type == 'RECEIVED') {
             return 'RECEIVED';
+        }
+        else if($this->type == 'EXPIRED') {
+            return 'EXPIRED';
         }
         else {
             return 'TRANSFERRED TO '.$this->transferred_to->site_name;
