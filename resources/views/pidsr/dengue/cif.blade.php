@@ -20,6 +20,15 @@
                     <label for="facility_code">Facility Code</label>
                     <input type="text" class="form-control" name="facility_code" id="facility_code" value="{{request()->input('facility_code')}}" readonly>
                   </div>
+                @else
+                <div class="form-group">
+                    <label for="facility_list"><b class="text-danger">*</b>Override Facility</label>
+                    <select class="form-control" name="facility_list" id="facility_list" required>
+                        @foreach($facility_list as $f)
+                        <option value="{{$f->id}}" {{(old('facility_list', auth()->user()->itr_facility_id) == $f->id) ? 'selected' : ''}}>{{$f->facility_name}}</option>
+                        @endforeach
+                    </select>
+                </div>
                 @endif
                 <div class="row">
                     <div class="col-md-6">

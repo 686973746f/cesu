@@ -9292,10 +9292,15 @@ class PIDSRController extends Controller
             $created_by = NULL;
         }
         else {
-            $f = DohFacility::findOrFail(auth()->user()->itr_facility_id);
+            $facility_id = $r->facility_list;
+            
+            $f = DohFacility::findOrFail($facility_id);
             $created_by = Auth::id();
         }
 
+        $health_facility_code = $f->edcs_temphf_code ?: $f->healthfacility_code;
+
+        /*
         if($f->id == 10886) {
             //CUSTOM DOH FACILITY CODE FOR EDCS-IS
             $health_facility_code = 'DOH000000000046386';
@@ -9303,6 +9308,7 @@ class PIDSRController extends Controller
         else {
             $health_facility_code = $f->healthfacility_code;
         }
+        */
 
         $birthdate = Carbon::parse($r->bdate);
         $currentDate = Carbon::parse($r->date_investigation);
@@ -10044,12 +10050,14 @@ class PIDSRController extends Controller
         }
         
         $brgy_list = EdcsBrgy::where('city_id', 388)->orderBy('name', 'ASC')->get();
+        $facility_list = DohFacility::where('address_muncity', 'CITY OF GENERAL TRIAS')->get();
 
         return view('pidsr.dengue.cif', [
             'd' => $record,
             'f' => $f,
             'mode' => 'EDIT',
             'brgy_list' => $brgy_list,
+            'facility_list' => $facility_list,
         ]);
     }
 
