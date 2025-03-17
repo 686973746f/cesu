@@ -15,6 +15,7 @@ class CreatePropertyInventoryTransactionSubsTable extends Migration
     {
         Schema::create('property_inventory_transaction_subs', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('master_transaction_id')->constrained('property_inventory_transaction_mains')->onDelete('cascade');
             $table->timestamps();
         });
     }
