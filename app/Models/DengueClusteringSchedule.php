@@ -71,7 +71,7 @@ class DengueClusteringSchedule extends Model
             return $this->cycle3_date;
         }
         else if($this->status == 'CYCLE3') {
-            return '3RD CYCLE DONE';
+            return $this->cycle4_date;
         }
     }
 
@@ -84,6 +84,9 @@ class DengueClusteringSchedule extends Model
         }
         else if($this->status == 'CYCLE2') {
             return 'FOR 3RD CYCLE';
+        }
+        else if($this->status == 'CYCLE3') {
+            return 'FOR 4TH CYCLE';
         }
         else if($this->status == 'CYCLE3') {
             return 'COMPLETED';
