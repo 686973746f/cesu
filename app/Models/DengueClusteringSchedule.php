@@ -10,6 +10,7 @@ class DengueClusteringSchedule extends Model
     use HasFactory;
 
     protected $fillable = [
+        'is_completed',
         'year',
         'morbidity_week',
         'brgy_id',
