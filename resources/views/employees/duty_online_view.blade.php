@@ -50,7 +50,6 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Name</th>
-                                            <th>BLS Trained</th>
                                             <th>Nakapag-duty na sa Current Cycle</th>
                                             <th>Last Duty</th>
                                         </tr>
@@ -59,8 +58,15 @@
                                         @foreach($team_a as $ind => $d)
                                         <tr>
                                             <td class="text-center">{{$ind+1}}</td>
-                                            <td>{{$d->getName()}}</td>
-                                            <td class="text-center">{{$d->is_blstrained}}</td>
+                                            <td>{{$d->getName()}}
+                                                @if($d->is_blstrained == 'Y')
+                                                @if($d->bls_typeofrescuer == 'LR')
+                                                <span class="badge badge-primary">LR</span>
+                                                @else
+                                                <span class="badge badge-success">HCP</span>
+                                                @endif
+                                                @endif
+                                            </td>
                                             <td class="text-center">{{($d->duty_completedcycle == 'Y') ? 'DONE' : 'PENDING'}}</td>
                                             <td class="text-center">{{($d->getLatestDuty()) ? $d->getLatestDuty()->event->event_name.' ('.date('M. d, Y', strtotime($d->getLatestDuty()->event->event_date)).')' : 'N/A'}}</td>
                                         </tr>
@@ -81,7 +87,6 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Name</th>
-                                            <th>BLS Trained</th>
                                             <th>Nakapag-duty na sa Current Cycle</th>
                                             <th>Last Duty</th>
                                         </tr>
@@ -90,8 +95,15 @@
                                         @foreach($team_b as $ind => $d)
                                         <tr>
                                             <td class="text-center">{{$ind+1}}</td>
-                                            <td>{{$d->getName()}}</td>
-                                            <td class="text-center">{{$d->is_blstrained}}</td>
+                                            <td>{{$d->getName()}}
+                                                @if($d->is_blstrained == 'Y')
+                                                @if($d->bls_typeofrescuer == 'LR')
+                                                <span class="badge badge-primary">LR</span>
+                                                @else
+                                                <span class="badge badge-success">HCP</span>
+                                                @endif
+                                                @endif
+                                            </td>
                                             <td class="text-center">{{($d->duty_completedcycle == 'Y') ? 'DONE' : 'PENDING'}}</td>
                                             <td class="text-center">{{($d->getLatestDuty()) ? $d->getLatestDuty()->event->event_name.' ('.date('M. d, Y', strtotime($d->getLatestDuty()->event->event_date)).')' : 'N/A'}}</td>
                                         </tr>
@@ -112,7 +124,6 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Name</th>
-                                            <th>BLS Trained</th>
                                             <th>Nakapag-duty na sa Current Cycle</th>
                                             <th>Last Duty</th>
                                         </tr>
@@ -121,8 +132,15 @@
                                         @foreach($team_c as $ind => $d)
                                         <tr>
                                             <td class="text-center">{{$ind+1}}</td>
-                                            <td>{{$d->getName()}}</td>
-                                            <td class="text-center">{{$d->is_blstrained}}</td>
+                                            <td>{{$d->getName()}}
+                                                @if($d->is_blstrained == 'Y')
+                                                @if($d->bls_typeofrescuer == 'LR')
+                                                <span class="badge badge-primary">LR</span>
+                                                @else
+                                                <span class="badge badge-success">HCP</span>
+                                                @endif
+                                                @endif
+                                            </td>
                                             <td class="text-center">{{($d->duty_completedcycle == 'Y') ? 'DONE' : 'PENDING'}}</td>
                                             <td class="text-center">{{($d->getLatestDuty()) ? $d->getLatestDuty()->event->event_name.' ('.date('M. d, Y', strtotime($d->getLatestDuty()->event->event_date)).')' : 'N/A'}}</td>
                                         </tr>
@@ -143,7 +161,6 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Name</th>
-                                            <th>BLS Trained</th>
                                             <th>Nakapag-duty na sa Current Cycle</th>
                                             <th>Last Duty</th>
                                         </tr>
@@ -152,8 +169,15 @@
                                         @foreach($team_d as $ind => $d)
                                         <tr>
                                             <td class="text-center">{{$ind+1}}</td>
-                                            <td>{{$d->getName()}}</td>
-                                            <td class="text-center">{{$d->is_blstrained}}</td>
+                                            <td>{{$d->getName()}}
+                                                @if($d->is_blstrained == 'Y')
+                                                @if($d->bls_typeofrescuer == 'LR')
+                                                <span class="badge badge-primary">LR</span>
+                                                @else
+                                                <span class="badge badge-success">HCP</span>
+                                                @endif
+                                                @endif
+                                            </td>
                                             <td class="text-center">{{($d->duty_completedcycle == 'Y') ? 'DONE' : 'PENDING'}}</td>
                                             <td class="text-center">{{($d->getLatestDuty()) ? $d->getLatestDuty()->event->event_name.' ('.date('M. d, Y', strtotime($d->getLatestDuty()->event->event_date)).')' : 'N/A'}}</td>
                                         </tr>
