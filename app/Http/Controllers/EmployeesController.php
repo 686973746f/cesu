@@ -967,4 +967,86 @@ class EmployeesController extends Controller
         header('Content-Disposition: attachment; filename="'. urlencode($fileName).'"');
         $writer->save('php://output');
     }
+
+    public function viewEmployeesDutyOnline() {
+        $team_a = Employee::where('duty_team', 'A')
+        ->where('employment_status', 'ACTIVE')
+        ->where('duty_canbedeployed', 'Y')
+        ->orderBy('lname', 'ASC')
+        ->get();
+
+        $team_b = Employee::where('duty_team', 'B')
+        ->where('employment_status', 'ACTIVE')
+        ->where('duty_canbedeployed', 'Y')
+        ->orderBy('lname', 'ASC')
+        ->get();
+
+        $team_c = Employee::where('duty_team', 'C')
+        ->where('employment_status', 'ACTIVE')
+        ->where('duty_canbedeployed', 'Y')
+        ->orderBy('lname', 'ASC')
+        ->get();
+
+        $team_d = Employee::where('duty_team', 'D')
+        ->where('employment_status', 'ACTIVE')
+        ->where('duty_canbedeployed', 'Y')
+        ->orderBy('lname', 'ASC')
+        ->get();
+
+        $duty_qry = Employee::where('employment_status', 'ACTIVE')
+        ->where('duty_canbedeployed', 'Y');
+
+        $tot_emp_duty = (clone $duty_qry)->count();
+        $tot_emp_duty_male = (clone $duty_qry)->where('gender', 'M')->count();
+        $tot_emp_duty_female = (clone $duty_qry)->where('gender', 'F')->count();
+        $tot_emp_duty_alreadyassigned = (clone $duty_qry)->where('duty_completedcycle', 'Y')->count();
+        $tot_emp_duty_notyetassigned = $tot_emp_duty - $tot_emp_duty_alreadyassigned;
+
+        $ta_total = (clone $duty_qry)->where('duty_team', 'A')->count();
+        $tb_total = (clone $duty_qry)->where('duty_team', 'B')->count();
+        $tc_total = (clone $duty_qry)->where('duty_team', 'C')->count();
+        $td_total = (clone $duty_qry)->where('duty_team', 'D')->count();
+
+        $ta_deployed = (clone $duty_qry)->where('duty_team', 'A')->where('duty_completedcycle', 'Y')->count();
+        $ta_notdeployed = $ta_total - $ta_deployed;
+
+        $tb_deployed = (clone $duty_qry)->where('duty_team', 'B')->where('duty_completedcycle', 'Y')->count();
+        $tb_notdeployed = $tb_total - $tb_deployed;
+
+        $tc_deployed = (clone $duty_qry)->where('duty_team', 'C')->where('duty_completedcycle', 'Y')->count();
+        $tc_notdeployed = $tc_total - $tc_deployed;
+
+        $td_deployed = (clone $duty_qry)->where('duty_team', 'D')->where('duty_completedcycle', 'Y')->count();
+        $td_notdeployed = $td_total - $td_deployed;
+
+        $cycle_count = DutyCycle::count() + 3;
+
+        return view('employees.duty_online_view', [
+            'team_a' => $team_a,
+            'team_b' => $team_b,
+            'team_c' => $team_c,
+            'team_d' => $team_d,
+
+            'tot_emp_duty' => $tot_emp_duty,
+            'tot_emp_duty_male' => $tot_emp_duty_male,
+            'tot_emp_duty_female' => $tot_emp_duty_female,
+            'tot_emp_duty_alreadyassigned' => $tot_emp_duty_alreadyassigned,
+            'tot_emp_duty_notyetassigned' => $tot_emp_duty_notyetassigned,
+            'cycle_count' => $cycle_count,
+
+            'ta_total' => $ta_total,
+            'tb_total' => $tb_total,
+            'tc_total' => $tc_total,
+            'td_total' => $td_total,
+
+            'ta_deployed' => $ta_deployed,
+            'ta_notdeployed' => $ta_notdeployed,
+            'tb_deployed' => $tb_deployed,
+            'tb_notdeployed' => $tb_notdeployed,
+            'tc_deployed' => $tc_deployed,
+            'tc_notdeployed' => $tc_notdeployed,
+            'td_deployed' => $td_deployed,
+            'td_notdeployed' => $td_notdeployed,
+        ]);
+    }
 }

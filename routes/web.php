@@ -977,6 +977,8 @@ Route::post('hert_duty/{code}/view_patients/store', [EmployeesController::class,
 Route::get('hert_duty/{code}/view_patients/{patient_id}/edit', [EmployeesController::class, 'editDutyPatients'])->name('online_duty_editpatient');
 Route::post('hert_duty/{code}/view_patients/{patient_id}/update', [EmployeesController::class, 'updateDutyPatients'])->name('online_duty_updatepatient');
 
+Route::get('hert_duty', [EmployeesController::class, 'viewEmployeesDutyOnline'])->name('hert_duty_online_view');
+
 Route::get('/forms', function () {
     return redirect('https://drive.google.com/drive/folders/1LAff2uF1gPHQd7jI8cy4PX3q5xbtMqH4?usp=drive_link');
 });

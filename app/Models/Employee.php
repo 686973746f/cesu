@@ -148,4 +148,10 @@ class Employee extends Model
     {
         return $this->hasMany(HertDuty::class);
     }
+
+    public function getLatestDuty() {
+        $d = HertDutyMember::where('employee_id', $this->id)->latest()->first();
+
+        return $d;
+    }
 }
