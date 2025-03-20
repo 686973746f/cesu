@@ -45,7 +45,7 @@
                         <div class="card-header"><b>Team A</b></div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered table-striped">
+                                <table class="table table-bordered table-striped" id="tbl1">
                                     <thead class="thead-light text-center">
                                         <tr>
                                             <th>#</th>
@@ -74,7 +74,7 @@
                         <div class="card-header"><b>Team B</b></div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered table-striped">
+                                <table class="table table-bordered table-striped" id="tbl2">
                                     <thead class="thead-light text-center">
                                         <tr>
                                             <th>#</th>
@@ -103,7 +103,7 @@
                         <div class="card-header"><b>Team C</b></div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered table-striped">
+                                <table class="table table-bordered table-striped" id="tbl3">
                                     <thead class="thead-light text-center">
                                         <tr>
                                             <th>#</th>
@@ -132,7 +132,7 @@
                         <div class="card-header"><b>Team D</b></div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered table-striped">
+                                <table class="table table-bordered table-striped" id="tbl4">
                                     <thead class="thead-light text-center">
                                         <tr>
                                             <th>#</th>
@@ -160,4 +160,11 @@
         </div>
     </div>
 </div>
+
+<script>
+    $('#tbl1, #tbl2, #tbl3, #tbl4').dataTable({
+        iDisplayLength: -1,
+        dom: 'fti',
+    });
+</script>
 @endsection
