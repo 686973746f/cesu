@@ -77,6 +77,7 @@ use App\Models\EdcsWeeklySubmissionChecker;
 use App\Models\EdcsWeeklySubmissionTrigger;
 use App\Jobs\CallEdcsWeeklySubmissionSendEmail;
 use App\Models\SevereAcuteRespiratoryInfection;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
 /*
 ALL TABLES
@@ -9929,6 +9930,7 @@ class PIDSRController extends Controller
                         $sheet->setCellValue('E'.$row, $d->suffix); //Suffix
                         $sheet->setCellValue('F'.$row, $d->Sex); //Sex
                         $sheet->setCellValue('G'.$row, Carbon::parse($d->DOB)->format('m/d/Y')); //Bdate
+                        $sheet->getStyle('G'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
                         $sheet->setCellValue('H'.$row, Carbon::parse($d->DOB)->age); //Age
         
                         $sheet->setCellValue('I'.$row, $d->brgy->city->province->region->edcs_code); //Current Region
@@ -9951,10 +9953,13 @@ class PIDSRController extends Controller
                         $sheet->setCellValue('X'.$row, $cf->edcs_muncity_code); //DRU MunCity Code
                         $sheet->setCellValue('Y'.$row, 'Y'); //Consulted
                         $sheet->setCellValue('Z'.$row, Carbon::parse($d->DateOfEntry)->format('m/d/Y')); //Date Consulted
+                        $sheet->getStyle('Z'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
                         $sheet->setCellValue('AA'.$row, $cf->facility_name); //Place Consulted
                         $sheet->setCellValue('AB'.$row, ($d->Admitted == 1) ? 'Y' : 'N'); //Admitted
                         $sheet->setCellValue('AC'.$row, ($d->Admitted == 1) ? Carbon::parse($d->DAdmit)->format('m/d/Y') : ''); //Date Admitted
+                        $sheet->getStyle('AC'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
                         $sheet->setCellValue('AD'.$row, Carbon::parse($d->DOnset)->format('m/d/Y')); //Date Onset of Illness
+                        $sheet->getStyle('AD'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
                         $sheet->setCellValue('AE'.$row, 0); //Number of Dengue Vaccine
                         $sheet->setCellValue('AF'.$row, ''); //Date First Vaccination Dengue
                         $sheet->setCellValue('AG'.$row, ''); //Date Last Vaccination Dengue
@@ -9964,13 +9969,18 @@ class PIDSRController extends Controller
                         $sheet->setCellValue('AK'.$row, ($d->Outcome == 'D') ? Carbon::parse($d->DateDied)->format('m/d/Y') : NULL); //Patient ID
                         $sheet->setCellValue('AL'.$row, $specimen_type); //Specimen Type (STL - Stool, BLD - Blood, SRM - Saliva)
                         $sheet->setCellValue('AM'.$row, $specimen_date_collected); //Date Specimen Collected
+                        $sheet->getStyle('AM'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
                         $sheet->setCellValue('AN'.$row, $specimen_sent_to_ritm); //Sent to RITM
                         $sheet->setCellValue('AO'.$row, $specimen_ritm_sent_date); //Date Sent to RITM
+                        $sheet->getStyle('AO'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
                         $sheet->setCellValue('AP'.$row, $specimen_ritm_received_date); //Date Received RITM
+                        $sheet->getStyle('AP'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
                         $sheet->setCellValue('AQ'.$row, $specimen_ritm_received_time); //Time Received RITM
                         $sheet->setCellValue('AR'.$row, $specimen_ritm_testing_date); //Date Testing RITM
+                        $sheet->getStyle('AR'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
                         $sheet->setCellValue('AS'.$row, $specimen_result); //Laboratory Reslt
                         $sheet->setCellValue('AT'.$row, $specimen_ritm_result_date); //Date Result RITM
+                        $sheet->getStyle('AT'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
                         $sheet->setCellValue('AU'.$row, $specimen_type_organism); //Type of Organism
                         $sheet->setCellValue('AV'.$row, $specimen_typeof_test); //Type of Test Conducted
                         $sheet->setCellValue('AW'.$row, $specimen_interpretation); //Interpretation
