@@ -61,72 +61,109 @@ class ABTCReportController extends Controller
 
         for($i = 1; $i <= 12; $i++) {
             if($i <= date('n') || date('Y') != $sy) {
-                ${'m'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
-                ->whereHas('patients', function ($q) {
-                    $q->where('gender', 'MALE');
-                })->whereMonth('case_date', $i);
+                $thed = Carbon::createFromDate($sy, $i, 1);
 
-                ${'f'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
-                ->whereHas('patients', function ($q) {
-                    $q->where('gender', 'FEMALE');
-                })->whereMonth('case_date', $i);
+                $sd = $thed->copy()->format('Y-m-d');
+                $ed = $thed->copy()->format('Y-m-t');
 
-                ${'co_legit'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
-                ->whereMonth('case_date', $i)
-                ->where('category_level', '1');
+                ${'m'.$i} = AbtcBakunaRecords::whereHas('patient', function($q) {
+                    $q->where('register_status', 'VERIFIED')
+                    ->where('gender', 'MALE');
+                })
+                ->whereBetween('case_date', [$sd, $ed]);
 
-                ${'ct'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
-                ->whereMonth('case_date', $i)
-                ->where('category_level', '2');
+                ${'f'.$i} = AbtcBakunaRecords::whereHas('patient', function($q) {
+                    $q->where('register_status', 'VERIFIED')
+                    ->where('gender', 'FEMALE');
+                })
+                ->whereBetween('case_date', [$sd, $ed]);
 
-                ${'ch'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
-                ->whereMonth('case_date', $i)
-                ->where('category_level', '3');
+                ${'co_legit'.$i} = AbtcBakunaRecords::whereHas('patient', function($q) {
+                    $q->where('register_status', 'VERIFIED');
+                })
+                ->whereBetween('case_date', [$sd, $ed])
+                ->where('category_level', 1);
 
-                ${'oe'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
+                ${'ct'.$i} = AbtcBakunaRecords::whereHas('patient', function($q) {
+                    $q->where('register_status', 'VERIFIED');
+                })
+                ->whereBetween('case_date', [$sd, $ed])
+                ->where('category_level', 2);
+
+                ${'ch'.$i} = AbtcBakunaRecords::whereHas('patient', function($q) {
+                    $q->where('register_status', 'VERIFIED');
+                })
+                ->whereBetween('case_date', [$sd, $ed])
+                ->where('category_level', 3);
+
+                ${'oe'.$i} = AbtcBakunaRecords::whereHas('patient', function($q) {
+                    $q->where('register_status', 'VERIFIED');
+                })
                 ->whereHas('patients', function ($q) {
                     $q->where('age', '>=', 18);
-                })->whereMonth('case_date', $i);
+                })
+                ->whereBetween('case_date', [$sd, $ed]);
 
-                ${'ue'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
+                ${'ue'.$i} = AbtcBakunaRecords::whereHas('patient', function($q) {
+                    $q->where('register_status', 'VERIFIED');
+                })
                 ->whereHas('patients', function ($q) {
                     $q->where('age', '<', 18);
-                })->whereMonth('case_date', $i);
+                })
+                ->whereBetween('case_date', [$sd, $ed]);
 
-                ${'uf_male'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
+                ${'uf_male'.$i} = AbtcBakunaRecords::whereHas('patient', function($q) {
+                    $q->where('register_status', 'VERIFIED');
+                })
                 ->whereHas('patients', function ($q) {
                     $q->where('age', '<', 15)
                     ->where('gender', 'MALE');
-                })->whereMonth('case_date', $i);
+                })
+                ->whereBetween('case_date', [$sd, $ed]);
 
-                ${'uf_female'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
+                ${'uf_female'.$i} = AbtcBakunaRecords::whereHas('patient', function($q) {
+                    $q->where('register_status', 'VERIFIED');
+                })
                 ->whereHas('patients', function ($q) {
                     $q->where('age', '<', 15)
                     ->where('gender', 'FEMALE');
-                })->whereMonth('case_date', $i);
+                })
+                ->whereBetween('case_date', [$sd, $ed]);
 
-                ${'er'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
-                ->whereMonth('case_date', $i)
+                ${'er'.$i} = AbtcBakunaRecords::whereHas('patient', function($q) {
+                    $q->where('register_status', 'VERIFIED');
+                })
+                ->whereBetween('case_date', [$sd, $ed])
                 ->whereNotNull('rig_date_given');
 
-                ${'oc'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
-                ->whereMonth('case_date', $i)
+                ${'oc'.$i} = AbtcBakunaRecords::whereHas('patient', function($q) {
+                    $q->where('register_status', 'VERIFIED');
+                })
+                ->whereBetween('case_date', [$sd, $ed])
                 ->where('outcome', 'C');
 
-                ${'oi'. $i} = AbtcBakunaRecords::whereYear('case_date', $sy)
-                ->whereMonth('case_date', $i)
+                ${'oi'. $i} = AbtcBakunaRecords::whereHas('patient', function($q) {
+                    $q->where('register_status', 'VERIFIED');
+                })
+                ->whereBetween('case_date', [$sd, $ed])
                 ->where('outcome', 'INC');
 
-                ${'bo'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
-                ->whereMonth('case_date', $i)
+                ${'bo'.$i} = AbtcBakunaRecords::whereHas('patient', function($q) {
+                    $q->where('register_status', 'VERIFIED');
+                })
+                ->whereBetween('case_date', [$sd, $ed])
                 ->where('is_booster', 1);
 
-                ${'dog'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
-                ->whereMonth('case_date', $i)
+                ${'dog'.$i} = AbtcBakunaRecords::whereHas('patient', function($q) {
+                    $q->where('register_status', 'VERIFIED');
+                })
+                ->whereBetween('case_date', [$sd, $ed])
                 ->whereIn('animal_type', ['PD', 'SD']);
 
-                ${'cat'.$i} = AbtcBakunaRecords::whereYear('case_date', $sy)
-                ->whereMonth('case_date', $i)
+                ${'cat'.$i} = AbtcBakunaRecords::whereHas('patient', function($q) {
+                    $q->where('register_status', 'VERIFIED');
+                })
+                ->whereBetween('case_date', [$sd, $ed])
                 ->whereIn('animal_type', ['C', 'PC', 'SC']);
 
                 if(!(request()->input('vid')) || request()->input('vid') == 'ALL') {
