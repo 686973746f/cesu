@@ -1840,22 +1840,22 @@ class PIDSRController extends Controller
             $brgy_name = $fetch_brgy->alt_name ?: $fetch_brgy->name;
             
             if($disease == 'SARI') {
-                $d->lname = $r->FamilyName;
-                $d->fname = $r->FirstName;
-                $d->middle_name = $r->middle_name;
-                $d->suffix = $r->suffix;
+                $d->lname = mb_strtoupper($r->FamilyName);
+                $d->fname = mb_strtoupper($r->FirstName);
+                $d->middle_name = ($r->middle_name) ? mb_strtoupper($r->middle_name) : NULL;
+                $d->suffix = ($r->suffix) ? mb_strtoupper($r->suffix) : NULL;
 
-                $d->streetpurok = $r->Streetpurok;
+                $d->streetpurok = mb_strtoupper($r->Streetpurok);
                 $d->barangay = $brgy_name;
                 $d->outcome = $r->outcome;
             }
             else {
-                $d->FamilyName = $r->FamilyName;
-                $d->FirstName = $r->FirstName;
-                $d->middle_name = $r->middle_name;
-                $d->suffix = $r->suffix;
+                $d->FamilyName = mb_strtoupper($r->FamilyName);
+                $d->FirstName = mb_strtoupper($r->FirstName);
+                $d->middle_name = ($r->middle_name) ? mb_strtoupper($r->middle_name) : NULL;
+                $d->suffix = ($r->suffix) ? mb_strtoupper($r->suffix) : NULL;
 
-                $d->Streetpurok = $r->Streetpurok;
+                $d->Streetpurok = mb_strtoupper($r->Streetpurok);
                 $d->Barangay = $brgy_name;
                 $d->Outcome = $r->outcome;
 
@@ -9929,7 +9929,7 @@ class PIDSRController extends Controller
                         $sheet->setCellValue('E'.$row, $d->suffix); //Suffix
                         $sheet->setCellValue('F'.$row, $d->Sex); //Sex
                         $sheet->setCellValue('G'.$row, Carbon::parse($d->DOB)->format('m/d/Y')); //Bdate
-                        $sheet->setCellValue('H'.$row, $d->AgeYears); //Age
+                        $sheet->setCellValue('H'.$row, Carbon::parse($d->DOB)->age); //Age
         
                         $sheet->setCellValue('I'.$row, $d->brgy->city->province->region->edcs_code); //Current Region
                         $sheet->setCellValue('J'.$row, $d->brgy->city->province->edcs_code); //Current Province
