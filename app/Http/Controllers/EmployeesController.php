@@ -253,17 +253,20 @@ class EmployeesController extends Controller
     }
 
     public function storeDuty(Request $r) {
+        $cycle_number = DutyCycle::count() + 3;
+
         $c = HertDuty::create([
             'event_name' => mb_strtoupper($r->event_name),
             'description' => ($r->description) ? mb_strtoupper($r->description) : NULL,
             'event_date' => $r->event_date,
             'status' => 'OPEN',
             'code' => mb_strtoupper(Str::random(5)),
+            'cycle_number' => $cycle_number,
             'created_by' => Auth::id(),
         ]);
 
         return redirect()->route('duty_view', $c->id)
-        ->with('msg', 'Duty was successfully created. You may now encode employees to deploy as responders.')
+        ->with('msg', 'Duty was successfully created. You may now encode add responders to the list.')
         ->with('msgtype', 'success');
     }
 

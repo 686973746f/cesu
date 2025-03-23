@@ -15,6 +15,7 @@ class HertDuty extends Model
         'event_date',
         'status',
         'code',
+        'cycle_number',
         'created_by',
     ];
 
