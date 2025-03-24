@@ -50,8 +50,22 @@
                     <div style="font-size: 22px;margin-top: 100px;">
                         <p class="mb-5">To whom it may concern,</p>
                         <p></p>
+                        @php
+                        if(auth()->user()->itr_facility_id == 10886) {
+                            $facility_name = 'City Health Office, City of General Trias, Cavite';
+                        }
+                        else if(auth()->user()->itr_facility_id == 11730) {
+                            $facility_name = 'Manggahan Main Health Center, City of General Trias, Cavite';
+                        }
+                        else if(auth()->user()->itr_facility_id == 39708) {
+                            $facility_name = 'General Trias Super Health Center, City of General Trias, Cavite';
+                        }
+                        else {
+                            $facility_name = 'City Health Office, City of General Trias, Cavite';
+                        }
+                        @endphp
                         @if($b->outcome == 'C')
-                        <p class="mb-5">This is to certify that <u><b>{{($b->patient->gender == 'MALE') ? 'MR. ' : 'MS. ' }}{{$b->patient->getName()}}</b></u>, resident of <u>{{$b->patient->getAddressMini()}}</u> has <b class="text-success">completed the required dosage of the anti-rabies vaccine</b> at the City Health Office, City of General Trias, Cavite. The vaccine was administered on <u>{{date('F d, Y', strtotime($b->d0_date))}}</u> and {{($b->patient->gender == 'MALE') ? 'MR. ' : 'MS. ' }}{{$b->patient->lname}} has not shown any adverse reactions since then.</p>
+                        <p class="mb-5">This is to certify that <u><b>{{($b->patient->gender == 'MALE') ? 'MR. ' : 'MS. ' }}{{$b->patient->getName()}}</b></u>, resident of <u>{{$b->patient->getAddressMini()}}</u> has <b class="text-success">completed the required dosage of the anti-rabies vaccine</b> at the {{$facility_name}}. The vaccine was administered on <u>{{date('F d, Y', strtotime($b->d0_date))}}</u> for Day 0, <u>{{date('F d, Y', strtotime($b->d3_date))}}</u> for Day 3 @if($b->is_booster != 1), and <u>{{date('F d, Y', strtotime($b->d7_date))}}</u>for Day 7 @else . @endif And {{($b->patient->gender == 'MALE') ? 'MR. ' : 'MS. ' }}{{$b->patient->lname}} has not shown any adverse reactions since then.</p>
                         <p class="mb-5">{{($b->patient->gender == 'MALE') ? 'MR. ' : 'MS. ' }}{{$b->patient->lname}} was exposed on <b>{{date('F d, Y', strtotime($b->bite_date))}}</b> by a <b>{{$b->getSource()}}</b> and was assessed by a medical professional to be under <b>Category {{$b->category_level}}</b> exposure to rabies.</p>
                         <p class="mb-5">This certificate was issued on {{date('F d, Y')}} for whatever purpose it may serve.</p>
                         @else
