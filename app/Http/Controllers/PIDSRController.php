@@ -10880,7 +10880,10 @@ class PIDSRController extends Controller
     }
 
     public function dengueClusteringCalendar() {
-        $schedules = DengueClusteringSchedule::where('year', date('Y'))->get();
+        $schedules = DengueClusteringSchedule::whereNotNull('assigned_team')
+        ->whereNotNull('cycle1_date')
+        ->get();
+        
         $events = [];
 
         foreach ($schedules as $schedule) {
@@ -10893,7 +10896,7 @@ class PIDSRController extends Controller
 
             // Convert a single row into four events
             for ($i = 1; $i <= 4; $i++) {
-                $cycleDate = $schedule["cycle{$i}_date"];
+                $cycleDate = Carbon::parse($schedule["cycle{$i}_date"])->format('Y-m-d');
                 if ($cycleDate) {
                     $events[] = [
                         'title' => "Cycle {$i} - {$schedule->assigned_team} @ {$schedule->purok_subdivision}",
