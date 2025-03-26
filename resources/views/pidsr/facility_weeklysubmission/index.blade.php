@@ -32,17 +32,17 @@
                     <div class="alert alert-info" role="alert">
                         <div>Submission Status for <b>MW: {{$mw}} - Year: {{$year}}</b> = <b class="text-danger">NO SUBMISSION</b></div>
                         <div>Please consolidate and submit now to waive the No Submission.</div>
-                        <div><h5><b class="text-danger">TAKE NOTE:</b> If there is a reportable case/s discovered in your respective facility, please encode it first in the EDCS-IS Website (<a href="https://pidsr.doh.gov.ph">https://pidsr.doh.gov.ph</a>) before proceeding. Submit today (Monday) to avoid being tagged as late submission.</h5></div>
+                        <div><h5><b class="text-danger">TAKE NOTE:</b> If there is a reportable case/s discovered in your respective facility, please encode it all first in the EDCS-IS Website (<a href="https://pidsr.doh.gov.ph">https://pidsr.doh.gov.ph</a>) before proceeding. Submit today (Monday) to avoid being tagged as late submission.</h5></div>
                     </div>
                     @elseif($g_type == 'NOTYET_SUBMITTED_ONTIME')
                     <div class="alert alert-info" role="alert">
                         <div><h5>Submission Status for <b>MW: {{$mw}} - Year: {{$year}}</b> = <b class="text-danger">NOT YET SUBMITTED</b></h5></div>
-                        <div><h5><b class="text-danger">TAKE NOTE:</b> If there is a reportable cases/s discovered in your respective facility, please encode it first in the EDCS-IS Website (<a href="https://pidsr.doh.gov.ph">https://pidsr.doh.gov.ph</a>) before proceeding. Submit today (Monday) to avoid being tagged as late submission.</h5></div>
+                        <div><h5><b class="text-danger">TAKE NOTE:</b> If there is a reportable cases/s discovered in your respective facility, please encode it all first in the EDCS-IS Website (<a href="https://pidsr.doh.gov.ph">https://pidsr.doh.gov.ph</a>) before proceeding. Submit today (Monday) to avoid being tagged as late submission.</h5></div>
                     </div>
                     @elseif($g_type == 'EMPTY_LATE')
                     <div class="alert alert-info" role="alert">
                         <div><h5>Submission Status for MW: <b>MW: {{$mw}} - Year: {{$year}}</b> = <b class="text-danger">NOT YET SUBMITTED (FOR LATE SUBMISSION)</b></h5></div>
-                        <div><h5><b class="text-danger">TAKE NOTE:</b> If there is a reportable case/s discovered in your respective facility, please encode it first in the EDCS-IS Website (<a href="https://pidsr.doh.gov.ph">https://pidsr.doh.gov.ph</a>) before proceeding. This will be automatically tagged as LATE SUBMIT.</h5></div>
+                        <div><h5><b class="text-danger">TAKE NOTE:</b> If there is a reportable case/s discovered in your respective facility, please encode it all first in the EDCS-IS Website (<a href="https://pidsr.doh.gov.ph">https://pidsr.doh.gov.ph</a>) before proceeding. This will be automatically tagged as LATE SUBMIT.</h5></div>
                     </div>
                     @endif
                     <div class="row">
