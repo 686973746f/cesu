@@ -10878,4 +10878,33 @@ class PIDSRController extends Controller
         ->with('msg', 'Clustering Schedule (ID: '.$d->id.') was updated successfully.')
         ->with('msgtype', 'success');
     }
+
+    public function dengueClusteringCalendar() {
+        $schedules = DengueClusteringSchedule::where('year', date('Y'))->get();
+        $events = [];
+
+        foreach ($schedules as $schedule) {
+            $cycleColors = [
+                1 => '#FF5733', // Cycle 1: Red
+                2 => '#33FF57', // Cycle 2: Green
+                3 => '#3357FF', // Cycle 3: Blue
+                4 => '#F7DC6F', // Cycle 4: Yellow
+            ];
+
+            // Convert a single row into four events
+            for ($i = 1; $i <= 4; $i++) {
+                $cycleDate = $schedule["cycle{$i}_date"];
+                if ($cycleDate) {
+                    $events[] = [
+                        'title' => "Cycle {$i} - {$schedule->assigned_team} @ {$schedule->purok_subdivision}",
+                        'start' => $cycleDate,
+                    ];
+                }
+            }
+        }
+
+        return view('pidsr.clustering.schedule_calendar', [
+            'list' => json_encode($events),
+        ]);
+    }
 }
