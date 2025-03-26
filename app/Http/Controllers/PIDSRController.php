@@ -10881,26 +10881,48 @@ class PIDSRController extends Controller
 
     public function dengueClusteringCalendar() {
         $schedules = DengueClusteringSchedule::whereNotNull('assigned_team')
-        ->whereNotNull('cycle1_date')
-        ->get();
-        
+        ->whereNotNull('cycle1_date');
+
+        if(request()->input('team')) {
+            $schedules = $schedules->where('assigned_team', request()->input('team'))
+            ->get();
+        }
+        else {
+            $schedules = $schedules->get();
+        }
+
         $events = [];
 
         foreach ($schedules as $schedule) {
-            $cycleColors = [
-                1 => '#FF5733', // Cycle 1: Red
-                2 => '#33FF57', // Cycle 2: Green
-                3 => '#3357FF', // Cycle 3: Blue
-                4 => '#F7DC6F', // Cycle 4: Yellow
-            ];
+            $color = match ($schedule->assigned_team) {
+                'GSO' => '#FFFF00', // Red-Orange
+                'CENRO' => '#33FF57', // Green
+                'CHO' => '#3357FF', // Blue
+                default => '#888888',  // Gray for unknown teams
+            };
 
             // Convert a single row into four events
             for ($i = 1; $i <= 4; $i++) {
+                if($i == 1) {
+                    $cyleStr = '1ST CYCLE';
+                }
+                else if($i == 2) {
+                    $cyleStr = '2ND CYCLE';
+                }
+                else if($i == 3) {
+                    $cyleStr = '3RD CYCLE';
+                }
+                else if($i == 4) {
+                    $cyleStr = '4TH CYCLE';
+                }
+                
                 $cycleDate = Carbon::parse($schedule["cycle{$i}_date"])->format('Y-m-d');
+                $time = Carbon::parse($schedule["cycle{$i}_date"])->format('h:i A');
                 if ($cycleDate) {
                     $events[] = [
-                        'title' => "Cycle {$i} - {$schedule->assigned_team} @ {$schedule->purok_subdivision}",
+                        'title' => "{$cyleStr}, {$time} {$schedule->assigned_team} @ BRGY. {$schedule->brgy->name}, {$schedule->purok_subdivision}",
                         'start' => $cycleDate,
+                        'color' => $color,
                     ];
                 }
             }

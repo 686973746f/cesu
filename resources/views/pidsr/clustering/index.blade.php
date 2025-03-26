@@ -7,6 +7,7 @@
             <div class="d-flex justify-content-between">
                 <div><b>Dengue Clustering View</b></div>
                 <div>
+                    <a href="{{route('dengue_clustering_calendar')}}" class="btn btn-primary">Calendar</a>
                     @if(request()->input('showNonClustering'))
                     <a href="{{route('dengue_clustering_viewer')}}" class="btn btn-warning">Show Clustering Cases Only</a>
                     @else
