@@ -10880,7 +10880,8 @@ class PIDSRController extends Controller
     }
 
     public function dengueClusteringCalendar() {
-        $schedules = DengueClusteringSchedule::whereNotNull('assigned_team')
+        $schedules = DengueClusteringSchedule::where('enabled', 1)
+        ->whereNotNull('assigned_team')
         ->whereNotNull('cycle1_date');
 
         if(request()->input('team')) {
