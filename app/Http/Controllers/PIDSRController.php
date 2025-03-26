@@ -10895,7 +10895,7 @@ class PIDSRController extends Controller
 
         foreach ($schedules as $schedule) {
             $color = match ($schedule->assigned_team) {
-                'GSO' => '#FFFF00', // Red-Orange
+                'GSO' => '#FFA500', // Red-Orange
                 'CENRO' => '#33FF57', // Green
                 'CHO' => '#3357FF', // Blue
                 default => '#888888',  // Gray for unknown teams
@@ -10915,7 +10915,7 @@ class PIDSRController extends Controller
                 else if($i == 4) {
                     $cyleStr = '4TH CYCLE';
                 }
-                
+
                 $cycleDate = Carbon::parse($schedule["cycle{$i}_date"])->format('Y-m-d');
                 $time = Carbon::parse($schedule["cycle{$i}_date"])->format('h:i A');
                 if ($cycleDate) {
