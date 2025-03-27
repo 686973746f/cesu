@@ -82,7 +82,7 @@
                     <hr>
                     <div class="row">
                         <div class="col-6">
-                            <div class="form-group">
+                            <div class="form-group" id="specimen_type_div">
                                 <label for="specimen_type"><b class="text-danger">*</b>Specimen Type</label>
                                 <select class="form-control" name="specimen_type" id="specimen_type" required>
                                     <option value="" disabled selected>Choose...</option>
@@ -93,7 +93,7 @@
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="form-group">
+                            <div class="form-group" id="test_type_div">
                                 <label for="test_type"><b class="text-danger">*</b>Test Type</label>
                                 <select class="form-control" name="test_type" id="test_type" required>
                                     <option value="" disabled selected>Choose...</option>
@@ -126,7 +126,7 @@
                     </div>
                     <div class="row">
                         <div class="col-6">
-                            <div class="form-group">
+                            <div class="form-group" id="result_div">
                                 <label for="result"><b class="text-danger">*</b>Result</label>
                                 <select class="form-control" name="result" id="result" required>
                                     <option value="" disabled selected>Choose...</option>
@@ -187,17 +187,17 @@
     }).trigger('change');
 
     $('#specimen_type').select2({
-        dropdownParent: $('#addPatient'),
+        dropdownParent: $('#specimen_type_div'),
         theme: "bootstrap",
     });
 
     $('#test_type').select2({
-        dropdownParent: $('#addPatient'),
+        dropdownParent: $('#test_type_div'),
         theme: "bootstrap",
     });
 
     $('#result').select2({
-        dropdownParent: $('#addPatient'),
+        dropdownParent: $('#result_div'),
         theme: "bootstrap",
     });
 </script>
