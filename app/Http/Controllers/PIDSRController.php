@@ -7523,6 +7523,9 @@ class PIDSRController extends Controller
             'ROTAVIRUS',
             'TYPHOID',
             'SARI',
+
+            'MPOX',
+            'COVID-19',
         ];
 
         sort($array);
