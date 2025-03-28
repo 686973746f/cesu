@@ -13,7 +13,6 @@
                     @else
                     <a href="{{route('dengue_clustering_viewer')}}?showNonClustering=1" class="btn btn-primary">Show Non-Clustering Cases</a>
                     @endif
-                    
                 </div>
             </div>
         </div>
@@ -23,6 +22,11 @@
                 {{session('msg')}}
             </div>
             @endif
+            <div class="alert alert-primary" role="alert">
+                <h4><b>Summary:</b></h4>
+                <hr>
+                <h5>Completed Cycle: {{$completed_cycle}}</h5>
+            </div>
             <div class="table-responsive">
                 <table class="table table-striped table-bordered" id="mainTbl">
                     <thead class="thead-light text-center">

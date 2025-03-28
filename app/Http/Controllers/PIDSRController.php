@@ -10820,6 +10820,10 @@ class PIDSRController extends Controller
     }
 
     public function dengueClusteringViewer() {
+        $completed_cycle = DengueClusteringSchedule::where('enabled', 1)
+        ->where('is_completed', 1)
+        ->count();
+
         $list = DengueClusteringSchedule::where('enabled', 1)
         ->where('year', date('Y'))
         ->where('is_completed', 0)
@@ -10827,6 +10831,7 @@ class PIDSRController extends Controller
 
         return view('pidsr.clustering.index', [
             'list' => $list,
+            'completed_cycle' => $completed_cycle,
         ]);
     }
 

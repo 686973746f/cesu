@@ -107,7 +107,7 @@ class AutoTkcPositiveLinelist extends Command
                 $sheet->setCellValue('C'.$ind, 'CHRISTIAN JAMES HISTORILLO');
                 $sheet->setCellValue('D'.$ind, '1'); //case_tracking_status
                 $sheet->setCellValue('E'.$ind, date('n/d/Y', strtotime($d->created_at))); //date_verified
-                $sheet->setCellValue('F'.$ind, $d->records->philhealth);
+                $sheet->setCellValue('F'.$ind, ($d->records->philhealth) ? '0'.$d->records->philhealth : '');
                 $sheet->setCellValue('G'.$ind, $d->records->fname);
                 $sheet->setCellValue('H'.$ind, $d->records->mname);
                 $sheet->setCellValue('I'.$ind, $d->records->lname);
