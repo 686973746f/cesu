@@ -16,6 +16,7 @@ class DengueClusteringSchedule extends Model
         'brgy_id',
         'purok_subdivision',
         'assigned_team',
+        'type',
         'status',
         'cycle1_date',
         'cycle2_date',

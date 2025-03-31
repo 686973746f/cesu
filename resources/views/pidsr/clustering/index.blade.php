@@ -13,6 +13,8 @@
                     @else
                     <a href="{{route('dengue_clustering_viewer')}}?showNonClustering=1" class="btn btn-primary">Show Non-Clustering Cases</a>
                     @endif
+
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#createSchedule">Create Custom Schedule</button>
                 </div>
             </div>
         </div>
@@ -84,6 +86,81 @@
         </div>
     </div>
 </div>
+
+<form action="{{route('dengue_store_customschedule')}}" method="POST">
+    @csrf
+    <div class="modal fade" id="createSchedule" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><b>Create Custom Schedule</b></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="type"><b class="text-danger">*</b>Schedule Type</label>
+                        <select class="form-control" name="type" id="type" required>
+                            <option value="" disabled {{(is_null(old('type'))) ? 'selected' : ''}}>Choose...</option>
+                            <option value="AUTO" {{((old('type')) == 'AUTO') ? 'selected' : ''}}>Normal Schedule (4 Cycles)</option>
+                            <option value="REQUEST_1CYCLE" {{((old('type')) == 'REQUEST_1CYCLE') ? 'selected' : ''}}>Request (1 Cycle Only)</option>
+                            <option value="REQUEST_4CYCLE" {{((old('type')) == 'REQUEST_4CYCLE') ? 'selected' : ''}}>Request (4 Cycles)</option>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="purok_subdivision"><b class="text-danger">*</b>Area/Subdivision Name</label>
+                                <input type="text" class="form-control" name="purok_subdivision" id="purok_subdivision" value="{{old('purok_subdivision')}}" style="text-transform: uppercase" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="brgy_id"><b class="text-danger">*</b>Barangay</label>
+                                <select class="form-control" name="brgy_id" id="brgy_id" required>
+                                    @foreach($brgy_list as $b)
+                                    <option value="{{$b->id}}" {{($b->id == old('brgy_id')) ? 'selected' : ''}}>{{$b->alt_name ?: $b->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="assigned_team"><b class="text-danger">*</b>Responsible Team</label>
+                                <select class="form-control" name="assigned_team" id="assigned_team" required>
+                                    <option value="" disabled {{(is_null(old('assigned_team'))) ? 'selected' : ''}}>Choose...</option>
+                                    <option value="CHO" {{((old('assigned_team')) == 'CHO') ? 'selected' : ''}}>CHO</option>
+                                    <option value="CENRO" {{((old('assigned_team')) == 'CENRO') ? 'selected' : ''}}>CENRO</option>
+                                    <option value="GSO" {{((old('assigned_team')) == 'GSO') ? 'selected' : ''}}>GSO</option>
+                                    <option value="DOH REGIONAL" {{((old('assigned_team')) == 'DOH REGIONAL') ? 'selected' : ''}}>DOH REGIONAL</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="status"><b class="text-danger">*</b>Status</label>
+                                <select class="form-control" name="status" id="status" required>
+                                    <option value="PENDING" {{(old('status') == 'PENDING') ? 'selected' : ''}}>PENDING</option>
+                                    <option value="CYCLE1" {{(old('status') == 'CYCLE1') ? 'selected' : ''}}>1ST CYCLE DONE</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="cycle1_date"><b class="text-danger">*</b>1st Cycle Date</label>
+                        <input type="datetime-local" class="form-control" name="cycle1_date" id="cycle1_date" value="{{old('cycle1_date')}}" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-block">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 
 <script>
     $('#mainTbl').dataTable({

@@ -10829,10 +10829,65 @@ class PIDSRController extends Controller
         ->where('is_completed', 0)
         ->get();
 
+        $brgy_list = EdcsBrgy::where('city_id', 388)
+        ->orderBy('name', 'ASC')
+        ->get();
+
         return view('pidsr.clustering.index', [
             'list' => $list,
             'completed_cycle' => $completed_cycle,
+            'brgy_list' => $brgy_list,
         ]);
+    }
+
+    public function storeCustomSchedule(Request $r) {
+        $is_completed = 0;
+
+        if($r->status == 'CYCLE1' && $r->type == 'REQUEST_1CYCLE') {
+            $is_completed = 1;
+        }
+
+        /*
+        $d1_date = CarbonImmutable::parse($r->cycle1_date);
+
+            $d->cycle1_date = $d1_date->copy()->format('Y-m-d H:i:s');
+            $d->cycle2_date = $d1_date->copy()->addDays(7)->format('Y-m-d H:i:s');
+            $d->cycle3_date = $d1_date->copy()->addDays(14)->format('Y-m-d H:i:s');
+            $d->cycle4_date = $d1_date->copy()->addDays(21)->format('Y-m-d H:i:s');
+        */
+
+        $d1_date = Carbon::parse($r->cycle1_date);
+
+        if($r->status == 'CYCLE1') {
+            $d2_date = $d1_date->copy()->addDays(7)->format('Y-m-d H:i:s');
+            $d3_date = $d1_date->copy()->addDays(14)->format('Y-m-d H:i:s');
+            $d4_date = $d1_date->copy()->addDays(21)->format('Y-m-d H:i:s');
+        }
+        else {
+            $d2_date = NULL;
+            $d3_date = NULL;
+            $d4_date = NULL;
+        }
+
+        $c = DengueClusteringSchedule::create([
+            'is_completed' => $is_completed,
+            'year' => Carbon::parse($r->cycle1_date)->format('Y'),
+            'morbidity_week' => Carbon::parse($r->cycle1_date)->format('W'),
+            'brgy_id' => $r->brgy_id,
+            'purok_subdivision' => mb_strtoupper($r->purok_subdivision),
+            'assigned_team' => $r->assigned_team,
+            'type' => $r->type,
+            'status' => $r->status,
+            'cycle1_date' => $d1_date->format('Y-m-d H:i:s'),
+            'cycle2_date' => $d2_date,
+            'cycle3_date' => $d3_date,
+            'cycle4_date' => $d4_date,
+            'created_by' => Auth::id(),
+        ]);
+
+        return redirect()->route('dengue_clustering_viewer')
+        ->with('msg', 'Custom Fogging Schedule was created successfully.')
+        ->with('msgtype', 'success');
     }
 
     public function dengueClusteringEditSchedule($id) {

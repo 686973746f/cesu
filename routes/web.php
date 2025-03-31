@@ -432,6 +432,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
 
     //Dengue Clustering Viewer
     Route::get('/edcs/dengue_clustering', [PIDSRController::class, 'dengueClusteringViewer'])->name('dengue_clustering_viewer');
+    Route::post('/edcs/dengue_clustering/new_schedule', [PIDSRController::class, 'storeCustomSchedule'])->name('dengue_store_customschedule');
     Route::get('/edcs/dengue_clustering/{id}/edit_schedule', [PIDSRController::class, 'dengueClusteringEditSchedule'])->name('dengue_clustering_edit');
     Route::post('/edcs/dengue_clustering/{id}/update', [PIDSRController::class, 'dengueClusteringUpdate'])->name('dengue_clustering_update');
     Route::get('/edcs/dengue_clustering/calendar', [PIDSRController::class, 'dengueClusteringCalendar'])->name('dengue_clustering_calendar');

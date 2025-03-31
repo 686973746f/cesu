@@ -22,6 +22,7 @@ class CreateDengueClusteringSchedulesTable extends Migration
             $table->foreignId('brgy_id')->constrained('edcs_brgies')->onDelete('cascade');
             $table->string('purok_subdivision');
             $table->string('assigned_team')->nullable();
+            $table->string('type')->default('AUTO'); //AUTO, REQUEST_1CYCLE, REQUEST_4CYCLE
             $table->string('status')->default('PENDING'); //PENDING, CYCLE1, CYCLE2, CYCLE3
             $table->dateTime('cycle1_date')->nullable();
             $table->dateTime('cycle2_date')->nullable();
