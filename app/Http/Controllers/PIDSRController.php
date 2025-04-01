@@ -10982,7 +10982,7 @@ class PIDSRController extends Controller
 
                 $cycleDate = Carbon::parse($schedule["cycle{$i}_date"])->format('Y-m-d');
                 $time = Carbon::parse($schedule["cycle{$i}_date"])->format('h:i A');
-                if ($cycleDate) {
+                if ($schedule["cycle{$i}_date"]) {
                     $events[] = [
                         'title' => "{$cyleStr}, {$time} {$schedule->assigned_team} @ BRGY. {$schedule->brgy->name}, {$schedule->purok_subdivision}",
                         'start' => $cycleDate,
