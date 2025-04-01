@@ -8,12 +8,6 @@
                 <div><b>Dengue Clustering View</b></div>
                 <div>
                     <a href="{{route('dengue_clustering_calendar')}}" class="btn btn-primary">Calendar</a>
-                    @if(request()->input('showNonClustering'))
-                    <a href="{{route('dengue_clustering_viewer')}}" class="btn btn-warning">Show Clustering Cases Only</a>
-                    @else
-                    <a href="{{route('dengue_clustering_viewer')}}?showNonClustering=1" class="btn btn-primary">Show Non-Clustering Cases</a>
-                    @endif
-
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#createSchedule">Create Custom Schedule</button>
                 </div>
             </div>
