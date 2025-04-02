@@ -517,16 +517,14 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="vaccinator"><b class="text-danger">*</b>Select Doctor</label>
+                        <label for="vaccinator"><b class="text-danger">*</b>Select Vaccinator</label>
                         <select class="form-select" name="vaccinator" id="vaccinator" required>
                           <option value="" disabled selected>Choose...</option>
-                          <option value="DOC_ATHAN">Jonathan P. Luseco, MD</option>
-                          <option value="DOC_ABE">Abe D. Escario, MD</option>
-                          <option value="DOC_YVES">Yves M. Talosig, MD</option>
-                          <option value="DRA_CHERRY">Cherry L. Aspuria, MD</option>
-                          <option value="DOC_ED">Edgardo R. Figueroa, MD</option>
+                          @foreach($vaccinator_list as $v)
+                          <option value="{{$v->getNameWithPr()}}">{{$v->getNameWithPr()}}</option>
+                          @endforeach
                         </select>
-                      </div>
+                    </div>
                     <div class="form-group">
                       <label for="doctor"><b class="text-danger">*</b>Select Doctor</label>
                       <select class="form-select" name="doctor" id="doctor" required>

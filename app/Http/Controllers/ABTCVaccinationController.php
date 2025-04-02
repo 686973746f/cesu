@@ -343,10 +343,13 @@ class ABTCVaccinationController extends Controller
         $vblist = AbtcVaccineBrand::orderBy('brand_name', 'ASC')->get();
         $vslist = AbtcVaccinationSite::orderBy('id', 'ASC')->get();
 
+        $vaccinator_list = Employee::whereNotNull('abtc_vaccinator_branch')->get();
+
         return view('abtc.encode_edit', [
             'd' => $p,
             'vblist' => $vblist,
             'vslist' => $vslist,
+            'vaccinator_list' => $vaccinator_list,
         ]);
     }
 
