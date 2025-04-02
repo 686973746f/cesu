@@ -10913,7 +10913,7 @@ class PIDSRController extends Controller
         $d->purok_subdivision = mb_strtoupper($r->purok_subdivision);
         $d->brgy_id = $r->brgy_id;
         
-        if($r->status == 'CYCLE1' && $oldStatus == 'PENDING') {
+        if($r->status == 'CYCLE1' && $oldStatus == 'PENDING' || $r->status == 'PENDING' && $r->cycle1_date) {
             //Generate Date for 2nd, 3rd, 4th Cycle
             $d1_date = CarbonImmutable::parse($r->cycle1_date);
 
@@ -10982,11 +10982,19 @@ class PIDSRController extends Controller
 
                 $cycleDate = Carbon::parse($schedule["cycle{$i}_date"])->format('Y-m-d');
                 $time = Carbon::parse($schedule["cycle{$i}_date"])->format('h:i A');
-                if ($cycleDate) {
+                if ($schedule["cycle{$i}_date"]) {
+                    if($schedule->status == 'PENDING') {
+                        $titleStr = "<PENDING> {$cyleStr}, {$time} {$schedule->assigned_team} @ BRGY. {$schedule->brgy->name}, {$schedule->purok_subdivision}";
+                    }
+                    else {
+                        $titleStr = "{$cyleStr}, {$time} {$schedule->assigned_team} @ BRGY. {$schedule->brgy->name}, {$schedule->purok_subdivision}";
+                    }
+
                     $events[] = [
-                        'title' => "{$cyleStr}, {$time} {$schedule->assigned_team} @ BRGY. {$schedule->brgy->name}, {$schedule->purok_subdivision}",
+                        'title' => $titleStr,
                         'start' => $cycleDate,
                         'color' => $color,
+                        'url' => route('dengue_clustering_edit', ['id' => $schedule->id]),
                     ];
                 }
             }
