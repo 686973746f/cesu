@@ -11038,6 +11038,9 @@ class PIDSRController extends Controller
     }
 
     public static function callGenerateThreshold($disease, $year) {
+        $province = 'CAVITE';
+        $muncity = 'GENERAL TRIAS';
+
         if($disease == 'ALL') {
             $disease_array = [
                 'Abd',
@@ -11067,6 +11070,7 @@ class PIDSRController extends Controller
                 'Rotavirus',
                 'Typhoid',
                 'COVID',
+                'SevereAcuteRespiratoryInfection',
             ];
         }
         else {
@@ -11100,9 +11104,9 @@ class PIDSRController extends Controller
             for($i=1;$i<=53;$i++) {
                 if($d == 'COVID') {
                     $cond = $modelClass::with('records')
-                    ->whereHas('records', function ($q) {
-                        $q->where('records.address_province', 'CAVITE')
-                        ->where('records.address_city', 'GENERAL TRIAS');
+                    ->whereHas('records', function ($q) use ($province, $muncity) {
+                        $q->where('records.address_province', $province)
+                        ->where('records.address_city', $muncity);
                     })
                     ->where('status', 'approved')
                     ->whereIn('caseClassification', ['Probable', 'Confirmed'])
@@ -11110,11 +11114,20 @@ class PIDSRController extends Controller
                     ->whereRaw('WEEK(morbidityMonth, 1) = ?', [$i])
                     ->count();
                 }
+                else if($d == 'SevereAcuteRespiratoryInfection') {
+                    $cond = $modelClass::where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('year', $y)
+                    ->where('morbidity_week', $i)
+                    ->where('muncity', $muncity)
+                    ->count();
+                }
                 else {
                     $cond = $modelClass::where('enabled', 1)
                     ->where('match_casedef', 1)
                     ->where('Year', $y)
                     ->where('MorbidityWeek', $i)
+                    ->where('Muncity', $muncity)
                     ->count();
                 }
 
