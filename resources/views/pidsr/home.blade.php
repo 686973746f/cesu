@@ -280,6 +280,53 @@
                         </div>
                     </div>
                 </form>
+                <form action="{{route('edcs_manualgenerate_threshold')}}" method="POST">
+                    @csrf
+                    <div class="card mt-3">
+                        <div class="card-header"><b>Case Threshold Generator</b></div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="disease"><b class="text-danger">*</b>Select Disease</label>
+                              <select class="form-control" name="disease" id="disease" required>
+                                <option value="" disabled {{(is_null(old('disease'))) ? 'selected' : ''}}>Choose...</option>
+                                <option value="Abd">Acute Bloody Diarrhea (ABD)</option>
+                                <option value="Afp">Acute Flaccid Paralysis (AFP)</option>
+                                <option value="Ames">Acute Meningitis Encephalitis (AMES)</option>
+                                <option value="Chikv">Chikungunya</option>
+                                <option value="Cholera">Cholera</option>
+                                <option value="COVID">COVID-19</option>
+                                <option value="Dengue">Dengue</option>
+                                <option value="Diph">Diphtheria</option>
+                                <option value="Hepatitis">Hepatitis</option>
+                                <option value="Hfmd">Hand, Foot & Mouth Disease</option>
+                                <option value="Influenza">Influenza-like Illness</option>
+                                <option value="Leptospirosis">Leptospirosis</option>
+                                <option value="Measles">Measles</option>
+                                <option value="Meningitis">Meningitis</option>
+                                <option value="Meningo">Meningococcal Disease</option>
+                                <option value="Nnt">Non-Neonatal Tetanus</option>
+                                <option value="Nt">Neonatal Tetanus</option>
+                                <option value="Pert">Pertussis</option>
+                                <option value="Rabies">Rabies</option>
+                                <option value="Rotavirus">Rotavirus</option>
+                                <option value="SevereAcuteRespiratoryInfection">Severe Acute Respiratory Infection (SARI)</option>
+                                <option value="Typhoid">Typhoid and Paratyphoid Fever</option>
+                              </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="year"><b class="text-danger">*</b>Select Year to Generate</label>
+                                <select class="form-control" name="year" id="year" required>
+                                    @foreach(range(date('Y', strtotime('-1 Year')), 2018) as $y)
+                                    <option value="{{$y}}">{{$y}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

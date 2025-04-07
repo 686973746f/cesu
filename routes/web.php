@@ -389,7 +389,8 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
     Route::get('/pidsr/view/{year}/{mw}', [PIDSRController::class, 'weeklycaseviewer'])->name('pidsr.weeklyviewer');
 
     Route::get('/pidsr/snaxv2', [PIDSRController::class, 'snaxVersionTwoController'])->name('pidsr_snaxv2');
-    Route::get('/pidsr/generate_threshold', [PIDSRController::class, 'generateThreshold'])->name('pidsr_generate_threshold');
+    Route::post('/pidsr/threshold_generate', [PIDSRController::class, 'manualGenerateThreshold'])->name('edcs_manualgenerate_threshold');
+    //Route::get('/pidsr/generate_threshold', [PIDSRController::class, 'generateThreshold'])->name('pidsr_generate_threshold');
 
     Route::get('/pidsr/for_validation', [PIDSRController::class, 'forValidationIndex'])->name('pidsr_forvalidation_index');
     Route::get('/pidsr/laboratory/', [PIDSRController::class, 'labLogbook'])->name('pidsr_laboratory_home');

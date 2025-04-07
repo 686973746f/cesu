@@ -4969,6 +4969,7 @@ class PIDSRController extends Controller
         ]);
     }
 
+    /*
     public function generateThreshold() {
         //LIST DISEASES ARRAY
         $diseases = [
@@ -5026,6 +5027,7 @@ class PIDSRController extends Controller
             }
         }
     }
+    */
 
     public function snaxVersionTwoController() {
         if(request()->input('disease') && request()->input('year') && request()->input('mweek')) {
@@ -11003,5 +11005,106 @@ class PIDSRController extends Controller
         return view('pidsr.clustering.schedule_calendar', [
             'list' => json_encode($events),
         ]);
+    }
+
+    public static function callGenerateThreshold($disease, $year) {
+        if($disease == 'ALL') {
+            $disease_array = [
+                'Abd',
+                'Aefi',
+                'Aes',
+                'Afp',
+                'Ahf',
+                'Ames',
+                'Anthrax',
+                'Chikv',
+                'Cholera',
+                'Dengue',
+                'Diph',
+                'Hepatitis',
+                'Hfmd',
+                'Influenza',
+                'Leptospirosis',
+                'Malaria',
+                'Measles',
+                'Meningitis',
+                'Meningo',
+                'Nnt',
+                'Nt',
+                'Pert',
+                'Psp',
+                'Rabies',
+                'Rotavirus',
+                'Typhoid',
+                'COVID',
+            ];
+        }
+        else {
+            $disease_array = [];
+
+            $disease_array[] = $disease;
+        }
+        
+        foreach($disease_array as $d) {
+            if($d == 'COVID') {
+                $modelClass = "App\\Models\\Forms";
+            }
+            else {
+                $modelClass = "App\\Models\\$d";
+            }
+            
+            $y = $year;
+
+            //Create Row First if Not Exist
+            $s = PidsrThreshold::where('disease', $d)
+            ->where('year', $y)
+            ->first();
+
+            if(!$s) {
+                $create_row = PidsrThreshold::create([
+                    'disease' => mb_strtoupper($d),
+                    'year' => $y,
+                ]);
+            }
+
+            for($i=1;$i<=53;$i++) {
+                if($d == 'COVID') {
+                    $cond = $modelClass::with('records')
+                    ->whereHas('records', function ($q) {
+                        $q->where('records.address_province', 'CAVITE')
+                        ->where('records.address_city', 'GENERAL TRIAS');
+                    })
+                    ->where('status', 'approved')
+                    ->whereIn('caseClassification', ['Probable', 'Confirmed'])
+                    ->whereYear('morbidityMonth', $y)
+                    ->whereRaw('WEEK(morbidityMonth, 1) = ?', [$i])
+                    ->count();
+                }
+                else {
+                    $cond = $modelClass::where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('Year', $y)
+                    ->where('MorbidityWeek', $i)
+                    ->count();
+                }
+
+                $update = PidsrThreshold::where('year', $y)
+                ->where('disease', $d)
+                ->update([
+                    'mw'.$i => $cond,
+                ]);
+            }
+        }
+    }
+
+    public function manualGenerateThreshold(Request $r) {
+        $year = $r->year;
+        $disease = $r->disease;
+
+        PIDSRController::callGenerateThreshold($disease, $year);
+
+        return redirect()->route('pidsr.home')
+        ->with('msg', 'Threshold for '.$disease.', Year '.$year.' was successfully created/updated.')
+        ->with('msgtype', 'success');
     }
 }
