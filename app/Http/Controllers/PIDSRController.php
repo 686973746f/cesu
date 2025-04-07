@@ -8713,63 +8713,93 @@ class PIDSRController extends Controller
     }
 
     public function epDroneHome() {
+        $muncity = 'GENERAL TRIAS';
+        
         $abd_query = Abd::where('enabled', 1)
-        ->where('match_casedef', 1);
+        ->where('match_casedef', 1)
+        ->where('Muncity', $muncity);
         $afp_query = Afp::where('enabled', 1)
-        ->where('match_casedef', 1);
+        ->where('match_casedef', 1)
+        ->where('Muncity', $muncity);
         $ames_query = Ames::where('enabled', 1)
-        ->where('match_casedef', 1);
+        ->where('match_casedef', 1)
+        ->where('Muncity', $muncity);
         $hepa_query = Hepatitis::where('enabled', 1)
-        ->where('match_casedef', 1);
+        ->where('match_casedef', 1)
+        ->where('Muncity', $muncity);
         $chikv_query = Chikv::where('enabled', 1)
-        ->where('match_casedef', 1);
+        ->where('match_casedef', 1)
+        ->where('Muncity', $muncity);
         $cholera_query = Cholera::where('enabled', 1)
-        ->where('match_casedef', 1);
+        ->where('match_casedef', 1)
+        ->where('Muncity', $muncity);
         $dengue_query = Dengue::where('enabled', 1)
-        ->where('match_casedef', 1);
+        ->where('match_casedef', 1)
+        ->where('Muncity', $muncity);
         $diph_query = Diph::where('enabled', 1)
-        ->where('match_casedef', 1);
+        ->where('match_casedef', 1)
+        ->where('Muncity', $muncity);
         $hfmd_query = Hfmd::where('enabled', 1)
-        ->where('match_casedef', 1);
+        ->where('match_casedef', 1)
+        ->where('Muncity', $muncity);
         $ili_query = Influenza::where('enabled', 1)
-        ->where('match_casedef', 1);
+        ->where('match_casedef', 1)
+        ->where('Muncity', $muncity);
         $lepto_query = Leptospirosis::where('enabled', 1)
-        ->where('match_casedef', 1);
+        ->where('match_casedef', 1)
+        ->where('Muncity', $muncity);
         $measles_query = Measles::where('enabled', 1)
-        ->where('match_casedef', 1);
+        ->where('match_casedef', 1)
+        ->where('Muncity', $muncity);
         $meningo_query = Meningo::where('enabled', 1)
-        ->where('match_casedef', 1);
+        ->where('match_casedef', 1)
+        ->where('Muncity', $muncity);
         $nnt_query = Nnt::where('enabled', 1)
-        ->where('match_casedef', 1);
+        ->where('match_casedef', 1)
+        ->where('Muncity', $muncity);
         $nt_query = Nt::where('enabled', 1)
-        ->where('match_casedef', 1);
+        ->where('match_casedef', 1)
+        ->where('Muncity', $muncity);
         $pert_query = Pert::where('enabled', 1)
-        ->where('match_casedef', 1);
+        ->where('match_casedef', 1)
+        ->where('Muncity', $muncity);
         $rabies_query = Rabies::where('enabled', 1)
-        ->where('match_casedef', 1);
+        ->where('match_casedef', 1)
+        ->where('Muncity', $muncity);
         $rotavirus_query = Rotavirus::where('enabled', 1)
-        ->where('match_casedef', 1);
+        ->where('match_casedef', 1)
+        ->where('Muncity', $muncity);
         $sari_query = SevereAcuteRespiratoryInfection::where('enabled', 1)
-        ->where('match_casedef', 1);
+        ->where('match_casedef', 1)
+        ->where('muncity', $muncity);
         $typhoid_query = Typhoid::where('enabled', 1)
-        ->where('match_casedef', 1);
+        ->where('match_casedef', 1)
+        ->where('Muncity', $muncity);
 
         $aes_query = Aes::where('enabled', 1)
-        ->where('match_casedef', 1);
+        ->where('match_casedef', 1)
+        ->where('Muncity', $muncity);
         $aefi_query = Aefi::where('enabled', 1)
-        ->where('match_casedef', 1);
+        ->where('match_casedef', 1)
+        ->where('Muncity', $muncity);
         $ahf_query = Ahf::where('enabled', 1)
-        ->where('match_casedef', 1);
+        ->where('match_casedef', 1)
+        ->where('Muncity', $muncity);
         $anthrax_query = Anthrax::where('enabled', 1)
-        ->where('match_casedef', 1);
+        ->where('match_casedef', 1)
+        ->where('Muncity', $muncity);
         $malaria_query = Malaria::where('enabled', 1)
-        ->where('match_casedef', 1);
+        ->where('match_casedef', 1)
+        ->where('Muncity', $muncity);
         $meningitis_query = Meningitis::where('enabled', 1)
-        ->where('match_casedef', 1);
+        ->where('match_casedef', 1)
+        ->where('Muncity', $muncity);
         $psp_query = Psp::where('enabled', 1)
-        ->where('match_casedef', 1);
+        ->where('match_casedef', 1)
+        ->where('Muncity', $muncity);
         $mpox_query = MonkeyPox::where('enabled', 1)
-        ->where('match_casedef', 1);
+        ->where('match_casedef', 1)
+        ->where('address_muncity_text', $muncity);
 
         if(!is_null(request()->input('quarter'))) {
             $qtr = request()->input('quarter');
