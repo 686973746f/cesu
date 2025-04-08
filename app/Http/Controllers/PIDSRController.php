@@ -1935,6 +1935,9 @@ class PIDSRController extends Controller
             $d->sys_coordinate_x = $r->sys_coordinate_x;
             $d->sys_coordinate_y = $r->sys_coordinate_y;
             $d->edcs_contactNo = $r->edcs_contactNo;
+
+            $d->systemsent = $r->systemsent;
+            $d->notify_email_sent = $r->notify_email_sent;
             
             if(request()->is('*barangayportal*')) {
                 $d->brgy_remarks = ($r->brgy_remarks) ? mb_strtoupper($r->brgy_remarks) : $d->brgy_remarks;

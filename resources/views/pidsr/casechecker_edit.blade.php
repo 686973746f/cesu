@@ -38,6 +38,21 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
+                          <label for="systemsent"><b class="text-danger">*</b>System Sent</label>
+                          <input type="text" class="form-control" name="systemsent" id="systemsent" min="0" max="1" value="{{old('systemsent', $d->systemsent)}}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="notify_email_sent"><b class="text-danger">*</b>Notify Email Sent</label>
+                            <input type="text" class="form-control" name="notify_email_sent" id="notify_email_sent" min="0" max="1" value="{{old('notify_email_sent', $d->notify_email_sent)}}" required>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
                           <label for=""><b class="text-danger">*</b>Disease</label>
                           <input type="text" class="form-control" value="{{$disease}}" readonly>
                         </div>
