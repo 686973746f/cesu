@@ -351,7 +351,7 @@
                                     <tr class="text-center">
                                         <th>Classification</th>
                                         <th>Alive</th>
-                                        <th>Died</th>
+                                        <th class="text-danger">Died</th>
                                         <th>Total</th>
                                     </tr>
                                     @else
@@ -382,7 +382,7 @@
                                             <td>{{$cclass_string}}</td>
                                             <td class="text-center">{{$cclass['alive']}}</td>
                                             <td class="text-center">{{$cclass['died']}}</td>
-                                            <td class="text-center">{{$cclass['total']}} ({{($current_grand_total != 0) ? round($cclass['total'] / $current_grand_total * 100) : 0}}%)</td>
+                                            <td class="text-center"><b>{{$cclass['total']}}</b> ({{($current_grand_total != 0) ? round($cclass['total'] / $current_grand_total * 100) : 0}}%)</td>
                                         </tr>
                                         @else
                                         <tr>

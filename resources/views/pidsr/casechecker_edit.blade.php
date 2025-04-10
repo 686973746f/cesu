@@ -194,6 +194,20 @@
                         </div>
                     </div>
                 </div>
+                @if($disease == 'MEASLES')
+                <div class="form-group">
+                    <label for="outcome"><b class="text-danger">*</b>Final Classification</label>
+                    <select class="form-control" name="FinalClass" id="FinalClass" required>
+                        <option value="" disabled {{(is_null(old('FinalClass', $d->FinalClass))) ? 'selected' : ''}}>Choose...</option>
+                        <option value="LABORATORY CONFIRMED MEASLES" {{(old('FinalClass', $d->FinalClass) == 'LABORATORY CONFIRMED MEASLES') ? 'selected' : ''}}>LABORATORY CONFIRMED MEASLES</option>
+                        <option value="LABORATORY CONFIRMED RUBELLA" {{(old('FinalClass', $d->FinalClass) == 'LABORATORY CONFIRMED RUBELLA') ? 'selected' : ''}}>LABORATORY CONFIRMED RUBELLA</option>
+                        <option value="EPI-LINKED CONFIRMED MEASLES" {{(old('FinalClass', $d->FinalClass) == 'EPI-LINKED CONFIRMED MEASLES') ? 'selected' : ''}}>EPI-LINKED CONFIRMED MEASLES</option>
+                        <option value="EPI-LINKED CONFIRMED RUBELLA" {{(old('FinalClass', $d->FinalClass) == 'EPI-LINKED CONFIRMED RUBELLA') ? 'selected' : ''}}>EPI-LINKED CONFIRMED RUBELLA</option>
+                        <option value="MEASLES COMPATIBLE" {{(old('FinalClass', $d->FinalClass) == 'MEASLES COMPATIBLE') ? 'selected' : ''}}>MEASLES COMPATIBLE</option>
+                        <option value="DISCARDED NON MEASLES/RUBELLA" {{(old('FinalClass', $d->FinalClass) == 'DISCARDED NON MEASLES/RUBELLA') ? 'selected' : ''}}>DISCARDED NON MEASLES/RUBELLA</option>
+                    </select>
+                </div>
+                @endif
                 <div>
                     <button type="button" name="changeLocation" id="changeLocation" class="btn btn-warning btn-block d-none">Change Location</button>
                     <button type="button" name="getCurrentLocation" id="getCurrentLocation" class="btn btn-secondary btn-block">

@@ -2023,6 +2023,10 @@ class PIDSRController extends Controller
                 }
             }
 
+            if($disease == 'MEASLES') {
+                $d->FinalClass = $r->FinalClass;
+            }
+
             if($d->isDirty()) {
                 $d->save();
             }
