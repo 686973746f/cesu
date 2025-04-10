@@ -344,31 +344,53 @@
                             </table>
                             <table class="table table-sm">
                                 <thead>
+                                    @if($sel_disease == 'Measles')
+                                    <tr>
+                                        <th colspan="4" class="text-center text-white" style="background-color: rgba(151,55,52,255)">Classification of Cases</th>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <th>Classification</th>
+                                        <th>Alive</th>
+                                        <th>Died</th>
+                                        <th>Total</th>
+                                    </tr>
+                                    @else
                                     <tr>
                                         <th colspan="3" class="text-center text-white" style="background-color: rgba(151,55,52,255)">Classification of Cases</th>
                                     </tr>
+                                    @endif
                                 </thead>
                                 <tbody>
-                                    @foreach($classification_titles as $ind => $cclass)
-                                    @php
-                                    if($cclass == 'S') {
-                                        $cclass_string = 'SUSPECTED';
-                                    }
-                                    else if($cclass == 'P') {
-                                        $cclass_string = 'PROBABLE';
-                                    }
-                                    else if($cclass == 'C') {
-                                        $cclass_string = 'CONFIRMED';
-                                    }
-                                    else {
-                                        $cclass_string = $cclass;
-                                    }
-                                    @endphp
-                                    <tr>
-                                        <td>{{$cclass_string}}</td>
-                                        <td class="text-center">{{$classification_counts[$ind]}}</td>
-                                        <td class="text-center">{{($current_grand_total != 0) ? round($classification_counts[$ind] / $current_grand_total * 100) : 0}}%</td>
-                                    </tr>
+                                    @foreach($classification_counts as $ind => $cclass)
+                                        @php
+                                        if($cclass['title'] == 'S') {
+                                            $cclass_string = 'SUSPECTED';
+                                        }
+                                        else if($cclass['title'] == 'P') {
+                                            $cclass_string = 'PROBABLE';
+                                        }
+                                        else if($cclass['title'] == 'C') {
+                                            $cclass_string = 'CONFIRMED';
+                                        }
+                                        else {
+                                            $cclass_string = $cclass['title'];
+                                        }
+                                        @endphp
+
+                                        @if($sel_disease == 'Measles')
+                                        <tr>
+                                            <td>{{$cclass_string}}</td>
+                                            <td class="text-center">{{$cclass['alive']}}</td>
+                                            <td class="text-center">{{$cclass['died']}}</td>
+                                            <td class="text-center">{{$cclass['total']}} ({{($current_grand_total != 0) ? round($cclass['total'] / $current_grand_total * 100) : 0}}%)</td>
+                                        </tr>
+                                        @else
+                                        <tr>
+                                            <td>{{$cclass_string}}</td>
+                                            <td class="text-center">{{$cclass['total']}}</td>
+                                            <td class="text-center">{{($current_grand_total != 0) ? round($cclass['total'] / $current_grand_total * 100) : 0}}%</td>
+                                        </tr>
+                                        @endif
                                     @endforeach
                                 </tbody>
                             </table>
@@ -721,24 +743,24 @@
 $finalpie_titles = [];
 $finalpie_counts = [];
 
-foreach($classification_titles as $ind => $ctitle) {
-    if($classification_counts[$ind] != 0) {
-        if($ctitle == 'S') {
+foreach($classification_counts as $ind => $cclass) {
+    if($cclass['total'] != 0) {
+        if($cclass['title'] == 'S') {
             $ctitle_str = 'SUSPECTED';
         }
-        else if($ctitle == 'P') {
+        else if($cclass['title'] == 'P') {
             $ctitle_str = 'PROBABLE';
         }
-        else if($ctitle == 'C') {
+        else if($cclass['title'] == 'C') {
             $ctitle_str = 'CONFIRMED';
         }
         else {
-            $ctitle_str = $ctitle;
+            $ctitle_str = $cclass['title'];
         }
 
-        $cgetpercentage = ($current_grand_total != 0) ? round($classification_counts[$ind] / $current_grand_total * 100) : 0;
+        $cgetpercentage = ($current_grand_total != 0) ? round($cclass['total'] / $current_grand_total * 100) : 0;
         $finalpie_titles[] = $ctitle_str;
-        $finalpie_counts[] = $classification_counts[$ind];
+        $finalpie_counts[] = $cclass['total'];
     }
 }
 @endphp

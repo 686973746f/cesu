@@ -5813,6 +5813,7 @@ class PIDSRController extends Controller
 
             foreach($classification_titles as $cclass) {
                 if($cclass == 'NONE') {
+                    /*
                     $classification_counts[] = $modelClass::where('enabled', 1)
                     ->where('match_casedef', 1)
                     ->where('Year', $sel_year)
@@ -5821,6 +5822,39 @@ class PIDSRController extends Controller
                         $q->whereNull($ccstr)
                         ->orWhere($ccstr, '');
                     })
+                    ->count();
+                    */
+
+                    $ccount = $modelClass::where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('Year', $sel_year)
+                    ->where('MorbidityWeek', '<=', $sel_week)
+                    ->where(function ($q) use ($ccstr) {
+                        $q->whereNull($ccstr)
+                        ->orWhere($ccstr, '');
+                    })
+                    ->count();
+
+                    $ccount_alive = $modelClass::where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('Year', $sel_year)
+                    ->where('MorbidityWeek', '<=', $sel_week)
+                    ->where(function ($q) use ($ccstr) {
+                        $q->whereNull($ccstr)
+                        ->orWhere($ccstr, '');
+                    })
+                    ->where('Outcome', 'A')
+                    ->count();
+
+                    $ccount_died = $modelClass::where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('Year', $sel_year)
+                    ->where('MorbidityWeek', '<=', $sel_week)
+                    ->where(function ($q) use ($ccstr) {
+                        $q->whereNull($ccstr)
+                        ->orWhere($ccstr, '');
+                    })
+                    ->where('Outcome', 'D')
                     ->count();
                 }
                 else {
@@ -5843,13 +5877,34 @@ class PIDSRController extends Controller
                         ->where('MorbidityWeek', '<=', $sel_week)
                         ->where($ccstr, $cclass)
                         ->count();
+                        
+                        $ccount_alive = $modelClass::where('enabled', 1)
+                        ->where('match_casedef', 1)
+                        ->where('Year', $sel_year)
+                        ->where('MorbidityWeek', '<=', $sel_week)
+                        ->where($ccstr, $cclass)
+                        ->where('Outcome', 'A')
+                        ->count();
+
+                        $ccount_died = $modelClass::where('enabled', 1)
+                        ->where('match_casedef', 1)
+                        ->where('Year', $sel_year)
+                        ->where('MorbidityWeek', '<=', $sel_week)
+                        ->where($ccstr, $cclass)
+                        ->where('Outcome', 'D')
+                        ->count();
                     }
                     
                     if(in_array($cclass, $confirmed_titles)) {
                         $current_confirmed_grand_total += $ccount;
                     }
 
-                    $classification_counts[] = $ccount;
+                    $classification_counts[] = [
+                        'title' => $cclass,
+                        'total' => $ccount,
+                        'alive' => $ccount_alive,
+                        'died' => $ccount_died,
+                    ];
                 }
             }
 
