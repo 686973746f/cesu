@@ -352,7 +352,7 @@
                                         <th>Classification</th>
                                         <th>Alive</th>
                                         <th class="text-danger">Died</th>
-                                        <th>Total</th>
+                                        <th>Total (N={{$current_grand_total}})</th>
                                     </tr>
                                     @else
                                     <tr>
