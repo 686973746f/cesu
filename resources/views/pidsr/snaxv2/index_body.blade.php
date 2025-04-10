@@ -378,12 +378,14 @@
                                         @endphp
 
                                         @if($sel_disease == 'Measles')
+                                        @if($cclass['total'] != 0)
                                         <tr>
                                             <td>{{$cclass_string}}</td>
                                             <td class="text-center">{{$cclass['alive']}}</td>
                                             <td class="text-center">{{$cclass['died']}}</td>
                                             <td class="text-center"><b>{{$cclass['total']}}</b> ({{($current_grand_total != 0) ? round($cclass['total'] / $current_grand_total * 100) : 0}}%)</td>
                                         </tr>
+                                        @endif
                                         @else
                                         <tr>
                                             <td>{{$cclass_string}}</td>
