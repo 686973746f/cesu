@@ -5764,7 +5764,7 @@ class PIDSRController extends Controller
             else if($sel_disease == 'Hfmd') {
                 $ccstr = 'CaseClass';
 
-                $classification_titles = ['SUSPECTED CASE OF HFMD', 'PROBABLE CASE OF HFMD', 'CONFIRMED CASE OF HFMD', 'SUSPECTED CASE OF SEVERE ENTEROVIRAL DISEASE', 'CONFIRMED CASE OF SEVERE ENTEROVIRAL DISEASE', 'MEASLES EQUIVOCAL'];
+                $classification_titles = ['SUSPECTED CASE OF HFMD', 'PROBABLE CASE OF HFMD', 'CONFIRMED CASE OF HFMD', 'SUSPECTED CASE OF SEVERE ENTEROVIRAL DISEASE', 'CONFIRMED CASE OF SEVERE ENTEROVIRAL DISEASE'];
                 $confirmed_titles = ['CONFIRMED CASE OF HFMD', 'CONFIRMED CASE OF SEVERE ENTEROVIRAL DISEASE'];
 
                 /*
@@ -5788,7 +5788,7 @@ class PIDSRController extends Controller
             else if($sel_disease == 'Measles') {
                 $ccstr = 'FinalClass';
 
-                $classification_titles = ['LABORATORY CONFIRMED MEASLES', 'LABORATORY CONFIRMED RUBELLA', 'EPI-LINKED CONFIRMED MEASLES', 'EPI-LINKED CONFIRMED RUBELLA', 'MEASLES COMPATIBLE', 'DISCARDED NON MEASLES/RUBELLA', 'NONE'];
+                $classification_titles = ['LABORATORY CONFIRMED MEASLES', 'LABORATORY CONFIRMED RUBELLA', 'EPI-LINKED CONFIRMED MEASLES', 'EPI-LINKED CONFIRMED RUBELLA', 'MEASLES COMPATIBLE', 'DISCARDED NON MEASLES/RUBELLA', 'NONE', 'MEASLES EQUIVOCAL'];
                 $confirmed_titles = ['LABORATORY CONFIRMED MEASLES', 'LABORATORY CONFIRMED RUBELLA'];
             }
             else if($sel_disease == 'COVID') {
