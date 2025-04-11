@@ -204,6 +204,7 @@
                         <option value="EPI-LINKED CONFIRMED MEASLES" {{(old('FinalClass', $d->FinalClass) == 'EPI-LINKED CONFIRMED MEASLES') ? 'selected' : ''}}>EPI-LINKED CONFIRMED MEASLES</option>
                         <option value="EPI-LINKED CONFIRMED RUBELLA" {{(old('FinalClass', $d->FinalClass) == 'EPI-LINKED CONFIRMED RUBELLA') ? 'selected' : ''}}>EPI-LINKED CONFIRMED RUBELLA</option>
                         <option value="MEASLES COMPATIBLE" {{(old('FinalClass', $d->FinalClass) == 'MEASLES COMPATIBLE') ? 'selected' : ''}}>MEASLES COMPATIBLE</option>
+                        <option value="MEASLES EQUIVOCAL" {{(old('FinalClass', $d->FinalClass) == 'MEASLES EQUIVOCAL') ? 'selected' : ''}}>MEASLES EQUIVOCAL</option>
                         <option value="DISCARDED NON MEASLES/RUBELLA" {{(old('FinalClass', $d->FinalClass) == 'DISCARDED NON MEASLES/RUBELLA') ? 'selected' : ''}}>DISCARDED NON MEASLES/RUBELLA</option>
                     </select>
                 </div>
