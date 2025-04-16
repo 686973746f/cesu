@@ -73,11 +73,19 @@
                                 <option value="Y" {{(old('is_booster') == 'Y') ? 'selected' : ''}}>Yes</option>
                             </select>
                         </div>
-                        <div>
+                        <div class="mb-3">
                             <label for="is_preexp" class="form-label"><strong class="text-danger">*</strong>Is Pre-Exposure?</label>
                             <select class="form-select" name="is_preexp" id="is_preexp" required>
                                 <option value="N" {{(old('is_preexp') == 'N') ? 'selected' : ''}}>No</option>
                                 <option value="Y" {{(old('is_preexp') == 'Y') ? 'selected' : ''}}>Yes</option>
+                            </select>
+                        </div>
+                        <div id="preexpDiv2" class="d-none">
+                            <label for="preexp_type" class="form-label"><strong class="text-danger">*</strong>Pre-Exposure Type</label>
+                            <select class="form-select" name="preexp_type" id="preexp_type" required>
+                                <option value="" disabled {{is_null(old('preexp_type')) ? 'selected' : ''}}>Choose...</option>
+                                <option value="0" {{(old('preexp_type') == '0') ? 'selected' : ''}}>Type 1 - D0, D7, D28</option>
+                                <option value="1" {{(old('preexp_type') == '1') ? 'selected' : ''}}>Type 2 - D0, D3, D7</option>
                             </select>
                         </div>
                     </div>
@@ -381,6 +389,9 @@ $(document).ready(function () {
 
             $('#height').prop('required', false);
             $('#weight').prop('required', false);
+
+            $('#preexpDiv2').removeClass('d-none');
+            $('#preexp_type').prop('required', true);
         }
         else {
             $('#divpostexp').removeClass('d-none');
@@ -394,6 +405,9 @@ $(document).ready(function () {
 
             $('#height').prop('required', true);
             $('#weight').prop('required', true);
+            
+            $('#preexpDiv2').addClass('d-none');
+            $('#preexp_type').prop('required', false);
         }
     }).trigger('change');
 
