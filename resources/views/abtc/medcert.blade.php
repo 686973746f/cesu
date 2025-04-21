@@ -75,15 +75,11 @@
                         <p>If you need any further information or assistance, please don't hesitate to contact us.</p>
                         @endif
                         <p>Thank you very much.</p>
-                        @if(auth()->user()->itr_facility_id == 10886)
                         <p style="margin-bottom: 50px;">Sincerely,</p>
-                        <p><b>LUIS P. BROAS, RN, RPh, MAN, CAE</b></p>
+                        <p><b>{{request()->input('vaccinator')}}</b></p>
                         <p style="margin-top: -20px;margin-bottom: 50px;">Vaccinator</p>
 
                         <p style="margin-bottom: 50px;">Noted by:</p>
-                        @else
-                        <p style="margin-bottom: 50px;">Noted by:</p>
-                        @endif
 
                         @if(request()->input('doctor') == 'DOC_ATHAN')
                         <p><b>JONATHAN P. LUSECO, MD</b></p>

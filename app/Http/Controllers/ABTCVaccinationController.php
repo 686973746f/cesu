@@ -257,6 +257,7 @@ class ABTCVaccinationController extends Controller
                 'case_id' => $case_id,
                 'is_booster' => $is_booster,
                 'is_preexp' => $is_preexp,
+                'preexp_type' => ($is_preexp == 1) ? $request->preexp_type : 0,
                 'queue_number' => $queue_number,
                 'priority_queue_number' => $priority_queue_number,
                 'case_date' => $request->case_date,
@@ -343,7 +344,9 @@ class ABTCVaccinationController extends Controller
         $vblist = AbtcVaccineBrand::orderBy('brand_name', 'ASC')->get();
         $vslist = AbtcVaccinationSite::orderBy('id', 'ASC')->get();
 
-        $vaccinator_list = Employee::whereNotNull('abtc_vaccinator_branch')->get();
+        $vaccinator_list = Employee::whereNotNull('abtc_vaccinator_branch')
+        ->orderBy('fname', 'ASC')
+        ->get();
 
         return view('abtc.encode_edit', [
             'd' => $p,
@@ -382,6 +385,7 @@ class ABTCVaccinationController extends Controller
             $if_animal_vaccinated = 0;
             $animal_type = NULL;
             $bite_type = NULL;
+            $body_site = NULL;
             $category_level = 1;
 
             $currentDate = Carbon::parse(date('Y-m-d'));
@@ -393,6 +397,7 @@ class ABTCVaccinationController extends Controller
             $if_animal_vaccinated = ($request->if_animal_vaccinated == 'Y') ? 1 : 0;
             $animal_type = $request->animal_type;
             $bite_type = $request->bite_type;
+            $body_site = ((strlen(implode(",", $request->body_site)) != 0)) ? implode(",", $request->body_site) : NULL;
             $category_level = (!is_null($request->rig_date_given)) ? 3 : $request->category_level;
 
             $currentDate = Carbon::parse($request->bite_date);
@@ -405,6 +410,7 @@ class ABTCVaccinationController extends Controller
 
         $b->is_booster = ($request->is_booster == 'Y') ? 1 : 0;
         $b->is_preexp = $is_preexp;
+        $b->preexp_type = ($is_preexp == 1) ? $request->preexp_type : 0;
         $b->vaccination_site_id = $request->vaccination_site_id;
         $b->case_date = $request->case_date;
         $b->case_location = $case_location;
@@ -413,7 +419,7 @@ class ABTCVaccinationController extends Controller
         $b->if_animal_vaccinated = $if_animal_vaccinated;
         $b->bite_date = $bite_date;
         $b->bite_type = $bite_type;
-        $b->body_site = ((strlen(implode(",", $request->body_site)) != 0)) ? implode(",", $request->body_site) : NULL;
+        $b->body_site = $body_site;
         $b->category_level = $category_level;
         $b->washing_of_bite = ($request->washing_of_bite == 'Y') ? 1 : 0;
         $b->rig_date_given = $request->rig_date_given;
@@ -1748,10 +1754,18 @@ class ABTCVaccinationController extends Controller
                 $templateProcessor->setValue('day28', date('m/d/Y', strtotime($b->d28_date)));
             }
             else {
-                $templateProcessor->setValue('day3', 'N/A');
-                $templateProcessor->setValue('day7', date('m/d/Y', strtotime($b->d7_date)));
-                $templateProcessor->setValue('day14', 'N/A');
-                $templateProcessor->setValue('day28', 'N/A');
+                if($b->preexp_type == 0) {
+                    $templateProcessor->setValue('day3', 'N/A');
+                    $templateProcessor->setValue('day7', date('m/d/Y', strtotime($b->d7_date)));
+                    $templateProcessor->setValue('day14', 'N/A');
+                    $templateProcessor->setValue('day28', 'N/A');
+                }
+                else {
+                    $templateProcessor->setValue('day3', date('m/d/Y', strtotime($b->d3_date)));
+                    $templateProcessor->setValue('day7', date('m/d/Y', strtotime($b->d7_date)));
+                    $templateProcessor->setValue('day14', 'N/A');
+                    $templateProcessor->setValue('day28', 'N/A');
+                }
             }
         }
         else {

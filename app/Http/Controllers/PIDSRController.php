@@ -1936,6 +1936,9 @@ class PIDSRController extends Controller
             $d->sys_coordinate_x = $r->sys_coordinate_x;
             $d->sys_coordinate_y = $r->sys_coordinate_y;
             $d->edcs_contactNo = $r->edcs_contactNo;
+
+            $d->systemsent = $r->systemsent;
+            $d->notify_email_sent = $r->notify_email_sent;
             
             if(request()->is('*barangayportal*')) {
                 $d->brgy_remarks = ($r->brgy_remarks) ? mb_strtoupper($r->brgy_remarks) : $d->brgy_remarks;
@@ -2019,6 +2022,10 @@ class PIDSRController extends Controller
                 else {
                     $d->sys_clustering_schedule_id = $tagto_clustering_id;
                 }
+            }
+
+            if($disease == 'MEASLES') {
+                $d->FinalClass = $r->FinalClass;
             }
 
             if($d->isDirty()) {
@@ -5782,8 +5789,8 @@ class PIDSRController extends Controller
             else if($sel_disease == 'Measles') {
                 $ccstr = 'FinalClass';
 
-                $classification_titles = ['LABORATORY CONFIRMED MEASLES', 'LABORATORY CONFIRMED RUBELLA', 'EPI-LINKED CONFIRMED MEASLES', 'EPI-LINKED CONFIRMED RUBELLA', 'MEASLES COMPATIBLE', 'NONE'];
-                $confirmed_titles = ['LABORATORY CONFIRMED MEASLES', 'LABORATORY CONFIRMED RUBELLA', 'EPI-LINKED CONFIRMED MEASLES', 'EPI-LINKED CONFIRMED RUBELLA', 'MEASLES COMPATIBLE'];
+                $classification_titles = ['LABORATORY CONFIRMED MEASLES', 'LABORATORY CONFIRMED RUBELLA', 'EPI-LINKED CONFIRMED MEASLES', 'EPI-LINKED CONFIRMED RUBELLA', 'MEASLES COMPATIBLE', 'DISCARDED NON MEASLES/RUBELLA', 'NONE', 'MEASLES EQUIVOCAL'];
+                $confirmed_titles = ['LABORATORY CONFIRMED MEASLES', 'LABORATORY CONFIRMED RUBELLA'];
             }
             else if($sel_disease == 'COVID') {
                 $ccstr = 'caseClassification';
@@ -5811,6 +5818,7 @@ class PIDSRController extends Controller
 
             foreach($classification_titles as $cclass) {
                 if($cclass == 'NONE') {
+                    /*
                     $classification_counts[] = $modelClass::where('enabled', 1)
                     ->where('match_casedef', 1)
                     ->where('Year', $sel_year)
@@ -5819,6 +5827,39 @@ class PIDSRController extends Controller
                         $q->whereNull($ccstr)
                         ->orWhere($ccstr, '');
                     })
+                    ->count();
+                    */
+
+                    $ccount = $modelClass::where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('Year', $sel_year)
+                    ->where('MorbidityWeek', '<=', $sel_week)
+                    ->where(function ($q) use ($ccstr) {
+                        $q->whereNull($ccstr)
+                        ->orWhere($ccstr, '');
+                    })
+                    ->count();
+
+                    $ccount_alive = $modelClass::where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('Year', $sel_year)
+                    ->where('MorbidityWeek', '<=', $sel_week)
+                    ->where(function ($q) use ($ccstr) {
+                        $q->whereNull($ccstr)
+                        ->orWhere($ccstr, '');
+                    })
+                    ->where('Outcome', 'A')
+                    ->count();
+
+                    $ccount_died = $modelClass::where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('Year', $sel_year)
+                    ->where('MorbidityWeek', '<=', $sel_week)
+                    ->where(function ($q) use ($ccstr) {
+                        $q->whereNull($ccstr)
+                        ->orWhere($ccstr, '');
+                    })
+                    ->where('Outcome', 'D')
                     ->count();
                 }
                 else {
@@ -5841,13 +5882,34 @@ class PIDSRController extends Controller
                         ->where('MorbidityWeek', '<=', $sel_week)
                         ->where($ccstr, $cclass)
                         ->count();
+                        
+                        $ccount_alive = $modelClass::where('enabled', 1)
+                        ->where('match_casedef', 1)
+                        ->where('Year', $sel_year)
+                        ->where('MorbidityWeek', '<=', $sel_week)
+                        ->where($ccstr, $cclass)
+                        ->where('Outcome', 'A')
+                        ->count();
+
+                        $ccount_died = $modelClass::where('enabled', 1)
+                        ->where('match_casedef', 1)
+                        ->where('Year', $sel_year)
+                        ->where('MorbidityWeek', '<=', $sel_week)
+                        ->where($ccstr, $cclass)
+                        ->where('Outcome', 'D')
+                        ->count();
                     }
                     
                     if(in_array($cclass, $confirmed_titles)) {
                         $current_confirmed_grand_total += $ccount;
                     }
 
-                    $classification_counts[] = $ccount;
+                    $classification_counts[] = [
+                        'title' => $cclass,
+                        'total' => $ccount,
+                        'alive' => $ccount_alive,
+                        'died' => $ccount_died,
+                    ];
                 }
             }
 

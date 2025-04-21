@@ -9,7 +9,7 @@ class Icd10Code extends Model
 {
     use HasFactory;
 
-    protected $table = 'icd10_codes';
+    protected $table = 'fhsis_ICD10 CODE';
     public $incrementing = false;
 
     protected $fillable = [

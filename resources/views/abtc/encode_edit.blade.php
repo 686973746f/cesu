@@ -147,15 +147,22 @@
                         <div class="mb-3">
                             <label for="is_booster" class="form-label"><strong class="text-danger">*</strong>Override: Is Booster?</label>
                             <select class="form-select" name="is_booster" id="is_booster" required>
-                                <option value="N" {{($d->is_booster == 0) ? 'selected' : ''}}>No</option>
-                                <option value="Y" {{($d->is_booster == 1) ? 'selected' : ''}}>Yes</option>
+                                <option value="N" {{(old('is_booster', $d->is_booster) == 0) ? 'selected' : ''}}>No</option>
+                                <option value="Y" {{(old('is_booster', $d->is_booster) == 1) ? 'selected' : ''}}>Yes</option>
                             </select>
                         </div>
-                        <div>
+                        <div class="mb-3">
                             <label for="is_preexp" class="form-label"><strong class="text-danger">*</strong>Is Pre-Exposure?</label>
                             <select class="form-select" name="is_preexp" id="is_preexp" required>
-                                <option value="N" {{($d->is_preexp == 0) ? 'selected' : ''}}>No</option>
-                                <option value="Y" {{($d->is_preexp == 1) ? 'selected' : ''}}>Yes</option>
+                                <option value="N" {{(old('is_preexp', $d->is_preexp) == 0) ? 'selected' : ''}}>No</option>
+                                <option value="Y" {{(old('is_preexp', $d->is_preexp) == 1) ? 'selected' : ''}}>Yes</option>
+                            </select>
+                        </div>
+                        <div id="preexpDiv2" class="d-none">
+                            <label for="preexp_type" class="form-label"><strong class="text-danger">*</strong>Pre-Exposure Type</label>
+                            <select class="form-select" name="preexp_type" id="preexp_type" required>
+                                <option value="0" {{(old('preexp_type', $d->preexp_type) == '0') ? 'selected' : ''}}>Type 1 - D0, D7, D28</option>
+                                <option value="1" {{(old('preexp_type', $d->preexp_type) == '1') ? 'selected' : ''}}>Type 2 - D0, D3, D7</option>
                             </select>
                         </div>
                     </div>
@@ -597,6 +604,9 @@ $(document).ready(function () {
 
             $('#height').prop('required', false);
             $('#weight').prop('required', false);
+
+            $('#preexpDiv2').removeClass('d-none');
+            $('#preexp_type').prop('required', true);
         }
         else {
             $('#divpostexp').removeClass('d-none');
@@ -610,6 +620,9 @@ $(document).ready(function () {
 
             $('#height').prop('required', true);
             $('#weight').prop('required', true);
+
+            $('#preexpDiv2').addClass('d-none');
+            $('#preexp_type').prop('required', false);
         }
     }).trigger('change');
 
