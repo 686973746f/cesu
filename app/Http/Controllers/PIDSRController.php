@@ -1274,6 +1274,7 @@ class PIDSRController extends Controller
                 //$columns = Schema::getColumnListing('ames');
 
                 $tbl_name = 'ames';
+                $modelName = 'Ames';
             }
             else if($case == 'ANTHRAX') {
                 $query = Anthrax::where('year', $year);
