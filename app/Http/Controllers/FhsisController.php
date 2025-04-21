@@ -3998,6 +3998,19 @@ class FhsisController extends Controller
         }
     }
 
+    public function deathCertSearch() {
+        $q = request()->input('q');
+
+        $list = DeathCertificate::where(DB::raw('CONCAT(lname," ",fname," ", mname)'), 'LIKE', "%".str_replace(',','', $q)."%")
+        ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','', $q)."%")
+        ->orWhere('id', $q)
+        ->get();
+
+        return view('efhsis.deathcert_search', [
+            'list' => $list,
+        ]);
+    }
+
     public function newMorbidityReportDownload() {
         if(!request()->input('year') && !request()->input('month')) {
             return abort(401);
