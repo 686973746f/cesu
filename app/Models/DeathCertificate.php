@@ -62,6 +62,10 @@ class DeathCertificate extends Model
         'updated_by',
     ];
 
+    public function user() {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
     public function getName() {
         $fullname = $this->lname.", ".$this->fname;
 
@@ -75,5 +79,13 @@ class DeathCertificate extends Model
 
         return $fullname;
         //return $this->lname.", ".$this->fname.' '.$this->suffix." ".$this->mname;
+    }
+
+    public function getPlaceOfResidence() {
+        return 'BRGY. '.$this->address_brgy_text.', '.$this->address_muncity_text.', '.$this->address_province_text;
+    }
+
+    public function getPlaceOfDeathString() {
+        return $this->name_placeofdeath.' (BRGY. '.$this->address_brgy_text.', '.$this->address_muncity_text.', '.$this->address_province_text.')';
     }
 }
