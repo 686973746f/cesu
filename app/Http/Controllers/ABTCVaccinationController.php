@@ -1959,6 +1959,12 @@ class ABTCVaccinationController extends Controller
                 $templateProcessor->setValue('get_name', $d->patient->getNameFormalOfPhilhealthMember());
             }
 
+            $sepa_array = str_split(Carbon::parse($d->d7_date)->format('mdY'));
+            $templateProcessor->setValue('hcp1_date', $sepa_array[0].'   '.$sepa_array[1].'     '.$sepa_array[2].'   '.$sepa_array[3].'    '.$sepa_array[4].'   '.$sepa_array[5].'   '.$sepa_array[6].'   '.$sepa_array[7]);
+
+            $sepa_array = str_split(Carbon::parse($d->d7_date)->format('mdY'));
+            $templateProcessor->setValue('hcp2_date', $sepa_array[0].'   '.$sepa_array[1].'     '.$sepa_array[2].'   '.$sepa_array[3].'    '.$sepa_array[4].'   '.$sepa_array[5].'   '.$sepa_array[6].'   '.$sepa_array[7]);
+
             $filename = 'CF2_'.$d->patient->lname.'_'.$d->patient->fname.'_'.Carbon::now()->format('mdY').'.docx';
         }
         else if($r->submit == 'soa') {
@@ -2216,6 +2222,12 @@ class ABTCVaccinationController extends Controller
 
             $templateProcessor->setValue('hcp2_name', 'JONATHAN P. LUSECO, MD');
             $templateProcessor->setValue('hcp2_position', 'CITY HEALTH OFFICER II');
+
+            $sepa_array = str_split(Carbon::parse($d->d7_date)->format('mdY'));
+            $templateProcessor->setValue('hcp1_date', $sepa_array[0].'   '.$sepa_array[1].'     '.$sepa_array[2].'   '.$sepa_array[3].'    '.$sepa_array[4].'   '.$sepa_array[5].'   '.$sepa_array[6].'   '.$sepa_array[7]);
+
+            $sepa_array = str_split(Carbon::parse($d->d7_date)->format('mdY'));
+            $templateProcessor->setValue('hcp2_date', $sepa_array[0].'   '.$sepa_array[1].'     '.$sepa_array[2].'   '.$sepa_array[3].'    '.$sepa_array[4].'   '.$sepa_array[5].'   '.$sepa_array[6].'   '.$sepa_array[7]);
             
             $filename = 'CSF_'.$d->patient->lname.'_'.$d->patient->fname.'_'.Carbon::now()->format('mdY').'.docx';
         }
