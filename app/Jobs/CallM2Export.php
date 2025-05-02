@@ -899,11 +899,13 @@ class CallM2Export implements ShouldQueue
         foreach($edcs_brgy_list as $b) {
             $ppen_m = (clone $ra_query)->where('address_brgy_code', $b->id)
             ->where('is_newrecord', 'Y')
+            ->where('is_followup', 'N')
             ->where('sex', 'M')
             ->count();
 
             $ppen_f = (clone $ra_query)->where('address_brgy_code', $b->id)
             ->where('is_newrecord', 'Y')
+            ->where('is_followup', 'N')
             ->where('sex', 'F')
             ->count();
 
