@@ -31,6 +31,7 @@
                         <th>Deployable in Duties</th>
                         <th>HERT Team</th>
                         <th>Duty Cycle Status</th>
+                        <th>Duty Balance</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -49,6 +50,7 @@
                         <td class="text-center">{{$d->duty_canbedeployed}}</td>
                         <td class="text-center">{{$d->duty_team}}</td>
                         <td class="text-center">{{($d->duty_completedcycle == 'Y') ? 'DONE' : 'PENDING'}}</td>
+                        <td class="text-center">{{$d->duty_balance}}</td>
                     </tr>
                     @endforeach
                 </tbody>

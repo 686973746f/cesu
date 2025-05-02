@@ -52,6 +52,7 @@
                                             <th>Name</th>
                                             <th>Nakapag-duty na sa Current Cycle</th>
                                             <th>Last Duty</th>
+                                            <th>Duty Balance</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -69,6 +70,7 @@
                                             </td>
                                             <td class="text-center">{{($d->duty_completedcycle == 'Y') ? 'DONE' : 'PENDING'}}</td>
                                             <td class="text-center">{{($d->getLatestDuty()) ? $d->getLatestDuty()->event->event_name.' ('.date('M. d, Y', strtotime($d->getLatestDuty()->event->event_date)).')' : 'N/A'}}</td>
+                                            <td class="text-center">{{$d->duty_balance}}</td>
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -89,6 +91,7 @@
                                             <th>Name</th>
                                             <th>Nakapag-duty na sa Current Cycle</th>
                                             <th>Last Duty</th>
+                                            <th>Duty Balance</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -106,6 +109,7 @@
                                             </td>
                                             <td class="text-center">{{($d->duty_completedcycle == 'Y') ? 'DONE' : 'PENDING'}}</td>
                                             <td class="text-center">{{($d->getLatestDuty()) ? $d->getLatestDuty()->event->event_name.' ('.date('M. d, Y', strtotime($d->getLatestDuty()->event->event_date)).')' : 'N/A'}}</td>
+                                            <td class="text-center">{{$d->duty_balance}}</td>
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -126,6 +130,7 @@
                                             <th>Name</th>
                                             <th>Nakapag-duty na sa Current Cycle</th>
                                             <th>Last Duty</th>
+                                            <th>Duty Balance</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -143,6 +148,7 @@
                                             </td>
                                             <td class="text-center">{{($d->duty_completedcycle == 'Y') ? 'DONE' : 'PENDING'}}</td>
                                             <td class="text-center">{{($d->getLatestDuty()) ? $d->getLatestDuty()->event->event_name.' ('.date('M. d, Y', strtotime($d->getLatestDuty()->event->event_date)).')' : 'N/A'}}</td>
+                                            <td class="text-center">{{$d->duty_balance}}</td>
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -163,6 +169,7 @@
                                             <th>Name</th>
                                             <th>Nakapag-duty na sa Current Cycle</th>
                                             <th>Last Duty</th>
+                                            <th>Duty Balance</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -180,6 +187,7 @@
                                             </td>
                                             <td class="text-center">{{($d->duty_completedcycle == 'Y') ? 'DONE' : 'PENDING'}}</td>
                                             <td class="text-center">{{($d->getLatestDuty()) ? $d->getLatestDuty()->event->event_name.' ('.date('M. d, Y', strtotime($d->getLatestDuty()->event->event_date)).')' : 'N/A'}}</td>
+                                            <td class="text-center">{{$d->duty_balance}}</td>
                                         </tr>
                                         @endforeach
                                     </tbody>
