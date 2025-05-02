@@ -198,7 +198,8 @@ class EmployeesController extends Controller
 
     public function dutyIndex() {
         $duty_qry = Employee::where('employment_status', 'ACTIVE')
-        ->where('duty_canbedeployed', 'Y');
+        ->where('duty_canbedeployed', 'Y')
+        ->whereNotNull('duty_team');
 
         $tot_emp_duty = (clone $duty_qry)->count();
         $tot_emp_duty_male = (clone $duty_qry)->where('gender', 'M')->count();
@@ -296,13 +297,14 @@ class EmployeesController extends Controller
             $u2 = Employee::where('employment_status', 'ACTIVE')
             ->where('duty_canbedeployed', 'Y')
             ->where('duty_completedcycle', 'N')
+            ->whereNotNull('duty_team')
             ->update([
                 'duty_balance' => DB::raw('duty_balance + 1'),
             ]);
 
             $u = Employee::where('employment_status', 'ACTIVE')
             ->where('duty_canbedeployed', 'Y')
-            ->where('duty_completedcycle', 'Y')
+            ->whereNotNull('duty_team')
             ->update([
                 'duty_completedcycle' => 'N',
             ]);
