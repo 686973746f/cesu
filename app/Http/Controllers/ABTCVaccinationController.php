@@ -2150,7 +2150,7 @@ class ABTCVaccinationController extends Controller
                 $sepa_array = str_split($d->patient->linkphilhealth_pen);
                 $linkphilhealth_pen = $sepa_array[0].'    '.$sepa_array[1].'       '.$sepa_array[2].'   '.$sepa_array[3].'    '.$sepa_array[4].'    '.$sepa_array[5].'   '.$sepa_array[6].'    '.$sepa_array[7].'    '.$sepa_array[8].'   '.$sepa_array[9].'   '.$sepa_array[10].'       '.$sepa_array[11];
                 $templateProcessor->setValue('linkphilhealth_pen', $linkphilhealth_pen);
-                $templateProcessor->setValue('linkphilhealth_businessname', $d->patient->linkphilhealth_businessname);
+                $templateProcessor->setValue('linkphilhealth_businessname', htmlspecialchars($d->patient->linkphilhealth_businessname));
             }
             else {
                 $templateProcessor->setValue('linkphilhealth_pen', '');
