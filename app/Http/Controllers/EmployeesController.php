@@ -1008,7 +1008,8 @@ class EmployeesController extends Controller
         ->get();
 
         $duty_qry = Employee::where('employment_status', 'ACTIVE')
-        ->where('duty_canbedeployed', 'Y');
+        ->where('duty_canbedeployed', 'Y')
+        ->whereNotNull('duty_team');
 
         $tot_emp_duty = (clone $duty_qry)->count();
         $tot_emp_duty_male = (clone $duty_qry)->where('gender', 'M')->count();
