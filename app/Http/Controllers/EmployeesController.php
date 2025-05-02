@@ -274,6 +274,7 @@ class EmployeesController extends Controller
         if($r->submit == 'reset_cycle') {
             //Create Duty Cycle Mark
             $s = DutyCycle::latest()->first();
+
             if($s) {
                 $s->date_ended = date('Y-m-d');
                 if($s->isDirty()) {
@@ -290,6 +291,14 @@ class EmployeesController extends Controller
                     'date_ended' => date('Y-m-d'),
                 ]);
             }
+
+            //Increase Count of Duty Balance sa mga di dumuty last cycle
+            $u2 = Employee::where('employment_status', 'ACTIVE')
+            ->where('duty_canbedeployed', 'Y')
+            ->where('duty_completedcycle', 'N')
+            ->update([
+                'duty_balance' => DB::raw('duty_balance + 1'),
+            ]);
 
             $u = Employee::where('employment_status', 'ACTIVE')
             ->where('duty_canbedeployed', 'Y')

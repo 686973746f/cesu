@@ -63,6 +63,7 @@ class CreateEmployeesTable extends Migration
             $table->string('duty_team')->nullable();
             $table->string('duty_completedcycle', 1)->default('N');
             $table->string('duty_canbedeployedagain', 1)->default('N');
+            $table->integer('duty_balance')->default(0);
 
             $table->string('prc_license_no')->nullable();
             $table->string('tin_no')->nullable();

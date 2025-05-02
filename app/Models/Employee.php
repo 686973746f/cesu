@@ -51,6 +51,7 @@ class Employee extends Model
         'duty_canbedeployedagain',
         'duty_team',
         'duty_completedcycle',
+        'duty_balance',
 
         'prc_license_no',
         'tin_no',
