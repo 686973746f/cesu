@@ -897,6 +897,16 @@ class CallM2Export implements ShouldQueue
         ->where('month', $start->format('n'));
 
         foreach($edcs_brgy_list as $b) {
+            $ppen_m = (clone $ra_query)->where('address_brgy_code', $b->id)
+            ->where('is_newrecord', 'Y')
+            ->where('sex', 'M')
+            ->count();
+
+            $ppen_f = (clone $ra_query)->where('address_brgy_code', $b->id)
+            ->where('is_newrecord', 'Y')
+            ->where('sex', 'F')
+            ->count();
+
             $current_smoker_m = (clone $ra_query)->where('address_brgy_code', $b->id)
             ->where('is_followup', 'N')
             ->where('sex', 'M')
@@ -1021,8 +1031,8 @@ class CallM2Export implements ShouldQueue
                 'NONCOM_PPV_F' => 0,
                 'NONCOM_IV_M' => 0,
                 'NONCOM_IV_F' => 0,
-                'NONCOM_PPEN_M',
-                'NONCOM_PPEN_F',
+                'NONCOM_PPEN_M' => $ppen_m,
+                'NONCOM_PPEN_F' => $ppen_f,
                 'NONCOM_DMMED_M' => 0,
                 'NONCOM_DMMED_F' => 0,
                 'NONCOM_HPNMED_M' => 0,
