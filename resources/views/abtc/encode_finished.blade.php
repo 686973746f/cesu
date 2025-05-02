@@ -243,17 +243,15 @@
                         @endif
                     </select>
                 </div>
-                @if(!$f->patient->philhealth)
                 <div class="form-group">
-                    <label for="philhealth" class="form-label"><b class="text-danger">*</b>Input Philhealth Number (PIN) of the Patient</label>
+                    <label for="philhealth" class="form-label">@if(($f->category_level  == 3))<b class="text-danger">*</b>@endif Input Philhealth Number (PIN) of the <span id="ph_text"></span></label>
                     <input type="text" class="form-control" id="philhealth" name="philhealth" value="{{old('philhealth', $f->patient->philhealth)}}" pattern="[0-9]{12}" {{($f->category_level  == 3) ? 'required' : ''}}>
                 </div>
-                @endif
                 
                 <div id="ifDependentDiv" class="d-none">
                     <hr>
                     <div class="alert alert-info" role="alert">
-                        Paki-lagay ang detalye ng Philhealth Member kung saan naka-declare ang Patient (halimbawa: Nanay/Mother o Tatay/Father). Makikita ito sa MDR na ip-provide ng Patient.
+                        Paki-lagay ang detalye ng Philhealth Member kung saan naka-declare ang Patient (halimbawa: Nanay/Mother, Tatay/Father, o Asawa/Spouse). Makikita ito sa MDR na ip-provide ng Patient.
                     </div>
                     <div class="form-group">
                         <label for="linkphilhealth_lname"><b class="text-danger">*</b>Last Name of Philhealth Member</label>
@@ -395,6 +393,7 @@
             $('#linkphilhealth_bdate').prop('required', false);
             $('#linkphilhealth_phnumber').prop('required', false);
             $('#linkphilhealth_relationship').prop('required', false);
+            $('#ph_text').text('Member');
         }
         else if($(this).val() == 'DEPENDENT') {
             $('#ifDependentDiv').removeClass('d-none');
@@ -409,6 +408,8 @@
             $('#linkphilhealth_bdate').prop('required', true);
             $('#linkphilhealth_phnumber').prop('required', true);
             $('#linkphilhealth_relationship').prop('required', true);
+
+            $('#ph_text').text('Dependent');
         }
     }).trigger('change');
 </script>
