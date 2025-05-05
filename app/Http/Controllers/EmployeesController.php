@@ -327,7 +327,8 @@ class EmployeesController extends Controller
         if(!request()->input('override')) {
             $duty_qry = $duty_qry->where(function ($q) {
                 $q->where('duty_canbedeployedagain', 'Y')
-                ->orWhere('duty_completedcycle', 'N');
+                ->orWhere('duty_completedcycle', 'N')
+                ->orWhere('duty_balance', '>', 0);
             });
         }
 
@@ -392,9 +393,12 @@ class EmployeesController extends Controller
         ->first();
 
         if(!$check) {
+            $u = Employee::findOrFail($r->employee_id);
+
             $c = HertDutyMember::create([
                 'event_id' => $d->id,
                 'employee_id' => $r->employee_id,
+                'dutybalance_beforejoining' => $u->duty_balance,
                 'created_by' => Auth::id(),
             ]);
         }
@@ -404,7 +408,12 @@ class EmployeesController extends Controller
             ->with('msgtype', 'warning');
         }
 
-        $u = Employee::findOrFail($r->employee_id);
+        //Reduce Duty Balance if pangalawang beses na dumuty for the current Cycle
+        if($u->duty_completedcycle == 'Y') {
+            if($u->duty_balance > 0) {
+                $u->duty_balance = $u->duty_balance - 1;
+            }
+        }
 
         $u->duty_completedcycle = 'Y';
 
@@ -413,13 +422,16 @@ class EmployeesController extends Controller
         }
 
         //Reset Cycle if All Employees Completed the Cycle
+        /*
         $cycle_check = Employee::where('employment_status', 'ACTIVE')
         ->where('duty_canbedeployed', 'Y')
         ->where('duty_completedcycle', 'N')
         ->first();
+        */
 
         $msg = 'Responder '.$u->getName().' was successfully added to the list.';
 
+        /*
         if(!$cycle_check) {
             //Create Duty Cycle Mark
             $s = DutyCycle::latest()->first();
@@ -449,6 +461,7 @@ class EmployeesController extends Controller
 
             $msg = $msg.' Duty Cycle Reset was also processed.';
         }
+        */
 
         return redirect()->back()
         ->with('msg', $msg)
@@ -459,10 +472,16 @@ class EmployeesController extends Controller
         $d = HertDuty::findOrFail($duty_id);
 
         $m = HertDutyMember::find($member_id);
+        
+        $p = Employee::findOrFail($m->employee_id);
+        //Return Balance Duty if di nakapag-duty last cycle
+        $p->duty_balance = $m->dutybalance_beforejoining;
 
         //Reset Completed Cycle to N
-        $p = Employee::findOrFail($m->employee_id);
-        $p->duty_completedcycle = 'N';
+        if($p->duty_balance == 0) {
+            $p->duty_completedcycle = 'N';
+        }
+
         if($p->isDirty()) {
             $p->save();
         }

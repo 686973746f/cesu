@@ -13,6 +13,7 @@ class HertDutyMember extends Model
         'event_id',
         'employee_id',
         'locked_in',
+        'dutybalance_beforejoining',
         'created_by',
     ];
 
@@ -27,4 +28,4 @@ class HertDutyMember extends Model
     public function employee() {
         return $this->belongsTo(Employee::class, 'employee_id');
     }
-}
+} 
