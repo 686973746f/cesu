@@ -1413,7 +1413,6 @@ class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'OraColD8sent' => NULL,
                 'OraColD8Recvd' => NULL,
                 'OraColPCRRes' => NULL,
-                //'FinalClass' => !is_null($row['final_classification']) ? mb_strtoupper($row['final_classification']) : NULL,
                 'InfectionSource' => $row['source_infection'],
                 'Outcome' => mb_strtoupper(substr($row['outcome'],0,1)),
                 'FinalDx' => $row['final_diagnosis'],
@@ -1483,7 +1482,7 @@ class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 $table_params = $table_params + [
                     'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
                     'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
-                    'FinalClass' => !is_null($row['final_classification']) ? mb_strtoupper($row['final_classification']) : NULL,
+                    'FinalClass' => !is_null($row['final_classification']) ? mb_strtoupper($row['final_classification']) : 'MEASLES COMPATIBLE',
                     'created_by' => auth()->user()->id,
                 ];
 
