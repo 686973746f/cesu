@@ -491,11 +491,21 @@ class AbtcInventoryController extends Controller
                 ->where('type', 'TRANSFERRED')
                 ->sum('process_qty');
 
+                if($edcm) {
+                    $end_qty = $edcm->after_qty;
+                }
+                else if($edpm) {
+                    $end_qty = $edpm->after_qty;
+                }
+                else {
+                    $end_qty = 0;
+                }
+
                 //List of Stock Transfer
                 $lgu_final[] = [
                     'name' => $m->submaster->master->name,
                     'ending_previous_month' => ($edpm) ? $edpm->after_qty : 0,
-                    'ending_current_month' => ($edcm) ? $edcm->after_qty : 0,
+                    'ending_current_month' => $end_qty,
                     'used_qty' => $used_qty,
                     'expired_qty' => $expired_qty,
                     
