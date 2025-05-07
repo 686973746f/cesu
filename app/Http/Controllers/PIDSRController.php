@@ -5196,18 +5196,21 @@ class PIDSRController extends Controller
                     ->count();
                 }
 
-                /*
-                $previous_grand_total = $modelClass::where('enabled', 1)
-                ->where('match_casedef', 1)
-                ->where('Year', $sel_year - 1)
-                ->count();
-                */
+                if($sel_disease == 'Rabies') {
+                    $previous_grand_total = $modelClass::where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('Year', $sel_year - 1)
+                    ->count();
+                }
+                else {
+                    $previous_grand_total = $modelClass::where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where('Year', $sel_year - 1)
+                    ->where('MorbidityWeek', '<=', $sel_week)
+                    ->count();
+                }
 
-                $previous_grand_total = $modelClass::where('enabled', 1)
-                ->where('match_casedef', 1)
-                ->where('Year', $sel_year - 1)
-                ->where('MorbidityWeek', '<=', $sel_week)
-                ->count();
+                
 
                 $hospitalized_count = $modelClass::where('enabled', 1)
                 ->where('match_casedef', 1)
