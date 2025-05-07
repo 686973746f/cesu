@@ -438,7 +438,7 @@ class AbtcInventoryController extends Controller
             foreach($lgu_stock_list as $m) {
                 $edpm = AbtcInventoryTransaction::where('stock_id', $m->id)
                 ->whereYear('transaction_date', $previous_month->format('Y'))
-                ->whereMonth('transaction_date', $previous_month->format('n'))
+                ->whereMonth('transaction_date', '<=', $previous_month->format('n'))
                 ->latest()
                 ->first();
 
