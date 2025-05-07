@@ -565,7 +565,7 @@ class AbtcInventoryController extends Controller
                 $doh_final[] = [
                     'name' => $m->submaster->master->name,
                     'ending_previous_month' => ($edpm) ? $edpm->after_qty : 0,
-                    'ending_current_month' => ($edcm) ? $edcm->after_qty : 0,
+                    'ending_current_month' => ($edcm) ? $edcm->after_qty : $edpm->after_qty,
                     'used_qty' => $used_qty,
                     'expired_qty' => $expired_qty,
                     

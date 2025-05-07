@@ -146,7 +146,7 @@
                 <li style="margin-bottom: -5px;"><h5>Age ranged from {{$min_age_display}} to {{$max_age}} years (Median={{$median_display}}). The Majority of the cases were {{strtolower($majority_flavor)}} ({{$majority_percent}}%).</h5></li>
                 @else
                 <li style="margin-bottom: -5px;"><h5>The individual case is from BRGY. {{$top10Brgys[0]['brgy_name']}}</h5></li>
-                <li style="margin-bottom: -5px;"><h5>The invididual case is {{$max_age}} {{Str::plural('year', $max_age)}} old {{$majority_flavor_singular}}.</h5></li>
+                <li style="margin-bottom: -5px;"><h5>The individual case is {{$max_age}} {{Str::plural('year', $max_age)}} old {{$majority_flavor_singular}}.</h5></li>
                 @endif
             </ul>
             <hr>
