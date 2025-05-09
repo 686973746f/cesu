@@ -18,7 +18,8 @@ class CreatePropertyInventorySubsTable extends Migration
 
             $table->string('enabled', 1)->default('Y');
             $table->foreignId('master_id')->constrained('property_inventory_mains')->onDelete('cascade');
-            $table->foreignId('facility_id')->constrained('abtc_vaccination_sites')->onDelete('cascade');
+            $table->foreignId('facility_id')->constrained('doh_facilities')->onDelete('cascade');
+            $table->text('sub_description')->nullable();
 
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');

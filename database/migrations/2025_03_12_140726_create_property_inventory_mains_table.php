@@ -18,6 +18,7 @@ class CreatePropertyInventoryMainsTable extends Migration
             $table->string('enabled', 1)->default('Y');
             $table->string('name');
             $table->text('description')->nullable();
+            $table->text('program_enduser');
             $table->string('uom');
 
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');

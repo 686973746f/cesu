@@ -18,6 +18,7 @@ class CreatePropertyInventoryStocksTable extends Migration
             $table->string('enabled', 1)->default('Y');
             $table->foreignId('sub_id')->constrained('property_inventory_subs')->onDelete('cascade');
             $table->string('batch_serialno')->nullable();
+            $table->text('adtn_referenceno')->nullable();
             $table->string('has_expiry', 1)->default('Y');
             $table->date('expiry_date')->nullable();
             $table->string('source'); //DOH, LGU, OTHERS
