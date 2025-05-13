@@ -879,7 +879,7 @@ class CallM2Export implements ShouldQueue
             ->where('MorbidityMonth', $start->format('n'))
             ->where('Year', $start->format('Y'))
             ->where('Barangay', $b->brgyName)
-            ->where('Sex', 'M')
+            ->where('Sex', 'F')
             ->count();
             
             $abtc_array[] = [
