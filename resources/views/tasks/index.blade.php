@@ -172,6 +172,7 @@
                                 </thead>
                                 <tbody>
                                     @foreach($abtc_claimslist as $d)
+                                    @if(Carbon\Carbon::parse($d->d7_date)->diffInDays() <= 61)
                                     <tr>
                                         <td class="text-center">
                                             <div>#{{$d->id}}</div>
@@ -194,6 +195,7 @@
                                             </form>
                                         </td>
                                     </tr>
+                                    @endif
                                     @endforeach
                                 </tbody>
                             </table>
