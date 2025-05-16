@@ -1936,9 +1936,11 @@ class ABTCVaccinationController extends Controller
             $templateProcessor->setValue('mname', $d->patient->lname ?: 'N/A');
 
             $sepa_array = str_split(Carbon::parse($d->case_date)->format('mdY'));
-
             $templateProcessor->setValue('date_admitted', $sepa_array[0].'   '.$sepa_array[1].'     '.$sepa_array[2].'   '.$sepa_array[3].'    '.$sepa_array[4].'   '.$sepa_array[5].'   '.$sepa_array[6].'   '.$sepa_array[7]);
-
+            
+            $sepa_array = str_split(Carbon::parse($d->d7_date)->format('mdY'));
+            $templateProcessor->setValue('date_discharged', $sepa_array[0].'   '.$sepa_array[1].'     '.$sepa_array[2].'   '.$sepa_array[3].'    '.$sepa_array[4].'   '.$sepa_array[5].'   '.$sepa_array[6].'   '.$sepa_array[7]);
+            
             $templateProcessor->setValue('body_site', $d->body_site);
             $templateProcessor->setValue('cat', $d->category_level);
             $templateProcessor->setValue('animal', $d->getSource());
@@ -1957,6 +1959,37 @@ class ABTCVaccinationController extends Controller
             }
             else {
                 $templateProcessor->setValue('get_name', $d->patient->getNameFormalOfPhilhealthMember());
+            }
+
+            if($d->vaccination_site_id == 1) {
+                //MAKE THIS FLEXIBLE LATER
+                $sepa_array = str_split('110022558694');
+                $templateProcessor->setValue('hcp1_number', $sepa_array[0].'   '.$sepa_array[1].'   '.$sepa_array[2].'   '.$sepa_array[3].'      '.$sepa_array[4].'   '.$sepa_array[5].'   '.$sepa_array[6].'   '.$sepa_array[7].'   '.$sepa_array[8].'   '.$sepa_array[9].'   '.$sepa_array[10].'     '.$sepa_array[11]);
+                $templateProcessor->setValue('hcp1_name', 'YVES M. TALOSIG, MD');
+
+                $templateProcessor->setValue('hcp1_opt_number', '');
+                $templateProcessor->setValue('hcp1_opt_name', '');
+                $templateProcessor->setValue('hcp1_opt_date', '');
+            }
+            else if($d->vaccination_site_id == 2) {
+                $sepa_array = str_split('110014318605');
+                $templateProcessor->setValue('hcp1_number', $sepa_array[0].'   '.$sepa_array[1].'   '.$sepa_array[2].'   '.$sepa_array[3].'      '.$sepa_array[4].'   '.$sepa_array[5].'   '.$sepa_array[6].'   '.$sepa_array[7].'   '.$sepa_array[8].'   '.$sepa_array[9].'   '.$sepa_array[10].'     '.$sepa_array[11]);
+                $templateProcessor->setValue('hcp1_name', 'ABE D. ESCARIO, MD');
+
+                $sepa_array = str_split('110013279311');
+                $templateProcessor->setValue('hcp1_opt_number', $sepa_array[0].'   '.$sepa_array[1].'   '.$sepa_array[2].'   '.$sepa_array[3].'      '.$sepa_array[4].'   '.$sepa_array[5].'   '.$sepa_array[6].'   '.$sepa_array[7].'   '.$sepa_array[8].'   '.$sepa_array[9].'   '.$sepa_array[10].'     '.$sepa_array[11]);
+                $templateProcessor->setValue('hcp1_opt_name', 'CHERRY L. ASPURIA, MD');
+                $sepa_array = str_split(Carbon::parse($d->d7_date)->format('mdY'));
+                $templateProcessor->setValue('hcp1_opt_date', $sepa_array[0].'   '.$sepa_array[1].'     '.$sepa_array[2].'   '.$sepa_array[3].'    '.$sepa_array[4].'   '.$sepa_array[5].'   '.$sepa_array[6].'   '.$sepa_array[7]);
+            }
+            else if($d->vaccination_site_id == 3) {
+                //$sepa_array = str_split('');
+                $templateProcessor->setValue('hcp1_number', '');
+                $templateProcessor->setValue('hcp1_name', 'EDGARDO R. FIGUEROA, MD, MMHoA');
+
+                $templateProcessor->setValue('hcp1_opt_number', '');
+                $templateProcessor->setValue('hcp1_opt_name', '');
+                $templateProcessor->setValue('hcp1_opt_date', '');
             }
 
             $sepa_array = str_split(Carbon::parse($d->d7_date)->format('mdY'));
@@ -2042,7 +2075,7 @@ class ABTCVaccinationController extends Controller
             }
 
             if($d->vaccination_site_id == 1) {
-                $templateProcessor->setValue('hcp1_name', '1. JONATHAN P. LUSECO, MD');
+                $templateProcessor->setValue('hcp1_name', '1. YVES M. TALOSIG, MD');
                 $templateProcessor->setValue('hcp2_name', '');
             }
             else if($d->vaccination_site_id == 2) {
@@ -2137,6 +2170,10 @@ class ABTCVaccinationController extends Controller
             $date_admitted = $sepa_array[0].'    '.$sepa_array[1].'      '.$sepa_array[2].'    '.$sepa_array[3].'      '.$sepa_array[4].'    '.$sepa_array[5].'    '.$sepa_array[6].'    '.$sepa_array[7];
             $templateProcessor->setValue('date_admitted', $date_admitted);
 
+            $sepa_array = str_split(Carbon::parse($d->d7_date)->format('mdY'));
+            $date_discharged = $sepa_array[0].'    '.$sepa_array[1].'      '.$sepa_array[2].'    '.$sepa_array[3].'      '.$sepa_array[4].'    '.$sepa_array[5].'    '.$sepa_array[6].'    '.$sepa_array[7];
+            $templateProcessor->setValue('date_discharged', $date_discharged);
+
             $templateProcessor->setValue('signature1_name', $signature1_name);
             $templateProcessor->setValue('signature2_name', $signature2_name);
             
@@ -2220,7 +2257,7 @@ class ABTCVaccinationController extends Controller
             
             $templateProcessor->setValue('hcp1_number', $hcp1_number);
 
-            $templateProcessor->setValue('hcp2_name', 'JONATHAN P. LUSECO, MD');
+            $templateProcessor->setValue('hcp2_name', 'JONATHAN P. LUSECO, RN, MD');
             $templateProcessor->setValue('hcp2_position', 'CITY HEALTH OFFICER II');
 
             $sepa_array = str_split(Carbon::parse($d->d7_date)->format('mdY'));

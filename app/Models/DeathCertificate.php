@@ -34,6 +34,7 @@ class DeathCertificate extends Model
         'fetald_mother_fname',
         'fetald_mother_mname',
         'name_placeofdeath',
+        'pod_insidecity',
         'pod_address_region_code',
         'pod_address_region_text',
         'pod_address_province_code',

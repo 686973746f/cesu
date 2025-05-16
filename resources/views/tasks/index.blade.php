@@ -99,6 +99,7 @@
                         </table>
                     </div>
                 </div>
+
                 <div class="card mt-3">
                     <div class="card-header bg-success text-white"><b>ABTC to iClinicSys Tickets</b> - Total: {{$open_abtclist->count()}}</div>
                     <div class="card-body">
@@ -146,11 +147,69 @@
                         @endif
                     </div>
                 </div>
+
+                <div class="card mt-3">
+                    <div class="card-header bg-success text-white"><b>ABTC Category 3 To Philhealth Claims</b> - Total: {{$abtc_claimslist->count()}}</div>
+                    <div class="card-body">
+                        @if($abtc_claimslist->count() != 0)
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped" id="abtcTable2">
+                                <thead class="thead-light text-center">
+                                    <tr>
+                                        <th>
+                                            <div>Ticket ID /</div>
+                                            <div>Date Created</div>
+                                        </th>
+                                        <th>Name</th>
+                                        <th>Age/Sex</th>
+                                        <th>Category</th>
+                                        <th>Facility</th>
+                                        <th>Date Admitted</th>
+                                        <th>Date Discharged</th>
+                                        <th>Transmittal Days</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($abtc_claimslist as $d)
+                                    <tr>
+                                        <td class="text-center">
+                                            <div>#{{$d->id}}</div>
+                                            <div><small>{{date('m/d/Y (D) h:i A', strtotime($d->created_at))}}</small></div>
+                                        </td>
+                                        <td>{{$d->patient->getName()}}</td>
+                                        <td class="text-center">{{$d->patient->getAge()}}/{{$d->patient->sg()}}</td>
+                                        <td class="text-center">{{$d->category_level}}</td>
+                                        <td class="text-center">{{$d->vaccinationsite->site_name}}</td>
+                                        <td class="text-center">{{date('m/d/Y', strtotime($d->d0_date))}}</td>
+                                        <td class="text-center">{{date('m/d/Y', strtotime($d->d7_date))}}</td>
+                                        <td class="text-center">{{Carbon\Carbon::parse($d->d7_date)->diffInDays()}}</td>
+                                        <td class="text-center">
+                                            <form action="{{route('task_grab', [
+                                                'ticket_id' => $d->id,
+                                                'type' => 'abtc',
+                                            ])}}" method="POST">
+                                                @csrf
+                                            <button type="submit" class="btn btn-primary">Grab ABTC Ticket</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        @else
+                        <p class="text-center">No open tickets yet. Come back again later.</p>
+                        @endif
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
         $('#abtcTable').dataTable();
+
+        $('#abtcTable2').dataTable();
     </script>
 @endsection

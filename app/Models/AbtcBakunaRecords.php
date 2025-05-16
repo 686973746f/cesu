@@ -87,6 +87,13 @@ class AbtcBakunaRecords extends Model
         'ics_finishedby',
         'ics_finished_date',
 
+        'ics_isforclaims',
+        'ics_claims_pbef',
+        'ics_claims_submitted_date',
+        'ics_claims_receipticket',
+        'ics_claims_seriesno',
+        'ics_claims_remarks',
+
         'age_years',
         'age_months',
         'age_days',

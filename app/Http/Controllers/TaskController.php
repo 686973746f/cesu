@@ -42,6 +42,13 @@ class TaskController extends Controller
         $open_abtclist = AbtcBakunaRecords::where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
         ->whereNull('ics_grabbedby')
         ->whereDate('created_at', '>=', '2024-10-01')
+        ->where('category_level', '!=', 3)
+        ->orderBy('created_at', 'DESC')
+        ->get();
+
+        $abtc_claimslist = AbtcBakunaRecords::whereNull('ics_grabbedby')
+        ->whereDate('created_at', '>=', '2025-01-01')
+        ->where('category_level', 3)
         ->orderBy('created_at', 'DESC')
         ->get();
         
@@ -49,6 +56,7 @@ class TaskController extends Controller
             'open_worklist' => $open_worklist,
             'open_opdlist' => $open_opdlist,
             'open_abtclist' => $open_abtclist,
+            'abtc_claimslist' => $abtc_claimslist,
         ]);
     }
 

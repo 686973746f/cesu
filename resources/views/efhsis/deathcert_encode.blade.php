@@ -119,124 +119,6 @@
                                     </div>
                                 </div>
                                 <hr>
-                                <div class="form-group">
-                                    <label for="name_placeofdeath"><b class="text-danger">*</b><span id="placeOfDeathSpan"></span> (Name of Hospital/Clinic/Institution/House No., St.)</label>
-                                    <input type="text" class="form-control" name="name_placeofdeath" id="name_placeofdeath" style="text-transform: uppercase;" required>
-                                </div>
-                                <div id="address_text" class="d-none">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <input type="text" id="pod_address_region_text" name="pod_address_region_text" value="{{old('pod_address_region_text')}}" readonly>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <input type="text" id="pod_address_province_text" name="pod_address_province_text" value="{{old('pod_address_province_text')}}" readonly>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <input type="text" id="pod_address_muncity_text" name="pod_address_muncity_text" value="{{old('pod_address_muncity_text')}}" readonly>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                          <label for="pod_address_region_code" class="form-label"><span class="text-danger font-weight-bold">*</span><span id="podDiv_region"></span> - Region</label>
-                                          <select class="form-control" name="pod_address_region_code" id="pod_address_region_code" tabindex="-1" required>
-                                          </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="pod_address_province_code" class="form-label"><span class="text-danger font-weight-bold">*</span><span id="podDiv_province"></span> - Province</label>
-                                            <select class="form-control" name="pod_address_province_code" id="pod_address_province_code" tabindex="-1" required>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="pod_address_muncity_code" class="form-label"><span class="text-danger font-weight-bold">*</span><span id="podDiv_city"></span> - City/Municipality</label>
-                                            <select class="form-control" name="pod_address_muncity_code" id="pod_address_muncity_code" tabindex="-1" required>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="pod_address_brgy_text" class="form-label"><span class="text-danger font-weight-bold">*</span><span id="podDiv_barangay"></span> - Barangay</label>
-                                            <select class="form-control" name="pod_address_brgy_text" id="pod_address_brgy_text" required>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="ifFetalDeathDiv" class="d-none">
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label for="fetald_typeofdelivery"><span class="text-danger font-weight-bold">*</span>Type of Delivery</label>
-                                                <select class="form-control" name="fetald_typeofdelivery" id="fetald_typeofdelivery">
-                                                    <option value="" disabled {{(is_null(old('fetald_typeofdelivery'))) ? 'selected' : ''}}>Choose...</option>
-                                                    <option value="SINGLE" {{(old('fetald_typeofdelivery') == 'SINGLE') ? 'selected' : ''}}>Single</option>
-                                                    <option value="TWIN" {{(old('fetald_typeofdelivery') == 'TWIN') ? 'selected' : ''}}>Twin</option>
-                                                    <option value="TRIPLET, ETC." {{(old('fetald_typeofdelivery') == 'TRIPLET, ETC.') ? 'selected' : ''}}>Triplet, etc.</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-6" id="ifMultipleDeliveries" class="d-none">
-                                            <div class="form-group">
-                                                <label for="fetald_ifmultipledeliveries_fetuswas"><span class="text-danger font-weight-bold">*</span>IF Multiple Delivery, Fetus was</label>
-                                                <select class="form-control" name="fetald_ifmultipledeliveries_fetuswas" id="fetald_ifmultipledeliveries_fetuswas">
-                                                    <option value="" disabled {{(is_null(old('fetald_ifmultipledeliveries_fetuswas'))) ? 'selected' : ''}}>Choose...</option>
-                                                    <option value="FIRST" {{(old('fetald_ifmultipledeliveries_fetuswas') == 'SINGLE') ? 'selected' : ''}}>First</option>
-                                                    <option value="SECOND" {{(old('fetald_ifmultipledeliveries_fetuswas') == 'TWIN') ? 'selected' : ''}}>Second</option>
-                                                    <option value="OTHERS" {{(old('fetald_ifmultipledeliveries_fetuswas') == 'TRIPLET, ETC.') ? 'selected' : ''}}>Others</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label for="fetald_methodofdelivery">Method of Delivery</label>
-                                                <select class="form-control" name="fetald_methodofdelivery" id="fetald_methodofdelivery">
-                                                    <option value="" disabled {{(is_null(old('fetald_methodofdelivery'))) ? 'selected' : ''}}>Choose...</option>
-                                                    <option value="NORMAL" {{(old('fetald_methodofdelivery') == 'SINGLE') ? 'selected' : ''}}>Normal spontaneous vertex</option>
-                                                    <option value="OTHER" {{(old('fetald_methodofdelivery') == 'TWIN') ? 'selected' : ''}}>Other</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label for="fetald_birthorder">Birth Order</label>
-                                                <input type="number" class="form-control" id="fetald_birthorder" name="fetald_birthorder" value="{{old('fetald_birthorder')}}" min="1" max="50">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div id="fetalMotherInfo" class="d-none">
-                                    <div class="alert alert-info" role="alert">
-                                        <strong class="text-danger">NOTE:</strong> Please input <b>MAIDEN NAME</b> of the Mother.
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <div class="form-group">
-                                                <label for="fetald_mother_lname"><span class="text-danger font-weight-bold">*</span>Mother Last Name</label>
-                                                <input type="text" class="form-control" id="fetald_mother_lname" name="fetald_mother_lname" value="{{old('fetald_mother_lname')}}" minlength="2" maxlength="50" placeholder="ex: DELA CRUZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
-                                            </div>
-                                        </div>
-                                        <div class="col-4">
-                                            <div class="form-group">
-                                                <label for="fetald_mother_fname"><span class="text-danger font-weight-bold">*</span>Mother First Name</label>
-                                                <input type="text" class="form-control" id="fetald_mother_fname" name="fetald_mother_fname" value="{{old('fetald_mother_fname')}}" minlength="2" maxlength="50" placeholder="ex: JUAN" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
-                                            </div>
-                                        </div>
-                                        <div class="col-4">
-                                            <div class="form-group">
-                                                <label for="fetald_mother_mname">Mother Middle Name</label>
-                                                <input type="text" class="form-control" id="fetald_mother_mname" name="fetald_mother_mname" value="{{old('fetald_mother_mname')}}" minlength="2" maxlength="50" placeholder="ex: SANCHEZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div id="address_text" class="d-none">
                                     <div class="row">
                                         <div class="col-md-6">
@@ -282,6 +164,144 @@
                                         </div>
                                     </div>
                                 </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="name_placeofdeath"><b class="text-danger">*</b><span id="placeOfDeathSpan"></span> (Name of Hospital/Clinic/Institution/House No., St.)</label>
+                                            <input type="text" class="form-control" name="name_placeofdeath" id="name_placeofdeath" style="text-transform: uppercase;" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                          <label for="pod_insidecity"><b class="text-danger">*</b>Is the place of death inside the City of General Trias?</label>
+                                          <select class="form-control" name="pod_insidecity" id="pod_insidecity" required>
+                                            <option value="" disabled {{(is_null(old('pod_insidecity'))) ? 'selected' : ''}}>Choose...</option>
+                                            <option value="Y" {{(old('pod_insidecity') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                            <option value="N" {{(old('pod_insidecity') == 'N') ? 'selected' : ''}}>No</option>
+                                          </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div id="address_text" class="d-none">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <input type="text" id="pod_address_region_text" name="pod_address_region_text" value="{{old('pod_address_region_text')}}" readonly>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="text" id="pod_address_province_text" name="pod_address_province_text" value="{{old('pod_address_province_text')}}" readonly>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="text" id="pod_address_muncity_text" name="pod_address_muncity_text" value="{{old('pod_address_muncity_text')}}" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="ifPodInsideCityDiv" class="d-none">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                            <label for="pod_address_region_code" class="form-label"><span class="text-danger font-weight-bold">*</span><span id="podDiv_region"></span> - Region</label>
+                                            <select class="form-control" name="pod_address_region_code" id="pod_address_region_code" tabindex="-1">
+                                            </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="pod_address_province_code" class="form-label"><span class="text-danger font-weight-bold">*</span><span id="podDiv_province"></span> - Province</label>
+                                                <select class="form-control" name="pod_address_province_code" id="pod_address_province_code" tabindex="-1">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="pod_address_muncity_code" class="form-label"><span class="text-danger font-weight-bold">*</span><span id="podDiv_city"></span> - City/Municipality</label>
+                                                <select class="form-control" name="pod_address_muncity_code" id="pod_address_muncity_code" tabindex="-1">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="pod_address_brgy_text" class="form-label"><span class="text-danger font-weight-bold">*</span><span id="podDiv_barangay"></span> - Barangay</label>
+                                                <select class="form-control" name="pod_address_brgy_text" id="pod_address_brgy_text">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div id="ifFetalDeathDiv" class="d-none">
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="fetald_typeofdelivery"><span class="text-danger font-weight-bold">*</span>Type of Delivery</label>
+                                                <select class="form-control" name="fetald_typeofdelivery" id="fetald_typeofdelivery">
+                                                    <option value="" disabled {{(is_null(old('fetald_typeofdelivery'))) ? 'selected' : ''}}>Choose...</option>
+                                                    <option value="SINGLE" {{(old('fetald_typeofdelivery') == 'SINGLE') ? 'selected' : ''}}>Single</option>
+                                                    <option value="TWIN" {{(old('fetald_typeofdelivery') == 'TWIN') ? 'selected' : ''}}>Twin</option>
+                                                    <option value="TRIPLET, ETC." {{(old('fetald_typeofdelivery') == 'TRIPLET, ETC.') ? 'selected' : ''}}>Triplet, etc.</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6" id="ifMultipleDeliveries" class="d-none">
+                                            <div class="form-group">
+                                                <label for="fetald_ifmultipledeliveries_fetuswas"><span class="text-danger font-weight-bold">*</span>IF Multiple Delivery, Fetus was</label>
+                                                <select class="form-control" name="fetald_ifmultipledeliveries_fetuswas" id="fetald_ifmultipledeliveries_fetuswas">
+                                                    <option value="" disabled {{(is_null(old('fetald_ifmultipledeliveries_fetuswas'))) ? 'selected' : ''}}>Choose...</option>
+                                                    <option value="FIRST" {{(old('fetald_ifmultipledeliveries_fetuswas') == 'SINGLE') ? 'selected' : ''}}>First</option>
+                                                    <option value="SECOND" {{(old('fetald_ifmultipledeliveries_fetuswas') == 'TWIN') ? 'selected' : ''}}>Second</option>
+                                                    <option value="OTHERS" {{(old('fetald_ifmultipledeliveries_fetuswas') == 'TRIPLET, ETC.') ? 'selected' : ''}}>Others</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="fetald_methodofdelivery">Method of Delivery</label>
+                                                <select class="form-control" name="fetald_methodofdelivery" id="fetald_methodofdelivery">
+                                                    <option value="" disabled {{(is_null(old('fetald_methodofdelivery'))) ? 'selected' : ''}}>Choose...</option>
+                                                    <option value="NORMAL" {{(old('fetald_methodofdelivery') == 'SINGLE') ? 'selected' : ''}}>Normal spontaneous vertex</option>
+                                                    <option value="OTHER" {{(old('fetald_methodofdelivery') == 'TWIN') ? 'selected' : ''}}>Other</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="fetald_birthorder">Birth Order</label>
+                                                <input type="number" class="form-control" id="fetald_birthorder" name="fetald_birthorder" value="{{old('fetald_birthorder')}}" min="1" max="50">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div id="fetalMotherInfo" class="d-none">
+                                    <div class="alert alert-info" role="alert">
+                                        <strong class="text-danger">NOTE:</strong> Please input <b>MAIDEN NAME</b> of the Mother.
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label for="fetald_mother_lname"><span class="text-danger font-weight-bold">*</span>Mother Last Name</label>
+                                                <input type="text" class="form-control" id="fetald_mother_lname" name="fetald_mother_lname" value="{{old('fetald_mother_lname')}}" minlength="2" maxlength="50" placeholder="ex: DELA CRUZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label for="fetald_mother_fname"><span class="text-danger font-weight-bold">*</span>Mother First Name</label>
+                                                <input type="text" class="form-control" id="fetald_mother_fname" name="fetald_mother_fname" value="{{old('fetald_mother_fname')}}" minlength="2" maxlength="50" placeholder="ex: JUAN" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label for="fetald_mother_mname">Mother Middle Name</label>
+                                                <input type="text" class="form-control" id="fetald_mother_mname" name="fetald_mother_mname" value="{{old('fetald_mother_mname')}}" minlength="2" maxlength="50" placeholder="ex: SANCHEZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
                                 <div id="ifNormalDeath" class="d-none">
                                     <div id="ifMaternalCondition" class="d-none">
                                         <div class="form-group">

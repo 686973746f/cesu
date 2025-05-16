@@ -99,6 +99,13 @@ class CreateAbtcBakunaRecordsTable extends Migration
             $table->foreignId('ics_finishedby')->nullable()->constrained('users')->onDelete('cascade');
             $table->dateTime('ics_finished_date')->nullable();
 
+            $table->string('ics_isforclaims', 1)->default('N');
+            $table->string('ics_claims_pbef')->nullable();
+            $table->date('ics_claims_submitted_date')->nullable();
+            $table->string('ics_claims_receipticket')->nullable();
+            $table->string('ics_claims_seriesno')->nullable();
+            $table->text('ics_claims_remarks')->nullable();
+
             $table->integer('age_years')->nullable();
             $table->integer('age_months')->nullable();
             $table->integer('age_days')->nullable();
