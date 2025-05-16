@@ -1900,12 +1900,12 @@ class ABTCVaccinationController extends Controller
             $templateProcessor->setValue('bite_date', Carbon::parse($d->bite_date)->format('m/d/Y'));
             $templateProcessor->setValue('d0_date', Carbon::parse($d->d0_date)->format('m/d/Y'));
 
-            $templateProcessor->setValue('fhead', (in_array('HEAD', $bodyparts_arr)) ? '✔' : ' ');
-            $templateProcessor->setValue('fop', (!in_array('HEAD', $bodyparts_arr)) ? '✔' : ' ');
+            $templateProcessor->setValue('fhead', (in_array('HEAD', $bodyparts_arr)) ? 'X' : ' ');
+            $templateProcessor->setValue('fop', (!in_array('HEAD', $bodyparts_arr)) ? 'X' : ' ');
             $templateProcessor->setValue('fop_specify', (!in_array('HEAD', $bodyparts_arr)) ? $d->body_site : '');
-            $templateProcessor->setValue('fdg', ($d->animal_type == 'D' || $d->animal_type == 'PD' || $d->animal_type == 'SD') ? '✔' : ' ');
-            $templateProcessor->setValue('fct', ($d->animal_type == 'C' || $d->animal_type == 'PC' || $d->animal_type == 'SC') ? '✔' : ' ');
-            $templateProcessor->setValue('fot', ($d->animal_type == 'O') ? '✔' : '');
+            $templateProcessor->setValue('fdg', ($d->animal_type == 'D' || $d->animal_type == 'PD' || $d->animal_type == 'SD') ? 'X' : ' ');
+            $templateProcessor->setValue('fct', ($d->animal_type == 'C' || $d->animal_type == 'PC' || $d->animal_type == 'SC') ? 'X' : ' ');
+            $templateProcessor->setValue('fot', ($d->animal_type == 'O') ? 'X' : '');
             $templateProcessor->setValue('fot_sp', ($d->animal_type == 'O') ? $d->animal_type_others : '');
 
             $templateProcessor->setValue('d3_date', Carbon::parse($d->d3_date)->format('m/d/Y'));
@@ -1913,16 +1913,16 @@ class ABTCVaccinationController extends Controller
             $templateProcessor->setValue('d28_date', Carbon::parse($d->d28_date)->format('m/d/Y'));
             $templateProcessor->setValue('erig_date', ($d->category_level == 3) ? Carbon::parse($d->d0_date)->format('m/d/Y') : '');
 
-            $templateProcessor->setValue('ficd1', ($d->philhealthGetIcdCode() == 'T14.1 W54') ? '✔' : '');
-            $templateProcessor->setValue('ficd2', ($d->philhealthGetIcdCode() == 'T14.1 W55') ? '✔' : '');
+            $templateProcessor->setValue('ficd1', ($d->philhealthGetIcdCode() == 'T14.1 W54') ? 'X' : '');
+            $templateProcessor->setValue('ficd2', ($d->philhealthGetIcdCode() == 'T14.1 W55') ? 'X' : '');
 
             if($d->patient->philhealth_statustype == 'MEMBER') {
-                $templateProcessor->setValue('ifm', '✔');
+                $templateProcessor->setValue('ifm', 'X');
                 $templateProcessor->setValue('ifd', ' ');
             }
             else {
                 $templateProcessor->setValue('ifm', ' ');
-                $templateProcessor->setValue('ifd', '✔');
+                $templateProcessor->setValue('ifd', 'X');
             }
 
             $filename = 'CARD_'.$d->patient->lname.'_'.$d->patient->fname.'_'.Carbon::now()->format('mdY').'.docx';
