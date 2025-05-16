@@ -2016,6 +2016,7 @@ class ABTCVaccinationController extends Controller
             $templateProcessor->setValue('name', $d->patient->getName());
             $templateProcessor->setValue('address', $d->patient->getAddressMini());
             $templateProcessor->setValue('d0_date', Carbon::parse($d->d0_date)->format('m/d/Y'));
+            $templateProcessor->setValue('d7_date', Carbon::parse($d->d7_date)->format('m/d/Y'));
             $templateProcessor->setValue('icd10', $d->philhealthGetIcdCode());
 
             $templateProcessor->setValue('body_site', $d->body_site);
