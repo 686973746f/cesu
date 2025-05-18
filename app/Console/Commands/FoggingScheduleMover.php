@@ -67,8 +67,6 @@ class FoggingScheduleMover extends Command
                 }
                 else if($currentStatus == 'CYCLE3') {
                     $d->status = 'CYCLE4';
-                }
-                else if($currentStatus == 'CYCLE4') {
                     $d->is_completed = 1;
                 }
 
