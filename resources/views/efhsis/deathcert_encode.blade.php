@@ -922,6 +922,26 @@
             }
         });
 
+        $('#pod_insidecity').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == 'Y') {
+                $('#ifPodInsideCityDiv').removeClass('d-none');
+
+                $('#pod_address_region_code').prop('required', true);
+                $('#pod_address_province_code').prop('required', true);
+                $('#pod_address_muncity_code').prop('required', true);
+                $('#pod_address_brgy_text').prop('required', true);
+            }
+            else {
+                $('#ifPodInsideCityDiv').addClass('d-none');
+
+                $('#pod_address_region_code').prop('required', false);
+                $('#pod_address_province_code').prop('required', false);
+                $('#pod_address_muncity_code').prop('required', false);
+                $('#pod_address_brgy_text').prop('required', false);
+            }
+        }).trigger('change');
+
         /*
         $(document).ready(function() {
             $('#calculate-age').click(function() {

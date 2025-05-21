@@ -46,14 +46,14 @@ class CreateDeathCertificatesTable extends Migration
 
             $table->string('name_placeofdeath'); //Can be also used as place of Delivery
             $table->string('pod_insidecity', 1)->nullable();
-            $table->text('pod_address_region_code');
-            $table->text('pod_address_region_text');
-            $table->text('pod_address_province_code');
-            $table->text('pod_address_province_text');
-            $table->text('pod_address_muncity_code');
-            $table->text('pod_address_muncity_text');
-            $table->text('pod_address_brgy_code');
-            $table->text('pod_address_brgy_text');
+            $table->text('pod_address_region_code')->nullable();
+            $table->text('pod_address_region_text')->nullable();
+            $table->text('pod_address_province_code')->nullable();
+            $table->text('pod_address_province_text')->nullable();
+            $table->text('pod_address_muncity_code')->nullable();
+            $table->text('pod_address_muncity_text')->nullable();
+            $table->text('pod_address_brgy_code')->nullable();
+            $table->text('pod_address_brgy_text')->nullable();
             $table->text('pod_address_street')->nullable();
             $table->text('pod_address_houseno')->nullable();
 

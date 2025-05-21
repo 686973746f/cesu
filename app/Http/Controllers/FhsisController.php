@@ -3081,7 +3081,8 @@ class FhsisController extends Controller
         }
 
         if(!$exist_check) {
-            $c = DeathCertificate::create([
+
+            $values_array = [
                 'if_fetaldeath' => ($r->if_fetaldeath == 'Y') ? 1 : 0,
                 'lname' => $lname,
                 'fname' => $fname,
@@ -3106,14 +3107,7 @@ class FhsisController extends Controller
                 'fetald_mother_fname' => $fetald_mother_fname,
                 'fetald_mother_mname' => $fetald_mother_mname,
                 'name_placeofdeath' => mb_strtoupper($r->name_placeofdeath),
-                'pod_address_region_code' => $r->pod_address_region_code,
-                'pod_address_region_text' => $r->pod_address_region_text,
-                'pod_address_province_code' => $r->pod_address_province_code,
-                'pod_address_province_text' => $r->pod_address_province_text,
-                'pod_address_muncity_code' => $r->pod_address_muncity_code,
-                'pod_address_muncity_text' => $r->pod_address_muncity_text,
-                'pod_address_brgy_code' => $r->pod_address_brgy_text,
-                'pod_address_brgy_text' => $r->pod_address_brgy_text,
+                
                 //'pod_address_street',
                 //'pod_address_houseno',
                 'address_region_code' => $r->address_region_code,
@@ -3131,7 +3125,22 @@ class FhsisController extends Controller
                 //'antecedent_cause',
                 //'underlying_cause',
                 'created_by' => Auth::id(),
-            ]);
+            ];
+
+            if($r->pod_insidecity == 'Y') {
+                $values_array = $values_array + [
+                    'pod_address_region_code' => $r->pod_address_region_code,
+                    'pod_address_region_text' => $r->pod_address_region_text,
+                    'pod_address_province_code' => $r->pod_address_province_code,
+                    'pod_address_province_text' => $r->pod_address_province_text,
+                    'pod_address_muncity_code' => $r->pod_address_muncity_code,
+                    'pod_address_muncity_text' => $r->pod_address_muncity_text,
+                    'pod_address_brgy_code' => $r->pod_address_brgy_text,
+                    'pod_address_brgy_text' => $r->pod_address_brgy_text,
+                ];
+            }
+            
+            $c = DeathCertificate::create($values_array);
 
             return redirect()->back()
             ->with('msg', 'Death Certificate was successfully encoded: ID #'.$c->id.'.')
