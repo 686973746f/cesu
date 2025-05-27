@@ -82,8 +82,8 @@ use App\Http\Controllers\SecondaryTertiaryRecordsController;
 */
 
 Auth::routes(['verify' => true]);
-Route::get('/referral', [RegisterCodeController::class, 'index'])->name('rcode.index');
-Route::get('/referral/check', [RegisterCodeController::class, 'refCodeCheck'])->name('rcode.check');
+//Route::get('/referral', [RegisterCodeController::class, 'index'])->name('rcode.index');
+//Route::get('/referral/check', [RegisterCodeController::class, 'refCodeCheck'])->name('rcode.check');
 
 Route::get('/verify/{qr}', [OutsideController::class, 'qrcodeverify'])->name('qrcodeverify.index');
 
@@ -289,7 +289,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']]
     Route::get('/admin/accounts', [AdminPanelController::class, 'accountIndex'])->name('admin_account_index');
     Route::get('/admin/accounts/view/{id}', [AdminPanelController::class, 'accountView'])->name('admin_account_view');
     Route::post('/admin/accounts/view/{id}/update', [AdminPanelController::class, 'accountUpdate'])->name('admin_account_update');
-    Route::post('/admin/accounts/create', [AdminPanelController::class, 'adminCodeStore'])->name('admin_account_create');
+    Route::post('/admin/accounts/create', [AdminPanelController::class, 'adminAccountCreate'])->name('admin_account_create');
     Route::post('/admin/accounts/{id}/options', [AdminPanelController::class, 'accountOptions'])->name('admin_account_options');
 });
 

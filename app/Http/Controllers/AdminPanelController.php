@@ -141,7 +141,45 @@ class AdminPanelController extends Controller
     public function accountIndex() {
         $lists = User::paginate(10);
 
-        return view('admin_accounts_home', ['lists' => $lists]);
+        $facility_list = DohFacility::where('enabled', 'Y')
+        ->where('address_muncity', config('custom.default_city_name'))
+        ->orderBy('facility_name', 'ASC')
+        ->get();
+
+        $doctors_list = SyndromicDoctor::where('active_in_service', 'Y')
+        ->orderBy('doctor_name', 'ASC')
+        ->get();
+
+        $abtc_list = AbtcVaccinationSite::where('enabled', 1)
+        ->orderBy('site_name', 'ASC')
+        ->get();
+
+        $pharmacy_branches = PharmacyBranch::where('enabled', 1)
+        ->orderBy('name', 'ASC')
+        ->get();
+
+        return view('admin_accounts_home', [
+            'lists' => $lists,
+            'facility_list' => $facility_list,
+            'doctors_list' => $doctors_list,
+            'abtc_list' => $abtc_list,
+            'pharmacy_branches' => $pharmacy_branches,
+        ]);
+    }
+
+    public function adminAccountCreate(Request $r) {
+        $c = User::create([
+            'isAdmin' => 2,
+
+            'name' => mb_strtoupper($r->name),
+            'email' => $r->email,
+            'password' => Hash::make('12345678'),
+            'pharmacy_branch_id',
+            'itr_facility_id',
+            'itr_doctor_id',
+            'abtc_default_vaccinationsite_id',
+            'permission_list',
+        ]);
     }
 
     public function accountView($id) {
@@ -205,6 +243,7 @@ class AdminPanelController extends Controller
         ->with('msgtype', 'success');
     }
 
+    /*
     public function adminCodeStore(Request $request) {
         $request->validate([
             'adminType' => 'required|in:1,2,3,4',
@@ -228,6 +267,7 @@ class AdminPanelController extends Controller
             return redirect()->action([AdminPanelController::class, 'accountIndex'])->with('modalstatus', 'Your password is incorrect. Please try again.')->with('statustype', 'danger');
         }
     }
+    */
 
     public function accountOptions($id, Request $request) {
         $user = User::findOrFail($id);

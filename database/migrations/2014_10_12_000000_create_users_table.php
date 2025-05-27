@@ -47,6 +47,7 @@ class CreateUsersTable extends Migration
             $table->date('abtc_default_vaccinebrand_date')->nullable();
             $table->text('permission_list')->nullable();
             $table->timestamp('last_login_date')->nullable();
+            $table->tinyInteger('is_firsttimelogin')->default(1);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
