@@ -22,24 +22,23 @@
             <a href="{{route('abtc_home')}}" class="btn btn-block btn-primary btn-lg">Rabies Control Program / ABTC</a>
             @endif
             @if(auth()->user()->canAccessVaxcert())
-            <div class="row my-2">
+            <div class="row">
                 <div class="col-md-6">
-                    <a href="{{route('vaxcert_home')}}" class="btn btn-block btn-primary btn-lg">VaxCert Concerns @if($vaxcert_pending_count != 0)<span class="badge badge-danger ml-1">{{number_format($vaxcert_pending_count)}}</span>@endif</a>
+                    <a href="{{route('vaxcert_home')}}" class="btn btn-block btn-primary btn-lg my-2">VaxCert Concerns @if($vaxcert_pending_count != 0)<span class="badge badge-danger ml-1">{{number_format($vaxcert_pending_count)}}</span>@endif</a>
                 </div>
                 <div class="col-md-6">
-                    <a href="{{route('vaxcertlgu_home')}}" class="btn btn-block btn-primary btn-lg">VaxCert LGU</a>
+                    <a href="{{route('vaxcertlgu_home')}}" class="btn btn-block btn-primary btn-lg my-2">VaxCert LGU</a>
                 </div>
             </div>
-            
             @endif
             @if(auth()->user()->canAccessSyndromic() || auth()->user()->isTbdotsEncoder())
             <a href="{{route('syndromic_home', ['opd_view' => 1])}}" class="btn btn-block btn-primary btn-lg">{{(auth()->user()->canAccessSyndromic()) ? 'OPD System' : 'TB-DOTS ITR'}}</a>
             @endif
             @if(auth()->user()->canAccessPidsr())
-            <a href="{{route('pidsr.home')}}" class="btn btn-block btn-primary btn-lg">Integrated PIDSR/EDCS</a>
+            <a href="{{route('pidsr.home')}}" class="btn btn-block btn-primary btn-lg"><img src="{{asset('assets/images/pidsrlogo.png')}}" alt="" class="img-fluid mr-3" style="width: 2rem;"> Integrated PIDSR/EDCS</a>
             @endif
             @if(auth()->user()->canAccessFhsis())
-            <a href="{{route('fhsis_home')}}" class="btn btn-block btn-primary btn-lg">Integrated eFHSIS</a>
+            <a href="{{route('fhsis_home')}}" class="btn btn-block btn-primary btn-lg"><img src="{{asset('assets/images/efhsis_logo.jpg')}}" alt="" class="img-fluid mr-3" style="width: 2rem;"> Integrated eFHSIS</a>
             @endif
             @if(auth()->user()->canAccessPharmacy())
             <a href="{{route('pharmacy_home')}}" class="btn btn-block btn-primary btn-lg">Pharmacy Inventory System</a>
