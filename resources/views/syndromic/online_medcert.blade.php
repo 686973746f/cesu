@@ -4,8 +4,31 @@
 <div class="container">
     <div class="card">
         <div class="card-body">
+            @if($c->facility_id == 10886 || $c->facility_id == 39708 || $c->facility_id == 11730)
             <div class="text-center">
                 <img src="{{asset('assets/images/CHO_LETTERHEAD.png')}}" class="img-fluid" style="margin-top: 0px;">
+            </div>
+            @elseif($c->facility_id == 10525)
+            <div class="d-flex justify-content-between text-center">
+                <div>
+                    <img src="{{asset('assets/images/medicare_logo.png')}}" alt="" style="width: 8rem;">
+                </div>
+                <div>
+                    <h4><b>CITY OF GENERAL TRIAS MEDICARE HOSPITAL</b></h4>
+                    <h5>Gen. Trias City, Cavite</h5>
+                    <h5>Tel. No. (046) 509-0064</h5>
+                </div>
+                <div>
+                    <img src="{{asset('assets/images/gentri_icon_large.png')}}" alt="" style="width: 8rem;">
+                    <img src="{{asset('assets/images/ljf.png')}}" alt="" style="width: 8rem;">
+                </div>
+            </div>
+            @else
+            <div class="text-center">
+                <img src="{{asset('assets/images/CHO_LETTERHEAD.png')}}" class="img-fluid" style="margin-top: 0px;">
+            </div>
+            @endif
+            <div class="text-center">
                 <h4 class="mb-5"><b>Medical Certificate Verification</b></h4>
                 <h6>Beware of fake verification sites. The legitimate site should have this domain name <span class="text-success"><b>https://cesugentri.com/medcert/verify</b></span></h6>
                 <h6>The hardcopy should have <b>1.)</b> Written signature of the Physician <b>2.)</b> Dry Seal</h6>
