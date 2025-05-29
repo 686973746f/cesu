@@ -10,7 +10,9 @@
                 <div class="card-body">
                     <h4 class="text-white">Acute Bloody Diarhhea</h4>
                     <h4 class="text-warning">{{$abd_count}}</h4>
+                    @if($abd_count_death > 0)
                     <h4 class="text-danger">Deaths: {{$abd_count_death}}</h4>
+                    @endif
                 </div>
             </div>
         </a>
@@ -22,7 +24,9 @@
                 <div class="card-body">
                     <h4 class="text-white">Acute Encephalitis Syndrome</h4>
                     <h4 class="text-warning">{{$aes_count}}</h4>
+                    @if($aes_count_death > 0)
                     <h4 class="text-danger">Deaths: {{$aes_count_death}}</h4>
+                    @endif
                 </div>
             </div>
         </a>
@@ -34,7 +38,9 @@
                 <div class="card-body">
                     <h4 class="text-white">Acute Flaccid Paralysis</h4>
                     <h4 class="text-warning">{{$afp_count}}</h4>
+                    @if($afp_count_death > 0)
                     <h4 class="text-danger">Deaths: {{$afp_count_death}}</h4>
+                    @endif
                 </div>
             </div>
         </a>
@@ -46,7 +52,9 @@
                 <div class="card-body">
                     <h4 class="text-white">Acute Hemorrhagic Fever</h4>
                     <h4 class="text-warning">{{$ahf_count}}</h4>
+                    @if($ahf_count_death > 0)
                     <h4 class="text-danger">Deaths: {{$ahf_count_death}}</h4>
+                    @endif
                 </div>
             </div>
         </a>
@@ -58,7 +66,9 @@
                 <div class="card-body">
                     <h4 class="text-white">Acute Meningitis Encephalitis (AMES)</h4>
                     <h4 class="text-warning">{{$ames_count}}</h4>
+                    @if($ames_count_death > 0)
                     <h4 class="text-danger">Deaths: {{$ames_count_death}}</h4>
+                    @endif
                 </div>
             </div>
         </a>
@@ -69,7 +79,9 @@
                 <div class="card-body">
                     <h4 class="text-white">Acute Viral Hepatitis</h4>
                     <h4 class="text-warning">{{$hepa_count}}</h4>
+                    @if($hepa_count_death > 0)
                     <h4 class="text-danger">Deaths: {{$hepa_count_death}}</h4>
+                    @endif
                 </div>
             </div>
         </a>
@@ -81,7 +93,9 @@
                 <div class="card-body">
                     <h4 class="text-white">AEFI</h4>
                     <h4 class="text-warning">{{$aefi_count}}</h4>
+                    @if($aefi_count_death > 0)
                     <h4 class="text-danger">Deaths: {{$aefi_count_death}}</h4>
+                    @endif
                 </div>
             </div>
         </a>
@@ -92,7 +106,9 @@
                 <div class="card-body">
                     <h4 class="text-white">Anthrax</h4>
                     <h4 class="text-warning">{{$anthrax_count}}</h4>
+                    @if($anthrax_count_death > 0)
                     <h4 class="text-danger">Deaths: {{$anthrax_count_death}}</h4>
+                    @endif
                 </div>
             </div>
         </a>
@@ -104,7 +120,9 @@
                 <div class="card-body">
                     <h4 class="text-white">Chikungunya Viral Disease</h4>
                     <h4 class="text-warning">{{$chikv_count}}</h4>
+                    @if($chikv_count_death > 0)
                     <h4 class="text-danger">Deaths: {{$chikv_count_death}}</h4>
+                    @endif
                 </div>
             </div>
         </a>
@@ -115,7 +133,9 @@
                 <div class="card-body">
                     <h4 class="text-white">Cholera</h4>
                     <h4 class="text-warning">{{$cholera_count}}</h4>
+                    @if($cholera_count_death > 0)
                     <h4 class="text-danger">Deaths: {{$cholera_count_death}}</h4>
+                    @endif
                 </div>
             </div>
         </a>
@@ -126,7 +146,9 @@
                 <div class="card-body">
                     <h4 class="text-white">COVID-19</h4>
                     <h4 class="text-warning">{{$covid_count}}</h4>
+                    @if($covid_count_death > 0)
                     <h4 class="text-danger">Deaths: {{$covid_count_death}}</h4>
+                    @endif
                 </div>
             </div>
         </a>
@@ -137,7 +159,9 @@
                 <div class="card-body">
                     <h4 class="text-white">Dengue</h4>
                     <h4 class="text-warning">{{$dengue_count}}</h4>
+                    @if($dengue_count_death > 0)
                     <h4 class="text-danger">Deaths: {{$dengue_count_death}}</h4>
+                    @endif
                 </div>
             </div>
         </a>
@@ -148,7 +172,9 @@
                 <div class="card-body">
                     <h4 class="text-white">Diphtheria</h4>
                     <h4 class="text-warning">{{$diph_count}}</h4>
+                    @if($diph_count_death > 0)
                     <h4 class="text-danger">Deaths: {{$diph_count_death}}</h4>
+                    @endif
                 </div>
             </div>
         </a>
@@ -159,7 +185,9 @@
                 <div class="card-body">
                     <h4 class="text-white">Hand, Foot & Mouth Disease</h4>
                     <h4 class="text-warning">{{$hfmd_count}}</h4>
+                    @if($hfmd_count_death > 0)
                     <h4 class="text-danger">Deaths: {{$hfmd_count_death}}</h4>
+                    @endif
                 </div>
             </div>
         </a>
@@ -170,7 +198,9 @@
                 <div class="card-body">
                     <h4 class="text-white">Influenza-like Illness</h4>
                     <h4 class="text-warning">{{$ili_count}}</h4>
+                    @if($ili_count_death > 0)
                     <h4 class="text-danger">Deaths: {{$ili_count_death}}</h4>
+                    @endif
                 </div>
             </div>
         </a>
@@ -181,7 +211,9 @@
                 <div class="card-body">
                     <h4 class="text-white">Leptospirosis</h4>
                     <h4 class="text-warning">{{$lepto_count}}</h4>
+                    @if($lepto_count_death > 0)
                     <h4 class="text-danger">Deaths: {{$lepto_count_death}}</h4>
+                    @endif
                 </div>
             </div>
         </a>
@@ -193,7 +225,9 @@
                 <div class="card-body">
                     <h4 class="text-white">Malaria</h4>
                     <h4 class="text-warning">{{$malaria_count}}</h4>
+                    @if($malaria_count_death > 0)
                     <h4 class="text-danger">Deaths: {{$malaria_count_death}}</h4>
+                    @endif
                 </div>
             </div>
         </a>
@@ -205,7 +239,9 @@
                 <div class="card-body">
                     <h4 class="text-white">Measles</h4>
                     <h4 class="text-warning">{{$measles_count}}</h4>
+                    @if($measles_count_death > 0)
                     <h4 class="text-danger">Deaths: {{$measles_count_death}}</h4>
+                    @endif
                 </div>
             </div>
         </a>
@@ -217,7 +253,9 @@
                 <div class="card-body">
                     <h4 class="text-white">Meningitis</h4>
                     <h4 class="text-warning">{{$meningitis_count}}</h4>
+                    @if($meningitis_count_death > 0)
                     <h4 class="text-danger">Deaths: {{$meningitis_count_death}}</h4>
+                    @endif
                 </div>
             </div>
         </a>
@@ -229,7 +267,9 @@
                 <div class="card-body">
                     <h4 class="text-white">Meningococcal Disease</h4>
                     <h4 class="text-warning">{{$meningo_count}}</h4>
+                    @if($meningo_count_death > 0)
                     <h4 class="text-danger">Deaths: {{$meningo_count_death}}</h4>
+                    @endif
                 </div>
             </div>
         </a>
@@ -240,7 +280,9 @@
                 <div class="card-body">
                     <h4 class="text-white">MPox</h4>
                     <h4 class="text-warning">{{$mpox_count}}</h4>
+                    @if($mpox_count_death > 0)
                     <h4 class="text-danger">Deaths: {{$mpox_count_death}}</h4>
+                    @endif
                 </div>
             </div>
         </a>
@@ -251,7 +293,9 @@
                 <div class="card-body">
                     <h4 class="text-white">Neonatal Tetanus</h4>
                     <h4 class="text-warning">{{$nt_count}}</h4>
+                    @if($nt_count_death > 0)
                     <h4 class="text-danger">Deaths: {{$nt_count_death}}</h4>
+                    @endif
                 </div>
             </div>
         </a>
@@ -262,7 +306,9 @@
                 <div class="card-body">
                     <h4 class="text-white">Non-Neonatal Tetanus</h4>
                     <h4 class="text-warning">{{$nnt_count}}</h4>
+                    @if($nnt_count_death > 0)
                     <h4 class="text-danger">Deaths: {{$nnt_count_death}}</h4>
+                    @endif
                 </div>
             </div>
         </a>
@@ -274,7 +320,9 @@
                 <div class="card-body">
                     <h4 class="text-white">Paralytic Shellfish Poisoning</h4>
                     <h4 class="text-warning">{{$psp_count}}</h4>
+                    @if($psp_count_death > 0)
                     <h4 class="text-danger">Deaths: {{$psp_count_death}}</h4>
+                    @endif
                 </div>
             </div>
         </a>
@@ -286,7 +334,9 @@
                 <div class="card-body">
                     <h4 class="text-white">Pertussis</h4>
                     <h4 class="text-warning">{{$pert_count}}</h4>
+                    @if($pert_count_death > 0)
                     <h4 class="text-danger">Deaths: {{$pert_count_death}}</h4>
+                    @endif
                 </div>
             </div>
         </a>
@@ -297,7 +347,9 @@
                 <div class="card-body">
                     <h4 class="text-white">Rabies</h4>
                     <h4 class="text-warning">{{$rabies_count}}</h4>
+                    @if($rabies_count_death > 0)
                     <h4 class="text-danger">Deaths: {{$rabies_count_death}}</h4>
+                    @endif
                 </div>
             </div>
         </a>
@@ -308,7 +360,9 @@
                 <div class="card-body">
                     <h4 class="text-white">Rotavirus</h4>
                     <h4 class="text-warning">{{$rotavirus_count}}</h4>
+                    @if($rotavirus_count_death > 0)
                     <h4 class="text-danger">Deaths: {{$rotavirus_count_death}}</h4>
+                    @endif
                 </div>
             </div>
         </a>
@@ -319,7 +373,9 @@
                 <div class="card-body">
                     <h4 class="text-white">Severe Acute Respiratory Infection (SARI)</h4>
                     <h4 class="text-warning">{{$sari_count}}</h4>
+                    @if($sari_count_death > 0)
                     <h4 class="text-danger">Deaths: {{$sari_count_death}}</h4>
+                    @endif
                 </div>
             </div>
         </a>
@@ -330,7 +386,9 @@
                 <div class="card-body">
                     <h4 class="text-white">Typhoid and Paratyphoid Fever</h4>
                     <h4 class="text-warning">{{$typhoid_count}}</h4>
+                    @if($typhoid_count_death > 0)
                     <h4 class="text-danger">Deaths: {{$typhoid_count_death}}</h4>
+                    @endif
                 </div>
             </div>
         </a>
