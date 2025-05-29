@@ -63,6 +63,17 @@
             </div>
         </a>
     </div>
+    <div class="col-md-3 mb-3">
+        <a href="{{$hepa_route}}">
+            <div class="card bg-primary">
+                <div class="card-body">
+                    <h4 class="text-white">Acute Viral Hepatitis</h4>
+                    <h4 class="text-warning">{{$hepa_count}}</h4>
+                    <h4 class="text-danger">Deaths: {{$hepa_count_death}}</h4>
+                </div>
+            </div>
+        </a>
+    </div>
     @if($year < 2024)
     <div class="col-md-3 mb-3">
         <a href="{{$aefi_route}}">
@@ -149,17 +160,6 @@
                     <h4 class="text-white">Hand, Foot & Mouth Disease</h4>
                     <h4 class="text-warning">{{$hfmd_count}}</h4>
                     <h4 class="text-danger">Deaths: {{$hfmd_count_death}}</h4>
-                </div>
-            </div>
-        </a>
-    </div>
-    <div class="col-md-3 mb-3">
-        <a href="{{$hepa_route}}">
-            <div class="card bg-primary">
-                <div class="card-body">
-                    <h4 class="text-white">Hepatitis</h4>
-                    <h4 class="text-warning">{{$hepa_count}}</h4>
-                    <h4 class="text-danger">Deaths: {{$hepa_count_death}}</h4>
                 </div>
             </div>
         </a>
