@@ -3181,7 +3181,7 @@ class InfluenzaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow 
                 'SENT' => 'Y',
                 'ip' => 'N',
                 'ipgroup' => NULL,
-                'UniqueKey' => Pert::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
+                //'UniqueKey' => Pert::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
                 'RECSTATUS' => NULL,
                 'TYPEHOSPITALCLINIC' => $row['verification_level'],
                 'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
