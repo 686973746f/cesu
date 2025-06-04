@@ -57,6 +57,7 @@
                                     <option value="PENDING" {{(old('status', $d->status) == 'PENDING') ? 'selected' : ''}}>PENDING</option>
                                     <option value="CYCLE1" {{(old('status', $d->status) == 'CYCLE1') ? 'selected' : ''}}>1ST CYCLE DONE</option>
                                     @else
+                                    <option value="PENDING" {{(old('status', $d->status) == 'PENDING') ? 'selected' : ''}}>PENDING</option>
                                     <option value="CYCLE1" {{(old('status', $d->status) == 'CYCLE1') ? 'selected' : ''}}>1ST CYCLE DONE</option>
                                     <option value="CYCLE2" {{(old('status', $d->status) == 'CYCLE2') ? 'selected' : ''}}>2ND CYCLE DONE</option>
                                     <option value="CYCLE3" {{(old('status', $d->status) == 'CYCLE3') ? 'selected' : ''}}>3RD CYCLE DONE</option>
