@@ -57,17 +57,25 @@ class FoggingScheduleMover extends Command
                 $currentStatus = $d->status;
 
                 if($currentStatus == 'PENDING') {
-                    $d->status = 'CYCLE1';
+                    if(Carbon::parse($d->cycle1_date)->isSameDay($yesterday)) {
+                        $d->status = 'CYCLE1';
+                    }
                 }
                 else if($currentStatus == 'CYCLE1') {
-                    $d->status = 'CYCLE2';
+                    if(Carbon::parse($d->cycle2_date)->isSameDay($yesterday)) {
+                        $d->status = 'CYCLE2';
+                    }
                 }
                 else if($currentStatus == 'CYCLE2') {
-                    $d->status = 'CYCLE3';
+                    if(Carbon::parse($d->cycle3_date)->isSameDay($yesterday)) {
+                        $d->status = 'CYCLE3';
+                    }
                 }
                 else if($currentStatus == 'CYCLE3') {
-                    $d->status = 'CYCLE4';
-                    $d->is_completed = 1;
+                    if(Carbon::parse($d->cycle4_date)->isSameDay($yesterday)) {
+                        $d->status = 'CYCLE4';
+                        $d->is_completed = 1;
+                    }
                 }
 
                 if($d->isDirty()) {
