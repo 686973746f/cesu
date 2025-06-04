@@ -45,6 +45,7 @@
                                     <option value="CHO" {{((old('assigned_team', $d->assigned_team)) == 'CHO') ? 'selected' : ''}}>CHO</option>
                                     <option value="CENRO" {{((old('assigned_team', $d->assigned_team)) == 'CENRO') ? 'selected' : ''}}>CENRO</option>
                                     <option value="GSO" {{((old('assigned_team', $d->assigned_team)) == 'GSO') ? 'selected' : ''}}>GSO</option>
+                                    <option value="CHO, CENRO, and GSO" {{((old('assigned_team', $d->assigned_team)) == 'CHO, CENRO, and GSO') ? 'selected' : ''}}>CHO, CENRO, and GSO</option>
                                     <option value="DOH REGIONAL" {{((old('assigned_team', $d->assigned_team)) == 'DOH REGIONAL') ? 'selected' : ''}}>DOH REGIONAL</option>
                                 </select>
                             </div>
