@@ -21,7 +21,7 @@
             <div class="alert alert-primary" role="alert">
                 <h4><b>Summary:</b></h4>
                 <hr>
-                <h5>Completed Cycle: {{$completed_cycle}}</h5>
+                <h5>Completed Cycle: <a href="{{route('dengue_clustering_viewer')}}?showCompleted=1">{{$completed_cycle}}</a></h5>
             </div>
             <div class="table-responsive">
                 <table class="table table-striped table-bordered" id="mainTbl">

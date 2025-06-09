@@ -10920,10 +10920,17 @@ class PIDSRController extends Controller
         ->where('is_completed', 1)
         ->count();
 
-        $list = DengueClusteringSchedule::where('enabled', 1)
-        ->where('year', date('Y'))
-        ->where('is_completed', 0)
-        ->get();
+        if(request()->input('showCompleted') == 1) {
+            $list = DengueClusteringSchedule::where('enabled', 1)
+            ->where('is_completed', 1)
+            ->get();
+        }
+        else {
+            $list = DengueClusteringSchedule::where('enabled', 1)
+            ->where('year', date('Y'))
+            ->where('is_completed', 0)
+            ->get();
+        }
 
         $brgy_list = EdcsBrgy::where('city_id', 388)
         ->orderBy('name', 'ASC')
