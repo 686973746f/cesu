@@ -1784,6 +1784,10 @@ class ABTCVaccinationController extends Controller
             $templateProcessor->setValue('outcome', '');
         }
 
+        //ERIG Computation (Estimated ml)
+        $erig_computation = $b->weight * 40 / 200;
+        $templateProcessor->setValue('erig_est_ml', $erig_computation.'ml');
+        
         /*
         if($b->outcome == 'INC') {
             $templateProcessor->setValue('outcome', 'PAUNAWA: HAPON PO ANG FOLLOW-UP, 1PM');

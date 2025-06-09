@@ -513,15 +513,24 @@ class AbtcBakunaRecords extends Model
 
     public function showRigNew() {
         if(!is_null($this->rig_date_given)) {
-            return date('m/d/Y', strtotime($this->rig_date_given));
+            if(Carbon::parse($this->d0_date)->gt(Carbon::parse($this->rig_date_given))) {
+                return date('m/d/Y', strtotime($this->d0_date));
+            }
+            else {
+                return date('m/d/Y', strtotime($this->rig_date_given));
+            }
         }
         else {
+            /*
             if($this->outcome == 'C') {
                 return 'N/A';
             }
             else {
                 return '';
             }
+            */
+
+            return '';
         }
     }
 
