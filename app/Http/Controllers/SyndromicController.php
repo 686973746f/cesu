@@ -1568,7 +1568,13 @@ class SyndromicController extends Controller
     public function viewRecord($record_id) {
         $r = SyndromicRecords::findOrFail($record_id);
         if(auth()->user()->isSyndromicHospitalLevelAccess()) {
-            $doclist = SyndromicDoctor::where('facility_id', auth()->user()->itr_facility_id)
+            $doclist = SyndromicDoctor::where(function ($q) {
+                $q->where('facility_id', auth()->user()->itr_facility_id)
+                ->where('active_in_service', 'Y');
+            })
+            ->orWhere(function ($q) use ($r) {
+                $q->where('doctor_name', $r->name_of_physician);
+            })
             ->get();
         }
         else {

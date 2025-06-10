@@ -383,7 +383,7 @@
         if($(this).val() == 'MEMBER' || $(this).val() == '') {
             $('#ifDependentDiv').addClass('d-none');
             $('#employerNameSpan').text('Name of Workplace/Business');
-            $('#penSpan').text('Business/Workplace Philhealth Employer Number (PEN)');
+            $('#penSpan').text('Business/Workplace Philhealth Employer Number (PEN #)');
 
             $('#linkphilhealth_lname').prop('required', false);
             $('#linkphilhealth_fname').prop('required', false);
@@ -397,8 +397,8 @@
         }
         else if($(this).val() == 'DEPENDENT') {
             $('#ifDependentDiv').removeClass('d-none');
-            $('#employerNameSpan').text('Name of Workplace/Business of Philhealth Member');
-            $('#penSpan').text('Business/Workplace Philhealth Employer Number (PEN) of Philhealth Member');
+            $('#employerNameSpan').text('Name of Workplace/Business of Member');
+            $('#penSpan').text('Business/Workplace Philhealth Employer Number (PEN #) of Member');
 
             $('#linkphilhealth_lname').prop('required', true);
             $('#linkphilhealth_fname').prop('required', true);
