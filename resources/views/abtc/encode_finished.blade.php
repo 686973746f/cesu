@@ -324,12 +324,12 @@
                 <div id="penDiv" class="{{($f->category_level == 3) ? '' : 'd-none'}}">
                     <hr>
                     <div class="form-group">
-                        <label for="linkphilhealth_businessname"><span id="employerNameSpan"></span></label>
-                        <input type="text" class="form-control" id="linkphilhealth_businessname" name="linkphilhealth_businessname" value="{{old('linkphilhealth_businessname', $f->patient->linkphilhealth_businessname)}}" minlength="5" maxlength="200" style="text-transform: uppercase;">
-                    </div>
-                    <div class="form-group">
                         <label for="linkphilhealth_pen"><span id="penSpan"></span></label>
                         <input type="text" class="form-control" id="linkphilhealth_pen" name="linkphilhealth_pen" value="{{old('linkphilhealth_pen', $f->patient->linkphilhealth_pen)}}" pattern="[0-9]{12}">
+                    </div>
+                    <div class="form-group">
+                        <label for="linkphilhealth_businessname"><span id="employerNameSpan"></span></label>
+                        <input type="text" class="form-control" id="linkphilhealth_businessname" name="linkphilhealth_businessname" value="{{old('linkphilhealth_businessname', $f->patient->linkphilhealth_businessname)}}" minlength="5" maxlength="200" style="text-transform: uppercase;">
                     </div>
                 </div>
                 <hr>
