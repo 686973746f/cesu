@@ -128,7 +128,7 @@
                         Name: <u><b>{{$d->syndromic_patient->getName()}}</b></u>
                     </div>
                     <div>
-                        Age: <u>{{$d->syndromic_patient->getAgeInt()}}</u>
+                        Age: <u>{{$d->displayAgeStringToReport()}}</u>
                     </div>
                     <div>
                         Sex: <u>{{$d->syndromic_patient->sg()}}</u>

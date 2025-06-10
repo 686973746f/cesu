@@ -212,6 +212,20 @@ class SyndromicRecords extends Model
         'received_edcs_tag',
     ];
 
+    public function displayAgeStringToReport() {
+        if($this->age_years == 0) {
+            if($this->age_months == 0) {
+                return $this->age_days.' '.Str::plural('day', $this->age_days).' old';
+            }
+            else {
+                return $this->age_months.' '.Str::plural('month', $this->age_days).' old';
+            }
+        }
+        else {
+            return $this->age_years.' '.Str::plural('year', $this->age_years).' old';
+        }
+    }
+
     public static function refConsultationType() {
         $array = [
             'Adult Immunization',

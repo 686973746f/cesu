@@ -45,7 +45,12 @@ class PharmacyCartSub extends Model
             ->sum('qty_to_process');
 
 
-            return $curr_qty_obtained.'/'.$d->set_pieces_limit;
+            if(auth()->user()->pharmacy_branch_id == 10525) { //Medicare Custom Display
+                return $curr_qty_obtained.' used | '.($d->set_pieces_limit - $curr_qty_obtained).' remaining (Total: '.$d->set_pieces_limit.')';
+            }
+            else {
+                return $curr_qty_obtained.'/'.$d->set_pieces_limit;
+            }
         }
         else {
             return NULL;
