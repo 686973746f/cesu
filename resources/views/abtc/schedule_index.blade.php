@@ -102,7 +102,12 @@
                     </h4>
                     <div class="row">
                         <div class="col-6">
-                            <div>Done D0 = {{$completed_d0_total}} (New: {{$completed_d0_total - $completed_d0_otherarea}} | Other Area: {{$completed_d0_otherarea}})</div>
+                            <div class="mb-3">
+                                <div>Done D0 = {{$completed_d0_total}} (New: {{$completed_d0_total - $completed_d0_otherarea}} | Other Area: {{$completed_d0_otherarea}})</div>
+                                @if($completed_d0_total > 0)
+                                <div>Cat1: {{$completed_d0_cat1}} | Cat2: {{$completed_d0_cat2}} | Cat3: {{$completed_d0_cat3}} </div>
+                                @endif
+                            </div>
                             <div>Done D3 = {{$completed_d3}}</div>
                             <div>Done D7 = {{$completed_d7}}</div>
                         </div>
