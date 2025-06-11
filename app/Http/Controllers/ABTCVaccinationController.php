@@ -237,6 +237,7 @@ class ABTCVaccinationController extends Controller
             $get_agedays = $birthdate->diffInDays($currentDate);
 
             $queue_number = AbtcBakunaRecords::whereDate('created_at', date('Y-m-d'))
+            ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
             ->count() + 1;
 
             //Create Queue Number
@@ -245,6 +246,7 @@ class ABTCVaccinationController extends Controller
                 
                 $priority_queue_number = AbtcBakunaRecords::whereDate('created_at', date('Y-m-d'))
                 ->whereNotNull('priority_queue_number')
+                ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
                 ->count() + 1;
             }
             else {
