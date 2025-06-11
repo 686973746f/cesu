@@ -32,6 +32,15 @@
                 {{session('msg')}}
             </div>
             @endif
+            
+            @if(isset($queue_number))
+            <div class="alert alert-success" role="alert">
+                <div class="d-flex justify-content-between">
+                    <div><h2>Queue No.:</h2></div>
+                    <div><h2><b>#{{$queue_number}}</b></h2></div>
+                </div>
+            </div>
+            @endif
             <div class="card">
                 <div class="card-header">
                     <div id="printDiv">

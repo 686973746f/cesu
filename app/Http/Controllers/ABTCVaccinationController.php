@@ -236,17 +236,22 @@ class ABTCVaccinationController extends Controller
             $get_agemonths = $birthdate->diffInMonths($currentDate);
             $get_agedays = $birthdate->diffInDays($currentDate);
 
+            $queue_number = AbtcBakunaRecords::whereDate('created_at', date('Y-m-d'))
+            ->count() + 1;
+
             //Create Queue Number
             if($pdata->isPriority()) {
-                $queue_number = NULL;
+                //$queue_number = NULL;
                 
                 $priority_queue_number = AbtcBakunaRecords::whereDate('created_at', date('Y-m-d'))
                 ->whereNotNull('priority_queue_number')
                 ->count() + 1;
             }
             else {
+                /*
                 $queue_number = AbtcBakunaRecords::whereDate('created_at', date('Y-m-d'))
                 ->count() + 1;
+                */
 
                 $priority_queue_number = NULL;
             }
@@ -327,6 +332,7 @@ class ABTCVaccinationController extends Controller
 
             return view('abtc.encode_finished', [
                 'f' => $f,
+                'queue_number' => $queue_number,
             ])
             ->with('msg', 'You have finished your 1st Dose of your Anti-Rabies Vaccine.')
             ->with('dose', 1);
