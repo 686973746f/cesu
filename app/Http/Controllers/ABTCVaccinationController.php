@@ -1494,21 +1494,15 @@ class ABTCVaccinationController extends Controller
         ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
         ->count();
 
-        $completed_d0_cat1 = AbtcBakunaRecords::where('d0_done', 1)
-        ->whereDate('d0_date', $sdate)
-        ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
+        $newlyencoded_cat1 = AbtcBakunaRecords::whereDate('created_at', $sdate)
         ->where('category_level', 1)
         ->count();
 
-        $completed_d0_cat2 = AbtcBakunaRecords::where('d0_done', 1)
-        ->whereDate('d0_date', $sdate)
-        ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
+        $newlyencoded_cat2 = AbtcBakunaRecords::whereDate('created_at', $sdate)
         ->where('category_level', 2)
         ->count();
 
-        $completed_d0_cat3 = AbtcBakunaRecords::where('d0_done', 1)
-        ->whereDate('d0_date', $sdate)
-        ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
+        $newlyencoded_cat3 = AbtcBakunaRecords::whereDate('created_at', $sdate)
         ->where('category_level', 3)
         ->count();
 
@@ -1550,9 +1544,9 @@ class ABTCVaccinationController extends Controller
             'sdate' => $sdate,
             'possible_d28_count' => $possible_d28_count,
             'completed_d0' => $completed_d0,
-            'completed_d0_cat1' => $completed_d0_cat1,
-            'completed_d0_cat2' => $completed_d0_cat2,
-            'completed_d0_cat3' => $completed_d0_cat3,
+            'newlyencoded_cat1' => $newlyencoded_cat1,
+            'newlyencoded_cat2' => $newlyencoded_cat2,
+            'newlyencoded_cat3' => $newlyencoded_cat3,
             'completed_d0_total' => $completed_d0_total,
             'completed_d0_otherarea' => $completed_d0_otherarea,
             'completed_d3' => $completed_d3,

@@ -102,14 +102,10 @@
                     </h4>
                     <div class="row">
                         <div class="col-6">
-                            <div class="mb-3">
-                                <div>Done D0 = {{$completed_d0_total}} (New: {{$completed_d0_total - $completed_d0_otherarea}} | Other Area: {{$completed_d0_otherarea}})</div>
-                                @if($completed_d0_total > 0)
-                                <div>Cat1: {{$completed_d0_cat1}} | Cat2: {{$completed_d0_cat2}} | Cat3: {{$completed_d0_cat3}} </div>
-                                @endif
-                            </div>
+                            <div>Done D0 = {{$completed_d0_total}} (New: {{$completed_d0_total - $completed_d0_otherarea}} | Other Area: {{$completed_d0_otherarea}})</div>
                             <div>Done D3 = {{$completed_d3}}</div>
-                            <div>Done D7 = {{$completed_d7}}</div>
+                            <div class="mb-3">Done D7 = {{$completed_d7}}</div>
+                            <div>Encoded Cat1: {{$newlyencoded_cat1}} | Cat2: {{$newlyencoded_cat2}} | Cat3: {{$newlyencoded_cat3}}</div>
                         </div>
                         <div class="col-6">
                             <div>Pending D3 = <span id="putd3here"></span></div>
