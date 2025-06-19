@@ -8913,7 +8913,7 @@ class PIDSRController extends Controller
             $malaria_query = $malaria_query->whereBetween('MorbidityMonth', [$betweenMonthStart, $betweenMonthEnd]);
             $meningitis_query = $meningitis_query->whereBetween('MorbidityMonth', [$betweenMonthStart, $betweenMonthEnd]);
             $psp_query = $psp_query->whereBetween('MorbidityMonth', [$betweenMonthStart, $betweenMonthEnd]);
-            $mpox_query = $psp_query->whereBetween('morbidity_month', [$betweenMonthStart, $betweenMonthEnd]);
+            $mpox_query = $mpox_query->whereBetween('morbidity_month', [$betweenMonthStart, $betweenMonthEnd]);
         }
 
         $covid_query = Forms::with('records')

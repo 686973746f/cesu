@@ -15,7 +15,8 @@
                 {{session('msg')}}
             </div>
             @endif
-            <table class="table table-striped table-bordered" id="mainTbl">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered" id="mainTbl">
                 <thead class="thead-light text-center">
                     <tr>
                         <th>#</th>
@@ -55,6 +56,7 @@
                     @endforeach
                 </tbody>
             </table>
+            </div>
         </div>
     </div>
 </div>
