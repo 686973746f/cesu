@@ -168,6 +168,15 @@
                     @endforeach
                 </tbody>
             </table>
+
+            <table class="table table-striped table-bordered">
+                <tbody>
+                    <tr>
+                        <td>Number of Patients Vaccinated</td>
+                        <td>{{$abtc_numberofpatients_ofmonth}}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

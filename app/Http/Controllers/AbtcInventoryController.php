@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AbtcBakunaRecords;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -594,6 +595,11 @@ class AbtcInventoryController extends Controller
                     'deliveries_array' => $deliveries_array,
                 ];
             }
+
+            $abtc_numberofpatients_ofmonth = AbtcBakunaRecords::where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
+            ->whereYear('created_at', $date->format('Y'))
+            ->whereMonth('created_at', $date->format('n'))
+            ->count();
         }
 
         return view('abtc.inventory.forpharmacy_monthlyreport', [
@@ -601,6 +607,7 @@ class AbtcInventoryController extends Controller
             'lgu_final' => $lgu_final,
             'date' => $date,
             'previous_month' => $previous_month,
+            'abtc_numberofpatients_ofmonth' => $abtc_numberofpatients_ofmonth,
         ]);
     }
 }
