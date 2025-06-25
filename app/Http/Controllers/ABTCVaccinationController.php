@@ -2048,23 +2048,8 @@ class ABTCVaccinationController extends Controller
             $templateProcessor->setValue('patient_contact', $d->patient->contact_number);
 
             $templateProcessor->setValue('diagnosis', $d->body_site.','.$d->getSource().' BITE, CATEGORY '.$d->category_level);
-
-            /*
-            if($d->vaccination_site_id == 1) {
-                $templateProcessor->setValue('vaccinator', 'MELINDA R. PAMULAYA, RN');
-                $templateProcessor->setValue('vacc_contact', '0935 297 6887');
-            }
-            else if($d->vaccination_site_id == 2) {
-                $templateProcessor->setValue('vaccinator', 'MINNIE L. SALAZAR, RN');
-                $templateProcessor->setValue('vacc_contact', '');
-            }
-            else {
-                return dd('Default Vaccinator Name was not initialized yet on this facility.');
-            }
-            */
             
-            //$templateProcessor->setValue('vaccinator', $r->vaccinator_name);
-            $templateProcessor->setValue('vaccinator', 'LUIS P. BROAS, RN, RPh, MAN, CAE');
+            $templateProcessor->setValue('vaccinator', $r->vaccinator_name);
             $templateProcessor->setValue('vacc_contact', '0962 545 6998');
 
             $check_condition = false;
