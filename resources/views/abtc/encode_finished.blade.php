@@ -249,6 +249,7 @@
                         <option value="DEPENDENT" {{(old('philhealth_statustype', $f->patient->philhealth_statustype) == 'DEPENDENT') ? 'selected' : ''}}>Dependent (Wala pang Philhealth Account)</option>
                         @else
                         <option value="MEMBER" {{(old('philhealth_statustype', $f->patient->philhealth_statustype) == 'MEMBER') ? 'selected' : ''}}>Member (May sarili nang Philhealth Account)</option>
+                        <option value="DEPENDENT" {{(old('philhealth_statustype', $f->patient->philhealth_statustype) == 'DEPENDENT') ? 'selected' : ''}}>Dependent (sa Asawa)</option>
                         @endif
                     </select>
                 </div>
@@ -321,7 +322,7 @@
                         <input type="text" class="form-control" id="linkphilhealth_phnumber" name="linkphilhealth_phnumber" value="{{old('linkphilhealth_phnumber', $f->patient->linkphilhealth_phnumber)}}" pattern="[0-9]{12}">
                     </div>
                     <div class="form-group">
-                        <label for="linkphilhealth_relationship"><b class="text-danger">*</b>Relationship of the Patient to the Philhealth Member</label>
+                        <label for="linkphilhealth_relationship"><b class="text-danger">*</b>Type of Patient</label>
                         <select class="form-control" name="linkphilhealth_relationship" id="linkphilhealth_relationship">
                             <option value="" disabled {{is_null(old('linkphilhealth_relationship', $f->patient->linkphilhealth_relationship)) ? 'selected' : ''}}>Choose...</option>
                             <option value="CHILD" {{(old('linkphilhealth_relationship', $f->patient->linkphilhealth_relationship) == 'CHILD') ? 'selected' : ''}}>Child (Anak)</option>
