@@ -980,7 +980,7 @@ class PharmacyController extends Controller
         $d = PharmacyBranch::findOrFail($branch_id);
 
         if($d->enabled == 0) {
-            return redirect()-back()
+            return redirect()->back()
             ->with('msg', 'ERROR: Branch '.$d->name.' was DISABLED in the system. Issuance of Medicine/s was blocked. You may contact Pharmacist/Encoder if you think this was a mistake.')
             ->with('msgtype', 'danger');
         }
