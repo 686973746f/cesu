@@ -355,9 +355,9 @@
                 </div>
                 <hr>
                 <button type="submit" class="btn btn-primary btn-block" name="submit" value="card">Print ABTC Card</button>
-                <button type="submit" class="btn btn-primary btn-block" name="submit" value="csf">Print CSF</button>
-                <button type="submit" class="btn btn-primary btn-block" name="submit" value="cf2">Print CF2</button>
                 <button type="submit" class="btn btn-primary btn-block" name="submit" value="soa">Print SOA</button>
+                <button type="submit" class="btn btn-primary btn-block" name="submit" value="cf2">Print CF2</button>
+                <button type="submit" class="btn btn-primary btn-block" name="submit" value="csf">Print CSF</button>
                 @elseif($f->category_level == 2)
                 <button type="submit" class="btn btn-primary btn-block" name="submit" value="ekonsulta">Print eKonsulta</button>
                 @endif
