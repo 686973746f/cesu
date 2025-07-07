@@ -1960,7 +1960,7 @@ class ABTCVaccinationController extends Controller
             $templateProcessor->setValue('lname', $d->patient->lname);
             $templateProcessor->setValue('fname', $d->patient->fname);
             $templateProcessor->setValue('suffix', $d->patient->suffix ?: 'N/A');
-            $templateProcessor->setValue('mname', $d->patient->lname ?: 'N/A');
+            $templateProcessor->setValue('mname', $d->patient->mname ?: 'N/A');
 
             $sepa_array = str_split(Carbon::parse($d->case_date)->format('mdY'));
             $templateProcessor->setValue('date_admitted', $sepa_array[0].'   '.$sepa_array[1].'     '.$sepa_array[2].'   '.$sepa_array[3].'    '.$sepa_array[4].'   '.$sepa_array[5].'   '.$sepa_array[6].'   '.$sepa_array[7]);
