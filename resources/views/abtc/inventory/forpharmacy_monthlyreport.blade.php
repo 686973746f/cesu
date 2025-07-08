@@ -37,7 +37,9 @@
                             @if(!empty($l['deliveries_array']))
                             <ul>
                                 @foreach($l['deliveries_array'] as $m)
-                                <li>{{$m['quantity']}}</li>
+                                    @if($m['sub_id'] == $l['sub_id'])
+                                    <li>{{$m['quantity']}}</li>
+                                    @endif
                                 @endforeach
                             </ul>
                             @else
@@ -48,7 +50,9 @@
                             @if(!empty($l['deliveries_array']))
                             <ul>
                                 @foreach($l['deliveries_array'] as $m)
-                                <li>{{$m['date']}}</li>
+                                    @if($m['sub_id'] == $l['sub_id'])
+                                    <li>{{$m['date']}}</li>
+                                    @endif
                                 @endforeach
                             </ul>
                             @else
@@ -59,7 +63,9 @@
                             @if(!empty($l['deliveries_array']))
                             <ul>
                                 @foreach($l['deliveries_array'] as $m)
-                                <li>{{$m['batchlot_no']}}</li>
+                                    @if($m['sub_id'] == $l['sub_id'])
+                                    <li>{{$m['batchlot_no']}}</li>
+                                    @endif
                                 @endforeach
                             </ul>
                             @else
@@ -70,7 +76,9 @@
                             @if(!empty($l['deliveries_array']))
                             <ul>
                                 @foreach($l['deliveries_array'] as $m)
-                                <li>{{$m['expiry_date']}}</li>
+                                    @if($m['sub_id'] == $l['sub_id'])
+                                    <li>{{$m['expiry_date']}}</li>
+                                    @endif
                                 @endforeach
                             </ul>
                             @else
@@ -119,7 +127,9 @@
                             @if(!empty($l['deliveries_array']))
                             <ul>
                                 @foreach($l['deliveries_array'] as $m)
-                                <li>{{$m['quantity']}}</li>
+                                    @if($m['sub_id'] == $l['sub_id'])
+                                    <li>{{$m['quantity']}}</li>
+                                    @endif
                                 @endforeach
                             </ul>
                             @else
@@ -130,7 +140,9 @@
                             @if(!empty($l['deliveries_array']))
                             <ul>
                                 @foreach($l['deliveries_array'] as $m)
-                                <li>{{$m['date']}}</li>
+                                    @if($m['sub_id'] == $l['sub_id'])
+                                    <li>{{$m['date']}}</li>
+                                    @endif
                                 @endforeach
                             </ul>
                             @else
@@ -141,7 +153,9 @@
                             @if(!empty($l['deliveries_array']))
                             <ul>
                                 @foreach($l['deliveries_array'] as $m)
-                                <li>{{$m['batchlot_no']}}</li>
+                                    @if($m['sub_id'] == $l['sub_id'])
+                                    <li>{{$m['batchlot_no']}}</li>
+                                    @endif
                                 @endforeach
                             </ul>
                             @else
@@ -152,7 +166,9 @@
                             @if(!empty($l['deliveries_array']))
                             <ul>
                                 @foreach($l['deliveries_array'] as $m)
-                                <li>{{$m['expiry_date']}}</li>
+                                    @if($m['sub_id'] == $l['sub_id'])
+                                    <li>{{$m['expiry_date']}}</li>
+                                    @endif
                                 @endforeach
                             </ul>
                             @else
@@ -172,7 +188,7 @@
             <table class="table table-striped table-bordered">
                 <tbody>
                     <tr>
-                        <td>Number of Patients Vaccinated</td>
+                        <td><b>Number of Patients Vaccinated</b></td>
                         <td>{{$abtc_numberofpatients_ofmonth}}</td>
                     </tr>
                 </tbody>

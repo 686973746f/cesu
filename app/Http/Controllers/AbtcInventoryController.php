@@ -424,186 +424,214 @@ class AbtcInventoryController extends Controller
         $lgu_final = [];
         $doh_final = [];
 
-        /*
-        foreach(AbtcInventorySubMaster::where('abtc_facility_id', auth()->user()->abtc_default_vaccinationsite_id)->get() as $l) {
-            
-        }
-        */
-
-        $doh_stock_list = AbtcInventoryStock::whereHas('submaster', function ($q) {
-            $q->where('abtc_facility_id', auth()->user()->abtc_default_vaccinationsite_id);
-        })
-        ->where('sub_id', $l->id)
-        ->where('source', 'DOH')
-        ->get();
-
-        $lgu_stock_list = AbtcInventoryStock::whereHas('submaster', function ($q) {
-            $q->where('abtc_facility_id', auth()->user()->abtc_default_vaccinationsite_id);
-        })
-        ->where('sub_id', $l->id)
-        ->where('source', 'LGU')
+        $list_submaster = AbtcInventorySubMaster::where('abtc_facility_id', auth()->user()->abtc_default_vaccinationsite_id)
         ->get();
 
         //Previous Month, get the last transaction
-        $deliveries_array = [];
+        $deliveries_array_lgu = [];
+        $deliveries_array_doh = [];
 
-        foreach($lgu_stock_list as $m) {
-            $edpm = AbtcInventoryTransaction::where('stock_id', $m->id)
-            ->whereYear('transaction_date', $previous_month->format('Y'))
-            ->whereMonth('transaction_date', '<=', $previous_month->format('n'))
-            ->latest()
-            ->first();
+        foreach($list_submaster as $l) {
+            //get LGU Total
+            $doh_stock_list = AbtcInventoryStock::where('sub_id', $l->id)
+            ->where('source', 'DOH')
+            ->get();
+            
+            $edpm = 0;
+            $end_qty = 0;
+            $expired_qty = 0;
+            $used_qty = 0;
+            $branch_received_total = 0;
+            $branch_transfer_total = 0;
 
-            $edcm = AbtcInventoryTransaction::where('stock_id', $m->id)
-            ->whereYear('transaction_date', $date->format('Y'))
-            ->whereMonth('transaction_date', $date->format('n'))
-            ->latest()
-            ->first();
+            foreach($doh_stock_list as $m) {
+                $edpm_qry = AbtcInventoryTransaction::where('stock_id', $m->id)
+                ->whereYear('transaction_date', $previous_month->format('Y'))
+                ->whereMonth('transaction_date', '<=', $previous_month->format('n'))
+                ->latest()
+                ->first();
 
-            $expired_qty = AbtcInventoryTransaction::where('stock_id', $m->id)
-            ->whereYear('transaction_date', $date->format('Y'))
-            ->whereMonth('transaction_date', $date->format('n'))
-            ->where('type', 'EXPIRED')
-            ->sum('process_qty');
+                if($edpm_qry) {
+                    $edpm += $edpm_qry->after_qty;
+                }
+                else {
+                    $edpm += 0;
+                }
 
-            $used_qty = AbtcInventoryTransaction::where('stock_id', $m->id)
-            ->whereYear('transaction_date', $date->format('Y'))
-            ->whereMonth('transaction_date', $date->format('n'))
-            ->where('type', 'ISSUED')
-            ->sum('process_qty');
+                $edcm_qry = AbtcInventoryTransaction::where('stock_id', $m->id)
+                ->whereYear('transaction_date', $date->format('Y'))
+                ->whereMonth('transaction_date', $date->format('n'))
+                ->latest()
+                ->first();
 
-            //List Deliveries
-            $deliveries_list = AbtcInventoryTransaction::where('stock_id', $m->id)
-            ->whereYear('transaction_date', $date->format('Y'))
-            ->whereMonth('transaction_date', $date->format('n'))
-            ->where('type', 'RECEIVED')
+                if($edcm_qry) {
+                    $end_qty += $edcm_qry->after_qty;
+                }
+                else if($edpm_qry) {
+                    $end_qty += $edpm_qry->after_qty;
+                }
+                else {
+                    $end_qty += 0;
+                }
+
+                $expired_qty += AbtcInventoryTransaction::where('stock_id', $m->id)
+                ->whereYear('transaction_date', $date->format('Y'))
+                ->whereMonth('transaction_date', $date->format('n'))
+                ->where('type', 'EXPIRED')
+                ->sum('process_qty');
+
+                $used_qty += AbtcInventoryTransaction::where('stock_id', $m->id)
+                ->whereYear('transaction_date', $date->format('Y'))
+                ->whereMonth('transaction_date', $date->format('n'))
+                ->where('type', 'ISSUED')
+                ->sum('process_qty');
+
+                //List Deliveries
+                $deliveries_list = AbtcInventoryTransaction::where('stock_id', $m->id)
+                ->whereYear('transaction_date', $date->format('Y'))
+                ->whereMonth('transaction_date', $date->format('n'))
+                ->where('type', 'RECEIVED')
+                ->get();
+
+                foreach($deliveries_list as $n) {
+                    $deliveries_array_doh[] = [
+                        'sub_id' => $m->sub_id,
+                        'quantity' => $n->process_qty.' '.Str::plural($n->stock->submaster->master->uom, $n->process_qty),
+                        'date' => Carbon::parse($n->transaction_date)->format('m/d/Y'),
+                        'batchlot_no' => $n->stock->batch_no,
+                        'expiry_date' => Carbon::parse($n->stock->expiry_date)->format('m/d/Y'),
+                    ];
+                }
+
+                $branch_received_total += AbtcInventoryTransaction::whereHas('stock.submaster', function ($q) use ($m) {
+                    $q->where('master_id', $m->submaster->master_id);
+                })
+                ->whereYear('transaction_date', $date->format('Y'))
+                ->whereMonth('transaction_date', $date->format('n'))
+                ->where('type', 'TRANSFERRED')
+                ->where('transferto_facility', auth()->user()->abtc_default_vaccinationsite_id)
+                ->sum('process_qty');
+
+                $branch_transfer_total += AbtcInventoryTransaction::where('stock_id', $m->id)
+                ->whereYear('transaction_date', $date->format('Y'))
+                ->whereMonth('transaction_date', $date->format('n'))
+                ->where('type', 'TRANSFERRED')
+                ->sum('process_qty');
+            }
+            
+            //List of Stock Transfer
+            $doh_final[] = [
+                'name' => $l->master->name,
+                'sub_id' => $l->id,
+                'ending_previous_month' =>  $edpm,
+                'ending_current_month' => $end_qty,
+                'used_qty' => $used_qty,
+                'expired_qty' => $expired_qty,
+                
+                'branch_received_total' => $branch_received_total,
+                'branch_transfer_total' => $branch_transfer_total,
+                'deliveries_array' => $deliveries_array_doh,
+            ];
+            
+            //get DOH Total
+            $lgu_stock_list = AbtcInventoryStock::where('sub_id', $l->id)
+            ->where('source', 'LGU')
             ->get();
 
-            foreach($deliveries_list as $n) {
-                $deliveries_array[] = [
-                    'quantity' => $n->process_qty.' '.Str::plural($n->stock->submaster->master->uom, $n->process_qty),
-                    'date' => Carbon::parse($n->transaction_date)->format('m/d/Y'),
-                    'batchlot_no' => $n->stock->batch_no,
-                    'expiry_date' => Carbon::parse($n->stock->expiry_date)->format('m/d/Y'),
-                ];
-            }
+            $edpm = 0;
+            $end_qty = 0;
+            $expired_qty = 0;
+            $used_qty = 0;
+            $branch_received_total = 0;
+            $branch_transfer_total = 0;
 
-            $branch_received_total = AbtcInventoryTransaction::whereHas('stock.submaster', function ($q) use ($m) {
-                $q->where('master_id', $m->submaster->master_id);
-            })
-            ->whereYear('transaction_date', $date->format('Y'))
-            ->whereMonth('transaction_date', $date->format('n'))
-            ->where('type', 'TRANSFERRED')
-            ->where('transferto_facility', auth()->user()->abtc_default_vaccinationsite_id)
-            ->sum('process_qty');
+            foreach($lgu_stock_list as $m) {
+                $edpm_qry = AbtcInventoryTransaction::where('stock_id', $m->id)
+                ->whereYear('transaction_date', $previous_month->format('Y'))
+                ->whereMonth('transaction_date', '<=', $previous_month->format('n'))
+                ->latest()
+                ->first();
 
-            $branch_transfer_total = AbtcInventoryTransaction::where('stock_id', $m->id)
-            ->whereYear('transaction_date', $date->format('Y'))
-            ->whereMonth('transaction_date', $date->format('n'))
-            ->where('type', 'TRANSFERRED')
-            ->sum('process_qty');
+                if($edpm_qry) {
+                    $edpm += $edpm_qry->after_qty;
+                }
+                else {
+                    $edpm += 0;
+                }
 
-            if($edcm) {
-                $end_qty = $edcm->after_qty;
-            }
-            else if($edpm) {
-                $end_qty = $edpm->after_qty;
-            }
-            else {
-                $end_qty = 0;
+                $edcm_qry = AbtcInventoryTransaction::where('stock_id', $m->id)
+                ->whereYear('transaction_date', $date->format('Y'))
+                ->whereMonth('transaction_date', $date->format('n'))
+                ->latest()
+                ->first();
+
+                if($edcm_qry) {
+                    $end_qty += $edcm_qry->after_qty;
+                }
+                else if($edpm_qry) {
+                    $end_qty += $edpm_qry->after_qty;
+                }
+                else {
+                    $end_qty += 0;
+                }
+
+                $expired_qty += AbtcInventoryTransaction::where('stock_id', $m->id)
+                ->whereYear('transaction_date', $date->format('Y'))
+                ->whereMonth('transaction_date', $date->format('n'))
+                ->where('type', 'EXPIRED')
+                ->sum('process_qty');
+
+                $used_qty += AbtcInventoryTransaction::where('stock_id', $m->id)
+                ->whereYear('transaction_date', $date->format('Y'))
+                ->whereMonth('transaction_date', $date->format('n'))
+                ->where('type', 'ISSUED')
+                ->sum('process_qty');
+
+                //List Deliveries
+                $deliveries_list = AbtcInventoryTransaction::where('stock_id', $m->id)
+                ->whereYear('transaction_date', $date->format('Y'))
+                ->whereMonth('transaction_date', $date->format('n'))
+                ->where('type', 'RECEIVED')
+                ->get();
+
+                foreach($deliveries_list as $n) {
+                    $deliveries_array_lgu[] = [
+                        'sub_id' => $m->sub_id,
+                        'quantity' => $n->process_qty.' '.Str::plural($n->stock->submaster->master->uom, $n->process_qty),
+                        'date' => Carbon::parse($n->transaction_date)->format('m/d/Y'),
+                        'batchlot_no' => $n->stock->batch_no,
+                        'expiry_date' => Carbon::parse($n->stock->expiry_date)->format('m/d/Y'),
+                    ];
+                }
+
+                $branch_received_total += AbtcInventoryTransaction::whereHas('stock.submaster', function ($q) use ($m) {
+                    $q->where('master_id', $m->submaster->master_id);
+                })
+                ->whereYear('transaction_date', $date->format('Y'))
+                ->whereMonth('transaction_date', $date->format('n'))
+                ->where('type', 'TRANSFERRED')
+                ->where('transferto_facility', auth()->user()->abtc_default_vaccinationsite_id)
+                ->sum('process_qty');
+
+                $branch_transfer_total += AbtcInventoryTransaction::where('stock_id', $m->id)
+                ->whereYear('transaction_date', $date->format('Y'))
+                ->whereMonth('transaction_date', $date->format('n'))
+                ->where('type', 'TRANSFERRED')
+                ->sum('process_qty');
             }
 
             //List of Stock Transfer
             $lgu_final[] = [
-                'name' => $m->submaster->master->name,
-                'ending_previous_month' => ($edpm) ? $edpm->after_qty : 0,
+                'name' => $l->master->name,
+                'sub_id' => $l->id,
+                'ending_previous_month' =>  $edpm,
                 'ending_current_month' => $end_qty,
                 'used_qty' => $used_qty,
                 'expired_qty' => $expired_qty,
                 
                 'branch_received_total' => $branch_received_total,
                 'branch_transfer_total' => $branch_transfer_total,
-                'deliveries_array' => $deliveries_array,
-            ];
-        }
-
-        foreach($doh_stock_list as $m) {
-            $edpm = AbtcInventoryTransaction::where('stock_id', $m->id)
-            ->whereYear('transaction_date', $previous_month->format('Y'))
-            ->whereMonth('transaction_date', '<=', $previous_month->format('n'))
-            ->latest()
-            ->first();
-
-            $edcm = AbtcInventoryTransaction::where('stock_id', $m->id)
-            ->whereYear('transaction_date', $date->format('Y'))
-            ->whereMonth('transaction_date', $date->format('n'))
-            ->latest()
-            ->first();
-
-            $expired_qty = AbtcInventoryTransaction::where('stock_id', $m->id)
-            ->whereYear('transaction_date', $date->format('Y'))
-            ->whereMonth('transaction_date', $date->format('n'))
-            ->where('type', 'EXPIRED')
-            ->sum('process_qty');
-
-            $used_qty = AbtcInventoryTransaction::where('stock_id', $m->id)
-            ->whereYear('transaction_date', $date->format('Y'))
-            ->whereMonth('transaction_date', $date->format('n'))
-            ->where('type', 'ISSUED')
-            ->sum('process_qty');
-
-            //List Deliveries
-            $deliveries_list = AbtcInventoryTransaction::where('stock_id', $m->id)
-            ->whereYear('transaction_date', $date->format('Y'))
-            ->whereMonth('transaction_date', $date->format('n'))
-            ->where('type', 'RECEIVED')
-            ->get();
-
-            foreach($deliveries_list as $n) {
-                $deliveries_array[] = [
-                    'quantity' => $n->process_qty.' '.Str::plural($n->stock->submaster->master->uom, $n->process_qty),
-                    'date' => Carbon::parse($n->transaction_date)->format('m/d/Y'),
-                    'batchlot_no' => $n->stock->batch_no,
-                    'expiry_date' => Carbon::parse($n->stock->expiry_date)->format('m/d/Y'),
-                ];
-            }
-
-            $branch_received_total = AbtcInventoryTransaction::whereHas('stock.submaster', function ($q) use ($m) {
-                $q->where('master_id', $m->submaster->master_id);
-            })
-            ->whereYear('transaction_date', $date->format('Y'))
-            ->whereMonth('transaction_date', $date->format('n'))
-            ->where('type', 'TRANSFERRED')
-            ->where('transferto_facility', auth()->user()->abtc_default_vaccinationsite_id)
-            ->sum('process_qty');
-
-            $branch_transfer_total = AbtcInventoryTransaction::where('stock_id', $m->id)
-            ->whereYear('transaction_date', $date->format('Y'))
-            ->whereMonth('transaction_date', $date->format('n'))
-            ->where('type', 'TRANSFERRED')
-            ->sum('process_qty');
-
-            if($edcm) {
-                $end_qty = $edcm->after_qty;
-            }
-            else if($edpm) {
-                $end_qty = $edpm->after_qty;
-            }
-            else {
-                $end_qty = 0;
-            }
-
-            //List of Stock Transfer
-            $doh_final[] = [
-                'name' => $m->submaster->master->name,
-                'ending_previous_month' => ($edpm) ? $edpm->after_qty : 0,
-                'ending_current_month' => $end_qty,
-                'used_qty' => $used_qty,
-                'expired_qty' => $expired_qty,
-                
-                'branch_received_total' => $branch_received_total,
-                'branch_transfer_total' => $branch_transfer_total,
-                'deliveries_array' => $deliveries_array,
+                'deliveries_array' => $deliveries_array_lgu,
             ];
         }
 
