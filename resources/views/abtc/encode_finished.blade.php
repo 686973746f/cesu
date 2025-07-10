@@ -242,6 +242,11 @@
                 <div class="alert alert-primary" role="alert">
                     <h5>Paki-handa na po sa pasyente ang kopya ng kanyang <b>Philhealth Member Data Record (MDR)</b>, <b>Valid ID</b>, at <b>Philhealth Benefit Eligibility Form</b></h5>
                 </div>
+                <h5><b>Patient Name:</b> {{$f->patient->getName()}}</h5>
+                <h5><b>Age/Gender: </b> {{$f->patient->getAgeInt()}} / {{$f->patient->gender}}</h5>
+                <h5><b>Birthdate:</b> {{date('m/d/Y', strtotime($f->patient->bdate))}}</h5>
+                <h5><b>Contact No.:</b> {{$f->patient->contact_number}}</h5>
+                <hr>
                 <div class="form-group">
                     <label for="status_type"><b class="text-danger">*</b>Philhealth Membership Type</label>
                     <select class="form-control" name="philhealth_statustype" id="philhealth_statustype" required>
@@ -254,7 +259,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="philhealth" class="form-label">@if(($f->category_level  == 3))<b class="text-danger">*</b>@endif Input Philhealth Number (PIN) of the <span id="ph_text"></span></label>
+                    <label for="philhealth" class="form-label">@if(($f->category_level  == 3))<b class="text-danger">*</b>@endif Philhealth Number (PIN) of the <span id="ph_text"></span></label>
                     <input type="text" class="form-control" id="philhealth" name="philhealth" value="{{old('philhealth', $f->patient->philhealth)}}" pattern="[0-9]{12}" {{($f->category_level  == 3) ? 'required' : ''}}>
                 </div>
                 
@@ -262,6 +267,10 @@
                     <hr>
                     <div class="alert alert-info" role="alert">
                         Paki-lagay ang detalye ng Philhealth Member kung saan naka-declare ang Patient (halimbawa: Nanay/Mother, Tatay/Father, o Asawa/Spouse). Makikita ito sa MDR na ip-provide ng Patient.
+                    </div>
+                    <div class="form-group">
+                        <label for="linkphilhealth_phnumber" class="form-label"><b class="text-danger">*</b>Philhealth Number (PIN) of the Member</label>
+                        <input type="text" class="form-control" id="linkphilhealth_phnumber" name="linkphilhealth_phnumber" value="{{old('linkphilhealth_phnumber', $f->patient->linkphilhealth_phnumber)}}" pattern="[0-9]{12}">
                     </div>
                     <div class="form-group">
                         <label for="linkphilhealth_lname"><b class="text-danger">*</b>Last Name of Philhealth Member</label>
@@ -317,10 +326,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="linkphilhealth_phnumber" class="form-label"><b class="text-danger">*</b>Philhealth Number (PIN) of the Member</label>
-                        <input type="text" class="form-control" id="linkphilhealth_phnumber" name="linkphilhealth_phnumber" value="{{old('linkphilhealth_phnumber', $f->patient->linkphilhealth_phnumber)}}" pattern="[0-9]{12}">
-                    </div>
+                    
                     <div class="form-group">
                         <label for="linkphilhealth_relationship"><b class="text-danger">*</b>Type of Patient</label>
                         <select class="form-control" name="linkphilhealth_relationship" id="linkphilhealth_relationship">
@@ -419,7 +425,7 @@
             $('#linkphilhealth_phnumber').prop('required', true);
             $('#linkphilhealth_relationship').prop('required', true);
 
-            $('#ph_text').text('Dependent');
+            $('#ph_text').text('Dependent (hanapin ang pangalan ng pasyente sa list of Dependents sa MDR)');
         }
     }).trigger('change');
 </script>
