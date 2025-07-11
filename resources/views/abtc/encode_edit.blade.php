@@ -254,6 +254,7 @@
                                   <option value="KNEE" {{ in_array('KNEE', old('body_site', explode(",", $d->body_site))) ? 'selected' : '' }}>Knee/Tuhod</option>
                                   <option value="LEGS" {{ in_array('LEGS', old('body_site', explode(",", $d->body_site))) ? 'selected' : '' }}>Legs/Binti</option>
                                   <option value="NECK" {{ in_array('NECK', old('body_site', explode(",", $d->body_site))) ? 'selected' : '' }}>Neck/Leeg</option>
+                                  <option value="GENITAL" {{ in_array('GENITAL', old('body_site', explode(",", $d->body_site))) ? 'selected' : '' }}>Genital/Ari</option>
                                 </select>
                             </div>
                         </div>
