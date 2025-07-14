@@ -624,7 +624,7 @@ class AbtcInventoryController extends Controller
             $lgu_final[] = [
                 'name' => $l->master->name,
                 'sub_id' => $l->id,
-                'ending_previous_month' =>  $edpm,
+                'ending_previous_month' => $edpm,
                 'ending_current_month' => $end_qty,
                 'used_qty' => $used_qty,
                 'expired_qty' => $expired_qty,

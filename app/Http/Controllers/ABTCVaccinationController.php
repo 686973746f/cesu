@@ -2293,7 +2293,7 @@ class ABTCVaccinationController extends Controller
 
             $templateProcessor  = new TemplateProcessor(storage_path('ABTC_PHILHEALTH_WAIVER.docx'));
 
-            if($d->patient->philhealth_statustype == 'MEMBER') {
+            if($d->patient->getAge() >= 21) {
                 $body = 'I, '.$d->patient->getNameFormal().', hereby confirm that I availed the 1st Dose of Rabies Vaccine at '.mb_strtoupper($r->d0_facility_name).' on '.Carbon::parse($d->d0_date)->format('F d, Y').', and completed the remaining doses at General Trias CHO Animal Bite Treatment Center.';
                 
                 $signature_name = $d->patient->getNameFormal();
