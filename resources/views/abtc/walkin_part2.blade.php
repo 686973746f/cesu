@@ -260,7 +260,7 @@
                 <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk me-2"></i>Finish</button>
             </div>
         </div>
-        <p class="mt-3 text-center">CESU/ABTC System Developed and Maintained by <u>Christian James Historillo</u> for CESU Gen. Trias, Cavite ©{{date('Y')}}</p>
+        <p class="mt-3 text-center">CESU/ABTC System Developed and Maintained by <u>CJH</u> for CESU Gen. Trias, Cavite ©{{date('Y')}}</p>
     </div>
 </form>
 

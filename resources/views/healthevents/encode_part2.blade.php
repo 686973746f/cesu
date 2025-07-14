@@ -249,7 +249,7 @@
                     <button type="submit" class="btn btn-success btn-block" id="submitBtn">Submit (CTRL + S)</button>
                 </div>
             </div>
-            <p class="mt-3 text-center">©2021 - 2024 Developed and Maintained by <u>Christian James Historillo</u></p>
+            <p class="mt-3 text-center">©2021 - 2024 Developed and Maintained by <u>CJH</u></p>
         </form>
     </div>
 

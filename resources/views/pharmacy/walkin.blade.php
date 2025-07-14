@@ -19,7 +19,7 @@
                         <!--<button type="button" class="btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#old_patient">Old Patient (Get your Card)</button>-->
                     </div>
                 </div>
-                <p class="text-center mt-3">GenTrias LGU Pharmacy Inventory System - Developed and Maintained by <u>Christian James Historillo</u> for CHO Gen. Trias, Cavite ©{{date('Y')}}</p>
+                <p class="text-center mt-3">GenTrias LGU Pharmacy Inventory System - Developed and Maintained by <u>CJH</u> for CHO Gen. Trias, Cavite ©{{date('Y')}}</p>
             </div>
         </div>
     </div>

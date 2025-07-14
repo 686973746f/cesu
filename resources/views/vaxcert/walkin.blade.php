@@ -516,7 +516,7 @@
         <hr>
         <h6 class="text-center"><b>Office Hours:</b> Monday - Friday <i>(except Holidays)</i>, 8AM - 5PM</h6>
         <hr>
-        <p class="text-center">GenTrias LGU VaxCert Concern Ticketing System - Developed and Maintained by <u>Christian James Historillo</u> for CESU Gen. Trias, Cavite ©{{date('Y')}}</p>
+        <p class="text-center">GenTrias LGU VaxCert Concern Ticketing System - Developed and Maintained by <u>CJH</u> for CESU Gen. Trias, Cavite ©{{date('Y')}}</p>
     </div>
 
     <div class="modal fade" id="selectchoice" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">

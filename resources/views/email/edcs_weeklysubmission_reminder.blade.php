@@ -8,4 +8,4 @@
 <br>
 <p>--------------------</p>
 <small>This email was automatically generated. Please do not reply. For questions, suggestions, etc., you may email us at cesu.gentrias@gmail.com</small>
-<small>Sent via General Trias CESU Multi-Program Surveillance System (GTCMPSS). Developed and maintained by Christian James Historillo.</small>
+<small>Sent via General Trias CESU Multi-Program Surveillance System (GTCMPSS). Developed and maintained by CJH.</small>

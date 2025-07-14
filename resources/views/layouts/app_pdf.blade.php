@@ -22,7 +22,7 @@
             @yield('content')
         </main>
 
-        <!-- Developed by Christian James Historillo -->
+        <!-- Developed by CJH -->
         
     </div>
 </body>

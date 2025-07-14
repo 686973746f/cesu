@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="mt-3 text-center">
-            <code class=" text-muted">CHO General Trias Online Verification Tool. Developed and Maintained by Christian James Historillo.</code>
+            <code class=" text-muted">CHO General Trias Online Verification Tool. Developed and Maintained by CJH.</code>
         </div>
     </div>
 @endsection

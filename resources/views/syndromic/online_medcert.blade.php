@@ -75,7 +75,7 @@
             </div>
             @endif
             <div class="mt-3 text-center">
-                <code class=" text-muted">CHO General Trias MedCert Verification System. Developed and Maintained by Christian James Historillo.</code>
+                <code class=" text-muted">CHO General Trias MedCert Verification System. Developed and Maintained by CJH.</code>
             </div>
         </div>
     </div>

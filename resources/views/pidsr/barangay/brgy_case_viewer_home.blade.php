@@ -20,7 +20,7 @@
                 @include('pidsr.epdrone_body')
             </div>
         </div>
-        <p class="mt-3 text-center">©2021 - {{date('Y')}} Developed and Mainted by <u>Christian James Historillo</u> for General Trias CHO - CESU</p>
+        <p class="mt-3 text-center">©2021 - {{date('Y')}} Developed and Mainted by <u>CJH</u> for General Trias CHO - CESU</p>
     </div>
 
     <form action="" method="GET">

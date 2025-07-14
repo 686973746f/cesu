@@ -469,7 +469,7 @@
                     <h6 class="text-center">DOH-EB-AEHMD-FWRIPIS-2023-2</h6>
                 </div>
             </div>
-            <p class="text-center mt-3">Developed and Maintained by <b class="text-primary">Christian James Historillo</b> for CESU General Trias, Cavite</p>
+            <p class="text-center mt-3">Developed and Maintained by <b class="text-primary">CJH</b> for CESU General Trias, Cavite</p>
         </form>
     </div>
 

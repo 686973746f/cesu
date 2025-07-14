@@ -8,6 +8,6 @@
 </head>
 <body>
     <h1>Currently under maintenance.</h1>
-    <h1>by Christian James Historillo</h1>
+    <h1>by CJH</h1>
 </body>
 </html>

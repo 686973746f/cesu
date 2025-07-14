@@ -18,7 +18,7 @@
                     <button type="button" class="btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#lostcard">Nawawala ang aking Vaccination Card</button>
                 </div>
             </div>
-            <p class="text-center mt-3">GenTrias LGU VaxCert Concern Ticketing System - Developed and Maintained by <u>Christian James Historillo</u> for CESU Gen. Trias, Cavite ©{{date('Y')}}</p>
+            <p class="text-center mt-3">GenTrias LGU VaxCert Concern Ticketing System - Developed and Maintained by <u>CJH</u> for CESU Gen. Trias, Cavite ©{{date('Y')}}</p>
         </div>
     </div> 
 </div>

@@ -42,7 +42,7 @@
         <b>Note:</b>
         <ul>
             <li>Vaccine opened and reconstituted beyond six (6) hours are considered vaccine wastage.</li>
-            <li>Automated mail. Do not reply. Made possible by Christian James Historillo.</li>    
+            <li>Automated mail. Do not reply. Made possible by CJH.</li>    
         </ul>
     </p>
 </div>

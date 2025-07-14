@@ -3,7 +3,7 @@
     <p>Please see the attached file for the City of General Trias COVID-19 WEEKLY Case Bulletin.</p>
     <p>for {{date('F d', strtotime('-6 Days'))}} to {{date('d, Y')}}</p>
     <p>-</p>
-    <p>Note: Computer Generated file, Do Not Reply. Made possible by Christian James Historillo.</p>
+    <p>Note: Computer Generated file, Do Not Reply. Made possible by CJH.</p>
     <br>
     <p>Automated Email noted and approved by:</p>
     <p><b>LUIS P. BROAS, RN, RPh, MAN, CAE</b></p>

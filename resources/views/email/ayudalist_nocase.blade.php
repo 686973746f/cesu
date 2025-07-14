@@ -3,7 +3,7 @@
     <p>There are <b>Zero (0) newly encoded COVID-19 confirmed cases for today</b> ({{date('F d, Y')}})</p>
     <p>Therefore, no Ayuda List will be submitted.</p>
     <p>-</p>
-    <p>Note: Computer Generated file, Do Not Reply. Made possible by Christian James Historillo.</p>
+    <p>Note: Computer Generated file, Do Not Reply. Made possible by CJH.</p>
     <br>
     <p>Automated Email noted and approved by:</p>
     <p><b>LUIS P. BROAS, RN, RPh, MAN, CAE</b></p>

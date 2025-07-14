@@ -53,7 +53,7 @@
                 <p>Sorry, your QR Code is invalid.</p>
                 @endif
                 <div class="mt-3">
-                    <code class="text-center text-muted">CESU General Trias Result Verification System. Developed by Christian James Historillo.</code>
+                    <code class="text-center text-muted">CESU General Trias Result Verification System. Developed by CJH.</code>
                 </div>
             </div>
         </div>

@@ -1392,7 +1392,7 @@
             </div>
             <p class="text-center mt-3">For inquiries: 0919 066 43 24/25/27 | (046) 509 - 5289 | <a href = "mailto: cesu.gentrias@gmail.com">cesu.gentrias@gmail.com</a> | <a href="https://www.facebook.com/cesugentrias">Facebook Page</a></p>
             <hr>
-            <p class="mt-3 text-center">Developed and Maintained by <u>Christian James Historillo</u> for CESU Gen. Trias, Cavite ©{{date('Y')}}</p>
+            <p class="mt-3 text-center">Developed and Maintained by <u>CJH</u> for CESU Gen. Trias, Cavite ©{{date('Y')}}</p>
         </div>
         
         <!--

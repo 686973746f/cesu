@@ -43,7 +43,7 @@
                 <a href="{{route('vaxcert_walkin_file')}}" class="btn btn-secondary btn-block">Go Back</a>
             </div>
         </div>
-        <p class="mt-3 text-center">©2021 - {{date('Y')}} Developed and Maintained by <u>Christian James Historillo</u> for CESU Gen. Trias, Cavite</p>
+        <p class="mt-3 text-center">©2021 - {{date('Y')}} Developed and Maintained by <u>CJH</u> for CESU Gen. Trias, Cavite</p>
     </div>
 </div>
 @endsection

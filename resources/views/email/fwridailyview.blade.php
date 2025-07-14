@@ -3,7 +3,7 @@
     <p>There are Fireworks-Related Injury Cases reported yesterday. Please see the attached files for your reference.</p>
     <p></p>
     <p>Thank you.</p>
-    <p><i><b>Note:</b> Computer Generated Mail, Do Not Reply. Made possible by Christian James Historillo.</i></p>
+    <p><i><b>Note:</b> Computer Generated Mail, Do Not Reply. Made possible by CJH.</i></p>
     <br>
     <p>Automated Email noted and approved by:</p>
     <p><b>LUIS P. BROAS, RN, RPh, MAN, CAE</b></p>

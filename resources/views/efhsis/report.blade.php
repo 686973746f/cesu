@@ -426,7 +426,7 @@
                     </div>
                 </div>
                 <div class="alert alert-info" role="alert">
-                    <b class="text-danger">DISCLAIMER:</b> eFHSIS Report was generated using CESU General Trias Integrated Web System (Developed and Maintained by Christian James Historillo - J.O Encoder). Every effort has been made to provide accurate and updated information; however, errors can still occur. By using the information in this report, the reader assumes all risks concerning such use. The City Health Office of General Trias City shall not be held responsible for errors, nor liable for damage(s) resulting from the use or reliance upon this material.
+                    <b class="text-danger">DISCLAIMER:</b> eFHSIS Report was generated using CESU General Trias Integrated Web System (Developed and Maintained by CJH - J.O Encoder). Every effort has been made to provide accurate and updated information; however, errors can still occur. By using the information in this report, the reader assumes all risks concerning such use. The City Health Office of General Trias City shall not be held responsible for errors, nor liable for damage(s) resulting from the use or reliance upon this material.
                 </div>
                 <div class="row">
                     <div class="col-md-4">

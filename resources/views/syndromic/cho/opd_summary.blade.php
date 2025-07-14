@@ -173,6 +173,6 @@
             </ul>
         </div>
     </div>
-    <h6 class="text-center mt-3">Developed and Maintained by <b>Christian James Historillo</b> (CESU J.O Encoder) - ©2024</h6>
+    <h6 class="text-center mt-3">Developed and Maintained by <b>CJH</b> (CESU J.O Encoder) - ©2024</h6>
 </div>
 @endsection

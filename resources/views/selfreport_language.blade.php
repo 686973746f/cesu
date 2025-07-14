@@ -26,6 +26,6 @@
                 <p class="text-center">Note: If errors/issues has been found or if site not working properly, please contact CESU Staff Immediately.</p>
             </div>
         </div>
-        <p class="mt-3 text-center">Developed and Maintained by <u>Christian James Historillo</u> for CESU Gen. Trias, Cavite ©{{date('Y')}}</p>
+        <p class="mt-3 text-center">Developed and Maintained by <u>CJH</u> for CESU Gen. Trias, Cavite ©{{date('Y')}}</p>
     </div>
 @endsection

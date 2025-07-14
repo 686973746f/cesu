@@ -3,7 +3,7 @@
     <p>Please see the attached file for the COVID-19 Database for City of General Trias as of {{date('F d, Y')}}.</p>
     <p>There are {{$count}} newly encoded confirmed patient for today.</p>
     <p>-</p>
-    <p>Note: Computer Generated file, Do Not Reply. Made possible by Christian James Historillo.</p>
+    <p>Note: Computer Generated file, Do Not Reply. Made possible by CJH.</p>
     <br>
     <p>Automated Email noted and approved by:</p>
     <p><b>LUIS P. BROAS, RN, RPh, MAN, CAE</b></p>

@@ -651,7 +651,7 @@
         </div>
     </form>
     <div class="text-center mt-3">
-      <small>Developed and Maintained by Christian James Historillo for General Trias City Health Office.</small>
+      <small>Developed and Maintained by CJH for General Trias City Health Office.</small>
     </div>
 </div>
 
