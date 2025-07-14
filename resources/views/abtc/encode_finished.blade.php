@@ -245,7 +245,8 @@
                 <h5><b>Patient Name:</b> {{$f->patient->getName()}}</h5>
                 <h5><b>Age/Gender: </b> {{$f->patient->getAgeInt()}} / {{$f->patient->gender}}</h5>
                 <h5><b>Birthdate:</b> {{date('m/d/Y', strtotime($f->patient->bdate))}}</h5>
-                <h5><b>Contact No.:</b> {{$f->patient->contact_number}}</h5>
+                <h5 class="mb-3"><b>Contact No.:</b> {{$f->patient->contact_number}}</h5>
+                <h5><b>Date Admitted:</b> {{date('m/d/Y', strtotime($f->d0_date))}}</h5>
                 <hr>
                 <div class="form-group">
                     <label for="status_type"><b class="text-danger">*</b>Philhealth Membership Type</label>
