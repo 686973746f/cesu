@@ -252,6 +252,7 @@
                                   <option value="FINGER" {{ in_array('FINGER', old('body_site', explode(",", $d->body_site))) ? 'selected' : '' }}>Finger/Daliri</option>
                                   <option value="HEAD" {{ in_array('HEAD', old('body_site', explode(",", $d->body_site))) ? 'selected' : '' }}>Head/Face/Ulo/Mukha</option>
                                   <option value="KNEE" {{ in_array('KNEE', old('body_site', explode(",", $d->body_site))) ? 'selected' : '' }}>Knee/Tuhod</option>
+                                  <option value="THIGH" {{ in_array('THIGH', old('body_site', explode(",", $d->body_site))) ? 'selected' : '' }}>Thigh/Hita</option>
                                   <option value="LEGS" {{ in_array('LEGS', old('body_site', explode(",", $d->body_site))) ? 'selected' : '' }}>Legs/Binti</option>
                                   <option value="NECK" {{ in_array('NECK', old('body_site', explode(",", $d->body_site))) ? 'selected' : '' }}>Neck/Leeg</option>
                                   <option value="GENITAL" {{ in_array('GENITAL', old('body_site', explode(",", $d->body_site))) ? 'selected' : '' }}>Genital/Ari</option>
