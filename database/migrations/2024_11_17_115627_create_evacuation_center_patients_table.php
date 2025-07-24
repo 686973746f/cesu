@@ -37,6 +37,7 @@ class CreateEvacuationCenterPatientsTable extends Migration
             $table->foreignId('address_brgy_code')->constrained('edcs_brgies')->onDelete('cascade');
             $table->string('is_headoffamily', 1)->default('N');
             $table->integer('family_patient_id', 1)->nullable();
+            $table->string('relationship_tohead', 1)->nullable();
             $table->string('is_pwd', 1)->default('N');
 
             $table->string('outcome'); //ALIVE, DIED, MISSING, RETURNED TO HOME
