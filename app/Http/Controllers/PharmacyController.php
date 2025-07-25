@@ -2815,16 +2815,28 @@ class PharmacyController extends Controller
     }
 
     public function deletePatient($patient_id) {
-        if(auth()->user()->isAdminPharmacy()) {
+        if(auth()->user()->isPharmacyMasterAdmin()) {
             $d = PharmacyPatient::where('id', $patient_id)->delete();
+        }
+        else if(auth()->user()->isPharmacyBranchAdmin()) {
+            $d = PharmacyPatient::findOrFail($patient_id);
 
-            return redirect()->route('pharmacy_view_patient_list')
-            ->with('msg', 'Patient was deleted successfully.')
-            ->with('msgtype', 'success');
+            if($d->pharmacy_branch_id == auth()->user()->pharmacy_branch_id) {
+                $d->delete();
+            }
+            else {
+                return redirect()->back()
+                ->with('msg', 'You are not allowed to do that.')
+                ->with('msgtype', 'warning');
+            }
         }
         else {
             return abort(401);
         }
+
+        return redirect()->route('pharmacy_view_patient_list')
+        ->with('msg', 'Patient was deleted successfully.')
+        ->with('msgtype', 'success');
     }
 
     public function listBranch() {
@@ -2882,6 +2894,26 @@ class PharmacyController extends Controller
                 'if_bhs_id' => ($r->if_bhs) ? $r->if_bhs_id : NULL,
             ]);
 
+            //Initialize Inventory
+            if($r->level == 1) {
+                $list_master_gamot = PharmacySupplyMaster::where('enabled', 1)->get();
+                foreach($list_master_gamot as $l) {
+                    $check = PharmacySupplySub::where('supply_master_id', $l->id)
+                    ->where('pharmacy_branch_id', $c->id)
+                    ->first();
+
+                    if(!$check) {
+                        $sub_create = PharmacySupplySub::create([
+                            'supply_master_id' => $l->id,
+                            'pharmacy_branch_id' => $c->id,
+                            'master_box_stock' => 0,
+                            'master_piece_stock' => 0,
+                            'created_by' => auth()->user()->id,
+                        ]);
+                    }
+                }
+            }
+            
             return redirect()->back()
             ->with('msg', 'New Pharmacy Entity/Branch was added successfully.')
             ->with('msgtype', 'success');

@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class canAccessPharmacyAdminMode
+class canAccessPharmacyBranchAdmin
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,7 @@ class canAccessPharmacyAdminMode
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!($request->user()->isAdminPharmacy())) {
+        if(!($request->user()->isPharmacyBranchAdmin())) {
             return abort(401);
         }
 

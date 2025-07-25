@@ -21,7 +21,7 @@
                                     <td>
                                       <div><b>BRANCH NAME / ID:</b></div>
                                         <div>
-                                            @if(auth()->user()->isAdminPharmacy())
+                                            @if(auth()->user()->isPharmacyMasterAdmin() || auth()->user()->isPharmacyBranchAdmin())
                                             <b><a href="{{route('pharmacy_view_patient', $d->id)}}">{{$d->name}} <small>(#{{$d->id}})</small></a></b>
                                             @else
                                             <b>{{$d->name}} <small>(#{{$d->id}})</small></b>

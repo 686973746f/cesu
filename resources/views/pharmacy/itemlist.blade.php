@@ -7,10 +7,10 @@
             <div class="d-flex justify-content-between">
                 <div><b>List of Inventory</b> (Branch: {{auth()->user()->pharmacybranch->name}} | Total: {{$list->total()}})</div>
                 <div>
-                    @if(!(auth()->user()->isAdminPharmacy()))
+                    @if(!(auth()->user()->isPharmacyMasterAdmin()))
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#inititem">Initialize Item</button>
                     @endif
-                    @if(auth()->user()->isAdminPharmacy())
+                    @if(auth()->user()->isPharmacyMasterAdmin())
                     <a href="{{route('pharmacy_masteritem_list', ['trigger_additem' => 1])}}" class="btn btn-success">Add Master Item</a>
                     @endif
                     <a href="{{route('pharmacy_itemlist_masterlist')}}" class="btn btn-primary">View Masterlist</a>

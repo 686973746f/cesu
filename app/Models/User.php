@@ -554,7 +554,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function canAccessPharmacy() {
         $plist = $this->getPermissions();
 
-        if(in_array('GLOBAL_ADMIN', $plist) || in_array('PHARMACY_ADMIN', $plist) || in_array('PHARMACY_ENCODER', $plist) || in_array('PHARMACY_BRGY_ADMIN', $plist) || in_array('PHARMACY_BRGY_ENCODER', $plist)) {
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('PHARMACY_MASTER_ADMIN', $plist) || in_array('PHARMACY_BRANCH_ADMIN', $plist) || in_array('PHARMACY_BRANCH_ENCODER', $plist)) {
             return true;
         }
         else {
@@ -565,7 +565,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function isActualPharmacyUser() {
         $plist = $this->getPermissions();
 
-        if(in_array('PHARMACY_ADMIN', $plist) || in_array('PHARMACY_ENCODER', $plist) || in_array('PHARMACY_BRGY_ADMIN', $plist) || in_array('PHARMACY_BRGY_ENCODER', $plist)) {
+        if(in_array('PHARMACY_MASTER_ADMIN', $plist) || in_array('PHARMACY_BRANCH_ADMIN', $plist) || in_array('PHARMACY_BRANCH_ENCODER', $plist)) {
             return true;
         }
         else {
@@ -573,10 +573,32 @@ class User extends Authenticatable implements MustVerifyEmail
         }
     }
 
-    public function isAdminPharmacy() {
+    public function isPharmacyMasterAdmin() {
         $plist = $this->getPermissions();
 
-        if(in_array('GLOBAL_ADMIN', $plist) || in_array('PHARMACY_ADMIN', $plist)) {
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('PHARMACY_MASTER_ADMIN', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function isPharmacyBranchAdmin() {
+        $plist = $this->getPermissions();
+
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('PHARMACY_BRANCH_ADMIN', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function isPharmacyBranchEncoder() {
+        $plist = $this->getPermissions();
+
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('PHARMACY_BRANCH_ENCODER', $plist)) {
             return true;
         }
         else {
@@ -758,10 +780,12 @@ class User extends Authenticatable implements MustVerifyEmail
             'ITR_HOSPITAL',
             'ITR_BRGY_ADMIN',
             'ITR_BRGY_ENCODER',
-            'PHARMACY_ADMIN',
-            'PHARMACY_ENCODER',
-            'PHARMACY_BRGY_ADMIN',
-            'PHARMACY_BRGY_ENCODER',
+            //'PHARMACY_ADMIN',
+            'PHARMACY_MASTER_ADMIN',
+            'PHARMACY_BRANCH_ADMIN',
+            'PHARMACY_BRANCH_ENCODER',
+            //'PHARMACY_BRGY_ADMIN',
+            //'PHARMACY_BRGY_ENCODER',
             'AR_CHECKER',
             'AR_APPROVER',
             'TASK_MEMBER',

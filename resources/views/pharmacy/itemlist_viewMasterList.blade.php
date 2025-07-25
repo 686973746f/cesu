@@ -92,7 +92,7 @@
         </div>
     </div>
     
-    @if(auth()->user()->isAdminPharmacy())
+    @if(auth()->user()->isPharmacyMasterAdmin())
     <form action="{{route('pharmacy_add_master_item')}}" method="POST">
         @csrf
         <div class="modal fade" id="addMasterItem" tabindex="-1" role="dialog">

@@ -11,7 +11,7 @@
             
             @endif
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#report">Report</button>
-            @if(auth()->user()->isAdminPharmacy())
+            @if(auth()->user()->isPharmacyMasterAdmin())
             <hr>
             <a href="{{route('pharmacy_masteritem_list')}}" class="btn btn-warning">Medicines Masterlist</a>
             <a href="{{route('pharmacy_list_branch')}}" class="btn btn-warning">Branches/Entities</a>
@@ -76,7 +76,7 @@
                                 </div>
                                 <div id="section1ContentId" class="collapse in" role="tabpanel" aria-labelledby="section1HeaderId">
                                     <div class="card-body">
-                                        @if(auth()->user()->isAdminPharmacy())
+                                        @if(auth()->user()->isPharmacyMasterAdmin())
                                         <div class="form-group">
                                           <label for="select_branch"><b class="text-danger">*</b>Select Branch</label>
                                           <select class="form-control" name="select_branch" id="select_branch_1" required>
@@ -119,7 +119,7 @@
                                 </div>
                                 <div id="section2ContentId" class="collapse in" role="tabpanel" aria-labelledby="section2HeaderId">
                                     <div class="card-body">
-                                        @if(auth()->user()->isAdminPharmacy())
+                                        @if(auth()->user()->isPharmacyMasterAdmin())
                                             <div class="form-group">
                                               <label for="select_branch"><b class="text-danger">*</b>Select Branch</label>
                                               <select class="form-control" name="select_branch" id="select_branch_2" required>

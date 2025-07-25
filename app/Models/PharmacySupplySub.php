@@ -89,7 +89,7 @@ class PharmacySupplySub extends Model
     }
 
     public function ifAuthorizedToUpdate() {
-        if(auth()->user()->isAdminPharmacy() || auth()->user()->pharmacy_branch_id == $this->pharmacy_branch_id) {
+        if(auth()->user()->isPharmacyMasterAdmin() || auth()->user()->pharmacy_branch_id == $this->pharmacy_branch_id) {
             return true;
         }
         else {

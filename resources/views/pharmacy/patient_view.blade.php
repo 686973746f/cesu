@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        @if(auth()->user()->isAdminPharmacy())
+        @if(auth()->user()->isPharmacyMasterAdmin() || auth()->user()->isPharmacyBranchAdmin() && auth()->user()->pharmacy_branch_id == $d->pharmacy_branch_id)
         <form action="{{route('pharmacy_delete_patient', $d->id)}}" method="POST" class="mb-3">
             @csrf
             <div class="text-right">

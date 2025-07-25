@@ -68,7 +68,7 @@
                         <td class="text-center">{{$i->address_brgy_text}}</td>
                         <td class="text-center">{{$i->address_muncity_text}}, {{$i->address_province_text}}</td>
                         <td class="text-center">
-                            @if(auth()->user()->isAdminPharmacy())
+                            @if(auth()->user()->isPharmacyMasterAdmin())
                             <a href="{{route('pharmacy_view_branch', $i->pharmacybranch->id)}}">{{$i->pharmacybranch->name}}</a>
                             @else
                             {{$i->pharmacybranch->name}}

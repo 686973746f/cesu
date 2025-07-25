@@ -26,7 +26,7 @@
                                 <tr>
                                     <td class="font-weight-bold">Master Item Name</td>
                                     <td class="text-center">
-                                        @if(auth()->user()->isAdminPharmacy())
+                                        @if(auth()->user()->isPharmacyMasterAdmin())
                                         <a href="{{route('pharmacy_view_masteritem', $d->id)}}"><b>{{$d->pharmacysupplymaster->name}}</b></a>
                                         @else
                                         <b>{{$d->pharmacysupplymaster->name}}</b>

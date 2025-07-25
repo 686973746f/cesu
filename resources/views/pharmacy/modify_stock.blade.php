@@ -131,7 +131,7 @@
                             <label for="select_recipient"><b class="text-danger">*</b>Recipient / Transfer to</label>
                             <select class="form-control" name="select_recipient" id="select_recipient">
                               <option value="" disabled {{(is_null(old('select_recipient'))) ? 'selected' : ''}}>Choose...</option>
-                              @if(auth()->user()->isAdminPharmacy())
+                              @if(auth()->user()->isPharmacyMasterAdmin())
                               <option value="BRANCH" id="selection_branch">Entities (BHS/Hospitals/Other Institutions)</option>
                               @endif
                               <!--<option value="PATIENT" id="selection_patient">Patient</option>-->
