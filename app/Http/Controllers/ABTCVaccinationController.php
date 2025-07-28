@@ -1952,6 +1952,12 @@ class ABTCVaccinationController extends Controller
                 $templateProcessor->setValue('ifd', 'X');
             }
 
+            $templateProcessor->setValue('pbdate', Carbon::parse($d->d7_date)->addDays(58)->format('m/d/Y'));
+            
+            //ERIG Computation (Estimated ml)
+            $erig_computation = $d->weight * 40 / 200;
+            $templateProcessor->setValue('erig_ml', $erig_computation);
+
             $filename = 'CARD_'.$d->patient->lname.'_'.$d->patient->fname.'_'.Carbon::now()->format('mdY').'.docx';
         }
         else if($r->submit == 'cf2') {
