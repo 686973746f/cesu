@@ -99,11 +99,18 @@ class CreateAbtcBakunaRecordsTable extends Migration
             $table->foreignId('ics_finishedby')->nullable()->constrained('users')->onDelete('cascade');
             $table->dateTime('ics_finished_date')->nullable();
 
-            $table->string('ics_isforclaims', 1)->default('N');
-            $table->string('ics_claims_pbef')->nullable();
-            $table->date('ics_claims_submitted_date')->nullable();
-            $table->string('ics_claims_receipticket')->nullable();
+            $table->string('ics_status')->default('ENCODING'); //ENCODING, FOR UPLOADING, PROCESSING, DENIED, PROCESSING/PROTEST, RTH, PROCESSING/RTH, PAID
+            $table->dateTime('ics_encoded_date')->nullable();
+            $table->string('ics_transmittalno')->nullable();
+            $table->dateTime('ics_uploaded_date')->nullable();
+            $table->foreignId('ics_uploaded_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->string('ics_claims_seriesno')->nullable();
+            $table->string('is_rth', 1)->default('N');
+            $table->dateTime('ics_rth_date')->nullable();
+            $table->dateTime('ics_rth_resubmit_date')->nullable();
+            $table->foreignId('ics_rth_resubmitted_by')->nullable()->constrained('users')->onDelete('cascade');
+            $table->dateTime('ics_rth_denied_date')->nullable();
+            $table->dateTime('ics_rth_protested_date')->nullable();
             $table->text('ics_claims_remarks')->nullable();
 
             $table->integer('age_years')->nullable();

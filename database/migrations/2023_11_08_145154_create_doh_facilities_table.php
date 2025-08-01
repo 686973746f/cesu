@@ -68,6 +68,11 @@ class CreateDohFacilitiesTable extends Migration
             $table->string('edcs_service_capability')->nullable();
             $table->string('edcs_region_name')->nullable();
             $table->string('edcs_province_name')->nullable();
+
+            $table->string('ibnr_abtc_name')->nullable();
+            $table->string('ibnr_abtc_code')->nullable();
+            $table->string('ibnr_abtc_head_name')->nullable();
+            $table->string('ibnr_abtc_accountant_name')->nullable();
             
             $table->timestamps();
         });

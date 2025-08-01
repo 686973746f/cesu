@@ -1968,7 +1968,7 @@ class ABTCVaccinationController extends Controller
             $templateProcessor->setValue('suffix', $d->patient->suffix ?: 'N/A');
             $templateProcessor->setValue('mname', $d->patient->mname ?: 'N/A');
 
-            $sepa_array = str_split(Carbon::parse($d->case_date)->format('mdY'));
+            $sepa_array = str_split(Carbon::parse($d->d0_date)->format('mdY'));
             $templateProcessor->setValue('date_admitted', $sepa_array[0].'   '.$sepa_array[1].'     '.$sepa_array[2].'   '.$sepa_array[3].'    '.$sepa_array[4].'   '.$sepa_array[5].'   '.$sepa_array[6].'   '.$sepa_array[7]);
             
             $sepa_array = str_split(Carbon::parse($d->d7_date)->format('mdY'));
@@ -2191,7 +2191,7 @@ class ABTCVaccinationController extends Controller
             $templateProcessor->setValue('dep_suffix', $dep_suffix);
             $templateProcessor->setValue('dep_bdate', $dep_bdate);
 
-            $sepa_array = str_split(Carbon::parse($d->case_date)->format('mdY'));
+            $sepa_array = str_split(Carbon::parse($d->d0_date)->format('mdY'));
             $date_admitted = $sepa_array[0].'    '.$sepa_array[1].'      '.$sepa_array[2].'    '.$sepa_array[3].'      '.$sepa_array[4].'    '.$sepa_array[5].'    '.$sepa_array[6].'    '.$sepa_array[7];
             $templateProcessor->setValue('date_admitted', $date_admitted);
 
@@ -2329,7 +2329,7 @@ class ABTCVaccinationController extends Controller
             $templateProcessor->setValue('p_name', $d->patient->getNameFormal());
             $templateProcessor->setValue('p_age', $d->patient->getAgeInt());
             $templateProcessor->setValue('p_contact', $d->patient->contact_number);
-            $templateProcessor->setValue('case_date', Carbon::parse($d->case_date)->format('m/d/Y'));
+            $templateProcessor->setValue('case_date', Carbon::parse($d->created_at)->format('m/d/Y'));
             $templateProcessor->setValue('dob', Carbon::parse($d->patient->bdate)->format('m/d/Y'));
 
             if($d->patient->philhealth_statustype == 'MEMBER') {
