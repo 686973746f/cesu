@@ -101,6 +101,35 @@ class PharmacyController extends Controller
                 'config_piecePerBox' => ($r->quantity_type == 'BOX') ? $r->config_piecePerBox : NULL, 
             ]);
 
+            //Initialize Substock
+            $id_array = [1, 78];
+
+            foreach($id_array as $i) {
+                $d = $r->user()->pharmacysupplysub()->create([
+                    'supply_master_id' => $c->id,
+                    'pharmacy_branch_id' => $i,
+                    'self_sku_code' => NULL,
+                    'self_description' => NULL,
+    
+                    'po_contract_number' => $r->po_contract_number,
+                    'supplier' => $r->supplier,
+                    'dosage_form' => $r->dosage_form,
+                    'dosage_strength' => $r->dosage_strength,
+                    'unit_measure' => $r->unit_measure,
+                    'entity_name' => $r->entity_name,
+                    'source_of_funds' => $r->source_of_funds,
+                    'unit_cost' => $r->unit_cost,
+                    'mode_of_procurement' => $r->mode_of_procurement,
+                    'end_user' => $r->end_user,
+                    'default_issuance_per_box' => NULL,
+                    'default_issuance_per_piece' => NULL,
+    
+                    'master_box_stock' => ($r->quantity_type == 'BOX') ? 0 : NULL,
+                    'master_piece_stock' => 0, 
+                ]);
+            }
+
+            /*
             if($r->master_box_stock != 0) {
                 $d = $r->user()->pharmacysupplysub()->create([
                     'supply_master_id' => $c->id,
@@ -149,6 +178,7 @@ class PharmacyController extends Controller
                     'remarks' => 'INITIAL ENCODING',
                 ]);
             }
+            */
 
             return redirect()->back()
             ->with('msg', 'Master Item was added successfully.')

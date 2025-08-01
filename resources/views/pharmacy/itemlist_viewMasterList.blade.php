@@ -201,20 +201,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="master_box_stock"><b class="text-danger">*</b>Current Stock (in <span id="inWhatQtyType"></span>)</label>
-                                    <input type="number" class="form-control" name="master_box_stock" id="master_box_stock" min="0" value="{{old('master_box_stock')}}" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="expiration_date"><b class="text-danger">*</b>Expiration Date</label>
-                                    <input type="date" class="form-control" name="expiration_date" id="expiration_date" min="{{date('Y-m-d')}}" required>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Save</button>
