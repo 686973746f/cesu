@@ -102,7 +102,7 @@ class PharmacyController extends Controller
             ]);
 
             //Initialize Substock
-            $id_array = [1, 78];
+            $id_array = [1, 77];
 
             foreach($id_array as $i) {
                 $d = $r->user()->pharmacysupplysub()->create([
