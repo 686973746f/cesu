@@ -297,10 +297,10 @@ class AbdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
             $table_params = [
                 'Icd10Code' => NULL,
-                'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
-                'ProvOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province,
-                'MuncityOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity,
-                'DRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type,
+                'RegionOFDrU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL,
+                'ProvOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province : NULL,
+                'MuncityOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity : NULL,
+                'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
                 'AddressOfDRU' => NULL,
                 'PatientNumber' => $row['patient_no'],
                 'FirstName' => $row['first_name'],
@@ -431,10 +431,10 @@ class AfpImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
             $table_params = [
                 'Icd10Code' => NULL,
-                'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
-                'ProvOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province,
-                'MuncityOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity,
-                'DRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type,
+                'RegionOFDrU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL,
+                'ProvOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province : NULL,
+                'MuncityOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity : NULL,
+                'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
                 'AddressOfDRU' => NULL,
                 'PatientNumber' => $row['patient_no'],
                 'FirstName' => $row['first_name'],
@@ -646,11 +646,11 @@ class AmesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 $getDruFacilityTypeText = NULL;
             }
             else {
-                $getDruRegionText = EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1;
-                $getDruProvinceText = EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province;
-                $getDruMuncityText = EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity;
+                $getDruRegionText = (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL;
+                $getDruProvinceText = (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province : NULL;
+                $getDruMuncityText = (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity : NULL;
 
-                $getDruFacilityTypeText = EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type;
+                $getDruFacilityTypeText = (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL;
             }
 
             $match_casedef = 1;
@@ -869,10 +869,10 @@ class HepaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             
             $table_params = [
                 'Icd10Code' => 'B15-17',
-                'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
-                'ProvOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province,
-                'MuncityOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity,
-                'DRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type,
+                'RegionOFDrU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL,
+                'ProvOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province : NULL,
+                'MuncityOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity : NULL,
+                'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
                 'AddressOfDRU' => NULL,
                 'PatientNumber' => $row['patient_no'],
                 'FirstName' => $row['first_name'],
@@ -1016,10 +1016,10 @@ class HfmdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
             $table_params = [
                 'Icd10Code' => NULL,
-                'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
-                'ProvOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province,
-                'MuncityOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity,
-                'DRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type,
+                'RegionOFDrU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL,
+                'ProvOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province : NULL,
+                'MuncityOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity : NULL,
+                'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
                 'AddressOfDRU' => NULL,
                 'PatientNumber' => $row['patient_no'],
                 'FirstName' => $row['first_name'],
@@ -1193,10 +1193,10 @@ class LeptoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
             $table_params = [
                 'Icd10Code' => 'A27',
-                'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
-                'ProvOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province,
-                'MuncityOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity,
-                'DRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type,
+                'RegionOFDrU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL,
+                'ProvOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province : NULL,
+                'MuncityOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity : NULL,
+                'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
                 'AddressOfDRU' => NULL,
                 'PatientNumber' => $row['patient_no'],
                 'FirstName' => $row['first_name'],
@@ -1323,10 +1323,10 @@ class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
             $table_params = [
                 'Icd10Code' => 'B05',
-                'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
-                'ProvOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province,
-                'MuncityOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity,
-                'DRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type,
+                'RegionOFDrU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL,
+                'ProvOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province : NULL,
+                'MuncityOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity : NULL,
+                'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
                 'AddressOfDRU' => NULL,
                 'PatientNumber' => $row['patient_no'],
                 'FirstName' => $row['first_name'],
@@ -1520,10 +1520,10 @@ class NntImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
             $table_params = [
                 'Icd10Code' => 'A33',
-                'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
-                'ProvOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province,
-                'MuncityOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity,
-                'DRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type,
+                'RegionOFDrU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL,
+                'ProvOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province : NULL,
+                'MuncityOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity : NULL,
+                'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
                 'AddressOfDRU' => NULL,
                 'PatientNumber' => $row['patient_no'],
                 'FirstName' => $row['first_name'],
@@ -1637,10 +1637,10 @@ class RabiesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
             $table_params = [
                 'Icd10Code' => 'A82',
-                'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
-                'ProvOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province,
-                'MuncityOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity,
-                'DRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type,
+                'RegionOFDrU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL,
+                'ProvOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province : NULL,
+                'MuncityOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity : NULL,
+                'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
                 'AddressOfDRU' => NULL,
                 'SentinelSite' => NULL,
                 'PatientNumber' => $row['patient_no'],
@@ -1777,10 +1777,10 @@ class RotaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             
             $table_params = [
                 'Icd10Code' => NULL,
-                'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
-                'ProvOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province,
-                'MuncityOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity,
-                'DRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type,
+                'RegionOFDrU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL,
+                'ProvOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province : NULL,
+                'MuncityOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity : NULL,
+                'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
                 'AddressOfDRU' => NULL,
                 'DRUContactNum' => NULL,
                 'PatientNumber' => $row['patient_no'],
@@ -1928,10 +1928,10 @@ class TyphoidImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
             $table_params = [
                 'Icd10Code' => 'A01.0',
-                'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
-                'ProvOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province,
-                'MuncityOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity,
-                'DRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type,
+                'RegionOFDrU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL,
+                'ProvOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province : NULL,
+                'MuncityOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity : NULL,
+                'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
                 'AddressOfDRU' => NULL,
                 'PatientNumber' => $row['patient_no'],
                 'FirstName' => $row['first_name'],
@@ -2229,10 +2229,10 @@ class DiphImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
 
             $table_params = [
                 'Icd10Code' => 'A36',
-                'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
-                'ProvOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province,
-                'MuncityOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity,
-                'DRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type,
+                'RegionOFDrU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL,
+                'ProvOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province : NULL,
+                'MuncityOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity : NULL,
+                'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
                 'NameOfDru' => $row['facilityname'],
                 'AddressOfDRU' => NULL,
                 'PatientNumber' => $row['patient_no'],
@@ -2343,10 +2343,10 @@ class ChikvImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
 
             $table_params = [
                 'Icd10Code' => NULL,
-                'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
-                'ProvOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province,
-                'MuncityOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity,
-                'DRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type,
+                'RegionOFDrU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL,
+                'ProvOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province : NULL,
+                'MuncityOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity : NULL,
+                'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
                 'NameOfDru' => $row['facilityname'],
                 'AddressOfDRU' => NULL,
                 'PatientNumber' => $row['patient_no'],
@@ -2511,10 +2511,10 @@ class MeningoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
 
             $table_params = [
                 'Icd10Code' => 'A39',
-                'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
-                'ProvOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province,
-                'MuncityOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity,
-                'DRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type,
+                'RegionOFDrU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL,
+                'ProvOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province : NULL,
+                'MuncityOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity : NULL,
+                'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
                 'NameOfDru' => $row['facilityname'],
                 'AddressOfDRU' => NULL,
                 'PatientNumber' => $row['patient_no'],
@@ -2688,10 +2688,10 @@ class NtImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
 
             $table_params = [
                 'Icd10Code' => 'A35',
-                'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
-                'ProvOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province,
-                'MuncityOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity,
-                'DRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type,
+                'RegionOFDrU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL,
+                'ProvOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province : NULL,
+                'MuncityOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity : NULL,
+                'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
                 'NameOfDru' => $row['facilityname'],
                 'AddressOfDRU' => NULL,
                 'PatientNumber' => $row['patient_no'],
@@ -2867,10 +2867,10 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
 
             $table_params = [
                 'Icd10Code' => 'A37',
-                'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
-                'ProvOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province,
-                'MuncityOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity,
-                'DRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type,
+                'RegionOFDrU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL,
+                'ProvOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province : NULL,
+                'MuncityOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity : NULL,
+                'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
                 'NameOfDru' => $row['facilityname'],
                 'AddressOfDRU' => NULL,
                 'PatientNumber' => $row['patient_no'],
@@ -3027,10 +3027,10 @@ class CholeraImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
 
             $table_params = [
                 'Icd10Code' => 'A00',
-                'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
-                'ProvOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province,
-                'MuncityOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity,
-                'DRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type,
+                'RegionOFDrU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL,
+                'ProvOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province : NULL,
+                'MuncityOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity : NULL,
+                'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
                 'NameOfDru' => $row['facilityname'],
                 'AddressOfDRU' => NULL,
                 'PatientNumber' => $row['patient_no'],
@@ -3141,10 +3141,10 @@ class InfluenzaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow 
 
             $table_params = [
                 'Icd10Code' => 'J10, J11',
-                'RegionOFDrU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1,
-                'ProvOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province,
-                'MuncityOfDRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity,
-                'DRU' => EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type,
+                'RegionOFDrU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL,
+                'ProvOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province : NULL,
+                'MuncityOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity : NULL,
+                'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
                 'NameOfDru' => $row['facilityname'],
                 'AddressOfDRU' => NULL,
                 'PatientNumber' => $row['patient_no'],

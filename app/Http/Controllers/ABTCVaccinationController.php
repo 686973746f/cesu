@@ -2362,4 +2362,12 @@ class ABTCVaccinationController extends Controller
 
         $templateProcessor->saveAs('php://output');
     }
+
+    public function abtcFinancialHome() {
+
+    }
+
+    public function abtcFinancialReport() {
+        
+    }
 }
