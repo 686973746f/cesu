@@ -356,11 +356,16 @@ class ABTCVaccinationController extends Controller
         ->orderBy('fname', 'ASC')
         ->get();
 
+        $abtc_doctors_list = Employee::where('emp_access_list', 'LIKE', '%ABTC_DOCTOR%')
+        ->orderBy('lname', 'ASC')
+        ->get();
+
         return view('abtc.encode_edit', [
             'd' => $p,
             'vblist' => $vblist,
             'vslist' => $vslist,
             'vaccinator_list' => $vaccinator_list,
+            'abtc_doctors_list' => $abtc_doctors_list,
         ]);
     }
 
@@ -1671,8 +1676,15 @@ class ABTCVaccinationController extends Controller
     public function medcert($br_id) {
         $b = AbtcBakunaRecords::findOrFail($br_id);
 
+        if(!request()->input('doctor')) {
+            return abort(401);
+        }
+
+        $doctor = Employee::findOrFail(request()->input('doctor'));
+
         return view('abtc.medcert', [
             'b' => $b,
+            'doctor' => $doctor,
         ]);
     }
 

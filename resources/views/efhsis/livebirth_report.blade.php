@@ -48,7 +48,7 @@
                     @endforeach
                     <tr>
                         <td class="text-center">999</td>
-                        <td><b>OUTSIDE GENERAL TRIAS (OTHER CITIES)</b></td>
+                        <td><b>Non-Resident (Outside Gen. Trias)</b></td>
                         <td class="text-center" style="background-color: #8fa2bd;">{{($livebirth_othercities_total_m != 0) ? $livebirth_othercities_total_m : 'N/A'}}</td>
                         <td class="text-center" style="background-color: #dea6a5">{{($livebirth_othercities_total_f != 0) ? $livebirth_othercities_total_f : 'N/A'}}</td>
                         <td class="text-center" style="background-color: #8fa2bd;">{{(($livebirth_othercities_1014_m + $livebirth_othercities_1014_f) != 0) ? $livebirth_othercities_1014_m : ''}}</td>

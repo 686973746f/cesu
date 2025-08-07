@@ -110,6 +110,7 @@ class Employee extends Model
             'PHYSICIAN',
             'DENTIST',
             'MEDTECH',
+            'ABTC_DOCTOR',
         ];
     }
 
