@@ -31,4 +31,18 @@ class AbtcVaccinationSite extends Model
         'ph_head_id',
         'ph_accountant_name_position',
     ];
+
+    public function getHeadSignatory() {
+        return $this->belongsTo(Employee::class, 'ph_head_id');
+    }
+
+    public function getProfessional1() {
+        return $this->belongsTo(Employee::class, 'ph_professional1_id');
+    }
+    public function getProfessional2() {
+        return $this->belongsTo(Employee::class, 'ph_professional2_id');
+    }
+    public function getProfessional3() {
+        return $this->belongsTo(Employee::class, 'ph_professional3_id');
+    }
 }
