@@ -52,11 +52,11 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                          <label for="ph_address_houseno"><b class="text-danger">*</b>Name of Head to Sign Philhealth Claims</label>
+                          <label for="ph_head_id">Name of Head to Sign Philhealth Claims</label>
                           <select class="form-control" name="ph_head_id" id="ph_head_id">
                             <option value="">N/A</option>
-                            @foreach($doctor_list as $d)
-                            <option value="{{$d->id}}" {{(old('ph_head_id', $d->ph_head_id) == $d->id) ? 'selected' : ''}}>{{$d->getName()}}</option>
+                            @foreach($doctor_list as $b)
+                            <option value="{{$b->id}}" {{(old('ph_head_id', $d->ph_head_id) == $b->id) ? 'selected' : ''}}>{{$b->getName()}}</option>
                             @endforeach
                           </select>
                         </div>
@@ -65,41 +65,41 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                          <label for="ph_professional1_id"><b class="text-danger">*</b>Name of Professional #1</label>
+                          <label for="ph_professional1_id">Name of Professional #1</label>
                           <select class="form-control" name="ph_professional1_id" id="ph_professional1_id">
                             <option value="">N/A</option>
-                            @foreach($doctor_list as $d)
-                            <option value="{{$d->id}}" {{(old('ph_professional1_id', $d->ph_professional1_id) == $d->id) ? 'selected' : ''}}>{{$d->getName()}}</option>
+                            @foreach($doctor_list as $b)
+                            <option value="{{$b->id}}" {{(old('ph_professional1_id', $d->ph_professional1_id) == $b->id) ? 'selected' : ''}}>{{$b->getName()}}</option>
                             @endforeach
                           </select>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                          <label for="ph_professional2_id"><b class="text-danger">*</b>Name of Professional #2</label>
+                          <label for="ph_professional2_id">Name of Professional #2</label>
                           <select class="form-control" name="ph_professional2_id" id="ph_professional2_id">
                             <option value="">N/A</option>
-                            @foreach($doctor_list as $d)
-                            <option value="{{$d->id}}" {{(old('ph_professional2_id', $d->ph_professional2_id) == $d->id) ? 'selected' : ''}}>{{$d->getName()}}</option>
+                            @foreach($doctor_list as $b)
+                            <option value="{{$b->id}}" {{(old('ph_professional2_id', $d->ph_professional2_id) == $b->id) ? 'selected' : ''}}>{{$b->getName()}}</option>
                             @endforeach
                           </select>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                          <label for="ph_professional3_id"><b class="text-danger">*</b>Name of Professional #3</label>
+                          <label for="ph_professional3_id">Name of Professional #3</label>
                           <select class="form-control" name="ph_professional3_id" id="ph_professional3_id">
                             <option value="">N/A</option>
-                            @foreach($doctor_list as $d)
-                            <option value="{{$d->id}}" {{(old('ph_professional3_id', $d->ph_professional3_id) == $d->id) ? 'selected' : ''}}>{{$d->getName()}}</option>
+                            @foreach($doctor_list as $b)
+                            <option value="{{$b->id}}" {{(old('ph_professional3_id', $d->ph_professional3_id) == $b->id) ? 'selected' : ''}}>{{$b->getName()}}</option>
                             @endforeach
                           </select>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="ph_accountant_name_position"><b class="text-danger">*</b>Name of Accountant (Format: Name/Designation)</label>
-                    <input type="text" class="form-control" name="ph_accountant_name_position" id="ph_accountant_name_position" style="text-transform: uppercase;" max="255" value="{{old('ph_accountant_name_position', $d->ph_accountant_name_position)}}" pattern="^.+/.+$" required>
+                    <label for="ph_accountant_name_position">Name of Accountant (Format: Name/Designation)</label>
+                    <input type="text" class="form-control" name="ph_accountant_name_position" id="ph_accountant_name_position" style="text-transform: uppercase;" value="{{old('ph_accountant_name_position', $d->ph_accountant_name_position)}}" pattern="^.+/.+$" required>
                 </div>
             </div>
             <div class="card-footer">
