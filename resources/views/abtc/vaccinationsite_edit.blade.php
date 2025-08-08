@@ -56,7 +56,7 @@
                           <select class="form-control" name="ph_head_id" id="ph_head_id">
                             <option value="">N/A</option>
                             @foreach($doctor_list as $d)
-                            <option value="{{$d->id}}" {{(old('ph_professional1_id', $d->ph_head_id) == $d->id) ? 'selected' : ''}}>{{$d->getName()}}</option>
+                            <option value="{{$d->id}}" {{(old('ph_head_id', $d->ph_head_id) == $d->id) ? 'selected' : ''}}>{{$d->getName()}}</option>
                             @endforeach
                           </select>
                         </div>

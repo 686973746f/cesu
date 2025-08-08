@@ -64,7 +64,7 @@ class ABTCAdminController extends Controller
             'ph_professional2_id' => $r->ph_professional2_id,
             'ph_professional3_id' => $r->ph_professional3_id,
             'ph_head_id' => $r->ph_head_id,
-            'ph_accountant_name_position' => $r->ph_accountant_name_position,
+            'ph_accountant_name_position' => ($r->ph_accountant_name_position) ? mb_strtoupper($r->ph_accountant_name_position) : NULL,
         ]);
 
         return redirect()->back()
