@@ -51,7 +51,9 @@ class DohFacility extends Model
 
         'sys_code1',
         'sys_opdaccess_type',
-        'sys_employee_codename',
+        'pharmacy_branch_id',
+        'logo_path',
+        'letterhead_path',
         'sys_coordinate_x',
         'sys_coordinate_y',
 
@@ -62,6 +64,17 @@ class DohFacility extends Model
         'edcs_service_capability',
         'edcs_region_name',
         'edcs_province_name',
+
+        'abtc_facility_name',
+        'abtc_facility_code',
+        'abtc_address_houseno',
+        'abtc_doh_certificate',
+        'edcs_province_name',
+        'abtc_professional1_id',
+        'abtc_professional2_id',
+        'abtc_professional3_id',
+        'abtc_head_id',
+        'abtc_accountant_name_position',
     ];
 
     public function getRegionData() {

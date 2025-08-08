@@ -120,15 +120,6 @@
           <a href="{{route('abtc_vaccinationsite_index')}}" class="btn btn-primary btn-block">Vaccination Sites</a>
           <a href="{{route('abtc_vaccinebrand_index')}}" class="btn btn-primary btn-block">Vaccine Brands</a>
           <a href="" class="btn btn-primary btn-block">Site Settings</a>
-          <hr>
-          <form action="{{route('abtc_xlimport')}}" method="POST" enctype="multipart/form-data">
-            @csrf
-            <div class="form-group">
-              <label for="abtcfile">Select ABTC Excel File</label>
-              <input type="file" class="form-control-file" name="abtcfile" id="abtcfile" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
         </div>
       </div>
     </div>

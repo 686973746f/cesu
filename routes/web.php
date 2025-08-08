@@ -619,6 +619,8 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
 
     Route::get('/abtc/vaccination_site', [ABTCAdminController::class, 'vaccinationsite_index'])->name('abtc_vaccinationsite_index');
     Route::post('/abtc/vaccination_site', [ABTCAdminController::class, 'vaccinationsite_store'])->name('abtc_vaccinationsite_store');
+    Route::get('/abtc/vaccination_site/{id}/edit', [ABTCAdminController::class, 'vaccinationsite_edit'])->name('abtc_vaccinationsite_edit');
+    Route::post('/abtc/vaccination_site/{id}/edit', [ABTCAdminController::class, 'vaccinationsite_update'])->name('abtc_vaccinationsite_update');
 
     Route::get('/abtc/vaccine_brand', [ABTCAdminController::class, 'vaccinebrand_index'])->name('abtc_vaccinebrand_index');
     Route::post('/abtc/vaccine_brand', [ABTCAdminController::class, 'vaccinebrand_store'])->name('abtc_vaccinebrand_store');

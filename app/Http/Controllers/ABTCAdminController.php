@@ -8,6 +8,7 @@ use App\Models\AbtcVaccineBrand;
 use App\Imports\AnimalBiteImport;
 use App\Models\AbtcBakunaRecords;
 use App\Models\AbtcVaccinationSite;
+use App\Models\Employee;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ABTCAdminController extends Controller
@@ -34,6 +35,40 @@ class ABTCAdminController extends Controller
 
         return redirect()->route('abtc_vaccinationsite_index')
         ->with('msg', 'Vaccination Site was added successfully.')
+        ->with('msgtype', 'success');
+    }
+
+    public function vaccinationsite_edit($id) {
+        $d = AbtcVaccinationSite::findOrFail($id);
+
+        $doctor_list = Employee::where('employment_status', 'ACTIVE')
+        ->where('emp_access_list', 'LIKE', '%ABTC_DOCTOR%')
+        ->get();
+
+        return view('abtc.vaccinationsite_edit', [
+            'd' => $d,
+            'doctor_list' => $doctor_list,
+        ]);
+    }
+
+    public function vaccinationsite_update($id, Request $r) {
+        $update = AbtcVaccinationSite::where('id', $id)
+        ->update([
+            'site_name' => mb_strtoupper($r->site_name),
+
+            'ph_facility_name' => mb_strtoupper($r->ph_facility_name),
+            'ph_facility_code' => mb_strtoupper($r->ph_facility_code),
+            'ph_address_houseno' => mb_strtoupper($r->ph_address_houseno),
+            'ph_doh_certificate' => mb_strtoupper($r->ph_doh_certificate),
+            'ph_professional1_id' => $r->ph_professional1_id,
+            'ph_professional2_id' => $r->ph_professional2_id,
+            'ph_professional3_id' => $r->ph_professional3_id,
+            'ph_head_id' => $r->ph_head_id,
+            'ph_accountant_name_position' => $r->ph_accountant_name_position,
+        ]);
+
+        return redirect()->back()
+        ->with('msg', 'ABTC Facility was updated successfully.')
         ->with('msgtype', 'success');
     }
 

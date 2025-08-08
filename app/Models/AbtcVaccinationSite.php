@@ -20,5 +20,15 @@ class AbtcVaccinationSite extends Model
         'ff_end',
         'new_and_ff_time_same',
         'facility_type',
+
+        'ph_facility_name',
+        'ph_facility_code',
+        'ph_address_houseno',
+        'ph_doh_certificate',
+        'ph_professional1_id',
+        'ph_professional2_id',
+        'ph_professional3_id',
+        'ph_head_id',
+        'ph_accountant_name_position',
     ];
 }

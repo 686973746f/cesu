@@ -25,6 +25,17 @@ class CreateAbtcVaccinationSitesTable extends Migration
             $table->time('ff_end')->nullable();
             $table->tinyInteger('new_and_ff_time_same')->default(0);
             $table->string('facility_type')->nullable();
+
+            $table->string('ph_facility_name')->nullable();
+            $table->string('ph_facility_code')->nullable();
+            $table->string('ph_address_houseno')->nullable();
+            $table->string('ph_doh_certificate')->nullable();
+            $table->integer('ph_professional1_id')->nullable();
+            $table->integer('ph_professional2_id')->nullable();
+            $table->integer('ph_professional3_id')->nullable();
+            $table->integer('ph_head_id')->nullable();
+            $table->string('ph_accountant_name_position')->nullable();
+            
             $table->timestamps();
         });
     }

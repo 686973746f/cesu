@@ -1,15 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <div class="container">
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <div>Vaccination Sites</div>
-                <div><button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addvs"><i class="fa-solid fa-circle-plus me-2"></i>Add</button></div>
+                <div><b>List of Animal Bite Treatment Centers</b></div>
+                <div><button type="button" class="btn btn-success" data-toggle="modal" data-target="#addvs">Add Vaccination Site</button></div>
             </div>
+            
         </div>
         <div class="card-body">
             @if(session('msg'))
@@ -30,7 +29,7 @@
                     @foreach($list as $d)
                     <tr>
                         <td class="text-center">{{$d->id}}</td>
-                        <td>{{$d->site_name}}</td>
+                        <td><a href="{{route('abtc_vaccinationsite_edit', $d->id)}}">{{$d->site_name}}</a></td>
                         <td class="text-center">{{date('m/d/Y H:i A', strtotime($d->created_at))}}</td>
                     </tr>
                     @endforeach
@@ -50,16 +49,18 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title"><b>Add Vaccination Site</b></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                 </div>
                 <div class="modal-body">
-                    <div class="">
-                      <label for="site_name" class="form-label">Site Name</label>
+                    <div class="form-group">
+                      <label for="site_name" class="form-label"><b class="text-danger">*</b>Name of ABTC Facility</label>
                       <input type="text" class="form-control" name="site_name" id="site_name" required>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk me-2"></i>Save</button>
+                    <button type="submit" class="btn btn-success btn-block"><i class="fa-solid fa-floppy-disk me-2"></i>Save</button>
                 </div>
             </div>
         </div>
