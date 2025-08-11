@@ -10632,7 +10632,10 @@ class PIDSRController extends Controller
                     $compare_type = 'LOWER';
                 }
 
-                $percentageChange = ($large_count != 0 && $compare_type != 'EQUAL') ? round(($small_count / $large_count) * 100, 2) : 0;
+                if($compare_type != 'EQUAL') {
+                    $percentageChange = round(($small_count / $large_count) * 100, 2);
+                }
+                
             }
             else {
                 $percentageChange = round($currentyear_count * 100, 2);
