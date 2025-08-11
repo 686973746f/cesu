@@ -10618,6 +10618,7 @@ class PIDSRController extends Controller
                 //get the smallest number
                 if($currentyear_count == $lastyear_count) {
                     $compare_type = 'EQUAL';
+                    $percentageChange = 0;
                 }
                 else if($currentyear_count > $lastyear_count) {
                     $small_count = $lastyear_count;
