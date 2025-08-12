@@ -1216,7 +1216,7 @@ class LeptoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'DOnset' => EdcsImport::tDate($row['date_on_set_of_illness_first_symptoms']),
                 'LabRes' => NULL,
                 'Serovar' => NULL,
-                'CaseClassification' => $row['case_classification'],
+                'CaseClassification' => substr($row['case_classification'],0,1),
                 'Outcome' => mb_strtoupper(substr($row['outcome'],0,1)),
                 'DateDied' => EdcsImport::tDate($row['date_died']),
                 'Occupation' => $row['occupation'],

@@ -336,7 +336,7 @@
                                         <td class="text-center">({{($current_grand_total != 0) ? round($majority_count / $current_grand_total * 100) : 0}}%)</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2">Hospitalized</td>
+                                        <td colspan="2">Admitted</td>
                                         <td class="text-center">{{$hospitalized_count}} cases</td>
                                         <td class="text-center">({{($current_grand_total != 0) ? round($hospitalized_count / $current_grand_total * 100) :0}}%)</td>
                                     </tr>
