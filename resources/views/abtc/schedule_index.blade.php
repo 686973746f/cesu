@@ -125,7 +125,9 @@
                 </div>
             </div>
             <div class="text-right">
-                <a href="{{route('abtc_ffsms')}}?d={{$sdate}}">Create SMS Format to Pending List</a>
+                <a href="{{route('abtc_ffsms')}}?d={{$sdate}}" class="mr-2">Create SMS Format to Pending List</a>
+
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#vaccineEstimate">Vaccine Estimate Counter</button>
             </div>
         </div>
         <div class="card-body">
@@ -287,6 +289,41 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success">Mark as Done</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<form action="{{route('abtc_vaccinecounter_home')}}" method="GET">
+    <div class="modal fade" id="vaccineEstimate" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="startDate"><b class="text-danger">*</b>Start Date</label>
+                                <input type="date" class="form-control" name="startDate" id="startDate" min="{{date('Y-m-01', strtotime('-3 Months'))}}" max="{{date('Y-m-d')}}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="endDate"><b class="text-danger">*</b>End Date</label>
+                                <input type="date" class="form-control" name="endDate" id="endDate" min="{{date('Y-m-01', strtotime('-3 Months'))}}" max="{{date('Y-m-d')}}" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Submit</button>
                 </div>
             </div>
         </div>

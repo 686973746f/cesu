@@ -667,7 +667,8 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     Route::post('/abtc/xlimport', [ABTCAdminController::class, 'xlimport'])->name('abtc_xlimport');
     Route::get('/abtc/remaining_pt', [ABTCVaccinationController::class, 'remainingPt'])->name('abtc_remainingpt');
 
-    Route::post('/abtc/qpd28/{id}', [ABTCVaccinationController::class, 'quickFinishDay28'])->name('abtc_quickprocessd28');    
+    Route::post('/abtc/qpd28/{id}', [ABTCVaccinationController::class, 'quickFinishDay28'])->name('abtc_quickprocessd28');
+    Route::get('/abtc/vaccine_counter', [ABTCVaccinationController::class, 'abtcVaccineCounterHome'])->name('abtc_vaccinecounter_home');
 });
 
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessAbtcInventory']], function () {

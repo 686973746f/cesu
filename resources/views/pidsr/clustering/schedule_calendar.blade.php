@@ -62,8 +62,9 @@
             info.el.style.whiteSpace = 'normal';
         }
       });
+      
       calendar.render();
     });
 
-  </script>
+</script>
 @endsection

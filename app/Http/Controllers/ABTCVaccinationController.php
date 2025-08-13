@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Employee;
+use Carbon\CarbonPeriod;
 use App\Models\AbtcPatient;
 use App\Models\SiteSettings;
 use Illuminate\Http\Request;
@@ -11,7 +13,6 @@ use App\Models\AbtcVaccineBrand;
 use App\Models\AbtcBakunaRecords;
 use App\Models\AbtcVaccineStocks;
 use App\Models\AbtcVaccinationSite;
-use App\Models\Employee;
 use Illuminate\Support\Facades\Auth;
 use PhpOffice\PhpWord\TemplateProcessor;
 
@@ -2342,6 +2343,101 @@ class ABTCVaccinationController extends Controller
         header("Content-Disposition: attachment; filename=".$filename);
 
         $templateProcessor->saveAs('php://output');
+    }
+
+    public function abtcVaccineCounterHome() {
+        $currentDate = Carbon::now();
+        $startDate = Carbon::parse(request()->input('startDate'));
+        $endDate = Carbon::parse(request()->input('endDate'));
+
+        $period = CarbonPeriod::create($startDate, $endDate);
+
+        $events = [];
+
+        foreach ($period as $date) {
+            /*
+            $newpatient_count = AbtcBakunaRecords::whereDate('d0_date', $date->format('Y-m-d'))
+            ->whereDate('created_at', $date->format('Y-m-d'))
+            ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
+            ->count();
+
+            if($newpatient_count != 0) {
+                $events[] = [
+                    'title' => 'NEW PATIENT: '.$newpatient_count,
+                    'start' => $date->format('Y-m-d'),
+                    'color' => '#33FF57',
+                ];
+            }
+            */
+
+            //Get Dates of D0 kung saan nagsimula ang bakunahan
+            $newp_count = AbtcBakunaRecords::whereDate('d0_date', $date->format('Y-m-d'))
+            ->whereDate('created_at', $date->format('Y-m-d'))
+            ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
+            ->where('is_booster', 0)
+            ->count();
+
+            $newp_booster_count = AbtcBakunaRecords::whereDate('d0_date', $date->format('Y-m-d'))
+            ->whereDate('created_at', $date->format('Y-m-d'))
+            ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
+            ->where('is_booster', 1)
+            ->count();
+
+            $fromprivate_count = AbtcBakunaRecords::whereDate('d0_date', '<', $date->format('Y-m-d'))
+            ->whereDate('created_at', $date->format('Y-m-d'))
+            ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
+            ->where('is_booster', 0)
+            ->count();
+
+            $fromprivate_booster_count = AbtcBakunaRecords::whereDate('d0_date', '<', $date->format('Y-m-d'))
+            ->whereDate('created_at', $date->format('Y-m-d'))
+            ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
+            ->where('is_booster', 1)
+            ->count();
+
+            if(($newp_booster_count + $fromprivate_booster_count) != 0) {
+                $sum_booster = intval(ceil(($newp_booster_count + $fromprivate_booster_count) / 6));
+            }
+            else {
+                $sum_booster = 0;
+            }
+
+            $sum_newp = intval(ceil(($newp_count + $fromprivate_count) / 6));
+
+            $vials_total = $sum_newp + $sum_booster;
+
+            if($vials_total != 0) {
+                $loop_d3_date = $date->addDay(3);
+                if($loop_d3_date->dayOfWeek == Carbon::WEDNESDAY) {
+                    $loop_d3_date = Carbon::parse($loop_d3_date)->addDays(1);
+                }
+                else if($loop_d3_date->dayOfWeek == Carbon::SATURDAY) {
+                    $loop_d3_date = Carbon::parse($loop_d3_date)->addDays(2);
+                }
+                else if($loop_d3_date->dayOfWeek == Carbon::SUNDAY) {
+                    $loop_d3_date = Carbon::parse($loop_d3_date)->addDays(1);
+                }
+
+                $loop_d7_date = $date->addDay(7);
+                if($loop_d7_date->dayOfWeek == Carbon::WEDNESDAY) {
+                    $loop_d7_date = Carbon::parse($loop_d7_date)->addDays(1);
+                }
+                else if($loop_d7_date->dayOfWeek == Carbon::SATURDAY) {
+                    $loop_d7_date = Carbon::parse($loop_d7_date)->addDays(2);
+                }
+                else if($loop_d7_date->dayOfWeek == Carbon::SUNDAY) {
+                    $loop_d7_date = Carbon::parse($loop_d7_date)->addDays(1);
+                }
+
+                $list[] = [
+                    'date' => $date->format('m/d/Y (D)'),
+                ];
+            }
+        }
+
+        return view('abtc.vaccine_estimate_counter', [
+            'list' => $list,
+        ]);
     }
 
     public function abtcFinancialHome() {
