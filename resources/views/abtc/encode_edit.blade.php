@@ -245,6 +245,7 @@
                                 <label for="body_site"><strong class="text-danger">*</strong>Anatomical Location (Body Parts)</label>
                                 <select class="form-select" name="body_site[]" id="body_site" multiple>
                                   <option value="ABDOMEN" {{ in_array('ABDOMEN', old('body_site', explode(",", $d->body_site))) ? 'selected' : '' }}>Abdomen/Tiyan</option>
+                                  <option value="BACK" {{ in_array('BACK', old('body_site', explode(",", $d->body_site))) ? 'selected' : '' }}>Back/Likod</option>
                                   <option value="FOOT" {{ in_array('FOOT', old('body_site', explode(",", $d->body_site))) ? 'selected' : '' }}>Foot/Paa</option>
                                   <option value="SHOULDER" {{ in_array('SHOULDER', old('body_site', explode(",", $d->body_site))) ? 'selected' : '' }}>Shoulder/Balikat</option>
                                   <option value="FOREARM/ARM" {{ in_array('FOREARM/ARM', old('body_site', explode(",", $d->body_site))) ? 'selected' : '' }}>Forearm/Arm/Braso</option>

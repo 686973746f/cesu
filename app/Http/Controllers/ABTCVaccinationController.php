@@ -133,75 +133,192 @@ class ABTCVaccinationController extends Controller
 
             $combined_holidays = array_merge($default_holidays, $custom_holidays);
 
-            //Days Calculation (Skip and Wednesdays, Saturdays and Sundays due to Government Office Hours)
-            $base_date = $request->d0_date;
+            $base_date = $request->vaccination_date;
+            $d0_done = 0;
+            $d3_done = 0;
+            $d7_done = 0;
+            $d14_done = 0;
+            $d28_done = 0;
 
-            $set_d3_date = Carbon::parse($request->d0_date)->addDays(3);
+            $d0_facility_name = NULL;
+            $d3_facility_name = NULL;
+            $d7_facility_name = NULL;
+            $d14_facility_name = NULL;
+            $d28_facility_name = NULL;
 
-            //Adjust D3 Date if Holidays
-            while(in_array($set_d3_date->format('m-d'), $combined_holidays)) {
-                $set_d3_date = Carbon::parse($set_d3_date)->addDays(1);
-            }
+            if($request->select_dose == 'D0') {
+                $set_d0_date = Carbon::parse($base_date);
+                $d0_done = 1;
+                $d0_vaccinated_inbranch = 1;
+                $d3_vaccinated_inbranch = NULL;
 
-            if($set_d3_date->dayOfWeek == Carbon::WEDNESDAY) {
-                $set_d3_date = Carbon::parse($set_d3_date)->addDays(1);
-            }
-            else if($set_d3_date->dayOfWeek == Carbon::SATURDAY) {
-                $set_d3_date = Carbon::parse($set_d3_date)->addDays(2);
-            }
-            else if($set_d3_date->dayOfWeek == Carbon::SUNDAY) {
-                $set_d3_date = Carbon::parse($set_d3_date)->addDays(1);
-            }         
+                //Days Calculation (Skip and Wednesdays, Saturdays and Sundays due to Government Office Hours)
+                $set_d3_date = Carbon::parse($base_date)->addDays(3);
 
-            $set_d7_date = Carbon::parse($request->d0_date)->addDays(7);
+                //Adjust D3 Date if Holidays
+                while(in_array($set_d3_date->format('m-d'), $combined_holidays)) {
+                    $set_d3_date = Carbon::parse($set_d3_date)->addDays(1);
+                }
 
-            //Adjust D7 Date if Holidays
-            while(in_array($set_d7_date->format('m-d'), $combined_holidays)) {
-                $set_d7_date = Carbon::parse($set_d7_date)->addDays(1);
-            }
+                if($set_d3_date->dayOfWeek == Carbon::WEDNESDAY) {
+                    $set_d3_date = Carbon::parse($set_d3_date)->addDays(1);
+                }
+                else if($set_d3_date->dayOfWeek == Carbon::SATURDAY) {
+                    $set_d3_date = Carbon::parse($set_d3_date)->addDays(2);
+                }
+                else if($set_d3_date->dayOfWeek == Carbon::SUNDAY) {
+                    $set_d3_date = Carbon::parse($set_d3_date)->addDays(1);
+                }         
 
-            if($set_d7_date->dayOfWeek == Carbon::WEDNESDAY) {
-                $set_d7_date = Carbon::parse($set_d7_date)->addDays(1);
-            }
-            else if($set_d7_date->dayOfWeek == Carbon::SATURDAY) {
-                $set_d7_date = Carbon::parse($set_d7_date)->addDays(2);
-            }
-            else if($set_d7_date->dayOfWeek == Carbon::SUNDAY) {
-                $set_d7_date = Carbon::parse($set_d7_date)->addDays(1);
-            }
+                $set_d7_date = Carbon::parse($base_date)->addDays(7);
 
-            $set_d14_date = Carbon::parse($request->d0_date)->addDays(14);
+                //Adjust D7 Date if Holidays
+                while(in_array($set_d7_date->format('m-d'), $combined_holidays)) {
+                    $set_d7_date = Carbon::parse($set_d7_date)->addDays(1);
+                }
 
-            //Adjust D14 Date if Holidays
-            while(in_array($set_d14_date->format('m-d'), $combined_holidays)) {
-                $set_d14_date = Carbon::parse($set_d14_date)->addDays(1);
-            }
+                if($set_d7_date->dayOfWeek == Carbon::WEDNESDAY) {
+                    $set_d7_date = Carbon::parse($set_d7_date)->addDays(1);
+                }
+                else if($set_d7_date->dayOfWeek == Carbon::SATURDAY) {
+                    $set_d7_date = Carbon::parse($set_d7_date)->addDays(2);
+                }
+                else if($set_d7_date->dayOfWeek == Carbon::SUNDAY) {
+                    $set_d7_date = Carbon::parse($set_d7_date)->addDays(1);
+                }
 
-            if($set_d14_date->dayOfWeek == Carbon::WEDNESDAY) {
-                $set_d14_date = Carbon::parse($set_d14_date)->addDays(1);
-            }
-            else if($set_d14_date->dayOfWeek == Carbon::SATURDAY) {
-                $set_d14_date = Carbon::parse($set_d14_date)->addDays(2);
-            }
-            else if($set_d14_date->dayOfWeek == Carbon::SUNDAY) {
-                $set_d14_date = Carbon::parse($set_d14_date)->addDays(1);
-            }
+                $set_d14_date = Carbon::parse($base_date)->addDays(14);
 
-            $set_d28_date = Carbon::parse($request->d0_date)->addDays(28);
+                //Adjust D14 Date if Holidays
+                while(in_array($set_d14_date->format('m-d'), $combined_holidays)) {
+                    $set_d14_date = Carbon::parse($set_d14_date)->addDays(1);
+                }
 
-            //Adjust D3 Date if Holidays
-            while(in_array($set_d28_date->format('m-d'), $combined_holidays)) {
-                $set_d28_date = Carbon::parse($set_d28_date)->addDays(1);
-            }
+                if($set_d14_date->dayOfWeek == Carbon::WEDNESDAY) {
+                    $set_d14_date = Carbon::parse($set_d14_date)->addDays(1);
+                }
+                else if($set_d14_date->dayOfWeek == Carbon::SATURDAY) {
+                    $set_d14_date = Carbon::parse($set_d14_date)->addDays(2);
+                }
+                else if($set_d14_date->dayOfWeek == Carbon::SUNDAY) {
+                    $set_d14_date = Carbon::parse($set_d14_date)->addDays(1);
+                }
 
-            if($set_d28_date->dayOfWeek == Carbon::WEDNESDAY) {
-                $set_d28_date = Carbon::parse($set_d28_date)->addDays(1);
+                $set_d28_date = Carbon::parse($base_date)->addDays(28);
+
+                //Adjust D3 Date if Holidays
+                while(in_array($set_d28_date->format('m-d'), $combined_holidays)) {
+                    $set_d28_date = Carbon::parse($set_d28_date)->addDays(1);
+                }
+
+                if($set_d28_date->dayOfWeek == Carbon::WEDNESDAY) {
+                    $set_d28_date = Carbon::parse($set_d28_date)->addDays(1);
+                }
+                else if($set_d28_date->dayOfWeek == Carbon::SATURDAY) {
+                    $set_d28_date = Carbon::parse($set_d28_date)->addDays(2);
+                }
+                else if($set_d28_date->dayOfWeek == Carbon::SUNDAY) {
+                    $set_d28_date = Carbon::parse($set_d28_date)->addDays(1);
+                }
             }
-            else if($set_d28_date->dayOfWeek == Carbon::SATURDAY) {
-                $set_d28_date = Carbon::parse($set_d28_date)->addDays(2);
+            else if($request->select_dose == 'D3') {
+                //Guess the Day 0
+                $set_d0_date = Carbon::parse($base_date)->subDays(3);
+                $d0_done = 1;
+                $d0_vaccinated_inbranch = 0;
+                $d0_facility_name = mb_strtoupper($request->d0_facility_name);
+
+                $set_d3_date = Carbon::parse($base_date);
+                $d3_done = 1;
+                $d3_vaccinated_inbranch = 1;
+
+                $set_d7_date = Carbon::parse($base_date)->addDays(7);
+
+                //Adjust D7 Date if Holidays
+                while(in_array($set_d7_date->format('m-d'), $combined_holidays)) {
+                    $set_d7_date = Carbon::parse($set_d7_date)->addDays(1);
+                }
+
+                if($set_d7_date->dayOfWeek == Carbon::WEDNESDAY) {
+                    $set_d7_date = Carbon::parse($set_d7_date)->addDays(1);
+                }
+                else if($set_d7_date->dayOfWeek == Carbon::SATURDAY) {
+                    $set_d7_date = Carbon::parse($set_d7_date)->addDays(2);
+                }
+                else if($set_d7_date->dayOfWeek == Carbon::SUNDAY) {
+                    $set_d7_date = Carbon::parse($set_d7_date)->addDays(1);
+                }
+
+                $set_d14_date = Carbon::parse($base_date)->addDays(14);
+
+                //Adjust D14 Date if Holidays
+                while(in_array($set_d14_date->format('m-d'), $combined_holidays)) {
+                    $set_d14_date = Carbon::parse($set_d14_date)->addDays(1);
+                }
+
+                if($set_d14_date->dayOfWeek == Carbon::WEDNESDAY) {
+                    $set_d14_date = Carbon::parse($set_d14_date)->addDays(1);
+                }
+                else if($set_d14_date->dayOfWeek == Carbon::SATURDAY) {
+                    $set_d14_date = Carbon::parse($set_d14_date)->addDays(2);
+                }
+                else if($set_d14_date->dayOfWeek == Carbon::SUNDAY) {
+                    $set_d14_date = Carbon::parse($set_d14_date)->addDays(1);
+                }
+
+                $set_d28_date = Carbon::parse($base_date)->addDays(28);
+
+                //Adjust D3 Date if Holidays
+                while(in_array($set_d28_date->format('m-d'), $combined_holidays)) {
+                    $set_d28_date = Carbon::parse($set_d28_date)->addDays(1);
+                }
+
+                if($set_d28_date->dayOfWeek == Carbon::WEDNESDAY) {
+                    $set_d28_date = Carbon::parse($set_d28_date)->addDays(1);
+                }
+                else if($set_d28_date->dayOfWeek == Carbon::SATURDAY) {
+                    $set_d28_date = Carbon::parse($set_d28_date)->addDays(2);
+                }
+                else if($set_d28_date->dayOfWeek == Carbon::SUNDAY) {
+                    $set_d28_date = Carbon::parse($set_d28_date)->addDays(1);
+                }
             }
-            else if($set_d28_date->dayOfWeek == Carbon::SUNDAY) {
-                $set_d28_date = Carbon::parse($set_d28_date)->addDays(1);
+            else if($request->select_dose == 'D7') {
+                //Guess the Day 0 and Day 3
+                $d0_done
+                $set_d14_date = Carbon::parse($base_date)->addDays(14);
+
+                //Adjust D14 Date if Holidays
+                while(in_array($set_d14_date->format('m-d'), $combined_holidays)) {
+                    $set_d14_date = Carbon::parse($set_d14_date)->addDays(1);
+                }
+
+                if($set_d14_date->dayOfWeek == Carbon::WEDNESDAY) {
+                    $set_d14_date = Carbon::parse($set_d14_date)->addDays(1);
+                }
+                else if($set_d14_date->dayOfWeek == Carbon::SATURDAY) {
+                    $set_d14_date = Carbon::parse($set_d14_date)->addDays(2);
+                }
+                else if($set_d14_date->dayOfWeek == Carbon::SUNDAY) {
+                    $set_d14_date = Carbon::parse($set_d14_date)->addDays(1);
+                }
+
+                $set_d28_date = Carbon::parse($base_date)->addDays(28);
+
+                //Adjust D3 Date if Holidays
+                while(in_array($set_d28_date->format('m-d'), $combined_holidays)) {
+                    $set_d28_date = Carbon::parse($set_d28_date)->addDays(1);
+                }
+
+                if($set_d28_date->dayOfWeek == Carbon::WEDNESDAY) {
+                    $set_d28_date = Carbon::parse($set_d28_date)->addDays(1);
+                }
+                else if($set_d28_date->dayOfWeek == Carbon::SATURDAY) {
+                    $set_d28_date = Carbon::parse($set_d28_date)->addDays(2);
+                }
+                else if($set_d28_date->dayOfWeek == Carbon::SUNDAY) {
+                    $set_d28_date = Carbon::parse($set_d28_date)->addDays(1);
+                }
             }
             
             if($request->is_preexp == 'Y') {
@@ -285,15 +402,17 @@ class ABTCVaccinationController extends Controller
 
                 'pep_route' => $request->pep_route,
                 'brand_name' => $request->brand_name,
-                'd0_date' => $request->d0_date,
-                'd0_done' => 1,
+                'd0_date' => $set_d0_date,
+                'd0_done' => $d0_done,
                 'd0_vaccinated_inbranch' => ($request->d0_vaccinated_inbranch == 'Y') ? 1 : 0,
                 'd0_brand' => $request->brand_name,
                 'd0_done_by' => auth()->user()->id,
                 'd0_done_date' => date('Y-m-d H:i:s'),
                 'd3_date' => $set_d3_date->format('Y-m-d'),
+                'd3_done' => $d3_done,
                 'd3_brand' => $request->brand_name,
                 'd7_date' => $set_d7_date->format('Y-m-d'),
+                'd7_done' => $d7_done,
                 'd7_brand' => $request->brand_name,
                 'd14_date' => $set_d14_date->format('Y-m-d'),
                 'd14_brand' => $request->brand_name,
@@ -2348,7 +2467,7 @@ class ABTCVaccinationController extends Controller
 
     public function abtcVaccineCounterHome() {
         $currentDate = Carbon::now();
-        $startDate = Carbon::parse('2025-07-13');
+        $startDate = Carbon::parse(request()->input('startDate'));
         $endDate = Carbon::parse(request()->input('endDate'));
 
         $period = CarbonPeriod::create($startDate, $endDate);
@@ -2370,22 +2489,26 @@ class ABTCVaccinationController extends Controller
                 ];
             }
             */
-            
 
             //Get Dates of D0 kung saan nagsimula ang bakunahan
+            /*
             $newp_count = AbtcBakunaRecords::whereDate('d0_date', $date->format('Y-m-d'))
+            ->where('d0_done', 1)
             ->where('d0_vaccinated_inbranch', 1)
             ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
             ->where('is_booster', 0)
             ->count();
 
             $newp_booster_count = AbtcBakunaRecords::whereDate('d0_date', $date->format('Y-m-d'))
+            ->where('d0_done', 1)
+            ->whereDate('d0_done_date', $date->format('Y-m-d'))
             ->where('d0_vaccinated_inbranch', 1)
             ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
             ->where('is_booster', 1)
             ->count();
 
             $fromprivate_count = AbtcBakunaRecords::whereDate('d0_date', '<', $date->format('Y-m-d'))
+            ->where('d0_done', 1)
             ->where('d0_vaccinated_inbranch', 0)
             ->whereDate('d0_done_date', $date->format('Y-m-d'))
             ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
@@ -2393,25 +2516,62 @@ class ABTCVaccinationController extends Controller
             ->count();
 
             $fromprivate_booster_count = AbtcBakunaRecords::whereDate('d0_date', '<', $date->format('Y-m-d'))
+            ->where('d0_done', 1)
             ->where('d0_vaccinated_inbranch', 0)
             ->whereDate('d0_done_date', $date->format('Y-m-d'))
             ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
             ->where('is_booster', 1)
             ->count();
+            */
 
-            if(($newp_booster_count + $fromprivate_booster_count) != 0) {
-                $sum_booster = intval(ceil(($newp_booster_count + $fromprivate_booster_count) / 6));
-            }
-            else {
-                $sum_booster = 0;
-            }
+            $completed_d0_total = AbtcBakunaRecords::where('d0_done', 1)
+            ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
+            ->where('is_booster', 0)
+            ->where(function ($q) use ($date) {
+                $q->where(function ($r) use ($date) {
+                    $r->whereDate('d0_date', $date->format('Y-m-d'));
+                })
+                ->orWhere(function ($r) use ($date) {
+                    $r->whereDate('d0_date', '<', $date->format('Y-m-d'))
+                    ->whereDate('created_at', $date->format('Y-m-d'));
+                });
+            })->count();
 
-            $sum_newp = intval(ceil(($newp_count + $fromprivate_count) / 6));
+            $completed_d0_otherarea = AbtcBakunaRecords::where('d0_done', 1)
+            ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
+            ->where('is_booster', 0)
+            ->whereDate('created_at', $date->format('Y-m-d'))
+            ->whereDate('d0_date', '<', $date->format('Y-m-d'))
+            ->count();
+
+            $completed_d0_booster_total = AbtcBakunaRecords::where('d0_done', 1)
+            ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
+            ->where('is_booster', 1)
+            ->where(function ($q) use ($date) {
+                $q->where(function ($r) use ($date) {
+                    $r->whereDate('d0_date', $date->format('Y-m-d'));
+                })
+                ->orWhere(function ($r) use ($date) {
+                    $r->whereDate('d0_date', '<', $date->format('Y-m-d'))
+                    ->whereDate('created_at', $date->format('Y-m-d'));
+                });
+            })->count();
+
+            $completed_d0_booster_otherarea = AbtcBakunaRecords::where('d0_done', 1)
+            ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
+            ->where('is_booster', 1)
+            ->whereDate('created_at', $date->format('Y-m-d'))
+            ->whereDate('d0_date', '<', $date->format('Y-m-d'))
+            ->count();
+
+            $sum_booster = ($completed_d0_booster_total + $completed_d0_booster_otherarea) != 0 ? intval(ceil(($completed_d0_booster_total + $completed_d0_booster_otherarea) / 6)) : 0;
+
+            $sum_newp = intval(ceil(($completed_d0_total + $completed_d0_otherarea) / 3));
 
             $vials_total = $sum_newp + $sum_booster;
 
             if($vials_total != 0) {
-                $loop_d3_date = $date->addDay(3);
+                $loop_d3_date = $date->copy()->addDays(3);
                 if($loop_d3_date->dayOfWeek == Carbon::WEDNESDAY) {
                     $loop_d3_date = Carbon::parse($loop_d3_date)->addDays(1);
                 }
@@ -2422,7 +2582,7 @@ class ABTCVaccinationController extends Controller
                     $loop_d3_date = Carbon::parse($loop_d3_date)->addDays(1);
                 }
 
-                $loop_d7_date = $date->addDay(7);
+                $loop_d7_date = $date->copy()->addDays(7);
                 if($loop_d7_date->dayOfWeek == Carbon::WEDNESDAY) {
                     $loop_d7_date = Carbon::parse($loop_d7_date)->addDays(1);
                 }
@@ -2439,8 +2599,6 @@ class ABTCVaccinationController extends Controller
                 ];
             }
         }
-
-        dd($list);
 
         return view('abtc.vaccine_estimate_counter', [
             'list' => $list,

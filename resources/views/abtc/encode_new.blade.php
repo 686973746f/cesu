@@ -169,6 +169,7 @@
                               <label for="body_site"><strong class="text-danger">*</strong>Anatomical Location (Body Parts)</label>
                               <select class="form-select" name="body_site[]" id="body_site" multiple>
                                 <option value="ABDOMEN" {{ in_array('ABDOMEN', old('body_site', [])) ? 'selected' : '' }}>Abdomen/Tiyan</option>
+                                <option value="BACK" {{ in_array('BACK', old('body_site', [])) ? 'selected' : '' }}>Back/Likod</option>
                                 <option value="FOOT" {{ in_array('FOOT', old('body_site', [])) ? 'selected' : '' }}>Foot/Paa</option>
                                 <option value="SHOULDER" {{ in_array('SHOULDER', old('body_site', [])) ? 'selected' : '' }}>Shoulder/Balikat</option>
                                 <option value="FOREARM/ARM" {{ in_array('FOREARM/ARM', old('body_site', [])) ? 'selected' : '' }}>Forearm/Arm/Braso</option>
@@ -218,8 +219,19 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="mb-3">
-                            <label for="d0_date" class="form-label"><strong class="text-danger">*</strong>First Vaccine / Day 0 Date</label>
-                            <input type="date" class="form-control" name="d0_date" id="d0_date" min="{{$d->bdate}}" max="{{date('Y-m-d')}}" value="{{old('d0_date')}}" required>
+                          <label for="select_dose"><strong class="text-danger">*</strong>Select Start of Vaccination Dose</label>
+                          <select class="form-select" name="select_dose" id="select_dose" required>
+                            <option value="" disabled {{is_null(old('select_dose')) ? 'selected' : ''}}>Choose...</option>
+                            <option value="D0" {{(old('select_dose') == 'D0') ? 'selected' : ''}}>Day 0</option>
+                            <option value="D3" {{(old('select_dose') == 'D3') ? 'selected' : ''}}>Day 3</option>
+                            <option value="D7" {{(old('select_dose') == 'D7') ? 'selected' : ''}} id="d7_option">Day 7</option>
+                          </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="vaccination_date" class="form-label"><strong class="text-danger">*</strong><span id="select_dose_span"></span> Date</label>
+                            <input type="date" class="form-control" name="vaccination_date" id="vaccination_date" min="{{$d->bdate}}" max="{{date('Y-m-d')}}" value="{{old('vaccination_date')}}" required>
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -242,16 +254,21 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="mb-3">
-                          <label for="d0_vaccinated_inbranch"><strong class="text-danger">*</strong>D0 was vaccinated here?</label>
-                          <select class="form-select" name="d0_vaccinated_inbranch" id="d0_vaccinated_inbranch" required>
-                            <option value="" disabled {{is_null(old('d0_vaccinated_inbranch')) ? 'selected' : ''}}>Choose...</option>
-                            <option value="Y" {{(old('d0_vaccinated_inbranch') == 'Y') ? 'selected' : ''}}>Yes</option>
-                            <option value="N" {{(old('d0_vaccinated_inbranch') == 'N') ? 'selected' : ''}}>No (Other Clinic)</option>
-                          </select>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="d0_facility_name"><span id="d0_facility_name_span" class="text-danger"><b>*</b></span>Day 0 - Name of Animal Bite Facility</label>
+                              <input type="text" class="form-control" name="d0_facility_name" id="d0_facility_name" style="text-transform: uppercase;">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="d3_facility_name"><span id="d3_facility_name_span" class="text-danger"><b>*</b></span>Day 3 - Name of Animal Bite Facility</label>
+                              <input type="text" class="form-control" name="d3_facility_name" id="d3_facility_name" style="text-transform: uppercase;">
+                            </div>
                         </div>
                     </div>
+                    
                     <small class="text-muted">
                         <ul>
                             <b class="text-danger">Note:</b>
@@ -485,6 +502,59 @@ $(document).ready(function () {
         else {
             $('#ifdogdied').addClass('d-none');
             $('#animal_died_date').prop('required', false);
+        }
+    }).trigger('change');
+
+    $('#select_dose').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'D0') {
+            $('#select_dose_span').text('Day 0');
+            $('#vaccination_date').prop('disabled', false);
+            $('#d0_facility_name_span').addClass('d-none');
+            $('#d3_facility_name_span').addClass('d-none');
+            $('#d0_facility_name').prop('required', false);
+            $('#d0_facility_name').prop('disabled', true);
+            $('#d3_facility_name').prop('required', false);
+            $('#d3_facility_name').prop('disabled', true);
+        }
+        else if($(this).val() == 'D3') {
+            $('#select_dose_span').text('Day 3');
+            $('#vaccination_date').prop('disabled', false);
+            $('#d0_facility_name_span').removeClass('d-none');
+            $('#d3_facility_name_span').addClass('d-none');
+            $('#d0_facility_name').prop('required', true);
+            $('#d0_facility_name').prop('disabled', false);
+            $('#d3_facility_name').prop('required', false);
+            $('#d3_facility_name').prop('disabled', true);
+        }
+        else if($(this).val() == 'D7') {
+            $('#select_dose_span').text('Day 7');
+            $('#vaccination_date').prop('disabled', false);
+            $('#d0_facility_name_span').addClass('d-none');
+            $('#d3_facility_name_span').addClass('d-none');
+            $('#d0_facility_name').prop('required', true);
+            $('#d0_facility_name').prop('disabled', false);
+            $('#d3_facility_name').prop('required', true);
+            $('#d3_facility_name').prop('disabled', false);
+        }
+        else {
+            $('#vaccination_date').prop('disabled', true);
+            $('#d0_facility_name_span').removeClass('d-none');
+            $('#d3_facility_name_span').removeClass('d-none');
+            $('#d0_facility_name').prop('required', false);
+            $('#d0_facility_name').prop('disabled', true);
+            $('#d3_facility_name').prop('required', false);
+            $('#d3_facility_name').prop('disabled', true);
+        }
+    }).trigger('change');
+
+    $('#is_booster').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'Y') {
+            $('#d7_option').addClass('d-none');
+        }
+        else {
+            $('#d7_option').removeClass('d-none');
         }
     }).trigger('change');
 </script>
