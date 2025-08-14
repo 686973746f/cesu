@@ -15,8 +15,11 @@
                 </thead>
                 <tbody>
                     @foreach($list as $l)
-                    <tr>
-                        <td scope="row">{{$l['date']}}</td>
+                    <tr class="text-center">
+                        <td>
+                            <div>{{$l['date']}}</div>
+                            <div>{{$l['d0_vials']}}</div>
+                        </td>
                         <td></td>
                         <td></td>
                     </tr>

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Employee;
 use Carbon\CarbonPeriod;
 use App\Models\AbtcPatient;
+use Illuminate\Support\Str;
 use App\Models\SiteSettings;
 use Illuminate\Http\Request;
 use PhpOffice\PhpWord\PhpWord;
@@ -2347,7 +2348,7 @@ class ABTCVaccinationController extends Controller
 
     public function abtcVaccineCounterHome() {
         $currentDate = Carbon::now();
-        $startDate = Carbon::parse(request()->input('startDate'));
+        $startDate = Carbon::parse('2025-07-13');
         $endDate = Carbon::parse(request()->input('endDate'));
 
         $period = CarbonPeriod::create($startDate, $endDate);
@@ -2369,28 +2370,31 @@ class ABTCVaccinationController extends Controller
                 ];
             }
             */
+            
 
             //Get Dates of D0 kung saan nagsimula ang bakunahan
             $newp_count = AbtcBakunaRecords::whereDate('d0_date', $date->format('Y-m-d'))
-            ->whereDate('created_at', $date->format('Y-m-d'))
+            ->where('d0_vaccinated_inbranch', 1)
             ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
             ->where('is_booster', 0)
             ->count();
 
             $newp_booster_count = AbtcBakunaRecords::whereDate('d0_date', $date->format('Y-m-d'))
-            ->whereDate('created_at', $date->format('Y-m-d'))
+            ->where('d0_vaccinated_inbranch', 1)
             ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
             ->where('is_booster', 1)
             ->count();
 
             $fromprivate_count = AbtcBakunaRecords::whereDate('d0_date', '<', $date->format('Y-m-d'))
-            ->whereDate('created_at', $date->format('Y-m-d'))
+            ->where('d0_vaccinated_inbranch', 0)
+            ->whereDate('d0_done_date', $date->format('Y-m-d'))
             ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
             ->where('is_booster', 0)
             ->count();
 
             $fromprivate_booster_count = AbtcBakunaRecords::whereDate('d0_date', '<', $date->format('Y-m-d'))
-            ->whereDate('created_at', $date->format('Y-m-d'))
+            ->where('d0_vaccinated_inbranch', 0)
+            ->whereDate('d0_done_date', $date->format('Y-m-d'))
             ->where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
             ->where('is_booster', 1)
             ->count();
@@ -2431,12 +2435,16 @@ class ABTCVaccinationController extends Controller
 
                 $list[] = [
                     'date' => $date->format('m/d/Y (D)'),
+                    'd0_vials' => $vials_total.' '.Str::plural('Vial', $vials_total),
                 ];
             }
         }
 
+        dd($list);
+
         return view('abtc.vaccine_estimate_counter', [
             'list' => $list,
+            
         ]);
     }
 
