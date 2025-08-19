@@ -69,8 +69,12 @@
                         <div class="mb-3">
                             <label for="is_booster" class="form-label"><strong class="text-danger">*</strong>Override: Is Booster?</label>
                             <select class="form-select" name="is_booster" id="is_booster" required>
+                                @if($is_booster == 'N')
                                 <option value="N" {{(old('is_booster') == 'N') ? 'selected' : ''}}>No</option>
                                 <option value="Y" {{(old('is_booster') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                @else
+                                <option value="Y" {{(old('is_booster') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                @endif
                             </select>
                         </div>
                         <div class="mb-3">
@@ -268,14 +272,6 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <small class="text-muted">
-                        <ul>
-                            <b class="text-danger">Note:</b>
-                            <li>Input the Actual Day 0 Date regardless if patient was vaccinated here or not.</li>
-                            <li>Dates Day 3, Day 7 onwards will be automatically given after you finish the encoding.</li>
-                        </ul>
-                    </small>
                 </div>
                 <hr>
                 <div class="row">
@@ -437,7 +433,12 @@ $(document).ready(function () {
     $('#category_level').change(function (e) { 
         e.preventDefault();
         if($(this).val() == 3) {
-            $('#rig_date_given').val("{{date('Y-m-d')}}");
+            if($('#is_booster').val() == 'Y') {
+                $('#rig_date_given').val('');
+            }
+            else {
+                $('#rig_date_given').val("{{date('Y-m-d')}}");
+            }
         }
         else {
             $('#rig_date_given').val('');

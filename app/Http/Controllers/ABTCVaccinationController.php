@@ -66,6 +66,7 @@ class ABTCVaccinationController extends Controller
                 'd' => $p,
                 'vblist' => $vblist,
                 'vslist' => $vslist,
+                'is_booster' => 'N',
             ]);
         }
         else {
@@ -137,20 +138,22 @@ class ABTCVaccinationController extends Controller
             $d0_done = 0;
             $d3_done = 0;
             $d7_done = 0;
-            $d14_done = 0;
-            $d28_done = 0;
 
             $d0_facility_name = NULL;
             $d3_facility_name = NULL;
             $d7_facility_name = NULL;
-            $d14_facility_name = NULL;
-            $d28_facility_name = NULL;
+
+            $d0_vaccinated_inbranch = NULL;
+            $d3_vaccinated_inbranch = NULL;
+            $d7_vaccinated_inbranch = NULL;
+
+            $outcome = $request->outcome;
 
             if($request->select_dose == 'D0') {
                 $set_d0_date = Carbon::parse($base_date);
                 $d0_done = 1;
                 $d0_vaccinated_inbranch = 1;
-                $d3_vaccinated_inbranch = NULL;
+                $d0_facility_name = auth()->user()->abtcfacility->site_name;
 
                 //Days Calculation (Skip and Wednesdays, Saturdays and Sundays due to Government Office Hours)
                 $set_d3_date = Carbon::parse($base_date)->addDays(3);
@@ -224,6 +227,7 @@ class ABTCVaccinationController extends Controller
             else if($request->select_dose == 'D3') {
                 //Guess the Day 0
                 $set_d0_date = Carbon::parse($base_date)->subDays(3);
+                $base_d0_date = $set_d0_date;
                 $d0_done = 1;
                 $d0_vaccinated_inbranch = 0;
                 $d0_facility_name = mb_strtoupper($request->d0_facility_name);
@@ -231,8 +235,13 @@ class ABTCVaccinationController extends Controller
                 $set_d3_date = Carbon::parse($base_date);
                 $d3_done = 1;
                 $d3_vaccinated_inbranch = 1;
+                $d3_facility_name = auth()->user()->abtcfacility->site_name;
 
-                $set_d7_date = Carbon::parse($base_date)->addDays(7);
+                $set_d7_date = Carbon::parse($base_d0_date)->addDays(7);
+
+                if($request->is_booster == 'Y') {
+                    $outcome = 'C';
+                }
 
                 //Adjust D7 Date if Holidays
                 while(in_array($set_d7_date->format('m-d'), $combined_holidays)) {
@@ -249,7 +258,7 @@ class ABTCVaccinationController extends Controller
                     $set_d7_date = Carbon::parse($set_d7_date)->addDays(1);
                 }
 
-                $set_d14_date = Carbon::parse($base_date)->addDays(14);
+                $set_d14_date = Carbon::parse($base_d0_date)->addDays(14);
 
                 //Adjust D14 Date if Holidays
                 while(in_array($set_d14_date->format('m-d'), $combined_holidays)) {
@@ -266,7 +275,7 @@ class ABTCVaccinationController extends Controller
                     $set_d14_date = Carbon::parse($set_d14_date)->addDays(1);
                 }
 
-                $set_d28_date = Carbon::parse($base_date)->addDays(28);
+                $set_d28_date = Carbon::parse($base_d0_date)->addDays(28);
 
                 //Adjust D3 Date if Holidays
                 while(in_array($set_d28_date->format('m-d'), $combined_holidays)) {
@@ -285,8 +294,25 @@ class ABTCVaccinationController extends Controller
             }
             else if($request->select_dose == 'D7') {
                 //Guess the Day 0 and Day 3
-                $d0_done
-                $set_d14_date = Carbon::parse($base_date)->addDays(14);
+                $set_d0_date = Carbon::parse($base_date)->subDays(7);
+                $base_d0_date = $set_d0_date;
+                $d0_done = 1;
+                $d0_vaccinated_inbranch = 0;
+                $d0_facility_name = mb_strtoupper($request->d0_facility_name);
+
+                $set_d3_date = Carbon::parse($base_date)->subDays(3);
+                $d3_done = 1;
+                $d0_vaccinated_inbranch = 0;
+                $d0_facility_name = mb_strtoupper($request->d3_facility_name);
+
+                $set_d7_date = Carbon::parse($base_date);
+                $d7_done = 1;
+                $d7_vaccinated_inbranch = 1;
+                $d7_facility_name = auth()->user()->abtcfacility->site_name;
+
+                $set_d14_date = Carbon::parse($base_d0_date)->addDays(14);
+
+                $outcome = 'C';
 
                 //Adjust D14 Date if Holidays
                 while(in_array($set_d14_date->format('m-d'), $combined_holidays)) {
@@ -303,7 +329,7 @@ class ABTCVaccinationController extends Controller
                     $set_d14_date = Carbon::parse($set_d14_date)->addDays(1);
                 }
 
-                $set_d28_date = Carbon::parse($base_date)->addDays(28);
+                $set_d28_date = Carbon::parse($base_d0_date)->addDays(28);
 
                 //Adjust D3 Date if Holidays
                 while(in_array($set_d28_date->format('m-d'), $combined_holidays)) {
@@ -402,24 +428,38 @@ class ABTCVaccinationController extends Controller
 
                 'pep_route' => $request->pep_route,
                 'brand_name' => $request->brand_name,
-                'd0_date' => $set_d0_date,
+
+                'd0_date' => $set_d0_date->format('Y-m-d'),
                 'd0_done' => $d0_done,
-                'd0_vaccinated_inbranch' => ($request->d0_vaccinated_inbranch == 'Y') ? 1 : 0,
+                'd0_vaccinated_inbranch' => $d0_vaccinated_inbranch,
+                'd0_facility_name' => $d0_facility_name,
                 'd0_brand' => $request->brand_name,
-                'd0_done_by' => auth()->user()->id,
-                'd0_done_date' => date('Y-m-d H:i:s'),
+                'd0_done_by' => ($request->select_dose == 'D0') ? auth()->user()->id : NULL,
+                'd0_done_date' => ($request->select_dose == 'D0') ? date('Y-m-d H:i:s') : NULL,
+                
                 'd3_date' => $set_d3_date->format('Y-m-d'),
                 'd3_done' => $d3_done,
+                'd3_vaccinated_inbranch' => $d3_vaccinated_inbranch,
+                'd3_facility_name' => $d3_facility_name,
                 'd3_brand' => $request->brand_name,
+                'd3_done_by' => ($request->select_dose == 'D3') ? auth()->user()->id : NULL,
+                'd3_done_date' => ($request->select_dose == 'D3') ? date('Y-m-d H:i:s') : NULL,
+
                 'd7_date' => $set_d7_date->format('Y-m-d'),
                 'd7_done' => $d7_done,
+                'd7_vaccinated_inbranch' => $d7_vaccinated_inbranch,
+                'd7_facility_name' => $d7_facility_name,
                 'd7_brand' => $request->brand_name,
+                'd7_done_by' => ($request->select_dose == 'D7') ? auth()->user()->id : NULL,
+                'd7_done_date' => ($request->select_dose == 'D7') ? date('Y-m-d H:i:s') : NULL,
+
                 'd14_date' => $set_d14_date->format('Y-m-d'),
                 'd14_brand' => $request->brand_name,
+
                 'd28_date' => $set_d28_date->format('Y-m-d'),
                 'd28_brand' => $request->brand_name,
 
-                'outcome' => $request->outcome,
+                'outcome' => $outcome,
                 'biting_animal_status' => $request->biting_animal_status,
 
                 'date_died' => ($request->outcome == 'D') ? $request->date_died : NULL,
@@ -615,6 +655,7 @@ class ABTCVaccinationController extends Controller
                     'd' => $b->patient,
                     'vblist' => $vblist,
                     'vslist' => $vslist,
+                    'is_booster' => 'Y',
                 ]);
             }
             else {
