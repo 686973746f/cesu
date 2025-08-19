@@ -234,8 +234,8 @@
                     </div>
                     <div class="col-md-3">
                         <div class="mb-3">
-                            <label for="vaccination_date" class="form-label"><strong class="text-danger">*</strong><span id="select_dose_span"></span> Date</label>
-                            <input type="date" class="form-control" name="vaccination_date" id="vaccination_date" min="{{$d->bdate}}" max="{{date('Y-m-d')}}" value="{{old('vaccination_date')}}" required>
+                            <label for="vaccination_date" class="form-label"><strong class="text-danger">*</strong><span id="select_dose_span"></span>Date</label>
+                            <input type="date" class="form-control" name="vaccination_date" id="vaccination_date" min="{{$d->bdate}}" max="{{date('Y-m-d')}}" value="{{old('vaccination_date', date('Y-m-d'))}}" required>
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -509,7 +509,7 @@ $(document).ready(function () {
     $('#select_dose').change(function (e) { 
         e.preventDefault();
         if($(this).val() == 'D0') {
-            $('#select_dose_span').text('Day 0');
+            $('#select_dose_span').text('Day 0 ');
             $('#vaccination_date').prop('disabled', false);
             $('#d0_facility_name_span').addClass('d-none');
             $('#d3_facility_name_span').addClass('d-none');
@@ -519,7 +519,7 @@ $(document).ready(function () {
             $('#d3_facility_name').prop('disabled', true);
         }
         else if($(this).val() == 'D3') {
-            $('#select_dose_span').text('Day 3');
+            $('#select_dose_span').text('Day 3 ');
             $('#vaccination_date').prop('disabled', false);
             $('#d0_facility_name_span').removeClass('d-none');
             $('#d3_facility_name_span').addClass('d-none');
@@ -529,7 +529,7 @@ $(document).ready(function () {
             $('#d3_facility_name').prop('disabled', true);
         }
         else if($(this).val() == 'D7') {
-            $('#select_dose_span').text('Day 7');
+            $('#select_dose_span').text('Day 7 ');
             $('#vaccination_date').prop('disabled', false);
             $('#d0_facility_name_span').addClass('d-none');
             $('#d3_facility_name_span').addClass('d-none');
