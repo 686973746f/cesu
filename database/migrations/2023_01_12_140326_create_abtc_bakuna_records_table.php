@@ -99,12 +99,16 @@ class CreateAbtcBakunaRecordsTable extends Migration
             $table->foreignId('ics_finishedby')->nullable()->constrained('users')->onDelete('cascade');
             $table->dateTime('ics_finished_date')->nullable();
 
-            $table->string('ics_status')->default('ENCODING'); //ENCODING, FOR UPLOADING, PROCESSING, DENIED, PROCESSING/PROTEST, RTH, PROCESSING/RTH, PAID
+            $table->string('ics_isforclaims', 1)->default('N');
+            $table->string('ics_claims_status')->default('ENCODING'); //ENCODING, REQUEST_CLAIMED, FOR UPLOADING, PROCESSING, DENIED, PROCESSING/PROTEST, RTH, PROCESSING/RTH, PAID
             $table->dateTime('ics_encoded_date')->nullable();
             $table->string('ics_transmittalno')->nullable();
             $table->dateTime('ics_uploaded_date')->nullable();
             $table->foreignId('ics_uploaded_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->string('ics_claims_seriesno')->nullable();
+            $table->string('rvs1')->nullable();
+            $table->string('rvs2')->nullable();
+            $table->double('ics_claim_amount')->nullable();
             $table->string('is_rth', 1)->default('N');
             $table->dateTime('ics_rth_date')->nullable();
             $table->dateTime('ics_rth_resubmit_date')->nullable();

@@ -38,6 +38,7 @@
             <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#reportpanel"><i class="fas fa-chart-bar mr-2"></i>ABTC Reports</button>
             <hr>
             <a href="{{route('abtcinv_home')}}" class="btn btn-primary btn-lg btn-block"><i class="fa fa-flask mr-2" aria-hidden="true"></i>ABTC Inventory</a>
+            <a href="{{route('abtc_financial_home')}}" class="btn btn-primary btn-lg btn-block">Financial</a>
             
             @if(auth()->user()->isAdmin == 1)
             <hr>

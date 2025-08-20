@@ -49,6 +49,7 @@ class TaskController extends Controller
         $abtc_claimslist = AbtcBakunaRecords::whereNull('ics_grabbedby')
         ->whereDate('created_at', '>=', '2025-01-01')
         ->where('category_level', 3)
+        ->where('is_booster', 0)
         ->orderBy('created_at', 'DESC')
         ->get();
         
