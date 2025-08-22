@@ -2650,10 +2650,11 @@ class ABTCVaccinationController extends Controller
     public function abtcFinancialHome() {
         $list = AbtcBakunaRecords::whereDate('created_at', '>=', '2025-01-01')
         ->where('ics_ticketstatus', 'FINISHED')
+        ->where('ics_isforclaims', 'Y')
         ->where('ics_claims_status', 'ENCODING')
         ->where('category_level', 3)
         ->where('is_booster', 0)
-        ->orderBy('created_at', 'DESC')
+        ->orderBy('ics_finished_date', 'ASC')
         ->get();
 
         return view('abtc.financial.home', [
@@ -2679,13 +2680,12 @@ class ABTCVaccinationController extends Controller
 
         $update = AbtcBakunaRecords::where('id', $id)
         ->update([
-            'ics_isforclaims' => 'Y',
             'ics_claims_status' => 'REQUEST_CLAIMED',
             'ics_uploaded_by' => auth()->user()->id,
             'ics_uploaded_date' => date('Y-m-d H:i:s'),
         ]);
 
-        return redirect()->route('abtc_financial_viewticket', $id);
+        return redirect()->route('abtc_financial_viewticket', ['id' => $id]);
     }
 
     public function abtcFinancialViewClaim($id) {

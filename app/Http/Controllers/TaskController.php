@@ -279,6 +279,7 @@ class TaskController extends Controller
             'ics_finishedby' => Auth::id(),
             'ics_finished_date' => date('Y-m-d H:i:s'),
             'ics_ticketstatus' => 'FINISHED',
+            'ics_isforclaims' => ($abtcBakunaRecords->category_level == 3) ? 'Y' : 'N',
         ]);
 
         $msg = 'ABTC Ticket #'.$abtcBakunaRecords->id.' was marked as done successfully. Please proceed to other OPEN Tickets.';
