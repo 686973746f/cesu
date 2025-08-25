@@ -2648,14 +2648,26 @@ class ABTCVaccinationController extends Controller
     }
 
     public function abtcFinancialHome() {
-        $list = AbtcBakunaRecords::whereDate('created_at', '>=', '2025-01-01')
-        ->where('ics_ticketstatus', 'FINISHED')
-        ->where('ics_isforclaims', 'Y')
-        ->where('ics_claims_status', 'ENCODING')
-        ->where('category_level', 3)
-        ->where('is_booster', 0)
-        ->orderBy('ics_finished_date', 'ASC')
-        ->get();
+        if(request()->input('showSubmittedClaims')) {
+            $list = AbtcBakunaRecords::whereDate('created_at', '>=', '2025-01-01')
+            ->where('ics_ticketstatus', 'FINISHED')
+            ->where('ics_isforclaims', 'Y')
+            ->where('ics_claims_status', '!=', 'ENCODING')
+            ->where('category_level', 3)
+            ->where('is_booster', 0)
+            ->orderBy('ics_finished_date', 'ASC')
+            ->get();
+        }
+        else {
+            $list = AbtcBakunaRecords::whereDate('created_at', '>=', '2025-01-01')
+            ->where('ics_ticketstatus', 'FINISHED')
+            ->where('ics_isforclaims', 'Y')
+            ->where('ics_claims_status', 'ENCODING')
+            ->where('category_level', 3)
+            ->where('is_booster', 0)
+            ->orderBy('ics_finished_date', 'ASC')
+            ->get();
+        }
 
         return view('abtc.financial.home', [
             'list' => $list,
@@ -2665,13 +2677,12 @@ class ABTCVaccinationController extends Controller
     public function abtcFinancialClaimTicket() {
         $check = AbtcBakunaRecords::where('ics_uploaded_by', auth()->user()->id)
         ->where(function ($q) {
-            $q->where('ics_claims_status', 'REQUEST_CLAIMED')
-            ->orWhere('ics_claims_status', 'FOR UPLOADING');
+            $q->where('ics_claims_status', 'REQUEST_CLAIMED');
         })
         ->first();
 
         if($check) {
-            return redirect()->back()
+            return redirect()->route('abtc_financial_viewticket', ['id' => $check->id])
             ->with('msg', 'You still have an open claim for uploading.')
             ->with('msgtype', 'warning');
         }
@@ -2697,7 +2708,54 @@ class ABTCVaccinationController extends Controller
     }
 
     public function abtcFinancialProcessRequest($id, Request $r) {
-        
+        $d = AbtcBakunaRecords::findOrFail($id);
+
+        if($r->btn == 'submit') {
+            $d->ics_claims_status = $r->ics_claims_status;
+            
+            if($r->ics_claims_status == 'FOR UPLOADING') {
+                $d->ics_encoded_date = date('Y-m-d H:i:s');
+            }
+            else if($r->ics_claims_status == 'PROCESSING') {
+                $d->ics_uploaded_by = auth()->user()->id;
+                $d->ics_uploaded_date = date('Y-m-d H:i:s');
+
+                $d->ics_transmittalno = mb_strtoupper($r->ics_transmittalno);
+                $d->ics_claims_seriesno = mb_strtoupper($r->ics_claims_seriesno);
+            }
+            else if($r->ics_claims_status == 'RTH') {
+                $d->is_rth = 1;
+                $d->ics_rth_date = date('Y-m-d H:i:s');
+            }
+            else if($r->ics_claims_status == 'PROCESSING/RTH') {
+                $d->ics_rth_resubmitted_by = auth()->user()->id;
+                $d->ics_rth_resubmit_date = date('Y-m-d H:i:s');
+            }
+            else if($r->ics_claims_status == 'DENIED') {
+                $d->ics_rth_denied_date = date('Y-m-d H:i:s');
+            }
+            else if($r->ics_claims_status == 'PROCESSING/PROTEST') {
+                $d->ics_rth_protested_date = date('Y-m-d H:i:s');
+            }
+            else if($r->ics_claims_status == 'PAID') {
+                $d->ics_claim_amount = $r->ics_claim_amount;
+                $d->rvs1 = $r->rvs1;
+            }
+
+            if($d->isDirty()) {
+                $d->save();
+            }
+        }
+
+        if($r->ics_claims_status == 'FOR UPLOADING') {
+            return redirect()->route('abtc_financial_viewticket', $d->id)
+            ->with('msg', 'Successfully updated the Claim Status to [FOR UPLOADING] you may encode the eClaims part and upload the forms of the Patient to iClinicSys before changing the status to PROCESSING.')
+            ->with('msgtype', 'success');
+        }
+
+        return redirect()->route('abtc_financial_home')
+        ->with('msg', 'Animal Bite Package Claim #'.$d->id.' was successfully updated as ['.$r->ics_claims_status.']')
+        ->with('msgtype', 'success');
     }
 
     public function abtcFinancialReport() {

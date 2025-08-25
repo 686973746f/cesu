@@ -673,6 +673,8 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     Route::get('/abtc/financial', [ABTCVaccinationController::class, 'abtcFinancialHome'])->name('abtc_financial_home');
     Route::get('/abtc/financial/claimticket', [ABTCVaccinationController::class, 'abtcFinancialClaimTicket'])->name('abtc_financial_claimticket');
     Route::get('/abtc/financial/viewticket/{id}', [ABTCVaccinationController::class, 'abtcFinancialViewClaim'])->name('abtc_financial_viewticket');
+    Route::post('/abtc/financial/viewticket/{id}/process', [ABTCVaccinationController::class, 'abtcFinancialProcessRequest'])->name('abtc_financial_processticket');
+    
 });
 
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessAbtcInventory']], function () {
