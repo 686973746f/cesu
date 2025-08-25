@@ -2689,6 +2689,13 @@ class ABTCVaccinationController extends Controller
 
         $id = request()->input('ticket_id');
 
+        $record = AbtcBakunaRecords::findOrFail($id);
+        if($record->ics_claims_status == 'REQUEST_CLAIMED') {
+            return redirect()->back()
+            ->with('msg', 'The ticket you selected was already claimed by other encoders. Please select other tickets.')
+            ->with('msgtype', 'warning');
+        }
+
         $update = AbtcBakunaRecords::where('id', $id)
         ->update([
             'ics_claims_status' => 'REQUEST_CLAIMED',
