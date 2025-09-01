@@ -2087,7 +2087,8 @@ class ABTCReportController extends Controller
         $templateProcessor->setValue('tcases', number_format($tcases + $rabiesdeath));
         $templateProcessor->setValue('tcasesc', number_format($tcasesc));
         $templateProcessor->setValue('tcasesi', number_format($tcasesi));
-        $templateProcessor->setValue('tcasesd', number_format($tcasesd + $rabiesdeath));
+        //$templateProcessor->setValue('tcasesd', number_format($tcasesd + $rabiesdeath));
+        $templateProcessor->setValue('tcasesd', number_format($rabiesdeath));
 
         $templateProcessor->setValue('ag1m', number_format($ag1m));
         $templateProcessor->setValue('ag2m', number_format($ag2m));
