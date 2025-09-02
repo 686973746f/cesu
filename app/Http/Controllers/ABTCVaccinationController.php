@@ -2354,11 +2354,13 @@ class ABTCVaccinationController extends Controller
             $sepa_array = str_split(Carbon::parse($d->d7_date)->format('mdY'));
             $date_discharged = $sepa_array[0].'    '.$sepa_array[1].'      '.$sepa_array[2].'    '.$sepa_array[3].'      '.$sepa_array[4].'    '.$sepa_array[5].'    '.$sepa_array[6].'    '.$sepa_array[7];
             $templateProcessor->setValue('date_discharged', $date_discharged);
-
+            
             $templateProcessor->setValue('signature1_name', $signature1_name);
             $templateProcessor->setValue('signature2_name', $signature2_name);
             
-            $templateProcessor->setValue('signature1_date', $date_admitted);
+            $sepa_array = str_split(Carbon::parse($d->d7_date)->format('mdY'));
+            $signature1_date = $sepa_array[0].'    '.$sepa_array[1].'      '.$sepa_array[2].'    '.$sepa_array[3].'      '.$sepa_array[4].'    '.$sepa_array[5].'    '.$sepa_array[6].'    '.$sepa_array[7];
+            $templateProcessor->setValue('signature1_date', $signature1_date);
             $templateProcessor->setValue('signature2_date', '');
 
             $templateProcessor->setValue('consent_signature_name', $consent_signature_name);
