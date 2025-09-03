@@ -35,6 +35,7 @@ class PharmacySupplySub extends Model
         'self_maxbox_perduration',
         'self_maxpiece_perduration',
         'self_duration_days',
+        'alert_percent',
 
         'created_by',
     ];

@@ -30,6 +30,7 @@ class CreatePharmacySupplyMastersTable extends Migration
             $table->integer('self_duration_days')->nullable();
 
             $table->text('usage_category')->nullable();
+            $table->integer('master_alert_percent')->nullable();
             
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');

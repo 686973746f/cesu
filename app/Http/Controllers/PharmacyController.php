@@ -1675,6 +1675,7 @@ class PharmacyController extends Controller
                 'expiration_date' => $r->expiration_date,
                 'batch_number' => mb_strtoupper($r->batch_number),
                 'source' => $r->source,
+                'stock_source' => $r->stock_source,
             ];
 
             if($d->pharmacysupplymaster->quantity_type == 'BOX') {
