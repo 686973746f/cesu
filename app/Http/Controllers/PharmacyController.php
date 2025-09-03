@@ -1809,6 +1809,7 @@ class PharmacyController extends Controller
                 'quantity_type' => $r->quantity_type,
                 'config_piecePerBox' => $r->config_piecePerBox,
                 'usage_category' => $r->filled('usage_category') ? implode(',', $r->usage_category) : NULL,
+                'master_alert_qtybelow' => $r->master_alert_qtybelow,
 
                 'updated_by' => auth()->user()->id,
             ]);
@@ -2006,6 +2007,7 @@ class PharmacyController extends Controller
         if($d->ifUserAuthorized()) {
             $d->expiration_date = $r->expiration_date;
             $d->batch_number = $r->batch_number;
+            $d->stock_source = $r->stock_source;
             $d->source = $r->source;
             $d->lot_number = $r->lot_number;
             $d->updated_by = Auth::id();

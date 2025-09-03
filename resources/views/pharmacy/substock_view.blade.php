@@ -29,21 +29,21 @@
                     </tbody>
                 </table>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
-                            <label for="expiration_date"><b class="text-danger">*</b>Expiration Date</label>
-                            <input type="date" class="form-control" name="expiration_date" id="expiration_date" value="{{old('expiration_date', $d->expiration_date)}}">
+                            <label for="stock_source"><b class="text-danger">*</b>Source</label>
+                            <select class="form-control" name="stock_source" id="stock_source" required>
+                                <option value="" disabled {{(is_null(old('stock_source', $d->stock_source))) ? 'selected' : ''}}>Choose...</option>
+                                <option value="DONATION" {{(old('stock_source', $d->stock_source) == 'DONATION') ? 'selected' : ''}}>Donation</option>
+                                <option value="INITIALBALANCE" {{(old('stock_source', $d->stock_source) == 'INITIALBALANCE') ? 'selected' : ''}}>Initial Balance</option>
+                                <option value="PROCURED" {{(old('stock_source', $d->stock_source) == 'PROCURED') ? 'selected' : ''}}>Procured</option>
+                                <option value="RECEIVED" {{(old('stock_source', $d->stock_source) == 'RECEIVED') ? 'selected' : ''}}>Received</option>
+                            </select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
-                            <label for="batch_number">Batch Number</label>
-                            <input type="text" class="form-control" name="batch_number" id="batch_number" value="{{old('batch_number', $d->batch_number)}}">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="expiration_date"><b class="text-danger">*</b>Source</label>
+                            <label for="expiration_date"><b class="text-danger">*</b>Procured By</label>
                             <select class="form-control" name="source" id="source" required>
                                 <option value="" disabled {{(is_null(old('source', $d->source))) ? 'selected' : ''}}>Choose...</option>
                                 <option value="LGU" {{(old('source', $d->source) == 'LGU') ? 'selected' : ''}}>LGU</option>
@@ -51,6 +51,19 @@
                             </select>
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="expiration_date"><b class="text-danger">*</b>Expiration Date</label>
+                            <input type="date" class="form-control" name="expiration_date" id="expiration_date" value="{{old('expiration_date', $d->expiration_date)}}">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="batch_number">Batch Number</label>
+                            <input type="text" class="form-control" name="batch_number" id="batch_number" value="{{old('batch_number', $d->batch_number)}}">
+                        </div>
+                    </div>
+                    
                 </div>
                 @if($d->pharmacysub->pharmacysupplymaster->quantity_type == 'BOX')
                 <div class="row">

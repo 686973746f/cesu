@@ -17,6 +17,7 @@ class CreateEvacuationCenterPatientsTable extends Migration
             $table->id();
             $table->string('enabled', 1)->default('Y');
             $table->foreignId('evacuation_center_id')->constrained('evacuation_centers')->onDelete('cascade');
+            $table->dateTime('date_registered');
             $table->string('lname');
             $table->string('fname');
             $table->string('mname')->nullable();
@@ -26,6 +27,7 @@ class CreateEvacuationCenterPatientsTable extends Migration
             $table->string('is_pregnant', 1)->default('N');
             $table->string('is_lactating', 1)->default('N');
             $table->date('bdate');
+            $table->string('birthplace')->nullable();
             
             $table->string('cs');
             $table->string('religion')->nullable();
@@ -53,9 +55,9 @@ class CreateEvacuationCenterPatientsTable extends Migration
             //$table->integer('family_patient_id', 1)->nullable();
             //$table->string('relationship_tohead', 1)->nullable();
 
-            $table->string('family_status'); //
-            $table->date('date_returnedhome');
-            $table->string('outcome'); //ALIVE, DIED, MISSING, RETURNED TO HOME
+            $table->string('family_status'); //ACTIVE, WENT HOME
+            $table->date('date_returnedhome')->nullable();
+            $table->string('outcome'); //ALIVE, DIED, MISSING
             $table->string('is_injured', 1)->default('N');
             
             $table->string('longlat')->nullable();
@@ -72,7 +74,6 @@ class CreateEvacuationCenterPatientsTable extends Migration
             $table->timestamps();
 
             $table->string('focal_name');
-            $table->date('date_registered');
             $table->string('supervisor_name')->nullable();
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');

@@ -8,7 +8,7 @@
                     <div><b>View Evacuation Center</b></div>
                     <div>
                         <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#evacOptions">Options</button>
-                        <a href="{{route('gtsecure_newpatient', $d->id)}}" class="btn btn-success">New Patient</a>
+                        <a href="{{route('gtsecure_newpatient', $d->id)}}" class="btn btn-success">New Head of the Family</a>
                     </div>
                 </div>
             </div>

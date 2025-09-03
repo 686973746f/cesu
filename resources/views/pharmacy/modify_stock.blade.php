@@ -94,6 +94,16 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    <label for="expiration_date"><b class="text-danger">*</b>Procured By</label>
+                                    <select class="form-control" name="source" id="source" required>
+                                        <option value="" disabled {{(is_null(old('source'))) ? 'selected' : ''}}>Choose...</option>
+                                        <option value="LGU" {{(old('source') == 'LGU') ? 'selected' : ''}}>LGU</option>
+                                        <option value="DOH" {{(old('source') == 'DOH') ? 'selected' : ''}}>DOH</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     <label for="batch_number"><b class="text-danger">*</b>Input Batch No.</label>
                                     <input type="text" class="form-control" name="batch_number" id="batch_number" value="{{old('batch_number')}}" style="text-transform: uppercase;">
                                 </div>
@@ -103,17 +113,7 @@
                                     <label for="expiration_date"><b class="text-danger">*</b>Expiration Date</label>
                                     <input type="date" class="form-control" name="expiration_date" id="expiration_date" min="{{date('Y-m-d', strtotime('+1 Day'))}}" value="{{old('expiration_date')}}">
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="expiration_date"><b class="text-danger">*</b>Procured By</label>
-                                    <select class="form-control" name="source" id="source" required>
-                                        <option value="" disabled {{(is_null(old('source'))) ? 'selected' : ''}}>Choose...</option>
-                                        <option value="LGU" {{(old('source') == 'LGU') ? 'selected' : ''}}>LGU</option>
-                                        <option value="DOH" {{(old('source') == 'DOH') ? 'selected' : ''}}>DOH</option>
-                                    </select>
-                                </div>
-                            </div>
+                            </div>   
                         </div>
                         
                     </div>

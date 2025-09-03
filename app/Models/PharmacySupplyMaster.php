@@ -23,7 +23,7 @@ class PharmacySupplyMaster extends Model
         'duration_days',
 
         'usage_category',
-        'master_alert_percent',
+        'master_alert_qtybelow',
 
         'created_by',
     ];

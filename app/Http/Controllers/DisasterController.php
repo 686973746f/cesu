@@ -131,15 +131,8 @@ class DisasterController extends Controller
     public function newPatient($evac_id) {
         $d = EvacuationCenter::findOrFail($evac_id);
 
-        $heads_list = EvacuationCenterPatient::where('evacuation_center_id', $d->id)
-        ->where('is_headoffamily', 'Y')
-        ->where('enabled', 'Y')
-        ->orderBy('lname', 'ASC')
-        ->get();
-
         return $this->editPatient(new EvacuationCenterPatient())
-        ->with('d', $d)
-        ->with('heads_list', $heads_list);
+        ->with('d', $d);
     }
 
     public function editPatient(EvacuationCenterPatient $pt) {
@@ -176,25 +169,39 @@ class DisasterController extends Controller
 
         $c = EvacuationCenterPatient::create([
             'evacuation_center_id' => $d->id,
+            'date_registered' => $r->date_registered,
+            'cswd_serialno' => ($r->cswd_serialno) ? mb_strtoupper($r->cswd_serialno) : NULL,
             'lname' => $lname,
             'fname' => $fname,
             'mname' => $mname,
             'suffix' => $suffix,
-            'nickname' => ($r->nickname) ? mb_strtoupper($r->nickname) : NULL,
+            //'nickname' => ($r->nickname) ? mb_strtoupper($r->nickname) : NULL,
+            'bdate' => $r->bdate,
             'sex' => $r->sex,
             'is_pregnant' => ($r->sex == 'F') ? $r->is_pregnant : 'N',
             'is_lactating' => ($r->sex == 'F') ? $r->is_lactating : 'N',
-            'bdate' => $r->bdate,
+            'cs' => $r->cs,
+            
             'email' => $r->email,
             'contact_number' => $r->contact_number,
-            'philhealth_number' => $r->philhealth_number,
-            'religion' => $r->religion,
+            'contact_number2' => $r->contact_number2,
+            //'philhealth_number' => $r->philhealth_number,
+            'religion' => ($r->religion) ? mb_strtoupper($r->religion) : NULL,
+            'occupation' => ($r->occupation) ? mb_strtoupper($r->occupation) : NULL,
             'street_purok' => mb_strtoupper($r->street_purok),
             'address_brgy_code' => $r->address_brgy_code,
-            'is_headoffamily' => $r->is_headoffamily,
+            //'is_headoffamily' => $r->is_headoffamily,
+            'id_presented' => mb_strtoupper($r->id_presented),
+            'id_number' => mb_strtoupper($r->id_number),
+            'house_ownership' => $r->house_ownership,
+            'shelterdamage_classification' => $r->shelterdamage_classification,
             'is_pwd' => $r->is_pwd,
             'is_injured' => $r->is_injured,
+            'is_4ps' => $r->is_4ps,
+            'is_indg' => $r->is_indg,
             'outcome' => $r->outcome,
+            'family_status' => $r->family_status,
+            'focal_name' => $r->focal_name,
 
             'remarks' => $r->remarks,
             'hash' => $hashStr,
@@ -214,16 +221,8 @@ class DisasterController extends Controller
 
         $d = EvacuationCenter::findOrFail($p->evacuation_center_id);
 
-        $heads_list = EvacuationCenterPatient::where('id', '!=', $p->id)
-        ->where('evacuation_center_id', $d->id)
-        ->where('is_headoffamily', 'Y')
-        ->where('enabled', 'Y')
-        ->orderBy('lname', 'ASC')
-        ->get();
-
         return $this->editPatient($p)
-        ->with('d', $d)
-        ->with('heads_list', $heads_list);
+        ->with('d', $d);
     }
 
     public function updatePatient($id, Request $r) {
@@ -244,31 +243,44 @@ class DisasterController extends Controller
         $get_agedays = $birthdate->diffInDays($currentDate);
 
         $update_params = [
+            'date_registered' => $r->date_registered,
+            'cswd_serialno' => ($r->cswd_serialno) ? mb_strtoupper($r->cswd_serialno) : NULL,
             'lname' => $lname,
             'fname' => $fname,
             'mname' => $mname,
             'suffix' => $suffix,
-            'nickname' => ($r->nickname) ? mb_strtoupper($r->nickname) : NULL,
+            //'nickname' => ($r->nickname) ? mb_strtoupper($r->nickname) : NULL,
+            'bdate' => $r->bdate,
             'sex' => $r->sex,
             'is_pregnant' => ($r->sex == 'F') ? $r->is_pregnant : 'N',
             'is_lactating' => ($r->sex == 'F') ? $r->is_lactating : 'N',
-            'bdate' => $r->bdate,
+            'cs' => $r->cs,
+            
             'email' => $r->email,
             'contact_number' => $r->contact_number,
-            'philhealth_number' => $r->philhealth_number,
-            'religion' => $r->religion,
+            'contact_number2' => $r->contact_number2,
+            //'philhealth_number' => $r->philhealth_number,
+            'religion' => ($r->religion) ? mb_strtoupper($r->religion) : NULL,
+            'occupation' => ($r->occupation) ? mb_strtoupper($r->occupation) : NULL,
             'street_purok' => mb_strtoupper($r->street_purok),
             'address_brgy_code' => $r->address_brgy_code,
-            'is_headoffamily' => $r->is_headoffamily,
+            //'is_headoffamily' => $r->is_headoffamily,
+            'id_presented' => mb_strtoupper($r->id_presented),
+            'id_number' => mb_strtoupper($r->id_number),
+            'house_ownership' => $r->house_ownership,
+            'shelterdamage_classification' => $r->shelterdamage_classification,
             'is_pwd' => $r->is_pwd,
             'is_injured' => $r->is_injured,
+            'is_4ps' => $r->is_4ps,
+            'is_indg' => $r->is_indg,
             'outcome' => $r->outcome,
+            'family_status' => $r->family_status,
+            'focal_name' => $r->focal_name,
 
             'remarks' => $r->remarks,
             'age_years' => $get_ageyears,
             'age_months' => $get_agemonths,
             'age_days' => $get_agedays,
-            'updated_by' => Auth::id(),
         ];
 
         $u = EvacuationCenterPatient::where('id', $id)

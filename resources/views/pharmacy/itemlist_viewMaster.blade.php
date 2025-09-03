@@ -52,26 +52,29 @@
                     <label for="description">Description</label>
                     <input type="text" class="form-control" name="description" id="description" value="{{old('description', $d->description)}}">
                 </div>
-                <div class="form-group">
-                    <label for="category"><b class="text-danger">*</b>Category</label>
-                    <select class="form-control" name="category" id="category" required>
-                        <option value="GENERAL" {{(old('category', $d->category) == 'GENERAL') ? 'selected' : ''}}>GENERAL</option>
-                        <option value="ANTIBIOTICS" {{(old('category', $d->category) == 'ANTIBIOTICS') ? 'selected' : ''}}>ANTIBIOTICS</option>
-                        <option value="BOTTLES" {{(old('category', $d->category) == 'BOTTLES') ? 'selected' : ''}}>BOTTLES</option>
-                        <option value="FAMILY PLANNING" {{(old('category', $d->category) == 'FAMILY PLANNING') ? 'selected' : ''}}>FAMILY PLANNING</option>
-                        <option value="MAINTENANCE" {{(old('category', $d->category) == 'MAINTENANCE') ? 'selected' : ''}}>MAINTENANCE</option>
-                        <option value="OINTMENT" {{(old('category', $d->category) == 'OINTMENT') ? 'selected' : ''}}>OINTMENT</option>
-                        <option value="YELLOW RX" {{(old('category', $d->category) == 'YELLOW RX') ? 'selected' : ''}}>YELLOW RX</option>
-                        <option value="OTHERS" {{(old('category', $d->category) == 'OTHERS') ? 'selected' : ''}}>OTHERS</option>
-                    </select>
-                </div>
+                
                 <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="category"><b class="text-danger">*</b>Category</label>
+                            <select class="form-control" name="category" id="category" required>
+                                <option value="GENERAL" {{(old('category', $d->category) == 'GENERAL') ? 'selected' : ''}}>GENERAL</option>
+                                <option value="ANTIBIOTICS" {{(old('category', $d->category) == 'ANTIBIOTICS') ? 'selected' : ''}}>ANTIBIOTICS</option>
+                                <option value="BOTTLES" {{(old('category', $d->category) == 'BOTTLES') ? 'selected' : ''}}>BOTTLES</option>
+                                <option value="FAMILY PLANNING" {{(old('category', $d->category) == 'FAMILY PLANNING') ? 'selected' : ''}}>FAMILY PLANNING</option>
+                                <option value="MAINTENANCE" {{(old('category', $d->category) == 'MAINTENANCE') ? 'selected' : ''}}>MAINTENANCE</option>
+                                <option value="OINTMENT" {{(old('category', $d->category) == 'OINTMENT') ? 'selected' : ''}}>OINTMENT</option>
+                                <option value="YELLOW RX" {{(old('category', $d->category) == 'YELLOW RX') ? 'selected' : ''}}>YELLOW RX</option>
+                                <option value="OTHERS" {{(old('category', $d->category) == 'OTHERS') ? 'selected' : ''}}>OTHERS</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="quantity_type"><b class="text-danger">*</b>Quantity Type</label>
                             <select class="form-control" name="quantity_type" id="quantity_type" required>
                                 <option value="BOX" {{(old('quantity_type', $d->quantity_type) == 'BOX') ? 'selected' : ''}}>PER BOX</option>
-                                <option value="PIECE" {{(old('quantity_type', $d->quantity_type) == 'PIECE') ? 'selected' : ''}}>PER PIECE (BOTTLE)</option>
+                                <option value="PIECE" {{(old('quantity_type', $d->quantity_type) == 'PIECE') ? 'selected' : ''}}>PER PIECE</option>
                             </select>
                         </div>
                     </div>
@@ -79,6 +82,12 @@
                         <div class="form-group d-none" id="maxpiece_div">
                             <label for="config_piecePerBox"><b class="text-danger">*</b>Max pieces inside per Box</label>
                             <input type="number" class="form-control" name="config_piecePerBox" id="config_piecePerBox" min="1" value="{{old('config_piecePerBox', $d->config_piecePerBox)}}">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="master_alert_qtybelow"><b class="text-danger">*</b>Alert when Quantity is below</label>
+                          <input type="number" class="form-control" id="master_alert_qtybelow" name="master_alert_percent" value="{{old('master_alert_percent', $d->master_alert_percent)}}" min="0" required>
                         </div>
                     </div>
                 </div>
