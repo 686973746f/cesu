@@ -116,8 +116,59 @@
                     </div>
                 </div>
                 <div class="card mt-3">
-                    <div class="card-header bg-success text-white"><b>ABTC to iClinicSys Tickets</b></div>
-                    <div class="card-body">
+                    <div class="card-header bg-success text-white"><b>ABTC to OPD Tickets</b></div>
+                    <div class="card-body p-0">
+                        <table class="table table-bordered table-striped">
+                            <thead class="thead-light text-center">
+                                <tr>
+                                    <th>
+                                        <div>Ticket ID /</div>
+                                        <div>Date Created</div>
+                                    </th>
+                                    <th>Name</th>
+                                    <th>Age/Sex</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($grabbed_abtclist as $d)
+                                @php
+                                $status = $d->ics_ticketstatus;
+
+                                if($status == 'OPEN') {
+                                    $color = 'secondary';
+                                }
+                                else if($status == 'PENDING') {
+                                    $color = 'warning';
+                                }
+                                else if($status == 'FINISHED') {
+                                    $color = 'success';
+                                }
+                                @endphp
+                                <tr>
+                                    <td class="text-center">
+                                        <div>#{{$d->id}}</div>
+                                        <div><small>{{date('m/d/Y h:i A', strtotime($d->created_at))}}</small></div>
+                                    </td>
+                                    <td>{{$d->patient->getName()}}</td>
+                                    <td class="text-center">{{$d->patient->getAge()}}/{{$d->patient->sg()}}</td>
+                                    <td class="text-center">
+                                        <b><span class="badge badge-{{$color}} p-2">{{$d->ics_ticketstatus}}</span></b>
+                                    </td>
+                                    <td class="text-center">
+                                        
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="card mt-3">
+                    <div class="card-header bg-success text-white"><b>ABTC Category 3 to iClinicSys</b></div>
+                    <div class="card-body p-0">
                         <table class="table table-bordered table-striped">
                             <thead class="thead-light text-center">
                                 <tr>
@@ -163,6 +214,9 @@
                                 @endforeach
                             </tbody>
                         </table>
+                    </div>
+                    <div class="card-footer text-right">
+                        <a href="{{route('mytask_viewmore')}}?c=ABTC_CAT2">View More</a>
                     </div>
                 </div>
             </div>

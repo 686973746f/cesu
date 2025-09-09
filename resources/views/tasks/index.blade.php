@@ -5,8 +5,19 @@
     <div class="container">
         <nav class="navbar navbar-light bg-light">
             <div><h5><b>Pending Tasks List</b></h5></div>
-            <div>
-                <a href="{{route('mytask_index')}}" class="btn btn-primary">My Tickets</a>
+            <div class="form-inline">
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle mr-2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        My Ticket
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="{{route('mytask_viewmore')}}?c=TASKS">View Tasks</a>
+                        <a class="dropdown-item" href="{{route('mytask_viewmore')}}?c=OPD">View OPD Tickets</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{route('mytask_viewmore')}}?c=ABTC_CAT2">View ABTC to OPD Tickets</a>
+                        <a class="dropdown-item" href="{{route('mytask_viewmore')}}?c=ABTC_CAT3">View ABTC Category 3 to iClinicSys Tickets</a>
+                    </div>
+                </div>
                 @if(auth()->user()->canAccessTask())
                 <a href="{{route('taskgenerator.index')}}" class="btn text-white" style="background-color: orange;">Task Generator</a>
                 @endif
@@ -172,7 +183,6 @@
                                 </thead>
                                 <tbody>
                                     @foreach($abtc_claimslist as $d)
-                                    @if(Carbon\Carbon::parse($d->d7_date)->diffInDays() <= 61)
                                     <tr>
                                         <td class="text-center">
                                             <div>#{{$d->id}}</div>
@@ -195,7 +205,6 @@
                                             </form>
                                         </td>
                                     </tr>
-                                    @endif
                                     @endforeach
                                 </tbody>
                             </table>

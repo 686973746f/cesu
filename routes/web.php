@@ -902,6 +902,7 @@ Route::group(['middleware' => ['auth','verified', 'canAccessTask']], function() 
     Route::post('/tasks/{type}/{id}/cancel', [TaskController::class, 'cancelTicket'])->name('task_cancel');
 
     Route::get('/mytask', [TaskController::class, 'myTaskIndex'])->name('mytask_index');
+    Route::get('/mytask/view_more', [TaskController::class, 'viewMoreTask'])->name('mytask_viewmore');
 });
 
 Route::group(['middleware' => ['auth','verified', 'canAccessDisaster']], function() {

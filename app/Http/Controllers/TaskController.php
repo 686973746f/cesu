@@ -290,37 +290,42 @@ class TaskController extends Controller
         ->with('msgtype', $msgtype);
     }
 
-    public function moreOpdTask() {
+    public function viewMoreTask() {
+        $c = request()->input('c');
 
-    }
+        if(!$c) {
+            return abort(401);
+        }
 
-    public function moreCesuTask() {
-        
-    }
+        if($c == 'ABTC_CAT2') {
+            $list = AbtcBakunaRecords::where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
+            ->where('ics_grabbedby', Auth::id())
+            ->where('category_level', '!=', 3)
+            ->orderBy('ics_grabbed_date', 'DESC')
+            ->paginate(10);
+        }
+        else if($c == 'ABTC_CAT3') {
+            $list = AbtcBakunaRecords::where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
+            ->where('ics_grabbedby', Auth::id())
+            ->where('category_level', 3)
+            ->orderBy('ics_grabbed_date', 'DESC')
+            ->get();
+        }
+        else if($c == 'OPD') {
+            $list = SyndromicRecords::where('facility_id', auth()->user()->itr_facility_id)
+            ->where('ics_grabbedby', Auth::id())
+            ->orderBy('ics_grabbed_date', 'DESC')
+            ->paginate(10);
+        }
+        else if($c == 'TASKS') {
+            $list = WorkTask::where('grabbed_by', Auth::id())
+            ->orderBy('grabbed_date', 'DESC')
+            ->paginate(10);
+        }
 
-    public function moreAbtcTask() {
-        
-    }
-
-    public function myTaskIndex() {
-        $grabbed_opdlist = SyndromicRecords::where('facility_id', auth()->user()->itr_facility_id)
-        ->where('ics_grabbedby', Auth::id())
-        ->orderBy('ics_grabbed_date', 'DESC')
-        ->paginate(10);
-
-        $grabbed_worklist = WorkTask::where('grabbed_by', Auth::id())
-        ->orderBy('grabbed_date', 'DESC')
-        ->paginate(10);
-
-        $grabbed_abtclist = AbtcBakunaRecords::where('vaccination_site_id', auth()->user()->abtc_default_vaccinationsite_id)
-        ->where('ics_grabbedby', Auth::id())
-        ->orderBy('ics_grabbed_date', 'DESC')
-        ->paginate(10);
-
-        return view('tasks.mytask', [
-            'grabbed_opdlist' => $grabbed_opdlist,
-            'grabbed_worklist' => $grabbed_worklist,
-            'grabbed_abtclist' => $grabbed_abtclist,
+        return view('tasks.mytask_viewmore', [
+            'c' => $c,
+            'list' => $list,
         ]);
     }
 
