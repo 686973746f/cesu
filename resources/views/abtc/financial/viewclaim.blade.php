@@ -26,7 +26,7 @@
                         <label for="ics_claims_status"><b class="text-danger">*</b>Update Claim Status</label>
                         @endif
                       <select class="form-control" name="ics_claims_status" id="ics_claims_status" required>
-                        <option value="" disabled {{(is_null(old('ics_claims_status', $d->ics_claims_status))) ? 'selected' : ''}}>Choose...</option>
+                        <option value="" disabled {{(old('ics_claims_status', $d->ics_claims_status) == 'ENCODING') ? 'selected' : ''}}>Choose...</option>
                         @if($d->ics_claims_status == 'REQUEST_CLAIMED')
                         <option value="FOR UPLOADING" {{(old('ics_claims_status', $d->ics_claims_status) == 'FOR UPLOADING') ? 'selected' : ''}}>For Uploading (Unsubmitted Claim)</option>
                         <option value="PROCESSING" {{(old('ics_claims_status', $d->ics_claims_status) == 'PROCESSING') ? 'selected' : ''}}>Processing (Unpaid Claim)</option>
@@ -114,6 +114,10 @@
                 $('#ics_claims_seriesno').prop('required', true);
             }
             else if($(this).val() == 'PAID') {
+                $('#processing_div').removeClass('d-none');
+                $('#ics_transmittalno').prop('required', true);
+                $('#ics_claims_seriesno').prop('required', true);
+
                 $('#paid_div').removeClass('d-none');
                 $('#rvs1').prop('required', true);
                 $('#ics_claim_amount').prop('required', true);

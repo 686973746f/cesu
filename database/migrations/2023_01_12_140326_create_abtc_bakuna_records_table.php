@@ -116,6 +116,7 @@ class CreateAbtcBakunaRecordsTable extends Migration
             $table->dateTime('ics_rth_denied_date')->nullable();
             $table->dateTime('ics_rth_protested_date')->nullable();
             $table->text('ics_claims_remarks')->nullable();
+            $table->tinyInteger('is_senttoemail')->default(0);
 
             $table->integer('age_years')->nullable();
             $table->integer('age_months')->nullable();

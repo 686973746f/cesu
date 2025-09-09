@@ -101,6 +101,7 @@ class AbtcBakunaRecords extends Model
         'ics_rth_denied_date',
         'ics_rth_protested_date',
         'ics_claims_remarks',
+        'is_senttoemail',
 
         'age_years',
         'age_months',
