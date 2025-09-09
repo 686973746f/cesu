@@ -55,9 +55,9 @@
                             <td class="text-center">
                                 <b><span class="badge badge-{{$color}} p-2">{{$d->ics_ticketstatus}}</span></b>
                             </td>
-                            <div class="text-center">
+                            <td class="text-center">
                                 <a href="{{route('abtctask_view', $d->id)}}" class="btn btn-primary">View</a>
-                            </div>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
