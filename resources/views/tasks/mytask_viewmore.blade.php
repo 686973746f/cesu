@@ -40,7 +40,6 @@
                             $color = 'success';
                         }
                         @endphp
-                        @if(Carbon\Carbon::parse($d->d7_date)->diffInDays() <= 61)
                         <tr>
                             <td class="text-center">
                                 <div>#{{$d->id}}</div>
@@ -60,7 +59,6 @@
                                 <a href="{{route('abtctask_view', $d->id)}}" class="btn btn-primary">View</a>
                             </div>
                         </tr>
-                        @endif
                         @endforeach
                     </tbody>
                 </table>
