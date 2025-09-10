@@ -400,7 +400,6 @@ class AbtcInventoryController extends Controller
         $data = AbtcInventoryStock::where('enabled', 'Y')
         ->where('sub_id', $sub_id)
         ->where('current_qty', '>', 0)
-        ->whereDate('expiry_date', '>=', date('Y-m-d'))
         ->get();
         
         foreach($data as $item) {
