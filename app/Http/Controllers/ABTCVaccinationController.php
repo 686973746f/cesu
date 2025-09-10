@@ -2722,18 +2722,8 @@ class ABTCVaccinationController extends Controller
         if($r->btn == 'submit') {
             $d->ics_claims_status = $r->ics_claims_status;
             
-            if($r->ics_claims_status == 'FOR UPLOADING') {
-                $d->ics_encoded_date = date('Y-m-d H:i:s');
-            }
-            else if($r->ics_claims_status == 'PROCESSING') {
-                $d->ics_uploaded_by = auth()->user()->id;
-                $d->ics_uploaded_date = date('Y-m-d H:i:s');
-
-                $d->ics_transmittalno = mb_strtoupper($r->ics_transmittalno);
-                $d->ics_claims_seriesno = mb_strtoupper($r->ics_claims_seriesno);
-            }
-            else if($r->ics_claims_status == 'RTH') {
-                $d->is_rth = 1;
+            if($r->ics_claims_status == 'RTH') {
+                $d->is_rth = 'Y';
                 $d->ics_rth_date = date('Y-m-d H:i:s');
             }
             else if($r->ics_claims_status == 'PROCESSING/RTH') {
@@ -2750,10 +2740,25 @@ class ABTCVaccinationController extends Controller
                 $d->ics_claim_amount = $r->ics_claim_amount;
                 $d->rvs1 = $r->rvs1;
             }
+        }
+        else if($r->btn == 'cancel') {
+            $d->ics_claims_status = 'ENCODING';
+            $d->ics_uploaded_by = NULL;
+            $d->ics_uploaded_date = NULL;
+        }
 
-            if($d->isDirty()) {
-                $d->save();
+        if($r->ics_claims_status != 'FOR UPLOADING') {
+            if(is_null($d->ics_encoded_date)) {
+                $d->ics_encoded_date = date('Y-m-d H:i:s');
             }
+
+            if(is_null($d->ics_uploaded_by)) {
+                $d->ics_uploaded_by = auth()->user()->id;
+                $d->ics_uploaded_date = date('Y-m-d H:i:s');
+            }
+
+            $d->ics_transmittalno = mb_strtoupper($r->ics_transmittalno);
+            $d->ics_claims_seriesno = mb_strtoupper($r->ics_claims_seriesno);
         }
 
         if($r->ics_claims_status == 'FOR UPLOADING') {
@@ -2762,8 +2767,12 @@ class ABTCVaccinationController extends Controller
             ->with('msgtype', 'success');
         }
 
+        if($d->isDirty()) {
+            $d->save();
+        }
+
         return redirect()->route('abtc_financial_home')
-        ->with('msg', 'Animal Bite Package Claim #'.$d->id.' was successfully updated as ['.$r->ics_claims_status.']')
+        ->with('msg', 'Animal Bite Package Claim #'.$d->id.' ('.$d->patient->getName().') was successfully updated as ['.$d->ics_claims_status.']')
         ->with('msgtype', 'success');
     }
 

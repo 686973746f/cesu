@@ -166,6 +166,7 @@
                               <option value="MANGGAHAN HEALTH CENTER" {{(old('office', $d->type) == 'MANGGAHAN HEALTH CENTER') ? 'selected' : ''}}>Manggahan Health Center</option>
                               <option value="SAN FRANCISCO SUPER HEALTH CENTER" {{(old('type', $d->office) == 'SAN FRANCISCO SUPER HEALTH CENTER') ? 'selected' : ''}}>San Francisco Super Health Center</option>
                               <option value="GENERAL TRIAS MEDICARE HOSPITAL" {{(old('type', $d->office) == 'GENERAL TRIAS MEDICARE HOSPITAL') ? 'selected' : ''}}>General Trias Medicare Hospital</option>
+                              <option value="DOH-HRH" {{(old('type', $d->office) == 'DOH-HRH') ? 'selected' : ''}}>DOH-HRH</option>
                             </select>
                         </div>
                     </div>

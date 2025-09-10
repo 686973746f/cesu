@@ -7,6 +7,7 @@
                 <div class="d-flex justify-content-between">
                     <div><b>For Uploading</b></div>
                     <div>
+                        <a href="{{route('abtc_financial_report_home')}}" class="btn btn-primary">Report</a>
                         @if(request()->input('showSubmittedClaims'))
                         <a href="{{route('abtc_financial_home')}}" class="btn btn-primary">View For Uploading</a>
                         @else

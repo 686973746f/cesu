@@ -6,7 +6,12 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between">
                     <div><b>View Claim No. {{$d->id}}</b> - {{$d->patient->getName()}}</div>
-                    <div></div>
+                    <div>
+                        <form action="{{route('abtc_financial_processticket', $d->id)}}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-danger" name="btn" value="cancel">Cancel Ticket</button>
+                        </form>
+                    </div>
                 </div>
                 
             </div>
@@ -108,7 +113,7 @@
             $('#rvs1').prop('required', false);
             $('#ics_claim_amount').prop('required', false);
 
-            if($(this).val() == 'PROCESSING') {
+            if($(this).val() != 'FOR UPLOADING' && $(this).val() != 'PAID') {
                 $('#processing_div').removeClass('d-none');
                 $('#ics_transmittalno').prop('required', true);
                 $('#ics_claims_seriesno').prop('required', true);
@@ -123,7 +128,7 @@
                 $('#ics_claim_amount').prop('required', true);
 
                 $('#rvs1').val('90375');
-                $('#ics_claim_amount').val('5850');
+                $('#ics_claim_amount').val('5850'); //Default Values
             }
         }).trigger('change');
     </script>
