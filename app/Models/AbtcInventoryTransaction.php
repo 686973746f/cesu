@@ -21,6 +21,7 @@ class AbtcInventoryTransaction extends Model
         'po_number',
         'unit_price',
         'unit_price_amount',
+        'received_qty',
         'remarks',
         'created_by',
     ];

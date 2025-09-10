@@ -2761,14 +2761,14 @@ class ABTCVaccinationController extends Controller
             $d->ics_claims_seriesno = mb_strtoupper($r->ics_claims_seriesno);
         }
 
+        if($d->isDirty()) {
+            $d->save();
+        }
+
         if($r->ics_claims_status == 'FOR UPLOADING') {
             return redirect()->route('abtc_financial_viewticket', $d->id)
             ->with('msg', 'Successfully updated the Claim Status to [FOR UPLOADING] you may encode the eClaims part and upload the forms of the Patient to iClinicSys before changing the status to PROCESSING.')
             ->with('msgtype', 'success');
-        }
-
-        if($d->isDirty()) {
-            $d->save();
         }
 
         return redirect()->route('abtc_financial_home')
@@ -2776,7 +2776,7 @@ class ABTCVaccinationController extends Controller
         ->with('msgtype', 'success');
     }
 
-    public function abtcFinancialReport() {
+    public function abtcFinancialReportHome() {
         
     }
 }

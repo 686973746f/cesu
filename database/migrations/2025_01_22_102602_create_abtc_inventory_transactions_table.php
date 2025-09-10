@@ -28,6 +28,7 @@ class CreateAbtcInventoryTransactionsTable extends Migration
             $table->string('po_number')->nullable();
             $table->string('unit_price')->nullable();
             $table->string('unit_price_amount')->nullable();
+            $table->integer('received_qty')->nullable();
             $table->text('remarks')->nullable();
 
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
