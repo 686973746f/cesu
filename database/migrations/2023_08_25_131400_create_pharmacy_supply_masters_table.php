@@ -31,6 +31,7 @@ class CreatePharmacySupplyMastersTable extends Migration
 
             $table->text('usage_category')->nullable();
             $table->integer('master_alert_qtybelow')->nullable();
+            $table->string('master_include_inreport', 1)->default('Y');
             
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');

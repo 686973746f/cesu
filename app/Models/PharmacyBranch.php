@@ -32,6 +32,10 @@ class PharmacyBranch extends Model
         }
     }
 
+    public function pharmacysub() {
+        return $this->hasMany(PharmacySupplySub::class, 'pharmacy_branch_id');
+    }
+
     public function bhs() {
         return $this->belongsTo(BarangayHealthStation::class, 'if_bhs_id');
     }

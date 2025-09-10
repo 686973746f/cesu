@@ -24,6 +24,7 @@ class PharmacySupplyMaster extends Model
 
         'usage_category',
         'master_alert_qtybelow',
+        'master_include_inreport',
 
         'created_by',
     ];

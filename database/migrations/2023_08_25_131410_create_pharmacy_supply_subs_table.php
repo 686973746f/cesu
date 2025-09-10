@@ -41,6 +41,7 @@ class CreatePharmacySupplySubsTable extends Migration
             $table->integer('self_maxpiece_perduration')->nullable();
             $table->integer('self_duration_days')->nullable();
             $table->integer('alert_qtybelow')->nullable();
+            $table->string('include_inreport', 1)->default('Y');
 
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');

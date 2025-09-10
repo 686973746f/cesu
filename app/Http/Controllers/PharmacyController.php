@@ -1902,6 +1902,7 @@ class PharmacyController extends Controller
                 //'self_sku_code' => $r->self_sku_code,
                 //'self_description' => $r->self_description,
 
+                /*
                 'po_contract_number' => mb_strtoupper($r->po_contract_number),
                 'supplier' => mb_strtoupper($r->supplier),
                 'dosage_form' => mb_strtoupper($r->dosage_form),
@@ -1912,6 +1913,10 @@ class PharmacyController extends Controller
                 'unit_cost' => mb_strtoupper($r->unit_cost),
                 'mode_of_procurement' => mb_strtoupper($r->mode_of_procurement),
                 'end_user' => mb_strtoupper($r->end_user),
+                */
+
+                'include_inreport' => $r->include_inreport,
+                'alert_qtybelow' => $r->alert_qtybelow,
             ]);
 
             return redirect()->route('pharmacy_itemlist_viewitem', $d->id)
@@ -3364,12 +3369,21 @@ class PharmacyController extends Controller
     }
 
     public function viewMasterlist2() {
-        $list = PharmacySupplySub::where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
+        $medicines = PharmacySupplyMaster::where('enabled', 1)
+        ->where('master_include_inreport', 'Y')
+        ->with(['pharmacysub.pharmacybranch', 'pharmacysub.substock'])
         ->get();
 
-        return view('pharmacy.stock_masterlist', [
-            'list' => $list,
-        ]);
+        // Only branches with facility_level = 1
+        if(auth()->user()->isPharmacyMasterAdmin()) {
+            $branches = PharmacyBranch::where('level', 1)->get();
+        }
+        else {
+            $branches = PharmacyBranch::where('id', auth()->user()->pharmacy_branch_id)->get();
+        }
+        
+
+        return view('pharmacy.stock_masterlist', compact('medicines', 'branches'));
     }
 
     public function ajaxMedicineDispensary() {

@@ -36,7 +36,8 @@ class PharmacySupplySub extends Model
         'self_maxpiece_perduration',
         'self_duration_days',
         'alert_qtybelow',
-
+        'include_inreport',
+        
         'created_by',
     ];
 
@@ -57,13 +58,20 @@ class PharmacySupplySub extends Model
         return $this->belongsTo(PharmacySupplyMaster::class, 'supply_master_id');
     }
 
+    public function pharmacybranch() {
+        return $this->belongsTo(PharmacyBranch::class, 'pharmacy_branch_id');
+    }
+
+    public function substock()
+    {
+        return $this->hasMany(PharmacySupplySubStock::class, 'subsupply_id');
+    }
+
     public function stockcard() {
         return $this->hasMany(PharmacyStockCard::class, 'subsupply_id');
     }
 
-    public function pharmacybranch() {
-        return $this->belongsTo(PharmacyBranch::class, 'pharmacy_branch_id');
-    }
+    
 
     public function getMainQty() {
         if($this->pharmacysupplymaster->quantity_type == 'BOX') {
