@@ -9,7 +9,7 @@
                     <div>
                         <form action="{{route('abtc_financial_processticket', $d->id)}}" method="POST">
                             @csrf
-                            <button type="submit" class="btn btn-danger" name="btn" value="cancel">Cancel Ticket</button>
+                            <button type="submit" class="btn btn-danger" name="btn" value="cancel" {{($d->ics_claims_status == 'PAID' || $d->ics_claims_status == 'DENIED') ? 'disabled' : ''}}>Cancel Ticket</button>
                         </form>
                     </div>
                 </div>
@@ -24,11 +24,13 @@
                     </div>
                     @endif
                     @if($d->ics_claims_status != 'PAID')
+                    <h4>Current Claim Status: <b>{{$d->ics_claims_status}}</b></h4>
+                    <hr>
                     <div class="form-group">
                         @if($d->ics_claims_status == 'REQUEST_CLAIMED')
                         <label for="ics_claims_status"><b class="text-danger">*</b>Select Claim Status</label>
                         @else
-                        <label for="ics_claims_status"><b class="text-danger">*</b>Update Claim Status</label>
+                        <label for="ics_claims_status"><b class="text-danger">*</b>Update Claim Status to</label>
                         @endif
                       <select class="form-control" name="ics_claims_status" id="ics_claims_status" required>
                         <option value="" disabled {{(old('ics_claims_status', $d->ics_claims_status) == 'ENCODING') ? 'selected' : ''}}>Choose...</option>
