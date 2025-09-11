@@ -99,7 +99,12 @@
                                         <option value="" disabled {{(is_null(old('source'))) ? 'selected' : ''}}>Choose...</option>
                                         <option value="LGU" {{(old('source') == 'LGU') ? 'selected' : ''}}>LGU</option>
                                         <option value="DOH" {{(old('source') == 'DOH') ? 'selected' : ''}}>DOH</option>
+                                        <option value="OTHERS" {{(old('source') == 'OTHERS') ? 'selected' : ''}}>OTHERS</option>
                                     </select>
+                                </div>
+                                <div class="form-group d-none" id="othersource_div">
+                                  <label for="othersource_name"><b>*</b>Input Other Source</label>
+                                  <input type="text" class="form-control" name="othersource_name" id="othersource_name" style="text-transform: uppercase;" value="{{old('batch_number')}}">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -335,6 +340,18 @@
                 $('receiving_branch_id').prop('required', false);
                 $('receiving_patient_id').prop('required', false);
                 $('recipient').prop('required', false);
+            }
+        }).trigger('change');
+
+        $('#source').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == 'OTHERS') {
+                $('#othersource_div').removeClass('d-none');
+                $('#othersource_name').prop('required', true);
+            }
+            else {
+                $('#othersource_div').addClass('d-none');
+                $('#othersource_name').prop('required', false);
             }
         }).trigger('change');
     </script>

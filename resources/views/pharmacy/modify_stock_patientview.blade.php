@@ -283,6 +283,11 @@
         <div class="card">
             <div class="card-header"><b>Initialize Patient Record</b></div>
             <div class="card-body">
+                @if(session('msg'))
+                <div class="alert alert-{{session('msgtype')}}" role="alert">
+                    {{session('msg')}}
+                </div>
+                @endif
                 <div class="alert alert-info text-center" role="alert">
                     @if(!is_null($d->itr_id))
                     <b>Patient was encoded from OPD.</b> Please fill-out the fields below before the patient can request medicines.

@@ -396,6 +396,7 @@ class PharmacyController extends Controller
 
             //check if there was prescription issued today, and block it
 
+            /*
             $pcheck = PharmacyPrescription::where('patient_id', $get_patient->id)
             ->whereDate('created_at', date('Y-m-d'))
             ->first();
@@ -406,6 +407,7 @@ class PharmacyController extends Controller
                 ->with('msg', 'ERROR: Patient has existing prescription that was created today and your request was blocked to avoid duplicate entries.')
                 ->with('msgtype', 'warning');
             }
+            */
 
             if(is_null($get_patient->is_lgustaff)) {
                 $get_patient->is_lgustaff = ($r->is_lgustaff == 'Y') ? 1 : 0;
@@ -1676,6 +1678,7 @@ class PharmacyController extends Controller
                 'batch_number' => mb_strtoupper($r->batch_number),
                 'source' => $r->source,
                 'stock_source' => $r->stock_source,
+                'othersource_name' => ($r->source == 'OTHERS') ? $r->othersource_name : NULL,
             ];
 
             if($d->pharmacysupplymaster->quantity_type == 'BOX') {
