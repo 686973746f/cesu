@@ -103,7 +103,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group d-none" id="othersource_div">
-                                  <label for="othersource_name"><b>*</b>Input Other Source</label>
+                                  <label for="othersource_name"><b class="text-danger">*</b>Input Other Source</label>
                                   <input type="text" class="form-control" name="othersource_name" id="othersource_name" style="text-transform: uppercase;" value="{{old('batch_number')}}">
                                 </div>
                             </div>

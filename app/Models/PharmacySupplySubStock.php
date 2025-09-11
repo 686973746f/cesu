@@ -18,6 +18,7 @@ class PharmacySupplySubStock extends Model
         'barcode_number',
         'stock_source',
         'source',
+        'othersource_name',
         
         'current_box_stock',
         'current_piece_stock',
