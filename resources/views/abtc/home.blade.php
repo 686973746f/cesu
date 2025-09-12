@@ -288,11 +288,11 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Default Daily Vaccine</h5>
+          <h5 class="modal-title">Set ABTC Default Daily Values</h5>
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label for="selected_vaccine"><b class="text-danger">*</b>Select Vaccine to use today:</label>
+            <label for="selected_vaccine"><b class="text-danger">*</b>Set Default Vaccine for Today</label>
             <select class="form-control" name="selected_vaccine" id="selected_vaccine" required>
               <option value="" disabled selected>Choose...</option>
               @foreach(App\Models\AbtcVaccineBrand::get() as $vc)
@@ -300,13 +300,23 @@
               @endforeach
             </select>
           </div>
+          <!--
           <div class="alert alert-info" role="alert">
             <b class="text-danger">Note:</b> Kung ang gagamiting Vaccine ay <b>OUT OF STOCK</b> na, paki-coordinate sa System Admin (CESU) para ma-initialize ang values.
           </div>
-        </div>
-        <div class="modal-footer">
+          -->
+          <div class="form-group">
+            <label for="vaccinator_id" class="form-label"><b class="text-danger">*</b>Set Default Vaccinator for Today</label>
+            <select class="form-control" name="vaccinator_id" id="vaccinator_id" required>
+                <option value="" disabled {{is_null(old('vaccinator_id')) ? 'selected' : ''}}>Choose...</option>
+                @foreach(App\Models\Employee::whereNotNull('abtc_vaccinator_branch')->get() as $v)
+                <option value="{{$v->id}}" {{($v->id == old('vaccinator_id')) ? 'selected' : ''}}>{{$v->getNameWithPr()}}</option>
+                @endforeach
+            </select>
+          </div>
+      </div>
+      <div class="modal-footer">
           <button type="submit" class="btn btn-success btn-block">Save</button>
-        </div>
       </div>
     </div>
   </div>

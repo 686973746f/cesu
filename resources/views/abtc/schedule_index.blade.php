@@ -275,7 +275,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-info" role="alert">
-                        Tignan kung ano ang tsinekan ng pasyente sa kanyang CARD. O kaya tanungin ang pasyente kung kamusta ang hayop.
+                        <b class="text-danger">Pakibasa: </b>Tanungin muna ang pasyente kung kumusta ang hayop na kumagat/kumalmot sa kanya upang masagutan ito.
                     </div>
                     <div class="form-group">
                       <label for="biting_animal_status"><b class="text-danger">*</b>Biting Animal Status (After 14 Days)</label>

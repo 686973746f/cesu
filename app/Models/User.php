@@ -98,6 +98,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'abtc_default_vaccinationsite_id',
         'abtc_default_vaccinebrand_id',
         'abtc_default_vaccinebrand_date',
+        'abtc_default_vaccinator_id',
         'last_login_date',
         'permission_list',
     ];

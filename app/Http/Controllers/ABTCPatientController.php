@@ -342,6 +342,7 @@ class ABTCPatientController extends Controller
         
         $update->abtc_default_vaccinebrand_id = $r->selected_vaccine;
         $update->abtc_default_vaccinebrand_date = date('Y-m-d');
+        $update->abtc_default_vaccinator_id = $r->vaccinator_id;
 
         if($update->isDirty()) {
             $update->save();

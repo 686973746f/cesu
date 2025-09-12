@@ -760,6 +760,7 @@ class ABTCVaccinationController extends Controller
                     $get_br->d3_vaccinated_inbranch = 1;
                     $get_br->d3_done_by = auth()->user()->id;
                     $get_br->d3_done_date = date('Y-m-d H:i:s');
+                    $get_br->d0_vaccinator = auth()->user()->abtc_default_vaccinator_id;
                 }
                 else {
                     return abort(401);
@@ -795,6 +796,7 @@ class ABTCVaccinationController extends Controller
                     $get_br->d7_vaccinated_inbranch = 1;
                     $get_br->d7_done_by = auth()->user()->id;
                     $get_br->d7_done_date = date('Y-m-d H:i:s');
+                    $get_br->d7_vaccinator = auth()->user()->abtc_default_vaccinator_id;
                 }
                 else {
                     return abort(401);
@@ -839,6 +841,7 @@ class ABTCVaccinationController extends Controller
                     $get_br->d28_vaccinated_inbranch = 1;
                     $get_br->d28_done_by = auth()->user()->id;
                     $get_br->d28_done_date = date('Y-m-d H:i:s');
+                    $get_br->d28_vaccinator = auth()->user()->abtc_default_vaccinator_id;
                 }
                 else {
                     return abort(401);
@@ -855,6 +858,7 @@ class ABTCVaccinationController extends Controller
                     $get_br->d14_vaccinated_inbranch = 1;
                     $get_br->d14_done_by = auth()->user()->id;
                     $get_br->d14_done_date = date('Y-m-d H:i:s');
+                    $get_br->d14_vaccinator = auth()->user()->abtc_default_vaccinator_id;
                 }
                 else {
                     return abort(401);
@@ -872,6 +876,7 @@ class ABTCVaccinationController extends Controller
                         $get_br->d28_vaccinated_inbranch = 1;
                         $get_br->d28_done_by = auth()->user()->id;
                         $get_br->d28_done_date = date('Y-m-d H:i:s');
+                        $get_br->d28_vaccinator = auth()->user()->abtc_default_vaccinator_id;
                     }
                     else {
                         return abort(401);
@@ -902,8 +907,8 @@ class ABTCVaccinationController extends Controller
                         $get_br->d28_vaccinated_inbranch = 1;
                         $get_br->d28_done_by = auth()->user()->id;
                         $get_br->d28_done_date = date('Y-m-d H:i:s');
+                        $get_br->d28_vaccinator = auth()->user()->abtc_default_vaccinator_id;
                     }
-                    
                 }
     
                 /*
