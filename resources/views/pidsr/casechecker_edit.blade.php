@@ -274,19 +274,19 @@
                 </div>
                 <div class="form-group">
                   <label for="cif_url">Case Investigation Form URL</label>
-                  <input type="text" class="form-control" name="cif_url" id="cif_url">
+                  <input type="text" class="form-control" name="cif_url" id="cif_url" value="{{old('cif_url', $d->cif_url)}}">
                 </div>
                 <div class="form-group">
                   <label for="labresult_url">Laboratory Result URL</label>
-                  <input type="text" class="form-control" name="labresult_url" id="labresult_url">
+                  <input type="text" class="form-control" name="labresult_url" id="labresult_url" value="{{old('labresult_url', $d->labresult_url)}}">
                 </div>
                 <div class="form-group">
                   <label for="medicalchart_url">Medical Chart URL</label>
-                  <input type="text" class="form-control" name="medicalchart_url" id="medicalchart_url">
+                  <input type="text" class="form-control" name="medicalchart_url" id="medicalchart_url" value="{{old('medicalchart_url', $d->medicalchart_url)}}">
                 </div>
                 <div class="form-group">
                   <label for="otherattachments_url">Other Attachments URL</label>
-                  <input type="text" class="form-control" name="otherattachments_url" id="otherattachments_url">
+                  <input type="text" class="form-control" name="otherattachments_url" id="otherattachments_url" value="{{old('otherattachments_url', $d->otherattachments_url)}}">
                 </div>
             </div>
             <div class="card-footer">
