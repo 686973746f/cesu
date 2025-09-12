@@ -147,6 +147,10 @@ class ABTCVaccinationController extends Controller
             $d3_vaccinated_inbranch = NULL;
             $d7_vaccinated_inbranch = NULL;
 
+            $d0_vaccinator = NULL;
+            $d3_vaccinator = NULL;
+            $d7_vaccinator = NULL;
+
             $outcome = $request->outcome;
 
             if($request->select_dose == 'D0') {
@@ -223,6 +227,8 @@ class ABTCVaccinationController extends Controller
                 else if($set_d28_date->dayOfWeek == Carbon::SUNDAY) {
                     $set_d28_date = Carbon::parse($set_d28_date)->addDays(1);
                 }
+
+                $d0_vaccinator = $request->vaccinator_id;
             }
             else if($request->select_dose == 'D3') {
                 //Guess the Day 0
@@ -291,6 +297,8 @@ class ABTCVaccinationController extends Controller
                 else if($set_d28_date->dayOfWeek == Carbon::SUNDAY) {
                     $set_d28_date = Carbon::parse($set_d28_date)->addDays(1);
                 }
+
+                $d3_vaccinator = $request->vaccinator_id;
             }
             else if($request->select_dose == 'D7') {
                 //Guess the Day 0 and Day 3
@@ -345,6 +353,8 @@ class ABTCVaccinationController extends Controller
                 else if($set_d28_date->dayOfWeek == Carbon::SUNDAY) {
                     $set_d28_date = Carbon::parse($set_d28_date)->addDays(1);
                 }
+
+                $d7_vaccinator = $request->vaccinator_id;
             }
             
             if($request->is_preexp == 'Y') {
@@ -436,6 +446,7 @@ class ABTCVaccinationController extends Controller
                 'd0_brand' => $request->brand_name,
                 'd0_done_by' => ($request->select_dose == 'D0') ? auth()->user()->id : NULL,
                 'd0_done_date' => ($request->select_dose == 'D0') ? date('Y-m-d H:i:s') : NULL,
+                'd0_vaccinator' => $d0_vaccinator,
                 
                 'd3_date' => $set_d3_date->format('Y-m-d'),
                 'd3_done' => $d3_done,
@@ -444,6 +455,7 @@ class ABTCVaccinationController extends Controller
                 'd3_brand' => $request->brand_name,
                 'd3_done_by' => ($request->select_dose == 'D3') ? auth()->user()->id : NULL,
                 'd3_done_date' => ($request->select_dose == 'D3') ? date('Y-m-d H:i:s') : NULL,
+                'd3_vaccinator' => $d3_vaccinator,
 
                 'd7_date' => $set_d7_date->format('Y-m-d'),
                 'd7_done' => $d7_done,
@@ -452,6 +464,7 @@ class ABTCVaccinationController extends Controller
                 'd7_brand' => $request->brand_name,
                 'd7_done_by' => ($request->select_dose == 'D7') ? auth()->user()->id : NULL,
                 'd7_done_date' => ($request->select_dose == 'D7') ? date('Y-m-d H:i:s') : NULL,
+                'd7_vaccinator' => $d7_vaccinator,
 
                 'd14_date' => $set_d14_date->format('Y-m-d'),
                 'd14_brand' => $request->brand_name,

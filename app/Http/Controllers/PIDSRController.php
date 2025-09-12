@@ -1939,6 +1939,8 @@ class PIDSRController extends Controller
             $d->sys_coordinate_y = $r->sys_coordinate_y;
             $d->edcs_contactNo = $r->edcs_contactNo;
 
+            $d->enabled = $r->enabled;
+            $d->match_casedef = $r->match_casedef;
             $d->systemsent = $r->systemsent;
             $d->notify_email_sent = $r->notify_email_sent;
             $d->edcs_customgroup = $r->edcs_customgroup;

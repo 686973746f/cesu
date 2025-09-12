@@ -50,6 +50,7 @@ class CreateAbtcBakunaRecordsTable extends Migration
             $table->text('d0_brand')->nullable();
             $table->foreignId('d0_done_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->dateTime('d0_done_date')->nullable();
+            $table->string('d0_vaccinator')->nullable();
 
             $table->date('d3_date')->nullable();
             $table->tinyInteger('d3_done')->default(0);
@@ -58,6 +59,7 @@ class CreateAbtcBakunaRecordsTable extends Migration
             $table->text('d3_brand')->nullable();
             $table->foreignId('d3_done_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->dateTime('d3_done_date')->nullable();
+            $table->string('d3_vaccinator')->nullable();
 
             $table->date('d7_date')->nullable();
             $table->tinyInteger('d7_done')->default(0);
@@ -66,6 +68,7 @@ class CreateAbtcBakunaRecordsTable extends Migration
             $table->text('d7_brand')->nullable();
             $table->foreignId('d7_done_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->dateTime('d7_done_date')->nullable();
+            $table->string('d7_vaccinator')->nullable();
 
             $table->date('d14_date')->nullable();
             $table->tinyInteger('d14_done')->default(0);
@@ -74,6 +77,7 @@ class CreateAbtcBakunaRecordsTable extends Migration
             $table->text('d14_brand')->nullable();
             $table->foreignId('d14_done_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->dateTime('d14_done_date')->nullable();
+            $table->string('d14_vaccinator')->nullable();
 
             $table->date('d28_date')->nullable();
             $table->tinyInteger('d28_done')->default(0);
@@ -82,6 +86,7 @@ class CreateAbtcBakunaRecordsTable extends Migration
             $table->text('d28_brand')->nullable();
             $table->foreignId('d28_done_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->dateTime('d28_done_date')->nullable();
+            $table->string('d28_vaccinator')->nullable();
 
             $table->string('outcome');
             $table->date('date_died')->nullable();

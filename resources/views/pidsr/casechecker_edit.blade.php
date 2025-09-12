@@ -36,27 +36,6 @@
                 </div>
                 @endif
                 <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                          <label for="systemsent"><b class="text-danger">*</b>System Sent</label>
-                          <input type="number" class="form-control" name="systemsent" id="systemsent" min="0" max="1" value="{{old('systemsent', $d->systemsent)}}" required>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="notify_email_sent"><b class="text-danger">*</b>Notify Email Sent</label>
-                            <input type="number" class="form-control" name="notify_email_sent" id="notify_email_sent" min="0" max="1" value="{{old('notify_email_sent', $d->notify_email_sent)}}" required>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="edcs_customgroup">Input Custom Group</label>
-                            <input type="text" class="form-control" name="edcs_customgroup" id="edcs_customgroup" value="{{old('edcs_customgroup', $d->edcs_customgroup)}}">
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                           <label for=""><b class="text-danger">*</b>Disease</label>
@@ -91,7 +70,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="suffix">Suffix</label>
+                            <label for="suffix">Name Extension</label>
                             <input type="text" class="form-control" value="{{old('suffix', $d->suffix)}}" id="suffix" name="suffix">
                         </div>
                     </div>
@@ -293,6 +272,41 @@
                 <div class="form-group">
                   <label for="otherattachments_url">Other Attachments URL</label>
                   <input type="text" class="form-control" name="otherattachments_url" id="otherattachments_url" value="{{old('otherattachments_url', $d->otherattachments_url)}}">
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="enabled"><b class="text-danger">*</b>Enabled</label>
+                          <input type="number" class="form-control" name="enabled" id="enabled" min="0" max="1" value="{{old('enabled', $d->enabled)}}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="match_casedef"><b class="text-danger">*</b>Match Case Definition</label>
+                          <input type="number" class="form-control" name="match_casedef" id="match_casedef" min="0" max="1" value="{{old('match_casedef', $d->match_casedef)}}" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="systemsent"><b class="text-danger">*</b>System Sent</label>
+                          <input type="number" class="form-control" name="systemsent" id="systemsent" min="0" max="1" value="{{old('systemsent', $d->systemsent)}}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="notify_email_sent"><b class="text-danger">*</b>Notify Email Sent</label>
+                            <input type="number" class="form-control" name="notify_email_sent" id="notify_email_sent" min="0" max="1" value="{{old('notify_email_sent', $d->notify_email_sent)}}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="edcs_customgroup">Input Custom Group</label>
+                            <input type="text" class="form-control" name="edcs_customgroup" id="edcs_customgroup" value="{{old('edcs_customgroup', $d->edcs_customgroup)}}">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="card-footer">
