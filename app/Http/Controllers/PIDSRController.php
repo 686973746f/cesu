@@ -109,6 +109,8 @@ ALTER TABLE rabies ADD from_edcs TINYINT(1) DEFAULT 0;
 ALTER TABLE rotavirus ADD from_edcs TINYINT(1) DEFAULT 0;
 ALTER TABLE typhoid ADD from_edcs TINYINT(1) DEFAULT 0;
 ALTER TABLE severe_acute_respiratory_infections ADD from_edcs TINYINT(1) DEFAULT 0;
+ALTER TABLE monkey_poxes ADD from_edcs TINYINT(1) DEFAULT 0;
+ALTER TABLE forms ADD from_edcs TINYINT(1) DEFAULT 0;
 
 UPDATE abd SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
 UPDATE pidsr_AEFI SET encoded_mw = 42 WHERE DATE(created_at) = '2023-10-24';
@@ -1939,6 +1941,10 @@ class PIDSRController extends Controller
 
             $d->systemsent = $r->systemsent;
             $d->notify_email_sent = $r->notify_email_sent;
+            $d->cif_url = $r->cif_url;
+            $d->labresult_url = $r->labresult_url;
+            $d->medicalchart_url = $r->medicalchart_url;
+            $d->otherattachments_url = $r->otherattachments_url;
             
             if(request()->is('*barangayportal*')) {
                 $d->brgy_remarks = ($r->brgy_remarks) ? mb_strtoupper($r->brgy_remarks) : $d->brgy_remarks;

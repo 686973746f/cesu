@@ -268,6 +268,26 @@
                     <label for="system_remarks">Remarks from CESU</label>
                     <textarea class="form-control" name="system_remarks" id="system_remarks" rows="3" style="text-transform: uppercase;" {{(request()->is('*barangayportal*')) ? 'readonly' : ''}}>{{old('system_remarks', $d->system_remarks)}}</textarea>
                 </div>
+                <hr>
+                <div class="alert alert-info" role="alert">
+                    <b>Note:</b> For the URLs, you may use Google Drive Links (Recommended) or other file sharing links.
+                </div>
+                <div class="form-group">
+                  <label for="cif_url">Case Investigation Form URL</label>
+                  <input type="text" class="form-control" name="cif_url" id="cif_url">
+                </div>
+                <div class="form-group">
+                  <label for="labresult_url">Laboratory Result URL</label>
+                  <input type="text" class="form-control" name="labresult_url" id="labresult_url">
+                </div>
+                <div class="form-group">
+                  <label for="medicalchart_url">Medical Chart URL</label>
+                  <input type="text" class="form-control" name="medicalchart_url" id="medicalchart_url">
+                </div>
+                <div class="form-group">
+                  <label for="otherattachments_url">Other Attachments URL</label>
+                  <input type="text" class="form-control" name="otherattachments_url" id="otherattachments_url">
+                </div>
             </div>
             <div class="card-footer">
                 <button type="submit" class="btn btn-success btn-block" id="submitBtn">Update (CTRL + S)</button>
