@@ -36,16 +36,22 @@
                 </div>
                 @endif
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                           <label for="systemsent"><b class="text-danger">*</b>System Sent</label>
-                          <input type="text" class="form-control" name="systemsent" id="systemsent" min="0" max="1" value="{{old('systemsent', $d->systemsent)}}" required>
+                          <input type="number" class="form-control" name="systemsent" id="systemsent" min="0" max="1" value="{{old('systemsent', $d->systemsent)}}" required>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="notify_email_sent"><b class="text-danger">*</b>Notify Email Sent</label>
-                            <input type="text" class="form-control" name="notify_email_sent" id="notify_email_sent" min="0" max="1" value="{{old('notify_email_sent', $d->notify_email_sent)}}" required>
+                            <input type="number" class="form-control" name="notify_email_sent" id="notify_email_sent" min="0" max="1" value="{{old('notify_email_sent', $d->notify_email_sent)}}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="edcs_customgroup">Input Custom Group</label>
+                            <input type="text" class="form-control" name="edcs_customgroup" id="edcs_customgroup" value="{{old('edcs_customgroup', $d->edcs_customgroup)}}">
                         </div>
                     </div>
                 </div>

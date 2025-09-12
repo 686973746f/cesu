@@ -1941,6 +1941,7 @@ class PIDSRController extends Controller
 
             $d->systemsent = $r->systemsent;
             $d->notify_email_sent = $r->notify_email_sent;
+            $d->edcs_customgroup = $r->edcs_customgroup;
             $d->cif_url = $r->cif_url;
             $d->labresult_url = $r->labresult_url;
             $d->medicalchart_url = $r->medicalchart_url;
