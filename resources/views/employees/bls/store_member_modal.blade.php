@@ -159,19 +159,15 @@
                         <label for="codename"><b class="text-danger">*</b>Code Name</label>
                         <input type="text" class="form-control" name="codename" id="codename" style="text-transform: uppercase" value="{{old('codename')}}" required>
                     </div>
-                    @if(auth()->user()->isGlobalAdmin())
-                    @if(Str::contains(request()->url(), 'view'))
                     <div class="form-group d-none">
                       <input type="text" class="form-control" name="autojoin_batchid" id="autojoin_batchid" value="{{$d->id}}">
                     </div>
-                    @endif
                     <div class="form-check">
                       <label class="form-check-label">
                         <input type="checkbox" class="form-check-input" name="autopass" id="autopass" value="1" checked>
                         Auto Pass
                       </label>
                     </div>
-                    @endif
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success btn-block">Submit</button>

@@ -314,6 +314,10 @@
                 @endforeach
             </select>
           </div>
+          <div class="alert alert-info" role="alert">
+            <div><b class="text-danger">PAKIBASA:</b> Bago mag-encode, paki-tignan kung ang Date ng <b>Day 3 ({{$set_d3_date->format('M d, Y')}})</b> at <b>Day 7 ({{$set_d7_date->format('M d, Y')}})</b> ay may Holiday o Work Suspension.</div>
+            <div>Kung sakaling meron ay paki-inform ang CESU Staff for adjustments.</div>
+          </div>
       </div>
       <div class="modal-footer">
           <button type="submit" class="btn btn-success btn-block">Save</button>

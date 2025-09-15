@@ -6,13 +6,14 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\AbtcPatient;
 use Illuminate\Support\Str;
+use App\Models\SiteSettings;
 use Illuminate\Http\Request;
+use App\Models\AbtcVaccineLogs;
 use App\Models\AbtcVaccineBrand;
 use App\Models\AbtcBakunaRecords;
 use App\Models\AbtcVaccineStocks;
 use Illuminate\Support\Facades\DB;
 use App\Models\AbtcVaccinationSite;
-use App\Models\AbtcVaccineLogs;
 use Illuminate\Support\Facades\Session;
 
 class ABTCPatientController extends Controller
@@ -34,11 +35,56 @@ class ABTCPatientController extends Controller
         }
 
         $wastage_submit_check = AbtcVaccineLogs::whereDate('created_at', date('Y-m-d'))->first();
+
+        $base_date = Carbon::now();
+        $set_d3_date = Carbon::parse($base_date)->addDays(3);
+
+        $get_siteSettings = SiteSettings::find(1);
+
+        $default_holidays = explode(',', $get_siteSettings->default_holiday_dates);
+        $custom_holidays = explode(',', $get_siteSettings->custom_holiday_dates);
+
+        $combined_holidays = array_merge($default_holidays, $custom_holidays);
+
+        //Adjust D3 Date if Holidays
+        while(in_array($set_d3_date->format('m-d'), $combined_holidays)) {
+            $set_d3_date = Carbon::parse($set_d3_date)->addDays(1);
+        }
+
+        if($set_d3_date->dayOfWeek == Carbon::WEDNESDAY) {
+            $set_d3_date = Carbon::parse($set_d3_date)->addDays(1);
+        }
+        else if($set_d3_date->dayOfWeek == Carbon::SATURDAY) {
+            $set_d3_date = Carbon::parse($set_d3_date)->addDays(2);
+        }
+        else if($set_d3_date->dayOfWeek == Carbon::SUNDAY) {
+            $set_d3_date = Carbon::parse($set_d3_date)->addDays(1);
+        }
+
+        $set_d7_date = Carbon::parse($base_date)->addDays(7);
+
+        //Adjust D7 Date if Holidays
+        while(in_array($set_d7_date->format('m-d'), $combined_holidays)) {
+            $set_d7_date = Carbon::parse($set_d7_date)->addDays(1);
+        }
+
+        if($set_d7_date->dayOfWeek == Carbon::WEDNESDAY) {
+            $set_d7_date = Carbon::parse($set_d7_date)->addDays(1);
+        }
+        else if($set_d7_date->dayOfWeek == Carbon::SATURDAY) {
+            $set_d7_date = Carbon::parse($set_d7_date)->addDays(2);
+        }
+        else if($set_d7_date->dayOfWeek == Carbon::SUNDAY) {
+            $set_d7_date = Carbon::parse($set_d7_date)->addDays(1);
+        }
         
         return view('abtc.home', [
             'vslist' => $vslist,
             'get_initVaccineList' => $get_initVaccineList,
             'wastage_submit_check' => $wastage_submit_check,
+            'base_date' => $base_date,
+            'set_d3_date' => $set_d3_date,
+            'set_d7_date' => $set_d7_date,
         ]);
     }
 
@@ -349,7 +395,7 @@ class ABTCPatientController extends Controller
         }
 
         return redirect()->route('abtc_home')
-        ->with('msg', 'Vaccine to be used today was initialized successfully. You may now proceed encoding.')
+        ->with('msg', 'Daily Default Values were successfully set. You may now proceed encoding.')
         ->with('msgtype', 'success');
     }
 
