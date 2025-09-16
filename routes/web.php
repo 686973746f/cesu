@@ -916,6 +916,11 @@ Route::group(['middleware' => ['auth','verified', 'canAccessDisaster']], functio
     Route::post('/gtsecure/disaster/evacuation_center/{evac_id}/new_patient/store', [DisasterController::class, 'storePatient'])->name('gtsecure_storepatient');
     Route::get('/gtsecure/disaster/evacuation_center/view_patient/{id}', [DisasterController::class, 'viewPatient'])->name('gtsecure_viewpatient');
     Route::post('/gtsecure/disaster/evacuation_center/view_patient/{id}/update', [DisasterController::class, 'updatePatient'])->name('gtsecure_updatepatient');
+
+    Route::get('/gtsecure/disaster/evacuation_center/new_member/{id}', [DisasterController::class, 'newMember'])->name('gtsecure_newmember');
+    Route::post('/gtsecure/disaster/evacuation_center/new_member/{id}/store', [DisasterController::class, 'storeMember'])->name('gtsecure_storemember');
+    Route::get('/gtsecure/disaster/evacuation_center/view_patient/{head_id}/member/{member_id}', [DisasterController::class, 'viewMember'])->name('gtsecure_viewmember');
+    Route::post('/gtsecure/disaster/evacuation_center/view_patient/{head_id}/member/{member_id}/update', [DisasterController::class, 'updateMember'])->name('gtsecure_updatemember');
 });
 
 //VAXCERT (WALK IN)

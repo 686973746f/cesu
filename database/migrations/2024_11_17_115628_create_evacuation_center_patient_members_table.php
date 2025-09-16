@@ -17,7 +17,7 @@ class CreateEvacuationCenterPatientMembersTable extends Migration
             $table->id();
             $table->foreignId('familyhead_id')->constrained('evacuation_center_patients')->onDelete('cascade');
             $table->string('relationship_tohead');
-            $table->date('date_registered');
+            $table->dateTime('date_registered');
 
             $table->string('lname');
             $table->string('fname');
@@ -31,14 +31,27 @@ class CreateEvacuationCenterPatientMembersTable extends Migration
 
             $table->string('highest_education')->nullable();
             $table->string('occupation')->nullable();
-            $table->string('cs');
-            $table->string('religion')->nullable();
+            //$table->string('cs');
+            //$table->string('religion')->nullable();
 
             $table->string('outcome'); //ALIVE, DIED, MISSING
+            $table->dateTime('date_missing')->nullable();
+            $table->dateTime('date_returned')->nullable();
+            $table->dateTime('date_died')->nullable();
+            $table->string('is_injured', 1)->default('N');
+            $table->string('is_pwd', 1)->default('N');
+            $table->string('is_4ps', 1)->default('N');
+            $table->string('is_indg', 1)->default('N');
+            $table->string('indg_specify')->nullable();
 
             $table->integer('age_years');
             $table->integer('age_months');
             $table->integer('age_days');
+
+            $table->string('cswd_serialno')->nullable();
+            $table->string('dswd_serialno')->nullable();
+
+            $table->text('remarks')->nullable();
 
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');

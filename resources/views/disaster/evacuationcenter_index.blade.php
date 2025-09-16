@@ -23,7 +23,7 @@
                     <table class="table table-bordered table-striped">
                         <thead class="thead-light text-center">
                             <tr>
-                                <th colspan="9">{{$d->name}}</th>
+                                <th colspan="10">{{$d->name}}</th>
                             </tr>
                             <tr>
                                 <th>No.</th>
@@ -35,6 +35,7 @@
                                 <th>Contact No.</th>
                                 <th>Outcome</th>
                                 <th>Created at/by</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -52,6 +53,10 @@
                                     <div>{{date('M. d, Y h:i A', strtotime($p->created_at))}}</div>
                                     <div>by {{$p->user->name}}</div>
                                 </td>
+                                <td class="text-center">
+                                    <a href="{{route('gtsecure_newmember', $p->id)}}" class="btn btn-success btn-sm">Add Family Member</a>
+                                </td>
+
                             </tr>
                             @endforeach
                         </tbody>

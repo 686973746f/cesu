@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\EvacuationCenter;
 use Illuminate\Support\Facades\Auth;
 use App\Models\EvacuationCenterPatient;
+use App\Models\EvacuationCenterPatientMembers;
 
 class DisasterController extends Controller
 {
@@ -289,6 +290,60 @@ class DisasterController extends Controller
         return redirect()->route('gtsecure_evacuationcenter_view', $d->evacuation_center_id)
         ->with('msg', 'Details of '.$d->getName().' was updated successfully.')
         ->with('msgtype', 'success');
+    }
+
+    public function newMember($id) {
+        $d = EvacuationCenterPatient::findOrFail($id);
+        
+        return $this->viewMember(new EvacuationCenterPatientMembers())
+        ->with('d', $d);
+    }
+
+    public function storeMember($id, Request $r) {
+        $d = EvacuationCenterPatient::findOrFail($id);
+
+        $c = EvacuationCenterPatientMembers::create([
+            'familyhead_id',
+            'relationship_tohead',
+            'date_registered',
+            'lname',
+            'fname',
+            'mname',
+            'suffix',
+            'nickname',
+            'bdate',
+            'sex',
+            'is_pregnant',
+            'is_lactating',
+            'highest_education',
+            'occupation',
+            'outcome',
+            'date_missing',
+            'date_returned',
+            'date_died',
+            'is_injured',
+            'is_pwd',
+            'is_4ps',
+            'is_indg',
+            'indg_specify',
+            'age_years',
+            'age_months',
+            'age_days',
+            'cswd_serialno',
+            'dswd_serialno',
+            'remarks',
+            'created_by',
+            'updated_by',
+            'hash',
+        ]);
+    }
+
+    public function viewMember(EvacuationCenterPatientMembers $pt) {
+        return view('disaster.create_edit_patient_member', ['p' => $pt]);
+    }
+
+    public function updateMember($member_id) {
+
     }
 
     public function evacPostUpdate($evac_id, Request $r) {

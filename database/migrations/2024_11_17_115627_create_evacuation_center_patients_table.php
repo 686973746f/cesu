@@ -58,6 +58,9 @@ class CreateEvacuationCenterPatientsTable extends Migration
             $table->string('family_status'); //ACTIVE, WENT HOME
             $table->date('date_returnedhome')->nullable();
             $table->string('outcome'); //ALIVE, DIED, MISSING
+            $table->dateTime('date_missing')->nullable();
+            $table->dateTime('date_returned')->nullable();
+            $table->dateTime('date_died')->nullable();
             $table->string('is_injured', 1)->default('N');
             
             $table->string('longlat')->nullable();
