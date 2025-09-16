@@ -1286,6 +1286,7 @@ class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 {
     public function model(array $row) {
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite' && $row['epi_id']) {
+            dd($row);
             $birthdate = Carbon::parse(EdcsImport::tDate($row['date_of_birth']));
             $currentDate = Carbon::parse(EdcsImport::tDate($row['timestamp']));
 
@@ -1392,7 +1393,7 @@ class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'TravTiming' => EdcsImport::tDate($row['date_of_travel']),
                 'ProbExposure' => NULL,
                 'OtherExposure' => $row['others_specify'][1],
-                'OtherCase' => ($row['are_there_other_known_cases_with_fever_and_rash_regardless_of_presence_of_3_caeursbr_in_the_community'] == 'Yes' || $row['are_there_other_known_cases_with_fever_and_rash_regardless_of_presence_of_3_caeursbr_in_the_community'] == 'Y') ? 'Y' : 'N',
+                'OtherCase' => ($row['are_there_other_known_cases_with_fever_and_rash_regardless_of_presence_of_3_csbr_in_the_community'] == 'Yes' || $row['are_there_other_known_cases_with_fever_and_rash_regardless_of_presence_of_3_csbr_in_the_community'] == 'Y') ? 'Y' : 'N',
                 
                 'WholeBloodColl' => NULL,
                 'DriedBloodColl' => NULL,
