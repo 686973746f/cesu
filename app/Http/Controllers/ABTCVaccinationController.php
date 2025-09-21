@@ -138,18 +138,22 @@ class ABTCVaccinationController extends Controller
             $d0_done = 0;
             $d3_done = 0;
             $d7_done = 0;
+            $d28_done = 0;
 
             $d0_facility_name = NULL;
             $d3_facility_name = NULL;
             $d7_facility_name = NULL;
+            $d28_facility_name = NULL;
 
             $d0_vaccinated_inbranch = NULL;
             $d3_vaccinated_inbranch = NULL;
             $d7_vaccinated_inbranch = NULL;
+            $d28_vaccinated_inbranch = NULL;
 
             $d0_vaccinator = NULL;
             $d3_vaccinator = NULL;
             $d7_vaccinator = NULL;
+            $d28_vaccinator = NULL;
 
             $outcome = $request->outcome;
 
@@ -356,6 +360,33 @@ class ABTCVaccinationController extends Controller
 
                 $d7_vaccinator = $request->vaccinator_id;
             }
+            else if($request->select_dose == 'D28') {
+                //Guess the Day 0, Day 3 and Day 7
+                $set_d0_date = Carbon::parse($base_date)->subDays(28);
+                $base_d0_date = $set_d0_date;
+                $d0_done = 1;
+                $d0_vaccinated_inbranch = 0;
+                $d0_facility_name = mb_strtoupper($request->d0_facility_name);
+
+                $set_d3_date = Carbon::parse($base_date)->subDays(25);
+                $d3_done = 1;
+                $d0_vaccinated_inbranch = 0;
+                $d0_facility_name = mb_strtoupper($request->d3_facility_name);
+
+                $set_d7_date = Carbon::parse($base_date)->subDays(21);
+                $d7_done = 1;
+                $d7_vaccinated_inbranch = 0;
+                $d7_facility_name = mb_strtoupper($request->d7_facility_name);
+
+                $set_d28_date = Carbon::parse($base_date);
+                $d28_done = 1;
+                $d28_vaccinated_inbranch = 1;
+                $d28_facility_name = auth()->user()->abtcfacility->site_name;
+
+                $outcome = 'C';
+
+                $d28_vaccinator = $request->vaccinator_id;
+            }
             
             if($request->is_preexp == 'Y') {
                 $is_preexp = 1;
@@ -470,7 +501,13 @@ class ABTCVaccinationController extends Controller
                 'd14_brand' => $request->brand_name,
 
                 'd28_date' => $set_d28_date->format('Y-m-d'),
+                'd28_done' => $d28_done,
+                'd28_vaccinated_inbranch' => $d28_vaccinated_inbranch,
+                'd28_facility_name' => $d28_facility_name,
                 'd28_brand' => $request->brand_name,
+                'd28_done_by' => ($request->select_dose == 'D28') ? auth()->user()->id : NULL,
+                'd28_done_date' => ($request->select_dose == 'D28') ? date('Y-m-d H:i:s') : NULL,
+                'd28_vaccinator' => $d28_vaccinator,
 
                 'outcome' => $outcome,
                 'biting_animal_status' => $request->biting_animal_status,

@@ -229,6 +229,7 @@
                             <option value="D0" {{(old('select_dose') == 'D0') ? 'selected' : ''}}>Day 0</option>
                             <option value="D3" {{(old('select_dose') == 'D3') ? 'selected' : ''}}>Day 3</option>
                             <option value="D7" {{(old('select_dose') == 'D7') ? 'selected' : ''}} id="d7_option">Day 7</option>
+                            <option value="D28" {{(old('select_dose') == 'D28') ? 'selected' : ''}} id="d28_option">Day 28</option>
                           </select>
                         </div>
                     </div>
@@ -259,16 +260,22 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                               <label for="d0_facility_name"><span id="d0_facility_name_span" class="text-danger"><b>*</b></span>Day 0 - Name of Animal Bite Facility</label>
                               <input type="text" class="form-control" name="d0_facility_name" id="d0_facility_name" style="text-transform: uppercase;">
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                               <label for="d3_facility_name"><span id="d3_facility_name_span" class="text-danger"><b>*</b></span>Day 3 - Name of Animal Bite Facility</label>
                               <input type="text" class="form-control" name="d3_facility_name" id="d3_facility_name" style="text-transform: uppercase;">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                              <label for="d7_facility_name"><span id="d7_facility_name_span" class="text-danger"><b>*</b></span>Day 7 - Name of Animal Bite Facility</label>
+                              <input type="text" class="form-control" name="d7_facility_name" id="d7_facility_name" style="text-transform: uppercase;">
                             </div>
                         </div>
                     </div>
@@ -522,39 +529,64 @@ $(document).ready(function () {
             $('#vaccination_date').prop('disabled', false);
             $('#d0_facility_name_span').addClass('d-none');
             $('#d3_facility_name_span').addClass('d-none');
+            $('#d7_facility_name_span').addClass('d-none');
             $('#d0_facility_name').prop('required', false);
             $('#d0_facility_name').prop('disabled', true);
             $('#d3_facility_name').prop('required', false);
             $('#d3_facility_name').prop('disabled', true);
+            $('#d7_facility_name').prop('required', false);
+            $('#d7_facility_name').prop('disabled', true);
         }
         else if($(this).val() == 'D3') {
             $('#select_dose_span').text('Day 3 ');
             $('#vaccination_date').prop('disabled', false);
             $('#d0_facility_name_span').removeClass('d-none');
             $('#d3_facility_name_span').addClass('d-none');
+            $('#d7_facility_name_span').addClass('d-none');
             $('#d0_facility_name').prop('required', true);
             $('#d0_facility_name').prop('disabled', false);
             $('#d3_facility_name').prop('required', false);
             $('#d3_facility_name').prop('disabled', true);
+            $('#d7_facility_name').prop('required', false);
+            $('#d7_facility_name').prop('disabled', true);
         }
         else if($(this).val() == 'D7') {
             $('#select_dose_span').text('Day 7 ');
             $('#vaccination_date').prop('disabled', false);
-            $('#d0_facility_name_span').addClass('d-none');
-            $('#d3_facility_name_span').addClass('d-none');
+            $('#d0_facility_name_span').removeClass('d-none');
+            $('#d3_facility_name_span').removeClass('d-none');
+            $('#d7_facility_name_span').addClass('d-none');
             $('#d0_facility_name').prop('required', true);
             $('#d0_facility_name').prop('disabled', false);
             $('#d3_facility_name').prop('required', true);
             $('#d3_facility_name').prop('disabled', false);
+            $('#d7_facility_name').prop('required', false);
+            $('#d7_facility_name').prop('disabled', true);
+        }
+        else if($(this).val() == 'D28') {
+            $('#select_dose_span').text('Day 28 ');
+            $('#vaccination_date').prop('disabled', false);
+            $('#d0_facility_name_span').removeClass('d-none');
+            $('#d3_facility_name_span').removeClass('d-none');
+            $('#d7_facility_name_span').removeClass('d-none');
+            $('#d0_facility_name').prop('required', true);
+            $('#d0_facility_name').prop('disabled', false);
+            $('#d3_facility_name').prop('required', true);
+            $('#d3_facility_name').prop('disabled', false);
+            $('#d7_facility_name').prop('required', true);
+            $('#d7_facility_name').prop('disabled', false);
         }
         else {
             $('#vaccination_date').prop('disabled', true);
-            $('#d0_facility_name_span').removeClass('d-none');
-            $('#d3_facility_name_span').removeClass('d-none');
+            $('#d0_facility_name_span').addClass('d-none');
+            $('#d3_facility_name_span').addClass('d-none');
+            $('#d7_facility_name_span').addClass('d-none');
             $('#d0_facility_name').prop('required', false);
             $('#d0_facility_name').prop('disabled', true);
             $('#d3_facility_name').prop('required', false);
             $('#d3_facility_name').prop('disabled', true);
+            $('#d7_facility_name').prop('required', false);
+            $('#d7_facility_name').prop('disabled', true);
         }
     }).trigger('change');
 
@@ -562,9 +594,11 @@ $(document).ready(function () {
         e.preventDefault();
         if($(this).val() == 'Y') {
             $('#d7_option').addClass('d-none');
+            $('#d28_option').addClass('d-none');
         }
         else {
             $('#d7_option').removeClass('d-none');
+            $('#d28_option').removeClass('d-none');
         }
     }).trigger('change');
 </script>
