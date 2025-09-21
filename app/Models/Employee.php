@@ -58,6 +58,7 @@ class Employee extends Model
         'philhealth_pan',
 
         'abtc_vaccinator_branch',
+        'systemuser_id',
 
         'emp_access_list',
 

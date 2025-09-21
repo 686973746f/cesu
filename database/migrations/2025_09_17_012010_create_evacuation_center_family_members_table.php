@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEvacuationCenterPatientMembersTable extends Migration
+class CreateEvacuationCenterFamilyMembersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateEvacuationCenterPatientMembersTable extends Migration
      */
     public function up()
     {
-        Schema::create('evacuation_center_patient_members', function (Blueprint $table) {
+        Schema::create('evacuation_center_family_members', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('familyhead_id')->constrained('evacuation_center_patients')->onDelete('cascade');
+            $table->foreignId('familyhead_id')->constrained('evacuation_center_family_heads')->onDelete('cascade');
             $table->string('relationship_tohead');
-            $table->dateTime('date_registered');
 
             $table->string('lname');
             $table->string('fname');
@@ -44,10 +43,6 @@ class CreateEvacuationCenterPatientMembersTable extends Migration
             $table->string('is_indg', 1)->default('N');
             $table->string('indg_specify')->nullable();
 
-            $table->integer('age_years');
-            $table->integer('age_months');
-            $table->integer('age_days');
-
             $table->string('cswd_serialno')->nullable();
             $table->string('dswd_serialno')->nullable();
 
@@ -67,6 +62,6 @@ class CreateEvacuationCenterPatientMembersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('evacuation_center_patient_members');
+        Schema::dropIfExists('evacuation_center_family_members');
     }
 }

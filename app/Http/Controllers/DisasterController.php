@@ -155,7 +155,7 @@ class DisasterController extends Controller
         while(!$foundunique) {
             $hashStr = Str::random(10);
 
-            $s = EvacuationCenter::where('hash', $hashStr)->first();
+            $s = EvacuationCenterPatient::where('hash', $hashStr)->first();
             if(!$s) {
                 $foundunique = true;
             }
@@ -302,40 +302,72 @@ class DisasterController extends Controller
     public function storeMember($id, Request $r) {
         $d = EvacuationCenterPatient::findOrFail($id);
 
+        $lname = mb_strtoupper($r->lname);
+        $fname = mb_strtoupper($r->fname);
+        $mname = ($r->mname) ? mb_strtoupper($r->mname) : NULL;
+        $suffix = ($r->suffix) ? mb_strtoupper($r->suffix) : NULL;
+
+        $bdate = $r->bdate;
+
+        $birthdate = Carbon::parse($bdate);
+        $currentDate = Carbon::now();
+
+        $get_ageyears = $birthdate->diffInYears($currentDate);
+        $get_agemonths = $birthdate->diffInMonths($currentDate);
+        $get_agedays = $birthdate->diffInDays($currentDate);
+
+        $foundunique = false;
+
+        while(!$foundunique) {
+            $hashStr = Str::random(10);
+
+            $s = EvacuationCenterPatient::where('hash', $hashStr)->first();
+            if(!$s) {
+                $s1 = EvacuationCenterPatientMembers::where('hash', $hashStr)->first();
+
+                if(!$s1) {
+                    $foundunique = true;
+                }
+            }
+        }
+
         $c = EvacuationCenterPatientMembers::create([
-            'familyhead_id',
-            'relationship_tohead',
-            'date_registered',
-            'lname',
-            'fname',
-            'mname',
-            'suffix',
-            'nickname',
-            'bdate',
-            'sex',
-            'is_pregnant',
-            'is_lactating',
-            'highest_education',
-            'occupation',
-            'outcome',
-            'date_missing',
-            'date_returned',
-            'date_died',
-            'is_injured',
-            'is_pwd',
-            'is_4ps',
-            'is_indg',
-            'indg_specify',
-            'age_years',
-            'age_months',
-            'age_days',
-            'cswd_serialno',
-            'dswd_serialno',
-            'remarks',
-            'created_by',
-            'updated_by',
-            'hash',
+            'familyhead_id' => $d->id,
+            'relationship_tohead' => $r->relationship_tohead,
+            'date_registered' => $r->date_registered,
+            'lname' => $lname,
+            'fname' => $fname,
+            'mname' => $mname,
+            'suffix' => $suffix,
+            //'nickname',
+            'bdate' => $r->bdate,
+            'sex' => $r->sex,
+            'is_pregnant' => ($r->sex == 'F') ? $r->is_pregnant : 'N',
+            'is_lactating' => ($r->sex == 'F') ? $r->is_lactating : 'N',
+            'highest_education' => $r->highest_education,
+            'occupation' => $r->occupation,
+            'outcome' => $r->outcome,
+            'date_missing' => ($r->outcome == 'MISSING') ? $r->date_missing : NULL,
+            'date_died' => ($r->outcome == 'DIED') ? $r->date_died : NULL,
+            'is_injured' => $r->is_injured,
+            'is_pwd' => $r->is_pwd,
+            'is_4ps' => $r->is_4ps,
+            'is_indg' => $r->is_indg,
+            'indg_specify' => ($r->is_indg == 'Y') ? mb_strtoupper($r->indg_specify) : NULL,
+            'age_years' => $get_ageyears,
+            'age_months' => $get_agemonths,
+            'age_days' => $get_agedays,
+            'cswd_serialno' => ($r->cswd_serialno) ? mb_strtoupper($r->cswd_serialno) : NULL,
+            //'dswd_serialno',
+            'remarks' => $r->remarks,
+            'created_by' => auth()->user()->id,
+            'updated_by' => auth()->user()->id,
+            'hash' => $hashStr,
         ]);
+
+        return redirect()->route('gtsecure_evacuationcenter_view', $d->evacuation_center_id)
+        ->with('msg', 'Family Member was successfully added.')
+        ->with('msgtype', 'success');
     }
 
     public function viewMember(EvacuationCenterPatientMembers $pt) {

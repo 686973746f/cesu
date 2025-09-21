@@ -12,7 +12,7 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between">
                     <div><b>Employee</b></div>
-                    <div></div>
+                    <div><a href="{{route('attendancesheet_create', $d->id)}}?month={{date('m')}}&year={{date('Y')}}" class="btn btn-primary">Create DTR</a></div>
                 </div>
             </div>
             <div class="card-body">

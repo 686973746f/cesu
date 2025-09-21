@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEvacuationCenterPatientsTable extends Migration
+class CreateEvacuationCenterFamilyHeadsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateEvacuationCenterPatientsTable extends Migration
      */
     public function up()
     {
-        Schema::create('evacuation_center_patients', function (Blueprint $table) {
+        Schema::create('evacuation_center_family_heads', function (Blueprint $table) {
             $table->id();
             $table->string('enabled', 1)->default('Y');
-            $table->foreignId('evacuation_center_id')->constrained('evacuation_centers')->onDelete('cascade');
-            $table->dateTime('date_registered');
+
             $table->string('lname');
             $table->string('fname');
             $table->string('mname')->nullable();
@@ -54,33 +53,18 @@ class CreateEvacuationCenterPatientsTable extends Migration
             //$table->string('is_headoffamily', 1)->default('N');
             //$table->integer('family_patient_id', 1)->nullable();
             //$table->string('relationship_tohead', 1)->nullable();
-
-            $table->string('family_status'); //ACTIVE, WENT HOME
-            $table->date('date_returnedhome')->nullable();
-            $table->string('outcome'); //ALIVE, DIED, MISSING
-            $table->dateTime('date_missing')->nullable();
-            $table->dateTime('date_returned')->nullable();
-            $table->dateTime('date_died')->nullable();
-            $table->string('is_injured', 1)->default('N');
             
             $table->string('longlat')->nullable();
             $table->string('house_ownership');
-            $table->string('shelterdamage_classification');
-            $table->text('remarks')->nullable();
+            
 
             $table->string('cswd_serialno')->nullable();
             $table->string('dswd_serialno')->nullable();
-
-            $table->integer('age_years');
-            $table->integer('age_months');
-            $table->integer('age_days');
-            $table->timestamps();
-
-            $table->string('focal_name');
-            $table->string('supervisor_name')->nullable();
+            
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->text('hash');
+            $table->timestamps();
         });
     }
 
@@ -91,6 +75,6 @@ class CreateEvacuationCenterPatientsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('evacuation_center_patients');
+        Schema::dropIfExists('evacuation_center_family_heads');
     }
 }

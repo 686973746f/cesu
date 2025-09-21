@@ -57,6 +57,7 @@
                             <th>#</th>
                             <th>Event Name</th>
                             <th>Event Date</th>
+                            <th>Cycle No.</th>
                             <th>Status</th>
                             <th>Created at / by</th>
                         </tr>
@@ -76,6 +77,7 @@
                                 
                             </td>
                             <td class="text-center">{{($l->event_date) ? date('M. d, Y - D', strtotime($l->event_date)) : 'N/A'}}</td>
+                            <td class="text-center">{{$l->cycle_number}}</td>
                             <td class="text-center">{{$l->status}}</td>
                             <td class="text-center">
                                 <div>{{date('M. d, Y h:i A', strtotime($l->created_at))}}</div>

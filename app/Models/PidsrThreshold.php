@@ -12,6 +12,7 @@ class PidsrThreshold extends Model
     protected $fillable = [
         'disease',
         'year',
+        'has_outbreakdeclaration',
         'mw1',
         'mw2',
         'mw3',

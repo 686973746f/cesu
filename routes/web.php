@@ -557,6 +557,12 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessE
     Route::get('employees/edit/{id}', [EmployeesController::class, 'editEmployee'])->name('employees_edit');
     Route::post('employees/edit/{id}/update', [EmployeesController::class, 'updateEmployee'])->name('employees_update');
 
+    Route::get('employees/dtr/{id}', [EmployeesController::class, 'viewAttendanceSheet'])->name('attendancesheet_create');
+    Route::post('employees/dtr/{id}/post', [EmployeesController::class, 'storeAttendanceSheet'])->name('attendancesheet_store');
+
+    Route::get('employees/attendance_events', [EmployeesController::class, 'viewAttendanceEvents'])->name('attendanceevent_create');
+    Route::post('employees/attendance_events/create', [EmployeesController::class, 'storeAttendanceEvents'])->name('attendanceevent_store');
+
     Route::get('duties', [EmployeesController::class, 'dutyIndex'])->name('duty_index');
     Route::post('duties/store', [EmployeesController::class, 'storeDuty'])->name('duty_store');
     Route::post('duties/update_options', [EmployeesController::class, 'dutyMainOptions'])->name('duty_mainoptions');

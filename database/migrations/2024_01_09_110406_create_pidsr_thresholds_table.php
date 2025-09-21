@@ -17,6 +17,7 @@ class CreatePidsrThresholdsTable extends Migration
             $table->id();
             $table->string('disease');
             $table->string('year');
+            $table->string('has_outbreakdeclaration')->default('N');
             $table->integer('mw1')->nullable();
             $table->integer('mw2')->nullable();
             $table->integer('mw3')->nullable();

@@ -24,10 +24,10 @@ class CreateEmployeeAttendanceSheetsTable extends Migration
             $table->text('leave_remarks')->nullable();
             
             $table->string('is_halfday')->default('N');
-            $table->string('timein_am')->nullable();
-            $table->string('timeout_am')->nullable();
-            $table->string('timein_pm')->nullable();
-            $table->string('timeout_pm')->nullable();
+            $table->time('timein_am')->nullable();
+            $table->time('timeout_am')->nullable();
+            $table->time('timein_pm')->nullable();
+            $table->time('timeout_pm')->nullable();
 
             $table->text('supervisor_remarks')->nullable();
             $table->text('admin_remarks')->nullable();

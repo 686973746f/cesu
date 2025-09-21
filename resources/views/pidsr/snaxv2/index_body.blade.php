@@ -87,21 +87,19 @@
             </div>
             <div class="row my-3" style="background-color: rgba(255,242,204,255)">
                 <div class="col-2"></div>
-                <div class="col-8 d-flex justify-content-center align-items-center text-center"><h4><b>{{mb_strtoupper($flavor_title)}} SURVEILLANCE REPORT</b></h4></div>
+                <div class="col-8 text-center">
+                    <div><h4><b>Epidemic-prone Disease Case Surveillance (EDCS) Report</b></h4></div>
+                    <div><h4><b>{{mb_strtoupper($flavor_title)}}</b></h4></div>
+                </div>
                 <div class="col-2 text-center">
-                    <h6>
-                        @if(date('Y') == $sel_year)
-                        {{date('F d, Y')}}
-                        @else
-                        {{$flavor_enddate->format('F d, Y')}}
-                        @endif
-                    </h6>
-                    <h6>Morbidity Week 1-{{$sel_mweek}}</h6>
+                    <div><h6>Morbidity Week: {{$sel_mweek}}</h6></div>
+                    <div><h6>Jan. 1 - {{$flavor_enddate->format('M. d, Y')}}</h6></div>
+                    
                 </div>
             </div>
             <ul>
                 <h5 style="margin-bottom: -2px;"><b><u>Summary:</u></b></h5>
-                <li style="margin-bottom: -5px;"><h5>There were <b>{{$current_grand_total}} {{Str::plural('case', $current_grand_total)}} of {{$flavor_name}}</b> reported for Morbidity Week 1-{{$sel_mweek}} (Jan 01 - {{$flavor_enddate->format('M d, Y')}}), with <b class="text-danger">{{$death_count}} {{Str::plural('death', $death_count)}} (CFR {{($current_grand_total != 0) ? round($death_count / $current_grand_total * 100, 2) : 0}}%)</b></h5></li>
+                <li style="margin-bottom: -5px;"><h5>There were <b>{{$current_grand_total}} {{Str::plural('case', $current_grand_total)}} of {{$flavor_name}}</b> reported for Morbidity Week 1-{{$sel_mweek}} (Jan. 1 - {{$flavor_enddate->format('M. d, Y')}}), with <b class="text-danger">{{$death_count}} {{Str::plural('death', $death_count)}} (CFR {{($current_grand_total != 0) ? round($death_count / $current_grand_total * 100, 2) : 0}}%)</b></h5></li>
                 @if($death_count != 0 && $sel_disease == 'Pert')
                 <li style="margin-bottom: -5px;"><h5>Profile of death/s:</h5>
                     <ul>
@@ -161,16 +159,16 @@
             <div class="row">
                 <div class="col-md-6">
                     <h5><b>Distribution of {{$flavor_name}} Cases by Morbidity Week</b></h5>
-                    <h6>GENERAL TRIAS, MW{{$sel_mweek}}, {{$sel_year}} (N={{$current_grand_total}})</h6>
+                    <h6>GENERAL TRIAS, Jan. 1 - {{$flavor_enddate->format('M. d, Y')}} (N={{$current_grand_total}})</h6>
                     <div>
                     <canvas id="myChart" style="height: 600px"></canvas>
                     </div>
                     <hr>
                     <h5><b>Spot Map of {{$flavor_name}} Cases</b></h5>
                     @if($set_display_params == 'yearly')
-                    <h6>GENERAL TRIAS, MW 1-{{$sel_mweek}}, {{$sel_year}} (N={{$current_grand_total}})</h6>
+                    <h6>GENERAL TRIAS, Jan. 1 - {{$flavor_enddate->format('M. d, Y')}} (N={{$current_grand_total}})</h6>
                     @else
-                    <h6>GENERAL TRIAS, MW {{$sel_mweek-2}}-{{$sel_mweek}}, {{$sel_year}} (N={{$threemws_total}})</h6>
+                    <h6>GENERAL TRIAS, {{$last3mw_date->format('M. d, Y')}} - {{$flavor_enddate->format('M. d, Y')}} (N={{$threemws_total}})</h6>
                     @endif
                     @php
                     $pob_count =
@@ -221,7 +219,7 @@
                     </div>
                     @if($sel_disease == 'Pert')
                     <h5 class="mt-3"><b>{{$flavor_name}} Cases by Classification, Outcome, and Lab Results</b></h5>
-                    <h6>GENERAL TRIAS, Jan 01 - {{$flavor_enddate->format('M d, Y')}} (N={{$current_grand_total}})</h6>
+                    <h6>GENERAL TRIAS, Jan 1 - {{$flavor_enddate->format('M. d, Y')}} (N={{$current_grand_total}})</h6>
                     <table class="table table-bordered table-sm" style="border: 1px solid #000;">
                         <thead class="thead-light text-center">
                             <tr>
@@ -401,13 +399,13 @@
                     <hr>
                     @endif
                     <h5><b>Top 10 Barangays with {{$flavor_name}} Cases</b></h5>
-                    <h6>GENERAL TRIAS, MW 1-{{$sel_mweek}}, {{$sel_year}} (N={{$current_grand_total}})</h6>
+                    <h6>GENERAL TRIAS, Jan. 1 - {{$flavor_enddate->format('M. d, Y')}} (N={{$current_grand_total}})</h6>
                     <div style="height: 400px">
                     <canvas id="topten" width="" height=""></canvas>
                     </div>
                     @if($sel_disease == 'Pert' || $sel_disease == 'Measles')
                     <h5 class="mt-3"><b>Proportion of {{$flavor_name}} Cases by Sex and Age</b></h5>
-                    <h6>GENERAL TRIAS, MW 1-{{$sel_mweek}}, {{$sel_year}} (N={{$current_grand_total}})</h6>
+                    <h6>GENERAL TRIAS, Jan. 1 - {{$flavor_enddate->format('M. d, Y')}} (N={{$current_grand_total}})</h6>
                     <canvas id="ageGroup" width="50" height=""></canvas>
                     @if($sel_disease == 'Pert')
                     <hr>
@@ -454,7 +452,7 @@
         <div class="card-header bg-transparent">
             <div class="d-flex justify-content-between">
                 <div><b>Page 2/3 - {{$flavor_name}} Monitoring Dashboard</b></div>
-                <div><b>MW {{$sel_mweek}} ({{$startDate->format('M d, Y')}} - {{$endDate->format('M d, Y')}})</b></div>
+                <div><b>MW {{$sel_mweek}}</b></div>
             </div>
         </div>
         <div class="card-body">
@@ -540,7 +538,7 @@
                 <div class="col-md-6">
                     <div class="{{(!$show_classification_piegraph) ? 'd-none' : ''}}">
                         <h5><b>Proportion of Cases by Case Classification</b></h5>
-                        <h6>GENERAL TRIAS, MW 1-{{$sel_mweek}}, {{$sel_year}}</h6>
+                        <h6>GENERAL TRIAS, Jan. 1 - {{$flavor_enddate->format('M. d, Y')}}</h6>
                         <h6>N={{$current_grand_total}}</h6>
                         <div style="height: 400px">
                             <canvas id="pieChart" width="" height=""></canvas>
@@ -551,7 +549,7 @@
                     
                     @if($sel_disease != 'Pert')
                     <h5><b>Proportion of Cases by Sex and Age Group</b></h5>
-                    <h6>GENERAL TRIAS, MW 1-{{$sel_mweek}}, {{$sel_year}}</h6>
+                    <h6>GENERAL TRIAS, Jan. 1 - {{$flavor_enddate->format('M. d, Y')}}</h6>
                     <h6>N={{$current_grand_total}}</h6>
                     <canvas id="ageGroup" width="50" height=""></canvas>
                     @endif
@@ -564,12 +562,12 @@
         <div class="card-header bg-transparent">
             <div class="d-flex justify-content-between">
                 <div><b>Page 3/3 - {{$flavor_name}} Monitoring Dashboard</b></div>
-                <div><b>MW {{$sel_mweek}} ({{$startDate->format('M d, Y')}} - {{$endDate->format('M d, Y')}})</b></div>
+                <div><b>MW {{$sel_mweek}}</b></div>
             </div>
         </div>
         <div class="card-body">
             <h5><b>Distribution of {{$flavor_name}} Cases by Barangay for the Previous 4 MWs</b></h5>
-            <h6>GENERAL TRIAS, MW {{$sel_mweek-3}}-{{$sel_mweek}}, {{$sel_year}}</h6>
+            <h6>GENERAL TRIAS, {{Carbon\Carbon::now()->isoWeekYear($sel_year)->isoWeek($sel_mweek-4)->startOfWeek()->format('M. d, Y')}} - {{$flavor_enddate->format('M. d, Y')}}</h6>
             <h6>N={{$fourmws_total}}</h6>
             <table class="table table-bordered table-sm">
                 <thead class="text-center">
@@ -678,7 +676,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="card">
-                        <div class="card-header text-center"><b>REPORT FOR: MW {{$sel_mweek}} ({{$startDate->format('M d, Y')}} - {{$endDate->format('M d, Y')}})</b></div>
+                        <div class="card-header text-center"><b>EDITORIAL BOARD</b></div>
                         <div class="card-body">
                             <table class="table table-borderless">
                                 <tbody>
@@ -958,7 +956,7 @@ foreach($classification_counts as $ind => $cclass) {
                         display: false,
                     },
                     ticks: {
-                        stepSize: 1,
+                        stepSize: 10,
                     },
                     title: {
                         display: true,
@@ -1149,7 +1147,7 @@ foreach($classification_counts as $ind => $cclass) {
                         display: false,
                     },
                     ticks: {
-                        stepSize: 1,
+                        stepSize: 10,
                     },
                     title: {
                         display: true,
@@ -1227,7 +1225,7 @@ foreach($classification_counts as $ind => $cclass) {
                         display: false,
                     },
                     ticks: {
-                        stepSize: 1,  // Display only whole numbers
+                        stepSize: 10,  // Display only whole numbers
                         callback: function(value, index, values) {
                             return Math.abs(value);  // Return the absolute value to hide the negative sign
                         }

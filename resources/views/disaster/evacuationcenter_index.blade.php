@@ -27,7 +27,7 @@
                             </tr>
                             <tr>
                                 <th>No.</th>
-                                <th>Name</th>
+                                <th>Name of Family Head</th>
                                 <th>Age</th>
                                 <th>Gender</th>
                                 <th>Street/Purok</th>

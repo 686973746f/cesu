@@ -72,6 +72,7 @@ class CreateEmployeesTable extends Migration
             $table->foreignId('abtc_vaccinator_branch')->nullable()->constrained('users')->onDelete('cascade');
 
             $table->text('emp_access_list')->nullable();
+            $table->foreignId('systemuser_id')->nullable()->constrained('users')->onDelete('cascade');
             
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');

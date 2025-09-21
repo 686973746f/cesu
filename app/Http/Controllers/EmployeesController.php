@@ -2,18 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\BlsMain;
 use App\Models\Employee;
 use App\Models\HertDuty;
+use Carbon\CarbonPeriod;
 use App\Models\BlsMember;
 use App\Models\DutyCycle;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\HertDutyMember;
+use App\Models\AttendanceSheet;
 use App\Models\HertDutyPatient;
 use Illuminate\Support\Facades\DB;
 use App\Models\AbtcVaccinationSite;
+use App\Models\AttendanceSheetEvents;
 use App\Models\BlsBatchParticipant;
+use App\Models\EmployeeAttendanceSheet;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -1082,5 +1087,64 @@ class EmployeesController extends Controller
             'td_deployed' => $td_deployed,
             'td_notdeployed' => $td_notdeployed,
         ]);
+    }
+
+    public function viewAttendanceSheet($id) {
+        $month = request()->input('month', date('m'));
+        $year = request()->input('year', date('Y'));
+
+        $start = Carbon::create($year, $month, 1);
+        $end = $start->copy()->endOfMonth();
+        $dates = CarbonPeriod::create($start, $end);
+
+        $employee = Employee::findOrFail($id);
+
+        // Get saved attendance for this employee
+        $records = EmployeeAttendanceSheet::where('employee_id', $id)
+            ->whereBetween('for_date', [$start, $end])
+            ->get()
+            ->keyBy('for_date'); // so you can access like $records['2025-09-01']
+
+        return view('employees.attendance_sheet', compact('employee', 'dates', 'records', 'month', 'year'));
+    }
+
+    public function storeAttendanceSheet($id, Request $r) {
+        $attendanceData = $r->input('attendance', []);
+
+        foreach ($attendanceData as $for_date => $status) {
+            //Check if Saturday, Sunday, Holiday or Listed on TO
+
+            $selected_date = Carbon::parse($for_date);
+
+            AttendanceSheetEvents::
+
+            if($selected_date->dayOfWeek != Carbon::SATURDAY && $selected_date->dayOfWeek != Carbon::SUNDAY) {
+                
+            }
+
+            if (isset($status['is_present'])) {
+                // Insert/Update record
+                EmployeeAttendanceSheet::updateOrCreate(
+                    [
+                        'employee_id' => $id,
+                        'for_date' => $for_date,
+                    ],
+                    [
+                        'is_halfday' => isset($status['is_halfday']) ? 1 : 0,
+                        'timein_am'  => $status['timein_am'] ?? '08:00',
+                        'timeout_am' => $status['timeout_am'] ?? '12:00',
+                        'timein_pm'  => $status['timein_pm'] ?? '13:00',
+                        'timeout_pm' => $status['timeout_pm'] ?? '17:00',
+                    ]
+                );
+            } else {
+                // Delete record = absent
+                EmployeeAttendanceSheet::where('employee_id', $id)
+                    ->where('for_date', $for_date)
+                    ->delete();
+            }
+        }
+
+    return redirect()->back()->with('success', 'Attendance saved successfully!');
     }
 }
