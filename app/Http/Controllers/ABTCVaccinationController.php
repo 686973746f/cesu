@@ -378,6 +378,8 @@ class ABTCVaccinationController extends Controller
                 $d7_vaccinated_inbranch = 0;
                 $d7_facility_name = mb_strtoupper($request->d7_facility_name);
 
+                $set_d14_date = Carbon::parse($base_date)->subDays(14);
+
                 $set_d28_date = Carbon::parse($base_date);
                 $d28_done = 1;
                 $d28_vaccinated_inbranch = 1;
