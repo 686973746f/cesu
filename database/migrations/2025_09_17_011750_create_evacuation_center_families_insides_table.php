@@ -15,11 +15,11 @@ class CreateEvacuationCenterFamiliesInsidesTable extends Migration
     {
         Schema::create('evacuation_center_families_insides', function (Blueprint $table) {
             $table->id();
-            
+
+            $table->dateTime('date_registered');
             $table->foreignId('evacuation_center_id')->constrained('evacuation_centers')->onDelete('cascade');
             $table->foreignId('familyhead_id')->constrained('evacuation_center_family_heads')->onDelete('cascade');
-            $table->dateTime('date_registered');
-
+            
             $table->string('family_status'); //ACTIVE, WENT HOME
             $table->date('date_returnedhome')->nullable();
             $table->string('outcome'); //ALIVE, DIED, MISSING

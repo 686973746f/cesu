@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class EvacuationCenterFamilyMembersInside extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'date_registered',
+    ];
 }

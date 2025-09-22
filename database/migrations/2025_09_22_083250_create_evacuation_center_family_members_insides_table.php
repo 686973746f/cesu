@@ -16,6 +16,7 @@ class CreateEvacuationCenterFamilyMembersInsidesTable extends Migration
         Schema::create('evacuation_center_family_members_insides', function (Blueprint $table) {
             $table->id();
             $table->string('enabled', 1)->default('Y');
+            $table->dateTime('date_registered');
             $table->foreignId('familyinside_id')->constrained('evacuation_center_families_insides')->onDelete('cascade');
             $table->foreignId('member_id')->constrained('evacuation_center_family_members')->onDelete('cascade');
 

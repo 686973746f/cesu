@@ -1116,7 +1116,7 @@ class EmployeesController extends Controller
 
             $selected_date = Carbon::parse($for_date);
 
-            AttendanceSheetEvents::
+            //AttendanceSheetEvents::
 
             if($selected_date->dayOfWeek != Carbon::SATURDAY && $selected_date->dayOfWeek != Carbon::SUNDAY) {
                 

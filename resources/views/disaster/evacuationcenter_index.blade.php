@@ -39,15 +39,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($patient_list as $ind => $p)
+                            @foreach($head_list as $ind => $p)
                             <tr>
                                 <td class="text-center">{{$ind+1}}</td>
-                                <td><a href="{{route('gtsecure_viewpatient', $p->id)}}">{{$p->getName()}}</a></td>
-                                <td class="text-center">{{$p->getAge()}}</td>
-                                <td class="text-center">{{$p->sex}}</td>
-                                <td class="text-center">{{$p->street_purok}}</td>
-                                <td class="text-center">{{$p->brgy->name}}</td>
-                                <td class="text-center">{{$p->contact_number}}</td>
+                                <td><a href="{{route('gtsecure_viewpatient', $p->id)}}">{{$p->familyhead->getName()}}</a></td>
+                                <td class="text-center">{{$p->familyhead->getAge()}}</td>
+                                <td class="text-center">{{$p->familyhead->sex}}</td>
+                                <td class="text-center">{{$p->familyhead->street_purok}}</td>
+                                <td class="text-center">{{$p->familyhead->brgy->name}}</td>
+                                <td class="text-center">{{$p->familyhead->contact_number}}</td>
                                 <td class="text-center">{{$p->outcome}}</td>
                                 <td class="text-center">
                                     <div>{{date('M. d, Y h:i A', strtotime($p->created_at))}}</div>
@@ -56,7 +56,6 @@
                                 <td class="text-center">
                                     <a href="{{route('gtsecure_newmember', $p->id)}}" class="btn btn-success btn-sm">Add Family Member</a>
                                 </td>
-
                             </tr>
                             @endforeach
                         </tbody>
