@@ -140,8 +140,8 @@ class DisasterController extends Controller
         return view('disaster.create_edit_patient', ['p' => $pt]);
     }
     
-    public function storePatient($evac_id, Request $r) {
-        $d = EvacuationCenter::findOrFail($evac_id);
+    public function storeFamilyHead(Request $r) {
+        //$d = EvacuationCenter::findOrFail($evac_id);
 
         $lname = mb_strtoupper($r->lname);
         $fname = mb_strtoupper($r->fname);
@@ -169,7 +169,7 @@ class DisasterController extends Controller
         $get_agedays = $birthdate->diffInDays($currentDate);
 
         $c = EvacuationCenterPatient::create([
-            'evacuation_center_id' => $d->id,
+            //'evacuation_center_id' => $d->id,
             'date_registered' => $r->date_registered,
             'cswd_serialno' => ($r->cswd_serialno) ? mb_strtoupper($r->cswd_serialno) : NULL,
             'lname' => $lname,

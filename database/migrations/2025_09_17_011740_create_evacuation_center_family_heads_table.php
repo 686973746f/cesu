@@ -56,7 +56,6 @@ class CreateEvacuationCenterFamilyHeadsTable extends Migration
             
             $table->string('longlat')->nullable();
             $table->string('house_ownership');
-            
 
             $table->string('cswd_serialno')->nullable();
             $table->string('dswd_serialno')->nullable();
