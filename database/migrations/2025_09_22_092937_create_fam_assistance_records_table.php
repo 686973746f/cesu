@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEvacuationCenterFamilyAssistanceRecordsTable extends Migration
+class CreateFamAssistanceRecordsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateEvacuationCenterFamilyAssistanceRecordsTable extends Migration
      */
     public function up()
     {
-        Schema::create('evacuation_center_family_assistance_records', function (Blueprint $table) {
+        Schema::create('fam_assistance_records', function (Blueprint $table) {
             $table->id();
 
             $table->foreignId('fhid')->constrained('evacuation_center_family_heads')->onDelete('cascade');
-            $table->foreignId('evacuation_center_id')->constrained('evacuation_centers')->onDelete('cascade');
-            
+            $table->foreignId('ecid')->constrained('evacuation_centers')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateEvacuationCenterFamilyAssistanceRecordsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('evacuation_center_family_assistance_records');
+        Schema::dropIfExists('fam_assistance_records');
     }
 }
