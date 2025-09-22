@@ -16,7 +16,7 @@ class CreateEvacuationCenterFamilyAssistanceRecordsTable extends Migration
         Schema::create('evacuation_center_family_assistance_records', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('familyhead_id')->constrained('evacuation_center_family_heads')->onDelete('cascade');
+            $table->foreignId('fhid')->constrained('evacuation_center_family_heads')->onDelete('cascade');
             $table->foreignId('evacuation_center_id')->constrained('evacuation_centers')->onDelete('cascade');
             
             $table->timestamps();
