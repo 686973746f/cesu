@@ -71,9 +71,11 @@
                             <th>Exposure Date</th>
                             <th>Place <small>(Where biting occured)</small></th>
                             <th>Type of Animal</th>
+                            <th>is Animal Vaccinated</th>
                             <th>Type</th>
                             <th>Site <small>(Body Parts)</small></th>
                             <th>Category</th>
+                            <th>Is Booster</th>
                             <th>Washing of Bite</th>
                             <th>RIG Date given</th>
                             <th>Route</th>
@@ -104,9 +106,11 @@
                             <td>{{date('m/d/Y', strtotime($d->bite_date))}}</td>
                             <td><small>{{$d->case_location}}</small></td>
                             <td>{{$d->animal_type}}</td>
+                            <td>{{($d->if_animal_vaccinated == 1) ? 'Y' : 'N'}}</td>
                             <td>{{$d->bite_type}}</td>
                             <td>{{(!is_null($d->body_site)) ? mb_strtoupper($d->body_site) : 'N/A'}}</td>
                             <td>{{$d->category_level}}</td>
+                            <td>{{($d->is_booster == 1) ? 'Y' : 'N'}}</td>
                             <td>{{($d->washing_of_bite == 1) ? 'Y' : 'N'}}</td>
                             <td>{{(!is_null($d->rig_date_given)) ? date('m/d/Y', strtotime($d->rig_date_given)) : 'N/A'}}</td>
                             <td>{{$d->pep_route}}</td>
