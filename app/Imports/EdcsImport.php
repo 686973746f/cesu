@@ -1497,7 +1497,7 @@ class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 class NntImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 {
     public function model(array $row) {
-        if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite' && $row['epi_id']) {
+        if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite' && $row['epi_id'] && $row['case_code'] == 'NON_NTETANUS') {
             $birthdate = Carbon::parse(EdcsImport::tDate($row['date_of_birth']));
             $currentDate = Carbon::parse(EdcsImport::tDate($row['timestamp']));
 
