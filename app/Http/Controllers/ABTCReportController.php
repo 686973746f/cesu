@@ -602,6 +602,7 @@ class ABTCReportController extends Controller
                 ->whereNotNull('rig_date_given')
                 ->where('vaccination_site_id', $v->id)
                 ->whereBetween('case_date', [$sd, $ed])
+                ->where('is_booster', 0)
                 ->count();
 
                 $booster_count = AbtcBakunaRecords::where('vaccination_site_id', $v->id)
