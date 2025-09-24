@@ -105,11 +105,11 @@
                             <td>{{$d->patient->address_province_text}}</td>
                             <td>{{$d->patient->getAge()}}</td>
                             <td>{{$d->patient->sg()}}</td>
-                            <td>{{date('m/d/Y', strtotime($d->bite_date))}}</td>
-                            <td><small>{{$d->case_location}}</small></td>
-                            <td>{{$d->animal_type}}</td>
+                            <td>{{(!is_null($d->bite_date)) ? date('m/d/Y', strtotime($d->bite_date)) : 'N/A'}}</td>
+                            <td><small>{{(!is_null($d->case_location)) ? $d->case_location : 'N/A'}}</small></td>
+                            <td>{{(!is_null($d->animal_type)) ? $d->animal_type : 'N/A'}}</td>
                             <td>{{($d->if_animal_vaccinated == 1) ? 'Y' : 'N'}}</td>
-                            <td>{{$d->bite_type}}</td>
+                            <td>{{(!is_null($d->bite_type)) ? $d->bite_type : 'N/A'}}</td>
                             <td>{{(!is_null($d->body_site)) ? mb_strtoupper($d->body_site) : 'N/A'}}</td>
                             <td>{{$d->category_level}}</td>
                             <td>{{($d->is_booster == 1) ? 'Y' : 'N'}}</td>
