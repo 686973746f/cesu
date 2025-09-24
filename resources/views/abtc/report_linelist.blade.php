@@ -59,6 +59,7 @@
                     <thead class="text-center thead-light" style="vertical-align: middle;">
                         <tr>
                             <th>ID</th>
+                            <th>Facility</th>
                             <th>No.</th>.
                             <th>Reg. Date</th>
                             <th>Name of Patient</th>
@@ -94,6 +95,7 @@
                         @forelse($list as $d)
                         <tr class="text-center" style="vertical-align: middle;">
                             <td>{{$d->id}}</td>
+                            <td>{{$d->vaccinationsite->site_name}}</td>
                             <td><a href="{{route('abtc_encode_edit', $d->id)}}">{{$d->case_id}}</a></td>
                             <td>{{date('m/d/Y', strtotime($d->case_date))}}</td>
                             <td><a href="{{route('abtc_patient_edit', ['id' => $d->patient->id])}}">{{$d->patient->getName()}}</a></td>
@@ -122,7 +124,7 @@
                             <td>{{$d->brand_name}}</td>
                             <td>{{$d->outcome}}</td>
                             <td>{{$d->biting_animal_status}}</td>
-                            <td><small>{{($d->is_booster == 1) ? 'BOOSTER' : ''}} {{$d->remarks}}</small></td>
+                            <td><small>{{$d->remarks}}</small></td>
                         </tr>
                         @empty
                         <tr class="text-center">
