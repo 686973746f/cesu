@@ -18,10 +18,10 @@ class CreateEmployeeAttendanceSheetsTable extends Migration
             $table->foreignId('employee_id')->constrained('employees')->onDelete('cascade');
             $table->date('for_date');
 
-            $table->string('is_travelorder')->default('N');
-            $table->string('filed_forleave')->default('N');
+            $table->foreignId('event_id')->nullable()->constrained('attendance_sheet_events')->onDelete('cascade');
+            $table->foreignId('leave_id')->nullable()->constrained('leave_forms')->onDelete('cascade');
+            $table->string('is_leave', 1)->default('N');
             $table->string('leave_type')->nullable();
-            $table->text('leave_remarks')->nullable();
             
             $table->string('is_halfday')->default('N');
             $table->time('timein_am')->nullable();

@@ -39,8 +39,8 @@ class CreateEvacuationCenterFamilyMembersTable extends Migration
             $table->string('is_indg', 1)->default('N');
             $table->string('indg_specify')->nullable();
 
-            $table->string('cswd_serialno')->nullable();
-            $table->string('dswd_serialno')->nullable();
+            //$table->string('cswd_serialno')->nullable();
+            //$table->string('dswd_serialno')->nullable();
 
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');

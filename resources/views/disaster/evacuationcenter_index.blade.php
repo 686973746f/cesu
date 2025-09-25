@@ -8,7 +8,7 @@
                     <div><b>View Evacuation Center</b></div>
                     <div>
                         <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#evacOptions">Options</button>
-                        <a href="{{route('gtsecure_newpatient', $d->id)}}" class="btn btn-success">New Head of the Family</a>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addHead">Add Family Head</button>
                     </div>
                 </div>
             </div>
@@ -64,6 +64,27 @@
             </div>
         </div>
     </div>
+
+    <form action="" method="POST">
+        <div class="modal fade" id="addHead" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><b>Add Family to Evacuation Center</b></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <div class="modal-body">
+                        Body
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success btn-block">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 
     <form action="" method="POST">
         @csrf
