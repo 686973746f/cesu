@@ -23,6 +23,8 @@
                     <tr>
                         <th>#</th>
                         <th>Evacuation Center</th>
+                        <th>No. of Families</th>
+                        <th>No. of Individuals</th>
                         <th>Barangay</th>
                         <th>Status</th>
                         <th>Created at/by</th>

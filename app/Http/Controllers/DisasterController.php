@@ -10,6 +10,7 @@ use App\Models\EvacuationCenter;
 use App\Models\EvacuationCenterFamiliesInside;
 use App\Models\EvacuationCenterFamilyHead;
 use App\Models\EvacuationCenterFamilyMember;
+use App\Models\EvacuationCenterFamilyMembersInside;
 use Illuminate\Support\Facades\Auth;
 use App\Models\EvacuationCenterPatient;
 use App\Models\EvacuationCenterPatientMembers;
@@ -319,12 +320,84 @@ class DisasterController extends Controller
     }
 
     public function linkFamilyToEvac($id, Request $r) {
-        $c = EvacuationCenterFamiliesInside::create([
+        $e = EvacuationCenter::findOrFail($id);
 
+        $check = EvacuationCenterFamiliesInside::where('evacuation_center_id', $e->id)
+        ->where('familyhead_id', $r->familyhead_id)
+        ->first();
+
+        if($check) {
+            return redirect()->back()
+            ->with('msg', 'ERROR: Family ID already exists inside the Evacuation Center.')
+            ->with('msgtype', 'warning');
+        }
+
+        $c = EvacuationCenterFamiliesInside::create([
+            'evacuation_center_id' => $e->id,
+            'familyhead_id' => $r->familyhead_id,
+            'date_registered' => $r->date_registered,
+            'family_status' => $r->family_status,
+            'outcome' => 'ALIVE',
+            'is_injured' => $r->is_injured,
+            'shelterdamage_classification' => $r->shelterdamage_classification,
+            'remarks' => $r->remarks,
+            'focal_name' => ($r->focal_name) ? mb_strtoupper($r->focal_name) : NULL,
+            'supervisor_name' => ($r->supervisor_name) ? mb_strtoupper($r->supervisor_name) : NULL,
+            'created_by' => Auth::id(),
+        ]);
+
+        return redirect()->route('gtsecure_evacuationcenter_view', $e->id)
+        ->with('msg', 'Family ID #'.$r->familyhead_id.' was successfully added to the evacuation center.')
+        ->with('msgtype', 'success');
+    }
+
+    public function viewEvacFamily($headinside_id, Request $r) {
+        $d = EvacuationCenterFamiliesInside::findOrFail($headinside_id);
+
+        $the_array = EvacuationCenterFamilyMembersInside::where('familyinside_id', $d->id)
+        ->pluck('member_id') // only get the column familyhead_id
+        ->toArray();
+
+        $available_list = EvacuationCenterFamilyMember::whereNotIn('id', $the_array)
+        ->get();
+        
+        $list = EvacuationCenterFamilyMembersInside::where('familyinside_id', $d->id)->get();
+
+        return view('disaster.evac_viewfamily', [
+            'd' => $d,
+            'available_list' => $available_list,
+            'list' => $list,
         ]);
     }
 
+    public function linkMemberToEvac($headinside_id, Request $r) {
+        $d = EvacuationCenterFamiliesInside::findOrFail($headinside_id);
 
+        $c = EvacuationCenterFamilyMembersInside::create([
+            'date_registered' => $r->date_registered,
+            'familyinside_id' => $d->id,
+            'member_id' => $r->member_id,
+
+            'is_injured' => $r->is_injured,
+            'is_admitted' => $r->is_admitted,
+            'date_admitted' => ($r->is_admitted == 'Y') ? $r->date_admitted : NULL,
+            'date_discharged' => ($r->is_admitted == 'Y') ? $r->date_discharged : NULL,
+            'outcome' => $r->outcome,
+            'date_missing' => ($r->outcome == 'MISSING' || $r->outcome == 'MISSING THEN RETURNED') ? $r->date_missing : NULL,
+            'date_returned' => ($r->outcome == 'MISSING THEN RETURNED') ? $r->date_returned : NULL,
+            'date_died' => ($r->outcome == 'DIED') ? $r->date_died : NULL,
+
+            'remarks' => $r->remarks,
+            'created_by' => Auth::id(),
+        ]);
+
+        return redirect()->route('disaster_viewfamilyhead', $d->id)
+        ->with('msg', 'Family Member was successfully added.')
+        ->with('msgtype', 'success');
+    }
+
+
+    /*
     public function viewPatient($id) {
         $p = EvacuationCenterPatient::findOrFail($id);
 
@@ -493,4 +566,5 @@ class DisasterController extends Controller
     public function disasterGenerateReport($disaster_id) {
 
     }
+    */
 }
