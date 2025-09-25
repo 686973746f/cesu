@@ -65,7 +65,8 @@
         </div>
     </div>
 
-    <form action="" method="POST">
+    <form action="{{route('disaster_linkfamily')}}" method="POST">
+        @csrf
         <div class="modal fade" id="addHead" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -76,7 +77,19 @@
                             </button>
                     </div>
                     <div class="modal-body">
-                        Body
+                        <div class="form-group">
+                          <label for="select_family_id"><b class="text-danger">*</b>Select Family Head to Add in the Evacuation Center</label>
+                          <select class="form-control" name="select_family_id" id="select_family_id" required>
+                            <option value="" disabled {{(is_null(old('select_family_id'))) ? 'selected' : ''}}>Choose...</option>
+                            @foreach($available_list as $l)
+                            <option value="{{$l->id}}">{{$l->getName()}}</option>
+                            @endforeach
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label for="date_registered"><b class="text-danger">*</b>Date Registered</label>
+                          <input type="datetime-local" class="form-control" name="date_registered" id="date_registered" value="{{old('date_registered', date('Y-m-d H:i'))}}">
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success btn-block">Save</button>
@@ -372,5 +385,9 @@
                 $('#address_brgy_code').val(brgyDefault).trigger('change');
             }, 1500); // Slight delay to ensure city is loaded
         }
+
+        $("#select_family_id").select2({
+			theme: "bootstrap",
+		});
     </script>
 @endsection

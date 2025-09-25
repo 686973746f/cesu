@@ -314,11 +314,14 @@ class DisasterController extends Controller
         return view('disaster.evacuationcenter_index', [
             'd' => $d,
             'head_list' => $head_list,
+            'available_list' => $available_list,
         ]);
     }
 
     public function linkFamilyToEvac($id, Request $r) {
+        $c = EvacuationCenterFamiliesInside::create([
 
+        ]);
     }
 
 
