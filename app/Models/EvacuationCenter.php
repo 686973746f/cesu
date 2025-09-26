@@ -44,6 +44,11 @@ class EvacuationCenter extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
+    public function disaster()
+    {
+        return $this->belongsTo(Disaster::class, 'disaster_id');
+    }
+
     public function familiesinside() {
         return $this->hasMany(EvacuationCenterFamiliesInside::class, 'evacuation_center_id');
     }

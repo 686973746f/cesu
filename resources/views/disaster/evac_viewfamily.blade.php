@@ -36,6 +36,7 @@
                         </button>
                 </div>
                 <div class="modal-body">
+                    @if($available_list->count() > 0)
                     <div class="form-group">
                         <label for="member_id"><b class="text-danger">*</b>Select Family Member to Add</label>
                         <select class="form-control" name="member_id" id="member_id" required>
@@ -114,10 +115,19 @@
                             <input type="datetime-local" class="form-control" name="date_died" id="date_died">
                         </div>
                     </div>
+                    @else
+                    <div class="alert alert-warning" role="alert">
+                        <h5><b>There are no Family Members available to link.</b></h5>
+                        <hr>
+                        <h6>To create and link a new member data to this family, you may proceed to <b><a href="{{route('disaster_viewfamilyhead', $d->familyhead_id)}}">View {{ucwords(strtolower($d->familyhead->getName()))}} Family Data</a></b></h6>
+                    </div>
+                    @endif
                 </div>
+                @if($available_list->count() > 0)
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success btn-block">Save</button>
                 </div>
+                @endif
             </div>
         </div>
     </div>

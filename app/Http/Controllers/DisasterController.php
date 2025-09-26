@@ -309,12 +309,12 @@ class DisasterController extends Controller
     public function viewEvacuationCenter($id) {
         $d = EvacuationCenter::findOrFail($id);
         
-        $the_array = EvacuationCenterFamiliesInside::where('evacuation_center_id', $d->id)
-        ->pluck('familyhead_id') // only get the column familyhead_id
-        ->toArray();
+        $assignedFamilyHeadIds = EvacuationCenterFamiliesInside::whereHas('evacuationCenter', function ($q) use ($d) {
+            $q->where('disaster_id', $d->disaster_id);
+        })
+        ->pluck('familyhead_id');
 
-        $available_list = EvacuationCenterFamilyHead::whereNotIn('id', $the_array)
-        ->get();
+        $available_list = EvacuationCenterFamilyHead::whereNotIn('id', $assignedFamilyHeadIds)->get();
         
         $head_list = EvacuationCenterFamiliesInside::where('evacuation_center_id', $d->id)->get();
 
@@ -335,6 +335,19 @@ class DisasterController extends Controller
         if($check) {
             return redirect()->back()
             ->with('msg', 'ERROR: Family ID already exists inside the Evacuation Center.')
+            ->with('msgtype', 'warning');
+        }
+
+        $check2 = EvacuationCenterFamiliesInside::where('familyhead_id', $r->familyhead_id)
+        ->whereHas('evacuationCenter', function ($q) use ($e) {
+            $q->where('disaster_id', $e->disaster_id)
+            ->where('id', '!=', $e->id); // exclude the current center
+        })
+        ->first();
+
+        if($check2) {
+            return redirect()->back()
+            ->with('msg', 'ERROR: Family Head was already in another Evacuation Center ('.$check2->evacuationCenter->name.')')
             ->with('msgtype', 'warning');
         }
 

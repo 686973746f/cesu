@@ -8,7 +8,7 @@
                     <div><b>View Evacuation Center</b></div>
                     <div>
                         <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#evacOptions">Options</button>
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addHead">Add Family Head</button>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addHead">Link Family Head</button>
                     </div>
                 </div>
             </div>
@@ -75,6 +75,7 @@
                             </button>
                     </div>
                     <div class="modal-body">
+                        @if($available_list->count() > 0)
                         <div class="form-group">
                           <label for="familyhead_id"><b class="text-danger">*</b>Select Family Head to Add in the Evacuation Center</label>
                           <select class="form-control" name="familyhead_id" id="familyhead_id" required>
@@ -85,7 +86,7 @@
                           </select>
                         </div>
                         <div class="alert alert-primary" role="alert">
-                            <b>Note:</b> Para makapag-link ng Family Head sa Evacuation Center ay kailangan muna itong i-encode sa <a href="{{route('disaster_viewfamilies')}}">Family Masterlist</a>.
+                            <b>Note:</b> Bago makapag-link ng Family Head sa isang Evacuation Center ay kailangan muna itong i-encode sa <a href="{{route('disaster_viewfamilies')}}">Family Masterlist</a>.
                         </div>
                         <div class="form-group">
                           <label for="date_registered"><b class="text-danger">*</b>Date Registered</label>
@@ -154,10 +155,19 @@
                           <label for="remarks">Remarks</label>
                           <textarea class="form-control" name="remarks" id="remarks" rows="3"></textarea>
                         </div>
+                        @else
+                        <div class="alert alert-warning" role="alert">
+                            <h5><b>No Family Heads and Members available to link to this Evacuation Center.</b></h5>
+                            <hr>
+                            <h6>To link a new evacuee/s, please encode their family data first at the <b><a href="{{route('disaster_viewfamilies')}}">Family Masterlist</a></b> Page.</h6>
+                        </div>
+                        @endif
                     </div>
+                    @if($available_list->count() > 0)
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success btn-block">Save</button>
                     </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -229,72 +239,6 @@
                         <div class="form-group">
                             <label for="street_purok">Street/Purok</label>
                             <input type="text" class="form-control" name="street_purok" id="street_purok" value="{{old('street_purok', $d->street_purok)}}"  style="text-transform: uppercase;">
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="has_electricity"><b class="text-danger">*</b>Has Electricity?</label>
-                                    <select class="form-control" name="has_electricity" id="has_electricity" required>
-                                      <option value="Y" {{(old('has_electricity', $d->has_electricity) == 'Y') ? 'selected' : ''}}>Yes</option>
-                                      <option value="N" {{(old('has_electricity', $d->has_electricity) == 'N') ? 'selected' : ''}}>No</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="has_water"><b class="text-danger">*</b>Has Water?</label>
-                                    <select class="form-control" name="has_water" id="has_water" required>
-                                      <option value="Y" {{(old('has_water', $d->has_water) == 'Y') ? 'selected' : ''}}>Yes</option>
-                                      <option value="N" {{(old('has_water', $d->has_water) == 'N') ? 'selected' : ''}}>No</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="has_communication"><b class="text-danger">*</b>Has Communication?</label>
-                                    <select class="form-control" name="has_communication" id="has_communication" required>
-                                      <option value="Y" {{(old('has_communication', $d->has_communication) == 'Y') ? 'selected' : ''}}>Yes</option>
-                                      <option value="N" {{(old('has_communication', $d->has_communication) == 'N') ? 'selected' : ''}}>No</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="has_internet"><b class="text-danger">*</b>Has Internet?</label>
-                                    <select class="form-control" name="has_internet" id="has_internet" required>
-                                      <option value="Y" {{(old('has_internet', $d->has_internet) == 'Y') ? 'selected' : ''}}>Yes</option>
-                                      <option value="N" {{(old('has_internet', $d->has_internet) == 'N') ? 'selected' : ''}}>No</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="rcho_functional"><b class="text-danger">*</b>R/CHO Functional?</label>
-                                    <select class="form-control" name="rcho_functional" id="rcho_functional" required>
-                                      <option value="Y" {{(old('rcho_functional', $d->rcho_functional) == 'Y') ? 'selected' : ''}}>Yes</option>
-                                      <option value="N" {{(old('rcho_functional', $d->rcho_functional) == 'N') ? 'selected' : ''}}>No</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="bhs_functional"><b class="text-danger">*</b>BHS Functional?</label>
-                                    <select class="form-control" name="bhs_functional" id="bhs_functional" required>
-                                      <option value="Y" {{(old('bhs_functional', $d->bhs_functional) == 'Y') ? 'selected' : ''}}>Yes</option>
-                                      <option value="N" {{(old('bhs_functional', $d->bhs_functional) == 'N') ? 'selected' : ''}}>No</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                          <label for="remarks">Remarks</label>
-                          <textarea class="form-control" name="remarks" id="remarks" rows="3">{{old('remarks', $d->remarks)}}</textarea>
                         </div>
                         
                         <div class="form-group">

@@ -27,11 +27,11 @@ class EvacuationCenterFamiliesInside extends Model
         'created_by',
     ];
 
-    public function evacuationcenter() {
+    public function evacuationCenter() {
         return $this->belongsTo(EvacuationCenter::class, 'evacuation_center_id');
     }
 
-    public function familyhead() {
+    public function familyHead() {
         return $this->belongsTo(EvacuationCenterFamilyHead::class, 'familyhead_id');
     }
 
