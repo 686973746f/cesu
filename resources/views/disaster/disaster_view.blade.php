@@ -54,7 +54,7 @@
     </div>
 </div>
 
-<form action="" method="POST">
+<form action="{{route('disaster_update', $d->id)}}" method="POST">
     @csrf
     <div class="modal fade" id="options" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
         <div class="modal-dialog" role="document">

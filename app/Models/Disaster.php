@@ -12,6 +12,7 @@ class Disaster extends Model
     protected $fillable = [
         'enabled',
         'name',
+        'event_type',
         'description',
         'city_id',
         'date_start',

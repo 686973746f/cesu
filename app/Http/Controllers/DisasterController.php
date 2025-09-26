@@ -77,8 +77,10 @@ class DisasterController extends Controller
         ]);
     }
 
-    public function updateDisaster($id) {
+    public function updateDisaster($id, Request $r) {
+        $d = Disaster::findOrFail($id);
 
+        $d->name = mb_strtoupper($r->name);
     }
 
     public function viewFamilies() {
@@ -406,6 +408,10 @@ class DisasterController extends Controller
 
     public function storeHearsReport($disaster_id, Request $r) {
         
+    }
+
+    public function viewReportDashbooard($disaster_id) {
+
     }
 
     /*
