@@ -39,6 +39,11 @@ class EvacuationCenterFamiliesInside extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
+    public function members()
+    {
+        return $this->hasMany(EvacuationCenterFamilyMembersInside::class, 'familyinside_id');
+    }
+
     public function getNumberOfMembers() {
         return EvacuationCenterFamilyMembersInside::where('familyinside_id', $this->id)->count();
     }

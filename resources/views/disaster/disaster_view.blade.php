@@ -35,6 +35,8 @@
                     <tr>
                         <td class="text-center">{{$ind+1}}</td>
                         <td><a href="{{route('gtsecure_evacuationcenter_view', $l->id)}}">{{$l->name}}</a></td>
+                        <td class="text-center">{{$l->familiesinside->count()}}</td>
+                        <td class="text-center"></td>
                         <td class="text-center">{{$l->brgy->name}}</td>
                         <td class="text-center">{{$l->status}}</td>
                         <td class="text-center">
@@ -64,10 +66,49 @@
                         </button>
                 </div>
                 <div class="modal-body">
-                    Body
+                    <div class="form-group">
+                      <label for="name"><b class="text-danger">*</b>Event Title</label>
+                      <input type="text" class="form-control" name="name" id="name" value="{{old('name', $d->name)}}" style="text-transform: uppercase" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="event_type"><b class="text-danger">*</b>Event Type</label>
+                      <select class="form-control" name="event_type" id="event_type" multiple required>
+                        <optgroup label="GEOLOGIC">
+                            <option value="VOLCANIC ERUPTION" {{($d->event_type == 'VOLCANIC ERUPTION') ? 'selected' :''}}>Volcanic Eruption</option>
+                            <option value="EARTHQUAKE" {{($d->event_type == 'EARTHQUAKE') ? 'selected' :''}}>Earthquake</option>
+                            <option value="TSUNAMI" {{($d->event_type == 'TSUNAMI') ? 'selected' :''}}>Tsunami</option>
+                            <option value="LANDSLIDE" {{($d->event_type == 'LANDSLIDE') ? 'selected' :''}}>Landslide</option>
+                            <option value="LAHAR" {{($d->event_type == 'LAHAR') ? 'selected' :''}}>Lahar</option>
+                        </optgroup>
+                        <optgroup label="WEATHER">
+                            <option value="TYPHOON" {{($d->event_type == 'TYPHOON') ? 'selected' :''}}>Typhoon</option>
+                            <option value="STORM SURGE" {{($d->event_type == 'STORM SURGE') ? 'selected' :''}}>Storm Surge</option>
+                            <option value="DROUGHT" {{($d->event_type == 'DROUGHT') ? 'selected' :''}}>Drought</option>
+                            <option value="COLD SPELL" {{($d->event_type == 'COLD SPELL') ? 'selected' :''}}>Cold Spell</option>
+                            <option value="FLASHFLOOD" {{($d->event_type == 'FLASHFLOOD') ? 'selected' :''}}>Flashflood</option>
+                        </optgroup>
+                        <optgroup label="BIOLOGIC">
+                            <option value="RED TIDE" {{($d->event_type == 'RED TIDE') ? 'selected' :''}}>Red Tide</option>
+                            <option value="FISH KILLS" {{($d->event_type == 'FISH KILLS') ? 'selected' :''}}>Fish Kills</option>
+                            <option value="LOCUST" {{($d->event_type == 'LOCUST') ? 'selected' :''}}>Locust</option>
+                            <option value="INFESTATION" {{($d->event_type == 'INFESTATION') ? 'selected' :''}}>Infestation</option>
+                        </optgroup>
+                        <optgroup label="MAN-MADE">
+                            <option value="EPIDEMIC" {{($d->event_type == 'EPIDEMIC') ? 'selected' :''}}>Epidemic</option>
+                            <option value="FIRE" {{($d->event_type == 'FIRE') ? 'selected' :''}}>Fire</option>
+                            <option value="EXPLOSION" {{($d->event_type == 'EXPLOSION') ? 'selected' :''}}>Explosion</option>
+                            <option value="ARMED CONFLICT" {{($d->event_type == 'ARMED CONFLICT') ? 'selected' :''}}>Armed Conflict</option>
+                            <option value="TERRORISM" {{($d->event_type == 'TERRORISM') ? 'selected' :''}}>Terrorism</option>
+                            <option value="POISONING" {{($d->event_type == 'POISONING') ? 'selected' :''}}>Poisoning</option>
+                            <option value="MASS ACTION" {{($d->event_type == 'MASS ACTION') ? 'selected' :''}}>Mass Action</option>
+                            <option value="ACCIDENT" {{($d->event_type == 'ACCIDENT') ? 'selected' :''}}>Accident</option>
+                            <option value="OTHER" {{($d->event_type == 'OTHER') ? 'selected' :''}}>Other</option>
+                        </optgroup>
+                      </select>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Update</button>
+                    <button type="submit" class="btn btn-success">Save</button>
                 </div>
             </div>
         </div>
@@ -263,5 +304,9 @@
             $('#address_muncity_code').val(cityDefault).trigger('change');
         }, 1000); // Slight delay to ensure city is loaded
     }
+
+    $('#event_type').select2({
+        theme: "bootstrap",
+    });
 </script>
 @endsection

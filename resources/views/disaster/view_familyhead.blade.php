@@ -28,25 +28,36 @@
                         {{session('msg')}}
                     </div>
                     @endif
-                    <table class="table">
-                        <thead>
+                    <table class="table table-bordered table-striped">
+                        <thead class="text-center thead-light">
                             <tr>
-                                <th></th>
-                                <th></th>
-                                <th></th>
+                                <th>No.</th>
+                                <th>Name</th>
+                                <th>Birthdate</th>
+                                <th>Age</th>
+                                <th>Sex</th>
+                                <th>Relationship to Family Head</th>
+                                <th>Highest Education Attainment</th>
+                                <th>Occupation</th>
+                                <th>Created at/by</th>
+                                <th>Updated at/by</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach($member_list as $ind => $m)
                             <tr>
-                                <td scope="row"></td>
-                                <td></td>
-                                <td></td>
+                                <td class="text-center">{{$ind+1}}</td>
+                                <td><a href="">{{$m->getName()}}</a></td>
+                                <td class="text-center">{{date('m/d/Y', strtotime($m->bdate))}}</td>
+                                <td class="text-center">{{$m->getAge()}}</td>
+                                <td class="text-center">{{$m->sex}}</td>
+                                <td class="text-center">{{$m->relationship_tohead}}</td>
+                                <td class="text-center">{{$m->highest_education}}</td>
+                                <td class="text-center">{{$m->occupation}}</td>
+                                <td class="text-center"></td>
+                                <td class="text-center"></td>
                             </tr>
-                            <tr>
-                                <td scope="row"></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -128,7 +139,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="relationship_tohead"><span class="text-danger font-weight-bold">*</span>Relationship to the Head</label>
+                                <label for="relationship_tohead"><span class="text-danger font-weight-bold">*</span>Relationship to the Family Head</label>
                                 <select class="form-control" name="relationship_tohead" id="relationship_tohead" required>
                                     <option value="" disabled {{(is_null(old('relationship_tohead'))) ? 'selected' : ''}}>Choose...</option>
                                     <option value="SPOUSE" {{(old('relationship_tohead') == 'SPOUSE') ? 'selected' : ''}}>Spouse/Asawa</option>

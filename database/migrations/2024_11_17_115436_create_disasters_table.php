@@ -17,7 +17,7 @@ class CreateDisastersTable extends Migration
             $table->id();
             $table->string('enabled', 1)->default('Y');
             $table->string('name');
-            $table->string('event_type');
+            $table->text('event_type');
             $table->string('poisoning_specify')->nullable();
             $table->string('massaction_specify')->nullable();
             $table->string('accident_specify')->nullable();

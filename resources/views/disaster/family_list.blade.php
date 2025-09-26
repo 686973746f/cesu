@@ -5,7 +5,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <div><b>Evacuation Centers List of Families</b></div>
+                    <div><b>Evacuation Centers - Family Masterlist</b></div>
                     <div>
                         <div class="mb-3"><a href="{{route('gtsecure_index')}}" class="btn btn-secondary">Go Back</a></div>
                         <div>
@@ -27,7 +27,7 @@
                     <thead class="thead-light text-center">
                         <tr>
                             <th>Head ID</th>
-                            <th>Name</th>
+                            <th>Head of the Family</th>
                             <th>Age</th>
                             <th>Sex</th>
                             <th>Street/Purok</th>
@@ -49,7 +49,10 @@
                             <td class="text-center">{{$l->brgy->name}}</td>
                             <td class="text-center">{{$l->brgy->city->name}}</td>
                             <td class="text-center">{{$l->getNumberOfMembers()}}</td>
-                            <td class="text-center"></td>
+                            <td class="text-center">
+                                <div>{{date('m/d/Y h:i A')}}</div>
+                                <div>by {{$l->user->name}}</div>
+                            </td>
                             <td class="text-center"></td>
                         </tr>
                         @endforeach
@@ -203,6 +206,7 @@
                                         <option value="OWNER" {{(old('house_ownership') == 'OWNER') ? 'selected' : ''}}>Owner</option>
                                         <option value="RENTER" {{(old('house_ownership') == 'RENTER') ? 'selected' : ''}}>Renter</option>
                                         <option value="SHARER" {{(old('house_ownership') == 'SHARER') ? 'selected' : ''}}>Sharer</option>
+                                        <option value="INFORMAL SETTLER" {{(old('house_ownership') == 'INFORMAL SETTLER') ? 'selected' : ''}}>Informal Settler</option>
                                     </select>
                                 </div>
                             </div>

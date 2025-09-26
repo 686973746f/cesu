@@ -77,6 +77,10 @@ class DisasterController extends Controller
         ]);
     }
 
+    public function updateDisaster($id) {
+
+    }
+
     public function viewFamilies() {
         $list = EvacuationCenterFamilyHead::orderBy('lname', 'ASC')->get();
 
@@ -336,7 +340,7 @@ class DisasterController extends Controller
             'evacuation_center_id' => $e->id,
             'familyhead_id' => $r->familyhead_id,
             'date_registered' => $r->date_registered,
-            'family_status' => $r->family_status,
+            'family_status' => 'ACTIVE',
             'outcome' => 'ALIVE',
             'is_injured' => $r->is_injured,
             'shelterdamage_classification' => $r->shelterdamage_classification,
@@ -351,7 +355,7 @@ class DisasterController extends Controller
         ->with('msgtype', 'success');
     }
 
-    public function viewEvacFamily($headinside_id, Request $r) {
+    public function viewEvacFamily($evac_id, $headinside_id, Request $r) {
         $d = EvacuationCenterFamiliesInside::findOrFail($headinside_id);
 
         $the_array = EvacuationCenterFamilyMembersInside::where('familyinside_id', $d->id)
@@ -370,7 +374,7 @@ class DisasterController extends Controller
         ]);
     }
 
-    public function linkMemberToEvac($headinside_id, Request $r) {
+    public function linkMemberToEvac($evac_id, $headinside_id, Request $r) {
         $d = EvacuationCenterFamiliesInside::findOrFail($headinside_id);
 
         $c = EvacuationCenterFamilyMembersInside::create([
@@ -396,6 +400,13 @@ class DisasterController extends Controller
         ->with('msgtype', 'success');
     }
 
+    public function viewHearsReport($disaster_id) {
+
+    }
+
+    public function storeHearsReport($disaster_id, Request $r) {
+        
+    }
 
     /*
     public function viewPatient($id) {
