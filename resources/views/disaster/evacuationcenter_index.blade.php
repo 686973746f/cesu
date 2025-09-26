@@ -84,6 +84,9 @@
                             @endforeach
                           </select>
                         </div>
+                        <div class="alert alert-primary" role="alert">
+                            <b>Note:</b> Para makapag-link ng Family Head sa Evacuation Center ay kailangan muna itong i-encode sa <a href="{{route('disaster_viewfamilies')}}">Family Masterlist</a>.
+                        </div>
                         <div class="form-group">
                           <label for="date_registered"><b class="text-danger">*</b>Date Registered</label>
                           <input type="datetime-local" class="form-control" name="date_registered" id="date_registered" value="{{old('date_registered', date('Y-m-d H:i'))}}" required>

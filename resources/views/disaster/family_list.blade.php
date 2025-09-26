@@ -440,5 +440,20 @@
                 $('#address_muncity_code').val(cityDefault).trigger('change');
             }, 1000); // Slight delay to ensure city is loaded
         }
+
+        $('#sex').change(function (e) { 
+            e.preventDefault();
+            
+            if($(this).val() == 'F') {
+                $('#femaleDiv').removeClass('d-none');
+                $('#is_pregnant').prop('required', true);
+                $('#is_lactating').prop('required', true);
+            }
+            else {
+                $('#femaleDiv').addClass('d-none');
+                $('#is_pregnant').prop('required', false);
+                $('#is_lactating').prop('required', false);
+            }
+        }).trigger('change');
     </script>
 @endsection
