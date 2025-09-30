@@ -30,6 +30,7 @@
                         <th>BLS Trained</th>
                         <th>Type of Responder</th>
                         <th>Deployable in Duties</th>
+                        <th>HERO Trained</th>
                         <th>HERT Team</th>
                         <th>Duty Cycle Status</th>
                         <th>Duty Balance</th>
@@ -49,6 +50,7 @@
                         <td class="text-center">{{$d->is_blstrained}}</td>
                         <td class="text-center">{{$d->bls_typeofrescuer}}</td>
                         <td class="text-center">{{$d->duty_canbedeployed}}</td>
+                        <td class="text-center">{{$d->is_herotrained}}</td>
                         <td class="text-center">{{$d->duty_team}}</td>
                         <td class="text-center">{{($d->duty_completedcycle == 'Y') ? 'DONE' : 'PENDING'}}</td>
                         <td class="text-center">{{$d->duty_balance}}</td>

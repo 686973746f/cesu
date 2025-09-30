@@ -8,7 +8,7 @@
                     <div><b>View Evacuation Center</b></div>
                     <div>
                         <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#evacOptions">Options</button>
-                        <a href="{{route('gtsecure_newpatient', $d->id)}}" class="btn btn-success">New Head of the Family</a>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addHead">Link Family Head</button>
                     </div>
                 </div>
             </div>
@@ -33,28 +33,26 @@
                                 <th>Street/Purok</th>
                                 <th>Barangay</th>
                                 <th>Contact No.</th>
+                                <th>No. of Family Members</th>
                                 <th>Outcome</th>
                                 <th>Created at/by</th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($head_list as $ind => $p)
                             <tr>
                                 <td class="text-center">{{$ind+1}}</td>
-                                <td><a href="{{route('gtsecure_viewpatient', $p->id)}}">{{$p->familyhead->getName()}}</a></td>
+                                <td><a href="{{route('disaster_viewfamilyevac', [$d->id, $p->id])}}">{{$p->familyhead->getName()}}</a></td>
                                 <td class="text-center">{{$p->familyhead->getAge()}}</td>
                                 <td class="text-center">{{$p->familyhead->sex}}</td>
                                 <td class="text-center">{{$p->familyhead->street_purok}}</td>
                                 <td class="text-center">{{$p->familyhead->brgy->name}}</td>
                                 <td class="text-center">{{$p->familyhead->contact_number}}</td>
+                                <td class="text-center">{{$p->getNumberOfMembers()}}</td>
                                 <td class="text-center">{{$p->outcome}}</td>
                                 <td class="text-center">
                                     <div>{{date('M. d, Y h:i A', strtotime($p->created_at))}}</div>
                                     <div>by {{$p->user->name}}</div>
-                                </td>
-                                <td class="text-center">
-                                    <a href="{{route('gtsecure_newmember', $p->id)}}" class="btn btn-success btn-sm">Add Family Member</a>
                                 </td>
                             </tr>
                             @endforeach
@@ -64,6 +62,116 @@
             </div>
         </div>
     </div>
+
+    <form action="{{route('disaster_linkfamily', $d->id)}}" method="POST">
+        @csrf
+        <div class="modal fade" id="addHead" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><b>Add Family to Evacuation Center</b></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <div class="modal-body">
+                        @if($available_list->count() > 0)
+                        <div class="form-group">
+                          <label for="familyhead_id"><b class="text-danger">*</b>Select Family Head to Add in the Evacuation Center</label>
+                          <select class="form-control" name="familyhead_id" id="familyhead_id" required>
+                            <option value="" disabled {{(is_null(old('familyhead_id'))) ? 'selected' : ''}}>Choose...</option>
+                            @foreach($available_list as $l)
+                            <option value="{{$l->id}}">{{$l->getName()}}</option>
+                            @endforeach
+                          </select>
+                        </div>
+                        <div class="alert alert-primary" role="alert">
+                            <b>Note:</b> Bago makapag-link ng Family Head sa isang Evacuation Center ay kailangan muna itong i-encode sa <a href="{{route('disaster_viewfamilies')}}">Family Masterlist</a>.
+                        </div>
+                        <div class="form-group">
+                          <label for="date_registered"><b class="text-danger">*</b>Date Registered</label>
+                          <input type="datetime-local" class="form-control" name="date_registered" id="date_registered" value="{{old('date_registered', date('Y-m-d H:i'))}}" required>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="is_injured"><b class="text-danger">*</b>Is Injured?</label>
+                                    <select class="form-control" name="is_injured" id="is_injured" required>
+                                        <option value="" disabled {{(is_null(old('is_injured'))) ? 'selected' : ''}}>Choose...</option>
+                                        <option value="Y">Yes</option>
+                                        <option value="N">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="is_admitted"><b class="text-danger">*</b>Is Admitted?</label>
+                                    <select class="form-control" name="is_admitted" id="is_admitted" required>
+                                        <option value="" disabled {{(is_null(old('is_admitted'))) ? 'selected' : ''}}>Choose...</option>
+                                        <option value="Y">Yes</option>
+                                        <option value="N">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="admitted_div" class="d-none">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="date_admitted"><b class="text-danger">*</b>Date Admitted</label>
+                                        <input type="date" class="form-control" name="date_admitted" id="date_admitted" max="{{date('Y-m-d')}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="date_discharged">Date Discharged</label>
+                                        <input type="date" class="form-control" name="date_discharged" id="date_discharged" max="{{date('Y-m-d', strtotime('+1 Day'))}}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label for="shelterdamage_classification"><b class="text-danger">*</b>Shelter Damage Classification</label>
+                          <select class="form-control" name="shelterdamage_classification" id="shelterdamage_classification" required>
+                            <option value="" disabled {{(is_null(old('shelterdamage_classification'))) ? 'selected' : ''}}>Choose...</option>
+                            <option value="PARTIALLY DAMAGED">Partially Damaged</option>
+                            <option value="TOTALLY DAMAGED">Totally Damaged</option>
+                          </select>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                          <label for="focal_name">Name of C/DSWD Focal</label>
+                          <input type="text" class="form-control" name="focal_name" id="focal_name" style="text-transform: uppercase;">
+                        </div>
+                        <div class="form-group">
+                          <label for="supervisor_name">Name of C/DSWD Immediate Supervisor</label>
+                          <input type="text" class="form-control" name="supervisor_name" id="supervisor_name" style="text-transform: uppercase;">
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                          <label for="remarks">Remarks</label>
+                          <textarea class="form-control" name="remarks" id="remarks" rows="3"></textarea>
+                        </div>
+                        @else
+                        <div class="alert alert-warning" role="alert">
+                            <h5><b>No Family Heads and Members available to link to this Evacuation Center.</b></h5>
+                            <hr>
+                            <h6>To link a new evacuee/s, please encode their family data first at the <b><a href="{{route('disaster_viewfamilies')}}">Family Masterlist</a></b> Page.</h6>
+                        </div>
+                        @endif
+                    </div>
+                    @if($available_list->count() > 0)
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success btn-block">Save</button>
+                    </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </form>
 
     <form action="" method="POST">
         @csrf
@@ -132,73 +240,7 @@
                             <label for="street_purok">Street/Purok</label>
                             <input type="text" class="form-control" name="street_purok" id="street_purok" value="{{old('street_purok', $d->street_purok)}}"  style="text-transform: uppercase;">
                         </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="has_electricity"><b class="text-danger">*</b>Has Electricity?</label>
-                                    <select class="form-control" name="has_electricity" id="has_electricity" required>
-                                      <option value="Y" {{(old('has_electricity', $d->has_electricity) == 'Y') ? 'selected' : ''}}>Yes</option>
-                                      <option value="N" {{(old('has_electricity', $d->has_electricity) == 'N') ? 'selected' : ''}}>No</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="has_water"><b class="text-danger">*</b>Has Water?</label>
-                                    <select class="form-control" name="has_water" id="has_water" required>
-                                      <option value="Y" {{(old('has_water', $d->has_water) == 'Y') ? 'selected' : ''}}>Yes</option>
-                                      <option value="N" {{(old('has_water', $d->has_water) == 'N') ? 'selected' : ''}}>No</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="has_communication"><b class="text-danger">*</b>Has Communication?</label>
-                                    <select class="form-control" name="has_communication" id="has_communication" required>
-                                      <option value="Y" {{(old('has_communication', $d->has_communication) == 'Y') ? 'selected' : ''}}>Yes</option>
-                                      <option value="N" {{(old('has_communication', $d->has_communication) == 'N') ? 'selected' : ''}}>No</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="has_internet"><b class="text-danger">*</b>Has Internet?</label>
-                                    <select class="form-control" name="has_internet" id="has_internet" required>
-                                      <option value="Y" {{(old('has_internet', $d->has_internet) == 'Y') ? 'selected' : ''}}>Yes</option>
-                                      <option value="N" {{(old('has_internet', $d->has_internet) == 'N') ? 'selected' : ''}}>No</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="rcho_functional"><b class="text-danger">*</b>R/CHO Functional?</label>
-                                    <select class="form-control" name="rcho_functional" id="rcho_functional" required>
-                                      <option value="Y" {{(old('rcho_functional', $d->rcho_functional) == 'Y') ? 'selected' : ''}}>Yes</option>
-                                      <option value="N" {{(old('rcho_functional', $d->rcho_functional) == 'N') ? 'selected' : ''}}>No</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="bhs_functional"><b class="text-danger">*</b>BHS Functional?</label>
-                                    <select class="form-control" name="bhs_functional" id="bhs_functional" required>
-                                      <option value="Y" {{(old('bhs_functional', $d->bhs_functional) == 'Y') ? 'selected' : ''}}>Yes</option>
-                                      <option value="N" {{(old('bhs_functional', $d->bhs_functional) == 'N') ? 'selected' : ''}}>No</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                          <label for="remarks">Remarks</label>
-                          <textarea class="form-control" name="remarks" id="remarks" rows="3">{{old('remarks', $d->remarks)}}</textarea>
-                        </div>
-                        <hr>
+                        
                         <div class="form-group">
                             <label for="status"><b class="text-danger">*</b>Status</label>
                             <select class="form-control" name="status" id="status" required>
@@ -351,5 +393,23 @@
                 $('#address_brgy_code').val(brgyDefault).trigger('change');
             }, 1500); // Slight delay to ensure city is loaded
         }
+
+        $("#select_family_id").select2({
+			theme: "bootstrap",
+		});
+
+        $('#is_admitted').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == 'Y') {
+                $('#admitted_div').removeClass('d-none');
+                $('#date_admitted').prop('required', true);
+            }
+            else {
+                $('#admitted_div').addClass('d-none');
+                $('#date_admitted').prop('required', false);
+            }
+        }).trigger('change');
+
+
     </script>
 @endsection

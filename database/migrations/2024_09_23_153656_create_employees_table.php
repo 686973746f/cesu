@@ -55,6 +55,7 @@ class CreateEmployeesTable extends Migration
             $table->text('fingerprint_hash')->nullable();
 
             $table->string('is_blstrained', 1)->default('N');
+            $table->string('is_herotrained', 1)->default('N');
             $table->date('recent_bls_date')->nullable();
             $table->string('bls_id')->nullable();
             $table->string('bls_typeofrescuer')->nullable();

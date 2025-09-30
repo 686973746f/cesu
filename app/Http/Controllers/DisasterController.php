@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Models\EvacuationCenter;
 use App\Models\EvacuationCenterFamiliesInside;
 use App\Models\EvacuationCenterFamilyHead;
+use App\Models\EvacuationCenterFamilyMember;
+use App\Models\EvacuationCenterFamilyMembersInside;
 use Illuminate\Support\Facades\Auth;
 use App\Models\EvacuationCenterPatient;
 use App\Models\EvacuationCenterPatientMembers;
@@ -75,6 +77,12 @@ class DisasterController extends Controller
         ]);
     }
 
+    public function updateDisaster($id, Request $r) {
+        $d = Disaster::findOrFail($id);
+
+        $d->name = mb_strtoupper($r->name);
+    }
+
     public function viewFamilies() {
         $list = EvacuationCenterFamilyHead::orderBy('lname', 'ASC')->get();
 
@@ -102,16 +110,28 @@ class DisasterController extends Controller
             }
         }
 
-        $birthdate = Carbon::parse($bdate);
-        $currentDate = Carbon::now();
+        //$birthdate = Carbon::parse($bdate);
+        //$currentDate = Carbon::now();
 
-        $get_ageyears = $birthdate->diffInYears($currentDate);
-        $get_agemonths = $birthdate->diffInMonths($currentDate);
-        $get_agedays = $birthdate->diffInDays($currentDate);
+        //$get_ageyears = $birthdate->diffInYears($currentDate);
+        //$get_agemonths = $birthdate->diffInMonths($currentDate);
+        //$get_agedays = $birthdate->diffInDays($currentDate);
+
+        $check = EvacuationCenterFamilyHead::where('lname', $lname)
+        ->where('fname', $fname)
+        ->whereDate('bdate', $bdate)
+        ->first();
+
+        if($check) {
+            return redirect()->back()
+            ->with('msg', 'Family Head '.$check->getName().' already exists. Kindly double check and try again.')
+            ->with('msgtype', 'warning');
+        }
 
         $c = EvacuationCenterFamilyHead::create([
             //'evacuation_center_id' => $d->id,
             //'date_registered' => $r->date_registered,
+            'dswd_serialno' => ($r->dswd_serialno) ? mb_strtoupper($r->dswd_serialno) : NULL,
             'cswd_serialno' => ($r->cswd_serialno) ? mb_strtoupper($r->cswd_serialno) : NULL,
             'lname' => $lname,
             'fname' => $fname,
@@ -119,6 +139,7 @@ class DisasterController extends Controller
             'suffix' => $suffix,
             //'nickname' => ($r->nickname) ? mb_strtoupper($r->nickname) : NULL,
             'bdate' => $r->bdate,
+            'birthplace' => mb_strtoupper($r->birthplace),
             'sex' => $r->sex,
             'is_pregnant' => ($r->sex == 'F') ? $r->is_pregnant : 'N',
             'is_lactating' => ($r->sex == 'F') ? $r->is_lactating : 'N',
@@ -136,34 +157,107 @@ class DisasterController extends Controller
             'id_presented' => mb_strtoupper($r->id_presented),
             'id_number' => mb_strtoupper($r->id_number),
             'house_ownership' => $r->house_ownership,
-            'shelterdamage_classification' => $r->shelterdamage_classification,
+            //'shelterdamage_classification' => $r->shelterdamage_classification,
+            //'is_injured' => $r->is_injured,
             'is_pwd' => $r->is_pwd,
-            'is_injured' => $r->is_injured,
             'is_4ps' => $r->is_4ps,
             'is_indg' => $r->is_indg,
-            'outcome' => $r->outcome,
-            'family_status' => $r->family_status,
-            'focal_name' => $r->focal_name,
+            //'outcome' => $r->outcome,
+            //'family_status' => $r->family_status,
+            //'focal_name' => $r->focal_name,
 
             'remarks' => $r->remarks,
             'hash' => $hashStr,
-            'age_years' => $get_ageyears,
-            'age_months' => $get_agemonths,
-            'age_days' => $get_agedays,
+            //'age_years' => $get_ageyears,
+            //'age_months' => $get_agemonths,
+            //'age_days' => $get_agedays,
             'created_by' => Auth::id(),
         ]);
+
+        return redirect()->route('disaster_viewfamilies')
+        ->with('msg', 'Family Head was successfully added.')
+        ->with('msgtype', 'success');
     }
 
-    public function editFamilyHead($id) {
+    public function viewFamilyHead($id) {
+        $d = EvacuationCenterFamilyHead::findOrFail($id);
 
+        $member_list = EvacuationCenterFamilyMember::where('familyhead_id', $d->id)->get();
+
+        return view('disaster.view_familyhead', [
+            'd' => $d,
+            'member_list' => $member_list,
+        ]);
     }
 
     public function updateFamilyHead($id, Request $r) {
 
     }
 
-    public function storeFamilyMember($head_id, Request $r) {
+    public function storeFamilyMember($id, Request $r) {
+        $d = EvacuationCenterFamilyHead::findOrFail($id);
 
+        $lname = mb_strtoupper($r->lname);
+        $fname = mb_strtoupper($r->fname);
+        $mname = ($r->mname) ? mb_strtoupper($r->mname) : NULL;
+        $suffix = ($r->suffix) ? mb_strtoupper($r->suffix) : NULL;
+
+        $bdate = $r->bdate;
+
+        $foundunique = false;
+
+        while(!$foundunique) {
+            $hashStr = Str::random(10);
+
+            $s = EvacuationCenterFamilyHead::where('hash', $hashStr)->first();
+            if(!$s) {
+                $foundunique = true;
+            }
+        }
+
+        $check = EvacuationCenterFamilyMember::where('lname', $lname)
+        ->where('fname', $fname)
+        ->whereDate('bdate', $bdate)
+        ->first();
+
+        if($check) {
+            return redirect()->back()
+            ->with('msg', 'Family Member '.$check->getName().' already exists. Kindly double check and try again.')
+            ->with('msgtype', 'warning');
+        }
+
+        $c = EvacuationCenterFamilyMember::create([
+            'familyhead_id' => $d->id,
+            'relationship_tohead' => $r->relationship_tohead,
+            'lname' => $lname,
+            'fname' => $fname,
+            'mname' => $mname,
+            'suffix' => $suffix,
+            //'nickname',
+            'bdate' => $bdate,
+            'sex' => $r->sex,
+            'is_pregnant' => ($r->sex == 'F') ? $r->is_pregnant : 'N',
+            'is_lactating' => ($r->sex == 'F') ? $r->is_lactating : 'N',
+            'highest_education' => $r->highest_education,
+            'occupation', ($r->occupation) ? mb_strtoupper($r->occupation) : NULL,
+            //'outcome',
+            //'date_missing',
+            //'date_returned',
+            //'date_died',
+            //'is_injured',
+            'is_pwd' => $r->is_pwd,
+            'is_4ps' => $r->is_4ps,
+            'is_indg' => $r->is_indg,
+            //'cswd_serialno',
+            //'dswd_serialno',
+            //'remarks',
+            'created_by' => Auth::id(),
+            'hash' => $hashStr,
+        ]);
+
+        return redirect()->route('disaster_viewfamilyhead', $d->id)
+        ->with('msg', 'Family Member was added successfully. (ID: '.$c->id.')')
+        ->with('msgtype', 'success');
     }
 
     public function updateFamilyMember($id, Request $r) {
@@ -214,27 +308,126 @@ class DisasterController extends Controller
     
     public function viewEvacuationCenter($id) {
         $d = EvacuationCenter::findOrFail($id);
+        
+        $assignedFamilyHeadIds = EvacuationCenterFamiliesInside::whereHas('evacuationCenter', function ($q) use ($d) {
+            $q->where('disaster_id', $d->disaster_id);
+        })
+        ->pluck('familyhead_id');
 
+        $available_list = EvacuationCenterFamilyHead::whereNotIn('id', $assignedFamilyHeadIds)->get();
+        
         $head_list = EvacuationCenterFamiliesInside::where('evacuation_center_id', $d->id)->get();
 
         return view('disaster.evacuationcenter_index', [
             'd' => $d,
             'head_list' => $head_list,
+            'available_list' => $available_list,
         ]);
     }
 
-    public function newPatient($evac_id) {
-        $d = EvacuationCenter::findOrFail($evac_id);
+    public function linkFamilyToEvac($id, Request $r) {
+        $e = EvacuationCenter::findOrFail($id);
 
-        return $this->editPatient(new EvacuationCenterPatient())
-        ->with('d', $d);
+        $check = EvacuationCenterFamiliesInside::where('evacuation_center_id', $e->id)
+        ->where('familyhead_id', $r->familyhead_id)
+        ->first();
+
+        if($check) {
+            return redirect()->back()
+            ->with('msg', 'ERROR: Family ID already exists inside the Evacuation Center.')
+            ->with('msgtype', 'warning');
+        }
+
+        $check2 = EvacuationCenterFamiliesInside::where('familyhead_id', $r->familyhead_id)
+        ->whereHas('evacuationCenter', function ($q) use ($e) {
+            $q->where('disaster_id', $e->disaster_id)
+            ->where('id', '!=', $e->id); // exclude the current center
+        })
+        ->first();
+
+        if($check2) {
+            return redirect()->back()
+            ->with('msg', 'ERROR: Family Head was already in another Evacuation Center ('.$check2->evacuationCenter->name.')')
+            ->with('msgtype', 'warning');
+        }
+
+        $c = EvacuationCenterFamiliesInside::create([
+            'evacuation_center_id' => $e->id,
+            'familyhead_id' => $r->familyhead_id,
+            'date_registered' => $r->date_registered,
+            'family_status' => 'ACTIVE',
+            'outcome' => 'ALIVE',
+            'is_injured' => $r->is_injured,
+            'shelterdamage_classification' => $r->shelterdamage_classification,
+            'remarks' => $r->remarks,
+            'focal_name' => ($r->focal_name) ? mb_strtoupper($r->focal_name) : NULL,
+            'supervisor_name' => ($r->supervisor_name) ? mb_strtoupper($r->supervisor_name) : NULL,
+            'created_by' => Auth::id(),
+        ]);
+
+        return redirect()->route('gtsecure_evacuationcenter_view', $e->id)
+        ->with('msg', 'Family ID #'.$r->familyhead_id.' was successfully added to the evacuation center.')
+        ->with('msgtype', 'success');
     }
 
-    public function editPatient(EvacuationCenterPatient $pt) {
-        return view('disaster.create_edit_patient', ['p' => $pt]);
+    public function viewEvacFamily($evac_id, $headinside_id, Request $r) {
+        $d = EvacuationCenterFamiliesInside::findOrFail($headinside_id);
+
+        $the_array = EvacuationCenterFamilyMembersInside::where('familyinside_id', $d->id)
+        ->pluck('member_id') // only get the column familyhead_id
+        ->toArray();
+
+        $available_list = EvacuationCenterFamilyMember::whereNotIn('id', $the_array)
+        ->get();
+        
+        $list = EvacuationCenterFamilyMembersInside::where('familyinside_id', $d->id)->get();
+
+        return view('disaster.evac_viewfamily', [
+            'd' => $d,
+            'available_list' => $available_list,
+            'list' => $list,
+        ]);
     }
 
+    public function linkMemberToEvac($evac_id, $headinside_id, Request $r) {
+        $d = EvacuationCenterFamiliesInside::findOrFail($headinside_id);
 
+        $c = EvacuationCenterFamilyMembersInside::create([
+            'date_registered' => $r->date_registered,
+            'familyinside_id' => $d->id,
+            'member_id' => $r->member_id,
+
+            'is_injured' => $r->is_injured,
+            'is_admitted' => $r->is_admitted,
+            'date_admitted' => ($r->is_admitted == 'Y') ? $r->date_admitted : NULL,
+            'date_discharged' => ($r->is_admitted == 'Y') ? $r->date_discharged : NULL,
+            'outcome' => $r->outcome,
+            'date_missing' => ($r->outcome == 'MISSING' || $r->outcome == 'MISSING THEN RETURNED') ? $r->date_missing : NULL,
+            'date_returned' => ($r->outcome == 'MISSING THEN RETURNED') ? $r->date_returned : NULL,
+            'date_died' => ($r->outcome == 'DIED') ? $r->date_died : NULL,
+
+            'remarks' => $r->remarks,
+            'created_by' => Auth::id(),
+        ]);
+
+        return redirect()->route('disaster_viewfamilyhead', $d->id)
+        ->with('msg', 'Family Member was successfully added.')
+        ->with('msgtype', 'success');
+    }
+
+    public function viewHearsReport($disaster_id) {
+
+    }
+
+    public function storeHearsReport($disaster_id, Request $r) {
+        
+    }
+
+    public function viewReportDashbooard($disaster_id) {
+
+    }
+
+    /*
     public function viewPatient($id) {
         $p = EvacuationCenterPatient::findOrFail($id);
 
@@ -403,4 +596,5 @@ class DisasterController extends Controller
     public function disasterGenerateReport($disaster_id) {
 
     }
+    */
 }

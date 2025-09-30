@@ -12,6 +12,7 @@ class Disaster extends Model
     protected $fillable = [
         'enabled',
         'name',
+        'event_type',
         'description',
         'city_id',
         'date_start',
@@ -27,5 +28,10 @@ class Disaster extends Model
 
     public function user() {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function evacuationCenters()
+    {
+        return $this->hasMany(EvacuationCenter::class, 'disaster_id');
     }
 }

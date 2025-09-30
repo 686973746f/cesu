@@ -73,4 +73,8 @@ class EvacuationCenterFamilyHead extends Model
     public function getAge() {
         return Carbon::parse($this->bdate)->age;
     }
+
+    public function getNumberOfMembers() {
+        return EvacuationCenterFamilyMember::where('familyhead_id', $this->id)->where('enabled', 'Y')->count();
+    }
 }

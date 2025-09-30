@@ -21,17 +21,20 @@ class CreateEvacuationCenterFamiliesInsidesTable extends Migration
             $table->foreignId('familyhead_id')->constrained('evacuation_center_family_heads')->onDelete('cascade');
             
             $table->string('family_status'); //ACTIVE, WENT HOME
-            $table->date('date_returnedhome')->nullable();
+            $table->dateTime('date_returnedhome')->nullable();
+            $table->string('is_injured', 1)->default('N');
+            $table->string('is_admitted', 1)->default('N');
+            $table->date('date_admitted')->nullable();
+            $table->date('date_discharged')->nullable();
             $table->string('outcome'); //ALIVE, DIED, MISSING
             $table->dateTime('date_missing')->nullable();
             $table->dateTime('date_returned')->nullable();
             $table->dateTime('date_died')->nullable();
-            $table->string('is_injured', 1)->default('N');
 
             $table->string('shelterdamage_classification');
             $table->text('remarks')->nullable();
 
-            $table->string('focal_name');
+            $table->string('focal_name')->nullable();
             $table->string('supervisor_name')->nullable();
 
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');

@@ -1,15 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <div><b>Evacuation Centers List of Families</b></div>
+                    <div><b>Evacuation Centers - Family Masterlist</b></div>
                     <div>
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#newFamilyHead">
-                          Launch
-                        </button>
+                        <div class="mb-3"><a href="{{route('gtsecure_index')}}" class="btn btn-secondary">Go Back</a></div>
+                        <div>
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#newFamilyHead">
+                            New Family Head
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -19,6 +22,42 @@
                     {{session('msg')}}
                 </div>
                 @endif
+
+                <table class="table table-bordered table-striped">
+                    <thead class="thead-light text-center">
+                        <tr>
+                            <th>Head ID</th>
+                            <th>Head of the Family</th>
+                            <th>Age</th>
+                            <th>Sex</th>
+                            <th>Street/Purok</th>
+                            <th>Barangay</th>
+                            <th>City/Municipality</th>
+                            <th>No. of Family Member/s</th>
+                            <th>Created at/by</th>
+                            <th>Updated at/by</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($list as $l)
+                        <tr>
+                            <td class="text-center">{{$l->id}}</td>
+                            <td><a href="{{route('disaster_viewfamilyhead', $l->id)}}">{{$l->getName()}}</a></td>
+                            <td class="text-center">{{$l->getAge()}}</td>
+                            <td class="text-center">{{$l->sex}}</td>
+                            <td class="text-center">{{$l->street_purok}}</td>
+                            <td class="text-center">{{$l->brgy->name}}</td>
+                            <td class="text-center">{{$l->brgy->city->name}}</td>
+                            <td class="text-center">{{$l->getNumberOfMembers()}}</td>
+                            <td class="text-center">
+                                <div>{{date('m/d/Y h:i A')}}</div>
+                                <div>by {{$l->user->name}}</div>
+                            </td>
+                            <td class="text-center"></td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -38,19 +77,6 @@
                         <div class="alert alert-info" role="alert">
                             <b class="text-danger">Note:</b> All fields marked with an asterisk (<b class="text-danger">*</b>) are required to be filled-out properly.
                         </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                <label for="cswd_serialno">Serial No.</label>
-                                <input type="text" class="form-control" name="cswd_serialno" id="cswd_serialno" value="{{old('cswd_serialno')}}" style="text-transform: uppercase;">
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
@@ -110,8 +136,8 @@
                                         <label for="is_lactating"><b class="text-danger">*</b>Is Lactating?</label>
                                         <select class="form-control" name="is_lactating" id="is_lactating">
                                         <option value="" disabled {{(is_null(old('is_lactating'))) ? 'selected' : ''}}>Choose...</option>
-                                        <option value="Y" {{(old('is_lactating', $p->is_lactating) == 'Y') ? 'selected' : ''}}>Yes</option>
-                                        <option value="N" {{(old('is_lactating', $p->is_lactating) == 'N') ? 'selected' : ''}}>No</option>
+                                        <option value="Y" {{(old('is_lactating') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                        <option value="N" {{(old('is_lactating') == 'N') ? 'selected' : ''}}>No</option>
                                         </select>
                                     </div>
                                 </div>
@@ -120,9 +146,9 @@
                                 <div class="form-group">
                                     <label for="gender"><span class="text-danger font-weight-bold">*</span>Civil Status</label>
                                     <select class="form-control" name="cs" id="cs" required>
-                                    <option value="" disabled {{(is_null(old('cs', $p->cs))) ? 'selected' : ''}}>Choose...</option>
-                                    <option value="SINGLE" {{(old('cs', $p->cs) == 'SINGLE') ? 'selected' : ''}}>Single</option>
-                                    <option value="MARRIED" {{(old('cs', $p->cs) == 'MARRIED') ? 'selected' : ''}}>Married</option>
+                                    <option value="" disabled {{(is_null(old('cs'))) ? 'selected' : ''}}>Choose...</option>
+                                    <option value="SINGLE" {{(old('cs') == 'SINGLE') ? 'selected' : ''}}>Single</option>
+                                    <option value="MARRIED" {{(old('cs') == 'MARRIED') ? 'selected' : ''}}>Married</option>
                                     </select>
                                 </div>
                             </div>
@@ -130,32 +156,88 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="contact_number"><span class="text-danger font-weight-bold">*</span>Contact Number</label>
-                                    <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{old('contact_number', $p->contact_number)}}" pattern="[0-9]{11}" placeholder="09*********" required>
+                                    <label for="contact_number"><span class="text-danger font-weight-bold">*</span>Primary Contact Number</label>
+                                    <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{old('contact_number')}}" pattern="[0-9]{11}" placeholder="09*********" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="contact_number2">Alternate Contact Number</label>
-                                    <input type="text" class="form-control" id="contact_number2" name="contact_number2" value="{{old('contact_number2', $p->contact_number2)}}" pattern="[0-9]{11}" placeholder="09*********">
+                                    <input type="text" class="form-control" id="contact_number2" name="contact_number2" value="{{old('contact_number2')}}" pattern="[0-9]{11}" placeholder="09*********">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="religion">Religion</label>
-                                    <input type="text" class="form-control" id="religion" name="religion" value="{{old('religion', $p->religion)}}" style="text-transform: uppercase;">
+                                    <input type="text" class="form-control" id="religion" name="religion" value="{{old('religion')}}" style="text-transform: uppercase;">
                                 </div>
-                                <div class="form-group">
-                                    <label for="occupation">Occupation</label>
-                                    <input type="text" class="form-control" id="occupation" name="occupation" value="{{old('occupation', $p->occupation)}}" style="text-transform: uppercase;">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="occupation">Occupation</label>
+                                            <input type="text" class="form-control" id="occupation" name="occupation" value="{{old('occupation')}}" style="text-transform: uppercase;">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="monthlyfamily_income">Monthly Family Net Income</label>
+                                            <input type="number" class="form-control" id="monthlyfamily_income" name="monthlyfamily_income" value="{{old('monthlyfamily_income')}}">
+                                        </div>
+                                    </div>
                                 </div>
+                                
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="id_presented"><b class="text-danger">*</b>ID Card Presented</label>
-                                    <input type="text" class="form-control" id="id_presented" name="id_presented" value="{{old('id_presented', $p->id_presented)}}" style="text-transform: uppercase;" required>
+                                    <input type="text" class="form-control" id="id_presented" name="id_presented" value="{{old('id_presented')}}" style="text-transform: uppercase;" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="id_number"><b class="text-danger">*</b>ID Card Number</label>
-                                    <input type="text" class="form-control" id="id_number" name="id_number" value="{{old('id_number', $p->id_number)}}" style="text-transform: uppercase;" required>
+                                    <input type="text" class="form-control" id="id_number" name="id_number" value="{{old('id_number')}}" style="text-transform: uppercase;" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="house_ownership"><span class="text-danger font-weight-bold">*</span>House Ownership</label>
+                                    <select class="form-control" name="house_ownership" id="house_ownership" required>
+                                        <option value="" disabled {{(is_null(old('house_ownership'))) ? 'selected' : ''}}>Choose...</option>
+                                        <option value="OWNER" {{(old('house_ownership') == 'OWNER') ? 'selected' : ''}}>Owner</option>
+                                        <option value="RENTER" {{(old('house_ownership') == 'RENTER') ? 'selected' : ''}}>Renter</option>
+                                        <option value="SHARER" {{(old('house_ownership') == 'SHARER') ? 'selected' : ''}}>Sharer</option>
+                                        <option value="INFORMAL SETTLER" {{(old('house_ownership') == 'INFORMAL SETTLER') ? 'selected' : ''}}>Informal Settler</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="is_pwd"><span class="text-danger font-weight-bold">*</span>Is PWD</label>
+                                    <select class="form-control" name="is_pwd" id="is_pwd" required>
+                                        <option value="" {{(is_null(old('is_pwd'))) ? 'selected' : ''}}>Choose...</option>
+                                        <option value="Y" {{(old('is_pwd') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                        <option value="N" {{(old('is_pwd') == 'N') ? 'selected' : ''}}>No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="is_4ps"><span class="text-danger font-weight-bold">*</span>Is 4Ps</label>
+                                    <select class="form-control" name="is_4ps" id="is_4ps" required>
+                                        <option value="" {{(is_null(old('is_4ps'))) ? 'selected' : ''}}>Choose...</option>
+                                        <option value="Y" {{(old('is_4ps') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                        <option value="N" {{(old('is_4ps') == 'N') ? 'selected' : ''}}>No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="is_indg"><span class="text-danger font-weight-bold">*</span>Is Indigent</label>
+                                    <select class="form-control" name="is_indg" id="is_indg" required>
+                                        <option value="" {{(is_null(old('is_indg'))) ? 'selected' : ''}}>Choose...</option>
+                                        <option value="Y" {{(old('is_indg') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                        <option value="N" {{(old('is_indg') == 'N') ? 'selected' : ''}}>No</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -198,7 +280,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="street_purok"><b class="text-danger">*</b>House No., Street/Purok/Subdivision</label>
-                                            <input type="text" class="form-control" id="street_purok" name="street_purok" value="{{old('street_purok', $p->street_purok)}}" style="text-transform: uppercase;" required>
+                                            <input type="text" class="form-control" id="street_purok" name="street_purok" value="{{old('street_purok')}}" style="text-transform: uppercase;" required>
                                         </div>
                                     </div>
                                 </div>
@@ -206,108 +288,18 @@
                         </div>
                         
                         <div class="row mt-3">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="house_ownership"><span class="text-danger font-weight-bold">*</span>House Ownership</label>
-                                    <select class="form-control" name="house_ownership" id="house_ownership" required>
-                                        <option value="" disabled {{(is_null(old('house_ownership', $p->house_ownership))) ? 'selected' : ''}}>Choose...</option>
-                                        <option value="OWNER" {{(old('house_ownership', $p->house_ownership) == 'OWNER') ? 'selected' : ''}}>Owner</option>
-                                        <option value="RENTER" {{(old('house_ownership', $p->house_ownership) == 'RENTER') ? 'selected' : ''}}>Renter</option>
-                                        <option value="SHARER" {{(old('house_ownership', $p->house_ownership) == 'SHARER') ? 'selected' : ''}}>Sharer</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="shelterdamage_classification"><span class="text-danger font-weight-bold">*</span>Shelter Damage Classification</label>
-                                    <select class="form-control" name="shelterdamage_classification" id="shelterdamage_classification" required>
-                                        <option value="" disabled {{(is_null(old('shelterdamage_classification', $p->shelterdamage_classification))) ? 'selected' : ''}}>Choose...</option>
-                                        <option value="PARTIALLY DAMAGED" {{(old('shelterdamage_classification', $p->shelterdamage_classification) == 'PARTIALLY DAMAGED') ? 'selected' : ''}}>Partially Damaged</option>
-                                        <option value="TOTALLY DAMAGED" {{(old('shelterdamage_classification', $p->shelterdamage_classification) == 'TOTALLY DAMAGED') ? 'selected' : ''}}>Totally Damaged</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="is_injured"><span class="text-danger font-weight-bold">*</span>Is Injured</label>
-                                            <select class="form-control" name="is_injured" id="is_injured" required>
-                                                <option value="" {{(is_null(old('is_injured', $p->is_injured))) ? 'selected' : ''}}>Choose...</option>
-                                                <option value="Y" {{(old('is_injured', $p->is_injured) == 'Y') ? 'selected' : ''}}>Yes</option>
-                                                <option value="N" {{(old('is_injured', $p->is_injured) == 'N') ? 'selected' : ''}}>No</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="is_pwd"><span class="text-danger font-weight-bold">*</span>Is PWD</label>
-                                            <select class="form-control" name="is_pwd" id="is_pwd" required>
-                                                <option value="" {{(is_null(old('is_pwd', $p->is_pwd))) ? 'selected' : ''}}>Choose...</option>
-                                                <option value="Y" {{(old('is_pwd', $p->is_pwd) == 'Y') ? 'selected' : ''}}>Yes</option>
-                                                <option value="N" {{(old('is_pwd', $p->is_pwd) == 'N') ? 'selected' : ''}}>No</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="is_4ps"><span class="text-danger font-weight-bold">*</span>Is 4Ps</label>
-                                            <select class="form-control" name="is_4ps" id="is_4ps" required>
-                                                <option value="" {{(is_null(old('is_4ps', $p->is_4ps))) ? 'selected' : ''}}>Choose...</option>
-                                                <option value="Y" {{(old('is_4ps', $p->is_4ps) == 'Y') ? 'selected' : ''}}>Yes</option>
-                                                <option value="N" {{(old('is_4ps', $p->is_4ps) == 'N') ? 'selected' : ''}}>No</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="is_indg"><span class="text-danger font-weight-bold">*</span>Is Indigent</label>
-                                            <select class="form-control" name="is_indg" id="is_indg" required>
-                                                <option value="" {{(is_null(old('is_indg', $p->is_indg))) ? 'selected' : ''}}>Choose...</option>
-                                                <option value="Y" {{(old('is_indg', $p->is_indg) == 'Y') ? 'selected' : ''}}>Yes</option>
-                                                <option value="N" {{(old('is_indg', $p->is_indg) == 'N') ? 'selected' : ''}}>No</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="outcome"><span class="text-danger font-weight-bold">*</span>Outcome</label>
-                                    <select class="form-control" name="outcome" id="outcome" required>
-                                    <option value="" disabled {{(is_null(old('outcome', $p->outcome))) ? 'selected' : ''}}>Choose...</option>
-                                    <option value="ALIVE" {{(old('outcome', $p->outcome) == 'ALIVE') ? 'selected' : ''}}>Alive</option>
-                                    <option value="DIED" {{(old('outcome', $p->outcome) == 'DIED') ? 'selected' : ''}}>Died</option>
-                                    <option value="MISSING" {{(old('outcome', $p->outcome) == 'MISSING') ? 'selected' : ''}}>Missing</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="family_status"><span class="text-danger font-weight-bold">*</span>Family Status</label>
-                                    <select class="form-control" name="family_status" id="family_status" required>
-                                    <option value="" disabled {{(is_null(old('family_status', $p->family_status))) ? 'selected' : ''}}>Choose...</option>
-                                    <option value="ACTIVE" {{(old('family_status', $p->family_status) == 'ACTIVE') ? 'selected' : ''}}>Active (Still on Evacuation Center)</option>
-                                    <option value="WENT HOME" {{(old('family_status', $p->family_status) == 'WENT HOME') ? 'selected' : ''}}>Went Home</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="focal_name"><span class="text-danger font-weight-bold">*</span>Name of DSWD Focal</label>
-                                    <select class="form-control" name="focal_name" id="focal_name" required>
-                                    <option value="" disabled {{(is_null(old('focal_name', $p->focal_name))) ? 'selected' : ''}}>Choose...</option>
-                                    <option value="JUAN DELA CRUZ" {{(old('focal_name', $p->focal_name) == 'JUAN DELA CRUZ') ? 'selected' : ''}}>JUAN DELA CRUZ</option>
-                                    </select>
+                                    <label for="dswd_serialno">DSWD Serial No.</label>
+                                    <input type="text" class="form-control" name="dswd_serialno" id="dswd_serialno" value="{{old('dswd_serialno')}}" style="text-transform: uppercase;">
                                 </div>
                             </div>
                             <div class="col-md-6">
-
+                                <div class="form-group">
+                                    <label for="cswd_serialno">CSWD Serial No.</label>
+                                    <input type="text" class="form-control" name="cswd_serialno" id="cswd_serialno" value="{{old('cswd_serialno')}}" style="text-transform: uppercase;">
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                        <label for="remarks">Remarks</label>
-                        <textarea class="form-control" name="remarks" id="remarks" rows="3">{{old('remarks', $p->remarks)}}</textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -317,4 +309,151 @@
             </div>
         </div>
     </form>
+
+    <script>
+        //Select2 Init for Address Bar
+        $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_code, #family_patient_id').select2({
+            theme: 'bootstrap',
+        });
+
+        //Default Values for Gentri
+        var regionDefault = 1;
+        var provinceDefault = 18;
+        var cityDefault = 388;
+
+        $('#address_region_code').change(function (e) { 
+            e.preventDefault();
+
+            var regionId = $(this).val();
+
+            if (regionId) {
+                $('#address_province_code').prop('disabled', false);
+                $('#address_muncity_code').prop('disabled', true);
+                $('#address_brgy_code').prop('disabled', true);
+
+                $('#address_province_code').empty();
+                $('#address_muncity_code').empty();
+                $('#address_brgy_code').empty();
+
+                $.ajax({
+                    url: '/ga/province/' + regionId,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#address_province_code').empty();
+                        $('#address_province_code').append('<option value="" disabled selected>Select Province</option>');
+
+                        let sortedData = Object.entries(data).sort((a, b) => {
+                            return a[1].localeCompare(b[1]); // Compare province names (values)
+                        });
+
+                        $.each(sortedData, function(key, value) {
+                            $('#address_province_code').append('<option value="' + value[0] + '">' + value[1] + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#address_province_code').empty();
+            }
+        });
+
+        $('#address_province_code').change(function (e) { 
+            e.preventDefault();
+
+            var provinceId = $(this).val();
+
+            if (provinceId) {
+                $('#address_province_code').prop('disabled', false);
+                $('#address_muncity_code').prop('disabled', false);
+                $('#address_brgy_code').prop('disabled', true);
+
+                $('#address_muncity_code').empty();
+                $('#address_brgy_code').empty();
+
+                $.ajax({
+                    url: '/ga/city/' + provinceId,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#address_muncity_code').empty();
+                        $('#address_muncity_code').append('<option value="" disabled selected>Select City/Municipality</option>');
+                        
+                        let sortedData = Object.entries(data).sort((a, b) => {
+                            return a[1].localeCompare(b[1]); // Compare province names (values)
+                        });
+
+                        $.each(sortedData, function(key, value) {
+                            $('#address_muncity_code').append('<option value="' + value[0] + '">' + value[1] + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#address_muncity_code').empty();
+            }
+        });
+
+        $('#address_muncity_code').change(function (e) { 
+            e.preventDefault();
+
+            var cityId = $(this).val();
+
+            if (cityId) {
+                $('#address_province_code').prop('disabled', false);
+                $('#address_muncity_code').prop('disabled', false);
+                $('#address_brgy_code').prop('disabled', false);
+
+                $('#address_brgy_code').empty();
+
+                $.ajax({
+                    url: '/ga/brgy/' + cityId,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#address_brgy_code').empty();
+                        $('#address_brgy_code').append('<option value="" disabled selected>Select Barangay</option>');
+
+                        let sortedData = Object.entries(data).sort((a, b) => {
+                            return a[1].localeCompare(b[1]); // Compare province names (values)
+                        });
+
+                        $.each(sortedData, function(key, value) {
+                            $('#address_brgy_code').append('<option value="' + value[0] + '">' + value[1] + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#address_brgy_code').empty();
+            }
+        });
+
+        if ($('#address_region_code').val()) {
+            $('#address_region_code').trigger('change'); // Automatically load provinces on page load
+        }
+
+        if (provinceDefault) {
+            setTimeout(function() {
+                $('#address_province_code').val(provinceDefault).trigger('change');
+            }, 500); // Slight delay to ensure province is loaded
+        }
+        if (cityDefault) {
+            setTimeout(function() {
+                $('#address_muncity_code').val(cityDefault).trigger('change');
+            }, 1000); // Slight delay to ensure city is loaded
+        }
+
+        $('#sex').change(function (e) { 
+            e.preventDefault();
+            
+            if($(this).val() == 'F') {
+                $('#femaleDiv').removeClass('d-none');
+                $('#is_pregnant').prop('required', true);
+                $('#is_lactating').prop('required', true);
+            }
+            else {
+                $('#femaleDiv').addClass('d-none');
+                $('#is_pregnant').prop('required', false);
+                $('#is_lactating').prop('required', false);
+            }
+        }).trigger('change');
+    </script>
 @endsection

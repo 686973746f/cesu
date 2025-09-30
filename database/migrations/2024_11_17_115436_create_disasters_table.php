@@ -17,8 +17,16 @@ class CreateDisastersTable extends Migration
             $table->id();
             $table->string('enabled', 1)->default('Y');
             $table->string('name');
-            $table->text('description')->nullable();
+            $table->text('event_type');
+            $table->string('poisoning_specify')->nullable();
+            $table->string('massaction_specify')->nullable();
+            $table->string('accident_specify')->nullable();
+            $table->string('other_specify')->nullable();
+            
+            $table->dateTime('occurence_date');
             $table->foreignId('city_id')->constrained('edcs_cities')->onDelete('cascade');
+            $table->text('description')->nullable();
+            
             $table->date('date_start');
             $table->date('date_end')->nullable();
             $table->string('status')->default('ACTIVE'); //ACTIVE, DONE

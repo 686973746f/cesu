@@ -43,6 +43,7 @@ class Employee extends Model
         'picture_file',
         'fingerprint_hash',
         'is_blstrained',
+        'is_herotrained',
         'recent_bls_date',
         'bls_id',
         'bls_typeofrescuer',

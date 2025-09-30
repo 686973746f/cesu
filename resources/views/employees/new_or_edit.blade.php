@@ -223,6 +223,14 @@
                                 <input type="text" class="form-control" name="bls_id" id="bls_id" value="{{old('bls_id', $d->bls_id)}}" style="text-transform: uppercase;">
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="is_herotrained"><b class="text-danger">*</b>Is HERO Trained?</label>
+                            <select class="form-control" name="is_herotrained" id="is_herotrained" required>
+                              <option value="" disabled {{(is_null(old('is_herotrained', $d->is_herotrained))) ? 'selected' : ''}}>Choose...</option>
+                              <option value="Y" {{(old('is_herotrained', $d->is_herotrained) == 'Y') ? 'selected' : ''}}>Yes</option>
+                              <option value="N" {{(old('is_herotrained', $d->is_herotrained) == 'N') ? 'selected' : ''}}>No</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">

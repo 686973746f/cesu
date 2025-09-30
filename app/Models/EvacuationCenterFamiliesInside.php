@@ -27,11 +27,24 @@ class EvacuationCenterFamiliesInside extends Model
         'created_by',
     ];
 
-    public function evacuationcenter() {
+    public function evacuationCenter() {
         return $this->belongsTo(EvacuationCenter::class, 'evacuation_center_id');
     }
 
-    public function familyhead() {
+    public function familyHead() {
         return $this->belongsTo(EvacuationCenterFamilyHead::class, 'familyhead_id');
+    }
+
+    public function user() {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function members()
+    {
+        return $this->hasMany(EvacuationCenterFamilyMembersInside::class, 'familyinside_id');
+    }
+
+    public function getNumberOfMembers() {
+        return EvacuationCenterFamilyMembersInside::where('familyinside_id', $this->id)->count();
     }
 }

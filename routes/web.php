@@ -915,12 +915,19 @@ Route::group(['middleware' => ['auth','verified', 'canAccessDisaster']], functio
     Route::get('/gtsecure', [DisasterController::class, 'index'])->name('gtsecure_index');
     Route::post('/gtsecure/disaster/store', [DisasterController::class, 'storeDisaster'])->name('gtsecure_storeDisaster');
     Route::get('/gtsecure/disaster/view/{id}', [DisasterController::class, 'viewDisaster'])->name('gtsecure_disaster_view');
+    Route::post('/gtsecure/disaster/view/{id}/update', [DisasterController::class, 'update'])->name('disaster_update');
+    Route::get('/gtsecure/disaster/view/{id}/report', [DisasterController::class, 'viewReportDashbooard'])->name('disaster_report_dashboard');
 
     Route::get('/gtsecure/families', [DisasterController::class, 'viewFamilies'])->name('disaster_viewfamilies');
     Route::post('/gtsecure/families/new_familyhead', [DisasterController::class, 'storeFamilyHead'])->name('disaster_storefamilyhead');
+    Route::get('/gtsecure/families/view_family/{id}', [DisasterController::class, 'viewFamilyHead'])->name('disaster_viewfamilyhead');
+    Route::post('/gtsecure/families/view_family/{id}/new_member', [DisasterController::class, 'storeFamilyMember'])->name('disaster_storemember');
 
     Route::post('/gtsecure/disaster/{id}/evacuation_center/store', [DisasterController::class, 'storeEvacuationCenter'])->name('gtsecure_evacuationcenter_store');
     Route::get('/gtsecure/disaster/evacuation_center/{evac_id}', [DisasterController::class, 'viewEvacuationCenter'])->name('gtsecure_evacuationcenter_view');
+    Route::post('/gtsecure/disaster/evacuation_center/{evac_id}/linkfamily', [DisasterController::class, 'linkFamilyToEvac'])->name('disaster_linkfamily');
+    Route::get('/gtsecure/disaster/evacuation_center/{evac_id}/view_insidefamily/{head_id}', [DisasterController::class, 'viewEvacFamily'])->name('disaster_viewfamilyevac');
+    Route::post('/gtsecure/disaster/evacuation_center/{evac_id}/view_insidefamily/{head_id}/linkmember', [DisasterController::class, 'linkMemberToEvac'])->name('disaster_linkmembertoevac');
     //Route::get('/gtsecure/disaster/evacuation_center/{evac_id}/new_patient', [DisasterController::class, 'newPatient'])->name('gtsecure_newpatient');
     //Route::post('/gtsecure/disaster/evacuation_center/{evac_id}/new_patient/store', [DisasterController::class, 'storePatient'])->name('gtsecure_storepatient');
     //Route::get('/gtsecure/disaster/evacuation_center/view_patient/{id}', [DisasterController::class, 'viewPatient'])->name('gtsecure_viewpatient');
