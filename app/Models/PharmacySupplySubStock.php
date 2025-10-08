@@ -43,6 +43,11 @@ class PharmacySupplySubStock extends Model
         return $this->belongsTo(PharmacySupplySub::class, 'subsupply_id');
     }
 
+    public function stockcards()
+{
+    return $this->hasMany(PharmacyStockCard::class, 'subsupply_id');
+}
+
     public function getMainQty() {
         if($this->pharmacysub->pharmacysupplymaster->quantity_type == 'BOX') {
             $get_qty = $this->current_box_stock;
