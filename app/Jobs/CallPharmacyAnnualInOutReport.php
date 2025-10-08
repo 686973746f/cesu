@@ -219,6 +219,7 @@ class CallPharmacyAnnualInOutReport implements ShouldQueue
 
         //STOCKS MASTERLIST
         $list_subitem = PharmacySupplySub::where('pharmacy_branch_id', $branch_id)
+        ->where('include_inreport', 'Y')
         ->get();
 
         $si_array = [];
