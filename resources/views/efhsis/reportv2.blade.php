@@ -318,7 +318,7 @@
 
     <script>
         $('#mortable, #morbtable').dataTable({
-            iDisplayLength: 5,
+            iDisplayLength: 10,
             'dom': 't',
             'orderFixed': {
                 'pre': [[4, 'desc']]

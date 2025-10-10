@@ -1518,6 +1518,10 @@ class FhsisController extends Controller
 
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $filePath = 'C:\laragon\www\cesu\storage\app\efhsis\output.sql';
+            
+            if (!file_exists($filePath)) {
+                $filePath = 'C:\xampp\htdocs\cesu\storage\app\efhsis\output.sql';
+            }
         } else {
             $filePath = storage_path('app/efhsis/output.sql');
         }
