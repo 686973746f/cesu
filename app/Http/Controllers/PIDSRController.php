@@ -6510,7 +6510,7 @@ class PIDSRController extends Controller
             $endDate = Carbon::now()->isoWeekYear($sel_year)->isoWeek($sel_week)->endOfWeek();
 
             if($sel_week == 52 || $sel_week == 53) {
-                $flavor_enddate = Carbon::createFromYear($sel_year)->endOfYear();
+                $flavor_enddate = Carbon::create($sel_year, 12, 31);
             }
             else if($sel_week == date('W')) {
                 $flavor_enddate = Carbon::now();
