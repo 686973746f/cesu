@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-    <form action="{{route('edcs_process_exportables', [$f->sys_code1, 'DENGUE'])}}" method="POST">
+    <form action="{{route('edcs_process_exportables', [$f->sys_code1, $disease])}}" method="POST">
         @csrf
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex justify-content-between">
-                        <div><b>Dengue - List of to Upload in EDCS-IS</b></div>
+                        <div><b>{{$disease}} - List of to Upload in EDCS-IS</b></div>
                         <div>
                             <button type="submit" class="btn btn-success" id="downloadCsv" name="submit" value="downloadCsv" disabled>Download as CSV</button>
                         </div>

@@ -26,6 +26,7 @@ use App\Models\Malaria;
 use App\Models\Measles;
 use App\Models\Meningo;
 use App\Models\Typhoid;
+use App\Models\Employee;
 use App\Models\Hepatitis;
 use App\Models\Icd10Code;
 use App\Models\Influenza;
@@ -36,7 +37,6 @@ use Illuminate\Support\Str;
 use App\Models\MedicalEvent;
 use Illuminate\Http\Request;
 use App\Jobs\CallOpdErExport;
-use App\Models\Employee;
 use App\Models\Leptospirosis;
 use App\Models\PharmacyCartSub;
 use App\Models\PharmacyPatient;
@@ -45,10 +45,11 @@ use function PHPSTORM_META\map;
 use App\Models\SyndromicPatient;
 use App\Models\SyndromicRecords;
 use App\Models\PharmacySupplySub;
+use App\Models\SyndromicLabResult;
 use Illuminate\Support\Facades\DB;
 use App\Models\FhsisTbdotsMorbidity;
 use App\Models\PharmacyPrescription;
-use App\Models\SyndromicLabResult;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Rap2hpoutre\FastExcel\FastExcel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -1243,6 +1244,92 @@ class SyndromicController extends Controller
             //UPDATE SUSPECTED DISEASE LIST
             $fetch_record = SyndromicRecords::find($c->id);
             $fetch_record->generated_susdiseaselist = ($fetch_record->getListOfSuspDiseases() != 'N/A') ? $fetch_record->getListOfSuspDiseases() : NULL;
+
+            //Generate ILI Data
+            if(in_array('Influenza-like Illness (ILI)', explode(", ", $fetch_record->generated_susdiseaselist))) {
+                $ili_create = Influenza::create([
+                    'Icd10Code' => 'J10, J11',
+                    'RegionOfDrU' => '04A',
+                    'ProvOfDRU' => 'CAVITE',
+                    'MuncityOfDRU' => 'CITY OF GENERAL TRIAS',
+                    'DRU' => 'CHO',
+                    //'AddressOfDRU' => 'Hospital Rd., Brgy. ',
+                    'PatientNumber' => $fetch_record->id,
+                    'FullName' => $fetch_record->syndromic_patient->getName(),
+                    'FirstName' => $fetch_record->syndromic_patient->fname,
+                    'FamilyName' => $fetch_record->syndromic_patient->lname,
+                    'middle_name' => (!is_null($fetch_record->syndromic_patient->lname)) ? $fetch_record->syndromic_patient->lname : NULL,
+                    'suffix' => (!is_null($fetch_record->syndromic_patient->suffix)) ? $fetch_record->syndromic_patient->suffix : NULL,
+                    'AgeYears' => $get_ageyears,
+                    'AgeMons' => $get_agemonths,
+                    'AgeDays' => $get_agedays,
+                    'Sex' => $fetch_record->syndromic_patient->sg(),
+                    'DOB' => $fetch_record->syndromic_patient->bdate,
+                    'Region' => '04A',
+                    'Province' => 'CAVITE',
+                    'Muncity' => 'CITY OF GENERAL TRIAS',
+                    'Streetpurok' => $fetch_record->syndromic_patient->getStreetPurok(),
+                    'Admitted' => 'N',
+                    //'DAdmit',
+                    'DOnset',
+                    //'LabResult',
+                    'Outcome' => 'A',
+                    //'DateDied',
+                    'DateOfEntry' => date('Y-m-d', strtotime($fetch_record->created_at)),
+                    'AdmitToEntry',
+                    'OnsetToAdmit',
+                    'MorbidityMonth',
+                    'MorbidityWeek',
+                    'EPIID' => 'ILI_MPSS_TEMP_'.mb_strtoupper(Str::random(10)),
+                    'RECSTATUS',
+                    'SentinelSite',
+                    'DeleteRecord',
+                    'Year',
+                    'NameOfDru',
+                    'District',
+                    'ILHZ',
+                    'Barangay',
+                    'CASECLASS',
+                    'TYPEHOSPITALCLINIC',
+                    'SARI',
+                    'Organism',
+                    'SENT',
+                    'ip',
+                    'ipgroup',
+                    'created_at',
+                    'updated_at',
+                    'systemsent',
+                    'enabled',
+                    
+                    
+                    'edcs_caseid',
+                    'edcs_healthFacilityCode',
+                    'edcs_investigatorName',
+                    'edcs_contactNo',
+                    'edcs_ageGroup',
+                    'edcs_verificationLevel',
+                    'from_edcs' => 0,
+                    'from_inhouse' => 1,
+                    'inhouse_exportedtocsv',
+                    'inhouse_exported_date',
+                    'encoded_mw',
+                    'match_casedef',
+                    'system_notified',
+                    'edcs_userid',
+                    'edcs_last_modifiedby',
+                    'edcs_last_modified_date',
+                    'notify_email_sent',
+                    'notify_email_sent_datetime',
+                    'edcs_patientcontactnum',
+                    'system_remarks',
+                    'brgy_remarks',
+                    'system_subdivision_id',
+                    'system_subdivision_name',
+                    'subdivision_group',
+                    'created_by' => Auth::id(),
+                ]);
+            }
+
             if($fetch_record->isDirty()) {
                 $fetch_record->save();
             }

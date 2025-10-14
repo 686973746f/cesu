@@ -9906,15 +9906,24 @@ class PIDSRController extends Controller
             ->where('enabled', 1)
             ->where('match_casedef', 1)
             ->get();
-
-            return view('pidsr.dengue.view_exportables', [
-                'list' => $list,
-                'f' => $f,
-            ]);
+        }
+        else if($disease == 'INFLUENZA') {
+            $list = Influenza::where('from_inhouse', 1)
+            ->where('inhouse_exportedtocsv', 0)
+            ->where('edcs_healthFacilityCode', $health_facility_code)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->get();
         }
         else {
             return abort(404);
         }
+
+        return view('pidsr.dengue.view_exportables', [
+                'disease' => $disease,
+                'list' => $list,
+                'f' => $f,
+            ]);
     }
 
     public function processEdcsExportables($facility_code, $disease, Request $r) {
@@ -10108,7 +10117,92 @@ class PIDSRController extends Controller
                         $row++;
                     }
         
-                    $fileName = 'dengue_template_'.strtolower(Str::random(5)).'.csv';
+                    $fileName = 'gentri_dengue_template_'.strtolower(Str::random(5)).'.csv';
+                    ob_clean();
+                    $writer = new Csv($spreadsheet);
+                    header('Content-Type: text/csv');
+                    header('Content-Disposition: attachment; filename="' . urlencode($fileName) . '"');
+                    $writer->save('php://output');
+                }
+            }
+        }
+        else if($disease == 'INFLUENZA') {
+            if($r->submit == 'downloadCsv') {
+                $spreadsheet = IOFactory::load(storage_path('edcs_template/ili.csv'));
+                $sheet = $spreadsheet->getActiveSheet();
+
+                $list = Influenza::whereIn('id', $r->ids)->get();
+                
+                if($list->count() != 0) {
+                    $row = 2;
+                    
+                    foreach($list as $d) {
+                        $cf = DohFacility::where('healthfacility_code', $d->edcs_healthFacilityCode)->first();
+        
+                        $sheet->setCellValue('A'.$row, 'MPSS_'.$d->id.'E'); //Patient ID
+                        $sheet->setCellValue('B'.$row, $d->FirstName); //First Name
+                        $sheet->setCellValue('C'.$row, $d->middle_name); //Middle Name
+                        $sheet->setCellValue('D'.$row, $d->FamilyName); //Last Name
+                        $sheet->setCellValue('E'.$row, $d->suffix); //Suffix
+                        $sheet->setCellValue('F'.$row, $d->Sex); //Sex
+                        $sheet->setCellValue('G'.$row, Carbon::parse($d->DOB)->format('m/d/Y')); //Bdate
+                        $sheet->getStyle('G'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                        $sheet->setCellValue('H'.$row, Carbon::parse($d->DOB)->age); //Age
+        
+                        $sheet->setCellValue('I'.$row, $d->brgy->city->province->region->edcs_code); //Current Region
+                        $sheet->setCellValue('J'.$row, $d->brgy->city->province->edcs_code); //Current Province
+                        $sheet->setCellValue('K'.$row, $d->brgy->city->edcs_code); //Current MunCity
+                        $sheet->setCellValue('L'.$row, $d->brgy->edcs_code); //Current Brgy
+                        $sheet->setCellValue('M'.$row, $d->Streetpurok); //Current StreetProk
+        
+                        $sheet->setCellValue('N'.$row, $d->brgy->city->province->region->edcs_code); //Permanent Region
+                        $sheet->setCellValue('O'.$row, $d->brgy->city->province->edcs_code); //Permanent Province
+                        $sheet->setCellValue('P'.$row, $d->brgy->city->edcs_code); //Permanent MunCity
+                        $sheet->setCellValue('Q'.$row, $d->brgy->edcs_code); //Permanent Brgy
+                        $sheet->setCellValue('R'.$row, $d->Streetpurok); //Permanent StreetProk
+        
+                        $sheet->setCellValue('S'.$row, 'N'); //Member of Indigenous People
+                        $sheet->setCellValue('T'.$row, ''); //Indigenous People Tribe
+                        $sheet->setCellValue('U'.$row, $cf->healthfacility_code); //Facility Code
+                        $sheet->setCellValue('V'.$row, $cf->edcs_region_code); //DRU Region Code
+                        $sheet->setCellValue('W'.$row, $cf->edcs_province_code); //DRU Province Code
+                        $sheet->setCellValue('X'.$row, $cf->edcs_muncity_code); //DRU MunCity Code
+
+                        $sheet->setCellValue('Y'.$row, 'N'); //HistoryTravel21days
+                        $sheet->setCellValue('Z'.$row, ''); //HistoryTravel21daysSpecify
+                        $sheet->setCellValue('AA'.$row, 'N'); //Admitted
+                        $sheet->setCellValue('AB'.$row, 'N'); //DateAdmitted
+                        $sheet->setCellValue('AC'.$row, 'N'); //DateOnsetOfIllness
+                        $sheet->setCellValue('AD'.$row, 'N'); //ReceivedAntiInfluenzaVaccination
+                        $sheet->setCellValue('AE'.$row, 'N'); //DateLastVaccination
+                        $sheet->setCellValue('AF'.$row, 'A'); //Outcome
+                        $sheet->setCellValue('AG'.$row, ''); //DateDied
+                        $sheet->setCellValue('AH'.$row, 'SUS'); //CaseClassification
+                        $sheet->setCellValue('AI'.$row, ''); //SpecimenType
+                        $sheet->setCellValue('AJ'.$row, ''); //DateSpecimenCollected
+                        $sheet->setCellValue('AK'.$row, ''); //LaboratorySenttoRITM
+                        $sheet->setCellValue('AL'.$row, ''); //DateSenttoRITM
+                        $sheet->setCellValue('AM'.$row, ''); //DateReceivedRITM
+                        $sheet->setCellValue('AN'.$row, ''); //LaboratoryResult
+                        $sheet->setCellValue('AO'.$row, ''); //TypeofOrganism
+                        $sheet->setCellValue('AP'.$row, ''); //TypeofTestConducted
+                        $sheet->setCellValue('AQ'.$row, ''); //Interpretation
+                        $sheet->setCellValue('AR'.$row, ''); //TimeReceivedbyRITMorSNL
+                        $sheet->setCellValue('AS'.$row, ''); //DateofTestingbyRITMorSNL
+                        $sheet->setCellValue('AT'.$row, ''); //DateofResultbyRITMorSNL
+                        $sheet->setCellValue('AU'.$row, ''); //LaboratoryRemarks
+
+                        $d->inhouse_exportedtocsv = 1;
+                        $d->inhouse_exported_date = date('Y-m-d H:i:s');
+
+                        if($d->isDirty()) {
+                            $d->save();
+                        }
+                        
+                        $row++;
+                    }
+        
+                    $fileName = 'gentri_ili_template_'.strtolower(Str::random(5)).'.csv';
                     ob_clean();
                     $writer = new Csv($spreadsheet);
                     header('Content-Type: text/csv');
