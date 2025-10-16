@@ -201,7 +201,13 @@
                                 <option value="COUGH" {{ (collect(old('signs_and_symptoms'))->contains('COUGH')) ? 'selected' : '' }}>Cough</option>
                                 <option value="COLDS" {{ (collect(old('signs_and_symptoms'))->contains('COLDS')) ? 'selected' : '' }}>Colds</option>
                                 <option value="RASH" {{ (collect(old('signs_and_symptoms'))->contains('RASH')) ? 'selected' : '' }}>Rash</option>
-                                <option value="ADD" {{ (collect(old('signs_and_symptoms'))->contains('ADD')) ? 'selected' : '' }}>ADD HERE LATER</option>
+                                <option value="SORE THROAT" {{ (collect(old('signs_and_symptoms'))->contains('RASH')) ? 'selected' : '' }}>Sore Throat</option>
+                                <option value="DIARRHEA" {{ (collect(old('signs_and_symptoms'))->contains('DIARRHEA')) ? 'selected' : '' }}>Diarrhea/LBM</option>
+                                <option value="VOMITING" {{ (collect(old('signs_and_symptoms'))->contains('RASH')) ? 'selected' : '' }}>Vomiting</option>
+                                <option value="SORE EYES" {{ (collect(old('signs_and_symptoms'))->contains('RASH')) ? 'selected' : '' }}>Sore Eyes</option>
+                                <option value="DIZZINESS" {{ (collect(old('signs_and_symptoms'))->contains('RASH')) ? 'selected' : '' }}>Rash</option>
+                                <option value="TOOTHACHE" {{ (collect(old('signs_and_symptoms'))->contains('RASH')) ? 'selected' : '' }}>Rash</option>
+                                <option value="BODY PAIN" {{ (collect(old('signs_and_symptoms'))->contains('RASH')) ? 'selected' : '' }}>Rash</option>
                                 <option value="OTHERS" {{ (collect(old('signs_and_symptoms'))->contains('OTHERS')) ? 'selected' : '' }}>Others</option>
                               </select>
                             </div>

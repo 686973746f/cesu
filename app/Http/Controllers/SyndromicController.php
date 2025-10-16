@@ -298,7 +298,10 @@ class SyndromicController extends Controller
         $to = request()->input('date_to');
 
         $get_records = SyndromicRecords::where('facility_id', auth()->user()->itr_facility_id);
-        
+
+        if(auth()->user()->isTbdotsEncoder()) {
+            $get_records = $get_records->where('encodedfrom_tbdots', 1);
+        }
 
         if($from == $to) {
             $get_records = $get_records->whereDate('consultation_date', $from);

@@ -23,4 +23,8 @@ class School extends Model
         'qr',
         'password',
     ];
+
+    protected $hidden = [
+        'password',
+    ];
 }

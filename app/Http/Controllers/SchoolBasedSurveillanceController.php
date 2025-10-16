@@ -7,6 +7,8 @@ use App\Models\School;
 use App\Models\SbsPatient;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class SchoolBasedSurveillanceController extends Controller
 {
@@ -137,7 +139,36 @@ class SchoolBasedSurveillanceController extends Controller
     }
 
     public function initializeAccount($code, Request $r) {
+        if($r->password1 != $r->password2) {
+            return redirect()->back()
+            ->with('msg', 'ERROR: Password does not match. Please try again.')
+            ->with('msgtype', 'warning');
+        }
 
+        $s = School::where('qr', $code)->first();
+
+        if(!$s) {
+            return abort(401);
+        }
+
+        $u = School::where('qr', $code)->update([
+            'email' => $r->email,
+            'password' => Hash::make($r->password),
+        ]);
+
+        return redirect()->route('sbs_index', $s->qr)
+        ->with('msg', 'Account was successfully initialized. You may now login.')
+        ->with('msgtype', 'success');
+    }
+
+    public function login(Request $r) {
+        $credentials = $r->only('email', 'password');
+
+        if (Auth::guard('school')->attempt($credentials)) {
+            return redirect()->route('school.dashboard');
+        }
+
+        return back()->withErrors(['email' => 'Invalid login credentials.']);
     }
 
     public function viewList($code) {

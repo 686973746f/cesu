@@ -11,9 +11,7 @@
     @endif
     <div class="text-right mb-3">
         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#additr"><i class="fa fa-user-plus mr-2" aria-hidden="true"></i>New Patient</button>
-        @if(!auth()->user()->isTbdotsEncoder())
         <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#report"><i class="fa fa-file mr-2" aria-hidden="true"></i>Report</button>
-        @endif
         @if(auth()->user()->isAdminSyndromic())
         <a href="{{route('syndromic_map')}}" class="btn btn-primary"><i class="fa fa-map mr-2" aria-hidden="true"></i>Map</a>
         <button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#settings"><i class="fa fa-cog mr-2" aria-hidden="true"></i>Settings</button>

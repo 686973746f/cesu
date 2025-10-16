@@ -992,9 +992,11 @@ Route::post('facility_report/{code}/injury_reporting/store', [InjuryController::
 
 //SCHOOL BASED SURVEILLANCE
 Route::get('sbs/{code}', [SchoolBasedSurveillanceController::class, 'index'])->name('sbs_index');
-Route::get('sbs/{code}/list', [SchoolBasedSurveillanceController::class, 'viewList'])->name('sbs_view');
 Route::get('sbs/{code}/new', [SchoolBasedSurveillanceController::class, 'newCase'])->name('sbs_new');
 Route::post('sbs/{code}/store', [SchoolBasedSurveillanceController::class, 'storeCase'])->name('sbs_store');
+
+Route::post('sbs/{code}/initialize', [SchoolBasedSurveillanceController::class, 'initializeAccount'])->name('sbs_init');
+Route::get('sbs/{code}/list', [SchoolBasedSurveillanceController::class, 'viewList'])->name('sbs_view');
 
 Route::get('health_event/{event_code}/{facility_code}', [HealthEventsController::class, 'encodeIndex'])->name('he_index');
 Route::get('health_event/{event_code}/{facility_code}/encode', [HealthEventsController::class, 'encodeCheck'])->name('he_check');
