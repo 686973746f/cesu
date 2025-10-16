@@ -343,6 +343,7 @@ class SyndromicController extends Controller
             $sheet->setCellValueExplicit('N'.$curtab, $d->remarks ?: 'N/A', \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
             $sheet->setCellValue('O'.$curtab, date('m/d/Y', strtotime($d->created_at)));
             $sheet->setCellValue('P'.$curtab, $d->user->name);
+            $sheet->setCellValue('Q'.$curtab, date('F', strtotime($d->created_at)));
         }
 
         $fileName = 'CONSULTATION_MASTERLIST_'.$from.'_to_'.$to.'.xlsx';
