@@ -7,6 +7,15 @@
             <div class="card">
                 <div class="card-header"><b>General Trias City CESU - School Based Disease Surveillance: New Case</b></div>
                 <div class="card-body">
+                    @if(session('msg'))
+                    <div class="alert alert-{{session('msgType')}}" role="alert">
+                        {{session('msg')}}
+                    </div>
+                    <hr>
+                    @endif
+                    <div class="alert alert-primary" role="alert">
+                        <b>LEGAL NOTICE:</b> All personal, health, and sensitive information under the custody of the Department of Education is strictly confidential and protected under the Data Privacy Act of 2012 (R.A. 10173). Any person who gains access to such data is prohibited from sharing, reproducing, disclosing, taking screenshots, or disseminating said information through any means without proper authority. Unauthorized access, use, or disclosure shall be subject to administrative, civil, and criminal liabilities under existing laws.
+                    </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -189,11 +198,18 @@
                               <label for="signs_and_symptoms"><b class="text-danger">*</b>Signs and Symptoms (Select all that apply)</label>
                               <select class="form-control" name="signs_and_symptoms[]" id="signs_and_symptoms" required multiple>
                                 <option value="FEVER" {{ (collect(old('signs_and_symptoms'))->contains('FEVER')) ? 'selected' : '' }}>Fever</option>
-                                <option value="COUGH" {{ (collect(old('signs_and_symptoms'))->contains('FEVER')) ? 'selected' : '' }}>Fever</option>
-                                <option value="COLDS" {{ (collect(old('signs_and_symptoms'))->contains('FEVER')) ? 'selected' : '' }}>Fever</option>
-                                <option value="RASH" {{ (collect(old('signs_and_symptoms'))->contains('FEVER')) ? 'selected' : '' }}>Fever</option>
+                                <option value="COUGH" {{ (collect(old('signs_and_symptoms'))->contains('COUGH')) ? 'selected' : '' }}>Cough</option>
+                                <option value="COLDS" {{ (collect(old('signs_and_symptoms'))->contains('COLDS')) ? 'selected' : '' }}>Colds</option>
+                                <option value="RASH" {{ (collect(old('signs_and_symptoms'))->contains('RASH')) ? 'selected' : '' }}>Rash</option>
+                                <option value="ADD" {{ (collect(old('signs_and_symptoms'))->contains('ADD')) ? 'selected' : '' }}>ADD HERE LATER</option>
                                 <option value="OTHERS" {{ (collect(old('signs_and_symptoms'))->contains('OTHERS')) ? 'selected' : '' }}>Others</option>
                               </select>
+                            </div>
+                            <div id="fever_div" class="d-none">
+                                <div class="form-group">
+                                    <label for="fever_temperature"><b class="text-danger">*</b>Specify Fever Temperature</label>
+                                    <input type="number" min="37" max="45" step="0.1" class="form-control" name="fever_temperature" id="fever_temperature" value="{{old('fever_temperature')}}">
+                                </div>
                             </div>
                             <div id="other_symptom_div" class="d-none">
                                 <div class="form-group">
@@ -228,12 +244,16 @@
                             </div>
                         </div>
                     </div>
+                    
                 </div>
                 <div class="card-footer">
                     <button type="submit" class="btn btn-success btn-block">Save</button>
                 </div>
             </div>
         </form>
+    </div>
+    <div class="text-center mt-3">
+        <p>CESU General Trias: School Based Disease Surveillance Tool - Voluntarily Developed and Mantained by CJH</p>
     </div>
 
     <script>
@@ -405,12 +425,18 @@
             e.preventDefault();
             var selectedValues = $('#signs_and_symptoms').val();
 
+            $('#other_symptom_div').addClass('d-none');
+            $('#signs_and_symptoms_others').prop('required', false);
+            $('#fever_div').addClass('d-none');
+            $('#fever_temperature').prop('required', false);
+
             if (selectedValues && selectedValues.includes('OTHERS')) {
                 $('#other_symptom_div').removeClass('d-none');
                 $('#signs_and_symptoms_others').prop('required', true);
-            } else {
-                $('#other_symptom_div').addClass('d-none');
-                $('#signs_and_symptoms_others').prop('required', false);
+            }
+            else if(selectedValues && selectedValues.includes('FEVER')) {
+                $('#fever_div').removeClass('d-none');
+                $('#fever_temperature').prop('required', true);
             }
         }).trigger('change');
     </script>

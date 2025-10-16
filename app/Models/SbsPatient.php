@@ -45,6 +45,7 @@ class SbsPatient extends Model
         'had_lunch_today',
         'onset_illness_date',
         'signs_and_symptoms',
+        'fever_temperature',
         'signs_and_symptoms_others',
         'remarks',
 

@@ -5,6 +5,12 @@
         <div class="card">
             <div class="card-header"><b>General Trias City CESU - School Based Disease Surveillance</b></div>
             <div class="card-body">
+                @if(session('msg'))
+                <div class="alert alert-{{session('msgType')}}" role="alert">
+                    {{session('msg')}}
+                </div>
+                
+                @endif
                 <a href="{{route('sbs_new', $s->qr)}}" class="btn btn-lg btn-success btn-block">New Case</a>
                 @if(!$s->qr)
 
