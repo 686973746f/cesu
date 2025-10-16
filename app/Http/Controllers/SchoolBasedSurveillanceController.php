@@ -139,11 +139,10 @@ class SchoolBasedSurveillanceController extends Controller
     }
 
     public function initializeAccount($code, Request $r) {
-        if($r->password1 != $r->password2) {
-            return redirect()->back()
-            ->with('msg', 'ERROR: Password does not match. Please try again.')
-            ->with('msgtype', 'warning');
-        }
+        $validated = $r->validate([
+            'email' => 'required|email|unique:schools,email',
+            'password' => 'required|confirmed|min:6',
+        ]);
 
         $s = School::where('qr', $code)->first();
 
@@ -165,13 +164,15 @@ class SchoolBasedSurveillanceController extends Controller
         $credentials = $r->only('email', 'password');
 
         if (Auth::guard('school')->attempt($credentials)) {
-            return redirect()->route('school.dashboard');
+            return redirect()->route('sbs_view');
         }
 
         return back()->withErrors(['email' => 'Invalid login credentials.']);
     }
 
     public function viewList($code) {
+        $s = auth('school')->user();
 
+        dd($s->id);
     }
 }

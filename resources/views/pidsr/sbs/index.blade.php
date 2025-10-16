@@ -44,8 +44,8 @@
                           <input type="password" class="form-control" minlength="6" maxlength="20" name="password" id="password" required>
                         </div>
                         <div class="form-group">
-                          <label for="password2"><b class="text-danger">*</b>Re-type Password</label>
-                          <input type="password2" class="form-control" minlength="6" maxlength="20" name="password2" id="password2" required>
+                          <label for="password_confirmation"><b class="text-danger">*</b>Re-type Password</label>
+                          <input type="password" class="form-control" minlength="6" maxlength="20" name="password_confirmation" id="password_confirmation" required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -56,13 +56,13 @@
         </div>
     </form>
     @else
-    <form action="" method="POST">
+    <form action="{{route('sbs_login')}}" method="POST">
         @csrf
         <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Initialize Account</h5>
+                        <h5 class="modal-title">Login</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>

@@ -996,7 +996,10 @@ Route::get('sbs/{code}/new', [SchoolBasedSurveillanceController::class, 'newCase
 Route::post('sbs/{code}/store', [SchoolBasedSurveillanceController::class, 'storeCase'])->name('sbs_store');
 
 Route::post('sbs/{code}/initialize', [SchoolBasedSurveillanceController::class, 'initializeAccount'])->name('sbs_init');
-Route::get('sbs/{code}/list', [SchoolBasedSurveillanceController::class, 'viewList'])->name('sbs_view');
+Route::post('sbs/login', [SchoolBasedSurveillanceController::class, 'login'])->name('sbs_login');
+Route::middleware(['school'])->group(function () {
+    Route::get('sbs/list', [SchoolBasedSurveillanceController::class, 'viewList'])->name('sbs_view');
+});
 
 Route::get('health_event/{event_code}/{facility_code}', [HealthEventsController::class, 'encodeIndex'])->name('he_index');
 Route::get('health_event/{event_code}/{facility_code}/encode', [HealthEventsController::class, 'encodeCheck'])->name('he_check');
