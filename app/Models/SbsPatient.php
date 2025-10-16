@@ -11,6 +11,8 @@ class SbsPatient extends Model
 
     protected $fillable = [
         'school_id',
+        'date_reported',
+        
         'lname',
         'fname',
         'mname',
@@ -22,6 +24,7 @@ class SbsPatient extends Model
         'age_days',
 
         'patient_type',
+        'staff_designation',
         'grade_level',
         'section',
         'street_purok',
@@ -31,13 +34,22 @@ class SbsPatient extends Model
         'guardian_name',
         'guardian_contactno',
         'is_pwd',
+        'pwd_condition',
 
-        'condition',
+        'height',
+        'weight',
+        'bp_systolic',
+        'bp_diastolic',
+        'had_dinner_yesterday',
+        'had_breakfast_today',
+        'had_lunch_today',
+        'onset_illness_date',
         'signs_and_symptoms',
         'signs_and_symptoms_others',
         'remarks',
 
         'reported_by',
+        'reported_by_position',
         'reported_by_contactno',
 
         'enabled',
@@ -47,5 +59,9 @@ class SbsPatient extends Model
         'report_year',
         'report_month',
         'report_week',
+
+        'had_checkuponfacilityafter',
+        'name_facility',
+        'qr',
     ];
 }

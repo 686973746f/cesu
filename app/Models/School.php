@@ -21,5 +21,6 @@ class School extends Model
         'focalperson_name',
         'longlat',
         'qr',
+        'password',
     ];
 }

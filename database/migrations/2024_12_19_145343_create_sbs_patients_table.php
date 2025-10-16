@@ -16,6 +16,7 @@ class CreateSbsPatientsTable extends Migration
         Schema::create('sbs_patients', function (Blueprint $table) {
             $table->id();
             $table->foreignId('school_id')->constrained('schools')->onDelete('cascade');
+            $table->date('date_reported');
 
             $table->string('lname');
             $table->string('fname');
@@ -28,6 +29,7 @@ class CreateSbsPatientsTable extends Migration
             $table->integer('age_days');
 
             $table->string('patient_type');
+            $table->string('staff_designation')->nullable();
             $table->string('grade_level')->nullable();
             $table->string('section')->nullable();
 
@@ -37,14 +39,24 @@ class CreateSbsPatientsTable extends Migration
             $table->string('contact_no')->nullable();
             $table->string('guardian_name')->nullable();
             $table->string('guardian_contactno')->nullable();
-            $table->string('is_pwd', 1);
+            $table->string('is_pwd', 1)->default('N');
+            $table->text('pwd_condition')->nullable();
 
-            $table->text('condition')->nullable();
+            $table->string('height')->nullable();
+            $table->string('weight')->nullable();
+            $table->string('bp_systolic')->nullable();
+            $table->string('bp_diastolic')->nullable();
+            $table->string('had_dinner_yesterday', 1)->nullable();
+            $table->string('had_breakfast_today', 1)->nullable();
+            $table->string('had_lunch_today', 1)->nullable();
+            $table->date('onset_illness_date');
             $table->text('signs_and_symptoms')->nullable();
+            $table->string('fever_temperature')->nullable();
             $table->text('signs_and_symptoms_others')->nullable();
             $table->text('remarks')->nullable();
 
             $table->string('reported_by');
+            $table->string('reported_by_position');
             $table->string('reported_by_contactno');
 
             $table->string('enabled', 1)->default('Y');
