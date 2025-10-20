@@ -6,11 +6,22 @@
             <div class="card-header"><b>General Trias City CESU - School Based Disease Surveillance</b></div>
             <div class="card-body">
                 @if(session('msg'))
-                <div class="alert alert-{{session('msgType')}}" role="alert">
+                <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
                     {{session('msg')}}
                 </div>
-                
                 @endif
+
+                @if ($errors->any())
+                <div class="alert alert-danger" role="alert">
+                    <strong>There were some problems with your submission:</strong>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
+
                 <a href="{{route('sbs_new', $s->qr)}}" class="btn btn-lg btn-success btn-block">New Case</a>
                 @if(!$s->password)
                 <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#modelId">View List</button>
@@ -19,6 +30,9 @@
                 @endif
             </div>
         </div>
+    </div>
+    <div class="text-center mt-3">
+        <p>CESU General Trias: School Based Disease Surveillance System - Voluntarily Developed and Mantained by CJH</p>
     </div>
 
     @if(!$s->password)

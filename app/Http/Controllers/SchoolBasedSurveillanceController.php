@@ -20,6 +20,10 @@ class SchoolBasedSurveillanceController extends Controller
             return abort(401);
         }
 
+        if (Auth::guard('school')->check()) {
+            return redirect()->route('sbs_list');
+        }
+
         return view('pidsr.sbs.index', [
             's' => $s,
         ]);
@@ -134,9 +138,16 @@ class SchoolBasedSurveillanceController extends Controller
             'qr' => $for_qr,
         ]);
 
-        return redirect()->route('sbs_index', $s->qr)
-        ->with('msg', 'Patient was successfully encoded.')
-        ->with('msgtype', 'success');
+        if (Auth::guard('school')->check()) {
+            return redirect()->route('sbs_list')
+            ->with('msg', 'Patient was successfully encoded.')
+            ->with('msgtype', 'success');
+        }
+        else {
+            return redirect()->route('sbs_index', $s->qr)
+            ->with('msg', 'Patient was successfully encoded.')
+            ->with('msgtype', 'success');
+        }   
     }
 
     public function initializeAccount($code, Request $r) {
@@ -164,14 +175,17 @@ class SchoolBasedSurveillanceController extends Controller
     public function viewList() {
         $s = auth('school')->user();
 
-        $list = SbsPatient::where('school_id', $s->id);
+        $list = SbsPatient::where('school_id', $s->id)
+        ->where('enabled', 'Y');
 
         if(request()->input('year')) {
             $list = $list->whereYear('created_at', request()->input('year'))
+            ->orderBy('created_at', 'DESC')
             ->get();
         }
         else {
-            $list->whereYear('created_at', date('Y'))
+            $list = $list->whereYear('created_at', date('Y'))
+            ->orderBy('created_at', 'DESC')
             ->get();
         }
 
@@ -190,7 +204,7 @@ class SchoolBasedSurveillanceController extends Controller
         if (Auth::guard('school')->attempt($credentials)) {
             $r->session()->regenerate();
             
-            return redirect()->intended(route('sbs_view'));
+            return redirect()->intended(route('sbs_list'));
         }
 
         return back()->withErrors(['email' => 'Invalid login credentials.']);

@@ -122,13 +122,13 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function
     Route::get('/export_jobs', [HomeController::class, 'exportJobsIndex'])->name('export_index');
     Route::post('/export_jobs/{id}/download', [HomeController::class, 'exportJobsDownloadFile'])->name('export_download_file');
 
-    //New Address Routes
-    Route::get('/ga/province/{region_id}', [AddressController::class, 'getProvinces'])->name('address_get_provinces');
-    Route::get('/ga/city/{province_id}', [AddressController::class, 'getCityMun'])->name('address_get_citymun');
-    Route::get('/ga/brgy/{city_id}', [AddressController::class, 'getBrgy'])->name('address_get_brgy');
-
     Route::get('/test_address', [AddressController::class, 'testAddress'])->name('address_test');
 });
+
+//New Address Routes
+Route::get('/ga/province/{region_id}', [AddressController::class, 'getProvinces'])->name('address_get_provinces');
+Route::get('/ga/city/{province_id}', [AddressController::class, 'getCityMun'])->name('address_get_citymun');
+Route::get('/ga/brgy/{city_id}', [AddressController::class, 'getBrgy'])->name('address_get_brgy');
 
 //PASWAB INTERNAL
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isCesuOrBrgyAccount', 'canAccessCovid']], function() {
@@ -999,12 +999,15 @@ Route::post('sbds/index/{code}/initialize', [SchoolBasedSurveillanceController::
 Route::post('sbds/login', [SchoolBasedSurveillanceController::class, 'login'])->name('sbs_login');
 
 Route::middleware(['school'])->group(function () {
-    Route::get('sbs/list', [SchoolBasedSurveillanceController::class, 'viewList'])->name('sbs_view');
+    Route::get('sbds/list', [SchoolBasedSurveillanceController::class, 'viewList'])->name('sbs_list');
+    Route::get('sbds/view/{id}', [SchoolBasedSurveillanceController::class, 'viewCase'])->name('sbs_view');
+    Route::post('sbds/view/{id}/update', [SchoolBasedSurveillanceController::class, 'updateCase'])->name('sbs_update');
+    Route::get('sbds/report', [SchoolBasedSurveillanceController::class, 'viewReport'])->name('sbs_report');
 });
 
 Route::middleware(['school_admin'])->group(function () {
-    Route::get('sbs/admin', [SchoolBasedSurveillanceController::class, 'adminPanel'])->name('sbs_adminpanel');
-    Route::get('sbs/admin/school/store', [SchoolBasedSurveillanceController::class, 'storeSchool'])->name('sbs_storeschool');
+    Route::get('sbds/admin', [SchoolBasedSurveillanceController::class, 'adminPanel'])->name('sbs_adminpanel');
+    Route::get('sbds/admin/school/store', [SchoolBasedSurveillanceController::class, 'storeSchool'])->name('sbs_storeschool');
 });
 
 Route::get('health_event/{event_code}/{facility_code}', [HealthEventsController::class, 'encodeIndex'])->name('he_index');

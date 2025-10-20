@@ -264,7 +264,7 @@
         </form>
     </div>
     <div class="text-center mt-3">
-        <p>CESU General Trias: School Based Disease Surveillance Tool - Voluntarily Developed and Mantained by CJH</p>
+        <p>CESU General Trias: School Based Disease Surveillance System - Voluntarily Developed and Mantained by CJH</p>
     </div>
 
     <script>
