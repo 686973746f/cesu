@@ -43,10 +43,6 @@ class Kernel extends HttpKernel
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
-
-        'school' => [
-            'school.auth',
-        ],
     ];
 
     /**
@@ -95,6 +91,6 @@ class Kernel extends HttpKernel
         'canAccessEmployees' => \App\Http\Middleware\canAccessEmployees::class,
         'canAccessAbtcInventory' => \App\Http\Middleware\canAccessAbtcInventory::class,
         'canAccessNonComm' => \App\Http\Middleware\canAccessNonComm::class,
-        'school.auth' => \App\Http\Middleware\SchoolAuth::class,
+        'school' => \App\Http\Middleware\SchoolAuth::class,
     ];
 }

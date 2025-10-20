@@ -14,7 +14,8 @@
                     <hr>
                     @endif
                     <div class="alert alert-primary" role="alert">
-                        <b>LEGAL NOTICE:</b> All personal, health, and sensitive information under the custody of the Department of Education is strictly confidential and protected under the Data Privacy Act of 2012 (R.A. 10173). Any person who gains access to such data is prohibited from sharing, reproducing, disclosing, taking screenshots, or disseminating said information through any means without proper authority. Unauthorized access, use, or disclosure shall be subject to administrative, civil, and criminal liabilities under existing laws.
+                        <div><b>LEGAL NOTICE:</b> All personal, health, and sensitive information under the custody of the Department of Education and the General Trias City Health Office - CESU are strictly confidential and protected under the <b>Data Privacy Act of 2012 (R.A. 10173)</b>. Any person who gains access to such data is prohibited from sharing, reproducing, disclosing, taking screenshots, or disseminating said information through any means without proper authority.</div>
+                        <div>Furthermore, in accordance with <b>Republic Act 11332</b> (Mandatory Reporting of Notifiable Diseases and Health Events of Public Health Concern Act), it is hereby reminded that all health data and reports must be accurate, true, and correctly submitted. All required details—including the patient’s name, address, symptoms, and other pertinent information—must be properly and truthfully filled out. Falsification, non-reporting, or misreporting of data constitutes a violation of the law and shall be subject to corresponding administrative, civil, and criminal liabilities under existing laws.</div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
@@ -100,18 +101,22 @@
                                     <label for="grade_level"><span class="text-danger font-weight-bold">*</span>Grade Level</label>
                                     <select class="form-control" name="grade_level" id="grade_level">
                                         <option value="" disabled {{(is_null(old('grade_level'))) ? 'selected' : ''}}>Choose...</option>
+                                        @if($s->school_type == 'ES')
                                         <option value="G1" {{(old('grade_level') == 'G1') ? 'selected' : ''}}>Grade 1</option>
                                         <option value="G2" {{(old('grade_level') == 'G2') ? 'selected' : ''}}>Grade 2</option>
                                         <option value="G3" {{(old('grade_level') == 'G3') ? 'selected' : ''}}>Grade 3</option>
                                         <option value="G4" {{(old('grade_level') == 'G4') ? 'selected' : ''}}>Grade 4</option>
                                         <option value="G5" {{(old('grade_level') == 'G5') ? 'selected' : ''}}>Grade 5</option>
                                         <option value="G6" {{(old('grade_level') == 'G6') ? 'selected' : ''}}>Grade 6</option>
+                                        @elseif($s->school_type == 'JHS')
                                         <option value="G7" {{(old('grade_level') == 'G7') ? 'selected' : ''}}>Grade 7</option>
                                         <option value="G8" {{(old('grade_level') == 'G8') ? 'selected' : ''}}>Grade 8</option>
                                         <option value="G9" {{(old('grade_level') == 'G9') ? 'selected' : ''}}>Grade 9</option>
                                         <option value="G10" {{(old('grade_level') == 'G10') ? 'selected' : ''}}>Grade 10</option>
-                                        <option value="JHS" {{(old('grade_level') == 'JHS') ? 'selected' : ''}}>Junior High School</option>
-                                        <option value="SHS" {{(old('grade_level') == 'SHS') ? 'selected' : ''}}>Senior High School</option>
+                                        @elseif($s->school_type == 'SHS')
+                                        <option value="JHS" {{(old('grade_level') == 'JHS') ? 'selected' : ''}}>Grade 11</option>
+                                        <option value="SHS" {{(old('grade_level') == 'SHS') ? 'selected' : ''}}>Grade 12</option>
+                                        @endif
                                     </select>
                                 </div>
                             </div>
@@ -203,11 +208,11 @@
                                 <option value="RASH" {{ (collect(old('signs_and_symptoms'))->contains('RASH')) ? 'selected' : '' }}>Rash</option>
                                 <option value="SORE THROAT" {{ (collect(old('signs_and_symptoms'))->contains('RASH')) ? 'selected' : '' }}>Sore Throat</option>
                                 <option value="DIARRHEA" {{ (collect(old('signs_and_symptoms'))->contains('DIARRHEA')) ? 'selected' : '' }}>Diarrhea/LBM</option>
-                                <option value="VOMITING" {{ (collect(old('signs_and_symptoms'))->contains('RASH')) ? 'selected' : '' }}>Vomiting</option>
-                                <option value="SORE EYES" {{ (collect(old('signs_and_symptoms'))->contains('RASH')) ? 'selected' : '' }}>Sore Eyes</option>
-                                <option value="DIZZINESS" {{ (collect(old('signs_and_symptoms'))->contains('RASH')) ? 'selected' : '' }}>Rash</option>
-                                <option value="TOOTHACHE" {{ (collect(old('signs_and_symptoms'))->contains('RASH')) ? 'selected' : '' }}>Rash</option>
-                                <option value="BODY PAIN" {{ (collect(old('signs_and_symptoms'))->contains('RASH')) ? 'selected' : '' }}>Rash</option>
+                                <option value="VOMITING" {{ (collect(old('signs_and_symptoms'))->contains('VOMITING')) ? 'selected' : '' }}>Vomiting</option>
+                                <option value="SORE EYES" {{ (collect(old('signs_and_symptoms'))->contains('SORE EYES')) ? 'selected' : '' }}>Sore Eyes</option>
+                                <option value="DIZZINESS" {{ (collect(old('signs_and_symptoms'))->contains('DIZZINESS')) ? 'selected' : '' }}>Dizziness</option>
+                                <option value="TOOTHACHE" {{ (collect(old('signs_and_symptoms'))->contains('TOOTHACHE')) ? 'selected' : '' }}>Toothache</option>
+                                <option value="BODY PAIN" {{ (collect(old('signs_and_symptoms'))->contains('BODY PAIN')) ? 'selected' : '' }}>Body Pain</option>
                                 <option value="OTHERS" {{ (collect(old('signs_and_symptoms'))->contains('OTHERS')) ? 'selected' : '' }}>Others</option>
                               </select>
                             </div>
@@ -219,7 +224,7 @@
                             </div>
                             <div id="other_symptom_div" class="d-none">
                                 <div class="form-group">
-                                    <label for="signs_and_symptoms_others"><b class="text-danger">*</b>Specify other symptoms</label>
+                                    <label for="signs_and_symptoms_others"><b class="text-danger">*</b>Please specify other symptoms</label>
                                     <input type="text" class="form-control" name="signs_and_symptoms_others" id="signs_and_symptoms_others" value="{{old('signs_and_symptoms_others')}}" style="text-transform: uppercase;">
                                 </div>
                             </div>

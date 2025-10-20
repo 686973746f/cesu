@@ -17,6 +17,7 @@ class CreateSchoolsTable extends Migration
             $table->id();
             $table->string('enabled', 1)->default('Y');
             $table->string('name');
+            $table->string('ownership_type')->default('PUBLIC');
             $table->string('school_type');
             $table->string('school_id')->nullable();
             $table->foreignId('address_brgy_code')->constrained('edcs_brgies')->onDelete('cascade');

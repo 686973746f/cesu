@@ -4,13 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class School extends Model
+class School extends Authenticatable
 {
     use HasFactory;
 
     protected $fillable = [
         'name',
+        'ownership_type',
         'school_type',
         'school_id',
         'address_brgy_code',

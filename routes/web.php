@@ -991,14 +991,20 @@ Route::get('facility_report/{code}/injury_reporting', [InjuryController::class, 
 Route::post('facility_report/{code}/injury_reporting/store', [InjuryController::class, 'store'])->name('facility_report_injury_store');
 
 //SCHOOL BASED SURVEILLANCE
-Route::get('sbs/{code}', [SchoolBasedSurveillanceController::class, 'index'])->name('sbs_index');
-Route::get('sbs/{code}/new', [SchoolBasedSurveillanceController::class, 'newCase'])->name('sbs_new');
-Route::post('sbs/{code}/store', [SchoolBasedSurveillanceController::class, 'storeCase'])->name('sbs_store');
+Route::get('sbds/index/{code}', [SchoolBasedSurveillanceController::class, 'index'])->name('sbs_index');
+Route::get('sbds/index/{code}/new', [SchoolBasedSurveillanceController::class, 'newCase'])->name('sbs_new');
+Route::post('sbds/index/{code}/store', [SchoolBasedSurveillanceController::class, 'storeCase'])->name('sbs_store');
 
-Route::post('sbs/{code}/initialize', [SchoolBasedSurveillanceController::class, 'initializeAccount'])->name('sbs_init');
-Route::post('sbs/login', [SchoolBasedSurveillanceController::class, 'login'])->name('sbs_login');
+Route::post('sbds/index/{code}/initialize', [SchoolBasedSurveillanceController::class, 'initializeAccount'])->name('sbs_init');
+Route::post('sbds/login', [SchoolBasedSurveillanceController::class, 'login'])->name('sbs_login');
+
 Route::middleware(['school'])->group(function () {
     Route::get('sbs/list', [SchoolBasedSurveillanceController::class, 'viewList'])->name('sbs_view');
+});
+
+Route::middleware(['school_admin'])->group(function () {
+    Route::get('sbs/admin', [SchoolBasedSurveillanceController::class, 'adminPanel'])->name('sbs_adminpanel');
+    Route::get('sbs/admin/school/store', [SchoolBasedSurveillanceController::class, 'storeSchool'])->name('sbs_storeschool');
 });
 
 Route::get('health_event/{event_code}/{facility_code}', [HealthEventsController::class, 'encodeIndex'])->name('he_index');

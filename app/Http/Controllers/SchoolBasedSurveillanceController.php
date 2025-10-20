@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 
 class SchoolBasedSurveillanceController extends Controller
 {
+
     public function index($code) {
         $s = School::where('qr', $code)->first();
 
@@ -160,19 +161,38 @@ class SchoolBasedSurveillanceController extends Controller
         ->with('msgtype', 'success');
     }
 
+    public function viewList() {
+        $s = auth('school')->user();
+
+        $list = SbsPatient::where('school_id', $s->id);
+
+        if(request()->input('year')) {
+            $list = $list->whereYear('created_at', request()->input('year'))
+            ->get();
+        }
+        else {
+            $list->whereYear('created_at', date('Y'))
+            ->get();
+        }
+
+        return view('pidsr.sbs.list', [
+            's' => $s,
+            'list' => $list,
+        ]);
+    }
+
     public function login(Request $r) {
-        $credentials = $r->only('email', 'password');
+        $credentials = $r->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
 
         if (Auth::guard('school')->attempt($credentials)) {
-            return redirect()->route('sbs_view');
+            $r->session()->regenerate();
+            
+            return redirect()->intended(route('sbs_view'));
         }
 
         return back()->withErrors(['email' => 'Invalid login credentials.']);
-    }
-
-    public function viewList($code) {
-        $s = auth('school')->user();
-
-        dd($s->id);
     }
 }
