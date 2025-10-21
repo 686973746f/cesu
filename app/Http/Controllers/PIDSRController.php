@@ -6497,6 +6497,10 @@ class PIDSRController extends Controller
                 $flavor_title = 'COVID-19';
                 $flavor_name = 'COVID-19';
             }
+            else if($sel_disease == 'Influenza') {
+                $flavor_title = 'Influenza-Like Illness (ILI)';
+                $flavor_name = 'ILI';
+            }
             else {
                 $flavor_title = strtoupper($sel_disease);
                 $flavor_name = ucwords(strtolower($sel_disease));
