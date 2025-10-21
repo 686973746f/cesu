@@ -1251,6 +1251,7 @@ class SyndromicController extends Controller
 
             //Generate ILI Data
             if(in_array('Influenza-like Illness (ILI)', explode(", ", $fetch_record->generated_susdiseaselist))) {
+                /*
                 $ili_create = Influenza::create([
                     'Icd10Code' => 'J10, J11',
                     'RegionOfDrU' => '04A',
@@ -1330,6 +1331,7 @@ class SyndromicController extends Controller
                     //'subdivision_group',
                     'created_by' => Auth::id(),
                 ]);
+                */
             }
 
             if($fetch_record->isDirty()) {
