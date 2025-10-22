@@ -28,6 +28,7 @@ class SyndromicRecords extends Model
         'consultation_type',
         'checkup_type',
         'chief_complain',
+        'date_general_onset',
         'rx_outsidecho',
         'outsidecho_name',
 
@@ -45,6 +46,7 @@ class SyndromicRecords extends Model
         'o2sat',
         
         'fever',
+        'fever_temperature',
         'fever_onset',
         'fever_remarks',
         'rash',
@@ -539,6 +541,10 @@ class SyndromicRecords extends Model
 
     public function getListOfSuspDiseases() {
         $list_arr = [];
+        
+        $onset_date = Carbon::parse($this->date_general_onset);
+        $currentDate = Carbon::parse($this->consultation_date);
+        $onsetToConsultationDays = $onset_date->diffInDays($currentDate);
 
         if(!is_null($this->other_symptoms_onset_remarks) && $this->other_symptoms == 1) {
             $osymp_list = explode(",", mb_strtoupper($this->other_symptoms_onset_remarks));
@@ -632,7 +638,7 @@ class SyndromicRecords extends Model
         }
         */
         
-        if($this->fever == 1) {
+        if($this->fever == 1 && $this->fever_temperature >= 38 && $onsetToConsultationDays <= 10) {
             if($this->cough == 1 || $this->sorethroat == 1) {
                 $list_arr[] = 'Influenza-like Illness (ILI)';
             }

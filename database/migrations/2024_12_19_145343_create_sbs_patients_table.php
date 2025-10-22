@@ -54,6 +54,11 @@ class CreateSbsPatientsTable extends Migration
             $table->string('fever_temperature')->nullable();
             $table->text('signs_and_symptoms_others')->nullable();
             $table->text('remarks')->nullable();
+            $table->text('cesu_remarks')->nullable();
+
+            $table->string('outcome')->nullable(); //SENT HOME, RECOVERED
+            $table->date('date_senthome')->nullable();
+            $table->date('date_recovered')->nullable();
 
             $table->string('reported_by');
             $table->string('reported_by_position');
@@ -67,6 +72,10 @@ class CreateSbsPatientsTable extends Migration
             $table->integer('report_year');
             $table->integer('report_month');
             $table->integer('report_week');
+
+            $table->string('admitted', 1)->default('N');
+            $table->date('date_admitted')->nullable();
+            $table->string('admitted_facility')->nullable();
 
             $table->string('had_checkuponfacilityafter', 1)->default('N');
             $table->string('name_facility')->nullable();

@@ -76,8 +76,8 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="contact_number"><b class="text-danger">*</b>Contact Number of Patient/Guardian</label>
-                                <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{old('contact_number')}}" pattern="[0-9]{11}" placeholder="09*********" required>
+                                <label for="contact_no"><b class="text-danger">*</b>Contact Number of Patient/Guardian</label>
+                                <input type="text" class="form-control" id="contact_no" name="contact_no" value="{{old('contact_no')}}" pattern="[0-9]{11}" placeholder="09*********" required>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -102,20 +102,20 @@
                                     <select class="form-control" name="grade_level" id="grade_level">
                                         <option value="" disabled {{(is_null(old('grade_level'))) ? 'selected' : ''}}>Choose...</option>
                                         @if($s->school_type == 'ES')
-                                        <option value="G1" {{(old('grade_level') == 'G1') ? 'selected' : ''}}>Grade 1</option>
-                                        <option value="G2" {{(old('grade_level') == 'G2') ? 'selected' : ''}}>Grade 2</option>
-                                        <option value="G3" {{(old('grade_level') == 'G3') ? 'selected' : ''}}>Grade 3</option>
-                                        <option value="G4" {{(old('grade_level') == 'G4') ? 'selected' : ''}}>Grade 4</option>
-                                        <option value="G5" {{(old('grade_level') == 'G5') ? 'selected' : ''}}>Grade 5</option>
-                                        <option value="G6" {{(old('grade_level') == 'G6') ? 'selected' : ''}}>Grade 6</option>
+                                        <option value="GRADE 1" {{(old('grade_level') == 'GRADE 1') ? 'selected' : ''}}>Grade 1</option>
+                                        <option value="GRADE 2" {{(old('grade_level') == 'GRADE 2') ? 'selected' : ''}}>Grade 2</option>
+                                        <option value="GRADE 3" {{(old('grade_level') == 'GRADE 3') ? 'selected' : ''}}>Grade 3</option>
+                                        <option value="GRADE 4" {{(old('grade_level') == 'GRADE 4') ? 'selected' : ''}}>Grade 4</option>
+                                        <option value="GRADE 5" {{(old('grade_level') == 'GRADE 5') ? 'selected' : ''}}>Grade 5</option>
+                                        <option value="GRADE 6" {{(old('grade_level') == 'GRADE 6') ? 'selected' : ''}}>Grade 6</option>
                                         @elseif($s->school_type == 'JHS')
-                                        <option value="G7" {{(old('grade_level') == 'G7') ? 'selected' : ''}}>Grade 7</option>
-                                        <option value="G8" {{(old('grade_level') == 'G8') ? 'selected' : ''}}>Grade 8</option>
-                                        <option value="G9" {{(old('grade_level') == 'G9') ? 'selected' : ''}}>Grade 9</option>
-                                        <option value="G10" {{(old('grade_level') == 'G10') ? 'selected' : ''}}>Grade 10</option>
+                                        <option value="GRADE 7" {{(old('grade_level') == 'GRADE 7') ? 'selected' : ''}}>Grade 7</option>
+                                        <option value="GRADE 8" {{(old('grade_level') == 'GRADE 8') ? 'selected' : ''}}>Grade 8</option>
+                                        <option value="GRADE 9" {{(old('grade_level') == 'GRADE 9') ? 'selected' : ''}}>Grade 9</option>
+                                        <option value="GRADE 10" {{(old('grade_level') == 'GRADE 10') ? 'selected' : ''}}>Grade 10</option>
                                         @elseif($s->school_type == 'SHS')
-                                        <option value="JHS" {{(old('grade_level') == 'JHS') ? 'selected' : ''}}>Grade 11</option>
-                                        <option value="SHS" {{(old('grade_level') == 'SHS') ? 'selected' : ''}}>Grade 12</option>
+                                        <option value="GRADE 11" {{(old('grade_level') == 'GRADE 11') ? 'selected' : ''}}>Grade 11</option>
+                                        <option value="GRADE 12" {{(old('grade_level') == 'GRADE 12') ? 'selected' : ''}}>Grade 12</option>
                                         @endif
                                     </select>
                                 </div>
@@ -191,6 +191,7 @@
                         <label for="street_purok" class="form-label"><b class="text-danger">*</b>House/Lot No. and Street/Purok/Subdivision</label>
                         <input type="text" class="form-control" id="street_purok" name="street_purok" style="text-transform: uppercase;" value="{{old('street_purok')}}" placeholder="ex. S1 B2 L3 PHASE 4 SUBDIVISION HOMES" required>
                     </div>
+                    <hr>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -206,19 +207,24 @@
                                 <option value="COUGH" {{ (collect(old('signs_and_symptoms'))->contains('COUGH')) ? 'selected' : '' }}>Cough</option>
                                 <option value="COLDS" {{ (collect(old('signs_and_symptoms'))->contains('COLDS')) ? 'selected' : '' }}>Colds</option>
                                 <option value="RASH" {{ (collect(old('signs_and_symptoms'))->contains('RASH')) ? 'selected' : '' }}>Rash</option>
-                                <option value="SORE THROAT" {{ (collect(old('signs_and_symptoms'))->contains('RASH')) ? 'selected' : '' }}>Sore Throat</option>
+                                <option value="HEADACHE" {{ (collect(old('signs_and_symptoms'))->contains('HEADACHE')) ? 'selected' : '' }}>Headache</option>
+                                <option value="SORE THROAT" {{ (collect(old('signs_and_symptoms'))->contains('SORE THROAT')) ? 'selected' : '' }}>Sore Throat</option>
                                 <option value="DIARRHEA" {{ (collect(old('signs_and_symptoms'))->contains('DIARRHEA')) ? 'selected' : '' }}>Diarrhea/LBM</option>
+                                <option value="ABDOMINAL PAIN" {{ (collect(old('signs_and_symptoms'))->contains('ABDOMINAL PAIN')) ? 'selected' : '' }}>Abdominal Pain</option>
+                                <option value="NAUSEA" {{ (collect(old('signs_and_symptoms'))->contains('NAUSEA')) ? 'selected' : '' }}>Nausea (Nahihilo/Naduduwal)</option>
                                 <option value="VOMITING" {{ (collect(old('signs_and_symptoms'))->contains('VOMITING')) ? 'selected' : '' }}>Vomiting</option>
-                                <option value="SORE EYES" {{ (collect(old('signs_and_symptoms'))->contains('SORE EYES')) ? 'selected' : '' }}>Sore Eyes</option>
+                                <option value="RED EYES" {{ (collect(old('signs_and_symptoms'))->contains('SORE EYES')) ? 'selected' : '' }}>Red Eyes (Conjunctivitis)</option>
                                 <option value="DIZZINESS" {{ (collect(old('signs_and_symptoms'))->contains('DIZZINESS')) ? 'selected' : '' }}>Dizziness</option>
                                 <option value="TOOTHACHE" {{ (collect(old('signs_and_symptoms'))->contains('TOOTHACHE')) ? 'selected' : '' }}>Toothache</option>
                                 <option value="BODY PAIN" {{ (collect(old('signs_and_symptoms'))->contains('BODY PAIN')) ? 'selected' : '' }}>Body Pain</option>
+                                <option value="NOSEBLEED" {{ (collect(old('signs_and_symptoms'))->contains('NOSEBLEED')) ? 'selected' : '' }}>Nose Bleeding</option>
+                                <option value="ANOREXIA" {{ (collect(old('signs_and_symptoms'))->contains('NOSEBLEED')) ? 'selected' : '' }}>Anorexia (Walang ganang kumain)</option>
                                 <option value="OTHERS" {{ (collect(old('signs_and_symptoms'))->contains('OTHERS')) ? 'selected' : '' }}>Others</option>
                               </select>
                             </div>
                             <div id="fever_div" class="d-none">
                                 <div class="form-group">
-                                    <label for="fever_temperature"><b class="text-danger">*</b>Specify Fever Temperature</label>
+                                    <label for="fever_temperature"><b class="text-danger">*</b>Highest Temperature recorded during Fever (in Celcius)</label>
                                     <input type="number" min="37" max="45" step="0.1" class="form-control" name="fever_temperature" id="fever_temperature" value="{{old('fever_temperature')}}">
                                 </div>
                             </div>
@@ -228,6 +234,49 @@
                                     <input type="text" class="form-control" name="signs_and_symptoms_others" id="signs_and_symptoms_others" value="{{old('signs_and_symptoms_others')}}" style="text-transform: uppercase;">
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="admitted"><span class="text-danger font-weight-bold">*</span>Admitted/Hospitalized?</label>
+                                <select class="form-control" name="admitted" id="admitted" required>
+                                    <option value="" disabled {{(is_null(old('admitted'))) ? 'selected' : ''}}>Choose...</option>
+                                    <option value="Y" {{(old('admitted') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                    <option value="N" {{(old('admitted') == 'N') ? 'selected' : ''}}>No</option>
+                                </select>
+                            </div>
+
+                            <div id="hospitalized_div" class="d-none">
+                                <div class="form-group">
+                                    <label for="date_admitted"><b class="text-danger">*</b>Date Admitted</label>
+                                    <input type="date" class="form-control" name="date_admitted" id="date_admitted" value="{{old('date_admitted')}}" min="{{date('Y-m-d', strtotime('-6 Months'))}}" max="{{date('Y-m-d')}}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="admitted_facility">Name of Hospital/Facility</label>
+                                    <input type="text" class="form-control" name="admitted_facility" id="admitted_facility" value="{{old('admitted_facility')}}" style="text-transform: uppercase;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <!--
+                            <div class="form-group">
+                                <label for="outcome"><span class="text-danger font-weight-bold">*</span>Outcome</label>
+                                <select class="form-control" name="outcome" id="outcome" required>
+                                    <option value="" disabled {{(is_null(old('outcome'))) ? 'selected' : ''}}>Choose...</option>
+                                    <option value="SENT HOME" {{(old('outcome') == 'Y') ? 'selected' : ''}}>Sent Home</option>
+                                    <option value="RECOVERED" {{(old('outcome') == 'N') ? 'selected' : ''}}>Recovered</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="senthome_div">
+                                <label for="date_senthome"><b class="text-danger">*</b>Date Sent Home</label>
+                                <input type="date" class="form-control" name="date_senthome" id="date_senthome" value="{{old('date_senthome')}}" min="{{date('Y-m-d', strtotime('-6 Months'))}}" max="{{date('Y-m-d')}}">
+                            </div>
+                            <div class="form-group" id="recovered_div">
+                                <label for="date_recovered"><b class="text-danger">*</b>Date Recovered</label>
+                                <input type="date" class="form-control" name="date_recovered" id="date_recovered" value="{{old('date_recovered')}}" min="{{date('Y-m-d', strtotime('-6 Months'))}}" max="{{date('Y-m-d')}}">
+                            </div>
+                            -->
                         </div>
                     </div>
                     <div class="form-group">
@@ -450,5 +499,38 @@
                 $('#fever_temperature').prop('required', true);
             }
         }).trigger('change');
+
+        $('#admitted').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == 'Y') {
+                $('#hospitalized_div').removeClass('d-none');
+                $('#date_admitted').prop('required', true);
+            }
+            else {
+                $('#hospitalized_div').addClass('d-none');
+                $('#date_admitted').prop('required', false);
+            }
+        }).trigger('change');
+
+        /*
+        $('#outcome').change(function (e) { 
+            e.preventDefault();
+
+            $('#senthome_div').addClass('d-none');
+            $('#recovered_div').addClass('d-none');
+
+            if($(this).val() == 'SENT HOME') {
+                $('#date_senthome').prop('required', true);
+                $('#senthome_div').removeClass('d-none');
+            }
+            else if($(this).val() == 'RECOVERED') {
+                $('#date_senthome').prop('required', true);
+                $('#date_recovered').prop('required', true);
+
+                $('#senthome_div').removeClass('d-none');
+                $('#recovered_div').removeClass('d-none');
+            }
+        }).trigger('change');
+        */
     </script>
 @endsection

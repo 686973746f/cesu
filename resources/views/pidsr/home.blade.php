@@ -57,6 +57,8 @@
                     -->
                     <a href="{{route('dengue_clustering_viewer')}}" class="btn btn-block btn-primary">Dengue Clustering Schedule</a>
                     <hr>
+                    <a href="{{route('sbs_adminpanel')}}" class="btn btn-block btn-primary">School-Based Disease Surveillance System</a>
+                    <hr>
                     @if(auth()->user()->isGlobalAdmin() && $unlockweeklyreport)
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#dailyexport">EDCS-IS Daily Import</button>
                     @endif

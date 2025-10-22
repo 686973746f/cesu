@@ -202,7 +202,7 @@
                         </label>
                       </div>
                       <div class="input-group mb-3">
-                        <input type="number" step="0.1" class="form-control" name="height" id="height" min="1" max="600" value="{{old('height')}}" {{($required_height) ? 'required' : ''}}>
+                        <input type="number" step="0.01" class="form-control" name="height" id="height" min="1" max="600" value="{{old('height')}}" {{($required_height) ? 'required' : ''}}>
                         <div class="input-group-append">
                           <button class="btn btn-outline-primary" type="button" data-toggle="modal" data-target="#heightConverter">Convert feet to cm</button>
                         </div>
@@ -270,6 +270,10 @@
                     <div class="form-group">
                       <label for="chief_complain"><b><span class="text-danger">*</span>Chief Complaint</b></label>
                       <input type="text" class="form-control" name="chief_complain" id="chief_complain" value="{{old('chief_complain')}}" style="text-transform: uppercase;" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="date_general_onset"><b class="text-danger">*</b>Date Onset of Illness (Kailan nag-simula ang sintomas)</label>
+                      <input type="date" class="form-control" name="date_general_onset" id="date_general_onset" value="{{old('date_general_onset')}}" min="{{date('Y-m-d', strtotime('-6 Months'))}}" max="{{date('Y-m-d')}}" required>
                     </div>
                   </div>
                   <div class="col-md-6">
@@ -478,12 +482,8 @@
                           </div>
                           <div id="fever_div" class="d-none">
                             <div class="form-group">
-                              <label for="fever_onset">Fever Onset <small>(Optional)</small></label>
-                              <input type="date" class="form-control" name="fever_onset" id="fever_onset" value="{{old('fever_onset')}}">
-                            </div>
-                            <div class="form-group">
-                              <label for="fever_remarks">Fever Remarks <small>(Optional)</small></label>
-                              <input type="text" class="form-control" name="fever_remarks" id="fever_remarks" value="{{old('fever_remarks')}}" style="text-transform: uppercase;">
+                                <label for="fever_temperature"><b class="text-danger">*</b>Highest Temperature recorded during Fever</label>
+                                <input type="number" min="37" max="45" step="0.1" class="form-control" name="fever_temperature" id="fever_temperature" value="{{old('fever_temperature')}}">
                             </div>
                           </div>
                         </div>
@@ -1621,6 +1621,18 @@
     }
     else {
       $('#anorexia_div').addClass('d-none');
+    }
+  }).trigger('change');
+
+  $('#fever_yn').change(function (e) { 
+    e.preventDefault();
+    if($(this).prop('checked')) {
+      $('#fever_div').removeClass('d-none');
+      $('#fever_temperature').prop('required', true);
+    }
+    else {
+      $('#fever_div').addClass('d-none');
+      $('#fever_temperature').prop('required', false);
     }
   }).trigger('change');
 

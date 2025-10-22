@@ -9,10 +9,12 @@
                     <div><b>Validated Encoded Epidemic-prone Diseases</b></div>
                     <div class="font-weight-bold text-success"><h3>Year: {{(request()->input('year')) ? request()->input('year') : date('Y')}}</h3></div>
                 </div>
-                <div><button type="button" class="btn btn-success" data-toggle="modal" data-target="#filterModal">Change Year</button></div>
+                <div><button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#filterModal">Filter</button></div>
             </div>
         </div>
         <div class="card-body text-center">
+            <a href="" class="btn btn-success btn-lg btn-block">View For Uploading</a>
+            <hr>
             @include('pidsr.epdrone_body')
         </div>
     </div>

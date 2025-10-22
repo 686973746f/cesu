@@ -1,0 +1,538 @@
+@extends('layouts.app')
+
+@section('content')
+    <div class="container">
+        <form action="{{route('sbs_update', $d->id)}}" method="POST">
+            @csrf
+            <div class="card">
+                <div class="card-header"><b>General Trias City CESU - SBDS: Edit Case</b></div>
+                <div class="card-body">
+                    @if(session('msg'))
+                    <div class="alert alert-{{session('msgType')}}" role="alert">
+                        {{session('msg')}}
+                    </div>
+                    <hr>
+                    @endif
+                    <div class="alert alert-primary" role="alert">
+                        <div><b>LEGAL NOTICE:</b> All personal, health, and sensitive information under the custody of the Department of Education and the General Trias City Health Office - CESU are strictly confidential and protected under the <b>Data Privacy Act of 2012 (R.A. 10173)</b>. Any person who gains access to such data is prohibited from sharing, reproducing, disclosing, taking screenshots, or disseminating said information through any means without proper authority.</div>
+                        <div>Furthermore, in accordance with <b>Republic Act 11332</b> (Mandatory Reporting of Notifiable Diseases and Health Events of Public Health Concern Act), it is hereby reminded that all health data and reports must be accurate, true, and correctly submitted. All required details—including the patient’s name, address, symptoms, and other pertinent information—must be properly and truthfully filled out. Falsification, non-reporting, or misreporting of data constitutes a violation of the law and shall be subject to corresponding administrative, civil, and criminal liabilities under existing laws.</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                              <label for=""><b class="text-danger">*</b>Name of School</label>
+                              <input type="text" class="form-control" value="{{$d->school->name}}" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                              <label for=""><b class="text-danger">*</b>Date Reported</label>
+                              <input type="date" class="form-control" name="date_reported" id="date_reported" value="{{old('date_reported', $d->date_reported)}}" min="{{date('Y-m-d', strtotime('-6 Months'))}}" max="{{date('Y-m-d')}}" required>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="lname"><span class="text-danger font-weight-bold">*</span>Last Name</label>
+                                <input type="text" class="form-control" id="lname" name="lname" value="{{old('lname', $d->lname)}}" minlength="2" maxlength="50" pattern="[A-Za-z\- 'Ññ]+" style="text-transform: uppercase;" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="fname"><span class="text-danger font-weight-bold">*</span>First Name</label>
+                                <input type="text" class="form-control" id="fname" name="fname" value="{{old('fname', $d->fname)}}" minlength="2" maxlength="50" pattern="[A-Za-z\- 'Ññ]+" style="text-transform: uppercase;" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="mname">Middle Name</label>
+                                <input type="text" class="form-control" id="mname" name="mname" value="{{old('mname', $d->mname)}}" minlength="2" maxlength="50" pattern="[A-Za-z\- 'Ññ]+" style="text-transform: uppercase;">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="suffix">Name Extension <small>(ex. JR, SR, II, III, etc.)</small></label>
+                                <input type="text" class="form-control" id="suffix" name="suffix" value="{{old('suffix', $d->suffix)}}" minlength="2" maxlength="6" pattern="[A-Za-z\- 'Ññ]+" style="text-transform: uppercase;">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="bdate"><span class="text-danger font-weight-bold">*</span>Birthdate</label>
+                                <input type="date" class="form-control" id="bdate" name="bdate" value="{{old('bdate', $d->bdate)}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
+                                <small>Age: {{$d->getAgeInt()}}</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="gender"><span class="text-danger font-weight-bold">*</span>Sex</label>
+                                <select class="form-control" name="sex" id="sex" required>
+                                <option value="M" {{(old('sex', $d->sex) == 'M') ? 'selected' : ''}}>Male</option>
+                                <option value="F" {{(old('sex', $d->sex) == 'F') ? 'selected' : ''}}>Female</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="contact_no"><b class="text-danger">*</b>Contact Number of Patient/Guardian</label>
+                                <input type="text" class="form-control" id="contact_no" name="contact_no" value="{{old('contact_no', $d->contact_no)}}" pattern="[0-9]{11}" placeholder="09*********" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="patient_type"><span class="text-danger font-weight-bold">*</span>Patient Type</label>
+                                <select class="form-control" name="patient_type" id="patient_type" required>
+                                    <option value="STUDENT" {{(old('patient_type', $d->patient_type) == 'STUDENT') ? 'selected' : ''}}>Student</option>
+                                    <option value="TEACHER" {{(old('patient_type', $d->patient_type) == 'TEACHER') ? 'selected' : ''}}>Teacher</option>
+                                    <option value="STAFF" {{(old('patient_type', $d->patient_type) == 'STAFF') ? 'selected' : ''}}>Staff</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="if_student_div" class="d-none">
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="grade_level"><span class="text-danger font-weight-bold">*</span>Grade Level</label>
+                                    <select class="form-control" name="grade_level" id="grade_level">
+                                        @if($s->school_type == 'ES')
+                                        <option value="GRADE 1" {{(old('grade_level', $d->grade_level) == 'GRADE 1') ? 'selected' : ''}}>Grade 1</option>
+                                        <option value="GRADE 2" {{(old('grade_level', $d->grade_level) == 'GRADE 2') ? 'selected' : ''}}>Grade 2</option>
+                                        <option value="GRADE 3" {{(old('grade_level', $d->grade_level) == 'GRADE 3') ? 'selected' : ''}}>Grade 3</option>
+                                        <option value="GRADE 4" {{(old('grade_level', $d->grade_level) == 'GRADE 4') ? 'selected' : ''}}>Grade 4</option>
+                                        <option value="GRADE 5" {{(old('grade_level', $d->grade_level) == 'GRADE 5') ? 'selected' : ''}}>Grade 5</option>
+                                        <option value="GRADE 6" {{(old('grade_level', $d->grade_level) == 'GRADE 6') ? 'selected' : ''}}>Grade 6</option>
+                                        @elseif($s->school_type == 'JHS')
+                                        <option value="GRADE 7" {{(old('grade_level', $d->grade_level) == 'GRADE 7') ? 'selected' : ''}}>Grade 7</option>
+                                        <option value="GRADE 8" {{(old('grade_level', $d->grade_level) == 'GRADE 8') ? 'selected' : ''}}>Grade 8</option>
+                                        <option value="GRADE 9" {{(old('grade_level', $d->grade_level) == 'GRADE 9') ? 'selected' : ''}}>Grade 9</option>
+                                        <option value="GRADE 10" {{(old('grade_level', $d->grade_level) == 'GRADE 10') ? 'selected' : ''}}>Grade 10</option>
+                                        @elseif($s->school_type == 'SHS')
+                                        <option value="GRADE 11" {{(old('grade_level', $d->grade_level) == 'GRADE 11') ? 'selected' : ''}}>Grade 11</option>
+                                        <option value="GRADE 12" {{(old('grade_level', $d->grade_level) == 'GRADE 12') ? 'selected' : ''}}>Grade 12</option>
+                                        @endif
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="section"><b class="text-danger">*</b>Section</label>
+                                  <input type="text" class="form-control" name="section" id="section" value="{{old('section', $d->section)}}" style="text-transform: uppercase;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="if_teacherstaff_div" class="d-none">
+                        <hr>
+                        <div class="form-group">
+                            <label for="staff_designation"><b class="text-danger">*</b>Position/Designation</label>
+                            <input type="text" class="form-control" name="staff_designation" id="staff_designation" value="{{old('staff_designation', $d->staff_designation)}}" style="text-transform: uppercase;">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="is_pwd"><span class="text-danger font-weight-bold">*</span>Person with Disability (PWD)?</label>
+                                <select class="form-control" name="is_pwd" id="is_pwd" required>
+                                    <option value="Y" {{(old('is_pwd', $d->is_pwd) == 'Y') ? 'selected' : ''}}>Yes</option>
+                                    <option value="N" {{(old('is_pwd', $d->is_pwd) == 'N') ? 'selected' : ''}}>No</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="pwd_condition"><b class="text-danger">*</b>If PWD, Specify Condition</label>
+                                <input type="text" class="form-control" name="pwd_condition" id="pwd_condition" value="{{old('pwd_condition', $d->pwd_condition)}}" style="text-transform: uppercase;">
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="address_region_code"><b class="text-danger">*</b>Region</label>
+                                <select class="form-control" name="address_region_code" id="address_region_code" tabindex="-1" required>
+                                @foreach(App\Models\Regions::orderBy('regionName', 'ASC')->get() as $a)
+                                <option value="{{$a->id}}" {{($a->id == 1) ? 'selected' : ''}}>{{$a->regionName}}</option>
+                                @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="address_province_code"><b class="text-danger">*</b>Province</label>
+                                <select class="form-control" name="address_province_code" id="address_province_code" tabindex="-1" required disabled>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="address_muncity_code"><b class="text-danger">*</b>City/Municipality</label>
+                                <select class="form-control" name="address_muncity_code" id="address_muncity_code" tabindex="-1" required disabled>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="address_brgy_code"><b class="text-danger">*</b>Barangay</label>
+                                <select class="form-control" name="address_brgy_code" id="address_brgy_code" required disabled>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="street_purok" class="form-label"><b class="text-danger">*</b>House/Lot No. and Street/Purok/Subdivision</label>
+                        <input type="text" class="form-control" id="street_purok" name="street_purok" style="text-transform: uppercase;" value="{{old('street_purok', $d->street_purok)}}" placeholder="ex. S1 B2 L3 PHASE 4 SUBDIVISION HOMES" required>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="onset_illness_date"><b class="text-danger">*</b>Date Onset of Illness (Kailan nagsimula ang sintomas)</label>
+                              <input type="date" class="form-control" name="onset_illness_date" id="onset_illness_date" value="{{old('onset_illness_date', $d->onset_illness_date)}}" min="{{date('Y-m-d', strtotime('-6 Months'))}}" max="{{date('Y-m-d')}}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="signs_and_symptoms"><b class="text-danger">*</b>Signs and Symptoms (Select all that apply)</label>
+                              <select class="form-control" name="signs_and_symptoms[]" id="signs_and_symptoms" required multiple>
+                                <option value="FEVER" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('FEVER')) ? 'selected' : '' }}>Fever</option>
+                                <option value="COUGH" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('COUGH')) ? 'selected' : '' }}>Cough</option>
+                                <option value="COLDS" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('COLDS')) ? 'selected' : '' }}>Colds</option>
+                                <option value="RASH" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('RASH')) ? 'selected' : '' }}>Rash</option>
+                                <option value="HEADACHE" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('HEADACHE')) ? 'selected' : '' }}>Headache</option>
+                                <option value="SORE THROAT" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('SORE THROAT')) ? 'selected' : '' }}>Sore Throat</option>
+                                <option value="DIARRHEA" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('DIARRHEA')) ? 'selected' : '' }}>Diarrhea/LBM</option>
+                                <option value="ABDOMINAL PAIN" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('ABDOMINAL PAIN')) ? 'selected' : '' }}>Abdominal Pain</option>
+                                <option value="NAUSEA" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('NAUSEA')) ? 'selected' : '' }}>Nausea (Nahihilo/Naduduwal)</option>
+                                <option value="VOMITING" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('VOMITING')) ? 'selected' : '' }}>Vomiting</option>
+                                <option value="RED EYES" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('SORE EYES')) ? 'selected' : '' }}>Red Eyes (Conjunctivitis)</option>
+                                <option value="DIZZINESS" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('DIZZINESS')) ? 'selected' : '' }}>Dizziness</option>
+                                <option value="TOOTHACHE" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('TOOTHACHE')) ? 'selected' : '' }}>Toothache</option>
+                                <option value="BODY PAIN" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('BODY PAIN')) ? 'selected' : '' }}>Body Pain</option>
+                                <option value="NOSEBLEED" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('NOSEBLEED')) ? 'selected' : '' }}>Nose Bleeding</option>
+                                <option value="ANOREXIA" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('NOSEBLEED')) ? 'selected' : '' }}>Anorexia (Walang ganang kumain)</option>
+                                <option value="OTHERS" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('OTHERS')) ? 'selected' : '' }}>Others</option>
+                              </select>
+                            </div>
+                            <div id="fever_div" class="d-none">
+                                <div class="form-group">
+                                    <label for="fever_temperature"><b class="text-danger">*</b>Specify Fever Temperature</label>
+                                    <input type="number" min="37" max="45" step="0.1" class="form-control" name="fever_temperature" id="fever_temperature" value="{{old('fever_temperature', $d->fever_temperature)}}">
+                                </div>
+                            </div>
+                            <div id="other_symptom_div" class="d-none">
+                                <div class="form-group">
+                                    <label for="signs_and_symptoms_others"><b class="text-danger">*</b>Please specify other symptoms</label>
+                                    <input type="text" class="form-control" name="signs_and_symptoms_others" id="signs_and_symptoms_others" value="{{old('signs_and_symptoms_others', $d->signs_and_symptoms_others)}}" style="text-transform: uppercase;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="admitted"><span class="text-danger font-weight-bold">*</span>Admitted/Hospitalized?</label>
+                                <select class="form-control" name="admitted" id="admitted" required>
+                                    <option value="Y" {{(old('admitted', $d->admitted) == 'Y') ? 'selected' : ''}}>Yes</option>
+                                    <option value="N" {{(old('admitted', $d->admitted) == 'N') ? 'selected' : ''}}>No</option>
+                                </select>
+                            </div>
+
+                            <div id="hospitalized_div" class="d-none">
+                                <div class="form-group">
+                                    <label for="date_admitted"><b class="text-danger">*</b>Date Admitted</label>
+                                    <input type="date" class="form-control" name="date_admitted" id="date_admitted" value="{{old('date_admitted', $d->date_admitted)}}" min="{{date('Y-m-d', strtotime('-6 Months'))}}" max="{{date('Y-m-d')}}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="admitted_facility">Name of Hospital/Facility</label>
+                                    <input type="text" class="form-control" name="admitted_facility" id="admitted_facility" value="{{old('admitted_facility', $d->admitted_facility)}}" style="text-transform: uppercase;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <!--
+                            <div class="form-group">
+                                <label for="outcome"><span class="text-danger font-weight-bold">*</span>Outcome</label>
+                                <select class="form-control" name="outcome" id="outcome" required>
+                                    <option value="" disabled {{(is_null(old('outcome'))) ? 'selected' : ''}}>Choose...</option>
+                                    <option value="SENT HOME" {{(old('outcome') == 'Y') ? 'selected' : ''}}>Sent Home</option>
+                                    <option value="RECOVERED" {{(old('outcome') == 'N') ? 'selected' : ''}}>Recovered</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="senthome_div">
+                                <label for="date_senthome"><b class="text-danger">*</b>Date Sent Home</label>
+                                <input type="date" class="form-control" name="date_senthome" id="date_senthome" value="{{old('date_senthome')}}" min="{{date('Y-m-d', strtotime('-6 Months'))}}" max="{{date('Y-m-d')}}">
+                            </div>
+                            <div class="form-group" id="recovered_div">
+                                <label for="date_recovered"><b class="text-danger">*</b>Date Recovered</label>
+                                <input type="date" class="form-control" name="date_recovered" id="date_recovered" value="{{old('date_recovered')}}" min="{{date('Y-m-d', strtotime('-6 Months'))}}" max="{{date('Y-m-d')}}">
+                            </div>
+                            -->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="remarks">Remarks</label>
+                      <textarea class="form-control" name="remarks" id="remarks" rows="3">{{old('remarks', $d->remarks)}}</textarea>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="reported_by"><b class="text-danger">*</b>Reported By</label>
+                                <input type="text" class="form-control" name="reported_by" id="reported_by" value="{{old('reported_by', $d->reported_by)}}" style="text-transform: uppercase;" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="reported_by_position"><b class="text-danger">*</b>Position/Designation of Reporter</label>
+                                <input type="text" class="form-control" name="reported_by_position" id="reported_by_position" value="{{old('reported_by_position', $d->reported_by_position)}}" style="text-transform: uppercase;" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="reported_by_contactno"><b class="text-danger">*</b>Contact Number of Reporter</label>
+                                <input type="text" class="form-control" id="reported_by_contactno" name="reported_by_contactno" value="{{old('reported_by_contactno', $d->reported_by_contactno)}}" pattern="[0-9]{11}" placeholder="09*********" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-success btn-block">Update</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="text-center mt-3">
+        <p>CESU General Trias: School Based Disease Surveillance System - Voluntarily Developed and Mantained by CJH</p>
+    </div>
+
+    <script>
+        $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_code, #signs_and_symptoms').select2({
+            theme: 'bootstrap',
+        });
+
+        //Default Values for Gentri
+        var regionDefault = {{$d->brgy->city->province->region->id}};
+        var provinceDefault = {{$d->brgy->city->province->id}};
+        var cityDefault = {{$d->brgy->city->id}};
+        var brgyDefault = {{$d->address_brgy_code}};
+
+        $('#address_region_code').change(function (e) { 
+            e.preventDefault();
+
+            var regionId = $(this).val();
+            var getProvinceUrl = "{{ route('address_get_provinces', ['region_id' => ':regionId']) }}";
+
+            if (regionId) {
+                $('#address_province_code').prop('disabled', false);
+                $('#address_muncity_code').prop('disabled', true);
+                $('#address_brgy_code').prop('disabled', true);
+
+                $('#address_province_code').empty();
+                $('#address_muncity_code').empty();
+                $('#address_brgy_code').empty();
+
+                $.ajax({
+                    url: getProvinceUrl.replace(':regionId', regionId),
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#address_province_code').empty();
+                        $('#address_province_code').append('<option value="" disabled selected>Select Province</option>');
+
+                        let sortedData = Object.entries(data).sort((a, b) => {
+                            return a[1].localeCompare(b[1]); // Compare province names (values)
+                        });
+
+                        $.each(sortedData, function(key, value) {
+                            $('#address_province_code').append('<option value="' + value[0] + '">' + value[1] + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#address_province_code').empty();
+            }
+        }).trigger('change');
+
+        $('#address_province_code').change(function (e) { 
+            e.preventDefault();
+
+            var provinceId = $(this).val();
+            var getCityUrl = "{{ route('address_get_citymun', ['province_id' => ':provinceId']) }}";
+
+            if (provinceId) {
+                $('#address_province_code').prop('disabled', false);
+                $('#address_muncity_code').prop('disabled', false);
+                $('#address_brgy_code').prop('disabled', true);
+
+                $('#address_muncity_code').empty();
+                $('#address_brgy_code').empty();
+
+                $.ajax({
+                    url: getCityUrl.replace(':provinceId', provinceId),
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#address_muncity_code').empty();
+                        $('#address_muncity_code').append('<option value="" disabled selected>Select City/Municipality</option>');
+                        
+                        let sortedData = Object.entries(data).sort((a, b) => {
+                            return a[1].localeCompare(b[1]); // Compare province names (values)
+                        });
+
+                        $.each(sortedData, function(key, value) {
+                            $('#address_muncity_code').append('<option value="' + value[0] + '">' + value[1] + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#address_muncity_code').empty();
+            }
+        });
+
+        $('#address_muncity_code').change(function (e) { 
+            e.preventDefault();
+
+            var cityId = $(this).val();
+            var getBrgyUrl = "{{ route('address_get_brgy', ['city_id' => ':cityId']) }}";
+
+            if (cityId) {
+                $('#address_province_code').prop('disabled', false);
+                $('#address_muncity_code').prop('disabled', false);
+                $('#address_brgy_code').prop('disabled', false);
+
+                $('#address_brgy_code').empty();
+
+                $.ajax({
+                    url: getBrgyUrl.replace(':cityId', cityId),
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#address_brgy_code').empty();
+                        $('#address_brgy_code').append('<option value="" disabled selected>Select Barangay</option>');
+
+                        let sortedData = Object.entries(data).sort((a, b) => {
+                            return a[1].localeCompare(b[1]); // Compare province names (values)
+                        });
+
+                        $.each(sortedData, function(key, value) {
+                            $('#address_brgy_code').append('<option value="' + value[0] + '">' + value[1] + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#address_brgy_code').empty();
+            }
+        });
+
+        if ($('#address_region_code').val()) {
+            $('#address_region_code').trigger('change'); // Automatically load provinces on page load
+        }
+
+        if (provinceDefault) {
+            setTimeout(function() {
+                $('#address_province_code').val(provinceDefault).trigger('change');
+            }, 500); // Slight delay to ensure province is loaded
+        }
+        if (cityDefault) {
+            setTimeout(function() {
+                $('#address_muncity_code').val(cityDefault).trigger('change');
+            }, 1000); // Slight delay to ensure city is loaded
+        }
+        if (brgyDefault) {
+            setTimeout(function() {
+                $('#address_brgy_code').val(brgyDefault).trigger('change');
+            }, 1500); // Slight delay to ensure city is loaded
+        }
+
+        $('#patient_type').change(function (e) { 
+            e.preventDefault();
+
+            $('#if_student_div').addClass('d-none');
+            $('#grade_level').prop('required', false);
+            $('#section').prop('required', false);
+            $('#if_teacherstaff_div').addClass('d-none');
+            $('#staff_designation').prop('required', false);
+
+            if($(this).val() == 'STUDENT') {
+                $('#if_student_div').removeClass('d-none');
+                $('#grade_level').prop('required', true);
+                $('#section').prop('required', true);
+            }
+            else if($(this).val() == 'TEACHER' || $(this).val() == 'STAFF') {
+                $('#if_teacherstaff_div').removeClass('d-none');
+                $('#staff_designation').prop('required', true);
+            }
+        }).trigger('change');
+
+        $('#is_pwd').change(function (e) { 
+            e.preventDefault();
+
+            $('#pwd_condition').prop('disabled', true);
+            $('#pwd_condition').prop('required', false);
+            
+            if($(this).val() == 'Y') {
+                $('#pwd_condition').prop('disabled', false);
+                $('#pwd_condition').prop('required', true);
+            }
+        }).trigger('change');
+
+        $('#signs_and_symptoms').change(function (e) { 
+            e.preventDefault();
+            var selectedValues = $('#signs_and_symptoms').val();
+
+            $('#other_symptom_div').addClass('d-none');
+            $('#signs_and_symptoms_others').prop('required', false);
+            $('#fever_div').addClass('d-none');
+            $('#fever_temperature').prop('required', false);
+
+            if (selectedValues && selectedValues.includes('OTHERS')) {
+                $('#other_symptom_div').removeClass('d-none');
+                $('#signs_and_symptoms_others').prop('required', true);
+            }
+            else if(selectedValues && selectedValues.includes('FEVER')) {
+                $('#fever_div').removeClass('d-none');
+                $('#fever_temperature').prop('required', true);
+            }
+        }).trigger('change');
+
+        $('#admitted').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == 'Y') {
+                $('#hospitalized_div').removeClass('d-none');
+                $('#date_admitted').prop('required', true);
+            }
+            else {
+                $('#hospitalized_div').addClass('d-none');
+                $('#date_admitted').prop('required', false);
+            }
+        }).trigger('change');
+
+        /*
+        $('#outcome').change(function (e) { 
+            e.preventDefault();
+
+            $('#senthome_div').addClass('d-none');
+            $('#recovered_div').addClass('d-none');
+
+            if($(this).val() == 'SENT HOME') {
+                $('#date_senthome').prop('required', true);
+                $('#senthome_div').removeClass('d-none');
+            }
+            else if($(this).val() == 'RECOVERED') {
+                $('#date_senthome').prop('required', true);
+                $('#date_recovered').prop('required', true);
+
+                $('#senthome_div').removeClass('d-none');
+                $('#recovered_div').removeClass('d-none');
+            }
+        }).trigger('change');
+        */
+    </script>
+@endsection

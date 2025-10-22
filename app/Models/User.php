@@ -759,6 +759,17 @@ class User extends Authenticatable implements MustVerifyEmail
         }
     }
 
+    public function canAccessSbdsAdmin() {
+        $plist = $this->getPermissions();
+
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('SBDS_ADMIN', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     public static function getPermissionList() {
         $arr = [
             'GLOBAL_ADMIN',

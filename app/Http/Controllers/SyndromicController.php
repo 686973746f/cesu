@@ -26,6 +26,8 @@ use App\Models\Malaria;
 use App\Models\Measles;
 use App\Models\Meningo;
 use App\Models\Typhoid;
+use App\Models\EdcsBrgy;
+use App\Models\EdcsCity;
 use App\Models\Employee;
 use App\Models\Hepatitis;
 use App\Models\Icd10Code;
@@ -33,6 +35,7 @@ use App\Models\Influenza;
 use App\Models\Rotavirus;
 use App\Models\ExportJobs;
 use App\Models\Meningitis;
+use App\Imports\EdcsImport;
 use Illuminate\Support\Str;
 use App\Models\MedicalEvent;
 use Illuminate\Http\Request;
@@ -840,6 +843,7 @@ class SyndromicController extends Controller
                 'medical_event_id' => (!is_null(auth()->user()->itr_medicalevent_id)) ? auth()->user()->itr_medicalevent_id : NULL,
                 'checkup_type' => $r->checkup_type,
                 'chief_complain' => mb_strtoupper($r->chief_complain),
+                'date_general_onset' => $r->date_general_onset,
                 'nature_of_visit' => $r->nature_of_visit,
                 'consultation_type' => implode(',', $r->consultation_type),
                 'rx_outsidecho' => ($r->checkup_type == 'REQUEST_MEDS') ? 1 : 0,
@@ -894,8 +898,7 @@ class SyndromicController extends Controller
             else {
                 $values_array = $values_array + [
                     'fever' => ($r->fever_yn) ? 1 : 0,
-                    'fever_onset' => ($r->fever_yn) ? $r->fever_onset : NULL,
-                    'fever_remarks' => ($r->fever_yn) ? $r->fever_remarks : NULL,
+                    'fever_temperature' => ($r->fever_yn) ? $r->fever_temperature : NULL,
                     'rash' => ($r->rash_yn) ? 1 : 0,
                     'rash_isMaculopapular' => ($r->rash_yn && $r->rash_isMaculopapular) ? 1 : 0,
                     'rash_isPetechia' => ($r->rash_yn && $r->rash_isPetechia) ? 1 : 0,
@@ -1251,87 +1254,100 @@ class SyndromicController extends Controller
 
             //Generate ILI Data
             if(in_array('Influenza-like Illness (ILI)', explode(", ", $fetch_record->generated_susdiseaselist))) {
-                /*
-                $ili_create = Influenza::create([
+                //Get EDCS Barangay ID
+                $city_id = EdcsCity::where('psgc_9digit', str_pad($p->address_muncity_code, 9, '0', STR_PAD_RIGHT))
+                ->first();
+
+                $brgy_id = EdcsBrgy::where('city_id', $city_id)
+                ->where(function ($q) use ($p) {
+                    $q->where('name', $p->address_brgy_text)
+                    ->orWhere('alt_name', $p->address_muncity_text);
+                })->first();
+
+                $table_params = [
                     'Icd10Code' => 'J10, J11',
-                    'RegionOfDrU' => '04A',
+                    'RegionOFDrU' => 'REGION IV-A (CALABARZON)',
                     'ProvOfDRU' => 'CAVITE',
                     'MuncityOfDRU' => 'CITY OF GENERAL TRIAS',
-                    'DRU' => 'CHO',
-                    //'AddressOfDRU' => 'Hospital Rd., Brgy. ',
-                    'PatientNumber' => $fetch_record->id,
-                    'FullName' => $fetch_record->syndromic_patient->getName(),
-                    'FirstName' => $fetch_record->syndromic_patient->fname,
-                    'FamilyName' => $fetch_record->syndromic_patient->lname,
-                    'middle_name' => (!is_null($fetch_record->syndromic_patient->mname)) ? $fetch_record->syndromic_patient->mname : NULL,
-                    'suffix' => (!is_null($fetch_record->syndromic_patient->suffix)) ? $fetch_record->syndromic_patient->suffix : NULL,
+                    'DRU' => 'C/MHO',
+                    'NameOfDru' => 'GENERAL TRIAS CITY HEALTH OFFICE',
+                    'AddressOfDRU' => NULL,
+                    'PatientNumber' => $c->id,
+                    'FullName' => $p->getName(),
+                    'FamilyName' => $p->lname,
+                    'FirstName' => $p->fname,
+                         
+                    'middle_name' => $p->mname,
+                    'suffix' => $p->suffix,
+                    'Region' => '04A',
+                    'Province' => 'CAVITE',
+                    'Muncity' => 'GENERAL TRIAS',
+                    'Barangay' => EdcsImport::brgySetter($p->address_brgy_text),
+                    'brgy_id' => $brgy_id->id,
+                    'Streetpurok' => $p->getStreetPurok(),
+                    
+                    'Sex' => strtoupper(substr($p->gender,0,1)),
+                    'DOB' => $p->bdate,
                     'AgeYears' => $get_ageyears,
                     'AgeMons' => $get_agemonths,
                     'AgeDays' => $get_agedays,
-                    'Sex' => $fetch_record->syndromic_patient->sg(),
-                    'DOB' => $fetch_record->syndromic_patient->bdate,
-                    'Region' => '04A',
-                    'Province' => 'CAVITE',
-                    'Muncity' => 'CITY OF GENERAL TRIAS',
-                    'Streetpurok' => $fetch_record->syndromic_patient->getStreetPurok(),
+
                     'Admitted' => 'N',
-                    //'DAdmit',
-                    'DOnset',
-                    //'LabResult',
+                    'DAdmit' => NULL,
+                    'DOnset' => NULL,
+                    'LabResult' => NULL,
                     'Outcome' => 'A',
-                    //'DateDied',
-                    'DateOfEntry' => date('Y-m-d', strtotime($fetch_record->consultation_date)),
-                    'AdmitToEntry',
-                    'OnsetToAdmit',
-                    'MorbidityMonth' => date('n', strtotime($fetch_record->consultation_date)),
-                    'MorbidityWeek' => date('W', strtotime($fetch_record->consultation_date)),
+                    'DateDied' => NULL,
+                    'CASECLASS' => 'S',
+                    'SARI' => NULL,
+                    'Organism' => NULL,
+
+                    'DateOfEntry' => date('Y-m-d'),
+                    'AdmitToEntry' => NULL,
+                    'OnsetToAdmit' => NULL,
+                    'SentinelSite' => NULL,
+                    'DeleteRecord' => NULL,
+                    'District' => 6,
+                    'ILHZ' => 'GENTAMAR',
+                    'SENT' => 'Y',
+                    'ip' => 'N',
+                    'ipgroup' => NULL,
+                    //'UniqueKey' => Pert::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
+                    'RECSTATUS' => NULL,
+                    'TYPEHOSPITALCLINIC' => NULL,
+
+                    'Year' => date('Y', strtotime($r->consultation_date)),
+                    'MorbidityMonth' => date('n', strtotime($r->consultation_date)),
+                    'MorbidityWeek' => date('W', strtotime($r->consultation_date)),
                     'EPIID' => 'ILI_MPSS_TEMP_'.mb_strtoupper(Str::random(10)),
-                    'RECSTATUS',
-                    'SentinelSite',
-                    'DeleteRecord',
-                    'Year',
-                    'NameOfDru' => 'GENERAL TRIAS CITY HEALTH OFFICE',
-                    'District',
-                    'ILHZ',
-                    'Barangay',
-                    'CASECLASS',
-                    'TYPEHOSPITALCLINIC',
-                    'SARI',
-                    'Organism',
-                    'SENT',
-                    'created_at' => date('Y-m-d H:i:s'),
-                    'updated_at' => date('Y-m-d H:i:s'),
-                    'systemsent',
-                    'enabled',
                     
-                    
-                    'edcs_caseid',
-                    'edcs_healthFacilityCode',
-                    'edcs_investigatorName',
-                    'edcs_contactNo',
-                    'edcs_ageGroup',
-                    'edcs_verificationLevel',
+                    'edcs_caseid' => NULL,
+                    'edcs_healthFacilityCode' => 'DOH000000000046386', //CHO FACILITY ID
+                    'edcs_verificationLevel' => NULL,
+                    'edcs_investigatorName' => NULL,
+                    'edcs_contactNo' => (!is_null($p->contact_number)) ? $p->contact_number : NULL,
+                    'edcs_ageGroup' => NULL,
                     'from_edcs' => 0,
                     'from_inhouse' => 1,
-                    'inhouse_exportedtocsv',
-                    'inhouse_exported_date',
-                    'encoded_mw',
-                    'match_casedef',
-                    'system_notified',
-                    'edcs_userid',
-                    'edcs_last_modifiedby',
-                    'edcs_last_modified_date',
-                    'notify_email_sent',
-                    'notify_email_sent_datetime',
-                    'edcs_patientcontactnum' => $fetch_record->syndromic_patient->contact_number,
-                    //'system_remarks',
-                    //'brgy_remarks',
-                    //'system_subdivision_id',
-                    //'system_subdivision_name',
-                    //'subdivision_group',
-                    'created_by' => Auth::id(),
-                ]);
-                */
+                    
+                    'edcs_userid' => NULL,
+                    'edcs_last_modifiedby' => NULL,
+                    'edcs_last_modified_date' => NULL,
+                    'system_subdivision_id' => NULL,
+                    
+                    'created_by' => auth()->user()->id,
+
+                    'travelabroad_history' => 'N',
+                    'specify_travel' => NULL,
+                    'received_vaccination' => 'N',
+                    'date_vaccine' => NULL,
+
+                    'fever' => 'N',
+                    'fever_temp' => NULL,
+                    'cough' => 'N',
+                    'colds' => 'N',
+                    'sore_throat' => 'N',
+                ];
             }
 
             if($fetch_record->isDirty()) {
@@ -1743,6 +1759,7 @@ class SyndromicController extends Controller
                 'checkup_type' => $r->checkup_type,
                 'line_number' => $r->line_number,
                 'chief_complain' => mb_strtoupper($r->chief_complain),
+                'date_general_onset' => $r->date_general_onset,
                 'rx_outsidecho' => ($r->checkup_type == 'REQUEST_MEDS') ? 1 : 0,
                 'outsidecho_name' => ($r->checkup_type == 'REQUEST_MEDS' && $r->filled('outsidecho_name')) ? mb_strtoupper($r->outsidecho_name) : NULL,
                 'consultation_date' => $r->consultation_date,
@@ -1755,8 +1772,7 @@ class SyndromicController extends Controller
                 'saturationperioxigen' => $r->saturationperioxigen,
 
                 'fever' => ($r->fever_yn) ? 1 : 0,
-                'fever_onset' => ($r->fever_yn) ? $r->fever_onset : NULL,
-                'fever_remarks' => ($r->fever_yn) ? $r->fever_remarks : NULL,
+                'fever_temperature' => ($r->fever_yn) ? $r->fever_temperature : NULL,
                 'rash' => ($r->rash_yn) ? 1 : 0,
                 'rash_isMaculopapular' => ($r->rash_yn && $r->rash_isMaculopapular) ? 1 : 0,
                 'rash_isPetechia' => ($r->rash_yn && $r->rash_isPetechia) ? 1 : 0,

@@ -9923,11 +9923,11 @@ class PIDSRController extends Controller
             return abort(404);
         }
 
-        return view('pidsr.dengue.view_exportables', [
-                'disease' => $disease,
-                'list' => $list,
-                'f' => $f,
-            ]);
+        return view('pidsr.view_exportables', [
+            'disease' => $disease,
+            'list' => $list,
+            'f' => $f,
+        ]);
     }
 
     public function processEdcsExportables($facility_code, $disease, Request $r) {
@@ -10174,9 +10174,19 @@ class PIDSRController extends Controller
 
                         $sheet->setCellValue('Y'.$row, 'N'); //HistoryTravel21days
                         $sheet->setCellValue('Z'.$row, ''); //HistoryTravel21daysSpecify
-                        $sheet->setCellValue('AA'.$row, 'N'); //Admitted
-                        $sheet->setCellValue('AB'.$row, 'N'); //DateAdmitted
-                        $sheet->setCellValue('AC'.$row, 'N'); //DateOnsetOfIllness
+                        $sheet->setCellValue('AA'.$row, ($d->Admitted == 1) ? 'Y' : 'N'); //Admitted
+                        
+                        if($d->Admitted == 1) {
+                            $sheet->setCellValue('AB'.$row, Carbon::parse($d->DAdmit)->format('m/d/Y')); //DateAdmitted
+                            $sheet->getStyle('AB'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                        }
+                        else {
+                            $sheet->setCellValue('AB'.$row, ''); //DateAdmitted
+                        }
+                        
+                        $sheet->setCellValue('AC'.$row, Carbon::parse($d->DOnset)->format('m/d/Y')); //DateOnsetOfIllness
+                        $sheet->getStyle('AC'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                        
                         $sheet->setCellValue('AD'.$row, 'N'); //ReceivedAntiInfluenzaVaccination
                         $sheet->setCellValue('AE'.$row, 'N'); //DateLastVaccination
                         $sheet->setCellValue('AF'.$row, 'A'); //Outcome

@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class SbsPatient extends Model
 {
@@ -53,6 +54,10 @@ class SbsPatient extends Model
         'reported_by_position',
         'reported_by_contactno',
 
+        'admitted',
+        'date_admitted',
+        'admitted_facility',
+
         'enabled',
         'is_verified',
         'is_sent',
@@ -65,4 +70,40 @@ class SbsPatient extends Model
         'name_facility',
         'qr',
     ];
+
+    public function getName() {
+        $fullname = $this->lname.", ".$this->fname;
+
+        if(!is_null($this->mname)) {
+            $fullname = $fullname." ".$this->mname;
+        }
+
+        if(!is_null($this->suffix)) {
+            $fullname = $fullname." ".$this->suffix;
+        }
+
+        return $fullname;
+        //return $this->lname.", ".$this->fname.' '.$this->suffix." ".$this->mname;
+    }
+
+    public function getAgeInt() {
+        return Carbon::parse($this->attributes['bdate'])->age;
+    }
+
+    public function brgy() {
+        return $this->belongsTo(EdcsBrgy::class, 'address_brgy_code');
+    }
+
+    public function getGradeOrDesignation() {
+        if($this->patient_type == 'STUDENT') {
+            return $this->grade_level;
+        }
+        else {
+            return $this->staff_designation;
+        }
+    }
+
+    public function school() {
+        return $this->belongsTo(School::class, 'school_id');
+    }
 }

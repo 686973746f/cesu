@@ -1003,11 +1003,15 @@ Route::middleware(['school'])->group(function () {
     Route::get('sbds/view/{id}', [SchoolBasedSurveillanceController::class, 'viewCase'])->name('sbs_view');
     Route::post('sbds/view/{id}/update', [SchoolBasedSurveillanceController::class, 'updateCase'])->name('sbs_update');
     Route::get('sbds/report', [SchoolBasedSurveillanceController::class, 'viewReport'])->name('sbs_report');
+
+    Route::post('sbds/logout', [SchoolBasedSurveillanceController::class, 'logout'])->name('sbs_logout');
 });
 
-Route::middleware(['school_admin'])->group(function () {
+Route::middleware(['auth', 'school_admin'])->group(function () {
     Route::get('sbds/admin', [SchoolBasedSurveillanceController::class, 'adminPanel'])->name('sbs_adminpanel');
     Route::get('sbds/admin/school/store', [SchoolBasedSurveillanceController::class, 'storeSchool'])->name('sbs_storeschool');
+
+    Route::get('sbds/admin/school/view/{id}', [SchoolBasedSurveillanceController::class, 'viewSchool'])->name('sbs_viewschool');
 });
 
 Route::get('health_event/{event_code}/{facility_code}', [HealthEventsController::class, 'encodeIndex'])->name('he_index');

@@ -31,6 +31,7 @@ class CreateSyndromicRecordsTable extends Migration
             $table->string('hosp_identifier')->nullable();
             
             $table->string('chief_complain');
+            $table->date('date_general_onset')->nullable();
             $table->tinyInteger('rx_outsidecho')->default(0);
             $table->text('outsidecho_name')->nullable();
 
