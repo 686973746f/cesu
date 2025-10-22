@@ -63,4 +63,20 @@ class Influenza extends Model
             return 'Street/Purok not Encoded';
         }
     }
+
+    public function getClassificationString() {
+        return $this->CASECLASS;
+    }
+
+    public function getOutcome() {
+        return $this->Outcome;
+    }
+
+    public function user() {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function brgy() {
+        return $this->belongsTo(EdcsBrgy::class, 'brgy_id');
+    }
 }

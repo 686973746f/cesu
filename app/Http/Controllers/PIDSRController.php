@@ -10188,7 +10188,7 @@ class PIDSRController extends Controller
                         $sheet->getStyle('AC'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
                         
                         $sheet->setCellValue('AD'.$row, 'N'); //ReceivedAntiInfluenzaVaccination
-                        $sheet->setCellValue('AE'.$row, 'N'); //DateLastVaccination
+                        $sheet->setCellValue('AE'.$row, ''); //DateLastVaccination
                         $sheet->setCellValue('AF'.$row, 'A'); //Outcome
                         $sheet->setCellValue('AG'.$row, ''); //DateDied
                         $sheet->setCellValue('AH'.$row, 'SUS'); //CaseClassification

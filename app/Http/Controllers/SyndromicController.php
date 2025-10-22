@@ -36,6 +36,7 @@ use App\Models\Rotavirus;
 use App\Models\ExportJobs;
 use App\Models\Meningitis;
 use App\Imports\EdcsImport;
+use App\Models\DohFacility;
 use Illuminate\Support\Str;
 use App\Models\MedicalEvent;
 use Illuminate\Http\Request;
@@ -1252,19 +1253,29 @@ class SyndromicController extends Controller
             $fetch_record = SyndromicRecords::find($c->id);
             $fetch_record->generated_susdiseaselist = ($fetch_record->getListOfSuspDiseases() != 'N/A') ? $fetch_record->getListOfSuspDiseases() : NULL;
 
+            //HF Code
+            $hf = DohFacility::findOrFail(auth()->user()->itr_facility_id);
+
+            if(!is_null($hf->edcs_temphf_code)) {
+                $hf_code = $hf->edcs_temphf_code;
+            }
+            else {
+                $hf_code = $hf->healthfacility_code;
+            }
+
             //Generate ILI Data
             if(in_array('Influenza-like Illness (ILI)', explode(", ", $fetch_record->generated_susdiseaselist))) {
                 //Get EDCS Barangay ID
                 $city_id = EdcsCity::where('psgc_9digit', str_pad($p->address_muncity_code, 9, '0', STR_PAD_RIGHT))
                 ->first();
 
-                $brgy_id = EdcsBrgy::where('city_id', $city_id)
+                $brgy_id = EdcsBrgy::where('city_id', $city_id->id)
                 ->where(function ($q) use ($p) {
                     $q->where('name', $p->address_brgy_text)
                     ->orWhere('alt_name', $p->address_muncity_text);
                 })->first();
 
-                $table_params = [
+                $disease_params = [
                     'Icd10Code' => 'J10, J11',
                     'RegionOFDrU' => 'REGION IV-A (CALABARZON)',
                     'ProvOfDRU' => 'CAVITE',
@@ -1276,9 +1287,14 @@ class SyndromicController extends Controller
                     'FullName' => $p->getName(),
                     'FamilyName' => $p->lname,
                     'FirstName' => $p->fname,
-                         
                     'middle_name' => $p->mname,
                     'suffix' => $p->suffix,
+                    'Sex' => strtoupper(substr($p->gender,0,1)),
+                    'DOB' => $p->bdate,
+                    'AgeYears' => $get_ageyears,
+                    'AgeMons' => $get_agemonths,
+                    'AgeDays' => $get_agedays,
+
                     'Region' => '04A',
                     'Province' => 'CAVITE',
                     'Muncity' => 'GENERAL TRIAS',
@@ -1286,15 +1302,9 @@ class SyndromicController extends Controller
                     'brgy_id' => $brgy_id->id,
                     'Streetpurok' => $p->getStreetPurok(),
                     
-                    'Sex' => strtoupper(substr($p->gender,0,1)),
-                    'DOB' => $p->bdate,
-                    'AgeYears' => $get_ageyears,
-                    'AgeMons' => $get_agemonths,
-                    'AgeDays' => $get_agedays,
-
-                    'Admitted' => 'N',
+                    'Admitted' => 0,
                     'DAdmit' => NULL,
-                    'DOnset' => NULL,
+                    'DOnset' => $r->date_general_onset,
                     'LabResult' => NULL,
                     'Outcome' => 'A',
                     'DateDied' => NULL,
@@ -1322,7 +1332,7 @@ class SyndromicController extends Controller
                     'EPIID' => 'ILI_MPSS_TEMP_'.mb_strtoupper(Str::random(10)),
                     
                     'edcs_caseid' => NULL,
-                    'edcs_healthFacilityCode' => 'DOH000000000046386', //CHO FACILITY ID
+                    'edcs_healthFacilityCode' => $hf_code,
                     'edcs_verificationLevel' => NULL,
                     'edcs_investigatorName' => NULL,
                     'edcs_contactNo' => (!is_null($p->contact_number)) ? $p->contact_number : NULL,
@@ -1342,12 +1352,16 @@ class SyndromicController extends Controller
                     'received_vaccination' => 'N',
                     'date_vaccine' => NULL,
 
-                    'fever' => 'N',
-                    'fever_temp' => NULL,
-                    'cough' => 'N',
-                    'colds' => 'N',
-                    'sore_throat' => 'N',
+                    'fever' => ($r->fever_yn) ? 'Y' : 'N',
+                    'fever_temp' => ($r->fever_yn) ? $r->fever_temperature : NULL,
+                    'cough' => ($r->cough_yn) ? 'Y' : 'N',
+                    'colds' => ($r->colds_yn) ? 'Y' : 'N',
+                    'sore_throat' => ($r->sorethroat_yn) ? 'Y' : 'N',
+
+                    'edcs_customgroup' => 'OPD',
                 ];
+
+                $ili_create = Influenza::create($disease_params);
             }
 
             if($fetch_record->isDirty()) {
