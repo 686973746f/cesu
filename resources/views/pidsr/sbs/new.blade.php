@@ -16,6 +16,8 @@
                     <div class="alert alert-primary" role="alert">
                         <div><b>LEGAL NOTICE:</b> All personal, health, and sensitive information under the custody of the Department of Education and the General Trias City Health Office - CESU are strictly confidential and protected under the <b>Data Privacy Act of 2012 (R.A. 10173)</b>. Any person who gains access to such data is prohibited from sharing, reproducing, disclosing, taking screenshots, or disseminating said information through any means without proper authority.</div>
                         <div>Furthermore, in accordance with <b>Republic Act 11332</b> (Mandatory Reporting of Notifiable Diseases and Health Events of Public Health Concern Act), it is hereby reminded that all health data and reports must be accurate, true, and correctly submitted. All required details—including the patient’s name, address, symptoms, and other pertinent information—must be properly and truthfully filled out. Falsification, non-reporting, or misreporting of data constitutes a violation of the law and shall be subject to corresponding administrative, civil, and criminal liabilities under existing laws.</div>
+                        <hr>
+                        <div>All fields marked with an asterisk (<span class="text-danger font-weight-bold">*</span>) are required.</div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
@@ -102,6 +104,7 @@
                                     <select class="form-control" name="grade_level" id="grade_level">
                                         <option value="" disabled {{(is_null(old('grade_level'))) ? 'selected' : ''}}>Choose...</option>
                                         @if($s->school_type == 'ES')
+                                        <option value="KINDERGARTEN" {{(old('grade_level') == 'KINDERGARTEN') ? 'selected' : ''}}>Kindergarten</option>
                                         <option value="GRADE 1" {{(old('grade_level') == 'GRADE 1') ? 'selected' : ''}}>Grade 1</option>
                                         <option value="GRADE 2" {{(old('grade_level') == 'GRADE 2') ? 'selected' : ''}}>Grade 2</option>
                                         <option value="GRADE 3" {{(old('grade_level') == 'GRADE 3') ? 'selected' : ''}}>Grade 3</option>
@@ -217,8 +220,8 @@
                                 <option value="DIZZINESS" {{ (collect(old('signs_and_symptoms'))->contains('DIZZINESS')) ? 'selected' : '' }}>Dizziness</option>
                                 <option value="TOOTHACHE" {{ (collect(old('signs_and_symptoms'))->contains('TOOTHACHE')) ? 'selected' : '' }}>Toothache</option>
                                 <option value="BODY PAIN" {{ (collect(old('signs_and_symptoms'))->contains('BODY PAIN')) ? 'selected' : '' }}>Body Pain</option>
-                                <option value="NOSEBLEED" {{ (collect(old('signs_and_symptoms'))->contains('NOSEBLEED')) ? 'selected' : '' }}>Nose Bleeding</option>
-                                <option value="ANOREXIA" {{ (collect(old('signs_and_symptoms'))->contains('NOSEBLEED')) ? 'selected' : '' }}>Anorexia (Walang ganang kumain)</option>
+                                <option value="NOSE BLEEDING" {{ (collect(old('signs_and_symptoms'))->contains('NOSE BLEEDING')) ? 'selected' : '' }}>Nose Bleeding</option>
+                                <option value="ANOREXIA" {{ (collect(old('signs_and_symptoms'))->contains('ANOREXIA')) ? 'selected' : '' }}>Anorexia (Walang ganang kumain)</option>
                                 <option value="OTHERS" {{ (collect(old('signs_and_symptoms'))->contains('OTHERS')) ? 'selected' : '' }}>Others</option>
                               </select>
                             </div>

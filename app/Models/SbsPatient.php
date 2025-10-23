@@ -65,8 +65,8 @@ class SbsPatient extends Model
 
         'is_verified',
         'is_sent',
-        'source',
         'approved_date',
+        
         'suspected_disease_tag',
         'sent_disease_tag',
         

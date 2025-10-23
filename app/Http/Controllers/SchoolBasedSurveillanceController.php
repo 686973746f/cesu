@@ -59,7 +59,7 @@ class SchoolBasedSurveillanceController extends Controller
                 $suspected_disease_list[] = 'MEASLES';
             }
         }
-
+        
         return $suspected_disease_list;
     }
 
@@ -120,7 +120,7 @@ class SchoolBasedSurveillanceController extends Controller
             'patient_type' => $r->patient_type,
             'staff_designation' => ($r->patient_type == 'TEACHER' || $r->patient_type == 'STAFF') ? mb_strtoupper($r->staff_designation) : NULL,
             'grade_level' => ($r->patient_type == 'STUDENT') ? $r->grade_level : NULL,
-            'section'  => ($r->patient_type == 'STUDENT') ? $r->section : NULL,
+            'section'  => ($r->patient_type == 'STUDENT') ? mb_strtoupper($r->section) : NULL,
             'street_purok' => mb_strtoupper($r->street_purok),
             'address_brgy_code' => $r->address_brgy_code,
 
@@ -128,7 +128,7 @@ class SchoolBasedSurveillanceController extends Controller
             //'guardian_name',
             //'guardian_contactno',
             'is_pwd' => $r->is_pwd,
-            'pwd_condition' => ($r->pwd_condition == 'Y') ? mb_strtoupper($r->pwd_condition) : NULL,
+            'pwd_condition' => ($r->is_pwd == 'Y') ? mb_strtoupper($r->pwd_condition) : NULL,
 
             //'height',
             //'weight',
@@ -154,7 +154,7 @@ class SchoolBasedSurveillanceController extends Controller
             //'enabled' 
             //'is_verified',
             //'is_sent',
-            'suspected_disease_tag' => implode(", ", $this->searchSuspectedCase($r)),
+            'suspected_disease_tag' => (!empty($this->searchSuspectedCase($r))) ? implode(", ", $this->searchSuspectedCase($r)) : NULL,
             'report_year' => $get_onset->format('Y'),
             'report_month' => $get_onset->format('n'),
             'report_week' => $get_onset->format('W'),
@@ -230,7 +230,7 @@ class SchoolBasedSurveillanceController extends Controller
             'patient_type' => $r->patient_type,
             'staff_designation' => ($r->patient_type == 'TEACHER' || $r->patient_type == 'STAFF') ? mb_strtoupper($r->staff_designation) : NULL,
             'grade_level' => ($r->patient_type == 'STUDENT') ? $r->grade_level : NULL,
-            'section'  => ($r->patient_type == 'STUDENT') ? $r->section : NULL,
+            'section'  => ($r->patient_type == 'STUDENT') ? mb_strtoupper($r->section) : NULL,
             'street_purok' => mb_strtoupper($r->street_purok),
             'address_brgy_code' => $r->address_brgy_code,
 
@@ -238,7 +238,7 @@ class SchoolBasedSurveillanceController extends Controller
             //'guardian_name',
             //'guardian_contactno',
             'is_pwd' => $r->is_pwd,
-            'pwd_condition' => ($r->pwd_condition == 'Y') ? mb_strtoupper($r->pwd_condition) : NULL,
+            'pwd_condition' => ($r->is_pwd == 'Y') ? mb_strtoupper($r->pwd_condition) : NULL,
 
             //'height',
             //'weight',
@@ -264,7 +264,7 @@ class SchoolBasedSurveillanceController extends Controller
             //'enabled' 
             //'is_verified',
             //'is_sent',
-            'suspected_disease_tag' => implode(", ", $this->searchSuspectedCase($r)),
+            'suspected_disease_tag' => (!empty($this->searchSuspectedCase($r))) ? implode(", ", $this->searchSuspectedCase($r)) : NULL,
             'report_year' => $get_onset->format('Y'),
             'report_month' => $get_onset->format('n'),
             'report_week' => $get_onset->format('W'),
