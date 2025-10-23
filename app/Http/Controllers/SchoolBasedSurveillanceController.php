@@ -354,11 +354,53 @@ class SchoolBasedSurveillanceController extends Controller
     }
 
     public function adminPanel() {
+        $list = School::where('enabled', 'Y')->get();
 
+        return view('pidsr.sbs.admin.home', [
+            'list' => $list,
+        ]);
     }
 
-    public function storeSchool() {
+    public function storeSchool(Request $r) {
+        $foundunique = false;
 
+        while(!$foundunique) {
+            $for_qr = Str::random(7);
+            
+            $search = School::where('qr', $for_qr)->first();
+            if(!$search) {
+                $foundunique = true;
+            }
+        }
+
+        $name = mb_strtoupper($r->name);
+
+        $check = School::where('name', $name)->first();
+        
+        if($check) {
+            return redirect()->back()
+            ->with('msg', 'ERROR: School ['.$name.'] already exists in the system.')
+            ->with('msgtype', 'warning');
+        }
+
+        $c = School::create([
+            'name' => $name,
+            'ownership_type' => $r->ownership_type,
+            'school_type' => $r->school_type,
+            'school_id' => $r->school_id,
+            'address_brgy_code' => $r->address_brgy_code,
+            'contact_number' => $r->contact_number,
+            'contact_number_telephone' => $r->contact_number_telephone,
+            'schoolhead_name' => mb_strtoupper($r->schoolhead_name),
+            'schoolhead_position' => mb_strtoupper($r->schoolhead_position),
+            'focalperson_name' => (!is_null($r->focalperson_name)) ? mb_strtoupper($r->focalperson_name) : NULL,
+
+            'qr' => $for_qr,
+        ]);
+
+        return redirect()->back()
+        ->with('msg', 'School ['.$c->name.'] was successfully created.')
+        ->with('msgtype', 'success');
     }
 
     public function viewSchool($id) {

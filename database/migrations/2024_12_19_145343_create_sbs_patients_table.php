@@ -65,10 +65,17 @@ class CreateSbsPatientsTable extends Migration
             $table->string('reported_by_contactno');
 
             $table->string('enabled', 1)->default('Y');
+            
+            $table->string('from_selfreport', 1)->default('N');
+            $table->string('is_approved', 1)->default('Y');
+            $table->dateTime('approved_date')->nullable();
+
             $table->string('is_verified', 1)->default('N');
             $table->string('is_sent', 1)->default('N');
 
             $table->text('suspected_disease_tag')->nullable();
+            $table->text('sent_disease_tag')->nullable();
+            
             $table->integer('report_year');
             $table->integer('report_month');
             $table->integer('report_week');

@@ -537,7 +537,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="{{(!$show_classification_piegraph) ? 'd-none' : ''}}">
-                        <h5><b>Proportion of Cases by Case Classification</b></h5>
+                        <h5><b>Proportion of {{$flavor_name}} Cases by Case Classification</b></h5>
                         <h6>GENERAL TRIAS, Jan. 1 - {{$flavor_enddate->format('M. d, Y')}}</h6>
                         <h6>N={{$current_grand_total}}</h6>
                         <div style="height: 400px">
@@ -548,7 +548,7 @@
                     </div>
                     
                     @if($sel_disease != 'Pert')
-                    <h5><b>Proportion of Cases by Sex and Age Group</b></h5>
+                    <h5><b>Proportion of {{$flavor_name}} Cases by Sex and Age Group</b></h5>
                     <h6>GENERAL TRIAS, Jan. 1 - {{$flavor_enddate->format('M. d, Y')}}</h6>
                     <h6>N={{$current_grand_total}}</h6>
                     <canvas id="ageGroup" width="50" height=""></canvas>

@@ -1009,7 +1009,7 @@ Route::middleware(['school'])->group(function () {
 
 Route::middleware(['auth', 'school_admin'])->group(function () {
     Route::get('sbds/admin', [SchoolBasedSurveillanceController::class, 'adminPanel'])->name('sbs_adminpanel');
-    Route::get('sbds/admin/school/store', [SchoolBasedSurveillanceController::class, 'storeSchool'])->name('sbs_storeschool');
+    Route::post('sbds/admin/school/store', [SchoolBasedSurveillanceController::class, 'storeSchool'])->name('sbs_storeschool');
 
     Route::get('sbds/admin/school/view/{id}', [SchoolBasedSurveillanceController::class, 'viewSchool'])->name('sbs_viewschool');
 });

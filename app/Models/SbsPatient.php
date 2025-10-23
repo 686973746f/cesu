@@ -59,9 +59,17 @@ class SbsPatient extends Model
         'admitted_facility',
 
         'enabled',
+        'from_selfreport',
+        'is_approved',
+        'approved_date',
+
         'is_verified',
         'is_sent',
+        'source',
+        'approved_date',
         'suspected_disease_tag',
+        'sent_disease_tag',
+        
         'report_year',
         'report_month',
         'report_week',

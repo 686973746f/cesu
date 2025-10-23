@@ -29,4 +29,8 @@ class School extends Authenticatable
     protected $hidden = [
         'password',
     ];
+
+    public function brgy() {
+        return $this->belongsTo(EdcsBrgy::class, 'address_brgy_code');
+    }
 }
