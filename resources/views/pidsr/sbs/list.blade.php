@@ -11,7 +11,7 @@
                     </div>
                     <div>
                         <a href="{{route('sbs_new', $s->qr)}}" class="btn btn-success">New Case</a>
-                        <a href="{{route('sbs_report')}}" class="btn btn-primary">View Report</a>
+                        <a href="#" class="btn btn-primary">View Report (Soon)</a>
                         @if(auth()->guard('school')->check())
                         <form action="{{ route('sbs_logout') }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to log out?');">
                             @csrf

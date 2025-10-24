@@ -110,8 +110,8 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                <label for="birthplace"><b class="text-danger">*</b>Birthplace</label>
-                                <input type="text" class="form-control" name="birthplace" id="birthplace" value="{{old('birthplace')}}" style="text-transform: uppercase" required>
+                                <label for="birthplace">Birthplace</label>
+                                <input type="text" class="form-control" name="birthplace" id="birthplace" value="{{old('birthplace')}}" style="text-transform: uppercase">
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -207,6 +207,7 @@
                                         <option value="RENTER" {{(old('house_ownership') == 'RENTER') ? 'selected' : ''}}>Renter</option>
                                         <option value="SHARER" {{(old('house_ownership') == 'SHARER') ? 'selected' : ''}}>Sharer</option>
                                         <option value="INFORMAL SETTLER" {{(old('house_ownership') == 'INFORMAL SETTLER') ? 'selected' : ''}}>Informal Settler</option>
+                                        <option value="N/A" {{(old('house_ownership') == 'N/A') ? 'selected' : ''}}>Not Applicable (N/A)</option>
                                     </select>
                                 </div>
                             </div>
@@ -245,7 +246,7 @@
                         <div class="card">
                             <div class="card-header"><b>Permanent Address</b></div>
                             <div class="card-body">
-                                <div class="row">
+                                <div class="row" id="address_div">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="address_region_code"><b class="text-danger">*</b>Region</label>
@@ -314,6 +315,7 @@
         //Select2 Init for Address Bar
         $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_code, #family_patient_id').select2({
             theme: 'bootstrap',
+            dropdownParent: $('#address_div'),
         });
 
         //Default Values for Gentri

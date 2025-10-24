@@ -144,6 +144,7 @@
                                     <option value="" disabled {{(is_null(old('relationship_tohead'))) ? 'selected' : ''}}>Choose...</option>
                                     <option value="SPOUSE" {{(old('relationship_tohead') == 'SPOUSE') ? 'selected' : ''}}>Spouse/Asawa</option>
                                     <option value="CHILD" {{(old('relationship_tohead') == 'CHILD') ? 'selected' : ''}}>Child</option>
+                                    <option value="GRANCHILDREN" {{(old('relationship_tohead') == 'CHILD') ? 'selected' : ''}}>Grandchildren</option>
                                     <option value="OTHERS" {{(old('relationship_tohead') == 'OTHERS') ? 'selected' : ''}}>Others</option>
                                 </select>
                             </div>
@@ -156,9 +157,13 @@
                                 <select class="form-control" name="highest_education" id="highest_education" required>
                                     <option value="" disabled {{(is_null(old('highest_education'))) ? 'selected' : ''}}>Choose...</option>
                                     <option value="NO FORMAL EDUCATION" {{(old('highest_education') == 'NO FORMAL EDUCATION') ? 'selected' : ''}}>No Formal Education/Hindi nakapag-aral</option>
+                                    <option value="ELEMENTARY UNDERGRADUATE" {{(old('highest_education') == 'ELEMENTARY GRADUATE') ? 'selected' : ''}}>Elementary Undergraduate</option>
                                     <option value="ELEMENTARY GRADUATE" {{(old('highest_education') == 'ELEMENTARY GRADUATE') ? 'selected' : ''}}>Elementary Graduate</option>
+                                    <option value="JUNIOR HIGH SCHOOL UNDERGRADUATE" {{(old('highest_education') == 'JUNIOR HIGH SCHOOL GRADUATE') ? 'selected' : ''}}>Junior High School Undergraduate</option>
                                     <option value="JUNIOR HIGH SCHOOL GRADUATE" {{(old('highest_education') == 'JUNIOR HIGH SCHOOL GRADUATE') ? 'selected' : ''}}>Junior High School Graduate</option>
+                                    <option value="SENIOR HIGH SCHOOL UNDERGRADUATE" {{(old('highest_education') == 'SENIOR HIGH SCHOOL GRADUATE') ? 'selected' : ''}}>Senior High School Undergraduate</option>
                                     <option value="SENIOR HIGH SCHOOL GRADUATE" {{(old('highest_education') == 'SENIOR HIGH SCHOOL GRADUATE') ? 'selected' : ''}}>Senior High School Graduate</option>
+                                    <option value="COLLEGE UNDERGRADUATE" {{(old('highest_education') == 'COLLEGE GRADUATE') ? 'selected' : ''}}>College Undergraduate</option>
                                     <option value="COLLEGE GRADUATE" {{(old('highest_education') == 'COLLEGE GRADUATE') ? 'selected' : ''}}>College Graduate</option>
                                     <option value="MASTERS DEGREE" {{(old('highest_education') == 'MASTERS DEGREE') ? 'selected' : ''}}>Masters Degree</option>
                                 </select>

@@ -46,6 +46,52 @@ class SchoolBasedSurveillanceController extends Controller
         $suspected_disease_list = [];
         $days_difference = $get_onset->diffInDays($r->date_reported);
 
+        if($days_difference >= 2 && $days_difference <= 7) {
+            $dengue_symp_count = 0;
+
+            if(in_array('FEVER', $r->signs_and_symptoms)) {
+                if(in_array('HEADACHE', $r->signs_and_symptoms)) {
+                    $dengue_symp_count++;
+                }
+
+                if(in_array('BODY WEAKNESS', $r->signs_and_symptoms)) {
+                    $dengue_symp_count++;
+                }
+
+                if(in_array('BODY PAIN', $r->signs_and_symptoms)) {
+                    $dengue_symp_count++;
+                }
+
+                if(in_array('ANOREXIA', $r->signs_and_symptoms)) {
+                    $dengue_symp_count++;
+                }
+
+                if(in_array('NAUSEA', $r->signs_and_symptoms)) {
+                    $dengue_symp_count++;
+                }
+
+                if(in_array('VOMITING', $r->signs_and_symptoms)) {
+                    $dengue_symp_count++;
+                }
+
+                if(in_array('DIARRHEA', $r->signs_and_symptoms)) {
+                    $dengue_symp_count++;
+                }
+
+                if(in_array('RASH', $r->signs_and_symptoms)) {
+                    $dengue_symp_count++;
+                }
+
+                if(in_array('NOSE BLEEDING', $r->signs_and_symptoms)) {
+                    $dengue_symp_count++;
+                }
+
+                if($dengue_symp_count >= 2) {
+                    $suspected_disease_list[] = 'DENGUE';
+                }
+            }
+        }
+
         if($days_difference <= 10) {
             if(in_array('FEVER', $r->signs_and_symptoms) && $r->fever_temperature >= 38) {
                 if(in_array('COUGH', $r->signs_and_symptoms) || in_array('SORE THROAT', $r->signs_and_symptoms)) {

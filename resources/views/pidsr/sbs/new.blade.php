@@ -220,8 +220,11 @@
                                 <option value="DIZZINESS" {{ (collect(old('signs_and_symptoms'))->contains('DIZZINESS')) ? 'selected' : '' }}>Dizziness</option>
                                 <option value="TOOTHACHE" {{ (collect(old('signs_and_symptoms'))->contains('TOOTHACHE')) ? 'selected' : '' }}>Toothache</option>
                                 <option value="BODY PAIN" {{ (collect(old('signs_and_symptoms'))->contains('BODY PAIN')) ? 'selected' : '' }}>Body Pain</option>
+                                <option value="BODY WEAKNESS" {{ (collect(old('signs_and_symptoms'))->contains('BODY WEAKNESS')) ? 'selected' : '' }}>Body Weakness</option>
                                 <option value="NOSE BLEEDING" {{ (collect(old('signs_and_symptoms'))->contains('NOSE BLEEDING')) ? 'selected' : '' }}>Nose Bleeding</option>
                                 <option value="ANOREXIA" {{ (collect(old('signs_and_symptoms'))->contains('ANOREXIA')) ? 'selected' : '' }}>Anorexia (Walang ganang kumain)</option>
+                                <option value="ANOSMIA" {{ (collect(old('signs_and_symptoms'))->contains('ANOSMIA')) ? 'selected' : '' }}>Loss of Smell</option>
+                                <option value="AGEUSIA" {{ (collect(old('signs_and_symptoms'))->contains('AGEUSIA')) ? 'selected' : '' }}>Loss of Taste</option>
                                 <option value="OTHERS" {{ (collect(old('signs_and_symptoms'))->contains('OTHERS')) ? 'selected' : '' }}>Others</option>
                               </select>
                             </div>

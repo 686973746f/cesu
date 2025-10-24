@@ -139,7 +139,7 @@ class DisasterController extends Controller
             'suffix' => $suffix,
             //'nickname' => ($r->nickname) ? mb_strtoupper($r->nickname) : NULL,
             'bdate' => $r->bdate,
-            'birthplace' => mb_strtoupper($r->birthplace),
+            'birthplace' => (!is_null($r->birthplace)) ? mb_strtoupper($r->birthplace) : NULL,
             'sex' => $r->sex,
             'is_pregnant' => ($r->sex == 'F') ? $r->is_pregnant : 'N',
             'is_lactating' => ($r->sex == 'F') ? $r->is_lactating : 'N',
