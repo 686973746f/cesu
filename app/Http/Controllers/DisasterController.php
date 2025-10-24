@@ -18,7 +18,7 @@ use App\Models\EvacuationCenterPatientMembers;
 class DisasterController extends Controller
 {
     public function index() {
-        $list = Disaster::orderBy('created_at', 'DESC')->get();
+        $list = Disaster::orderBy('created_at', 'DESC')->paginate(10);
 
         return view('disaster.index', [
             'list' => $list,
