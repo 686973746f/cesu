@@ -23,41 +23,43 @@
                 </div>
                 @endif
 
-                <table class="table table-bordered table-striped">
-                    <thead class="thead-light text-center">
-                        <tr>
-                            <th>Head ID</th>
-                            <th>Head of the Family</th>
-                            <th>Age</th>
-                            <th>Sex</th>
-                            <th>Street/Purok</th>
-                            <th>Barangay</th>
-                            <th>City/Municipality</th>
-                            <th>No. of Family Member/s</th>
-                            <th>Created at/by</th>
-                            <th>Updated at/by</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($list as $l)
-                        <tr>
-                            <td class="text-center">{{$l->id}}</td>
-                            <td><a href="{{route('disaster_viewfamilyhead', $l->id)}}">{{$l->getName()}}</a></td>
-                            <td class="text-center">{{$l->getAge()}}</td>
-                            <td class="text-center">{{$l->sex}}</td>
-                            <td class="text-center">{{$l->street_purok}}</td>
-                            <td class="text-center">{{$l->brgy->name}}</td>
-                            <td class="text-center">{{$l->brgy->city->name}}</td>
-                            <td class="text-center">{{$l->getNumberOfMembers()}}</td>
-                            <td class="text-center">
-                                <div>{{date('m/d/Y h:i A')}}</div>
-                                <div>by {{$l->user->name}}</div>
-                            </td>
-                            <td class="text-center"></td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped" id="mainTbl">
+                        <thead class="thead-light text-center">
+                            <tr>
+                                <th>Head ID</th>
+                                <th>Head of the Family</th>
+                                <th>Age</th>
+                                <th>Sex</th>
+                                <th>Street/Purok</th>
+                                <th>Barangay</th>
+                                <th>City/Municipality</th>
+                                <th>No. of Family Member/s</th>
+                                <th>Created at/by</th>
+                                <th>Updated at/by</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($list as $l)
+                            <tr>
+                                <td class="text-center">{{$l->id}}</td>
+                                <td><a href="{{route('disaster_viewfamilyhead', $l->id)}}">{{$l->getName()}}</a></td>
+                                <td class="text-center">{{$l->getAge()}}</td>
+                                <td class="text-center">{{$l->sex}}</td>
+                                <td class="text-center">{{$l->street_purok}}</td>
+                                <td class="text-center">{{$l->brgy->name}}</td>
+                                <td class="text-center">{{$l->brgy->city->name}}</td>
+                                <td class="text-center">{{$l->getNumberOfMembers()}}</td>
+                                <td class="text-center">
+                                    <div>{{date('m/d/Y h:i A')}}</div>
+                                    <div>by {{$l->user->name}}</div>
+                                </td>
+                                <td class="text-center"></td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -312,6 +314,10 @@
     </form>
 
     <script>
+        $('#mainTbl').dataTable({
+            order: [[1, 'asc']],
+        });
+
         //Select2 Init for Address Bar
         $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_code, #family_patient_id').select2({
             theme: 'bootstrap',

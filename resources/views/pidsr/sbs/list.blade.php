@@ -34,49 +34,51 @@
 
                 <button type="button" class="btn btn-secondary mb-3" data-toggle="modal" data-target="#filter">Filter</button>
 
-                <table class="table table-bordered table-striped" id="mainTbl">
-                    <thead class="thead-light text-center">
-                        <tr>
-                            <th>No.</th>
-                            <th>Case Date</th>
-                            <th>Name</th>
-                            <th>Age</th>
-                            <th>Sex</th>
-                            <th>Address</th>
-                            <th>Barangay</th>
-                            <th>Type</th>
-                            <th>Grade Level/Designation</th>
-                            <th>Section</th>
-                            <th>Date Onset of Illness</th>
-                            <th>Signs and Symptoms</th>
-                            <th>Suspected Disease Tag</th>
-                            <th>Reported By</th>
-                            <th>Date Added</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($list as $ind => $l)
-                        <tr>
-                            <td class="text-center">{{$ind+1}}</td>
-                            <td class="text-center">{{date('m/d/Y', strtotime($l->date_reported))}}</td>
-                            <td><a href="{{route('sbs_view', $l->id)}}">{{$l->getName()}}</a></td>
-                            <td class="text-center">{{$l->getAgeInt()}}</td>
-                            <td class="text-center">{{$l->sex}}</td>
-                            <td class="text-center">{{$l->street_purok}}</td>
-                            <td class="text-center">{{$l->brgy->name}}</td>
-                            <td class="text-center">{{$l->patient_type}}</td>
-                            <td class="text-center">{{$l->getGradeOrDesignation()}}</td>
-                            <td class="text-center">{{($l->patient_type == 'STUDENT') ? $l->section : 'N/A'}}</td>
-                            <td class="text-center">{{date('m/d/Y', strtotime($l->onset_illness_date))}}</td>
-                            <td class="text-center">{{$l->signs_and_symptoms}}</td>
-                            <td class="text-center">{{($l->suspected_disease_tag ?: 'N/A')}}</td>
-                            <td class="text-center">{{$l->reported_by}}</td>
-                            
-                            <td class="text-center">{{date('m/d/Y h:i A', strtotime($l->created_at))}}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped" id="mainTbl">
+                        <thead class="thead-light text-center">
+                            <tr>
+                                <th>No.</th>
+                                <th>Case Date</th>
+                                <th>Name</th>
+                                <th>Age</th>
+                                <th>Sex</th>
+                                <th>Address</th>
+                                <th>Barangay</th>
+                                <th>Type</th>
+                                <th>Grade Level/Designation</th>
+                                <th>Section</th>
+                                <th>Date Onset of Illness</th>
+                                <th>Signs and Symptoms</th>
+                                <th>Suspected Disease Tag</th>
+                                <th>Reported By</th>
+                                <th>Date Added</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($list as $ind => $l)
+                            <tr>
+                                <td class="text-center">{{$ind+1}}</td>
+                                <td class="text-center">{{date('m/d/Y', strtotime($l->date_reported))}}</td>
+                                <td><a href="{{route('sbs_view', $l->id)}}">{{$l->getName()}}</a></td>
+                                <td class="text-center">{{$l->getAgeInt()}}</td>
+                                <td class="text-center">{{$l->sex}}</td>
+                                <td class="text-center">{{$l->street_purok}}</td>
+                                <td class="text-center">{{$l->brgy->name}}</td>
+                                <td class="text-center">{{$l->patient_type}}</td>
+                                <td class="text-center">{{$l->getGradeOrDesignation()}}</td>
+                                <td class="text-center">{{($l->patient_type == 'STUDENT') ? $l->section : 'N/A'}}</td>
+                                <td class="text-center">{{date('m/d/Y', strtotime($l->onset_illness_date))}}</td>
+                                <td class="text-center">{{$l->signs_and_symptoms}}</td>
+                                <td class="text-center">{{($l->suspected_disease_tag ?: 'N/A')}}</td>
+                                <td class="text-center">{{$l->reported_by}}</td>
+                                
+                                <td class="text-center">{{date('m/d/Y h:i A', strtotime($l->created_at))}}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
