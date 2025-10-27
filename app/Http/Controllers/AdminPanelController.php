@@ -9,18 +9,20 @@ use App\Models\Forms;
 use App\Models\WorkTask;
 use App\Models\BrgyCodes;
 use App\Models\LiveBirth;
+use App\Models\DohFacility;
 use App\Models\Interviewers;
 use Illuminate\Http\Request;
+use App\Models\PharmacyBranch;
 use App\Models\VaxcertConcern;
+use App\Models\SyndromicDoctor;
+use App\Models\DeathCertificate;
 use App\Models\SyndromicRecords;
 use App\Models\AbtcBakunaRecords;
 use App\Models\AbtcVaccinationSite;
-use App\Models\DeathCertificate;
-use App\Models\DohFacility;
-use App\Models\PharmacyBranch;
-use App\Models\SyndromicDoctor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Models\EvacuationCenterFamilyHead;
+use App\Models\EvacuationCenterFamilyMember;
 use IlluminateAgnostic\Collection\Support\Str;
 
 class AdminPanelController extends Controller
@@ -583,6 +585,14 @@ class AdminPanelController extends Controller
             ->whereDate('ics_finished_date', $date)
             ->count();
 
+            $evac_count1 = EvacuationCenterFamilyHead::where('created_by', $item->id)
+            ->whereDate('created_at', $date)
+            ->count();
+
+            $evac_count2 = EvacuationCenterFamilyMember::where('created_by', $item->id)
+            ->whereDate('created_at', $date)
+            ->count();
+
             array_push($arr, [
                 'id' => $item->id,
                 'name' => $item->name,
@@ -596,6 +606,7 @@ class AdminPanelController extends Controller
                 'death_count' => $death_count,
                 'opdtoics_count' => $opdtoics_count,
                 'abtctoics_count' => $abtctoics_count,
+                'evac_count' => $evac_count1 + $evac_count2,
             ]);
         }
 
