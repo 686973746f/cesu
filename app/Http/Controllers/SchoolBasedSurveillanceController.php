@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\School;
 use App\Models\SbsPatient;
+use App\Models\SchoolGradeLevel;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,7 +13,6 @@ use Illuminate\Support\Facades\Hash;
 
 class SchoolBasedSurveillanceController extends Controller
 {
-
     public function index($code) {
         $s = School::where('qr', $code)->first();
 
@@ -450,7 +450,45 @@ class SchoolBasedSurveillanceController extends Controller
     }
 
     public function viewSchool($id) {
-        
+        $s = School::findOrFail($id);
+
+        return view('pidsr.sbs.admin.view_school', [
+            's' => $s,
+        ]);
+    }
+
+    public function createLevel($school_id, Request $r) {
+        $s = School::findOrFail($school_id);
+
+        $level_name = mb_strtoupper($r->level_name);
+
+        $check = SchoolGradeLevel::where('school_id', $s->id)
+        ->where('level_name', $level_name)
+        ->check();
+
+        if($check) {
+            return redirect()->back()
+            ->with('msg', 'Error: School Grade Level already exists.')
+            ->with('msgtype', 'warning');
+        }
+
+        $c = SchoolGradeLevel::create([
+            'school_id' => $s->id,
+            'type' => $s->type,
+            'level_name' => $level_name,
+        ]);
+
+        return redirect()->back()
+        ->with('msg', 'School Grade Level was successfully added.')
+        ->with('msgtype', 'success');
+    }
+
+    public function viewLevel($level_id) {
+
+    }
+
+    public function createSection($level_id, Request $r) {
+
     }
 
     public function logout() {
