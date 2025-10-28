@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\School;
 use App\Models\SbsPatient;
 use App\Models\SchoolGradeLevel;
+use App\Models\SchoolSection;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -457,44 +458,97 @@ class SchoolBasedSurveillanceController extends Controller
         ]);
     }
 
-    public function createLevel($school_id, Request $r) {
-        $s = School::findOrFail($school_id);
+    public function configLevel() {
+        $s = auth('school')->user();
+
+        $list = SchoolGradeLevel::where('school_id', $s->id)
+        ->orderBy('level_name', 'ASC')
+        ->get();
+
+        return view('pidsr.sbs.config_level', [
+            's' => $s,
+            'list' => $list,
+        ]);
+    }
+
+    public function storeLevel(Request $r) {
+        $s = auth('school')->user();
 
         $level_name = mb_strtoupper($r->level_name);
 
         $check = SchoolGradeLevel::where('school_id', $s->id)
         ->where('level_name', $level_name)
-        ->check();
+        ->first();
 
         if($check) {
             return redirect()->back()
-            ->with('msg', 'Error: School Grade Level already exists.')
+            ->with('msg', 'Error: Grade Level Group already exists.')
             ->with('msgtype', 'warning');
         }
 
         $c = SchoolGradeLevel::create([
             'school_id' => $s->id,
-            'type' => $s->type,
+            'type' => $r->type,
             'level_name' => $level_name,
         ]);
 
         return redirect()->back()
-        ->with('msg', 'School Grade Level was successfully added.')
+        ->with('msg', 'Grade Level Group was successfully added.')
         ->with('msgtype', 'success');
     }
 
     public function viewLevel($level_id) {
+        $s = auth('school')->user();
 
+        $check = SchoolGradeLevel::where('id', $level_id)
+        ->where('school_id', $s->id)
+        ->first();
+
+        if(!$check) {
+            return abort(401);
+        }
+
+        $list = SchoolSection::where('level_id', $level_id)
+        ->orderBy('section_name', 'ASC')
+        ->get();
+
+        return view('pidsr.sbs.config_section', [
+            's' => $s,
+            'list' => $list,
+        ]);
     }
+    
+    public function storeSection(Request $r) {
+        $s = auth('school')->user();
 
-    public function createSection($level_id, Request $r) {
+        $section_name = mb_strtoupper($r->level_name);
 
+        $check = SchoolGradeLevel::where('school_id', $s->id)
+        ->where('level_name', $level_name)
+        ->first();
+
+        if($check) {
+            return redirect()->back()
+            ->with('msg', 'Error: Grade Level Group already exists.')
+            ->with('msgtype', 'warning');
+        }
+
+        $c = SchoolGradeLevel::create([
+            'school_id' => $s->id,
+            'type' => $r->type,
+            'level_name' => $level_name,
+        ]);
+
+        return redirect()->back()
+        ->with('msg', 'Grade Level Group was successfully added.')
+        ->with('msgtype', 'success');
     }
 
     public function logout() {
         $s = auth('school')->user();
         
         Auth::guard('school')->logout();
+
         return redirect()->route('sbs_index', $s->qr)
         ->with('msg', 'You have been logged out.')
         ->with('msgtype', 'success');

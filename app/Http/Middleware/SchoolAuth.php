@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\SchoolGradeLevel;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,6 +20,17 @@ class SchoolAuth
     {
         if (!Auth::guard('school')->check()) {
             return abort(401);
+        }
+
+        $s = auth('school')->user();
+
+        //Check School Level and Section, must not be empty
+        $check = SchoolGradeLevel::where('school_id', $s->id)->first();
+
+        if(!$check) {
+            return redirect()->route('sbs_viewlevel')
+            ->with('msg', 'To proceed on using the system, you must input every Grade Levels and Sections in your respective facility.')
+            ->with('msgtype', 'primary');
         }
 
         return $next($request);
