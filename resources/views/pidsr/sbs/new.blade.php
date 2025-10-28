@@ -118,9 +118,13 @@
                                         <option value="GRADE 8" {{(old('grade_level') == 'GRADE 8') ? 'selected' : ''}}>Grade 8</option>
                                         <option value="GRADE 9" {{(old('grade_level') == 'GRADE 9') ? 'selected' : ''}}>Grade 9</option>
                                         <option value="GRADE 10" {{(old('grade_level') == 'GRADE 10') ? 'selected' : ''}}>Grade 10</option>
+                                        @endif
+
                                         @if(in_array("SHS", explode(", ", $s->school_type)))
                                         <option value="GRADE 11" {{(old('grade_level') == 'GRADE 11') ? 'selected' : ''}}>Grade 11</option>
                                         <option value="GRADE 12" {{(old('grade_level') == 'GRADE 12') ? 'selected' : ''}}>Grade 12</option>
+                                        @endif
+                                        
                                         @if(in_array("COLLEGE", explode(", ", $s->school_type)))
 
                                         @endif

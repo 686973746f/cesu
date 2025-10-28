@@ -14,6 +14,12 @@
                 </div>
             </div>
             <div class="card-body">
+                @if(session('msg'))
+                <div class="alert alert-{{session('msgType')}}" role="alert">
+                    {{session('msg')}}
+                </div>
+                <hr>
+                @endif
                 <table class="table table-bordered table-striped">
                     <thead class="thead-light text-center">
                         <tr>

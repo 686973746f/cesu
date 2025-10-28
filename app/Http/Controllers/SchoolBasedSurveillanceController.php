@@ -500,11 +500,11 @@ class SchoolBasedSurveillanceController extends Controller
     public function viewLevel($level_id) {
         $s = auth('school')->user();
 
-        $check = SchoolGradeLevel::where('id', $level_id)
+        $level = SchoolGradeLevel::where('id', $level_id)
         ->where('school_id', $s->id)
         ->first();
 
-        if(!$check) {
+        if(!$level) {
             return abort(401);
         }
 
@@ -514,29 +514,29 @@ class SchoolBasedSurveillanceController extends Controller
 
         return view('pidsr.sbs.config_section', [
             's' => $s,
+            'level' => $level,
             'list' => $list,
         ]);
     }
     
-    public function storeSection(Request $r) {
+    public function storeSection($level_id, Request $r) {
         $s = auth('school')->user();
 
-        $section_name = mb_strtoupper($r->level_name);
+        $section_name = mb_strtoupper($r->section_name);
 
-        $check = SchoolGradeLevel::where('school_id', $s->id)
-        ->where('level_name', $level_name)
+        $section = SchoolSection::where('level_id', $level_id)
+        ->where('section_name', $section_name)
         ->first();
 
-        if($check) {
+        if($section) {
             return redirect()->back()
             ->with('msg', 'Error: Grade Level Group already exists.')
             ->with('msgtype', 'warning');
         }
 
-        $c = SchoolGradeLevel::create([
-            'school_id' => $s->id,
-            'type' => $r->type,
-            'level_name' => $level_name,
+        $c = SchoolSection::create([
+            'level_id' => $level_id,
+            'section_name' => $section_name,
         ]);
 
         return redirect()->back()
