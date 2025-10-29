@@ -70,6 +70,10 @@
                                 <td>Animal Bite to iClinicSys Tickets</td>
                                 <td class="text-center">{{$abtctoics_count}}</td>
                             </tr>
+                            <tr>
+                                <td>Evacuation Center (Family Heads and Members)</td>
+                                <td class="text-center">{{$evac_count}}</td>
+                            </tr>
                             @else
                             
                             @if($covid_count_final != 0)

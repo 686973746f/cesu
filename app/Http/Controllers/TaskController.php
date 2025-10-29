@@ -13,6 +13,8 @@ use App\Models\DeathCertificate;
 use App\Models\SyndromicRecords;
 use App\Models\AbtcBakunaRecords;
 use Illuminate\Support\Facades\Auth;
+use App\Models\EvacuationCenterFamilyHead;
+use App\Models\EvacuationCenterFamilyMember;
 use App\Models\MonthlyAccomplishmentChecker;
 
 class TaskController extends Controller
@@ -548,6 +550,14 @@ class TaskController extends Controller
             ->whereBetween('ics_finished_date', [$createDate->startOfMonth()->format('Y-m-d'), $createDate->endOfMonth()->format('Y-m-d')])
             ->count();
 
+            $evac_count1 = EvacuationCenterFamilyHead::where('created_by', $getUser->id)
+            ->whereBetween('created_at', [$createDate->startOfMonth()->format('Y-m-d'), $createDate->endOfMonth()->format('Y-m-d')])
+            ->count();
+
+            $evac_count2 = EvacuationCenterFamilyMember::where('created_by', $getUser->id)
+            ->whereBetween('created_at', [$createDate->startOfMonth()->format('Y-m-d'), $createDate->endOfMonth()->format('Y-m-d')])
+            ->count();
+
             return view('tasks.monthly_userdashboard', [
                 'countwork_proceed' => $countwork_proceed,
 
@@ -563,6 +573,7 @@ class TaskController extends Controller
                 'death_count' => $death_count,
                 'opdtoics_count' => $opdtoics_count,
                 'abtctoics_count' => $abtctoics_count,
+                'evac_count' => $evac_count1 + $evac_count2,
 
                 'ar' => $ar,
                 'year' => $year,
