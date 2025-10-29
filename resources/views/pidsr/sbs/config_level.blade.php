@@ -15,11 +15,12 @@
             </div>
             <div class="card-body">
                 @if(session('msg'))
-                <div class="alert alert-{{session('msgType')}}" role="alert">
+                <div class="alert alert-{{session('msgtype')}}" role="alert">
                     {{session('msg')}}
                 </div>
                 <hr>
                 @endif
+
                 <table class="table table-bordered table-striped">
                     <thead class="thead-light text-center">
                         <tr>
@@ -38,6 +39,7 @@
                         @endforeach
                     </tbody>
                 </table>
+
             </div>
         </div>
     </div>

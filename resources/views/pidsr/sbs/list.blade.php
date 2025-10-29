@@ -12,6 +12,8 @@
                     <div>
                         <a href="{{route('sbs_new', $s->qr)}}" class="btn btn-success">New Case</a>
                         <a href="#" class="btn btn-primary">View Report (Soon)</a>
+                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#settingsModal">Settings</button>
+
                         @if(auth()->guard('school')->check())
                         <form action="{{ route('sbs_logout') }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to log out?');">
                             @csrf
@@ -110,6 +112,22 @@
             </div>
         </div>
     </form>
+
+    <div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Settings</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <a href="{{route('sbs_configlevel')}}" class="btn btn-primary btn-block">Grade Levels and Sections</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         $('#mainTbl').dataTable({

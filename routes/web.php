@@ -1007,10 +1007,14 @@ Route::middleware(['school'])->group(function () {
     Route::post('sbds/logout', [SchoolBasedSurveillanceController::class, 'logout'])->name('sbs_logout');
 });
 
+
 Route::get('sbds/config/gradelevels', [SchoolBasedSurveillanceController::class, 'configLevel'])->name('sbs_configlevel');
 Route::post('sbds/config/gradelevels/store', [SchoolBasedSurveillanceController::class, 'storeLevel'])->name('sbs_storelevel');
 Route::get('sbds/config/gradelevels/viewlevel/{level_id}', [SchoolBasedSurveillanceController::class, 'viewLevel'])->name('sbs_viewlevel');
 Route::post('sbds/config/gradelevels/viewlevel/{level_id}/store_section', [SchoolBasedSurveillanceController::class, 'storeSection'])->name('sbs_storesection');
+
+
+Route::get('sbds/ajax/{level}/get_sections', [SchoolBasedSurveillanceController::class, 'ajaxGetSections'])->name('ajaxGetSections');
 
 Route::middleware(['auth', 'school_admin'])->group(function () {
     Route::get('sbds/admin', [SchoolBasedSurveillanceController::class, 'adminPanel'])->name('sbs_adminpanel');

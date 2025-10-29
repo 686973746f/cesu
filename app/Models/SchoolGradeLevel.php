@@ -14,4 +14,14 @@ class SchoolGradeLevel extends Model
         'type',
         'level_name',
     ];
+
+    public function school()
+    {
+        return $this->belongsTo(School::class, 'school_id');
+    }
+
+    public function sections()
+    {
+        return $this->hasMany(SchoolSection::class, 'level_id');
+    }
 }

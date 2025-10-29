@@ -37,8 +37,24 @@ class SchoolBasedSurveillanceController extends Controller
             return abort(401);
         }
 
+        //Return Back if School has no pre-configured Grade Level and Section
+        $checkGradeLevel = SchoolGradeLevel::where('school_id', $s->id)->first();
+
+        if(!$checkGradeLevel) {
+            return redirect()->back()
+            ->with('msg', 'ERROR: You must login and input respective Grade Levels and Sections first before proceeding.')
+            ->with('msgtype', 'warning');
+        }
+
+        if(!$checkGradeLevel->sections()->exist()) {
+
+        }
+
+        $gradeLevels = SchoolGradeLevel::where('school_id', $s->id)->get();
+
         return view('pidsr.sbs.new', [
             's' => $s,
+            'gradeLevels' => $gradeLevels,
         ]);
     }
 
@@ -552,5 +568,11 @@ class SchoolBasedSurveillanceController extends Controller
         return redirect()->route('sbs_index', $s->qr)
         ->with('msg', 'You have been logged out.')
         ->with('msgtype', 'success');
+    }
+
+    public function ajaxGetSections(SchoolGradeLevel $level) {
+        $sections = $level->sections()->select('id', 'section_name')->get();
+
+        return response()->json($sections);
     }
 }

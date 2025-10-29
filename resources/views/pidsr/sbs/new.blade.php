@@ -103,38 +103,18 @@
                                     <label for="grade_level"><span class="text-danger font-weight-bold">*</span>Grade Level</label>
                                     <select class="form-control" name="grade_level" id="grade_level">
                                         <option value="" disabled {{(is_null(old('grade_level'))) ? 'selected' : ''}}>Choose...</option>
-                                        @if(in_array("ES", explode(", ", $s->school_type)))
-                                        <option value="KINDERGARTEN" {{(old('grade_level') == 'KINDERGARTEN') ? 'selected' : ''}}>Kindergarten</option>
-                                        <option value="GRADE 1" {{(old('grade_level') == 'GRADE 1') ? 'selected' : ''}}>Grade 1</option>
-                                        <option value="GRADE 2" {{(old('grade_level') == 'GRADE 2') ? 'selected' : ''}}>Grade 2</option>
-                                        <option value="GRADE 3" {{(old('grade_level') == 'GRADE 3') ? 'selected' : ''}}>Grade 3</option>
-                                        <option value="GRADE 4" {{(old('grade_level') == 'GRADE 4') ? 'selected' : ''}}>Grade 4</option>
-                                        <option value="GRADE 5" {{(old('grade_level') == 'GRADE 5') ? 'selected' : ''}}>Grade 5</option>
-                                        <option value="GRADE 6" {{(old('grade_level') == 'GRADE 6') ? 'selected' : ''}}>Grade 6</option>
-                                        @endif
-
-                                        @if(in_array("JHS", explode(", ", $s->school_type)))
-                                        <option value="GRADE 7" {{(old('grade_level') == 'GRADE 7') ? 'selected' : ''}}>Grade 7</option>
-                                        <option value="GRADE 8" {{(old('grade_level') == 'GRADE 8') ? 'selected' : ''}}>Grade 8</option>
-                                        <option value="GRADE 9" {{(old('grade_level') == 'GRADE 9') ? 'selected' : ''}}>Grade 9</option>
-                                        <option value="GRADE 10" {{(old('grade_level') == 'GRADE 10') ? 'selected' : ''}}>Grade 10</option>
-                                        @endif
-
-                                        @if(in_array("SHS", explode(", ", $s->school_type)))
-                                        <option value="GRADE 11" {{(old('grade_level') == 'GRADE 11') ? 'selected' : ''}}>Grade 11</option>
-                                        <option value="GRADE 12" {{(old('grade_level') == 'GRADE 12') ? 'selected' : ''}}>Grade 12</option>
-                                        @endif
-                                        
-                                        @if(in_array("COLLEGE", explode(", ", $s->school_type)))
-
-                                        @endif
+                                        @foreach($gradeLevels as $level)
+                                            <option value="{{ $level->id }}">{{ $level->level_name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                  <label for="section"><b class="text-danger">*</b>Section</label>
-                                  <input type="text" class="form-control" name="section" id="section" value="{{old('section')}}" style="text-transform: uppercase;">
+                                    <label for="section"><span class="text-danger font-weight-bold">*</span>Grade Level</label>
+                                    <select class="form-control" name="section" id="section">
+                                        <option value="" disabled {{(is_null(old('section'))) ? 'selected' : ''}}>Choose...</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -525,6 +505,23 @@
                 $('#date_admitted').prop('required', false);
             }
         }).trigger('change');
+
+        $('#grade_level').on('change', function() {
+            let levelId = $(this).val();
+            $('#section').empty().append('<option value="">Choose...</option>');
+
+            if (levelId) {
+                $.ajax({
+                    url: `/sbds/ajax/${levelId}/get_sections`,
+                    type: 'GET',
+                    success: function(data) {
+                        data.forEach(function(section) {
+                            $('#section').append(new Option(section.section_name, section.id));
+                        });
+                    }
+                });
+            }
+        });
 
         /*
         $('#outcome').change(function (e) { 

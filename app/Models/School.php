@@ -33,4 +33,9 @@ class School extends Authenticatable
     public function brgy() {
         return $this->belongsTo(EdcsBrgy::class, 'address_brgy_code');
     }
+
+    public function gradeLevels()
+    {
+        return $this->hasMany(SchoolGradeLevel::class);
+    }
 }
