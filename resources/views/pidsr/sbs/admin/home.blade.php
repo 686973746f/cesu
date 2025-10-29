@@ -37,7 +37,7 @@
                         @foreach($list as $l)
                         <tr>
                             <td class="text-center">{{$l->id}}</td>
-                            <td><a href="">{{$l->name}}</a></td>
+                            <td><a href="{{route('sbs_viewschool', $l->id)}}">{{$l->name}}</a></td>
                             <td class="text-center">{{$l->ownership_type}}</td>
                             <td class="text-center">{{$l->school_type}}</td>
                             <td class="text-center">{{$l->school_id}}</td>
@@ -75,19 +75,20 @@
                                 <div class="form-group">
                                     <label for="ownership_type"><span class="text-danger font-weight-bold">*</span>Ownership Type</label>
                                     <select class="form-control" name="ownership_type" id="ownership_type" required>
-                                        <option value="PUBLIC" {{(old('ownership_type') == 'PUBLIC') ? 'selected' : ''}}>Public School</option>
-                                        <option value="PRIVATE" {{(old('ownership_type') == 'PRIVATE') ? 'selected' : ''}}>Private School</option>
+                                        <option value="PUBLIC" {{(old('ownership_type') == 'PUBLIC') ? 'selected' : ''}}>Public/Government</option>
+                                        <option value="PRIVATE" {{(old('ownership_type') == 'PRIVATE') ? 'selected' : ''}}>Private</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="school_type"><span class="text-danger font-weight-bold">*</span>School Type</label>
-                                    <select class="form-control" name="school_type" id="school_type" required>
-                                        <option value="" disabled {{(is_null(old('school_type'))) ? 'selected' : ''}}>Choose...</option>
+                                    <label for="school_type"><span class="text-danger font-weight-bold">*</span>School Type (Select all that apply)</label>
+                                    <select class="form-control" name="school_type" id="school_type" multiple required>
                                         <option value="ES" {{(old('school_type') == 'ES') ? 'selected' : ''}}>Elementary School</option>
                                         <option value="JHS" {{(old('school_type') == 'JHS') ? 'selected' : ''}}>Junior High School</option>
                                         <option value="SHS" {{(old('school_type') == 'SHS') ? 'selected' : ''}}>Senior High School</option>
+                                        <option value="COLLEGE" {{(old('school_type') == 'COLLEGE') ? 'selected' : ''}}>College</option>
+                                        <option value="VOCATIONAL" {{(old('school_type') == 'VOCATIONAL') ? 'selected' : ''}}>Vocational</option>
                                     </select>
                                 </div>
                             </div>
@@ -166,6 +167,10 @@
         $('#mainTbl').dataTable({
             theme: 'bootstrap',
             order: [[1, 'asc']],
+        });
+
+        $('#school_type').select2({
+            theme: 'bootstrap',
         });
 
         $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_code').select2({

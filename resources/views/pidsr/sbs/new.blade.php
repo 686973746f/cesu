@@ -103,7 +103,7 @@
                                     <label for="grade_level"><span class="text-danger font-weight-bold">*</span>Grade Level</label>
                                     <select class="form-control" name="grade_level" id="grade_level">
                                         <option value="" disabled {{(is_null(old('grade_level'))) ? 'selected' : ''}}>Choose...</option>
-                                        @if($s->school_type == 'ES')
+                                        @if(in_array("ES", explode(", ", $s->school_type)))
                                         <option value="KINDERGARTEN" {{(old('grade_level') == 'KINDERGARTEN') ? 'selected' : ''}}>Kindergarten</option>
                                         <option value="GRADE 1" {{(old('grade_level') == 'GRADE 1') ? 'selected' : ''}}>Grade 1</option>
                                         <option value="GRADE 2" {{(old('grade_level') == 'GRADE 2') ? 'selected' : ''}}>Grade 2</option>
@@ -111,14 +111,22 @@
                                         <option value="GRADE 4" {{(old('grade_level') == 'GRADE 4') ? 'selected' : ''}}>Grade 4</option>
                                         <option value="GRADE 5" {{(old('grade_level') == 'GRADE 5') ? 'selected' : ''}}>Grade 5</option>
                                         <option value="GRADE 6" {{(old('grade_level') == 'GRADE 6') ? 'selected' : ''}}>Grade 6</option>
-                                        @elseif($s->school_type == 'JHS')
+                                        @endif
+
+                                        @if(in_array("JHS", explode(", ", $s->school_type)))
                                         <option value="GRADE 7" {{(old('grade_level') == 'GRADE 7') ? 'selected' : ''}}>Grade 7</option>
                                         <option value="GRADE 8" {{(old('grade_level') == 'GRADE 8') ? 'selected' : ''}}>Grade 8</option>
                                         <option value="GRADE 9" {{(old('grade_level') == 'GRADE 9') ? 'selected' : ''}}>Grade 9</option>
                                         <option value="GRADE 10" {{(old('grade_level') == 'GRADE 10') ? 'selected' : ''}}>Grade 10</option>
-                                        @elseif($s->school_type == 'SHS')
+                                        @endif
+
+                                        @if(in_array("SHS", explode(", ", $s->school_type)))
                                         <option value="GRADE 11" {{(old('grade_level') == 'GRADE 11') ? 'selected' : ''}}>Grade 11</option>
                                         <option value="GRADE 12" {{(old('grade_level') == 'GRADE 12') ? 'selected' : ''}}>Grade 12</option>
+                                        @endif
+                                        
+                                        @if(in_array("COLLEGE", explode(", ", $s->school_type)))
+
                                         @endif
                                     </select>
                                 </div>

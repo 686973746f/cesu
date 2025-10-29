@@ -1007,11 +1007,14 @@ Route::middleware(['school'])->group(function () {
     Route::post('sbds/logout', [SchoolBasedSurveillanceController::class, 'logout'])->name('sbs_logout');
 });
 
+Route::get('sbds/config/gradelevels', [SchoolBasedSurveillanceController::class, 'configLevel'])->name('sbs_configlevel');
+Route::post('sbds/config/gradelevels/store', [SchoolBasedSurveillanceController::class, 'storeLevel'])->name('sbs_storelevel');
+Route::get('sbds/config/gradelevels/viewlevel/{level_id}', [SchoolBasedSurveillanceController::class, 'viewLevel'])->name('sbs_viewlevel');
+Route::post('sbds/config/gradelevels/viewlevel/{level_id}/store_section', [SchoolBasedSurveillanceController::class, 'storeSection'])->name('sbs_storesection');
+
 Route::middleware(['auth', 'school_admin'])->group(function () {
     Route::get('sbds/admin', [SchoolBasedSurveillanceController::class, 'adminPanel'])->name('sbs_adminpanel');
     Route::post('sbds/admin/school/store', [SchoolBasedSurveillanceController::class, 'storeSchool'])->name('sbs_storeschool');
-
-    Route::get('sbds/admin/school/view/{id}', [SchoolBasedSurveillanceController::class, 'viewSchool'])->name('sbs_viewschool');
 });
 
 Route::get('health_event/{event_code}/{facility_code}', [HealthEventsController::class, 'encodeIndex'])->name('he_index');
