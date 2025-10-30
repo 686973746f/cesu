@@ -46,11 +46,17 @@ class SchoolBasedSurveillanceController extends Controller
             ->with('msgtype', 'warning');
         }
 
-        if(!$checkGradeLevel->sections()->exist()) {
+        $gradeLevels_count = SchoolGradeLevel::has('sections')->count();
 
+        if($gradeLevels_count < 0) {
+            return redirect()->back()
+            ->with('msg', 'ERROR: Grade Levels must at least have 1 or more sections listed. ')
+            ->with('msgtype', 'warning');
         }
 
-        $gradeLevels = SchoolGradeLevel::where('school_id', $s->id)->get();
+        $gradeLevels = SchoolGradeLevel::where('school_id', $s->id)
+        ->orderBy('level_name', 'ASC')
+        ->get();
 
         return view('pidsr.sbs.new', [
             's' => $s,
