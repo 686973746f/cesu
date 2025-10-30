@@ -26,6 +26,7 @@
                         <tr>
                             <th>No.</th>
                             <th>Grade Level <small>(Click to view Section)</small></th>
+                            <th>Number of Sections</th>
                             <th>Date Added</th>
                         </tr>
                     </thead>
@@ -34,6 +35,7 @@
                         <tr>
                             <td class="text-center">{{$ind + 1}}</td>
                             <td><a href="{{route('sbs_viewlevel', $l->id)}}">{{$l->level_name}}</a></td>
+                            
                             <td class="text-center">{{date('m/d/Y h:i A', strtotime($l->created_at))}}</td>
                         </tr>
                         @endforeach

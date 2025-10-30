@@ -26,8 +26,7 @@ class SbsPatient extends Model
 
         'patient_type',
         'staff_designation',
-        'grade_level',
-        'section',
+        'section_id',
         'street_purok',
         'address_brgy_code',
 

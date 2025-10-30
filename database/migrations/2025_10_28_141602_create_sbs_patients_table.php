@@ -30,8 +30,7 @@ class CreateSbsPatientsTable extends Migration
 
             $table->string('patient_type');
             $table->string('staff_designation')->nullable();
-            $table->string('grade_level')->nullable();
-            $table->string('section')->nullable();
+            $table->foreignId('section_id')->nullable()->constrained('school_sections')->onDelete('cascade');
 
             $table->string('street_purok')->nullable();
             $table->foreignId('address_brgy_code')->constrained('edcs_brgies')->onDelete('cascade');

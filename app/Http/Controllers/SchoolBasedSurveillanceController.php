@@ -182,8 +182,7 @@ class SchoolBasedSurveillanceController extends Controller
 
             'patient_type' => $r->patient_type,
             'staff_designation' => ($r->patient_type == 'TEACHER' || $r->patient_type == 'STAFF') ? mb_strtoupper($r->staff_designation) : NULL,
-            'grade_level' => ($r->patient_type == 'STUDENT') ? $r->grade_level : NULL,
-            'section'  => ($r->patient_type == 'STUDENT') ? mb_strtoupper($r->section) : NULL,
+            'section_id'  => ($r->patient_type == 'STUDENT') ? $r->section : NULL,
             'street_purok' => mb_strtoupper($r->street_purok),
             'address_brgy_code' => $r->address_brgy_code,
 

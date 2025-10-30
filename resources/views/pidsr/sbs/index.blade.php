@@ -24,9 +24,9 @@
 
                 <a href="{{route('sbs_new', $s->qr)}}" class="btn btn-lg btn-success btn-block">New Case</a>
                 @if(!$s->password)
-                <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#modelId">View List</button>
+                <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#modelId">Login to View List</button>
                 @else
-                <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#modelId">View List</button>
+                <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#modelId">Login to View List</button>
                 @endif
             </div>
         </div>

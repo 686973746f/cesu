@@ -29,8 +29,8 @@ class SchoolAuth
 
         if(!$check) {
             return redirect()->route('sbs_configlevel')
-            ->with('msg', 'To proceed on using the system, you must input every Grade Levels and Sections in your respective facility.')
-            ->with('msgtype', 'primary');
+            ->with('msg', 'WARNING: To proceed on using the system, you must input every Grade Levels and Sections in your respective facility.')
+            ->with('msgtype', 'warning');
         }
 
         return $next($request);
