@@ -111,7 +111,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="section"><span class="text-danger font-weight-bold">*</span>Grade Level</label>
+                                    <label for="section"><span class="text-danger font-weight-bold">*</span>Section</label>
                                     <select class="form-control" name="section" id="section">
                                         <option value="" disabled {{(is_null(old('section'))) ? 'selected' : ''}}>Choose...</option>
                                     </select>
@@ -302,6 +302,8 @@
         var regionDefault = 1;
         var provinceDefault = 18;
         var cityDefault = 388;
+
+        $('#section').prop('disabled', true);
 
         $('#address_region_code').change(function (e) { 
             e.preventDefault();
@@ -494,6 +496,8 @@
             $('#section').empty().append('<option value="">Choose...</option>');
 
             if (levelId) {
+                $('#section').prop('disabled', false);
+
                 $.ajax({
                     url: `/sbds/ajax/${levelId}/get_sections`,
                     type: 'GET',

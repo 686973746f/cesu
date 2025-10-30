@@ -103,7 +103,7 @@ class SbsPatient extends Model
 
     public function getGradeOrDesignation() {
         if($this->patient_type == 'STUDENT') {
-            return $this->grade_level;
+            return $this->section->gradeLevel->level_name;
         }
         else {
             return $this->staff_designation;
@@ -112,5 +112,9 @@ class SbsPatient extends Model
 
     public function school() {
         return $this->belongsTo(School::class, 'school_id');
+    }
+
+    public function section() {
+        return $this->belongsTo(SchoolSection::class, 'section_id');
     }
 }

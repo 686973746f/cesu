@@ -216,7 +216,7 @@ class SchoolBasedSurveillanceController extends Controller
 
             'patient_type' => $r->patient_type,
             'staff_designation' => ($r->patient_type == 'TEACHER' || $r->patient_type == 'STAFF') ? mb_strtoupper($r->staff_designation) : NULL,
-            'section_id'  => ($r->patient_type == 'STUDENT') ? $r->section : NULL,
+            'section_id' => ($r->patient_type == 'STUDENT') ? $r->section : NULL,
             'street_purok' => mb_strtoupper($r->street_purok),
             'address_brgy_code' => $r->address_brgy_code,
 
@@ -325,8 +325,7 @@ class SchoolBasedSurveillanceController extends Controller
 
             'patient_type' => $r->patient_type,
             'staff_designation' => ($r->patient_type == 'TEACHER' || $r->patient_type == 'STAFF') ? mb_strtoupper($r->staff_designation) : NULL,
-            'grade_level' => ($r->patient_type == 'STUDENT') ? $r->grade_level : NULL,
-            'section'  => ($r->patient_type == 'STUDENT') ? mb_strtoupper($r->section) : NULL,
+            'section_id' => ($r->patient_type == 'STUDENT') ? $r->section : NULL,
             'street_purok' => mb_strtoupper($r->street_purok),
             'address_brgy_code' => $r->address_brgy_code,
 
@@ -443,9 +442,14 @@ class SchoolBasedSurveillanceController extends Controller
             ->with('msgtype', 'warning');
         }
 
+        $gradeLevels = SchoolGradeLevel::where('school_id', $s->id)
+        ->orderBy('level_name', 'ASC')
+        ->get();
+
         return view('pidsr.sbs.edit', [
             'd' => $d,
             's' => $s,
+            'gradeLevels' => $gradeLevels,
         ]);
     }
 
@@ -511,7 +515,7 @@ class SchoolBasedSurveillanceController extends Controller
 
     }
 
-    public function configLevel() {
+    public function viewLevel() {
         $s = auth('school')->user();
 
         $list = SchoolGradeLevel::where('school_id', $s->id)
@@ -550,7 +554,7 @@ class SchoolBasedSurveillanceController extends Controller
         ->with('msgtype', 'success');
     }
 
-    public function viewLevel($level_id) {
+    public function viewSection($level_id) {
         $s = auth('school')->user();
 
         $level = SchoolGradeLevel::where('id', $level_id)

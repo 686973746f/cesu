@@ -69,7 +69,7 @@
                                 <td class="text-center">{{$l->brgy->name}}</td>
                                 <td class="text-center">{{$l->patient_type}}</td>
                                 <td class="text-center">{{$l->getGradeOrDesignation()}}</td>
-                                <td class="text-center">{{($l->patient_type == 'STUDENT') ? $l->section : 'N/A'}}</td>
+                                <td class="text-center">{{($l->patient_type == 'STUDENT') ? $l->section->section_name : 'N/A'}}</td>
                                 <td class="text-center">{{date('m/d/Y', strtotime($l->onset_illness_date))}}</td>
                                 <td class="text-center">{{$l->signs_and_symptoms}}</td>
                                 <td class="text-center">{{($l->suspected_disease_tag ?: 'N/A')}}</td>
@@ -123,7 +123,7 @@
                         </button>
                 </div>
                 <div class="modal-body">
-                    <a href="{{route('sbs_configlevel')}}" class="btn btn-primary btn-block">Grade Levels and Sections</a>
+                    <a href="{{route('sbs_viewlevel')}}" class="btn btn-primary btn-block">Grade Levels and Sections</a>
                 </div>
             </div>
         </div>

@@ -13,7 +13,7 @@ class SchoolSection extends Model
         'level_id',
         'section_name',
     ];
-
+    
     public function gradeLevel()
     {
         return $this->belongsTo(SchoolGradeLevel::class, 'level_id');

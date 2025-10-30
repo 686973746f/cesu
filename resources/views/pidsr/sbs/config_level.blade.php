@@ -34,8 +34,8 @@
                         @foreach($list as $ind => $l)
                         <tr>
                             <td class="text-center">{{$ind + 1}}</td>
-                            <td><a href="{{route('sbs_viewlevel', $l->id)}}">{{$l->level_name}}</a></td>
-                            
+                            <td><a href="{{route('sbs_viewsection', $l->id)}}">{{$l->level_name}}</a></td>
+                            <td class="text-center">{{$l->sections()->count()}}</td>
                             <td class="text-center">{{date('m/d/Y h:i A', strtotime($l->created_at))}}</td>
                         </tr>
                         @endforeach

@@ -28,7 +28,7 @@ class SchoolAuth
         $check = SchoolGradeLevel::where('school_id', $s->id)->first();
 
         if(!$check) {
-            return redirect()->route('sbs_configlevel')
+            return redirect()->route('sbs_viewlevel')
             ->with('msg', 'WARNING: To proceed on using the system, you must input every Grade Levels and Sections in your respective facility.')
             ->with('msgtype', 'warning');
         }

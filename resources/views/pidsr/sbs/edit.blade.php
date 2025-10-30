@@ -16,6 +16,8 @@
                     <div class="alert alert-primary" role="alert">
                         <div><b>LEGAL NOTICE:</b> All personal, health, and sensitive information under the custody of the Department of Education and the General Trias City Health Office - CESU are strictly confidential and protected under the <b>Data Privacy Act of 2012 (R.A. 10173)</b>. Any person who gains access to such data is prohibited from sharing, reproducing, disclosing, taking screenshots, or disseminating said information through any means without proper authority.</div>
                         <div>Furthermore, in accordance with <b>Republic Act 11332</b> (Mandatory Reporting of Notifiable Diseases and Health Events of Public Health Concern Act), it is hereby reminded that all health data and reports must be accurate, true, and correctly submitted. All required details—including the patient’s name, address, symptoms, and other pertinent information—must be properly and truthfully filled out. Falsification, non-reporting, or misreporting of data constitutes a violation of the law and shall be subject to corresponding administrative, civil, and criminal liabilities under existing laws.</div>
+                        <hr>
+                        <div>All fields marked with an asterisk (<span class="text-danger font-weight-bold">*</span>) are required.</div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
@@ -99,29 +101,19 @@
                                 <div class="form-group">
                                     <label for="grade_level"><span class="text-danger font-weight-bold">*</span>Grade Level</label>
                                     <select class="form-control" name="grade_level" id="grade_level">
-                                        @if($s->school_type == 'ES')
-                                        <option value="GRADE 1" {{(old('grade_level', $d->grade_level) == 'GRADE 1') ? 'selected' : ''}}>Grade 1</option>
-                                        <option value="GRADE 2" {{(old('grade_level', $d->grade_level) == 'GRADE 2') ? 'selected' : ''}}>Grade 2</option>
-                                        <option value="GRADE 3" {{(old('grade_level', $d->grade_level) == 'GRADE 3') ? 'selected' : ''}}>Grade 3</option>
-                                        <option value="GRADE 4" {{(old('grade_level', $d->grade_level) == 'GRADE 4') ? 'selected' : ''}}>Grade 4</option>
-                                        <option value="GRADE 5" {{(old('grade_level', $d->grade_level) == 'GRADE 5') ? 'selected' : ''}}>Grade 5</option>
-                                        <option value="GRADE 6" {{(old('grade_level', $d->grade_level) == 'GRADE 6') ? 'selected' : ''}}>Grade 6</option>
-                                        @elseif($s->school_type == 'JHS')
-                                        <option value="GRADE 7" {{(old('grade_level', $d->grade_level) == 'GRADE 7') ? 'selected' : ''}}>Grade 7</option>
-                                        <option value="GRADE 8" {{(old('grade_level', $d->grade_level) == 'GRADE 8') ? 'selected' : ''}}>Grade 8</option>
-                                        <option value="GRADE 9" {{(old('grade_level', $d->grade_level) == 'GRADE 9') ? 'selected' : ''}}>Grade 9</option>
-                                        <option value="GRADE 10" {{(old('grade_level', $d->grade_level) == 'GRADE 10') ? 'selected' : ''}}>Grade 10</option>
-                                        @elseif($s->school_type == 'SHS')
-                                        <option value="GRADE 11" {{(old('grade_level', $d->grade_level) == 'GRADE 11') ? 'selected' : ''}}>Grade 11</option>
-                                        <option value="GRADE 12" {{(old('grade_level', $d->grade_level) == 'GRADE 12') ? 'selected' : ''}}>Grade 12</option>
-                                        @endif
+                                        <option value="" disabled {{(is_null(old('grade_level'))) ? 'selected' : ''}}>Choose...</option>
+                                        @foreach($gradeLevels as $level)
+                                            <option value="{{ $level->id }}" {{($level->id == $d->section->level_id) ? 'selected' : ''}}>{{ $level->level_name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                  <label for="section"><b class="text-danger">*</b>Section</label>
-                                  <input type="text" class="form-control" name="section" id="section" value="{{old('section', $d->section)}}" style="text-transform: uppercase;">
+                                    <label for="section"><span class="text-danger font-weight-bold">*</span>Section</label>
+                                    <select class="form-control" name="section" id="section">
+                                        <option value="" disabled {{(is_null(old('section'))) ? 'selected' : ''}}>Choose...</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -200,23 +192,9 @@
                             <div class="form-group">
                               <label for="signs_and_symptoms"><b class="text-danger">*</b>Signs and Symptoms (Select all that apply)</label>
                               <select class="form-control" name="signs_and_symptoms[]" id="signs_and_symptoms" required multiple>
-                                <option value="FEVER" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('FEVER')) ? 'selected' : '' }}>Fever</option>
-                                <option value="COUGH" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('COUGH')) ? 'selected' : '' }}>Cough</option>
-                                <option value="COLDS" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('COLDS')) ? 'selected' : '' }}>Colds</option>
-                                <option value="RASH" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('RASH')) ? 'selected' : '' }}>Rash</option>
-                                <option value="HEADACHE" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('HEADACHE')) ? 'selected' : '' }}>Headache</option>
-                                <option value="SORE THROAT" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('SORE THROAT')) ? 'selected' : '' }}>Sore Throat</option>
-                                <option value="DIARRHEA" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('DIARRHEA')) ? 'selected' : '' }}>Diarrhea/LBM</option>
-                                <option value="ABDOMINAL PAIN" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('ABDOMINAL PAIN')) ? 'selected' : '' }}>Abdominal Pain</option>
-                                <option value="NAUSEA" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('NAUSEA')) ? 'selected' : '' }}>Nausea (Nahihilo/Naduduwal)</option>
-                                <option value="VOMITING" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('VOMITING')) ? 'selected' : '' }}>Vomiting</option>
-                                <option value="RED EYES" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('SORE EYES')) ? 'selected' : '' }}>Red Eyes (Conjunctivitis)</option>
-                                <option value="DIZZINESS" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('DIZZINESS')) ? 'selected' : '' }}>Dizziness</option>
-                                <option value="TOOTHACHE" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('TOOTHACHE')) ? 'selected' : '' }}>Toothache</option>
-                                <option value="BODY PAIN" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('BODY PAIN')) ? 'selected' : '' }}>Body Pain</option>
-                                <option value="NOSEBLEED" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('NOSEBLEED')) ? 'selected' : '' }}>Nose Bleeding</option>
-                                <option value="ANOREXIA" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('NOSEBLEED')) ? 'selected' : '' }}>Anorexia (Walang ganang kumain)</option>
-                                <option value="OTHERS" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains('OTHERS')) ? 'selected' : '' }}>Others</option>
+                                @foreach(\App\Http\Controllers\SchoolBasedSurveillanceController::getSymptoms() as $symptom)
+                                <option value="{{ $symptom['value'] }}" {{ (collect(old('signs_and_symptoms', explode(", ", $d->signs_and_symptoms)))->contains($symptom['value'])) ? 'selected' : '' }}>{{ $symptom['text'] }}</option>
+                                @endforeach
                               </select>
                             </div>
                             <div id="fever_div" class="d-none">
@@ -513,6 +491,42 @@
                 $('#date_admitted').prop('required', false);
             }
         }).trigger('change');
+
+        $(document).ready(function() {
+            let selectedLevelId = $('#grade_level').val();     // preselected grade level
+            let selectedSectionId = "{{ $d->section_id ?? '' }}"; // preselected section (from the database)
+
+            function loadSections(levelId, selectedId = null) {
+                if (!levelId) return;
+
+                $('#section').empty().append('<option value="">Choose...</option>');
+
+                $.ajax({
+                    url: `/sbds/ajax/${levelId}/get_sections`,
+                    type: 'GET',
+                    success: function(data) {
+                        data.forEach(function(section) {
+                            let option = new Option(section.section_name, section.id);
+                            if (selectedId && section.id == selectedId) {
+                                option.selected = true;
+                            }
+                            $('#section').append(option);
+                        });
+                    }
+                });
+            }
+
+            // When user changes grade level
+            $('#grade_level').on('change', function() {
+                let levelId = $(this).val();
+                loadSections(levelId);
+            });
+
+            // On edit page load, if a grade level is already selected, trigger the AJAX to load sections
+            if (selectedLevelId) {
+                loadSections(selectedLevelId, selectedSectionId);
+            }
+        });
 
         /*
         $('#outcome').change(function (e) { 
