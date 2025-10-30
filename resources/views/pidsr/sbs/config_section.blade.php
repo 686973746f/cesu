@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <a href="{{route('sbs_list')}}" class="btn btn-secondary mb-3">Back</a>
+        <a href="{{route('sbs_viewlevel')}}" class="btn btn-secondary mb-3">Back</a>
 
         <div class="card">
             <div class="card-header">

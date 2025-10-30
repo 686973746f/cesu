@@ -69,6 +69,7 @@ class SchoolBasedSurveillanceController extends Controller
         $suspected_disease_list = [];
         $days_difference = $get_onset->diffInDays($r->date_reported);
 
+        //Dengue Check
         if($days_difference >= 2 && $days_difference <= 7) {
             $dengue_symp_count = 0;
 
@@ -115,6 +116,7 @@ class SchoolBasedSurveillanceController extends Controller
             }
         }
 
+        //ILI Check
         if($days_difference <= 10) {
             if(in_array('FEVER', $r->signs_and_symptoms) && $r->fever_temperature >= 38) {
                 if(in_array('COUGH', $r->signs_and_symptoms) || in_array('SORE THROAT', $r->signs_and_symptoms)) {
@@ -123,6 +125,7 @@ class SchoolBasedSurveillanceController extends Controller
             }
         }
 
+        //Measles Check
         if(in_array('FEVER', $r->signs_and_symptoms) && in_array('RASH', $r->signs_and_symptoms)) {
             if(in_array('RED EYES', $r->signs_and_symptoms) || in_array('COUGH', $r->signs_and_symptoms) || in_array('COLDS', $r->signs_and_symptoms)) {
                 $suspected_disease_list[] = 'MEASLES';

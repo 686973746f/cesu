@@ -3,7 +3,18 @@
 @section('content')
 <div class="container-fluid">
     <div class="card">
-        <div class="card-header"><b>CHO HERT Duty List as of {{date('M. d, Y h:i A')}}</b></div>
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <div><b>CHO HERT Duty List as of {{date('M. d, Y h:i A')}}</b></div>
+                <div>
+                    @if(request()->input('masterlistView'))
+                    <a href="{{route('hert_duty_online_view')}}" class="btn btn-secondary">Switch to Team View</a>
+                    @else
+                    <a href="{{route('hert_duty_online_view')}}?masterlistView=1" class="btn btn-primary">Switch to Masterlist View</a>
+                    @endif
+                </div>
+            </div>
+        </div>
         <div class="card-body">
             @if(session('msg'))
             <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
