@@ -31,13 +31,14 @@
                             <th>Name of Principal/School Head/OIC</th>
                             <th>Position</th>
                             <th>Name of DSO Focal</th>
+                            <th>URL</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($list as $l)
                         <tr>
                             <td class="text-center">{{$l->id}}</td>
-                            <td><a href="{{route('sbs_viewschool', $l->id)}}">{{$l->name}}</a></td>
+                            <td><a href="{{route('sbs_admin_viewschool', $l->id)}}">{{$l->name}}</a></td>
                             <td class="text-center">{{$l->ownership_type}}</td>
                             <td class="text-center">{{$l->school_type}}</td>
                             <td class="text-center">{{$l->school_id}}</td>
@@ -46,6 +47,7 @@
                             <td class="text-center">{{$l->schoolhead_name}}</td>
                             <td class="text-center">{{$l->schoolhead_position}}</td>
                             <td class="text-center">{{$l->focalperson_name}}</td>
+                            <th><a href="{{route('sbs_index', $l->qr)}}">https://cesugentri.com/sbds/index/{{$l->qr}}</a></th>
                         </tr>
                         @endforeach
                     </tbody>

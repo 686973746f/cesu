@@ -1018,6 +1018,8 @@ Route::get('sbds/ajax/{level}/get_sections', [SchoolBasedSurveillanceController:
 
 Route::middleware(['auth', 'school_admin'])->group(function () {
     Route::get('sbds/admin', [SchoolBasedSurveillanceController::class, 'adminPanel'])->name('sbs_adminpanel');
+    Route::get('sbds/admin/school/view/{school_id}', [SchoolBasedSurveillanceController::class, 'viewSchool'])->name('sbs_admin_viewschool');
+    Route::post('sbds/admin/school/view/{school_id}/reset_qr', [SchoolBasedSurveillanceController::class, 'resetQr'])->name('sbs_admin_resetqr');
     Route::post('sbds/admin/school/store', [SchoolBasedSurveillanceController::class, 'storeSchool'])->name('sbs_storeschool');
 });
 

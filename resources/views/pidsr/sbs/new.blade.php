@@ -194,26 +194,9 @@
                             <div class="form-group">
                               <label for="signs_and_symptoms"><b class="text-danger">*</b>Signs and Symptoms (Select all that apply)</label>
                               <select class="form-control" name="signs_and_symptoms[]" id="signs_and_symptoms" required multiple>
-                                <option value="FEVER" {{ (collect(old('signs_and_symptoms'))->contains('FEVER')) ? 'selected' : '' }}>Fever</option>
-                                <option value="COUGH" {{ (collect(old('signs_and_symptoms'))->contains('COUGH')) ? 'selected' : '' }}>Cough</option>
-                                <option value="COLDS" {{ (collect(old('signs_and_symptoms'))->contains('COLDS')) ? 'selected' : '' }}>Colds</option>
-                                <option value="RASH" {{ (collect(old('signs_and_symptoms'))->contains('RASH')) ? 'selected' : '' }}>Rash</option>
-                                <option value="HEADACHE" {{ (collect(old('signs_and_symptoms'))->contains('HEADACHE')) ? 'selected' : '' }}>Headache</option>
-                                <option value="SORE THROAT" {{ (collect(old('signs_and_symptoms'))->contains('SORE THROAT')) ? 'selected' : '' }}>Sore Throat</option>
-                                <option value="DIARRHEA" {{ (collect(old('signs_and_symptoms'))->contains('DIARRHEA')) ? 'selected' : '' }}>Diarrhea/LBM</option>
-                                <option value="ABDOMINAL PAIN" {{ (collect(old('signs_and_symptoms'))->contains('ABDOMINAL PAIN')) ? 'selected' : '' }}>Abdominal Pain</option>
-                                <option value="NAUSEA" {{ (collect(old('signs_and_symptoms'))->contains('NAUSEA')) ? 'selected' : '' }}>Nausea (Nahihilo/Naduduwal)</option>
-                                <option value="VOMITING" {{ (collect(old('signs_and_symptoms'))->contains('VOMITING')) ? 'selected' : '' }}>Vomiting</option>
-                                <option value="RED EYES" {{ (collect(old('signs_and_symptoms'))->contains('SORE EYES')) ? 'selected' : '' }}>Red Eyes (Conjunctivitis)</option>
-                                <option value="DIZZINESS" {{ (collect(old('signs_and_symptoms'))->contains('DIZZINESS')) ? 'selected' : '' }}>Dizziness</option>
-                                <option value="TOOTHACHE" {{ (collect(old('signs_and_symptoms'))->contains('TOOTHACHE')) ? 'selected' : '' }}>Toothache</option>
-                                <option value="BODY PAIN" {{ (collect(old('signs_and_symptoms'))->contains('BODY PAIN')) ? 'selected' : '' }}>Body Pain</option>
-                                <option value="BODY WEAKNESS" {{ (collect(old('signs_and_symptoms'))->contains('BODY WEAKNESS')) ? 'selected' : '' }}>Body Weakness</option>
-                                <option value="NOSE BLEEDING" {{ (collect(old('signs_and_symptoms'))->contains('NOSE BLEEDING')) ? 'selected' : '' }}>Nose Bleeding</option>
-                                <option value="ANOREXIA" {{ (collect(old('signs_and_symptoms'))->contains('ANOREXIA')) ? 'selected' : '' }}>Anorexia (Walang ganang kumain)</option>
-                                <option value="ANOSMIA" {{ (collect(old('signs_and_symptoms'))->contains('ANOSMIA')) ? 'selected' : '' }}>Loss of Smell</option>
-                                <option value="AGEUSIA" {{ (collect(old('signs_and_symptoms'))->contains('AGEUSIA')) ? 'selected' : '' }}>Loss of Taste</option>
-                                <option value="OTHERS" {{ (collect(old('signs_and_symptoms'))->contains('OTHERS')) ? 'selected' : '' }}>Others</option>
+                                @foreach(\App\Http\Controllers\SchoolBasedSurveillanceController::getSymptoms() as $symptom)
+                                <option value="{{ $symptom['value'] }}" {{ (collect(old('signs_and_symptoms'))->contains($symptom['value'])) ? 'selected' : '' }}>{{ $symptom['text'] }}</option>
+                                @endforeach
                               </select>
                             </div>
                             <div id="fever_div" class="d-none">

@@ -132,6 +132,34 @@ class SchoolBasedSurveillanceController extends Controller
         return $suspected_disease_list;
     }
 
+    public static function getSymptoms()
+    {
+        $symptoms = [
+            ['value' => 'FEVER', 'text' => 'Fever'],
+            ['value' => 'COUGH', 'text' => 'Cough'],
+            ['value' => 'COLDS', 'text' => 'Colds'],
+            ['value' => 'RASH', 'text' => 'Rash'],
+            ['value' => 'HEADACHE', 'text' => 'Headache'],
+            ['value' => 'SORE THROAT', 'text' => 'Sore Throat'],
+            ['value' => 'DIARRHEA', 'text' => 'Diarrhea/LBM'],
+            ['value' => 'ABDOMINAL PAIN', 'text' => 'Abdominal Pain (Masakit ang tiyan)'],
+            ['value' => 'NAUSEA', 'text' => 'Nausea (Nahihilo/Naduduwal)'],
+            ['value' => 'VOMITING', 'text' => 'Vomiting'],
+            ['value' => 'RED EYES', 'text' => 'Red Eyes (Conjunctivitis)'],
+            ['value' => 'DIZZINESS', 'text' => 'Dizziness'],
+            ['value' => 'TOOTHACHE', 'text' => 'Toothache'],
+            ['value' => 'BODY PAIN', 'text' => 'Body Pain'],
+            ['value' => 'BODY WEAKNESS', 'text' => 'Body Weakness'],
+            ['value' => 'NOSE BLEEDING', 'text' => 'Nose Bleeding'],
+            ['value' => 'ANOREXIA', 'text' => 'Anorexia (Walang ganang kumain)'],
+            ['value' => 'ANOSMIA', 'text' => 'Loss of Smell'],
+            ['value' => 'AGEUSIA', 'text' => 'Loss of Taste'],
+            ['value' => 'OTHERS', 'text' => 'Others'],
+        ];
+
+        return collect($symptoms)->sortBy('text', SORT_NATURAL | SORT_FLAG_CASE)->values()->toArray();
+    }
+
     public function storeCase($code, Request $r) {
         $s = School::where('qr', $code)->first();
 
@@ -477,6 +505,10 @@ class SchoolBasedSurveillanceController extends Controller
         return view('pidsr.sbs.admin.view_school', [
             's' => $s,
         ]);
+    }
+
+    public function resetQr($id, Request $r) {
+
     }
 
     public function configLevel() {
