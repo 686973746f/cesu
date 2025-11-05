@@ -2,6 +2,13 @@
 
 @section('content')
     <div class="container">
+        <div class="text-center">
+            <img src="{{asset('assets/images/gentri_icon_large.png')}}" class="mb-3 img-fluid" style="max-width: 200px; height: auto;">
+            <img src="{{asset('assets/images/depedgentri.webp')}}" class="mb-3 img-fluid" style="max-width: 200px; height: auto;">
+            <img src="{{asset('assets/images/cho_icon_large.png')}}" class="mb-3 img-fluid" style="max-width: 200px; height: auto;">
+            <img src="{{asset('assets/images/cesu_icon.png')}}" class="mb-3 img-fluid" style="max-width: 200px; height: auto;">
+        </div>
+
         <div class="card">
             <div class="card-header"><b>General Trias City CESU - School Based Disease Surveillance</b></div>
             <div class="card-body">
@@ -52,7 +59,6 @@
                           <label for="email"><b class="text-danger">*</b>Set Email Address</label>
                           <input type="email" class="form-control" name="email" id="email" required>
                         </div>
-                        <hr>
                         <div class="form-group">
                           <label for="password"><b class="text-danger">*</b>Password</label>
                           <input type="password" class="form-control" minlength="6" maxlength="20" name="password" id="password" required>
@@ -60,6 +66,24 @@
                         <div class="form-group">
                           <label for="password_confirmation"><b class="text-danger">*</b>Re-type Password</label>
                           <input type="password" class="form-control" minlength="6" maxlength="20" name="password_confirmation" id="password_confirmation" required>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <label for="schoolhead_name"><b class="text-danger">*</b>Name of Principal/School Head</label>
+                            <input type="text" class="form-control" name="schoolhead_name" id="schoolhead_name" value="{{old('schoolhead_name')}}" style="text-transform: uppercase;" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="schoolhead_position"><b class="text-danger">*</b>Designation</label>
+                            <input type="text" class="form-control" name="schoolhead_position" id="schoolhead_position" value="{{old('schoolhead_position')}}" style="text-transform: uppercase;" required>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <label for="focalperson_name"><b class="text-danger">*</b>Name of School Nurse or Reporter Focal Person</label>
+                            <input type="text" class="form-control" name="focalperson_name" id="focalperson_name" value="{{old('focalperson_name')}}" style="text-transform: uppercase;" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact_number"><b class="text-danger">*</b>Contact Number</label>
+                            <input type="text" class="form-control" name="contact_number" id="contact_number" value="{{old('contact_number')}}" style="text-transform: uppercase;" required>
                         </div>
                     </div>
                     <div class="modal-footer">

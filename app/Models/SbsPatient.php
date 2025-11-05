@@ -11,8 +11,8 @@ class SbsPatient extends Model
     use HasFactory;
 
     protected $fillable = [
+        'enabled',
         'school_id',
-        'date_reported',
         
         'lname',
         'fname',
@@ -20,6 +20,7 @@ class SbsPatient extends Model
         'suffix',
         'sex',
         'bdate',
+
         'age_years',
         'age_months',
         'age_days',
@@ -27,6 +28,7 @@ class SbsPatient extends Model
         'patient_type',
         'staff_designation',
         'section_id',
+
         'street_purok',
         'address_brgy_code',
 
@@ -36,45 +38,9 @@ class SbsPatient extends Model
         'is_pwd',
         'pwd_condition',
 
-        'height',
-        'weight',
-        'bp_systolic',
-        'bp_diastolic',
-        'had_dinner_yesterday',
-        'had_breakfast_today',
-        'had_lunch_today',
-        'onset_illness_date',
-        'signs_and_symptoms',
-        'fever_temperature',
-        'signs_and_symptoms_others',
         'remarks',
 
-        'reported_by',
-        'reported_by_position',
-        'reported_by_contactno',
-
-        'admitted',
-        'date_admitted',
-        'admitted_facility',
-
-        'enabled',
-        'from_selfreport',
-        'is_approved',
-        'approved_date',
-
-        'is_verified',
-        'is_sent',
-        'approved_date',
-        
-        'suspected_disease_tag',
-        'sent_disease_tag',
-        
-        'report_year',
-        'report_month',
-        'report_week',
-
-        'had_checkuponfacilityafter',
-        'name_facility',
+        'created_by',
         'qr',
     ];
 

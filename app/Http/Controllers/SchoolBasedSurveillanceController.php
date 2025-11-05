@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\School;
+use App\Models\SbsCase;
 use App\Models\SbsPatient;
-use App\Models\SchoolGradeLevel;
-use App\Models\SchoolSection;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\SchoolSection;
+use App\Models\SchoolGradeLevel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -169,22 +170,10 @@ class SchoolBasedSurveillanceController extends Controller
         $lname = mb_strtoupper($r->lname);
         $fname = mb_strtoupper($r->fname);
         $bdate = $r->bdate;
-
-        $exist_check = SbsPatient::where('school_id', $s->id)
-        ->where('lname', $lname)
-        ->where('fname', $fname)
-        ->whereDate('bdate', $bdate)
-        ->whereDate('created_at', '>=', Carbon::now()->subDays(7)->format('Y-m-d'))
-        ->first();
-
-        if($exist_check) {
-            return redirect()->back()
-            ->with('msg', 'ERROR: Duplicate Patient Data already encoded to the system.')
-            ->with('msgtype', 'warning');
-        }
-
+        
         $birthdate = Carbon::parse($r->bdate);
-        $currentDate = Carbon::parse($r->date_reported);
+        $currentDate = Carbon::now();
+        $reportedDate = Carbon::parse($r->date_reported);
 
         $get_ageyears = $birthdate->diffInYears($currentDate);
         $get_agemonths = $birthdate->diffInMonths($currentDate);
@@ -195,39 +184,86 @@ class SchoolBasedSurveillanceController extends Controller
         $foundunique = false;
 
         while(!$foundunique) {
-            $for_qr = Str::random(10);
+            $patient_qr = 'SBS_P_'.Str::random(10);
             
-            $search = SbsPatient::where('qr', $for_qr)->first();
+            $search = SbsPatient::where('qr', $patient_qr)->first();
             if(!$search) {
                 $foundunique = true;
             }
         }
 
-        $c = SbsPatient::create([
-            'school_id' => $s->id,
-            'date_reported' => $r->date_reported,
+        //Check if Student Data Exist
+        $check_student = SbsPatient::where('lname', $lname)
+        ->where('fname', $fname)
+        ->whereDate('bdate', $bdate)
+        ->first();
+
+        if($check_student) {
+            /*
+            return redirect()->back()
+            ->with('msg', 'ERROR: Duplicate Patient Data already encoded to the system.')
+            ->with('msgtype', 'warning');
+            */
+
+            $i_student = SbsPatient::create([
+                'school_id' => $s->id,
+                
+                'lname' => $lname,
+                'fname' => $fname,
+                'mname' => (!is_null($r->mname)) ? mb_strtoupper($r->mname) : NULL,
+                'suffix' => (!is_null($r->suffix)) ? mb_strtoupper($r->suffix) : NULL,
+                'sex' => $r->sex,
+                'bdate' => $bdate,
+
+                'age_years' => $get_ageyears,
+                'age_months' => $get_agemonths,
+                'age_days' => $get_agedays,
+
+                'patient_type' => $r->patient_type,
+                'staff_designation' => ($r->patient_type == 'TEACHER' || $r->patient_type == 'STAFF') ? mb_strtoupper($r->staff_designation) : NULL,
+                'section_id' => ($r->patient_type == 'STUDENT') ? $r->section : NULL,
+
+                'street_purok' => mb_strtoupper($r->street_purok),
+                'address_brgy_code' => $r->address_brgy_code,
+
+                'contact_no' => $r->contact_no,
+                //'guardian_name',
+                //'guardian_contactno',
+                'is_pwd' => $r->is_pwd,
+                'pwd_condition' => ($r->is_pwd == 'Y') ? mb_strtoupper($r->pwd_condition) : NULL,
+
+                //'remarks' => $r->remarks,
+
+                'qr' => $patient_qr,
+            ]);
+        }
+        else {
+            $i_student = $check_student;
+        }
+        
+        $foundunique = false;
+
+        while(!$foundunique) {
+            $case_qr = 'SBDS_C_'.Str::random(10);
             
-            'lname' => $lname,
-            'fname' => $fname,
-            'mname' => (!is_null($r->mname)) ? mb_strtoupper($r->mname) : NULL,
-            'suffix' => (!is_null($r->suffix)) ? mb_strtoupper($r->suffix) : NULL,
-            'sex' => $r->sex,
-            'bdate' => $bdate,
+            $search = SbsPatient::where('qr', $case_qr)->first();
+            if(!$search) {
+                $foundunique = true;
+            }
+        }
+
+        $get_ageyears = $birthdate->diffInYears($currentDate);
+        $get_agemonths = $birthdate->diffInMonths($currentDate);
+        $get_agedays = $birthdate->diffInDays($currentDate);
+
+        $case_create = SbsCase::create([
+            'student_id' => $i_student->id,
+            'section_id' => $i_student->section_id,
+            'date_reported' => $r->date_reported,
+
             'age_years' => $get_ageyears,
             'age_months' => $get_agemonths,
             'age_days' => $get_agedays,
-
-            'patient_type' => $r->patient_type,
-            'staff_designation' => ($r->patient_type == 'TEACHER' || $r->patient_type == 'STAFF') ? mb_strtoupper($r->staff_designation) : NULL,
-            'section_id' => ($r->patient_type == 'STUDENT') ? $r->section : NULL,
-            'street_purok' => mb_strtoupper($r->street_purok),
-            'address_brgy_code' => $r->address_brgy_code,
-
-            'contact_no' => $r->contact_no,
-            //'guardian_name',
-            //'guardian_contactno',
-            'is_pwd' => $r->is_pwd,
-            'pwd_condition' => ($r->is_pwd == 'Y') ? mb_strtoupper($r->pwd_condition) : NULL,
 
             //'height',
             //'weight',
@@ -240,27 +276,39 @@ class SchoolBasedSurveillanceController extends Controller
             'signs_and_symptoms' => implode(", ", $r->signs_and_symptoms),
             'fever_temperature' => (in_array("FEVER", $r->signs_and_symptoms)) ? $r->fever_temperature : NULL,
             'signs_and_symptoms_others' => (in_array("OTHERS", $r->signs_and_symptoms)) ? mb_strtoupper($r->signs_and_symptoms_others) : NULL,
-            'remarks' => $r->remarks,
 
+            //'outcome',
+            //'date_senthome',
+            //'date_recovered',
+            
             'reported_by' => mb_strtoupper($r->reported_by),
             'reported_by_position' => mb_strtoupper($r->reported_by_position),
             'reported_by_contactno' => $r->reported_by_contactno,
-        
-            'admitted' => $r->admitted,
-            'date_admitted' => ($r->admitted == 'Y') ? $r->date_admitted : NULL,
-            'admitted_facility' => ($r->admitted == 'Y' && !is_null($r->admitted_facility)) ? mb_strtoupper($r->admitted_facility) : NULL,
 
-            //'enabled' 
+            //'from_selfreport',
+            //'is_approved',
+            //'approved_date',
+
             //'is_verified',
             //'is_sent',
+            
             'suspected_disease_tag' => (!empty($this->searchSuspectedCase($r))) ? implode(", ", $this->searchSuspectedCase($r)) : NULL,
+            //'sent_disease_tag',
+            
             'report_year' => $get_onset->format('Y'),
             'report_month' => $get_onset->format('n'),
             'report_week' => $get_onset->format('W'),
 
+            'admitted' => $r->admitted,
+            'date_admitted' => ($r->admitted == 'Y') ? $r->date_admitted : NULL,
+            'admitted_facility' => ($r->admitted == 'Y' && !is_null($r->admitted_facility)) ? mb_strtoupper($r->admitted_facility) : NULL,
+
             //'had_checkuponfacilityafter',
             //'name_facility',
-            'qr' => $for_qr,
+            'qr' => $case_qr,
+
+            'remarks' => $r->remarks,
+            //'cesu_remarks',
         ]);
 
         if (Auth::guard('school')->check()) {
@@ -391,11 +439,25 @@ class SchoolBasedSurveillanceController extends Controller
         $u = School::where('qr', $code)->update([
             'email' => $r->email,
             'password' => Hash::make($r->password),
+
+            'schoolhead_name' => mb_strtoupper($r->schoolhead_name),
+            'schoolhead_position' => mb_strtoupper($r->schoolhead_position),
+            'focalperson_name' => mb_strtoupper($r->focalperson_name),
+            'contact_number' => $r->contact_number,
         ]);
 
-        return redirect()->route('sbs_index', $s->qr)
-        ->with('msg', 'Account was successfully initialized. You may now login.')
-        ->with('msgtype', 'success');
+        $credentials = $r->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
+        if (Auth::guard('school')->attempt($credentials)) {
+            $r->session()->regenerate();
+            
+            return redirect()->intended(route('sbs_list'))
+            ->with('msg', 'School Account was successfully initialized.')
+            ->with('msgtype', 'success');
+        }
     }
 
     public function viewList() {
@@ -602,6 +664,14 @@ class SchoolBasedSurveillanceController extends Controller
         return redirect()->back()
         ->with('msg', 'Grade Level Group was successfully added.')
         ->with('msgtype', 'success');
+    }
+
+    public function viewPopulation() {
+
+    }
+
+    public function submitPopulation(Request $r) {
+
     }
 
     public function logout() {
