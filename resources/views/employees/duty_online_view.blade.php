@@ -29,22 +29,22 @@
                 <hr>
                 <div class="row">
                     <div class="col-md-3">
-                        <h5 class="text-center">Team A (Total: {{$ta_total}})</h5>
+                        <h5 class="text-center"><b>Team A (Total: {{$ta_total}})</b></h5>
                         <h6>Deployed: {{$ta_deployed}}</h6>
                         <h6>Not Yet Deployed: {{$ta_notdeployed}}</h6>
                     </div>
                     <div class="col-md-3">
-                        <h5 class="text-center">Team B (Total: {{$tb_total}})</h5>
+                        <h5 class="text-center"><b>Team B (Total: {{$tb_total}})</b></h5>
                         <h6>Deployed: {{$tb_deployed}}</h6>
                         <h6>Not Yet Deployed: {{$tb_notdeployed}}</h6>
                     </div>
                     <div class="col-md-3">
-                        <h5 class="text-center">Team C (Total: {{$tc_total}})</h5>
+                        <h5 class="text-center"><b>Team C (Total: {{$tc_total}})</b></h5>
                         <h6>Deployed: {{$tc_deployed}}</h6>
                         <h6>Not Yet Deployed: {{$tc_notdeployed}}</h6>
                     </div>
                     <div class="col-md-3">
-                        <h5 class="text-center">Team D (Total: {{$td_total}})</h5>
+                        <h5 class="text-center"><b>Team D (Total: {{$td_total}})</b></h5>
                         <h6>Deployed: {{$td_deployed}}</h6>
                         <h6>Not Yet Deployed: {{$td_notdeployed}}</h6>
                     </div>
@@ -85,7 +85,13 @@
                                                 @endif
                                             </td>
                                             <td class="text-center">{{($d->duty_completedcycle == 'Y') ? 'DONE' : 'PENDING'}}</td>
-                                            <td class="text-center">{{($d->getLatestDuty()) ? $d->getLatestDuty()->event->event_name.' ('.date('M. d, Y', strtotime($d->getLatestDuty()->event->event_date)).')' : 'N/A'}}</td>
+                                            <td class="text-center">
+                                                @if($d->getLatestDuty())
+                                                {{$d->getLatestDuty()->event->event_name.' ('.date('M. d, Y', strtotime($d->getLatestDuty()->event->event_date)).')'}} <span class="badge badge-{{($d->getLatestDuty()->event->cycle_number != $cycle_count) ? 'secondary' : 'success'}}">CYCLE {{$d->getLatestDuty()->event->cycle_number}}</span>
+                                                @else
+                                                N/A
+                                                @endif
+                                            </td>
                                             <td class="text-center">{{$d->duty_balance}}</td>
                                         </tr>
                                         @endforeach
@@ -124,7 +130,13 @@
                                                 @endif
                                             </td>
                                             <td class="text-center">{{($d->duty_completedcycle == 'Y') ? 'DONE' : 'PENDING'}}</td>
-                                            <td class="text-center">{{($d->getLatestDuty()) ? $d->getLatestDuty()->event->event_name.' ('.date('M. d, Y', strtotime($d->getLatestDuty()->event->event_date)).')' : 'N/A'}}</td>
+                                            <td class="text-center">
+                                                @if($d->getLatestDuty())
+                                                {{$d->getLatestDuty()->event->event_name.' ('.date('M. d, Y', strtotime($d->getLatestDuty()->event->event_date)).')'}} <span class="badge badge-{{($d->getLatestDuty()->event->cycle_number != $cycle_count) ? 'secondary' : 'success'}}">CYCLE {{$d->getLatestDuty()->event->cycle_number}}</span>
+                                                @else
+                                                N/A
+                                                @endif
+                                            </td>
                                             <td class="text-center">{{$d->duty_balance}}</td>
                                         </tr>
                                         @endforeach
@@ -163,7 +175,13 @@
                                                 @endif
                                             </td>
                                             <td class="text-center">{{($d->duty_completedcycle == 'Y') ? 'DONE' : 'PENDING'}}</td>
-                                            <td class="text-center">{{($d->getLatestDuty()) ? $d->getLatestDuty()->event->event_name.' ('.date('M. d, Y', strtotime($d->getLatestDuty()->event->event_date)).')' : 'N/A'}}</td>
+                                            <td class="text-center">
+                                                @if($d->getLatestDuty())
+                                                {{$d->getLatestDuty()->event->event_name.' ('.date('M. d, Y', strtotime($d->getLatestDuty()->event->event_date)).')'}} <span class="badge badge-{{($d->getLatestDuty()->event->cycle_number != $cycle_count) ? 'secondary' : 'success'}}">CYCLE {{$d->getLatestDuty()->event->cycle_number}}</span>
+                                                @else
+                                                N/A
+                                                @endif
+                                            </td>
                                             <td class="text-center">{{$d->duty_balance}}</td>
                                         </tr>
                                         @endforeach
@@ -202,7 +220,13 @@
                                                 @endif
                                             </td>
                                             <td class="text-center">{{($d->duty_completedcycle == 'Y') ? 'DONE' : 'PENDING'}}</td>
-                                            <td class="text-center">{{($d->getLatestDuty()) ? $d->getLatestDuty()->event->event_name.' ('.date('M. d, Y', strtotime($d->getLatestDuty()->event->event_date)).')' : 'N/A'}}</td>
+                                            <td class="text-center">
+                                                @if($d->getLatestDuty())
+                                                {{$d->getLatestDuty()->event->event_name.' ('.date('M. d, Y', strtotime($d->getLatestDuty()->event->event_date)).')'}} <span class="badge badge-{{($d->getLatestDuty()->event->cycle_number != $cycle_count) ? 'secondary' : 'success'}}">CYCLE {{$d->getLatestDuty()->event->cycle_number}}</span>
+                                                @else
+                                                N/A
+                                                @endif
+                                            </td>
                                             <td class="text-center">{{$d->duty_balance}}</td>
                                         </tr>
                                         @endforeach
