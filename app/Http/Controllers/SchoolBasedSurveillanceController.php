@@ -164,6 +164,22 @@ class SchoolBasedSurveillanceController extends Controller
         return collect($symptoms)->sortBy('text', SORT_NATURAL | SORT_FLAG_CASE)->values()->toArray();
     }
 
+    public function newPatient(Request $r) {
+
+    }
+
+    public function storePatient(Request $r) {
+
+    }
+
+    public function viewPatient($patient_id, Request $r) {
+
+    }
+
+    public function updatePatient($patient_id, Request $r) {
+        
+    }
+
     public function storeCase($code, Request $r) {
         $s = School::where('qr', $code)->first();
 

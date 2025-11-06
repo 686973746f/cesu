@@ -1000,8 +1000,13 @@ Route::post('sbds/login', [SchoolBasedSurveillanceController::class, 'login'])->
 
 Route::middleware(['school'])->group(function () {
     Route::get('sbds/list', [SchoolBasedSurveillanceController::class, 'viewList'])->name('sbs_list');
-    Route::get('sbds/view/{id}', [SchoolBasedSurveillanceController::class, 'viewCase'])->name('sbs_view');
-    Route::post('sbds/view/{id}/update', [SchoolBasedSurveillanceController::class, 'updateCase'])->name('sbs_update');
+    Route::get('sbds/patient/new', [SchoolBasedSurveillanceController::class, 'viewList'])->name('sbs_newpatient');
+    Route::post('sbds/patient/new/store', [SchoolBasedSurveillanceController::class, 'viewList'])->name('sbs_storepatient');
+    Route::get('sbds/patient/list', [SchoolBasedSurveillanceController::class, 'viewList'])->name('sbs_patientlist');
+    Route::get('sbds/patient/view/{id}', [SchoolBasedSurveillanceController::class, 'viewList'])->name('sbs_viewpatient');
+    Route::post('sbds/patient/view/{id}/update', [SchoolBasedSurveillanceController::class, 'viewList'])->name('sbs_updatepatient');
+    Route::get('sbds/case/view/{id}', [SchoolBasedSurveillanceController::class, 'viewCase'])->name('sbs_view');
+    Route::post('sbds/case/view/{id}/update', [SchoolBasedSurveillanceController::class, 'updateCase'])->name('sbs_update');
     Route::get('sbds/report', [SchoolBasedSurveillanceController::class, 'viewReport'])->name('sbs_report');
 
     Route::post('sbds/logout', [SchoolBasedSurveillanceController::class, 'logout'])->name('sbs_logout');

@@ -49,6 +49,11 @@
                         <h6>Not Yet Deployed: {{$td_notdeployed}}</h6>
                     </div>
                 </div>
+                <hr>
+                <h5>
+                    <div><b class="text-danger">PAALALA:</b> Ang ibig sabihin ng CHO Staff na may Duty Balance ay hindi siya nakapag-duty sa huling ikot/cycle ng dutyhan.</div>
+                    <div>At para mawala yun, kailangan niyang dumuty sa <b>kasalukuyang Cycle (Cycle {{$cycle_count}}) + kung ilan ang kanyang Duty Balance.</b></div>
+                </h5>
             </div>
             <div class="row">
                 <div class="col-md-6">
