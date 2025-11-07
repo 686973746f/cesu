@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <div class="container-fluid">
     <div class="card">
         <div class="card-header">
@@ -51,9 +52,12 @@
                 </div>
                 <hr>
                 <h5>
-                    <div><b class="text-danger">PAALALA:</b> Ang ibig sabihin ng CHO Staff na may Duty Balance ay hindi siya nakapag-duty sa huling ikot/cycle ng dutyhan.</div>
-                    <div>At para mawala yun, kailangan niyang dumuty sa <b>kasalukuyang Cycle (Cycle {{$cycle_count}}) + kung ilan ang kanyang Duty Balance.</b></div>
+                    <div>Ang <b>Duty Cycle</b> po ay tumutukoy sa kung nakakailang ikot na tayo ng dutyhan simula ng nabuo ang system. Tataas ng isang bilang ang cycle kapag lahat/karamihan ng mga members ng Team A to Team D ay nai-deploy na. Tayo ngayon ay nasa <b>Cycle {{$cycle_count}}</b>.</div>
+                    <div class="mt-3">Ang mga hindi nakapag-duty sa nakaraang Cycle ay magkakaroon ng tinatawag na <b>"Duty Balance"</b> sa susunod na Cycle.</div>
+                    <div class="mt-3">Ang CHO Staff na may duty balance, ibig sabihin hindi siya nakapag-duty sa nakaraang Cycle. At para mawala yun, kailangan niyang dumuty ngayong <b>Cycle + kung ilan ang kanyang Duty Balance.</b></div>
                 </h5>
+                <hr>
+                <h5>For any questions or concerns, you may contact us at <b>CESU/DRRM-H Office</b>. Please be guided accordingly. Thank you.</h5>
             </div>
             <div class="row">
                 <div class="col-md-6">
@@ -102,7 +106,7 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="card">
+                    <div class="card mt-3">
                         <div class="card-header"><b>Team B</b></div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -245,6 +249,9 @@
     $('#tbl1, #tbl2, #tbl3, #tbl4').dataTable({
         iDisplayLength: -1,
         dom: 'fti',
+        responsive: {
+            details: true,
+        }
     });
 </script>
 @endsection
