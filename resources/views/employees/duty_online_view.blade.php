@@ -70,7 +70,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Name</th>
-                                            <th>Nakapag-duty na sa Current Cycle</th>
+                                            <th>Nakapag-duty na ngayong Cycle</th>
                                             <th>Last Duty</th>
                                             <th>Duty Balance</th>
                                         </tr>
@@ -115,7 +115,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Name</th>
-                                            <th>Nakapag-duty na sa Current Cycle</th>
+                                            <th>Nakapag-duty na ngayong Cycle</th>
                                             <th>Last Duty</th>
                                             <th>Duty Balance</th>
                                         </tr>
@@ -160,7 +160,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Name</th>
-                                            <th>Nakapag-duty na sa Current Cycle</th>
+                                            <th>Nakapag-duty na ngayong Cycle</th>
                                             <th>Last Duty</th>
                                             <th>Duty Balance</th>
                                         </tr>
@@ -205,7 +205,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Name</th>
-                                            <th>Nakapag-duty na sa Current Cycle</th>
+                                            <th>Nakapag-duty na ngayong Cycle</th>
                                             <th>Last Duty</th>
                                             <th>Duty Balance</th>
                                         </tr>
