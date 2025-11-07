@@ -53,7 +53,7 @@
                 <hr>
                 <h5>
                     <div>Ang <b>Duty Cycle</b> po ay tumutukoy sa kung nakakailang ikot na tayo ng dutyhan simula ng nabuo ang system. Tataas ng isang bilang ang cycle kapag lahat/karamihan ng mga members ng Team A to Team D ay nai-deploy na. Tayo ngayon ay nasa <b>Cycle {{$cycle_count}}</b>.</div>
-                    <div class="mt-3">Ang mga hindi nakapag-duty sa nakaraang Cycle ay magkakaroon ng tinatawag na <b>"Duty Balance"</b> sa susunod na Cycle.</div>
+                    <div class="mt-3">Kapag nagbago na ng Cycle, babalik sa PENDING lahat ng Team A to D, at ang mga hindi nakapag-duty sa nakaraang Cycle ay magkakaroon ng tinatawag na <b>"Duty Balance"</b> sa bagong Cycle.</div>
                     <div class="mt-3">Ang CHO Staff na may duty balance, ibig sabihin hindi siya nakapag-duty sa nakaraang Cycle. At para mawala yun, kailangan niyang dumuty ngayong <b>Cycle + kung ilan ang kanyang Duty Balance.</b></div>
                 </h5>
                 <hr>
