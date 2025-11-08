@@ -141,6 +141,14 @@
                             <option value="TOTALLY DAMAGED">Totally Damaged</option>
                           </select>
                         </div>
+                        <div class="form-group">
+                          <label for="evac_type"><b class="text-danger">*</b>Evacuee Type</label>
+                          <select class="form-control" name="evac_type" id="evac_type" required>
+                            <option value="" disabled {{(is_null(old('evac_type'))) ? 'selected' : ''}}>Choose...</option>
+                            <option value="PREEMPTIVE">Pre-Emptive Evacuation</option>
+                            <option value="FORCED">Forced Evacuation</option>
+                          </select>
+                        </div>
                         <hr>
                         <div class="form-group">
                           <label for="focal_name">Name of C/DSWD Focal</label>

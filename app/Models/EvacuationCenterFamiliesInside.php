@@ -21,6 +21,7 @@ class EvacuationCenterFamiliesInside extends Model
         'date_died',
         'is_injured',
         'shelterdamage_classification',
+        'evac_type',
         'remarks',
         'focal_name',
         'supervisor_name',

@@ -70,6 +70,42 @@
                           <label for="name"><b class="text-danger">*</b>Name</label>
                           <input type="text" class="form-control" name="name" id="name" style="text-transform: uppercase;" required>
                         </div>
+                        <div class="form-group">
+                      <label for="event_type"><b class="text-danger">*</b>Event Type (Select all that applies)</label>
+                      <select class="form-control" name="event_type" id="event_type" multiple required>
+                        <optgroup label="GEOLOGIC">
+                            <option value="VOLCANIC ERUPTION">Volcanic Eruption</option>
+                            <option value="EARTHQUAKE">Earthquake</option>
+                            <option value="TSUNAMI" >Tsunami</option>
+                            <option value="LANDSLIDE">Landslide</option>
+                            <option value="LAHAR">Lahar</option>
+                        </optgroup>
+                        <optgroup label="WEATHER">
+                            <option value="TYPHOON">Typhoon</option>
+                            <option value="STORM SURGE">Storm Surge</option>
+                            <option value="DROUGHT">Drought</option>
+                            <option value="COLD SPELL">Cold Spell</option>
+                            <option value="FLASHFLOOD">Flashflood</option>
+                        </optgroup>
+                        <optgroup label="BIOLOGIC">
+                            <option value="RED TIDE">Red Tide</option>
+                            <option value="FISH KILLS">Fish Kills</option>
+                            <option value="LOCUST">Locust</option>
+                            <option value="INFESTATION">Infestation</option>
+                        </optgroup>
+                        <optgroup label="MAN-MADE">
+                            <option value="EPIDEMIC">Epidemic</option>
+                            <option value="FIRE">Fire</option>
+                            <option value="EXPLOSION">Explosion</option>
+                            <option value="ARMED CONFLICT">Armed Conflict</option>
+                            <option value="TERRORISM">Terrorism</option>
+                            <option value="POISONING">Poisoning</option>
+                            <option value="MASS ACTION">Mass Action</option>
+                            <option value="ACCIDENT">Accident</option>
+                            <option value="OTHER">Other</option>
+                        </optgroup>
+                      </select>
+                    </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success btn-block">Save</button>
@@ -78,4 +114,10 @@
             </div>
         </div>
     </form>
+
+    <script>
+        $('#event_type').select2({
+            theme: "bootstrap",
+        });
+    </script>
 @endsection

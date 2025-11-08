@@ -18,6 +18,8 @@
                 {{session('msg')}}
             </div>
             @endif
+            <a href="" class="btn btn-primary mb-3">View Report</a>
+
             <table class="table table-bordered table-striped">
                 <thead class="thead-light text-center">
                     <tr>
@@ -71,7 +73,7 @@
                       <input type="text" class="form-control" name="name" id="name" value="{{old('name', $d->name)}}" style="text-transform: uppercase" required>
                     </div>
                     <div class="form-group">
-                      <label for="event_type"><b class="text-danger">*</b>Event Type</label>
+                      <label for="event_type"><b class="text-danger">*</b>Event Type (Select all that applies)</label>
                       <select class="form-control" name="event_type" id="event_type" multiple required>
                         <optgroup label="GEOLOGIC">
                             <option value="VOLCANIC ERUPTION" {{($d->event_type == 'VOLCANIC ERUPTION') ? 'selected' :''}}>Volcanic Eruption</option>
@@ -106,6 +108,11 @@
                         </optgroup>
                       </select>
                     </div>
+                    <div class="form-group">
+                      <label for="description"><b class="text-danger">*</b>Brief Description</label>
+                      <textarea class="form-control" name="description" id="description" rows="3">{{old('description', $d->description)}}</textarea>
+                    </div>
+                    
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success">Save</button>

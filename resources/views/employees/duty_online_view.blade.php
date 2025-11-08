@@ -58,6 +58,12 @@
                 </h5>
                 <hr>
                 <h5>For any questions or concerns, you may contact us at <b>CESU/DRRM-H Office</b>. Please be guided accordingly. Thank you.</h5>
+                <hr>
+                <ul>
+                    <h5>Legend:</h5>
+                    <li><span class="badge badge-success">HCP</span> - BLS Trained Health Care Provider</li>
+                    <li><span class="badge badge-primary">LR</span> - BLS Trained Lay Rescuer</li>
+                </ul>
             </div>
             <div class="row">
                 <div class="col-md-6">

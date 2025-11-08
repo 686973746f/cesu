@@ -141,7 +141,7 @@
             <div class="modal-body">
                 <form action="{{route('duty_mainoptions')}}" method="POST">
                     @csrf
-                    <button type="submit" name="submit" value="reset_cycle" class="btn btn-primary btn-block" onclick="return confirm('Are you sure you want to Reset the Duty Cycle?')">Reset Cycle</button>
+                    <button type="submit" name="submit" value="reset_cycle" class="btn btn-primary btn-block" onclick="return confirm('Are you sure you want to finish and reset the Duty Cycle?')">Reset Cycle</button>
                 </form>
 
                 <form action="">

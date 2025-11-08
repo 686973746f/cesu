@@ -80,7 +80,17 @@ class DisasterController extends Controller
     public function updateDisaster($id, Request $r) {
         $d = Disaster::findOrFail($id);
 
-        $d->name = mb_strtoupper($r->name);
+        $u = $d->update([
+            'name',
+            'event_type',
+            'description',
+            'city_id',
+            'date_start',
+            'date_end',
+            'status',
+        ]);
+
+        //
     }
 
     public function viewFamilies() {
@@ -359,6 +369,7 @@ class DisasterController extends Controller
             'outcome' => 'ALIVE',
             'is_injured' => $r->is_injured,
             'shelterdamage_classification' => $r->shelterdamage_classification,
+            'evac_type' => $r->evac_type,
             'remarks' => $r->remarks,
             'focal_name' => ($r->focal_name) ? mb_strtoupper($r->focal_name) : NULL,
             'supervisor_name' => ($r->supervisor_name) ? mb_strtoupper($r->supervisor_name) : NULL,

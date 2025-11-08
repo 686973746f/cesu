@@ -32,6 +32,7 @@ class CreateEvacuationCenterFamiliesInsidesTable extends Migration
             $table->dateTime('date_died')->nullable();
 
             $table->string('shelterdamage_classification');
+            $table->string('evac_type')->nullable();
             $table->text('remarks')->nullable();
 
             $table->string('focal_name')->nullable();
