@@ -38,6 +38,10 @@ class CreateEvacuationCenterFamiliesInsidesTable extends Migration
             $table->string('focal_name')->nullable();
             $table->string('supervisor_name')->nullable();
 
+            $table->integer('age_years')->nullable();
+            $table->integer('age_months')->nullable();
+            $table->integer('age_days')->nullable();
+
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->timestamps();

@@ -406,6 +406,16 @@ class DisasterController extends Controller
             ->with('msgtype', 'warning');
         }
 
+        $f = EvacuationCenterFamilyHead::findOrFail($r->familyhead_id);
+
+        $birthdate = Carbon::parse($f->bdate);
+        $currentDate = Carbon::now();
+        $reportedDate = Carbon::parse($r->date_registered);
+
+        $get_ageyears = $birthdate->diffInYears($reportedDate);
+        $get_agemonths = $birthdate->diffInMonths($reportedDate);
+        $get_agedays = $birthdate->diffInDays($reportedDate);
+
         $c = EvacuationCenterFamiliesInside::create([
             'evacuation_center_id' => $e->id,
             'familyhead_id' => $r->familyhead_id,
@@ -418,6 +428,11 @@ class DisasterController extends Controller
             'remarks' => $r->remarks,
             'focal_name' => ($r->focal_name) ? mb_strtoupper($r->focal_name) : NULL,
             'supervisor_name' => ($r->supervisor_name) ? mb_strtoupper($r->supervisor_name) : NULL,
+
+            'age_years' => $get_ageyears,
+            'age_months' => $get_agemonths,
+            'age_days' => $get_agedays,
+
             'created_by' => Auth::id(),
         ]);
 
@@ -491,6 +506,16 @@ class DisasterController extends Controller
             ->with('msgtype', 'warning');
         }
 
+        $f = EvacuationCenterFamilyMember::findOrFail($r->member_id);
+
+        $birthdate = Carbon::parse($f->bdate);
+        $currentDate = Carbon::now();
+        $reportedDate = Carbon::parse($r->date_registered);
+
+        $get_ageyears = $birthdate->diffInYears($reportedDate);
+        $get_agemonths = $birthdate->diffInMonths($reportedDate);
+        $get_agedays = $birthdate->diffInDays($reportedDate);
+
         $c = EvacuationCenterFamilyMembersInside::create([
             'date_registered' => $r->date_registered,
             'familyinside_id' => $d->id,
@@ -506,6 +531,11 @@ class DisasterController extends Controller
             'date_died' => ($r->outcome == 'DIED') ? $r->date_died : NULL,
 
             'remarks' => $r->remarks,
+
+            'age_years' => $get_ageyears,
+            'age_months' => $get_agemonths,
+            'age_days' => $get_agedays,
+
             'created_by' => Auth::id(),
         ]);
 
@@ -525,7 +555,9 @@ class DisasterController extends Controller
     public function reportDisaster($id) {
         $d = Disaster::findOrFail($id);
 
-        $list_evac = EvacuationCenter::where('disaster_id', $d->id)->get();
+        $list_evac = EvacuationCenter::where('disaster_id', $d->id)
+        ->orderBy('name', 'ASC')
+        ->get();
 
         return view('disaster.report_disaster_temp', [
             'd' => $d,
@@ -534,7 +566,11 @@ class DisasterController extends Controller
     }
     
     public function reportEvac($id) {
+        $d = EvacuationCenter::findOrFail($id);
 
+        return view('disaster.report_evac_temp', [
+            'd' => $d,
+        ]);
     }
 
     /*

@@ -28,6 +28,9 @@ class EvacuationCenterFamiliesInside extends Model
         'remarks',
         'focal_name',
         'supervisor_name',
+        'age_years',
+        'age_months',
+        'age_days',
         'created_by',
     ];
 

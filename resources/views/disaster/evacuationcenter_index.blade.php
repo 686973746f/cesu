@@ -19,6 +19,8 @@
                 </div>
                 @endif
 
+                <a href="{{route('gtsecure_report_evac', $d->id)}}" class="btn btn-primary mb-3">View Evacuation Summary Report</a>
+
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">
                         <thead class="thead-light text-center">

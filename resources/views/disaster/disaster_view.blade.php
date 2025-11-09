@@ -18,7 +18,7 @@
                 {{session('msg')}}
             </div>
             @endif
-            <a href="{{route('gtsecure_report_disaster', $d->id)}}" class="btn btn-primary mb-3">View Report</a>
+            <a href="{{route('gtsecure_report_disaster', $d->id)}}" class="btn btn-primary mb-3">View Summary Report</a>
 
             <table class="table table-bordered table-striped">
                 <thead class="thead-light text-center">

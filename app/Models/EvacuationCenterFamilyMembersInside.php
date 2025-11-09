@@ -25,6 +25,10 @@ class EvacuationCenterFamilyMembersInside extends Model
         'date_died',
 
         'remarks',
+        'age_years',
+        'age_months',
+        'age_days',
+        
         'created_by',
     ];
 
