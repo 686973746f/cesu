@@ -104,12 +104,65 @@ class EvacuationCenter extends Model
             ->whereHas('familyHead', function ($query) use ($gender) {
                 $query->where('sex', $gender);
             })
+            ->whereBetween('age_years', [$age1, $age2])
             ->count();
 
         // Count family members (in EvacuationCenterFamilyMembersInside)
         $membersCount = EvacuationCenterFamilyMembersInside::whereIn('familyinside_id', $familyIds)
             ->whereHas('member', function ($query) use ($gender) {
                 $query->where('sex', $gender);
+            })
+            ->whereBetween('age_years', [$age1, $age2])
+            ->count();
+
+        return $headsCount + $membersCount;
+    }
+
+    public function countAge($age1, $age2, $condition) {
+        // Get all family IDs in this evacuation center
+        $familyIds = $this->familiesinside()->pluck('id');
+
+        if($age1 == $age2) {
+            // Count family heads (in EvacuationCenterFamilyHead)
+            $headsCount = EvacuationCenterFamiliesInside::whereIn('id', $familyIds)
+                ->where('age_years', $condition, $age1)
+                ->count();
+
+            // Count family members (in EvacuationCenterFamilyMembersInside)
+            $membersCount = EvacuationCenterFamilyMembersInside::whereIn('familyinside_id', $familyIds)
+                ->where('age_years', $condition, $age1)
+                ->count();
+        }
+        else {
+            $headsCount = EvacuationCenterFamiliesInside::whereIn('id', $familyIds)
+                ->whereBetween('age_years', [$age1,$age2])
+                ->count();
+
+            // Count family members (in EvacuationCenterFamilyMembersInside)
+            $membersCount = EvacuationCenterFamilyMembersInside::whereIn('familyinside_id', $familyIds)
+                ->whereBetween('age_years', [$age1,$age2])
+                ->count();
+        }
+        
+        return $headsCount + $membersCount;
+    }
+
+    public function countpwds()
+    {
+        // Get all family IDs in this evacuation center
+        $familyIds = $this->familiesinside()->pluck('id');
+
+        // Count family heads (in EvacuationCenterFamilyHead)
+        $headsCount = EvacuationCenterFamiliesInside::whereIn('id', $familyIds)
+            ->whereHas('familyHead', function ($query) {
+                $query->where('is_pwd', 'Y');
+            })
+            ->count();
+
+        // Count family members (in EvacuationCenterFamilyMembersInside)
+        $membersCount = EvacuationCenterFamilyMembersInside::whereIn('familyinside_id', $familyIds)
+            ->whereHas('member', function ($query) {
+                $query->where('is_pwd', 'Y');
             })
             ->count();
 

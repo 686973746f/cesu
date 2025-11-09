@@ -125,24 +125,6 @@
                                     <option value="F" {{(old('sex') == 'F') ? 'selected' : ''}}>Female</option>
                                     </select>
                                 </div>
-                                <div id="femaleDiv" class="d-none">
-                                    <div class="form-group">
-                                        <label for="is_pregnant"><b class="text-danger">*</b>Is Pregnant?</label>
-                                        <select class="form-control" name="is_pregnant" id="is_pregnant">
-                                        <option value="" disabled {{(is_null(old('is_pregnant'))) ? 'selected' : ''}}>Choose...</option>
-                                        <option value="Y" {{(old('is_pregnant') == 'Y') ? 'selected' : ''}}>Yes</option>
-                                        <option value="N" {{(old('is_pregnant') == 'N') ? 'selected' : ''}}>No</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="is_lactating"><b class="text-danger">*</b>Is Lactating?</label>
-                                        <select class="form-control" name="is_lactating" id="is_lactating">
-                                        <option value="" disabled {{(is_null(old('is_lactating'))) ? 'selected' : ''}}>Choose...</option>
-                                        <option value="Y" {{(old('is_lactating') == 'Y') ? 'selected' : ''}}>Yes</option>
-                                        <option value="N" {{(old('is_lactating') == 'N') ? 'selected' : ''}}>No</option>
-                                        </select>
-                                    </div>
-                                </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
@@ -200,7 +182,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="house_ownership"><span class="text-danger font-weight-bold">*</span>House Ownership</label>
                                     <select class="form-control" name="house_ownership" id="house_ownership" required>
@@ -213,17 +195,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="is_pwd"><span class="text-danger font-weight-bold">*</span>Is PWD</label>
-                                    <select class="form-control" name="is_pwd" id="is_pwd" required>
-                                        <option value="" {{(is_null(old('is_pwd'))) ? 'selected' : ''}}>Choose...</option>
-                                        <option value="Y" {{(old('is_pwd') == 'Y') ? 'selected' : ''}}>Yes</option>
-                                        <option value="N" {{(old('is_pwd') == 'N') ? 'selected' : ''}}>No</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="is_4ps"><span class="text-danger font-weight-bold">*</span>Is 4Ps</label>
                                     <select class="form-control" name="is_4ps" id="is_4ps" required>
@@ -233,7 +205,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="is_indg"><span class="text-danger font-weight-bold">*</span>Is Indigent</label>
                                     <select class="form-control" name="is_indg" id="is_indg" required>
@@ -448,20 +420,5 @@
                 $('#address_muncity_code').val(cityDefault).trigger('change');
             }, 1000); // Slight delay to ensure city is loaded
         }
-
-        $('#sex').change(function (e) { 
-            e.preventDefault();
-            
-            if($(this).val() == 'F') {
-                $('#femaleDiv').removeClass('d-none');
-                $('#is_pregnant').prop('required', true);
-                $('#is_lactating').prop('required', true);
-            }
-            else {
-                $('#femaleDiv').addClass('d-none');
-                $('#is_pregnant').prop('required', false);
-                $('#is_lactating').prop('required', false);
-            }
-        }).trigger('change');
     </script>
 @endsection

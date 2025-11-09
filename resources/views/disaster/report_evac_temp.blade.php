@@ -42,14 +42,44 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td scope="row"></td>
-                        <td></td>
-                        <td></td>
+                        <td>0 - 5</td>
+                        <td class="text-center">{{$d->countIndividualsByAgeGender('M', 0, 5)}}</td>
+                        <td class="text-center">{{$d->countIndividualsByAgeGender('F', 0, 5)}}</td>
                     </tr>
                     <tr>
-                        <td scope="row"></td>
-                        <td></td>
-                        <td></td>
+                        <td>6 - 10</td>
+                        <td class="text-center">{{$d->countIndividualsByAgeGender('M', 6, 10)}}</td>
+                        <td class="text-center">{{$d->countIndividualsByAgeGender('F', 6, 10)}}</td>
+                    </tr>
+                    <tr>
+                        <td>11 - 19</td>
+                        <td class="text-center">{{$d->countIndividualsByAgeGender('M', 11, 19)}}</td>
+                        <td class="text-center">{{$d->countIndividualsByAgeGender('F', 11, 19)}}</td>
+                    </tr>
+                    <tr>
+                        <td>20 - 40</td>
+                        <td class="text-center">{{$d->countIndividualsByAgeGender('M', 20, 40)}}</td>
+                        <td class="text-center">{{$d->countIndividualsByAgeGender('F', 20, 40)}}</td>
+                    </tr>
+                    <tr>
+                        <td>41 - 50</td>
+                        <td class="text-center">{{$d->countIndividualsByAgeGender('M', 41, 50)}}</td>
+                        <td class="text-center">{{$d->countIndividualsByAgeGender('F', 41, 50)}}</td>
+                    </tr>
+                    <tr>
+                        <td>51 - 60</td>
+                        <td class="text-center">{{$d->countIndividualsByAgeGender('M', 51, 60)}}</td>
+                        <td class="text-center">{{$d->countIndividualsByAgeGender('F', 51, 60)}}</td>
+                    </tr>
+                    <tr>
+                        <td>61 - 70</td>
+                        <td class="text-center">{{$d->countIndividualsByAgeGender('M', 61, 70)}}</td>
+                        <td class="text-center">{{$d->countIndividualsByAgeGender('F', 61, 70)}}</td>
+                    </tr>
+                    <tr>
+                        <td>71 - 75</td>
+                        <td class="text-center">{{$d->countIndividualsByAgeGender('M', 71, 75)}}</td>
+                        <td class="text-center">{{$d->countIndividualsByAgeGender('F', 71, 75)}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -61,7 +91,7 @@
                     </tr>
                     <tr>
                         <td>Infant</td>
-                        <td class="text-center"></td>
+                        <td class="text-center">{{$d->countAge(0,1,'<=')}}</td>
                     </tr>
                     <tr>
                         <td>Lactating Mother</td>
@@ -69,11 +99,11 @@
                     </tr>
                     <tr>
                         <td>Senior Citizen</td>
-                        <td class="text-center"></td>
+                        <td class="text-center">{{$d->countAge(60,60,'>=')}}</td>
                     </tr>
                     <tr>
                         <td>PWDs</td>
-                        <td class="text-center"></td>
+                        <td class="text-center">{{$d->countpwds()}}</td>
                     </tr>
                 </tbody>
             </table>

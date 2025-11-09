@@ -130,22 +130,6 @@
                                                                     <option value="F" {{old('sex', $m->sex) == 'F' ? 'selected' : ''}}>Female</option>
                                                                 </select>
                                                             </div>
-                                                            <div id="femaleDiv{{$m->id}}" class="female-section d-none">
-                                                                <div class="form-group">
-                                                                    <label for="is_pregnant{{$m->id}}"><b class="text-danger">*</b>Is Pregnant?</label>
-                                                                    <select class="form-control" name="is_pregnant" id="is_pregnant{{$m->id}}">
-                                                                    <option value="Y" {{old('is_pregnant', $m->is_pregnant) == 'Y' ? 'selected' : ''}}>Yes</option>
-                                                                    <option value="N" {{old('is_pregnant', $m->is_pregnant) == 'N' ? 'selected' : ''}}>No</option>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="is_lactating{{$m->id}}"><b class="text-danger">*</b>Is Lactating?</label>
-                                                                    <select class="form-control" name="is_lactating" id="is_lactating{{$m->id}}">
-                                                                    <option value="Y" {{old('is_lactating', $m->is_lactating) == 'Y' ? 'selected' : ''}}>Yes</option>
-                                                                    <option value="N" {{old('is_lactating', $m->is_lactating) == 'N' ? 'selected' : ''}}>No</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="form-group">
@@ -286,24 +270,6 @@
                                   <option value="F" {{(old('sex') == 'F') ? 'selected' : ''}}>Female</option>
                                 </select>
                             </div>
-                            <div id="femaleDiv" class="d-none">
-                                <div class="form-group">
-                                    <label for="is_pregnant"><b class="text-danger">*</b>Is Pregnant?</label>
-                                    <select class="form-control" name="is_pregnant" id="is_pregnant">
-                                      <option value="" disabled {{(is_null(old('is_pregnant'))) ? 'selected' : ''}}>Choose...</option>
-                                      <option value="Y" {{(old('is_pregnant') == 'Y') ? 'selected' : ''}}>Yes</option>
-                                      <option value="N" {{(old('is_pregnant') == 'N') ? 'selected' : ''}}>No</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="is_lactating"><b class="text-danger">*</b>Is Lactating?</label>
-                                    <select class="form-control" name="is_lactating" id="is_lactating">
-                                      <option value="" disabled {{(is_null(old('is_lactating'))) ? 'selected' : ''}}>Choose...</option>
-                                      <option value="Y" {{(old('is_lactating') == 'Y') ? 'selected' : ''}}>Yes</option>
-                                      <option value="N" {{(old('is_lactating') == 'N') ? 'selected' : ''}}>No</option>
-                                    </select>
-                                </div>
-                            </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
@@ -345,17 +311,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="is_pwd"><span class="text-danger font-weight-bold">*</span>Is PWD</label>
-                                <select class="form-control" name="is_pwd" id="is_pwd" required>
-                                    <option value="" {{(is_null(old('is_pwd'))) ? 'selected' : ''}}>Choose...</option>
-                                    <option value="Y" {{(old('is_pwd') == 'Y') ? 'selected' : ''}}>Yes</option>
-                                    <option value="N" {{(old('is_pwd') == 'N') ? 'selected' : ''}}>No</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="is_4ps"><span class="text-danger font-weight-bold">*</span>Is 4Ps</label>
                                 <select class="form-control" name="is_4ps" id="is_4ps" required>
@@ -365,7 +321,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="is_indg"><span class="text-danger font-weight-bold">*</span>Is Indigent</label>
                                 <select class="form-control" name="is_indg" id="is_indg" required>
@@ -384,44 +340,4 @@
         </div>
     </div>
 </form>
-
-<script>
-    $('#sex').change(function (e) { 
-        e.preventDefault();
-        
-        if($(this).val() == 'F') {
-            $('#femaleDiv').removeClass('d-none');
-            $('#is_pregnant').prop('required', true);
-            $('#is_lactating').prop('required', true);
-        }
-        else {
-            $('#femaleDiv').addClass('d-none');
-            $('#is_pregnant').prop('required', false);
-            $('#is_lactating').prop('required', false);
-        }
-    }).trigger('change');
-
-    $(document).on('change', '.sex-field', function() {
-        let id = $(this).attr('id').replace('sex', '');
-        let femaleDiv = $('#femaleDiv' + id);
-        let preg = $('#is_pregnant' + id);
-        let lact = $('#is_lactating' + id);
-
-        if ($(this).val() === 'F') {
-            femaleDiv.removeClass('d-none');
-            preg.prop('required', true);
-            lact.prop('required', true);
-        } else {
-            femaleDiv.addClass('d-none');
-            preg.prop('required', false);
-            lact.prop('required', false);
-        }
-    });
-
-    // Auto-trigger when modal is opened (so previous state shows)
-    $('[id^="memberModal"]').on('shown.bs.modal', function() {
-        let id = $(this).attr('id').replace('memberModal', '');
-        $('#sex' + id).trigger('change');
-    });
-</script>
 @endsection

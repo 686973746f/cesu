@@ -83,7 +83,7 @@
                           <select class="form-control" name="familyhead_id" id="familyhead_id" required>
                             <option value="" disabled {{(is_null(old('familyhead_id'))) ? 'selected' : ''}}>Choose...</option>
                             @foreach($available_list as $l)
-                            <option value="{{$l->id}}">{{$l->getName()}}</option>
+                            <option value="{{$l->id}}" data-gender="{{ $l->sex }}">{{$l->getName()}}</option>
                             @endforeach
                           </select>
                         </div>
@@ -94,7 +94,30 @@
                           <label for="date_registered"><b class="text-danger">*</b>Date Registered</label>
                           <input type="datetime-local" class="form-control" name="date_registered" id="date_registered" value="{{old('date_registered', date('Y-m-d\TH:i'))}}" max="{{ date('Y-m-d\TH:i') }}" required>
                         </div>
-
+                        <div id="female_extra_div" style="display: none;">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="is_pregnant"><b class="text-danger">*</b>Is Pregnant?</label>
+                                        <select class="form-control" name="is_pregnant" id="is_pregnant">
+                                        <option value="" disabled {{(is_null(old('is_pregnant'))) ? 'selected' : ''}}>Choose...</option>
+                                        <option value="Y" {{(old('is_pregnant') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                        <option value="N" {{(old('is_pregnant') == 'N') ? 'selected' : ''}}>No</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="is_lactating"><b class="text-danger">*</b>Is Lactating?</label>
+                                        <select class="form-control" name="is_lactating" id="is_lactating">
+                                        <option value="" disabled {{(is_null(old('is_lactating'))) ? 'selected' : ''}}>Choose...</option>
+                                        <option value="Y" {{(old('is_lactating') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                        <option value="N" {{(old('is_lactating') == 'N') ? 'selected' : ''}}>No</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>      
+                        </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -134,15 +157,29 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="form-group">
-                          <label for="shelterdamage_classification"><b class="text-danger">*</b>Shelter Damage Classification</label>
-                          <select class="form-control" name="shelterdamage_classification" id="shelterdamage_classification" required>
-                            <option value="" disabled {{(is_null(old('shelterdamage_classification'))) ? 'selected' : ''}}>Choose...</option>
-                            <option value="PARTIALLY DAMAGED">Partially Damaged</option>
-                            <option value="TOTALLY DAMAGED">Totally Damaged</option>
-                          </select>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="is_pwd"><b class="text-danger">*</b>Is PWD?</label>
+                                    <select class="form-control" name="is_pwd" id="is_pwd" required>
+                                        <option value="" disabled {{(is_null(old('is_pwd'))) ? 'selected' : ''}}>Choose...</option>
+                                        <option value="Y" {{(old('is_pwd') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                        <option value="N" {{(old('is_pwd') == 'N') ? 'selected' : ''}}>No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="shelterdamage_classification"><b class="text-danger">*</b>Shelter Damage Classification</label>
+                                    <select class="form-control" name="shelterdamage_classification" id="shelterdamage_classification" required>
+                                        <option value="" disabled {{(is_null(old('shelterdamage_classification'))) ? 'selected' : ''}}>Choose...</option>
+                                        <option value="PARTIALLY DAMAGED">Partially Damaged</option>
+                                        <option value="TOTALLY DAMAGED">Totally Damaged</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
+                        
                         <div class="form-group">
                           <label for="evac_type"><b class="text-danger">*</b>Evacuee Type</label>
                           <select class="form-control" name="evac_type" id="evac_type" required>
@@ -425,6 +462,18 @@
             }
         }).trigger('change');
 
-
+        $('#familyhead_id').on('change', function() {
+            var gender = $(this).find(':selected').data('gender');
+            
+            if (gender && gender.toLowerCase() === 'f') {
+                $('#female_extra_div').slideDown();
+                $('#is_pregnant').prop('required', true);
+                $('#is_lactating').prop('required', true);
+            } else {
+                $('#female_extra_div').slideUp();
+                $('#is_pregnant').prop('required', false);
+                $('#is_lactating').prop('required', false);
+            }
+        });
     </script>
 @endsection

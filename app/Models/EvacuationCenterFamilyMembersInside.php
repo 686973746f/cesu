@@ -15,6 +15,10 @@ class EvacuationCenterFamilyMembersInside extends Model
         'member_id',
 
         'is_injured',
+        'is_pregnant',
+        'is_lactating',
+        'is_pwd',
+        
         'is_admitted',
         'date_admitted',
         'date_discharged',

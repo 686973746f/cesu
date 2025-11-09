@@ -22,7 +22,11 @@ class CreateEvacuationCenterFamiliesInsidesTable extends Migration
             
             $table->string('family_status'); //ACTIVE, WENT HOME
             $table->dateTime('date_returnedhome')->nullable();
+            
             $table->string('is_injured', 1)->default('N');
+            $table->string('is_pregnant', 1)->default('N');
+            $table->string('is_lactating', 1)->default('N');
+            $table->string('is_pwd', 1)->default('N');
             $table->string('is_admitted', 1)->default('N');
             $table->date('date_admitted')->nullable();
             $table->date('date_discharged')->nullable();
