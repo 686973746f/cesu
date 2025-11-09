@@ -38,7 +38,7 @@
                         <td class="text-center">{{$ind+1}}</td>
                         <td><a href="{{route('gtsecure_evacuationcenter_view', $l->id)}}">{{$l->name}}</a></td>
                         <td class="text-center">{{$l->familiesinside->count()}}</td>
-                        <td class="text-center">{{}}</td>
+                        <td class="text-center">{{$l->getTotalIndividualsAttribute()}}</td>
                         <td class="text-center">{{$l->brgy->name}}</td>
                         <td class="text-center">{{$l->status}}</td>
                         <td class="text-center">

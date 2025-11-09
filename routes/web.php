@@ -923,10 +923,13 @@ Route::group(['middleware' => ['auth','verified', 'canAccessDisaster']], functio
     Route::get('/gtsecure/families/view_family/{id}', [DisasterController::class, 'viewFamilyHead'])->name('disaster_viewfamilyhead');
     Route::post('/gtsecure/families/view_family/{id}/new_member', [DisasterController::class, 'storeFamilyMember'])->name('disaster_storemember');
 
+    Route::post('/gtsecure/family_member/{id}/update', [DisasterController::class, 'updateFamilyMember'])->name('disaster_updatemember');
+
     Route::post('/gtsecure/disaster/{id}/evacuation_center/store', [DisasterController::class, 'storeEvacuationCenter'])->name('gtsecure_evacuationcenter_store');
     Route::get('/gtsecure/disaster/evacuation_center/{evac_id}', [DisasterController::class, 'viewEvacuationCenter'])->name('gtsecure_evacuationcenter_view');
     Route::post('/gtsecure/disaster/evacuation_center/{evac_id}/linkfamily', [DisasterController::class, 'linkFamilyToEvac'])->name('disaster_linkfamily');
     Route::get('/gtsecure/disaster/evacuation_center/{evac_id}/view_insidefamily/{head_id}', [DisasterController::class, 'viewEvacFamily'])->name('disaster_viewfamilyevac');
+    Route::post('/gtsecure/disaster/evacuation_center/{evac_id}/view_insidefamily/{head_id}/update', [DisasterController::class, 'updateEvacFamily'])->name('disaster_updateevacfamily');
     Route::post('/gtsecure/disaster/evacuation_center/{evac_id}/view_insidefamily/{head_id}/linkmember', [DisasterController::class, 'linkMemberToEvac'])->name('disaster_linkmembertoevac');
     //Route::get('/gtsecure/disaster/evacuation_center/{evac_id}/new_patient', [DisasterController::class, 'newPatient'])->name('gtsecure_newpatient');
     //Route::post('/gtsecure/disaster/evacuation_center/{evac_id}/new_patient/store', [DisasterController::class, 'storePatient'])->name('gtsecure_storepatient');

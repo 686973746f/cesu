@@ -57,4 +57,18 @@ class EvacuationCenter extends Model
     {
         return $this->familyHeads()->with('members');
     }
+
+    public function getTotalIndividualsAttribute()
+    {
+        // Count family heads (each family inside = 1 head)
+        $headsCount = $this->familiesinside()->count();
+
+        // Count all members under those families
+        $membersCount = EvacuationCenterFamilyMembersInside::whereIn(
+            'familyinside_id',
+            $this->familiesinside()->pluck('id')
+        )->count();
+
+        return $headsCount + $membersCount;
+    }
 }

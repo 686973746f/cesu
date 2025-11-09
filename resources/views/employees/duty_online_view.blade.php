@@ -65,6 +65,8 @@
                     <li><span class="badge badge-primary">LR</span> - BLS Trained Lay Rescuer</li>
                 </ul>
             </div>
+
+            @if(is_null(request()->input('masterlistView')))
             <div class="row">
                 <div class="col-md-6">
                     <div class="card">
@@ -247,6 +249,49 @@
                     </div>
                 </div>
             </div>
+            @else
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead class="thead-light text-center">
+                        <tr>
+                            <th>No.</th>
+                            <th>Name</th>
+                            <th>HERT Team</th>
+                            <th>Nakapag-duty na ngayong Cycle</th>
+                            <th>Last Duty</th>
+                            <th>Duty Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($list as $ind => $d)
+                        <tr>
+                            <td class="text-center">{{$ind + 1}}</td>
+                            <td>
+                                {{$d->getName()}}
+                                @if($d->is_blstrained == 'Y')
+                                @if($d->bls_typeofrescuer == 'LR')
+                                <span class="badge badge-primary">LR</span>
+                                @else
+                                <span class="badge badge-success">HCP</span>
+                                @endif
+                                @endif
+                            </td>
+                            <td class="text-center">{{$d->duty_team}}</td>
+                            <td class="text-center">{{($d->duty_completedcycle == 'Y') ? 'DONE' : 'PENDING'}}</td>
+                            <td class="text-center">
+                                @if($d->getLatestDuty())
+                                {{$d->getLatestDuty()->event->event_name.' ('.date('M. d, Y', strtotime($d->getLatestDuty()->event->event_date)).')'}} <span class="badge badge-{{($d->getLatestDuty()->event->cycle_number != $cycle_count) ? 'secondary' : 'success'}}">CYCLE {{$d->getLatestDuty()->event->cycle_number}}</span>
+                                @else
+                                N/A
+                                @endif
+                            </td>
+                            <td class="text-center">{{$d->duty_balance}}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            @endif
         </div>
     </div>
 </div>

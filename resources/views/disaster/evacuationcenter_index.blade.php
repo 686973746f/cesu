@@ -90,7 +90,7 @@
                         </div>
                         <div class="form-group">
                           <label for="date_registered"><b class="text-danger">*</b>Date Registered</label>
-                          <input type="datetime-local" class="form-control" name="date_registered" id="date_registered" value="{{old('date_registered', date('Y-m-d H:i'))}}" required>
+                          <input type="datetime-local" class="form-control" name="date_registered" id="date_registered" value="{{old('date_registered', date('Y-m-d\TH:i'))}}" max="{{ date('Y-m-d\TH:i') }}" required>
                         </div>
 
                         <div class="row">

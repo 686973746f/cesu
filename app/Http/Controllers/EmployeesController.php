@@ -1014,29 +1014,44 @@ class EmployeesController extends Controller
     }
 
     public function viewEmployeesDutyOnline() {
-        $team_a = Employee::where('duty_team', 'A')
-        ->where('employment_status', 'ACTIVE')
-        ->where('duty_canbedeployed', 'Y')
-        ->orderBy('lname', 'ASC')
-        ->get();
+        if(is_null(request()->input('masterlistView'))) {
+            $team_a = Employee::where('duty_team', 'A')
+            ->where('employment_status', 'ACTIVE')
+            ->where('duty_canbedeployed', 'Y')
+            ->orderBy('lname', 'ASC')
+            ->get();
 
-        $team_b = Employee::where('duty_team', 'B')
-        ->where('employment_status', 'ACTIVE')
-        ->where('duty_canbedeployed', 'Y')
-        ->orderBy('lname', 'ASC')
-        ->get();
+            $team_b = Employee::where('duty_team', 'B')
+            ->where('employment_status', 'ACTIVE')
+            ->where('duty_canbedeployed', 'Y')
+            ->orderBy('lname', 'ASC')
+            ->get();
 
-        $team_c = Employee::where('duty_team', 'C')
-        ->where('employment_status', 'ACTIVE')
-        ->where('duty_canbedeployed', 'Y')
-        ->orderBy('lname', 'ASC')
-        ->get();
+            $team_c = Employee::where('duty_team', 'C')
+            ->where('employment_status', 'ACTIVE')
+            ->where('duty_canbedeployed', 'Y')
+            ->orderBy('lname', 'ASC')
+            ->get();
 
-        $team_d = Employee::where('duty_team', 'D')
-        ->where('employment_status', 'ACTIVE')
-        ->where('duty_canbedeployed', 'Y')
-        ->orderBy('lname', 'ASC')
-        ->get();
+            $team_d = Employee::where('duty_team', 'D')
+            ->where('employment_status', 'ACTIVE')
+            ->where('duty_canbedeployed', 'Y')
+            ->orderBy('lname', 'ASC')
+            ->get();
+
+            $list = NULL;
+        }
+        else {
+            $team_a = NULL;
+            $team_b = NULL;
+            $team_c = NULL;
+            $team_d = NULL;
+
+            $list = Employee::where('employment_status', 'ACTIVE')
+            ->where('duty_canbedeployed', 'Y')
+            ->orderBy('lname', 'ASC')
+            ->get();
+        }
 
         $duty_qry = Employee::where('employment_status', 'ACTIVE')
         ->where('duty_canbedeployed', 'Y')
@@ -1093,6 +1108,8 @@ class EmployeesController extends Controller
             'tc_notdeployed' => $tc_notdeployed,
             'td_deployed' => $td_deployed,
             'td_notdeployed' => $td_notdeployed,
+
+            'list' => $list,
         ]);
     }
 

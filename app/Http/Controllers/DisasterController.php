@@ -232,7 +232,7 @@ class DisasterController extends Controller
 
         if($check) {
             return redirect()->back()
-            ->with('msg', 'Family Member '.$check->getName().' already exists. Kindly double check and try again.')
+            ->with('msg', 'ERROR: Family Member '.$check->getName().' already exists. Kindly double check and try again.')
             ->with('msgtype', 'warning');
         }
 
@@ -271,7 +271,52 @@ class DisasterController extends Controller
     }
 
     public function updateFamilyMember($id, Request $r) {
+        $d = EvacuationCenterFamilyMember::findOrFail($id);
 
+        $lname = mb_strtoupper($r->lname);
+        $fname = mb_strtoupper($r->fname);
+        $mname = ($r->mname) ? mb_strtoupper($r->mname) : NULL;
+        $suffix = ($r->suffix) ? mb_strtoupper($r->suffix) : NULL;
+
+        $bdate = $r->bdate;
+
+        $check = EvacuationCenterFamilyMember::where('id', '!=', $d->id)
+        ->where('lname', $lname)
+        ->where('fname', $fname)
+        ->whereDate('bdate', $bdate)
+        ->first();
+
+        if($check) {
+            return redirect()->back()
+            ->with('msg', 'ERROR: Family Member '.$check->getName().' already exists. Kindly double check and try again.')
+            ->with('msgtype', 'warning');
+        }
+
+        $u = $d->update([
+            'relationship_tohead' => $r->relationship_tohead,
+            'lname' => $lname,
+            'fname' => $fname,
+            'mname' => $mname,
+            'suffix' => $suffix,
+            'bdate' => $bdate,
+            'sex' => $r->sex,
+            'is_pregnant' => ($r->sex == 'F') ? $r->is_pregnant : 'N',
+            'is_lactating' => ($r->sex == 'F') ? $r->is_lactating : 'N',
+            'highest_education' => $r->highest_education,
+            'occupation', ($r->occupation) ? mb_strtoupper($r->occupation) : NULL,
+            //'outcome',
+            //'date_missing',
+            //'date_returned',
+            //'date_died',
+            //'is_injured',
+            'is_pwd' => $r->is_pwd,
+            'is_4ps' => $r->is_4ps,
+            'is_indg' => $r->is_indg,
+        ]);
+
+        return redirect()->back()
+        ->with('msg', 'ERROR: Family Member '.$d->getName().' was successfully updated.')
+        ->with('msgtype', 'success');
     }
 
     public function storeEvacuationCenter($disaster_id, Request $r) {
@@ -399,6 +444,37 @@ class DisasterController extends Controller
             'available_list' => $available_list,
             'list' => $list,
         ]);
+    }
+
+    public function updateEvacFamily($evac_id, $headinside_id, Request $r) {
+        $d = EvacuationCenterFamiliesInside::findOrFail($headinside_id);
+
+        if($evac_id != $d->evacuation_center_id) {
+            return abort(401);
+        }
+
+        $d->update([
+            'date_registered' => $r->date_registered,
+            'family_status' => $r->family_status,
+            'date_returnedhome' => ($r->family_status == 'RETURNED') ? $r->date_returnedhome : NULL,
+            'outcome' => $r->outcome,
+            'date_missing' => $r->date_missing,
+            'date_returned' => $r->date_returned,
+            'date_died' => ($r->outcome == 'DIED') ? $r->date_died : NULL,
+            'is_injured' => $r->is_injured,
+            'is_admitted' => $r->is_admitted,
+            'date_admitted' => ($r->is_admitted == 'Y') ? $r->date_admitted : NULL,
+            'date_discharged' => ($r->is_admitted == 'Y') ? $r->date_discharged : NULL,
+            'shelterdamage_classification' => $r->shelterdamage_classification,
+            'evac_type' => $r->evac_type,
+            'remarks' => $r->remarks,
+            'focal_name' => ($r->focal_name) ? mb_strtoupper($r->focal_name) : NULL,
+            'supervisor_name' => ($r->supervisor_name) ? mb_strtoupper($r->supervisor_name) : NULL,
+        ]);
+
+        return redirect()->back()
+        ->with('msg', 'Family head data was updated successfully.')
+        ->with('msgtype', 'success');
     }
 
     public function linkMemberToEvac($evac_id, $headinside_id, Request $r) {
