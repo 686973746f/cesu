@@ -192,8 +192,8 @@
                                 <td><a href="">{{$m->member->getName()}}</a></td>
                                 <td class="text-center">{{$m->member->getAge()}}</td>
                                 <td class="text-center">{{$m->member->sex}}</td>
-                                <td class="text-center">{{$m->member->is_pregnant}}</td>
-                                <td class="text-center">{{$m->member->is_lactating}}</td>
+                                <td class="text-center">{{$m->is_pregnant}}</td>
+                                <td class="text-center">{{$m->is_lactating}}</td>
                                 <td class="text-center">{{$m->member->relationship_tohead}}</td>
                                 <td class="text-center">{{$m->member->highest_education}}</td>
                                 <td class="text-center">{{$m->outcome}}</td>

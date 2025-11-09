@@ -87,7 +87,7 @@
                 <tbody>
                     <tr>
                         <td>Pregnant</td>
-                        <td class="text-center"></td>
+                        <td class="text-center">{{$d->countconds('is_pregnant', 'Y')}}</td>
                     </tr>
                     <tr>
                         <td>Infant</td>
@@ -95,7 +95,7 @@
                     </tr>
                     <tr>
                         <td>Lactating Mother</td>
-                        <td class="text-center"></td>
+                        <td class="text-center">{{$d->countconds('is_lactating', 'Y')}}</td>
                     </tr>
                     <tr>
                         <td>Senior Citizen</td>
@@ -103,7 +103,7 @@
                     </tr>
                     <tr>
                         <td>PWDs</td>
-                        <td class="text-center">{{$d->countpwds()}}</td>
+                        <td class="text-center">{{$d->countconds('is_pwd', 'Y')}}</td>
                     </tr>
                 </tbody>
             </table>
