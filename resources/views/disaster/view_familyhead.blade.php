@@ -2,11 +2,18 @@
 
 @section('content')
 <div class="container-fluid">
+    <div class="text-right mb-3">
+        <a href="{{route('disaster_viewfamilies')}}" class="btn btn-secondary">Go Back</a>
+    </div>
+
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <div><b>View Family Head and Members</b></div>
-                <div><a href="{{route('disaster_viewfamilies')}}" class="btn btn-secondary">Go Back</a></div>
+                <div>
+                    <div><b>View Family Head and Members</b></div>
+                    <div>{{$d->getName()}} (ID: {{$d->id}})</div>
+                </div>
+                <div></div>
             </div>
             
         </div>
@@ -23,10 +30,10 @@
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex justify-content-between">
-                        <div>List of Family Members</div>
+                        <div><b>List of Family Members</b></div>
                         <div>
                             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modelId">
-                                Add Member
+                                Add Family Member
                             </button>
                         </div>
                     </div>
@@ -37,6 +44,8 @@
                         {{session('msg')}}
                     </div>
                     @endif
+
+                    @if($member_list->count() != 0)
                     <table class="table table-bordered table-striped">
                         <thead class="text-center thead-light">
                             <tr>
@@ -69,6 +78,9 @@
                             @endforeach
                         </tbody>
                     </table>
+                    @else
+                    <h6 class="text-center">List is currently empty.</h6>
+                    @endif
                 </div>
             </div>
         </div>

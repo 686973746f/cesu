@@ -389,6 +389,7 @@ class DisasterController extends Controller
         ->toArray();
 
         $available_list = EvacuationCenterFamilyMember::whereNotIn('id', $the_array)
+        ->where('familyhead_id', $d->familyhead_id)
         ->get();
         
         $list = EvacuationCenterFamilyMembersInside::where('familyinside_id', $d->id)->get();
@@ -402,6 +403,17 @@ class DisasterController extends Controller
 
     public function linkMemberToEvac($evac_id, $headinside_id, Request $r) {
         $d = EvacuationCenterFamiliesInside::findOrFail($headinside_id);
+
+        $check = EvacuationCenterFamilyMembersInside::where([
+            'familyinside_id' => $d->id,
+            'member_id' => $r->member_id,
+        ])->first();
+
+        if($check) {
+            return redirect()->back()
+            ->with('msg', 'ERROR: Family member was already added.')
+            ->with('msgtype', 'warning');
+        }
 
         $c = EvacuationCenterFamilyMembersInside::create([
             'date_registered' => $r->date_registered,
@@ -421,7 +433,7 @@ class DisasterController extends Controller
             'created_by' => Auth::id(),
         ]);
 
-        return redirect()->route('disaster_viewfamilyhead', $d->id)
+        return redirect()->route('disaster_viewfamilyevac', [$d->evacuation_center_id, $d->id])
         ->with('msg', 'Family Member was successfully added.')
         ->with('msgtype', 'success');
     }

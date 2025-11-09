@@ -76,7 +76,7 @@
                     </div>
                     <div class="modal-body">
                         @if($available_list->count() > 0)
-                        <div class="form-group">
+                        <div class="form-group" id="familyhead_div">
                           <label for="familyhead_id"><b class="text-danger">*</b>Select Family Head to Add in the Evacuation Center</label>
                           <select class="form-control" name="familyhead_id" id="familyhead_id" required>
                             <option value="" disabled {{(is_null(old('familyhead_id'))) ? 'selected' : ''}}>Choose...</option>
@@ -266,6 +266,11 @@
     </form>
 
     <script>
+        $('#familyhead_id').select2({
+            theme: 'bootstrap',
+            dropdownParent: $('#familyhead_div'),
+        });
+
         $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_code').select2({
             theme: 'bootstrap',
             dropdownParent: $('#evacOptions'),

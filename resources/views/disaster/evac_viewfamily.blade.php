@@ -3,7 +3,16 @@
 @section('content')
 <div class="container">
     <div class="card">
-        <div class="card-header"><b>Family Head</b></div>
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <div><b>{{$d->evacuationcenter->disaster->name}}</b></div>
+                    <div><b>Evacuation Center ({{$d->evacuationCenter->name}}): View Family Head</b></div>
+                    <div>{{$d->familyHead->getName()}}</div>
+                </div>
+                <div></div>
+            </div>
+        </div>
         <div class="card-body">
             <div class="card">
                 <div class="card-header">
@@ -17,13 +26,49 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    
+                    @if($list->count() != 0)
+                    <table class="table table-striped table-bordered">
+                        <thead class="thead-light text-center">
+                            <tr>
+                                <th>No.</th>
+                                <th>Name</th>
+                                <th>Age</th>
+                                <th>Sex</th>
+                                <th>Is Pregnant</th>
+                                <th>Is Lactating</th>
+                                <th>Relationship to Family Head</th>
+                                <th>Highest Education</th>
+                                <th>Outcome</th>
+                                <th>Added at</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($list as $ind => $m)
+                            <tr>
+                                <td class="text-center">{{$ind + 1}}</td>
+                                <td><a href="">{{$m->member->getName()}}</a></td>
+                                <td class="text-center">{{$m->member->getAge()}}</td>
+                                <td class="text-center">{{$m->member->sex}}</td>
+                                <td class="text-center">{{$m->member->is_pregnant}}</td>
+                                <td class="text-center">{{$m->member->is_lactating}}</td>
+                                <td class="text-center">{{$m->member->relationship_tohead}}</td>
+                                <td class="text-center">{{$m->member->highest_education}}</td>
+                                <td class="text-center">{{$m->outcome}}</td>
+                                <td class="text-center">{{date('m/d/Y h:i A', strtotime($m->created_at))}}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    @else
+                    <h6 class="text-center">List is currently empty.</h6>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+@if($available_list->count() != 0)
 <form action="{{route('disaster_linkmembertoevac', [$d->evacuation_center_id, $d->id])}}" method="POST">
     @csrf
     <div class="modal fade" id="linkMember" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
@@ -37,7 +82,7 @@
                 </div>
                 <div class="modal-body">
                     @if($available_list->count() > 0)
-                    <div class="form-group">
+                    <div class="form-group" id="member_id_div">
                         <label for="member_id"><b class="text-danger">*</b>Select Family Member to Add</label>
                         <select class="form-control" name="member_id" id="member_id" required>
                         <option value="" disabled {{(is_null(old('member_id'))) ? 'selected' : ''}}>Choose...</option>
@@ -132,8 +177,32 @@
         </div>
     </div>
 </form>
+@else
+<div class="modal fade" id="linkMember" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Link Member to Evacuation Center</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info" role="alert">
+                    Family Head doesn't have family members data linked yet. To add, click <a href="{{route('disaster_viewfamilyhead', $d->familyhead_id)}}">here</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
 
 <script>
+    $('#member_id').select2({
+        theme: 'bootstrap',
+        dropdownParent: $('#member_id_div'),
+    });
+
     $('#is_admitted').change(function (e) { 
         e.preventDefault();
         if($(this).val() == 'Y') {

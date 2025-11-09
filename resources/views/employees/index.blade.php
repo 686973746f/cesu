@@ -15,6 +15,8 @@
                 {{session('msg')}}
             </div>
             @endif
+            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#filterModal">Filter</button>
+
             <div class="table-responsive">
                 <table class="table table-striped table-bordered" id="mainTbl">
                 <thead class="thead-light text-center">
@@ -62,6 +64,30 @@
         </div>
     </div>
 </div>
+
+<form action="" method="GET">
+    <div class="modal fade" id="filterModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Filter</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" name="showAll" id="showAll" value="1" {{(request()->input('showAll')) ? 'checked' : ''}}>Show All Employees</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-block">Filter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 
 <script>
     $('#mainTbl').dataTable({

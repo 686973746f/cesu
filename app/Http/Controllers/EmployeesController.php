@@ -29,8 +29,13 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 class EmployeesController extends Controller
 {
     public function index() {
-        $list = Employee::where('employment_status', 'ACTIVE')->get();
-
+        if(request()->input('showAll')) {
+            $list = Employee::get();
+        }
+        else {
+            $list = Employee::where('employment_status', 'ACTIVE')->get();
+        }
+    
         return view('employees.index', [
             'list' => $list,
         ]);
