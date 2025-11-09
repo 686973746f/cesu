@@ -522,7 +522,18 @@ class DisasterController extends Controller
         
     }
 
-    public function viewReportDashbooard($disaster_id) {
+    public function reportDisaster($id) {
+        $d = Disaster::findOrFail($id);
+
+        $list_evac = EvacuationCenter::where('disaster_id', $d->id)->get();
+
+        return view('disaster.report_disaster_temp', [
+            'd' => $d,
+            'list_evac' => $list_evac,
+        ]);
+    }
+    
+    public function reportEvac($id) {
 
     }
 

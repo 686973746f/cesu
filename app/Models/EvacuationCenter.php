@@ -71,4 +71,26 @@ class EvacuationCenter extends Model
 
         return $headsCount + $membersCount;
     }
+
+    public function countIndividualsByGender($gender)
+    {
+        // Get all family IDs in this evacuation center
+        $familyIds = $this->familiesinside()->pluck('id');
+
+        // Count family heads (in EvacuationCenterFamilyHead)
+        $headsCount = EvacuationCenterFamiliesInside::whereIn('id', $familyIds)
+            ->whereHas('familyHead', function ($query) use ($gender) {
+                $query->where('sex', $gender);
+            })
+            ->count();
+
+        // Count family members (in EvacuationCenterFamilyMembersInside)
+        $membersCount = EvacuationCenterFamilyMembersInside::whereIn('familyinside_id', $familyIds)
+            ->whereHas('member', function ($query) use ($gender) {
+                $query->where('sex', $gender);
+            })
+            ->count();
+
+        return $headsCount + $membersCount;
+    }
 }
