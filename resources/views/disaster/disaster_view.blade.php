@@ -20,38 +20,37 @@
             @endif
             <a href="{{route('gtsecure_report_disaster', $d->id)}}" class="btn btn-primary mb-3">View Summary Report</a>
 
-            <table class="table table-bordered table-striped">
-                <thead class="thead-light text-center">
-                    <tr>
-                        <th>#</th>
-                        <th>Evacuation Center</th>
-                        <th>No. of Families</th>
-                        <th>No. of Individuals</th>
-                        <th>Barangay</th>
-                        <th>Status</th>
-                        <th>Created at/by</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($list_evac as $ind => $l)
-                    <tr>
-                        <td class="text-center">{{$ind+1}}</td>
-                        <td><a href="{{route('gtsecure_evacuationcenter_view', $l->id)}}">{{$l->name}}</a></td>
-                        <td class="text-center">{{$l->familiesinside->count()}}</td>
-                        <td class="text-center">{{$l->getTotalIndividualsAttribute()}}</td>
-                        <td class="text-center">{{$l->brgy->name}}</td>
-                        <td class="text-center">{{$l->status}}</td>
-                        <td class="text-center">
-                            <div>{{date('M. d, Y h:i A', strtotime($l->created_at))}}</div>
-                            <div>by {{$l->user->name}}</div>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-        <div class="card-footer">
-            
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="thead-light text-center">
+                        <tr>
+                            <th>#</th>
+                            <th>Evacuation Center</th>
+                            <th>No. of Families</th>
+                            <th>No. of Individuals</th>
+                            <th>Barangay</th>
+                            <th>Status</th>
+                            <th>Created at/by</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($list_evac as $ind => $l)
+                        <tr>
+                            <td class="text-center">{{$ind+1}}</td>
+                            <td><a href="{{route('gtsecure_evacuationcenter_view', $l->id)}}">{{$l->name}}</a></td>
+                            <td class="text-center">{{$l->familiesinside->count()}}</td>
+                            <td class="text-center">{{$l->getTotalIndividualsAttribute()}}</td>
+                            <td class="text-center">{{$l->brgy->name}}</td>
+                            <td class="text-center">{{$l->status}}</td>
+                            <td class="text-center">
+                                <div>{{date('M. d, Y h:i A', strtotime($l->created_at))}}</div>
+                                <div>by {{$l->user->name}}</div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
