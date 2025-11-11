@@ -2,17 +2,15 @@
 
 @section('content')
     <div class="container-fluid">
+        <div class="mb-3"><a href="{{route('gtsecure_index')}}" class="btn btn-secondary">Go Back</a></div>
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
                     <div><b>Evacuation Centers - Family Masterlist</b></div>
                     <div>
-                        <div class="mb-3"><a href="{{route('gtsecure_index')}}" class="btn btn-secondary">Go Back</a></div>
-                        <div>
-                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#newFamilyHead">
-                            New Family Head
-                            </button>
-                        </div>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#newFamilyHead">
+                        New Family Head
+                        </button>
                     </div>
                 </div>
             </div>
@@ -182,7 +180,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="house_ownership"><span class="text-danger font-weight-bold">*</span>House Ownership</label>
                                     <select class="form-control" name="house_ownership" id="house_ownership" required>
@@ -195,9 +193,19 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="is_4ps"><span class="text-danger font-weight-bold">*</span>Is 4Ps</label>
+                                    <label for="is_soloparent"><span class="text-danger font-weight-bold">*</span>Is Solo Parent?</label>
+                                    <select class="form-control" name="is_soloparent" id="is_soloparent" required>
+                                        <option value="" {{(is_null(old('is_soloparent'))) ? 'selected' : ''}}>Choose...</option>
+                                        <option value="Y" {{(old('is_soloparent') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                        <option value="N" {{(old('is_soloparent') == 'N') ? 'selected' : ''}}>No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="is_4ps"><span class="text-danger font-weight-bold">*</span>Is 4Ps Beneficiary?</label>
                                     <select class="form-control" name="is_4ps" id="is_4ps" required>
                                         <option value="" {{(is_null(old('is_4ps'))) ? 'selected' : ''}}>Choose...</option>
                                         <option value="Y" {{(old('is_4ps') == 'Y') ? 'selected' : ''}}>Yes</option>
@@ -205,9 +213,9 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="is_indg"><span class="text-danger font-weight-bold">*</span>Is Indigent</label>
+                                    <label for="is_indg"><span class="text-danger font-weight-bold">*</span>Is Indigenous People?</label>
                                     <select class="form-control" name="is_indg" id="is_indg" required>
                                         <option value="" {{(is_null(old('is_indg'))) ? 'selected' : ''}}>Choose...</option>
                                         <option value="Y" {{(old('is_indg') == 'Y') ? 'selected' : ''}}>Yes</option>

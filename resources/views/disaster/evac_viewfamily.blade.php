@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container">
+    <a href="{{route('gtsecure_evacuationcenter_view', $d->evacuationcenter->id)}}" class="btn btn-secondary mb-3">Go Back</a>
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between">
@@ -10,7 +11,11 @@
                     <div><b>Evacuation Center ({{$d->evacuationCenter->name}}): View Family Head</b></div>
                     <div>{{$d->familyHead->getName()}}</div>
                 </div>
-                <div></div>
+                <div>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#linkMember">
+                        Link Family Member
+                    </button>
+                </div>
             </div>
         </div>
         <div class="card-body">
@@ -22,137 +27,143 @@
 
             <form action="{{route('disaster_updateevacfamily', [$d->evacuationCenter->id, $d->id])}}" method="POST">
                 @csrf
-                <div class="card mb-3">
-                    <div class="card-header"><b>Family Head Status</b></div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="date_registered"><b class="text-danger">*</b>Date Registered</label>
-                                    <input type="datetime-local" class="form-control" name="date_registered" id="date_registered" value="{{old('date_registered', $d->date_registered)}}" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="family_status"><b class="text-danger">*</b>Status</label>
-                                    <select class="form-control" name="family_status" id="family_status" required>
-                                        <option value="ACTIVE" {{(old('family_status', $d->family_status) == 'ACTIVE') ? 'selected' : ''}}>Active</option>
-                                        <option value="RETURNED" {{(old('family_status', $d->family_status) == 'RETURNED') ? 'selected' : ''}}>Returned Home</option>
-                                    </select>
-                                </div>
-                                <div class="form-group" id="returnedhome_div">
-                                  <label for="date_returnedhome"><b class="text-danger">*</b>Date Returned Home</label>
-                                  <input type="datetime-local" class="form-control" name="date_returnedhome" id="date_returnedhome" value="{{old('date_returnedhome', $d->date_returnedhome ?: date('Y-m-d\TH:i'))}}">
-                                </div>
-                            </div>
+                <div id="accordianId" role="tablist" aria-multiselectable="true">
+                    <div class="card mb-3">
+                        <div class="card-header" role="tab" id="section1HeaderId">
+                            <a data-toggle="collapse" data-parent="#accordianId" href="#section1ContentId" aria-expanded="true" aria-controls="section1ContentId"><b>Family Head Status</b></a>
                         </div>
+                        <div id="section1ContentId" class="collapse in" role="tabpanel" aria-labelledby="section1HeaderId">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="date_registered"><b class="text-danger">*</b>Date Registered</label>
+                                            <input type="datetime-local" class="form-control" name="date_registered" id="date_registered" value="{{old('date_registered', $d->date_registered)}}" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="family_status"><b class="text-danger">*</b>Status</label>
+                                            <select class="form-control" name="family_status" id="family_status" required>
+                                                <option value="ACTIVE" {{(old('family_status', $d->family_status) == 'ACTIVE') ? 'selected' : ''}}>Active</option>
+                                                <option value="RETURNED" {{(old('family_status', $d->family_status) == 'RETURNED') ? 'selected' : ''}}>Returned Home</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group" id="returnedhome_div">
+                                        <label for="date_returnedhome"><b class="text-danger">*</b>Date Returned Home</label>
+                                        <input type="datetime-local" class="form-control" name="date_returnedhome" id="date_returnedhome" value="{{old('date_returnedhome', $d->date_returnedhome ?: date('Y-m-d\TH:i'))}}">
+                                        </div>
+                                    </div>
+                                </div>
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="is_injured"><b class="text-danger">*</b>Is Injured?</label>
-                                    <select class="form-control" name="is_injured" id="is_injured1" required>
-                                        <option value="Y" {{(old('is_injured', $d->is_injured) == 'Y') ? 'selected' : ''}}>Yes</option>
-                                        <option value="N" {{(old('is_injured', $d->is_injured) == 'N') ? 'selected' : ''}}>No</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="is_admitted"><b class="text-danger">*</b>Is Admitted?</label>
-                                    <select class="form-control" name="is_admitted" id="is_admitted1" required>
-                                        <option value="Y" {{(old('is_admitted', $d->is_admitted) == 'Y') ? 'selected' : ''}}>Yes</option>
-                                        <option value="N" {{(old('is_admitted', $d->is_admitted) == 'N') ? 'selected' : ''}}>No</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="admitted_div1" class="d-none">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="date_admitted"><b class="text-danger">*</b>Date Admitted</label>
-                                        <input type="date" class="form-control" name="date_admitted" id="date_admitted1" max="{{date('Y-m-d')}}" value="{{old('date_admitted', $d->date_admitted)}}">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="is_injured"><b class="text-danger">*</b>Is Injured?</label>
+                                            <select class="form-control" name="is_injured" id="is_injured1" required>
+                                                <option value="Y" {{(old('is_injured', $d->is_injured) == 'Y') ? 'selected' : ''}}>Yes</option>
+                                                <option value="N" {{(old('is_injured', $d->is_injured) == 'N') ? 'selected' : ''}}>No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="is_admitted"><b class="text-danger">*</b>Is Admitted?</label>
+                                            <select class="form-control" name="is_admitted" id="is_admitted1" required>
+                                                <option value="Y" {{(old('is_admitted', $d->is_admitted) == 'Y') ? 'selected' : ''}}>Yes</option>
+                                                <option value="N" {{(old('is_admitted', $d->is_admitted) == 'N') ? 'selected' : ''}}>No</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="date_discharged">Date Discharged</label>
-                                        <input type="date" class="form-control" name="date_discharged" id="date_discharged1" max="{{date('Y-m-d', strtotime('+1 Day'))}}" value="{{old('date_discharged', $d->date_discharged)}}">
+                                <div id="admitted_div1" class="d-none">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="date_admitted"><b class="text-danger">*</b>Date Admitted</label>
+                                                <input type="date" class="form-control" name="date_admitted" id="date_admitted1" max="{{date('Y-m-d')}}" value="{{old('date_admitted', $d->date_admitted)}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="date_discharged">Date Discharged</label>
+                                                <input type="date" class="form-control" name="date_discharged" id="date_discharged1" max="{{date('Y-m-d', strtotime('+1 Day'))}}" value="{{old('date_discharged', $d->date_discharged)}}">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="shelterdamage_classification"><b class="text-danger">*</b>Shelter Damage Classification</label>
-                                    <select class="form-control" name="shelterdamage_classification" id="shelterdamage_classification" required>
-                                        <option value="PARTIALLY DAMAGED" {{(old('shelterdamage_classification', $d->shelterdamage_classification) == 'PARTIALLY DAMAGED') ? 'selected' : ''}}>Partially Damaged</option>
-                                        <option value="TOTALLY DAMAGED" {{(old('shelterdamage_classification', $d->shelterdamage_classification) == 'TOTALLY DAMAGED') ? 'selected' : ''}}>Totally Damaged</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="evac_type"><b class="text-danger">*</b>Evacuee Type</label>
-                                    <select class="form-control" name="evac_type" id="evac_type" required>
-                                        <option value="PREEMPTIVE" {{(old('evac_type', $d->evac_type) == 'PREEMPTIVE') ? 'selected' : ''}}>Pre-Emptive Evacuation</option>
-                                        <option value="FORCED" {{(old('evac_type', $d->evac_type) == 'FORCED') ? 'selected' : ''}}>Forced Evacuation</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="outcome"><b class="text-danger">*</b>Outcome</label>
-                                    <select class="form-control" name="outcome" id="outcome1" required>
-                                        <option value="ALIVE" {{(old('outcome', $d->outcome) == 'ALIVE') ? 'selected' : ''}}>Alive</option>
-                                        <option value="MISSING" {{(old('outcome', $d->outcome) == 'MISSING') ? 'selected' : ''}}>Missing</option>
-                                        <option value="MISSING THEN RETURNED" {{(old('outcome', $d->outcome) == 'MISSING THEN RETURNED') ? 'selected' : ''}}>Missing, then Returned</option>
-                                        <option value="DIED" {{(old('outcome', $d->outcome) == 'DIED') ? 'selected' : ''}}>Died</option>
-                                    </select>
-                                </div>
-                                <div id="missing_div1" class="d-none">
-                                    <div class="form-group">
-                                        <label for="date_missing"><b class="text-danger">*</b>Date Missing</label>
-                                        <input type="datetime-local" class="form-control" name="date_missing" id="date_missing1" value="{{old('date_missing', $d->date_missing)}}">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="shelterdamage_classification"><b class="text-danger">*</b>Shelter Damage Classification</label>
+                                            <select class="form-control" name="shelterdamage_classification" id="shelterdamage_classification" required>
+                                                <option value="PARTIALLY DAMAGED" {{(old('shelterdamage_classification', $d->shelterdamage_classification) == 'PARTIALLY DAMAGED') ? 'selected' : ''}}>Partially Damaged</option>
+                                                <option value="TOTALLY DAMAGED" {{(old('shelterdamage_classification', $d->shelterdamage_classification) == 'TOTALLY DAMAGED') ? 'selected' : ''}}>Totally Damaged</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="form-group d-none" id="return_div1">
-                                        <label for="date_returned"><b class="text-danger">*</b>Date Returned</label>
-                                        <input type="datetime-local" class="form-control" name="date_returned" id="date_returned1" value="{{old('date_returned', $d->date_returned)}}">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="evac_type"><b class="text-danger">*</b>Evacuee Type</label>
+                                            <select class="form-control" name="evac_type" id="evac_type" required>
+                                                <option value="PREEMPTIVE" {{(old('evac_type', $d->evac_type) == 'PREEMPTIVE') ? 'selected' : ''}}>Pre-Emptive Evacuation</option>
+                                                <option value="FORCED" {{(old('evac_type', $d->evac_type) == 'FORCED') ? 'selected' : ''}}>Forced Evacuation</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="outcome"><b class="text-danger">*</b>Outcome</label>
+                                            <select class="form-control" name="outcome" id="outcome1" required>
+                                                <option value="ALIVE" {{(old('outcome', $d->outcome) == 'ALIVE') ? 'selected' : ''}}>Alive</option>
+                                                <option value="MISSING" {{(old('outcome', $d->outcome) == 'MISSING') ? 'selected' : ''}}>Missing</option>
+                                                <option value="MISSING THEN RETURNED" {{(old('outcome', $d->outcome) == 'MISSING THEN RETURNED') ? 'selected' : ''}}>Missing, then Returned</option>
+                                                <option value="DIED" {{(old('outcome', $d->outcome) == 'DIED') ? 'selected' : ''}}>Died</option>
+                                            </select>
+                                        </div>
+                                        <div id="missing_div1" class="d-none">
+                                            <div class="form-group">
+                                                <label for="date_missing"><b class="text-danger">*</b>Date Missing</label>
+                                                <input type="datetime-local" class="form-control" name="date_missing" id="date_missing1" value="{{old('date_missing', $d->date_missing)}}">
+                                            </div>
+                                            <div class="form-group d-none" id="return_div1">
+                                                <label for="date_returned"><b class="text-danger">*</b>Date Returned</label>
+                                                <input type="datetime-local" class="form-control" name="date_returned" id="date_returned1" value="{{old('date_returned', $d->date_returned)}}">
+                                            </div>
+                                        </div>
+                                        <div id="died_div1" class="d-none">
+                                            <div class="form-group">
+                                                <label for="date_died"><b class="text-danger">*</b>Date Died</label>
+                                                <input type="datetime-local" class="form-control" name="date_died" id="date_died1" value="{{old('date_died', $d->date_died)}}">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div id="died_div1" class="d-none">
-                                    <div class="form-group">
-                                        <label for="date_died"><b class="text-danger">*</b>Date Died</label>
-                                        <input type="datetime-local" class="form-control" name="date_died" id="date_died1" value="{{old('date_died', $d->date_died)}}">
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="focal_name">Name of C/DSWD Focal</label>
+                                            <input type="text" class="form-control" name="focal_name" id="focal_name" style="text-transform: uppercase;" value="{{old('focal_name', $d->focal_name)}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="supervisor_name">Name of C/DSWD Immediate Supervisor</label>
+                                            <input type="text" class="form-control" name="supervisor_name" id="supervisor_name" style="text-transform: uppercase;" value="{{old('focal_name', $d->supervisor_name)}}">
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-md-6">
+                                <hr>
                                 <div class="form-group">
-                                    <label for="focal_name">Name of C/DSWD Focal</label>
-                                    <input type="text" class="form-control" name="focal_name" id="focal_name" style="text-transform: uppercase;" value="{{old('focal_name', $d->focal_name)}}">
+                                    <label for="remarks">Remarks</label>
+                                    <textarea class="form-control" name="remarks" id="remarks" rows="3">{{old('remarks', $d->remarks)}}</textarea>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="supervisor_name">Name of C/DSWD Immediate Supervisor</label>
-                                    <input type="text" class="form-control" name="supervisor_name" id="supervisor_name" style="text-transform: uppercase;" value="{{old('focal_name', $d->supervisor_name)}}">
-                                </div>
+                            <div class="card-footer text-right">
+                                <button type="submit" class="btn btn-primary">Update</button>
                             </div>
                         </div>
-                        <hr>
-                        <div class="form-group">
-                          <label for="remarks">Remarks</label>
-                          <textarea class="form-control" name="remarks" id="remarks" rows="3">{{old('remarks', $d->remarks)}}</textarea>
-                        </div>
-                    </div>
-                    <div class="card-footer text-right">
-                        <button type="submit" class="btn btn-primary">Update</button>
                     </div>
                 </div>
             </form>
@@ -161,11 +172,7 @@
                 <div class="card-header">
                     <div class="d-flex justify-content-between">
                         <div><b>Family Member(s) who are with the Family Head inside the Evacuation</b></div>
-                        <div>
-                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#linkMember">
-                              Link Family Member
-                            </button>
-                        </div>
+                        <div></div>
                     </div>
                 </div>
                 <div class="card-body">

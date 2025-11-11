@@ -48,13 +48,20 @@ class CreateSyndromicRecordsTable extends Migration
             $table->string('saturationperioxigen')->nullable();
             $table->string('o2sat')->nullable();
 
+            $table->text('symptoms_list')->nullable();
+            $table->text('symptoms_onset_list')->nullable();
+            $table->double('fever_highest_temp')->nullable();
+            $table->tinyInteger('rash_isMaculopapular')->nullable();
+            $table->tinyInteger('rash_isPetechia')->nullable();
+            $table->tinyInteger('rash_isPurpura')->nullable();
+
             $table->tinyInteger('fever')->nullable();
             $table->date('fever_onset')->nullable();
             $table->text('fever_remarks')->nullable();
             $table->tinyInteger('rash')->nullable();
-            $table->tinyInteger('rash_isMaculopapular')->nullable();
-            $table->tinyInteger('rash_isPetechia')->nullable();
-            $table->tinyInteger('rash_isPurpura')->nullable();
+            $table->tinyInteger('bloody_stool')->nullable();
+            $table->text('other_symptoms_onset_remarks')->nullable();
+
             $table->date('rash_onset')->nullable();
             $table->text('rash_remarks')->nullable();
             $table->tinyInteger('cough')->nullable();
@@ -88,7 +95,6 @@ class CreateSyndromicRecordsTable extends Migration
             $table->date('musclepain_onset')->nullable();
             $table->text('musclepain_remarks')->nullable();
             $table->tinyInteger('diarrhea')->nullable();
-            $table->tinyInteger('bloody_stool')->nullable();
             $table->date('diarrhea_onset')->nullable();
             $table->text('diarrhea_remarks')->nullable();
             $table->tinyInteger('abdominalpain')->nullable();
@@ -126,7 +132,6 @@ class CreateSyndromicRecordsTable extends Migration
             $table->text('dyspnea_remarks')->nullable();
             $table->tinyInteger('other_symptoms')->nullable();
             $table->date('other_symptoms_onset')->nullable();
-            $table->text('other_symptoms_onset_remarks')->nullable();
 
             $table->tinyInteger('is_hospitalized')->nullable();
             $table->string('hospital_name')->nullable();
@@ -218,6 +223,9 @@ class CreateSyndromicRecordsTable extends Migration
             //$table->text('auto_disease_tag')->nullable();
             $table->text('alreadyimported_disease_tag')->nullable();
             $table->text('received_edcs_tag')->nullable();
+            $table->tinyInteger('from_evacuationcenter')->default(0);
+            $table->bigInteger('ec_familyhead_id')->nullable();
+            $table->bigInteger('ec_familymember_id')->nullable();
             //$table->tinyInteger('transferredto_edcs')->default(0);
         });
     }

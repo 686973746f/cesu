@@ -2,9 +2,14 @@
 
 @section('content')
 <div class="container-fluid">
-    <div class="text-right mb-3">
-        <a href="{{route('disaster_viewfamilies')}}" class="btn btn-secondary">Go Back</a>
+    <div class="d-flex justify-content-between">
+        <div></div>
+        <div>{!! QrCode::size(100)->generate($d->hash) !!}</div>
     </div>
+    <div>
+        
+    </div>
+    <a href="{{route('disaster_viewfamilies')}}" class="btn btn-secondary mb-3">Go Back</a>
 
     <div class="card">
         <div class="card-header">
@@ -13,16 +18,25 @@
                     <div><b>View Family Head and Members</b></div>
                     <div>{{$d->getName()}} (ID: {{$d->id}})</div>
                 </div>
-                <div></div>
+                <div>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modelId">
+                        Add Family Member
+                    </button>
+                </div>
             </div>
-            
         </div>
         <div class="card-body">
             <form action="">
-                <div class="card">
-                    <div class="card-header"><b></b></div>
-                    <div class="card-body">
-                        
+                <div id="accordianId" role="tablist" aria-multiselectable="true">
+                    <div class="card mb-3">
+                        <div class="card-header" role="tab" id="section1HeaderId">
+                            <a data-toggle="collapse" data-parent="#accordianId" href="#section1ContentId" aria-expanded="true" aria-controls="section1ContentId"><b>Family Head Details</b></a>
+                        </div>
+                        <div id="section1ContentId" class="collapse in" role="tabpanel" aria-labelledby="section1HeaderId">
+                            <div class="card-body">
+                                Section 1 content
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -31,11 +45,7 @@
                 <div class="card-header">
                     <div class="d-flex justify-content-between">
                         <div><b>List of Family Members</b></div>
-                        <div>
-                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modelId">
-                                Add Family Member
-                            </button>
-                        </div>
+                        <div></div>
                     </div>
                 </div>
                 <div class="card-body">

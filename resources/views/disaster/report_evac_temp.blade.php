@@ -32,7 +32,7 @@
                     </tr>
                 </tbody>
             </table>
-            <table class="table table-striped table-bordered">
+            <table class="table table-striped table-sm table-bordered">
                 <thead class="thead-light text-center">
                     <tr>
                         <th>Age Group</th>
@@ -42,7 +42,12 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>0 - 5</td>
+                        <td>< 1</td>
+                        <td class="text-center">{{$d->countAgeWithCondition(12,12,'<','M','age_months')}}</td>
+                        <td class="text-center">{{$d->countAgeWithCondition(12,12,'<','F','age_months')}}</td>
+                    </tr>
+                    <tr>
+                        <td>1 - 5</td>
                         <td class="text-center">{{$d->countIndividualsByAgeGender('M', 0, 5)}}</td>
                         <td class="text-center">{{$d->countIndividualsByAgeGender('F', 0, 5)}}</td>
                     </tr>
@@ -81,8 +86,14 @@
                         <td class="text-center">{{$d->countIndividualsByAgeGender('M', 71, 75)}}</td>
                         <td class="text-center">{{$d->countIndividualsByAgeGender('F', 71, 75)}}</td>
                     </tr>
+                    <tr>
+                        <td>> 75</td>
+                        <td class="text-center">{{$d->countAgeWithCondition(75,75,'>','M','age_years')}}</td>
+                        <td class="text-center">{{$d->countAgeWithCondition(75,75,'>','F','age_years')}}</td>
+                    </tr>
                 </tbody>
             </table>
+
             <table class="table table-striped table-bordered">
                 <tbody>
                     <tr>

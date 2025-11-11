@@ -2,6 +2,7 @@
 
 @section('content')
     <div class="container-fluid">
+        <a href="{{route('gtsecure_disaster_view', $d->disaster->id)}}" class="btn btn-secondary mb-3">Go Back</a>
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
@@ -20,12 +21,11 @@
                 @endif
 
                 <a href="{{route('gtsecure_report_evac', $d->id)}}" class="btn btn-primary mb-3">View Evacuation Summary Report</a>
-
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">
                         <thead class="thead-light text-center">
                             <tr>
-                                <th colspan="10">{{$d->name}}</th>
+                                <th colspan="11">{{$d->name}}</th>
                             </tr>
                             <tr>
                                 <th>No.</th>
@@ -38,6 +38,7 @@
                                 <th>No. of Family Members</th>
                                 <th>Outcome</th>
                                 <th>Created at/by</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -55,6 +56,9 @@
                                 <td class="text-center">
                                     <div>{{date('M. d, Y h:i A', strtotime($p->created_at))}}</div>
                                     <div>by {{$p->user->name}}</div>
+                                </td>
+                                <td class="text-center">
+
                                 </td>
                             </tr>
                             @endforeach

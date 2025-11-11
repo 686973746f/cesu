@@ -33,6 +33,7 @@ class CreateEvacuationCenterFamilyHeadsTable extends Migration
             $table->string('occupation')->nullable();
             $table->string('mothermaiden_name')->nullable();
             $table->integer('monthlyfamily_income')->nullable();
+            $table->string('is_soloparent', 1)->default('N');
             $table->string('is_pwd', 1)->default('N');
             $table->string('is_4ps', 1)->default('N');
             $table->string('is_indg', 1)->default('N');

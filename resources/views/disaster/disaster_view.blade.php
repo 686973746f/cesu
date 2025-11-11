@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container">
+    <a href="{{route('gtsecure_index')}}" class="btn btn-secondary mb-3">Go Back</a>
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between">
@@ -19,6 +20,7 @@
             </div>
             @endif
             <a href="{{route('gtsecure_report_disaster', $d->id)}}" class="btn btn-primary mb-3">View Summary Report</a>
+            <a href="" class="btn btn-primary mb-3">View Terminal Report</a>
 
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">
@@ -142,34 +144,36 @@
                       <input type="date" class="form-control" name="date_start" id="date_start" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}" value="{{old('date_start', date('Y-m-d'))}}" required>
                     </div>
                     <hr>
-                    <div class="form-group">
-                        <label for="address_region_code"><b class="text-danger">*</b>Region</label>
-                        <select class="form-control" name="address_region_code" id="address_region_code" tabindex="-1" required>
-                          @foreach(App\Models\Regions::orderBy('regionName', 'ASC')->get() as $a)
-                          <option value="{{$a->id}}" {{($a->id == 1) ? 'selected' : ''}}>{{$a->regionName}}</option>
-                          @endforeach
-                        </select>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="address_province_code"><b class="text-danger">*</b>Province</label>
-                                <select class="form-control" name="address_province_code" id="address_province_code" tabindex="-1" required disabled>
-                                </select>
+                    <div id="ev_address_div">
+                        <div class="form-group">
+                            <label for="address_region_code"><b class="text-danger">*</b>Region</label>
+                            <select class="form-control" name="address_region_code" id="address_region_code" tabindex="-1" required>
+                            @foreach(App\Models\Regions::orderBy('regionName', 'ASC')->get() as $a)
+                            <option value="{{$a->id}}" {{($a->id == 1) ? 'selected' : ''}}>{{$a->regionName}}</option>
+                            @endforeach
+                            </select>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="address_province_code"><b class="text-danger">*</b>Province</label>
+                                    <select class="form-control" name="address_province_code" id="address_province_code" tabindex="-1" required disabled>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="address_muncity_code"><b class="text-danger">*</b>City/Municipality</label>
+                                    <select class="form-control" name="address_muncity_code" id="address_muncity_code" tabindex="-1" required disabled>
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="address_muncity_code"><b class="text-danger">*</b>City/Municipality</label>
-                                <select class="form-control" name="address_muncity_code" id="address_muncity_code" tabindex="-1" required disabled>
-                                </select>
-                            </div>
+                        <div class="form-group">
+                            <label for="address_brgy_code"><b class="text-danger">*</b>Barangay</label>
+                            <select class="form-control" name="address_brgy_code" id="address_brgy_code" required disabled>
+                            </select>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="address_brgy_code"><b class="text-danger">*</b>Barangay</label>
-                        <select class="form-control" name="address_brgy_code" id="address_brgy_code" required disabled>
-                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -183,7 +187,7 @@
 <script>
     $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_code').select2({
         theme: 'bootstrap',
-        dropdownParent: $('#newEvacuationCenter'),
+        dropdownParent: $('#ev_address_div'),
     });
 
     //Default Values for Gentri
