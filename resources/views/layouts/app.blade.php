@@ -52,6 +52,12 @@ else {
                     <img src="{{asset('assets/images/cho_icon_large.png')}}" style="width: 3rem;">
                     <img src="{{asset('assets/images/cesu_icon.png')}}" style="width: 3rem;">
                     OPD
+                    @elseif(Str::contains(request()->url(), 'gtsecure'))
+                    <img src="{{asset('assets/images/gentrilogo.png')}}" style="width: 3rem;">
+                    <img src="{{asset('assets/images/cho_icon_large.png')}}" style="width: 3rem;">
+                    <img src="{{asset('assets/images/dswd.png')}}" style="width: 3rem;">
+                    <img src="{{asset('assets/images/cdrrmo.png')}}" style="width: 3rem;">
+                    SECURE
                     @else
                     <img src="{{asset('assets/images/cesu_icon.png')}}" style="width: 3rem;">
                     {{ config('app.name', 'Laravel') }}
