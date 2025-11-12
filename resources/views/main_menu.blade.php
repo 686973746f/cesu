@@ -50,7 +50,9 @@
             <a href="{{route('gtsecure_index')}}" class="btn btn-block btn-primary btn-lg">GenTrias SECURE</a>
             @endif
             @if(auth()->user()->canAccessEmployees())
+            @if(auth()->user()->canAccessDisaster())
             <hr>
+            @endif
             <button type="button" class="btn btn-primary btn-block btn-lg" data-toggle="modal" data-target="#employeesModal">Employees</button>
             @endif
             @if(auth()->user()->isGlobalAdmin())

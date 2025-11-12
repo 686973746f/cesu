@@ -583,6 +583,18 @@ class DisasterController extends Controller
         ]);
     }
 
+    public function linkConsultation($type, $id) {
+
+    }
+
+    public function newFamAssistance($type, $id) {
+        
+    }
+
+    public function storeFamAssistance($type, $id, Request $r) {
+        
+    }
+
     /*
     public function viewPatient($id) {
         $p = EvacuationCenterPatient::findOrFail($id);
