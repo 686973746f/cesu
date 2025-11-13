@@ -7607,6 +7607,8 @@ class PIDSRController extends Controller
 
             'MPOX',
             'COVID-19',
+
+            'SCHISTOSOMIASIS',
         ];
 
         sort($array);
