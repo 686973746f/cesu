@@ -348,6 +348,8 @@ class EmployeesController extends Controller
         $teamb_list = (clone $duty_qry)->where('duty_team', 'B')->orderBy('lname', 'ASC')->get();
         $teamc_list = (clone $duty_qry)->where('duty_team', 'C')->orderBy('lname', 'ASC')->get();
         $teamd_list = (clone $duty_qry)->where('duty_team', 'D')->orderBy('lname', 'ASC')->get();
+
+        $standin_list = (clone $duty_qry)->orderBy('lname', 'ASC')->get();
         
         
         $current_list = HertDutyMember::with('employee')
@@ -366,6 +368,7 @@ class EmployeesController extends Controller
             'teamd_list' => $teamd_list,
 
             'current_list' => $current_list,
+            'standin_list' => $standin_list,
         ]);
     }
 

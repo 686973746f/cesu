@@ -145,7 +145,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                      <label for="employee_id"><b>*</b>Select Employee to Add</label>
+                      <label for="employee_id"><b class="text-danger">*</b>Select Employee to Add</label>
                       <select class="form-control" name="employee_id" id="employee_id" required>
                         <option value="" {{(is_null(old('employee_id'))) ? 'disabled' : ''}} selected>Choose...</option>
                         <optgroup label="Team A">
@@ -178,6 +178,26 @@
                         </optgroup>
                       </select>
                     </div>
+                    <hr>
+                    <div class="form-check mb-3">
+                      <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" name="standin_checkbox" id="standin_checkbox" value="1">Other Employee will stand-in for the responder?</label>
+                    </div>
+                    <div id="standin_div" class="d-none">
+                        <div class="form-group">
+                          <label for="standin_id">Select Employee to Stand-in</label>
+                          <select class="form-control" name="standin_id" id="standin_id">
+                            <option value="" {{(is_null(old('standin_id'))) ? 'disabled' : ''}} selected>Choose...</option>
+                            @foreach($standin_list as $s)
+                            <option value="{{$s->id}}">{{$s->getName()}}</option>
+                            @endforeach
+                          </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="remarks">Remarks</label>
+                      <textarea class="form-control" name="remarks" id="remarks" rows="3"></textarea>
+                    </div>
                     @if(request()->input('override'))
                     <small><b>Override Mode Enabled.</b> Kasama sa listahan lahat kahit ang mga nakapag-duty na sa current cycle. Upang i-reset sa default view, <a href="{{route('duty_view', $d->id)}}" class="text-danger"><b>Pindutin ito</b></a></small>
                     @else
@@ -193,7 +213,7 @@
 </form>
 
 <script>
-    $('#employee_id').select2({
+    $('#employee_id, #standin_id').select2({
         dropdownParent: $("#addEmployee"),
         theme: "bootstrap",
     });
@@ -208,6 +228,18 @@
             },
             'copy',
         ],
+    });
+
+    $('#standin_checkbox').on('change', function () {
+        if ($(this).is(':checked')) {
+            // do something when checked
+            $('#standin_div').removeClass('d-none');
+            $('#standin_id').prop('required', true);
+        } else {
+            // do something when unchecked
+            $('#standin_div').addClass('d-none');
+            $('#standin_id').prop('required', false);
+        }
     });
 </script>
 

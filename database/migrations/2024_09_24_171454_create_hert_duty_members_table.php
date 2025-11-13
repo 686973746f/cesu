@@ -19,6 +19,9 @@ class CreateHertDutyMembersTable extends Migration
             $table->foreignId('employee_id')->constrained('employees')->onDelete('cascade');
             $table->string('locked_in', 1)->default('N');
             $table->integer('dutybalance_beforejoining')->default(0);
+            $table->integer('excessduty_beforejoining')->default(0);
+            $table->foreignId('standin_id')->constrained('employees')->onDelete('cascade');
+            $table->text('remarks')->nullable();
 
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
