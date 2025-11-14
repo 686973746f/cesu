@@ -566,10 +566,12 @@ class ABTCVaccinationController extends Controller
         $vslist = AbtcVaccinationSite::orderBy('id', 'ASC')->get();
 
         $vaccinator_list = Employee::whereNotNull('abtc_vaccinator_branch')
+        ->where('employment_status', 'ACTIVE')
         ->orderBy('fname', 'ASC')
         ->get();
 
         $abtc_doctors_list = Employee::where('emp_access_list', 'LIKE', '%ABTC_DOCTOR%')
+        ->where('employment_status', 'ACTIVE')
         ->orderBy('lname', 'ASC')
         ->get();
 

@@ -115,6 +115,10 @@ class Employee extends Model
             'PHYSICIAN',
             'DENTIST',
             'MEDTECH',
+            'NURSE',
+            'MIDWIFE',
+            'PSYCHOMETRICIAN',
+            'PHARMACIST',
             'ABTC_DOCTOR',
         ];
     }
