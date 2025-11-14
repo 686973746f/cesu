@@ -24,6 +24,8 @@ class CreateEmployeesTable extends Migration
             $table->date('bdate')->nullable();
 
             $table->string('contact_number')->nullable();
+            $table->string('emergency_contact_name')->nullable();
+            $table->string('emergency_contact_number')->nullable();
             $table->string('email')->nullable();
 
             $table->text('address_region_code')->nullable();

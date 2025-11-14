@@ -78,7 +78,7 @@
                 <div class="modal-body">
                     <div class="form-check">
                       <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" name="showAll" id="showAll" value="1" {{(request()->input('showAll')) ? 'checked' : ''}}>Show All Employees</label>
+                        <input type="checkbox" class="form-check-input" name="showAll" id="showAll" value="1" {{(request()->input('showAll')) ? 'checked' : ''}}>Show All Employees (Including Resigned and Retired Employees)</label>
                     </div>
                 </div>
                 <div class="modal-footer">

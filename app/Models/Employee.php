@@ -18,6 +18,8 @@ class Employee extends Model
         'gender',
         'bdate',
         'contact_number',
+        'emergency_contact_name',
+        'emergency_contact_number',
         'email',
         'address_region_code',
         'address_region_text',
