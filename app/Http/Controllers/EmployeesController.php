@@ -314,10 +314,7 @@ class EmployeesController extends Controller
                 'duty_balance' => DB::raw('duty_balance + 1'),
             ]);
 
-            $u = Employee::where('employment_status', 'ACTIVE')
-            ->where('duty_canbedeployed', 'Y')
-            ->whereNotNull('duty_team')
-            ->update([
+            $u = Employee::update([
                 'duty_completedcycle' => 'N',
             ]);
 
