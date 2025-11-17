@@ -251,7 +251,7 @@
             </div>
             @else
             <div class="table-responsive">
-                <table class="table table-striped table-bordered">
+                <table class="table table-striped table-bordered" id="masterlisttbl">
                     <thead class="thead-light text-center">
                         <tr>
                             <th>No.</th>
@@ -297,6 +297,7 @@
 </div>
 
 <script>
+    @if(is_null(request()->input('masterlistView')))
     $('#tbl1, #tbl2, #tbl3, #tbl4').dataTable({
         iDisplayLength: -1,
         dom: 'fti',
@@ -304,5 +305,21 @@
             details: true,
         }
     });
+    @else
+    $('#masterlisttbl').dataTable({
+        iDisplayLength: -1,
+        dom: 'QBfti',
+        buttons: [
+            {
+                extend: 'excel',
+                title: '',
+            },
+            'copy',
+        ],
+        responsive: {
+            details: true,
+        }
+    });
+    @endif
 </script>
 @endsection
