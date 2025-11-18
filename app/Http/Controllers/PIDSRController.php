@@ -9397,6 +9397,16 @@ class PIDSRController extends Controller
                 ->with('modalmsgtype', 'warning');
             }
         }
+        else if($disease == 'HFMD') {
+
+        }
+        else if($disease == 'ILI') {
+            $check = Influenza::where('FamilyName', mb_strtoupper($lname))
+            ->where('FirstName', mb_strtoupper($fname))
+            ->where('Year', $entry_date->format('Y'))
+            ->where('MorbidityMonth', $entry_date->format('n'))
+            ->first();
+        }
     }
 
     public function addCaseStore($disease, Request $r) {
@@ -10266,6 +10276,8 @@ class PIDSRController extends Controller
         ]);
     }
 
+
+    //START OF INHOUSE EDCS
     public function dengueNewOrEdit(Dengue $record) {
         //Get Facility
         if(request()->input('facility_code')) {
@@ -10282,13 +10294,17 @@ class PIDSRController extends Controller
         $brgy_list = EdcsBrgy::where('city_id', 388)->orderBy('name', 'ASC')->get();
         $facility_list = DohFacility::where('address_muncity', 'CITY OF GENERAL TRIAS')->get();
 
-        return view('pidsr.dengue.cif', [
+        return view('pidsr.inhouse_edcs.dengue', [
             'd' => $record,
             'f' => $f,
             'mode' => 'EDIT',
             'brgy_list' => $brgy_list,
             'facility_list' => $facility_list,
         ]);
+    }
+
+    public function iliNewOrEdit(Influenza $record) {
+        
     }
 
     public function mPoxViewer() {
@@ -10646,6 +10662,17 @@ class PIDSRController extends Controller
         ->withInput()
         ->with('msg', $alert_str)
         ->with('msgtype', 'success');
+    }
+
+    public static function listReportableDiseasesBackEnd() {
+        $list = [
+            ['value' => 'DENGUE', 'text' => 'Dengue'],
+            ['value' => 'MPOX', 'text' => 'MPox'],
+            ['value' => 'INFLUENZA', 'text' => 'Influenza-Like Illness (ILI)'],
+            ['value' => 'HFMD', 'text' => 'Hand, Foot and Mouth Disease (HFMD)'],
+        ];
+
+        return collect($list)->sortBy('text', SORT_NATURAL | SORT_FLAG_CASE)->values()->toArray();
     }
 
     public static function getCaseModel($case_code) {

@@ -413,9 +413,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
     Route::get('/pidsr/mpGetColor', [PIDSRController::class, 'mapViewerGetColor'])->name('pidsr_case_mapviewerGetColor');
 
     Route::get('/pidsr/weeklymonitoring', [PIDSRController::class, 'weeklyMonitoring'])->name('pidsr_weeklymonitoring');
-
-    //Route::get('/pidsr/add_case', [PIDSRController::class, 'addCaseCheck'])->name('edcs_addcase_check');
-    //Route::post('/pidsr/add_case/{disease}/store', [PIDSRController::class, 'addCaseStore'])->name('edcs_addcase_store');
+    
     Route::get('/pidsr/view_cif/{disease}/{id}', [PIDSRController::class, 'caseViewEditV2'])->name('edcs_case_viewedit');
     Route::post('/pidsr/view_cif/{disease}/{id}/update', [PIDSRController::class, 'caseUpdateV2'])->name('edcs_case_viewedit_update');
 

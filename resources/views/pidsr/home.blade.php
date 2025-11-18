@@ -100,8 +100,9 @@
                       <label for="disease"><b class="text-danger">*</b>Select Case</label>
                       <select class="form-control" name="disease" id="disease" required>
                         <option value="" disabled selected>Choose...</option>
-                        <option value="DENGUE">Dengue</option>
-                        <option value="MPOX">Monkeypox</option>
+                        @foreach(\App\Http\Controllers\PIDSRController::listReportableDiseasesBackEnd() as $disease)
+                        <option value="{{ $disease['value'] }}" {{ (collect(old('disease'))->contains($disease['value'])) ? 'selected' : '' }}>{{ $disease['text'] }}</option>
+                        @endforeach
                       </select>
                     </div>
                     <div class="form-group">
