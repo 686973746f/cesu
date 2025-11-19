@@ -381,6 +381,34 @@ class DisasterController extends Controller
         ]);
     }
 
+    public function updateEvacuationCenter($id, Request $r) {
+        $d = EvacuationCenter::findOrFail($id);
+
+        $name = mb_strtoupper($r->name);
+
+        if(EvacuationCenter::where('name', $name)->exists()) {
+            return redirect()->back()
+            ->with('msg', 'ERROR: Evacuation Center already exists in the Incident.')
+            ->with('msgtype', 'warning');
+        }
+
+        $d->update([
+            'enabled' => $r->enabled,
+            'name' => $name,
+            'description' => $r->description,
+            'street_purok' => ($r->street_purok) ? mb_strtoupper($r->street_purok) : NULL,
+            'address_brgy_code' => $r->address_brgy_code,
+            //'longlat',
+            'status' => $r->status,
+            'date_start' => $r->date_start,
+            'date_end' => ($r->status == 'DONE') ? $r->date_end : NULL,
+        ]);
+
+        return redirect()->back()
+        ->with('msg', 'Evacuation Center Details was updated successfully.')
+        ->with('msgtype', 'success');
+    }
+
     public function linkFamilyToEvac($id, Request $r) {
         $e = EvacuationCenter::findOrFail($id);
 

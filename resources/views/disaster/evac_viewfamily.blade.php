@@ -171,7 +171,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex justify-content-between">
-                        <div><b>Family Member(s) who are with the Family Head inside the Evacuation</b></div>
+                        <div><b>Family Member(s) who are with the Family Head inside the Evacuation Center</b></div>
                         <div></div>
                     </div>
                 </div>

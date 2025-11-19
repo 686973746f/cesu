@@ -6,7 +6,10 @@
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <div><b>View Disaster</b></div>
+                <div>
+                    <div>{{$d->name}}</div>
+                    <div><b>List of Evacuation Centers</b></div>
+                </div>
                 <div>
                     <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#options">Options</button>
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#newEvacuationCenter">Add Evacuation Center</button>

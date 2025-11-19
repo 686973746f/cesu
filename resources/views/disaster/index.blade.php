@@ -5,7 +5,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <div><b>GenTrias SECURE Tool (<span class="text-success">S</span>ystem for <span class="text-success">E</span>vacuation <span class="text-success">C</span>enter encoding, <span class="text-success">U</span>tilization, and <span class="text-success">R</span>eporting <span class="text-success">E</span>fficiency)</b></div>
+                    <div><b>GenTrias SECURE Tool (<span class="text-success">S</span>ystem for <span class="text-success">E</span>vacuation <span class="text-success">C</span>enter, <span class="text-success">U</span>tilization, and <span class="text-success">R</span>eport <span class="text-success">E</span>fficiency)</b></div>
                     <div>
                         <a href="{{route('disaster_viewfamilies')}}" class="btn btn-primary">View Family Masterlist</a>
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#newDisaster">New Disaster</button>

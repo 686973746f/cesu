@@ -6,7 +6,11 @@
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <div><b>View Evacuation Center</b></div>
+                    <div>
+                        <div>{{$d->disaster->name}}</div>
+                        <div>{{$d->name}}</div>
+                        <div><b>View Evacuation Center</b></div>
+                    </div>
                     <div>
                         <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#evacOptions">Options</button>
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addHead">Link Family Head</button>
@@ -224,7 +228,7 @@
         </div>
     </form>
 
-    <form action="" method="POST">
+    <form action="{{route('gtsecure_update_evac', $d->id)}}" method="POST">
         @csrf
         <div class="modal fade" id="evacOptions" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -250,6 +254,10 @@
                         <div class="form-group">
                             <label for="description">Description</label>
                             <input type="text" class="form-control" name="description" id="description" value="{{old('description', $d->description)}}"  style="text-transform: uppercase;">
+                        </div>
+                        <div class="form-group">
+                            <label for="date_start"><b class="text-danger">*</b>Date Started</label>
+                            <input type="date" class="form-control" name="date_start" id="date_start" value="{{old('date_start', date('Y-m-d'))}}" required>
                         </div>
                         <hr>
                         <div class="row">
@@ -291,13 +299,19 @@
                             <label for="street_purok">Street/Purok</label>
                             <input type="text" class="form-control" name="street_purok" id="street_purok" value="{{old('street_purok', $d->street_purok)}}"  style="text-transform: uppercase;">
                         </div>
-                        
+                        <hr>
                         <div class="form-group">
                             <label for="status"><b class="text-danger">*</b>Status</label>
                             <select class="form-control" name="status" id="status" required>
-                              <option value="ACTIVE" {{(old('status', $d->has_water) == 'ACTIVE') ? 'selected' : ''}}>Active</option>
-                              <option value="DONE" {{(old('status', $d->has_water) == 'DONE') ? 'selected' : ''}}>Done</option>
+                              <option value="ACTIVE" {{(old('status', $d->status) == 'ACTIVE') ? 'selected' : ''}}>Active</option>
+                              <option value="DONE" {{(old('status', $d->status) == 'DONE') ? 'selected' : ''}}>Done</option>
                             </select>
+                        </div>
+                        <div id="done_div" class="d-none">
+                            <div class="form-group">
+                              <label for="date_end"><b class="text-danger">*</b>Date Finished</label>
+                              <input type="date" class="form-control" name="date_end" id="date_end" max="{{date('Y-m-d')}}" value="{{old('date_end', $d->date_end)}}">
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -309,6 +323,31 @@
     </form>
 
     <script>
+        $('#status').change(function (e) { 
+            e.preventDefault();
+
+            $('#date_end').prop('required', false);
+            $('#done_div').addClass('d-none');
+
+            if($(this).val() == 'DONE') {
+                $('#date_end').prop('required', true);
+                $('#done_div').removeClass('d-none');
+            }
+        }).trigger('change');
+
+        $('#date_start').change(function (e) {
+            let startDate = $(this).val();
+
+            // If date_start is NOT empty → set min date
+            if (startDate) {
+                $('#date_end').attr('min', startDate);
+            } 
+            // If date_start is empty → remove min limit
+            else {
+                $('#date_end').removeAttr('min');
+            }
+        }).trigger('change');
+
         $('#familyhead_id').select2({
             theme: 'bootstrap',
             dropdownParent: $('#familyhead_div'),
@@ -319,7 +358,7 @@
             dropdownParent: $('#evacOptions'),
         });
 
-         //Default Values for Gentri
+        //Default Values for Gentri
         var regionDefault = {{$d->brgy->city->province->region->id}};
         var provinceDefault = {{$d->brgy->city->province->id}};
         var cityDefault = {{$d->brgy->city->id}};
