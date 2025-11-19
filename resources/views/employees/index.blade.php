@@ -36,6 +36,7 @@
                         <th>HERT Team</th>
                         <th>Duty Cycle Status</th>
                         <th>Duty Balance</th>
+                        <th>Access List</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -56,6 +57,7 @@
                         <td class="text-center">{{$d->duty_team}}</td>
                         <td class="text-center">{{($d->duty_completedcycle == 'Y') ? 'DONE' : 'PENDING'}}</td>
                         <td class="text-center">{{$d->duty_balance}}</td>
+                        <td class="text-center">{{$d->emp_access_list}}</td>
                     </tr>
                     @endforeach
                 </tbody>

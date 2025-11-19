@@ -184,7 +184,6 @@
                         <div class="form-group">
                             <label for="employment_status"><b class="text-danger">*</b>Employment Status</label>
                             <select class="form-control" name="employment_status" id="employment_status" required>
-                              <option value="" disabled {{(is_null(old('employment_status', $d->employment_status))) ? 'selected' : ''}}>Choose...</option>
                               <option value="ACTIVE" {{(old('employment_status', $d->employment_status) == 'ACTIVE') ? 'selected' : ''}}>Active</option>
                               <option value="RESIGNED" {{(old('employment_status', $d->employment_status) == 'RESIGNED') ? 'selected' : ''}}>Resigned</option>
                               <option value="RETIRED" {{(old('employment_status', $d->employment_status) == 'RETIRED') ? 'selected' : ''}}>Retired</option>
