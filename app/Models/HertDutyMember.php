@@ -14,6 +14,9 @@ class HertDutyMember extends Model
         'employee_id',
         'locked_in',
         'dutybalance_beforejoining',
+        'excessduty_beforejoining',
+        'standin_id',
+        'remarks',
         'created_by',
     ];
 
@@ -27,5 +30,9 @@ class HertDutyMember extends Model
 
     public function employee() {
         return $this->belongsTo(Employee::class, 'employee_id');
+    }
+
+    public function standin() {
+        return $this->belongsTo(Employee::class, 'standin_id');
     }
 } 

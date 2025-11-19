@@ -34,7 +34,7 @@
                 <table class="table table-striped table-bordered" id="dutyListTbl">
                     <thead class="thead-light text-center">
                         <tr>
-                            <th colspan="6">{{$d->event_name}} ({{($d->event_date) ? mb_strtoupper(date('M. d, Y', strtotime($d->event_date))) : ''}})</th>
+                            <th colspan="7">{{$d->event_name}} ({{($d->event_date) ? mb_strtoupper(date('M. d, Y', strtotime($d->event_date))) : ''}})</th>
                         </tr>
                         <tr>
                             <th>#</th>
@@ -42,6 +42,7 @@
                             <th>Team</th>
                             <th>Gender</th>
                             <th>BLS Trained</th>
+                            <th>Remarks</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -49,7 +50,11 @@
                         @foreach($current_list as $ind => $c)
                         <tr>
                             <td class="text-center">{{$ind+1}}</td>
-                            <td>{{$c->employee->getName()}}</td>
+                            <td>
+                                <div><b>{{$c->employee->getName()}}</b></div>
+                                @if(!is_null($c->standin_id))
+                                <div>(Stand-in by: {{$c->standin->getName()}})</div>
+                                @endif</td>
                             <td class="text-center">{{$c->employee->duty_team}}</td>
                             <td class="text-center">
                                 @php
@@ -65,6 +70,7 @@
                                 </span>
                             </td>
                             <td class="text-center">{{$c->employee->is_blstrained}}</td>
+                            <td>{{$c->remarks}}</td>
                             <td class="text-center">
                                 @if($d->status == 'OPEN')
                                 <form action="{{route('duty_removeemployee', [$d->id, $c->id])}}" method="POST">

@@ -309,9 +309,20 @@ class EmployeesController extends Controller
             $u2 = Employee::where('employment_status', 'ACTIVE')
             ->where('duty_canbedeployed', 'Y')
             ->where('duty_completedcycle', 'N')
+            ->where('excess_duty', 0)
             ->whereNotNull('duty_team')
             ->update([
                 'duty_balance' => DB::raw('duty_balance + 1'),
+            ]);
+
+            //Kapag may Excess Duty tapos hindi dumuty sa current cycle, hindi madadagdagan ng duty_balance pero mababawasan ng excess_duty
+            $u3 = Employee::where('employment_status', 'ACTIVE')
+            ->where('duty_canbedeployed', 'Y')
+            ->where('duty_completedcycle', 'N')
+            ->where('excess_duty', '>', 0)
+            ->whereNotNull('duty_team')
+            ->update([
+                'duty_balance' => DB::raw('excess_duty - 1'),
             ]);
 
             $u = Employee::update([
@@ -347,7 +358,6 @@ class EmployeesController extends Controller
         $teamd_list = (clone $duty_qry)->where('duty_team', 'D')->orderBy('lname', 'ASC')->get();
 
         $standin_list = (clone $duty_qry)->orderBy('lname', 'ASC')->get();
-        
         
         $current_list = HertDutyMember::with('employee')
         ->where('event_id', $d->id)
@@ -407,10 +417,19 @@ class EmployeesController extends Controller
         if(!$check) {
             $u = Employee::findOrFail($r->employee_id);
 
+            if($r->standin_checkbox && $r->standin_id == $r->employee_id) {
+                return redirect()->back()
+                ->with('msg', 'You are not allowed to stand-in the same Employee.')
+                ->with('msgtype', 'warning');
+            }
+
             $c = HertDutyMember::create([
                 'event_id' => $d->id,
                 'employee_id' => $r->employee_id,
+                'excessduty_beforejoining' => $u->excess_duty,
                 'dutybalance_beforejoining' => $u->duty_balance,
+                'standin_id' => ($r->standin_checkbox) ? $r->standin_id : NULL,
+                'remarks' => $r->remarks,
                 'created_by' => Auth::id(),
             ]);
         }
@@ -420,10 +439,13 @@ class EmployeesController extends Controller
             ->with('msgtype', 'warning');
         }
 
-        //Reduce Duty Balance if pangalawang beses na dumuty for the current Cycle
+        //Reduce Duty Balance/Add Excess Duty if pangalawang beses na dumuty for the current Cycle
         if($u->duty_completedcycle == 'Y') {
             if($u->duty_balance > 0) {
                 $u->duty_balance = $u->duty_balance - 1;
+            }
+            else {
+                $u->excess_duty = $u->excess_duty + 1;
             }
         }
 
@@ -488,6 +510,7 @@ class EmployeesController extends Controller
         $p = Employee::findOrFail($m->employee_id);
         //Return Balance Duty if di nakapag-duty last cycle
         $p->duty_balance = $m->dutybalance_beforejoining;
+        $p->excess_duty = $m->excessduty_beforejoining;
 
         //Reset Completed Cycle to N
         if($p->duty_balance == 0) {
