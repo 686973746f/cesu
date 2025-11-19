@@ -168,7 +168,7 @@
                               <option value="" disabled {{(is_null(old('office', $d->office))) ? 'selected' : ''}}>Choose...</option>
                               <option value="CHO MAIN" {{(old('type', $d->office) == 'CHO MAIN') ? 'selected' : ''}}>CHO Main</option>
                               <option value="MANGGAHAN HEALTH CENTER" {{(old('office', $d->type) == 'MANGGAHAN HEALTH CENTER') ? 'selected' : ''}}>Manggahan Health Center</option>
-                              <option value="SAN FRANCISCO SUPER HEALTH CENTER" {{(old('type', $d->office) == 'SAN FRANCISCO SUPER HEALTH CENTER') ? 'selected' : ''}}>San Francisco Super Health Center</option>
+                              <option value="SAN FRANCISCO SUPER HEALTH CENTER" {{(old('type', $d->office) == 'SAN FRANCISCO SUPER HEALTH CENTER') ? 'selected' : ''}}>General Trias Super Health Center (San Francisco)</option>
                               <option value="GENERAL TRIAS MEDICARE HOSPITAL" {{(old('type', $d->office) == 'GENERAL TRIAS MEDICARE HOSPITAL') ? 'selected' : ''}}>General Trias Medicare Hospital</option>
                               <option value="DOH-HRH" {{(old('type', $d->office) == 'DOH-HRH') ? 'selected' : ''}}>DOH-HRH</option>
                             </select>
@@ -204,9 +204,8 @@
                         <div class="form-group">
                             <label for="is_blstrained"><b class="text-danger">*</b>Is BLS Trained?</label>
                             <select class="form-control" name="is_blstrained" id="is_blstrained" required>
-                              <option value="" disabled {{(is_null(old('is_blstrained', $d->is_blstrained))) ? 'selected' : ''}}>Choose...</option>
-                              <option value="Y" {{(old('is_blstrained', $d->is_blstrained) == 'Y') ? 'selected' : ''}}>Yes</option>
                               <option value="N" {{(old('is_blstrained', $d->is_blstrained) == 'N') ? 'selected' : ''}}>No</option>
+                              <option value="Y" {{(old('is_blstrained', $d->is_blstrained) == 'Y') ? 'selected' : ''}}>Yes</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -230,9 +229,8 @@
                         <div class="form-group">
                             <label for="is_herotrained"><b class="text-danger">*</b>Is HERO Trained?</label>
                             <select class="form-control" name="is_herotrained" id="is_herotrained" required>
-                              <option value="" disabled {{(is_null(old('is_herotrained', $d->is_herotrained))) ? 'selected' : ''}}>Choose...</option>
-                              <option value="Y" {{(old('is_herotrained', $d->is_herotrained) == 'Y') ? 'selected' : ''}}>Yes</option>
                               <option value="N" {{(old('is_herotrained', $d->is_herotrained) == 'N') ? 'selected' : ''}}>No</option>
+                              <option value="Y" {{(old('is_herotrained', $d->is_herotrained) == 'Y') ? 'selected' : ''}}>Yes</option>
                             </select>
                         </div>
                     </div>
@@ -248,9 +246,8 @@
                         <div class="form-group">
                             <label for="duty_canbedeployedagain"><b class="text-danger">*</b>Can be Repeatedly Deployed? (For Drivers, Team Leaders)</label>
                             <select class="form-control" name="duty_canbedeployedagain" id="duty_canbedeployedagain" required>
-                              <option value="" disabled {{(is_null(old('duty_canbedeployedagain', $d->duty_canbedeployedagain))) ? 'selected' : ''}}>Choose...</option>
-                              <option value="Y" {{(old('duty_canbedeployedagain', $d->duty_canbedeployedagain) == 'Y') ? 'selected' : ''}}>Yes</option>
                               <option value="N" {{(old('duty_canbedeployedagain', $d->duty_canbedeployedagain) == 'N') ? 'selected' : ''}}>No</option>
+                              <option value="Y" {{(old('duty_canbedeployedagain', $d->duty_canbedeployedagain) == 'Y') ? 'selected' : ''}}>Yes</option>
                             </select>
                         </div>
                     </div>
