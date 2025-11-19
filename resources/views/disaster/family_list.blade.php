@@ -151,19 +151,9 @@
                                     <label for="religion">Religion</label>
                                     <input type="text" class="form-control" id="religion" name="religion" value="{{old('religion')}}" style="text-transform: uppercase;">
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="occupation">Occupation</label>
-                                            <input type="text" class="form-control" id="occupation" name="occupation" value="{{old('occupation')}}" style="text-transform: uppercase;">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="monthlyfamily_income">Monthly Family Net Income</label>
-                                            <input type="number" class="form-control" id="monthlyfamily_income" name="monthlyfamily_income" value="{{old('monthlyfamily_income')}}">
-                                        </div>
-                                    </div>
+                                <div class="form-group">
+                                    <label for="monthlyfamily_income">Monthly Family Net Income</label>
+                                    <input type="number" class="form-control" id="monthlyfamily_income" name="monthlyfamily_income" value="{{old('monthlyfamily_income')}}">
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -179,7 +169,13 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="occupation">Occupation</label>
+                                    <input type="text" class="form-control" id="occupation" name="occupation" value="{{old('occupation')}}" style="text-transform: uppercase;">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="house_ownership"><span class="text-danger font-weight-bold">*</span>House Ownership</label>
                                     <select class="form-control" name="house_ownership" id="house_ownership" required>
@@ -192,7 +188,16 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="mothermaiden_name">Mother's Maiden Name</label>
+                                    <input type="text" class="form-control" id="mothermaiden_name" name="mothermaiden_name" value="{{old('mothermaiden_name')}}" style="text-transform: uppercase;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="is_soloparent"><span class="text-danger font-weight-bold">*</span>Is Solo Parent?</label>
                                     <select class="form-control" name="is_soloparent" id="is_soloparent" required>
@@ -202,7 +207,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="is_4ps"><span class="text-danger font-weight-bold">*</span>Is 4Ps Beneficiary?</label>
                                     <select class="form-control" name="is_4ps" id="is_4ps" required>
@@ -212,7 +217,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="is_indg"><span class="text-danger font-weight-bold">*</span>Is Indigenous People?</label>
                                     <select class="form-control" name="is_indg" id="is_indg" required>

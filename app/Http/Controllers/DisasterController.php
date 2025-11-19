@@ -155,12 +155,14 @@ class DisasterController extends Controller
             //'is_lactating' => ($r->sex == 'F') ? $r->is_lactating : 'N',
             'cs' => $r->cs,
             
-            'email' => $r->email,
+            //'email' => $r->email,
             'contact_number' => $r->contact_number,
             'contact_number2' => $r->contact_number2,
             //'philhealth_number' => $r->philhealth_number,
             'religion' => ($r->religion) ? mb_strtoupper($r->religion) : NULL,
             'occupation' => ($r->occupation) ? mb_strtoupper($r->occupation) : NULL,
+            'monthlyfamily_income' => $r->monthlyfamily_income,
+            'mothermaiden_name' => ($r->mothermaiden_name) ? mb_strtoupper($r->mothermaiden_name) : NULL,
             'street_purok' => mb_strtoupper($r->street_purok),
             'address_brgy_code' => $r->address_brgy_code,
             //'is_headoffamily' => $r->is_headoffamily,
@@ -177,7 +179,7 @@ class DisasterController extends Controller
             //'family_status' => $r->family_status,
             //'focal_name' => $r->focal_name,
 
-            'remarks' => $r->remarks,
+            //'remarks' => $r->remarks,
             'hash' => $hashStr,
             //'age_years' => $get_ageyears,
             //'age_months' => $get_agemonths,
@@ -202,7 +204,62 @@ class DisasterController extends Controller
     }
 
     public function updateFamilyHead($id, Request $r) {
+        $d = EvacuationCenterFamilyHead::findOrFail($id);
 
+        $lname = mb_strtoupper($r->lname);
+        $fname = mb_strtoupper($r->fname);
+        $mname = ($r->mname) ? mb_strtoupper($r->mname) : NULL;
+        $suffix = ($r->suffix) ? mb_strtoupper($r->suffix) : NULL;
+
+        $bdate = $r->bdate;
+
+        $check = EvacuationCenterFamilyHead::where('lname', $lname)
+        ->where('fname', $fname)
+        ->whereDate('bdate', $bdate)
+        ->first();
+
+        if($check) {
+            return redirect()->back()
+            ->with('msg', 'Family Head '.$check->getName().' already exists. Kindly double check and try again.')
+            ->with('msgtype', 'warning');
+        }
+
+        $d->update([
+            'lname' => $lname,
+            'fname' => $fname,
+            'mname' => $mname,
+            'suffix' => $suffix,
+            //'nickname' => ($r->nickname) ? mb_strtoupper($r->nickname) : NULL,
+            'sex' => $r->sex,
+            //'is_pregnant',
+            //'is_lactating',
+            'bdate' => $r->bdate,
+            'birthplace' => (!is_null($r->birthplace)) ? mb_strtoupper($r->birthplace) : NULL,
+            'cs' => $r->cs,
+            'religion' => ($r->religion) ? mb_strtoupper($r->religion) : NULL,
+            'occupation' => ($r->occupation) ? mb_strtoupper($r->occupation) : NULL,
+            'mothermaiden_name' => ($r->mothermaiden_name) ? mb_strtoupper($r->mothermaiden_name) : NULL,
+            'monthlyfamily_income' => $r->monthlyfamily_income,
+            //'is_pwd',
+            'is_soloparent' => $r->is_soloparent,
+            'is_4ps' => $r->is_4ps,
+            'is_indg' => $r->is_indg,
+            //'indg_specify',
+            'id_presented' => mb_strtoupper($r->id_presented),
+            'id_number' => mb_strtoupper($r->id_number),
+            //'id_file',
+            //'picture_file',
+            //'email',
+            'contact_number' => $r->contact_number,
+            'contact_number2' => $r->contact_number2,
+            //'philhealth_number',
+            'street_purok' => mb_strtoupper($r->street_purok),
+            'address_brgy_code' => $r->address_brgy_code,
+            'house_ownership' => $r->house_ownership,
+            'dswd_serialno' => ($r->dswd_serialno) ? mb_strtoupper($r->dswd_serialno) : NULL,
+            'cswd_serialno' => ($r->cswd_serialno) ? mb_strtoupper($r->cswd_serialno) : NULL,
+            'remarks' => $r->remarks,
+        ]);
     }
 
     public function storeFamilyMember($id, Request $r) {

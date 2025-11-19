@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid">
+<div class="container">
     <div class="d-flex justify-content-between">
         <div></div>
         <div>{!! QrCode::size(100)->generate($d->hash) !!}</div>
@@ -26,6 +26,11 @@
             </div>
         </div>
         <div class="card-body">
+            @if(session('msg'))
+            <div class="alert alert-{{session('msgtype')}}" role="alert">
+                {{session('msg')}}
+            </div>
+            @endif
             <form action="{{route('disaster_updatefamilyhead', $d->id)}}" method="POST">
                 @csrf
                 <div id="accordianId" role="tablist" aria-multiselectable="true">
@@ -109,19 +114,9 @@
                                             <label for="religion">Religion</label>
                                             <input type="text" class="form-control" id="religion" name="religion" value="{{old('religion', $d->religion)}}" style="text-transform: uppercase;">
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="occupation">Occupation</label>
-                                                    <input type="text" class="form-control" id="occupation" name="occupation" value="{{old('occupation', $d->occupation)}}" style="text-transform: uppercase;">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="monthlyfamily_income">Monthly Family Net Income</label>
-                                                    <input type="number" class="form-control" id="monthlyfamily_income" name="monthlyfamily_income" value="{{old('monthlyfamily_income', $d->monthlyfamily_income)}}">
-                                                </div>
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="monthlyfamily_income">Monthly Family Net Income</label>
+                                            <input type="number" class="form-control" id="monthlyfamily_income" name="monthlyfamily_income" value="{{old('monthlyfamily_income', $d->monthlyfamily_income)}}">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -135,9 +130,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="occupation">Occupation</label>
+                                            <input type="text" class="form-control" id="occupation" name="occupation" value="{{old('occupation', $d->occupation)}}" style="text-transform: uppercase;">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="house_ownership"><span class="text-danger font-weight-bold">*</span>House Ownership</label>
                                             <select class="form-control" name="house_ownership" id="house_ownership" required>
@@ -149,7 +150,16 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="mothermaiden_name">Mother's Maiden Name</label>
+                                            <input type="text" class="form-control" id="mothermaiden_name" name="mothermaiden_name" value="{{old('mothermaiden_name', $d->mothermaiden_name)}}" style="text-transform: uppercase;">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="is_soloparent"><span class="text-danger font-weight-bold">*</span>Is Solo Parent?</label>
                                             <select class="form-control" name="is_soloparent" id="is_soloparent" required>
@@ -158,7 +168,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="is_4ps"><span class="text-danger font-weight-bold">*</span>Is 4Ps Beneficiary?</label>
                                             <select class="form-control" name="is_4ps" id="is_4ps" required>
@@ -167,7 +177,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="is_indg"><span class="text-danger font-weight-bold">*</span>Is Indigenous People?</label>
                                             <select class="form-control" name="is_indg" id="is_indg" required>
@@ -237,6 +247,11 @@
                                         </div>
                                     </div>
                                 </div>
+                                <hr>
+                                <div class="form-group">
+                                  <label for="">Remarks</label>
+                                  <textarea class="form-control" name="remarks" id="remarks" rows="3">{{$d->remarks}}</textarea>
+                                </div>
                             </div>
                             <div class="card-footer text-right">
                                 <button type="submit" class="btn btn-success">Save</button>
@@ -254,11 +269,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    @if(session('msg'))
-                    <div class="alert alert-{{session('msgtype')}}" role="alert">
-                        {{session('msg')}}
-                    </div>
-                    @endif
+                    
 
                     @if($member_list->count() != 0)
                     <div class="table-responsive">
