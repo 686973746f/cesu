@@ -50,7 +50,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="fname"><span class="text-danger font-weight-bold">*</span>First Name</label>
-                                            <input type="text" class="form-control" id="fname" name="fname" value="{{old('fname', $d->lname)}}" minlength="2" maxlength="50" pattern="[A-Za-z\- 'Ññ]+" style="text-transform: uppercase;" required>
+                                            <input type="text" class="form-control" id="fname" name="fname" value="{{old('fname', $d->fname)}}" minlength="2" maxlength="50" pattern="[A-Za-z\- 'Ññ]+" style="text-transform: uppercase;" required>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -301,8 +301,8 @@
                                     <td class="text-center">{{$m->relationship_tohead}}</td>
                                     <td class="text-center">{{$m->highest_education}}</td>
                                     <td class="text-center">{{$m->occupation}}</td>
-                                    <td class="text-center"></td>
-                                    <td class="text-center"></td>
+                                    <td class="text-center">{{date('m/d/Y h:i A', strtotime($m->created_at))}}</td>
+                                    <td class="text-center">{{date('m/d/Y h:i A', strtotime($m->updated_at))}}</td>
                                 </tr>
 
                                 <form action="{{route('disaster_updatemember', $m->id)}}" method="POST">

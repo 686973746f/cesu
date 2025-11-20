@@ -213,7 +213,8 @@ class DisasterController extends Controller
 
         $bdate = $r->bdate;
 
-        $check = EvacuationCenterFamilyHead::where('lname', $lname)
+        $check = EvacuationCenterFamilyHead::where('id', '!=', $d->id)
+        ->where('lname', $lname)
         ->where('fname', $fname)
         ->whereDate('bdate', $bdate)
         ->first();
@@ -307,7 +308,7 @@ class DisasterController extends Controller
             //'is_pregnant' => ($r->sex == 'F') ? $r->is_pregnant : 'N',
             //'is_lactating' => ($r->sex == 'F') ? $r->is_lactating : 'N',
             'highest_education' => $r->highest_education,
-            'occupation', ($r->occupation) ? mb_strtoupper($r->occupation) : NULL,
+            'occupation' => ($r->occupation) ? mb_strtoupper($r->occupation) : NULL,
             //'outcome',
             //'date_missing',
             //'date_returned',
@@ -361,7 +362,7 @@ class DisasterController extends Controller
             //'is_pregnant' => ($r->sex == 'F') ? $r->is_pregnant : 'N',
             //'is_lactating' => ($r->sex == 'F') ? $r->is_lactating : 'N',
             'highest_education' => $r->highest_education,
-            'occupation', ($r->occupation) ? mb_strtoupper($r->occupation) : NULL,
+            'occupation' => ($r->occupation) ? mb_strtoupper($r->occupation) : NULL,
             //'outcome',
             //'date_missing',
             //'date_returned',
