@@ -34,26 +34,9 @@
                         </div>
                         <div id="section1ContentId" class="collapse in" role="tabpanel" aria-labelledby="section1HeaderId">
                             <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="date_registered"><b class="text-danger">*</b>Date Registered</label>
-                                            <input type="datetime-local" class="form-control" name="date_registered" id="date_registered" value="{{old('date_registered', $d->date_registered)}}" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="family_status"><b class="text-danger">*</b>Status</label>
-                                            <select class="form-control" name="family_status" id="family_status" required>
-                                                <option value="ACTIVE" {{(old('family_status', $d->family_status) == 'ACTIVE') ? 'selected' : ''}}>Active</option>
-                                                <option value="RETURNED" {{(old('family_status', $d->family_status) == 'RETURNED') ? 'selected' : ''}}>Returned Home</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group" id="returnedhome_div">
-                                        <label for="date_returnedhome"><b class="text-danger">*</b>Date Returned Home</label>
-                                        <input type="datetime-local" class="form-control" name="date_returnedhome" id="date_returnedhome" value="{{old('date_returnedhome', $d->date_returnedhome ?: date('Y-m-d\TH:i'))}}">
-                                        </div>
-                                    </div>
+                                <div class="form-group">
+                                    <label for="date_registered"><b class="text-danger">*</b>Date Registered</label>
+                                    <input type="datetime-local" class="form-control" name="date_registered" id="date_registered" value="{{old('date_registered', $d->date_registered)}}" required>
                                 </div>
 
                                 <div class="row">
@@ -136,6 +119,19 @@
                                                 <label for="date_died"><b class="text-danger">*</b>Date Died</label>
                                                 <input type="datetime-local" class="form-control" name="date_died" id="date_died1" value="{{old('date_died', $d->date_died)}}">
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="family_status"><b class="text-danger">*</b>Status</label>
+                                            <select class="form-control" name="family_status" id="family_status" required>
+                                                <option value="ACTIVE" {{(old('family_status', $d->family_status) == 'ACTIVE') ? 'selected' : ''}}>Active (Nasa Evacuation Center pa)</option>
+                                                <option value="RETURNED" {{(old('family_status', $d->family_status) == 'RETURNED') ? 'selected' : ''}}>Returned Home (Umuwi na)</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group" id="returnedhome_div">
+                                            <label for="date_returnedhome"><b class="text-danger">*</b>Date Returned Home</label>
+                                            <input type="datetime-local" class="form-control" name="date_returnedhome" id="date_returnedhome" value="{{old('date_returnedhome', $d->date_returnedhome ?: date('Y-m-d\TH:i'))}}">
                                         </div>
                                     </div>
                                 </div>
