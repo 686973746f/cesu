@@ -36,6 +36,7 @@ class EvacuationCenterFamilyMember extends Model
         //'dswd_serialno',
         //'remarks',
         'created_by',
+        'updated_by',
         'hash',
     ];
 

@@ -260,7 +260,12 @@ class DisasterController extends Controller
             'dswd_serialno' => ($r->dswd_serialno) ? mb_strtoupper($r->dswd_serialno) : NULL,
             'cswd_serialno' => ($r->cswd_serialno) ? mb_strtoupper($r->cswd_serialno) : NULL,
             'remarks' => $r->remarks,
+            'updated_by' => Auth::id(),
         ]);
+
+        return redirect()->back()
+        ->with('msg', 'Family Head '.$d->getName().' was updated successfully.')
+        ->with('msgtype', 'success');
     }
 
     public function storeFamilyMember($id, Request $r) {
@@ -371,6 +376,7 @@ class DisasterController extends Controller
             'is_pwd' => $r->is_pwd,
             'is_4ps' => $r->is_4ps,
             'is_indg' => $r->is_indg,
+            'updated_by' => Auth::id(),
         ]);
 
         return redirect()->back()
@@ -397,9 +403,25 @@ class DisasterController extends Controller
         ->where('address_brgy_code', $r->address_brgy_code)
         ->first();
 
+        if($r->ec_type == 'OUTSIDE') {
+            //Check if outside ec exists in the Barangay
+            $check = EvacuationCenter::where('disaster_id', $d->id)
+            ->where('ec_type', 'OUTSIDE')
+            ->where('address_brgy_code', $r->address_brgy_code)
+            ->first();
+
+            if($check) {
+                return redirect()->back()
+                ->withInput()
+                ->with('msg', 'Error: Outside EC on the Barangay already exists.')
+                ->with('msgtype', 'warning');
+            }
+        }
+
         if(!$s) {
             $c = EvacuationCenter::create([
                 'disaster_id' => $d->id,
+                'ec_type' => $r->ec_type,
                 'name' => $name,
                 'address_brgy_code' => $r->address_brgy_code,
                 'date_start' => $r->date_start,
@@ -460,6 +482,7 @@ class DisasterController extends Controller
             'status' => $r->status,
             'date_start' => $r->date_start,
             'date_end' => ($r->status == 'DONE') ? $r->date_end : NULL,
+            'updated_by' => Auth::id(),
         ]);
 
         return redirect()->back()
@@ -578,6 +601,7 @@ class DisasterController extends Controller
             'remarks' => $r->remarks,
             'focal_name' => ($r->focal_name) ? mb_strtoupper($r->focal_name) : NULL,
             'supervisor_name' => ($r->supervisor_name) ? mb_strtoupper($r->supervisor_name) : NULL,
+            'updated_by' => Auth::id(),
         ]);
 
         return redirect()->back()
@@ -660,6 +684,12 @@ class DisasterController extends Controller
             'list_evac' => $list_evac,
         ]);
     }
+
+    public function terminalReport($id) {
+        $d = Disaster::findOrFail($id);
+
+        return view('disaster.report_terminal');
+    }
     
     public function reportEvac($id) {
         $d = EvacuationCenter::findOrFail($id);
@@ -680,175 +710,4 @@ class DisasterController extends Controller
     public function storeFamAssistance($type, $id, Request $r) {
         
     }
-
-    /*
-    public function viewPatient($id) {
-        $p = EvacuationCenterPatient::findOrFail($id);
-
-        $d = EvacuationCenter::findOrFail($p->evacuation_center_id);
-
-        return $this->editPatient($p)
-        ->with('d', $d);
-    }
-
-    public function updatePatient($id, Request $r) {
-        $d = EvacuationCenterPatient::findOrFail($id);
-
-        $lname = mb_strtoupper($r->lname);
-        $fname = mb_strtoupper($r->fname);
-        $mname = ($r->mname) ? mb_strtoupper($r->mname) : NULL;
-        $suffix = ($r->suffix) ? mb_strtoupper($r->suffix) : NULL;
-
-        $bdate = $r->bdate;
-
-        $birthdate = Carbon::parse($bdate);
-        $currentDate = Carbon::now();
-
-        $get_ageyears = $birthdate->diffInYears($currentDate);
-        $get_agemonths = $birthdate->diffInMonths($currentDate);
-        $get_agedays = $birthdate->diffInDays($currentDate);
-
-        $update_params = [
-            'date_registered' => $r->date_registered,
-            'cswd_serialno' => ($r->cswd_serialno) ? mb_strtoupper($r->cswd_serialno) : NULL,
-            'lname' => $lname,
-            'fname' => $fname,
-            'mname' => $mname,
-            'suffix' => $suffix,
-            //'nickname' => ($r->nickname) ? mb_strtoupper($r->nickname) : NULL,
-            'bdate' => $r->bdate,
-            'sex' => $r->sex,
-            'is_pregnant' => ($r->sex == 'F') ? $r->is_pregnant : 'N',
-            'is_lactating' => ($r->sex == 'F') ? $r->is_lactating : 'N',
-            'cs' => $r->cs,
-            
-            'email' => $r->email,
-            'contact_number' => $r->contact_number,
-            'contact_number2' => $r->contact_number2,
-            //'philhealth_number' => $r->philhealth_number,
-            'religion' => ($r->religion) ? mb_strtoupper($r->religion) : NULL,
-            'occupation' => ($r->occupation) ? mb_strtoupper($r->occupation) : NULL,
-            'street_purok' => mb_strtoupper($r->street_purok),
-            'address_brgy_code' => $r->address_brgy_code,
-            //'is_headoffamily' => $r->is_headoffamily,
-            'id_presented' => mb_strtoupper($r->id_presented),
-            'id_number' => mb_strtoupper($r->id_number),
-            'house_ownership' => $r->house_ownership,
-            'shelterdamage_classification' => $r->shelterdamage_classification,
-            'is_pwd' => $r->is_pwd,
-            'is_injured' => $r->is_injured,
-            'is_4ps' => $r->is_4ps,
-            'is_indg' => $r->is_indg,
-            'outcome' => $r->outcome,
-            'family_status' => $r->family_status,
-            'focal_name' => $r->focal_name,
-
-            'remarks' => $r->remarks,
-            'age_years' => $get_ageyears,
-            'age_months' => $get_agemonths,
-            'age_days' => $get_agedays,
-        ];
-
-        $u = EvacuationCenterPatient::where('id', $id)
-        ->update($update_params);
-
-        return redirect()->route('gtsecure_evacuationcenter_view', $d->evacuation_center_id)
-        ->with('msg', 'Details of '.$d->getName().' was updated successfully.')
-        ->with('msgtype', 'success');
-    }
-
-    public function newMember($id) {
-        $d = EvacuationCenterPatient::findOrFail($id);
-        
-        return $this->viewMember(new EvacuationCenterPatientMembers())
-        ->with('d', $d);
-    }
-
-    public function storeMember($id, Request $r) {
-        $d = EvacuationCenterPatient::findOrFail($id);
-
-        $lname = mb_strtoupper($r->lname);
-        $fname = mb_strtoupper($r->fname);
-        $mname = ($r->mname) ? mb_strtoupper($r->mname) : NULL;
-        $suffix = ($r->suffix) ? mb_strtoupper($r->suffix) : NULL;
-
-        $bdate = $r->bdate;
-
-        $birthdate = Carbon::parse($bdate);
-        $currentDate = Carbon::now();
-
-        $get_ageyears = $birthdate->diffInYears($currentDate);
-        $get_agemonths = $birthdate->diffInMonths($currentDate);
-        $get_agedays = $birthdate->diffInDays($currentDate);
-
-        $foundunique = false;
-
-        while(!$foundunique) {
-            $hashStr = Str::random(10);
-
-            $s = EvacuationCenterPatient::where('hash', $hashStr)->first();
-            if(!$s) {
-                $s1 = EvacuationCenterPatientMembers::where('hash', $hashStr)->first();
-
-                if(!$s1) {
-                    $foundunique = true;
-                }
-            }
-        }
-
-        $c = EvacuationCenterPatientMembers::create([
-            'familyhead_id' => $d->id,
-            'relationship_tohead' => $r->relationship_tohead,
-            'date_registered' => $r->date_registered,
-            'lname' => $lname,
-            'fname' => $fname,
-            'mname' => $mname,
-            'suffix' => $suffix,
-            //'nickname',
-            'bdate' => $r->bdate,
-            'sex' => $r->sex,
-            'is_pregnant' => ($r->sex == 'F') ? $r->is_pregnant : 'N',
-            'is_lactating' => ($r->sex == 'F') ? $r->is_lactating : 'N',
-            'highest_education' => $r->highest_education,
-            'occupation' => $r->occupation,
-            'outcome' => $r->outcome,
-            'date_missing' => ($r->outcome == 'MISSING') ? $r->date_missing : NULL,
-            'date_died' => ($r->outcome == 'DIED') ? $r->date_died : NULL,
-            'is_injured' => $r->is_injured,
-            'is_pwd' => $r->is_pwd,
-            'is_4ps' => $r->is_4ps,
-            'is_indg' => $r->is_indg,
-            'indg_specify' => ($r->is_indg == 'Y') ? mb_strtoupper($r->indg_specify) : NULL,
-            'age_years' => $get_ageyears,
-            'age_months' => $get_agemonths,
-            'age_days' => $get_agedays,
-            'cswd_serialno' => ($r->cswd_serialno) ? mb_strtoupper($r->cswd_serialno) : NULL,
-            //'dswd_serialno',
-            'remarks' => $r->remarks,
-            'created_by' => auth()->user()->id,
-            'updated_by' => auth()->user()->id,
-            'hash' => $hashStr,
-        ]);
-
-        return redirect()->route('gtsecure_evacuationcenter_view', $d->evacuation_center_id)
-        ->with('msg', 'Family Member was successfully added.')
-        ->with('msgtype', 'success');
-    }
-
-    public function viewMember(EvacuationCenterPatientMembers $pt) {
-        return view('disaster.create_edit_patient_member', ['p' => $pt]);
-    }
-
-    public function updateMember($member_id) {
-
-    }
-
-    public function evacPostUpdate($evac_id, Request $r) {
-        
-    }
-
-    public function disasterGenerateReport($disaster_id) {
-
-    }
-    */
 }

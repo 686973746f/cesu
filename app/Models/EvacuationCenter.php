@@ -12,6 +12,7 @@ class EvacuationCenter extends Model
     protected $fillable = [
         'enabled',
         'disaster_id',
+        'ec_type',
         'name',
         'description',
         'street_purok',

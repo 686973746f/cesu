@@ -913,7 +913,8 @@ Route::group(['middleware' => ['auth','verified', 'canAccessDisaster']], functio
     Route::get('/gtsecure', [DisasterController::class, 'index'])->name('gtsecure_index');
     Route::post('/gtsecure/disaster/store', [DisasterController::class, 'storeDisaster'])->name('gtsecure_storeDisaster');
     Route::get('/gtsecure/disaster/view/{id}', [DisasterController::class, 'viewDisaster'])->name('gtsecure_disaster_view');
-    Route::get('/gtsecure/disaster/view/{id}/report', [DisasterController::class, 'reportDisaster'])->name('gtsecure_report_disaster');
+    Route::get('/gtsecure/disaster/view/{id}/report', [DisasterController::class, 'reportDisaster'])->name('disaster_report');
+    Route::get('/gtsecure/disaster/view/{id}/terminal_report', [DisasterController::class, 'terminalReport'])->name('disaster_terminal_report');
     Route::post('/gtsecure/disaster/view/{id}/update', [DisasterController::class, 'updateDisaster'])->name('disaster_update');
 
     Route::get('/gtsecure/families', [DisasterController::class, 'viewFamilies'])->name('disaster_viewfamilies');

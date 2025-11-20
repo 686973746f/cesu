@@ -45,11 +45,21 @@ class EvacuationCenterFamilyHead extends Model
         'cswd_serialno',
         'dswd_serialno',
         'created_by',
+        'updated_by',
         'hash',
     ];
 
     public function user() {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function getUpdatedBy() {
+        if(!is_null($this->updated_by)) {
+            return date('m/d/Y h:i A', strtotime($this->updated_at)).' by '.User::find($this->updated_by)->name;
+        }
+        else {
+            return 'N/A';
+        }
     }
 
     public function brgy() {

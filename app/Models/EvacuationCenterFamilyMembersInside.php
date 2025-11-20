@@ -34,6 +34,7 @@ class EvacuationCenterFamilyMembersInside extends Model
         'age_days',
         
         'created_by',
+        'updated_by',
     ];
 
     public function familyinside() {

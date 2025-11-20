@@ -22,8 +22,8 @@
                 {{session('msg')}}
             </div>
             @endif
-            <a href="{{route('gtsecure_report_disaster', $d->id)}}" class="btn btn-primary mb-3">View Summary Report</a>
-            <a href="" class="btn btn-primary mb-3">View Terminal Report</a>
+            <a href="{{route('disaster_report', $d->id)}}" class="btn btn-primary mb-3">View Summary Report</a>
+            <a href="{{route('disaster_terminal_report', $d->id)}}" class="btn btn-primary mb-3">View Terminal Report</a>
 
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">
@@ -74,7 +74,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                       <label for="name"><b class="text-danger">*</b>Event Title</label>
-                      <input type="text" class="form-control" name="name" id="name" value="{{old('name', $d->name)}}" style="text-transform: uppercase" required>
+                      <input type="text" class="form-control" name="name" id="event_title" value="{{old('name', $d->name)}}" style="text-transform: uppercase" required>
                     </div>
                     <div class="form-group">
                       <label for="event_type"><b class="text-danger">*</b>Event Type (Select all that applies)</label>
@@ -139,12 +139,20 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
+                      <label for="ec_type"><b class="text-danger">*</b>Type of Evacuation Center</label>
+                      <select class="form-control" name="ec_type" id="ec_type" required>
+                        <option value="" disabled {{(is_null(old('ec_type'))) ? 'selected' : ''}}>Choose...</option>
+                        <option value="INSIDE">Inside Evacuation Center</option>
+                        <option value="OUTSIDE">Outside EC (Houses of Relatives/Friends)</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
                         <label for="name"><b class="text-danger">*</b>Evacuation Center Name</label>
                         <input type="text" class="form-control" name="name" id="name" value="{{old('name')}}"  style="text-transform: uppercase;" required>
                     </div>
                     <div class="form-group">
                         <label for="name"><b class="text-danger">*</b>Date Started</label>
-                      <input type="date" class="form-control" name="date_start" id="date_start" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}" value="{{old('date_start', date('Y-m-d'))}}" required>
+                        <input type="date" class="form-control" name="date_start" id="date_start" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}" value="{{old('date_start', date('Y-m-d'))}}" required>
                     </div>
                     <hr>
                     <div id="ev_address_div">
@@ -188,6 +196,23 @@
 </form>
 
 <script>
+    $('#ec_type').change(function (e) { 
+        e.preventDefault();
+        
+        if($(this).val() == 'INSIDE') {
+            $('#name').prop('disabled', false);
+            $('#name').prop('required', true);
+        }
+        else if($(this).val() == 'OUTSIDE') {
+            $('#name').prop('disabled', true);
+            $('#name').prop('required', false);
+        }
+        else {
+            $('#name').prop('disabled', true);
+            $('#name').prop('required', false);
+        }
+    }).trigger('change');
+
     $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_code').select2({
         theme: 'bootstrap',
         dropdownParent: $('#ev_address_div'),

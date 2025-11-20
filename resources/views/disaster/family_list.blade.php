@@ -52,7 +52,9 @@
                                     <div>{{date('m/d/Y h:i A')}}</div>
                                     <div>by {{$l->user->name}}</div>
                                 </td>
-                                <td class="text-center"></td>
+                                <td class="text-center">
+                                    {{$l->getUpdatedBy()}}
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -140,7 +142,9 @@
                                 <div class="form-group">
                                     <label for="contact_number"><span class="text-danger font-weight-bold">*</span>Primary Contact Number</label>
                                     <input type="text" class="form-control" id="contact_number" name="contact_number" value="{{old('contact_number')}}" pattern="[0-9]{11}" placeholder="09*********" required>
+                                    <small><b class="text-info">Note:</b> Kung wala talagang contact number, pwedeng ilagay ang contact number ng kapitbahay ng evacuees.</small>
                                 </div>
+                                
                                 <div class="form-group">
                                     <label for="contact_number2">Alternate Contact Number</label>
                                     <input type="text" class="form-control" id="contact_number2" name="contact_number2" value="{{old('contact_number2')}}" pattern="[0-9]{11}" placeholder="09*********">
@@ -180,8 +184,8 @@
                                     <label for="house_ownership"><span class="text-danger font-weight-bold">*</span>House Ownership</label>
                                     <select class="form-control" name="house_ownership" id="house_ownership" required>
                                         <option value="" disabled {{(is_null(old('house_ownership'))) ? 'selected' : ''}}>Choose...</option>
-                                        <option value="OWNER" {{(old('house_ownership') == 'OWNER') ? 'selected' : ''}}>Owner</option>
-                                        <option value="RENTER" {{(old('house_ownership') == 'RENTER') ? 'selected' : ''}}>Renter</option>
+                                        <option value="OWNER" {{(old('house_ownership') == 'OWNER') ? 'selected' : ''}}>Owner/May ari ng bahay</option>
+                                        <option value="RENTER" {{(old('house_ownership') == 'RENTER') ? 'selected' : ''}}>Renter/Nakiki-renta lang</option>
                                         <option value="SHARER" {{(old('house_ownership') == 'SHARER') ? 'selected' : ''}}>Sharer</option>
                                         <option value="INFORMAL SETTLER" {{(old('house_ownership') == 'INFORMAL SETTLER') ? 'selected' : ''}}>Informal Settler</option>
                                         <option value="N/A" {{(old('house_ownership') == 'N/A') ? 'selected' : ''}}>Not Applicable (N/A)</option>
@@ -190,7 +194,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="mothermaiden_name">Mother's Maiden Name</label>
+                                    <label for="mothermaiden_name">Mother's Maiden Name/Pangalan ng Nanay nung Dalaga pa</label>
                                     <input type="text" class="form-control" id="mothermaiden_name" name="mothermaiden_name" value="{{old('mothermaiden_name')}}" style="text-transform: uppercase;">
                                 </div>
                             </div>

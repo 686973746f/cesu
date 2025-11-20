@@ -18,6 +18,7 @@ class CreateEvacuationCentersTable extends Migration
             $table->string('enabled', 1)->default('Y');
             $table->foreignId('disaster_id')->constrained('disasters')->onDelete('cascade');
             $table->string('name');
+            $table->string('ec_type')->default('INSIDE'); //INSIDE, OUTSIDE
             $table->text('description')->nullable();
             $table->string('street_purok')->nullable();
             $table->foreignId('address_brgy_code')->constrained('edcs_brgies')->onDelete('cascade');

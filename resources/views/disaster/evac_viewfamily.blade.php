@@ -322,6 +322,7 @@
                     <div class="form-group">
                         <label for="outcome"><b class="text-danger">*</b>Outcome</label>
                         <select class="form-control" name="outcome" id="outcome" required>
+                            <option value="" disabled {{(is_null(old('outcome'))) ? 'selected' : ''}}>Choose...</option>
                             <option value="ALIVE">Alive</option>
                             <option value="MISSING">Missing</option>
                             <option value="MISSING THEN RETURNED">Missing, then Returned</option>

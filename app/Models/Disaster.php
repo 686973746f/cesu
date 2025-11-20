@@ -20,6 +20,7 @@ class Disaster extends Model
         'status',
         'hash',
         'created_by',
+        'updated_by',
     ];
 
     public function city() {

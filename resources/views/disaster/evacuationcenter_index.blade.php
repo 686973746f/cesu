@@ -183,6 +183,7 @@
                                         <option value="" disabled {{(is_null(old('shelterdamage_classification'))) ? 'selected' : ''}}>Choose...</option>
                                         <option value="PARTIALLY DAMAGED">Partially Damaged</option>
                                         <option value="TOTALLY DAMAGED">Totally Damaged</option>
+                                        <option value="NO DAMAGE">No Damage</option>
                                     </select>
                                 </div>
                             </div>
