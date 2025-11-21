@@ -20,13 +20,15 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($report1 as $r)
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>{{$r['barangay']}}</td>
+                        <td class="text-center">{{$r['families']}}</td>
+                        <td class="text-center">{{$r['individuals']}}</td>
+                        <td class="text-center">{{$r['male']}}</td>
+                        <td class="text-center">{{$r['female']}}</td>
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
 
@@ -44,12 +46,14 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($report2 as $r)
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>{{$r['barangay']}}</td>
+                        <td class="text-center">{{$r['centers_inside']}}</td>
+                        <td class="text-center">{{$r['families']}}</td>
+                        <td class="text-center">{{$r['individuals']}}</td>
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
 
@@ -66,11 +70,13 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($report3 as $r)
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>{{$r['barangay']}}</td>
+                        <td class="text-center">{{$r['families']}}</td>
+                        <td class="text-center">{{$r['individuals']}}</td>
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
 
@@ -110,16 +116,18 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($report1 as $r)
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>{{$r['barangay']}}</td>
+                        <td class="text-center">{{$r['infant']}}</td>
+                        <td class="text-center">{{$r['toddler']}}</td>
+                        <td class="text-center">{{$r['preschooler']}}</td>
+                        <td class="text-center">{{$r['schoolage']}}</td>
+                        <td class="text-center">{{$r['teenage']}}</td>
+                        <td class="text-center">{{$r['adult']}}</td>
+                        <td class="text-center">{{$r['senior']}}</td>
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
 
@@ -138,16 +146,18 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($report1 as $r)
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>{{$r['barangay']}}</td>
+                        <td class="text-center">{{$r['pwd']}}</td>
+                        <td class="text-center">{{$r['lactating']}}</td>
+                        <td class="text-center">{{$r['pregnant']}}</td>
+                        <td class="text-center">{{$r['soloparent']}}</td>
+                        <td class="text-center">{{$r['fourps']}}</td>
+                        <td class="text-center">{{$r['indigent']}}</td>
+                        <td class="text-center">{{$r['childheaded']}}</td>
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
 
@@ -165,12 +175,14 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($report1 as $r)
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>{{$r['barangay']}}</td>
+                        <td class="text-center">{{$r['total_damage']}}</td>
+                        <td class="text-center">{{$r['totallydamaged']}}</td>
+                        <td class="text-center">{{$r['partiallydamaged']}}</td>
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
 

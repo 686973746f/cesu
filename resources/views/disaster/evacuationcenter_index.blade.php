@@ -26,7 +26,7 @@
 
                 <a href="{{route('gtsecure_report_evac', $d->id)}}" class="btn btn-primary mb-3">View Evacuation Summary Report</a>
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped">
+                    <table class="table table-bordered table-striped" id="maintbl1">
                         <thead class="thead-light text-center">
                             <tr>
                                 <th colspan="11">{{$d->name}}</th>
@@ -324,6 +324,8 @@
     </form>
 
     <script>
+        $('#maintbl1').dataTable();
+        
         $('#status').change(function (e) { 
             e.preventDefault();
 

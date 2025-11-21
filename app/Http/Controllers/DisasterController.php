@@ -4,16 +4,17 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Disaster;
+use App\Models\EdcsBrgy;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\EvacuationCenter;
-use App\Models\EvacuationCenterFamiliesInside;
-use App\Models\EvacuationCenterFamilyHead;
-use App\Models\EvacuationCenterFamilyMember;
-use App\Models\EvacuationCenterFamilyMembersInside;
 use Illuminate\Support\Facades\Auth;
 use App\Models\EvacuationCenterPatient;
+use App\Models\EvacuationCenterFamilyHead;
+use App\Models\EvacuationCenterFamilyMember;
+use App\Models\EvacuationCenterFamiliesInside;
 use App\Models\EvacuationCenterPatientMembers;
+use App\Models\EvacuationCenterFamilyMembersInside;
 
 class DisasterController extends Controller
 {
@@ -398,11 +399,6 @@ class DisasterController extends Controller
             }
         }
 
-        $name = mb_strtoupper($r->name);
-        $s = EvacuationCenter::where('name', $name)
-        ->where('address_brgy_code', $r->address_brgy_code)
-        ->first();
-
         if($r->ec_type == 'OUTSIDE') {
             //Check if outside ec exists in the Barangay
             $check = EvacuationCenter::where('disaster_id', $d->id)
@@ -416,7 +412,18 @@ class DisasterController extends Controller
                 ->with('msg', 'Error: Outside EC on the Barangay already exists.')
                 ->with('msgtype', 'warning');
             }
+
+            $brgy = EdcsBrgy::findOrFail($r->address_brgy_code);
+            
+            $name = 'OUTSIDE EC - BRGY. '.$brgy->name;
         }
+        else {
+            $name = mb_strtoupper($r->name);
+        }
+
+        $s = EvacuationCenter::where('name', $name)
+        ->where('address_brgy_code', $r->address_brgy_code)
+        ->first();
 
         if(!$s) {
             $c = EvacuationCenter::create([
@@ -686,9 +693,203 @@ class DisasterController extends Controller
     }
 
     public function terminalReport($id) {
-        $d = Disaster::findOrFail($id);
+        $disaster = Disaster::with(['evacuationCenters.brgy', 'evacuationCenters.familiesinside.members'])
+        ->findOrFail($id);
 
-        return view('disaster.report_terminal');
+        $centers = $disaster->evacuationCenters;
+
+        // group centers by barangay code
+        $grouped = $centers->groupBy(function($c) {
+            return $c->brgy ? $c->brgy->id : $c->address_brgy_code;
+        });
+
+        $report1 = $grouped->map(function($centersInBrgy, $brgyCode) {
+            $barangayName = $centersInBrgy->first()->brgy->name ?? $brgyCode;
+            $familiesCount = 0;
+            $individualsCount = 0;
+            $male = 0;
+            $female = 0;
+            $infant = 0;
+            $toddler = 0;
+            $preschooler = 0;
+            $schoolage = 0;
+            $teenage = 0;
+            $adult = 0;
+            $senior = 0;
+
+            $pwd = 0;
+            $lactating = 0;
+            $pregnant = 0;
+            $soloparent = 0;
+            $fourps = 0;
+            $indigent = 0;
+            $childheaded = 0;
+
+            $partiallydamaged = 0;
+            $totallydamaged = 0;
+            $total_damage = 0;
+
+            foreach ($centersInBrgy as $center) {
+                foreach ($center->familiesinside as $f) {
+                    $familiesCount++;
+
+                    // head
+                    $sexHead = strtolower($f->familyHead->sex ?? '');
+                    if (in_array($sexHead, ['male','m'])) $male++;
+                    if (in_array($sexHead, ['female','f'])) $female++;
+
+                    if($f->age_months >= 0 && $f->age_months <= 6) $infant++;
+                    if($f->age_months >= 7 && $f->age_months <= 24) $toddler++;
+                    if($f->age_years >= 3 && $f->age_years <= 5) $preschooler++;
+                    if($f->age_years >= 6 && $f->age_years <= 12) $schoolage++;
+                    if($f->age_years >= 13 && $f->age_years <= 17) $teenage++;
+                    if($f->age_years >= 18 && $f->age_years <= 59) $adult++;
+                    if($f->age_years >= 60) $senior++;
+
+                    if($f->is_pwd == 'Y') $pwd++;
+                    if($f->is_lactating == 'Y') $lactating++;
+                    if($f->is_pregnant == 'Y') $pregnant++;
+                    if($f->familyHead->is_4ps == 'Y') $fourps++;
+                    if($f->familyHead->is_soloparent == 'Y') $soloparent++;
+                    if($f->familyHead->is_indg == 'Y') $indigent++;
+                    if($f->age_years <= 17) $childheaded++;
+
+                    if($f->shelterdamage_classification == 'TOTALLY DAMAGED') $totallydamaged++;
+                    if($f->shelterdamage_classification == 'PARTIALLY DAMAGED') $partiallydamaged++;
+
+                    // members (assumes members table does NOT include head)
+                    $members = $f->members;
+                    $individualsCount += $members->count();
+                    foreach ($members as $m) {
+                        $sex = strtolower($m->member->sex ?? '');
+                        if (in_array($sex, ['male','m'])) $male++;
+                        if (in_array($sex, ['female','f'])) $female++;
+
+                        if($m->age_months >= 0 && $m->age_months <= 6) $infant++;
+                        if($m->age_months >= 7 && $m->age_months <= 24) $toddler++;
+                        if($m->age_years >= 3 && $m->age_years <= 5) $preschooler++;
+                        if($m->age_years >= 6 && $m->age_years <= 12) $schoolage++;
+                        if($m->age_years >= 13 && $m->age_years <= 17) $teenage++;
+                        if($m->age_years >= 18 && $m->age_years <= 59) $adult++;
+                        if($m->age_years >= 60) $senior++;
+
+                        if($m->is_pwd == 'Y') $pwd++;
+                        if($m->is_lactating == 'Y') $lactating++;
+                        if($m->is_pregnant == 'Y') $pregnant++;
+                        if($m->member->is_4ps == 'Y') $fourps++;
+                        if($m->member->is_soloparent == 'Y') $soloparent++;
+                        if($m->member->is_indg == 'Y') $indigent++;
+                    }
+                }
+            }
+
+            // individuals = heads + members
+            $individualsCount += $familiesCount;
+            $total_damage = $totallydamaged + $partiallydamaged;
+
+            return [
+                'brgy_code' => $brgyCode,
+                'barangay'  => $barangayName,
+                'families'  => $familiesCount,
+                'individuals'=> $individualsCount,
+                'male'      => $male,
+                'female'    => $female,
+                
+                'infant' => $infant,
+                'toddler' => $toddler,
+                'preschooler' => $preschooler,
+                'schoolage'    => $schoolage,
+                'teenage'    => $teenage,
+                'adult'    => $adult,
+                'senior'    => $senior,
+
+                'pwd'    => $pwd,
+                'lactating'    => $lactating,
+                'pregnant'    => $pregnant,
+                'soloparent'    => $soloparent,
+                'fourps'    => $fourps,
+                'indigent'    => $indigent,
+                'childheaded'    => $childheaded,
+
+                'total_damage' => $total_damage,
+                'totallydamaged' => $totallydamaged,
+                'partiallydamaged' => $partiallydamaged,
+            ];
+        })->values(); // collection of arrays
+
+        $centers = $disaster->evacuationCenters->where('ec_type', 'INSIDE');
+
+        // group centers by barangay code
+        $grouped = $centers->groupBy(function($c) {
+            return $c->brgy ? $c->brgy->id : $c->address_brgy_code;
+        });
+
+        $report2 = $grouped->map(function($centersInBrgy, $brgyCode) {
+            $barangayName = $centersInBrgy->first()->brgy->name ?? $brgyCode;
+            $centersCount = $centersInBrgy->count();
+
+            $familiesCount = 0;
+            $individualsCount = 0;
+
+            foreach ($centersInBrgy as $center) {
+                foreach ($center->familiesinside as $f) {
+                    $familiesCount++;
+
+                    $members = $f->members;
+                    $individualsCount += $members->count();
+                }
+            }
+
+            // individuals = heads + members
+            $individualsCount += $familiesCount;
+
+            return [
+                'brgy_code' => $brgyCode,
+                'barangay'  => $barangayName,
+                'centers_inside' => $centersCount,
+                'families'  => $familiesCount,
+                'individuals'=> $individualsCount,
+            ];
+        })->values(); // collection of arrays
+
+        $centers = $disaster->evacuationCenters->where('ec_type', 'OUTSIDE');
+
+        // group centers by barangay code
+        $grouped = $centers->groupBy(function($c) {
+            return $c->brgy ? $c->brgy->id : $c->address_brgy_code;
+        });
+
+        $report3 = $grouped->map(function($centersInBrgy, $brgyCode) {
+            $barangayName = $centersInBrgy->first()->brgy->name ?? $brgyCode;
+
+            $familiesCount = 0;
+            $individualsCount = 0;
+
+            foreach ($centersInBrgy as $center) {
+                foreach ($center->familiesinside as $f) {
+                    $familiesCount++;
+
+                    $members = $f->members;
+                    $individualsCount += $members->count();
+                }
+            }
+
+            // individuals = heads + members
+            $individualsCount += $familiesCount;
+
+            return [
+                'brgy_code' => $brgyCode,
+                'barangay'  => $barangayName,
+                'families'  => $familiesCount,
+                'individuals'=> $individualsCount,
+            ];
+        })->values(); // collection of arrays
+
+        return view('disaster.report_terminal', [
+            'report1' => $report1,
+            'report2' => $report2,
+            'report3' => $report3,
+        ]);
     }
     
     public function reportEvac($id) {

@@ -26,11 +26,12 @@
             <a href="{{route('disaster_terminal_report', $d->id)}}" class="btn btn-primary mb-3">View Terminal Report</a>
 
             <div class="table-responsive">
-                <table class="table table-bordered table-striped">
+                <table class="table table-bordered table-striped" id="maintbl1">
                     <thead class="thead-light text-center">
                         <tr>
                             <th>#</th>
                             <th>Evacuation Center</th>
+                            <th>EC Type</th>
                             <th>No. of Families</th>
                             <th>No. of Individuals</th>
                             <th>Barangay</th>
@@ -43,6 +44,7 @@
                         <tr>
                             <td class="text-center">{{$ind+1}}</td>
                             <td><a href="{{route('gtsecure_evacuationcenter_view', $l->id)}}">{{$l->name}}</a></td>
+                            <td class="text-center">{{$l->ec_type}}</td>
                             <td class="text-center">{{$l->familiesinside->count()}}</td>
                             <td class="text-center">{{$l->getTotalIndividualsAttribute()}}</td>
                             <td class="text-center">{{$l->brgy->name}}</td>
@@ -196,6 +198,8 @@
 </form>
 
 <script>
+    $('#maintbl1').dataTable();
+
     $('#ec_type').change(function (e) { 
         e.preventDefault();
         

@@ -23,4 +23,8 @@ class EdcsBrgy extends Model
     public function city() {
         return $this->belongsTo(EdcsCity::class, 'city_id');
     }
+
+    public function evacuationCenters() {
+        return $this->hasMany(EvacuationCenter::class, 'address_brgy_code');
+    }
 }
