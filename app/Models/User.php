@@ -802,6 +802,9 @@ class User extends Authenticatable implements MustVerifyEmail
             'AR_APPROVER',
             'TASK_MEMBER',
             'PREGNANCYTRACKING',
+            'DISASTER_ADMIN',
+            'DISASTER_ENCODER',
+            'EMPLOYEE_ACCESS',
         ];
 
         sort($arr);

@@ -50,6 +50,7 @@
     </div>
 
     <form action="{{route('admin_account_create')}}" method="POST">
+        @csrf
         <div class="modal fade" id="createadmin" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -74,7 +75,7 @@
                           <select class="form-control" name="itr_facility_id" id="itr_facility_id" required>
                             <option value="" disabled {{(is_null(old('itr_facility_id'))) ? 'selected' : ''}}>Choose...</option>
                             @foreach($facility_list as $fi)
-                            <option value="{{$fi->id}}">{{mb_strtoupper($fi->facility_name)}}</option>
+                            <option value="{{$fi->id}}" {{($fi->id == 10886) ? 'selected' : ''}}>{{mb_strtoupper($fi->facility_name)}}</option>
                             @endforeach
                           </select>
                         </div>
@@ -107,6 +108,15 @@
                             @endforeach
                           </select>
                         </div>
+                        <hr>
+                        <div class="form-group" id="perms_div">
+                            <label for="permission_list"><b class="text-danger">*</b>Permission List</label>
+                            <select class="form-control" name="permission_list[]" id="permission_list" required multiple>
+                                @foreach($perm_list as $b)
+                                <option value="{{$b}}" {{(in_array($b, explode(",", old('permission_list')))) ? 'selected': ''}}>{{$b}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success btn-block">Save</button>
@@ -115,4 +125,11 @@
             </div>
         </div>
     </form>
+
+    <script>
+        $('#permission_list').select2({
+            theme: "bootstrap",
+            dropdownParent: $('#perms_div'),
+        });
+    </script>
 @endsection

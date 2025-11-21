@@ -160,28 +160,52 @@ class AdminPanelController extends Controller
         ->orderBy('name', 'ASC')
         ->get();
 
+        $perm_list = User::getPermissionList();
+
         return view('admin_accounts_home', [
             'lists' => $lists,
             'facility_list' => $facility_list,
             'doctors_list' => $doctors_list,
             'abtc_list' => $abtc_list,
             'pharmacy_branches' => $pharmacy_branches,
+            'perm_list' => $perm_list,
         ]);
     }
 
     public function adminAccountCreate(Request $r) {
+        $name = mb_strtoupper($r->name);
+        $email = $r->email;
+
+        $check = User::where('name', $r->name)
+        ->orWhere('email', $email)
+        ->first();
+
+        if($check) {
+            return redirect()
+            ->back()
+            ->with('msg', 'ERROR: User or email already exists.')
+            ->with('msgtype', 'warning');
+        }
+
         $c = User::create([
             'isAdmin' => 2,
 
-            'name' => mb_strtoupper($r->name),
-            'email' => $r->email,
+            'name' => $name,
+            'email' => $email,
             'password' => Hash::make('12345678'),
-            'pharmacy_branch_id',
-            'itr_facility_id',
-            'itr_doctor_id',
-            'abtc_default_vaccinationsite_id',
-            'permission_list',
+
+            'itr_facility_id' => $r->itr_facility_id,
+            'itr_doctor_id' => $r->itr_doctor_id,
+            'pharmacy_branch_id' => $r->pharmacy_branch_id,
+            'abtc_default_vaccinationsite_id' => $r->abtc_default_vaccinationsite_id,
+
+            'permission_list' => implode(",", $r->permission_list),
         ]);
+
+        return redirect()
+        ->back()
+        ->with('msg', 'User '.$c->name.' was successfully created.')
+        ->with('msgtype', 'success');
     }
 
     public function accountView($id) {
