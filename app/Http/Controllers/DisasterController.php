@@ -817,6 +817,8 @@ class DisasterController extends Controller
             ];
         })->values(); // collection of arrays
 
+        $report1 = $report1->sortBy('barangay')->values();
+
         $centers = $disaster->evacuationCenters->where('ec_type', 'INSIDE');
 
         // group centers by barangay code
@@ -851,6 +853,8 @@ class DisasterController extends Controller
                 'individuals'=> $individualsCount,
             ];
         })->values(); // collection of arrays
+
+        $report2 = $report2->sortBy('barangay')->values();
 
         $centers = $disaster->evacuationCenters->where('ec_type', 'OUTSIDE');
 

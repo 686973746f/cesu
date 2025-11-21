@@ -88,6 +88,8 @@
                                 <div class="form-group">
                                     <label for="school_type"><span class="text-danger font-weight-bold">*</span>School Type (Select all that apply)</label>
                                     <select class="form-control" name="school_type" id="school_type" multiple required>
+                                        <option value="NURSERY" {{(old('school_type') == 'ES') ? 'selected' : ''}}>Nursery (Day Care Center)</option>
+                                        <option value="KINDERGARTEN" {{(old('school_type') == 'ES') ? 'selected' : ''}}>Kindergarten</option>
                                         <option value="ES" {{(old('school_type') == 'ES') ? 'selected' : ''}}>Elementary School</option>
                                         <option value="JHS" {{(old('school_type') == 'JHS') ? 'selected' : ''}}>Junior High School</option>
                                         <option value="SHS" {{(old('school_type') == 'SHS') ? 'selected' : ''}}>Senior High School</option>
