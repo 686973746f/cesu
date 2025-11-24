@@ -325,7 +325,7 @@ class EmployeesController extends Controller
                 'duty_balance' => DB::raw('excess_duty - 1'),
             ]);
 
-            $u = Employee::update([
+            $u = Employee::query()->update([
                 'duty_completedcycle' => 'N',
             ]);
 
