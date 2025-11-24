@@ -9406,6 +9406,17 @@ class PIDSRController extends Controller
             ->where('Year', $entry_date->format('Y'))
             ->where('MorbidityMonth', $entry_date->format('n'))
             ->first();
+
+            if(!$check) {
+                return $this->iliNewOrEdit(new Influenza())->with('mode', 'NEW');
+            }
+            else {
+                return redirect()->back()
+                ->withInput()
+                ->with('openEncodeModal', true)
+                ->with('modalmsg', 'Error: Dengue Case already exists in the database.')
+                ->with('modalmsgtype', 'warning');
+            }
         }
     }
 
@@ -10291,20 +10302,40 @@ class PIDSRController extends Controller
             $f = DohFacility::where('id', auth()->user()->itr_facility_id)->first();
         }
         
-        $brgy_list = EdcsBrgy::where('city_id', 388)->orderBy('name', 'ASC')->get();
+        //$brgy_list = EdcsBrgy::where('city_id', 388)->orderBy('name', 'ASC')->get();
         $facility_list = DohFacility::where('address_muncity', 'CITY OF GENERAL TRIAS')->get();
 
         return view('pidsr.inhouse_edcs.dengue', [
             'd' => $record,
             'f' => $f,
             'mode' => 'EDIT',
-            'brgy_list' => $brgy_list,
+            //'brgy_list' => $brgy_list,
             'facility_list' => $facility_list,
         ]);
     }
 
     public function iliNewOrEdit(Influenza $record) {
-        
+        //Get Facility
+        if(request()->input('facility_code')) {
+            $f = DohFacility::where('sys_code1', request()->input('facility_code'))->first();
+
+            if(!$f) {
+                return abort(404);
+            }
+        }
+        else {
+            $f = DohFacility::where('id', auth()->user()->itr_facility_id)->first();
+        }
+
+        $facility_list = DohFacility::where('address_muncity', 'CITY OF GENERAL TRIAS')->get();
+
+        return view('pidsr.inhouse_edcs.ili', [
+            'd' => $record,
+            'f' => $f,
+            'mode' => 'EDIT',
+            //'brgy_list' => $brgy_list,
+            'facility_list' => $facility_list,
+        ]);
     }
 
     public function mPoxViewer() {

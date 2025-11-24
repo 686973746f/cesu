@@ -512,9 +512,23 @@ class EmployeesController extends Controller
         $p->duty_balance = $m->dutybalance_beforejoining;
         $p->excess_duty = $m->excessduty_beforejoining;
 
+        $dutycycle = DutyCycle::count() + 3;
+
         //Reset Completed Cycle to N
         if($p->duty_balance == 0) {
-            $p->duty_completedcycle = 'N';
+            //Search Employee in Current Duty Cycle para hindi ma-reset to N
+            $duties = HertDuty::where('cycle_number', $dutycycle)
+            ->whereHas('members', function ($q) use ($m) {
+                $q->where('employee_id', $m->employee_id);
+            })
+            ->exists();
+
+            if($duties) {
+                $p->duty_completedcycle = 'Y';
+            }
+            else {
+                $p->duty_completedcycle = 'N';
+            }
         }
 
         if($p->isDirty()) {
