@@ -518,6 +518,7 @@ class EmployeesController extends Controller
         if($p->duty_balance == 0) {
             //Search Employee in Current Duty Cycle para hindi ma-reset to N
             $duties = HertDuty::where('cycle_number', $dutycycle)
+            ->where('id', '!=', $d->id)
             ->whereHas('members', function ($q) use ($m) {
                 $q->where('employee_id', $m->employee_id);
             })
