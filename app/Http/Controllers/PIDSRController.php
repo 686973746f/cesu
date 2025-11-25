@@ -9400,7 +9400,7 @@ class PIDSRController extends Controller
         else if($disease == 'HFMD') {
 
         }
-        else if($disease == 'ILI') {
+        else if($disease == 'INFLUENZA') { //ILI
             $check = Influenza::where('FamilyName', mb_strtoupper($lname))
             ->where('FirstName', mb_strtoupper($fname))
             ->where('Year', $entry_date->format('Y'))
@@ -9414,7 +9414,7 @@ class PIDSRController extends Controller
                 return redirect()->back()
                 ->withInput()
                 ->with('openEncodeModal', true)
-                ->with('modalmsg', 'Error: Dengue Case already exists in the database.')
+                ->with('modalmsg', 'Error: ILI Case already exists in the database.')
                 ->with('modalmsgtype', 'warning');
             }
         }
@@ -9448,12 +9448,25 @@ class PIDSRController extends Controller
         }
         */
 
+        $fullName = mb_strtoupper($r->lname).', '.mb_strtoupper($r->fname);
+
         $birthdate = Carbon::parse($r->bdate);
         $currentDate = Carbon::parse($r->date_investigation);
 
         $get_ageyears = $birthdate->diffInYears($currentDate);
         $get_agemonths = $birthdate->diffInMonths($currentDate);
         $get_agedays = $birthdate->diffInDays($currentDate);
+
+        $entry_date = Carbon::parse($r->entry_date);
+
+        $b = EdcsBrgy::findOrFail($r->brgy_id);
+
+        //Count Days Differce of Date Admitted to Entry Date
+        $hospitalizedDateStart = Carbon::parse($r->sys_hospitalized_datestart);
+        $admitToEntry = $hospitalizedDateStart->diffInDays($entry_date);
+        $onsetDate = Carbon::parse($r->DOnset);
+        $OnsetToAdmit = $hospitalizedDateStart->diffInDays($onsetDate);
+        $days_difference = $onsetDate->diffInDays($r->entry_date);
 
         if($disease == 'MPOX') {
             //Second layer Record Checking
@@ -9646,7 +9659,6 @@ class PIDSRController extends Controller
             ->first();
 
             if(!$check) {
-                $fullName = mb_strtoupper($r->lname).', '.mb_strtoupper($r->fname);
 
                 if(!is_null($r->mname)) {
                     $fullName .= ' '.mb_strtoupper($r->mname);
@@ -9745,18 +9757,12 @@ class PIDSRController extends Controller
                     $outcome = 'U';
                 }
 
-                $b = EdcsBrgy::findOrFail($r->brgy_id);
-
-                //Count Days Differce of Date Admitted to Entry Date
-                $hospitalizedDateStart = Carbon::parse($r->sys_hospitalized_datestart);
-                $admitToEntry = $hospitalizedDateStart->diffInDays($entry_date);
-                $onsetDate = Carbon::parse($r->DOnset);
-                $OnsetToAdmit = $hospitalizedDateStart->diffInDays($onsetDate);
-
                 $table_params = [
-                    'Region' => '04A',
-                    'Province' => 'CAVITE',
-                    'Muncity' => 'GENERAL TRIAS',
+                    'Region' => $b->city->province->region->name,
+                    'Province' => $b->city->province->name,
+                    'Muncity' => $b->city->name,
+                    'Barangay' => $b->alt_name ?: $b->name,
+                    'brgy_id' => $b->id,
                     'Streetpurok' => mb_strtoupper($r->Streetpurok),
                     'DateOfEntry' => $r->entry_date,
                     'PatientNumber' => $r->PatientNumber,
@@ -9802,8 +9808,7 @@ class PIDSRController extends Controller
                     //'SentinelSite' => 'N',
                     //'DeleteRecord' => 'N',
                     //'UniqueKey' => 'N',
-                    'Barangay' => $b->alt_name ?: $b->name,
-                    'brgy_id' => $b->id,
+                    
                     //'TYPEHOSPITALCLINIC' => 'N',
                     'SENT' => 'Y',
                     //'ip' => 'N',
@@ -9900,10 +9905,148 @@ class PIDSRController extends Controller
                 ->with('msgtype', 'warning');
             }
         }
+        else if($disease == 'INFLUENZA') {
+            $check = Influenza::where('FamilyName', mb_strtoupper($r->lname))
+            ->where('FirstName', mb_strtoupper($r->fname))
+            ->where('Year', $entry_date->format('Y'))
+            ->where('MorbidityMonth', $entry_date->format('n'))
+            ->first();
+
+            if($check) {
+                return redirect()->back()
+                ->withInput()
+                ->with('msg', 'Error: ILI Case already exists in the server.')
+                ->with('msgtype', 'warning');
+            }
+
+            $match_casedef = 0;
+
+            //Check Match Case Def
+            if($days_difference <= 10) {
+                if($r->fever == 'Y' && $r->fever_temperature >= 38) {
+                    if($r->cough == 'Y' || $r->sore_throat == 'Y') {
+                        $match_casedef = 1;
+                    }
+                }
+            }
+
+            $table_params = [
+                //'Icd10Code',
+                'RegionOfDrU' => $f->address_region,
+                'ProvOfDRU' => $f->address_province,
+                'MunCityOfDRU' => $f->address_muncity,
+                'DRU' => $f->getFacilityTypeShort(),
+                //'AddressOfDRU',
+                'PatientNumber' => $r->PatientNumber,
+                'FullName' => $fullName,
+                'FirstName' => mb_strtoupper($r->fname),
+                'middle_name' => (!is_null($r->mname)) ? mb_strtoupper($r->mname) : NULL,
+                'suffix' => (!is_null($r->suffix)) ? mb_strtoupper($r->suffix) : NULL,
+                'FamilyName' => mb_strtoupper($r->lname),
+                
+                'AgeYears' => $get_ageyears,
+                'AgeMons' => $get_agemonths,
+                'AgeDays' => $get_agedays,
+                'Sex' => $r->sex,
+                'DOB' => $r->bdate,
+                'Region' => $b->city->province->region->name,
+                'Province' => $b->city->province->name,
+                'Muncity' => $b->city->name,
+                'Barangay' => $b->alt_name ?: $b->name,
+                'brgy_id' => $b->id,
+                'Streetpurok' => mb_strtoupper($r->Streetpurok),
+                'Admitted' => ($r->Admitted == 'Y') ? 1 : 0,
+                'DAdmit' => ($r->Admitted == 'Y') ? $r->DAdmit : NULL,
+                'sys_hospitalized_dateend' => ($r->Admitted == 'Y') ? $r->sys_hospitalized_dateend : NULL,
+                'sys_hospitalized_name' => ($r->Admitted == 'Y') ? $r->sys_hospitalized_name : NULL,
+                'DOnset' => ($r->sys_fever) ? $r->DOnset : NULL,
+                //'LabResult',
+                'Outcome' => 'A',
+                //'DateDied',
+                'DateOfEntry' => $r->entry_date,
+                'AdmitToEntry' => $admitToEntry,
+                'OnsetToAdmit' => $OnsetToAdmit,
+                'MorbidityMonth' => $entry_date->format('n'),
+                'MorbidityWeek' => $entry_date->format('W'),
+                'EPIID' => 'ILI_MPSS_TEMP_'.mb_strtoupper(Str::random(10)),
+                //'RECSTATUS',
+                //'SentinelSite',
+                //'DeleteRecord',
+                'Year' => $entry_date->format('Y'),
+                'NameOfDru' => $f->facility_name,
+                //'District',
+                //'ILHZ',
+                
+                'CASECLASS' => 'S',
+                //'TYPEHOSPITALCLINIC',
+                //'SARI',
+                //'Organism',
+                'SENT' => 'Y',
+                //'ip',
+                //'ipgroup',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'systemsent' => 0,
+
+                //'edcs_caseid',
+                'edcs_healthFacilityCode' => $health_facility_code,
+                'edcs_investigatorName' => mb_strtoupper($r->sys_interviewer_name),
+                'edcs_contactNo' => $r->sys_interviewer_contactno,
+                //'edcs_ageGroup',
+                //'edcs_verificationLevel',
+                'from_edcs' => 0,
+                'from_inhouse' => 1,
+                //'inhouse_exportedtocsv',
+                //'inhouse_exported_date',
+                //'encoded_mw',
+                'match_casedef' => $match_casedef,
+                //'system_notified',
+                //'edcs_userid',
+                //'edcs_last_modifiedby',
+                //'edcs_last_modified_date',
+                //'notify_email_sent',
+                //'notify_email_sent_datetime',
+                'edcs_patientcontactnum' => $r->contact_number,
+                'system_remarks' => $r->system_remarks,
+                //'brgy_remarks',
+                //'system_subdivision_id',
+                //'system_subdivision_name',
+                //'subdivision_group',
+                //'sys_coordinate_x',
+                //'sys_coordinate_y',
+                //'cif_url',
+                //'labresult_url',
+                //'medicalchart_url',
+                //'otherattachments_url',
+                //'edcs_customgroup',
+                'travelabroad_history' => $r->travelabroad_history,
+                'specify_travel' => ($r->travelabroad_history == 'Y') ? mb_strtoupper($r->specify_travel) : NULL,
+                'received_vaccination' => $r->received_vaccination,
+                'date_vaccine' => ($r->received_vaccination == 'Y') ? $r->date_vaccine : NULL,
+                'fever' => $r->fever,
+                'fever_temp' => ($r->fever == 'Y') ? $r->fever_temp : NULL,
+                'cough' => $r->cough,
+                'sore_throat' => $r->sore_throat,
+            ];
+            
+            $c = Influenza::create($table_params);
+
+            if(!$r->facility_code) {
+                return redirect()->route('pidsr.casechecker', ['case' => 'DENGUE', 'year' => date('Y')])
+                ->with('msg', 'Dengue Case was encoded successfully.')
+                ->with('msgtype', 'success')
+                ->with('encode_again', $disease);
+            }
+            else {
+                return redirect()->route('edcs_facility_addcase_success', [$r->facility_code, $disease])
+                ->with('msg', 'ILI Case was encoded successfully.')
+                ->with('msgtype', 'success');
+            }
+        }
     }
 
     public function addCaseSuccess($facility_code, $disease) {
-        return view('pidsr.dengue.success');
+        return view('pidsr.inhouse_edcs.success');
     }
 
     public function viewEdcsExportables($facility_code, $disease) {
@@ -10700,7 +10843,7 @@ class PIDSRController extends Controller
             ['value' => 'DENGUE', 'text' => 'Dengue'],
             ['value' => 'MPOX', 'text' => 'MPox'],
             ['value' => 'INFLUENZA', 'text' => 'Influenza-Like Illness (ILI)'],
-            ['value' => 'HFMD', 'text' => 'Hand, Foot and Mouth Disease (HFMD)'],
+            //['value' => 'HFMD', 'text' => 'Hand, Foot and Mouth Disease (HFMD)'],
         ];
 
         return collect($list)->sortBy('text', SORT_NATURAL | SORT_FLAG_CASE)->values()->toArray();

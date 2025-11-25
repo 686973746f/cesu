@@ -39,9 +39,11 @@ class AbtcVaccinationSite extends Model
     public function getProfessional1() {
         return $this->belongsTo(Employee::class, 'ph_professional1_id');
     }
+
     public function getProfessional2() {
         return $this->belongsTo(Employee::class, 'ph_professional2_id');
     }
+
     public function getProfessional3() {
         return $this->belongsTo(Employee::class, 'ph_professional3_id');
     }

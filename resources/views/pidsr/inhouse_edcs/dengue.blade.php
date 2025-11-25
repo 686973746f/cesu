@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<form action="{{route('edcs_addcase_store', 'DENGUE')}}" method="POST">
+<form action="{{route('edcs_addcase_store', request()->input('disease'))}}" method="POST">
     @csrf
     <div class="container">
         <div class="card">
@@ -43,7 +43,7 @@
                             <div id="fever_div" class="d-none">
                                 <div class="form-group">
                                     <label for="DOnset"><b class="text-danger">*</b>Fever Onset Date (Kailan nagkaroon ng lagnat)</label>
-                                    <input type="date" class="form-control" name="DOnset" id="DOnset" value="{{old('DOnset')}}" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
+                                    <input type="date" class="form-control" name="DOnset" id="DOnset" value="{{old('DOnset')}}" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}" required>
                                 </div>
                             </div>
                         </div>
@@ -245,7 +245,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="sys_hospitalized_name"><b class="text-danger">*</b>Name of Hospital</label>
+                                <label for="sys_hospitalized_name"><b class="text-danger">*</b>Name of Hospital/Health Facility</label>
                                 <input type="text" class="form-control" name="sys_hospitalized_name" id="sys_hospitalized_name" style="text-transform: uppercase;">
                             </div>
                         </div>
@@ -257,7 +257,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="sys_hospitalized_dateend"><b class="text-danger">*</b>Date Discharged</label>
+                                <label for="sys_hospitalized_dateend">Date Discharged</label>
                                 <input type="date" class="form-control" name="sys_hospitalized_dateend" id="sys_hospitalized_dateend" value="{{old('sys_hospitalized_dateend')}}" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}">
                             </div>
                         </div>
