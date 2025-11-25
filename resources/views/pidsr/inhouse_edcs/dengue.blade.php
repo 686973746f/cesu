@@ -317,6 +317,7 @@
                     </div>
                 </div>
 
+                @if(auth()->check())
                 <div class="card">
                     <div class="card-header">List Name and Address of Close Contacts (Mga nakasalamuha sa bahay/school/trabaho, Mga kasama sa bahay, etc.)</div>
                     <div class="card-body">
@@ -390,6 +391,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
                 <hr>
                 <div class="form-group">
                   <label for="system_remarks">Remarks</label>

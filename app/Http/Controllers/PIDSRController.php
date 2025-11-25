@@ -10058,6 +10058,9 @@ class PIDSRController extends Controller
                 ->with('msgtype', 'success');
             }
         }
+        else if($disease == 'HFMD') {
+            
+        }
     }
 
     public function addCaseSuccess($facility_code, $disease) {

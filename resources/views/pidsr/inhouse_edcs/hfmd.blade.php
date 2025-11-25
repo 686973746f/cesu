@@ -33,7 +33,9 @@
 
                 @include('pidsr.inhouse_edcs.patient_defaults')
                 <hr>
-                
+                <div class="row">
+                    
+                </div>
                 <div class="form-group">
                   <label for="system_remarks">Remarks</label>
                   <textarea class="form-control" name="system_remarks" id="system_remarks" rows="3"></textarea>
