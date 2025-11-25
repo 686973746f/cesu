@@ -406,18 +406,6 @@
 @include('pidsr.inhouse_edcs.patient_defaults_js')
 
 <script>
-    $(document).bind('keydown', function(e) {
-		if(e.ctrlKey && (e.which == 83)) {
-			e.preventDefault();
-			$('#submitBtn').trigger('click');
-			$('#submitBtn').prop('disabled', true);
-			setTimeout(function() {
-				$('#submitBtn').prop('disabled', false);
-			}, 2000);
-			return false;
-		}
-	});
-
     $('#sys_animal_presence_list').select2({
         theme: 'bootstrap',
     });

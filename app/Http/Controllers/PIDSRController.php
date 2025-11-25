@@ -9398,7 +9398,22 @@ class PIDSRController extends Controller
             }
         }
         else if($disease == 'HFMD') {
+            $check = Hfmd::where('FamilyName', mb_strtoupper($lname))
+            ->where('FirstName', mb_strtoupper($fname))
+            ->where('Year', $entry_date->format('Y'))
+            ->where('MorbidityMonth', $entry_date->format('n'))
+            ->first();
 
+            if(!$check) {
+                return $this->hfmdNewOrEdit(new Hfmd())->with('mode', 'NEW');
+            }
+            else {
+                return redirect()->back()
+                ->withInput()
+                ->with('openEncodeModal', true)
+                ->with('modalmsg', 'Error: HFMD Case already exists in the database.')
+                ->with('modalmsgtype', 'warning');
+            }
         }
         else if($disease == 'INFLUENZA') { //ILI
             $check = Influenza::where('FamilyName', mb_strtoupper($lname))
@@ -9758,7 +9773,7 @@ class PIDSRController extends Controller
                 }
 
                 $table_params = [
-                    'Region' => $b->city->province->region->name,
+                    'Region' => $b->city->province->region->short_name1,
                     'Province' => $b->city->province->name,
                     'Muncity' => $b->city->name,
                     'Barangay' => $b->alt_name ?: $b->name,
@@ -9949,7 +9964,7 @@ class PIDSRController extends Controller
                 'AgeDays' => $get_agedays,
                 'Sex' => $r->sex,
                 'DOB' => $r->bdate,
-                'Region' => $b->city->province->region->name,
+                'Region' => $b->city->province->region->short_name1,
                 'Province' => $b->city->province->name,
                 'Muncity' => $b->city->name,
                 'Barangay' => $b->alt_name ?: $b->name,
@@ -10473,6 +10488,30 @@ class PIDSRController extends Controller
         $facility_list = DohFacility::where('address_muncity', 'CITY OF GENERAL TRIAS')->get();
 
         return view('pidsr.inhouse_edcs.ili', [
+            'd' => $record,
+            'f' => $f,
+            'mode' => 'EDIT',
+            //'brgy_list' => $brgy_list,
+            'facility_list' => $facility_list,
+        ]);
+    }
+
+    public function hfmdNewOrEdit(Hfmd $record) {
+        //Get Facility
+        if(request()->input('facility_code')) {
+            $f = DohFacility::where('sys_code1', request()->input('facility_code'))->first();
+
+            if(!$f) {
+                return abort(404);
+            }
+        }
+        else {
+            $f = DohFacility::where('id', auth()->user()->itr_facility_id)->first();
+        }
+
+        $facility_list = DohFacility::where('address_muncity', 'CITY OF GENERAL TRIAS')->get();
+
+        return view('pidsr.inhouse_edcs.hfmd', [
             'd' => $record,
             'f' => $f,
             'mode' => 'EDIT',
