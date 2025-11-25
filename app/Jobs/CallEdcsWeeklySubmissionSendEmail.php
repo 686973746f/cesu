@@ -41,7 +41,7 @@ class CallEdcsWeeklySubmissionSendEmail implements ShouldQueue
         $f = DohFacility::findOrFail($this->facility_id);
         
         $email_array = [
-            'hihihisto@gmail.com',
+            'cjh687332@gmail.com',
             'cesu.gentrias@gmail.com',
             //'resu4a.edcs@gmail.com',
             'pesucavite@gmail.com',

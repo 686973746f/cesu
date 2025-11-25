@@ -172,10 +172,10 @@ class AutoEmailCovidReportWeekly extends Command
         $templateProcessor->saveAs(storage_path('CITY-OF-GENERAL-TRIAS-WEEKLY-'.date('F-d-Y').'.docx'));
 
         if($set_temp) {
-            Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new CovidReportWordWeekly());
+            Mail::to(['cjh687332@gmail.com', 'cesu.gentrias@gmail.com'])->send(new CovidReportWordWeekly());
         }
         else {
-            Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'jango_m14@yahoo.com', 'ronald888mojica@gmail.com', 'citymayor.generaltriascavite@gmail.com', 'chogentri2@proton.me', 'mjmugol@gmail.com', 'gtcdrrmogentri@gmail.com'])->send(new CovidReportWordWeekly());
+            Mail::to(['cjh687332@gmail.com', 'cesu.gentrias@gmail.com', 'jango_m14@yahoo.com', 'ronald888mojica@gmail.com', 'citymayor.generaltriascavite@gmail.com', 'chogentri2@proton.me', 'mjmugol@gmail.com', 'gtcdrrmogentri@gmail.com'])->send(new CovidReportWordWeekly());
             File::delete(public_path('CITY-OF-GENERAL-WEEKLY-'.date('F-d-Y', strtotime('-7 Days')).'.docx'));
         }
     }

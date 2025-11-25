@@ -292,7 +292,7 @@ class AutoEmailCTReport extends Command
         $writer = new Xlsx($spreadsheet);
         $writer->save(public_path('CTREPORT_'.date('m_d_Y').'.xlsx'));
 
-        Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'xrizzymendoza@gmail.com'])->send(new SendCTReport());
+        Mail::to(['cjh687332@gmail.com', 'cesu.gentrias@gmail.com', 'xrizzymendoza@gmail.com'])->send(new SendCTReport());
 
         File::delete(public_path('CTREPORT_'.date('m_d_Y', strtotime('-1 Day')).'.xlsx'));
     }

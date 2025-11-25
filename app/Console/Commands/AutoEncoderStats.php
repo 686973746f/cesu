@@ -43,7 +43,7 @@ class AutoEncoderStats extends Command
         $today = Carbon::now();
 
         if($today->dayOfWeek != Carbon::SATURDAY && $today->dayOfWeek != Carbon::SUNDAY) {
-            Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new SendEncoderStatus());
+            Mail::to(['cjh687332@gmail.com', 'cesu.gentrias@gmail.com'])->send(new SendEncoderStatus());
         }
     }
 }

@@ -285,14 +285,14 @@ class FwriDailyReporter extends Command
                 $writer2->save(storage_path('app/fwri/CESUGENTRIAS_FWRI_LINELIST_'.date('mdY', strtotime('-1 Day')).'.xlsx'));
 
                 //send a mail attaching both files
-                Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'pesucavite@gmail.com', 'macvillaviray.doh@gmail.com'])->send(new FwriDailyMailer());
+                Mail::to(['cjh687332@gmail.com', 'cesu.gentrias@gmail.com', 'pesucavite@gmail.com', 'macvillaviray.doh@gmail.com'])->send(new FwriDailyMailer());
             
                 //DELETE YESTERDAY FILE
                 File::delete(storage_path('app/fwri/CESUGENTRIAS_APIR_LINELIST_'.date('mdY', strtotime('-2 Days')).'.xlsx'));
                 File::delete(storage_path('app/fwri/CESUGENTRIAS_FWRI_LINELIST_'.date('mdY', strtotime('-2 Days')).'.xlsx'));
             }
             else {
-                Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'pesucavite@gmail.com', 'macvillaviray.doh@gmail.com'])->send(new FwriZeroCase());
+                Mail::to(['cjh687332@gmail.com', 'cesu.gentrias@gmail.com', 'pesucavite@gmail.com', 'macvillaviray.doh@gmail.com'])->send(new FwriZeroCase());
             }
         }
     }

@@ -39,6 +39,6 @@ class AutoEmailCompositeMeasure extends Command
      */
     public function handle()
     {
-        Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'cesugentri2022@yahoo.com'])->send(new SendCompositeMeasure());
+        Mail::to(['cjh687332@gmail.com', 'cesu.gentrias@gmail.com', 'cesugentri2022@yahoo.com'])->send(new SendCompositeMeasure());
     }
 }

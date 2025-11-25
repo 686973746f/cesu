@@ -171,7 +171,7 @@ class AbtcStockReport extends Command
                 ];
             }
             
-            Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new AbtcStockReportEmail($arr));
+            Mail::to(['cjh687332@gmail.com', 'cesu.gentrias@gmail.com'])->send(new AbtcStockReportEmail($arr));
         }
     }
 }

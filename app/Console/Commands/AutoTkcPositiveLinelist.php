@@ -286,7 +286,7 @@ class AutoTkcPositiveLinelist extends Command
 
             $writer->save(public_path('TKC_'.date('mdY').'.csv'));
 
-            Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com'])->send(new TkcDaily());
+            Mail::to(['cjh687332@gmail.com', 'cesu.gentrias@gmail.com'])->send(new TkcDaily());
         }
 
         File::delete(public_path('TKC_'.date('mdY', strtotime('-1 Day')).'.csv'));

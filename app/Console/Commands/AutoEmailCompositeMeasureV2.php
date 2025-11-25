@@ -660,7 +660,7 @@ class AutoEmailCompositeMeasureV2 extends Command
 
         $templateProcessor->saveAs(storage_path('COMPOSITE_MEASURE_'.date('F_d_Y').'.docx'));
         
-        Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'ludettelontoc@gmail.com', 'chogentri2@proton.me'])->send(new SendCompositeMeasureV2());
+        Mail::to(['cjh687332@gmail.com', 'cesu.gentrias@gmail.com', 'ludettelontoc@gmail.com', 'chogentri2@proton.me'])->send(new SendCompositeMeasureV2());
 
         File::delete(storage_path($fnameToDelete));
     }

@@ -305,7 +305,7 @@ class EdcsHourlyCaseEmailer extends Command
             }
 
             if(!empty($list)) {
-                Mail::to(['hihihisto@gmail.com', 'cesu.gentrias@gmail.com', 'barzagaanalyn@gmail.com', 'quionjanzen@gmail.com'])->send(new EdcsHourlyCaseCheckerMail($list));
+                Mail::to(['cjh687332@gmail.com', 'cesu.gentrias@gmail.com', 'barzagaanalyn@gmail.com', 'quionjanzen@gmail.com'])->send(new EdcsHourlyCaseCheckerMail($list));
             }
         }
     }

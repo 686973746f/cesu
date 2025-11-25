@@ -36,7 +36,7 @@ class UserFactory extends Factory
             'isAdmin' => '1',
             'enabled' => '1',
             'name' => 'Admin',
-            'email' => 'hihihisto@protonmail.com',
+            'email' => 'test@email.com',
             'email_verified_at' => now(),
             'password' => '$2y$10$EQq6Y4tPNcbCZA9MyCiKBeeLqtA0/ios3iCl6TDNqz1z84XdJo0DS', // password
             'remember_token' => Str::random(10),
