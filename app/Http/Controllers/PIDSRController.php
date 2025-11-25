@@ -10840,13 +10840,13 @@ class PIDSRController extends Controller
 
     public static function listReportableDiseasesBackEnd() {
         $list = [
-            ['value' => 'DENGUE', 'text' => 'Dengue'],
-            ['value' => 'MPOX', 'text' => 'MPox'],
-            ['value' => 'INFLUENZA', 'text' => 'Influenza-Like Illness (ILI)'],
-            //['value' => 'HFMD', 'text' => 'Hand, Foot and Mouth Disease (HFMD)'],
+            ['value' => 'DENGUE', 'text' => 'Dengue', 'edcs_importable' => true],
+            ['value' => 'MPOX', 'text' => 'MPox', 'edcs_importable' => false],
+            ['value' => 'INFLUENZA', 'text' => 'Influenza-Like Illness (ILI)', 'edcs_importable' => true],
+            ['value' => 'HFMD', 'text' => 'Hand, Foot and Mouth Disease (HFMD)', 'edcs_importable' => true],
         ];
 
-        return collect($list)->sortBy('text', SORT_NATURAL | SORT_FLAG_CASE)->values()->toArray();
+        return collect($list)->sortBy('text', SORT_NATURAL | SORT_FLAG_CASE)->values();
     }
 
     public static function getCaseModel($case_code) {

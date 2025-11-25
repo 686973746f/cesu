@@ -93,7 +93,9 @@
                         </button>
                 </div>
                 <div class="modal-body">
-                    <a href="{{route('edcs_view_exportables', [$d->sys_code1, 'DENGUE'])}}" class="btn btn-primary btn-block">Dengue</a>
+                    @foreach(\App\Http\Controllers\PIDSRController::listReportableDiseasesBackEnd()->where('edcs_importable', true) as $disease)
+                    <a href="{{route('edcs_view_exportables', [$d->sys_code1, $disease['value']])}}" class="btn btn-primary btn-block">{{$disease['text']}}</a>
+                    @endforeach
                 </div>
             </div>
         </div>
