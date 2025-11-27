@@ -292,7 +292,7 @@ class CallM2Export implements ShouldQueue
                 }
 
                 $base = FhsisTbdotsMorbidity::where('brgy', $b->brgyName)
-                ->whereBetween('date_started_tx', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                ->whereBetween('datetime_record_was_created', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where($col_name, $col_search);
 
                 if((clone $base)->count() != 0) {

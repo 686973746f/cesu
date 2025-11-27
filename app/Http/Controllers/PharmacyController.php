@@ -2187,6 +2187,9 @@ class PharmacyController extends Controller
             $selected_branch = auth()->user()->pharmacy_branch_id;
         }
 
+        $start_date = request()->input('start_date');
+        $end_date = request()->input('end_date');
+
         if(request()->input('submit') == 'view_report') {
             $list_branch = PharmacyBranch::get();
 
@@ -2228,8 +2231,10 @@ class PharmacyController extends Controller
                     $check = PharmacyStockCard::where('receiving_branch_id', $e->id)
                     ->where('status', 'approved')
                     ->where('type', 'ISSUED')
-                    ->whereYear('created_at', $input_year);
+                    ->whereBetween('created_at', [$start_date, $end_date])
+                    ->first();
 
+                    /*
                     if($input_type == 'YEARLY') {
                         $check = $check->first();
                     }
@@ -2263,19 +2268,20 @@ class PharmacyController extends Controller
                     else if($input_type == 'WEEKLY') {
                         $check = $check->whereRaw('WEEK(created_at) = ?', [request()->input('week')])->first();
                     }
+                    */
 
                     if($check) {
                         $issue_box_qry = PharmacyStockCard::where('receiving_branch_id', $e->id)
                         ->where('status', 'approved')
                         ->where('type', 'ISSUED')
                         ->where('qty_type', 'BOX')
-                        ->whereYear('created_at', $input_year);
+                        ->whereBetween('created_at', [$start_date, $end_date]);
 
                         $issue_piece_qry = PharmacyStockCard::where('receiving_branch_id', $e->id)
                         ->where('status', 'approved')
                         ->where('type', 'ISSUED')
                         ->where('qty_type', 'PIECE')
-                        ->whereYear('created_at', $input_year);
+                        ->whereBetween('created_at', [$start_date, $end_date]);
 
                         if($input_type == 'YEARLY') {
                             $issued_box_count = ($issue_box_qry->sum('qty_to_process') * $check->pharmacysub->pharmacysupplymaster->config_piecePerBox);
@@ -2586,25 +2592,9 @@ class PharmacyController extends Controller
             }
         }
         else if(request()->input('submit') == 'generate_inoutreport') {
-            if(!request()->input('year')) {
-                return redirect()->back()
-                ->with('msg', 'You are not allowed to do that.')
-                ->with('msgtype', 'warning');
-            }
-
-            $year = request()->input('year');
-
-            if($year == date('Y') || $year > date('Y')) {
-                if(date('n') == 1) {
-                    return redirect()->back()
-                    ->with('msg', 'Error: Month of January is not over yet.')
-                    ->with('msgtype', 'warning');
-                }
-            }
-
             //Call Export Job
             $c = ExportJobs::create([
-                'name' => 'Pharmacy In/Out Report '.$year,
+                'name' => 'Pharmacy In/Out Report ('.date('m/d/Y', strtotime($start_date)).' to '.date('m/d/Y', strtotime($end_date)).')',
                 'for_module' => 'Pharmacy',
                 'type' => 'EXPORT',
                 'status' => 'pending',
@@ -2614,7 +2604,7 @@ class PharmacyController extends Controller
                 'facility_id' => auth()->user()->itr_facility_id,
             ]);
 
-            CallPharmacyAnnualInOutReport::dispatch(Auth::id(), $c->id, $year, $selected_branch);
+            CallPharmacyAnnualInOutReport::dispatch(Auth::id(), $c->id, $start_date, $end_date, $selected_branch);
 
             return redirect()->route('export_index')
             ->with('msg', 'Your download request is now being requested. The server will now prepare the file. Please refresh this page after 5-10 minutes or more until the status turns to completed.')

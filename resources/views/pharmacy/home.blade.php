@@ -130,55 +130,19 @@
                                               </select>
                                             </div>
                                         @endif
-                                        <div class="form-group">
-                                            <label for="year"><b class="text-danger">*</b>Select Year</label>
-                                            <select class="form-control" name="year" id="year" required>
-                                              @foreach(range(date('Y'), 2023) as $y)
-                                                  <option value="{{$y}}">{{$y}}</option>
-                                              @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="type"><b class="text-danger">*</b>Select Type</label>
-                                            <select class="form-control" name="type" id="type" required>
-                                              <option value="" disabled selected>Choose...</option>
-                                              <option value="YEARLY">YEARLY (CURRENT)</option>
-                                              <!--
-                                                <option value="QUARTERLY">QUARTERLY</option>
-                                                <option value="MONTHLY">MONTHLY</option>
-                                                <option value="WEEKLY">WEEKLY</option>
-                                              -->
-                                            </select>
-                                        </div>
-                                        <div class="form-group d-none" id="squarter">
-                                            <label for="quarter"><b class="text-danger">*</b>Select Quarter</label>
-                                            <select class="form-control" name="quarter" id="quarter">
-                                              <option value="1">1ST QUARTER</option>
-                                              <option value="2">2ND QUARTER</option>
-                                              <option value="3">3RD QUARTER</option>
-                                              <option value="4">4TH QUARTER</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group d-none" id="smonth">
-                                            <label for="month"><b class="text-danger">*</b>Select Month</label>
-                                            <select class="form-control" name="month" id="month">
-                                              <option value="1">JANUARY</option>
-                                              <option value="2">FEBRUARY</option>
-                                              <option value="3">MARCH</option>
-                                              <option value="4">APRIL</option>
-                                              <option value="5">MAY</option>
-                                              <option value="6">JUNE</option>
-                                              <option value="7">JULY</option>
-                                              <option value="8">AUGUST</option>
-                                              <option value="9">SEPTEMBER</option>
-                                              <option value="10">OCTOBER</option>
-                                              <option value="11">NOVEMBER</option>
-                                              <option value="12">DECEMBER</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group d-none" id="sweek">
-                                            <label for="week"><b class="text-danger">*</b>Select Week</label>
-                                            <input type="number" min="1" max="53" class="form-control" name="week" id="week" value="{{date('W')}}">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="start_date"><b class="text-danger">*</b>Start Date</label>
+                                                    <input type="date" class="form-control" name="start_date" id="start_date" min="2023-01-01" value="{{date('Y-m-d')}}" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="end_date"><b class="text-danger">*</b>End Date</label>
+                                                    <input type="date" class="form-control" name="end_date" id="end_date" min="2023-01-01" value="{{date('Y-m-d')}}" required>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="card-footer">
@@ -219,53 +183,5 @@
             theme: 'bootstrap',
             dropdownParent: $('#report'),
         });
-
-        $('#type').change(function (e) { 
-            e.preventDefault();
-            if($(this).val() == 'YEARLY') {
-                $('#squarter').addClass('d-none');
-                $('#smonth').addClass('d-none');
-                $('#sweek').addClass('d-none');
-
-                $('#quarter').prop('required', false);
-                $('#month').prop('required', false);
-                $('#week').prop('required', false);
-
-                $('#div2').addClass('col-md-8');
-                $('#div2').removeClass('col-md-4');
-                $('#div3').addClass('d-none');
-            }
-            else if($(this).val() == 'QUARTERLY') {
-                $('#squarter').removeClass('d-none');
-                $('#smonth').addClass('d-none');
-                $('#sweek').addClass('d-none');
-
-                $('#quarter').prop('required', true);
-                $('#month').prop('required', false);
-                $('#week').prop('required', false);
-
-                $('#div2').removeClass('col-md-8');
-                $('#div2').addClass('col-md-4');
-                $('#div3').removeClass('d-none');
-            }
-            else if($(this).val() == 'MONTHLY') {
-                $('#squarter').addClass('d-none');
-                $('#smonth').removeClass('d-none');
-                $('#sweek').addClass('d-none');
-
-                $('#div2').removeClass('col-md-8');
-                $('#div2').addClass('col-md-4');
-                $('#div3').removeClass('d-none');
-            }
-            else if($(this).val() == 'WEEKLY') {
-                $('#squarter').addClass('d-none');
-                $('#smonth').addClass('d-none');
-                $('#sweek').removeClass('d-none');
-
-                $('#div2').removeClass('col-md-8');
-                $('#div2').addClass('col-md-4');
-                $('#div3').removeClass('d-none');
-            }
-        }).trigger('change');
     </script>
 @endsection

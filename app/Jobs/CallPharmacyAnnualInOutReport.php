@@ -24,7 +24,8 @@ class CallPharmacyAnnualInOutReport implements ShouldQueue
 
     protected $user_id;
     protected $task_id;
-    protected $year;
+    protected $start_date;
+    protected $end_date;
     protected $branch_id;
 
     /**
@@ -32,11 +33,12 @@ class CallPharmacyAnnualInOutReport implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($user_id, $task_id, $year, $branch_id)
+    public function __construct($user_id, $task_id, $start_date, $end_date, $branch_id)
     {
         $this->user_id = $user_id;
         $this->task_id = $task_id;
-        $this->year = $year;
+        $this->start_date = $start_date;
+        $this->end_date = $end_date;
         $this->branch_id = $branch_id;
     }
 
@@ -195,23 +197,34 @@ class CallPharmacyAnnualInOutReport implements ShouldQueue
         ->export(storage_path('export_jobs/'.$filename));
         */
 
-        $input_year = $this->year;
+        
+        $start_date = $this->start_date;
+        $end_date = $this->end_date;
         $branch_id = $this->branch_id;
+
+        $cstart_date = Carbon::parse($start_date);
+        $cend_date = Carbon::parse($end_date);
+        
+        $input_year = $cend_date->format('Y');
 
         $spreadsheet = IOFactory::load(storage_path('Pharmacy_Monthly_InOut_Report.xlsx'));
         $sheet = $spreadsheet->getActiveSheet();
 
-        $sheet->setCellValue('A1', 'YEAR '.$input_year);
+        $sheet->setCellValue('A1', 'YEAR '.$cend_date->format('Y'));
 
         $sRow = 4;
 
         if($input_year == date('Y')) {
+            /*
             if(date('n') == 2) {
                 $maxValMonth = 1;
             }
             else {
                 $maxValMonth = date('n');
             }
+            */
+
+            $maxValMonth = $cend_date->format('n');
         }
         else {
             $maxValMonth = 12;
@@ -243,31 +256,28 @@ class CallPharmacyAnnualInOutReport implements ShouldQueue
 
                 if($item['unit'] == 'BOX') {
                     $issued_count = PharmacyStockCard::where('subsupply_id', $item['id'])
-                    ->whereYear('created_at', $input_year)
-                    ->whereMonth('created_at', $nomonth)
+                    ->whereBetween('created_at', [$start_date, $end_date])
                     ->where('status', 'approved')
                     ->where('type', 'ISSUED')
                     ->where('qty_type', 'BOX')
                     ->sum('qty_to_process');
 
                     $received_count = PharmacyStockCard::where('subsupply_id', $item['id'])
-                    ->whereYear('created_at', $input_year)
-                    ->whereMonth('created_at', $nomonth)
+                    ->whereBetween('created_at', [$start_date, $end_date])
                     ->where('status', 'approved')
                     ->where('type', 'RECEIVED')
                     ->where('qty_type', 'BOX')
                     ->sum('qty_to_process');
 
                     $issued_count_piece = PharmacyStockCard::where('subsupply_id', $item['id'])
-                    ->whereYear('created_at', $input_year)
-                    ->whereMonth('created_at', $nomonth)
+                    ->whereBetween('created_at', [$start_date, $end_date])
                     ->where('status', 'approved')
                     ->where('type', 'ISSUED')
                     ->where('qty_type', 'PIECE')
                     ->sum('qty_to_process');
 
                     $received_count_piece = PharmacyStockCard::where('subsupply_id', $item['id'])
-                    ->whereYear('created_at', $input_year)
+                    ->whereBetween('created_at', [$start_date, $end_date])
                     ->whereMonth('created_at', $nomonth)
                     ->where('status', 'approved')
                     ->where('type', 'RECEIVED')
@@ -313,15 +323,13 @@ class CallPharmacyAnnualInOutReport implements ShouldQueue
                 }
                 else {
                     $issued_count = PharmacyStockCard::where('subsupply_id', $item['id'])
-                    ->whereYear('created_at', $input_year)
-                    ->whereMonth('created_at', $nomonth)
+                    ->whereBetween('created_at', [$start_date, $end_date])
                     ->where('status', 'approved')
                     ->where('type', 'ISSUED')
                     ->sum('qty_to_process');
 
                     $received_count = PharmacyStockCard::where('subsupply_id', $item['id'])
-                    ->whereYear('created_at', $input_year)
-                    ->whereMonth('created_at', $nomonth)
+                    ->whereBetween('created_at', [$start_date, $end_date])
                     ->where('status', 'approved')
                     ->where('type', 'RECEIVED')
                     ->sum('qty_to_process');
