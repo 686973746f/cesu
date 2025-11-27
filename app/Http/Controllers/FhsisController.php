@@ -2365,567 +2365,770 @@ class FhsisController extends Controller
     }
 
     public function morbMortReportMain() { //Report V2
-        if(request()->input('startDate') && request()->input('endDate') && request()->input('brgy')) {
-            $startDate = request()->input('startDate');
-            $endDate = request()->input('endDate');
-            $brgy = request()->input('brgy');
+        $startDate = request()->input('startDate');
+        $endDate = request()->input('endDate');
+        $brgy = request()->input('brgy');
 
-            $getYear = Carbon::parse($startDate)->startOfMonth()->format('Y');
-            $getMonth = Carbon::parse($startDate)->startOfMonth()->format('m');
-            
-            $getYear_end = Carbon::parse($endDate)->startOfMonth()->format('Y');
-            $getMonth_end = Carbon::parse($endDate)->startOfMonth()->format('m');
+        $getYear = Carbon::parse($startDate)->startOfMonth()->format('Y');
+        $getMonth = Carbon::parse($startDate)->startOfMonth()->format('m');
+        
+        $getYear_end = Carbon::parse($endDate)->startOfMonth()->format('Y');
+        $getMonth_end = Carbon::parse($endDate)->startOfMonth()->format('m');
 
-            $data_demographic = FhsisSystemDemographicProfile::where('city_id', 1)
-            ->where('for_year', $getYear);
+        $search_startDate = Carbon::parse($startDate)->startOfMonth()->format('Y-m-d');
+        $search_endDate = Carbon::parse($endDate)->startOfMonth()->format('Y-m-d');
+        $search_endDate2 = Carbon::parse($endDate)->endOfMonth()->format('Y-m-d');
 
-            if($brgy == 'ALL') {
-                $data_demographic = $data_demographic->whereNull('brgy_id')
-                ->where('remarks', 'YEARLY AUTOMATED')
-                ->first();
-            }
-            else {
-                $srBrgy = Brgy::where('city_id', 1)
-                ->where('brgyNameFhsis', $brgy)
-                ->first();
+        if(request()->input('submit') == 'generate') {
+            if(request()->input('startDate') && request()->input('endDate') && request()->input('brgy')) {
+                
 
-                if($srBrgy) {
-                    $data_demographic = $data_demographic->where('brgy_id', $srBrgy->id)->first();
-                }
-            }
+                $data_demographic = FhsisSystemDemographicProfile::where('city_id', 1)
+                ->where('for_year', $getYear);
 
-            if(!$data_demographic) {
                 if($brgy == 'ALL') {
-                    $setBrgyId = NULL;
-                    $all_brgy_count = FhsisBarangay::where('MUN_CODE', 'GENERAL TRIAS')->count();
-
-                    $total_bhs = 49;
-                    $total_mainhc = 1;
-                    $total_cityhc = 1;
-                    $total_ruralhc = 0;
+                    $data_demographic = $data_demographic->whereNull('brgy_id')
+                    ->where('remarks', 'YEARLY AUTOMATED')
+                    ->first();
                 }
                 else {
-                    $setBrgyId = $srBrgy->id;
-                    $all_brgy_count = 1;
+                    $srBrgy = Brgy::where('city_id', 1)
+                    ->where('brgyNameFhsis', $brgy)
+                    ->first();
 
-                    $total_bhs = 0;
-                    $total_mainhc = 0;
-                    $total_cityhc = 0;
-                    $total_ruralhc = 0;
+                    if($srBrgy) {
+                        $data_demographic = $data_demographic->where('brgy_id', $srBrgy->id)->first();
+                    }
                 }
 
-                //Create Demographic Data
-                $create_demographic = FhsisSystemDemographicProfile::create([
-                    'encode_date' => date('Y-m-d'),
-                    'city_id' => 1,
-                    'brgy_id' => $setBrgyId,
-                    'for_year' => $getYear,
-                    'total_brgy' => $all_brgy_count,
-                    'total_bhs' => $total_bhs,
-                    'total_mainhc' => $total_mainhc,
-                    'total_cityhc' => $total_cityhc,
-                    'total_ruralhc' => $total_ruralhc,
+                if(!$data_demographic) {
+                    if($brgy == 'ALL') {
+                        $setBrgyId = NULL;
+                        $all_brgy_count = FhsisBarangay::where('MUN_CODE', 'GENERAL TRIAS')->count();
 
-                    'remarks' => 'YEARLY AUTOMATED',
+                        $total_bhs = 49;
+                        $total_mainhc = 1;
+                        $total_cityhc = 1;
+                        $total_ruralhc = 0;
+                    }
+                    else {
+                        $setBrgyId = $srBrgy->id;
+                        $all_brgy_count = 1;
 
-                    'created_by' => Auth::id(),
-                ]);
+                        $total_bhs = 0;
+                        $total_mainhc = 0;
+                        $total_cityhc = 0;
+                        $total_ruralhc = 0;
+                    }
 
-                $data_demographic = $create_demographic;
-                
-                /*
-                return redirect()->back()
-                ->with('msg', 'Error: No Demographic Data found for Year '.$getYear.'. Please initialize first in the settings then try again.')
-                ->with('msgtype', 'warning');
-                */
-            }
+                    //Create Demographic Data
+                    $create_demographic = FhsisSystemDemographicProfile::create([
+                        'encode_date' => date('Y-m-d'),
+                        'city_id' => 1,
+                        'brgy_id' => $setBrgyId,
+                        'for_year' => $getYear,
+                        'total_brgy' => $all_brgy_count,
+                        'total_bhs' => $total_bhs,
+                        'total_mainhc' => $total_mainhc,
+                        'total_cityhc' => $total_cityhc,
+                        'total_ruralhc' => $total_ruralhc,
 
-            //Calculate and Update Total Population if not existing
-            if(!isset($data_demographic->total_population) && !isset($data_demographic->total_household)) {
-                $pop_query = FhsisPopulation::where('MUN_CODE', 'GENERAL TRIAS')
-                ->where('POP_YEAR', $getYear);
+                        'remarks' => 'YEARLY AUTOMATED',
+
+                        'created_by' => Auth::id(),
+                    ]);
+
+                    $data_demographic = $create_demographic;
+                    
+                    /*
+                    return redirect()->back()
+                    ->with('msg', 'Error: No Demographic Data found for Year '.$getYear.'. Please initialize first in the settings then try again.')
+                    ->with('msgtype', 'warning');
+                    */
+                }
+
+                //Calculate and Update Total Population if not existing
+                if(!isset($data_demographic->total_population) && !isset($data_demographic->total_household)) {
+                    $pop_query = FhsisPopulation::where('MUN_CODE', 'GENERAL TRIAS')
+                    ->where('POP_YEAR', $getYear);
+
+                    if($brgy != 'ALL') {
+                        $pop_query = $pop_query->where('BGY_CODE', $srBrgy->fhsis_bgycode);
+                    }
+
+                    $total_population = $pop_query->sum('POP_BGY');
+                    $total_household = $pop_query->sum('NO_HH');
+
+                    $data_demographic->total_population = $total_population;
+                    $data_demographic->total_household = $total_household;
+                }
+
+                //LB Query Always Update
+                $lb_query = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+                ->whereYear('DATE', $getYear);
 
                 if($brgy != 'ALL') {
-                    $pop_query = $pop_query->where('BGY_CODE', $srBrgy->fhsis_bgycode);
+                    $lb_query = $lb_query->where('BGY_CODE', $srBrgy->brgyNameFhsis);
                 }
 
-                $total_population = $pop_query->sum('POP_BGY');
-                $total_household = $pop_query->sum('NO_HH');
+                $total_lb = $lb_query->sum('LB_M') + $lb_query->sum('LB_F');
 
-                $data_demographic->total_population = $total_population;
-                $data_demographic->total_household = $total_household;
-            }
+                $data_demographic->total_livebirths = $total_lb;
 
-            //LB Query Always Update
-            $lb_query = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
-            ->whereYear('DATE', $getYear);
+                if($data_demographic->isDirty()) {
+                    $data_demographic->save();
+                }
 
-            if($brgy != 'ALL') {
-                $lb_query = $lb_query->where('BGY_CODE', $srBrgy->brgyNameFhsis);
-            }
+                $tot_deaths_m = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+                ->whereBetween('DATE', [$search_startDate, $search_endDate]);
+                $tot_deaths_f = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+                ->whereBetween('DATE', [$search_startDate, $search_endDate]);
 
-            $total_lb = $lb_query->sum('LB_M') + $lb_query->sum('LB_F');
+                $tot_deaths_outsidecity_m = DeathCertificate::whereBetween('date_died', [$search_startDate, $search_endDate2])
+                ->where('pod_address_muncity_text', 'GENERAL TRIAS')
+                ->where('address_muncity_text', '!=', 'GENERAL TRIAS')
+                ->where('gender', 'MALE')
+                ->count();
 
-            $data_demographic->total_livebirths = $total_lb;
+                $tot_deaths_outsidecity_f = DeathCertificate::whereBetween('date_died', [$search_startDate, $search_endDate2])
+                ->where('pod_address_muncity_text', 'GENERAL TRIAS')
+                ->where('address_muncity_text', '!=', 'GENERAL TRIAS')
+                ->where('gender', 'FEMALE')
+                ->count();
 
-            if($data_demographic->isDirty()) {
-                $data_demographic->save();
-            }
+                $tot_infdeaths_m = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+                ->whereBetween('DATE', [$search_startDate, $search_endDate]);
+                $tot_infdeaths_f = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+                ->whereBetween('DATE', [$search_startDate, $search_endDate]);
 
-            $search_startDate = Carbon::parse($startDate)->startOfMonth()->format('Y-m-d');
-            $search_endDate = Carbon::parse($endDate)->startOfMonth()->format('Y-m-d');
-            $search_endDate2 = Carbon::parse($endDate)->endOfMonth()->format('Y-m-d');
+                $tot_matdeaths_m = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+                ->whereBetween('DATE', [$search_startDate, $search_endDate]);
+                $tot_matdeaths_f = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+                ->whereBetween('DATE', [$search_startDate, $search_endDate]);
 
-            $tot_deaths_m = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
-            ->whereBetween('DATE', [$search_startDate, $search_endDate]);
-            $tot_deaths_f = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
-            ->whereBetween('DATE', [$search_startDate, $search_endDate]);
+                $tot_und5deaths_m = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+                ->whereBetween('DATE', [$search_startDate, $search_endDate]);
+                $tot_und5deaths_f = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+                ->whereBetween('DATE', [$search_startDate, $search_endDate]);
 
-            $tot_deaths_outsidecity_m = DeathCertificate::whereBetween('date_died', [$search_startDate, $search_endDate2])
-            ->where('pod_address_muncity_text', 'GENERAL TRIAS')
-            ->where('address_muncity_text', '!=', 'GENERAL TRIAS')
-            ->where('gender', 'MALE')
-            ->count();
+                $tot_fetaldeaths_m = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+                ->whereBetween('DATE', [$search_startDate, $search_endDate]);
+                $tot_fetaldeaths_f = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+                ->whereBetween('DATE', [$search_startDate, $search_endDate]);
 
-            $tot_deaths_outsidecity_f = DeathCertificate::whereBetween('date_died', [$search_startDate, $search_endDate2])
-            ->where('pod_address_muncity_text', 'GENERAL TRIAS')
-            ->where('address_muncity_text', '!=', 'GENERAL TRIAS')
-            ->where('gender', 'FEMALE')
-            ->count();
+                $tot_neonataldeaths_m = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+                ->whereBetween('DATE', [$search_startDate, $search_endDate]);
+                $tot_neonataldeaths_f = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+                ->whereBetween('DATE', [$search_startDate, $search_endDate]);
 
-            $tot_infdeaths_m = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
-            ->whereBetween('DATE', [$search_startDate, $search_endDate]);
-            $tot_infdeaths_f = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
-            ->whereBetween('DATE', [$search_startDate, $search_endDate]);
+                $tot_earlyneonataldeaths_m = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+                ->whereBetween('DATE', [$search_startDate, $search_endDate]);
+                $tot_earlyneonataldeaths_f = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+                ->whereBetween('DATE', [$search_startDate, $search_endDate]);
 
-            $tot_matdeaths_m = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
-            ->whereBetween('DATE', [$search_startDate, $search_endDate]);
-            $tot_matdeaths_f = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
-            ->whereBetween('DATE', [$search_startDate, $search_endDate]);
-
-            $tot_und5deaths_m = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
-            ->whereBetween('DATE', [$search_startDate, $search_endDate]);
-            $tot_und5deaths_f = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
-            ->whereBetween('DATE', [$search_startDate, $search_endDate]);
-
-            $tot_fetaldeaths_m = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
-            ->whereBetween('DATE', [$search_startDate, $search_endDate]);
-            $tot_fetaldeaths_f = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
-            ->whereBetween('DATE', [$search_startDate, $search_endDate]);
-
-            $tot_neonataldeaths_m = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
-            ->whereBetween('DATE', [$search_startDate, $search_endDate]);
-            $tot_neonataldeaths_f = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
-            ->whereBetween('DATE', [$search_startDate, $search_endDate]);
-
-            $tot_earlyneonataldeaths_m = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
-            ->whereBetween('DATE', [$search_startDate, $search_endDate]);
-            $tot_earlyneonataldeaths_f = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
-            ->whereBetween('DATE', [$search_startDate, $search_endDate]);
-
-            $tot_perinataldeaths_m = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
-            ->whereBetween('DATE', [$search_startDate, $search_endDate]);
-            
-            $tot_perinataldeaths_f = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
-            ->whereBetween('DATE', [$search_startDate, $search_endDate]);
-
-            $tot_livebirths_m = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
-            ->whereBetween('DATE', [$search_startDate, $search_endDate]);
-            
-            $tot_livebirths_f = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
-            ->whereBetween('DATE', [$search_startDate, $search_endDate]);
-
-            $gtot_matorigdeaths = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
-            ->whereBetween('DATE', [$search_startDate, $search_endDate]);
-
-            if($brgy == 'ALL') {
-                $tot_deaths_m = $tot_deaths_m->sum('TOTDEATH_M');
-                $tot_deaths_f = $tot_deaths_f->sum('TOTDEATH_F');
-
-                $tot_infdeaths_m = $tot_infdeaths_m->sum('INFDEATH_M');
-                $tot_infdeaths_f = $tot_infdeaths_f->sum('INFDEATH_F');
-
-                $tot_matdeaths_m = $tot_matdeaths_m->sum('MATDEATH_M');
-                $tot_matdeaths_f = $tot_matdeaths_f->sum('MATDEATH_F');
-
-                $tot_und5deaths_m = $tot_und5deaths_m->sum('DEATHUND5_M');
-                $tot_und5deaths_f = $tot_und5deaths_f->sum('DEATHUND5_F');
-
-                $tot_fetaldeaths_m = $tot_fetaldeaths_m->sum('FD_M');
-                $tot_fetaldeaths_f = $tot_fetaldeaths_f->sum('FD_F');
-
-                $tot_neonataldeaths_m = $tot_neonataldeaths_m->sum('NEON_M');
-                $tot_neonataldeaths_f = $tot_neonataldeaths_f->sum('NEON_F');
-
-                $tot_earlyneonataldeaths_m = $tot_earlyneonataldeaths_m->sum('NEOTET_M');
-                $tot_earlyneonataldeaths_f = $tot_earlyneonataldeaths_f->sum('NEOTET_F');
-
-                $tot_perinataldeaths_m = $tot_perinataldeaths_m->sum('PRENATDEATH_M');
-                $tot_perinataldeaths_f = $tot_perinataldeaths_f->sum('PRENATDEATH_F');
-
-                $tot_livebirths_m = $tot_livebirths_m->sum('LB_M');
-                $tot_livebirths_f = $tot_livebirths_f->sum('LB_F');
-
-                $gtot_matorigdeaths = $gtot_matorigdeaths->sum('MATDEATHORIG_F');
-            }
-            else {
-                $tot_deaths_m = $tot_deaths_m->where('BGY_CODE', $brgy)->sum('TOTDEATH_M');
-                $tot_deaths_f = $tot_deaths_f->where('BGY_CODE', $brgy)->sum('TOTDEATH_F');
+                $tot_perinataldeaths_m = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+                ->whereBetween('DATE', [$search_startDate, $search_endDate]);
                 
-                $tot_infdeaths_m = $tot_infdeaths_m->where('BGY_CODE', $brgy)->sum('INFDEATH_M');
-                $tot_infdeaths_f = $tot_infdeaths_f->where('BGY_CODE', $brgy)->sum('INFDEATH_F');
+                $tot_perinataldeaths_f = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+                ->whereBetween('DATE', [$search_startDate, $search_endDate]);
 
-                $tot_matdeaths_m = $tot_matdeaths_m->where('BGY_CODE', $brgy)->sum('MATDEATH_M');
-                $tot_matdeaths_f = $tot_matdeaths_f->where('BGY_CODE', $brgy)->sum('MATDEATH_F');
+                $tot_livebirths_m = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+                ->whereBetween('DATE', [$search_startDate, $search_endDate]);
+                
+                $tot_livebirths_f = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+                ->whereBetween('DATE', [$search_startDate, $search_endDate]);
 
-                $tot_und5deaths_m = $tot_und5deaths_m->where('BGY_CODE', $brgy)->sum('DEATHUND5_M');
-                $tot_und5deaths_f = $tot_und5deaths_f->where('BGY_CODE', $brgy)->sum('DEATHUND5_F');
+                $gtot_matorigdeaths = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+                ->whereBetween('DATE', [$search_startDate, $search_endDate]);
 
-                $tot_fetaldeaths_m = $tot_fetaldeaths_m->where('BGY_CODE', $brgy)->sum('FD_M');
-                $tot_fetaldeaths_f = $tot_fetaldeaths_f->where('BGY_CODE', $brgy)->sum('FD_F');
+                if($brgy == 'ALL') {
+                    $tot_deaths_m = $tot_deaths_m->sum('TOTDEATH_M');
+                    $tot_deaths_f = $tot_deaths_f->sum('TOTDEATH_F');
 
-                $tot_neonataldeaths_m = $tot_neonataldeaths_m->where('BGY_CODE', $brgy)->sum('NEON_M');
-                $tot_neonataldeaths_f = $tot_neonataldeaths_f->where('BGY_CODE', $brgy)->sum('NEON_F');
+                    $tot_infdeaths_m = $tot_infdeaths_m->sum('INFDEATH_M');
+                    $tot_infdeaths_f = $tot_infdeaths_f->sum('INFDEATH_F');
 
-                $tot_earlyneonataldeaths_m = $tot_earlyneonataldeaths_m->where('BGY_CODE', $brgy)->sum('NEOTET_M');
-                $tot_earlyneonataldeaths_f = $tot_earlyneonataldeaths_f->where('BGY_CODE', $brgy)->sum('NEOTET_F');
+                    $tot_matdeaths_m = $tot_matdeaths_m->sum('MATDEATH_M');
+                    $tot_matdeaths_f = $tot_matdeaths_f->sum('MATDEATH_F');
 
-                $tot_perinataldeaths_m = $tot_perinataldeaths_m->where('BGY_CODE', $brgy)->sum('PRENATDEATH_M');
-                $tot_perinataldeaths_f = $tot_perinataldeaths_f->where('BGY_CODE', $brgy)->sum('PRENATDEATH_F');
+                    $tot_und5deaths_m = $tot_und5deaths_m->sum('DEATHUND5_M');
+                    $tot_und5deaths_f = $tot_und5deaths_f->sum('DEATHUND5_F');
 
-                $tot_livebirths_m = $tot_livebirths_m->where('BGY_CODE', $brgy)->sum('LB_M');
-                $tot_livebirths_f = $tot_livebirths_f->where('BGY_CODE', $brgy)->sum('LB_F');
+                    $tot_fetaldeaths_m = $tot_fetaldeaths_m->sum('FD_M');
+                    $tot_fetaldeaths_f = $tot_fetaldeaths_f->sum('FD_F');
 
-                $gtot_matorigdeaths = $gtot_matorigdeaths->where('BGY_CODE', $brgy)->sum('MATDEATHORIG_F');
+                    $tot_neonataldeaths_m = $tot_neonataldeaths_m->sum('NEON_M');
+                    $tot_neonataldeaths_f = $tot_neonataldeaths_f->sum('NEON_F');
+
+                    $tot_earlyneonataldeaths_m = $tot_earlyneonataldeaths_m->sum('NEOTET_M');
+                    $tot_earlyneonataldeaths_f = $tot_earlyneonataldeaths_f->sum('NEOTET_F');
+
+                    $tot_perinataldeaths_m = $tot_perinataldeaths_m->sum('PRENATDEATH_M');
+                    $tot_perinataldeaths_f = $tot_perinataldeaths_f->sum('PRENATDEATH_F');
+
+                    $tot_livebirths_m = $tot_livebirths_m->sum('LB_M');
+                    $tot_livebirths_f = $tot_livebirths_f->sum('LB_F');
+
+                    $gtot_matorigdeaths = $gtot_matorigdeaths->sum('MATDEATHORIG_F');
+                }
+                else {
+                    $tot_deaths_m = $tot_deaths_m->where('BGY_CODE', $brgy)->sum('TOTDEATH_M');
+                    $tot_deaths_f = $tot_deaths_f->where('BGY_CODE', $brgy)->sum('TOTDEATH_F');
+                    
+                    $tot_infdeaths_m = $tot_infdeaths_m->where('BGY_CODE', $brgy)->sum('INFDEATH_M');
+                    $tot_infdeaths_f = $tot_infdeaths_f->where('BGY_CODE', $brgy)->sum('INFDEATH_F');
+
+                    $tot_matdeaths_m = $tot_matdeaths_m->where('BGY_CODE', $brgy)->sum('MATDEATH_M');
+                    $tot_matdeaths_f = $tot_matdeaths_f->where('BGY_CODE', $brgy)->sum('MATDEATH_F');
+
+                    $tot_und5deaths_m = $tot_und5deaths_m->where('BGY_CODE', $brgy)->sum('DEATHUND5_M');
+                    $tot_und5deaths_f = $tot_und5deaths_f->where('BGY_CODE', $brgy)->sum('DEATHUND5_F');
+
+                    $tot_fetaldeaths_m = $tot_fetaldeaths_m->where('BGY_CODE', $brgy)->sum('FD_M');
+                    $tot_fetaldeaths_f = $tot_fetaldeaths_f->where('BGY_CODE', $brgy)->sum('FD_F');
+
+                    $tot_neonataldeaths_m = $tot_neonataldeaths_m->where('BGY_CODE', $brgy)->sum('NEON_M');
+                    $tot_neonataldeaths_f = $tot_neonataldeaths_f->where('BGY_CODE', $brgy)->sum('NEON_F');
+
+                    $tot_earlyneonataldeaths_m = $tot_earlyneonataldeaths_m->where('BGY_CODE', $brgy)->sum('NEOTET_M');
+                    $tot_earlyneonataldeaths_f = $tot_earlyneonataldeaths_f->where('BGY_CODE', $brgy)->sum('NEOTET_F');
+
+                    $tot_perinataldeaths_m = $tot_perinataldeaths_m->where('BGY_CODE', $brgy)->sum('PRENATDEATH_M');
+                    $tot_perinataldeaths_f = $tot_perinataldeaths_f->where('BGY_CODE', $brgy)->sum('PRENATDEATH_F');
+
+                    $tot_livebirths_m = $tot_livebirths_m->where('BGY_CODE', $brgy)->sum('LB_M');
+                    $tot_livebirths_f = $tot_livebirths_f->where('BGY_CODE', $brgy)->sum('LB_F');
+
+                    $gtot_matorigdeaths = $gtot_matorigdeaths->where('BGY_CODE', $brgy)->sum('MATDEATHORIG_F');
+                }
+
+                $death_table = [];
+                if($brgy == 'ALL') {
+                    $brgy_list = Brgy::where('displayInList', 1)
+                    ->where('city_id', 1)
+                    ->orderBy('brgyNameFhsis', 'ASC')
+                    ->get();
+
+                    foreach($brgy_list as $b) {
+                        $btotdeaths_outside_m = DeathCertificate::whereBetween('date_died', [$search_startDate, $search_endDate2])
+                        ->where('pod_address_muncity_text', 'GENERAL TRIAS')
+                        ->where('pod_address_brgy_text', $b->brgyName)
+                        ->where('address_muncity_text', '!=', 'GENERAL TRIAS')
+                        ->where('gender', 'MALE')
+                        ->count();
+
+                        $btotdeaths_outside_f = DeathCertificate::whereBetween('date_died', [$search_startDate, $search_endDate2])
+                        ->where('pod_address_muncity_text', 'GENERAL TRIAS')
+                        ->where('pod_address_brgy_text', $b->brgyName)
+                        ->where('address_muncity_text', '!=', 'GENERAL TRIAS')
+                        ->where('gender', 'FEMALE')
+                        ->count();
+
+                        $btotdeahts_outside_total = $btotdeaths_outside_m + $btotdeaths_outside_f;
+
+                        $btot_deaths_m = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+                        ->whereBetween('DATE', [$search_startDate, $search_endDate])
+                        ->where('BGY_CODE', $b->brgyNameFhsis)
+                        ->sum('TOTDEATH_M');
+
+                        if($btot_deaths_m > $btotdeaths_outside_m) {
+                            $btot_deaths_m -= $btotdeaths_outside_m;
+                        }
+
+                        $btot_deaths_f = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
+                        ->whereBetween('DATE', [$search_startDate, $search_endDate])
+                        ->where('BGY_CODE', $b->brgyNameFhsis)
+                        ->sum('TOTDEATH_F');
+
+                        if($btot_deaths_f > $btotdeaths_outside_f) {
+                            $btot_deaths_f -= $btotdeaths_outside_f;
+                        }
+
+                        $btot_deaths_total = $btot_deaths_m + $btot_deaths_f;
+
+                        $death_table[] = [
+                            'brgy' => mb_strtoupper($b->brgyNameFhsis),
+                            'btotdeahts_outside_total' => $btotdeahts_outside_total,
+                            'btotdeaths_outside_m' => $btotdeaths_outside_m,
+                            'btotdeaths_outside_f' => $btotdeaths_outside_f,
+                            'btot_deaths_m' => $btot_deaths_m,
+                            'btot_deaths_f' => $btot_deaths_f,
+                            'btot_deaths_total' => $btot_deaths_total,
+                        ];
+                    }
+                }
+
+                $gtot_deaths = $tot_deaths_m + $tot_deaths_f;
+                $gtot_infdeaths = $tot_infdeaths_m + $tot_infdeaths_f;
+                $gtot_matdeaths = $tot_matdeaths_m + $tot_matdeaths_f;
+                $gtot_und5deaths = $tot_und5deaths_m + $tot_und5deaths_f;
+                $gtot_fetaldeaths = $tot_fetaldeaths_m + $tot_fetaldeaths_f;
+                $gtot_neonataldeaths = $tot_neonataldeaths_m + $tot_neonataldeaths_f;
+                $gtot_earlyneonataldeaths = $tot_earlyneonataldeaths_m + $tot_earlyneonataldeaths_f;
+                $gtot_perinataldeaths = $tot_perinataldeaths_m + $tot_perinataldeaths_f;
+                $gtot_livebirths = $tot_livebirths_m + $tot_livebirths_f;
+
+                $mortality_rate = ($data_demographic->total_population != 0) ? round($gtot_deaths / $data_demographic->total_population * 1000, 2) : 0;
+                $imr = ($gtot_livebirths != 0) ? round($gtot_infdeaths / $gtot_livebirths * 1000, 2) : 0;
+                $mmr = ($gtot_livebirths != 0) ? round($gtot_matdeaths / $gtot_livebirths * 100000, 2) : 0;
+                $ufmr = ($gtot_livebirths != 0) ? round($gtot_und5deaths / $gtot_livebirths * 1000, 2) : 0;
+
+                $neomort_rate = ($gtot_livebirths != 0) ? round($gtot_neonataldeaths / $gtot_livebirths * 1000, 2) : 0;
+                $perimort_rate = ($gtot_livebirths != 0) ? round($gtot_perinataldeaths / ($gtot_fetaldeaths + $gtot_livebirths) * 1000, 2) : 0;
+
+                //Leading cause of Mortality and Morbidity
+                $mort_final_list = [];
+                $morb_final_list = [];
+
+                $mort_query = FhsisMortBhs::where('MUN_CODE', 'GENERAL TRIAS')
+                ->whereBetween('DATE', [$search_startDate, $search_endDate]);
+
+                $morb_query = FhsisM2::where('MUN_CODE', 'GENERAL TRIAS')
+                ->whereBetween('DATE', [$search_startDate, $search_endDate]);
+
+                if($brgy == 'ALL') {
+                    $mort_query = $mort_query->distinct()
+                    ->pluck('DISEASE');
+
+                    $morb_query = $morb_query->distinct()
+                    ->pluck('DISEASE');
+                }
+                else {
+                    $mort_query = $mort_query
+                    ->where('BGY_CODE', $brgy)
+                    ->distinct()
+                    ->pluck('DISEASE');
+
+                    $morb_query = $morb_query
+                    ->where('BGY_CODE', $brgy)
+                    ->distinct()
+                    ->pluck('DISEASE');
+                }
+
+                //FETCHING MORTALITY
+                foreach($mort_query as $s) {
+                    $count = 0;
+                    $count_male = 0;
+                    $count_female = 0;
+
+                    $mort_query2 = FhsisMortBhs::where('MUN_CODE', 'GENERAL TRIAS')
+                    ->whereBetween('DATE', [$search_startDate, $search_endDate])
+                    ->where('DISEASE', $s);
+
+                    if($brgy == 'ALL') {
+                        $mort_query2 = $mort_query2->get();
+                    }
+                    else {
+                        $mort_query2 = $mort_query2->where('BGY_CODE', $brgy)
+                        ->get();
+                    }
+
+                    foreach ($mort_query2 as $t) {
+                        $count +=
+                        $t['1_4_M'] + $t['1_4_F'] +
+                        $t['5_9_M'] + $t['5_9_F'] +
+                        $t['10_14_M'] + $t['10_14_F'] + 
+                        $t['15_19_M'] + $t['15_19_F'] +
+                        $t['20_24_M'] + $t['20_24_F'] +
+                        $t['25_29_M'] + $t['25_29_F'] + 
+                        $t['30_34_M'] + $t['30_34_F'] +
+                        $t['35_39_M'] + $t['35_39_F'] +
+                        $t['40_44_M'] + $t['40_44_F'] +
+                        $t['45_49_M'] + $t['45_49_F'] +
+                        $t['50_54_M'] + $t['50_54_F'] +
+                        $t['55_59_M'] + $t['55_59_F'] +
+                        $t['60_64_M'] + $t['60_64_F'] +
+                        $t['65_69_M'] + $t['65_69_F'] +
+                        $t['70ABOVE_M'] + $t['70ABOVE_F'] +
+                        $t['0_6DAYS_M'] + $t['0_6DAYS_F'] +
+                        $t['7_28DAYS_M'] + $t['7_28DAYS_F'] +
+                        $t['29DAYS_11MOS_M'] + $t['29DAYS_11MOS_F']
+                        ;
+
+                        $count_male += $t['1_4_M'] +
+                        $t['5_9_M'] +
+                        $t['10_14_M'] +
+                        $t['15_19_M'] +
+                        $t['20_24_M'] +
+                        $t['25_29_M'] +
+                        $t['30_34_M'] +
+                        $t['35_39_M'] +
+                        $t['40_44_M'] +
+                        $t['45_49_M'] +
+                        $t['50_54_M'] +
+                        $t['55_59_M'] +
+                        $t['60_64_M'] +
+                        $t['65_69_M'] +
+                        $t['70ABOVE_M'] +
+                        $t['0_6DAYS_M'] +
+                        $t['7_28DAYS_M'] +
+                        $t['29DAYS_11MOS_M'];
+
+                        $count_female += $t['1_4_F'] +
+                        $t['5_9_F'] +
+                        $t['10_14_F'] +
+                        $t['15_19_F'] +
+                        $t['20_24_F'] +
+                        $t['25_29_F'] +
+                        $t['30_34_F'] +
+                        $t['35_39_F'] +
+                        $t['40_44_F'] +
+                        $t['45_49_F'] +
+                        $t['50_54_F'] +
+                        $t['55_59_F'] +
+                        $t['60_64_F'] +
+                        $t['65_69_F'] +
+                        $t['70ABOVE_F'] +
+                        $t['0_6DAYS_F'] +
+                        $t['7_28DAYS_F'] +
+                        $t['29DAYS_11MOS_F'];
+                    }
+
+                    array_push($mort_final_list, [
+                        'disease' => $s,
+                        'count_male' => $count_male,
+                        'count_female' => $count_female,
+                        'count' => $count,
+                    ]);
+                }
+
+                //FETCHING MORBIDITY
+                foreach($morb_query as $s) {
+                    $count = 0;
+                    $count_male = 0;
+                    $count_female = 0;
+
+                    $morb_query2 = FhsisM2::where('MUN_CODE', 'GENERAL TRIAS')
+                    ->whereBetween('DATE', [$search_startDate, $search_endDate])
+                    ->where('DISEASE', $s);
+
+                    if($brgy == 'ALL') {
+                        $morb_query2 = $morb_query2->get();
+                    }
+                    else {
+                        $morb_query2 = $morb_query2->where('BGY_CODE', $brgy)
+                        ->get();
+                    }
+
+                    foreach ($morb_query2 as $t) {
+                        $count +=
+                        $t['1_4_M'] + $t['1_4_F'] +
+                        $t['5_9_M'] + $t['5_9_F'] +
+                        $t['10_14_M'] + $t['10_14_F'] + 
+                        $t['15_19_M'] + $t['15_19_F'] +
+                        $t['20_24_M'] + $t['20_24_F'] +
+                        $t['25_29_M'] + $t['25_29_F'] + 
+                        $t['30_34_M'] + $t['30_34_F'] +
+                        $t['35_39_M'] + $t['35_39_F'] +
+                        $t['40_44_M'] + $t['40_44_F'] +
+                        $t['45_49_M'] + $t['45_49_F'] +
+                        $t['50_54_M'] + $t['50_54_F'] +
+                        $t['55_59_M'] + $t['55_59_F'] +
+                        $t['60_64_M'] + $t['60_64_F'] +
+                        $t['65_69_M'] + $t['65_69_F'] +
+                        $t['70ABOVE_M'] + $t['70ABOVE_F'] +
+                        $t['0_6DAYS_M'] + $t['0_6DAYS_F'] +
+                        $t['7_28DAYS_M'] + $t['7_28DAYS_F'] +
+                        $t['29DAYS_11MOS_M'] + $t['29DAYS_11MOS_F']
+                        ;
+
+                        $count_male += $t['1_4_M'] +
+                        $t['5_9_M'] +
+                        $t['10_14_M'] +
+                        $t['15_19_M'] +
+                        $t['20_24_M'] +
+                        $t['25_29_M'] +
+                        $t['30_34_M'] +
+                        $t['35_39_M'] +
+                        $t['40_44_M'] +
+                        $t['45_49_M'] +
+                        $t['50_54_M'] +
+                        $t['55_59_M'] +
+                        $t['60_64_M'] +
+                        $t['65_69_M'] +
+                        $t['70ABOVE_M'] +
+                        $t['0_6DAYS_M'] +
+                        $t['7_28DAYS_M'] +
+                        $t['29DAYS_11MOS_M'];
+
+                        $count_female += $t['1_4_F'] +
+                        $t['5_9_F'] +
+                        $t['10_14_F'] +
+                        $t['15_19_F'] +
+                        $t['20_24_F'] +
+                        $t['25_29_F'] +
+                        $t['30_34_F'] +
+                        $t['35_39_F'] +
+                        $t['40_44_F'] +
+                        $t['45_49_F'] +
+                        $t['50_54_F'] +
+                        $t['55_59_F'] +
+                        $t['60_64_F'] +
+                        $t['65_69_F'] +
+                        $t['70ABOVE_F'] +
+                        $t['0_6DAYS_F'] +
+                        $t['7_28DAYS_F'] +
+                        $t['29DAYS_11MOS_F'];
+                    }
+
+                    array_push($morb_final_list, [
+                        'disease' => $s,
+                        'count' => $count,
+                        'count_male' => $count_male,
+                        'count_female' => $count_female,
+                    ]);
+                }
+
+                //Donut1
+                $donut1_titles = ['Under Five Deaths', 'Infant Deaths'];
+                $donut1_values = [$gtot_und5deaths, $gtot_infdeaths];
+
+                $donut2_titles = ['Infant Deaths', 'ND, END, FD'];
+                $donut2_values = [$gtot_infdeaths, ($gtot_neonataldeaths + $gtot_earlyneonataldeaths + $gtot_fetaldeaths)];
+
+                //Livebirths outside
+                $gtot_livebirths_outside = LiveBirth::whereBetween('year', [$getYear, $getYear_end])
+                ->whereBetween('month', [$getMonth, $getMonth_end])
+                ->where('address_muncity_text', '!=', 'GENERAL TRIAS')
+                ->count();
+
+                return view('efhsis.reportv2', [
+                    'brgy' => $brgy,
+                    'data_demographic' => $data_demographic,
+
+                    'gtot_deaths' => $gtot_deaths,
+                    'tot_deaths_m' => $tot_deaths_m,
+                    'tot_deaths_f' => $tot_deaths_f,
+                    'gtot_infdeaths' => $gtot_infdeaths,
+                    'gtot_matdeaths' => $gtot_matdeaths,
+                    'gtot_und5deaths' => $gtot_und5deaths,
+                    'gtot_fetaldeaths' => $gtot_fetaldeaths,
+                    'gtot_neonataldeaths' => $gtot_neonataldeaths,
+                    'gtot_earlyneonataldeaths' => $gtot_earlyneonataldeaths,
+                    'gtot_matorigdeaths' => $gtot_matorigdeaths,
+                    'gtot_perinataldeaths' => $gtot_perinataldeaths,
+                    'gtot_livebirths' => $gtot_livebirths,
+
+                    'mortality_rate' => $mortality_rate,
+                    'imr' => $imr,
+                    'mmr' => $mmr,
+                    'ufmr' => $ufmr,
+                    'neomort_rate' => $neomort_rate,
+                    'perimort_rate' => $perimort_rate,
+
+                    'morb_final_list' => $morb_final_list,
+                    'mort_final_list' => $mort_final_list,
+
+                    'donut1_titles' => $donut1_titles,
+                    'donut1_values' => $donut1_values,
+
+                    'donut2_titles' => $donut2_titles,
+                    'donut2_values' => $donut2_values,
+
+                    'gtot_livebirths_outside' => $gtot_livebirths_outside,
+                    'tot_deaths_outsidecity_m' => $tot_deaths_outsidecity_m,
+                    'tot_deaths_outsidecity_f' => $tot_deaths_outsidecity_f,
+                    'death_table' => $death_table,
+                ]);
             }
+        }
+        else if(request()->input('submit') == 'morbmort') {
+            $data = FhsisMortBhs::select(
+                'DISEASE',
+                DB::raw('SUM(UNDER1_M) as UNDER1_M'),
+                DB::raw('SUM(UNDER1_F) as UNDER1_F'),
+                DB::raw('SUM(1_4_M) as AGE_1_4_M'),
+                DB::raw('SUM(1_4_F) as AGE_1_4_F'),
+                DB::raw('SUM(5_9_M) as  AGE_5_9_M'),
+                DB::raw('SUM(5_9_F) as  AGE_5_9_F'),
+                DB::raw('SUM(10_14_M) as AGE_10_14_M'),
+                DB::raw('SUM(10_14_F) as AGE_10_14_F'),
+                DB::raw('SUM(15_19_M) as AGE_15_19_M'),
+                DB::raw('SUM(15_19_F) as AGE_15_19_F'),
+                DB::raw('SUM(20_24_M) as AGE_20_24_M'),
+                DB::raw('SUM(20_24_F) as AGE_20_24_F'),
+                DB::raw('SUM(25_29_M) as AGE_25_29_M'),
+                DB::raw('SUM(25_29_F) as AGE_25_29_F'),
+                DB::raw('SUM(30_34_M) as AGE_30_34_M'),
+                DB::raw('SUM(30_34_F) as AGE_30_34_F'),
+                DB::raw('SUM(35_39_M) as AGE_35_39_M'),
+                DB::raw('SUM(35_39_F) as AGE_35_39_F'),
+                DB::raw('SUM(40_44_M) as AGE_40_44_M'),
+                DB::raw('SUM(40_44_F) as AGE_40_44_F'),
+                DB::raw('SUM(45_49_M) as AGE_45_49_M'),
+                DB::raw('SUM(45_49_F) as AGE_45_49_F'),
+                DB::raw('SUM(50_54_M) as AGE_50_54_M'),
+                DB::raw('SUM(50_54_F) as AGE_50_54_F'),
+                DB::raw('SUM(55_59_M) as AGE_55_59_M'),
+                DB::raw('SUM(55_59_F) as AGE_55_59_F'),
+                DB::raw('SUM(60_64_M) as AGE_60_64_M'),
+                DB::raw('SUM(60_64_F) as AGE_60_64_F'),
+                DB::raw('SUM(65ABOVE_M) as AGE_65ABOVE_M'),
+                DB::raw('SUM(65ABOVE_F) as AGE_65ABOVE_F'),
+                DB::raw('SUM(65_69_M) as AGE_65_69_M'),
+                DB::raw('SUM(65_69_F) as AGE_65_69_F'),
+                DB::raw('SUM(70ABOVE_M) as AGE_70ABOVE_M'),
+                DB::raw('SUM(70ABOVE_F) as AGE_70ABOVE_F'),
+                DB::raw('SUM(0_6DAYS_M) as AGE_0_6DAYS_M'),
+                DB::raw('SUM(0_6DAYS_F) as AGE_0_6DAYS_F'),
+                DB::raw('SUM(7_28DAYS_M) as AGE_7_28DAYS_M'),
+                DB::raw('SUM(7_28DAYS_F) as AGE_7_28DAYS_F'),
+                DB::raw('SUM(29DAYS_11MOS_M) as AGE_29DAYS_11MOS_M'),
+                DB::raw('SUM(29DAYS_11MOS_F) as AGE_29DAYS_11MOS_F'),
+                DB::raw('SUM(
+                0_6DAYS_M +
+                7_28DAYS_M +
+                29DAYS_11MOS_M +
+                1_4_M +
+                5_9_M +
+                10_14_M +
+                15_19_M +
+                20_24_M +
+                25_29_M +
+                30_34_M +
+                35_39_M +
+                40_44_M +
+                45_49_M +
+                50_54_M +
+                55_59_M +
+                60_64_M +
+                65_69_M +
+                70ABOVE_M
+                ) as TOTAL_M'),
 
-            $death_table = [];
+                DB::raw('SUM(
+                0_6DAYS_F +
+                7_28DAYS_F +
+                29DAYS_11MOS_F +
+                1_4_F +
+                5_9_F +
+                10_14_F +
+                15_19_F +
+                20_24_F +
+                25_29_F +
+                30_34_F +
+                35_39_F +
+                40_44_F +
+                45_49_F +
+                50_54_F +
+                55_59_F +
+                60_64_F +
+                65_69_F +
+                70ABOVE_F
+                ) as TOTAL_F')
+            )
+            ->whereBetween('DATE', [$search_startDate, $search_endDate]);
+
+            $data2 = FhsisM2::select(
+                'DISEASE',
+                DB::raw('SUM(UNDER1_M) as UNDER1_M'),
+                DB::raw('SUM(UNDER1_F) as UNDER1_F'),
+                DB::raw('SUM(1_4_M) as AGE_1_4_M'),
+                DB::raw('SUM(1_4_F) as AGE_1_4_F'),
+                DB::raw('SUM(5_9_M) as  AGE_5_9_M'),
+                DB::raw('SUM(5_9_F) as  AGE_5_9_F'),
+                DB::raw('SUM(10_14_M) as AGE_10_14_M'),
+                DB::raw('SUM(10_14_F) as AGE_10_14_F'),
+                DB::raw('SUM(15_19_M) as AGE_15_19_M'),
+                DB::raw('SUM(15_19_F) as AGE_15_19_F'),
+                DB::raw('SUM(20_24_M) as AGE_20_24_M'),
+                DB::raw('SUM(20_24_F) as AGE_20_24_F'),
+                DB::raw('SUM(25_29_M) as AGE_25_29_M'),
+                DB::raw('SUM(25_29_F) as AGE_25_29_F'),
+                DB::raw('SUM(30_34_M) as AGE_30_34_M'),
+                DB::raw('SUM(30_34_F) as AGE_30_34_F'),
+                DB::raw('SUM(35_39_M) as AGE_35_39_M'),
+                DB::raw('SUM(35_39_F) as AGE_35_39_F'),
+                DB::raw('SUM(40_44_M) as AGE_40_44_M'),
+                DB::raw('SUM(40_44_F) as AGE_40_44_F'),
+                DB::raw('SUM(45_49_M) as AGE_45_49_M'),
+                DB::raw('SUM(45_49_F) as AGE_45_49_F'),
+                DB::raw('SUM(50_54_M) as AGE_50_54_M'),
+                DB::raw('SUM(50_54_F) as AGE_50_54_F'),
+                DB::raw('SUM(55_59_M) as AGE_55_59_M'),
+                DB::raw('SUM(55_59_F) as AGE_55_59_F'),
+                DB::raw('SUM(60_64_M) as AGE_60_64_M'),
+                DB::raw('SUM(60_64_F) as AGE_60_64_F'),
+                DB::raw('SUM(65ABOVE_M) as AGE_65ABOVE_M'),
+                DB::raw('SUM(65ABOVE_F) as AGE_65ABOVE_F'),
+                DB::raw('SUM(65_69_M) as AGE_65_69_M'),
+                DB::raw('SUM(65_69_F) as AGE_65_69_F'),
+                DB::raw('SUM(70ABOVE_M) as AGE_70ABOVE_M'),
+                DB::raw('SUM(70ABOVE_F) as AGE_70ABOVE_F'),
+                DB::raw('SUM(0_6DAYS_M) as AGE_0_6DAYS_M'),
+                DB::raw('SUM(0_6DAYS_F) as AGE_0_6DAYS_F'),
+                DB::raw('SUM(7_28DAYS_M) as AGE_7_28DAYS_M'),
+                DB::raw('SUM(7_28DAYS_F) as AGE_7_28DAYS_F'),
+                DB::raw('SUM(29DAYS_11MOS_M) as AGE_29DAYS_11MOS_M'),
+                DB::raw('SUM(29DAYS_11MOS_F) as AGE_29DAYS_11MOS_F'),
+                DB::raw('SUM(
+                0_6DAYS_M +
+                7_28DAYS_M +
+                29DAYS_11MOS_M +
+                1_4_M +
+                5_9_M +
+                10_14_M +
+                15_19_M +
+                20_24_M +
+                25_29_M +
+                30_34_M +
+                35_39_M +
+                40_44_M +
+                45_49_M +
+                50_54_M +
+                55_59_M +
+                60_64_M +
+                65_69_M +
+                70ABOVE_M
+                ) as TOTAL_M'),
+                 
+                DB::raw('SUM(
+                0_6DAYS_F +
+                7_28DAYS_F +
+                29DAYS_11MOS_F +
+                1_4_F +
+                5_9_F +
+                10_14_F +
+                15_19_F +
+                20_24_F +
+                25_29_F +
+                30_34_F +
+                35_39_F +
+                40_44_F +
+                45_49_F +
+                50_54_F +
+                55_59_F +
+                60_64_F +
+                65_69_F +
+                70ABOVE_F
+                ) as TOTAL_F')
+            )
+            ->whereBetween('DATE', [$search_startDate, $search_endDate]);
+
             if($brgy == 'ALL') {
-                $brgy_list = Brgy::where('displayInList', 1)
-                ->where('city_id', 1)
-                ->orderBy('brgyNameFhsis', 'ASC')
+                $data = $data->groupBy('DISEASE')
+                ->orderBy('DISEASE', 'ASC')
                 ->get();
 
-                foreach($brgy_list as $b) {
-                    $btotdeaths_outside_m = DeathCertificate::whereBetween('date_died', [$search_startDate, $search_endDate2])
-                    ->where('pod_address_muncity_text', 'GENERAL TRIAS')
-                    ->where('pod_address_brgy_text', $b->brgyName)
-                    ->where('address_muncity_text', '!=', 'GENERAL TRIAS')
-                    ->where('gender', 'MALE')
-                    ->count();
-
-                    $btotdeaths_outside_f = DeathCertificate::whereBetween('date_died', [$search_startDate, $search_endDate2])
-                    ->where('pod_address_muncity_text', 'GENERAL TRIAS')
-                    ->where('pod_address_brgy_text', $b->brgyName)
-                    ->where('address_muncity_text', '!=', 'GENERAL TRIAS')
-                    ->where('gender', 'FEMALE')
-                    ->count();
-
-                    $btotdeahts_outside_total = $btotdeaths_outside_m + $btotdeaths_outside_f;
-
-                    $btot_deaths_m = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
-                    ->whereBetween('DATE', [$search_startDate, $search_endDate])
-                    ->where('BGY_CODE', $b->brgyNameFhsis)
-                    ->sum('TOTDEATH_M');
-
-                    if($btot_deaths_m > $btotdeaths_outside_m) {
-                        $btot_deaths_m -= $btotdeaths_outside_m;
-                    }
-
-                    $btot_deaths_f = FhsisMortalityNatality::where('MUN_CODE', 'GENERAL TRIAS')
-                    ->whereBetween('DATE', [$search_startDate, $search_endDate])
-                    ->where('BGY_CODE', $b->brgyNameFhsis)
-                    ->sum('TOTDEATH_F');
-
-                    if($btot_deaths_f > $btotdeaths_outside_f) {
-                        $btot_deaths_f -= $btotdeaths_outside_f;
-                    }
-
-                    $btot_deaths_total = $btot_deaths_m + $btot_deaths_f;
-
-                    $death_table[] = [
-                        'brgy' => mb_strtoupper($b->brgyNameFhsis),
-                        'btotdeahts_outside_total' => $btotdeahts_outside_total,
-                        'btotdeaths_outside_m' => $btotdeaths_outside_m,
-                        'btotdeaths_outside_f' => $btotdeaths_outside_f,
-                        'btot_deaths_m' => $btot_deaths_m,
-                        'btot_deaths_f' => $btot_deaths_f,
-                        'btot_deaths_total' => $btot_deaths_total,
-                    ];
-                }
-            }
-
-            $gtot_deaths = $tot_deaths_m + $tot_deaths_f;
-            $gtot_infdeaths = $tot_infdeaths_m + $tot_infdeaths_f;
-            $gtot_matdeaths = $tot_matdeaths_m + $tot_matdeaths_f;
-            $gtot_und5deaths = $tot_und5deaths_m + $tot_und5deaths_f;
-            $gtot_fetaldeaths = $tot_fetaldeaths_m + $tot_fetaldeaths_f;
-            $gtot_neonataldeaths = $tot_neonataldeaths_m + $tot_neonataldeaths_f;
-            $gtot_earlyneonataldeaths = $tot_earlyneonataldeaths_m + $tot_earlyneonataldeaths_f;
-            $gtot_perinataldeaths = $tot_perinataldeaths_m + $tot_perinataldeaths_f;
-            $gtot_livebirths = $tot_livebirths_m + $tot_livebirths_f;
-
-            $mortality_rate = ($data_demographic->total_population != 0) ? round($gtot_deaths / $data_demographic->total_population * 1000, 2) : 0;
-            $imr = ($gtot_livebirths != 0) ? round($gtot_infdeaths / $gtot_livebirths * 1000, 2) : 0;
-            $mmr = ($gtot_livebirths != 0) ? round($gtot_matdeaths / $gtot_livebirths * 100000, 2) : 0;
-            $ufmr = ($gtot_livebirths != 0) ? round($gtot_und5deaths / $gtot_livebirths * 1000, 2) : 0;
-
-            $neomort_rate = ($gtot_livebirths != 0) ? round($gtot_neonataldeaths / $gtot_livebirths * 1000, 2) : 0;
-            $perimort_rate = ($gtot_livebirths != 0) ? round($gtot_perinataldeaths / ($gtot_fetaldeaths + $gtot_livebirths) * 1000, 2) : 0;
-
-            //Leading cause of Mortality and Morbidity
-            $mort_final_list = [];
-            $morb_final_list = [];
-
-            $mort_query = FhsisMortBhs::where('MUN_CODE', 'GENERAL TRIAS')
-            ->whereBetween('DATE', [$search_startDate, $search_endDate]);
-
-            $morb_query = FhsisM2::where('MUN_CODE', 'GENERAL TRIAS')
-            ->whereBetween('DATE', [$search_startDate, $search_endDate]);
-
-            if($brgy == 'ALL') {
-                $mort_query = $mort_query->distinct()
-                ->pluck('DISEASE');
-
-                $morb_query = $morb_query->distinct()
-                ->pluck('DISEASE');
+                $data2 = $data2->groupBy('DISEASE')
+                ->orderBy('DISEASE', 'ASC')
+                ->get();
             }
             else {
-                $mort_query = $mort_query
-                ->where('BGY_CODE', $brgy)
-                ->distinct()
-                ->pluck('DISEASE');
+                $data = $data->where('BGY_CODE', $brgy)
+                ->groupBy('DISEASE')
+                ->orderBy('DISEASE', 'ASC')
+                ->get();
 
-                $morb_query = $morb_query
-                ->where('BGY_CODE', $brgy)
-                ->distinct()
-                ->pluck('DISEASE');
+                $data2 = $data2->where('BGY_CODE', $brgy)
+                ->groupBy('DISEASE')
+                ->orderBy('DISEASE', 'ASC')
+                ->get();
             }
 
-            //FETCHING MORTALITY
-            foreach($mort_query as $s) {
-                $count = 0;
-                $count_male = 0;
-                $count_female = 0;
-
-                $mort_query2 = FhsisMortBhs::where('MUN_CODE', 'GENERAL TRIAS')
-                ->whereBetween('DATE', [$search_startDate, $search_endDate])
-                ->where('DISEASE', $s);
-
-                if($brgy == 'ALL') {
-                    $mort_query2 = $mort_query2->get();
-                }
-                else {
-                    $mort_query2 = $mort_query2->where('BGY_CODE', $brgy)
-                    ->get();
-                }
-
-                foreach ($mort_query2 as $t) {
-                    $count +=
-                    $t['1_4_M'] + $t['1_4_F'] +
-                    $t['5_9_M'] + $t['5_9_F'] +
-                    $t['10_14_M'] + $t['10_14_F'] + 
-                    $t['15_19_M'] + $t['15_19_F'] +
-                    $t['20_24_M'] + $t['20_24_F'] +
-                    $t['25_29_M'] + $t['25_29_F'] + 
-                    $t['30_34_M'] + $t['30_34_F'] +
-                    $t['35_39_M'] + $t['35_39_F'] +
-                    $t['40_44_M'] + $t['40_44_F'] +
-                    $t['45_49_M'] + $t['45_49_F'] +
-                    $t['50_54_M'] + $t['50_54_F'] +
-                    $t['55_59_M'] + $t['55_59_F'] +
-                    $t['60_64_M'] + $t['60_64_F'] +
-                    $t['65_69_M'] + $t['65_69_F'] +
-                    $t['70ABOVE_M'] + $t['70ABOVE_F'] +
-                    $t['0_6DAYS_M'] + $t['0_6DAYS_F'] +
-                    $t['7_28DAYS_M'] + $t['7_28DAYS_F'] +
-                    $t['29DAYS_11MOS_M'] + $t['29DAYS_11MOS_F']
-                    ;
-
-                    $count_male += $t['1_4_M'] +
-                    $t['5_9_M'] +
-                    $t['10_14_M'] +
-                    $t['15_19_M'] +
-                    $t['20_24_M'] +
-                    $t['25_29_M'] +
-                    $t['30_34_M'] +
-                    $t['35_39_M'] +
-                    $t['40_44_M'] +
-                    $t['45_49_M'] +
-                    $t['50_54_M'] +
-                    $t['55_59_M'] +
-                    $t['60_64_M'] +
-                    $t['65_69_M'] +
-                    $t['70ABOVE_M'] +
-                    $t['0_6DAYS_M'] +
-                    $t['7_28DAYS_M'] +
-                    $t['29DAYS_11MOS_M'];
-
-                    $count_female += $t['1_4_F'] +
-                    $t['5_9_F'] +
-                    $t['10_14_F'] +
-                    $t['15_19_F'] +
-                    $t['20_24_F'] +
-                    $t['25_29_F'] +
-                    $t['30_34_F'] +
-                    $t['35_39_F'] +
-                    $t['40_44_F'] +
-                    $t['45_49_F'] +
-                    $t['50_54_F'] +
-                    $t['55_59_F'] +
-                    $t['60_64_F'] +
-                    $t['65_69_F'] +
-                    $t['70ABOVE_F'] +
-                    $t['0_6DAYS_F'] +
-                    $t['7_28DAYS_F'] +
-                    $t['29DAYS_11MOS_F'];
-                }
-
-                array_push($mort_final_list, [
-                    'disease' => $s,
-                    'count_male' => $count_male,
-                    'count_female' => $count_female,
-                    'count' => $count,
-                ]);
-            }
-
-            //FETCHING MORBIDITY
-            foreach($morb_query as $s) {
-                $count = 0;
-                $count_male = 0;
-                $count_female = 0;
-
-                $morb_query2 = FhsisM2::where('MUN_CODE', 'GENERAL TRIAS')
-                ->whereBetween('DATE', [$search_startDate, $search_endDate])
-                ->where('DISEASE', $s);
-
-                if($brgy == 'ALL') {
-                    $morb_query2 = $morb_query2->get();
-                }
-                else {
-                    $morb_query2 = $morb_query2->where('BGY_CODE', $brgy)
-                    ->get();
-                }
-
-                foreach ($morb_query2 as $t) {
-                    $count +=
-                    $t['1_4_M'] + $t['1_4_F'] +
-                    $t['5_9_M'] + $t['5_9_F'] +
-                    $t['10_14_M'] + $t['10_14_F'] + 
-                    $t['15_19_M'] + $t['15_19_F'] +
-                    $t['20_24_M'] + $t['20_24_F'] +
-                    $t['25_29_M'] + $t['25_29_F'] + 
-                    $t['30_34_M'] + $t['30_34_F'] +
-                    $t['35_39_M'] + $t['35_39_F'] +
-                    $t['40_44_M'] + $t['40_44_F'] +
-                    $t['45_49_M'] + $t['45_49_F'] +
-                    $t['50_54_M'] + $t['50_54_F'] +
-                    $t['55_59_M'] + $t['55_59_F'] +
-                    $t['60_64_M'] + $t['60_64_F'] +
-                    $t['65_69_M'] + $t['65_69_F'] +
-                    $t['70ABOVE_M'] + $t['70ABOVE_F'] +
-                    $t['0_6DAYS_M'] + $t['0_6DAYS_F'] +
-                    $t['7_28DAYS_M'] + $t['7_28DAYS_F'] +
-                    $t['29DAYS_11MOS_M'] + $t['29DAYS_11MOS_F']
-                    ;
-
-                    $count_male += $t['1_4_M'] +
-                    $t['5_9_M'] +
-                    $t['10_14_M'] +
-                    $t['15_19_M'] +
-                    $t['20_24_M'] +
-                    $t['25_29_M'] +
-                    $t['30_34_M'] +
-                    $t['35_39_M'] +
-                    $t['40_44_M'] +
-                    $t['45_49_M'] +
-                    $t['50_54_M'] +
-                    $t['55_59_M'] +
-                    $t['60_64_M'] +
-                    $t['65_69_M'] +
-                    $t['70ABOVE_M'] +
-                    $t['0_6DAYS_M'] +
-                    $t['7_28DAYS_M'] +
-                    $t['29DAYS_11MOS_M'];
-
-                    $count_female += $t['1_4_F'] +
-                    $t['5_9_F'] +
-                    $t['10_14_F'] +
-                    $t['15_19_F'] +
-                    $t['20_24_F'] +
-                    $t['25_29_F'] +
-                    $t['30_34_F'] +
-                    $t['35_39_F'] +
-                    $t['40_44_F'] +
-                    $t['45_49_F'] +
-                    $t['50_54_F'] +
-                    $t['55_59_F'] +
-                    $t['60_64_F'] +
-                    $t['65_69_F'] +
-                    $t['70ABOVE_F'] +
-                    $t['0_6DAYS_F'] +
-                    $t['7_28DAYS_F'] +
-                    $t['29DAYS_11MOS_F'];
-                }
-
-                array_push($morb_final_list, [
-                    'disease' => $s,
-                    'count' => $count,
-                    'count_male' => $count_male,
-                    'count_female' => $count_female,
-                ]);
-            }
-
-            //Donut1
-            $donut1_titles = ['Under Five Deaths', 'Infant Deaths'];
-            $donut1_values = [$gtot_und5deaths, $gtot_infdeaths];
-
-            $donut2_titles = ['Infant Deaths', 'ND, END, FD'];
-            $donut2_values = [$gtot_infdeaths, ($gtot_neonataldeaths + $gtot_earlyneonataldeaths + $gtot_fetaldeaths)];
-
-            //Livebirths outside
-            $gtot_livebirths_outside = LiveBirth::whereBetween('year', [$getYear, $getYear_end])
-            ->whereBetween('month', [$getMonth, $getMonth_end])
-            ->where('address_muncity_text', '!=', 'GENERAL TRIAS')
-            ->count();
-
-            return view('efhsis.reportv2', [
-                'brgy' => $brgy,
-                'data_demographic' => $data_demographic,
-
-                'gtot_deaths' => $gtot_deaths,
-                'tot_deaths_m' => $tot_deaths_m,
-                'tot_deaths_f' => $tot_deaths_f,
-                'gtot_infdeaths' => $gtot_infdeaths,
-                'gtot_matdeaths' => $gtot_matdeaths,
-                'gtot_und5deaths' => $gtot_und5deaths,
-                'gtot_fetaldeaths' => $gtot_fetaldeaths,
-                'gtot_neonataldeaths' => $gtot_neonataldeaths,
-                'gtot_earlyneonataldeaths' => $gtot_earlyneonataldeaths,
-                'gtot_matorigdeaths' => $gtot_matorigdeaths,
-                'gtot_perinataldeaths' => $gtot_perinataldeaths,
-                'gtot_livebirths' => $gtot_livebirths,
-
-                'mortality_rate' => $mortality_rate,
-                'imr' => $imr,
-                'mmr' => $mmr,
-                'ufmr' => $ufmr,
-                'neomort_rate' => $neomort_rate,
-                'perimort_rate' => $perimort_rate,
-
-                'morb_final_list' => $morb_final_list,
-                'mort_final_list' => $mort_final_list,
-
-                'donut1_titles' => $donut1_titles,
-                'donut1_values' => $donut1_values,
-
-                'donut2_titles' => $donut2_titles,
-                'donut2_values' => $donut2_values,
-
-                'gtot_livebirths_outside' => $gtot_livebirths_outside,
-                'tot_deaths_outsidecity_m' => $tot_deaths_outsidecity_m,
-                'tot_deaths_outsidecity_f' => $tot_deaths_outsidecity_f,
-                'death_table' => $death_table,
+            return view('efhsis.reportv2_morbmort', [
+                'data' => $data,
+                'data2' => $data2,
             ]);
         }
     }

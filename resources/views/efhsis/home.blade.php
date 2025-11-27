@@ -120,7 +120,8 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-success btn-block">Generate</button>
+                                <button type="submit" name="submit" value="generate" class="btn btn-success btn-block">Generate</button>
+                                <button type="submit" name="submit" value="morbmort" class="btn btn-success btn-block">Morbidity and Mortality</button>
                             </div>
                         </div>
                     </form>

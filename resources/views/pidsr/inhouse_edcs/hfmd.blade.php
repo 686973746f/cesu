@@ -32,10 +32,119 @@
                 @endif
 
                 @include('pidsr.inhouse_edcs.patient_defaults')
+                @include('pidsr.inhouse_edcs.patient_defaults1')
+                @include('pidsr.inhouse_edcs.patient_defaults_investigator')
                 <hr>
-                <div class="row">
-                    
+                <div class="card mb-3">
+                    <div class="card-header"><b>CLINICAL INFORMATION</b></div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" name="Fever" id="Fever" value="Y">
+                                    Fever
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" name="RashSores" id="RashSores" value="Y">
+                                    Rash
+                                  </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" name="Anorexia" id="Anorexia" value="Y">
+                                    Poor/loss of appetite
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" name="BM" id="BM" value="Y">
+                                    Body malaise
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" name="SoreThroat" id="SoreThroat" value="Y">
+                                    Sore throat
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" name="NausVom" id="NausVom" value="Y">
+                                    Nausea & vomiting
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" name="DiffBreath" id="DiffBreath" value="Y">
+                                    Difficulty of breathing
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" name="Paralysis" id="Paralysis" value="Y">
+                                    Acute Flaccid Paralysis
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" name="MeningLes" id="MeningLes" value="Y">
+                                    Meningeal Irritation
+                                  </label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="OthSymptoms">Other symptoms, specify</label>
+                                    <input type="text" class="form-control" name="OthSymptoms" id="OthSymptoms" style="text-transform: uppercase;">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" name="AnyComp" id="AnyComp" value="Y">
+                                    Are there any complications?
+                                  </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="card">
+                    <div class="card-header"><b>EXPOSURE HISTORY</b></div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="Travel"><b class="text-danger"></b>Is there a history of travel within 12 weeks to an area with ongoing epidemic of HFMD or EV Disease?</label>
+                                    <select class="form-control" name="Travel" id="Travel" required>
+                                        <option value="" disabled {{(is_null(old('Travel'))) ? 'selected' : ''}}>Choose...</option>
+                                        <option value="Y" {{(old('Travel') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                        <option value="N" {{(old('Travel') == 'N') ? 'selected' : ''}}>No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="OthExposure"><b class="text-danger"></b>Are there other known HFMD cases in the community?</label>
+                                    <select class="form-control" name="OthExposure" id="OthExposure" required>
+                                        <option value="" disabled {{(is_null(old('Travel'))) ? 'selected' : ''}}>Choose...</option>
+                                        <option value="Y" {{(old('OthExposure') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                        <option value="N" {{(old('OthExposure') == 'N') ? 'selected' : ''}}>No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="form-group">
                   <label for="system_remarks">Remarks</label>
                   <textarea class="form-control" name="system_remarks" id="system_remarks" rows="3"></textarea>
@@ -50,21 +159,4 @@
 
 @include('pidsr.inhouse_edcs.patient_defaults_js')
 
-<script>
-    $('#Admitted').change(function (e) { 
-        e.preventDefault();
-        if($(this).val() == 'Y') {
-            $('#hospitalizedDiv').removeClass('d-none');
-            $('#sys_hospitalized_name').prop('required', true);
-            $('#sys_hospitalized_datestart').prop('required', true);
-            $('#sys_hospitalized_dateend').prop('required', true);
-        }
-        else {
-            $('#hospitalizedDiv').addClass('d-none');
-            $('#sys_hospitalized_name').prop('required', false);
-            $('#sys_hospitalized_datestart').prop('required', false);
-            $('#sys_hospitalized_dateend').prop('required', false);
-        }
-    }).trigger('change');
-</script>
 @endsection

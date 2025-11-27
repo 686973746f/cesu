@@ -151,7 +151,7 @@
         </div>
     </div>
 
-    <form action="{{route('fhsis_tbdots_dashboard')}}" method="GET">
+    <form action="{{route('syndromic_m2brgydashboard')}}" method="GET">
         <div class="modal fade" id="loadDashboard" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
