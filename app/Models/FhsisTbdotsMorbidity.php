@@ -10,6 +10,12 @@ class FhsisTbdotsMorbidity extends Model
     use HasFactory;
 
     protected $fillable = [
+        'type',
+        'validation_status',
+        'screening_date',
+        'diagnosis_date',
+        'notification_date',
+        'case_number',
         'lname',
         'fname',
         'mname',
@@ -25,7 +31,10 @@ class FhsisTbdotsMorbidity extends Model
         'reg_group',
         'bac_status',
         'xpert_result',
+        'rdt_release_date',
         'date_started_tx',
         'outcome',
+        'date_of_outcomestatus',
+        'datetime_record_was_created',
     ];
 }

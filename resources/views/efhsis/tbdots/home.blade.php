@@ -12,6 +12,15 @@
                             {{session('msg')}}
                         </div>
                         @endif
+                        @if($errors->any())
+                        <div class="alert alert-danger" role="alert">
+                            <p>{{Str::plural('Error', $errors->count())}} detected in importing the ITIS File:</p>
+                            <hr>
+                            @foreach ($errors->all() as $error)
+                                <li>{{$error}}</li>
+                            @endforeach
+                        </div>
+                        @endif
                         <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#importTool">Import Excel File</button>
                         <hr>
                         <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#loadDashboard">Load Dashboard</button>

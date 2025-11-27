@@ -2002,6 +2002,10 @@ class FhsisController extends Controller
     }
 
     public function tbdotsImport(Request $r) {
+        $r->validate([
+            'itis_file' => 'required|file|mimes:xlsx',
+        ]);
+        
         Excel::import(new FhsisTbdotsImport(), $r->itis_file);
 
         return redirect()->route('fhsis_tbdots_home')

@@ -16,6 +16,12 @@ class CreateFhsisTbdotsMorbiditiesTable extends Migration
         Schema::create('fhsis_tbdots_morbidities', function (Blueprint $table) {
             $table->id();
 
+            $table->string('type')->nullable();
+            $table->string('validation_status')->nullable();
+            $table->date('screening_date')->nullable();
+            $table->date('diagnosis_date')->nullable();
+            $table->date('notification_date')->nullable();
+            $table->string('case_number')->nullable();
             $table->string('lname');
             $table->string('fname');
             $table->string('mname')->nullable();
@@ -31,8 +37,11 @@ class CreateFhsisTbdotsMorbiditiesTable extends Migration
             $table->string('reg_group');
             $table->string('bac_status');
             $table->string('xpert_result');
+            $table->date('rdt_release_date')->nullable();
             $table->date('date_started_tx');
             $table->string('outcome')->nullable();
+            $table->date('date_of_outcomestatus')->nullable();
+            $table->dateTime('datetime_record_was_created')->nullable();
             
             $table->timestamps();
         });
