@@ -6,7 +6,7 @@
 			$('#submitBtn').prop('disabled', true);
 			setTimeout(function() {
 				$('#submitBtn').prop('disabled', false);
-			}, 2000);
+			}, 1600);
 			return false;
 		}
 	});
@@ -131,11 +131,11 @@
     if (provinceDefault) {
         setTimeout(function() {
             $('#address_province_code').val(provinceDefault).trigger('change');
-        }, 800); // Slight delay to ensure province is loaded
+        }, 1000); // Slight delay to ensure province is loaded
     }
     if (cityDefault) {
         setTimeout(function() {
             $('#address_muncity_code').val(cityDefault).trigger('change');
-        }, 1200); // Slight delay to ensure city is loaded
+        }, 1400); // Slight delay to ensure city is loaded
     }
 </script>
