@@ -10320,11 +10320,19 @@ class PIDSRController extends Controller
             ->get();
         }
         else if($type == 'extractAll') {
-            $list = $modelClass::where('edcs_healthFacilityCode', $f->healthfacility_code)
-            ->where('Year', $r->year)
-            ->where('enabled', 1)
-            ->where('match_casedef', 1)
-            ->get();
+            if(Auth::check()) {
+                $list = $modelClass::where('Year', $r->year)
+                ->where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->get();
+            }
+            else {
+                $list = $modelClass::where('edcs_healthFacilityCode', $f->healthfacility_code)
+                ->where('Year', $r->year)
+                ->where('enabled', 1)
+                ->where('match_casedef', 1)
+                ->get();
+            }
         }
 
         if($list->count() != 0) {
@@ -10683,6 +10691,12 @@ class PIDSRController extends Controller
         }
 
         return $this->callCsvTemplateMaker($disease, 'downloadCsv', $f, $r);
+    }
+
+    public function processCsvTemplateDownloadEncoder(Request $r) {
+        $f = DohFacility::where('sys_code1', auth()->user()->opdfacility->sys_code1)->first();
+
+        return $this->callCsvTemplateMaker($r->disease, 'extractAll', $f, $r);
     }
 
     public function processCsvTemplateDownload($facility_code, Request $r) {

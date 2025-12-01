@@ -380,6 +380,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
     Route::get('/pidsr/report', [PIDSRController::class, 'report_generate'])->name('pidsr.report');
     Route::get('/pidsr/import/sendmail', [PIDSRController::class, 'manualsend'])->name('pidsr.sendmail');
     Route::get('/pidsr/epdrone', [PIDSRController::class, 'epDroneHome'])->name('pidsr_epdrone_home');
+    Route::post('/pidsr/epdrone/download_csv', [PIDSRController::class, 'processCsvTemplateDownloadEncoder'])->name('pidsr_epdrone_downloadcsv');
     Route::get('/pidsr/casechecker', [PIDSRController::class, 'casechecker'])->name('pidsr.casechecker');
     Route::get('/pidsr/casechecker/{id}/print_crf', [PIDSRController::class, 'printCrf'])->name('pidsr_casechecker_dengue_printcrf');
     Route::get('/pidsr/casechecker_ajax/{disease}', [PIDSRController::class, 'ajaxCaseViewerList'])->name('pidsr_casechecker_ajax');

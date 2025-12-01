@@ -13,12 +13,54 @@
             </div>
         </div>
         <div class="card-body text-center">
+            <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#downloadCsv">Download CSV Templates</button>
             <a href="" class="btn btn-success btn-lg btn-block">View For Uploading</a>
             <hr>
             @include('pidsr.epdrone_body')
         </div>
     </div>
 </div>
+
+<form action="{{route('pidsr_epdrone_downloadcsv')}}" method="POST">
+        @csrf
+        <div class="modal fade" id="downloadCsv" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Download CSV Template</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="disease"><b class="text-danger">*</b>Select Disease</label>
+                            <select class="form-control" name="disease" id="disease" required>
+                                <option value="" disabled selected>Choose...</option>
+                                @foreach(\App\Http\Controllers\PIDSRController::listReportableDiseasesBackEnd()->where('edcs_importable', true) as $disease)
+                                <option value="{{$disease['value']}}">{{$disease['text']}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="year"><b class="text-danger">*</b>Year</label>
+                            <select class="form-control" name="year" id="year" required>
+                                <option value="" disabled selected>Choose...</option>
+                                @foreach(range(date('Y'), 2025) as $y)
+                                <option value="{{$y}}">{{$y}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success btn-block">Download</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 
 <form action="" method="GET">
     <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
