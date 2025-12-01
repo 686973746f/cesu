@@ -4748,9 +4748,9 @@ class PIDSRController extends Controller
                     'UniqueKey' => $row->UniqueKey,
                     'RECSTATUS' => $row->RECSTATUS,
                     'Travel' => $row->Travel,
+                    'OtherCase' => $row->OtherCase,
                     'ProbExposure' => $row->ProbExposure,
                     'OthExposure' => $row->OthExposure,
-                    'OtherCase' => $row->OtherCase,
                     'RectalSwabColl' => $row->RectalSwabColl,
                     'VesicFluidColl' => $row->VesicFluidColl,
                     'StoolColl' => $row->StoolColl,
@@ -10131,9 +10131,9 @@ class PIDSRController extends Controller
                 //'UniqueKey',
                 //'RECSTATUS',
                 'Travel' => $r->Travel,
-                'ProbExposure' => $r->ProbExposure,
-                'OthExposure' => $r->OthExposure,
-                'OtherCase' => (!empty($r->ProbExposure)) ? implode(",", $r->ProbExposure) : NULL,
+                'OtherCase' => $r->OtherCase,
+                'ProbExposure' => (!empty($r->ProbExposure)) ? implode(",", $r->ProbExposure) : NULL,
+                'OthExposure' => (in_array('OTHERS', $r->ProbExposure)) ? mb_strtoupper($r->OthExposure) : NULL,
                 //'RectalSwabColl',
                 //'VesicFluidColl',
                 //'StoolColl',
@@ -10336,12 +10336,16 @@ class PIDSRController extends Controller
                 if(is_null($d->brgy_id) && $d->Muncity == 'GENERAL TRIAS') {
                     $brgy = EdcsBrgy::where('city_id', 388)
                     ->where(function ($q) use ($d) {
-                        $q->where('name', $d->Barangay)
-                        ->orWhere('alt_name', $d->Barangay);
+                        $q->where('name', trim($d->Barangay))
+                        ->orWhere('alt_name', trim($d->Barangay));
                     })
                     ->first();
                     
                     $d->brgy_id = $brgy->id;
+
+                    if($d->isDirty()) {
+                        $d->save();
+                    }
                 }
 
                 $sheet->setCellValue('A'.$row, 'MPSS_'.$d->id.'E'); //Patient ID
@@ -10553,6 +10557,101 @@ class PIDSRController extends Controller
                     $sheet->setCellValue('AS'.$row, ''); //DateofTestingbyRITMorSNL
                     $sheet->setCellValue('AT'.$row, ''); //DateofResultbyRITMorSNL
                     $sheet->setCellValue('AU'.$row, ''); //LaboratoryRemarks
+                }
+                else if($disease == 'HFMD') {
+                    if($d->CaseClass == 'SUSPECTED CASE OF HFMD') {
+                        $caseClass = 'SUS';
+                    }
+                    else if($d->CaseClass == 'PROBABLE CASE OF HFMD') {
+                        $caseClass = 'PRO';
+                    }
+                    else if($d->CaseClass == 'CONFIRMED CASE OF HFMD') {
+                        $caseClass = 'CON';
+                    }
+                    else {
+                        $caseClass = 'SUS';
+                    }
+
+                    if(is_null($d->brgy_id) && $d->Muncity == 'GENERAL TRIAS') {
+                        $brgy = EdcsBrgy::where('city_id', 388)
+                        ->where(function ($q) use ($d) {
+                            $q->where('name', $d->Barangay)
+                            ->orWhere('alt_name', $d->Barangay);
+                        })
+                        ->first();
+                        
+                        $d->brgy_id = $brgy->id;
+                    }
+
+                    $sheet->setCellValue('Y'.$row, $d->Admitted);
+                    if($d->Admitted == 'Y') {
+                        $sheet->setCellValue('Z'.$row, Carbon::parse($d->DAdmit)->format('m/d/Y')); //DateAdmitted
+                        $sheet->getStyle('Z'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    }
+                    else {
+                        $sheet->setCellValue('Z'.$row, ''); //DateAdmitted
+                    }
+
+                    $sheet->setCellValue('AA'.$row, Carbon::parse($d->DONSET)->format('m/d/Y')); //DateOnsetOfIllness
+                    $sheet->getStyle('AA'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    $sheet->setCellValue('AB'.$row, Carbon::parse($d->edcs_investigateDate)->format('m/d/Y')); //DateOfInvestigation
+                    $sheet->getStyle('AB'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+
+                    $sheet->setCellValue('AC'.$row, $d->edcs_investigatorName); //NameOfInvestigators
+                    $sheet->setCellValue('AD'.$row, $d->edcs_contactNo); //InvestigatorContact
+                    $sheet->setCellValue('AE'.$row, $d->Fever); //Fever
+                    $sheet->setCellValue('AF'.$row, $d->FeverOnset); //DateOnsetOfFever
+                    $sheet->getStyle('AF'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    $sheet->setCellValue('AG'.$row, $d->RashSores); //Rash
+                    $sheet->setCellValue('AH'.$row, $d->SoreOnset); //DateOnsetOfRash
+                    $sheet->getStyle('AH'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    $sheet->setCellValue('AI'.$row, $d->Palms); //Palms
+                    $sheet->setCellValue('AJ'.$row, $d->Fingers); //Fingers
+                    $sheet->setCellValue('AK'.$row, $d->FootSoles); //SoleOfFeet
+                    $sheet->setCellValue('AL'.$row, $d->Buttocks); //Buttocks
+                    $sheet->setCellValue('AM'.$row, $d->MouthUlcers); //MouthUlcers
+                    $sheet->setCellValue('AN'.$row, $d->Pain); //Painful
+                    $sheet->setCellValue('AO'.$row, $d->Maculopapular); //Maculopapular
+                    $sheet->setCellValue('AP'.$row, $d->Papulovesicular); //Papulovesicular
+                    $sheet->setCellValue('AQ'.$row, $d->Anorexia); //LossOfAppetite
+                    $sheet->setCellValue('AR'.$row, $d->BM); //BodyMalaise
+                    $sheet->setCellValue('AS'.$row, $d->SoreThroat); //SoreThroat
+                    $sheet->setCellValue('AT'.$row, $d->NausVom); //NauseOrVomiting
+                    $sheet->setCellValue('AU'.$row, $d->DiffBreath); //DifficultyOfBreathing
+                    $sheet->setCellValue('AV'.$row, $d->Paralysis); //AcuteFlaccidParalysis
+                    $sheet->setCellValue('AW'.$row, $d->MeningLes); //MeningealIrritation
+                    $sheet->setCellValue('AX'.$row, (!is_null($d->OthSymptoms)) ? 'Y' : ''); //OthersSymptoms
+                    $sheet->setCellValue('AY'.$row, $d->OthSymptoms); //OtherSymptomsSpecify
+                    $sheet->setCellValue('AZ'.$row, $d->AnyComp); //AreThereAnyComplications
+                    $sheet->setCellValue('BA'.$row, $d->Complic8); //SpecifyComplication
+                    $sheet->setCellValue('BB'.$row, $d->WFDiag); //WorkingFinalDiagnosis
+                    $sheet->setCellValue('BC'.$row, $d->Travel); //TravelWithin12Weeks
+                    $sheet->setCellValue('BD'.$row, $d->OtherCase); //KnownCasesInCommunity
+                    $sheet->setCellValue('BE'.$row, (in_array('DAY CARE', explode(",", $d->ProbExposure))) ? 'Y' : 'N'); //ExposureDayCare
+                    $sheet->setCellValue('BF'.$row, (in_array('HOME', explode(",", $d->ProbExposure))) ? 'Y' : 'N'); //ExposureHome
+                    $sheet->setCellValue('BG'.$row, (in_array('COMMUNITY', explode(",", $d->ProbExposure))) ? 'Y' : 'N'); //ExposureCommunity
+                    $sheet->setCellValue('BH'.$row, (in_array('HEALTHCARE FACILITIES', explode(",", $d->ProbExposure))) ? 'Y' : 'N'); //ExposureHealthFacility
+                    $sheet->setCellValue('BI'.$row, (in_array('SCHOOL', explode(",", $d->ProbExposure))) ? 'Y' : 'N'); //ExposureSchool
+                    $sheet->setCellValue('BJ'.$row, (in_array('DORMITORY', explode(",", $d->ProbExposure))) ? 'Y' : 'N'); //ExposureDormitory
+                    $sheet->setCellValue('BK'.$row, (in_array('OTHERS', explode(",", $d->ProbExposure))) ? 'Y' : 'N'); //ExposureOthers
+                    $sheet->setCellValue('BL'.$row, (in_array('OTHERS', explode(",", $d->ProbExposure))) ? $d->OthExposure : ''); //SpecifyExposureOthers
+                    $sheet->setCellValue('BM'.$row, $caseClass); //CaseClassification
+                    $sheet->setCellValue('BN'.$row, $d->Outcome); //Outcome
+                    $sheet->setCellValue('BO'.$row, ($d->Outcome == 'D') ? Carbon::parse($d->Death)->format('m/d/Y') : ''); //DateDied
+                    $sheet->getStyle('BO'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    $sheet->setCellValue('BP'.$row, ''); //SpecimenType
+                    $sheet->setCellValue('BQ'.$row, ''); //DateSpecimenCollected
+                    $sheet->setCellValue('BR'.$row, ''); //LaboratorySenttoRITM
+                    $sheet->setCellValue('BS'.$row, ''); //DateSenttoRITM
+                    $sheet->setCellValue('BT'.$row, ''); //DateReceivedRITM
+                    $sheet->setCellValue('BU'.$row, ''); //LaboratoryResult
+                    $sheet->setCellValue('BV'.$row, ''); //TypeofOrganism
+                    $sheet->setCellValue('BW'.$row, ''); //TypeofTestConducted
+                    $sheet->setCellValue('BX'.$row, ''); //Interpretation
+                    $sheet->setCellValue('BY'.$row, ''); //TimeReceivedbyRITMorSNL
+                    $sheet->setCellValue('BZ'.$row, ''); //DateofTestingbyRITMorSNL
+                    $sheet->setCellValue('CA'.$row, ''); //DateofResultbyRITMorSNL
+                    $sheet->setCellValue('CB'.$row, ''); //LaboratoryRemarks
                 }
 
                 if($type == 'downloadCsv') {
@@ -11067,7 +11166,7 @@ class PIDSRController extends Controller
             ['value' => 'MPOX', 'text' => 'MPox', 'edcs_importable' => false],
             ['value' => 'INFLUENZA', 'text' => 'Influenza-Like Illness (ILI)', 'edcs_importable' => true],
             ['value' => 'HFMD', 'text' => 'Hand, Foot and Mouth Disease (HFMD)', 'edcs_importable' => true],
-            ['value' => 'MEASLES', 'text' => 'Measles', 'edcs_importable' => false],
+            ['value' => 'MEASLES', 'text' => 'Measles', 'edcs_importable' => true],
         ];
 
         return collect($list)->sortBy('text', SORT_NATURAL | SORT_FLAG_CASE)->values();

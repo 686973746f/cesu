@@ -187,11 +187,11 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="OthExposure"><b class="text-danger">*</b>Are there other known HFMD cases in the community?</label>
-                            <select class="form-control" name="OthExposure" id="OthExposure" required>
+                            <label for="OtherCase"><b class="text-danger">*</b>Are there other known HFMD cases in the community?</label>
+                            <select class="form-control" name="OtherCase" id="OtherCase" required>
                                 <option value="" disabled {{(is_null(old('Travel'))) ? 'selected' : ''}}>Choose...</option>
-                                <option value="Y" {{(old('OthExposure') == 'Y') ? 'selected' : ''}}>Yes</option>
-                                <option value="N" {{(old('OthExposure') == 'N') ? 'selected' : ''}}>No</option>
+                                <option value="Y" {{(old('OtherCase') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                <option value="N" {{(old('OtherCase') == 'N') ? 'selected' : ''}}>No</option>
                             </select>
                         </div>
                     </div>

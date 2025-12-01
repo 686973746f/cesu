@@ -16,6 +16,10 @@ class Hfmd extends Model
 
     public $guarded = [];
 
+    public function brgy() {
+        return $this->belongsTo(EdcsBrgy::class, 'brgy_id');
+    }
+
     public function getEdcsFacilityName() {
         $s = DohFacility::where('healthfacility_code', $this->edcs_healthFacilityCode)->first();
 
