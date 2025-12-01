@@ -10274,6 +10274,14 @@ class PIDSRController extends Controller
             ->where('match_casedef', 1)
             ->get();
         }
+        else if($disease == 'HFMD') {
+            $list = Hfmd::where('from_inhouse', 1)
+            ->where('inhouse_exportedtocsv', 0)
+            ->where('edcs_healthFacilityCode', $health_facility_code)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->get();
+        }
         else {
             return abort(404);
         }
@@ -10285,6 +10293,289 @@ class PIDSRController extends Controller
         ]);
     }
 
+    public static function callCsvTemplateMaker($disease, $type, $f, $r) {
+        if($disease == 'DENGUE') {
+            $className = 'Dengue';
+            $csvName = 'dengue';
+        }
+        else if($disease == 'INFLUENZA') {
+            $className = 'Influenza';
+            $csvName = 'ili';
+        }
+        else if($disease == 'HFMD') {
+            $className = 'Hfmd';
+            $csvName = 'hfmd';
+        }
+
+        $modelClass = "App\\Models\\$className";
+        $template_path = storage_path("edcs_template/$csvName.csv");
+
+        $spreadsheet = IOFactory::load($template_path);
+        $sheet = $spreadsheet->getActiveSheet();
+
+        if($type == 'downloadCsv') {
+            $list = $modelClass::whereIn('id', $r->ids)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->get();
+        }
+        else if($type == 'extractAll') {
+            $list = $modelClass::where('edcs_healthFacilityCode', $f->healthfacility_code)
+            ->where('Year', $r->year)
+            ->where('enabled', 1)
+            ->where('match_casedef', 1)
+            ->get();
+        }
+
+        if($list->count() != 0) {
+            $row = 2;
+
+            foreach($list as $d) {
+                $cf = DohFacility::where('healthfacility_code', $d->edcs_healthFacilityCode)->first();
+
+                if(is_null($d->brgy_id) && $d->Muncity == 'GENERAL TRIAS') {
+                    $brgy = EdcsBrgy::where('city_id', 388)
+                    ->where(function ($q) use ($d) {
+                        $q->where('name', $d->Barangay)
+                        ->orWhere('alt_name', $d->Barangay);
+                    })
+                    ->first();
+                    
+                    $d->brgy_id = $brgy->id;
+                }
+
+                $sheet->setCellValue('A'.$row, 'MPSS_'.$d->id.'E'); //Patient ID
+                $sheet->setCellValue('B'.$row, $d->FirstName); //First Name
+                $sheet->setCellValue('C'.$row, $d->middle_name); //Middle Name
+                $sheet->setCellValue('D'.$row, $d->FamilyName); //Last Name
+                $sheet->setCellValue('E'.$row, $d->suffix); //Suffix
+                $sheet->setCellValue('F'.$row, $d->Sex); //Sex
+                $sheet->setCellValue('G'.$row, Carbon::parse($d->DOB)->format('m/d/Y')); //Bdate
+                $sheet->getStyle('G'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                $sheet->setCellValue('H'.$row, Carbon::parse($d->DOB)->age); //Age
+
+                $sheet->setCellValue('I'.$row, $d->brgy->city->province->region->edcs_code); //Current Region
+                $sheet->setCellValue('J'.$row, $d->brgy->city->province->edcs_code); //Current Province
+                $sheet->setCellValue('K'.$row, $d->brgy->city->edcs_code); //Current MunCity
+                $sheet->setCellValue('L'.$row, $d->brgy->edcs_code); //Current Brgy
+                $sheet->setCellValue('M'.$row, $d->Streetpurok); //Current StreetProk
+
+                $sheet->setCellValue('N'.$row, $d->brgy->city->province->region->edcs_code); //Permanent Region
+                $sheet->setCellValue('O'.$row, $d->brgy->city->province->edcs_code); //Permanent Province
+                $sheet->setCellValue('P'.$row, $d->brgy->city->edcs_code); //Permanent MunCity
+                $sheet->setCellValue('Q'.$row, $d->brgy->edcs_code); //Permanent Brgy
+                $sheet->setCellValue('R'.$row, $d->Streetpurok); //Permanent StreetProk
+
+                $sheet->setCellValue('S'.$row, 'N'); //Member of Indigenous People
+                $sheet->setCellValue('T'.$row, ''); //Indigenous People Tribe
+                $sheet->setCellValue('U'.$row, $cf->healthfacility_code); //Facility Code
+                $sheet->setCellValue('V'.$row, $cf->edcs_region_code); //DRU Region Code
+                $sheet->setCellValue('W'.$row, $cf->edcs_province_code); //DRU Province Code
+                $sheet->setCellValue('X'.$row, $cf->edcs_muncity_code); //DRU MunCity Code
+
+                if($disease == 'DENGUE') {
+                    /*
+                    //Check first if there is NS1 Positive Lab Data
+                    $lab_data = SyndromicLabResult::where('syndromic_record_id', $d->id)
+                    ->where('case_code', 'DENGUE')
+                    ->where('test_type', 'Dengue NS1')
+                    ->where('result', 'POSITIVE')
+                    ->first();
+
+                    if($lab_data) {
+                        $case_class = 'CON';
+
+                        $specimen_type = 'BLD';
+                        $specimen_date_collected = Carbon::parse($lab_data->date_collected)->format('m/d/Y');
+                        $specimen_sent_to_ritm = 'N';
+                        $specimen_ritm_sent_date = '';
+                        $specimen_ritm_received_date = '';
+                        $specimen_result = 'POS';
+                        $specimen_type_organism = '';
+                        $specimen_typeof_test = 'NS1';
+                        $specimen_interpretation = $lab_data->interpretation;
+                    }
+                    else {
+                        $specimen_type = '';
+                        $specimen_date_collected = '';
+                        $specimen_sent_to_ritm = '';
+                        $specimen_ritm_sent_date = '';
+                        $specimen_ritm_received_date = '';
+                        $specimen_result = '';
+                        $specimen_type_organism = '';
+                        $specimen_typeof_test = '';
+                        $specimen_interpretation = '';
+                        $case_class = 'SUS';
+                    }
+                    */
+
+                    if($d->is_ns1positive == 1) {
+                        $specimen_type = 'BLD';
+                        $specimen_date_collected = Carbon::parse($d->DateOfEntry)->format('m/d/Y');
+                        $specimen_sent_to_ritm = 'N';
+                        $specimen_ritm_sent_date = '';
+                        $specimen_ritm_received_date = '';
+                        $specimen_ritm_received_time = '';
+                        $specimen_ritm_testing_date = '';
+                        $specimen_result = 'POS';
+                        $specimen_ritm_result_date = '';
+                        $specimen_type_organism = '';
+                        $specimen_typeof_test = 'NS1';
+                        $specimen_interpretation = '';
+                        $lab_remarks = '';
+                    }
+                    else if($d->is_igmpositive == 1) {
+                        $specimen_type = 'BLD';
+                        $specimen_date_collected = Carbon::parse($d->DateOfEntry)->format('m/d/Y');
+                        $specimen_sent_to_ritm = 'N';
+                        $specimen_ritm_sent_date = '';
+                        $specimen_ritm_received_date = '';
+                        $specimen_ritm_received_time = '';
+                        $specimen_ritm_testing_date = '';
+                        $specimen_result = 'POS';
+                        $specimen_ritm_result_date = '';
+                        $specimen_type_organism = '';
+                        $specimen_typeof_test = 'IfGM';
+                        $specimen_interpretation = '';
+                        $lab_remarks = '';
+                    }
+                    else if($d->sys_thrombocytopenia == 'Y') {
+                        $specimen_type = 'BLD';
+                        $specimen_date_collected = Carbon::parse($d->DateOfEntry)->format('m/d/Y');
+                        $specimen_sent_to_ritm = 'N';
+                        $specimen_ritm_sent_date = '';
+                        $specimen_ritm_received_date = '';
+                        $specimen_ritm_received_time = '';
+                        $specimen_ritm_testing_date = '';
+                        $specimen_result = 'POS';
+                        $specimen_ritm_result_date = '';
+                        $specimen_type_organism = '';
+                        $specimen_typeof_test = 'CBC';
+                        $specimen_interpretation = '';
+                        $lab_remarks = '';
+                    }
+                    else {
+                        $specimen_type = '';
+                        $specimen_date_collected = '';
+                        $specimen_sent_to_ritm = '';
+                        $specimen_ritm_sent_date = '';
+                        $specimen_ritm_received_date = '';
+                        $specimen_ritm_received_time = '';
+                        $specimen_ritm_testing_date = '';
+                        $specimen_result = '';
+                        $specimen_ritm_result_date = '';
+                        $specimen_type_organism = '';
+                        $specimen_typeof_test = '';
+                        $specimen_interpretation = '';
+                        $lab_remarks = '';
+                    }
+
+                    $sheet->setCellValue('Y'.$row, 'Y'); //Consulted
+                    $sheet->setCellValue('Z'.$row, Carbon::parse($d->DateOfEntry)->format('m/d/Y')); //Date Consulted
+                    $sheet->getStyle('Z'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    $sheet->setCellValue('AA'.$row, $cf->facility_name); //Place Consulted
+                    $sheet->setCellValue('AB'.$row, ($d->Admitted == 1) ? 'Y' : 'N'); //Admitted
+                    $sheet->setCellValue('AC'.$row, ($d->Admitted == 1) ? Carbon::parse($d->DAdmit)->format('m/d/Y') : ''); //Date Admitted
+                    $sheet->getStyle('AC'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    $sheet->setCellValue('AD'.$row, Carbon::parse($d->DOnset)->format('m/d/Y')); //Date Onset of Illness
+                    $sheet->getStyle('AD'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    $sheet->setCellValue('AE'.$row, 0); //Number of Dengue Vaccine
+                    $sheet->setCellValue('AF'.$row, ''); //Date First Vaccination Dengue
+                    $sheet->setCellValue('AG'.$row, ''); //Date Last Vaccination Dengue
+                    $sheet->setCellValue('AH'.$row, $d->getEdcsCsvClinicalClass()); //Clinical Classification
+                    $sheet->setCellValue('AI'.$row, $d->getEdcsCsvCaseClass()); //Case Classification (SUS, PROB, CON)
+                    $sheet->setCellValue('AJ'.$row, $d->Outcome); //Outcome
+                    $sheet->setCellValue('AK'.$row, ($d->Outcome == 'D') ? Carbon::parse($d->DateDied)->format('m/d/Y') : NULL); //Patient ID
+                    $sheet->setCellValue('AL'.$row, $specimen_type); //Specimen Type (STL - Stool, BLD - Blood, SRM - Saliva)
+                    $sheet->setCellValue('AM'.$row, $specimen_date_collected); //Date Specimen Collected
+                    $sheet->getStyle('AM'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    $sheet->setCellValue('AN'.$row, $specimen_sent_to_ritm); //Sent to RITM
+                    $sheet->setCellValue('AO'.$row, $specimen_ritm_sent_date); //Date Sent to RITM
+                    $sheet->getStyle('AO'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    $sheet->setCellValue('AP'.$row, $specimen_ritm_received_date); //Date Received RITM
+                    $sheet->getStyle('AP'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    $sheet->setCellValue('AQ'.$row, $specimen_ritm_received_time); //Time Received RITM
+                    $sheet->setCellValue('AR'.$row, $specimen_ritm_testing_date); //Date Testing RITM
+                    $sheet->getStyle('AR'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    $sheet->setCellValue('AS'.$row, $specimen_result); //Laboratory Reslt
+                    $sheet->setCellValue('AT'.$row, $specimen_ritm_result_date); //Date Result RITM
+                    $sheet->getStyle('AT'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    $sheet->setCellValue('AU'.$row, $specimen_type_organism); //Type of Organism
+                    $sheet->setCellValue('AV'.$row, $specimen_typeof_test); //Type of Test Conducted
+                    $sheet->setCellValue('AW'.$row, $specimen_interpretation); //Interpretation
+                    $sheet->setCellValue('AX'.$row, $lab_remarks); //Interpretation
+                }
+                else if($disease == 'INFLUENZA') {
+                    $sheet->setCellValue('Y'.$row, 'N'); //HistoryTravel21days
+                    $sheet->setCellValue('Z'.$row, ''); //HistoryTravel21daysSpecify
+                    $sheet->setCellValue('AA'.$row, ($d->Admitted == 1) ? 'Y' : 'N'); //Admitted
+                    
+                    if($d->Admitted == 1) {
+                        $sheet->setCellValue('AB'.$row, Carbon::parse($d->DAdmit)->format('m/d/Y')); //DateAdmitted
+                        $sheet->getStyle('AB'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    }
+                    else {
+                        $sheet->setCellValue('AB'.$row, ''); //DateAdmitted
+                    }
+                    
+                    $sheet->setCellValue('AC'.$row, Carbon::parse($d->DOnset)->format('m/d/Y')); //DateOnsetOfIllness
+                    $sheet->getStyle('AC'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    
+                    $sheet->setCellValue('AD'.$row, $d->received_vaccination); //ReceivedAntiInfluenzaVaccination
+                    if($d->received_vaccination == 'Y') {
+                        $sheet->setCellValue('AE'.$row, Carbon::parse($d->received_vaccination)->format('m/d/Y')); //DateLastVaccination
+                        $sheet->getStyle('AE'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    }
+                    else {
+                        $sheet->setCellValue('AE'.$row, ''); //DateLastVaccination
+                    }
+                    
+                    $sheet->setCellValue('AF'.$row, $d->Outcome); //Outcome
+                    if($d->received_vaccination == 'Y') {
+                        $sheet->setCellValue('AG'.$row, Carbon::parse($d->DateDied)->format('m/d/Y')); //DateDied
+                        $sheet->getStyle('AG'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    }
+                    else {
+                        $sheet->setCellValue('AG'.$row, ''); //DateDied
+                    }
+
+                    $sheet->setCellValue('AH'.$row, 'SUS'); //CaseClassification
+                    $sheet->setCellValue('AI'.$row, ''); //SpecimenType
+                    $sheet->setCellValue('AJ'.$row, ''); //DateSpecimenCollected
+                    $sheet->setCellValue('AK'.$row, ''); //LaboratorySenttoRITM
+                    $sheet->setCellValue('AL'.$row, ''); //DateSenttoRITM
+                    $sheet->setCellValue('AM'.$row, ''); //DateReceivedRITM
+                    $sheet->setCellValue('AN'.$row, ''); //LaboratoryResult
+                    $sheet->setCellValue('AO'.$row, ''); //TypeofOrganism
+                    $sheet->setCellValue('AP'.$row, ''); //TypeofTestConducted
+                    $sheet->setCellValue('AQ'.$row, ''); //Interpretation
+                    $sheet->setCellValue('AR'.$row, ''); //TimeReceivedbyRITMorSNL
+                    $sheet->setCellValue('AS'.$row, ''); //DateofTestingbyRITMorSNL
+                    $sheet->setCellValue('AT'.$row, ''); //DateofResultbyRITMorSNL
+                    $sheet->setCellValue('AU'.$row, ''); //LaboratoryRemarks
+                }
+
+                if($type == 'downloadCsv') {
+                    $d->inhouse_exportedtocsv = 1;
+                    $d->inhouse_exported_date = date('Y-m-d H:i:s');
+
+                    if($d->isDirty()) {
+                        $d->save();
+                    }
+                }
+
+                $row++;
+            }
+
+            $fileName = $disease.'_template_'.strtolower(Str::random(5)).'.csv';
+            ob_clean();
+            $writer = new Csv($spreadsheet);
+            header('Content-Type: text/csv');
+            header('Content-Disposition: attachment; filename="' . urlencode($fileName) . '"');
+            $writer->save('php://output');
+        }
+    }
+
     public function processEdcsExportables($facility_code, $disease, Request $r) {
         $f = DohFacility::where('sys_code1', $facility_code)->first();
 
@@ -10292,294 +10583,13 @@ class PIDSRController extends Controller
             return abort(404);
         }
 
-        if($disease == 'DENGUE') {
-            if($r->submit == 'downloadCsv') {
-                $spreadsheet = IOFactory::load(storage_path('edcs_template/dengue.csv'));
-                $sheet = $spreadsheet->getActiveSheet();
+        return $this->callCsvTemplateMaker($disease, 'downloadCsv', $f, $r);
+    }
 
-                $list = Dengue::whereIn('id', $r->ids)->get();
-                
-                if($list->count() != 0) {
-                    $row = 2;
-                    
-                    foreach($list as $d) {
-                        /*
-                        //Check first if there is NS1 Positive Lab Data
-                        $lab_data = SyndromicLabResult::where('syndromic_record_id', $d->id)
-                        ->where('case_code', 'DENGUE')
-                        ->where('test_type', 'Dengue NS1')
-                        ->where('result', 'POSITIVE')
-                        ->first();
-        
-                        if($lab_data) {
-                            $case_class = 'CON';
-        
-                            $specimen_type = 'BLD';
-                            $specimen_date_collected = Carbon::parse($lab_data->date_collected)->format('m/d/Y');
-                            $specimen_sent_to_ritm = 'N';
-                            $specimen_ritm_sent_date = '';
-                            $specimen_ritm_received_date = '';
-                            $specimen_result = 'POS';
-                            $specimen_type_organism = '';
-                            $specimen_typeof_test = 'NS1';
-                            $specimen_interpretation = $lab_data->interpretation;
-                        }
-                        else {
-                            $specimen_type = '';
-                            $specimen_date_collected = '';
-                            $specimen_sent_to_ritm = '';
-                            $specimen_ritm_sent_date = '';
-                            $specimen_ritm_received_date = '';
-                            $specimen_result = '';
-                            $specimen_type_organism = '';
-                            $specimen_typeof_test = '';
-                            $specimen_interpretation = '';
-                            $case_class = 'SUS';
-                        }
-                        */
+    public function processCsvTemplateDownload($facility_code, Request $r) {
+        $f = DohFacility::where('sys_code1', $facility_code)->first();
 
-                        if($d->is_ns1positive == 1) {
-                            $specimen_type = 'BLD';
-                            $specimen_date_collected = Carbon::parse($d->DateOfEntry)->format('m/d/Y');
-                            $specimen_sent_to_ritm = 'N';
-                            $specimen_ritm_sent_date = '';
-                            $specimen_ritm_received_date = '';
-                            $specimen_ritm_received_time = '';
-                            $specimen_ritm_testing_date = '';
-                            $specimen_result = 'POS';
-                            $specimen_ritm_result_date = '';
-                            $specimen_type_organism = '';
-                            $specimen_typeof_test = 'NS1';
-                            $specimen_interpretation = '';
-                            $lab_remarks = '';
-                        }
-                        else if($d->is_igmpositive == 1) {
-                            $specimen_type = 'BLD';
-                            $specimen_date_collected = Carbon::parse($d->DateOfEntry)->format('m/d/Y');
-                            $specimen_sent_to_ritm = 'N';
-                            $specimen_ritm_sent_date = '';
-                            $specimen_ritm_received_date = '';
-                            $specimen_ritm_received_time = '';
-                            $specimen_ritm_testing_date = '';
-                            $specimen_result = 'POS';
-                            $specimen_ritm_result_date = '';
-                            $specimen_type_organism = '';
-                            $specimen_typeof_test = 'IGM';
-                            $specimen_interpretation = '';
-                            $lab_remarks = '';
-                        }
-                        else if($d->sys_thrombocytopenia == 'Y') {
-                            $specimen_type = 'BLD';
-                            $specimen_date_collected = Carbon::parse($d->DateOfEntry)->format('m/d/Y');
-                            $specimen_sent_to_ritm = 'N';
-                            $specimen_ritm_sent_date = '';
-                            $specimen_ritm_received_date = '';
-                            $specimen_ritm_received_time = '';
-                            $specimen_ritm_testing_date = '';
-                            $specimen_result = 'POS';
-                            $specimen_ritm_result_date = '';
-                            $specimen_type_organism = '';
-                            $specimen_typeof_test = 'CBC';
-                            $specimen_interpretation = '';
-                            $lab_remarks = '';
-                        }
-                        else {
-                            $specimen_type = '';
-                            $specimen_date_collected = '';
-                            $specimen_sent_to_ritm = '';
-                            $specimen_ritm_sent_date = '';
-                            $specimen_ritm_received_date = '';
-                            $specimen_ritm_received_time = '';
-                            $specimen_ritm_testing_date = '';
-                            $specimen_result = '';
-                            $specimen_ritm_result_date = '';
-                            $specimen_type_organism = '';
-                            $specimen_typeof_test = '';
-                            $specimen_interpretation = '';
-                            $lab_remarks = '';
-                        }
-
-                        $cf = DohFacility::where('healthfacility_code', $d->edcs_healthFacilityCode)->first();
-        
-                        $sheet->setCellValue('A'.$row, 'MPSS_'.$d->id.'E'); //Patient ID
-                        $sheet->setCellValue('B'.$row, $d->FirstName); //First Name
-                        $sheet->setCellValue('C'.$row, $d->middle_name); //Middle Name
-                        $sheet->setCellValue('D'.$row, $d->FamilyName); //Last Name
-                        $sheet->setCellValue('E'.$row, $d->suffix); //Suffix
-                        $sheet->setCellValue('F'.$row, $d->Sex); //Sex
-                        $sheet->setCellValue('G'.$row, Carbon::parse($d->DOB)->format('m/d/Y')); //Bdate
-                        $sheet->getStyle('G'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
-                        $sheet->setCellValue('H'.$row, Carbon::parse($d->DOB)->age); //Age
-        
-                        $sheet->setCellValue('I'.$row, $d->brgy->city->province->region->edcs_code); //Current Region
-                        $sheet->setCellValue('J'.$row, $d->brgy->city->province->edcs_code); //Current Province
-                        $sheet->setCellValue('K'.$row, $d->brgy->city->edcs_code); //Current MunCity
-                        $sheet->setCellValue('L'.$row, $d->brgy->edcs_code); //Current Brgy
-                        $sheet->setCellValue('M'.$row, $d->Streetpurok); //Current StreetProk
-        
-                        $sheet->setCellValue('N'.$row, $d->brgy->city->province->region->edcs_code); //Permanent Region
-                        $sheet->setCellValue('O'.$row, $d->brgy->city->province->edcs_code); //Permanent Province
-                        $sheet->setCellValue('P'.$row, $d->brgy->city->edcs_code); //Permanent MunCity
-                        $sheet->setCellValue('Q'.$row, $d->brgy->edcs_code); //Permanent Brgy
-                        $sheet->setCellValue('R'.$row, $d->Streetpurok); //Permanent StreetProk
-        
-                        $sheet->setCellValue('S'.$row, 'N'); //Member of Indigenous People
-                        $sheet->setCellValue('T'.$row, ''); //Indigenous People Tribe
-                        $sheet->setCellValue('U'.$row, $cf->healthfacility_code); //Facility Code
-                        $sheet->setCellValue('V'.$row, $cf->edcs_region_code); //DRU Region Code
-                        $sheet->setCellValue('W'.$row, $cf->edcs_province_code); //DRU Province Code
-                        $sheet->setCellValue('X'.$row, $cf->edcs_muncity_code); //DRU MunCity Code
-                        $sheet->setCellValue('Y'.$row, 'Y'); //Consulted
-                        $sheet->setCellValue('Z'.$row, Carbon::parse($d->DateOfEntry)->format('m/d/Y')); //Date Consulted
-                        $sheet->getStyle('Z'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
-                        $sheet->setCellValue('AA'.$row, $cf->facility_name); //Place Consulted
-                        $sheet->setCellValue('AB'.$row, ($d->Admitted == 1) ? 'Y' : 'N'); //Admitted
-                        $sheet->setCellValue('AC'.$row, ($d->Admitted == 1) ? Carbon::parse($d->DAdmit)->format('m/d/Y') : ''); //Date Admitted
-                        $sheet->getStyle('AC'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
-                        $sheet->setCellValue('AD'.$row, Carbon::parse($d->DOnset)->format('m/d/Y')); //Date Onset of Illness
-                        $sheet->getStyle('AD'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
-                        $sheet->setCellValue('AE'.$row, 0); //Number of Dengue Vaccine
-                        $sheet->setCellValue('AF'.$row, ''); //Date First Vaccination Dengue
-                        $sheet->setCellValue('AG'.$row, ''); //Date Last Vaccination Dengue
-                        $sheet->setCellValue('AH'.$row, $d->getEdcsCsvClinicalClass()); //Clinical Classification
-                        $sheet->setCellValue('AI'.$row, $d->getEdcsCsvCaseClass()); //Case Classification (SUS, PROB, CON)
-                        $sheet->setCellValue('AJ'.$row, $d->Outcome); //Outcome
-                        $sheet->setCellValue('AK'.$row, ($d->Outcome == 'D') ? Carbon::parse($d->DateDied)->format('m/d/Y') : NULL); //Patient ID
-                        $sheet->setCellValue('AL'.$row, $specimen_type); //Specimen Type (STL - Stool, BLD - Blood, SRM - Saliva)
-                        $sheet->setCellValue('AM'.$row, $specimen_date_collected); //Date Specimen Collected
-                        $sheet->getStyle('AM'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
-                        $sheet->setCellValue('AN'.$row, $specimen_sent_to_ritm); //Sent to RITM
-                        $sheet->setCellValue('AO'.$row, $specimen_ritm_sent_date); //Date Sent to RITM
-                        $sheet->getStyle('AO'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
-                        $sheet->setCellValue('AP'.$row, $specimen_ritm_received_date); //Date Received RITM
-                        $sheet->getStyle('AP'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
-                        $sheet->setCellValue('AQ'.$row, $specimen_ritm_received_time); //Time Received RITM
-                        $sheet->setCellValue('AR'.$row, $specimen_ritm_testing_date); //Date Testing RITM
-                        $sheet->getStyle('AR'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
-                        $sheet->setCellValue('AS'.$row, $specimen_result); //Laboratory Reslt
-                        $sheet->setCellValue('AT'.$row, $specimen_ritm_result_date); //Date Result RITM
-                        $sheet->getStyle('AT'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
-                        $sheet->setCellValue('AU'.$row, $specimen_type_organism); //Type of Organism
-                        $sheet->setCellValue('AV'.$row, $specimen_typeof_test); //Type of Test Conducted
-                        $sheet->setCellValue('AW'.$row, $specimen_interpretation); //Interpretation
-                        $sheet->setCellValue('AX'.$row, $lab_remarks); //Interpretation
-        
-                        //$d->addToProcessedDiseaseTag('DENGUE');
-
-                        $d->inhouse_exportedtocsv = 1;
-                        $d->inhouse_exported_date = date('Y-m-d H:i:s');
-
-                        if($d->isDirty()) {
-                            $d->save();
-                        }
-                        
-                        $row++;
-                    }
-        
-                    $fileName = 'gentri_dengue_template_'.strtolower(Str::random(5)).'.csv';
-                    ob_clean();
-                    $writer = new Csv($spreadsheet);
-                    header('Content-Type: text/csv');
-                    header('Content-Disposition: attachment; filename="' . urlencode($fileName) . '"');
-                    $writer->save('php://output');
-                }
-            }
-        }
-        else if($disease == 'INFLUENZA') {
-            if($r->submit == 'downloadCsv') {
-                $spreadsheet = IOFactory::load(storage_path('edcs_template/ili.csv'));
-                $sheet = $spreadsheet->getActiveSheet();
-
-                $list = Influenza::whereIn('id', $r->ids)->get();
-                
-                if($list->count() != 0) {
-                    $row = 2;
-                    
-                    foreach($list as $d) {
-                        $cf = DohFacility::where('healthfacility_code', $d->edcs_healthFacilityCode)->first();
-        
-                        $sheet->setCellValue('A'.$row, 'MPSS_'.$d->id.'E'); //Patient ID
-                        $sheet->setCellValue('B'.$row, $d->FirstName); //First Name
-                        $sheet->setCellValue('C'.$row, $d->middle_name); //Middle Name
-                        $sheet->setCellValue('D'.$row, $d->FamilyName); //Last Name
-                        $sheet->setCellValue('E'.$row, $d->suffix); //Suffix
-                        $sheet->setCellValue('F'.$row, $d->Sex); //Sex
-                        $sheet->setCellValue('G'.$row, Carbon::parse($d->DOB)->format('m/d/Y')); //Bdate
-                        $sheet->getStyle('G'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
-                        $sheet->setCellValue('H'.$row, Carbon::parse($d->DOB)->age); //Age
-        
-                        $sheet->setCellValue('I'.$row, $d->brgy->city->province->region->edcs_code); //Current Region
-                        $sheet->setCellValue('J'.$row, $d->brgy->city->province->edcs_code); //Current Province
-                        $sheet->setCellValue('K'.$row, $d->brgy->city->edcs_code); //Current MunCity
-                        $sheet->setCellValue('L'.$row, $d->brgy->edcs_code); //Current Brgy
-                        $sheet->setCellValue('M'.$row, $d->Streetpurok); //Current StreetProk
-        
-                        $sheet->setCellValue('N'.$row, $d->brgy->city->province->region->edcs_code); //Permanent Region
-                        $sheet->setCellValue('O'.$row, $d->brgy->city->province->edcs_code); //Permanent Province
-                        $sheet->setCellValue('P'.$row, $d->brgy->city->edcs_code); //Permanent MunCity
-                        $sheet->setCellValue('Q'.$row, $d->brgy->edcs_code); //Permanent Brgy
-                        $sheet->setCellValue('R'.$row, $d->Streetpurok); //Permanent StreetProk
-        
-                        $sheet->setCellValue('S'.$row, 'N'); //Member of Indigenous People
-                        $sheet->setCellValue('T'.$row, ''); //Indigenous People Tribe
-                        $sheet->setCellValue('U'.$row, $cf->healthfacility_code); //Facility Code
-                        $sheet->setCellValue('V'.$row, $cf->edcs_region_code); //DRU Region Code
-                        $sheet->setCellValue('W'.$row, $cf->edcs_province_code); //DRU Province Code
-                        $sheet->setCellValue('X'.$row, $cf->edcs_muncity_code); //DRU MunCity Code
-
-                        $sheet->setCellValue('Y'.$row, 'N'); //HistoryTravel21days
-                        $sheet->setCellValue('Z'.$row, ''); //HistoryTravel21daysSpecify
-                        $sheet->setCellValue('AA'.$row, ($d->Admitted == 1) ? 'Y' : 'N'); //Admitted
-                        
-                        if($d->Admitted == 1) {
-                            $sheet->setCellValue('AB'.$row, Carbon::parse($d->DAdmit)->format('m/d/Y')); //DateAdmitted
-                            $sheet->getStyle('AB'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
-                        }
-                        else {
-                            $sheet->setCellValue('AB'.$row, ''); //DateAdmitted
-                        }
-                        
-                        $sheet->setCellValue('AC'.$row, Carbon::parse($d->DOnset)->format('m/d/Y')); //DateOnsetOfIllness
-                        $sheet->getStyle('AC'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
-                        
-                        $sheet->setCellValue('AD'.$row, 'N'); //ReceivedAntiInfluenzaVaccination
-                        $sheet->setCellValue('AE'.$row, ''); //DateLastVaccination
-                        $sheet->setCellValue('AF'.$row, 'A'); //Outcome
-                        $sheet->setCellValue('AG'.$row, ''); //DateDied
-                        $sheet->setCellValue('AH'.$row, 'SUS'); //CaseClassification
-                        $sheet->setCellValue('AI'.$row, ''); //SpecimenType
-                        $sheet->setCellValue('AJ'.$row, ''); //DateSpecimenCollected
-                        $sheet->setCellValue('AK'.$row, ''); //LaboratorySenttoRITM
-                        $sheet->setCellValue('AL'.$row, ''); //DateSenttoRITM
-                        $sheet->setCellValue('AM'.$row, ''); //DateReceivedRITM
-                        $sheet->setCellValue('AN'.$row, ''); //LaboratoryResult
-                        $sheet->setCellValue('AO'.$row, ''); //TypeofOrganism
-                        $sheet->setCellValue('AP'.$row, ''); //TypeofTestConducted
-                        $sheet->setCellValue('AQ'.$row, ''); //Interpretation
-                        $sheet->setCellValue('AR'.$row, ''); //TimeReceivedbyRITMorSNL
-                        $sheet->setCellValue('AS'.$row, ''); //DateofTestingbyRITMorSNL
-                        $sheet->setCellValue('AT'.$row, ''); //DateofResultbyRITMorSNL
-                        $sheet->setCellValue('AU'.$row, ''); //LaboratoryRemarks
-
-                        $d->inhouse_exportedtocsv = 1;
-                        $d->inhouse_exported_date = date('Y-m-d H:i:s');
-
-                        if($d->isDirty()) {
-                            $d->save();
-                        }
-                        
-                        $row++;
-                    }
-        
-                    $fileName = 'gentri_ili_template_'.strtolower(Str::random(5)).'.csv';
-                    ob_clean();
-                    $writer = new Csv($spreadsheet);
-                    header('Content-Type: text/csv');
-                    header('Content-Disposition: attachment; filename="' . urlencode($fileName) . '"');
-                    $writer->save('php://output');
-                }
-            }
-        }
+        return $this->callCsvTemplateMaker($r->disease, 'extractAll', $f, $r);
     }
 
     public function caseViewEditV2($disease, $id) {
@@ -11056,8 +11066,8 @@ class PIDSRController extends Controller
             ['value' => 'DENGUE', 'text' => 'Dengue', 'edcs_importable' => true],
             ['value' => 'MPOX', 'text' => 'MPox', 'edcs_importable' => false],
             ['value' => 'INFLUENZA', 'text' => 'Influenza-Like Illness (ILI)', 'edcs_importable' => true],
-            ['value' => 'HFMD', 'text' => 'Hand, Foot and Mouth Disease (HFMD)', 'edcs_importable' => false],
-            ['value' => 'MEASLES', 'text' => 'Measles', 'edcs_importable' => true],
+            ['value' => 'HFMD', 'text' => 'Hand, Foot and Mouth Disease (HFMD)', 'edcs_importable' => true],
+            ['value' => 'MEASLES', 'text' => 'Measles', 'edcs_importable' => false],
         ];
 
         return collect($list)->sortBy('text', SORT_NATURAL | SORT_FLAG_CASE)->values();

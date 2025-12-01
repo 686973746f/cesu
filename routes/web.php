@@ -444,6 +444,7 @@ Route::post('/edcs/barangayportal/login', [PIDSRController::class, 'brgyCaseView
 Route::get('/edcs/report_case/check', [PIDSRController::class, 'addCaseCheck'])->name('edcs_addcase_check');
 Route::post('/edcs/disease_reporting/{disease}/store', [PIDSRController::class, 'addCaseStore'])->name('edcs_addcase_store');
 Route::get('/edcs/{facility_code}/disease_reporting/{disease}/success', [PIDSRController::class, 'addCaseSuccess'])->name('edcs_facility_addcase_success');
+Route::post('/edcs/{facility_code}/disease_reporting/download_csv', [PIDSRController::class, 'processCsvTemplateDownload'])->name('edcs_facility_download_csv');
 
 Route::get('/edcs/{facility_code}/disease_reporting/{disease}/view_exportables', [PIDSRController::class, 'viewEdcsExportables'])->name('edcs_view_exportables');
 Route::post('/edcs/{facility_code}/disease_reporting/{disease}/process_exportables', [PIDSRController::class, 'processEdcsExportables'])->name('edcs_process_exportables');

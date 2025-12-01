@@ -8,6 +8,7 @@
                 <a href="{{route('facility_report_injury_index', $d->sys_code1)}}" class="btn btn-primary btn-lg btn-block">Report Vehicular Accident and other Injuries</a>
                 <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#addCase">Encode Case of Reportable Disease</button>
                 <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#edcsImportModal">View Imports to EDCS-IS</button>
+                <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#downloadCsv">Download CSV Templates</button>
                 <hr>
                 <a href="{{route('edcs_facility_weeklysubmission_view', $d->sys_code1)}}" class="btn btn-primary btn-lg btn-block">EDCS-IS Weekly Submission</a>
             </div>
@@ -100,6 +101,47 @@
             </div>
         </div>
     </div>
+
+    <form action="{{route('edcs_facility_download_csv', $d->sys_code1)}}" method="POST">
+        @csrf
+        <div class="modal fade" id="downloadCsv" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Download CSV Template</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="disease"><b class="text-danger">*</b>Select Disease</label>
+                            <select class="form-control" name="disease" id="disease" required>
+                                <option value="" disabled selected>Choose...</option>
+                                @foreach(\App\Http\Controllers\PIDSRController::listReportableDiseasesBackEnd()->where('edcs_importable', true) as $disease)
+                                <option value="{{$disease['value']}}">{{$disease['text']}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="year"><b class="text-danger">*</b>Year</label>
+                            <select class="form-control" name="year" id="year" required>
+                                <option value="" disabled selected>Choose...</option>
+                                @foreach(range(date('Y'), 2025) as $y)
+                                <option value="{{$y}}">{{$y}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success btn-block">Download</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
     
     @if(session('openEncodeModal'))
     <script>
