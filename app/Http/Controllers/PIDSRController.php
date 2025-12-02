@@ -10337,6 +10337,7 @@ class PIDSRController extends Controller
             ->where('enabled', 1)
             ->where('match_casedef', 1)
             ->get();
+
         }
         else if($type == 'extractAll') {
             if(Auth::check()) {
@@ -10358,6 +10359,13 @@ class PIDSRController extends Controller
             $row = 2;
 
             foreach($list as $d) {
+                if($type == 'downloadCsv') {
+                    $patient_id = 'MPSS_'.$d->id.'E';
+                }
+                else if($type == 'extractAll') {
+                    $patient_id = $d->PatientNumber;
+                }
+
                 $cf = DohFacility::where('healthfacility_code', $d->edcs_healthFacilityCode)->first();
 
                 if(is_null($d->brgy_id) && $d->Muncity == 'GENERAL TRIAS') {
@@ -10419,7 +10427,7 @@ class PIDSRController extends Controller
                     $dru_mun_code = '';
                 }
 
-                $sheet->setCellValue('A'.$row, 'MPSS_'.$d->id.'E'); //Patient ID
+                $sheet->setCellValue('A'.$row, $patient_id); //Patient ID
                 $sheet->setCellValue('B'.$row, $d->FirstName); //First Name
                 $sheet->setCellValue('C'.$row, $d->middle_name); //Middle Name
                 $sheet->setCellValue('D'.$row, $d->FamilyName); //Last Name
