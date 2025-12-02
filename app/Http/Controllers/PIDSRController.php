@@ -1464,7 +1464,10 @@ class PIDSRController extends Controller
                 });
             }
             else {
-                $query = $query->where('Muncity', 'GENERAL TRIAS')
+                $query = $query->where(function ($q) {
+                    $q->where('Muncity', 'GENERAL TRIAS')
+                    ->orWhere('Muncity', 'CITY OF GENERAL TRIAS');
+                })
                 ->where('Province', 'CAVITE');
             }
 
