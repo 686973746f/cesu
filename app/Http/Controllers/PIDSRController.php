@@ -10646,7 +10646,7 @@ class PIDSRController extends Controller
                         $caseClass = 'SUS';
                     }
                     else if($d->CaseClass == 'PROBABLE CASE OF HFMD') {
-                        $caseClass = 'PRO';
+                        $caseClass = 'PROB';
                     }
                     else if($d->CaseClass == 'CONFIRMED CASE OF HFMD') {
                         $caseClass = 'CON';
@@ -10703,7 +10703,7 @@ class PIDSRController extends Controller
                     $sheet->setCellValue('AU'.$row, $d->DiffBreath); //DifficultyOfBreathing
                     $sheet->setCellValue('AV'.$row, $d->Paralysis); //AcuteFlaccidParalysis
                     $sheet->setCellValue('AW'.$row, $d->MeningLes); //MeningealIrritation
-                    $sheet->setCellValue('AX'.$row, (!is_null($d->OthSymptoms)) ? 'Y' : ''); //OthersSymptoms
+                    $sheet->setCellValue('AX'.$row, (!is_null($d->OthSymptoms)) ? 'Y' : 'N'); //OthersSymptoms
                     $sheet->setCellValue('AY'.$row, (!is_null($d->OthSymptoms)) ? $d->OthSymptoms : ''); //OtherSymptomsSpecify
                     $sheet->setCellValue('AZ'.$row, $d->AnyComp); //AreThereAnyComplications
                     $sheet->setCellValue('BA'.$row, $d->Complic8); //SpecifyComplication
