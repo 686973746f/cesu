@@ -120,9 +120,20 @@ class EdcsHourlyCaseEmailer extends Command
                 if($d != 'Covid') {
                     $modelClass = "App\\Models\\$d";
 
+                    if($d == 'SevereAcuteRespiratoryInfection') {
+                        $pro_table = 'province';
+                        $mun_table = 'muncity';
+                    }
+                    else {
+                        $pro_table = 'Province';
+                        $mun_table = 'Muncity';
+                    }
+
                     $fetch_case = $modelClass::where('enabled', 1)
                     ->where('match_casedef', 1)
-                    ->where('notify_email_sent', 0);
+                    ->where('notify_email_sent', 0)
+                    ->where($pro_table, 'CAVITE')
+                    ->where($mun_table, 'GENERAL TRIAS');
                 }
                 else {
                     $fetch_case = Forms::where('status', 'approved')
