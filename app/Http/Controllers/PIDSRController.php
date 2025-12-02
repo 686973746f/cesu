@@ -1464,10 +1464,7 @@ class PIDSRController extends Controller
                 });
             }
             else {
-                $query = $query->where(function ($q) {
-                    $q->where('Muncity', 'GENERAL TRIAS')
-                    ->orWhere('Muncity', 'CITY OF GENERAL TRIAS');
-                })
+                $query = $query->where('Muncity', 'GENERAL TRIAS')
                 ->where('Province', 'CAVITE');
             }
 
@@ -9790,7 +9787,7 @@ class PIDSRController extends Controller
             $table_params = [
                 'Region' => $b->city->province->region->short_name1,
                 'Province' => $b->city->province->name,
-                'Muncity' => $b->city->name,
+                'Muncity' => $b->city->alt_name ?: $b->city->name,
                 'Barangay' => $b->alt_name ?: $b->name,
                 'brgy_id' => $b->id,
                 'Streetpurok' => mb_strtoupper($r->Streetpurok),
@@ -9966,7 +9963,7 @@ class PIDSRController extends Controller
                 'DOB' => $r->bdate,
                 'Region' => $b->city->province->region->short_name1,
                 'Province' => $b->city->province->name,
-                'Muncity' => $b->city->name,
+                'Muncity' => $b->city->alt_name ?: $b->city->name,
                 'Barangay' => $b->alt_name ?: $b->name,
                 'brgy_id' => $b->id,
                 'Streetpurok' => mb_strtoupper($r->Streetpurok),
@@ -10078,7 +10075,7 @@ class PIDSRController extends Controller
                 'DOB' => $r->bdate,
                 'Region' => $b->city->province->region->short_name1,
                 'Province' => $b->city->province->name,
-                'Muncity' => $b->city->name,
+                'Muncity' => $b->city->alt_name ?: $b->city->name,
                 'Barangay' => $b->alt_name ?: $b->name,
                 'brgy_id' => $b->id,
                 'Streetpurok' => mb_strtoupper($r->Streetpurok),
