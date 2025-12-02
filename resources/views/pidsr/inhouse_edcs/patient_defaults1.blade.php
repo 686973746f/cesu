@@ -46,14 +46,12 @@
         if($(this).val() == 'Y') {
             $('#hospitalizedDiv').removeClass('d-none');
             $('#sys_hospitalized_name').prop('required', true);
-            $('#sys_hospitalized_datestart').prop('required', true);
-            $('#sys_hospitalized_dateend').prop('required', true);
+            $('#DAdmit').prop('required', true);
         }
         else {
             $('#hospitalizedDiv').addClass('d-none');
             $('#sys_hospitalized_name').prop('required', false);
-            $('#sys_hospitalized_datestart').prop('required', false);
-            $('#sys_hospitalized_dateend').prop('required', false);
+            $('#DAdmit').prop('required', false);
         }
     }).trigger('change');
 </script>
