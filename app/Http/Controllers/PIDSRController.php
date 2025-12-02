@@ -10359,12 +10359,16 @@ class PIDSRController extends Controller
             $row = 2;
 
             foreach($list as $d) {
-                if($type == 'downloadCsv') {
-                    $patient_id = 'MPSS_'.$d->id.'E';
+                if($d->from_inhouse == 1) {
+                    if(!str_starts_with($d->PatientNumber, 'MPSS')) {
+                        $d->PatientNumber = 'MPSS_'.$d->id.'E';
+                        if($d->isDirty()) {
+                            $d->save();
+                        }
+                    }
                 }
-                else if($type == 'extractAll') {
-                    $patient_id = $d->PatientNumber;
-                }
+
+                $patient_id = $d->PatientNumber;
 
                 $cf = DohFacility::where('healthfacility_code', $d->edcs_healthFacilityCode)->first();
 

@@ -1,19 +1,17 @@
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
         <div class="form-group">
             <label for="entry_date"><b class="text-danger">*</b>Date Admitted/Seen/Consulted</label>
             <input type="date" class="form-control" name="entry_date" id="entry_date" value="{{request()->input('entry_date')}}" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}" tabindex="-1" readonly>
         </div>
-        <div class="form-group">
-            <label for="PatientNumber">Patient No.</label>
-            <input type="text" class="form-control" name="PatientNumber" id="PatientNumber" value="{{old('PatientNumber')}}" style="text-transform: uppercase;">
-        </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
         <div class="form-group">
             <label for="sys_interviewer_name"><b class="text-danger">*</b>Name of Reporter/Interviewer</label>
             <input type="text" class="form-control" name="sys_interviewer_name" id="sys_interviewer_name" value="{{old('sys_interviewer_name', $f->edcs_defaultreporter_name)}}" style="text-transform: uppercase;" required>
         </div>
+    </div>
+    <div class="col-md-4">
         <div class="form-group">
             <label for="sys_interviewer_contactno"><b class="text-danger">*</b>Contact No. of Reporter/Interviewer</label>
             <input type="text" class="form-control" id="sys_interviewer_contactno" name="sys_interviewer_contactno" value="{{old('sys_interviewer_contactno', $f->edcs_defaultreporter_contactno)}}" pattern="[0-9]{11}" placeholder="09*********" required>
