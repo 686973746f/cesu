@@ -9452,6 +9452,9 @@ class PIDSRController extends Controller
         }
 
         $health_facility_code = $f->edcs_temphf_code ?: $f->healthfacility_code;
+        $dru_reg_code = $f->edcs_region_code;
+        $dru_pro_code = $f->edcs_province_code;
+        $dru_mun_code = $f->edcs_muncity_code;
 
         /*
         if($f->id == 10886) {
@@ -9645,6 +9648,10 @@ class PIDSRController extends Controller
                     //'gps_y',
                     'created_by' => $created_by,
                     //'updated_by',
+
+                    'dru_reg_code' => $dru_reg_code,
+                    'dru_pro_code' => $dru_pro_code,
+                    'dru_mun_code' => $dru_mun_code,
                 ]);
 
                 return redirect()->route('pidsr.casechecker', ['case' => 'MPOX', 'year' => date('Y')])
@@ -9897,6 +9904,10 @@ class PIDSRController extends Controller
                     'system_remarks' => $r->system_remarks,
 
                     'created_by' => $created_by,
+
+                    'dru_reg_code' => $dru_reg_code,
+                    'dru_pro_code' => $dru_pro_code,
+                    'dru_mun_code' => $dru_mun_code,
                 ];
 
                 $c = Dengue::create($table_params);
@@ -10042,6 +10053,10 @@ class PIDSRController extends Controller
                 'fever_temp' => ($r->fever == 'Y') ? $r->fever_temp : NULL,
                 'cough' => $r->cough,
                 'sore_throat' => $r->sore_throat,
+
+                'dru_reg_code' => $dru_reg_code,
+                'dru_pro_code' => $dru_pro_code,
+                'dru_mun_code' => $dru_mun_code,
             ];
             
             $c = Influenza::create($table_params);
@@ -10216,6 +10231,10 @@ class PIDSRController extends Controller
                 //'medicalchart_url',
                 //'otherattachments_url',
                 //'edcs_customgroup',
+
+                'dru_reg_code' => $dru_reg_code,
+                'dru_pro_code' => $dru_pro_code,
+                'dru_mun_code' => $dru_mun_code,
             ];
 
             $c = Hfmd::create($table_params);
@@ -10356,6 +10375,50 @@ class PIDSRController extends Controller
                     }
                 }
 
+                if($cf) {
+                    //For PSGC Codes
+                    if(!isset($d->dru_reg_code)) {
+                        if(!isset($cf->edcs_region_code)) {
+                            $dru_reg_code = (int) rtrim($cf->address_region_psgc, '0');
+                        }
+                        else {
+                            $dru_reg_code = $cf->edcs_region_code;
+                        }
+                    }
+                    else {
+                        $dru_reg_code = $d->dru_reg_code;
+                    }
+
+                    if(!isset($d->dru_pro_code)) {
+                        if(!isset($cf->edcs_province_code)) {
+                            $dru_pro_code = (int) rtrim($cf->address_province_psgc, '0');
+                        }
+                        else {
+                            $dru_pro_code = $cf->edcs_province_code;
+                        }
+                    }
+                    else {
+                        $dru_pro_code = $d->dru_pro_code;
+                    }
+
+                    if(!isset($d->dru_mun_code)) {
+                        if(!isset($cf->edcs_muncity_code)) {
+                            $dru_mun_code = (int) rtrim($cf->address_muncity_psgc, '0');
+                        }
+                        else {
+                            $dru_mun_code = $cf->edcs_muncity_code;
+                        }
+                    }
+                    else {
+                        $dru_mun_code = $d->dru_mun_code;
+                    }
+                }
+                else {
+                    $dru_reg_code = '';
+                    $dru_pro_code = '';
+                    $dru_mun_code = '';
+                }
+
                 $sheet->setCellValue('A'.$row, 'MPSS_'.$d->id.'E'); //Patient ID
                 $sheet->setCellValue('B'.$row, $d->FirstName); //First Name
                 $sheet->setCellValue('C'.$row, $d->middle_name); //Middle Name
@@ -10380,10 +10443,10 @@ class PIDSRController extends Controller
 
                 $sheet->setCellValue('S'.$row, 'N'); //Member of Indigenous People
                 $sheet->setCellValue('T'.$row, ''); //Indigenous People Tribe
-                $sheet->setCellValue('U'.$row, $cf->healthfacility_code); //Facility Code
-                $sheet->setCellValue('V'.$row, $cf->edcs_region_code); //DRU Region Code
-                $sheet->setCellValue('W'.$row, $cf->edcs_province_code); //DRU Province Code
-                $sheet->setCellValue('X'.$row, $cf->edcs_muncity_code); //DRU MunCity Code
+                $sheet->setCellValue('U'.$row, $d->edcs_healthFacilityCode); //Facility Code
+                $sheet->setCellValue('V'.$row, $dru_reg_code); //DRU Region Code
+                $sheet->setCellValue('W'.$row, $dru_pro_code); //DRU Province Code
+                $sheet->setCellValue('X'.$row, $dru_mun_code); //DRU MunCity Code
 
                 if($disease == 'DENGUE') {
                     /*

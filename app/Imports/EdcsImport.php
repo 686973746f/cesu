@@ -171,6 +171,21 @@ class EdcsImport implements WithMultipleSheets, SkipsUnknownSheets
         }
     }
 
+    public static function createDohFacility($name, $hfcode, $region_code, $province_code, $muncity_code) {
+        $hfcode_short = (int) substr($hfcode, 3);
+
+        $c = DohFacility::create([
+            'healthfacility_code' => $hfcode,
+            'healthfacility_code_short' => $hfcode_short,
+            'facility_name' => $name,
+            'address_region_psgc' => $region_code,
+            'address_province_psgc' => $province_code,
+            'address_muncity_psgc' => $muncity_code,
+        ]);
+
+        return $c;
+    }
+
     public function sheets(): array
     {
         return [
@@ -295,6 +310,13 @@ class AbdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 $getFullName = $getFullName.' '.$row['suffix_name'];
             }
 
+            //Check Facility Code if Existing in the DOH Facilities Database
+            $hf_check = DohFacility::where('healthfacility_code', $hfcode)->first();
+
+            if(!$hf_check) {
+                EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
+            }
+
             $table_params = [
                 'Icd10Code' => NULL,
                 'RegionOFDrU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name) && EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL,
@@ -356,6 +378,10 @@ class AbdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
+
+                'dru_reg_code' => $row['region_dru'],
+                'dru_pro_code' => $row['province_dru'],
+                'dru_mun_code' => $row['muncity_dru'],
             ];
 
             $exist_check = Abd::where('EPIID', $row['epi_id'])->first();
@@ -427,6 +453,13 @@ class AfpImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             }
             else {
                 $match_casedef = 0;
+            }
+
+            //Check Facility Code if Existing in the DOH Facilities Database
+            $hf_check = DohFacility::where('healthfacility_code', $hfcode)->first();
+
+            if(!$hf_check) {
+                EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
             }
 
             $table_params = [
@@ -585,6 +618,10 @@ class AfpImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
                 'match_casedef' => $match_casedef,
+
+                'dru_reg_code' => $row['region_dru'],
+                'dru_pro_code' => $row['province_dru'],
+                'dru_mun_code' => $row['muncity_dru'],
             ];
 
             $exist_check = Afp::where('EPIID', $row['epi_id'])->first();
@@ -663,6 +700,13 @@ class AmesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 else {
                     $match_casedef = 0;
                 }
+            }
+
+            //Check Facility Code if Existing in the DOH Facilities Database
+            $hf_check = DohFacility::where('healthfacility_code', $hfcode)->first();
+
+            if(!$hf_check) {
+                EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
             }
 
             $table_params = [
@@ -815,6 +859,10 @@ class AmesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
+
+                'dru_reg_code' => $row['region_dru'],
+                'dru_pro_code' => $row['province_dru'],
+                'dru_mun_code' => $row['muncity_dru'],
             ];
 
             $exist_check = Ames::where('EPIID', $row['epi_id'])->first();
@@ -865,6 +913,13 @@ class HepaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
             if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['suffix_name'];
+            }
+
+            //Check Facility Code if Existing in the DOH Facilities Database
+            $hf_check = DohFacility::where('healthfacility_code', $hfcode)->first();
+
+            if(!$hf_check) {
+                EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
             }
             
             $table_params = [
@@ -930,6 +985,10 @@ class HepaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
+
+                'dru_reg_code' => $row['region_dru'],
+                'dru_pro_code' => $row['province_dru'],
+                'dru_mun_code' => $row['muncity_dru'],
             ];
 
             $exist_check = Hepatitis::where('EPIID', $row['epi_id'])->first();
@@ -1135,6 +1194,10 @@ class HfmdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
+
+                'dru_reg_code' => $row['region_dru'],
+                'dru_pro_code' => $row['province_dru'],
+                'dru_mun_code' => $row['muncity_dru'],
             ];
 
             $exist_check = Hfmd::where('EPIID', $row['epi_id'])->first();
@@ -1189,7 +1252,14 @@ class LeptoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             }
 
             //Check Case Def
-            //Can't use directly because of 
+            //Can't use directly because of
+
+            //Check Facility Code if Existing in the DOH Facilities Database
+            $hf_check = DohFacility::where('healthfacility_code', $hfcode)->first();
+
+            if(!$hf_check) {
+                EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
+            }
 
             $table_params = [
                 'Icd10Code' => 'A27',
@@ -1254,6 +1324,10 @@ class LeptoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
+
+                'dru_reg_code' => $row['region_dru'],
+                'dru_pro_code' => $row['province_dru'],
+                'dru_mun_code' => $row['muncity_dru'],
             ];
 
             $exist_check = Leptospirosis::where('EPIID', $row['epi_id'])->first();
@@ -1319,6 +1393,13 @@ class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             }
             else {
                 $match_casedef = 0;
+            }
+
+            //Check Facility Code if Existing in the DOH Facilities Database
+            $hf_check = DohFacility::where('healthfacility_code', $hfcode)->first();
+
+            if(!$hf_check) {
+                EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
             }
 
             $table_params = [
@@ -1465,6 +1546,10 @@ class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
+
+                'dru_reg_code' => $row['region_dru'],
+                'dru_pro_code' => $row['province_dru'],
+                'dru_mun_code' => $row['muncity_dru'],
             ];
 
             $exist_check = Measles::where('EPIID', $row['epi_id'])->first();
@@ -1516,6 +1601,13 @@ class NntImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
             if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['suffix_name'];
+            }
+
+            //Check Facility Code if Existing in the DOH Facilities Database
+            $hf_check = DohFacility::where('healthfacility_code', $hfcode)->first();
+
+            if(!$hf_check) {
+                EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
             }
 
             $table_params = [
@@ -1583,6 +1675,10 @@ class NntImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
+
+                'dru_reg_code' => $row['region_dru'],
+                'dru_pro_code' => $row['province_dru'],
+                'dru_mun_code' => $row['muncity_dru'],
             ];
 
             $exist_check = Nnt::where('EPIID', $row['epi_id'])->first();
@@ -1633,6 +1729,13 @@ class RabiesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
             if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['suffix_name'];
+            }
+
+            //Check Facility Code if Existing in the DOH Facilities Database
+            $hf_check = DohFacility::where('healthfacility_code', $hfcode)->first();
+
+            if(!$hf_check) {
+                EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
             }
 
             $table_params = [
@@ -1723,6 +1826,10 @@ class RabiesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
+
+                'dru_reg_code' => $row['region_dru'],
+                'dru_pro_code' => $row['province_dru'],
+                'dru_mun_code' => $row['muncity_dru'],
             ];
 
             $exist_check = Rabies::where('EPIID', $row['epi_id'])->first();
@@ -1773,6 +1880,13 @@ class RotaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
             if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['suffix_name'];
+            }
+
+            //Check Facility Code if Existing in the DOH Facilities Database
+            $hf_check = DohFacility::where('healthfacility_code', $hfcode)->first();
+
+            if(!$hf_check) {
+                EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
             }
             
             $table_params = [
@@ -1874,6 +1988,10 @@ class RotaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
+
+                'dru_reg_code' => $row['region_dru'],
+                'dru_pro_code' => $row['province_dru'],
+                'dru_mun_code' => $row['muncity_dru'],
             ];
 
             $exist_check = Rotavirus::where('EPIID', $row['epi_id'])->first();
@@ -1924,6 +2042,13 @@ class TyphoidImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
             if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['suffix_name'];
+            }
+
+            //Check Facility Code if Existing in the DOH Facilities Database
+            $hf_check = DohFacility::where('healthfacility_code', $hfcode)->first();
+
+            if(!$hf_check) {
+                EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
             }
 
             $table_params = [
@@ -1987,6 +2112,10 @@ class TyphoidImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
+
+                'dru_reg_code' => $row['region_dru'],
+                'dru_pro_code' => $row['province_dru'],
+                'dru_mun_code' => $row['muncity_dru'],
             ];
 
             $exist_check = Typhoid::where('EPIID', $row['epi_id'])->first();
@@ -2047,6 +2176,13 @@ class DengueImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             }
             else {
                 $get_classi = mb_strtoupper($row['clinical_classification']);
+            }
+
+            //Check Facility Code if Existing in the DOH Facilities Database
+            $hf_check = DohFacility::where('healthfacility_code', $hfcode)->first();
+
+            if(!$hf_check) {
+                EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
             }
 
             if(is_null($row['health_facility_code']) || is_null(EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name))) {
@@ -2160,6 +2296,10 @@ class DengueImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                     'edcs_last_modifiedby' => $row['last_modified_by'],
                     'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
                     'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
+
+                    'dru_reg_code' => $row['region_dru'],
+                    'dru_pro_code' => $row['province_dru'],
+                    'dru_mun_code' => $row['muncity_dru'],
                 ];
 
                 $exist_check = Dengue::where('EPIID', $row['epi_id'])->first();
@@ -2223,6 +2363,13 @@ class DiphImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
 
             if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['suffix_name'];
+            }
+
+            //Check Facility Code if Existing in the DOH Facilities Database
+            $hf_check = DohFacility::where('healthfacility_code', $hfcode)->first();
+
+            if(!$hf_check) {
+                EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
             }
 
             //Check Case Definition
@@ -2290,6 +2437,10 @@ class DiphImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
+
+                'dru_reg_code' => $row['region_dru'],
+                'dru_pro_code' => $row['province_dru'],
+                'dru_mun_code' => $row['muncity_dru'],
             ];
 
             $exist_check = Diph::where('EPIID', $row['epi_id'])->first();
@@ -2339,6 +2490,13 @@ class ChikvImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
 
             if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['suffix_name'];
+            }
+
+            //Check Facility Code if Existing in the DOH Facilities Database
+            $hf_check = DohFacility::where('healthfacility_code', $hfcode)->first();
+
+            if(!$hf_check) {
+                EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
             }
 
             $table_params = [
@@ -2445,6 +2603,10 @@ class ChikvImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
+
+                'dru_reg_code' => $row['region_dru'],
+                'dru_pro_code' => $row['province_dru'],
+                'dru_mun_code' => $row['muncity_dru'],
             ];
 
             $exist_check = Chikv::where('EPIID', $row['epi_id'])->first();
@@ -2507,6 +2669,13 @@ class MeningoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
             }
             else {
                 $match_casedef = 0;
+            }
+
+            //Check Facility Code if Existing in the DOH Facilities Database
+            $hf_check = DohFacility::where('healthfacility_code', $hfcode)->first();
+
+            if(!$hf_check) {
+                EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
             }
 
             $table_params = [
@@ -2635,6 +2804,10 @@ class MeningoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
                 'match_casedef' => $match_casedef,
+
+                'dru_reg_code' => $row['region_dru'],
+                'dru_pro_code' => $row['province_dru'],
+                'dru_mun_code' => $row['muncity_dru'],
             ];
 
             $exist_check = Meningo::where('EPIID', $row['epi_id'])->first();
@@ -2684,6 +2857,13 @@ class NtImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
 
             if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['suffix_name'];
+            }
+
+            //Check Facility Code if Existing in the DOH Facilities Database
+            $hf_check = DohFacility::where('healthfacility_code', $hfcode)->first();
+
+            if(!$hf_check) {
+                EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
             }
 
             $table_params = [
@@ -2784,6 +2964,10 @@ class NtImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
+
+                'dru_reg_code' => $row['region_dru'],
+                'dru_pro_code' => $row['province_dru'],
+                'dru_mun_code' => $row['muncity_dru'],
             ];
 
             $exist_check = Nt::where('EPIID', $row['epi_id'])->first();
@@ -2863,6 +3047,13 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
             }
             else if(mb_strtoupper(substr($row['outcome'],0,1)) == 'D') {
                 $set_system_outcome = 'DIED';
+            }
+
+            //Check Facility Code if Existing in the DOH Facilities Database
+            $hf_check = DohFacility::where('healthfacility_code', $hfcode)->first();
+
+            if(!$hf_check) {
+                EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
             }
 
             $table_params = [
@@ -2964,6 +3155,10 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
 
                 'system_pertmonitoringend_date' => Carbon::parse(EdcsImport::tDate($row['date_of_report']))->addDays(21), //Extra column for tracking end of monitoring period
+
+                'dru_reg_code' => $row['region_dru'],
+                'dru_pro_code' => $row['province_dru'],
+                'dru_mun_code' => $row['muncity_dru'],
             ];
 
             $exist_check = Pert::where('EPIID', $row['epi_id'])->first();
@@ -3023,6 +3218,13 @@ class CholeraImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
 
             if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != "NONE") {
                 $getFullName = $getFullName.' '.$row['suffix_name'];
+            }
+
+            //Check Facility Code if Existing in the DOH Facilities Database
+            $hf_check = DohFacility::where('healthfacility_code', $hfcode)->first();
+
+            if(!$hf_check) {
+                EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
             }
 
             $table_params = [
@@ -3088,6 +3290,10 @@ class CholeraImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
+
+                'dru_reg_code' => $row['region_dru'],
+                'dru_pro_code' => $row['province_dru'],
+                'dru_mun_code' => $row['muncity_dru'],
             ];
 
             $exist_check = Cholera::where('EPIID', $row['epi_id'])->first();
@@ -3137,6 +3343,13 @@ class InfluenzaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow 
 
             if(!is_null($row['suffix_name']) && $row['suffix_name'] != "" && $row['suffix_name'] != 'N/A') {
                 $getFullName = $getFullName.' '.$row['suffix_name'];
+            }
+
+            //Check Facility Code if Existing in the DOH Facilities Database
+            $hf_check = DohFacility::where('healthfacility_code', $hfcode)->first();
+
+            if(!$hf_check) {
+                EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
             }
 
             $table_params = [
@@ -3203,6 +3416,10 @@ class InfluenzaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow 
                 'edcs_last_modifiedby' => $row['last_modified_by'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
+
+                'dru_reg_code' => $row['region_dru'],
+                'dru_pro_code' => $row['province_dru'],
+                'dru_mun_code' => $row['muncity_dru'],
             ];
             
             $exist_check = Influenza::where('EPIID', $row['epi_id'])->first();
@@ -3248,6 +3465,13 @@ class LaboratoryImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 
             }
             */
+
+            //Check Facility Code if Existing in the DOH Facilities Database
+            $hf_check = DohFacility::where('healthfacility_code', $hfcode)->first();
+
+            if(!$hf_check) {
+                EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
+            }
 
             $table_params = [
                 //'lab_id' => $row['id'],
@@ -3391,6 +3615,13 @@ class SevereAcuteRespiratoryInfectionImport implements ToModel, WithHeadingRow, 
                 $getFullName = $getFullName.' '.$row['suffix_name'];
             }
 
+            //Check Facility Code if Existing in the DOH Facilities Database
+            $hf_check = DohFacility::where('healthfacility_code', $hfcode)->first();
+
+            if(!$hf_check) {
+                EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
+            }
+
             $table_params = [
                 'edcs_caseid' => $row['case_id'],
                 'epi_id' => $row['epi_id'],
@@ -3509,6 +3740,10 @@ class SevereAcuteRespiratoryInfectionImport implements ToModel, WithHeadingRow, 
                 //'edcs_patientcontactnum' => $row['edcs_caseid'],
                 //'system_remarks' => $row['edcs_caseid'],
                 //'system_subdivision_id' => $row['edcs_caseid'],
+
+                'dru_reg_code' => $row['region_dru'],
+                'dru_pro_code' => $row['province_dru'],
+                'dru_mun_code' => $row['muncity_dru'],
             ];
 
             $exist_check = SevereAcuteRespiratoryInfection::where('epi_id', $row['epi_id'])->first();
