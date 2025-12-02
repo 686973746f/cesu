@@ -10593,8 +10593,8 @@ class PIDSRController extends Controller
                     $sheet->setCellValue('AX'.$row, $lab_remarks); //Interpretation
                 }
                 else if($disease == 'INFLUENZA') {
-                    $sheet->setCellValue('Y'.$row, 'N'); //HistoryTravel21days
-                    $sheet->setCellValue('Z'.$row, ''); //HistoryTravel21daysSpecify
+                    $sheet->setCellValue('Y'.$row, $d->travelabroad_history); //HistoryTravel21days
+                    $sheet->setCellValue('Z'.$row, ($d->travelabroad_history == 'Y') ? $d->specify_travel : ''); //HistoryTravel21daysSpecify
                     $sheet->setCellValue('AA'.$row, ($d->Admitted == 1) ? 'Y' : 'N'); //Admitted
                     
                     if($d->Admitted == 1) {
