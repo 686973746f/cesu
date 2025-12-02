@@ -10148,7 +10148,7 @@ class PIDSRController extends Controller
                 'Travel' => $r->Travel,
                 'OtherCase' => $r->OtherCase,
                 'ProbExposure' => (!empty($r->ProbExposure)) ? implode(",", $r->ProbExposure) : NULL,
-                'OthExposure' => (in_array('OTHERS', $r->ProbExposure)) ? mb_strtoupper($r->OthExposure) : NULL,
+                'OthExposure' => (!empty($r->ProbExposure) && in_array('OTHERS', $r->ProbExposure)) ? mb_strtoupper($r->OthExposure) : NULL,
                 //'RectalSwabColl',
                 //'VesicFluidColl',
                 //'StoolColl',
