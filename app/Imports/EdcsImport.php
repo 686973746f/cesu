@@ -1073,6 +1073,31 @@ class HfmdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 $get_class = mb_strtoupper($row['case_classification']);
             }
 
+            //Exposure Encoding
+            $exp_list = [];
+
+            if($row['day_care'] == 'Y') {
+                $exp_list[] = 'DAY CARE';
+            }
+            if($row['home'] == 'Y') {
+                $exp_list[] = 'HOME';
+            }
+            if($row['community'] == 'Y') {
+                $exp_list[] = 'COMMUNITY';
+            }
+            if($row['healthcare_facilities'] == 'Y') {
+                $exp_list[] = 'HEALTHCARE FACILITIES';
+            }
+            if($row['school'] == 'Y') {
+                $exp_list[] = 'SCHOOL';
+            }
+            if($row['dormitory'] == 'Y') {
+                $exp_list[] = 'DORMITORY';
+            }
+            if($row['other_exposure'] == 'Y') {
+                $exp_list[] = 'OTHERS';
+            }
+
             $table_params = [
                 'Icd10Code' => NULL,
                 'RegionOFDrU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name) && EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL,
@@ -1132,7 +1157,7 @@ class HfmdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'RECSTATUS' => NULL,
                 'Travel' => $row['historytravelwithin2weeks'],
                 'OtherCase' => $row['casesincommunity'],
-                'ProbExposure' => NULL,
+                'ProbExposure' => (!empty($exp_list)) ? implode(",", $exp_list) : NULL,
                 'OthExposure' => ($row['other_exposure'] == 'Y') ? 'Y' : 'N',
                 'RectalSwabColl' => NULL,
                 'VesicFluidColl' => NULL,
