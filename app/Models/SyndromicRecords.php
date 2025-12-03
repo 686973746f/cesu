@@ -335,6 +335,10 @@ class SyndromicRecords extends Model
         return $this->belongsTo(SyndromicPatient::class, 'syndromic_patient_id');
     }
 
+    public function syndromicPatient() {
+        return $this->belongsTo(SyndromicPatient::class, 'syndromic_patient_id');
+    }
+
     public function user() {
         return $this->belongsTo(User::class, 'created_by');
     }

@@ -4844,4 +4844,81 @@ class SyndromicController extends Controller
             return abort(404);
         }
     }
+
+    public function specialReport() {
+        return view('syndromic.special_report.index');
+    }
+
+    public function specialReportProcess() {
+        $date1 = request()->input('date1');
+        $date2 = request()->input('date2');
+
+        $brgy = EdcsBrgy::findOrFail(request()->input('brgy_id'));
+
+        if(request()->input('submit') == 'demographic_profile') {
+            // define buckets (adjust or extend as needed)
+            $buckets = [
+                ['label' => '0-9',  'min' => 0,  'max' => 9],
+                ['label' => '10-19', 'min' => 10, 'max' => 19],
+                ['label' => '20-29', 'min' => 20, 'max' => 29],
+                ['label' => '30-39', 'min' => 30, 'max' => 39],
+                ['label' => '40-49', 'min' => 40, 'max' => 49],
+                ['label' => '50-59', 'min' => 50, 'max' => 59],
+                ['label' => '>60',   'min' => 60, 'max' => PHP_INT_MAX],
+            ];
+
+            // fetch records filtered by created_at and patient brgy (whereHas)
+            $records = SyndromicRecords::with('syndromicPatient')
+            ->whereBetween('consultation_date', [$date1, $date2])
+            ->whereHas('syndromicPatient', function ($q) {
+                $q->where('address_brgy_text', 'MANGGAHAN');
+            })
+            ->get();
+
+            // prepare result template
+            $demographics = collect($buckets)->mapWithKeys(function ($b) {
+                return [$b['label'] => ['male' => 0, 'female' => 0, 'total' => 0]];
+            })->toArray();
+
+            // iterate records and increment counts
+            foreach ($records as $rec) {
+                // guard: ensure patient exists and age_years present
+                if (! $rec->syndromicPatient) continue;
+
+                $age = $rec->age_years;
+                if (! is_numeric($age)) continue;
+
+                // normalize sex value (adjust if your sex values differ: 'M'/'F' or 'Male'/'Female')
+                $sex = $rec->syndromicPatient->gender;
+                $isMale = str_starts_with($sex, 'M'); // handles 'M', 'Male', 'male', etc.
+                $isFemale = str_starts_with($sex, 'F');
+
+                // find bucket
+                foreach ($buckets as $b) {
+                    if ($age >= $b['min'] && $age <= $b['max']) {
+                        if ($isMale) {
+                            $demographics[$b['label']]['male']++;
+                        } elseif ($isFemale) {
+                            $demographics[$b['label']]['female']++;
+                        } else {
+                            // unknown/other sex — you can add an 'other' key if you want
+                        }
+                        $demographics[$b['label']]['total']++;
+                        break;
+                    }
+                }
+            }
+
+            // return to view or json
+            return view('syndromic.special_report.demographic', [
+                'demographics' => $demographics,
+                'date1' => $date1,
+                'date2' => $date2,
+                'brgy' => $brgy,
+            ]);
+        }
+        else {
+            return abort(401);
+        }
+    }
 }
