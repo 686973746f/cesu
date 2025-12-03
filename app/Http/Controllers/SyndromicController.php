@@ -4928,7 +4928,7 @@ class SyndromicController extends Controller
                 ->join('syndromic_patients', 'syndromic_patients.id', '=', 'syndromic_records.syndromic_patient_id')
                 ->whereRaw("UPPER(syndromic_patients.address_brgy_text) = 'MANGGAHAN'")
                 ->whereBetween('syndromic_records.consultation_date', [$date1, $date2])
-                ->groupBy(DB::raw("COALESCE(NULLIF(TRIM(syndromic_patients.address_street), ''), 'Unknown')"))
+                ->groupBy('syndromic_patients.address_street')
                 ->orderByDesc('total')
                 ->get();
 
