@@ -3362,21 +3362,29 @@ class PharmacyController extends Controller
     }
 
     public function viewMasterlist2() {
-        $medicines = PharmacySupplyMaster::where('enabled', 1)
-        ->where('master_include_inreport', 'Y')
-        ->with(['pharmacysub.pharmacybranch', 'pharmacysub.substock'])
-        ->get();
+        if(!request()->input('oldview')) {
+            $medicines = PharmacySupplyMaster::where('enabled', 1)
+            ->where('master_include_inreport', 'Y')
+            ->with(['pharmacysub.pharmacybranch', 'pharmacysub.substock'])
+            ->get();
 
-        // Only branches with facility_level = 1
-        if(auth()->user()->isPharmacyMasterAdmin()) {
-            $branches = PharmacyBranch::where('level', 1)->get();
+            // Only branches with facility_level = 1
+            if(auth()->user()->isPharmacyMasterAdmin()) {
+                $branches = PharmacyBranch::where('level', 1)->get();
+            }
+            else {
+                $branches = PharmacyBranch::where('id', auth()->user()->pharmacy_branch_id)->get();
+            }
+            
+
+            return view('pharmacy.stock_masterlist', compact('medicines', 'branches'));
         }
         else {
-            $branches = PharmacyBranch::where('id', auth()->user()->pharmacy_branch_id)->get();
-        }
-        
+            $list = PharmacySupplySub::where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
+            ->get();
 
-        return view('pharmacy.stock_masterlist', compact('medicines', 'branches'));
+            return view('pharmacy.stock_masterlist', compact('list'));
+        }
     }
 
     public function ajaxMedicineDispensary() {

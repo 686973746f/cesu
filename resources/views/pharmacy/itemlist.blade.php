@@ -13,7 +13,7 @@
                     @if(auth()->user()->isPharmacyMasterAdmin())
                     <a href="{{route('pharmacy_masteritem_list', ['trigger_additem' => 1])}}" class="btn btn-success">Add Master Item</a>
                     @endif
-                    <a href="{{route('pharmacy_itemlist_masterlist')}}" class="btn btn-primary">View Masterlist</a>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mview_modal">View Masterlist</button>
                 </div>
                 <!-- <div><button type="button" class="btn btn-success" data-toggle="modal" data-target="#addProduct">Add Product</button></div> -->
             </div>
@@ -95,4 +95,21 @@
         </div>
     </div>
 </form>
+
+<div class="modal fade" id="mview_modal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Select View Type</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+                <a href="{{route('pharmacy_itemlist_masterlist')}}" class="btn btn-primary btn-block">View Masterlist (New Format)</a>
+                <a href="{{route('pharmacy_itemlist_masterlist')}}?oldview=1" class="btn btn-primary btn-block">View Masterlist (Old Format)</a>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
