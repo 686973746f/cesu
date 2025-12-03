@@ -32,6 +32,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
+                    <button type="submit" class="btn btn-primary btn-block" name="submit" value="case_per_purok">Case per Street/Purok</button>
                     <button type="submit" class="btn btn-primary btn-block" name="submit" value="demographic_profile">View Demographic Profile of Patients</button>
                 </div>
             </div>

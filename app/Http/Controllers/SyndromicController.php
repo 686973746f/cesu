@@ -4917,6 +4917,23 @@ class SyndromicController extends Controller
                 'brgy' => $brgy,
             ]);
         }
+        else if(request()->input('submit') == 'case_per_purok') {
+            // aggregate: group by address_street on syndromic_patients
+            $streetCounts = SyndromicRecords::select(
+                    DB::raw("COALESCE(NULLIF(TRIM(syndromic_patients.address_street), ''), 'Unknown') as address_street"),
+                    DB::raw("SUM(CASE WHEN LOWER(COALESCE(syndromic_patients.gender, '')) LIKE 'm%' THEN 1 ELSE 0 END) as male"),
+                    DB::raw("SUM(CASE WHEN LOWER(COALESCE(syndromic_patients.gender, '')) LIKE 'f%' THEN 1 ELSE 0 END) as female"),
+                    DB::raw("COUNT(*) as total")
+                )
+                ->join('syndromic_patients', 'syndromic_patients.id', '=', 'syndromic_records.syndromic_patient_id')
+                ->whereRaw("UPPER(syndromic_patients.address_brgy_text) = 'MANGGAHAN'")
+                ->whereBetween('syndromic_records.consultation_date', [$date1, $date2])
+                ->groupBy(DB::raw("COALESCE(NULLIF(TRIM(syndromic_patients.address_street), ''), 'Unknown')"))
+                ->orderByDesc('total')
+                ->get();
+
+                return view('syndromic.special_report.purok_disease', compact('streetCounts', 'date1', 'date2', 'brgy'));
+        }
         else {
             return abort(401);
         }
