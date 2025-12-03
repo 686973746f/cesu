@@ -63,9 +63,9 @@
                             <input type="text" class="form-control" name="batch_number" id="batch_number" value="{{old('batch_number', $d->batch_number)}}">
                         </div>
                     </div>
-                    
                 </div>
                 @if($d->pharmacysub->pharmacysupplymaster->quantity_type == 'BOX')
+                <!--
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -80,11 +80,14 @@
                         </div>
                     </div>
                 </div>
+                -->
                 @else
+                <!--
                 <div class="form-group">
                   <label for="change_qty_piece">Current Quantity (in Piece/s)</label>
                   <input type="number" class="form-control" name="change_qty_piece" id="change_qty_piece" value="{{old('change_qty_piece', $d->current_piece_stock)}}" required>
                 </div>
+                -->
                 @endif
             </div>
             <div class="card-footer">
