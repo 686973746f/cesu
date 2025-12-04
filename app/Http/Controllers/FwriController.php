@@ -22,6 +22,13 @@ class FwriController extends Controller
 
             if($s) {
                 $facility_name = $s->facility_name;
+                
+                if($s->facility_type == 'Hospital' || $s->facility_type == 'Infirmary') {
+                    return redirect()
+                    ->back()
+                    ->with('msg', 'Hospitals/Infirmaries must use the CSV Uploading Tool instead.')
+                    ->with('msgtype', 'warning');
+                }
             }
             else {
                 return abort(401);
@@ -113,6 +120,25 @@ class FwriController extends Controller
                     $inj_brgy = $r->injury_address_brgy_text;
                 }
 
+                $address_street = '';
+
+                if($r->filled('address_houseno')) {
+                    $address_street = $address_street.mb_strtoupper($r->address_street);
+                }
+
+                if($r->filled('address_street')) {
+                    $address_street = $address_street.mb_strtoupper($r->address_houseno);
+                }
+
+                $injury_address_street = '';
+                if($r->filled('injury_address_houseno')) {
+                    $injury_address_street = $injury_address_street.mb_strtoupper($r->injury_address_houseno);
+                }
+
+                if($r->filled('injury_address_street')) {
+                    $injury_address_street = $injury_address_street.mb_strtoupper($r->injury_address_street);
+                }
+
                 $c = FwInjury::create([
                     'reported_by' => mb_strtoupper($r->reported_by),
                     'report_date' => $r->report_date,
@@ -127,16 +153,16 @@ class FwriController extends Controller
                     'gender' => mb_strtoupper($r->gender),
                     'is_4ps' => $r->is_4ps,
                     'contact_number' => $r->contact_number,
-                    'address_region_code' => $r->address_region_code,
-                    'address_region_text' => $r->address_region_text,
-                    'address_province_code' => $r->address_province_code,
-                    'address_province_text' => $r->address_province_text,
-                    'address_muncity_code' => $r->address_muncity_code,
-                    'address_muncity_text' => $r->address_muncity_text,
-                    'address_brgy_code' => $r->address_brgy_text,
-                    'address_brgy_text' => $r->address_brgy_text,
-                    'address_street' => ($r->filled('address_street')) ? mb_strtoupper($r->address_street) : NULL,
-                    'address_houseno' => ($r->filled('address_houseno')) ? mb_strtoupper($r->address_houseno) : NULL,
+                    //'address_region_code' => $r->address_region_code,
+                    //'address_region_text' => $r->address_region_text,
+                    //'address_province_code' => $r->address_province_code,
+                    //'address_province_text' => $r->address_province_text,
+                    //'address_muncity_code' => $r->address_muncity_code,
+                    //'address_muncity_text' => $r->address_muncity_text,
+                    //'address_brgy_code' => $r->address_brgy_text,
+                    //'address_brgy_text' => $r->address_brgy_text,
+                    'address_street' => ($address_street != '') ? $address_street : NULL,
+                    //'address_houseno' => ($r->filled('address_houseno')) ? mb_strtoupper($r->address_houseno) : NULL,
                     'injury_date' => $r->injury_date,
                     'consultation_date' => $r->consultation_date,
                     'reffered_anotherhospital' => $r->reffered_anotherhospital,
@@ -144,16 +170,16 @@ class FwriController extends Controller
                     'place_of_occurrence' => $r->place_of_occurrence,
                     'place_of_occurrence_others' => ($r->place_of_occurrence == 'OTHERS') ? mb_strtoupper($r->place_of_occurrence_others) : NULL,
                     'injury_sameadd' => $r->injury_sameadd,
-                    'injury_address_region_code' => $inj_reg_code,
-                    'injury_address_region_text' => $inj_reg_text,
-                    'injury_address_province_code' => $inj_prov_code,
-                    'injury_address_province_text' => $inj_prov_text,
-                    'injury_address_muncity_code' => $inj_munc_code,
-                    'injury_address_muncity_text' => $inj_munc_text,
-                    'injury_address_brgy_code' => $inj_brgy,
-                    'injury_address_brgy_text' => $inj_brgy,
+                    //'injury_address_region_code' => $inj_reg_code,
+                    //'injury_address_region_text' => $inj_reg_text,
+                    //'injury_address_province_code' => $inj_prov_code,
+                    //'injury_address_province_text' => $inj_prov_text,
+                    //'injury_address_muncity_code' => $inj_munc_code,
+                    //'injury_address_muncity_text' => $inj_munc_text,
+                    //'injury_address_brgy_code' => $inj_brgy,
+                    //'injury_address_brgy_text' => $inj_brgy,
                     'injury_address_street' => ($r->filled('injury_address_street')) ? mb_strtoupper($r->injury_address_street) : NULL,
-                    'injury_address_houseno' => ($r->filled('injury_address_houseno')) ? mb_strtoupper($r->injury_address_houseno) : NULL,
+                    //'injury_address_houseno' => ($r->filled('injury_address_houseno')) ? mb_strtoupper($r->injury_address_houseno) : NULL,
                     'involvement_type' => $r->involvement_type,
                     'nature_injury' => $r->nature_injury,
                     'iffw_typeofinjury' => ($r->nature_injury == 'FIREWORKS INJURY') ? implode(',', $r->iffw_typeofinjury) : NULL,
@@ -460,17 +486,6 @@ class FwriController extends Controller
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
             header('Content-Disposition: attachment; filename="'. urlencode($fileName).'"');
             $writer1->save('php://output');
-        }
-    }
-
-    public function uploadExcel(Request $r) {
-        try {
-            Excel::import(new FwriImport, $r->file('excel_file'));
-        }
-        catch(\Exception $e) {
-            return redirect()->back()
-            ->with('msg', 'Error: '.$e->getMessage())
-            ->with('msgtype', 'danger');
         }
     }
 }

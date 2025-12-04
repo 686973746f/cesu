@@ -10286,7 +10286,7 @@ class PIDSRController extends Controller
         ]);
     }
 
-    public static function callCsvTemplateMaker($disease, $type, $f, $r) {
+    public static function callCsvTemplateMaker($disease, $type, $f, $r, $convert_flat) {
         if($disease == 'DENGUE') {
             $className = 'Dengue';
             $csvName = 'dengue';
@@ -10362,41 +10362,48 @@ class PIDSRController extends Controller
                 }
 
                 if($cf) {
-                    //For PSGC Codes
-                    if(!isset($d->dru_reg_code)) {
-                        if(!isset($cf->edcs_region_code)) {
-                            $dru_reg_code = (int) rtrim($cf->address_region_psgc, '0');
+                    if($convert_flat) {
+                        //For PSGC Codes
+                        if(!isset($d->dru_reg_code)) {
+                            if(!isset($cf->edcs_region_code)) {
+                                $dru_reg_code = (int) rtrim($cf->address_region_psgc, '0');
+                            }
+                            else {
+                                $dru_reg_code = $cf->edcs_region_code;
+                            }
                         }
                         else {
-                            $dru_reg_code = $cf->edcs_region_code;
+                            $dru_reg_code = $d->dru_reg_code;
                         }
-                    }
-                    else {
-                        $dru_reg_code = $d->dru_reg_code;
-                    }
 
-                    if(!isset($d->dru_pro_code)) {
-                        if(!isset($cf->edcs_province_code)) {
-                            $dru_pro_code = (int) rtrim($cf->address_province_psgc, '0');
+                        if(!isset($d->dru_pro_code)) {
+                            if(!isset($cf->edcs_province_code)) {
+                                $dru_pro_code = (int) rtrim($cf->address_province_psgc, '0');
+                            }
+                            else {
+                                $dru_pro_code = $cf->edcs_province_code;
+                            }
                         }
                         else {
-                            $dru_pro_code = $cf->edcs_province_code;
+                            $dru_pro_code = $d->dru_pro_code;
                         }
-                    }
-                    else {
-                        $dru_pro_code = $d->dru_pro_code;
-                    }
 
-                    if(!isset($d->dru_mun_code)) {
-                        if(!isset($cf->edcs_muncity_code)) {
-                            $dru_mun_code = (int) rtrim($cf->address_muncity_psgc, '0');
+                        if(!isset($d->dru_mun_code)) {
+                            if(!isset($cf->edcs_muncity_code)) {
+                                $dru_mun_code = (int) rtrim($cf->address_muncity_psgc, '0');
+                            }
+                            else {
+                                $dru_mun_code = $cf->edcs_muncity_code;
+                            }
                         }
                         else {
-                            $dru_mun_code = $cf->edcs_muncity_code;
+                            $dru_mun_code = $d->dru_mun_code;
                         }
                     }
                     else {
-                        $dru_mun_code = $d->dru_mun_code;
+                        $dru_reg_code = $cf->address_region;
+                        $dru_pro_code = $cf->address_province;
+                        $dru_mun_code = $cf->address_muncity;
                     }
                 }
                 else {
@@ -10415,25 +10422,45 @@ class PIDSRController extends Controller
                 $sheet->getStyle('G'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
                 $sheet->setCellValue('H'.$row, Carbon::parse($d->DOB)->age); //Age
 
-                $sheet->setCellValue('I'.$row, $d->brgy->city->province->region->edcs_code); //Current Region
-                $sheet->setCellValue('J'.$row, $d->brgy->city->province->edcs_code); //Current Province
-                $sheet->setCellValue('K'.$row, $d->brgy->city->edcs_code); //Current MunCity
-                $sheet->setCellValue('L'.$row, $d->brgy->edcs_code); //Current Brgy
+                if($convert_flat == 'Y') {
+                    $sheet->setCellValue('I'.$row, $d->brgy->city->province->region->regionName); //Current Region
+                    $sheet->setCellValue('J'.$row, $d->brgy->city->province->name); //Current Province
+                    $sheet->setCellValue('K'.$row, $d->brgy->city->alt_name ?: $d->brgy->city->name); //Current MunCity
+                    $sheet->setCellValue('L'.$row, $d->brgy->alt_name ?: $d->brgy->name); //Current Brgy
+
+                    $sheet->setCellValue('N'.$row, $d->brgy->city->province->region->regionName); //Permanent Region
+                    $sheet->setCellValue('O'.$row, $d->brgy->city->province->name); //Permanent Province
+                    $sheet->setCellValue('P'.$row, $d->brgy->city->alt_name ?: $d->brgy->city->name); //Permanent MunCity
+                    $sheet->setCellValue('Q'.$row, $d->brgy->alt_name ?: $d->brgy->name); //Permanent Brgy
+
+                    $sheet->setCellValue('U'.$row, $d->edcs_healthFacilityCode); //Facility Code
+                    $sheet->setCellValue('V'.$row, $dru_reg_code); //DRU Region Code
+                    $sheet->setCellValue('W'.$row, $dru_pro_code); //DRU Province Code
+                    $sheet->setCellValue('X'.$row, $dru_mun_code); //DRU MunCity Code
+                }
+                else {
+                    $sheet->setCellValue('I'.$row, $d->brgy->city->province->region->edcs_code); //Current Region
+                    $sheet->setCellValue('J'.$row, $d->brgy->city->province->edcs_code); //Current Province
+                    $sheet->setCellValue('K'.$row, $d->brgy->city->edcs_code); //Current MunCity
+                    $sheet->setCellValue('L'.$row, $d->brgy->edcs_code); //Current Brgy
+
+                    $sheet->setCellValue('N'.$row, $d->brgy->city->province->region->edcs_code); //Permanent Region
+                    $sheet->setCellValue('O'.$row, $d->brgy->city->province->edcs_code); //Permanent Province
+                    $sheet->setCellValue('P'.$row, $d->brgy->city->edcs_code); //Permanent MunCity
+                    $sheet->setCellValue('Q'.$row, $d->brgy->edcs_code); //Permanent Brgy
+
+                    $sheet->setCellValue('U'.$row, $d->edcs_healthFacilityCode); //Facility Code
+                    $sheet->setCellValue('V'.$row, $dru_reg_code); //DRU Region Code
+                    $sheet->setCellValue('W'.$row, $dru_pro_code); //DRU Province Code
+                    $sheet->setCellValue('X'.$row, $dru_mun_code); //DRU MunCity Code
+                }
+
                 $sheet->setCellValue('M'.$row, $d->Streetpurok); //Current StreetProk
-
-                $sheet->setCellValue('N'.$row, $d->brgy->city->province->region->edcs_code); //Permanent Region
-                $sheet->setCellValue('O'.$row, $d->brgy->city->province->edcs_code); //Permanent Province
-                $sheet->setCellValue('P'.$row, $d->brgy->city->edcs_code); //Permanent MunCity
-                $sheet->setCellValue('Q'.$row, $d->brgy->edcs_code); //Permanent Brgy
                 $sheet->setCellValue('R'.$row, $d->Streetpurok); //Permanent StreetProk
-
+                
                 $sheet->setCellValue('S'.$row, 'N'); //Member of Indigenous People
                 $sheet->setCellValue('T'.$row, ''); //Indigenous People Tribe
-                $sheet->setCellValue('U'.$row, $d->edcs_healthFacilityCode); //Facility Code
-                $sheet->setCellValue('V'.$row, $dru_reg_code); //DRU Region Code
-                $sheet->setCellValue('W'.$row, $dru_pro_code); //DRU Province Code
-                $sheet->setCellValue('X'.$row, $dru_mun_code); //DRU MunCity Code
-
+                
                 if($disease == 'DENGUE') {
                     /*
                     //Check first if there is NS1 Positive Lab Data
@@ -10739,7 +10766,14 @@ class PIDSRController extends Controller
             return abort(404);
         }
 
-        return $this->callCsvTemplateMaker($disease, 'downloadCsv', $f, $r);
+        if($r->has('convert_flat')) {
+            $convert_flat = true;
+        }
+        else {
+            $convert_flat = false;
+        }
+
+        return $this->callCsvTemplateMaker($disease, 'downloadCsv', $f, $r, $convert_flat);
     }
 
     public function processCsvTemplateDownloadEncoder(Request $r) {

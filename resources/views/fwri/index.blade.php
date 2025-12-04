@@ -507,8 +507,8 @@
             }
         });
 
-        $('#facicheck').modal({backdrop: 'static', keyboard: false});
-        $('#facicheck').modal('show');
+        //$('#facicheck').modal({backdrop: 'static', keyboard: false});
+        //$('#facicheck').modal('show');
 
         //Select2 Init for Address Bar
         $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_text, #injury_address_region_code, #injury_address_province_code, #injury_address_muncity_code, #injury_address_brgy_text').select2({

@@ -990,17 +990,18 @@ Route::get('json/mwly', [JsonReportController::class, 'mwly']);
 Route::get('json/mwcy', [JsonReportController::class, 'mwcy']);
 Route::get('json/mwcombine', [JsonReportController::class, 'mwcombine']);
 
-//FIREWORK RELATED INJURY FWRI - CLOSED AS OF JANUARY 05, 2025 TO BE REPLACED BY FWRI IMPORT TOOL
-//Route::get('fwri/{code}', [FwriController::class, 'index'])->name('fwri_index');
-//Route::post('fwri/{code}/add', [FwriController::class, 'store'])->name('fwri_store');
-//Route::get('fwri/{code}/success', [FwriController::class, 'success'])->name('fwri_success');
-
 //INJURY - VEHICLE INJURY REPORTING
 Route::get('facility_report/{code}', [FacilityReportingController::class, 'index'])->name('facility_report_index');
 Route::get('facility_report/{code}/injury_reporting', [InjuryController::class, 'index'])->name('facility_report_injury_index');
 Route::post('facility_report/{code}/injury_reporting/upload_fwri', [InjuryController::class, 'uploadfwri'])->name('upload_fwri');
 Route::post('facility_report/{code}/injury_reporting/upload_injury', [InjuryController::class, 'uploadinjury'])->name('upload_injury');
 Route::post('facility_report/{code}/injury_reporting/store', [InjuryController::class, 'store'])->name('facility_report_injury_store');
+
+//FIREWORK RELATED INJURY FWRI - CLOSED AS OF JANUARY 05, 2025 TO BE REPLACED BY FWRI IMPORT TOOL
+//FOR BHS USE NA LANG
+Route::get('facility_report/{code}/fwri', [FwriController::class, 'index'])->name('fwri_index');
+Route::post('facility_report/{code}/fwri/add', [FwriController::class, 'store'])->name('fwri_store');
+Route::get('facility_report/{code}/fwri/success', [FwriController::class, 'success'])->name('fwri_success');
 
 //SCHOOL BASED SURVEILLANCE
 Route::get('sbds/index/{code}', [SchoolBasedSurveillanceController::class, 'index'])->name('sbs_index');

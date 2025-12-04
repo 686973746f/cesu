@@ -3,7 +3,10 @@
 @section('content')
     <div class="container">
         <div class="card">
-            <div class="card-header"><b>CESU General Trias - Facility Reporting Tool</b></div>
+            <div class="card-header">
+                <div>Welcome, {{$d->facility_name}}</div>
+                <div><b>CESU General Trias - Facility Reporting Tool</b></div>
+            </div>
             <div class="card-body">
                 <div class="alert alert-info text-center" role="alert">
                     <b class="text-danger">WARNING:</b> Please don't share your unique link to unauthorized personnel.
@@ -135,6 +138,11 @@
                                 <option value="{{$y}}">{{$y}}</option>
                                 @endforeach
                             </select>
+                        </div>
+
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" name="convert_flat" id="convert_flat" value="Y" checked>Download as Flat File <small>(This will make the address code back to text form)</small></label>
                         </div>
                     </div>
                     

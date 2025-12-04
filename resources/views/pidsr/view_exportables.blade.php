@@ -14,6 +14,11 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    <div class="alert alert-info" role="alert">
+                        <b class="text-danger">NOTE:</b> After downloading it to .CSV, please don't forget to upload the file on the EDCS-IS website at <a href="https://pidsr.doh.gov.ph">https://pidsr.doh.gov.ph</a> under Batch Upload using your respective account.
+                        <hr>
+                        In case if you encoded something but does not appear here, most likely the case does not fit the case definition and tagged as not eligible to upload.
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped">
                             <thead class="thead-light text-center">
