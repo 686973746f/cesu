@@ -45,8 +45,9 @@ class FwInjury extends Model
         'address_muncity_text',
         'address_brgy_code',
         'address_brgy_text',
+        'brgy_id',
         'address_street',
-        'address_houseno',
+        //'address_houseno',
         'injury_date',
         'consultation_date',
         'reffered_anotherhospital',
@@ -63,7 +64,8 @@ class FwInjury extends Model
         'injury_address_brgy_code',
         'injury_address_brgy_text',
         'injury_address_street',
-        'injury_address_houseno',
+        //'injury_address_houseno',
+        'inj_brgy_id',
         'involvement_type',
         'nature_injury',
         'iffw_typeofinjury',
@@ -73,11 +75,15 @@ class FwInjury extends Model
         'firework_illegal',
         'liquor_intoxication',
         'treatment_given',
+        'given_others',
+        'treatment_code7',
         'disposition_after_consultation',
         'disposition_after_consultation_transferred_hospital',
 
         'disposition_after_admission',
         'disposition_after_admission_transferred_hospital',
+        'transferred_to_sp',
+        'follow_disp',
 
         'date_died',
         'aware_healtheducation_list',
@@ -89,6 +95,15 @@ class FwInjury extends Model
         'status',
         'remarks',
         'sent',
+
+        'plc_injury',
+        'fac_regno',
+        'trandate',
+        'sentinel',
+
+        'facility_reg',
+        'facility_prov',
+        'facility_citymun',
     ];
 
     public function getName() {
@@ -224,5 +239,13 @@ class FwInjury extends Model
         */
 
         return $this->getInjuryAddress();
+    }
+
+    public function brgy() {
+        return $this->belongsTo(EdcsBrgy::class, 'brgy_id');
+    }
+
+    public function injurybrgy() {
+        return $this->belongsTo(EdcsBrgy::class, 'inj_brgy_id');
     }
 }

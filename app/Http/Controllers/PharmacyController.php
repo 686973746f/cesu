@@ -1400,6 +1400,7 @@ class PharmacyController extends Controller
 
             //CREATE STOCK CARD
             $new_stockcard = $r->user()->pharmacystockcard()->create([
+                'status' => 'APPROVED',
                 'subsupply_id' => $d->id,
                 'type' => 'ISSUED',
                 'before_qty_box' => ($d->pharmacysupplymaster->quantity_type == 'BOX') ? $d->getOriginal('master_box_stock') : NULL,

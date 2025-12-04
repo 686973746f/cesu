@@ -38,16 +38,17 @@ class CreateFwInjuriesTable extends Migration
             $table->string('contact_number')->nullable();
             $table->string('contact_number2')->nullable();
 
-            $table->text('address_region_code');
-            $table->text('address_region_text');
-            $table->text('address_province_code');
-            $table->text('address_province_text');
-            $table->text('address_muncity_code');
-            $table->text('address_muncity_text');
-            $table->text('address_brgy_code');
-            $table->text('address_brgy_text');
+            $table->text('address_region_code')->nullable();
+            $table->text('address_region_text')->nullable();
+            $table->text('address_province_code')->nullable();
+            $table->text('address_province_text')->nullable();
+            $table->text('address_muncity_code')->nullable();
+            $table->text('address_muncity_text')->nullable();
+            $table->text('address_brgy_code')->nullable();
+            $table->text('address_brgy_text')->nullable();
+            $table->foreignId('brgy_id')->constrained('edcs_brgies')->onDelete('cascade');
             $table->text('address_street')->nullable();
-            $table->text('address_houseno')->nullable();
+            //$table->text('address_houseno')->nullable();
 
             $table->dateTime('injury_date')->nullable();
             $table->dateTime('consultation_date')->nullable();
@@ -68,8 +69,9 @@ class CreateFwInjuriesTable extends Migration
             $table->text('injury_address_muncity_text')->nullable();
             $table->text('injury_address_brgy_code')->nullable();
             $table->text('injury_address_brgy_text')->nullable();
+            $table->foreignId('inj_brgy_id')->constrained('edcs_brgies')->onDelete('cascade');
             $table->text('injury_address_street')->nullable();
-            $table->text('injury_address_houseno')->nullable();
+            //$table->text('injury_address_houseno')->nullable();
 
             $table->string('involvement_type')->nullable();
             $table->string('nature_injury')->nullable();
@@ -82,11 +84,15 @@ class CreateFwInjuriesTable extends Migration
             $table->string('liquor_intoxication', 1)->default('N');
 
             $table->text('treatment_given')->nullable();
+            $table->text('given_others')->nullable();
+            $table->text('treatment_code7')->nullable();
             $table->text('disposition_after_consultation')->nullable();
             $table->text('disposition_after_consultation_transferred_hospital')->nullable();
 
             $table->text('disposition_after_admission')->nullable();
             $table->text('disposition_after_admission_transferred_hospital')->nullable();
+            $table->text('transferred_to_sp')->nullable();
+            $table->text('follow_disp')->nullable();
 
             $table->date('date_died')->nullable();
             $table->text('aware_healtheducation_list')->nullable();
@@ -97,6 +103,15 @@ class CreateFwInjuriesTable extends Migration
 
             $table->string('status')->default('ENABLED');
             $table->text('remarks')->nullable();
+
+            $table->text('plc_injury')->nullable();
+            $table->text('fac_regno')->nullable();
+            $table->text('trandate')->nullable();
+            $table->text('sentinel')->nullable();
+
+            $table->text('facility_reg')->nullable();
+            $table->text('facility_prov')->nullable();
+            $table->text('facility_citymun')->nullable();
             $table->timestamps();
         }); 
     }

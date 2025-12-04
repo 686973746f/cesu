@@ -304,8 +304,8 @@
                                     <label for="involvement_type"><span class="text-danger font-weight-bold">*</span>Type of Involvement</label>
                                         <select class="form-control" name="involvement_type" id="involvement_type" required>
                                             <option value="" disabled {{(is_null(old('involvement_type'))) ? 'selected' : ''}}>Choose...</option>
-                                            <option value="ACTIVE" {{(old('involvement_type') == 'HOME') ? 'selected' : ''}}>ACTIVE (NAGPAPUTOK)</option>
-                                            <option value="PASSIVE" {{(old('involvement_type') == 'STREET') ? 'selected' : ''}}>PASSIVE (NADAMAY/NAPADAAN LANG)</option>
+                                            <option value="ACTIVE" {{(old('involvement_type') == 'ACTIVE') ? 'selected' : ''}}>ACTIVE (NAGPAPUTOK)</option>
+                                            <option value="PASSIVE" {{(old('involvement_type') == 'PASSIVE') ? 'selected' : ''}}>PASSIVE (NADAMAY/NAPADAAN LANG)</option>
                                         </select>
                                     </div>
                                 </div>
@@ -341,20 +341,21 @@
                                     <div class="form-group">
                                     <label for="anatomical_location"><span class="text-danger font-weight-bold">*</span>Anatomical Location (multiple responses)</label>
                                         <select class="form-control" name="anatomical_location[]" id="anatomical_location" required multiple>
-                                            <option value="HEAD" {{(in_array('HEAD', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>HEAD</option>
                                             <option value="EYE" {{(in_array('EYE', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>EYE</option>
+                                            <option value="HEAD" {{(in_array('HEAD', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>HEAD</option>
                                             <option value="NECK" {{(in_array('NECK', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>NECK</option>
                                             <option value="CHEST" {{(in_array('CHEST', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>CHEST</option>
                                             <option value="BACK" {{(in_array('BACK', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>BACK</option>
                                             <option value="ABDOMEN" {{(in_array('ABDOMEN', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>ABDOMEN</option>
+                                            <option value="BUTTOCKS" {{(in_array('BUTTOCKS', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>BUTTOCKS</option>
+                                            <option value="HAND" {{(in_array('HAND', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>HAND</option>
+                                            <option value="FOREARM/ARM" {{(in_array('FOREARM/ARM', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>FOREARM/ARM</option>
                                             <option value="PELVIS" {{(in_array('PELVIS', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>PELVIS</option>
                                             <option value="THIGH" {{(in_array('THIGH', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>THIGH</option>
-                                            <option value="BUTTOCKS" {{(in_array('BUTTOCKS', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>BUTTOCKS</option>
-                                            <option value="LEGS" {{(in_array('LEGS', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>LEGS</option>
                                             <option value="KNEE" {{(in_array('KNEE', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>KNEE</option>
+                                            <option value="LEGS" {{(in_array('LEGS', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>LEGS</option>
                                             <option value="FOOT" {{(in_array('FOOT', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>FOOT</option>
-                                            <option value="FOREARM/ARM" {{(in_array('FOREARM/ARM', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>FOREARM/ARM</option>
-                                            <option value="HAND" {{(in_array('HAND', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>HAND</option>
+                                            <option value="OTHERS" {{(in_array('OTHERS', explode(',', old('anatomical_location')))) ? 'selected' : ''}}>OTHERS</option>
                                         </select>
                                     </div>
                                 </div>
