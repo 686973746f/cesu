@@ -5,6 +5,9 @@
         <div class="card">
             <div class="card-header"><b>CESU General Trias - Facility Reporting Tool</b></div>
             <div class="card-body">
+                <div class="alert alert-info text-center" role="alert">
+                    <b class="text-danger">WARNING:</b> Please don't share your unique link to unauthorized personnel.
+                </div>
                 <a href="{{route('facility_report_injury_index', $d->sys_code1)}}" class="btn btn-primary btn-lg btn-block">Injury Reporting Tool</a>
                 <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#addCase">Encode Case of Reportable Disease</button>
                 <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#edcsImportModal">View Imports to EDCS-IS</button>
