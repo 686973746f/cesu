@@ -36,8 +36,8 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <div class="alert alert-primary" role="alert">
-                        Test
+                    <div class="alert alert-primary text-center" role="alert">
+                        Sa pagpapatuloy, sumasang-ayon ka sa <b>Republic Act 11332</b> at sa <b>Data Privacy Act of 2012</b>, at gagamitin ng City Health Office - General Trias ang iyong impormasyon para sa Online National Electronic Injury Surveillance System (ONEISS) nang may mahigpit na pagiging kumpidensyal.
                     </div>
                     <button type="submit" class="btn btn-success btn-block">Next</button>
                 </div>

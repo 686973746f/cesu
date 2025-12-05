@@ -70,7 +70,7 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="lname"><b class="text-danger">*</b>Last Name</label>
+                                        <label for="lname"><b class="text-danger">*</b>Last Name/Apelyido</label>
                                         <input type="text" class="form-control" name="lname" id="lname" value="{{old('lname', $lname)}}" placeholder="DELA CRUZ" minlength="2" maxlength="50" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required {{($blockinputs) ? 'readonly' : ''}}>
                                     </div>
                                 </div>
