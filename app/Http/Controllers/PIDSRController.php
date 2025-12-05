@@ -10766,6 +10766,10 @@ class PIDSRController extends Controller
             return abort(404);
         }
 
+        return $this->callCsvTemplateMaker($disease, 'downloadCsv', $f, $r, false);
+    }
+
+    public function processCsvTemplateDownloadEncoder(Request $r) {
         if($r->has('convert_flat')) {
             $convert_flat = true;
         }
@@ -10773,19 +10777,22 @@ class PIDSRController extends Controller
             $convert_flat = false;
         }
 
-        return $this->callCsvTemplateMaker($disease, 'downloadCsv', $f, $r, $convert_flat);
-    }
-
-    public function processCsvTemplateDownloadEncoder(Request $r) {
         $f = DohFacility::where('sys_code1', auth()->user()->opdfacility->sys_code1)->first();
 
-        return $this->callCsvTemplateMaker($r->disease, 'extractAll', $f, $r);
+        return $this->callCsvTemplateMaker($r->disease, 'extractAll', $f, $r, $convert_flat);
     }
 
     public function processCsvTemplateDownload($facility_code, Request $r) {
+        if($r->has('convert_flat')) {
+            $convert_flat = true;
+        }
+        else {
+            $convert_flat = false;
+        }
+
         $f = DohFacility::where('sys_code1', $facility_code)->first();
 
-        return $this->callCsvTemplateMaker($r->disease, 'extractAll', $f, $r);
+        return $this->callCsvTemplateMaker($r->disease, 'extractAll', $f, $r, $convert_flat);
     }
 
     public function caseViewEditV2($disease, $id) {
@@ -10877,6 +10884,30 @@ class PIDSRController extends Controller
     }
 
     public function hfmdNewOrEdit(Hfmd $record) {
+        //Get Facility
+        if(request()->input('facility_code')) {
+            $f = DohFacility::where('sys_code1', request()->input('facility_code'))->first();
+
+            if(!$f) {
+                return abort(404);
+            }
+        }
+        else {
+            $f = DohFacility::where('id', auth()->user()->itr_facility_id)->first();
+        }
+
+        $facility_list = DohFacility::where('address_muncity', 'CITY OF GENERAL TRIAS')->get();
+
+        return view('pidsr.inhouse_edcs.hfmd', [
+            'd' => $record,
+            'f' => $f,
+            'mode' => 'EDIT',
+            //'brgy_list' => $brgy_list,
+            'facility_list' => $facility_list,
+        ]);
+    }
+
+    public function measlesNewOrEdit(Measles $record) {
         //Get Facility
         if(request()->input('facility_code')) {
             $f = DohFacility::where('sys_code1', request()->input('facility_code'))->first();
