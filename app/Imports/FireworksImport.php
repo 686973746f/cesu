@@ -2,12 +2,13 @@
 
 namespace App\Imports;
 
+use Carbon\Carbon;
+use App\Models\Regions;
 use App\Models\EdcsBrgy;
 use App\Models\EdcsCity;
-use App\Models\EdcsProvince;
-use Carbon\Carbon;
 use App\Models\FwInjury;
-use App\Models\Regions;
+use Illuminate\Support\Str;
+use App\Models\EdcsProvince;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\ToCollection;
@@ -167,6 +168,17 @@ class FireworksImport implements ToModel, WithHeadingRow
                     $aware_arr[] = 'NOT AWARE';
                 }
 
+                $foundunique = false;
+
+                while(!$foundunique) {
+                    $for_qr = Str::random(10);
+                    
+                    $search = FwInjury::where('qr', $for_qr)->first();
+                    if(!$search) {
+                        $foundunique = true;
+                    }
+                }
+
                 $c = FwInjury::create([
                     'oneiss_pno' => $r['pno'],
                     'oneiss_status' => mb_strtoupper($r['status']),
@@ -204,7 +216,7 @@ class FireworksImport implements ToModel, WithHeadingRow
                     'consultation_date' => Carbon::parse($r['encounter_date'].' '.$r['encounter_time'])->format('Y-m-d H:i:s'),
                     'reffered_anotherhospital' => substr($r['referral'],0,1),
                     'nameof_hospital' => $r['reffered_from'],
-                    'place_of_occurrence' => $r['place_of_occurence'],
+                    'place_of_occurrence' => mb_strtoupper($r['place_of_occurence']),
                     'place_of_occurrence_others' => $r['place_of_occurence_others'],
                     'injury_sameadd' => substr($r['poi_sameadd'],0,1),
                     //'injury_address_region_code',
@@ -255,6 +267,8 @@ class FireworksImport implements ToModel, WithHeadingRow
                     'facility_reg' => $r['facility_reg'],
                     'facility_prov' => $r['facility_prov'],
                     'facility_citymun' => $r['facility_citymun'],
+
+                    'qr' => $for_qr,
                 ]);
             }
         }

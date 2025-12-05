@@ -999,9 +999,14 @@ Route::post('facility_report/{code}/injury_reporting/store', [InjuryController::
 
 //FIREWORK RELATED INJURY FWRI - CLOSED AS OF JANUARY 05, 2025 TO BE REPLACED BY FWRI IMPORT TOOL
 //FOR BHS USE NA LANG
+
 Route::get('facility_report/{code}/fwri', [FwriController::class, 'index'])->name('fwri_index');
 Route::post('facility_report/{code}/fwri/add', [FwriController::class, 'store'])->name('fwri_store');
 Route::get('facility_report/{code}/fwri/success', [FwriController::class, 'success'])->name('fwri_success');
+
+Route::get('ligtaschristmas/selfreport', [FwriController::class, 'selfreportindex'])->name('fwri_selfreport');
+Route::get('ligtaschristmas/selfreport/check', [FwriController::class, 'selfreportCheck'])->name('fwri_selfreport_check');
+Route::post('ligtaschristmas/selfreport/store', [FwriController::class, 'selfreportStore'])->name('fwri_selfreport_store');
 
 //SCHOOL BASED SURVEILLANCE
 Route::get('sbds/index/{code}', [SchoolBasedSurveillanceController::class, 'index'])->name('sbs_index');

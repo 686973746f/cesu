@@ -103,6 +103,8 @@ class CreateFwInjuriesTable extends Migration
 
             $table->string('status')->default('ENABLED');
             $table->text('remarks')->nullable();
+            $table->string('sent', 1)->default('N');
+            $table->string('from_selfreport', 1)->default('N');
 
             $table->text('plc_injury')->nullable();
             $table->text('fac_regno')->nullable();
@@ -112,6 +114,8 @@ class CreateFwInjuriesTable extends Migration
             $table->text('facility_reg')->nullable();
             $table->text('facility_prov')->nullable();
             $table->text('facility_citymun')->nullable();
+
+            $table->text('qr')->nullable();
             $table->timestamps();
         }); 
     }

@@ -106,26 +106,42 @@
     <label for="Streetpurok" class="form-label"><b class="text-danger">*</b>House/Lot No./Street/Purok/Subdivision</label>
     <input type="text" class="form-control" id="Streetpurok" name="Streetpurok" style="text-transform: uppercase;" value="{{old('Streetpurok')}}" placeholder="ex. S1 B2 L3 PHASE 4 SUBDIVISION HOMES" required>
 </div>
-<div class="form-group">
-    <label for="sys_occupationtype"><span class="text-danger font-weight-bold">*</span>Has Occupation/Student?</label>
-    <select class="form-control" name="sys_occupationtype" id="sys_occupationtype" required>
-        <option value="" disabled {{(is_null(old('sys_occupationtype'))) ? 'selected' : ''}}>Choose...</option>
-        <option value="WORKING" {{(old('sys_occupationtype') == 'WORKING') ? 'selected' : ''}}>Has Occupation/Work</option>
-        <option value="STUDENT" {{(old('sys_occupationtype') == 'STUDENT') ? 'selected' : ''}}>Student</option>
-        <option value="NONE" {{(old('sys_occupationtype') == 'NONE') ? 'selected' : ''}}>Not Applicable (N/A)</option>
-    </select>
-</div>
-<div class="row d-none" id="hasOccupation">
+<div class="row">
     <div class="col-md-6">
         <div class="form-group">
-            <label for="sys_businessorschool_name" class="form-label"><b class="text-danger">*</b><span id="occupationNameText"></span></label>
-            <input type="text" class="form-control" id="sys_businessorschool_name" name="sys_businessorschool_name" style="text-transform: uppercase;" value="{{old('sys_businessorschool_name')}}">
+            <label for="sys_occupationtype"><span class="text-danger font-weight-bold">*</span>Has Occupation/Student?</label>
+            <select class="form-control" name="sys_occupationtype" id="sys_occupationtype" required>
+                <option value="" disabled {{(is_null(old('sys_occupationtype'))) ? 'selected' : ''}}>Choose...</option>
+                <option value="WORKING" {{(old('sys_occupationtype') == 'WORKING') ? 'selected' : ''}}>Has Occupation/Work</option>
+                <option value="STUDENT" {{(old('sys_occupationtype') == 'STUDENT') ? 'selected' : ''}}>Student</option>
+                <option value="NONE" {{(old('sys_occupationtype') == 'NONE') ? 'selected' : ''}}>Not Applicable (N/A)</option>
+            </select>
+        </div>
+        <div class="d-none" id="hasOccupation">
+            <div class="form-group">
+                <label for="sys_businessorschool_name" class="form-label"><b class="text-danger">*</b><span id="occupationNameText"></span></label>
+                <input type="text" class="form-control" id="sys_businessorschool_name" name="sys_businessorschool_name" style="text-transform: uppercase;" value="{{old('sys_businessorschool_name')}}">
+            </div>
+            <div class="form-group">
+                <label for="sys_businessorschool_address" class="form-label"><b class="text-danger">*</b><span id="occupationAddressText"></span></label>
+                <input type="text" class="form-control" id="sys_businessorschool_address" name="sys_businessorschool_address" style="text-transform: uppercase;" value="{{old('sys_businessorschool_address')}}">
+            </div>
         </div>
     </div>
     <div class="col-md-6">
         <div class="form-group">
-            <label for="sys_businessorschool_address" class="form-label"><b class="text-danger">*</b><span id="occupationAddressText"></span></label>
-            <input type="text" class="form-control" id="sys_businessorschool_address" name="sys_businessorschool_address" style="text-transform: uppercase;" value="{{old('sys_businessorschool_address')}}" pattern="(^[a-zA-Z0-9 ]+$)+">
+            <label for="ip"><span class="text-danger font-weight-bold">*</span>Is the case a member of Indigeous Group?</label>
+            <select class="form-control" name="ip" id="ip" required>
+                <option value="" disabled {{(is_null(old('ip'))) ? 'selected' : ''}}>Choose...</option>
+                <option value="Y" {{(old('ip') == 'Y') ? 'selected' : ''}}>Yes</option>
+                <option value="N" {{(old('ip') == 'N') ? 'selected' : ''}}>No</option>
+            </select>
+        </div>
+        <div id="ip_div" class="d-none">
+            <div class="form-group">
+                <label for="ipgroup" class="form-label"><b class="text-danger">*</b>Specify Indigenous Group</label>
+                <input type="text" class="form-control" id="ipgroup" name="ipgroup" style="text-transform: uppercase;" value="{{old('ipgroup')}}">
+            </div>
         </div>
     </div>
 </div>

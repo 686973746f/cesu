@@ -10,7 +10,7 @@
 			return false;
 		}
 	});
-    
+
     //Default Values for Gentri
     var regionDefault = 1;
     var provinceDefault = 18;
@@ -138,4 +138,41 @@
             $('#address_muncity_code').val(cityDefault).trigger('change');
         }, 2500); // Slight delay to ensure city is loaded
     }
+
+    $('#sys_occupationtype').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'WORKING' || $(this).val() == 'STUDENT') {
+            $('#hasOccupation').removeClass('d-none');
+
+            $('#sys_businessorschool_name').prop('required', true);
+            $('#sys_businessorschool_address').prop('required', true);
+        }
+        else {
+            $('#hasOccupation').addClass('d-none');
+
+            $('#sys_businessorschool_name').prop('required', false);
+            $('#sys_businessorschool_address').prop('required', false);
+        }
+
+        if($(this).val() == 'WORKING') {
+            $('#occupationNameText').text('Name of Workplace');
+            $('#occupationAddressText').text('Address of Workplace');
+        }
+        else if($(this).val() == 'STUDENT') {
+            $('#occupationNameText').text('Name of School');
+            $('#occupationAddressText').text('Address of School');
+        }
+    }).trigger('change');
+
+    $('#ip').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'Y') {
+            $('#ip_div').removeClass('d-none');
+            $('#ipgroup').prop('required', true);
+        }
+        else {
+            $('#ip_div').addClass('d-none');
+            $('#ipgroup').prop('required', true);
+        }
+    }).trigger('change');
 </script>

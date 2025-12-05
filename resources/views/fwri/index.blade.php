@@ -2,7 +2,29 @@
 
 @section('content')
     <div class="container">
-        <form action="{{route('fwri_store', $code)}}" method="POST" autocomplete="off">
+        @php
+            if(Str::contains(request()->url(), 'ligtaschristmas')) {
+                $route = route('fwri_selfreport_store');
+                $blockinputs = true;
+
+                $lname = mb_strtoupper(request()->input('lname'));
+                $fname = mb_strtoupper(request()->input('fname'));
+                $mname = (request()->input('mname') != '') ? mb_strtoupper(request()->input('mname')) : '';
+                $suffix = (request()->input('suffix') != '') ? mb_strtoupper(request()->input('suffix')) : '';
+                $bdate = request()->input('bdate');
+            }
+            else {
+                $route = route('fwri_store', $code);
+                $blockinputs = false;
+
+                $lname = '';
+                $fname = '';
+                $mname = '';
+                $suffix = '';
+                $bdate = request()->input('bdate');
+            }
+        @endphp
+        <form action="{{$route}}" method="POST" autocomplete="off">
             @csrf
             <div class="card">
                 <div class="card-header"><b>CESU Gen. Trias - Fireworks Related Injury (FWRI) Online Reporting Tool</b></div>
@@ -15,6 +37,7 @@
                         {{session('msg')}}
                     </div>
                     @endif
+                    @if(!Str::contains(request()->url(), 'ligtaschristmas'))
                     <div class="card mb-3">
                         <div class="card-header text-center"><b>METADATA</b></div>
                         <div class="card-body">
@@ -40,6 +63,7 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                     <div class="card mb-3">
                         <div class="card-header text-center"><b>PATIENT DATA</b></div>
                         <div class="card-body">
@@ -47,25 +71,25 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="lname"><b class="text-danger">*</b>Last Name</label>
-                                        <input type="text" class="form-control" name="lname" id="lname" value="{{old('lname')}}" placeholder="DELA CRUZ" minlength="2" maxlength="50" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required>
+                                        <input type="text" class="form-control" name="lname" id="lname" value="{{old('lname', $lname)}}" placeholder="DELA CRUZ" minlength="2" maxlength="50" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required {{($blockinputs) ? 'readonly' : ''}}>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="fname"><b class="text-danger">*</b>First Name</label>
-                                        <input type="text" class="form-control" name="fname" id="fname" value="{{old('fname')}}" placeholder="JUAN" minlength="2" maxlength="50" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required>
+                                        <input type="text" class="form-control" name="fname" id="fname" value="{{old('fname', $fname)}}" placeholder="JUAN" minlength="2" maxlength="50" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required {{($blockinputs) ? 'readonly' : ''}}>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="mname">Middle Name <i>(If Applicable)</i></label>
-                                        <input type="text" class="form-control" name="mname" id="mname" value="{{old('mname')}}" placeholder="SANCHEZ" minlength="2" maxlength="50" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
+                                        <input type="text" class="form-control" name="mname" id="mname" value="{{old('mname', $mname)}}" placeholder="SANCHEZ" minlength="2" maxlength="50" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" {{($blockinputs) ? 'readonly' : ''}}>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="suffix">Name Extension <i>(If Applicable)</i></label>
-                                        <input type="text" class="form-control" name="suffix" id="suffix" value="{{old('suffix')}}" minlength="2" maxlength="3" placeholder="JR, SR, III, IV" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
+                                        <input type="text" class="form-control" name="suffix" id="suffix" value="{{old('suffix', $suffix)}}" minlength="2" maxlength="3" placeholder="JR, SR, III, IV" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" {{($blockinputs) ? 'readonly' : ''}}>
                                     </div>
                                 </div>
                             </div>
@@ -73,7 +97,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="bdate"><b class="text-danger">*</b>Date of Birth</label>
-                                        <input type="date" class="form-control" name="bdate" id="bdate" value="{{old('bdate')}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
+                                        <input type="date" class="form-control" name="bdate" id="bdate" value="{{old('bdate', $bdate)}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" required {{($blockinputs) ? 'readonly' : ''}}>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -109,50 +133,39 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="address_text" class="d-none">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <input type="text" id="address_region_text" name="address_region_text" value="{{old('address_region_text')}}" readonly>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <input type="text" id="address_province_text" name="address_province_text" value="{{old('address_province_text')}}" readonly>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <input type="text" id="address_muncity_text" name="address_muncity_text" value="{{old('address_muncity_text')}}" readonly>
-                                    </div>
-                                </div>
-                            </div>
+
                             <div class="card">
                                 <div class="card-header text-center"><b>PATIENT'S CURRENT ADDRESS</b></div>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <div class="mb-3">
-                                              <label for="address_region_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Region</label>
-                                              <select class="form-control" name="address_region_code" id="address_region_code" required>
-                                              </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="address_province_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Province</label>
-                                                <select class="form-control" name="address_province_code" id="address_province_code" required>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="address_muncity_code" class="form-label"><span class="text-danger font-weight-bold">*</span>City/Municipality</label>
-                                                <select class="form-control" name="address_muncity_code" id="address_muncity_code" required>
+                                            <div class="form-group">
+                                                <label for="address_region_code"><b class="text-danger">*</b>Region</label>
+                                                <select class="form-control" name="address_region_code" id="address_region_code" tabindex="-1" required>
+                                                @foreach(App\Models\Regions::orderBy('regionName', 'ASC')->get() as $a)
+                                                <option value="{{$a->id}}" {{($a->id == 1) ? 'selected' : ''}}>{{$a->regionName}}</option>
+                                                @endforeach
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="address_brgy_text" class="form-label"><span class="text-danger font-weight-bold">*</span>Barangay</label>
-                                                <select class="form-control" name="address_brgy_text" id="address_brgy_text" required>
+                                            <div class="form-group">
+                                                <label for="address_province_code"><b class="text-danger">*</b>Province</label>
+                                                <select class="form-control" name="address_province_code" id="address_province_code" tabindex="-1" required disabled>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="address_muncity_code"><b class="text-danger">*</b>City/Municipality</label>
+                                                <select class="form-control" name="address_muncity_code" id="address_muncity_code" tabindex="-1" required disabled>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="address_brgy_code"><b class="text-danger">*</b>Barangay</label>
+                                                <select class="form-control" name="brgy_id" id="address_brgy_code" required disabled>
                                                 </select>
                                             </div>
                                         </div>
@@ -236,47 +249,35 @@
                                         </select>
                                     </div>
                                     <div id="ifDiffInjuryAdd" class="d-none">
-                                        <div id="address_text" class="d-none">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <input type="text" id="injury_address_region_text" name="injury_address_region_text" value="{{old('injury_address_region_text')}}" readonly>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <input type="text" id="injury_address_province_text" name="injury_address_province_text" value="{{old('injury_address_province_text')}}" readonly>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <input type="text" id="injury_address_muncity_text" name="injury_address_muncity_text" value="{{old('injury_address_muncity_text')}}" readonly>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <div class="mb-3">
-                                                  <label for="injury_address_region_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Injury Occured Region</label>
-                                                  <select class="form-control" name="injury_address_region_code" id="injury_address_region_code">
-                                                  </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label for="injury_address_province_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Injury Occured Province</label>
-                                                    <select class="form-control" name="injury_address_province_code" id="injury_address_province_code">
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label for="injury_address_muncity_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Injury Occured City/Municipality</label>
-                                                    <select class="form-control" name="injury_address_muncity_code" id="injury_address_muncity_code">
+                                                <div class="form-group">
+                                                    <label for="inj_address_region_code"><b class="text-danger">*</b>Region</label>
+                                                    <select class="form-control" name="inj_address_region_code" id="inj_address_region_code" tabindex="-1">
+                                                    @foreach(App\Models\Regions::orderBy('regionName', 'ASC')->get() as $a)
+                                                    <option value="{{$a->id}}" {{($a->id == 1) ? 'selected' : ''}}>{{$a->regionName}}</option>
+                                                    @endforeach
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label for="injury_address_brgy_text" class="form-label"><span class="text-danger font-weight-bold">*</span>Injury Occured Barangay</label>
-                                                    <select class="form-control" name="injury_address_brgy_text" id="injury_address_brgy_text">
+                                                <div class="form-group">
+                                                    <label for="inj_address_province_code"><b class="text-danger">*</b>Province</label>
+                                                    <select class="form-control" name="inj_address_province_code" id="inj_address_province_code" tabindex="-1" disabled>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="inj_address_muncity_code"><b class="text-danger">*</b>City/Municipality</label>
+                                                    <select class="form-control" name="inj_address_muncity_code" id="inj_address_muncity_code" tabindex="-1" disabled>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="inj_address_brgy_code"><b class="text-danger">*</b>Barangay</label>
+                                                    <select class="form-control" name="inj_brgy_id" id="inj_address_brgy_code" disabled>
                                                     </select>
                                                 </div>
                                             </div>
@@ -376,7 +377,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                    <label for="liquor_intoxication"><span class="text-danger font-weight-bold">*</span>Liquor Intoxication?</label>
+                                    <label for="liquor_intoxication"><span class="text-danger font-weight-bold">*</span>Liquor Intoxication? (Nakainom o Lasing)</label>
                                         <select class="form-control" name="liquor_intoxication" id="liquor_intoxication" required>
                                             <option value="" disabled {{(is_null(old('liquor_intoxication'))) ? 'selected' : ''}}>Choose...</option>
                                             <option value="Y" {{(old('liquor_intoxication') == 'Y') ? 'selected' : ''}}>Yes</option>
@@ -385,6 +386,7 @@
                                     </div>
                                 </div>
                             </div>
+                            @if(!Str::contains(request()->url(), 'ligtaschristmas'))
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -444,8 +446,9 @@
                                     </div>
                                 </div>
                             </div>
+                            @endif
                             <div class="form-group">
-                            <label for="aware_healtheducation_list"><span class="text-danger font-weight-bold">*</span>Is the patient aware of any health education materials regarding fireworks (multiple responses)</label>
+                                <label for="aware_healtheducation_list"><span class="text-danger font-weight-bold">*</span>Is the patient aware of any health education materials regarding fireworks (multiple responses)</label>
                                 <select class="form-control" name="aware_healtheducation_list[]" id="aware_healtheducation_list" required multiple>
                                     <option value="TV" {{(in_array('TV', explode(',', old('aware_healtheducation_list')))) ? 'selected' : ''}}>TV</option>
                                     <option value="NEWSPAPER/PRINT" {{(in_array('NEWSPAPER/PRINT', explode(',', old('aware_healtheducation_list')))) ? 'selected' : ''}}>NEWSPAPER/PRINT</option>
@@ -474,26 +477,6 @@
         </form>
     </div>
 
-    <div class="modal fade" id="facicheck" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title text-center"><b>CESU Gen. Trias: Fireworks-Related Injury (FWRI) Online Reporting Tool for City of General Trias, Cavite</b></h5>
-                </div>
-                <div class="modal-body text-center">
-                    <h5>Please confirm if you used the correct code for your Facility before encoding:</h5>
-                    <h4 class="mt-3"><b class="text-primary">Code: {{$code}}</b></h4>
-                    <h4 class="mb-3"><b class="text-success">Name: {{mb_strtoupper($hospital_name)}}</b></h4>
-                    <h5>If this is your encoding facility, you may now proceed.</h5>
-                    <h5>If NOT, do not proceed, close this form and use the right URL Code that was given by CESU Gen. Trias.</h5>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success btn-block" data-dismiss="modal">Proceed</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script>
         $(document).bind('keydown', function(e) {
             if(e.ctrlKey && (e.which == 83)) {
@@ -511,9 +494,256 @@
         //$('#facicheck').modal('show');
 
         //Select2 Init for Address Bar
-        $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_text, #injury_address_region_code, #injury_address_province_code, #injury_address_muncity_code, #injury_address_brgy_text').select2({
-            theme: 'bootstrap',
+        //Default Values for Gentri
+        var regionDefault = 1;
+        var provinceDefault = 18;
+        var cityDefault = 388;
+
+        $('#address_region_code').change(function (e) { 
+            e.preventDefault();
+
+            var regionId = $(this).val();
+            var getProvinceUrl = "{{ route('address_get_provinces', ['region_id' => ':regionId']) }}";
+
+            if (regionId) {
+                $('#address_province_code').prop('disabled', false);
+                $('#address_muncity_code').prop('disabled', true);
+                $('#address_brgy_code').prop('disabled', true);
+
+                $('#address_province_code').empty();
+                $('#address_muncity_code').empty();
+                $('#address_brgy_code').empty();
+
+                $.ajax({
+                    url: getProvinceUrl.replace(':regionId', regionId),
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#address_province_code').empty();
+                        $('#address_province_code').append('<option value="" disabled selected>Select Province</option>');
+
+                        let sortedData = Object.entries(data).sort((a, b) => {
+                            return a[1].localeCompare(b[1]); // Compare province names (values)
+                        });
+
+                        $.each(sortedData, function(key, value) {
+                            $('#address_province_code').append('<option value="' + value[0] + '">' + value[1] + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#address_province_code').empty();
+            }
+        }).trigger('change');
+
+        $('#address_province_code').change(function (e) { 
+            e.preventDefault();
+
+            var provinceId = $(this).val();
+            var getCityUrl = "{{ route('address_get_citymun', ['province_id' => ':provinceId']) }}";
+
+            if (provinceId) {
+                $('#address_province_code').prop('disabled', false);
+                $('#address_muncity_code').prop('disabled', false);
+                $('#address_brgy_code').prop('disabled', true);
+
+                $('#address_muncity_code').empty();
+                $('#address_brgy_code').empty();
+
+                $.ajax({
+                    url: getCityUrl.replace(':provinceId', provinceId),
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#address_muncity_code').empty();
+                        $('#address_muncity_code').append('<option value="" disabled selected>Select City/Municipality</option>');
+                        
+                        let sortedData = Object.entries(data).sort((a, b) => {
+                            return a[1].localeCompare(b[1]); // Compare province names (values)
+                        });
+
+                        $.each(sortedData, function(key, value) {
+                            $('#address_muncity_code').append('<option value="' + value[0] + '">' + value[1] + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#address_muncity_code').empty();
+            }
         });
+
+        $('#address_muncity_code').change(function (e) { 
+            e.preventDefault();
+
+            var cityId = $(this).val();
+            var getBrgyUrl = "{{ route('address_get_brgy', ['city_id' => ':cityId']) }}";
+
+            if (cityId) {
+                $('#address_province_code').prop('disabled', false);
+                $('#address_muncity_code').prop('disabled', false);
+                $('#address_brgy_code').prop('disabled', false);
+
+                $('#address_brgy_code').empty();
+
+                $.ajax({
+                    url: getBrgyUrl.replace(':cityId', cityId),
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#address_brgy_code').empty();
+                        $('#address_brgy_code').append('<option value="" disabled selected>Select Barangay</option>');
+
+                        let sortedData = Object.entries(data).sort((a, b) => {
+                            return a[1].localeCompare(b[1]); // Compare province names (values)
+                        });
+
+                        $.each(sortedData, function(key, value) {
+                            $('#address_brgy_code').append('<option value="' + value[0] + '">' + value[1] + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#address_brgy_code').empty();
+            }
+        });
+
+        if ($('#address_region_code').val()) {
+            $('#address_region_code').trigger('change'); // Automatically load provinces on page load
+        }
+
+        if (provinceDefault) {
+            setTimeout(function() {
+                $('#address_province_code').val(provinceDefault).trigger('change');
+            }, 1500); // Slight delay to ensure province is loaded
+        }
+        if (cityDefault) {
+            setTimeout(function() {
+                $('#address_muncity_code').val(cityDefault).trigger('change');
+            }, 2500); // Slight delay to ensure city is loaded
+        }
+
+        $('#inj_address_region_code').change(function (e) { 
+            e.preventDefault();
+
+            var regionId = $(this).val();
+            var getProvinceUrl = "{{ route('address_get_provinces', ['region_id' => ':regionId']) }}";
+
+            if (regionId) {
+                $('#inj_address_province_code').prop('disabled', false);
+                $('#inj_address_muncity_code').prop('disabled', true);
+                $('#inj_address_brgy_code').prop('disabled', true);
+
+                $('#inj_address_province_code').empty();
+                $('#inj_address_muncity_code').empty();
+                $('#inj_address_brgy_code').empty();
+
+                $.ajax({
+                    url: getProvinceUrl.replace(':regionId', regionId),
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#inj_address_province_code').empty();
+                        $('#inj_address_province_code').append('<option value="" disabled selected>Select Province</option>');
+
+                        let sortedData = Object.entries(data).sort((a, b) => {
+                            return a[1].localeCompare(b[1]); // Compare province names (values)
+                        });
+
+                        $.each(sortedData, function(key, value) {
+                            $('#inj_address_province_code').append('<option value="' + value[0] + '">' + value[1] + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#inj_address_province_code').empty();
+            }
+        }).trigger('change');
+
+        $('#inj_address_province_code').change(function (e) { 
+            e.preventDefault();
+
+            var provinceId = $(this).val();
+            var getCityUrl = "{{ route('address_get_citymun', ['province_id' => ':provinceId']) }}";
+
+            if (provinceId) {
+                $('#inj_address_province_code').prop('disabled', false);
+                $('#inj_address_muncity_code').prop('disabled', false);
+                $('#inj_address_brgy_code').prop('disabled', true);
+
+                $('#inj_address_muncity_code').empty();
+                $('#inj_address_brgy_code').empty();
+
+                $.ajax({
+                    url: getCityUrl.replace(':provinceId', provinceId),
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#inj_address_muncity_code').empty();
+                        $('#inj_address_muncity_code').append('<option value="" disabled selected>Select City/Municipality</option>');
+                        
+                        let sortedData = Object.entries(data).sort((a, b) => {
+                            return a[1].localeCompare(b[1]); // Compare province names (values)
+                        });
+
+                        $.each(sortedData, function(key, value) {
+                            $('#inj_address_muncity_code').append('<option value="' + value[0] + '">' + value[1] + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#inj_address_muncity_code').empty();
+            }
+        });
+
+        $('#inj_address_muncity_code').change(function (e) { 
+            e.preventDefault();
+
+            var cityId = $(this).val();
+            var getBrgyUrl = "{{ route('address_get_brgy', ['city_id' => ':cityId']) }}";
+
+            if (cityId) {
+                $('#inj_address_province_code').prop('disabled', false);
+                $('#inj_address_muncity_code').prop('disabled', false);
+                $('#inj_address_brgy_code').prop('disabled', false);
+
+                $('#inj_address_brgy_code').empty();
+
+                $.ajax({
+                    url: getBrgyUrl.replace(':cityId', cityId),
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#inj_address_brgy_code').empty();
+                        $('#inj_address_brgy_code').append('<option value="" disabled selected>Select Barangay</option>');
+
+                        let sortedData = Object.entries(data).sort((a, b) => {
+                            return a[1].localeCompare(b[1]); // Compare province names (values)
+                        });
+
+                        $.each(sortedData, function(key, value) {
+                            $('#inj_address_brgy_code').append('<option value="' + value[0] + '">' + value[1] + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#inj_address_brgy_code').empty();
+            }
+        });
+
+        if ($('#inj_address_region_code').val()) {
+            $('#inj_address_region_code').trigger('change'); // Automatically load provinces on page load
+        }
+
+        if (provinceDefault) {
+            setTimeout(function() {
+                $('#inj_address_province_code').val(provinceDefault).trigger('change');
+            }, 1500); // Slight delay to ensure province is loaded
+        }
+        if (cityDefault) {
+            setTimeout(function() {
+                $('#inj_address_muncity_code').val(cityDefault).trigger('change');
+            }, 2500); // Slight delay to ensure city is loaded
+        }
 
         $('#anatomical_location, #treatment_given, #aware_healtheducation_list, #iffw_typeofinjury').select2({
             theme: 'bootstrap',
@@ -924,23 +1154,24 @@
 
         $('#injury_sameadd').change(function (e) { 
             e.preventDefault();
+            
             if($(this).val() == 'N') {
                 $('#ifDiffInjuryAdd').removeClass('d-none');
 
-                $('#injury_address_region_code').prop('required', true);
-                $('#injury_address_province_code').prop('required', true);
-                $('#injury_address_muncity_code').prop('required', true);
-                $('#injury_address_brgy_text').prop('required', true);
+                $('#inj_address_region_code').prop('required', true);
+                $('#inj_address_province_code').prop('required', true);
+                $('#inj_address_muncity_code').prop('required', true);
+                $('#inj_address_brgy_code').prop('required', true);
                 $('#injury_address_houseno').prop('required', true);
                 $('#injury_address_street').prop('required', true);
             }
             else {
                 $('#ifDiffInjuryAdd').addClass('d-none');
                 
-                $('#injury_address_region_code').prop('required', false);
-                $('#injury_address_province_code').prop('required', false);
-                $('#injury_address_muncity_code').prop('required', false);
-                $('#injury_address_brgy_text').prop('required', false);
+                $('#inj_address_region_code').prop('required', false);
+                $('#inj_address_province_code').prop('required', false);
+                $('#inj_address_muncity_code').prop('required', false);
+                $('#inj_address_brgy_code').prop('required', false);
                 $('#injury_address_houseno').prop('required', false);
                 $('#injury_address_street').prop('required', false);
             }

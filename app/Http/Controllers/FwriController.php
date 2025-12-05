@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\FwInjury;
 use App\Imports\FwriImport;
 use App\Models\DohFacility;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\BarangayHealthStation;
@@ -50,21 +51,178 @@ class FwriController extends Controller
         }
     }
 
-    public function store($code, Request $r) {
+    public static function storeFwriTemplate($code, $r) {
         //SEARCH CODE AND FETCH FACILITY NAME
+        if($code == 'FROM_SELFREPORT') {
+            $facility_name = 'FROM_SELFREPORT';
+            $atype = 'TBD';
 
-        $s = BarangayHealthStation::where('sys_code1', $code)->first();
-        
-        if(!($s)) {
-            $s = DohFacility::where('sys_code1', $code)->first();
-            $facility_name = $s->facility_name;
-            $atype = 'HOSPITAL';
+            $report_date = date('Y-m-d');
         }
         else {
-            $facility_name = $s->name;
-            $atype = 'BHS';
+            $s = BarangayHealthStation::where('sys_code1', $code)->first();
+        
+            if(!($s)) {
+                $s = DohFacility::where('sys_code1', $code)->first();
+                $facility_name = $s->facility_name;
+                $atype = 'HOSPITAL';
+            }
+            else {
+                $facility_name = $s->name;
+                $atype = 'BHS';
+            }
+
+            $report_date = $r->report_date;
         }
         
+        $birthdate = Carbon::parse($r->bdate);
+        $currentDate = Carbon::parse();
+
+        $get_ageyears = $birthdate->diffInYears($currentDate);
+        $get_agemonths = $birthdate->diffInMonths($currentDate);
+        $get_agedays = $birthdate->diffInDays($currentDate);
+
+        //CHECK TREATMENT GIVEN
+        if(!empty($r->treatment_given)) {
+            if(in_array('NO TREATMENT', $r->treatment_given)) {
+                $tr_given = 'NO TREATMENT';
+            }
+            else {
+                $tr_given = implode(',', $r->treatment_given);
+            }
+        }
+        else {
+            $tr_given = 'NO TREATMENT';
+        }
+
+        //CHECK AWARE HEALTH EDUCATION LIST
+        if(!empty($r->aware_healtheducation_list)) {
+            if(in_array('', $r->aware_healtheducation_list)) {
+                $get_hel = 'NOT AWARE';
+            }
+            else {
+                $get_hel = implode(',', $r->aware_healtheducation_list);
+            }
+        }
+        else {
+            $get_hel = 'NOT AWARE';
+        }
+        
+
+        $address_street = '';
+
+        if($r->filled('address_houseno')) {
+            $address_street = $address_street.mb_strtoupper($r->address_street);
+        }
+
+        if($r->filled('address_street')) {
+            $address_street = $address_street.' '.mb_strtoupper($r->address_houseno);
+        }
+
+        $injury_address_street = '';
+        if($r->injury_sameadd) {
+            if($r->filled('address_houseno')) {
+                $injury_address_street = $address_street.mb_strtoupper($r->injury_address_street);
+            }
+
+            if($r->filled('address_street')) {
+                $injury_address_street = $address_street.' '.mb_strtoupper($r->injury_address_houseno);
+            }
+        }
+        else {
+            if($r->filled('injury_address_houseno')) {
+            $injury_address_street = $injury_address_street.mb_strtoupper($r->injury_address_houseno);
+            }
+
+            if($r->filled('injury_address_street')) {
+                $injury_address_street = $injury_address_street.' '.mb_strtoupper($r->injury_address_street);
+            }
+        }
+
+        $foundunique = false;
+
+        while(!$foundunique) {
+            $for_qr = Str::random(10);
+            
+            $search = FwInjury::where('qr', $for_qr)->first();
+            if(!$search) {
+                $foundunique = true;
+            }
+        }
+
+        $handle_array = [
+            'reported_by' => mb_strtoupper($r->reported_by),
+            'report_date' => $report_date,
+            'facility_code' => $code,
+            'account_type' => $atype,
+            'hospital_name' => $facility_name,
+            'lname' => mb_strtoupper($r->lname),
+            'fname' => mb_strtoupper($r->fname),
+            'mname' => ($r->filled('mname')) ? mb_strtoupper($r->mname) : NULL,
+            'suffix' => ($r->filled('suffix')) ? mb_strtoupper($r->suffix) : NULL,
+            'bdate' => $r->bdate,
+            'gender' => mb_strtoupper($r->gender),
+            'is_4ps' => $r->is_4ps,
+            'contact_number' => $r->contact_number,
+            //'address_region_code' => $r->address_region_code,
+            //'address_region_text' => $r->address_region_text,
+            //'address_province_code' => $r->address_province_code,
+            //'address_province_text' => $r->address_province_text,
+            //'address_muncity_code' => $r->address_muncity_code,
+            //'address_muncity_text' => $r->address_muncity_text,
+            //'address_brgy_code' => $r->address_brgy_text,
+            //'address_brgy_text' => $r->address_brgy_text,
+            'brgy_id' => $r->brgy_id,
+            'address_street' => ($address_street != '') ? $address_street : NULL,
+            //'address_houseno' => ($r->filled('address_houseno')) ? mb_strtoupper($r->address_houseno) : NULL,
+            'injury_date' => $r->injury_date,
+            'consultation_date' => $r->consultation_date,
+            'reffered_anotherhospital' => $r->reffered_anotherhospital,
+            'nameof_hospital' => ($r->reffered_anotherhospital == 'Y') ? mb_strtoupper($r->nameof_hospital) : NULL,
+            'place_of_occurrence' => $r->place_of_occurrence,
+            'place_of_occurrence_others' => ($r->place_of_occurrence == 'OTHERS') ? mb_strtoupper($r->place_of_occurrence_others) : NULL,
+            'injury_sameadd' => $r->injury_sameadd,
+            //'injury_address_region_code' => $inj_reg_code,
+            //'injury_address_region_text' => $inj_reg_text,
+            //'injury_address_province_code' => $inj_prov_code,
+            //'injury_address_province_text' => $inj_prov_text,
+            //'injury_address_muncity_code' => $inj_munc_code,
+            //'injury_address_muncity_text' => $inj_munc_text,
+            //'injury_address_brgy_code' => $inj_brgy,
+            //'injury_address_brgy_text' => $inj_brgy,
+            'inj_brgy_id' => ($r->injury_sameadd == 'Y') ? $r->brgy_id : $r->inj_brgy_id,
+            'injury_address_street' => $injury_address_street,
+            //'injury_address_houseno' => ($r->filled('injury_address_houseno')) ? mb_strtoupper($r->injury_address_houseno) : NULL,
+            'involvement_type' => $r->involvement_type,
+            'nature_injury' => $r->nature_injury,
+            'iffw_typeofinjury' => ($r->nature_injury == 'FIREWORKS INJURY') ? implode(',', $r->iffw_typeofinjury) : NULL,
+            'complete_diagnosis' => ($r->complete_diagnosis) ? mb_strtoupper($r->complete_diagnosis) : NULL,
+            'anatomical_location' => implode(',', $r->anatomical_location),
+            'firework_name' => mb_strtoupper($r->firework_name),
+            'firework_illegal' => $r->firework_illegal,
+            'liquor_intoxication' => $r->liquor_intoxication,
+            'treatment_given' => $tr_given,
+            'disposition_after_consultation' => $r->disposition_after_consultation,
+            'disposition_after_consultation_transferred_hospital' => ($r->disposition_after_consultation == 'TRANSFERRED TO ANOTHER HOSPITAL') ? mb_strtoupper($r->disposition_after_consultation_transferred_hospital) : NULL,
+
+            'disposition_after_admission' => $r->disposition_after_admission,
+            'disposition_after_admission_transferred_hospital' => ($r->disposition_after_admission == 'TRANSFERRED TO ANOTHER HOSPITAL') ? mb_strtoupper($r->disposition_after_admission_transferred_hospital) : NULL,
+            
+            'date_died' => ($r->disposition_after_admission == 'DIED DURING ADMISSION') ? $r->date_died : NULL,
+            'aware_healtheducation_list' => $get_hel,
+
+            'age_years' => $get_ageyears,
+            'age_months' => $get_agemonths,
+            'age_days' => $get_agedays,
+
+            'remarks' => (request()->filled('remarks')) ? $r->remarks : NULL,
+            'qr' => $for_qr,
+        ];
+
+        return $handle_array;
+    }
+
+    public function store($code, Request $r) {
         //DUPLICATE CHECKER
         $dpcheck = FwInjury::where(function ($q) use ($r) {
             $q->whereDate('report_date', $r->report_date)
@@ -76,140 +234,9 @@ class FwriController extends Controller
         ->first();
 
         if(!($dpcheck)) {
-            //CHECK TREATMENT GIVEN
-            if(in_array('NO TREATMENT', $r->treatment_given)) {
-                $tr_given = 'NO TREATMENT';
-            }
-            else {
-                $tr_given = implode(',', $r->treatment_given);
-            }
+            $c = FwInjury::create($this->storeFwriTemplate($code, $r));
 
-            //CHECK AWARE HEALTH EDUCATION LIST
-            if(in_array('', $r->aware_healtheducation_list)) {
-                $get_hel = 'NOT AWARE';
-            }
-            else {
-                $get_hel = implode(',', $r->aware_healtheducation_list);
-            }
-
-            if($s) {
-                $birthdate = Carbon::parse($r->bdate);
-                $currentDate = Carbon::parse($r->report_date);
-
-                $get_ageyears = $birthdate->diffInYears($currentDate);
-                $get_agemonths = $birthdate->diffInMonths($currentDate);
-                $get_agedays = $birthdate->diffInDays($currentDate);
-
-                //SAME INJURY ADDRESS CHECK
-                if($r->injury_sameadd == 'Y') {
-                    $inj_reg_code = $r->address_region_code;
-                    $inj_reg_text = $r->address_region_text;
-                    $inj_prov_code = $r->address_province_code;
-                    $inj_prov_text = $r->address_province_text;
-                    $inj_munc_code = $r->address_muncity_code;
-                    $inj_munc_text = $r->address_muncity_text;
-                    $inj_brgy = $r->address_brgy_text;
-                }
-                else {
-                    $inj_reg_code = $r->injury_address_region_code;
-                    $inj_reg_text = $r->injury_address_region_text;
-                    $inj_prov_code = $r->injury_address_province_code;
-                    $inj_prov_text = $r->injury_address_province_text;
-                    $inj_munc_code = $r->injury_address_muncity_code;
-                    $inj_munc_text = $r->injury_address_muncity_text;
-                    $inj_brgy = $r->injury_address_brgy_text;
-                }
-
-                $address_street = '';
-
-                if($r->filled('address_houseno')) {
-                    $address_street = $address_street.mb_strtoupper($r->address_street);
-                }
-
-                if($r->filled('address_street')) {
-                    $address_street = $address_street.mb_strtoupper($r->address_houseno);
-                }
-
-                $injury_address_street = '';
-                if($r->filled('injury_address_houseno')) {
-                    $injury_address_street = $injury_address_street.mb_strtoupper($r->injury_address_houseno);
-                }
-
-                if($r->filled('injury_address_street')) {
-                    $injury_address_street = $injury_address_street.mb_strtoupper($r->injury_address_street);
-                }
-
-                $c = FwInjury::create([
-                    'reported_by' => mb_strtoupper($r->reported_by),
-                    'report_date' => $r->report_date,
-                    'facility_code' => $code,
-                    'account_type' => $atype,
-                    'hospital_name' => $facility_name,
-                    'lname' => mb_strtoupper($r->lname),
-                    'fname' => mb_strtoupper($r->fname),
-                    'mname' => ($r->filled('mname')) ? mb_strtoupper($r->mname) : NULL,
-                    'suffix' => ($r->filled('suffix')) ? mb_strtoupper($r->suffix) : NULL,
-                    'bdate' => $r->bdate,
-                    'gender' => mb_strtoupper($r->gender),
-                    'is_4ps' => $r->is_4ps,
-                    'contact_number' => $r->contact_number,
-                    //'address_region_code' => $r->address_region_code,
-                    //'address_region_text' => $r->address_region_text,
-                    //'address_province_code' => $r->address_province_code,
-                    //'address_province_text' => $r->address_province_text,
-                    //'address_muncity_code' => $r->address_muncity_code,
-                    //'address_muncity_text' => $r->address_muncity_text,
-                    //'address_brgy_code' => $r->address_brgy_text,
-                    //'address_brgy_text' => $r->address_brgy_text,
-                    'address_street' => ($address_street != '') ? $address_street : NULL,
-                    //'address_houseno' => ($r->filled('address_houseno')) ? mb_strtoupper($r->address_houseno) : NULL,
-                    'injury_date' => $r->injury_date,
-                    'consultation_date' => $r->consultation_date,
-                    'reffered_anotherhospital' => $r->reffered_anotherhospital,
-                    'nameof_hospital' => ($r->reffered_anotherhospital == 'Y') ? mb_strtoupper($r->nameof_hospital) : NULL,
-                    'place_of_occurrence' => $r->place_of_occurrence,
-                    'place_of_occurrence_others' => ($r->place_of_occurrence == 'OTHERS') ? mb_strtoupper($r->place_of_occurrence_others) : NULL,
-                    'injury_sameadd' => $r->injury_sameadd,
-                    //'injury_address_region_code' => $inj_reg_code,
-                    //'injury_address_region_text' => $inj_reg_text,
-                    //'injury_address_province_code' => $inj_prov_code,
-                    //'injury_address_province_text' => $inj_prov_text,
-                    //'injury_address_muncity_code' => $inj_munc_code,
-                    //'injury_address_muncity_text' => $inj_munc_text,
-                    //'injury_address_brgy_code' => $inj_brgy,
-                    //'injury_address_brgy_text' => $inj_brgy,
-                    'injury_address_street' => ($r->filled('injury_address_street')) ? mb_strtoupper($r->injury_address_street) : NULL,
-                    //'injury_address_houseno' => ($r->filled('injury_address_houseno')) ? mb_strtoupper($r->injury_address_houseno) : NULL,
-                    'involvement_type' => $r->involvement_type,
-                    'nature_injury' => $r->nature_injury,
-                    'iffw_typeofinjury' => ($r->nature_injury == 'FIREWORKS INJURY') ? implode(',', $r->iffw_typeofinjury) : NULL,
-                    'complete_diagnosis' => mb_strtoupper($r->complete_diagnosis),
-                    'anatomical_location' => implode(',', $r->anatomical_location),
-                    'firework_name' => mb_strtoupper($r->firework_name),
-                    'firework_illegal' => $r->firework_illegal,
-                    'liquor_intoxication' => $r->liquor_intoxication,
-                    'treatment_given' => $tr_given,
-                    'disposition_after_consultation' => $r->disposition_after_consultation,
-                    'disposition_after_consultation_transferred_hospital' => ($r->disposition_after_consultation == 'TRANSFERRED TO ANOTHER HOSPITAL') ? mb_strtoupper($r->disposition_after_consultation_transferred_hospital) : NULL,
-
-                    'disposition_after_admission' => $r->disposition_after_admission,
-                    'disposition_after_admission_transferred_hospital' => ($r->disposition_after_admission == 'TRANSFERRED TO ANOTHER HOSPITAL') ? mb_strtoupper($r->disposition_after_admission_transferred_hospital) : NULL,
-                    
-                    'date_died' => ($r->disposition_after_admission == 'DIED DURING ADMISSION') ? $r->date_died : NULL,
-                    'aware_healtheducation_list' => $get_hel,
-
-                    'age_years' => $get_ageyears,
-                    'age_months' => $get_agemonths,
-                    'age_days' => $get_agedays,
-
-                    'remarks' => (request()->filled('remarks')) ? $r->remarks : NULL,
-                ]);
-
-                return redirect()->route('fwri_success', $code);
-            }
-            else {
-                return abort(401);
-            }
+            return redirect()->route('fwri_success', $code);
         }
         else {
             return redirect()->back()
@@ -302,16 +329,17 @@ class FwriController extends Controller
             'gender' => mb_strtoupper($r->gender),
             'is_4ps' => $r->is_4ps,
             'contact_number' => $r->contact_number,
-            'address_region_code' => $r->address_region_code,
-            'address_region_text' => $r->address_region_text,
-            'address_province_code' => $r->address_province_code,
-            'address_province_text' => $r->address_province_text,
-            'address_muncity_code' => $r->address_muncity_code,
-            'address_muncity_text' => $r->address_muncity_text,
-            'address_brgy_code' => $r->address_brgy_text,
-            'address_brgy_text' => $r->address_brgy_text,
+            //'address_region_code' => $r->address_region_code,
+            //'address_region_text' => $r->address_region_text,
+            //'address_province_code' => $r->address_province_code,
+            //'address_province_text' => $r->address_province_text,
+            //'address_muncity_code' => $r->address_muncity_code,
+            //'address_muncity_text' => $r->address_muncity_text,
+            //'address_brgy_code' => $r->address_brgy_text,
+            //'address_brgy_text' => $r->address_brgy_text,
+            'brgy_id' => $r->brgy_id,
             'address_street' => ($r->filled('address_street')) ? mb_strtoupper($r->address_street) : NULL,
-            'address_houseno' => ($r->filled('address_houseno')) ? mb_strtoupper($r->address_houseno) : NULL,
+            //'address_houseno' => ($r->filled('address_houseno')) ? mb_strtoupper($r->address_houseno) : NULL,
             'injury_date' => $r->injury_date,
             'consultation_date' => $r->consultation_date,
             'reffered_anotherhospital' => $r->reffered_anotherhospital,
@@ -319,16 +347,18 @@ class FwriController extends Controller
             'place_of_occurrence' => $r->place_of_occurrence,
             'place_of_occurrence_others' => ($r->place_of_occurrence_others == 'OTHERS') ? mb_strtoupper($r->place_of_occurrence_others) : NULL,
             'injury_sameadd' => $r->injury_sameadd,
-            'injury_address_region_code' => $r->injury_address_region_code,
-            'injury_address_region_text' => $r->injury_address_region_text,
-            'injury_address_province_code' => $r->injury_address_province_code,
-            'injury_address_province_text' => $r->injury_address_province_text,
-            'injury_address_muncity_code' => $r->injury_address_muncity_code,
-            'injury_address_muncity_text' => $r->injury_address_muncity_text,
-            'injury_address_brgy_code' => $r->injury_address_brgy_text,
-            'injury_address_brgy_text' => $r->injury_address_brgy_text,
+            'inj_brgy_id' => ($r->injury_sameadd == 'Y') ? $r->brgy_id : $r->inj_brgy_id,
+            //'injury_address_region_code' => $r->injury_address_region_code,
+            //'injury_address_region_text' => $r->injury_address_region_text,
+            //'injury_address_province_code' => $r->injury_address_province_code,
+            //'injury_address_province_text' => $r->injury_address_province_text,
+            //'injury_address_muncity_code' => $r->injury_address_muncity_code,
+            //'injury_address_muncity_text' => $r->injury_address_muncity_text,
+            //'injury_address_brgy_code' => $r->injury_address_brgy_text,
+            //'injury_address_brgy_text' => $r->injury_address_brgy_text,
+            
             'injury_address_street' => ($r->filled('injury_address_street')) ? mb_strtoupper($r->injury_address_street) : NULL,
-            'injury_address_houseno' => ($r->filled('injury_address_houseno')) ? mb_strtoupper($r->injury_address_houseno) : NULL,
+            //'injury_address_houseno' => ($r->filled('injury_address_houseno')) ? mb_strtoupper($r->injury_address_houseno) : NULL,
             'involvement_type' => $r->involvement_type,
             'nature_injury' => $r->nature_injury,
             'iffw_typeofinjury' => ($r->nature_injury == 'FIREWORKS INJURY') ? implode(',', $r->iffw_typeofinjury) : NULL,
@@ -474,9 +504,7 @@ class FwriController extends Controller
                 $sheet1->setCellValue('M'.$startCell1, $getDispo);
 
                 $startCell1++;
-
             }
-
             
             //$writer1->save(storage_path('app/fwri/CESUGENTRIAS_APIR_LINELIST_'.date('mdY', strtotime('-1 Day')).'.xlsx'));
 
@@ -486,6 +514,38 @@ class FwriController extends Controller
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
             header('Content-Disposition: attachment; filename="'. urlencode($fileName).'"');
             $writer1->save('php://output');
+        }
+    }
+
+    public function selfreportIndex() {
+        return view('fwri.selfreport');
+    }
+
+    public function selfreportCheck() {
+        return view('fwri.index');
+    }
+
+    public function selfreportStore(Request $r) {
+        //DUPLICATE CHECKER
+        $dpcheck = FwInjury::where(function ($q) use ($r) {
+            $q->whereDate('report_date', $r->report_date)
+            ->orWhereDate('created_at', date('Y-m-d'));
+        })
+        ->where('lname', mb_strtoupper($r->lname))
+        ->where('fname', mb_strtoupper($r->fname))
+        ->whereDate('bdate', $r->bdate)
+        ->first();
+
+        if(!($dpcheck)) {
+            $c = FwInjury::create($this->storeFwriTemplate('FROM_SELFREPORT', $r));
+
+            return dd('success');
+        }
+        else {
+            return redirect()->back()
+            ->withInput()
+            ->with('msg', 'Error: Patient data already exists in the server.')
+            ->with('msgtype', 'warning');
         }
     }
 }

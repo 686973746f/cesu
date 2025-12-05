@@ -9433,6 +9433,24 @@ class PIDSRController extends Controller
                 ->with('modalmsgtype', 'warning');
             }
         }
+        else if($disease == 'MEASLES') {
+            $check = Measles::where('FamilyName', mb_strtoupper($lname))
+            ->where('FirstName', mb_strtoupper($fname))
+            ->where('Year', $entry_date->format('Y'))
+            ->where('MorbidityMonth', $entry_date->format('n'))
+            ->first();
+
+            if(!$check) {
+                return $this->measlesNewOrEdit(new Measles())->with('mode', 'NEW');
+            }
+            else {
+                return redirect()->back()
+                ->withInput()
+                ->with('openEncodeModal', true)
+                ->with('modalmsg', 'Error: Measles Case already exists in the database.')
+                ->with('modalmsgtype', 'warning');
+            }
+        }
     }
 
     public function addCaseStore($disease, Request $r) {
@@ -9814,7 +9832,8 @@ class PIDSRController extends Controller
                 'DAdmit' => ($r->Admitted == 'Y') ? $r->sys_hospitalized_datestart : NULL,
                 'sys_hospitalized_datestart' => ($r->Admitted == 'Y') ? $r->sys_hospitalized_datestart : NULL,
                 'sys_hospitalized_dateend' => ($r->Admitted == 'Y') ? $r->sys_hospitalized_dateend : NULL,
-                
+                'ip' => $r->ip,
+                'ipgroup' => ($r->ip == 'Y') ? mb_strtoupper($r->ipgroup) : NULL,
                 'Type' => 'DF',
                 //'LabTest' => $r->LabTest,
                 //'LabRes' => $r->LabRes,
@@ -9981,6 +10000,8 @@ class PIDSRController extends Controller
                 'MorbidityMonth' => $entry_date->format('n'),
                 'MorbidityWeek' => $entry_date->format('W'),
                 'EPIID' => 'ILI_MPSS_TEMP_'.mb_strtoupper(Str::random(10)),
+                'ip' => $r->ip,
+                'ipgroup' => ($r->ip == 'Y') ? mb_strtoupper($r->ipgroup) : NULL,
                 //'RECSTATUS',
                 //'SentinelSite',
                 //'DeleteRecord',
@@ -10079,6 +10100,8 @@ class PIDSRController extends Controller
                 'Barangay' => $b->alt_name ?: $b->name,
                 'brgy_id' => $b->id,
                 'Streetpurok' => mb_strtoupper($r->Streetpurok),
+                'ip' => $r->ip,
+                'ipgroup' => ($r->ip == 'Y') ? mb_strtoupper($r->ipgroup) : NULL,
                 
                 'Admitted' => ($r->Admitted == 'Y') ? 1 : 0,
                 'DAdmit' => ($r->Admitted == 'Y') ? $r->DAdmit : NULL,
@@ -10922,7 +10945,7 @@ class PIDSRController extends Controller
 
         $facility_list = DohFacility::where('address_muncity', 'CITY OF GENERAL TRIAS')->get();
 
-        return view('pidsr.inhouse_edcs.hfmd', [
+        return view('pidsr.inhouse_edcs.measles', [
             'd' => $record,
             'f' => $f,
             'mode' => 'EDIT',

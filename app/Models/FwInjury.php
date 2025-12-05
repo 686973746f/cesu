@@ -95,6 +95,7 @@ class FwInjury extends Model
         'status',
         'remarks',
         'sent',
+        'from_selfreport',
 
         'plc_injury',
         'fac_regno',
@@ -104,6 +105,8 @@ class FwInjury extends Model
         'facility_reg',
         'facility_prov',
         'facility_citymun',
+
+        'qr',
     ];
 
     public function getName() {
