@@ -10579,7 +10579,7 @@ class PIDSRController extends Controller
                 }
 
                 if($cf) {
-                    if($convert_flat) {
+                    if(!$convert_flat) {
                         //For PSGC Codes
                         if(!isset($d->dru_reg_code)) {
                             if(!isset($cf->edcs_region_code)) {
@@ -10639,7 +10639,7 @@ class PIDSRController extends Controller
                 $sheet->getStyle('G'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
                 $sheet->setCellValue('H'.$row, Carbon::parse($d->DOB)->age); //Age
 
-                if($convert_flat == 'Y') {
+                if($convert_flat) {
                     $sheet->setCellValue('I'.$row, $d->brgy->city->province->region->regionName); //Current Region
                     $sheet->setCellValue('J'.$row, $d->brgy->city->province->name); //Current Province
                     $sheet->setCellValue('K'.$row, $d->brgy->city->alt_name ?: $d->brgy->city->name); //Current MunCity
