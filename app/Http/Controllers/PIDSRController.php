@@ -10675,8 +10675,8 @@ class PIDSRController extends Controller
                 $sheet->setCellValue('M'.$row, $d->Streetpurok); //Current StreetProk
                 $sheet->setCellValue('R'.$row, $d->Streetpurok); //Permanent StreetProk
                 
-                $sheet->setCellValue('S'.$row, 'N'); //Member of Indigenous People
-                $sheet->setCellValue('T'.$row, ''); //Indigenous People Tribe
+                $sheet->setCellValue('S'.$row, $d->ip); //Member of Indigenous People
+                $sheet->setCellValue('T'.$row, $d->ipgroup); //Indigenous People Tribe
                 
                 if($disease == 'DENGUE') {
                     /*
