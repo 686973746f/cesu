@@ -10236,6 +10236,200 @@ class PIDSRController extends Controller
 
             $c = Hfmd::create($table_params);
         }
+        else if($disease == 'MEASLES') {
+            $match_casedef = 0;
+
+            if($r->has('fever') && $r->has('Rash')) {
+                if($r->has('Cough') || $r->has('RunnyNose') || $r->has('RedEyes')) {
+                    $match_casedef = 1;
+                }
+            }
+
+            $table_params = [
+                'RegionOfDrU' => $f->address_region,
+                'ProvOfDRU' => $f->address_province,
+                'MunCityOfDRU' => $f->address_muncity,
+                'DRU' => $f->getFacilityTypeShort(),
+                //'AddressOfDRU' => 
+                'PatientNumber' => $r->PatientNumber,
+                'FullName' => $fullName,
+                'FirstName' => mb_strtoupper($r->fname),
+                'middle_name' => (!is_null($r->mname)) ? mb_strtoupper($r->mname) : NULL,
+                'suffix' => (!is_null($r->suffix)) ? mb_strtoupper($r->suffix) : NULL,
+                'FamilyName' => mb_strtoupper($r->lname),
+                
+                //'Address' => 
+                'Region' => $b->city->province->region->short_name1,
+                'Province' => $b->city->province->name,
+                'Muncity' => $b->city->alt_name ?: $b->city->name,
+                'Barangay' => $b->alt_name ?: $b->name,
+                'brgy_id' => $b->id,
+                'Streetpurok' => mb_strtoupper($r->Streetpurok),
+                'Sex' => $r->sex,
+                //'Preggy' => 
+                //'WkOfPreg' => 
+                'DOB' => $r->bdate,
+                'AgeYears' => $get_ageyears,
+                'AgeMons' => $get_agemonths,
+                'AgeDays' => $get_agedays,
+                'Admitted' => ($r->Admitted == 'Y') ? 1 : 0,
+                'DAdmit' => ($r->Admitted == 'Y') ? $r->DAdmit : NULL,
+                'VitaminA' => $r->VitaminA,
+                'DONSET' => $r->DOnset,
+                'fever' => ($r->has('fever')) ? 'Y' : 'N',
+                'FeverOnset' => ($r->has('fever')) ? $r->FeverOnset : NULL,
+                'Rash' => ($r->has('Rash')) ? 'Y' : 'N',
+                'RashOnset' => ($r->has('Rash')) ? $r->RashOnset : NULL,
+                'Cough' => ($r->has('Cough')) ? 'Y' : 'N',
+                'RunnyNose' => ($r->has('RunnyNose')) ? 'Y' : 'N',
+                'RedEyes' => ($r->has('RedEyes')) ? 'Y' : 'N',
+                'KoplikSpot' => ($r->has('KoplikSpot')) ? 'Y' : 'N',
+                'MeasVacc' => $r->MeasVacc,
+                'MVDose' => ($r->MeasVacc == 'Y' && !is_null($r->MVDose)) ? $r->MVDose : NULL,
+                'MRDose' => ($r->MeasVacc == 'Y' && !is_null($r->MRDose)) ? $r->MRDose : NULL,
+                'MMRDose' => ($r->MeasVacc == 'Y' && !is_null($r->MMRDose)) ? $r->MMRDose : NULL,
+                'LastVacc' => ($r->MeasVacc == 'Y' && !is_null($r->LastVacc)) ? $r->$r->LastVacc : NULL,
+                'VaccValidated' => ($r->MeasVacc == 'Y' && !empty($r->VaccValidated)) ? implode(', ', $r->VaccValidated) : NULL,
+                'VaccValidatedOthers' => ($r->MeasVacc == 'Y' && in_array("OTHERS", $r->VaccValidated)) ? mb_strtoupper($r->VaccValidated) : NULL,
+                'ArthritisArthralgia' => ($r->has('ArthritisArthralgia')) ? 'Y' : 'N',
+                'SwoLympNod' => ($r->has('SwoLympNod')) ? 'Y' : 'N',
+                'LympNodLoc' => ($r->has('SwoLympNod')) ? implode(", ", $r->LympNodLoc) : NULL,
+                'LympNodLocOthers' => ($r->has('SwoLympNod') && !empty($r->$r->LympNodLoc) && in_array("OTHERS", $r->LympNodLoc)) ? mb_strtoupper($r->LympNodLocOthers) : NULL,
+                //'OthLocation' => 
+                'OthSymptoms' => ($r->filled('OthSymptoms')) ? mb_strtoupper($r->OthSymptoms) : NULL,
+                'AreThereAny' => ($r->has('AreThereAny')) ? 'Y' : 'N',
+                'Complications' => ($r->has('AreThereAny') && $r->filled('Complications')) ? mb_strtoupper($r->Complications) : NULL,
+                'wfdiagnosis' =>  ($r->filled('wfdiagnosis')) ? mb_strtoupper($r->wfdiagnosis) : NULL,
+                'parent_contactno' => ($r->filled('parent_contactno')) ? $r->parent_contactno : NULL,
+                'name_of_parentcaregiver' => ($r->filled('name_of_parentcaregiver')) ? mb_strtoupper($r->name_of_parentcaregiver) : NULL,
+                'Reporter' => mb_strtoupper($r->sys_interviewer_name),
+                'Investigator' => mb_strtoupper($r->sys_interviewer_name),
+                'RContactNum' => $r->sys_interviewer_contactno,
+                'ContactNum' => $r->contact_number,
+                'DateOfEntry' => $r->entry_date,
+                'AdmitToEntry' => $admitToEntry,
+                'OnsetToAdmit' => $OnsetToAdmit,
+                'MorbidityMonth' => $entry_date->format('n'),
+                'MorbidityWeek' => $entry_date->format('W'),
+                'EPIID' => 'MEASLES_MPSS_TEMP_'.mb_strtoupper(Str::random(10)),
+                //'ReportToInvestigation' => 
+                //'UniqueKey Index' => 
+                //'RECSTATUS' => 
+                'Reasons' => ($r->MeasVacc == 'N' && !empty($r->Reasons)) ? implode(", ", $r->Reasons) : NULL,
+                'OtherReasons' => ($r->MeasVacc == 'N' && !empty($r->Reasons) && in_array("OTHERS", $r->Reasons)) ? mb_strtoupper($r->OtherReasons) : NULL,
+                'SpecialCampaigns' => ($r->MeasVacc == 'Y') ? $r->SpecialCampaigns : 'N',
+                'Travel' => $r->Travel,
+                'PlaceTravelled' => ($r->Travel == 'Y') ? mb_strtoupper($r->PlaceTravelled) : NULL,
+                'TravelDate' => ($r->Travel == 'Y') ? $r->TravelDate : NULL,
+                'TravelOnset2' => ($r->Travel == 'Y' && $r->has('TravelOnset2')) ? 'Y' : 'N',
+                'TravelOnset1' => ($r->Travel == 'Y' && $r->has('TravelOnset1')) ? 'Y' : 'N',
+                //'TravTiming' => 
+                'ProbExposure' => (!empty($r->ProbExposure)) ? implode(", ", $r->ProbExposure) : NULL,
+                'OtherExposure' => (!empty($r->ProbExposure) && in_array("OTHERS", $r->ProbExposure)) ? mb_strtoupper($r->OtherExposure) : NULL,
+                'OtherCase' => $r->OtherCase,
+                
+                //'WholeBloodColl' => 
+                //'DriedBloodColl' => 
+                //'OP/NPSwabColl' => 
+                //'DateWBtaken' => 
+                //'DateWBsent' => 
+                //'DateDBtaken' => 
+                //'DateDBsent' => 
+                //'OPNPSwabtaken' => 
+                //'OPNPSwabsent' => 
+                //'OPSwabPCRRes' => 
+                //'OPNpSwabResult' => 
+                //'DateWBRecvd' => 
+                //'DateDBRecvd' => 
+                //'OPNPSwabRecvd' => 
+                //'OraColColl' => 
+                //'OraColD8taken' => 
+                //'OraColD8sent' => 
+                //'OraColD8Recvd' => 
+                //'OraColPCRRes' => 
+                'FinalClass' => $r->FinalClass,
+                'InfectionSource' => $r->InfectionSource,
+                'Outcome' => $r->Outcome,
+                'FinalDx' => $r->FinalDx,
+                'Death' => ($r->Outcome == 'DIED') ? $r->Death : NULL,
+                'DCaseRep' => $r->entry_date,
+                'DCASEINV' => $r->edcs_investigateDate,
+                //'SentinelSite' => 
+                'Year' => $entry_date->format('Y'),
+                //'DeleteRecord' => 
+                //'WBRubellaIgM' => 
+                //'WBMeaslesIgM' => 
+                //'DBMeaslesIgM' => 
+                //'DBRubellaIgM' => 
+                'ContactConfirmedCase' => $r->ContactConfirmedCase,
+                'ContactConfirmedRubella' => $r->ContactConfirmedRubella,
+                'ContactName' => ($r->ContactConfirmedCase == 'Y' || $r->ContactConfirmedRubella == 'Y') ? mb_strtoupper($r->ContactName) : NULL,
+                'ContactPlace' => ($r->ContactConfirmedCase == 'Y' || $r->ContactConfirmedRubella == 'Y') ? mb_strtoupper($r->ContactPlace) : NULL,
+                'ContactDate' => ($r->ContactConfirmedCase == 'Y' || $r->ContactConfirmedRubella == 'Y') ? $r->ContactDate : NULL,
+                'NameOfDru' => $f->facility_name,
+                //'District' => 
+                //'ILHZ' => 
+                
+                //'TYPEHOSPITALCLINIC' => 
+                'SENT' => 'Y',
+                //'Labcode' => 
+                
+                //'TravRegion' => 
+                //'TravMun' => 
+                //'TravProv' => 
+                //'TravBgy' => 
+                //'Travelled' => 
+                //'DateTrav' => 
+                //'Report2Inv' => 
+                //'Birth2RashOnset' => 
+                //'OnsetToReport' => 
+                'ip' => $r->ip,
+                'ipgroup' => ($r->ip == 'Y') ? mb_strtoupper($r->ipgroup) : NULL,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'systemsent' => 0,
+                //'enabled' => 
+                
+                //'edcs_caseid' => 
+                'edcs_healthFacilityCode' => $health_facility_code,
+                'edcs_investigatorName' => mb_strtoupper($r->sys_interviewer_name),
+                'edcs_investigateDate' => $r->edcs_investigateDate,
+                'edcs_contactNo' => $r->sys_interviewer_contactno,
+                //'edcs_ageGroup' => 
+                //'edcs_verificationLevel' => 
+                'from_edcs' => 0,
+                'from_inhouse' => 1,
+                //'inhouse_exportedtocsv' => 
+                //'inhouse_exported_date' => 
+                //'encoded_mw' => 
+                'match_casedef' => $match_casedef,
+                //'system_notified' => 
+                //'edcs_userid' => 
+                //'edcs_last_modifiedby' => 
+                //'edcs_last_modified_date' => 
+                //'notify_email_sent' => 
+                //'notify_email_sent_datetime' => 
+                'edcs_patientcontactnum' => $r->contact_number,
+                'system_remarks' => $r->system_remarks,
+                //'brgy_remarks' => 
+                //'system_subdivision_id' => 
+                //'system_subdivision_name' => 
+                //'subdivision_group' => 
+                //'sys_coordinate_x' => 
+                //'sys_coordinate_y' => 
+                //'created_by' => 
+                //'cif_url' => 
+                //'labresult_url' => 
+                //'medicalchart_url' => 
+                //'otherattachments_url' => 
+                //'edcs_customgroup' => 
+                'dru_reg_code' => $dru_reg_code,
+                'dru_pro_code' => $dru_pro_code,
+                'dru_mun_code' => $dru_mun_code,
+            ];
+            
+            $c = Measles::create($table_params);
+        }
 
         if(!$r->facility_code) {
             return redirect()->route('pidsr.casechecker', ['case' => $disease, 'year' => date('Y')])
