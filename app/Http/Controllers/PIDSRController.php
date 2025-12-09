@@ -10532,14 +10532,14 @@ class PIDSRController extends Controller
         }
         else if($type == 'extractAll') {
             if(Auth::check()) {
-                $list = $modelClass::where('Year', $r->year)
+                $list = $modelClass::whereBetween('DateOfEntry', [$r->startDate, $r->endDate])
                 ->where('enabled', 1)
                 ->where('match_casedef', 1)
                 ->get();
             }
             else {
                 $list = $modelClass::where('edcs_healthFacilityCode', $f->healthfacility_code)
-                ->where('Year', $r->year)
+                ->whereBetween('DateOfEntry', [$r->startDate, $r->endDate])
                 ->where('enabled', 1)
                 ->where('match_casedef', 1)
                 ->get();

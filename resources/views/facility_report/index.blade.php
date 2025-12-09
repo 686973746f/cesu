@@ -130,19 +130,24 @@
                             </select>
                         </div>
                         
-                        <div class="form-group">
-                            <label for="year"><b class="text-danger">*</b>Year</label>
-                            <select class="form-control" name="year" id="year" required>
-                                <option value="" disabled selected>Choose...</option>
-                                @foreach(range(date('Y'), 2025) as $y)
-                                <option value="{{$y}}">{{$y}}</option>
-                                @endforeach
-                            </select>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="startDate"><b class="text-danger">*</b>Start Date</label>
+                                    <input type="date" class="form-control" name="startDate" id="startDate" min="2025-01-01" max="{{date('Y-m-t')}}" required>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="endDate"><b class="text-danger">*</b>End Date</label>
+                                    <input type="date" class="form-control" name="endDate" id="endDate" min="2020-01-01" max="{{date('Y-m-t')}}" value="{{date('Y-m-d')}}" required>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-check">
                           <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" name="convert_flat" id="convert_flat" value="Y" checked>Download as Flat File <small>(This will make the address code back to text form)</small></label>
+                            <input type="checkbox" class="form-check-input" name="convert_flat" id="convert_flat" value="Y" checked>Download as Flat File <small>(This will make the address code as readable text form)</small></label>
                         </div>
                     </div>
                     
