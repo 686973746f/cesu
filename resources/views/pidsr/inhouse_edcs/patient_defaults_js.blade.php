@@ -172,7 +172,7 @@
         }
         else {
             $('#ip_div').addClass('d-none');
-            $('#ipgroup').prop('required', true);
+            $('#ipgroup').prop('required', false);
         }
     }).trigger('change');
 </script>
