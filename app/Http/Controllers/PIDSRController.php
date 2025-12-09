@@ -10954,6 +10954,9 @@ class PIDSRController extends Controller
                     $sheet->setCellValue('CA'.$row, ''); //DateofResultbyRITMorSNL
                     $sheet->setCellValue('CB'.$row, ''); //LaboratoryRemarks
                 }
+                else if($disease == 'MEASLES') {
+                    
+                }
 
                 if($type == 'downloadCsv') {
                     $d->inhouse_exportedtocsv = 1;

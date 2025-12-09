@@ -704,7 +704,7 @@
                                         <td>Approved by:</td>
                                         <td>
                                             <img src="{{asset('assets/images/signatureonly_docathan.png')}}" class="img-fluid" style="margin-bottom:-30px;width:10rem;" id="signature3">
-                                            <h6><b><u>JONATHAN P. LUSECO, MD</u></b></h6>
+                                            <h6><b><u>JONATHAN P. LUSECO, RN, MD</u></b></h6>
                                             <h6><small>City Health Officer II</small></h6>
                                         </td>
                                     </tr>
