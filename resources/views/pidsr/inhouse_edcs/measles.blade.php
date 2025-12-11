@@ -180,19 +180,19 @@
                         <div class="col-md-4">
                             <div class="form-group">
                               <label for="MVDose">MV</label>
-                              <input type="number" class="form-control" name="MVDose" id="MVDose">
+                              <input type="number" class="form-control" name="MVDose" id="MVDose" max="3">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                               <label for="MRDose">MR</label>
-                              <input type="number" class="form-control" name="MRDose" id="MRDose">
+                              <input type="number" class="form-control" name="MRDose" id="MRDose" max="3">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                               <label for="MMRDose">MMR</label>
-                              <input type="number" class="form-control" name="MMRDose" id="MMRDose">
+                              <input type="number" class="form-control" name="MMRDose" id="MMRDose" max="3">
                             </div>
                         </div>
                     </div>
@@ -200,22 +200,15 @@
                         <label for="LastVacc">Date last dose received MCV</label>
                         <input type="date" class="form-control" name="LastVacc" id="LastVacc" value="{{old('LastVacc')}}" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}">
                     </div>
-                    <h6>Measles vaccine received validated through:</h6>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="VaccValidated[]" id="VaccValidated_1" value="VACCINATIONCARD">
-                        <label class="form-check-label" for="VaccValidated_1">Vaccination Card</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="VaccValidated[]" id="VaccValidated_2" value="LOGSHEET">
-                        <label class="form-check-label" for="VaccValidated_2">Logsheet</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="VaccValidated[]" id="VaccValidated_3" value="RECALL">
-                        <label class="form-check-label" for="VaccValidated_3">By recall</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="VaccValidated[]" id="VaccValidated_4" value="OTHERS">
-                        <label class="form-check-label" for="VaccValidated_4">Others</label>
+                    <div class="form-group">
+                        <label for="VaccValidated"><span class="text-danger font-weight-bold">*</span>Measles vaccine received validated through:</label>
+                        <select class="form-control" name="VaccValidated" id="VaccValidated">
+                            <option value="" disabled {{(is_null(old('VaccValidated'))) ? 'selected' : ''}}>Choose...</option>
+                            <option value="VCARD" {{(old('MeasVacc') == 'Y') ? 'selected' : ''}}>Vaccination Card</option>
+                            <option value="LOGSHEET" {{(old('MeasVacc') == 'Y') ? 'selected' : ''}}>Logsheet</option>
+                            <option value="RECALL" {{(old('MeasVacc') == 'Y') ? 'selected' : ''}}>By recall</option>
+                            <option value="OTHERS" {{(old('MeasVacc') == 'Y') ? 'selected' : ''}}>Others</option>
+                        </select>
                     </div>
                     <div class="form-group mt-3 d-none" id="VaccValidatedOthers_div">
                         <label for="VaccValidatedOthers" class="form-label">Speficy other validation</label>
@@ -433,8 +426,9 @@
                             <label for="Outcome"><span class="text-danger font-weight-bold">*</span>Outcome</label>
                             <select class="form-control" name="Outcome" id="Outcome" required>
                                 <option value="" disabled {{(is_null(old('Outcome'))) ? 'selected' : ''}}>Choose...</option>
-                                <option value="ALIVE" {{(old('Outcome') == 'ALIVE') ? 'selected' : ''}}>Alive</option>
-                                <option value="DIED" {{(old('Outcome') == 'DIED') ? 'selected' : ''}}>Died</option>
+                                <option value="A" {{(old('Outcome') == 'A') ? 'selected' : ''}}>Alive</option>
+                                <option value="HAMA" {{(old('Outcome') == 'HAMA') ? 'selected' : ''}}>Home Against Medical Advice</option>
+                                <option value="D" {{(old('Outcome') == 'D') ? 'selected' : ''}}>Died</option>
                             </select>
                         </div>
                         <div id="died_div" class="d-none">
@@ -546,9 +540,9 @@
         }
     }).trigger('change');
 
-    $('#VaccValidated_4').change(function (e) { 
+    $('#VaccValidated').change(function (e) { 
         e.preventDefault();
-        if($(this).is(':checked') && $('#MeasVacc').val() == 'Y') {
+        if($(this).val() == 'OTHERS' && $('#MeasVacc').val() == 'Y') {
             $('#VaccValidatedOthers_div').removeClass('d-none');
             $('#VaccValidatedOthers').prop('required', true);
         }
@@ -614,7 +608,7 @@
 
     $('#Outcome').change(function (e) { 
         e.preventDefault();
-        if($(this).val() == 'DIED') {
+        if($(this).val() == 'D') {
             $('#died_div').removeClass('d-none');
             $("#Death").prop('required', true);
         }
