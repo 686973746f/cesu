@@ -10645,6 +10645,10 @@ class PIDSRController extends Controller
             $className = 'Hfmd';
             $csvName = 'hfmd';
         }
+        else if($disease == 'MEASLES') {
+            $className = 'Measles';
+            $csvName = 'measles';
+        }
 
         $modelClass = "App\\Models\\$className";
         $template_path = storage_path("edcs_template/$csvName.csv");
