@@ -113,11 +113,19 @@ class Employee extends Model
     public static function getEmpAccessList() {
         return [
             'PHYSICIAN',
+            'SPECIALIST MEDICAL DOCTOR',
             'DENTIST',
+            'DENTAL HYGIENIST/AIDE',
+            'AMBULANCE DRIVER',
             'MEDTECH',
+            'MEDICAL LAB TECHNICIAN',
             'NURSE',
             'MIDWIFE',
             'PSYCHOMETRICIAN',
+            'RADIO TECHNOLOGIST',
+            'IT OFFICER',
+            'SANITARY INSPECTOR/OFFICER',
+            'ADMIN STAFF',
             'PHARMACIST',
             'ABTC_DOCTOR',
         ];

@@ -433,8 +433,8 @@
                         </div>
                         <div id="died_div" class="d-none">
                             <div class="form-group">
-                                <label for="Death">Date Died</label>
-                                <input type="date" class="form-control" name="Death" id="Death" value="{{old('Death')}}" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}">
+                                <label for="DateDied"><b class="text-danger">*</b>Date Died</label>
+                                <input type="date" class="form-control" name="DateDied" id="DateDied" value="{{old('DateDied')}}" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}">
                             </div>
                         </div>
                     </div>

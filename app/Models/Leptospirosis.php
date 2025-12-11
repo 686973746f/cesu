@@ -63,4 +63,28 @@ class Leptospirosis extends Model
             return 'Street/Purok not Encoded';
         }
     }
+
+    public function getClassificationString() {
+        if($this->CaseClassification == 'S') {
+            return 'Suspected';
+        }
+        else if($this->CaseClassification == 'P') {
+            return 'Probable';
+        }
+        else if($this->CaseClassification == 'C') {
+            return 'Confirmed';
+        }
+        else {
+            return 'Suspected';
+        }
+    }
+
+    public function getOutcome() {
+        if($this->Outcome == 'A') {
+            return 'Alive';
+        }
+        else if($this->Outcome == 'D') {
+            return 'Died';
+        }
+    }
 }

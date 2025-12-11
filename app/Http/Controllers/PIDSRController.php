@@ -9398,7 +9398,7 @@ class PIDSRController extends Controller
                 return redirect()->back()
                 ->withInput()
                 ->with('openEncodeModal', true)
-                ->with('modalmsg', 'Error: Dengue Case already exists in the database.')
+                ->with('modalmsg', "Error: $disease Case already exists in the database.")
                 ->with('modalmsgtype', 'warning');
             }
         }
@@ -9416,7 +9416,7 @@ class PIDSRController extends Controller
                 return redirect()->back()
                 ->withInput()
                 ->with('openEncodeModal', true)
-                ->with('modalmsg', 'Error: HFMD Case already exists in the database.')
+                ->with('modalmsg', "Error: $disease Case already exists in the database.")
                 ->with('modalmsgtype', 'warning');
             }
         }
@@ -9434,7 +9434,7 @@ class PIDSRController extends Controller
                 return redirect()->back()
                 ->withInput()
                 ->with('openEncodeModal', true)
-                ->with('modalmsg', 'Error: ILI Case already exists in the database.')
+                ->with('modalmsg', "Error: $disease Case already exists in the database.")
                 ->with('modalmsgtype', 'warning');
             }
         }
@@ -9452,7 +9452,25 @@ class PIDSRController extends Controller
                 return redirect()->back()
                 ->withInput()
                 ->with('openEncodeModal', true)
-                ->with('modalmsg', 'Error: Measles Case already exists in the database.')
+                ->with('modalmsg', "Error: $disease Case already exists in the database.")
+                ->with('modalmsgtype', 'warning');
+            }
+        }
+        else if($disease == 'LEPTOSPIROSIS') {
+            $check = Measles::where('FamilyName', mb_strtoupper($lname))
+            ->where('FirstName', mb_strtoupper($fname))
+            ->where('Year', $entry_date->format('Y'))
+            ->where('MorbidityMonth', $entry_date->format('n'))
+            ->first();
+
+            if(!$check) {
+                return $this->leptospirosisNewOrEdit(new Leptospirosis())->with('mode', 'NEW');
+            }
+            else {
+                return redirect()->back()
+                ->withInput()
+                ->with('openEncodeModal', true)
+                ->with('modalmsg', "Error: $disease Case already exists in the database.")
                 ->with('modalmsgtype', 'warning');
             }
         }
@@ -10435,6 +10453,131 @@ class PIDSRController extends Controller
             
             $c = Measles::create($table_params);
         }
+        else if($disease == 'LEPTOSPIROSIS') {
+            $match_casedef = 0;
+
+            if(!empty($r->symptoms)) {
+                if(in_array("FEVER", $r->symptoms) && in_array("HEADACHE", $r->symptoms) && in_array("MUSCLE PAIN", $r->symptoms) && in_array("WEAKNESS", $r->symptoms)) {
+                    if(in_array("RED EYES", $r->symptoms) ||
+                    in_array("STIFF NECK", $r->symptoms) ||
+                    in_array("MENINGITIS SIGNS", $r->symptoms) ||
+                    in_array("LITTLE OR NO PROTEIN IN URINE", $r->symptoms) ||
+                    in_array("JAUNDICE", $r->symptoms) ||
+                    in_array("BLEEDING", $r->symptoms) ||
+                    in_array("IRREGULAR HEARTBEAT OR HEART FAILURE", $r->symptoms) ||
+                    in_array("SKIN RASH", $r->symptoms) ||
+                    in_array("NAUSEA", $r->symptoms) ||
+                    in_array("VOMITING", $r->symptoms) ||
+                    in_array("STOMACH PAIN", $r->symptoms) ||
+                    in_array("DIARRHEA", $r->symptoms) ||
+                    in_array("JOINT PAIN", $r->symptoms)) {
+                        $match_casedef = 1;
+                    }
+                }
+            }
+            $table_params = [
+                //'Icd10Code' => $r->asd,
+                'RegionOfDrU' => $f->address_region,
+                'ProvOfDRU' => $f->address_province,
+                'MunCityOfDRU' => $f->address_muncity,
+                'DRU' => $f->getFacilityTypeShort(),
+                //'AddressOfDRU' => $r->asd,
+                'PatientNumber' => $r->PatientNumber,
+                'FullName' => $fullName,
+                'FirstName' => mb_strtoupper($r->fname),
+                'middle_name' => (!is_null($r->mname)) ? mb_strtoupper($r->mname) : NULL,
+                'suffix' => (!is_null($r->suffix)) ? mb_strtoupper($r->suffix) : NULL,
+                'FamilyName' => mb_strtoupper($r->lname),
+
+                'AgeYears' => $get_ageyears,
+                'AgeMons' => $get_agemonths,
+                'AgeDays' => $get_agedays,
+                'Sex' => $r->sex,
+                'DOB' => $r->bdate,
+                'Region' => $b->city->province->region->short_name1,
+                'Province' => $b->city->province->name,
+                'Muncity' => $b->city->alt_name ?: $b->city->name,
+                'Barangay' => $b->alt_name ?: $b->name,
+                'brgy_id' => $b->id,
+                'Streetpurok' => mb_strtoupper($r->Streetpurok),
+
+                'Admitted' => ($r->Admitted == 'Y') ? 1 : 0,
+                'DAdmit' => ($r->Admitted == 'Y') ? $r->DAdmit : NULL,
+                'DONSET' => $r->DOnset,
+                'symptoms' => implode(", ", $r->symptoms),
+                'exp_brgy_id' => $r->exp_brgy_id,
+                'exp_street' => $r->exp_street,
+                'exposure' => $r->exposure,
+                //'LabRes' => $r->asd,
+                //'Serovar' => $r->asd,
+                'CaseClassification' => $r->CaseClassification,
+                'Outcome' => $r->Outcome,
+                'DateDied' => ($r->Outcome == 'D') ? $r->DateDied : NULL,
+                'Occupation' => ($r->filled('Occupation')) ? mb_strtoupper($r->Occupation) : NULL,
+                'DateOfEntry' => $r->entry_date,
+                'AdmitToEntry' => $admitToEntry,
+                'OnsetToAdmit' => $OnsetToAdmit,
+                'MorbidityMonth' => $entry_date->format('n'),
+                'MorbidityWeek' => $entry_date->format('W'),
+                'EPIID' => 'LEPTOSPIROSIS_MPSS_TEMP_'.mb_strtoupper(Str::random(10)),
+                //'UniqueKey Index' => $r->asd,
+                //'RECSTATUS' => $r->asd,
+                //'SentinelSite' => $r->asd,
+                //'DeleteRecord' => $r->asd,
+                'Year' => $entry_date->format('Y'),
+                'NameOfDru' => $f->facility_name,
+                //'District' => $r->asd,
+                //'ILHZ' => $r->asd,
+                
+                //'TYPEHOSPITALCLINIC' => $r->asd,
+                'SENT' => 'Y',
+                'ip' => $r->ip,
+                'ipgroup' => ($r->ip == 'Y') ? mb_strtoupper($r->ipgroup) : NULL,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'systemsent' => 0,
+                //'enabled' => $r->asd,
+                
+                //'edcs_caseid' => $r->asd,
+                'edcs_healthFacilityCode' => $health_facility_code,
+                'edcs_investigatorName' => mb_strtoupper($r->sys_interviewer_name),
+                'edcs_investigateDate' => $r->edcs_investigateDate,
+                'edcs_contactNo' => $r->sys_interviewer_contactno,
+                //'edcs_ageGroup' => $r->asd,
+                //'edcs_verificationLevel' => $r->asd,
+                'from_edcs' => 0,
+                'from_inhouse' => 1,
+                //'inhouse_exportedtocsv' => $r->asd,
+                //'inhouse_exported_date' => $r->asd,
+                //'encoded_mw' => $r->asd,
+                'match_casedef' => $match_casedef,
+                //'system_notified' => $r->asd,
+                //'edcs_userid' => $r->asd,
+                //'edcs_last_modifiedby' => $r->asd,
+                //'edcs_last_modified_date' => $r->asd,
+                //'notify_email_sent' => $r->asd,
+                //'notify_email_sent_datetime' => $r->asd,
+                'edcs_patientcontactnum' => $r->contact_number,
+                'system_remarks' => $r->system_remarks,
+                //'brgy_remarks' => $r->asd,
+                //'system_subdivision_id' => $r->asd,
+                //'system_subdivision_name' => $r->asd,
+                //'subdivision_group' => $r->asd,
+                //'sys_coordinate_x' => $r->asd,
+                //'sys_coordinate_y' => $r->asd,
+                //'created_by Index' => $r->asd,
+                //'cif_url' => $r->asd,
+                //'labresult_url' => $r->asd,
+                //'medicalchart_url' => $r->asd,
+                //'otherattachments_url' => $r->asd,
+                //'edcs_customgroup' => $r->asd,
+                'dru_reg_code' => $dru_reg_code,
+                'dru_pro_code' => $dru_pro_code,
+                'dru_mun_code' => $dru_mun_code,
+            ];
+
+            $c = Leptospirosis::create($table_params);
+        }
 
         if(!$r->facility_code) {
             return redirect()->route('pidsr.casechecker', ['case' => $disease, 'year' => date('Y')])
@@ -11264,6 +11407,30 @@ class PIDSRController extends Controller
         $facility_list = DohFacility::where('address_muncity', 'CITY OF GENERAL TRIAS')->get();
 
         return view('pidsr.inhouse_edcs.measles', [
+            'd' => $record,
+            'f' => $f,
+            'mode' => 'EDIT',
+            //'brgy_list' => $brgy_list,
+            'facility_list' => $facility_list,
+        ]);
+    }
+
+    public function leptospirosisNewOrEdit(Leptospirosis $record) {
+        //Get Facility
+        if(request()->input('facility_code')) {
+            $f = DohFacility::where('sys_code1', request()->input('facility_code'))->first();
+
+            if(!$f) {
+                return abort(404);
+            }
+        }
+        else {
+            $f = DohFacility::where('id', auth()->user()->itr_facility_id)->first();
+        }
+
+        $facility_list = DohFacility::where('address_muncity', 'CITY OF GENERAL TRIAS')->get();
+
+        return view('pidsr.inhouse_edcs.leptospirosis', [
             'd' => $record,
             'f' => $f,
             'mode' => 'EDIT',

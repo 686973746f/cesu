@@ -54,7 +54,7 @@
     </div>
     <div class="col-md-4">
         <div class="form-group">
-            <label for="sex"><span class="text-danger font-weight-bold">*</span>Sex</label>
+            <label for="sex"><b class="text-danger">*</b>Sex</label>
             <select class="form-control" name="sex" id="sex" required>
                 <option value="" disabled {{(is_null(old('gender'))) ? 'selected' : ''}}>Choose...</option>
                 <option value="M" {{(old('gender') == 'M') ? 'selected' : ''}}>Male</option>
