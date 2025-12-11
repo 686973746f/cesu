@@ -10649,6 +10649,9 @@ class PIDSRController extends Controller
             $className = 'Measles';
             $csvName = 'measles';
         }
+        else {
+            return abort(401);
+        }
 
         $modelClass = "App\\Models\\$className";
         $template_path = storage_path("edcs_template/$csvName.csv");
