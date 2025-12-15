@@ -10,6 +10,7 @@
                     <div><b>Injury Reporting Tool</b></div>
                 </div>
                 <div>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addCase">New Case</button>
                     @if($f->facility_type == 'Hospital' || $f->facility_type == 'Infirmary')
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#fwcsvmodal">Upload Fireworks Injury CSV (FWRI)</button>
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#injurymodal">Upload Injury CSV</button>
@@ -104,6 +105,62 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success btn-block" disabled>Coming Soon</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<form action="{{route('injury_add_check', $f->sys_code1)}}" method="GET">
+    <div class="modal fade" id="addCase" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Case</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @if(session('modalmsg'))
+                    <div class="alert alert-{{session('modalmsgtype')}} text-center" role="alert">
+                        {{ session('modalmsg') }}
+                    </div>
+                    @endif
+                    <div class="form-group">
+                        <label for="consultation_date"><b class="text-danger">*</b>Date Seen/Consulted</label>
+                        <input type="date" class="form-control" name="consultation_date" id="consultation_date" value="{{old('consultation_date')}}" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}" required>
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <label for="lname"><b class="text-danger">*</b>Last Name</label>
+                        <input type="text" class="form-control" name="lname" id="lname" value="{{old('lname')}}" minlength="2" maxlength="50" placeholder="ex: DELA CRUZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fname"><b class="text-danger">*</b>First Name</label>
+                        <input type="text" class="form-control" name="fname" id="fname" value="{{old('fname')}}" minlength="2" maxlength="50" placeholder="ex: JUAN" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="mname">Middle Name <i>(If Applicable)</i></label>
+                                <input type="text" class="form-control" name="mname" id="mname" value="{{old('mname')}}" minlength="2" maxlength="50" placeholder="ex: SANCHEZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="suffix">Suffix <i>(If Applicable)</i></label>
+                                <input type="text" class="form-control" name="suffix" id="suffix" value="{{old('suffix')}}" minlength="2" maxlength="3" placeholder="ex: JR, SR, III, IV" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="bdate"><b class="text-danger">*</b>Birthdate</label>
+                        <input type="date" class="form-control" name="bdate" id="bdate" value="{{old('bdate')}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-block">Next</button>
                 </div>
             </div>
         </div>

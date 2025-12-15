@@ -6,6 +6,7 @@ use App\Models\DohFacility;
 use Illuminate\Http\Request;
 use App\Imports\FhsisTbdotsImport;
 use App\Imports\FireworksImport;
+use App\Models\Injury;
 use Maatwebsite\Excel\Facades\Excel;
 
 class InjuryController extends Controller
@@ -35,6 +36,28 @@ class InjuryController extends Controller
     public function uploadinjury($code, Request $r) {
         $f = DohFacility::where('sys_code1', $code)->first();
 
+        dd('not yet done');
+    }
 
+    public function injuryNewOrEdit(Injury $record, $code = null) {
+        if($code) {
+            $f = DohFacility::where('sys_code1', $code)->first();
+        }
+        else {
+            //
+        }
+
+        return view('injury_report.injury_form', [
+            'd' => $record,
+            'f' => $f,
+        ]);
+    }
+
+    public function addCaseCheck($code = null) {
+        return $this->injuryNewOrEdit(new Injury(), $code)->with('mode', 'NEW');
+    }
+
+    public function store($code = null, Request $r) {
+        
     }
 }
