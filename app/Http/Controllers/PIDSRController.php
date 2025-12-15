@@ -11016,6 +11016,10 @@ class PIDSRController extends Controller
                 $list = $modelClass::whereBetween('DateOfEntry', [$r->startDate, $r->endDate])
                 ->where('enabled', 1)
                 ->where('match_casedef', 1)
+                ->where(function ($q) {
+                    $q->where('Muncity', 'GENERAL TRIAS')
+                    ->orWhere('Muncity', 'CITY OF GENERAL TRIAS');
+                })
                 ->get();
             }
             else {
