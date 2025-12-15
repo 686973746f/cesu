@@ -11655,6 +11655,11 @@ class PIDSRController extends Controller
             header('Content-Disposition: attachment; filename="' . urlencode($fileName) . '"');
             $writer->save('php://output');
         }
+        else {
+            return redirect()->back()
+            ->with('msg', "There are no $disease data to export.")
+            ->with('msgtype', 'warning');
+        }
     }
 
     public function processEdcsExportables($facility_code, $disease, Request $r) {
