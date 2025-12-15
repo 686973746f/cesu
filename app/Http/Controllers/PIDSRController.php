@@ -10649,6 +10649,10 @@ class PIDSRController extends Controller
             $className = 'Measles';
             $csvName = 'measles';
         }
+        else if($disease == 'LEPTOSPIROSIS') {
+            $className = 'Leptospirosis';
+            $csvName = 'leptospirosis';
+        }
         else {
             return abort(401);
         }
