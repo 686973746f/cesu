@@ -12,7 +12,13 @@
                 <div><button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#filterModal">Filter</button></div>
             </div>
         </div>
-        <div class="card-body text-center">
+        <div class="card-body">
+            @if(session('msg'))
+            <div class="alert alert-{{session('msgtype')}}" role="alert">
+                {{session('msg')}}
+            </div>
+            @endif
+
             <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#downloadCsv">Download CSV Templates</button>
             <a href="" class="btn btn-success btn-lg btn-block">View For Uploading</a>
             <hr>

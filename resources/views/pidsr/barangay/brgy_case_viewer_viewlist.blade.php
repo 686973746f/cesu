@@ -23,7 +23,11 @@
 
     <div class="container-fluid">
         <p>Today is: {{date('M. d, Y')}} - Morbidity Week: {{date('W')}}</p>
+        @if(Str::contains(request()->url(), 'facility_report'))
+        <a href="{{route('facility_report_case_checker', $f->sys_code1)}}" class="btn btn-secondary mb-3">Back</a>
+        @else
         <a href="{{route('edcs_barangay_home')}}" class="btn btn-secondary mb-3">Back</a>
+        @endif
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">

@@ -996,6 +996,7 @@ Route::get('facility_report/{code}/injury_reporting', [InjuryController::class, 
 Route::post('facility_report/{code}/injury_reporting/upload_fwri', [InjuryController::class, 'uploadfwri'])->name('upload_fwri');
 Route::post('facility_report/{code}/injury_reporting/upload_injury', [InjuryController::class, 'uploadinjury'])->name('upload_injury');
 Route::post('facility_report/{code}/injury_reporting/store', [InjuryController::class, 'store'])->name('facility_report_injury_store');
+
 Route::get('facility_report/{code}/edcs/case_checker', [PIDSRController::class, 'hospitalCaseViewerHome'])->name('facility_report_case_checker');
 Route::get('facility_report/{code}/edcs/case_checker/{disease}', [PIDSRController::class, 'hospitalCaseViewerViewList'])->name('facility_report_case_checker_viewlist');
 

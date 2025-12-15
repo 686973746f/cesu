@@ -8922,6 +8922,7 @@ class PIDSRController extends Controller
         $covid_route = route('facility_report_case_checker_viewlist', ['code' => $f->sys_code1, 'disease' => 'COVID', 'year' => $year]);
 
         return view('pidsr.barangay.brgy_case_viewer_home', [
+            'f' => $f,
             'abd_count' => $abd_count,
             'afp_count' => $afp_count,
             'ames_count' => $ames_count,
@@ -9029,23 +9030,16 @@ class PIDSRController extends Controller
         $model = "App\\Models\\$tblname";
 
         $list = $model::where('enabled', 1)
-        ->where('match_casedef', 1);
+        ->where('match_casedef', 1)
+        ->where('edcs_healthFacilityCode', $f->healthfacility_code);
 
         if($disease == 'SevereAcuteRespiratoryInfection' || $disease == 'Mpox') {
             $yearcol = 'year';
             $mweekcol = 'morbidity_week';
-
-            if($disease == 'Mpox') {
-                $brgycol = 'address_brgy_text';
-            }
-            else {
-                $brgycol = 'barangay';
-            }   
         }
         else {
             $yearcol = 'Year';
             $mweekcol = 'MorbidityWeek';
-            $brgycol = 'Barangay';
         }
 
         if(request()->input('year')) {
@@ -9060,6 +9054,7 @@ class PIDSRController extends Controller
         ->get();
 
         return view('pidsr.barangay.brgy_case_viewer_viewlist', [
+            'f' => $f,
             'list' => $list,
             'case' => $disease,
             'year' => $year,
