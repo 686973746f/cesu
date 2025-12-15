@@ -64,27 +64,11 @@ class Leptospirosis extends Model
         }
     }
 
-    public function getClassificationString() {
-        if($this->CaseClassification == 'S') {
-            return 'Suspected';
-        }
-        else if($this->CaseClassification == 'P') {
-            return 'Probable';
-        }
-        else if($this->CaseClassification == 'C') {
-            return 'Confirmed';
-        }
-        else {
-            return 'Suspected';
-        }
+    public function brgy() {
+        return $this->belongsTo(EdcsBrgy::class, 'brgy_id');
     }
 
-    public function getOutcome() {
-        if($this->Outcome == 'A') {
-            return 'Alive';
-        }
-        else if($this->Outcome == 'D') {
-            return 'Died';
-        }
+    public function getExposure() {
+        return $this->belongsTo(EdcsBrgy::class, 'exp_brgy_id');
     }
 }

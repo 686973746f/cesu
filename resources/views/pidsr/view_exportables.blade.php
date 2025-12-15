@@ -49,8 +49,8 @@
                                     <td>{{$d->Streetpurok}}</td>
                                     <td class="text-center">{{$d->Barangay}}</td>
                                     <td class="text-center">{{$d->ClinClass}}</td>
-                                    <td class="text-center">{{$d->getClassificationString()}}</td>
-                                    <td class="text-center">{{$d->getOutcome()}}</td>
+                                    <td class="text-center">{{$d->CaseClassification ?? $d->FinalClass ?? $d->CaseClass}}</td>
+                                    <td class="text-center">{{$d->Outcome ?? $d->outcome}}</td>
                                     <td class="text-center">
                                         <div>{{date('m/d/Y H:i:s', strtotime($d->created_at))}}</div>
                                         @if($d->created_by)

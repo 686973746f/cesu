@@ -10664,7 +10664,6 @@ class PIDSRController extends Controller
             ->where('enabled', 1)
             ->where('match_casedef', 1)
             ->get();
-
         }
         else if($type == 'extractAll') {
             if(Auth::check()) {
@@ -10927,6 +10926,7 @@ class PIDSRController extends Controller
                     $sheet->setCellValue('AI'.$row, $d->getEdcsCsvCaseClass()); //Case Classification (SUS, PROB, CON)
                     $sheet->setCellValue('AJ'.$row, $d->Outcome); //Outcome
                     $sheet->setCellValue('AK'.$row, ($d->Outcome == 'D') ? Carbon::parse($d->DateDied)->format('m/d/Y') : NULL); //Patient ID
+                    $sheet->getStyle('AK'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
                     $sheet->setCellValue('AL'.$row, $specimen_type); //Specimen Type (STL - Stool, BLD - Blood, SRM - Saliva)
                     $sheet->setCellValue('AM'.$row, $specimen_date_collected); //Date Specimen Collected
                     $sheet->getStyle('AM'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
@@ -11221,6 +11221,63 @@ class PIDSRController extends Controller
                     $sheet->setCellValue('DA'.$row, ''); //DateofTestingbyRITMorSNL
                     $sheet->setCellValue('DB'.$row, ''); //DateofResultbyRITMorSNL
                     $sheet->setCellValue('DC'.$row, ''); //LaboratoryRemarks
+                }
+                else if($disease == 'LEPTOSPIROSIS') {
+                    if($d->CaseClassification == 'S') {
+                        $caseClass = 'SUS';
+                    }
+                    else if($d->CaseClassification == 'P') {
+                        $caseClass = 'PROB';
+                    }
+                    else if($d->CaseClassification == 'C') {
+                        $caseClass = 'CON';
+                    }
+                    else {
+                        $caseClass = 'SUS';
+                    }
+
+                    $sheet->setCellValue('Y'.$row, 'Y'); //Consulted
+                    $sheet->setCellValue('Z'.$row, Carbon::parse($d->DateOfEntry)->format('m/d/Y')); //Date Consulted
+                    $sheet->getStyle('Z'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    $sheet->setCellValue('AA'.$row, $d->sys_hospitalized_name ?: $d->NameOfDru); //Place Consulted
+                    $sheet->setCellValue('AB'.$row, ($d->Admitted == 1) ? 'Y' : 'N'); //Admitted
+                    $sheet->setCellValue('AC'.$row, ($d->Admitted == 1) ? Carbon::parse($d->DAdmit)->format('m/d/Y') : ''); //Date Admitted
+                    $sheet->getStyle('AC'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    $sheet->setCellValue('AD'.$row, Carbon::parse($d->DOnset)->format('m/d/Y')); //Date Onset of Illness
+                    $sheet->setCellValue('AE'.$row, $d->exposure); //Exposure
+
+                    if($convert_flat) {
+                        $sheet->setCellValue('AF'.$row, $d->getExposure->brgy->city->province->region->edcs_code); //ExposureRegion
+                        $sheet->setCellValue('AG'.$row, $d->getExposure->brgy->city->province->edcs_code); //ExposureProvince
+                        $sheet->setCellValue('AH'.$row, $d->getExposure->brgy->city->edcs_code); //ExposureCityMun
+                        $sheet->setCellValue('AI'.$row, $d->getExposure->brgy->edcs_code); //ExposureBarangay
+                    }
+                    else {
+                        $sheet->setCellValue('AF'.$row, $d->getExposure->brgy->city->province->region->edcs_code); //ExposureRegion
+                        $sheet->setCellValue('AG'.$row, $d->getExposure->brgy->city->province->edcs_code); //ExposureProvince
+                        $sheet->setCellValue('AH'.$row, $d->getExposure->brgy->city->edcs_code); //ExposureCityMun
+                        $sheet->setCellValue('AI'.$row, $d->getExposure->brgy->edcs_code); //ExposureBarangay
+                    }
+                    
+                    $sheet->setCellValue('AJ'.$row, $d->exposure_street); //ExposureStAddress
+                    $sheet->setCellValue('AK'.$row, $d->Occupation); //Occupation
+                    $sheet->setCellValue('AL'.$row, $caseClass); //CaseClassification
+                    $sheet->setCellValue('AM'.$row, $d->Outcome); //Outcome
+                    $sheet->setCellValue('AN'.$row, ($d->DateDied) ? Carbon::parse($d->DateDied)->format('m/d/Y') : ''); //DateDied
+                    $sheet->getStyle('AN'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    $sheet->setCellValue('AO'.$row, ''); //SpecimenType
+                    $sheet->setCellValue('AP'.$row, ''); //DateSpecimenCollected
+                    $sheet->setCellValue('AQ'.$row, 'N'); //LaboratorySenttoRITM
+                    $sheet->setCellValue('AR'.$row, ''); //DateSenttoRITM
+                    $sheet->setCellValue('AS'.$row, ''); //DateReceivedRITM
+                    $sheet->setCellValue('AT'.$row, ''); //LaboratoryResult
+                    $sheet->setCellValue('AU'.$row, ''); //TypeofOrganism
+                    $sheet->setCellValue('AV'.$row, ''); //TypeofTestConducted
+                    $sheet->setCellValue('AW'.$row, ''); //Interpretation
+                    $sheet->setCellValue('AX'.$row, ''); //TimeReceivedbyRITMorSNL
+                    $sheet->setCellValue('AY'.$row, ''); //DateofTestingbyRITMorSNL
+                    $sheet->setCellValue('AZ'.$row, ''); //DateofResultbyRITMorSNL
+                    $sheet->setCellValue('BA'.$row, ''); //LaboratoryRemarks
                 }
 
                 if($type == 'downloadCsv') {
