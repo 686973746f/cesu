@@ -30,10 +30,10 @@ class CreateInjuriesTable extends Migration
             $table->string('suffix')->nullable();
 
             $table->string('sex', 1);
-            $table->date('bdate');
-            $table->integer('age_years');
-            $table->integer('age_months');
-            $table->integer('age_days');
+            $table->date('bdate')->nullable();
+            $table->integer('age_years')->nullable();
+            $table->integer('age_months')->nullable();
+            $table->integer('age_days')->nullable();
 
             $table->string('perm_streetpurok')->nullable();
             $table->foreignId('perm_brgy_code')->constrained('edcs_brgies')->onDelete('cascade');
@@ -42,13 +42,14 @@ class CreateInjuriesTable extends Migration
             $table->foreignId('temp_brgy_code')->constrained('edcs_brgies')->onDelete('cascade');
 
             $table->string('contact_no')->nullable();
+            $table->string('contact_no2')->nullable();
             $table->string('philhealth')->nullable();
 
             //PRE-ADMISSION DATA
-            $table->foreignId('injury_city_code')->constrained('edcs_brgies')->onDelete('cascade');
+            $table->foreignId('injury_city_code')->constrained('edcs_cities')->onDelete('cascade');
 
             $table->dateTime('injury_datetime')->nullable();
-            $table->string('consultation_datetime')->nullable();
+            $table->dateTime('consultation_datetime')->nullable();
 
             $table->string('injury_intent');
             $table->string('firstaid_given', 1);
@@ -78,25 +79,25 @@ class CreateInjuriesTable extends Migration
             $table->string('traumatic_amputation', 1);
             $table->string('traumatic_amputation_site')->nullable();
             $table->string('others', 1);
-            $table->string('others_site')->nullable();
+            $table->text('others_site')->nullable();
 
             $table->string('bites_stings', 1);
             $table->string('bites_stings_specify')->nullable();
             $table->string('ext_burns', 1);
             $table->text('ext_burns_type')->nullable();
-            $table->string('ext_burns_others_specify')->nullable();
+            $table->text('ext_burns_others_specify')->nullable();
             $table->string('chemical_substance', 1);
-            $table->string('chemical_substance_specify')->nullable();
+            $table->text('chemical_substance_specify')->nullable();
             $table->string('contact_sharpobject', 1);
-            $table->string('contact_sharpobject_specify')->nullable();
+            $table->text('contact_sharpobject_specify')->nullable();
             $table->string('drowning', 1);
             $table->string('drowning_type')->nullable();
-            $table->string('drowning_other_specify')->nullable();
+            $table->text('drowning_other_specify')->nullable();
             $table->string('exposure_forcesofnature', 1);
             $table->string('fall', 1);
-            $table->string('fall_specify')->nullable();
+            $table->text('fall_specify')->nullable();
             $table->string('firecracker', 1);
-            $table->string('firecracker_specify')->nullable();
+            $table->text('firecracker_specify')->nullable();
             $table->string('sexual_assault', 1);
             $table->string('gunshot', 1);
             $table->string('gunshot_specifyweapon')->nullable();
@@ -104,7 +105,7 @@ class CreateInjuriesTable extends Migration
             $table->string('mauling_assault', 1);
             $table->string('transport_vehicular_accident', 1);
             $table->string('ext_others', 1);
-            $table->string('ext_others_specify')->nullable();
+            $table->text('ext_others_specify')->nullable();
 
             $table->string('vehicle_type')->nullable();
             $table->string('collision_type')->nullable();
@@ -119,9 +120,9 @@ class CreateInjuriesTable extends Migration
             $table->text('placeof_occurrence_others_specify')->nullable();
             $table->string('activitypatient_duringincident')->nullable();
             $table->text('activitypatient_duringincident_others')->nullable();
-            $table->string('otherrisk_factors')->nullable();
+            $table->text('otherrisk_factors')->nullable();
             $table->text('otherrisk_factors_others')->nullable();
-            $table->string('safety')->nullable();
+            $table->text('safety')->nullable();
             $table->text('safety_others')->nullable();
 
             //HOSPITAL/FACILITY DATA

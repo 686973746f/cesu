@@ -84,7 +84,7 @@
                                   </div>
                                   <div class="form-group">
                                       <label for="Pain"><b class="text-danger">*</b>Painful?</label>
-                                      <select class="form-control" name="Pain" id="Pain" required>
+                                      <select class="form-control" name="Pain" id="Pain">
                                           <option value="" disabled {{(is_null(old('Pain'))) ? 'selected' : ''}}>Choose...</option>
                                           <option value="Y" {{(old('Pain') == 'Y') ? 'selected' : ''}}>Yes</option>
                                           <option value="N" {{(old('Pain') == 'N') ? 'selected' : ''}}>No</option>
@@ -281,10 +281,12 @@
     if($(this).is(':checked')) {
       $('#rash_div').removeClass('d-none');
       $('#SoreOnset').prop('required', true);
+      $('#Pain').prop('required', true);
     }
     else {
       $('#rash_div').addClass('d-none');
       $('#SoreOnset').prop('required', false);
+      $('#Pain').prop('required', false);
     }
   });
 
