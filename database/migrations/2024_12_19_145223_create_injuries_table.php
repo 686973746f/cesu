@@ -47,6 +47,7 @@ class CreateInjuriesTable extends Migration
 
             //PRE-ADMISSION DATA
             $table->foreignId('injury_city_code')->constrained('edcs_cities')->onDelete('cascade');
+            $table->foreignId('injury_brgy_code')->nullable()->constrained('edcs_brgies')->onDelete('cascade');
 
             $table->dateTime('injury_datetime')->nullable();
             $table->dateTime('consultation_datetime')->nullable();
@@ -109,28 +110,29 @@ class CreateInjuriesTable extends Migration
 
             $table->string('vehicle_type')->nullable();
             $table->string('collision_type')->nullable();
-            $table->text('patients_vehicle_involved')->nullable();
+            $table->string('patients_vehicle_involved')->nullable();
             $table->text('patients_vehicle_involved_others')->nullable();
-            $table->text('other_vehicle_involved')->nullable();
+            $table->string('other_vehicle_involved')->nullable();
             $table->text('other_vehicle_involved_others')->nullable();
-            $table->string('patient_position')->nullable();
+            $table->text('patient_position')->nullable();
             $table->text('patient_position_others')->nullable();
             $table->string('placeof_occurrence')->nullable();
             $table->string('placeof_occurrence_workplace_specify')->nullable();
             $table->text('placeof_occurrence_others_specify')->nullable();
             $table->string('activitypatient_duringincident')->nullable();
-            $table->text('activitypatient_duringincident_others')->nullable();
+            $table->text('act_others')->nullable();
             $table->text('otherrisk_factors')->nullable();
-            $table->text('otherrisk_factors_others')->nullable();
+            $table->text('oth_factors_specify')->nullable();
             $table->text('safety')->nullable();
             $table->text('safety_others')->nullable();
 
             //HOSPITAL/FACILITY DATA
-            $table->string('transferred_fromanotherhospital', 1);
-            $table->string('referredby_anotherhospital', 1);
-            $table->string('originating_physician')->nullable();
+            $table->string('transfer_hospital', 1);
+            $table->string('referred_hospital', 1);
+            $table->string('orig_hospital')->nullable();
+            $table->string('orig_physician')->nullable();
             $table->string('status_reachingfacility');
-            $table->string('status_ifalive_type')->nullable();
+            $table->string('ifalive_type')->nullable();
             $table->string('modeof_transport');
             $table->text('modeof_transport_others')->nullable();
             $table->text('initial_impression')->nullable();
@@ -138,6 +140,7 @@ class CreateInjuriesTable extends Migration
             $table->string('icd10_external')->nullable();
             $table->string('disposition')->nullable();
             $table->string('disposition_transferred')->nullable();
+            $table->string('disposition_others')->nullable();
             $table->string('outcome')->nullable();
 
             $table->text('inp_completefinal_diagnosis')->nullable();

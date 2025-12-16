@@ -155,8 +155,41 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="bdate"><b class="text-danger">*</b>Birthdate</label>
-                        <input type="date" class="form-control" name="bdate" id="bdate" value="{{old('bdate')}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
+                        <label for="bdate_available"><b class="text-danger">*</b>Birthdate Available?</label>
+                        <select class="form-control" name="bdate_available" id="bdate_available" required>
+                            <option value="" disabled {{(is_null(old('bdate_available'))) ? 'selected' : ''}}>Choose...</option>
+                            <option value="Y" {{(old('bdate_available') == 'Y') ? 'selected' : ''}}>Yes</option>
+                            <option value="N" {{(old('bdate_available') == 'N') ? 'selected' : ''}}>No</option>
+                        </select>
+                    </div>
+
+                    <div id="bdate_yes" class="d-none">
+                        <div class="form-group">
+                            <label for="bdate"><b class="text-danger">*</b>Birthdate</label>
+                            <input type="date" class="form-control" name="bdate" id="bdate" value="{{request()->input('bdate')}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}">
+                        </div>
+                    </div>
+                    <div id="bdate_no" class="d-none">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="age"><b class="text-danger">*</b>Age</label>
+                                    <input type="number" class="form-control" name="age" id="age">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="age_in"><b class="text-danger">*</b>In</label>
+                                    <select class="form-control" name="age_in" id="age_in">
+                                        <option value="" disabled {{(is_null(old('age_in'))) ? 'selected' : ''}}>Choose...</option>
+                                        <option value="YEARS" {{(old('age_in') == 'YEARS') ? 'selected' : ''}}>Years</option>
+                                        <option value="MONTHS" {{(old('age_in') == 'MONTHS') ? 'selected' : ''}}>Months</option>
+                                        <option value="DAYS" {{(old('age_in') == 'DAYS') ? 'selected' : ''}}>Days</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -166,4 +199,28 @@
         </div>
     </div>
 </form>
+
+<script>
+    $('#bdate_available').change(function (e) { 
+        e.preventDefault();
+        $('#bdate_yes').addClass('d-none');
+        $('#bdate_no').addClass('d-none');
+        $('#bdate').prop('required', false);
+        $('#age').prop('required', false);
+        $('#age_in').prop('required', false);
+
+        if($(this).val() == 'Y') {
+            $('#bdate_yes').removeClass('d-none');
+            $('#bdate_no').addClass('d-none');
+            $('#bdate').prop('required', true);
+        }
+        else if($(this).val() == 'N') {
+            $('#bdate_yes').addClass('d-none');
+            $('#bdate_no').removeClass('d-none');
+            $('#bdate').prop('required', false);
+            $('#age').prop('required', true);
+            $('#age_in').prop('required', true);
+        }
+    }).trigger('change');
+</script>
 @endsection
