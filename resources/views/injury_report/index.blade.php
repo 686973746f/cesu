@@ -128,8 +128,8 @@
                     </div>
                     @endif
                     <div class="form-group">
-                        <label for="consultation_date"><b class="text-danger">*</b>Date Seen/Consulted</label>
-                        <input type="date" class="form-control" name="consultation_date" id="consultation_date" value="{{old('consultation_date')}}" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}" required>
+                        <label for="consultation_datetime"><b class="text-danger">*</b>Date of Consultation</label>
+                        <input type="datetime-local" class="form-control" name="consultation_datetime" id="consultation_datetime" value="{{old('consultation_datetime')}}" max="{{ now()->endOfDay()->format('Y-m-d\TH:i') }}" required>
                     </div>
                     <hr>
                     <div class="form-group">
@@ -209,6 +209,9 @@
         $('#age').prop('required', false);
         $('#age_in').prop('required', false);
 
+        $('#age').prop('disabled', true);
+        $('#age_in').prop('disabled', true);
+
         if($(this).val() == 'Y') {
             $('#bdate_yes').removeClass('d-none');
             $('#bdate_no').addClass('d-none');
@@ -220,6 +223,9 @@
             $('#bdate').prop('required', false);
             $('#age').prop('required', true);
             $('#age_in').prop('required', true);
+
+            $('#age').prop('disabled', false);
+            $('#age_in').prop('disabled', false);
         }
     }).trigger('change');
 </script>

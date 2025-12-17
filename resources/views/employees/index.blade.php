@@ -29,6 +29,8 @@
                         <th>Position</th>
                         <th>Office</th>
                         <th>Sub-Office</th>
+                        <th>Date Hired</th>
+                        <th>Length of Service</th>
                         <th>BLS Trained</th>
                         <th>Type of Responder</th>
                         <th>Deployable in Duties</th>
@@ -36,6 +38,7 @@
                         <th>HERT Team</th>
                         <th>Duty Cycle Status</th>
                         <th>Duty Balance</th>
+                        <th>T-Shirt Size</th>
                         <th>Access List</th>
                     </tr>
                 </thead>
@@ -50,6 +53,8 @@
                         <td class="text-center">{{$d->job_position}}</td>
                         <td class="text-center">{{$d->office}}</td>
                         <td class="text-center">{{$d->sub_office}}</td>
+                        <td class="text-center">{{(!is_null($d->date_hired)) ? Carbon\Carbon::parse($d->date_hired)->format('m/d/Y') : 'N/A'}}</td>
+                        <td class="text-center">{{$d->getLengthOfService()}}</td>
                         <td class="text-center">{{$d->is_blstrained}}</td>
                         <td class="text-center">{{$d->bls_typeofrescuer}}</td>
                         <td class="text-center">{{$d->duty_canbedeployed}}</td>
@@ -57,6 +62,7 @@
                         <td class="text-center">{{$d->duty_team}}</td>
                         <td class="text-center">{{($d->duty_completedcycle == 'Y') ? 'DONE' : 'PENDING'}}</td>
                         <td class="text-center">{{$d->duty_balance}}</td>
+                        <td class="text-center">{{$d->shirt_size}}</td>
                         <td class="text-center">{{$d->emp_access_list}}</td>
                     </tr>
                     @endforeach
