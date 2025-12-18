@@ -48,6 +48,8 @@ class Employee extends Model
         'fingerprint_hash',
         'is_blstrained',
         'is_herotrained',
+        'is_washntrained',
+        'is_nutriemergtrained',
         'recent_bls_date',
         'bls_id',
         'bls_typeofrescuer',
