@@ -92,7 +92,7 @@ class CreateInjuriesTable extends Migration
             $table->string('contact_sharpobject', 1);
             $table->text('contact_sharpobject_specify')->nullable();
             $table->string('drowning', 1);
-            $table->string('drowning_type')->nullable();
+            $table->text('drowning_type')->nullable();
             $table->text('drowning_other_specify')->nullable();
             $table->string('exposure_forcesofnature', 1);
             $table->string('fall', 1);

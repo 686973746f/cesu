@@ -308,7 +308,7 @@
                                             Closed Type
                                             </label>
                                         </div>
-                                        <div class="form-group d-none" id="injurydiv6_1">
+                                        <div class="form-group d-none mt-3" id="injurydiv6_1">
                                             <label for="fracture_closed_site" class="form-label"><b class="text-danger">*</b>Specify Body (Site) Location of the Closed Fracture</label>
                                             <input type="text" class="form-control" id="injury_site6_1" name="fracture_closed_site" style="text-transform: uppercase;" value="{{old('fracture_closed_site')}}">
                                         </div>
@@ -319,7 +319,7 @@
                                             Open Type
                                             </label>
                                         </div>
-                                        <div class="form-group d-none" id="injurydiv6_2">
+                                        <div class="form-group d-none mt-3" id="injurydiv6_2">
                                             <label for="fracture_open_site" class="form-label"><b class="text-danger">*</b>Specify Body (Site) Location of the Open Fracture</label>
                                             <input type="text" class="form-control" id="injury_site6_2" name="fracture_open_site" style="text-transform: uppercase;" value="{{old('fracture_open_site')}}">
                                         </div>
@@ -377,10 +377,48 @@
                                         Burns
                                         </label>
                                     </div>
-                                    <div id="external2_div" class="mt-3 done">
-                                        <div class="form-group">
-                                            <label for="ext_burns_others_specify" class="form-label"><b class="text-danger">*</b>Specify Animal/Insect</label>
-                                            <input type="text" class="form-control" id="external2" name="ext_burns_others_specify" style="text-transform: uppercase;" value="{{old('ext_burns_others_specify')}}">
+                                    <div id="external2_div" class="mt-3 d-none">
+                                        <div class="ml-3">
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                <input type="checkbox" class="form-check-input burns-type-checkbox" name="ext_burns_type[]" id="burncheck1" value="HEAT">
+                                                Heat
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                <input type="checkbox" class="form-check-input burns-type-checkbox" name="ext_burns_type[]" id="burncheck2" value="FIRE">
+                                                Fire
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                <input type="checkbox" class="form-check-input burns-type-checkbox" name="ext_burns_type[]" id="burncheck3" value="ELECTRICITY">
+                                                Electricity
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                <input type="checkbox" class="form-check-input burns-type-checkbox" name="ext_burns_type[]" id="burncheck4" value="OIL">
+                                                Oil
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                <input type="checkbox" class="form-check-input burns-type-checkbox" name="ext_burns_type[]" id="burncheck5" value="FRICTION">
+                                                Friction
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                <input type="checkbox" class="form-check-input burns-type-checkbox" name="ext_burns_type[]" id="burncheck6" value="OTHERS">
+                                                Others
+                                                </label>
+                                            </div>
+                                            <div class="form-group mt-3 d-none" id="extburnsoth_div">
+                                                <label for="ext_burns_others_specify" class="form-label"><b class="text-danger">*</b>Specify other burns</label>
+                                                <input type="text" class="form-control" id="external2_specify" name="ext_burns_others_specify" style="text-transform: uppercase;" value="{{old('ext_burns_others_specify')}}">
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-check">
@@ -389,17 +427,73 @@
                                         Chemical/substance
                                         </label>
                                     </div>
+                                    <div id="external3_div" class="mt-3 d-none">
+                                        <div class="form-group">
+                                            <label for="chemical_substance_specify" class="form-label"><b class="text-danger">*</b>Specify</label>
+                                            <input type="text" class="form-control" id="external3_specify" name="chemical_substance_specify" style="text-transform: uppercase;" value="{{old('chemical_substance_specify')}}">
+                                        </div>
+                                    </div>
                                     <div class="form-check">
                                         <label class="form-check-label">
                                         <input type="checkbox" class="form-check-input" name="contact_sharpobject" id="external4" value="Y">
                                         Contact with sharp objects
                                         </label>
                                     </div>
+                                    <div id="external4_div" class="mt-3 d-none">
+                                        <div class="form-group">
+                                            <label for="contact_sharpobject_specify" class="form-label"><b class="text-danger">*</b>Specify object</label>
+                                            <input type="text" class="form-control" id="external4_specify" name="contact_sharpobject_specify" style="text-transform: uppercase;" value="{{old('contact_sharpobject_specify')}}">
+                                        </div>
+                                    </div>
                                     <div class="form-check">
                                         <label class="form-check-label">
                                         <input type="checkbox" class="form-check-input" name="drowning" id="external5" value="Y">
                                         Drowning
                                         </label>
+                                    </div>
+                                    <div id="external5_div" class="mt-3 d-none">
+                                        <div class="ml-3">
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                <input type="checkbox" class="form-check-input drowning-types" name="drowning_type[]" id="drowningcheck1" value="SEA">
+                                                Sea
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                <input type="checkbox" class="form-check-input drowning-types" name="drowning_type[]" id="drowningcheck2" value="RIVER">
+                                                River
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                <input type="checkbox" class="form-check-input drowning-types" name="drowning_type[]" id="drowningcheck3" value="LAKE">
+                                                Lake
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                <input type="checkbox" class="form-check-input drowning-types" name="drowning_type[]" id="drowningcheck4" value="POOL">
+                                                Pool
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                <input type="checkbox" class="form-check-input drowning-types" name="drowning_type[]" id="drowningcheck5" value="BATH TUB">
+                                                Bath Tub
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                <input type="checkbox" class="form-check-input drowning-types" name="drowning_type[]" id="drowningcheck6" value="OTHERS">
+                                                Others
+                                                </label>
+                                            </div>
+                                            <div class="form-group" id="drowningoth_div">
+                                                <label for="drowning_other_specify" class="form-label"><b class="text-danger">*</b>Specify other drowning area</label>
+                                                <input type="text" class="form-control" id="external5_specify" name="drowning_other_specify" style="text-transform: uppercase;" value="{{old('drowning_other_specify')}}">
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="form-check">
                                         <label class="form-check-label">
@@ -413,6 +507,12 @@
                                         Fall
                                         </label>
                                     </div>
+                                    <div id="external7_div" class="mt-3 d-none">
+                                        <div class="form-group">
+                                            <label for="fall_specify" class="form-label"><b class="text-danger">*</b>Specify</label>
+                                            <input type="text" class="form-control" id="external7_specify" name="fall_specify" style="text-transform: uppercase;" value="{{old('fall_specify')}}">
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-check">
@@ -420,6 +520,12 @@
                                         <input type="checkbox" class="form-check-input" name="firecracker" id="external8" value="Y">
                                         Firecracker
                                         </label>
+                                    </div>
+                                    <div id="external8_div" class="mt-3 d-none">
+                                        <div class="form-group">
+                                            <label for="firecracker_specify" class="form-label"><b class="text-danger">*</b>Specify type</label>
+                                            <input type="text" class="form-control" id="external8_specify" name="firecracker_specify" style="text-transform: uppercase;" value="{{old('firecracker_specify')}}">
+                                        </div>
                                     </div>
                                     <div class="form-check">
                                         <label class="form-check-label">
@@ -432,6 +538,12 @@
                                         <input type="checkbox" class="form-check-input" name="gunshot" id="external10" value="Y">
                                         Gunshot
                                         </label>
+                                    </div>
+                                    <div id="external10_div" class="mt-3 d-none">
+                                        <div class="form-group">
+                                            <label for="gunshot_specifyweapon" class="form-label"><b class="text-danger">*</b>Specify Weapon</label>
+                                            <input type="text" class="form-control" id="external10_specify" name="gunshot_specifyweapon" style="text-transform: uppercase;" value="{{old('gunshot_specifyweapon')}}">
+                                        </div>
                                     </div>
                                     <div class="form-check">
                                         <label class="form-check-label">
@@ -456,6 +568,12 @@
                                         <input type="checkbox" class="form-check-input" name="ext_others" id="external14" value="Y">
                                         Others
                                         </label>
+                                    </div>
+                                    <div id="external14_div" class="mt-3 d-none">
+                                        <div class="form-group">
+                                            <label for="ext_others_specify" class="form-label"><b class="text-danger">*</b>Specify ASD</label>
+                                            <input type="text" class="form-control" id="external14_specify" name="ext_others_specify" style="text-transform: uppercase;" value="{{old('ext_others_specify')}}">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -826,6 +944,13 @@
                 $('#va_div').addClass('d-none');
             }
         }).trigger('change');
+
+        $('form').on('submit', function(e) {
+            if ($('.burns-type-checkbox:checked').length === 0 && $('#external2').is(':checked')) {
+                e.preventDefault();
+                alert('Please check at least one type of burn.');
+            }
+        });
 
         $(document).bind('keydown', function(e) {
             if(e.ctrlKey && (e.which == 83)) {
@@ -1276,6 +1401,123 @@
             else {
                 $('#injurydiv9').addClass('d-none');
                 $('#injury_site9').prop('required', false);
+            }
+        }).trigger('change');
+
+        $('#external1').change(function (e) { 
+            e.preventDefault();
+            $('#external1_div').addClass('d-none');
+            $('#external1_specify').prop('required', false);
+
+            if($(this).is(':checked')) {
+                $('#external1_div').removeClass('d-none');
+                $('#external1_specify').prop('required', true);
+            }
+        }).trigger('change');
+
+        $('#external2').change(function (e) { 
+            e.preventDefault();
+            $('#external2_div').addClass('d-none');
+
+            if($(this).is(':checked')) {
+                $('#external2_div').removeClass('d-none');
+            }
+        }).trigger('change');
+
+        $('#burncheck6').change(function (e) { 
+            e.preventDefault();
+            $('#extburnsoth_div').addClass('d-none');
+            $('#external2_specify').prop('required', false);
+
+            if($(this).is(':checked') && $('#external2').is(':checked')) {
+                $('#extburnsoth_div').removeClass('d-none');
+                $('#external2_specify').prop('required', true);
+            }
+        }).trigger('change');
+
+        $('#external3').change(function (e) { 
+            e.preventDefault();
+            $('#external3_div').addClass('d-none');
+            $('#external3_specify').prop('required', false);
+
+            if($(this).is(':checked')) {
+                $('#external3_div').removeClass('d-none');
+                $('#external3_specify').prop('required', true);
+            }
+        }).trigger('change');
+
+        $('#external4').change(function (e) { 
+            e.preventDefault();
+            $('#external4_div').addClass('d-none');
+            $('#external4_specify').prop('required', false);
+
+            if($(this).is(':checked')) {
+                $('#external4_div').removeClass('d-none');
+                $('#external4_specify').prop('required', true);
+            }
+        }).trigger('change');
+
+        $('#external5').change(function (e) { 
+            e.preventDefault();
+            $('#external5_div').addClass('d-none');
+
+            if($(this).is(':checked')) {
+                $('#external5_div').removeClass('d-none');
+            }
+        }).trigger('change');
+
+        $('#drowningcheck6').change(function (e) { 
+            e.preventDefault();
+            $('#drowningoth_div').addClass('d-none');
+            $('#external5_specify').prop('required', false);
+
+            if($(this).is(':checked') && $('#external2').is(':checked')) {
+                $('#drowningoth_div').removeClass('d-none');
+                $('#external5_specify').prop('required', true);
+            }
+        }).trigger('change');
+
+        $('#external7').change(function (e) { 
+            e.preventDefault();
+            $('#external7_div').addClass('d-none');
+            $('#external7_specify').prop('required', false);
+
+            if($(this).is(':checked')) {
+                $('#external7_div').removeClass('d-none');
+                $('#external7_specify').prop('required', true);
+            }
+        }).trigger('change');
+
+        $('#external8').change(function (e) { 
+            e.preventDefault();
+            $('#external8_div').addClass('d-none');
+            $('#external8_specify').prop('required', false);
+
+            if($(this).is(':checked')) {
+                $('#external8_div').removeClass('d-none');
+                $('#external8_specify').prop('required', true);
+            }
+        }).trigger('change');
+
+        $('#external10').change(function (e) { 
+            e.preventDefault();
+            $('#external10_div').addClass('d-none');
+            $('#external10_specify').prop('required', false);
+
+            if($(this).is(':checked')) {
+                $('#external10_div').removeClass('d-none');
+                $('#external10_specify').prop('required', true);
+            }
+        }).trigger('change');
+
+        $('#external14').change(function (e) { 
+            e.preventDefault();
+            $('#external14_div').addClass('d-none');
+            $('#external14_specify').prop('required', false);
+
+            if($(this).is(':checked')) {
+                $('#external14_div').removeClass('d-none');
+                $('#external14_specify').prop('required', true);
             }
         }).trigger('change');
     </script>
