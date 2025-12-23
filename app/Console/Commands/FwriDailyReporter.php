@@ -52,7 +52,7 @@ class FwriDailyReporter extends Command
         //check if reporting period
         if ($currentDate->month === Carbon::DECEMBER) {
             $date1 = Carbon::parse(date('Y-12-21'));
-            $date2 = Carbon::parse((date('Y') +1).'-01-05');
+            $date2 = Carbon::parse((date('Y') + 1).'-01-06');
         }
         else {
             $date1 = Carbon::parse((date('Y')-1).'-12-21');
@@ -67,6 +67,7 @@ class FwriDailyReporter extends Command
             $list = FwInjury::where('sent', 'N')
             ->where('address_muncity_text', 'GENERAL TRIAS')
             ->where('status', 'ENABLED')
+            ->whereBetween('report_date', [$date1, $date2])
             ->get();
 
             $startCell1 = 8;

@@ -10,7 +10,7 @@
                     <div><b>Injury Reporting Tool</b></div>
                 </div>
                 <div>
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addCase">New Case</button>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addCase">New Injury/Vehicular Accident</button>
                     @if($f->facility_type == 'Hospital' || $f->facility_type == 'Infirmary')
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#fwcsvmodal">Upload Fireworks Injury CSV (FWRI)</button>
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#injurymodal">Upload Injury CSV</button>
