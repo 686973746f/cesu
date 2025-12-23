@@ -62,8 +62,8 @@
                         <td class="text-center">{{$d->is_herotrained}}</td>
                         <td class="text-center">{{$d->is_washntrained}}</td>
                         <td class="text-center">{{$d->is_nutriemergtrained}}</td>
-                        <td class="text-center">{{$d->duty_canbedeployed}}</td>
                         <td class="text-center">{{$d->duty_team}}</td>
+                        <td class="text-center">{{$d->duty_canbedeployed}}</td>
                         <td class="text-center">{{($d->duty_completedcycle == 'Y') ? 'DONE' : 'PENDING'}}</td>
                         <td class="text-center">{{$d->duty_balance}}</td>
                         <td class="text-center">{{$d->shirt_size}}</td>
