@@ -24,12 +24,14 @@ class FwriController extends Controller
             if($s) {
                 $facility_name = $s->facility_name;
                 
+                /*
                 if($s->facility_type == 'Hospital' || $s->facility_type == 'Infirmary') {
                     return redirect()
                     ->back()
                     ->with('msg', 'Hospitals/Infirmaries must use the CSV Uploading Tool instead.')
                     ->with('msgtype', 'warning');
                 }
+                */
             }
             else {
                 return abort(401);
