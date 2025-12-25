@@ -39,9 +39,10 @@ class CreateBlsBatchParticipantsTable extends Migration
             $table->integer('bls_affective')->nullable();
             $table->string('bls_finalremarks', 1)->default('F');
             $table->text('bls_notes')->nullable();
-
-            $table->string('bls_id_number')->nullable();
-            $table->string('sfa_id_number')->nullable();
+            
+            $table->text('bls_certificate_link')->nullable();
+            $table->text('sfa_certificate_link')->nullable();
+            
             $table->date('bls_expiration_date')->nullable();
             $table->text('picture')->nullable();
 

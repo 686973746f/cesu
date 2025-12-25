@@ -30,6 +30,9 @@ class BlsMember extends Model
         'contact_number',
         'codename',
         
+        'bls_id_number',
+        'sfa_id_number',
+        
         'created_by',
     ];
 

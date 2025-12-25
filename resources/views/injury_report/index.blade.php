@@ -10,7 +10,7 @@
                     <div><b>Injury Reporting Tool</b></div>
                 </div>
                 <div>
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addCase">New Case</button>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addCase">New Injury/Vehicular Accident</button>
                     @if($f->facility_type == 'Hospital' || $f->facility_type == 'Infirmary')
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#fwcsvmodal">Upload Fireworks Injury CSV (FWRI)</button>
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#injurymodal">Upload Injury CSV</button>
@@ -128,8 +128,8 @@
                     </div>
                     @endif
                     <div class="form-group">
-                        <label for="consultation_date"><b class="text-danger">*</b>Date Seen/Consulted</label>
-                        <input type="date" class="form-control" name="consultation_date" id="consultation_date" value="{{old('consultation_date')}}" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}" required>
+                        <label for="consultation_datetime"><b class="text-danger">*</b>Date of Consultation</label>
+                        <input type="datetime-local" class="form-control" name="consultation_datetime" id="consultation_datetime" value="{{old('consultation_datetime')}}" max="{{ now()->endOfDay()->format('Y-m-d\TH:i') }}" required>
                     </div>
                     <hr>
                     <div class="form-group">
@@ -155,8 +155,41 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="bdate"><b class="text-danger">*</b>Birthdate</label>
-                        <input type="date" class="form-control" name="bdate" id="bdate" value="{{old('bdate')}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
+                        <label for="bdate_available"><b class="text-danger">*</b>Birthdate Available?</label>
+                        <select class="form-control" name="bdate_available" id="bdate_available" required>
+                            <option value="" disabled {{(is_null(old('bdate_available'))) ? 'selected' : ''}}>Choose...</option>
+                            <option value="Y" {{(old('bdate_available') == 'Y') ? 'selected' : ''}}>Yes</option>
+                            <option value="N" {{(old('bdate_available') == 'N') ? 'selected' : ''}}>No</option>
+                        </select>
+                    </div>
+
+                    <div id="bdate_yes" class="d-none">
+                        <div class="form-group">
+                            <label for="bdate"><b class="text-danger">*</b>Birthdate</label>
+                            <input type="date" class="form-control" name="bdate" id="bdate" value="{{request()->input('bdate')}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}">
+                        </div>
+                    </div>
+                    <div id="bdate_no" class="d-none">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="age"><b class="text-danger">*</b>Age</label>
+                                    <input type="number" class="form-control" name="age" id="age">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="age_in"><b class="text-danger">*</b>In</label>
+                                    <select class="form-control" name="age_in" id="age_in">
+                                        <option value="" disabled {{(is_null(old('age_in'))) ? 'selected' : ''}}>Choose...</option>
+                                        <option value="YEARS" {{(old('age_in') == 'YEARS') ? 'selected' : ''}}>Years</option>
+                                        <option value="MONTHS" {{(old('age_in') == 'MONTHS') ? 'selected' : ''}}>Months</option>
+                                        <option value="DAYS" {{(old('age_in') == 'DAYS') ? 'selected' : ''}}>Days</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -166,4 +199,34 @@
         </div>
     </div>
 </form>
+
+<script>
+    $('#bdate_available').change(function (e) { 
+        e.preventDefault();
+        $('#bdate_yes').addClass('d-none');
+        $('#bdate_no').addClass('d-none');
+        $('#bdate').prop('required', false);
+        $('#age').prop('required', false);
+        $('#age_in').prop('required', false);
+
+        $('#age').prop('disabled', true);
+        $('#age_in').prop('disabled', true);
+
+        if($(this).val() == 'Y') {
+            $('#bdate_yes').removeClass('d-none');
+            $('#bdate_no').addClass('d-none');
+            $('#bdate').prop('required', true);
+        }
+        else if($(this).val() == 'N') {
+            $('#bdate_yes').addClass('d-none');
+            $('#bdate_no').removeClass('d-none');
+            $('#bdate').prop('required', false);
+            $('#age').prop('required', true);
+            $('#age_in').prop('required', true);
+
+            $('#age').prop('disabled', false);
+            $('#age_in').prop('disabled', false);
+        }
+    }).trigger('change');
+</script>
 @endsection

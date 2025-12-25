@@ -199,7 +199,7 @@
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label for="is_blstrained"><b class="text-danger">*</b>Is BLS Trained?</label>
                             <select class="form-control" name="is_blstrained" id="is_blstrained" required>
@@ -225,6 +225,8 @@
                                 <input type="text" class="form-control" name="bls_id" id="bls_id" value="{{old('bls_id', $d->bls_id)}}" style="text-transform: uppercase;">
                             </div>
                         </div>
+                    </div>
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label for="is_herotrained"><b class="text-danger">*</b>Is HERO Trained?</label>
                             <select class="form-control" name="is_herotrained" id="is_herotrained" required>
@@ -233,6 +235,26 @@
                             </select>
                         </div>
                     </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="is_washntrained"><b class="text-danger">*</b>Is WASH-N Trained?</label>
+                            <select class="form-control" name="is_washntrained" id="is_washntrained" required>
+                              <option value="N" {{(old('is_washntrained', $d->is_washntrained) == 'N') ? 'selected' : ''}}>No</option>
+                              <option value="Y" {{(old('is_washntrained', $d->is_washntrained) == 'Y') ? 'selected' : ''}}>Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="is_nutriemergtrained"><b class="text-danger">*</b>Is Nutrition in Emergencies Trained?</label>
+                            <select class="form-control" name="is_nutriemergtrained" id="is_nutriemergtrained" required>
+                              <option value="N" {{(old('is_nutriemergtrained', $d->is_nutriemergtrained) == 'N') ? 'selected' : ''}}>No</option>
+                              <option value="Y" {{(old('is_nutriemergtrained', $d->is_nutriemergtrained) == 'Y') ? 'selected' : ''}}>Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="duty_canbedeployed"><b class="text-danger">*</b>Deployable in Duties?</label>
@@ -243,15 +265,6 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="duty_canbedeployedagain"><b class="text-danger">*</b>Can be Repeatedly Deployed? (For Drivers, Team Leaders)</label>
-                            <select class="form-control" name="duty_canbedeployedagain" id="duty_canbedeployedagain" required>
-                              <option value="N" {{(old('duty_canbedeployedagain', $d->duty_canbedeployedagain) == 'N') ? 'selected' : ''}}>No</option>
-                              <option value="Y" {{(old('duty_canbedeployedagain', $d->duty_canbedeployedagain) == 'Y') ? 'selected' : ''}}>Yes</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
                             <label for="duty_team">HERT Duty Team</label>
                             <select class="form-control" name="duty_team" id="duty_team">
                               <option value="" {{(is_null(old('duty_team', $d->duty_team))) ? 'selected' : ''}}>N/A</option>
@@ -261,14 +274,25 @@
                               <option value="D" {{(old('duty_team', $d->duty_team) == 'D') ? 'selected' : ''}}>Team D</option>
                             </select>
                         </div>
+                    </div>
+                    <div class="col-md-4">
                         <div class="form-group">
-                          <label for="abtc_vaccinator_branch">ABTC Vaccination Branch</label>
-                          <select class="form-control" name="abtc_vaccinator_branch" id="abtc_vaccinator_branch">
-                            <option value="" {{(is_null(old('abtc_vaccinator_branch', $d->abtc_vaccinator_branch))) ? 'selected' : ''}}>N/A</option>
-                            @foreach($atbc_branch_list as $a)
-                            <option value="{{$a->id}}" {{(old('abtc_vaccinator_branch', $d->abtc_vaccinator_branch) == $a->id) ? 'selected' : ''}}>{{$a->site_name}}</option>
-                            @endforeach
-                          </select>
+                            <label for="duty_canbedeployedagain"><b class="text-danger">*</b>Can be Repeatedly Deployed? (For Drivers, Team Leaders)</label>
+                            <select class="form-control" name="duty_canbedeployedagain" id="duty_canbedeployedagain" required>
+                              <option value="N" {{(old('duty_canbedeployedagain', $d->duty_canbedeployedagain) == 'N') ? 'selected' : ''}}>No</option>
+                              <option value="Y" {{(old('duty_canbedeployedagain', $d->duty_canbedeployedagain) == 'Y') ? 'selected' : ''}}>Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="abtc_vaccinator_branch">ABTC Vaccination Branch</label>
+                            <select class="form-control" name="abtc_vaccinator_branch" id="abtc_vaccinator_branch">
+                              <option value="" {{(is_null(old('abtc_vaccinator_branch', $d->abtc_vaccinator_branch))) ? 'selected' : ''}}>N/A</option>
+                              @foreach($atbc_branch_list as $a)
+                              <option value="{{$a->id}}" {{(old('abtc_vaccinator_branch', $d->abtc_vaccinator_branch) == $a->id) ? 'selected' : ''}}>{{$a->site_name}}</option>
+                              @endforeach
+                            </select>
                         </div>
                     </div>
                 </div>

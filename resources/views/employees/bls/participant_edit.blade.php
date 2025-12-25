@@ -331,7 +331,11 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="bls_id_number">BLS ID Number</label>
-                            <input type="text" class="form-control" name="bls_id_number" id="bls_id_number" style="text-transform: uppercase" value="{{old('bls_id_number', $d->bls_id_number)}}">
+                            <input type="text" class="form-control" name="bls_id_number" id="bls_id_number" style="text-transform: uppercase" value="{{old('bls_id_number', $d->member->bls_id_number)}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="bls_certificate_link">BLS Certificate Link (Google Drive)</label>
+                            <input type="text" class="form-control" name="bls_certificate_link" id="bls_certificate_link" style="text-transform: uppercase" value="{{old('bls_certificate_link', $d->bls_certificate_link)}}">
                         </div>
                         <div class="form-group">
                             <label for="bls_expiration_date">BLS Expiration Date</label>
@@ -341,7 +345,11 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="sfa_id_number">SFA ID Number</label>
-                            <input type="text" class="form-control" name="sfa_id_number" id="sfa_id_number" style="text-transform: uppercase" value="{{old('sfa_id_number', $d->sfa_id_number)}}">
+                            <input type="text" class="form-control" name="sfa_id_number" id="sfa_id_number" style="text-transform: uppercase" value="{{old('sfa_id_number', $d->member->sfa_id_number)}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="sfa_certificate_link">SFA Certificate Link (Google Drive)</label>
+                            <input type="text" class="form-control" name="sfa_certificate_link" id="sfa_certificate_link" style="text-transform: uppercase" value="{{old('sfa_certificate_link', $d->sfa_certificate_link)}}">
                         </div>
                     </div>
                     <div class="col-md-4">

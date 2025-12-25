@@ -56,9 +56,9 @@
         <div class="form-group">
             <label for="sex"><b class="text-danger">*</b>Sex</label>
             <select class="form-control" name="sex" id="sex" required>
-                <option value="" disabled {{(is_null(old('gender'))) ? 'selected' : ''}}>Choose...</option>
-                <option value="M" {{(old('gender') == 'M') ? 'selected' : ''}}>Male</option>
-                <option value="F" {{(old('gender') == 'F') ? 'selected' : ''}}>Female</option>
+                <option value="" disabled {{(is_null(old('sex'))) ? 'selected' : ''}}>Choose...</option>
+                <option value="M" {{(old('sex') == 'M') ? 'selected' : ''}}>Male</option>
+                <option value="F" {{(old('sex') == 'F') ? 'selected' : ''}}>Female</option>
             </select>
         </div>
     </div>

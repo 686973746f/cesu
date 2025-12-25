@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Employee extends Model
 {
@@ -46,6 +48,8 @@ class Employee extends Model
         'fingerprint_hash',
         'is_blstrained',
         'is_herotrained',
+        'is_washntrained',
+        'is_nutriemergtrained',
         'recent_bls_date',
         'bls_id',
         'bls_typeofrescuer',
@@ -129,6 +133,15 @@ class Employee extends Model
             'PHARMACIST',
             'ABTC_DOCTOR',
         ];
+    }
+
+    public function getLengthOfService() {
+        if(!is_null($this->date_hired)) {
+            return Carbon::parse($this->date_hired)->age . ' ' . Str::plural('year', Carbon::parse($this->date_hired)->age);
+        }
+        else {
+            return 'N/A';
+        }
     }
 
     public static function getMedtechList() {

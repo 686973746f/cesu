@@ -36,6 +36,9 @@ class CreateBlsMembersTable extends Migration
             $table->string('email')->nullable();
             $table->string('contact_number')->nullable();
             $table->string('codename')->nullable();
+            
+            $table->string('bls_id_number')->nullable();
+            $table->string('sfa_id_number')->nullable();
 
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
