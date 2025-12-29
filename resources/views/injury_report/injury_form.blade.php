@@ -950,7 +950,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
-
+                    <button type="submit" class="btn btn-success btn-block">Submit</button>
                 </div>
             </div>
         </div>

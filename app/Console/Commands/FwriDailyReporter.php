@@ -64,8 +64,10 @@ class FwriDailyReporter extends Command
             //$date1_param = date('Y-m-d 05:00:01', strtotime('-1 Day'));
             //$date2_param = date('Y-m-d 05:00:00');
 
-            $list = FwInjury::where('sent', 'N')
-            ->where('address_muncity_text', 'GENERAL TRIAS')
+            $list = FwInjury::whereHas('brgy', function ($q) {
+                $q->where('city_id', 388);
+            })
+            ->where('sent', 'N')
             ->where('status', 'ENABLED')
             ->whereBetween('report_date', [$date1, $date2])
             ->get();
