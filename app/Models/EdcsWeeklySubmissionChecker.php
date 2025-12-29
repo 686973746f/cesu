@@ -88,7 +88,12 @@ class EdcsWeeklySubmissionChecker extends Model
                 }
             }
             else if($input_mw > $currentDay->format('W')) {
-                return abort(401);
+                if($input_year == $currentDay->format('Y')) {
+                    return 'LATE';
+                }
+                else {
+                    return abort(401);
+                }
             }
             else {
                 return 'LATE';
