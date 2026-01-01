@@ -131,17 +131,18 @@ class FwriDailyReporter extends Command
                     $sheet1->setCellValue('I'.$startCell1, date('m/d/Y h:i A', strtotime($d->injury_date)));
                     $sheet1->setCellValue('J'.$startCell1, $d->specifyInjuryLoc());
                     $sheet1->setCellValue('K'.$startCell1, $d->injury_sameadd);
-                    $sheet1->setCellValue('L'.$startCell1, ($d->injurybrgy->city->id == 388) ? 'Y' : 'N');
+                    $sheet1->setCellValue('L'.$startCell1, $d->specifyInjuryLocOth());
+                    $sheet1->setCellValue('M'.$startCell1, ($d->injurybrgy->city->id == 388) ? 'Y' : 'N');
                     
-                    $sheet1->setCellValue('M'.$startCell1, $d->involvement_type);
-                    $sheet1->setCellValue('N'.$startCell1, $getInjuryType);
-                    $sheet1->setCellValue('O'.$startCell1, $d->complete_diagnosis);
-                    $sheet1->setCellValue('P'.$startCell1, $d->anatomical_location);
-                    $sheet1->setCellValue('Q'.$startCell1, $d->firework_name);
-                    $sheet1->setCellValue('R'.$startCell1, $d->liquor_intoxication);
-                    $sheet1->setCellValue('S'.$startCell1, $d->treatment_given);
-                    $sheet1->setCellValue('T'.$startCell1, $getDispo);
-                    $sheet1->setCellValue('U'.$startCell1, $d->aware_healtheducation_list);
+                    $sheet1->setCellValue('N'.$startCell1, $d->involvement_type);
+                    $sheet1->setCellValue('O'.$startCell1, $getInjuryType);
+                    $sheet1->setCellValue('P'.$startCell1, $d->complete_diagnosis);
+                    $sheet1->setCellValue('Q'.$startCell1, $d->anatomical_location);
+                    $sheet1->setCellValue('R'.$startCell1, $d->firework_name);
+                    $sheet1->setCellValue('S'.$startCell1, $d->liquor_intoxication);
+                    $sheet1->setCellValue('T'.$startCell1, $d->treatment_given);
+                    $sheet1->setCellValue('U'.$startCell1, $getDispo);
+                    $sheet1->setCellValue('V'.$startCell1, $d->aware_healtheducation_list);
 
                     //SHEET2
 

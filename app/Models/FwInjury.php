@@ -252,6 +252,10 @@ class FwInjury extends Model
         return $this->belongsTo(EdcsBrgy::class, 'inj_brgy_id');
     }
 
+    public function specifyInjuryLocOth() {
+        return 'BRGY. '.$this->injurybrgy->name.', '.$this->injurybrgy->city->name.', '.$this->injurybrgy->city->province->name;
+    }
+
     public function specifyInjuryLoc() {
         if($this->place_of_occurrence == 'OTHERS, SPECIFY') {
             return 'OTHERS: '.$this->place_of_occurrence_others.' BRGY. '.$this->injurybrgy->name.', '.$this->injurybrgy->city->name.', '.$this->injurybrgy->city->province->name;
