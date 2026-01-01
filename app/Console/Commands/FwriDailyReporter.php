@@ -90,7 +90,7 @@ class FwriDailyReporter extends Command
                     //$sheet1->setCellValue('A'.$startCell1, '');
 
                     //GET TYPE OF INJURY
-                    if($d->nature_injury == 'FIREWORKS INJURY') {
+                    if($d->nature_injury == 'Fireworks - related') {
                         $getInjuryType = $d->iffw_typeofinjury;
                     }
                     else {
@@ -98,33 +98,50 @@ class FwriDailyReporter extends Command
                     }
 
                     //GET DIAGNOSIS
+                    /*
                     if(!is_null($d->complete_diagnosis)) {
                         $getDiag = $d->complete_diagnosis.' - '.$d->anatomical_location;
                     }
                     else {
                         $getDiag = $d->anatomical_location;
                     }
+                    */
 
                     //GET DISPOSITION
                     if($d->disposition_after_admission == 'DIED DURING ADMISSION') {
                         $getDispo = 'DIED '.date('(m/d/Y)', strtotime($d->date_died));
                     }
                     else {
-                        $getDispo = $d->disposition_after_admission;
+                        if($d->disposition_after_admission == 'Transferred/ Referred to:') {
+                            $getDispo = 'Transferred/Referred to: '.$d->disposition_after_admission_transferred_hospital;
+                        }
+                        else {
+                            $getDispo = $d->disposition_after_admission;
+                        }
                     }
+
+                    $sheet1->setCellValue('B'.$startCell1, date('m/d/Y h:i A', strtotime($d->consultation_date)));
+                    $sheet1->setCellValue('C'.$startCell1, $d->hospital_name);
+                    $sheet1->setCellValue('D'.$startCell1, $d->getName());
+                    $sheet1->setCellValue('E'.$startCell1, $d->getAgeInt().'/'.$d->sg());
+                    $sheet1->setCellValue('F'.$startCell1, $d->address_street);
+                    $sheet1->setCellValue('G'.$startCell1, $d->brgy->name);
+                    $sheet1->setCellValue('H'.$startCell1, $d->brgy->city->name);
                     
-                    $sheet1->setCellValue('B'.$startCell1, $d->getName());
-                    $sheet1->setCellValue('C'.$startCell1, $d->getAgeInt().'/'.$d->sg());
-                    $sheet1->setCellValue('D'.$startCell1, $d->getCompleteAddress());
-                    $sheet1->setCellValue('E'.$startCell1, date('m/d/Y h:i A', strtotime($d->injury_date)).' - '.$d->place_of_occurrence);
-                    $sheet1->setCellValue('F'.$startCell1, date('m/d/Y h:i A', strtotime($d->consultation_date)));
-                    $sheet1->setCellValue('G'.$startCell1, $d->involvement_type);
-                    $sheet1->setCellValue('H'.$startCell1, $getInjuryType);
-                    $sheet1->setCellValue('I'.$startCell1, $getDiag);
-                    $sheet1->setCellValue('J'.$startCell1, $d->firework_name);
-                    $sheet1->setCellValue('K'.$startCell1, $d->liquor_intoxication);
-                    $sheet1->setCellValue('L'.$startCell1, $d->treatment_given);
-                    $sheet1->setCellValue('M'.$startCell1, $getDispo);
+                    $sheet1->setCellValue('I'.$startCell1, date('m/d/Y h:i A', strtotime($d->injury_date)));
+                    $sheet1->setCellValue('J'.$startCell1, $d->specifyInjuryLoc());
+                    $sheet1->setCellValue('K'.$startCell1, $d->injury_sameadd);
+                    $sheet1->setCellValue('L'.$startCell1, ($d->injurybrgy->city->id == 388) ? 'Y' : 'N');
+                    
+                    $sheet1->setCellValue('M'.$startCell1, $d->involvement_type);
+                    $sheet1->setCellValue('N'.$startCell1, $getInjuryType);
+                    $sheet1->setCellValue('O'.$startCell1, $d->complete_diagnosis);
+                    $sheet1->setCellValue('P'.$startCell1, $d->anatomical_location);
+                    $sheet1->setCellValue('Q'.$startCell1, $d->firework_name);
+                    $sheet1->setCellValue('R'.$startCell1, $d->liquor_intoxication);
+                    $sheet1->setCellValue('S'.$startCell1, $d->treatment_given);
+                    $sheet1->setCellValue('T'.$startCell1, $getDispo);
+                    $sheet1->setCellValue('U'.$startCell1, $d->aware_healtheducation_list);
 
                     //SHEET2
 
@@ -190,17 +207,17 @@ class FwriDailyReporter extends Command
                     $sheet2->setCellValue('H'.$startCell2, $d->lname); //LAST NAME
                     $sheet2->setCellValue('I'.$startCell2, $d->fname); //FIRST NAME
                     $sheet2->setCellValue('J'.$startCell2, $d->mname); // MIDDLE NAME
-                    $sheet2->setCellValue('K'.$startCell2, 'N/A'); //SUFFIX
+                    $sheet2->setCellValue('K'.$startCell2, $d->suffix); //SUFFIX
                     $sheet2->setCellValue('L'.$startCell2, date('m/d/Y', strtotime($d->bdate))); //DATE OF BIRTH
                     $sheet2->setCellValue('M'.$startCell2, $d->age_years); //AGE YEARS
                     $sheet2->setCellValue('N'.$startCell2, $d->age_months); //AGE MONTH
                     $sheet2->setCellValue('O'.$startCell2, $d->age_days); //AGE DAYS
                     $sheet2->setCellValue('P'.$startCell2, ucwords(strtolower($d->gender))); //SEX
-                    $sheet2->setCellValue('Q'.$startCell2, $d->getStreetPurok()); //STREET NAME
-                    $sheet2->setCellValue('R'.$startCell2, $d->address_region_text); //REGION
-                    $sheet2->setCellValue('S'.$startCell2, $d->address_province_text); //PROVINCE
-                    $sheet2->setCellValue('T'.$startCell2, $d->address_muncity_text); //CITY
-                    $sheet2->setCellValue('Y'.$startCell2, $d->address_brgy_text); //BARANGAY
+                    $sheet2->setCellValue('Q'.$startCell2, $d->address_street); //STREET NAME
+                    $sheet2->setCellValue('R'.$startCell2, $d->brgy->city->province->region->regionName); //REGION
+                    $sheet2->setCellValue('S'.$startCell2, $d->brgy->city->province->name); //PROVINCE
+                    $sheet2->setCellValue('T'.$startCell2, $d->brgy->city->name); //CITY
+                    $sheet2->setCellValue('Y'.$startCell2, $d->brgy->name); //BARANGAY
                     $sheet2->setCellValue('V'.$startCell2, ($d->address_muncity_text == 'GENERAL TRIAS') ? '6': ''); //NEC DISTRICT
                     $sheet2->setCellValue('W'.$startCell2, $d->contact_number); //TELEPHONE NO
                     $sheet2->setCellValue('X'.$startCell2, date('m/d/Y', strtotime($d->injury_date))); //INJURY DATE
@@ -208,10 +225,10 @@ class FwriDailyReporter extends Command
                     $sheet2->setCellValue('Z'.$startCell2, $d->injury_address_brgy_text); //PLC PAT STR
 
                     $sheet2->setCellValue('AA'.$startCell2, $same_poi); //POI SAME ADD
-                    $sheet2->setCellValue('AB'.$startCell2, $d->injury_address_region_text);
-                    $sheet2->setCellValue('AC'.$startCell2, $d->injury_address_province_text);
-                    $sheet2->setCellValue('AD'.$startCell2, $d->injury_address_muncity_text);
-                    $sheet2->setCellValue('AE'.$startCell2, $d->injury_address_brgy_text);
+                    $sheet2->setCellValue('AB'.$startCell2, $d->injurybrgy->city->province->region->regionName);
+                    $sheet2->setCellValue('AC'.$startCell2, $d->injurybrgy->city->province->name);
+                    $sheet2->setCellValue('AD'.$startCell2, $d->injurybrgy->city->name);
+                    $sheet2->setCellValue('AE'.$startCell2, $d->injurybrgy->name);
                     $sheet2->setCellValue('AF'.$startCell2, $d->place_of_occurrence);
                     $sheet2->setCellValue('AG'.$startCell2, $d->place_of_occurrence_others);
                     $sheet2->setCellValue('AH'.$startCell2, date('m/d/Y', strtotime($d->consultation_date)));

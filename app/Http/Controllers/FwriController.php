@@ -469,7 +469,7 @@ class FwriController extends Controller
             $sheet1->setCellValue('B4', 'DATE: '.date('m/d/Y').' - MunCity: GENERAL TRIAS');
 
             foreach($list as $d) {
-                if($d->nature_injury == 'FIREWORKS INJURY') {
+                if($d->nature_injury == 'Fireworks - related') {
                     $getInjuryType = $d->iffw_typeofinjury;
                 }
                 else {
@@ -477,33 +477,50 @@ class FwriController extends Controller
                 }
 
                 //GET DIAGNOSIS
+                /*
                 if(!is_null($d->complete_diagnosis)) {
                     $getDiag = $d->complete_diagnosis.' - '.$d->anatomical_location;
                 }
                 else {
                     $getDiag = $d->anatomical_location;
                 }
+                */
 
                 //GET DISPOSITION
                 if($d->disposition_after_admission == 'DIED DURING ADMISSION') {
                     $getDispo = 'DIED '.date('(m/d/Y)', strtotime($d->date_died));
                 }
                 else {
-                    $getDispo = $d->disposition_after_admission;
+                    if($d->disposition_after_admission == 'Transferred/ Referred to:') {
+                        $getDispo = 'Transferred/Referred to: '.$d->disposition_after_admission_transferred_hospital;
+                    }
+                    else {
+                        $getDispo = $d->disposition_after_admission;
+                    }
                 }
                 
-                $sheet1->setCellValue('B'.$startCell1, $d->getName());
-                $sheet1->setCellValue('C'.$startCell1, $d->getAgeInt().'/'.$d->sg());
-                $sheet1->setCellValue('D'.$startCell1, $d->getCompleteAddress());
-                $sheet1->setCellValue('E'.$startCell1, date('m/d/Y h:i A', strtotime($d->injury_date)).' - '.$d->place_of_occurrence);
-                $sheet1->setCellValue('F'.$startCell1, date('m/d/Y h:i A', strtotime($d->consultation_date)));
-                $sheet1->setCellValue('G'.$startCell1, $d->involvement_type);
-                $sheet1->setCellValue('H'.$startCell1, $getInjuryType);
-                $sheet1->setCellValue('I'.$startCell1, $getDiag);
-                $sheet1->setCellValue('J'.$startCell1, $d->firework_name);
-                $sheet1->setCellValue('K'.$startCell1, $d->liquor_intoxication);
-                $sheet1->setCellValue('L'.$startCell1, $d->treatment_given);
-                $sheet1->setCellValue('M'.$startCell1, $getDispo);
+                $sheet1->setCellValue('B'.$startCell1, date('m/d/Y h:i A', strtotime($d->consultation_date)));
+                $sheet1->setCellValue('C'.$startCell1, $d->hospital_name);
+                $sheet1->setCellValue('D'.$startCell1, $d->getName());
+                $sheet1->setCellValue('E'.$startCell1, $d->getAgeInt().'/'.$d->sg());
+                $sheet1->setCellValue('F'.$startCell1, $d->address_street);
+                $sheet1->setCellValue('G'.$startCell1, $d->brgy->name);
+                $sheet1->setCellValue('H'.$startCell1, $d->brgy->city->name);
+                
+                $sheet1->setCellValue('I'.$startCell1, date('m/d/Y h:i A', strtotime($d->injury_date)));
+                $sheet1->setCellValue('J'.$startCell1, $d->specifyInjuryLoc());
+                $sheet1->setCellValue('K'.$startCell1, $d->injury_sameadd);
+                $sheet1->setCellValue('L'.$startCell1, ($d->injurybrgy->city->id == 388) ? 'Y' : 'N');
+                
+                $sheet1->setCellValue('M'.$startCell1, $d->involvement_type);
+                $sheet1->setCellValue('N'.$startCell1, $getInjuryType);
+                $sheet1->setCellValue('O'.$startCell1, $d->complete_diagnosis);
+                $sheet1->setCellValue('P'.$startCell1, $d->anatomical_location);
+                $sheet1->setCellValue('Q'.$startCell1, $d->firework_name);
+                $sheet1->setCellValue('R'.$startCell1, $d->liquor_intoxication);
+                $sheet1->setCellValue('S'.$startCell1, $d->treatment_given);
+                $sheet1->setCellValue('T'.$startCell1, $getDispo);
+                $sheet1->setCellValue('U'.$startCell1, $d->aware_healtheducation_list);
 
                 $startCell1++;
             }
