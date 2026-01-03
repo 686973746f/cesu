@@ -58,46 +58,47 @@ class InjuryController extends Controller
     }
 
     public function store($code = null, Request $r) {
+        if($code) {
+            $f = DohFacility::where('sys_code1', $code)->first();
+        }
+        else {
+            $f = DohFacility::find(auth()->user()->opdfacility->id);
+        }
+        
         $table_params = [
-            'facility_id',
+            'facility_id' => $f->id,
             'reported_by',
             'reporter_contactno',
-
             'patient_no',
             'registry_no',
             'case_no',
             'patient_type',
-
             'lname',
             'fname',
             'mname',
             'suffix',
-
             'sex',
             'bdate',
             'age_years',
             'age_months',
             'age_days',
-
             'perm_streetpurok',
             'perm_brgy_code',
             'tempaddress_sameasperm',
             'temp_streetpurok',
             'temp_brgy_code',
-            
             'contact_no',
+            'contact_no2',
             'philhealth',
-
             'injury_city_code',
+            'injury_brgy_code',
             'injury_datetime',
             'consultation_datetime',
-
             'injury_intent',
             'firstaid_given',
             'firstaid_type',
             'firstaid_bywho',
             'multiple_injuries',
-
             'abrasion',
             'abrasion_site',
             'avulsion',
@@ -120,7 +121,6 @@ class InjuryController extends Controller
             'traumatic_amputation_site',
             'others',
             'others_site',
-
             'bites_stings',
             'bites_stings_specify',
             'ext_burns',
@@ -146,7 +146,6 @@ class InjuryController extends Controller
             'transport_vehicular_accident',
             'ext_others',
             'ext_others_specify',
-
             'vehicle_type',
             'collision_type',
             'patients_vehicle_involved',
@@ -159,17 +158,17 @@ class InjuryController extends Controller
             'placeof_occurrence_workplace_specify',
             'placeof_occurrence_others_specify',
             'activitypatient_duringincident',
-            'activitypatient_duringincident_others',
+            'act_others',
             'otherrisk_factors',
-            'otherrisk_factors_others',
+            'oth_factors_specify',
             'safety',
             'safety_others',
-
-            'transferred_fromanotherhospital',
-            'referredby_anotherhospital',
-            'originating_physician',
+            'transfer_hospital',
+            'referred_hospital',
+            'orig_hospital',
+            'orig_physician',
             'status_reachingfacility',
-            'status_ifalive_type',
+            'ifalive_type',
             'modeof_transport',
             'modeof_transport_others',
             'initial_impression',
@@ -178,7 +177,6 @@ class InjuryController extends Controller
             'disposition',
             'disposition_transferred',
             'outcome',
-
             'inp_completefinal_diagnosis',
             'inp_disposition',
             'inp_disposition_others',
@@ -186,12 +184,13 @@ class InjuryController extends Controller
             'inp_outcome',
             'inp_icd10_nature',
             'inp_icd10_external',
-
             'comments',
+            'remarks',
+            'qr',
             'created_by',
             'report_year',
             'report_month',
-            'report_week',
+            'report_week',            
         ];
     }
 }

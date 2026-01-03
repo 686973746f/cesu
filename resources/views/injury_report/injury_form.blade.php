@@ -12,6 +12,19 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="sys_interviewer_name"><b class="text-danger">*</b>Name of Reporter/Interviewer</label>
+                                        <input type="text" class="form-control" name="sys_interviewer_name" id="sys_interviewer_name" value="{{old('sys_interviewer_name', $f->edcs_defaultreporter_name)}}" style="text-transform: uppercase;" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="sys_interviewer_contactno"><b class="text-danger">*</b>Contact No. of Reporter/Interviewer</label>
+                                        <input type="text" class="form-control" id="sys_interviewer_contactno" name="sys_interviewer_contactno" value="{{old('sys_interviewer_contactno', $f->edcs_defaultreporter_contactno)}}" pattern="[0-9]{11}" placeholder="09*********" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -42,6 +55,7 @@
                                 </div>
                             </div>
                             
+                            <hr>
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
@@ -252,7 +266,7 @@
                                 <div class="col-md-6">
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                        <input type="checkbox" class="form-check-input" name="abrasion" id="injury1" value="Y">
+                                        <input type="checkbox" class="form-check-input injury-check" name="abrasion" id="injury1" value="Y">
                                         Abrasion
                                         </label>
                                     </div>
@@ -262,7 +276,7 @@
                                     </div>
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                        <input type="checkbox" class="form-check-input" name="avulsion" id="injury2" value="Y">
+                                        <input type="checkbox" class="form-check-input injury-check" name="avulsion" id="injury2" value="Y">
                                         Avulsion
                                         </label>
                                     </div>
@@ -272,7 +286,7 @@
                                     </div>
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                        <input type="checkbox" class="form-check-input" name="burn" id="injury3" value="Y">
+                                        <input type="checkbox" class="form-check-input injury-check" name="burn" id="injury3" value="Y">
                                         Burn
                                         </label>
                                     </div>
@@ -294,7 +308,7 @@
                                     </div>
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                        <input type="checkbox" class="form-check-input" name="concussion" id="injury4" value="Y">
+                                        <input type="checkbox" class="form-check-input injury-check" name="concussion" id="injury4" value="Y">
                                         Concussion
                                         </label>
                                     </div>
@@ -304,7 +318,7 @@
                                     </div>
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                        <input type="checkbox" class="form-check-input" name="contusion" id="injury5" value="Y">
+                                        <input type="checkbox" class="form-check-input injury-check" name="contusion" id="injury5" value="Y">
                                         Contusion
                                         </label>
                                     </div>
@@ -316,7 +330,7 @@
                                 <div class="col-md-6">
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                        <input type="checkbox" class="form-check-input" name="fracture" id="injury6" value="Y">
+                                        <input type="checkbox" class="form-check-input injury-check" name="fracture" id="injury6" value="Y">
                                         Fracture
                                         </label>
                                     </div>
@@ -345,7 +359,7 @@
                                     </div>
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                        <input type="checkbox" class="form-check-input" name="open_wound" id="injury7" value="Y">
+                                        <input type="checkbox" class="form-check-input injury-check" name="open_wound" id="injury7" value="Y">
                                         Open Wound
                                         </label>
                                     </div>
@@ -355,7 +369,7 @@
                                     </div>
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                        <input type="checkbox" class="form-check-input" name="traumatic_amputation" id="injury8" value="Y">
+                                        <input type="checkbox" class="form-check-input injury-check" name="traumatic_amputation" id="injury8" value="Y">
                                         Traumatic Amputation
                                         </label>
                                     </div>
@@ -365,7 +379,7 @@
                                     </div>
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                        <input type="checkbox" class="form-check-input" name="others" id="injury9" value="Y">
+                                        <input type="checkbox" class="form-check-input injury-check" name="others" id="injury9" value="Y">
                                         Others
                                         </label>
                                     </div>
@@ -382,7 +396,7 @@
                                 <div class="col-md-6">
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                        <input type="checkbox" class="form-check-input" name="bites_stings" id="external1" value="Y">
+                                        <input type="checkbox" class="form-check-input ext-injury-check" name="bites_stings" id="external1" value="Y">
                                         Bites/stings, Specify animal/insect
                                         </label>
                                     </div>
@@ -392,7 +406,7 @@
                                     </div>
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                        <input type="checkbox" class="form-check-input" name="ext_burns" id="external2" value="Y">
+                                        <input type="checkbox" class="form-check-input ext-injury-check" name="ext_burns" id="external2" value="Y">
                                         Burns
                                         </label>
                                     </div>
@@ -442,7 +456,7 @@
                                     </div>
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                        <input type="checkbox" class="form-check-input" name="chemical_substance" id="external3" value="Y">
+                                        <input type="checkbox" class="form-check-input ext-injury-check" name="chemical_substance" id="external3" value="Y">
                                         Chemical/substance
                                         </label>
                                     </div>
@@ -454,7 +468,7 @@
                                     </div>
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                        <input type="checkbox" class="form-check-input" name="contact_sharpobject" id="external4" value="Y">
+                                        <input type="checkbox" class="form-check-input ext-injury-check" name="contact_sharpobject" id="external4" value="Y">
                                         Contact with sharp objects
                                         </label>
                                     </div>
@@ -466,7 +480,7 @@
                                     </div>
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                        <input type="checkbox" class="form-check-input" name="drowning" id="external5" value="Y">
+                                        <input type="checkbox" class="form-check-input ext-injury-check" name="drowning" id="external5" value="Y">
                                         Drowning
                                         </label>
                                     </div>
@@ -691,7 +705,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="placeof_occurrence"><b class="text-danger">*</b>Position of Patient</label>
+                                                    <label for="placeof_occurrence"><b class="text-danger">*</b>Place of Occurence</label>
                                                     <select class="form-control" name="placeof_occurrence" id="placeof_occurrence">
                                                         <option value="" disabled {{(is_null(old('placeof_occurrence'))) ? 'selected' : ''}}>Choose...</option>
                                                         <option value="HOME" {{(old('placeof_occurrence') == 'HOME') ? 'selected' : ''}}>Home</option>
@@ -718,35 +732,35 @@
                                                 <h6>Activity of the Patient at the time of the incident:</h6>
                                                 <div class="form-check">
                                                     <label class="form-check-label">
-                                                    <input type="checkbox" class="form-check-input" name="patient_position[]" id="patient_position1" value="SPORTS">
+                                                    <input type="checkbox" class="form-check-input va-patient-activity" name="activitypatient_duringincident[]" id="patient_activity1" value="SPORTS">
                                                     Sports
                                                     </label>
                                                 </div>
                                                 <div class="form-check">
                                                     <label class="form-check-label">
-                                                    <input type="checkbox" class="form-check-input" name="patient_position[]" id="patient_position2" value="LEISURE">
+                                                    <input type="checkbox" class="form-check-input va-patient-activity" name="activitypatient_duringincident[]" id="patient_activity2" value="LEISURE">
                                                     Leisure
                                                     </label>
                                                 </div>
                                                 <div class="form-check">
                                                     <label class="form-check-label">
-                                                    <input type="checkbox" class="form-check-input" name="patient_position[]" id="patient_position3" value="WORK RELATED">
+                                                    <input type="checkbox" class="form-check-input va-patient-activity" name="activitypatient_duringincident[]" id="patient_activity3" value="WORK RELATED">
                                                     Work related
                                                     </label>
                                                 </div>
                                                 <div class="form-check">
                                                     <label class="form-check-label">
-                                                    <input type="checkbox" class="form-check-input" name="patient_position[]" id="patient_position4" value="OTHERS">
+                                                    <input type="checkbox" class="form-check-input va-patient-activity" name="activitypatient_duringincident[]" id="patient_activity4" value="OTHERS">
                                                     Others
                                                     </label>
                                                 </div>
-                                                <div class="form-group d-none" id="act_others_div">
+                                                <div class="form-group mt-3 d-none" id="act_others_div">
                                                     <label for="act_others" class="form-label"><b class="text-danger">*</b>Specify</label>
                                                     <input type="text" class="form-control" id="act_others" name="act_others" style="text-transform: uppercase;" value="{{old('act_others')}}">
                                                 </div>
                                                 <div class="form-check">
                                                     <label class="form-check-label">
-                                                    <input type="checkbox" class="form-check-input" name="patient_position[]" id="patient_position5" value="UNKNOWN">
+                                                    <input type="checkbox" class="form-check-input va-patient-activity" name="activitypatient_duringincident[]" id="patient_activity5" value="UNKNOWN">
                                                     Unknown
                                                     </label>
                                                 </div>
@@ -755,35 +769,35 @@
                                                 <h6>Other risk factors at the time of the incident (check all that apply)</h6>
                                                 <div class="form-check">
                                                     <label class="form-check-label">
-                                                    <input type="checkbox" class="form-check-input" name="otherrisk_factors[]" id="otherrisk_factors1" value="SPORTS">
+                                                    <input type="checkbox" class="form-check-input va-risk-factor" name="otherrisk_factors[]" id="otherrisk_factors1" value="ALCOHOL/LIQUOR">
                                                     Alcohol/liquor
                                                     </label>
                                                 </div>
                                                 <div class="form-check">
                                                     <label class="form-check-label">
-                                                    <input type="checkbox" class="form-check-input" name="otherrisk_factors[]" id="otherrisk_factors1" value="SPORTS">
+                                                    <input type="checkbox" class="form-check-input va-risk-factor" name="otherrisk_factors[]" id="otherrisk_factors2" value="USING MOBILE PHONE">
                                                     Using mobile phone
                                                     </label>
                                                 </div>
                                                 <div class="form-check">
                                                     <label class="form-check-label">
-                                                    <input type="checkbox" class="form-check-input" name="otherrisk_factors[]" id="otherrisk_factors1" value="SPORTS">
+                                                    <input type="checkbox" class="form-check-input va-risk-factor" name="otherrisk_factors[]" id="otherrisk_factors3" value="SLEEPY">
                                                     Sleepy
                                                     </label>
                                                 </div>
                                                 <div class="form-check">
                                                     <label class="form-check-label">
-                                                    <input type="checkbox" class="form-check-input" name="otherrisk_factors[]" id="otherrisk_factors1" value="SPORTS">
+                                                    <input type="checkbox" class="form-check-input va-risk-factor" name="otherrisk_factors[]" id="otherrisk_factors4" value="SMOKING">
                                                     Smoking
                                                     </label>
                                                 </div>
                                                 <div class="form-check">
                                                     <label class="form-check-label">
-                                                    <input type="checkbox" class="form-check-input" name="otherrisk_factors[]" id="otherrisk_factors1" value="SPORTS">
+                                                    <input type="checkbox" class="form-check-input va-risk-factor" name="otherrisk_factors[]" id="otherrisk_factors5" value="OTHERS">
                                                     Others
                                                     </label>
                                                 </div>
-                                                <div class="form-group d-none" id="act_others_div">
+                                                <div class="form-group d-none mt-3" id="rf_others_div">
                                                     <label for="oth_factors_specify" class="form-label"><b class="text-danger">*</b>Specify</label>
                                                     <input type="text" class="form-control" id="oth_factors_specify" name="oth_factors_specify" style="text-transform: uppercase;" value="{{old('oth_factors_specify')}}">
                                                 </div>
@@ -832,6 +846,10 @@
                                                     Others
                                                     </label>
                                                 </div>
+                                                <div class="form-group mt-3 d-none" id="safety_others_div">
+                                                    <label for="safety_others" class="form-label"><b class="text-danger">*</b>Specify</label>
+                                                    <input type="text" class="form-control" id="safety_others" name="safety_others" style="text-transform: uppercase;" value="{{old('safety_others')}}">
+                                                </div>
                                                 <div class="form-check">
                                                     <label class="form-check-label">
                                                     <input type="checkbox" class="form-check-input safety-check" name="safety[]" id="safety8" value="UNKNOWN">
@@ -840,113 +858,197 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mt-3">
+                        <div class="card-header">
+                            <div><b>HOSPITAL/FACILITY DATA</b></div>
+                            <div><b>A. ER/OPD/BHS/RHU</b></div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="transfer_hospital"><b class="text-danger">*</b>Transferred from another hospital/facility</label>
+                                <select class="form-control" name="transfer_hospital" id="transfer_hospital" required>
+                                    <option value="" disabled {{(is_null(old('transfer_hospital'))) ? 'selected' : ''}}>Choose...</option>
+                                    <option value="Y" {{(old('transfer_hospital') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                    <option value="N" {{(old('transfer_hospital') == 'N') ? 'selected' : ''}}>No</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="referred_hospital"><b class="text-danger">*</b>Referred by another hospital/facility for laboratory and/or other medical procedures?</label>
+                                <select class="form-control" name="referred_hospital" id="referred_hospital" required>
+                                    <option value="" disabled {{(is_null(old('referred_hospital'))) ? 'selected' : ''}}>Choose...</option>
+                                    <option value="Y" {{(old('referred_hospital') == 'Y') ? 'selected' : ''}}>Yes</option>
+                                    <option value="N" {{(old('referred_hospital') == 'N') ? 'selected' : ''}}>No</option>
+                                </select>
+                            </div>
+                            <div id="otherhp_div" class="d-none">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="orig_hospital" class="form-label"><b class="text-danger">*</b>Name of Origination Hospital</label>
+                                            <input type="text" class="form-control" id="orig_hospital" name="orig_hospital" style="text-transform: uppercase;" value="{{old('orig_hospital')}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="orig_physician" class="form-label">Name of Origination Physician</label>
+                                            <input type="text" class="form-control" id="orig_physician" name="orig_physician" value="{{old('orig_physician')}}" style="text-transform: uppercase;">
+                                        </div>
                                     </div>
                                 </div>
                                 
                             </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="form-group">
-                        <label for="transfer_hospital"><b class="text-danger">*</b>Transferred from another hospital/facility</label>
-                        <select class="form-control" name="transfer_hospital" id="transfer_hospital" required>
-                            <option value="" disabled {{(is_null(old('transfer_hospital'))) ? 'selected' : ''}}>Choose...</option>
-                            <option value="Y" {{(old('transfer_hospital') == 'Y') ? 'selected' : ''}}>Yes</option>
-                            <option value="N" {{(old('transfer_hospital') == 'N') ? 'selected' : ''}}>No</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="referred_hospital"><b class="text-danger">*</b>Referred by another hospital/facility for laboratory and/or other medical procedures?</label>
-                        <select class="form-control" name="referred_hospital" id="referred_hospital" required>
-                            <option value="" disabled {{(is_null(old('referred_hospital'))) ? 'selected' : ''}}>Choose...</option>
-                            <option value="Y" {{(old('referred_hospital') == 'Y') ? 'selected' : ''}}>Yes</option>
-                            <option value="N" {{(old('referred_hospital') == 'N') ? 'selected' : ''}}>No</option>
-                        </select>
-                    </div>
-                    <div id="otherhp_div" class="d-none">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="orig_hospital" class="form-label"><b class="text-danger">*</b>Name of Origination Hospital</label>
-                                    <input type="text" class="form-control" id="orig_hospital" name="orig_hospital" style="text-transform: uppercase;" value="{{old('orig_hospital')}}">
+                            
+                            <div class="form-group">
+                                <label for="status_reachingfacility"><b class="text-danger">*</b>Status upon reaching Facility/Hospital</label>
+                                <select class="form-control" name="status_reachingfacility" id="status_reachingfacility" required>
+                                    <option value="" disabled {{(is_null(old('status_reachingfacility'))) ? 'selected' : ''}}>Choose...</option>
+                                    <option value="DEAD ON ARRIVAL" {{(old('status_reachingfacility') == 'Y') ? 'selected' : ''}}>Dead On Arrival</option>
+                                    <option value="ALIVE" {{(old('status_reachingfacility') == 'N') ? 'selected' : ''}}>Alive</option>
+                                </select>
+                            </div>
+                            <div class="form-group d-none" id="status_alive_div">
+                                <label for="ifalive_type"><b class="text-danger">*</b>If alive, specify type</label>
+                                <select class="form-control" name="ifalive_type" id="ifalive_type">
+                                    <option value="" disabled {{(is_null(old('ifalive_type'))) ? 'selected' : ''}}>Choose...</option>
+                                    <option value="CONSCIOUS" {{(old('ifalive_type') == 'CONSCIOUS') ? 'selected' : ''}}>Conscious</option>
+                                    <option value="UNCONSCIOUS" {{(old('ifalive_type') == 'UNCONSCIOUS') ? 'selected' : ''}}>Unconscious</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="modeof_transport"><b class="text-danger">*</b>Mode of transport to the Hospital/Facility</label>
+                                <select class="form-control" name="modeof_transport" id="modeof_transport" required>
+                                    <option value="" disabled {{(is_null(old('modeof_transport'))) ? 'selected' : ''}}>Choose...</option>
+                                    <option value="AMBULANCE" {{(old('modeof_transport') == 'AMBULANCE') ? 'selected' : ''}}>Ambulance</option>
+                                    <option value="POLICE VEHICLE" {{(old('modeof_transport') == 'POLICE VEHICLE') ? 'selected' : ''}}>Police Vehicle</option>
+                                    <option value="PRIVATE VEHICLE" {{(old('modeof_transport') == 'PRIVATE VEHICLE') ? 'selected' : ''}}>Private Vehicle</option>
+                                    <option value="OTHERS" {{(old('modeof_transport') == 'OTHERS') ? 'selected' : ''}}>Others</option>
+                                </select>
+                            </div>
+                            <div class="form-group d-none mt-3" id="transport_others_div">
+                                <label for="modeof_transport_others" class="form-label"><b class="text-danger">*</b>Specify other mode of transport</label>
+                                <input type="text" class="form-control" id="modeof_transport_others" name="modeof_transport_others" style="text-transform: uppercase;" value="{{old('modeof_transport_others')}}">
+                            </div>
+                            <div class="form-group">
+                                <label for="initial_impression">Initial Impression</label>
+                                <textarea class="form-control" name="initial_impression" id="initial_impression" rows="3">{{old('initial_impression')}}</textarea>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="icd10_nature" class="form-label">ICD-10 Code/s Nature of Injury</label>
+                                        <input type="text" class="form-control" id="icd10_nature" name="icd10_nature" value="{{old('icd10_nature')}}" style="text-transform: uppercase;">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="icd10_external" class="form-label">ICD-10 Code/s External Cause of Injury</label>
+                                        <input type="text" class="form-control" id="icd10_external" name="icd10_external" value="{{old('icd10_external')}}" style="text-transform: uppercase;">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="orig_physician" class="form-label"><b class="text-danger">*</b>Name of Origination Physician</label>
-                                    <input type="text" class="form-control" id="orig_physician" name="orig_physician" value="{{old('orig_physician')}}" style="text-transform: uppercase;">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="disposition"><b class="text-danger">*</b>Disposition</label>
+                                        <select class="form-control" name="disposition" id="disposition" required>
+                                            <option value="" disabled {{(is_null(old('disposition'))) ? 'selected' : ''}}>Choose...</option>
+                                            <option value="ADMITTED" {{(old('disposition') == 'ADMITTED') ? 'selected' : ''}}>Admitted</option>
+                                            <option value="TREATED AND SENT HOME" {{(old('disposition') == 'TREATED AND SENT HOME') ? 'selected' : ''}}>Treated and Sent Home</option>
+                                            <option value="HAMA" {{(old('disposition') == 'HAMA') ? 'selected' : ''}}>HAMA</option>
+                                            <option value="TRANSFERRED TO ANOTHER FACILITY/HOSPITAL" {{(old('disposition') == 'TRANSFERRED TO ANOTHER FACILITY/HOSPITAL') ? 'selected' : ''}}>Transferred to another hospital/facility</option>
+                                            <option value="ABSCONDED" {{(old('disposition') == 'ABSCONDED') ? 'selected' : ''}}>Absconded</option>
+                                            <option value="REFUSED ADMISSION" {{(old('disposition') == 'REFUSED ADMISSION') ? 'selected' : ''}}>Refused Admission</option>
+                                            <option value="DIED" {{(old('disposition') == 'DIED') ? 'selected' : ''}}>Died</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group d-none" id="dispo_div">
+                                        <label for="disposition_transferred" class="form-label"><b class="text-danger">*</b>Specify hospital/facility</label>
+                                        <input type="text" class="form-control" id="disposition_transferred" name="disposition_transferred" style="text-transform: uppercase;" value="{{old('disposition_transferred')}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="outcome"><b class="text-danger">*</b>Outcome</label>
+                                        <select class="form-control" name="outcome" id="outcome" required>
+                                            <option value="" disabled {{(is_null(old('outcome'))) ? 'selected' : ''}}>Choose...</option>
+                                            <option value="IMPROVED" {{(old('outcome') == 'IMPROVED') ? 'selected' : ''}}>Improved</option>
+                                            <option value="UNIMPROVED" {{(old('outcome') == 'UNIMPROVED') ? 'selected' : ''}}>Unimproved</option>
+                                            <option value="DIED" {{(old('outcome') == 'DIED') ? 'selected' : ''}}>Died</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        
                     </div>
                     
-                    <div class="form-group">
-                        <label for="status_reachingfacility"><b class="text-danger">*</b>Status upon reaching Facility/Hospital</label>
-                        <select class="form-control" name="status_reachingfacility" id="status_reachingfacility" required>
-                            <option value="" disabled {{(is_null(old('status_reachingfacility'))) ? 'selected' : ''}}>Choose...</option>
-                            <option value="DEAD ON ARRIVAL" {{(old('status_reachingfacility') == 'Y') ? 'selected' : ''}}>Dead On Arrival</option>
-                            <option value="ALIVE" {{(old('status_reachingfacility') == 'N') ? 'selected' : ''}}>Alive</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="ifalive_type"><b class="text-danger">*</b>If alive, specify type</label>
-                        <select class="form-control" name="ifalive_type" id="ifalive_type" required>
-                            <option value="" disabled {{(is_null(old('ifalive_type'))) ? 'selected' : ''}}>Choose...</option>
-                            <option value="CONSCIOUS" {{(old('ifalive_type') == 'CONSCIOUS') ? 'selected' : ''}}>Conscious</option>
-                            <option value="UNCONSCIOUS" {{(old('ifalive_type') == 'UNCONSCIOUS') ? 'selected' : ''}}>Unconscious</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="modeof_transport"><b class="text-danger">*</b>If alive, specify type</label>
-                        <select class="form-control" name="modeof_transport" id="modeof_transport" required>
-                            <option value="" disabled {{(is_null(old('modeof_transport'))) ? 'selected' : ''}}>Choose...</option>
-                            <option value="AMBULANCE" {{(old('modeof_transport') == 'AMBULANCE') ? 'selected' : ''}}>Ambulance</option>
-                            <option value="POLICE VEHICLE" {{(old('modeof_transport') == 'POLICE VEHICLE') ? 'selected' : ''}}>Police Vehicle</option>
-                            <option value="PRIVATE VEHICLE" {{(old('modeof_transport') == 'PRIVATE VEHICLE') ? 'selected' : ''}}>Private Vehicle</option>
-                            <option value="OTHERS" {{(old('modeof_transport') == 'OTHERS') ? 'selected' : ''}}>Others</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="initial_impression">Initial Impression</label>
-                        <textarea class="form-control" name="initial_impression" id="initial_impression" rows="3">{{old('initial_impression')}}</textarea>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
+                    <div class="card mt-3 d-none" id="inpatient_div">
+                        <div class="card-header"><b>IN-PATIENT (for admitted hospital cases only)</b></div>
+                        <div class="card-body">
                             <div class="form-group">
-                                <label for="icd10_nature" class="form-label"><b class="text-danger">*</b>ICD-10 Code/s Nature of Injury</label>
-                                <input type="text" class="form-control" id="icd10_nature" name="icd10_nature" value="{{old('icd10_nature')}}" style="text-transform: uppercase;">
+                                <label for="inp_completefinal_diagnosis">Complete Final Diagnosis</label>
+                                <textarea class="form-control" name="inp_completefinal_diagnosis" id="inp_completefinal_diagnosis" rows="3">{{old('inp_completefinal_diagnosis')}}</textarea>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inp_disposition"><b class="text-danger">*</b>Disposition</label>
+                                        <select class="form-control" name="inp_disposition" id="inp_disposition">
+                                            <option value="" disabled {{(is_null(old('inp_disposition'))) ? 'selected' : ''}}>Choose...</option>
+                                            <option value="ADMITTED" {{(old('inp_disposition') == 'ADMITTED') ? 'selected' : ''}}>Admitted</option>
+                                            <option value="TREATED AND SENT HOME" {{(old('inp_disposition') == 'TREATED AND SENT HOME') ? 'selected' : ''}}>Treated and Sent Home</option>
+                                            <option value="HAMA" {{(old('inp_disposition') == 'HAMA') ? 'selected' : ''}}>HAMA</option>
+                                            <option value="TRANSFERRED TO ANOTHER FACILITY/HOSPITAL" {{(old('inp_disposition') == 'TRANSFERRED TO ANOTHER FACILITY/HOSPITAL') ? 'selected' : ''}}>Transferred to another hospital/facility</option>
+                                            <option value="ABSCONDED" {{(old('inp_disposition') == 'ABSCONDED') ? 'selected' : ''}}>Absconded</option>
+                                            <option value="REFUSED ADMISSION" {{(old('inp_disposition') == 'REFUSED ADMISSION') ? 'selected' : ''}}>Refused Admission</option>
+                                            <option value="DIED" {{(old('inp_disposition') == 'DIED') ? 'selected' : ''}}>Died</option>
+                                            <option value="OTHERS" {{(old('inp_disposition') == 'OTHERS') ? 'selected' : ''}}>Others</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group d-none" id="inp_dispo_other_div">
+                                        <label for="inp_disposition_others" class="form-label"><b class="text-danger">*</b>Specify disposition</label>
+                                        <input type="text" class="form-control" id="inp_disposition_others" name="inp_disposition_others" style="text-transform: uppercase;" value="{{old('inp_disposition_others')}}">
+                                    </div>
+                                    <div class="form-group d-none" id="inp_dispo_transferred_div">
+                                        <label for="inp_disposition_transferred" class="form-label"><b class="text-danger">*</b>Specify hospital/facility</label>
+                                        <input type="text" class="form-control" id="inp_disposition_transferred" name="inp_disposition_transferred" style="text-transform: uppercase;" value="{{old('inp_disposition_transferred')}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inp_outcome"><b class="text-danger">*</b>Outcome</label>
+                                        <select class="form-control" name="inp_outcome" id="inp_outcome">
+                                            <option value="" disabled {{(is_null(old('inp_outcome'))) ? 'selected' : ''}}>Choose...</option>
+                                            <option value="IMPROVED" {{(old('inp_outcome') == 'IMPROVED') ? 'selected' : ''}}>Improved</option>
+                                            <option value="UNIMPROVED" {{(old('inp_outcome') == 'UNIMPROVED') ? 'selected' : ''}}>Unimproved</option>
+                                            <option value="DIED" {{(old('inp_outcome') == 'DIED') ? 'selected' : ''}}>Died</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inp_icd10_nature" class="form-label">ICD-10 Code/s Nature of Injury</label>
+                                        <input type="text" class="form-control" id="inp_icd10_nature" name="inp_icd10_nature" value="{{old('inp_icd10_nature')}}" style="text-transform: uppercase;">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="inp_icd10_external" class="form-label">ICD-10 Code/s External Cause of Injury</label>
+                                        <input type="text" class="form-control" id="inp_icd10_external" name="inp_icd10_external" value="{{old('inp_icd10_external')}}" style="text-transform: uppercase;">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="comments">Comments</label>
+                                <textarea class="form-control" name="comments" id="comments" rows="3">{{old('comments')}}</textarea>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="icd10_external" class="form-label"><b class="text-danger">*</b>ICD-10 Code/s External Cause of Injury</label>
-                                <input type="text" class="form-control" id="icd10_external" name="icd10_external" value="{{old('icd10_external')}}" style="text-transform: uppercase;">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="disposition"><b class="text-danger">*</b>Disposition</label>
-                        <select class="form-control" name="disposition" id="disposition" required>
-                            <option value="" disabled {{(is_null(old('disposition'))) ? 'selected' : ''}}>Choose...</option>
-                            <option value="ADMITTED" {{(old('disposition') == 'ADMITTED') ? 'selected' : ''}}>Admitted</option>
-                            <option value="TREATED AND SENT HOME" {{(old('disposition') == 'TREATED AND SENT HOME') ? 'selected' : ''}}>Treated and Sent Home</option>
-                            <option value="HAMA" {{(old('disposition') == 'HAMA') ? 'selected' : ''}}>HAMA</option>
-                            <option value="TRANSFERRED TO ANOTHER FACILITY/HOSPITAL" {{(old('disposition') == 'TRANSFERRED TO ANOTHER FACILITY/HOSPITAL') ? 'selected' : ''}}>Transferred to another hospital/facility</option>
-                            <option value="ABSCONDED" {{(old('disposition') == 'ABSCONDED') ? 'selected' : ''}}>Absconded</option>
-                            <option value="REFUSED ADMISSION" {{(old('disposition') == 'REFUSED ADMISSION') ? 'selected' : ''}}>Refused Admission</option>
-                            <option value="DIED" {{(old('disposition') == 'DIED') ? 'selected' : ''}}>Died</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="outcome"><b class="text-danger">*</b>Outcome</label>
-                        <select class="form-control" name="outcome" id="outcome" required>
-                            <option value="" disabled {{(is_null(old('outcome'))) ? 'selected' : ''}}>Choose...</option>
-                            <option value="IMPROVED" {{(old('outcome') == 'IMPROVED') ? 'selected' : ''}}>Improved</option>
-                            <option value="UNIMPROVED" {{(old('outcome') == 'UNIMPROVED') ? 'selected' : ''}}>Unimproved</option>
-                            <option value="DIED" {{(old('outcome') == 'DIED') ? 'selected' : ''}}>Died</option>
-                        </select>
                     </div>
                 </div>
                 <div class="card-footer">
@@ -957,22 +1059,202 @@
     </form>
 
     <script>
-        $('#external13').change(function (e) { 
-            e.preventDefault();
-            if($(this).is(':checked')) {
-                $('#va_div').removeClass('d-none');
-            }
-            else {
-                $('#va_div').addClass('d-none');
-            }
-        }).trigger('change');
-
         $('form').on('submit', function(e) {
             if ($('.burns-type-checkbox:checked').length === 0 && $('#external2').is(':checked')) {
                 e.preventDefault();
                 alert('Please check at least one type of burn.');
             }
+
+            if ($('.drowning-types:checked').length === 0 && $('#external5').is(':checked')) {
+                e.preventDefault();
+                alert('Please check at least one type of drowning.');
+            }
+
+            if($('#external13').is(':checked')) {
+                if ($('.va-patient-activity:checked').length === 0) {
+                    e.preventDefault();
+                    alert('Please check at least one Activity of the Patient at the time of the incident in Vehicular Accident Section.');
+                }
+
+                if ($('.va-risk-factor:checked').length === 0) {
+                    e.preventDefault();
+                    alert('Please check at least one Other risk factors at the tiem of the incident in Vehicular Accident Section.');
+                }
+
+                if ($('.safety-check:checked').length === 0) {
+                    e.preventDefault();
+                    alert('Please check at least one Safety in Vehicular Accident Section.');
+                }
+            }
         });
+
+        $('#external13').change(function (e) { 
+            e.preventDefault();
+            $('#va_div').addClass('d-none');
+
+            if($(this).is(':checked')) {
+                $('#va_div').removeClass('d-none');
+                $('#vehicle_type').prop('required', true);
+                $('#patients_vehicle_involved').prop('required', true);
+                $('#collision_type').prop('required', true);
+                $('#patient_position').prop('required', true);
+                $('#placeof_occurrence').prop('required', true);
+            }
+
+        }).trigger('change');
+
+        $('#collision_type').change(function (e) { 
+            e.preventDefault();
+            $('#other_vehicle_div').addClass('d-none');
+            $('#other_vehicle_involved').prop('required', false);
+            
+            if($(this).val() == 'COLLISION') {
+                $('#other_vehicle_div').removeClass('d-none');
+                $('#other_vehicle_involved').prop('required', true);
+            }
+        }).trigger('change');
+
+        $('#patients_vehicle_involved').change(function (e) { 
+            e.preventDefault();
+            $('#vi_others_div').addClass('d-none');
+            $('#patients_vehicle_involved_others').prop('required', false);
+
+            if($(this).val() == 'OTHERS') {
+                $('#vi_others_div').removeClass('d-none');
+                $('#patients_vehicle_involved_others').prop('required', true);
+            }
+        }).trigger('change');
+
+        $('#other_vehicle_involved').change(function (e) { 
+            e.preventDefault();
+            $('#ovi_others_div').addClass('d-none');
+            $('#other_vehicle_involved_others').prop('required', false);
+
+            if($(this).val() == 'OTHERS') {
+                $('#ovi_others_div').removeClass('d-none');
+                $('#other_vehicle_involved_others').prop('required', true);
+            }
+        }).trigger('change');
+
+        $('#patient_position').change(function (e) { 
+            e.preventDefault();
+            $('#patient_position_others_div').addClass('d-none');
+            $('#patient_position_others').prop('required', false);
+
+            if($(this).val() == 'OTHERS') {
+                $('#patient_position_others_div').removeClass('d-none');
+                $('#patient_position_others').prop('required', true);
+            }
+        }).trigger('change');
+
+        $('#placeof_occurrence').change(function (e) { 
+            e.preventDefault();
+            $('#ppos_workplace_div').addClass('d-none');
+            $('#placeof_occurrence_workplace_specify').prop('required', false);
+
+            $('#ppos_others_div').addClass('d-none');
+            $('#placeof_occurrence_others_specify').prop('required', false);
+
+            if($(this).val() == 'WORKPLACE') {
+                $('#ppos_workplace_div').removeClass('d-none');
+                $('#placeof_occurrence_workplace_specify').prop('required', true);
+            }
+            else if($(this).val() == 'OTHERS') {
+                $('#ppos_others_div').removeClass('d-none');
+                $('#placeof_occurrence_others_specify').prop('required', true);
+            }
+        }).trigger('change');
+
+        $('#patient_activity4').change(function (e) { 
+            e.preventDefault();
+            $('#act_others_div').addClass('d-none');
+            $('#act_others').prop('required', false);
+
+            if($(this).is(':checked')) {
+                $('#act_others_div').removeClass('d-none');
+                $('#act_others').prop('required', true);
+            }
+        }).trigger('change');
+
+        $('#otherrisk_factors5').change(function (e) { 
+            e.preventDefault();
+            $('#rf_others_div').addClass('d-none');
+            $('#oth_factors_specify').prop('required', false);
+
+            if($(this).is(':checked')) {
+                $('#rf_others_div').removeClass('d-none');
+                $('#oth_factors_specify').prop('required', true);
+            }
+        }).trigger('change');
+
+        $('#safety7').change(function (e) { 
+            e.preventDefault();
+            $('#safety_others_div').addClass('d-none');
+            $('#safety_others').prop('required', false);
+
+            if($(this).is(':checked')) {
+                $('#safety_others_div').removeClass('d-none');
+                $('#safety_others').prop('required', true);
+            }
+        }).trigger('change');
+
+        $('#safety1').change(function (e) { 
+            e.preventDefault();
+            $('#safety2').prop('disabled', false);
+            $('#safety3').prop('disabled', false);
+            $('#safety4').prop('disabled', false);
+            $('#safety5').prop('disabled', false);
+            $('#safety6').prop('disabled', false);
+            $('#safety7').prop('disabled', false);
+            $('#safety8').prop('disabled', false);
+
+            if($(this).is(':checked')) {
+                $('#safety2').prop('disabled', true);
+                $('#safety3').prop('disabled', true);
+                $('#safety4').prop('disabled', true);
+                $('#safety5').prop('disabled', true);
+                $('#safety6').prop('disabled', true);
+                $('#safety7').prop('disabled', true);
+                $('#safety8').prop('disabled', true);
+
+                $('#safety2').prop('checked', false);
+                $('#safety3').prop('checked', false);
+                $('#safety4').prop('checked', false);
+                $('#safety5').prop('checked', false);
+                $('#safety6').prop('checked', false);
+                $('#safety7').prop('checked', false);
+                $('#safety8').prop('checked', false);
+            }
+        }).trigger('change');
+
+        $('#safety8').change(function (e) { 
+            e.preventDefault();
+            $('#safety2').prop('disabled', false);
+            $('#safety3').prop('disabled', false);
+            $('#safety4').prop('disabled', false);
+            $('#safety5').prop('disabled', false);
+            $('#safety6').prop('disabled', false);
+            $('#safety7').prop('disabled', false);
+            $('#safety1').prop('disabled', false);
+
+            if($(this).is(':checked')) {
+                $('#safety2').prop('disabled', true);
+                $('#safety3').prop('disabled', true);
+                $('#safety4').prop('disabled', true);
+                $('#safety5').prop('disabled', true);
+                $('#safety6').prop('disabled', true);
+                $('#safety7').prop('disabled', true);
+                $('#safety1').prop('disabled', true);
+
+                $('#safety2').prop('checked', false);
+                $('#safety3').prop('checked', false);
+                $('#safety4').prop('checked', false);
+                $('#safety5').prop('checked', false);
+                $('#safety6').prop('checked', false);
+                $('#safety7').prop('checked', false);
+                $('#safety1').prop('checked', false);
+            }
+        }).trigger('change');
 
         $(document).bind('keydown', function(e) {
             if(e.ctrlKey && (e.which == 83)) {
@@ -1613,6 +1895,92 @@
             if($(this).is(':checked')) {
                 $('#external14_div').removeClass('d-none');
                 $('#external14_specify').prop('required', true);
+            }
+        }).trigger('change');
+
+        $('#status_reachingfacility').change(function (e) { 
+            e.preventDefault();
+            $('#ifalive_type').prop('required', false);
+            $('#status_alive_div').addClass('d-none');
+
+            if($(this).val() == 'ALIVE') {
+                $('#ifalive_type').prop('required', true);
+                $('#status_alive_div').removeClass('d-none');
+            }
+        }).trigger('change');
+
+        $('#modeof_transport').change(function (e) { 
+            e.preventDefault();
+            $('#transport_others_div').addClass('d-none');
+            $('#modeof_transport_others').prop('required', false);
+
+            if($(this).val() == 'OTHERS') {
+                $('#transport_others_div').removeClass('d-none');
+                $('#modeof_transport_others').prop('required', true);
+            }
+        }).trigger('change');
+
+        $('#disposition').change(function (e) { 
+            e.preventDefault();
+            $('#dispo_div').addClass('d-none');
+            $('#disposition_transferred').prop('required', false);
+
+            $('#inpatient_div').addClass('d-none');
+            $('#inp_completefinal_diagnosis').prop('required', false);
+            $('#inp_disposition').prop('required', false);
+            $('#inp_outcome').prop('required', false);
+
+            if($(this).val() == 'OTHERS') {
+                $('#dispo_div').removeClass('d-none');
+                $('#disposition_transferred').prop('required', true);
+            }
+            else if($(this).val() == 'ADMITTED') {
+                $('#inpatient_div').removeClass('d-none');
+                $('#inp_completefinal_diagnosis').prop('required', true);
+                $('#inp_disposition').prop('required', true);
+                $('#inp_outcome').prop('required', true);
+            }
+        }).trigger('change');
+        
+        $('#inp_disposition').change(function (e) { 
+            e.preventDefault();
+            $('#inp_dispo_other_div').addClass('d-none');
+            $('#inp_disposition_others').prop('required', false);
+
+            $('#inp_dispo_transferred_div').addClass('d-none');
+            $('#inp_disposition_transferred').prop('required', false);
+
+            if($(this).val() == 'OTHERS') {
+                $('#inp_dispo_other_div').removeClass('d-none');
+                $('#inp_disposition_others').prop('required', true);
+            }
+            else if($(this).val() == 'TRANSFERRED TO ANOTHER FACILITY/HOSPITAL') {
+                $('#inp_dispo_transferred_div').removeClass('d-none');
+                $('#inp_disposition_transferred').prop('required', true);
+            }
+        }).trigger('change');
+
+        $('#transfer_hospital').change(function (e) { 
+            e.preventDefault();
+            
+            $('#otherhp_div').removeClass('d-none');
+            $('#orig_hospital').prop('required', false);
+
+            if($(this).val() == 'Y' || $('#referred_hospital').val() == 'Y') {
+                $('#otherhp_div').addClass('d-none');
+                $('#orig_hospital').prop('required', true);
+            }
+        }).trigger('change');
+
+        $('#referred_hospital').change(function (e) { 
+            e.preventDefault();
+            
+            $('#otherhp_div').removeClass('d-none');
+            $('#orig_hospital').prop('required', false);
+
+            if($(this).val() == 'Y' || $('#transfer_hospital').val() == 'Y') {
+                $('#otherhp_div').addClass('d-none');
+                $('#orig_hospital').prop('required', true);
             }
         }).trigger('change');
     </script>

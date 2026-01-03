@@ -139,19 +139,20 @@ class CreateInjuriesTable extends Migration
             $table->string('icd10_nature')->nullable();
             $table->string('icd10_external')->nullable();
             $table->string('disposition')->nullable();
-            $table->string('disposition_transferred')->nullable();
-            $table->string('disposition_others')->nullable();
+            $table->text('disposition_transferred')->nullable();
+            //$table->string('disposition_others')->nullable();
             $table->string('outcome')->nullable();
 
             $table->text('inp_completefinal_diagnosis')->nullable();
             $table->string('inp_disposition')->nullable();
             $table->text('inp_disposition_others')->nullable();
-            $table->string('inp_disposition_transferred')->nullable();
+            $table->text('inp_disposition_transferred')->nullable();
             $table->string('inp_outcome')->nullable();
             $table->string('inp_icd10_nature')->nullable();
             $table->string('inp_icd10_external')->nullable();
 
             $table->text('comments')->nullable();
+            $table->text('remarks')->nullable();
             $table->string('qr');
             
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
