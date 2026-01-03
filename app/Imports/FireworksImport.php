@@ -60,7 +60,7 @@ class FireworksImport implements ToModel, WithHeadingRow
                 $inj_b = $this->getBrgyCode($r['poi_regcode'], $r['poi_provcode'], $r['poi_citycode'], $r['poi_bgycode']);
 
                 $birthdate = Carbon::parse($r['pat_date_of_birth']);
-                $currentDate = Carbon::parse($r['date_report']);
+                $currentDate = Carbon::parse($r['date_report'].' '.$r['time_report']);
 
                 $get_ageyears = $birthdate->diffInYears($currentDate);
                 $get_agemonths = $birthdate->diffInMonths($currentDate);
@@ -216,7 +216,7 @@ class FireworksImport implements ToModel, WithHeadingRow
                     'oneiss_patfacilityno' => $r['pat_facility_no'],
                     
                     'reported_by' => $this->facility->edcs_defaultreporter_name,
-                    'report_date' => date('Y-m-d'),
+                    'report_date' => $currentDate->format('Y-m-d H:i:s'),
                     'facility_code' => $this->facility->sys_code1,
                     'account_type' => $this->facility->facility_type,
                     'hospital_name' => $r['pat_facility_no'],

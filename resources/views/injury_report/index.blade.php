@@ -104,7 +104,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success btn-block" disabled>Coming Soon</button>
+                    <button type="submit" class="btn btn-success btn-block">Upload</button>
                 </div>
             </div>
         </div>

@@ -15,19 +15,30 @@ class CreateInjuriesTable extends Migration
     {
         Schema::create('injuries', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('facility_id')->constrained('doh_facilities')->onDelete('cascade');
-            $table->string('reported_by');
-            $table->string('reporter_contactno');
-
-            $table->string('patient_no')->nullable();
-            $table->string('registry_no')->nullable();
-            $table->string('case_no')->nullable();
-            $table->string('patient_type');
-
-            $table->string('lname');
-            $table->string('fname');
+            //$table->foreignId('facility_id')->constrained('doh_facilities')->onDelete('cascade');
+            $table->dateTime('date_report')->nullable();
+            $table->string('lname')->nullable();
+            $table->string('fname')->nullable();
             $table->string('mname')->nullable();
             $table->string('suffix')->nullable();
+
+            $table->string('reported_by')->nullable();
+            $table->string('reporter_contactno')->nullable();
+
+            $table->string('oneiss_pno')->nullable();
+            $table->string('oneiss_status')->nullable();
+            $table->string('oneiss_dataentrystatus')->nullable();
+            $table->string('oneiss_patfacilityno')->nullable();
+            $table->string('oneiss_regno')->nullable();
+            $table->string('oneiss_tempregno')->nullable();
+            $table->string('hosp_no')->nullable();
+            $table->string('hosp_reg_no')->nullable();
+            $table->string('hosp_cas_no')->nullable();
+
+            //$table->string('patient_no')->nullable();
+            //$table->string('registry_no')->nullable();
+            //$table->string('case_no')->nullable();
+            $table->string('patient_type');
 
             $table->string('sex', 1);
             $table->date('bdate')->nullable();
@@ -36,10 +47,13 @@ class CreateInjuriesTable extends Migration
             $table->integer('age_days')->nullable();
 
             $table->string('perm_streetpurok')->nullable();
-            $table->foreignId('perm_brgy_code')->constrained('edcs_brgies')->onDelete('cascade');
+            $table->foreignId('perm_city_code')->nullable()->constrained('edcs_cities')->onDelete('cascade');
+            $table->foreignId('perm_brgy_code')->nullable()->constrained('edcs_brgies')->onDelete('cascade');
             $table->string('tempaddress_sameasperm', 1);
+
             $table->string('temp_streetpurok')->nullable();
-            $table->foreignId('temp_brgy_code')->constrained('edcs_brgies')->onDelete('cascade');
+            $table->foreignId('temp_city_code')->nullable()->constrained('edcs_cities')->onDelete('cascade');
+            $table->foreignId('temp_brgy_code')->nullable()->constrained('edcs_brgies')->onDelete('cascade');
 
             $table->string('contact_no')->nullable();
             $table->string('contact_no2')->nullable();
@@ -50,9 +64,10 @@ class CreateInjuriesTable extends Migration
             $table->foreignId('injury_brgy_code')->nullable()->constrained('edcs_brgies')->onDelete('cascade');
 
             $table->dateTime('injury_datetime')->nullable();
-            $table->dateTime('consultation_datetime')->nullable();
+            $table->dateTime('encounter_datetime')->nullable();
 
             $table->string('injury_intent');
+            $table->string('vawc', 1);
             $table->string('firstaid_given', 1);
             $table->string('firstaid_type')->nullable();
             $table->string('firstaid_bywho')->nullable();
@@ -95,9 +110,12 @@ class CreateInjuriesTable extends Migration
             $table->text('drowning_type')->nullable();
             $table->text('drowning_other_specify')->nullable();
             $table->string('exposure_forcesofnature', 1);
+            $table->text('ref_expnature_code')->nullable();
+            $table->text('ext_expo_nature_sp')->nullable();
             $table->string('fall', 1);
             $table->text('fall_specify')->nullable();
             $table->string('firecracker', 1);
+            $table->text('firecracker_code')->nullable();
             $table->text('firecracker_specify')->nullable();
             $table->string('sexual_assault', 1);
             $table->string('gunshot', 1);
@@ -131,9 +149,9 @@ class CreateInjuriesTable extends Migration
             $table->string('referred_hospital', 1);
             $table->string('orig_hospital')->nullable();
             $table->string('orig_physician')->nullable();
-            $table->string('status_reachingfacility');
+            $table->string('status_reachingfacility')->nullable();
             $table->string('ifalive_type')->nullable();
-            $table->string('modeof_transport');
+            $table->string('modeof_transport')->nullable();
             $table->text('modeof_transport_others')->nullable();
             $table->text('initial_impression')->nullable();
             $table->string('icd10_nature')->nullable();
@@ -158,9 +176,9 @@ class CreateInjuriesTable extends Migration
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
 
-            $table->integer('report_year');
-            $table->integer('report_month');
-            $table->integer('report_week');
+            //$table->integer('report_year');
+            //$table->integer('report_month');
+            //$table->integer('report_week');
             $table->timestamps();
         });
     }

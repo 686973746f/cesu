@@ -10,27 +10,44 @@ class Injury extends Model
     use HasFactory;
 
     protected $fillable = [
-        'facility_id',
-        'reported_by',
-        'reporter_contactno',
-        'patient_no',
-        'registry_no',
-        'case_no',
-        'patient_type',
+        //'facility_id',
+        'date_report',
         'lname',
         'fname',
         'mname',
         'suffix',
+
+        'reported_by',
+        'reporter_contactno',
+
+        'oneiss_pno',
+        'oneiss_status',
+        'oneiss_dataentrystatus',
+        'oneiss_patfacilityno',
+        'oneiss_regno',
+        'oneiss_tempregno',
+        'hosp_no',
+        'hosp_reg_no',
+        'hosp_cas_no',
+
+        //'registry_no',
+        //'case_no',
+        'patient_type',
+        
         'sex',
         'bdate',
         'age_years',
         'age_months',
         'age_days',
         'perm_streetpurok',
+        'perm_city_code',
         'perm_brgy_code',
         'tempaddress_sameasperm',
+
         'temp_streetpurok',
+        'temp_city_code',
         'temp_brgy_code',
+
         'contact_no',
         'contact_no2',
         'philhealth',
@@ -39,6 +56,7 @@ class Injury extends Model
         'injury_datetime',
         'consultation_datetime',
         'injury_intent',
+        'vawc',
         'firstaid_given',
         'firstaid_type',
         'firstaid_bywho',
@@ -132,8 +150,5 @@ class Injury extends Model
         'remarks',
         'qr',
         'created_by',
-        'report_year',
-        'report_month',
-        'report_week',
     ];
 }

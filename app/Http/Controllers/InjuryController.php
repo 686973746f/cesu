@@ -6,6 +6,7 @@ use App\Models\DohFacility;
 use Illuminate\Http\Request;
 use App\Imports\FhsisTbdotsImport;
 use App\Imports\FireworksImport;
+use App\Imports\InjuryImport;
 use App\Models\Injury;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -36,7 +37,12 @@ class InjuryController extends Controller
     public function uploadinjury($code, Request $r) {
         $f = DohFacility::where('sys_code1', $code)->first();
 
-        dd('not yet done');
+        Excel::import(new InjuryImport($f), $r->csv_file);
+
+        return redirect()
+        ->back()
+        ->with('msg', 'NEISS database was imported successfully')
+        ->with('msgtype', 'success');
     }
 
     public function injuryNewOrEdit(Injury $record, $code = null) {
