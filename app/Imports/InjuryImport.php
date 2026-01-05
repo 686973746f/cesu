@@ -25,6 +25,29 @@ class InjuryImport implements ToModel, WithHeadingRow
         $this->facility = $facility;
     }
 
+    private function normalizeCity($value)
+    {
+        if (!is_string($value)) return $value;
+
+        $value = strtoupper(trim($value));
+
+        // Convert "X CITY" → "CITY OF X"
+        if (preg_match('/^(.*)\s+CITY$/', $value, $m)) {
+            return 'CITY OF ' . $m[1];
+        }
+
+        return $value;
+    }
+
+    private function fixEncoding($value)
+    {
+        if (!is_string($value)) {
+            return $value;
+        }
+
+        return str_replace('Ã‘', 'Ñ', $value);
+    }
+
     private function getCityCode($reg_name, $pro_name, $mun_name) {
         $rq = Regions::where('regionName', $reg_name)
         ->orWhere('alt_name', $reg_name)
@@ -33,6 +56,8 @@ class InjuryImport implements ToModel, WithHeadingRow
         $pq = EdcsProvince::where('region_id', $rq->id)
         ->where('name', $pro_name)
         ->first();
+
+        $mun_name = $this->normalizeCity($mun_name);
 
         $cq = EdcsCity::where('province_id', $pq->id)
         ->where(function ($q) use ($mun_name) {
@@ -71,6 +96,8 @@ class InjuryImport implements ToModel, WithHeadingRow
     */
     public function model(array $r)
     {
+        $r = array_map([$this, 'fixEncoding'], $r);
+
         if($r['pat_current_address_city'] == 'GENERAL TRIAS' || $r['plc_ctycode'] == 'GENERAL TRIAS') {
             $s = Injury::where('oneiss_pno', $r['pno'])
             ->orWhere('oneiss_regno', $r['reg_no'])
@@ -79,9 +106,9 @@ class InjuryImport implements ToModel, WithHeadingRow
             $pat_brgy = (isset($r['pat_current_address_barangay'])) ? $r['pat_current_address_barangay'] : NULL;
             $plc_brgy = (isset($r['plc_current_address_barangay'])) ? $r['plc_current_address_barangay'] : NULL;
             
-            $b = $this->getCityCode($r['pat_current_address_region'], $r['pat_current_address_province'], $r['pat_current_address_city']);
+            $b = $this->getCityCode(mb_strtoupper($r['pat_current_address_region']), mb_strtoupper($r['pat_current_address_province']), mb_strtoupper($r['pat_current_address_city']));
             //$tempb = $this->getCityCode($r['temp_regcode'], $r['temp_provcode'], $r['temp_citycode']);
-            $inj_b = $this->getCityCode($r['plc_regcode'], $r['plc_provcode'], $r['plc_ctycode']);
+            $inj_b = $this->getCityCode(mb_strtoupper($r['plc_regcode']), mb_strtoupper($r['plc_provcode']), mb_strtoupper($r['plc_ctycode']));
 
             $birthdate = Carbon::parse($r['pat_date_of_birth']);
             $currentDate = Carbon::parse($r['date_report'].' '.$r['time_report']);
@@ -111,7 +138,7 @@ class InjuryImport implements ToModel, WithHeadingRow
                     $sameadd = 'N';
                 }
 
-                if($sameadd = 'N') {
+                if($sameadd = 'Y') {
                     $tempcity = $b->id;
                 }
                 else {
