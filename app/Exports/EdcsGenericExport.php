@@ -45,7 +45,9 @@ class EdcsGenericExport implements FromCollection, WithHeadings
     */
     public function collection()
     {
-        $qry = "App\\Models\\$this->case"::where('Year', $this->year);
+        $qry = "App\\Models\\$this->case"::where('Year', $this->year)
+        ->where('Muncity', 'GENERAL TRIAS')
+        ->where('Province', 'CAVITE');
 
         if($this->showDisabled == 0) {
             $qry = $qry->where('enabled', 1);
