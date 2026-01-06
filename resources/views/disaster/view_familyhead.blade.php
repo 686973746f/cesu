@@ -686,17 +686,17 @@
     if (provinceDefault) {
         setTimeout(function() {
             $('#address_province_code').val(provinceDefault).trigger('change');
-        }, 500); // Slight delay to ensure province is loaded
+        }, 1500); // Slight delay to ensure province is loaded
     }
     if (cityDefault) {
         setTimeout(function() {
             $('#address_muncity_code').val(cityDefault).trigger('change');
-        }, 1000); // Slight delay to ensure city is loaded
+        }, 2500); // Slight delay to ensure city is loaded
     }
     if (brgyDefault) {
         setTimeout(function() {
             $('#address_brgy_code').val(brgyDefault).trigger('change');
-        }, 1500); // Slight delay to ensure city is loaded
+        }, 3500); // Slight delay to ensure city is loaded
     }
 </script>
 @endsection

@@ -113,64 +113,42 @@
                             <div class="card">
                                 <div class="card-header text-center"><b>PATIENT'S CURRENT ADDRESS</b></div>
                                 <div class="card-body">
-                                    <div id="address_text" class="d-none">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <input type="text" id="address_region_text" name="address_region_text" value="{{old('address_region_text', $d->address_region_text)}}" readonly>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input type="text" id="address_province_text" name="address_province_text" value="{{old('address_province_text', $d->address_province_text)}}" readonly>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input type="text" id="address_muncity_text" name="address_muncity_text" value="{{old('address_muncity_text', $d->address_muncity_text)}}" readonly>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <div class="mb-3">
-                                              <label for="address_region_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Region</label>
-                                              <select class="form-control" name="address_region_code" id="address_region_code" required>
-                                              </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="address_province_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Province</label>
-                                                <select class="form-control" name="address_province_code" id="address_province_code" required>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="address_muncity_code" class="form-label"><span class="text-danger font-weight-bold">*</span>City/Municipality</label>
-                                                <select class="form-control" name="address_muncity_code" id="address_muncity_code" required>
+                                            <div class="form-group">
+                                                <label for="address_region_code"><b class="text-danger">*</b>Region</label>
+                                                <select class="form-control" name="address_region_code" id="address_region_code" tabindex="-1" required>
+                                                @foreach(App\Models\Regions::orderBy('regionName', 'ASC')->get() as $a)
+                                                <option value="{{$a->id}}" {{($a->id == 1) ? 'selected' : ''}}>{{$a->regionName}}</option>
+                                                @endforeach
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="address_brgy_text" class="form-label"><span class="text-danger font-weight-bold">*</span>Barangay</label>
-                                                <select class="form-control" name="address_brgy_text" id="address_brgy_text" required>
+                                            <div class="form-group">
+                                                <label for="address_province_code"><b class="text-danger">*</b>Province</label>
+                                                <select class="form-control" name="address_province_code" id="address_province_code" tabindex="-1" required disabled>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="address_muncity_code"><b class="text-danger">*</b>City/Municipality</label>
+                                                <select class="form-control" name="address_muncity_code" id="address_muncity_code" tabindex="-1" required disabled>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="address_brgy_code"><b class="text-danger">*</b>Barangay</label>
+                                                <select class="form-control" name="brgy_id" id="address_brgy_code" required disabled>
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="address_houseno" class="form-label"><b class="text-danger">*</b>House No./Lot/Building</label>
-                                                <input type="text" class="form-control" id="address_houseno" name="address_houseno" style="text-transform: uppercase;" value="{{old('address_houseno', $d->address_houseno)}}" pattern="(^[a-zA-Z0-9 ]+$)+" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="address_street" class="form-label"><b class="text-danger">*</b>Street/Subdivision/Purok/Sitio</label>
-                                                <input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" value="{{old('address_street', $d->address_street)}}" pattern="(^[a-zA-Z0-9 ]+$)+" required>
-                                            </div>
-                                        </div>
+                                    <div class="form-group">
+                                        <label for="address_street"><b class="text-danger">*</b>House/Lot No. & Street/Purok/Subdivision</label>
+                                        <input type="text" class="form-control" id="address_street" name="address_street" style="text-transform: uppercase;" value="{{old('address_street', $d->address_street)}}" pattern="(^[a-zA-Z0-9 ]+$)+" required>
                                     </div>
                                 </div>
                             </div>
@@ -224,6 +202,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="card mb-3">
                                 <div class="card-header"><b>ADDRESS WHERE INJURY OCCURRED</b></div>
                                 <div class="card-body">
@@ -235,68 +214,47 @@
                                         </select>
                                     </div>
                                     <div id="ifDiffInjuryAdd" class="d-none">
-                                        <div id="address_text" class="d-none">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <input type="text" id="injury_address_region_text" name="injury_address_region_text" value="{{old('injury_address_region_text', $d->injury_address_region_text)}}" readonly>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <input type="text" id="injury_address_province_text" name="injury_address_province_text" value="{{old('injury_address_province_text', $d->injury_address_province_text)}}" readonly>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <input type="text" id="injury_address_muncity_text" name="injury_address_muncity_text" value="{{old('injury_address_muncity_text', $d->injury_address_muncity_text)}}" readonly>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <div class="mb-3">
-                                                  <label for="injury_address_region_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Injury Occured Region</label>
-                                                  <select class="form-control" name="injury_address_region_code" id="injury_address_region_code" required>
-                                                  </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label for="injury_address_province_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Injury Occured Province</label>
-                                                    <select class="form-control" name="injury_address_province_code" id="injury_address_province_code" required>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label for="injury_address_muncity_code" class="form-label"><span class="text-danger font-weight-bold">*</span>Injury Occured City/Municipality</label>
-                                                    <select class="form-control" name="injury_address_muncity_code" id="injury_address_muncity_code" required>
+                                                <div class="form-group">
+                                                    <label for="injury_address_region_code"><b class="text-danger">*</b>Injury Region</label>
+                                                    <select class="form-control" name="injury_address_region_code" id="injury_address_region_code" tabindex="-1">
+                                                    @foreach(App\Models\Regions::orderBy('regionName', 'ASC')->get() as $a)
+                                                    <option value="{{$a->id}}" {{($a->id == 1) ? 'selected' : ''}}>{{$a->regionName}}</option>
+                                                    @endforeach
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label for="injury_address_brgy_text" class="form-label"><span class="text-danger font-weight-bold">*</span>Injury Occured Barangay</label>
-                                                    <select class="form-control" name="injury_address_brgy_text" id="injury_address_brgy_text" required>
+                                                <div class="form-group">
+                                                    <label for="injury_address_province_code"><b class="text-danger">*</b>Injury Province</label>
+                                                    <select class="form-control" name="injury_address_province_code" id="injury_address_province_code" tabindex="-1" disabled>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="injury_address_muncity_code"><b class="text-danger">*</b>Injury City/Municipality</label>
+                                                    <select class="form-control" name="injury_address_muncity_code" id="injury_address_muncity_code" tabindex="-1" disabled>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="injury_address_brgy_code"><b class="text-danger">*</b>Injury Barangay</label>
+                                                    <select class="form-control" name="inj_brgy_id" id="injury_address_brgy_code" disabled>
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label for="injury_address_houseno" class="form-label"><b class="text-danger">*</b>Injury Occured House No./Lot/Building</label>
-                                                    <input type="text" class="form-control" id="injury_address_houseno" name="injury_address_houseno" style="text-transform: uppercase;" value="{{old('injury_address_houseno', $d->injury_address_houseno)}}" pattern="(^[a-zA-Z0-9 ]+$)+" required>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label for="injury_address_street" class="form-label"><b class="text-danger">*</b>Injury Occured Street/Subdivision/Purok/Sitio</label>
-                                                    <input type="text" class="form-control" id="injury_address_street" name="injury_address_street" style="text-transform: uppercase;" value="{{old('injury_address_street', $d->injury_address_street)}}" pattern="(^[a-zA-Z0-9 ]+$)+" required>
-                                                </div>
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="injury_address_street"><b class="text-danger">*</b>Injury House/Lot No. & Street/Purok/Subdivision</label>
+                                            <input type="text" class="form-control" id="injury_address_street" name="injury_address_street" style="text-transform: uppercase;" value="{{old('injury_address_street', $d->injury_address_street)}}" pattern="(^[a-zA-Z0-9 ]+$)+">
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -482,295 +440,271 @@
             }
         });
 
-        //Select2 Init for Address Bar
-        $('#address_region_code, #address_province_code, #address_muncity_code, #address_brgy_text, #injury_address_region_code, #injury_address_province_code, #injury_address_muncity_code, #injury_address_brgy_text').select2({
-            theme: 'bootstrap',
-        });
-
-        $('#anatomical_location, #treatment_given, #aware_healtheducation_list, #iffw_typeofinjury').select2({
-            theme: 'bootstrap',
-        });
-
-        var rdefault = "{{old('address_region_code', $d->address_region_code)}}";
-        var pdefault = "{{old('address_province_code', $d->address_province_code)}}";
-        var cdefault = "{{old('address_muncity_code', $d->address_muncity_code)}}";
-        var bdefault = "{{old('address_brgy_text', $d->address_brgy_text)}}";
-
-        //Region Select Initialize
-        $.getJSON("{{asset('json/refregion.json')}}", function(data) {
-            var sorted = data.sort(function(a, b) {
-                if (a.regDesc > b.regDesc) {
-                    return 1;
-                }
-                if (a.regDesc < b.regDesc) {
-                    return -1;
-                }
-
-                return 0;
-            });
-
-            $.each(sorted, function(key, val) {
-                $('#address_region_code').append($('<option>', {
-                    value: val.regCode,
-                    text: val.regDesc,
-                    selected: (val.regCode == rdefault) ? true : false, //default is Region IV-A
-                }));
-            });
-        });
+        var regionDefault = {{$d->brgy->city->province->region->id}};
+        var provinceDefault = {{$d->brgy->city->province->id}};
+        var cityDefault = {{$d->brgy->city->id}};
+        var brgyDefault = {{$d->brgy->id}}
 
         $('#address_region_code').change(function (e) { 
             e.preventDefault();
-            //Empty and Disable
-            $('#address_province_code').empty();
-            $("#address_province_code").append('<option value="" selected disabled>Choose...</option>');
 
-            $('#address_muncity_code').empty();
-            $("#address_muncity_code").append('<option value="" selected disabled>Choose...</option>');
+            var regionId = $(this).val();
+            var getProvinceUrl = "{{ route('address_get_provinces', ['region_id' => ':regionId']) }}";
 
-            //Re-disable Select
-            $('#address_muncity_code').prop('disabled', true);
-            $('#address_brgy_text').prop('disabled', true);
+            if (regionId) {
+                $('#address_province_code').prop('disabled', false);
+                $('#address_muncity_code').prop('disabled', true);
+                $('#address_brgy_code').prop('disabled', true);
 
-            //Set Values for Hidden Box
-            $('#address_region_text').val($('#address_region_code option:selected').text());
+                $('#address_province_code').empty();
+                $('#address_muncity_code').empty();
+                $('#address_brgy_code').empty();
 
-            $.getJSON("{{asset('json/refprovince.json')}}", function(data) {
-                var sorted = data.sort(function(a, b) {
-                    if (a.provDesc > b.provDesc) {
-                    return 1;
-                    }
-                    if (a.provDesc < b.provDesc) {
-                    return -1;
-                    }
-                    return 0;
-                });
+                $.ajax({
+                    url: getProvinceUrl.replace(':regionId', regionId),
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#address_province_code').empty();
+                        $('#address_province_code').append('<option value="" disabled selected>Select Province</option>');
 
-                $.each(sorted, function(key, val) {
-                    if($('#address_region_code').val() == val.regCode) {
-                        $('#address_province_code').append($('<option>', {
-                            value: val.provCode,
-                            text: val.provDesc,
-                            selected: (val.provCode == pdefault) ? true : false, //default for Cavite
-                        }));
+                        let sortedData = Object.entries(data).sort((a, b) => {
+                            return a[1].localeCompare(b[1]); // Compare province names (values)
+                        });
+
+                        $.each(sortedData, function(key, value) {
+                            $('#address_province_code').append('<option value="' + value[0] + '">' + value[1] + '</option>');
+                        });
                     }
                 });
-            });
+            } else {
+                $('#address_province_code').empty();
+            }
         }).trigger('change');
 
-        $('#address_province_code').change(function (e) {
+        $('#address_province_code').change(function (e) { 
             e.preventDefault();
-            //Empty and Disable
-            $('#address_muncity_code').empty();
-            $("#address_muncity_code").append('<option value="" selected disabled>Choose...</option>');
 
-            //Re-disable Select
-            $('#address_muncity_code').prop('disabled', false);
-            $('#address_brgy_text').prop('disabled', true);
+            var provinceId = $(this).val();
+            var getCityUrl = "{{ route('address_get_citymun', ['province_id' => ':provinceId']) }}";
 
-            //Set Values for Hidden Box
-            $('#address_province_text').val($('#address_province_code option:selected').text());
+            if (provinceId) {
+                $('#address_province_code').prop('disabled', false);
+                $('#address_muncity_code').prop('disabled', false);
+                $('#address_brgy_code').prop('disabled', true);
 
-            $.getJSON("{{asset('json/refcitymun.json')}}", function(data) {
-                var sorted = data.sort(function(a, b) {
-                    if (a.citymunDesc > b.citymunDesc) {
-                        return 1;
-                    }
-                    if (a.citymunDesc < b.citymunDesc) {
-                        return -1;
-                    }
-                    return 0;
-                });
-                $.each(sorted, function(key, val) {
-                    if($('#address_province_code').val() == val.provCode) {
-                        $('#address_muncity_code').append($('<option>', {
-                            value: val.citymunCode,
-                            text: val.citymunDesc,
-                            selected: (val.citymunCode == cdefault) ? true : false, //default for General Trias
-                        })); 
-                    }
-                });
-            });
-        }).trigger('change');
+                $('#address_muncity_code').empty();
+                $('#address_brgy_code').empty();
 
-        $('#address_muncity_code').change(function (e) {
-            e.preventDefault();
-            //Empty and Disable
-            $('#address_brgy_text').empty();
-            $("#address_brgy_text").append('<option value="" selected disabled>Choose...</option>');
+                $.ajax({
+                    url: getCityUrl.replace(':provinceId', provinceId),
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#address_muncity_code').empty();
+                        $('#address_muncity_code').append('<option value="" disabled selected>Select City/Municipality</option>');
+                        
+                        let sortedData = Object.entries(data).sort((a, b) => {
+                            return a[1].localeCompare(b[1]); // Compare province names (values)
+                        });
 
-            //Re-disable Select
-            $('#address_muncity_code').prop('disabled', false);
-            $('#address_brgy_text').prop('disabled', false);
-
-            //Set Values for Hidden Box
-            $('#address_muncity_text').val($('#address_muncity_code option:selected').text());
-
-            $.getJSON("{{asset('json/refbrgy.json')}}", function(data) {
-                var sorted = data.sort(function(a, b) {
-                    if (a.brgyDesc > b.brgyDesc) {
-                    return 1;
-                    }
-                    if (a.brgyDesc < b.brgyDesc) {
-                    return -1;
-                    }
-                    return 0;
-                });
-                $.each(sorted, function(key, val) {
-                    if($('#address_muncity_code').val() == val.citymunCode) {
-                        $('#address_brgy_text').append($('<option>', {
-                            value: val.brgyDesc.toUpperCase(),
-                            text: val.brgyDesc.toUpperCase(),
-                            selected: (val.brgyDesc.toUpperCase() == bdefault) ? true : false,
-                        }));
+                        $.each(sortedData, function(key, value) {
+                            $('#address_muncity_code').append('<option value="' + value[0] + '">' + value[1] + '</option>');
+                        });
                     }
                 });
-            });
-        }).trigger('change');
-
-        $('#address_region_text').val('{{$d->address_region_text}}');
-        $('#address_province_text').val('{{$d->address_province_text}}');
-        $('#address_muncity_text').val('{{$d->address_muncity_text}}');
-
-        //FOR INJURY
-        var rdefault = "{{old('injury_address_region_code', $d->injury_address_region_code)}}";
-        var pdefault = "{{old('injury_address_province_code', $d->injury_address_province_code)}}";
-        var cdefault = "{{old('injury_address_muncity_code', $d->injury_address_muncity_code)}}";
-        var bdefault = "{{old('injury_address_brgy_text', $d->injury_address_brgy_text)}}";
-
-        //Region Select Initialize
-        $.getJSON("{{asset('json/refregion.json')}}", function(data) {
-            var sorted = data.sort(function(a, b) {
-                if (a.regDesc > b.regDesc) {
-                    return 1;
-                }
-                if (a.regDesc < b.regDesc) {
-                    return -1;
-                }
-
-                return 0;
-            });
-
-            $.each(sorted, function(key, val) {
-                $('#injury_address_region_code').append($('<option>', {
-                    value: val.regCode,
-                    text: val.regDesc,
-                    selected: (val.regCode == rdefault) ? true : false, //default is Region IV-A
-                }));
-            });
+            } else {
+                $('#address_muncity_code').empty();
+            }
         });
+
+        $('#address_muncity_code').change(function (e) { 
+            e.preventDefault();
+
+            var cityId = $(this).val();
+            var getBrgyUrl = "{{ route('address_get_brgy', ['city_id' => ':cityId']) }}";
+
+            if (cityId) {
+                $('#address_province_code').prop('disabled', false);
+                $('#address_muncity_code').prop('disabled', false);
+                $('#address_brgy_code').prop('disabled', false);
+
+                $('#address_brgy_code').empty();
+
+                $.ajax({
+                    url: getBrgyUrl.replace(':cityId', cityId),
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#address_brgy_code').empty();
+                        $('#address_brgy_code').append('<option value="" disabled selected>Select Barangay</option>');
+
+                        let sortedData = Object.entries(data).sort((a, b) => {
+                            return a[1].localeCompare(b[1]); // Compare province names (values)
+                        });
+
+                        $.each(sortedData, function(key, value) {
+                            $('#address_brgy_code').append('<option value="' + value[0] + '">' + value[1] + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#address_brgy_code').empty();
+            }
+        });
+
+        if ($('#address_region_code').val()) {
+            $('#address_region_code').trigger('change'); // Automatically load provinces on page load
+        }
+
+        if (provinceDefault) {
+            setTimeout(function() {
+                $('#address_province_code').val(provinceDefault).trigger('change');
+            }, 1500); // Slight delay to ensure province is loaded
+        }
+        if (cityDefault) {
+            setTimeout(function() {
+                $('#address_muncity_code').val(cityDefault).trigger('change');
+            }, 2500); // Slight delay to ensure city is loaded
+        }
+        if (brgyDefault) {
+            setTimeout(function() {
+                $('#address_brgy_code').val(brgyDefault).trigger('change');
+            }, 3500); // Slight delay to ensure city is loaded
+        }
+
+        var inj_regionDefault = {{$d->injurybrgy->city->province->region->id}};
+        var inj_provinceDefault = {{$d->injurybrgy->city->province->id}};
+        var inj_cityDefault = {{$d->injurybrgy->city->id}};
+        var inj_brgyDefault = {{$d->injurybrgy->id}}
 
         $('#injury_address_region_code').change(function (e) { 
             e.preventDefault();
-            //Empty and Disable
-            $('#injury_address_province_code').empty();
-            $("#injury_address_province_code").append('<option value="" selected disabled>Choose...</option>');
 
-            $('#injury_address_muncity_code').empty();
-            $("#injury_address_muncity_code").append('<option value="" selected disabled>Choose...</option>');
+            var regionId = $(this).val();
+            var getProvinceUrl = "{{ route('address_get_provinces', ['region_id' => ':regionId']) }}";
 
-            //Re-disable Select
-            $('#injury_address_muncity_code').prop('disabled', true);
-            $('#injury_address_brgy_text').prop('disabled', true);
+            if (regionId) {
+                $('#injury_address_province_code').prop('disabled', false);
+                $('#injury_address_muncity_code').prop('disabled', true);
+                $('#injury_address_brgy_code').prop('disabled', true);
 
-            //Set Values for Hidden Box
-            $('#injury_address_region_text').val($('#injury_address_region_code option:selected').text());
+                $('#injury_address_province_code').empty();
+                $('#injury_address_muncity_code').empty();
+                $('#injury_address_brgy_code').empty();
 
-            $.getJSON("{{asset('json/refprovince.json')}}", function(data) {
-                var sorted = data.sort(function(a, b) {
-                    if (a.provDesc > b.provDesc) {
-                    return 1;
-                    }
-                    if (a.provDesc < b.provDesc) {
-                    return -1;
-                    }
-                    return 0;
-                });
+                $.ajax({
+                    url: getProvinceUrl.replace(':regionId', regionId),
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#injury_address_province_code').empty();
+                        $('#injury_address_province_code').append('<option value="" disabled selected>Select Province</option>');
 
-                $.each(sorted, function(key, val) {
-                    if($('#injury_address_region_code').val() == val.regCode) {
-                        $('#injury_address_province_code').append($('<option>', {
-                            value: val.provCode,
-                            text: val.provDesc,
-                            selected: (val.provCode == pdefault) ? true : false, //default for Cavite
-                        }));
+                        let sortedData = Object.entries(data).sort((a, b) => {
+                            return a[1].localeCompare(b[1]); // Compare province names (values)
+                        });
+
+                        $.each(sortedData, function(key, value) {
+                            $('#injury_address_province_code').append('<option value="' + value[0] + '">' + value[1] + '</option>');
+                        });
                     }
                 });
-            });
+            } else {
+                $('#injury_address_province_code').empty();
+            }
         }).trigger('change');
 
-        $('#injury_address_province_code').change(function (e) {
+        $('#injury_address_province_code').change(function (e) { 
             e.preventDefault();
-            //Empty and Disable
-            $('#injury_address_muncity_code').empty();
-            $("#injury_address_muncity_code").append('<option value="" selected disabled>Choose...</option>');
 
-            //Re-disable Select
-            $('#injury_address_muncity_code').prop('disabled', false);
-            $('#injury_address_brgy_text').prop('disabled', true);
+            var provinceId = $(this).val();
+            var getCityUrl = "{{ route('address_get_citymun', ['province_id' => ':provinceId']) }}";
 
-            //Set Values for Hidden Box
-            $('#injury_address_province_text').val($('#injury_address_province_code option:selected').text());
+            if (provinceId) {
+                $('#injury_address_province_code').prop('disabled', false);
+                $('#injury_address_muncity_code').prop('disabled', false);
+                $('#injury_address_brgy_code').prop('disabled', true);
 
-            $.getJSON("{{asset('json/refcitymun.json')}}", function(data) {
-                var sorted = data.sort(function(a, b) {
-                    if (a.citymunDesc > b.citymunDesc) {
-                        return 1;
+                $('#injury_address_muncity_code').empty();
+                $('#injury_address_brgy_code').empty();
+
+                $.ajax({
+                    url: getCityUrl.replace(':provinceId', provinceId),
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#injury_address_muncity_code').empty();
+                        $('#injury_address_muncity_code').append('<option value="" disabled selected>Select City/Municipality</option>');
+                        
+                        let sortedData = Object.entries(data).sort((a, b) => {
+                            return a[1].localeCompare(b[1]); // Compare province names (values)
+                        });
+
+                        $.each(sortedData, function(key, value) {
+                            $('#injury_address_muncity_code').append('<option value="' + value[0] + '">' + value[1] + '</option>');
+                        });
                     }
-                    if (a.citymunDesc < b.citymunDesc) {
-                        return -1;
-                    }
-                    return 0;
                 });
-                $.each(sorted, function(key, val) {
-                    if($('#injury_address_province_code').val() == val.provCode) {
-                        $('#injury_address_muncity_code').append($('<option>', {
-                            value: val.citymunCode,
-                            text: val.citymunDesc,
-                            selected: (val.citymunCode == cdefault) ? true : false, //default for General Trias
-                        })); 
-                    }
-                });
-            });
-        }).trigger('change');
+            } else {
+                $('#injury_address_muncity_code').empty();
+            }
+        });
 
-        $('#injury_address_muncity_code').change(function (e) {
+        $('#injury_address_muncity_code').change(function (e) { 
             e.preventDefault();
-            //Empty and Disable
-            $('#injury_address_brgy_text').empty();
-            $("#injury_address_brgy_text").append('<option value="" selected disabled>Choose...</option>');
 
-            //Re-disable Select
-            $('#injury_address_muncity_code').prop('disabled', false);
-            $('#injury_address_brgy_text').prop('disabled', false);
+            var cityId = $(this).val();
+            var getBrgyUrl = "{{ route('address_get_brgy', ['city_id' => ':cityId']) }}";
 
-            //Set Values for Hidden Box
-            $('#injury_address_muncity_text').val($('#injury_address_muncity_code option:selected').text());
+            if (cityId) {
+                $('#injury_address_province_code').prop('disabled', false);
+                $('#injury_address_muncity_code').prop('disabled', false);
+                $('#injury_address_brgy_code').prop('disabled', false);
 
-            $.getJSON("{{asset('json/refbrgy.json')}}", function(data) {
-                var sorted = data.sort(function(a, b) {
-                    if (a.brgyDesc > b.brgyDesc) {
-                    return 1;
-                    }
-                    if (a.brgyDesc < b.brgyDesc) {
-                    return -1;
-                    }
-                    return 0;
-                });
-                $.each(sorted, function(key, val) {
-                    if($('#injury_address_muncity_code').val() == val.citymunCode) {
-                        $('#injury_address_brgy_text').append($('<option>', {
-                            value: val.brgyDesc.toUpperCase(),
-                            text: val.brgyDesc.toUpperCase(),
-                            selected: (val.brgyDesc.toUpperCase() == bdefault) ? true : false,
-                        }));
+                $('#injury_address_brgy_code').empty();
+
+                $.ajax({
+                    url: getBrgyUrl.replace(':cityId', cityId),
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#injury_address_brgy_code').empty();
+                        $('#injury_address_brgy_code').append('<option value="" disabled selected>Select Barangay</option>');
+
+                        let sortedData = Object.entries(data).sort((a, b) => {
+                            return a[1].localeCompare(b[1]); // Compare province names (values)
+                        });
+
+                        $.each(sortedData, function(key, value) {
+                            $('#injury_address_brgy_code').append('<option value="' + value[0] + '">' + value[1] + '</option>');
+                        });
                     }
                 });
-            });
-        }).trigger('change');
+            } else {
+                $('#injury_address_brgy_code').empty();
+            }
+        });
 
-        $('#injury_address_region_text').val('{{$d->injury_address_region_text}}');
-        $('#injury_address_province_text').val('{{$d->injury_address_province_text}}');
-        $('#injury_address_muncity_text').val('{{$d->injury_address_muncity_text}}');
+        if ($('#injury_address_region_code').val()) {
+            $('#injury_address_region_code').trigger('change'); // Automatically load provinces on page load
+        }
+
+        if (inj_provinceDefault) {
+            setTimeout(function() {
+                $('#injury_address_province_code').val(inj_provinceDefault).trigger('change');
+            }, 1500); // Slight delay to ensure province is loaded
+        }
+        if (inj_cityDefault) {
+            setTimeout(function() {
+                $('#injury_address_muncity_code').val(inj_cityDefault).trigger('change');
+            }, 2500); // Slight delay to ensure city is loaded
+        }
+        if (inj_brgyDefault) {
+            setTimeout(function() {
+                $('#injury_address_brgy_code').val(inj_brgyDefault).trigger('change');
+            }, 3500); // Slight delay to ensure city is loaded
+        }
 
         $('#reffered_anotherhospital').change(function (e) { 
             e.preventDefault();
@@ -872,9 +806,9 @@
                 $('#injury_address_region_code').prop('required', true);
                 $('#injury_address_province_code').prop('required', true);
                 $('#injury_address_muncity_code').prop('required', true);
-                $('#injury_address_brgy_text').prop('required', true);
-                $('#injury_address_houseno').prop('required', true);
+                $('#injury_address_brgy_code').prop('required', true);
                 $('#injury_address_street').prop('required', true);
+                $('#injury_address_street').prop('disabled', false);
             }
             else {
                 $('#ifDiffInjuryAdd').addClass('d-none');
@@ -882,9 +816,9 @@
                 $('#injury_address_region_code').prop('required', false);
                 $('#injury_address_province_code').prop('required', false);
                 $('#injury_address_muncity_code').prop('required', false);
-                $('#injury_address_brgy_text').prop('required', false);
-                $('#injury_address_houseno').prop('required', false);
+                $('#injury_address_brgy_code').prop('required', false);
                 $('#injury_address_street').prop('required', false);
+                $('#injury_address_street').prop('disabled', true);
             }
         }).trigger('change');
     </script>
