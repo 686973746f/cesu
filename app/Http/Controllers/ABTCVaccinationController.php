@@ -2868,7 +2868,7 @@ class ABTCVaccinationController extends Controller
             foreach($list as $num => $d) {
                 $sheet->setCellValue("A{$currentRow}", $num+1);
                 $sheet->setCellValue("B{$currentRow}", date('Y', strtotime($d->created_at)));
-                $sheet->setCellValue("C{$currentRow}", $d->ics_claims_seriesno);
+                $sheet->setCellValue("C{$currentRow}", "'".$d->ics_claims_seriesno);
 
                 $sheet->setCellValue("D{$currentRow}", $d->patient->lname);
                 $sheet->setCellValue("E{$currentRow}", $d->patient->fname);
@@ -2877,13 +2877,13 @@ class ABTCVaccinationController extends Controller
                     $sheet->setCellValue("G{$currentRow}", $d->patient->lname);
                     $sheet->setCellValue("H{$currentRow}", $d->patient->fname);
                     $sheet->setCellValue("I{$currentRow}", $d->patient->mname ?? 'N/A');
-                    $sheet->setCellValue("J{$currentRow}", $d->patient->philhealth);
+                    $sheet->setCellValue("J{$currentRow}", "'".$d->patient->philhealth);
                 }
                 else {
                     $sheet->setCellValue("G{$currentRow}", $d->patient->linkphilhealth_lname);
                     $sheet->setCellValue("H{$currentRow}", $d->patient->linkphilhealth_fname);
                     $sheet->setCellValue("I{$currentRow}", $d->patient->linkphilhealth_mname ?? 'N/A');
-                    $sheet->setCellValue("J{$currentRow}", $d->patient->linkphilhealth_phnumber);
+                    $sheet->setCellValue("J{$currentRow}", "'".$d->patient->linkphilhealth_phnumber);
                 }
 
                 $sheet->setCellValue("K{$currentRow}", date('m/d/Y', strtotime($d->d0_date)));
@@ -2908,7 +2908,7 @@ class ABTCVaccinationController extends Controller
                 $currentRow++;
             }
 
-            $fileName = 'IBNR.xlsx';
+            $fileName = 'BAM ANNEX B, C, and D.xlsx';
             ob_clean();
             $writer = new Xlsx($spreadsheet);
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
