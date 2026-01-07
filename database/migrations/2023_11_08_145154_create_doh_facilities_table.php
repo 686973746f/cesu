@@ -68,6 +68,10 @@ class CreateDohFacilitiesTable extends Migration
             $table->string('edcs_service_capability')->nullable();
             $table->string('edcs_region_name')->nullable();
             $table->string('edcs_province_name')->nullable();
+
+            $table->string('abtc_name')->nullable();
+            $table->string('abtc_code')->nullable();
+
             $table->timestamps();
         });
     }

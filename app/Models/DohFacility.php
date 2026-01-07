@@ -75,6 +75,9 @@ class DohFacility extends Model
         'abtc_professional3_id',
         'abtc_head_id',
         'abtc_accountant_name_position',
+
+        'abtc_name',
+        'abtc_code',
     ];
 
     public function getRegionData() {

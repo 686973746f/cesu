@@ -15,7 +15,9 @@ use App\Models\AbtcBakunaRecords;
 use App\Models\AbtcVaccineStocks;
 use App\Models\AbtcVaccinationSite;
 use Illuminate\Support\Facades\Auth;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpWord\TemplateProcessor;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class ABTCVaccinationController extends Controller
 {
@@ -2834,9 +2836,84 @@ class ABTCVaccinationController extends Controller
         ->with('msgtype', 'success');
     }
 
-    public function abtcFinancialReportHome() {
-        
-    }
+    public function generatePhilhealthReport(Request $r) {
+        $start_date = Carbon::parse($r->start_date);
+        $end_date = Carbon::parse($r->end_date);
 
-    public function 
+        $f = auth()->user()->opdfacility;
+
+        if($r->submit == 'IBNR') {
+            $spreadsheet = IOFactory::load(storage_path('IBNR_ANNEXES.xlsx'));
+
+            $list = AbtcBakunaRecords::whereBetween('created_at', [$start_date->format('Y-m-d'), $end_date->format('Y-m-d')])
+            ->whereIn('ics_claims_status', ['PROCESSING', 'RTH', 'DENIED'])
+            ->get();
+
+            $listcount = $list->count();
+
+            $sheet = $spreadsheet->getSheetByName('ANNEX C');
+
+            if ($listcount > 20) {
+                $extraRows = $listcount - 20;
+
+                // Insert rows BEFORE row 21 (Prepared by)
+                $sheet->insertNewRowBefore(30, $extraRows);
+            }
+
+            $sheet->setCellValue("A1", '');
+            $sheet->setCellValue("A2", '');
+            $sheet->setCellValue("A3", '');
+
+            $currentRow = 10;
+            foreach($list as $num => $d) {
+                $sheet->setCellValue("A{$currentRow}", $num+1);
+                $sheet->setCellValue("B{$currentRow}", date('Y', strtotime($d->created_at)));
+                $sheet->setCellValue("C{$currentRow}", $d->ics_claims_seriesno);
+
+                $sheet->setCellValue("D{$currentRow}", $d->patient->lname);
+                $sheet->setCellValue("E{$currentRow}", $d->patient->fname);
+                $sheet->setCellValue("F{$currentRow}", $d->patient->mname ?? 'N/A');
+                if($d->patient->philhealth_statustype == 'MEMBER') {
+                    $sheet->setCellValue("G{$currentRow}", $d->patient->lname);
+                    $sheet->setCellValue("H{$currentRow}", $d->patient->fname);
+                    $sheet->setCellValue("I{$currentRow}", $d->patient->mname ?? 'N/A');
+                    $sheet->setCellValue("J{$currentRow}", $d->patient->philhealth);
+                }
+                else {
+                    $sheet->setCellValue("G{$currentRow}", $d->patient->linkphilhealth_lname);
+                    $sheet->setCellValue("H{$currentRow}", $d->patient->linkphilhealth_fname);
+                    $sheet->setCellValue("I{$currentRow}", $d->patient->linkphilhealth_mname ?? 'N/A');
+                    $sheet->setCellValue("J{$currentRow}", $d->patient->linkphilhealth_phnumber);
+                }
+
+                $sheet->setCellValue("K{$currentRow}", date('m/d/Y', strtotime($d->d0_date)));
+                $sheet->setCellValue("L{$currentRow}", date('m/d/Y', strtotime($d->d7_date)));
+                $sheet->setCellValue("M{$currentRow}", date('m/d/Y', strtotime($d->d7_date)));
+                $sheet->setCellValue("N{$currentRow}", (!is_null($d->ics_rth_resubmit_date)) ? date('m/d/Y', strtotime($d->ics_rth_resubmit_date)) : 'N/A');
+                $sheet->setCellValue("O{$currentRow}", $d->ics_claim_amount);
+                $sheet->setCellValue("P{$currentRow}", $d->rvs1);
+
+                if($d->ics_claims_status == 'PROCESSING') {
+                    $claim_status = 'IN PROCESS';
+                }
+                else if($d->ics_claims_status == 'RTH') {
+                    $claim_status = 'RTH';
+                }
+                else if($d->ics_claims_status == 'DENIED') {
+                    $claim_status = 'DENIED';
+                }
+
+                $sheet->setCellValue("Q{$currentRow}", $claim_status);
+
+                $currentRow++;
+            }
+
+            $fileName = 'IBNR.xlsx';
+            ob_clean();
+            $writer = new Xlsx($spreadsheet);
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment; filename="'. urlencode($fileName).'"');
+            $writer->save('php://output');
+        }
+    }
 }
