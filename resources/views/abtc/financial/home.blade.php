@@ -7,15 +7,17 @@
                 <div class="d-flex justify-content-between">
                     <div><b>For Uploading</b></div>
                     <div>
-                        <a href="{{route('abtc_financial_report_home')}}" class="btn btn-primary">Report</a>
                         @if(request()->input('showSubmittedClaims'))
                         <a href="{{route('abtc_financial_home')}}" class="btn btn-primary">View For Uploading</a>
                         @else
+                        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#generateReportModal">Generate Report</button>
+
                         <a href="{{route('abtc_financial_home')}}?showSubmittedClaims=1" class="btn btn-success">View Submitted Claims</a>
                         @endif
                     </div>
                 </div>
             </div>
+
             <div class="card-body">
                 @if(session('msg'))
                 <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
@@ -61,6 +63,7 @@
                     </tbody>
                 </table>
             </div>
+            
         </div>
     </div>
 

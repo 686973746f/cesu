@@ -2704,7 +2704,6 @@ class ABTCVaccinationController extends Controller
 
         return view('abtc.vaccine_estimate_counter', [
             'list' => $list,
-            
         ]);
     }
 
@@ -2838,4 +2837,6 @@ class ABTCVaccinationController extends Controller
     public function abtcFinancialReportHome() {
         
     }
+
+    public function 
 }
