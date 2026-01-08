@@ -2710,11 +2710,11 @@ class ABTCVaccinationController extends Controller
     }
 
     public function abtcFinancialHome() {
-        if(request()->input('showSubmittedClaims')) {
+        if(request()->input('showPaidClaims')) {
             $list = AbtcBakunaRecords::whereDate('created_at', '>=', '2025-01-01')
             ->where('ics_ticketstatus', 'FINISHED')
             ->where('ics_isforclaims', 'Y')
-            ->where('ics_claims_status', '!=', 'ENCODING')
+            ->where('ics_claims_status', 'PAID')
             ->where('category_level', 3)
             ->where('is_booster', 0)
             ->orderBy('ics_finished_date', 'ASC')
@@ -2724,7 +2724,7 @@ class ABTCVaccinationController extends Controller
             $list = AbtcBakunaRecords::whereDate('created_at', '>=', '2025-01-01')
             ->where('ics_ticketstatus', 'FINISHED')
             ->where('ics_isforclaims', 'Y')
-            ->where('ics_claims_status', 'ENCODING')
+            ->where('ics_claims_status', '!=', 'PAID')
             ->where('category_level', 3)
             ->where('is_booster', 0)
             ->orderBy('ics_finished_date', 'ASC')
@@ -2866,10 +2866,14 @@ class ABTCVaccinationController extends Controller
                 $sheet->insertNewRowBefore(30, $extraRows);
             }
 
+            $sheet->setCellValue("A1", '');
+            $sheet->setCellValue("A2", '');
+            $sheet->setCellValue("A3", '');
+
             $currentRow = 10;
             foreach($list as $num => $d) {
                 $sheet->setCellValue("A{$currentRow}", $num+1);
-                $sheet->setCellValue("B{$currentRow}", "'".$d->ics_transmittalno);
+                $sheet->setCellValue("B{$currentRow}", " ".$d->ics_transmittalno);
 
                 $sheet->setCellValue("C{$currentRow}", $d->patient->lname);
                 $sheet->setCellValue("D{$currentRow}", $d->patient->fname);
@@ -2879,13 +2883,13 @@ class ABTCVaccinationController extends Controller
                     $sheet->setCellValue("F{$currentRow}", $d->patient->lname);
                     $sheet->setCellValue("G{$currentRow}", $d->patient->fname);
                     $sheet->setCellValue("H{$currentRow}", $d->patient->mname ?? 'N/A');
-                    $sheet->setCellValue("I{$currentRow}", "'".$d->patient->philhealth);
+                    $sheet->setCellValue("I{$currentRow}", " ".$d->patient->philhealth);
                 }
                 else {
                     $sheet->setCellValue("F{$currentRow}", $d->patient->linkphilhealth_lname);
                     $sheet->setCellValue("G{$currentRow}", $d->patient->linkphilhealth_fname);
                     $sheet->setCellValue("H{$currentRow}", $d->patient->linkphilhealth_mname ?? 'N/A');
-                    $sheet->setCellValue("I{$currentRow}", "'".$d->patient->linkphilhealth_phnumber);
+                    $sheet->setCellValue("I{$currentRow}", " ".$d->patient->linkphilhealth_phnumber);
                 }
 
                 $sheet->setCellValue("J{$currentRow}", date('m/d/Y', strtotime($d->d0_date)));
@@ -2913,15 +2917,11 @@ class ABTCVaccinationController extends Controller
                 $sheet->insertNewRowBefore(30, $extraRows);
             }
 
-            $sheet->setCellValue("A1", '');
-            $sheet->setCellValue("A2", '');
-            $sheet->setCellValue("A3", '');
-
             $currentRow = 10;
             foreach($list as $num => $d) {
                 $sheet->setCellValue("A{$currentRow}", $num+1);
                 $sheet->setCellValue("B{$currentRow}", date('Y', strtotime($d->created_at)));
-                $sheet->setCellValue("C{$currentRow}", "'".$d->ics_claims_seriesno);
+                $sheet->setCellValue("C{$currentRow}", " ".$d->ics_claims_seriesno);
 
                 $sheet->setCellValue("D{$currentRow}", $d->patient->lname);
                 $sheet->setCellValue("E{$currentRow}", $d->patient->fname);
@@ -2930,13 +2930,13 @@ class ABTCVaccinationController extends Controller
                     $sheet->setCellValue("G{$currentRow}", $d->patient->lname);
                     $sheet->setCellValue("H{$currentRow}", $d->patient->fname);
                     $sheet->setCellValue("I{$currentRow}", $d->patient->mname ?? 'N/A');
-                    $sheet->setCellValue("J{$currentRow}", "'".$d->patient->philhealth);
+                    $sheet->setCellValue("J{$currentRow}", " ".$d->patient->philhealth);
                 }
                 else {
                     $sheet->setCellValue("G{$currentRow}", $d->patient->linkphilhealth_lname);
                     $sheet->setCellValue("H{$currentRow}", $d->patient->linkphilhealth_fname);
                     $sheet->setCellValue("I{$currentRow}", $d->patient->linkphilhealth_mname ?? 'N/A');
-                    $sheet->setCellValue("J{$currentRow}", "'".$d->patient->linkphilhealth_phnumber);
+                    $sheet->setCellValue("J{$currentRow}", " ".$d->patient->linkphilhealth_phnumber);
                 }
 
                 $sheet->setCellValue("K{$currentRow}", date('m/d/Y', strtotime($d->d0_date)));

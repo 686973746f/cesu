@@ -5,15 +5,21 @@
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <div><b>For Uploading</b></div>
                     <div>
-                        @if(request()->input('showSubmittedClaims'))
-                        <a href="{{route('abtc_financial_home')}}" class="btn btn-primary">View For Uploading</a>
+                        @if(request()->input('showPaidClaims'))
+                        <b>List of Paid Claims - ABTC</b>
                         @else
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#generateReportModal">Generate Report</button>
-
-                        <a href="{{route('abtc_financial_home')}}?showSubmittedClaims=1" class="btn btn-success">View Submitted Claims</a>
+                        <b>List of Unsubmitted/Unpaid Claims - ABTC</b>
                         @endif
+                    </div>
+                    <div>
+                        @if(request()->input('showPaidClaims'))
+                        <a href="{{route('abtc_financial_home')}}" class="btn btn-primary">View Unsubmitted/Unpaid Claims</a>
+                        @else
+                        <a href="{{route('abtc_financial_home')}}?showPaidClaims=1" class="btn btn-success">View Paid Claims</a>
+                        @endif
+
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#generateReportModal">Generate Report</button>
                     </div>
                 </div>
             </div>
@@ -33,7 +39,7 @@
                             <th>Date Admitted</th>
                             <th>Date Discharged</th>
                             <th>Transmittal Days</th>
-                            @if(request()->input('showSubmittedClaims'))
+                            @if(!request()->input('showPaidClaims'))
                             <th>Claim Status</th>
                             @endif
                             <th></th>
@@ -48,11 +54,11 @@
                             <td class="text-center">{{date('m/d/Y', strtotime($d->d0_date))}}</td>
                             <td class="text-center">{{date('m/d/Y', strtotime($d->d7_date))}}</td>
                             <td class="text-center">{{Carbon\Carbon::parse($d->d7_date)->diffInDays()}}</td>
-                            @if(request()->input('showSubmittedClaims'))
+                            @if(request()->input('showPaidClaims'))
                             <td class="text-center">{{$d->ics_claims_status}}</td>
                             @endif
                             <td class="text-center">
-                                @if(request()->input('showSubmittedClaims'))
+                                @if(request()->input('showPaidClaims'))
                                 <a href="{{route('abtc_financial_viewticket', $d->id)}}">View Ticket</a>
                                 @else
                                 <a href="{{route('abtc_financial_claimticket', ['ticket_id' => $d->id])}}">Select Ticket</a>
