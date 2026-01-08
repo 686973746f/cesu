@@ -2021,7 +2021,6 @@ class PharmacyController extends Controller
             $d->lot_number = $r->lot_number;
             $d->updated_by = Auth::id();
 
-            /*
             if($d->pharmacysub->pharmacysupplymaster->quantity_type == 'BOX') {
                 $d->current_box_stock = $r->change_qty_box;
                 //$d->current_piece_stock = $r->change_qty_piece;
@@ -2116,7 +2115,6 @@ class PharmacyController extends Controller
                     $sb->save();
                 }
             }
-            */
 
             return redirect()->route('pharmacy_itemlist_viewitem', $d->pharmacysub->id)
             ->with('msg', 'Pharmacy Sub Stock (ID: #'.$d->id.') was updated successfully.')
