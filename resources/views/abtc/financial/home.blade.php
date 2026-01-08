@@ -111,6 +111,7 @@
 
     <script>
         $('#mainTbl').dataTable({
+            order: [0, 'desc'],
             iDisplayLength: -1,
             fixedHeader: true,
             dom: 'bftrip',
