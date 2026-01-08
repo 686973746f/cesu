@@ -2856,7 +2856,46 @@ class ABTCVaccinationController extends Controller
             ->where('ics_claims_status', 'FOR UPLOADING')
             ->get();
 
+            $listcount = $list->count();
+
             $sheet = $spreadsheet->getSheetByName('ANNEX B');
+
+            if ($listcount > 20) {
+                $extraRows = $listcount - 20;
+
+                // Insert rows BEFORE row 21 (Prepared by)
+                $sheet->insertNewRowBefore(30, $extraRows);
+            }
+
+            $currentRow = 10;
+            foreach($list as $num => $d) {
+                $sheet->setCellValue("A{$currentRow}", $num+1);
+                $sheet->setCellValue("B{$currentRow}", "'".$d->ics_claims_seriesno);
+
+                $sheet->setCellValue("C{$currentRow}", $d->patient->lname);
+                $sheet->setCellValue("D{$currentRow}", $d->patient->fname);
+                $sheet->setCellValue("E{$currentRow}", $d->patient->mname ?? 'N/A');
+
+                if($d->patient->philhealth_statustype == 'MEMBER') {
+                    $sheet->setCellValue("F{$currentRow}", $d->patient->lname);
+                    $sheet->setCellValue("G{$currentRow}", $d->patient->fname);
+                    $sheet->setCellValue("H{$currentRow}", $d->patient->mname ?? 'N/A');
+                    $sheet->setCellValue("I{$currentRow}", "'".$d->patient->philhealth);
+                }
+                else {
+                    $sheet->setCellValue("F{$currentRow}", $d->patient->linkphilhealth_lname);
+                    $sheet->setCellValue("G{$currentRow}", $d->patient->linkphilhealth_fname);
+                    $sheet->setCellValue("H{$currentRow}", $d->patient->linkphilhealth_mname ?? 'N/A');
+                    $sheet->setCellValue("I{$currentRow}", "'".$d->patient->linkphilhealth_phnumber);
+                }
+
+                $sheet->setCellValue("J{$currentRow}", date('m/d/Y', strtotime($d->d0_date)));
+                $sheet->setCellValue("K{$currentRow}", date('m/d/Y', strtotime($d->d7_date)));
+
+                $sheet->setCellValue("L{$currentRow}", 5850);
+                $sheet->setCellValue("M{$currentRow}", 90375);
+                $sheet->setCellValue("N{$currentRow}", 'UNSUBMITTED');
+            }
 
             $list = AbtcBakunaRecords::whereBetween('created_at', [$start_date->format('Y-m-d'), $end_date->format('Y-m-d')])
             ->whereIn('ics_claims_status', ['PROCESSING', 'RTH', 'DENIED'])
