@@ -2870,6 +2870,8 @@ class ABTCVaccinationController extends Controller
             $sheet->setCellValue("A2", $f->abtc_code);
             $sheet->setCellValue("A3", $f->address_street);
 
+            $sheet->setCellValue("B6", date('F d, Y', strtotime($r->end_date)));
+
             $currentRow = 10;
             foreach($list as $num => $d) {
                 $sheet->setCellValue("A{$currentRow}", $num+1);
