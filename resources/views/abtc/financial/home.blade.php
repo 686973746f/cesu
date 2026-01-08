@@ -54,7 +54,7 @@
                             <td class="text-center">{{date('m/d/Y', strtotime($d->d0_date))}}</td>
                             <td class="text-center">{{date('m/d/Y', strtotime($d->d7_date))}}</td>
                             <td class="text-center">{{Carbon\Carbon::parse($d->d7_date)->diffInDays()}}</td>
-                            @if(request()->input('showPaidClaims'))
+                            @if(!request()->input('showPaidClaims'))
                             <td class="text-center">{{$d->ics_claims_status}}</td>
                             @endif
                             <td class="text-center">
