@@ -56,6 +56,7 @@
                         <option value="PROCESSING/PROTEST" {{(old('ics_claims_status', $d->ics_claims_status) == 'PROCESSING/PROTEST') ? 'selected' : ''}}>Denied - Tag as Protest Claim</option>
                         <option value="PAID" {{(old('ics_claims_status', $d->ics_claims_status) == 'PAID') ? 'selected' : ''}}>Paid</option>
                         @elseif($d->ics_claims_status == 'DENIED')
+                        <option value="DENIED" {{(old('ics_claims_status', $d->ics_claims_status) == 'DENIED') ? 'selected' : ''}}>Denied</option>
                         <option value="PAID" {{(old('ics_claims_status', $d->ics_claims_status) == 'PAID') ? 'selected' : ''}}>Paid</option>
                         <option value="PROCESSING/PROTEST" {{(old('ics_claims_status', $d->ics_claims_status) == 'PROCESSING/PROTEST') ? 'selected' : ''}}>Tag as Protest Claim</option>
                         @endif
