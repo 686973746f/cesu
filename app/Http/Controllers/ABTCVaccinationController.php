@@ -2853,6 +2853,12 @@ class ABTCVaccinationController extends Controller
             $spreadsheet = IOFactory::load(storage_path('IBNR_ANNEXES.xlsx'));
 
             $list = AbtcBakunaRecords::whereBetween('created_at', [$start_date->format('Y-m-d'), $end_date->format('Y-m-d')])
+            ->where('ics_claims_status', 'FOR UPLOADING')
+            ->get();
+
+            $sheet = $spreadsheet->getSheetByName('ANNEX B');
+
+            $list = AbtcBakunaRecords::whereBetween('created_at', [$start_date->format('Y-m-d'), $end_date->format('Y-m-d')])
             ->whereIn('ics_claims_status', ['PROCESSING', 'RTH', 'DENIED'])
             ->get();
 
