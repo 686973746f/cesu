@@ -2866,9 +2866,9 @@ class ABTCVaccinationController extends Controller
                 $sheet->insertNewRowBefore(30, $extraRows);
             }
 
-            $sheet->setCellValue("A1", '');
-            $sheet->setCellValue("A2", '');
-            $sheet->setCellValue("A3", '');
+            $sheet->setCellValue("A1", $f->abtc_name);
+            $sheet->setCellValue("A2", $f->abtc_code);
+            $sheet->setCellValue("A3", $f->address_street);
 
             $currentRow = 10;
             foreach($list as $num => $d) {
@@ -2895,8 +2895,8 @@ class ABTCVaccinationController extends Controller
                 $sheet->setCellValue("J{$currentRow}", date('m/d/Y', strtotime($d->d0_date)));
                 $sheet->setCellValue("K{$currentRow}", date('m/d/Y', strtotime($d->d7_date)));
 
-                $sheet->setCellValue("L{$currentRow}", 5850);
-                $sheet->setCellValue("M{$currentRow}", 90375);
+                $sheet->setCellValue("L{$currentRow}", ' 5850');
+                $sheet->setCellValue("M{$currentRow}", ' 90375');
                 $sheet->setCellValue("N{$currentRow}", 'UNSUBMITTED');
 
                 $currentRow++;
@@ -2961,7 +2961,7 @@ class ABTCVaccinationController extends Controller
                 $currentRow++;
             }
 
-            $fileName = 'BAM ANNEX B, C, and D.xlsx';
+            $fileName = 'BAM ANNEX B, C, and D - '.$f->abtc_name.'.xlsx';
             ob_clean();
             $writer = new Xlsx($spreadsheet);
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
