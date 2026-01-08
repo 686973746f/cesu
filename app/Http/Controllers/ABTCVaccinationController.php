@@ -2894,6 +2894,8 @@ class ABTCVaccinationController extends Controller
                 $sheet->setCellValue("L{$currentRow}", 5850);
                 $sheet->setCellValue("M{$currentRow}", 90375);
                 $sheet->setCellValue("N{$currentRow}", 'UNSUBMITTED');
+
+                $currentRow++;
             }
 
             $list = AbtcBakunaRecords::whereBetween('created_at', [$start_date->format('Y-m-d'), $end_date->format('Y-m-d')])
