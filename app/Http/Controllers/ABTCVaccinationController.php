@@ -2820,6 +2820,13 @@ class ABTCVaccinationController extends Controller
             $d->ics_transmittalno = mb_strtoupper($r->ics_transmittalno);
             $d->ics_claims_seriesno = mb_strtoupper($r->ics_claims_seriesno);
         }
+        else {
+            if(is_null($d->ics_encoded_date)) {
+                $d->ics_encoded_date = date('Y-m-d H:i:s');
+            }
+
+            $d->ics_transmittalno = mb_strtoupper($r->ics_transmittalno);
+        }
 
         if($d->isDirty()) {
             $d->save();

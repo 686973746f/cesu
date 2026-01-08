@@ -114,11 +114,19 @@
             $('#ics_claims_seriesno').prop('required', false);
             $('#rvs1').prop('required', false);
             $('#ics_claim_amount').prop('required', false);
+            $('#ics_claims_seriesno').prop('disabled', true);
 
+            if($(this).val() == 'FOR UPLOADING') {
+                $('#processing_div').removeClass('d-none');
+                $('#ics_transmittalno').prop('required', true);
+                $('#ics_claims_seriesno').prop('required', false);
+                $('#ics_claims_seriesno').prop('disabled', true);
+            }
             if($(this).val() != 'FOR UPLOADING' && $(this).val() != 'PAID') {
                 $('#processing_div').removeClass('d-none');
                 $('#ics_transmittalno').prop('required', true);
                 $('#ics_claims_seriesno').prop('required', true);
+                $('#ics_claims_seriesno').prop('disabled', false);
             }
             else if($(this).val() == 'PAID') {
                 $('#processing_div').removeClass('d-none');
