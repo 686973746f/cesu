@@ -2869,7 +2869,7 @@ class ABTCVaccinationController extends Controller
             $currentRow = 10;
             foreach($list as $num => $d) {
                 $sheet->setCellValue("A{$currentRow}", $num+1);
-                $sheet->setCellValue("B{$currentRow}", "'".$d->ics_claims_seriesno);
+                $sheet->setCellValue("B{$currentRow}", "'".$d->ics_transmittalno);
 
                 $sheet->setCellValue("C{$currentRow}", $d->patient->lname);
                 $sheet->setCellValue("D{$currentRow}", $d->patient->fname);
