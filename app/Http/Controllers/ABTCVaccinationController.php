@@ -2796,10 +2796,9 @@ class ABTCVaccinationController extends Controller
             else if($r->ics_claims_status == 'PROCESSING/PROTEST') {
                 $d->ics_rth_protested_date = date('Y-m-d H:i:s');
             }
-            else if($r->ics_claims_status == 'PAID') {
-                $d->ics_claim_amount = $r->ics_claim_amount;
-                $d->rvs1 = $r->rvs1;
-            }
+
+            $d->ics_claim_amount = $r->ics_claim_amount;
+            $d->rvs1 = $r->rvs1;
         }
         else if($r->btn == 'cancel') {
             $d->ics_claims_status = 'ENCODING';
