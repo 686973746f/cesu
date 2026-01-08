@@ -112,7 +112,7 @@ class TaskController extends Controller
             $latest_ticket = AbtcBakunaRecords::where('ics_grabbedby', Auth::id())
             ->where('ics_ticketstatus', 'PENDING')
             ->whereNull('ics_finishedby')
-            ->exists();
+            ->first();
 
             if($latest_ticket) {
                 return redirect()->route('abtctask_view', $latest_ticket->id)
