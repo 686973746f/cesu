@@ -115,7 +115,7 @@ class TaskController extends Controller
             ->exists();
 
             if($latest_ticket) {
-                return redirect()->route('task_index')
+                return redirect()->route('abtctask_view', $latest_ticket->id)
                 ->with('msg', 'Error: Please finish your Pending ABTC to iClinicSys Ticket first before getting a new one. You can view your Pending tasks on "My Tasks" Page.')
                 ->with('msgtype', 'warning');
             }

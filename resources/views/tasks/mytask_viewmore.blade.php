@@ -5,7 +5,7 @@
     <div class="card">
         <div class="card-header"><b>View More Task</b></div>
         <div class="card-body">
-            @if($c == 'ABTC_CAT3' && $list->count() != 0)
+            @if($c == 'ABTC_CAT3' && $list->count() != 0 || $c == 'ABTC_CAT2' && $list->count() != 0)
             <div class="table-responsive">
                 <table class="table table-bordered table-striped" id="mainTbl">
                     <thead class="thead-light text-center">
