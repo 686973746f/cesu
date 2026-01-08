@@ -41,17 +41,22 @@
                         <option value="DENIED" {{(old('ics_claims_status', $d->ics_claims_status) == 'DENIED') ? 'selected' : ''}}>Denied</option>
                         <option value="PAID" {{(old('ics_claims_status', $d->ics_claims_status) == 'PAID') ? 'selected' : ''}}>Paid</option>
                         @elseif($d->ics_claims_status == 'FOR UPLOADING')
+                        <option value="FOR UPLOADING" {{(old('ics_claims_status', $d->ics_claims_status) == 'FOR UPLOADING') ? 'selected' : ''}}>For Uploading (Unsubmitted Claim)</option>
                         <option value="PROCESSING" {{(old('ics_claims_status', $d->ics_claims_status) == 'PROCESSING') ? 'selected' : ''}}>Processing (Unpaid Claim)</option>
                         @elseif($d->ics_claims_status == 'PROCESSING')
+                        <option value="PROCESSING" {{(old('ics_claims_status', $d->ics_claims_status) == 'PROCESSING') ? 'selected' : ''}}>Processing (Unpaid Claim)</option>
                         <option value="RTH" {{(old('ics_claims_status', $d->ics_claims_status) == 'RTH') ? 'selected' : ''}}>RTH/For Compliance</option>
                         <option value="DENIED" {{(old('ics_claims_status', $d->ics_claims_status) == 'DENIED') ? 'selected' : ''}}>Denied</option>
                         <option value="PAID" {{(old('ics_claims_status', $d->ics_claims_status) == 'PAID') ? 'selected' : ''}}>Paid</option>
                         @elseif($d->ics_claims_status == 'RTH')
+                        <option value="RTH" {{(old('ics_claims_status', $d->ics_claims_status) == 'RTH') ? 'selected' : ''}}>RTH/For Compliance</option>
                         <option value="PROCESSING/RTH" {{(old('ics_claims_status', $d->ics_claims_status) == 'PROCESSING/RTH') ? 'selected' : ''}}>Resubmit</option>
                         @elseif($d->ics_claims_status == 'PROCESSING/RTH')
+                        <option value="PROCESSING/RTH" {{(old('ics_claims_status', $d->ics_claims_status) == 'PROCESSING/RTH') ? 'selected' : ''}}>Resubmit</option>
                         <option value="PROCESSING/PROTEST" {{(old('ics_claims_status', $d->ics_claims_status) == 'PROCESSING/PROTEST') ? 'selected' : ''}}>Denied - Tag as Protest Claim</option>
                         <option value="PAID" {{(old('ics_claims_status', $d->ics_claims_status) == 'PAID') ? 'selected' : ''}}>Paid</option>
                         @elseif($d->ics_claims_status == 'DENIED')
+                        <option value="PAID" {{(old('ics_claims_status', $d->ics_claims_status) == 'PAID') ? 'selected' : ''}}>Paid</option>
                         <option value="PROCESSING/PROTEST" {{(old('ics_claims_status', $d->ics_claims_status) == 'PROCESSING/PROTEST') ? 'selected' : ''}}>Tag as Protest Claim</option>
                         @endif
                       </select>
