@@ -93,7 +93,10 @@
                     <div class="card-header">
                         <div class="d-flex justify-content-between">
                             <div><b>Batch Details</b></div>
-                            <div><a href="{{route('pharmacy_modify_view', $d->id)}}" class="btn btn-success">New/Update Stock</a></div>
+                            <div>
+                                <a href="{{route('pharmacy_home', ['transact_substock_id' => $d->id])}}" class="btn btn-success">New/Update Stock</a>
+                                <!-- <a href="{{route('pharmacy_modify_view', $d->id)}}" class="btn btn-success">New/Update Stock</a> -->
+                            </div>
                         </div>
                     </div>
                     <div class="card-body">
@@ -116,7 +119,14 @@
                                     @foreach($sub_list as $ind => $sl)
                                     <tr>
                                         <td>{{$ind+1}}</td>
-                                        <td><a href="{{route('pharmacy_view_substock', $sl->id)}}">{{date('m/d/Y (D)', strtotime($sl->expiration_date))}}</a></td>
+                                        <td>
+                                            <a href="{{route('pharmacy_view_substock', $sl->id)}}">
+                                                <div>{{date('m/d/Y (D)', strtotime($sl->expiration_date))}}</div>
+                                                @if(Carbon\Carbon::parse($sl->expiration_date)->lte(now()))
+                                                <span class="badge badge-danger">EXPIRED</span>
+                                                @endif
+                                            </a>
+                                        </td>
                                         <td>{{($sl->batch_number) ? $sl->batch_number : 'N/A'}}</td>
                                         <td>{{$sl->stock_source ?: 'N/A'}}</td>
                                         <td>{{$sl->source ?: 'N/A'}}</td>
@@ -149,8 +159,6 @@
                                         <th>Type</th>
                                         <th>Quantity</th>
                                         <th>Batch Number</th>
-                                        <th>Total Cost</th>
-                                        <th>DR/SI/RIS/PTR/BL No.</th>
                                         <th>Recipient/Remarks</th>
                                         <th>Processed by</th>
                                     </tr>
@@ -158,16 +166,53 @@
                                 <tbody>
                                     @foreach($scard as $ind => $s)
                                     <tr class="text-center">
-                                        <td class="text-center">{{$s->id}}</td>
+                                        <td class="text-center">
+                                            <button type="button" class="btn btn-link" data-toggle="modal" data-target="#transaction_{{ $s->id }}">{{$s->id}}</button>
+                                        </td>
                                         <td>{{date('m/d/Y h:i A', strtotime($s->created_at))}}</td>
                                         <td>{{$s->type}}</td>
                                         <td class="{{ ($s->getQtyType() == '+') ? 'text-success' : 'text-danger' }}">{{$s->getQtyType()}}{{$s->getTransactionAmount()}}</td>
                                         <td>{{$s->substock->batch_number ?? NULL}}</td>
-                                        <td>{{($s->total_cost) ? $s->total_cost : 'N/A'}}</td>
-                                        <td>{{($s->drsi_number) ? $s->drsi_number : 'N/A'}}</td>
                                         <td>{{$s->getRecipientAndRemarks()}}</td>
                                         <td>{{$s->user->name}}</td>
                                     </tr>
+
+                                    <div class="modal fade" id="transaction_{{ $s->id }}" tabindex="-1" role="dialog">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Transaction #{{ $s->id }} Details</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                      <label for="">Total Cost</label>
+                                                      <input type="text" class="form-control" value="{{ $d->total_cost ?? 'N/A' }}" disabled>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="">DR/SI/RIS/PTR/BL No.</label>
+                                                        <input type="text" class="form-control" value="{{ $d->drsi_number ?? 'N/A' }}" disabled>
+                                                    </div>
+                                                    <hr>
+                                                    @if($s->reversal)
+                                                    <div class="alert alert-warning text-center" role="alert">
+                                                        This transaction was already reversed.
+                                                    </div>
+                                                    @elseif($s->type == 'ADJUSTMENT')
+                                                    <div class="alert alert-warning text-center" role="alert">
+                                                        Adjustments cannot be reversed. If there was a mistake in your adjustment, just do another adjustment.
+                                                    </div>
+                                                    @else
+                                                    <form action="{{ route('pharmacy_undo_transaction', $s->id) }}" method="POST">
+                                                        <button type="submit" class="btn btn-block btn-warning" onclick="return confirm('Are you sure you want to reverse this transaction? Click OK to Confirm.')">Undo/Reverse Transaction</button>
+                                                    </form>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     @endforeach
                                 </tbody>
                             </table>

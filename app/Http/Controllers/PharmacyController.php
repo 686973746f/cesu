@@ -66,6 +66,10 @@ class PharmacyController extends Controller
         ->orderBy('expiration_date', 'ASC')
         ->get();
 
+        $branch_list = PharmacyBranch::where('id', '!=', auth()->user()->pharmacy_branch_id)
+        ->orderBy('name', 'ASC')
+        ->get();
+
         $es_collect = collect();
 
         foreach($expired_list as $es) {
@@ -83,7 +87,46 @@ class PharmacyController extends Controller
 
         return view('pharmacy.home', [
             'expired_list' => $es_collect,
+            'branch_list' => $branch_list,
         ]);
+    }
+
+    public function listMedsByFacility(Request $r) {
+        $facilityId = $r->user()->pharmacy_branch_id;
+
+        $subs = PharmacySupplySub::with('pharmacysupplymaster')
+        ->where('pharmacy_branch_id', $facilityId)
+        ->get()
+        ->map(function ($sub) {
+            return [
+                'id'   => $sub->id,
+                'name' => $sub->pharmacysupplymaster->name,
+            ];
+        });
+
+        return response()->json($subs);
+    }
+
+    public function listSubStocksByFacility(Request $r) {
+        $r->validate([
+            'subsupply_id' => 'required|integer'
+        ]);
+
+        $batches = PharmacySupplySubStock::where('subsupply_id', $r->subsupply_id)
+        ->where('expiration_date', '>=', date('Y-m-d', strtotime('-1 Day')))
+        ->orderBy('expiration_date')
+        ->get()
+        ->map(function ($batch) {
+            return [
+                'id' => $batch->id,
+                'source' => $batch->source,
+                'current_piece_stock' => $batch->current_piece_stock,
+                'batch_number' => $batch->batch_number,
+                'expiration_date' => Carbon::parse($batch->expiration_date)->format('m/d/Y'),
+            ];
+        });
+
+        return response()->json($batches);
     }
 
     public function addMasterItem(Request $r) {
@@ -668,6 +711,7 @@ class PharmacyController extends Controller
                 $subsupply = PharmacySupplySub::findOrFail($sc->subsupply_id);
 
                 if($sc->type_to_process == 'BOX') {
+                    /*
                     if($sc->qty_to_process <= $subsupply->master_box_stock) {
                         $subsupply->master_box_stock -= $sc->qty_to_process;
                         $subsupply->master_piece_stock -= ($sc->qty_to_process * $sc->pharmacysub->pharmacysupplymaster->config_piecePerBox);
@@ -706,6 +750,11 @@ class PharmacyController extends Controller
                         ->with('msg', 'Error: Medicine '.$sc->pharmacysub->pharmacysupplymaster->name.' Box stocks were updated before processing. Please check the available stock and try again.')
                         ->with('msgtype', 'warning');
                     }
+                    */
+
+                    return redirect()->back()
+                    ->with('msg', 'Error: Commodity type must be set to PER PIECE first before proceeding.')
+                    ->with('msgtype', 'warning');
                 }
                 else {
                     if($sc->qty_to_process <= $subsupply->master_piece_stock) {
@@ -1659,16 +1708,26 @@ class PharmacyController extends Controller
             }
             else {
                 $d->master_piece_stock += $r->qty_to_process;
-                
             }
 
             //ADD TO SUBSTOCK
-            if(PharmacySupplySubStock::where('subsupply_id', $d->id)->where('batch_number', mb_strtoupper($r->batch_number))->exists()) {
+            $substock_check = PharmacySupplySubStock::where('subsupply_id', $d->id)
+            ->where('batch_number', mb_strtoupper($r->batch_number));
+            
+            if($r->source != 'OTHERS') {
+                $substock_check = $substock_check->where('source', $r->source)->first();
+            }
+            else {
+                $substock_check = $substock_check->where('othersource_name', mb_strtoupper($r->othersource_name))->first();
+            }
+            
+            if($substock_check) {
                 return redirect()->back()
                 ->with('msg', 'Error: Batch Name already exists. Kindly double check and try again.')
                 ->with('msgtype', 'warning');
             }
 
+            //Merge to Expiration Date???
             $substock = PharmacySupplySubStock::where('subsupply_id', $d->id)
             ->where('expiration_date', $r->expiration_date)
             ->first();
@@ -1722,6 +1781,7 @@ class PharmacyController extends Controller
             //CREATE STOCK CARD
             $new_stockcard_branch = $r->user()->pharmacystockcard()->create([
                 'subsupply_id' => $d->id,
+                'stock_id' => $new_substock->id,
                 'type' => 'RECEIVED',
                 'before_qty_box' => ($d->pharmacysupplymaster->quantity_type == 'BOX') ? $d->getOriginal('master_box_stock') : NULL,
                 'before_qty_piece' => $d->getOriginal('master_piece_stock'),
@@ -1757,6 +1817,136 @@ class PharmacyController extends Controller
             ->with('msg', $txt)
             ->with('msgtype', 'success');
         }        
+    }
+
+    public function processTransactionV2(Request $r) {
+        $d = PharmacySupplySub::findOrFail($r->nt_substock_id);
+
+        if($d->pharmacysupplymaster->quantity_type == 'BOX') {
+            return redirect()->back()
+            ->with('nt_msg', 'Error: Master Medicine #'.$d->pharmacysupplymaster->id.' ('.$d->pharmacysupplymaster->name.') Quantity type must be changed from BOX to PIECE first before proceeding.')
+            ->with('nt_msgtype', 'danger');
+        }
+
+        if($d->ifAuthorizedToUpdate()) {
+            $table_params = [
+                'status' => 'PENDING',
+                'qty_to_process' => $r->qty_to_process,
+                'created_by' => Auth::id(),
+
+                'remarks' => $r->nt_remarks,
+                'total_cost' => $r->total_cost,
+                'drsi_number' => $r->drsi_number,
+            ];
+
+            if($r->nt_transaction_type == 'RECEIVED') {
+                $table_params = $table_params + [
+                    'type' => 'RECEIVED',
+                ];
+
+                if($r->nt_bn != 'N/A') {
+                    //Batch Number and Source already Exist
+                    $substock = PharmacySupplySubStock::findOrFail($r->nt_bn);
+
+                    $table_params = $table_params + [
+                        'stock_id' => $substock->id,
+                    ];
+                }
+                else {
+                    //Check Batch Number and Source First if Existing
+                    $substock_check = PharmacySupplySubStock::where('subsupply_id', $d->id)
+                    ->where('batch_number', mb_strtoupper($r->nt_new_batchno));
+
+                    if($r->nt_new_source != 'OTHERS') {
+                        $substock_check = $substock_check->where('source', $r->nt_new_source)->first();
+                    }
+                    else {
+                        $substock_check = $substock_check->where('othersource_name', mb_strtoupper($r->nt_new_othersource_name))->first();
+                    }
+
+                    if($substock_check) {
+                        return redirect()->back()
+                        ->with('nt_msg', 'Error: Batch Number already exists for '.$d->pharmacysupplymaster->name)
+                        ->with('nt_msgtype', 'warning');
+                    }
+                    else {
+                        $substock_new = PharmacySupplySubStock::create([
+                            'subsupply_id' => $d->id,
+                            'expiration_date' => $r->nt_new_expiration_date,
+                            'batch_number' => mb_strtoupper($r->nt_new_batchno),
+
+                            'stock_source' => $r->nt_new_stock_source,
+                            'source' => $r->nt_new_source,
+                            'othersource_name' => ($r->nt_new_source == 'OTHERS') ? mb_strtoupper($r->nt_new_othersource_name) : NULL,
+
+                            'created_by' => Auth::id(),
+                        ]);
+
+                        $table_params = $table_params + [
+                            'stock_id' => $substock_new->id,
+                        ];
+                    }
+                }
+
+                $tsc = PharmacyStockCard::create($table_params);
+
+                if(auth()->user()->isPharmacyBranchAdminOrMasterAdmin()) {
+                    $this->performTransaction($tsc->id);
+
+                    return redirect()->back()
+                    ->with('nt_msg', 'Transaction was processed successfully.')
+                    ->with('nt_msgtype', 'success');
+                }
+                else {
+                    return redirect()->back()
+                    ->with('nt_msg', 'Transaction request was sent. Notify Pharmacy Branch Admin for approval.')
+                    ->with('nt_msgtype', 'success');
+                }
+            }
+            else if($r->nt_transaction_type == 'TRANSFER') {
+                $table_params = $table_params + [
+                    'type' => 'ISSUED',
+                ];
+
+                //Batch Number and Source always Exist
+                $substock = PharmacySupplySubStock::findOrFail($r->nt_bn);
+
+                $table_params = $table_params + [
+                    'stock_id' => $substock->id,
+                ];
+
+                if($r->nt_recipient == 'BRANCH') {
+                    $table_params = $table_params + [
+                        'receiving_branch_id' => $r->nt_tr_branch_id,
+                    ];
+                }
+                else if($r->nt_recipient == 'OTHERS') {
+                    $table_params = $table_params + [
+                        'recipient' => mb_strtoupper($r->nt_tr_others),
+                    ];
+                }
+
+                $tsc = PharmacyStockCard::create($table_params);
+                
+                if(auth()->user()->isPharmacyBranchAdminOrMasterAdmin()) {
+                    $this->performTransaction($tsc->id);
+
+                    return redirect()->back()
+                    ->with('nt_msg', 'Transaction was processed successfully.')
+                    ->with('nt_msgtype', 'success');
+                }
+                else {
+                    return redirect()->back()
+                    ->with('nt_msg', 'Transaction request was sent. Notify Pharmacy Branch Admin for approval.')
+                    ->with('nt_msgtype', 'success');
+                }
+            }
+        }
+        else {
+            return redirect()->back()
+            ->with('nt_msg', 'You are not allowed to do that.')
+            ->with('nt_msgtype', 'warning');
+        }
     }
 
     public function masterItemHome() {
@@ -1871,6 +2061,7 @@ class PharmacyController extends Controller
                     $r->where('id', $item->id);
                 });
             })
+            ->where('status', 'APPROVED')
             ->orderBy('created_at', 'DESC')
             ->paginate(10);
 
@@ -1881,7 +2072,9 @@ class PharmacyController extends Controller
             ]);
         }
         else {
-            return abort(401);
+            return redirect()->back()
+            ->with('msg', 'ERROR: You are not allowed to do that.')
+            ->with('msgtype', 'warning');
         }
     }
 
@@ -2015,6 +2208,81 @@ class PharmacyController extends Controller
         $templateProcessor->saveAs('php://output');
     }
 
+    public static function performTransaction($stockcard_id) {
+        //Perform Pending Transaction
+        $d = PharmacyStockCard::findOrFail($stockcard_id);
+        
+        if($d->status == 'PENDING') {
+            $substock = PharmacySupplySubStock::findOrFail($d->stock_id);
+            $d->before_qty_piece = $substock->current_piece_stock;
+            if($d->type == 'ADJUSTMENT') {
+                $substock->current_piece_stock = $d->qty_to_process;
+
+                if($substock->isDirty()) {
+                    $substock->updated_by = $d->created_by;
+                    $substock->save();
+                }
+            }
+            else if ($d->type == 'REVERSAL') {
+
+            }
+            else if($d->type == 'ISSUED') {
+                dd('Wait lang tinatapos pa.');
+                //SUBTRACT
+                //Check first if there is enough amount
+                $d->after_qty_piece = $d->before_qty_piece - $d->qty_to_process;
+
+                //Receive the Stock to the Facility
+                //Locate the Stock ID of the Facility First
+
+                $transfer_tsc = PharmacyStockCard::create([
+                    'stock_id' => '123',
+                    'status' => 'PENDING',
+                    'type' => 'RECEIVED',
+
+                    'received_from_stc_id' => $d->id,
+                ]);
+
+                //Reflect on the Substock
+                $substock->current_piece_stock = $substock->current_piece_stock - $d->qty_to_process;
+
+                if($substock->isDirty()) {
+                    $substock->updated_by = $d->created_by;
+                    $substock->save();
+                }
+            }
+            else if($d->type == 'RECEIVED') {
+                //ADD
+                $d->after_qty_piece = $d->before_qty_piece + $d->qty_to_process;
+
+                //Reflect on the Substock
+                $substock->current_piece_stock = $substock->current_piece_stock + $d->qty_to_process;
+            }
+            
+            //Recompute Grand Total of Sub Medicine
+            if($substock->isDirty()) {
+                $substock->updated_by = $d->created_by;
+                $substock->save();
+            }
+
+            $new_stock_grandtotal = PharmacySupplySubStock::where('subsupply_id', $substock->subsupply_id)
+            ->sum('current_piece_stock');
+
+            $supplysub_update = PharmacySupplySub::findOrFail($substock->subsupply_id);
+            $supplysub_update->master_piece_stock = $new_stock_grandtotal;
+            $supplysub_update->save();
+
+            $d->status = 'APPROVED';
+
+            if($d->isDirty()) {
+                $d->processed_by = Auth::id();
+                $d->processed_at = date('Y-m-d H:i:s');
+
+                $d->save();
+            }
+        }
+    }
+
     public function updateSubStock($id, Request $r) {
         $d = PharmacySupplySubStock::findOrFail($id);
 
@@ -2024,8 +2292,16 @@ class PharmacyController extends Controller
             if($r->batch_number != $d->batch_number) {
                 $check = PharmacySupplySubStock::where('id', '!=', $d->id)
                 ->where('subsupply_id', $d->subsupply_id)
-                ->where('batch_number', mb_strtoupper($r->batch_number))
-                ->first();
+                ->where('batch_number', mb_strtoupper($r->batch_number));
+
+                if($r->source != 'OTHERS') {
+                    $check = $check->where('source', $r->source)->first();
+                }
+                else {
+                    $check = $check->where('source', 'OTHERS')
+                    ->where('othersource_name', mb_strtoupper($r->othersource_name))
+                    ->first();
+                }
 
                 if($check) {
                     return redirect()->back()
@@ -2045,45 +2321,35 @@ class PharmacyController extends Controller
             $d->updated_by = Auth::id();
 
             if($r->adjust_stock == 'Y' && $d->current_piece_stock != $r->adjustment_qty) {
-                if(auth()->user()->isPharmacyBranchAdmin()) {
-                    //Auto approve the transaction and reflect it immediately
-                    $status = 'APPROVED';
-                    $processed_by = Auth::id();
-                    $processed_at = date('Y-m-d H:i:s');
-
-                    $d->current_piece_stock = $r->adjustment_qty;
-                }
-                else {
-                    //Put it to pending, for branch admin approval
-                    $status = 'PENDING';
-
-                    $processed_by = NULL;
-                    $processed_at = NULL;
-                }
-
                 $tsc = PharmacyStockCard::create([
                     'stock_id' => $d->id,
-                    'status' => $status,
+                    'status' => 'PENDING',
                     'type' => 'ADJUSTMENT',
                     'before_qty_piece' => $d->current_piece_stock,
                     'qty_to_process' => $r->adjustment_qty,
                     'after_qty_piece' => $r->adjustment_qty,
-                    'remarks' => $r->remarks,
+                    'remarks' => $r->adjustment_reason,
 
                     'created_by' => Auth::id(),
-
-                    'processed_by' => $processed_by,
-                    'processed_at' => $processed_at,
                 ]);
-            }
+            }                
 
             if($d->isDirty()) {
                 $d->save();
             }
 
-            return redirect()->route('pharmacy_itemlist_viewitem', $d->pharmacysub->id)
-            ->with('msg', 'Pharmacy Sub Stock (ID: #'.$d->id.') was updated successfully.')
-            ->with('msgtype', 'success');
+            if(auth()->user()->isPharmacyBranchAdminOrMasterAdmin()) {
+                $this->performTransaction($tsc->id);
+
+                return redirect()->route('pharmacy_itemlist_viewitem', $d->pharmacysub->id)
+                ->with('msg', 'Pharmacy Sub Stock (ID: #'.$d->id.') was updated successfully.')
+                ->with('msgtype', 'success');
+            }
+            else {
+                return redirect()->route('pharmacy_itemlist_viewitem', $d->pharmacysub->id)
+                ->with('msg', 'Pharmacy Sub Stock (ID: #'.$d->id.') was updated successfully. Adjustment request was sent to Pharmacy Branch Admin for approval.')
+                ->with('msgtype', 'success');
+            }
         }
         else {
             return abort(401);
@@ -3381,25 +3647,68 @@ class PharmacyController extends Controller
     }
 
     public function viewPendingTransactions() {
-        $list = PharmacyStockCard::where('status', 'pending')
+        $list = PharmacyStockCard::where('status', 'PENDING')
         ->whereHas('substock.pharmacysub', function ($q) {
             $q->where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id);
         })
         ->get();
 
-        
+        return view('pharmacy.pending_transactions', compact('list'));
     }
 
-    public function processTransaction($transction_id) {
+    public function processPendingTransaction($stockcard_id) {
+        $d = PharmacyStockCard::findOrFail($stockcard_id);
 
+        $this->performTransaction($d->id);
     }
 
-    public function undoTransaction($transaction_id) {
-        $d = PharmacyStockCard::findOrFail($transaction_id);
+    public function undoTransaction($stockcard_id) {
+        $d = PharmacyStockCard::findOrFail($stockcard_id);
 
-        $c = PharmacyStockCard::create([
-            'status' => 'approved',
-            'type' => 'REVERSAL',
-        ]);
+        if($d->reversal) {
+            return redirect()->back()
+            ->with('msg', 'ERROR: Transaction #'.$d->id.' already reversed')
+            ->with('msgtype', 'warning');
+        }
+        else {
+            if($d->type != 'REVERSAL') {
+                if($d->type == 'RECEIVED') {
+                    $after_qty = $d->substock->current_piece_stock - $d->qty_to_process;
+                }
+                else if($d->type == 'ISSUED') {
+                    $after_qty = $d->substock->current_piece_stock + $d->qty_to_process;
+                }
+                else if($d->type == 'ADJUSTMENT') {
+                    return redirect()->back()
+                    ->with('msg', 'ERROR: Adjustments cannot be reversed. If there was a mistake in your adjustment, just do another adjustment.')
+                    ->with('msgtype', 'danger');
+                }
+
+                $tsc = PharmacyStockCard::create([
+                    'stock_id' => $d->stock_id,
+                    'status' => 'PENDING',
+                    'type' => 'REVERSAL',
+                    'reversed_stock_card_id' => $d->id,
+                    'before_qty_piece' => $d->substock->current_piece_stock,
+                    'qty_to_process' => $d->qty_to_process,
+                    'after_qty_piece' => $after_qty,
+
+                    'remarks' => 'Reversal of Transaction #'.$d->id,
+                ]);
+
+                if(auth()->user()->isPharmacyBranchAdminOrMasterAdmin()) {
+                    $this->performTransaction($tsc->id);
+
+                    return redirect()->back()
+                    ->with('msg', 'ERROR: Reversal of Transaction #'.$d->id.' was completed successfully.')
+                    ->with('msgtype', 'warning');
+                }
+                else {
+                    return redirect()->back()
+                    ->with('msg', 'ERROR: Reversal of Transaction #'.$d->id.' was requested. Please notify Pharmacy Branch Admin for approval.')
+                    ->with('msgtype', 'warning');
+                }
+            }
+        }
     }
 }

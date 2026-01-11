@@ -79,6 +79,7 @@ class Kernel extends HttpKernel
         'canAccessPharmacy' => \App\Http\Middleware\canAccessPharmacy::class,
         'canAccessPharmacyMasterAdmin' => \App\Http\Middleware\canAccessPharmacyMasterAdmin::class,
         'canAccessPharmacyBranchAdmin' => \App\Http\Middleware\canAccessPharmacyBranchAdmin::class,
+        'canAccessPharmacyBranchAdminOrMasterAdmin' => \App\Http\Middleware\canAccessPharmacyBranchAdminOrMasterAdmin::class,
         'canAccessPharmacyBranchEncoder' => \App\Http\Middleware\canAccessPharmacyBranchEncoder::class,
         'canAccessFwri' => \App\Http\Middleware\canAccessFwri::class,
         'canAccessPregnancyTracking' => \App\Http\Middleware\canAccessPregnancyTracking::class,

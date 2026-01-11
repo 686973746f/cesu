@@ -20,6 +20,10 @@ class CreatePharmacyStockCardsTable extends Migration
             $table->foreignId('stock_id')->nullable()->constrained('pharmacy_supply_sub_stocks')->onDelete('cascade');
             $table->string('status')->default('approved'); //PENDING, APPROVED
             $table->string('type'); //RECEIVED, ISSUED, REVERSAL, ADJUSTMENT
+            $table->foreignId('reversed_stock_card_id')
+            ->nullable()
+            ->constrained('pharmacy_stock_cards')
+            ->nullOnDelete();
 
             //$table->integer('before_qty_box')->nullable();
             $table->integer('before_qty_piece')->nullable();
@@ -31,6 +35,10 @@ class CreatePharmacyStockCardsTable extends Migration
             $table->text('drsi_number')->nullable();
             
             $table->foreignId('receiving_branch_id')->nullable()->constrained('pharmacy_branches')->onDelete('cascade');
+            $table->foreignId('received_from_stc_id')
+            ->nullable()
+            ->constrained('pharmacy_stock_cards')
+            ->nullOnDelete();
             $table->foreignId('receiving_patient_id')->nullable()->constrained('pharmacy_patients')->onDelete('cascade');
             $table->foreignId('patient_prescription_id')->nullable()->constrained('pharmacy_prescriptions')->onDelete('cascade');
             $table->integer('patient_age_years')->nullable();

@@ -14,10 +14,10 @@ class PharmacySupplySubStock extends Model
         'subsupply_id',
         'expiration_date',
         'batch_number',
-        'lot_number',
-        'barcode_number',
+        //'lot_number',
+        //'barcode_number',
         'stock_source',
-        'source',
+        'source', //LGU, DOH, OTHERS
         'othersource_name',
         
         'current_box_stock',
@@ -43,10 +43,9 @@ class PharmacySupplySubStock extends Model
         return $this->belongsTo(PharmacySupplySub::class, 'subsupply_id');
     }
 
-    public function stockcards()
-{
-    return $this->hasMany(PharmacyStockCard::class, 'subsupply_id');
-}
+    public function stockcards() {
+        return $this->hasMany(PharmacyStockCard::class, 'subsupply_id');
+    }
 
     public function getMainQty() {
         if($this->pharmacysub->pharmacysupplymaster->quantity_type == 'BOX') {

@@ -596,6 +596,17 @@ class User extends Authenticatable implements MustVerifyEmail
         }
     }
 
+    public function isPharmacyBranchAdminOrMasterAdmin() {
+        $plist = $this->getPermissions();
+
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('PHARMACY_BRANCH_ADMIN', $plist) || in_array('PHARMACY_MASTER_ADMIN', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     public function isPharmacyBranchEncoder() {
         $plist = $this->getPermissions();
 

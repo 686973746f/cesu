@@ -159,7 +159,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="unit_price"><b class="text-danger">*</b>Unit Price</label>
-                                <input type="number" step="0.01" class="form-control" name="unit_price" id="unit_price" min="1">
+                                <input type="number" step="0.01" class="form-control" name="unit_price" id="unit_price" min="1" required>
                             </div>
                             <div class="form-group">
                               <label for="remarks">Remarks</label>

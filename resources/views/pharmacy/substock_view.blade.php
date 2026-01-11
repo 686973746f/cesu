@@ -82,6 +82,11 @@
                 </div>
                 <div id="adjustment_div" class="d-none">
                     <hr>
+                    @if($d->pharmacysub->pharmacysupplymaster->quantity_type == 'BOX')
+                    <div class="alert alert-warning" role="alert">
+                        <b class="text-danger">ERROR:</b> Convert the commodity to <b>PER PIECE</b> first before adjusting the stocks.
+                    </div>
+                    @else
                     <div class="form-group">
                         <label for="adjustment_qty"><b class="text-danger">*</b>Adjust Quantity to (in Piece/s)</label>
                         <input type="number" class="form-control" name="adjustment_qty" id="adjustment_qty" value="{{old('adjustment_qty', $d->current_piece_stock)}}">
@@ -90,6 +95,7 @@
                         <label for="adjustment_reason"><b class="text-danger">*</b>Reason for Adjustment (Required)</label>
                         <textarea class="form-control" name="adjustment_reason" id="adjustment_reason" rows="3">{{old('adjustment_reason')}}</textarea>
                     </div>
+                    @endif
                 </div>
             </div>
             <div class="card-footer">

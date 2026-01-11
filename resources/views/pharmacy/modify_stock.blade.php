@@ -154,7 +154,7 @@
                               <option value="OTHERS" id="selection_others">Others</option>
                               @endif
                             </select>
-                          </div>
+                        </div>
                           <div id="if_branch" class="d-none">
                             @if(is_null($select_branch))
                               <div class="form-group">

@@ -811,6 +811,11 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
 //PHARMACY
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessPharmacy']], function() {
     Route::get('/pharmacy/home', [PharmacyController::class, 'home'])->name('pharmacy_home');
+    Route::get('/ajax/pharmacy-supply-subs', [PharmacyController::class, 'listMedsByFacility'])->name('ajax.pharmacy-supply-subs');
+    Route::get('/ajax/pharmacy-supply-substocks', [PharmacyController::class, 'listSubStocksByFacility'])->name('ajax.pharmacy-sub-stocks');
+
+    Route::post('/pharmacy/process_transactionv2', [PharmacyController::class, 'processTransactionV2'])->name('pharmacy_processtransactionv2');
+    
     Route::get('/pharmacy/item_list', [PharmacyController::class, 'viewItemList'])->name('pharmacy_itemlist');
     Route::get('/pharmacy/item_list/masterlist', [PharmacyController::class, 'viewMasterlist2'])->name('pharmacy_itemlist_masterlist');
     Route::post('/pharmacy/item_list/add_master_item', [PharmacyController::class, 'addMasterItem'])->name('pharmacy_add_master_item');
@@ -830,6 +835,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     Route::post('/pharmacy/cart/branch/{branch_id}/process_cart', [PharmacyController::class, 'processCartBranch'])->name('pharmacy_processCartBranch');
     
     Route::get('/pharmacy/item_list/{item_id}/view', [PharmacyController::class, 'viewItem'])->name('pharmacy_itemlist_viewitem');
+    Route::post('/pharmacy/item_list/{transaction_id}/undo', [PharmacyController::class, 'undoTransaction'])->name('pharmacy_undo_transaction');
     Route::get('/pharmacy/item_list/{item_id}/view/more_transactions', [PharmacyController::class, 'viewMoreTransactions'])->name('pharmacy_itemlist_viewmoretransactions');
     Route::get('/pharmacy/item_list/{item_id}/print', [PharmacyController::class, 'printQrItem'])->name('pharmacy_itemlist_printqr');
     Route::post('/pharmacy/item_list/{item_id}/export_stockcard', [PharmacyController::class, 'exportStockCard'])->name('pharmacy_itemlist_export_stockcard');
@@ -857,10 +863,15 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     Route::post('/pharmacy/prescription/{id}/update', [PharmacyController::class, 'updatePrescription'])->name('pharmacy_update_prescription');
 });
 
-Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessPharmacy', 'canAccessPharmacyBranchAdmin']], function() {
+Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessPharmacy', 'canAccessPharmacyBranchAdminOrMasterAdmin']], function() {
     Route::get('/pharmacy/pending_transactions', [PharmacyController::class, 'viewPendingTransactions'])->name('pharmacy_pending_transaction_view');
     Route::post('/pharmacy/pending_transactions/{id}/process', [PharmacyController::class, 'processTransaction'])->name('pharmacy_pending_transaction_process');
 });
+
+Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessPharmacy', 'canAccessPharmacyMasterAdmin']], function() {
+    Route::get('/pharmacy/switch', [PharmacyController::class, 'switchPharmacy'])->name('switch_pharmacy');
+});
+
 
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessFwri']], function() {
     Route::get('fwri_admin/home', [FwriController::class, 'home'])->name('fwri_home');

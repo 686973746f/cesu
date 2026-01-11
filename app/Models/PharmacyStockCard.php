@@ -17,6 +17,7 @@ class PharmacyStockCard extends Model
         'stock_id',
         'status',
         'type',
+        'reversed_stock_card_id',
         'before_qty_box', //disable later
         'before_qty_piece',
         'qty_to_process',
@@ -28,6 +29,7 @@ class PharmacyStockCard extends Model
 
         'recipient',
         'receiving_branch_id',
+        'received_from_stc_id',
         'receiving_patient_id',
         'patient_prescription_id',
         'patient_age_years',
@@ -65,6 +67,18 @@ class PharmacyStockCard extends Model
         return $this->belongsTo(PharmacySupplySubStock::class, 'stock_id');
     }
 
+    // This transaction reverses another transaction
+    public function reversed()
+    {
+        return $this->belongsTo(self::class, 'reversed_stock_card_id');
+    }
+
+    // This transaction was reversed by another transaction
+    public function reversal()
+    {
+        return $this->hasOne(self::class, 'reversed_stock_card_id');
+    }
+
     public function getReceivingBranch() {
         return $this->belongsTo(PharmacyBranch::class, 'receiving_branch_id');
     }
@@ -97,7 +111,7 @@ class PharmacyStockCard extends Model
 
     public function getTransactionAmount() {
         if($this->type == 'ADJUSTMENT') {
-            return $this->qty_to_process - $this->before_qty_piece;
+            return abs($this->qty_to_process - $this->before_qty_piece);
         }
         else {
             return $this->qty_to_process;
