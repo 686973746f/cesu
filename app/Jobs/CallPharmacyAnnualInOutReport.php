@@ -206,7 +206,7 @@ class CallPharmacyAnnualInOutReport implements ShouldQueue
         $cend_date = Carbon::parse($end_date);
         
         $input_year = $cend_date->format('Y');
-
+        
         $spreadsheet = IOFactory::load(storage_path('Pharmacy_Monthly_InOut_Report.xlsx'));
         $sheet = $spreadsheet->getActiveSheet();
 
@@ -368,10 +368,11 @@ class CallPharmacyAnnualInOutReport implements ShouldQueue
         }
 
         foreach($si_array as $key => $si) {
-            $sheet->setCellValue('A'.$sRow, $si['name']);
-            $sheet->setCellValue('B'.$sRow, $si['unit']);
+            $sheet->setCellValue("A{$sRow}", $si['name']);
+            $sheet->setCellValue("B{$sRow}", $si['unit']);
+            $sheet->setCellValue("C{$sRow}", $si['current_stock']);
 
-            $columnIndex = 2; // Start at 0 (corresponds to 'A')
+            $columnIndex = 3; // Start at 0 (corresponds to 'A')
             foreach($si['monthly_stocks'] as $ms) {
                 $columnLetter = chr(65 + $columnIndex); // 65 is ASCII for 'A'
                 $sheet->setCellValue($columnLetter . $sRow, $ms['received']);
@@ -387,12 +388,15 @@ class CallPharmacyAnnualInOutReport implements ShouldQueue
 
             $sRow++;
         }
-
+        
         $filename = 'Pharmacy_InOut_Report'.date('M_Y').'_'.Str::random(5).'.xlsx';
-        $filePath = storage_path('export_jobs/' . $filename);
+        $directory = storage_path('export_jobs');
+        $path = $directory . DIRECTORY_SEPARATOR . $filename;
+
+        //$filePath = storage_path('export_jobs/' . $filename);
 
         $writer = new Xlsx($spreadsheet);
-        $writer->save($filePath);
+        $writer->save($path);
 
         $job_update = ExportJobs::where('id', $this->task_id)->update([
             'status' => 'completed',
