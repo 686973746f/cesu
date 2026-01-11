@@ -13,15 +13,15 @@ class PharmacyStockCard extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'subsupply_id',
+        'subsupply_id', //disable later
         'stock_id',
         'status',
         'type',
-        //'before_qty_box',
+        'before_qty_box', //disable later
         'before_qty_piece',
         'qty_to_process',
-        //'qty_type',
-        //'after_qty_box',
+        'qty_type', //disable later
+        'after_qty_box', //disable later
         'after_qty_piece',
         'total_cost',
         'drsi_number',
