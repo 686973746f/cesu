@@ -37,6 +37,7 @@ class PharmacyStockCard extends Model
         'created_by',
         'sentby_branch_id',
         'processed_by',
+        'processed_at',
 
         'rx_fromfacility',
         'rx_fromdoctor',

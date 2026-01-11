@@ -5,6 +5,7 @@
         <div class="text-right mb-3">
             <div>
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#newTransaction">New Transaction</button>
+                <a href="{{route('pharmacy_pending_transaction_view')}}" class="btn btn-warning">Pending Transactions</a>
             </div>
             <div class="mt-3">
                 <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#checkstock">Check Item Stock</button>-->

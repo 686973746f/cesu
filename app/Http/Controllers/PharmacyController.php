@@ -2041,13 +2041,29 @@ class PharmacyController extends Controller
                 $d->othersource_name = mb_strtoupper($r->othersource_name);
             }
             
-            $d->lot_number = $r->lot_number;
+            //$d->lot_number = $r->lot_number;
             $d->updated_by = Auth::id();
 
             if($r->adjust_stock == 'Y' && $d->current_piece_stock != $r->adjustment_qty) {
+                if(auth()->user()->isPharmacyBranchAdmin()) {
+                    //Auto approve the transaction and reflect it immediately
+                    $status = 'APPROVED';
+                    $processed_by = Auth::id();
+                    $processed_at = date('Y-m-d H:i:s');
+
+                    $d->current_piece_stock = $r->adjustment_qty;
+                }
+                else {
+                    //Put it to pending, for branch admin approval
+                    $status = 'PENDING';
+
+                    $processed_by = NULL;
+                    $processed_at = NULL;
+                }
+
                 $tsc = PharmacyStockCard::create([
                     'stock_id' => $d->id,
-                    'status' => 'APPROVED',
+                    'status' => $status,
                     'type' => 'ADJUSTMENT',
                     'before_qty_piece' => $d->current_piece_stock,
                     'qty_to_process' => $r->adjustment_qty,
@@ -2055,9 +2071,10 @@ class PharmacyController extends Controller
                     'remarks' => $r->remarks,
 
                     'created_by' => Auth::id(),
-                ]);
 
-                $d->current_piece_stock = $r->adjustment_qty;
+                    'processed_by' => $processed_by,
+                    'processed_at' => $processed_at,
+                ]);
             }
 
             if($d->isDirty()) {
@@ -3364,14 +3381,25 @@ class PharmacyController extends Controller
     }
 
     public function viewPendingTransactions() {
+        $list = PharmacyStockCard::where('status', 'pending')
+        ->whereHas('substock.pharmacysub', function ($q) {
+            $q->where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id);
+        })
+        ->get();
 
-    }
-
-    public function processTransaction() {
-
-    }
-
-    public function undoTransaction() {
         
+    }
+
+    public function processTransaction($transction_id) {
+
+    }
+
+    public function undoTransaction($transaction_id) {
+        $d = PharmacyStockCard::findOrFail($transaction_id);
+
+        $c = PharmacyStockCard::create([
+            'status' => 'approved',
+            'type' => 'REVERSAL',
+        ]);
     }
 }
