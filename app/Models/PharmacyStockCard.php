@@ -13,14 +13,15 @@ class PharmacyStockCard extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'subsupply_id',
+        //'subsupply_id',
+        'stock_id',
         'status',
         'type',
-        'before_qty_box',
+        //'before_qty_box',
         'before_qty_piece',
         'qty_to_process',
-        'qty_type',
-        'after_qty_box',
+        //'qty_type',
+        //'after_qty_box',
         'after_qty_piece',
         'total_cost',
         'drsi_number',
@@ -36,7 +37,11 @@ class PharmacyStockCard extends Model
         'created_by',
         'sentby_branch_id',
         'processed_by',
-    ];
+
+        'rx_fromfacility',
+        'rx_fromdoctor',
+        'rx_fromdoctor_licenseno',
+    ];  
 
     public function user() {
         return $this->belongsTo(User::class, 'created_by');
@@ -53,6 +58,10 @@ class PharmacyStockCard extends Model
 
     public function pharmacysub() {
         return $this->belongsTo(PharmacySupplySub::class, 'subsupply_id');
+    }
+
+    public function substock() {
+        return $this->belongsTo(PharmacySupplySubStock::class, 'stock_id');
     }
 
     public function getReceivingBranch() {
@@ -73,11 +82,41 @@ class PharmacyStockCard extends Model
     }
 
     public function getBalance() {
+        /*
         if($this->qty_type == 'BOX') {
             return $this->after_qty_box.' '.Str::plural('BOX', $this->after_qty_box).' ('.($this->after_qty_box * $this->pharmacysub->pharmacysupplymaster->config_piecePerBox).' '.Str::plural('PC', $this->after_qty_box * $this->pharmacysub->pharmacysupplymaster->config_piecePerBox).')';
         }
         else {
             return $this->after_qty_piece.' '.Str::plural('PC', $this->after_qty_piece);
+        }
+        */
+
+        return $this->after_qty_piece.' '.Str::plural('PC', $this->after_qty_piece);
+    }
+
+    public function getTransactionAmount() {
+        if($this->type == 'ADJUSTMENT') {
+            return $this->qty_to_process - $this->before_qty_piece;
+        }
+        else {
+            return $this->qty_to_process;
+        }
+    }
+
+    public function getQtyType() {
+        if($this->type == 'ISSUED') {
+            return '-';
+        }
+        else if($this->type == 'RECEIVED') {
+            return '+';
+        }
+        else if($this->type == 'ADJUSTMENT') {
+            if($this->before_qty_piece > $this->qty_to_process) {
+                return '-';
+            }
+            else {
+                return '+';
+            }
         }
     }
 

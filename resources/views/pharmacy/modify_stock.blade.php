@@ -61,8 +61,6 @@
                             <div class="form-group">
                               <label for="qty_type"><b class="text-danger">*</b>Quantity Type</label>
                               <select class="form-control" name="qty_type" id="qty_type" required>
-                                <option value="" disabled {{(is_null(old('qty_type'))) ? 'selected' : ''}}>Choose...</option>
-                                <option value="BOX" {{(old('qty_type') == 'BOX') ? 'selected' : ''}} id="type_option_box">Per Box</option>
                                 <option value="PIECE" {{(old('qty_type') == 'PIECE') ? 'selected' : ''}} id="type_option_piece">Per Piece</option>
                               </select>
                             </div>

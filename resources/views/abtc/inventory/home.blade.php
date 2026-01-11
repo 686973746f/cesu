@@ -99,7 +99,7 @@
                                   <option value="" disabled {{(is_null(old('transaction_type'))) ? 'selected' : ''}}>Choose...</option>
                                   <option value="ISSUED" {{(old('transaction_type') == 'ISSUED') ? 'selected' : ''}}>Use Stock</option>
                                   @if(auth()->user()->isAdminAbtc())
-                                  <option value="RECEIVED" {{(old('transaction_type') == 'RECEIVED') ? 'selected' : ''}}>Received Stock</option>
+                                  <option value="RECEIVED" {{(old('transaction_type') == 'RECEIVED') ? 'selected' : ''}}>Add Stock</option>
                                   <option value="TRANSFERRED" {{(old('transaction_type') == 'TRANSFERRED') ? 'selected' : ''}}>Transfer Stock</option>
                                   @endif
                                 </select>

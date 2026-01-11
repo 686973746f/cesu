@@ -3,18 +3,20 @@
 @section('content')
     <div class="container">
         <div class="text-right mb-3">
-            <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#checkstock">Check Item Stock</button>-->
-            <a href="{{route('pharmacy_itemlist')}}" class="btn btn-primary">View Inventory ({{auth()->user()->pharmacybranch->name}})</a>
-            <a href="{{route('pharmacy_view_patient_list')}}" class="btn btn-primary">Patients</a>
-            <!--<a href="{{route('pharmacy_viewreport')}}" class="btn btn-primary">Report</a>-->
-            @if(auth()->user()->isGlobalAdmin())
-            
-            @endif
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#report">Report</button>
+            <div>
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#newTransaction">New Transaction</button>
+            </div>
+            <div class="mt-3">
+                <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#checkstock">Check Item Stock</button>-->
+                <a href="{{route('pharmacy_itemlist')}}" class="btn btn-primary">View Inventory ({{auth()->user()->pharmacybranch->name}})</a>
+                <a href="{{route('pharmacy_view_patient_list')}}" class="btn btn-primary">Patients</a>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#report">Report</button>
+            </div>
             @if(auth()->user()->isPharmacyMasterAdmin())
-            <hr>
-            <a href="{{route('pharmacy_masteritem_list')}}" class="btn btn-warning">Medicines Masterlist</a>
-            <a href="{{route('pharmacy_list_branch')}}" class="btn btn-warning">Branches/Entities</a>
+            <div class="mt-3">
+                <a href="{{route('pharmacy_masteritem_list')}}" class="btn btn-warning">Medicines Masterlist</a>
+                <a href="{{route('pharmacy_list_branch')}}" class="btn btn-warning">Branches/Entities</a>
+            </div>
             @endif
         </div>
         <div class="card">
@@ -153,6 +155,26 @@
                             </div>
                         </form>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save</button>
                 </div>
             </div>
         </div>

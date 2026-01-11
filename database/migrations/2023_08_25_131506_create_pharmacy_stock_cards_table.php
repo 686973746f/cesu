@@ -15,14 +15,17 @@ class CreatePharmacyStockCardsTable extends Migration
     {
         Schema::create('pharmacy_stock_cards', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('subsupply_id')->constrained('pharmacy_supply_subs')->onDelete('cascade');
-            $table->string('status')->default('approved');
-            $table->string('type');
-            $table->integer('before_qty_box')->nullable();
+            //$table->foreignId('subsupply_id')->constrained('pharmacy_supply_subs')->onDelete('cascade'); // Should be NULLABLE
+
+            $table->foreignId('stock_id')->nullable()->constrained('pharmacy_supply_sub_stocks')->onDelete('cascade');
+            $table->string('status')->default('approved'); //PENDING, APPROVED
+            $table->string('type'); //RECEIVED, ISSUED, REVERSAL, ADJUSTMENT
+
+            //$table->integer('before_qty_box')->nullable();
             $table->integer('before_qty_piece')->nullable();
             $table->integer('qty_to_process');
-            $table->string('qty_type')->default('BOX');
-            $table->integer('after_qty_box')->nullable();
+            $table->string('qty_type')->default('PIECE');
+            //$table->integer('after_qty_box')->nullable();
             $table->integer('after_qty_piece')->nullable();
             $table->double('total_cost')->nullable();
             $table->text('drsi_number')->nullable();
@@ -37,9 +40,15 @@ class CreatePharmacyStockCardsTable extends Migration
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->foreignId('sentby_branch_id')->nullable()->constrained('pharmacy_branches')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
-            $table->timestamps();
+            
             $table->foreignId('processed_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->dateTime('processed_at')->nullable();
+
+            $table->string('rx_fromfacility')->nullable();
+            $table->string('rx_fromdoctor')->nullable();
+            $table->string('rx_fromdoctor_licenseno')->nullable();
+            
+            $table->timestamps();
             $table->softDeletes();
         });
     }

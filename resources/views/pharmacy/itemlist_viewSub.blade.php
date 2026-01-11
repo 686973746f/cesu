@@ -105,6 +105,7 @@
                                         <th>Expiration Date</th>
                                         <th>Batch #</th>
                                         <th>Source</th>
+                                        <th>Procured by</th>
                                         <th>Current Quantity</th>
                                         <th>Date Added / By</th>
                                         <th>Date Modified / By</th>
@@ -117,6 +118,7 @@
                                         <td>{{$ind+1}}</td>
                                         <td><a href="{{route('pharmacy_view_substock', $sl->id)}}">{{date('m/d/Y (D)', strtotime($sl->expiration_date))}}</a></td>
                                         <td>{{($sl->batch_number) ? $sl->batch_number : 'N/A'}}</td>
+                                        <td>{{$sl->stock_source ?: 'N/A'}}</td>
                                         <td>{{$sl->source ?: 'N/A'}}</td>
                                         <td>{{$sl->displayQty()}}</td>
                                         <td><small>{{date('m/d/Y h:i A', strtotime($sl->created_at))}} / {{$sl->user->name}}</small></td>
@@ -133,7 +135,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex justify-content-between">
-                            <div><b>Stock Card / Transactions</b></div>
+                            <div><b>Latest Transactions</b></div>
                             <div><button type="button" class="btn btn-success" data-toggle="modal" data-target="#stockcard">Download Stock Card (.XLSX)</button></div>
                         </div>
                     </div>
@@ -144,9 +146,9 @@
                                     <tr>
                                         <th>Transaction ID</th>
                                         <th>Date</th>
-                                        <th>Received</th>
-                                        <th>Issued</th>
-                                        <th>Balance</th>
+                                        <th>Type</th>
+                                        <th>Quantity</th>
+                                        <th>Batch Number</th>
                                         <th>Total Cost</th>
                                         <th>DR/SI/RIS/PTR/BL No.</th>
                                         <th>Recipient/Remarks</th>
@@ -158,9 +160,9 @@
                                     <tr class="text-center">
                                         <td class="text-center">{{$s->id}}</td>
                                         <td>{{date('m/d/Y h:i A', strtotime($s->created_at))}}</td>
-                                        <td class="text-success">{{($s->type == 'RECEIVED') ? '+ '.$s->getQtyAndType() : ''}}</td>
-                                        <td class="text-danger">{{($s->type == 'ISSUED') ? '- '.$s->getQtyAndType() : ''}}</td>
-                                        <td>{{$s->getBalance()}}</td>
+                                        <td>{{$s->type}}</td>
+                                        <td class="{{ ($s->getQtyType() == '+') ? 'text-success' : 'text-danger' }}">{{$s->getQtyType()}}{{$s->getTransactionAmount()}}</td>
+                                        <td>{{$s->substock->batch_number ?? NULL}}</td>
                                         <td>{{($s->total_cost) ? $s->total_cost : 'N/A'}}</td>
                                         <td>{{($s->drsi_number) ? $s->drsi_number : 'N/A'}}</td>
                                         <td>{{$s->getRecipientAndRemarks()}}</td>

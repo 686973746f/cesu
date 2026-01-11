@@ -1865,7 +1865,12 @@ class PharmacyController extends Controller
             ->orderBy('expiration_date', 'ASC')
             ->get();
 
-            $scard = PharmacyStockCard::where('subsupply_id', $item->id)
+            $scard = PharmacyStockCard::where(function ($q) use ($item) {
+                $q->where('subsupply_id', $item->id)
+                ->orWhereHas('substock.pharmacysub', function ($r) use ($item) {
+                    $r->where('id', $item->id);
+                });
+            })
             ->orderBy('created_at', 'DESC')
             ->paginate(10);
 
@@ -2015,105 +2020,48 @@ class PharmacyController extends Controller
 
         if($d->ifUserAuthorized()) {
             $d->expiration_date = $r->expiration_date;
-            $d->batch_number = $r->batch_number;
+
+            if($r->batch_number != $d->batch_number) {
+                $check = PharmacySupplySubStock::where('id', '!=', $d->id)
+                ->where('subsupply_id', $d->subsupply_id)
+                ->where('batch_number', mb_strtoupper($r->batch_number))
+                ->first();
+
+                if($check) {
+                    return redirect()->back()
+                    ->with('msg', 'Error: New Batch Number already exists for this Medicine.')
+                    ->with('msgtype', 'warning');
+                }
+            }
+
+            $d->batch_number = mb_strtoupper($r->batch_number);
             $d->stock_source = $r->stock_source;
             $d->source = $r->source;
+            if($r->source == 'OTHERS') {
+                $d->othersource_name = mb_strtoupper($r->othersource_name);
+            }
+            
             $d->lot_number = $r->lot_number;
             $d->updated_by = Auth::id();
 
-            if($d->pharmacysub->pharmacysupplymaster->quantity_type == 'BOX') {
-                $d->current_box_stock = $r->change_qty_box;
-                //$d->current_piece_stock = $r->change_qty_piece;
-                $d->current_piece_stock = ($r->change_qty_box * $d->pharmacysub->pharmacysupplymaster->config_piecePerBox);
-                //if($d->isDirty('current_box_stock')) {
-                    
-                //}
+            if($r->adjust_stock == 'Y' && $d->current_piece_stock != $r->adjustment_qty) {
+                $tsc = PharmacyStockCard::create([
+                    'stock_id' => $d->id,
+                    'status' => 'APPROVED',
+                    'type' => 'ADJUSTMENT',
+                    'before_qty_piece' => $d->current_piece_stock,
+                    'qty_to_process' => $r->adjustment_qty,
+                    'after_qty_piece' => $r->adjustment_qty,
+                    'remarks' => $r->remarks,
 
-                $d->save();
+                    'created_by' => Auth::id(),
+                ]);
 
-                $sb = PharmacySupplySub::findOrFail($d->pharmacysub->id);
-
-                
-                //if($d->getOriginal('current_box_stock') > $r->change_qty_box) {
-                //    $sb->master_box_stock -= ($d->getOriginal('current_box_stock') - $r->change_qty_box);
-                //    $sb->master_piece_stock -= ($d->getOriginal('current_box_stock') - $r->change_qty_box) * $sb->pharmacysupplymaster->config_piecePerBox;
-                //}
-                //else {
-                //    $sb->master_box_stock += ($r->change_qty_box - $d->getOriginal('current_box_stock'));
-                //    $sb->master_piece_stock += ($d->getOriginal('current_box_stock') - $r->change_qty_box) * $sb->pharmacysupplymaster->config_piecePerBox;
-                //}
-
-                //if($sb->isDirty()) {
-                //    $sb->save();
-                //}
-
-                //Re-compute SubItem Box and Pieces
-                $substock_list = PharmacySupplySubStock::where('subsupply_id', $sb->id)->where('is_expired', 'N')->get();
-                
-                $final_box_stock = 0;
-                foreach($substock_list as $ss) {
-                    $final_box_stock += $ss->current_box_stock;
-                }
-
-                $sb->master_box_stock = $final_box_stock;
-                $sb->master_piece_stock = $final_box_stock * $d->pharmacysub->pharmacysupplymaster->config_piecePerBox;
-
-                if($sb->isDirty()) {
-                    $sb->save();
-                }
-
-                //if($d->isDirty('current_piece_stock')) {
-                //    $sb = PharmacySupplySub::findOrFail($d->pharmacysub->id);
-                //
-                //    if($d->getOriginal('current_piece_stock') > $r->change_qty_piece) {
-                //        $piece_multiplier = ($d->getOriginal('current_piece_stock') - $r->change_qty_piece) * $d->pharmacysupplymaster->config_piecePerBox;
-                //        
-                //        $sb->master_piece_stock -= ($d->getOriginal('current_piece_stock') - $r->change_qty_piece);
-                //    }
-                //    else {
-                //        $sb->master_piece_stock += ($r->change_qty_piece - $d->getOriginal('current_piece_stock'));
-                //    }
-                //
-                //    if($sb->isDirty()) {
-                //        $sb->save();
-                //    }
-                //}
+                $d->current_piece_stock = $r->adjustment_qty;
             }
-            else {
-                $d->current_piece_stock = $r->change_qty_piece;
 
-                //if($d->isDirty('current_piece_stock')) {
-                //    
-                //}
-
+            if($d->isDirty()) {
                 $d->save();
-                    
-                $sb = PharmacySupplySub::findOrFail($d->pharmacysub->id);
-
-                //if($d->getOriginal('current_piece_stock') > $r->change_qty_piece) {
-                //    $sb->pharmacysub->master_piece_stock -= ($d->getOriginal('current_piece_stock') - $r->change_qty_piece);
-                //}
-                //else {
-                //    $sb->pharmacysub->master_piece_stock += ($r->change_qty_piece - $d->getOriginal('current_piece_stock'));
-                //}
-
-                //if($sb->isDirty()) {
-                //    $sb->save();
-                //}
-
-                //Re-compute SubItem Pieces
-                $substock_list = PharmacySupplySubStock::where('subsupply_id', $sb->id)->where('is_expired', 'N')->get();
-                
-                $final_piece_stock = 0;
-                foreach($substock_list as $ss) {
-                    $final_piece_stock += $ss->current_piece_stock;
-                }
-
-                $sb->master_piece_stock = $final_piece_stock;
-
-                if($sb->isDirty()) {
-                    $sb->save();
-                }
             }
 
             return redirect()->route('pharmacy_itemlist_viewitem', $d->pharmacysub->id)

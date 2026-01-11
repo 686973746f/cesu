@@ -48,7 +48,12 @@
                                 <option value="" disabled {{(is_null(old('source', $d->source))) ? 'selected' : ''}}>Choose...</option>
                                 <option value="LGU" {{(old('source', $d->source) == 'LGU') ? 'selected' : ''}}>LGU</option>
                                 <option value="DOH" {{(old('source', $d->source) == 'DOH') ? 'selected' : ''}}>DOH</option>
+                                <option value="OTHERS" {{(old('source', $d->source) == 'OTHERS') ? 'selected' : ''}}>OTHERS</option>
                             </select>
+                        </div>
+                        <div class="form-group d-none" id="othersource_div">
+                            <label for="othersource_name"><b class="text-danger">*</b>Input Other Source</label>
+                            <input type="text" class="form-control" name="othersource_name" id="othersource_name" style="text-transform: uppercase;" value="{{old('batch_number')}}">
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -59,37 +64,66 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="batch_number">Batch Number</label>
-                            <input type="text" class="form-control" name="batch_number" id="batch_number" value="{{old('batch_number', $d->batch_number)}}">
+                            <label for="batch_number"><b class="text-danger">*</b>Batch Number</label>
+                            <input type="text" class="form-control" name="batch_number" id="batch_number" value="{{old('batch_number', $d->batch_number)}}" style="text-transform: uppercase" required>
                         </div>
                     </div>
                 </div>
-                @if($d->pharmacysub->pharmacysupplymaster->quantity_type == 'BOX')
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="change_qty_box">Current Quantity (in Box)</label>
-                            <input type="number" class="form-control" name="change_qty_box" id="change_qty_box" value="{{old('change_qty_box', $d->current_box_stock)}}" required>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="change_qty_piece">Current Quantity (in Piece/s)</label>
-                            <input type="number" class="form-control" name="change_qty_piece" id="change_qty_piece" value="{{old('change_qty_piece', $d->current_piece_stock)}}" readonly>
-                        </div>
-                    </div>
-                </div>
-                @else
                 <div class="form-group">
-                  <label for="change_qty_piece">Current Quantity (in Piece/s)</label>
-                  <input type="number" class="form-control" name="change_qty_piece" id="change_qty_piece" value="{{old('change_qty_piece', $d->current_piece_stock)}}" required>
+                  <label for="display_qty">Current Quantity (in Piece/s)</label>
+                  <input type="number" class="form-control" name="display_qty" id="display_qty" value="{{$d->current_piece_stock}}" disabled>
                 </div>
-                @endif
+                <div class="form-group">
+                  <label for="adjust_stock"><b class="text-danger">*</b>Adjust Stock?</label>
+                  <select class="form-control" name="adjust_stock" id="adjust_stock" required>
+                    <option value="N" {{(old('adjust_stock') == 'N') ? 'selected' : ''}}>No</option>
+                    <option value="Y" {{(old('adjust_stock') == 'Y') ? 'selected' : ''}}>Yes</option>
+                  </select>
+                </div>
+                <div id="adjustment_div" class="d-none">
+                    <hr>
+                    <div class="form-group">
+                        <label for="adjustment_qty"><b class="text-danger">*</b>Adjust Quantity to (in Piece/s)</label>
+                        <input type="number" class="form-control" name="adjustment_qty" id="adjustment_qty" value="{{old('adjustment_qty', $d->current_piece_stock)}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="adjustment_reason"><b class="text-danger">*</b>Reason for Adjustment (Required)</label>
+                        <textarea class="form-control" name="adjustment_reason" id="adjustment_reason" rows="3">{{old('adjustment_reason')}}</textarea>
+                    </div>
+                </div>
             </div>
             <div class="card-footer">
-                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                <button type="submit" class="btn btn-success btn-block">Save</button>
             </div>
         </div>
     </form>
 </div>
+
+<script>
+    $('#adjust_stock').change(function (e) { 
+        e.preventDefault();
+
+        $('#adjustment_div').addClass('d-none');
+        $('#adjustment_qty').prop('required', false);
+        $('#adjustment_reason').prop('required', false);
+
+        if($(this).val() == 'Y') {
+            $('#adjustment_div').removeClass('d-none');
+            $('#adjustment_qty').prop('required', true);
+            $('#adjustment_reason').prop('required', true);
+        }
+    }).trigger('change');
+
+    $('#source').change(function (e) { 
+        e.preventDefault();
+        if($(this).val() == 'OTHERS') {
+            $('#othersource_div').removeClass('d-none');
+            $('#othersource_name').prop('required', true);
+        }
+        else {
+            $('#othersource_div').addClass('d-none');
+            $('#othersource_name').prop('required', false);
+        }
+    }).trigger('change');
+</script>
 @endsection
