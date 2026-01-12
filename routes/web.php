@@ -367,6 +367,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel2']
 //PIDSR
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessPidsr']], function() {
     Route::get('/pidsr', [PIDSRController::class, 'home'])->name('pidsr.home');
+    Route::post('/pidsr/initialize_mw', [PIDSRController::class, 'initializeMwCalendar'])->name('pidsr_initializemwcalendar');
     Route::get('/pidsr/threshold', [PIDSRController::class, 'threshold_index'])->name('pidsr.threshold');
     Route::get('/pidsr/import', [PIDSRController::class, 'import_start'])->name('pidsr.import');
     Route::post('/pidsr/daily_merge', [PIDSRController::class, 'dailyMergeProcess'])->name('pidsr_dailymerge_start');
