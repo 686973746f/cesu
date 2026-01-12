@@ -9618,11 +9618,16 @@ class PIDSRController extends Controller
 
         if(request()->input('year')) {
             $year = request()->input('year');
-            $maxweek = 52;
+
+            $current_mw = MorbidityWeekCalendar::where('year', $year)->max('mw');
+            
+            $maxweek = $current_mw;
         }
         else {
-            $year = date('Y');
-            $maxweek = date('W') - 1;
+            $current_mw = $this->getMonitoringMw()->getPreviousWeek();
+            
+            $year = $current_mw->year;
+            $maxweek = $current_mw->mw;
         }
         
         $final_array = [];

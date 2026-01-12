@@ -16,7 +16,7 @@ class CreateMorbidityWeekCalendarsTable extends Migration
         Schema::create('morbidity_week_calendars', function (Blueprint $table) {
             $table->id();
             $table->string('year');
-            $table->string('mw');
+            $table->integer('mw');
             $table->date('start_date');
             $table->date('end_date');
             $table->timestamps();
