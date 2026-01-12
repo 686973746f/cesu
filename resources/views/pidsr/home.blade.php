@@ -438,10 +438,10 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="year"><b class="text-danger">*</b>Year</label>
-                        <input type="text" class="form-control" name="year" id="year" value="{{ date('Y') }}" {{ (!request()->input('trigger_mwcalendar')) ? 'readonly' : '' }} required>
+                        <input type="number" class="form-control" name="year" id="year" value="{{ date('Y') }}" {{ (!request()->input('trigger_mwcalendar')) ? 'readonly' : '' }} max="{{ date('Y') }}" required>
                     </div>
                     <div class="form-group">
-                        <label for="start_date"><b class="text-danger">*</b>Start Date (Sunday)</label>
+                        <label for="start_date"><b class="text-danger">*</b>Start Date</label>
                         <input type="date" class="form-control" name="start_date" id="start_date" value="{{ date('Y') }}" required>
                     </div>
                 </div>

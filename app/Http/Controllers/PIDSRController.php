@@ -12930,24 +12930,36 @@ class PIDSRController extends Controller
         $reached_nextyear = false;
 
         $mw = 1;
+
         $start_date = Carbon::parse($r->start_date);
+        $start_year = Carbon::parse($r->start_date)->year;
 
         while(!$reached_nextyear) {
-            $end_date = $start_date->copy()->addDays(6);
+            if(!$start_date->isSunday()) {
+                $end_date = $start_date->copy()->next(Carbon::SATURDAY);
+            }
+            else {
+                $end_date = $start_date->copy()->addDays(6);
+            }
 
             $c = MorbidityWeekCalendar::create([
-                'year' => date('Y'),
+                'year' => $r->year,
                 'mw' => $mw,
-                'start_date' => $start_date,
-                'end_date' => $end_date,
+                'start_date' => $start_date->format('Y-m-d'),
+                'end_date' => $end_date->format('Y-m-d'),
             ]);
 
-            if($end_date->year === Carbon::now()->addYear(1)->year) {
+            if($end_date->year === $start_year + 1) {
                 $reached_nextyear = true;
             }
 
             $mw++;
-            $start_date->addDays(7);
+            if(!$start_date->isSunday()) {
+                $start_date->next(Carbon::SUNDAY);
+            }
+            else {
+                $start_date->addDays(7);
+            }
         }
 
         return redirect()->back()
