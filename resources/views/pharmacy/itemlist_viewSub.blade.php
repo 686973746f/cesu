@@ -206,6 +206,7 @@
                                                     </div>
                                                     @else
                                                     <form action="{{ route('pharmacy_undo_transaction', $s->id) }}" method="POST">
+                                                        @csrf
                                                         <button type="submit" class="btn btn-block btn-warning" onclick="return confirm('Are you sure you want to reverse this transaction? Click OK to Confirm.')">Undo/Reverse Transaction</button>
                                                     </form>
                                                     @endif

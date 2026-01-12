@@ -12015,6 +12015,7 @@ class PIDSRController extends Controller
         $current_date = Carbon::now();
         
         if(request()->input('mw') && request()->input('year')) {
+            //Previous Years
             $input_mw = request()->input('mw');
             $input_year = request()->input('year');
 
@@ -12031,13 +12032,23 @@ class PIDSRController extends Controller
                 ->where('mw', $input_mw)
                 ->first();
             }
+
+            $s_type = 'LATE';
         }
         else {
+            //Current Year
             //Get Current MW Period then subtract to 1
             $current_mw = $this->getMonitoringMw()->getPreviousWeek();
 
             $input_year = $current_mw->year;
             $input_mw = $current_mw->mw;
+
+            if($current_date->dayOfWeek == Carbon::MONDAY) {
+                $s_type = 'CURRENT_WEEK';
+            }
+            else {
+                $s_type = 'LATE_CURRENT_WEEK';
+            }
         }
 
         if($input_year != date('Y')) {
@@ -12047,8 +12058,6 @@ class PIDSRController extends Controller
         else {
             $maxWeek = $input_mw;
         }
-        
-        $s_type = EdcsWeeklySubmissionChecker::getSubmissionType();
 
         $f = DohFacility::where('sys_code1', $facility_code)->first();
 
@@ -12065,7 +12074,7 @@ class PIDSRController extends Controller
             $d = new EdcsWeeklySubmissionChecker();
         }
 
-        $g_type = EdcsWeeklySubmissionChecker::getAlreadySubmittedType($facility_code);
+        $g_type = EdcsWeeklySubmissionChecker::getAlreadySubmittedType($facility_code, $input_year, $input_mw);
 
         //Fetch Weekly Submission Data
         $week_array = [];

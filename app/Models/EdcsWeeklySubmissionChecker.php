@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\PIDSRController;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -46,6 +47,7 @@ class EdcsWeeklySubmissionChecker extends Model
         'excel_file',
     ];
 
+    /*
     public static function getSubmissionType() {
         if(request()->input('mw') && request()->input('year')) {
             $input_mw = request()->input('mw');
@@ -74,16 +76,6 @@ class EdcsWeeklySubmissionChecker extends Model
                     return 'CURRENT_WEEK';
                 }
                 else {
-                    /*
-                    if($currentDay->dayOfWeek == 0) {
-                        return 'EARLY_CURRENT_WEEK';
-                        //return 'CURRENT_WEEK';
-                    }
-                    else {
-                        
-                    }
-                    */
-
                     return 'LATE_CURRENT_WEEK';
                 }
             }
@@ -108,9 +100,10 @@ class EdcsWeeklySubmissionChecker extends Model
             }
         }
     }
+    */
 
     public function getAlreadySubmittedTypeFunction() {
-        if(Carbon::now()->setISODate($this->year, $this->week)->addWeek(1)->isSameDay(Carbon::parse($this->created_at))) {
+        if(Carbon::now()->setISODate($this->year, $this->week)->isSameDay(Carbon::parse($this->created_at))) {
             return 'SUBMITTED_ONTIME';
         }
         else {
@@ -152,27 +145,9 @@ class EdcsWeeklySubmissionChecker extends Model
         }
     }
 
-    public static function getAlreadySubmittedType($facility_code) {
+    public static function getAlreadySubmittedType($facility_code, $input_year, $input_mw) {
         $f = DohFacility::where('sys_code1', $facility_code)->first();
-
-        if(request()->input('mw') && request()->input('year')) {
-            $input_mw = request()->input('mw');
-            $input_year = request()->input('year');
-        }
-        else {
-            if(date('W') == 02) {
-                $currentDay = Carbon::now();
-
-                $input_mw = $currentDay->clone()->subWeek(1)->week;
-                $input_year = $currentDay->clone()->subDay(1)->format('Y');
-            }
-            else {
-                $currentDay =  Carbon::now()->subWeek(1);
-
-                $input_mw = $currentDay->week;
-                $input_year = $currentDay->format('Y');
-            }
-        }
+        $current_date = Carbon::now();
 
         $d = EdcsWeeklySubmissionChecker::where('facility_name', $f->facility_name)
         ->where('year', $input_year)
