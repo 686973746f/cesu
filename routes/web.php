@@ -869,7 +869,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
 });
 
 Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessPharmacy', 'canAccessPharmacyMasterAdmin']], function() {
-    Route::get('/pharmacy/switch', [PharmacyController::class, 'switchPharmacy'])->name('switch_pharmacy');
+    Route::post('/pharmacy/switch', [PharmacyController::class, 'switchPharmacy'])->name('switch_pharmacy');
 });
 
 

@@ -91,6 +91,26 @@ class PharmacyController extends Controller
         ]);
     }
 
+    public function switchPharmacy(Request $r) {
+        $validated = $r->validate([
+            'pharmacy_branch_id' => [
+                'required',
+                'integer',
+                'exists:pharmacy_branches,id',
+            ],
+        ]);
+
+        $user = auth()->user();
+
+        $user->update([
+            'pharmacy_branch_id' => $validated['pharmacy_branch_id'],
+        ]);
+
+        return redirect()->back()
+        ->with('msg', 'Switched to '.auth()->user()->pharmacybranch->name.' successfully.')
+        ->with('msgtype', 'success');
+    }
+
     public function listMedsByFacility(Request $r) {
         $facilityId = $r->user()->pharmacy_branch_id;
 

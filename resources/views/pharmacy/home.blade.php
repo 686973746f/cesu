@@ -9,27 +9,6 @@
                 <a href="{{route('pharmacy_pending_transaction_view')}}" class="btn btn-warning">Pending Transactions</a>
                 @if(auth()->user()->isPharmacyMasterAdmin())
                 <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#switchPharmacy">Switch Pharmacy</button>
-
-                <form action="{{ route('switch_pharmacy') }}" method="POST">
-                    <div class="modal fade" id="switchPharmacy" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Switch Pharmacy</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                </div>
-                                <div class="modal-body">
-
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-success btn-block">Submit</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
                 @endif
                 @endif
             </div>
@@ -186,6 +165,39 @@
             </div>
         </div>
     </div>
+
+    <form action="{{ route('switch_pharmacy') }}" method="POST">
+        @csrf
+        <div class="modal fade" id="switchPharmacy" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Switch Pharmacy</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="change_branch_div">
+                            <div class="form-group">
+                                <label for="pharmacy_branch_id"><b class="text-danger">*</b>Select Branch to Switch</label>
+                                <select class="form-control" name="pharmacy_branch_id" id="pharmacy_branch_id" required>
+                                  <option value="" disabled {{(is_null(old('pharmacy_branch_id'))) ? 'selected' : ''}}>Choose...</option>
+                                  @foreach($branch_list as $br)
+                                  <option value="{{$br->id}}">{{$br->name}}</option>
+                                  @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success btn-block">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 
     <form action="{{ route('pharmacy_processtransactionv2') }}" method="POST">
         @csrf
@@ -372,6 +384,11 @@
         $("#nt_tr_branch_id").select2({
             theme: 'bootstrap',
             dropdownParent: $('#transfer_branch_div'),
+        });
+
+        $("#pharmacy_branch_id").select2({
+            theme: 'bootstrap',
+            dropdownParent: $('#change_branch_div'),
         });
 
         function getUrlParam(name) {
