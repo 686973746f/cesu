@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\DohFacility;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\PIDSRController;
 use App\Mail\EdcsWeeklySubmissionReminderMail;
 
 class EdcsSubmissionReminderEmailWeekly extends Command
@@ -51,6 +52,8 @@ class EdcsSubmissionReminderEmailWeekly extends Command
         $email_arr[] = 'cjh687332@gmail.com';
         $email_arr[] = 'cesu.gentrias@gmail.com';
 
-        Mail::to($email_arr)->send(new EdcsWeeklySubmissionReminderMail());
+        $currentMw = PIDSRController::getMonitoringMw()->getPreviousWeek();
+        
+        Mail::to($email_arr)->send(new EdcsWeeklySubmissionReminderMail($currentMw->year, $currentMw->mw));
     }
 }
