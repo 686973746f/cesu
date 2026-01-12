@@ -12029,13 +12029,10 @@ class PIDSRController extends Controller
         }
         else {
             //Get Current MW Period then subtract to 1
-            $current_mw = MorbidityWeekCalendar::where('year', $current_date->year)
-            ->whereDate('start_date', '<=', $current_date->format('Y-m-d'))
-            ->whereDate('end_date', '>=', $current_date->format('Y-m-d'))
-            ->first();
+            $current_mw = $this->getMonitoringMw()->getPreviousWeek();
 
-            $input_mw = $current_mw->mw - 1;
-            $input_year = $current_date->year;
+            $input_year = $current_mw->year;
+            $input_mw = $current_mw->mw;
         }
 
         if($input_year != date('Y')) {

@@ -16,4 +16,8 @@ class MorbidityWeekCalendar extends Model
         'start_date',
         'end_date',
     ];
+
+    public function getPreviousWeek() {
+        return MorbidityWeekCalendar::findOrFail($this->id - 1);
+    }
 }
