@@ -438,7 +438,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="year"><b class="text-danger">*</b>Year</label>
-                        <input type="text" class="form-control" name="year" id="year" value="{{ date('Y') }}" readonly>
+                        <input type="text" class="form-control" name="year" id="year" value="{{ date('Y') }}" {{ (!request()->input('trigger_mwcalendar')) ? 'readonly' : '' }} required>
                     </div>
                     <div class="form-group">
                         <label for="start_date"><b class="text-danger">*</b>Start Date (Sunday)</label>
@@ -605,7 +605,7 @@
 </form>
 
 <script>
-    @if(!$init_mw)
+    @if(!$init_mw || request()->input('trigger_mwcalendar'))
     $('#initializeMwCalendar').modal({backdrop: 'static', keyboard: false});
     $('#initializeMwCalendar').modal('show');
     @endif

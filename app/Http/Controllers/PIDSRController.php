@@ -11991,30 +11991,28 @@ class PIDSRController extends Controller
     }
 
     public function facilityWeeklySubmissionViewer($facility_code) {
+        $current_date = Carbon::now();
+        
         if(request()->input('mw') && request()->input('year')) {
             $input_mw = request()->input('mw');
             $input_year = request()->input('year');
         }
         else {
-            if(date('W') == 02) {
-                $currentDay = Carbon::now();
+            //Get Current MW Period then subtract to 1
+            $current_mw = MorbidityWeekCalendar::where('year', $current_date->year)
+            ->whereDate('start_date', '<=', $current_date->format('Y-m-d'))
+            ->whereDate('end_date', '>=', $current_date->format('Y-m-d'))
+            ->first();
 
-                $input_mw = $currentDay->clone()->subWeek(1)->week;
-                $input_year = $currentDay->clone()->subDay(1)->format('Y');
-            }
-            else {
-                $currentDay =  Carbon::now()->subWeek(1);
-
-                $input_mw = $currentDay->week;
-                $input_year = $currentDay->format('Y');
-            }
+            $input_mw = $current_mw->mw - 1;
+            $input_year = $current_date->year;
         }
 
         if($input_year != date('Y')) {
             $maxWeek = 52;
         }
         else {
-            $maxWeek = Carbon::now()->week;
+            $maxWeek = $input_mw;
         }
         
         $s_type = EdcsWeeklySubmissionChecker::getSubmissionType();
