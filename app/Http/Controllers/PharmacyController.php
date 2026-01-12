@@ -778,13 +778,15 @@ class PharmacyController extends Controller
                 }
                 else {
                     if($sc->qty_to_process <= $subsupply->master_piece_stock) {
-                        $subsupply->master_piece_stock -= $sc->qty_to_process;
+                        //$subsupply->master_piece_stock -= $sc->qty_to_process;
 
+                        /*
                         if($subsupply->pharmacysupplymaster->quantity_type == 'BOX') {
                             while(($subsupply->master_box_stock * $subsupply->pharmacysupplymaster->config_piecePerBox) > $subsupply->master_piece_stock) {
                                 $subsupply->master_box_stock--;
                             }
                         }
+                        */
 
                         $qty_remaining = $sc->qty_to_process;
 
@@ -797,29 +799,53 @@ class PharmacyController extends Controller
                         foreach($substock_search as $substock) {
                             if($qty_remaining > 0) {
                                 if($qty_remaining <= $substock->current_piece_stock) {
-                                    $substock->current_piece_stock -= $qty_remaining;
+                                    //$substock->current_piece_stock -= $qty_remaining;
 
+                                    /*
                                     if($substock->pharmacysub->pharmacysupplymaster->quantity_type == 'BOX') {
                                         while(($substock->current_box_stock * $substock->pharmacysub->pharmacysupplymaster->config_piecePerBox) > $substock->current_piece_stock) {
                                             $substock->current_box_stock--;
                                         }
                                     }
+                                    */
 
                                     $qty_remaining = 0;
                                 }
                                 else {
-                                    $substock->current_piece_stock = 0;
+                                    //$substock->current_piece_stock = 0;
 
+                                    /*
                                     if($substock->pharmacysub->pharmacysupplymaster->quantity_type == 'BOX') {
                                         $substock->current_box_stock = 0;
                                     }
+                                    */
 
-                                    $qty_remaining -= ($qty_remaining - $substock->getOriginal('current_box_stock'));
+                                    $qty_remaining -= ($qty_remaining - $substock->getOriginal('current_piece_stock'));
                                 }
 
+                                //Make Stock Card on Every Batch Number Used
+                                $tsc = $r->user()->pharmacystockcard()->create([
+                                    'stock_id' => $substock->id,
+                                    'type' => 'ISSUED',
+                                    'status' => 'PENDING',
+                                    //'before_qty_piece' => $substock->getOriginal('current_piece_stock'),
+                                    'qty_to_process' => $sc->qty_to_process,
+                                    //'after_qty_piece' => $substock->current_piece_stock,
+                
+                                    'receiving_patient_id' => $d->id,
+                                    'patient_age_years' => $d->getAgeInt(),
+                                    'patient_prescription_id' => $d->getLatestPrescription()->id,
+                
+                                    'sentby_branch_id' => auth()->user()->pharmacy_branch_id,
+                                ]);
+
+                                $this->performTransaction($tsc->id);
+
+                                /*
                                 if($substock->isDirty()) {
                                     $substock->save();
                                 }
+                                */
                             }
                         }
 
@@ -844,7 +870,7 @@ class PharmacyController extends Controller
                     }
                 }
 
-                //make stock card
+                /*
                 $r->user()->pharmacystockcard()->create([
                     'subsupply_id' => $subsupply->id,
                     'type' => 'ISSUED',
@@ -861,6 +887,7 @@ class PharmacyController extends Controller
 
                     'sentby_branch_id' => auth()->user()->pharmacy_branch_id,
                 ]);
+                */
 
                 if($subsupply->isDirty()) {
                     $subsupply->save();
@@ -2230,45 +2257,73 @@ class PharmacyController extends Controller
 
     public static function performTransaction($stockcard_id) {
         //Perform Pending Transaction
-        $d = PharmacyStockCard::findOrFail($stockcard_id);
-        
-        if($d->status == 'PENDING') {
-            $substock = PharmacySupplySubStock::findOrFail($d->stock_id);
+        DB::transaction(function () use ($stockcard_id) {
+            $d = PharmacyStockCard::lockForUpdate()->findOrFail($stockcard_id);
+
+            if ($d->status !== 'PENDING') {
+                return;
+            }
+
+            $substock = $d->substock;
             $d->before_qty_piece = $substock->current_piece_stock;
-            if($d->type == 'ADJUSTMENT') {
+
+            if($d->type === 'ADJUSTMENT') {
                 $substock->current_piece_stock = $d->qty_to_process;
-
-                if($substock->isDirty()) {
-                    $substock->updated_by = $d->created_by;
-                    $substock->save();
-                }
+                $d->after_qty_piece = $d->qty_to_process;
             }
-            else if ($d->type == 'REVERSAL') {
+            else if ($d->type === 'REVERSAL') {
 
             }
-            else if($d->type == 'ISSUED') {
-                dd('Wait lang tinatapos pa.');
+            else if($d->type === 'ISSUED') {
                 //SUBTRACT
+                
                 //Check first if there is enough amount
+                if($d->qty_to_process > $substock->current_piece_stock) {
+                    //Can't process, kinulang sa existing stocks
+                    throw new \Exception('Insufficient stock');
+                }
+
                 $d->after_qty_piece = $d->before_qty_piece - $d->qty_to_process;
+                $substock->current_piece_stock = $d->after_qty_piece;
 
                 //Receive the Stock to the Facility
-                //Locate the Stock ID of the Facility First
 
-                $transfer_tsc = PharmacyStockCard::create([
-                    'stock_id' => '123',
-                    'status' => 'PENDING',
-                    'type' => 'RECEIVED',
+                if(!is_null($d->receiving_branch_id)) {
+                    //Proceed to Facility Transfer
+                    
+                    //Locate the Stock ID of the Facility First
+                    $destSubSupply = PharmacySupplySub::where(
+                        'supply_master_id',
+                        $d->substock->pharmacysub->pharmacysupplymaster->id
+                    )
+                    ->where('pharmacy_branch_id', $d->receiving_branch_id)
+                    ->firstOrFail();
 
-                    'received_from_stc_id' => $d->id,
-                ]);
+                    $destSubStock = PharmacySupplySubStock::firstOrCreate(
+                        [
+                            'subsupply_id'   => $destSubSupply->id,
+                            'batch_number'   => $substock->batch_number,
+                            'stock_source'   => $substock->stock_source,
+                        ],
+                        [
+                            'expiration_date' => $substock->expiration_date,
+                            'current_piece_stock' => 0,
+                            'source'              => $substock->source,
+                            'othersource_name'    => $substock->othersource_name,
+                            'created_by'          => auth()->id(),
+                        ]
+                    );
 
-                //Reflect on the Substock
-                $substock->current_piece_stock = $substock->current_piece_stock - $d->qty_to_process;
-
-                if($substock->isDirty()) {
-                    $substock->updated_by = $d->created_by;
-                    $substock->save();
+                    $transfer_tsc = PharmacyStockCard::create([
+                        'stock_id' => $destSubStock->id,
+                        'type' => 'RECEIVED',
+                        'status' => 'PENDING',
+                        
+                        'qty_to_process' => $d->qty_to_process,
+                        'received_from_stc_id' => $d->id,
+                        
+                        'created_by' => auth()->id(),
+                    ]);
                 }
             }
             else if($d->type == 'RECEIVED') {
@@ -2278,29 +2333,25 @@ class PharmacyController extends Controller
                 //Reflect on the Substock
                 $substock->current_piece_stock = $substock->current_piece_stock + $d->qty_to_process;
             }
-            
-            //Recompute Grand Total of Sub Medicine
-            if($substock->isDirty()) {
-                $substock->updated_by = $d->created_by;
-                $substock->save();
-            }
 
-            $new_stock_grandtotal = PharmacySupplySubStock::where('subsupply_id', $substock->subsupply_id)
+            $substock->updated_by = $d->created_by;
+            $substock->save();
+
+            $subTotal = PharmacySupplySubStock::where('subsupply_id', $substock->subsupply_id)
             ->sum('current_piece_stock');
 
-            $supplysub_update = PharmacySupplySub::findOrFail($substock->subsupply_id);
-            $supplysub_update->master_piece_stock = $new_stock_grandtotal;
-            $supplysub_update->save();
+            PharmacySupplySub::where('id', $substock->subsupply_id)
+            ->update(['master_piece_stock' => $subTotal]);
 
             $d->status = 'APPROVED';
+            $d->processed_by = auth()->id();
+            $d->processed_at = now();
+            $d->save();
 
-            if($d->isDirty()) {
-                $d->processed_by = Auth::id();
-                $d->processed_at = date('Y-m-d H:i:s');
-
-                $d->save();
+            if($transfer_tsc ?? false) {
+                self::performTransaction($transfer_tsc->id);
             }
-        }
+        });
     }
 
     public function updateSubStock($id, Request $r) {

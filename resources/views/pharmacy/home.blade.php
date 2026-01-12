@@ -414,8 +414,11 @@
                 }
             });
 
-            
+            @if(session('nt_msg'))
+            $('#newTransaction').modal('show');
+            @endif
         });
+        
 
         $('#nt_substock_id').change(function (e) { 
             e.preventDefault();

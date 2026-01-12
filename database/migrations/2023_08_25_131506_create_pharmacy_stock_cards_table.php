@@ -18,7 +18,7 @@ class CreatePharmacyStockCardsTable extends Migration
             //$table->foreignId('subsupply_id')->constrained('pharmacy_supply_subs')->onDelete('cascade'); // Should be NULLABLE
 
             $table->foreignId('stock_id')->nullable()->constrained('pharmacy_supply_sub_stocks')->onDelete('cascade');
-            $table->string('status')->default('approved'); //PENDING, APPROVED
+            $table->string('status')->default('APPROVED'); //PENDING, APPROVED
             $table->string('type'); //RECEIVED, ISSUED, REVERSAL, ADJUSTMENT
             $table->foreignId('reversed_stock_card_id')
             ->nullable()
