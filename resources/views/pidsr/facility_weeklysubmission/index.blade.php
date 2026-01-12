@@ -21,27 +21,32 @@
                     @if($g_type == 'SUBMITTED_ONTIME')
                     <div class="alert alert-info" role="alert">
                         <div>Submission Status for <b>MW: {{$mw}} - Year: {{$year}}</b> = <b class="text-success">SUBMITTED</b></div>
+                        <div><h5><b>Period Covered:</b> {{$start_date->format('M d, Y')}} to {{$end_date->format('M d, Y')}}</h5></div>
                         <div>Thank you for complying and submitting on-time.</div>
                     </div>
                     @elseif($g_type == 'SUBMITTED_BUT_LATE')
                     <div class="alert alert-info" role="alert">
                         <div>Submission Status for <b>MW: {{$mw}} - Year: {{$year}}</b> = <b class="text-success">SUBMITTED (LATE)</b></div>
+                        <div><h5><b>Period Covered:</b> {{$start_date->format('M d, Y')}} to {{$end_date->format('M d, Y')}}</h5></div>
                         <div>We encourage to submit on-time on the next coming weeks of submission. Thank you.</div>
                     </div>
                     @elseif($g_type == 'AUTO_NO_SUBMISSION')
                     <div class="alert alert-info" role="alert">
                         <div>Submission Status for <b>MW: {{$mw}} - Year: {{$year}}</b> = <b class="text-danger">NO SUBMISSION</b></div>
+                        <div><h5><b>Period Covered:</b> {{$start_date->format('M d, Y')}} to {{$end_date->format('M d, Y')}}</h5></div>
                         <div>Please consolidate and submit now to waive the No Submission.</div>
                         <div><h5><b class="text-danger">TAKE NOTE:</b> If there is a reportable case/s discovered in your respective facility, please encode it all first in the EDCS-IS Website (<a href="https://pidsr.doh.gov.ph">https://pidsr.doh.gov.ph</a>) before proceeding. Submit today (Monday) to avoid being tagged as late submission.</h5></div>
                     </div>
                     @elseif($g_type == 'NOTYET_SUBMITTED_ONTIME')
                     <div class="alert alert-info" role="alert">
                         <div><h5>Submission Status for <b>MW: {{$mw}} - Year: {{$year}}</b> = <b class="text-danger">NOT YET SUBMITTED</b></h5></div>
+                        <div><h5><b>Period Covered:</b> {{$start_date->format('M d, Y')}} to {{$end_date->format('M d, Y')}}</h5></div>
                         <div><h5><b class="text-danger">TAKE NOTE:</b> If there is a reportable cases/s discovered in your respective facility, please encode it all first in the EDCS-IS Website (<a href="https://pidsr.doh.gov.ph">https://pidsr.doh.gov.ph</a>) before proceeding. Submit today (Monday) to avoid being tagged as late submission.</h5></div>
                     </div>
                     @elseif($g_type == 'EMPTY_LATE')
                     <div class="alert alert-info" role="alert">
                         <div><h5>Submission Status for MW: <b>MW: {{$mw}} - Year: {{$year}}</b> = <b class="text-danger">NOT YET SUBMITTED (FOR LATE SUBMISSION)</b></h5></div>
+                        <div><h5><b>Period Covered:</b> {{$start_date->format('M d, Y')}} to {{$end_date->format('M d, Y')}}</h5></div>
                         <div><h5><b class="text-danger">TAKE NOTE:</b> If there is a reportable case/s discovered in your respective facility, please encode it all first in the EDCS-IS Website (<a href="https://pidsr.doh.gov.ph">https://pidsr.doh.gov.ph</a>) before proceeding. This will be automatically tagged as LATE SUBMIT.</h5></div>
                     </div>
                     @endif
@@ -272,7 +277,7 @@
                         </div>
                         <div class="form-group">
                             <label for="mw"><b class="text-danger">*</b>Morbidity Week</label>
-                            <input type="number" class="form-control" name="mw" id="mw" min="1" max="52" value="{{(request()->input('mw')) ? request()->input('mw') : Carbon\Carbon::now()->subWeek(1)->week}}">
+                            <input type="number" class="form-control" name="mw" id="mw" min="1" max="53" value="{{(request()->input('mw')) ? request()->input('mw') : $mw}}">
                         </div>
                     </div>
                     <div class="modal-footer">

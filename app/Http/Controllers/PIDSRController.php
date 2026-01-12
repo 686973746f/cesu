@@ -11990,12 +11990,42 @@ class PIDSRController extends Controller
         }
     }
 
+    public static function getMonitoringMw() {
+        $current_date = Carbon::now();
+
+        $d = MorbidityWeekCalendar::where('year', $current_date->year)
+        ->whereDate('start_date', '<=', $current_date->format('Y-m-d'))
+        ->whereDate('end_date', '>=', $current_date->format('Y-m-d'))
+        ->first();
+
+        if(!$d) {
+            
+        }
+        else {
+            return $d;
+        }
+    }
+
     public function facilityWeeklySubmissionViewer($facility_code) {
         $current_date = Carbon::now();
         
         if(request()->input('mw') && request()->input('year')) {
             $input_mw = request()->input('mw');
             $input_year = request()->input('year');
+
+            if($input_year == $current_date->year && $input_mw >= $this->getMonitoringMw()->mw) {
+                return redirect()->route('edcs_facility_weeklysubmission_view', $facility_code)
+                ->with('msg', 'ERROR: You cannot encode on MW '.$input_mw.' Year '.$input_year.' yet because the period is still not over. We are currently monitoring at MW '.($this->getMonitoringMw()->mw - 1).' Year '.$this->getMonitoringMw()->year)
+                ->with('msgtype', 'warning');
+            }
+            else if($input_year > date('Y')) {
+                return abort(401);
+            }
+            else {
+                $current_mw = MorbidityWeekCalendar::where('year', $input_year)
+                ->where('mw', $input_mw)
+                ->first();
+            }
         }
         else {
             //Get Current MW Period then subtract to 1
@@ -12009,7 +12039,8 @@ class PIDSRController extends Controller
         }
 
         if($input_year != date('Y')) {
-            $maxWeek = 52;
+            $maxWeek = MorbidityWeekCalendar::where('year', $input_year)
+            ->max('mw');
         }
         else {
             $maxWeek = $input_mw;
@@ -12053,6 +12084,8 @@ class PIDSRController extends Controller
         return view('pidsr.facility_weeklysubmission.index', [
             'f' => $f,
             'mw' => $input_mw,
+            'start_date' => Carbon::parse($current_mw->start_date),
+            'end_date' => Carbon::parse($current_mw->end_date),
             'year' => $input_year,
             'd' => $d,
             's_type' => $s_type,
