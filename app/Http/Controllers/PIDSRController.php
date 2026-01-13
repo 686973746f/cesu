@@ -10218,8 +10218,8 @@ class PIDSRController extends Controller
                 
                 'EPIID' => 'DENGUE_MPSS_TEMP_'.mb_strtoupper(Str::random(10)),
                 'Icd10Code' => 'A90',
-                'MorbidityMonth' => $entry_date->format('n'),
-                'MorbidityWeek' => $entry_date->format('W'),
+                'MorbidityMonth' => $currentDate->format('n'),
+                'MorbidityWeek' => $currentDate->format('W'),
                 'Year' => $currentDate->format('Y'),
                 'AdmitToEntry' => $admitToEntry,
                 'OnsetToAdmit' => $OnsetToAdmit,
@@ -10322,6 +10322,13 @@ class PIDSRController extends Controller
                 ->with('msgtype', 'warning');
             }
 
+            $birthdate = Carbon::parse($r->bdate);
+            $currentDate = Carbon::parse($r->DOnset);
+
+            $get_ageyears = $birthdate->diffInYears($currentDate);
+            $get_agemonths = $birthdate->diffInMonths($currentDate);
+            $get_agedays = $birthdate->diffInDays($currentDate);
+
             $match_casedef = 0;
 
             //Check Match Case Def
@@ -10369,15 +10376,15 @@ class PIDSRController extends Controller
                 'DateOfEntry' => $r->entry_date,
                 'AdmitToEntry' => $admitToEntry,
                 'OnsetToAdmit' => $OnsetToAdmit,
-                'MorbidityMonth' => $entry_date->format('n'),
-                'MorbidityWeek' => $entry_date->format('W'),
                 'EPIID' => 'ILI_MPSS_TEMP_'.mb_strtoupper(Str::random(10)),
                 'ip' => $r->ip,
                 'ipgroup' => ($r->ip == 'Y') ? mb_strtoupper($r->ipgroup) : NULL,
                 //'RECSTATUS',
                 //'SentinelSite',
                 //'DeleteRecord',
-                'Year' => $entry_date->format('Y'),
+                'MorbidityMonth' => $currentDate->format('n'),
+                'MorbidityWeek' => $currentDate->format('W'),
+                'Year' => $currentDate->format('Y'),
                 'NameOfDru' => $f->facility_name,
                 //'District',
                 //'ILHZ',
@@ -10617,6 +10624,13 @@ class PIDSRController extends Controller
                 }
             }
 
+            $birthdate = Carbon::parse($r->bdate);
+            $currentDate = Carbon::parse($r->DOnset);
+
+            $get_ageyears = $birthdate->diffInYears($currentDate);
+            $get_agemonths = $birthdate->diffInMonths($currentDate);
+            $get_agedays = $birthdate->diffInDays($currentDate);
+
             $table_params = [
                 'RegionOfDrU' => $f->address_region,
                 'ProvOfDRU' => $f->address_province,
@@ -10681,8 +10695,6 @@ class PIDSRController extends Controller
                 'DateOfEntry' => $r->entry_date,
                 'AdmitToEntry' => $admitToEntry,
                 'OnsetToAdmit' => $OnsetToAdmit,
-                'MorbidityMonth' => $entry_date->format('n'),
-                'MorbidityWeek' => $entry_date->format('W'),
                 'EPIID' => 'MEASLES_MPSS_TEMP_'.mb_strtoupper(Str::random(10)),
                 //'ReportToInvestigation' => 
                 //'UniqueKey Index' => 
@@ -10727,7 +10739,9 @@ class PIDSRController extends Controller
                 'DCaseRep' => $r->entry_date,
                 'DCASEINV' => $r->edcs_investigateDate,
                 //'SentinelSite' => 
-                'Year' => $entry_date->format('Y'),
+                'MorbidityMonth' => $currentDate->format('n'),
+                'MorbidityWeek' => $currentDate->format('W'),
+                'Year' => $currentDate->format('Y'),
                 //'DeleteRecord' => 
                 //'WBRubellaIgM' => 
                 //'WBMeaslesIgM' => 
