@@ -130,7 +130,13 @@ class PidsrWndr extends Command
                 });
             });
             */
-            
+
+            $current_mw = PidsrController::getMonitoringMw()->getPreviousWeek();
+            $previous_mw = PidsrController::getMonitoringMw()->getPreviousWeek()->getPreviousWeek();
+            $sel_year = $current_mw->year;
+            $sel_week = $current_mw->mw;
+
+            /*
             if(date('W') == 01) {
                 $sel_year = date('Y') - 1;
                 $sel_week = 52;
@@ -143,6 +149,7 @@ class PidsrWndr extends Command
                 $sel_year = date('Y', strtotime('-1 Week'));
                 $sel_week = Carbon::now()->week - 1;
             }
+            */
 
             $afp = Afp::where('Province', 'CAVITE')
             ->where('Muncity', 'GENERAL TRIAS')
@@ -1795,17 +1802,17 @@ class PidsrWndr extends Command
             $sheet->setCellValue('S27', $sari_count);
 
             $sheet->setCellValue('F33', date('m/d/Y'));
-            $sheet->setCellValue('Y6', date('F d, Y').' MW'.date('W', strtotime('-1 Week')));
+            $sheet->setCellValue('Y6', date('F d, Y')." MW{$sel_week}");
 
             $writer = new Xlsx($spreadsheet);
-            $writer->save(public_path('EDCS_SUMMARY_GENERALTRIASCITY_MW'.date('W').'.xlsx'));
+            $writer->save(public_path("EDCS_SUMMARY_GENERALTRIASCITY_MW{$sel_week}_{$sel_year}.xlsx"));
 
             Mail::to(['cjh687332@gmail.com', 'cesu.gentrias@gmail.com', 'carlofloralde222@gmail.com',])->send(new PidsrWndrMail($list));
 
             //File::delete(public_path('PIDSR_GenTrias_MW'.date('W', strtotime('-2 Weeks')).'.pdf'));
             //File::delete(public_path('PIDSR_GenTrias_MW'.date('W', strtotime('-2 Weeks')).'.docx'));
             
-            File::delete(public_path('EDCS_SUMMARY_GENERALTRIASCITY_MW'.date('W', strtotime('-1 Week')).'.xlsx'));
+            File::delete(public_path("EDCS_SUMMARY_GENERALTRIASCITY_MW{$previous_mw->mw}_{$previous_mw->year}.xlsx"));
         }
         else {
             $s->pidsr_early_sent = 0;
