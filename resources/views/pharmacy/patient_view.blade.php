@@ -210,7 +210,13 @@
                             <tr class="text-center">
                                 <td class="text-center">{{$ind+1}}</td>
                                 <td>{{date('m/d/Y h:i A', strtotime($s->created_at))}}</td>
-                                <td>{{$s->pharmacysub->pharmacysupplymaster->name}}</td>
+                                <td>
+                                    @if($s->pharmacysub)
+                                    {{$s->pharmacysub->pharmacysupplymaster->name}}
+                                    @else
+                                    {{$s->substock->pharmacysub->pharmacysupplymaster->name}}
+                                    @endif
+                                </td>
                                 <td>{{($s->type == 'ISSUED') ? $s->getQtyAndType() : ''}}</td>
                                 <td>{{$s->pharmacysub->pharmacybranch->name}}</td>
                                 <td>{{$s->user->name}}</td>
