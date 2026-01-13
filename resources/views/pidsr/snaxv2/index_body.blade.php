@@ -517,7 +517,12 @@
                                 @endphp
                                 @endforeach
                                 @php
-                                $attack_rate_total = round(($lastyear_total/$population_total) * 1000, 2);
+                                if($population_total != 0) {
+                                    $attack_rate_total = round(($lastyear_total/$population_total) * 1000, 2);
+                                }
+                                else {
+                                    $attack_rate_total = 0;
+                                }
                                 @endphp
                                 <tfoot>
                                     <tr class="text-center">

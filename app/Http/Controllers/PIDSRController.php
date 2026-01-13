@@ -5692,7 +5692,7 @@ class PIDSRController extends Controller
                         });
                     })->first();
 
-                    $population = $population_query->population_actual_total ?: $population_query->population_estimate_total;
+                    $population = $population_query->population_actual_total ?? $population_query->population_estimate_total ?? 0;
                     
                     $brgy_total_cases_m = $modelClass::where('Year', $sel_year)
                     ->where('enabled', 1)
@@ -5713,8 +5713,12 @@ class PIDSRController extends Controller
                     $brgy_grand_total_cases = $brgy_total_cases_m + $brgy_total_cases_f;
 
                     //Attack Rate
-                    $attack_rate = round(($brgy_grand_total_cases / $population) * 1000, 2);
-
+                    if($population != 0) {
+                        $attack_rate = round(($brgy_grand_total_cases / $population) * 1000, 2);
+                    }
+                    else {
+                        $attack_rate = 0;
+                    }
                     /*
                     $brgy_grand_total_cases = $modelClass::where('Year', $sel_year)
                     ->where('enabled', 1)
