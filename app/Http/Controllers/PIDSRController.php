@@ -10168,6 +10168,7 @@ class PIDSRController extends Controller
             }
             else if($r->sys_outcome == 'DIED') {
                 $outcome = 'D';
+                $match_casedef = 1;
             }
             else if($r->sys_outcome == 'UNKNOWN') {
                 $outcome = 'U';
