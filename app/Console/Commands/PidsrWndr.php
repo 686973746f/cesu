@@ -1807,7 +1807,7 @@ class PidsrWndr extends Command
             $writer = new Xlsx($spreadsheet);
             $writer->save(public_path("EDCS_SUMMARY_GENERALTRIASCITY_MW{$sel_week}_{$sel_year}.xlsx"));
 
-            Mail::to(['cjh687332@gmail.com', 'cesu.gentrias@gmail.com', 'carlofloralde222@gmail.com',])->send(new PidsrWndrMail($list));
+            Mail::to(['cjh687332@gmail.com', 'cesu.gentrias@gmail.com', 'carlofloralde222@gmail.com',])->send(new PidsrWndrMail($list, $sel_year, $sel_week));
 
             //File::delete(public_path('PIDSR_GenTrias_MW'.date('W', strtotime('-2 Weeks')).'.pdf'));
             //File::delete(public_path('PIDSR_GenTrias_MW'.date('W', strtotime('-2 Weeks')).'.docx'));

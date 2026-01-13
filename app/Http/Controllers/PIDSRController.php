@@ -7223,16 +7223,9 @@ class PIDSRController extends Controller
     }
 
     public function weeklyMergeProcess(Request $r) {
-        if(Carbon::now()->week == 2) {
-            $year = date('Y');
-            $week = 1;
-        }
-        else {
-            $currentDay = Carbon::now()->subWeek(1);
-
-            $year = $currentDay->format('Y');
-            $week = $currentDay->week;
-        }
+        $current_mw = PidsrController::getMonitoringMw()->getPreviousWeek();
+        $year = $current_mw->year;
+        $week = $current_mw->mw;
 
         //Send Automated Email
         $check = EdcsWeeklySubmissionTrigger::where('year', $year)
