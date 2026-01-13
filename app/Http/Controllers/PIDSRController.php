@@ -10085,7 +10085,7 @@ class PIDSRController extends Controller
             }
 
             $birthdate = Carbon::parse($r->bdate);
-            $currentDate = Carbon::parse($r->entry_date);
+            $currentDate = Carbon::parse($r->DOnset);
 
             $get_ageyears = $birthdate->diffInYears($currentDate);
             $get_agemonths = $birthdate->diffInMonths($currentDate);
@@ -10219,7 +10219,7 @@ class PIDSRController extends Controller
                 'Icd10Code' => 'A90',
                 'MorbidityMonth' => $entry_date->format('n'),
                 'MorbidityWeek' => $entry_date->format('W'),
-                'Year' => $entry_date->format('Y'),
+                'Year' => $currentDate->format('Y'),
                 'AdmitToEntry' => $admitToEntry,
                 'OnsetToAdmit' => $OnsetToAdmit,
                 //'SentinelSite' => 'N',

@@ -282,14 +282,28 @@ class TaskController extends Controller
             'ics_finished_date' => date('Y-m-d H:i:s'),
             'ics_ticketstatus' => 'FINISHED',
             'ics_isforclaims' => ($abtcBakunaRecords->category_level == 3) ? 'Y' : 'N',
+
+            'ics_claims_status' => 'REQUEST_CLAIMED',
+            'ics_uploaded_by' => auth()->user()->id,
+            'ics_uploaded_date' => date('Y-m-d H:i:s'),
         ]);
 
-        $msg = 'ABTC Ticket #'.$abtcBakunaRecords->id.' was marked as done successfully. Please proceed to other OPEN Tickets.';
-        $msgtype = 'success';
+        if($abtcBakunaRecords->category_level == 3) {
+            $msg = 'ABTC Ticket #'.$abtcBakunaRecords->id.' marked as done. You may now upload the claims in iClinicSys -> Financial.';
+            $msgtype = 'success';
 
-        return redirect()->route('task_index')
-        ->with('msg', $msg)
-        ->with('msgtype', $msgtype);
+            return redirect()->route('abtc_financial_viewticket', $abtcBakunaRecords->id)
+            ->with('msg', $msg)
+            ->with('msgtype', $msgtype);
+        }
+        else {
+            $msg = 'ABTC Ticket #'.$abtcBakunaRecords->id.' marked as done. Please proceed to other OPEN Tickets.';
+            $msgtype = 'success';
+
+            return redirect()->route('task_index')
+            ->with('msg', $msg)
+            ->with('msgtype', $msgtype);
+        }
     }
 
     public function viewMoreTask() {
