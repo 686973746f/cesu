@@ -10659,7 +10659,7 @@ class PIDSRController extends Controller
                 'MVDose' => ($r->MeasVacc == 'Y' && !is_null($r->MVDose)) ? $r->MVDose : NULL,
                 'MRDose' => ($r->MeasVacc == 'Y' && !is_null($r->MRDose)) ? $r->MRDose : NULL,
                 'MMRDose' => ($r->MeasVacc == 'Y' && !is_null($r->MMRDose)) ? $r->MMRDose : NULL,
-                'LastVacc' => ($r->MeasVacc == 'Y' && !is_null($r->LastVacc)) ? $r->$r->LastVacc : NULL,
+                'LastVacc' => ($r->MeasVacc == 'Y' && !is_null($r->LastVacc)) ? $r->LastVacc : NULL,
                 'VaccValidated' => ($r->MeasVacc == 'Y' && !empty($r->VaccValidated)) ? implode(', ', $r->VaccValidated) : NULL,
                 'VaccValidatedOthers' => ($r->MeasVacc == 'Y' && in_array("OTHERS", $r->VaccValidated)) ? mb_strtoupper($r->VaccValidated) : NULL,
                 'ArthritisArthralgia' => ($r->has('ArthritisArthralgia')) ? 'Y' : 'N',
