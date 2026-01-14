@@ -218,7 +218,13 @@
                                     @endif
                                 </td>
                                 <td>{{($s->type == 'ISSUED') ? $s->getQtyAndType() : ''}}</td>
-                                <td>{{$s->pharmacysub->pharmacybranch->name}}</td>
+                                <td>
+                                    @if($s->pharmacysub)
+                                    {{$s->pharmacysub->pharmacybranch->name}}
+                                    @else
+                                    {{$s->substock->pharmacysub->pharmacybranch->name}}
+                                    @endif
+                                </td>
                                 <td>{{$s->user->name}}</td>
                             </tr>
                             @endforeach
