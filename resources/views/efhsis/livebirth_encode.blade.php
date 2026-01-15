@@ -10,7 +10,7 @@
                 <div class="card-header">
                     <div class="d-flex justify-content-between">
                         <div><b>Encode Livebirths (LCR)</b></div>
-                        <div><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeMonth">Change Encoding Period</button></div>
+                        <div><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#liveBirthModal">Change Encoding Period</button></div>
                     </div>
                 </div>
                 <div class="card-body">
@@ -31,7 +31,7 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="registryno"><b class="text-danger">*</b>Registry No.</label>
-                                <input type="text" class="form-control" name="registryno" id="registryno" value="{{old('registryno', request()->input('year').'-')}}" minlength="6" maxlength="11" required>
+                                <input type="text" class="form-control" name="registryno" id="registryno" value="{{old('registryno', request()->input('registryno'))}}" minlength="6" maxlength="11" required readonly>
                             </div>
                             <div class="row">
                                 <div class="col-md-3">
@@ -230,47 +230,8 @@
         </form>
     </div>
 
-    <form action="{{route('fhsis_livebirth_encode')}}" method="GET">
-        <div class="modal fade" id="changeMonth" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Encode Livebirths</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                          <label for="year"><b class="text-danger">*</b>Year</label>
-                          <input type="number" class="form-control" name="year" id="year" min="{{(date('Y')-5)}}" max="{{date('Y')}}" value="{{date('Y')}}" required>
-                        </div>
-                        <div class="form-group">
-                          <label for="month"><b class="text-danger">*</b>Month</label>
-                          <select class="form-control" name="month" id="month" required>
-                            <option value="" disabled selected>Choose...</option>
-                            <option value="1" >January</option>
-                            <option value="2">February</option>
-                            <option value="3">March</option>
-                            <option value="4">April</option>
-                            <option value="5">May</option>
-                            <option value="6">June</option>
-                            <option value="7">July</option>
-                            <option value="8">August</option>
-                            <option value="9">September</option>
-                            <option value="10">October</option>
-                            <option value="11">November</option>
-                            <option value="12">December</option>
-                          </select>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-success btn-block">Start</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
+    @include('efhsis.livebirth_check_modal')
+
 <script>
     $(document).bind('keydown', function(e) {
       if(e.ctrlKey && (e.which == 83)) {

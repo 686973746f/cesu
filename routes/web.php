@@ -719,6 +719,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessF
     Route::get('/fhsis/cesum2', [FhsisController::class, 'cesum2'])->name('fhsis_cesum2');
     Route::get('/fhsis/timeliness', [FhsisController::class, 'timelinesscheck'])->name('fhsis_timeliness');
     Route::get('/fhsis/import', [FhsisController::class, 'pquery'])->name('fhsis_pquery');
+    Route::get('/fhsis/livebirths/check', [FhsisController::class, 'liveBirthsCheck'])->name('fhsis_livebirth_check');
     Route::get('/fhsis/livebirths/encode', [FhsisController::class, 'liveBirthsEncode'])->name('fhsis_livebirth_encode');
     Route::post('/fhsis/livebirths/encode/store', [FhsisController::class, 'liveBirthsStore'])->name('fhsis_livebirth_encode_store');
     Route::get('/fhsis/livebirths/report', [FhsisController::class, 'liveBirthsReport'])->name('fhsis_livebirth_report');

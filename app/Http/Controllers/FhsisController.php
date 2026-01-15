@@ -1707,6 +1707,16 @@ class FhsisController extends Controller
         if(request()->input('year')) {
             //$month = request()->input('month');
             $year = request()->input('year');
+            $registryno = request()->input('registryno');
+
+            $check = LiveBirth::where('registryno', $registryno)->first();
+
+            if($check) {
+                return redirect()->route('fhsis_livebirth_check', ['year' => $year])
+                ->withInput()
+                ->with('msg', "ERROR :Registry No. {$registryno} ({$check->getName()}) already exists.")
+                ->with('msgtype', 'warning');
+            }
 
             /*
 
@@ -1718,14 +1728,22 @@ class FhsisController extends Controller
                 ->with('msg', 'Error: The selected encoding month is greater than the present month.')
                 ->with('msgtype', 'warning');
             }
-                
+            
+            */
+
+            /*
+            return view('efhsis.livebirth_encode', [
+                //'month' => $month,
+                'year' => $year,
+                'recent' => $recent,
+            ]);
             */
 
             //Get last Encoded for that month
             $recent = LiveBirth::where('created_by', Auth::id())
             ->latest()
             ->first();
-
+            
             return view('efhsis.livebirth_encode', [
                 //'month' => $month,
                 'year' => $year,
@@ -1735,6 +1753,17 @@ class FhsisController extends Controller
         else {
             return abort(401);
         }
+    }
+
+    public function liveBirthsCheck() {
+        if(!request()->input('year')) {
+            return redirect()->back()
+            ->withInput()
+            ->with('msg', 'Error: You are not allowed to do that.')
+            ->with('msgtype', 'warning');
+        }
+
+        return view('efhsis.livebirth_check');
     }
 
     public function liveBirthsStore(Request $r) {
