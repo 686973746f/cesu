@@ -319,10 +319,10 @@ class AbdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
             //Get Morb Month
             if(!is_null($row['date_onse_of_illness'])) {
-                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_onse_of_illness']));
+                $getMorbidityMonth = EdcsImport::getMorbMonth(EdcsImport::tDate($row['date_onse_of_illness']));
             }
             else {
-                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+                $getMorbidityMonth = EdcsImport::getMorbMonth($currentDate->format('Y-m-d'));
             }
 
             $table_params = [
@@ -472,10 +472,10 @@ class AfpImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
             //Get Morb Month
             if(!is_null($row['date_onset_paralysis'])) {
-                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_onset_paralysis']));
+                $getMorbidityMonth = EdcsImport::getMorbMonth(EdcsImport::tDate($row['date_onset_paralysis']));
             }
             else {
-                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+                $getMorbidityMonth = EdcsImport::getMorbMonth($currentDate->format('Y-m-d'));
             }
 
             $table_params = [
@@ -726,10 +726,10 @@ class AmesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
             //Get Morb Month
             if(!is_null($row['date_onse_of_illness'])) {
-                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_onse_of_illness']));
+                $getMorbidityMonth = EdcsImport::getMorbMonth(EdcsImport::tDate($row['date_onse_of_illness']));
             }
             else {
-                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+                $getMorbidityMonth = EdcsImport::getMorbMonth($currentDate->format('Y-m-d'));
             }
 
             $table_params = [
@@ -947,10 +947,10 @@ class HepaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
             //Get Morb Month
             if(!is_null($row['date_onse_of_illness'])) {
-                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_onse_of_illness']));
+                $getMorbidityMonth = EdcsImport::getMorbMonth(EdcsImport::tDate($row['date_onse_of_illness']));
             }
             else {
-                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+                $getMorbidityMonth = EdcsImport::getMorbMonth($currentDate->format('Y-m-d'));
             }
             
             $table_params = [
@@ -1131,10 +1131,10 @@ class HfmdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
             //Get Morb Month
             if(!is_null($row['date_onset_of_fever'])) {
-                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_onset_of_fever']));
+                $getMorbidityMonth = EdcsImport::getMorbMonth(EdcsImport::tDate($row['date_onset_of_fever']));
             }
             else {
-                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+                $getMorbidityMonth = EdcsImport::getMorbMonth($currentDate->format('Y-m-d'));
             }
 
             $table_params = [
@@ -1327,10 +1327,10 @@ class LeptoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
             //Get Morb Month
             if(!is_null($row['date_on_set_of_illness_first_symptoms'])) {
-                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_on_set_of_illness_first_symptoms']));
+                $getMorbidityMonth = EdcsImport::getMorbMonth(EdcsImport::tDate($row['date_on_set_of_illness_first_symptoms']));
             }
             else {
-                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+                $getMorbidityMonth = EdcsImport::getMorbMonth($currentDate->format('Y-m-d'));
             }
 
             $table_params = [
@@ -1476,10 +1476,10 @@ class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
             //Get Morb Month
             if(!is_null($row['rash_date_onset'])) {
-                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['rash_date_onset']));
+                $getMorbidityMonth = EdcsImport::getMorbMonth(EdcsImport::tDate($row['rash_date_onset']));
             }
             else {
-                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+                $getMorbidityMonth = EdcsImport::getMorbMonth($currentDate->format('Y-m-d'));
             }
 
             $table_params = [
@@ -1692,10 +1692,10 @@ class NntImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
             //Get Morb Month
             if(!is_null($row['date_onse_of_illness'])) {
-                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_onse_of_illness']));
+                $getMorbidityMonth = EdcsImport::getMorbMonth(EdcsImport::tDate($row['date_onse_of_illness']));
             }
             else {
-                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+                $getMorbidityMonth = EdcsImport::getMorbMonth($currentDate->format('Y-m-d'));
             }
 
             $table_params = [
@@ -1828,10 +1828,10 @@ class RabiesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
             //Get Morb Month
             if(!is_null($row['date_onset_of_illness'])) {
-                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_onset_of_illness']));
+                $getMorbidityMonth = EdcsImport::getMorbMonth(EdcsImport::tDate($row['date_onset_of_illness']));
             }
             else {
-                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+                $getMorbidityMonth = EdcsImport::getMorbMonth($currentDate->format('Y-m-d'));
             }
 
             $table_params = [
@@ -1987,10 +1987,10 @@ class RotaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
             //Get Morb Month
             if(!is_null($row['date_of_onset_of_diarrhea'])) {
-                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_of_onset_of_diarrhea']));
+                $getMorbidityMonth = EdcsImport::getMorbMonth(EdcsImport::tDate($row['date_of_onset_of_diarrhea']));
             }
             else {
-                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+                $getMorbidityMonth = EdcsImport::getMorbMonth($currentDate->format('Y-m-d'));
             }
             
             $table_params = [
@@ -2157,10 +2157,10 @@ class TyphoidImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
             //Get Morb Month
             if(!is_null($row['date_onset_of_illness'])) {
-                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_onset_of_illness']));
+                $getMorbidityMonth = EdcsImport::getMorbMonth(EdcsImport::tDate($row['date_onset_of_illness']));
             }
             else {
-                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+                $getMorbidityMonth = EdcsImport::getMorbMonth($currentDate->format('Y-m-d'));
             }
 
             $table_params = [
@@ -2344,10 +2344,10 @@ class DengueImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             else {
                 //Get Morb Month
                 if(!is_null($row['date_on_set_of_illness_first_symptoms'])) {
-                    $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_on_set_of_illness_first_symptoms']));
+                    $getMorbidityMonth = EdcsImport::getMorbMonth(EdcsImport::tDate($row['date_on_set_of_illness_first_symptoms']));
                 }
                 else {
-                    $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+                    $getMorbidityMonth = EdcsImport::getMorbMonth($currentDate->format('Y-m-d'));
                 }
 
                 $table_params = [
@@ -2494,10 +2494,10 @@ class DiphImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
 
             //Get Morb Month
             if(!is_null($row['date_onse_of_illness'])) {
-                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_onse_of_illness']));
+                $getMorbidityMonth = EdcsImport::getMorbMonth(EdcsImport::tDate($row['date_onse_of_illness']));
             }
             else {
-                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+                $getMorbidityMonth = EdcsImport::getMorbMonth($currentDate->format('Y-m-d'));
             }
 
             $table_params = [
@@ -2627,10 +2627,10 @@ class ChikvImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
 
             //Get Morb Month
             if(!is_null($row['date_onse_of_illness'])) {
-                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_onse_of_illness']));
+                $getMorbidityMonth = EdcsImport::getMorbMonth(EdcsImport::tDate($row['date_onse_of_illness']));
             }
             else {
-                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+                $getMorbidityMonth = EdcsImport::getMorbMonth($currentDate->format('Y-m-d'));
             }
 
             $table_params = [
@@ -2814,10 +2814,10 @@ class MeningoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
 
             //Get Morb Month
             if(!is_null($row['date_onse_of_illness'])) {
-                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_onse_of_illness']));
+                $getMorbidityMonth = EdcsImport::getMorbMonth(EdcsImport::tDate($row['date_onse_of_illness']));
             }
             else {
-                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+                $getMorbidityMonth = EdcsImport::getMorbMonth($currentDate->format('Y-m-d'));
             }
 
             $table_params = [
@@ -3010,10 +3010,10 @@ class NtImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
 
             //Get Morb Month
             if(!is_null($row['date_onse_of_illness'])) {
-                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_onse_of_illness']));
+                $getMorbidityMonth = EdcsImport::getMorbMonth(EdcsImport::tDate($row['date_onse_of_illness']));
             }
             else {
-                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+                $getMorbidityMonth = EdcsImport::getMorbMonth($currentDate->format('Y-m-d'));
             }
 
             $table_params = [
@@ -3208,10 +3208,10 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
 
             //Get Morb Month
             if(!is_null($row['date_onse_of_illness'])) {
-                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_onse_of_illness']));
+                $getMorbidityMonth = EdcsImport::getMorbMonth(EdcsImport::tDate($row['date_onse_of_illness']));
             }
             else {
-                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+                $getMorbidityMonth = EdcsImport::getMorbMonth($currentDate->format('Y-m-d'));
             }
 
             $table_params = [
@@ -3387,10 +3387,10 @@ class CholeraImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
 
             //Get Morb Month
             if(!is_null($row['date_onse_of_illness'])) {
-                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_onse_of_illness']));
+                $getMorbidityMonth = EdcsImport::getMorbMonth(EdcsImport::tDate($row['date_onse_of_illness']));
             }
             else {
-                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+                $getMorbidityMonth = EdcsImport::getMorbMonth($currentDate->format('Y-m-d'));
             }
 
             $table_params = [
@@ -3520,10 +3520,10 @@ class InfluenzaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow 
             
             //Get Morb Month
             if(!is_null($row['date_on_set_of_illness'])) {
-                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_on_set_of_illness']));
+                $getMorbidityMonth = EdcsImport::getMorbMonth(EdcsImport::tDate($row['date_on_set_of_illness']));
             }
             else {
-                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+                $getMorbidityMonth = EdcsImport::getMorbMonth($currentDate->format('Y-m-d'));
             }
 
             $table_params = [
@@ -3798,10 +3798,10 @@ class SevereAcuteRespiratoryInfectionImport implements ToModel, WithHeadingRow, 
 
             //Get Morb Month
             if(!is_null($row['date_onset_of_ill_ness'])) {
-                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_onset_of_ill_ness']));
+                $getMorbidityMonth = EdcsImport::getMorbMonth(EdcsImport::tDate($row['date_onset_of_ill_ness']));
             }
             else {
-                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+                $getMorbidityMonth = EdcsImport::getMorbMonth($currentDate->format('Y-m-d'));
             }
 
             $table_params = [
