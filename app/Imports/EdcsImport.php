@@ -71,10 +71,6 @@ class EdcsImport implements WithMultipleSheets, SkipsUnknownSheets
     }
     */
 
-    public static function getMorbMonth($timestamp) {
-        return Carbon::parse($timestamp)->format('n');
-    }
-
     public static function brgySetter($brgy) {
         //BARANGAY SETTER (BECAUSE OF THE POB.)
         if(!is_null($brgy) && !in_array($brgy, ['', 'N/A', 'NONE'])) {
