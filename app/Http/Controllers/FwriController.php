@@ -286,10 +286,10 @@ class FwriController extends Controller
         */
 
         if(request()->input('select_year')) {
-            $list = $list->where('reporting_year', request()->input('select_year'));
+            $list = $list->where('reporting_year', request()->input('select_year'))->get();
         }
         else {
-            $list = $list->where('reporting_year', date('Y'));
+            $list = $list->where('reporting_year', date('Y'))->get();
         }
 
         return view('fwri.home', [
