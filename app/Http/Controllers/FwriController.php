@@ -266,6 +266,7 @@ class FwriController extends Controller
             ->orderBy('created_at', 'DESC');
         }
 
+        /*
         if(request()->input('select_year')) {
             $date1 = request()->input('select_year').'-12-01';
             $date2 = (request()->input('select_year')+1).'-01-10';
@@ -282,6 +283,14 @@ class FwriController extends Controller
         }
 
         $list = $list->whereBetween('created_at', [$date1, $date2])->get();
+        */
+
+        if(request()->input('select_year')) {
+            $list = $list->where('reporting_year', request()->input('select_year'));
+        }
+        else {
+            $list = $list->where('reporting_year', date('Y'));
+        }
 
         return view('fwri.home', [
             'list' => $list,

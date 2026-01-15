@@ -116,6 +116,7 @@ class CreateFwInjuriesTable extends Migration
             $table->text('facility_citymun')->nullable();
 
             $table->text('qr')->nullable();
+            $table->integer('reporting_year')->nullable();
             $table->timestamps();
         }); 
     }

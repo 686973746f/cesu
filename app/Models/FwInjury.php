@@ -110,6 +110,7 @@ class FwInjury extends Model
         'facility_citymun',
 
         'qr',
+        'reporting_year',
     ];
 
     public function getName() {
