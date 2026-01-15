@@ -219,6 +219,7 @@ class FwriController extends Controller
 
             'remarks' => (request()->filled('remarks')) ? $r->remarks : NULL,
             'qr' => $for_qr,
+            'report_year' => (Carbon::now()->month === Carbon::DECEMBER) ? date('Y') + 1 : date('Y') + 1 - 1,
         ];
 
         return $handle_array;
