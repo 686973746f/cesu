@@ -9868,9 +9868,25 @@ class PIDSRController extends Controller
         //Count Days Differce of Date Admitted to Entry Date
         $hospitalizedDateStart = Carbon::parse($r->sys_hospitalized_datestart);
         $admitToEntry = $hospitalizedDateStart->diffInDays($entry_date);
-        $onsetDate = Carbon::parse($r->DOnset);
+        if($disease == 'MPOX') {
+            $onsetDate = Carbon::parse($r->date_onsetofillness);
+        }
+        else if($disease == 'DENGUE' || $disease == 'HFMD') {
+            if(!is_null($r->DOnset)) {
+                $onsetDate = Carbon::parse($r->DOnset);
+            }
+            else {
+                $onsetDate = Carbon::parse($r->entry_date);
+            }
+        }
+        else {
+            $onsetDate = Carbon::parse($r->DOnset);
+        }
+        
         $OnsetToAdmit = $hospitalizedDateStart->diffInDays($onsetDate);
         $days_difference = $onsetDate->diffInDays($r->entry_date);
+
+        $getMw = $this->getWhatMw($onsetDate);
 
         if($disease == 'MPOX') {
             //Second layer Record Checking
@@ -10027,9 +10043,9 @@ class PIDSRController extends Controller
                     'age_years' => $get_ageyears,
                     'age_months' => $get_agemonths,
                     'age_days' => $get_agedays,
-                    'morbidity_month' => $currentDate->format('n'),
-                    'morbidity_week' => $currentDate->format('W'),
-                    'year' => $currentDate->format('Y'),
+                    'morbidity_month' => $onsetDate->format('n'),
+                    'morbidity_week' => $getMw->mw,
+                    'year' => $getMw->year,
                     //'gps_x'
                     //'gps_y',
                     'created_by' => $created_by,
@@ -10215,9 +10231,9 @@ class PIDSRController extends Controller
                 
                 'EPIID' => 'DENGUE_MPSS_TEMP_'.mb_strtoupper(Str::random(10)),
                 'Icd10Code' => 'A90',
-                'MorbidityMonth' => $currentDate->format('n'),
-                'MorbidityWeek' => $currentDate->format('W'),
-                'Year' => $currentDate->format('Y'),
+                'MorbidityMonth' => $onsetDate->format('n'),
+                'MorbidityWeek' => $getMw->mw,
+                'Year' => $getMw->year,
                 'AdmitToEntry' => $admitToEntry,
                 'OnsetToAdmit' => $OnsetToAdmit,
                 //'SentinelSite' => 'N',
@@ -10379,9 +10395,9 @@ class PIDSRController extends Controller
                 //'RECSTATUS',
                 //'SentinelSite',
                 //'DeleteRecord',
-                'MorbidityMonth' => $currentDate->format('n'),
-                'MorbidityWeek' => $currentDate->format('W'),
-                'Year' => $currentDate->format('Y'),
+                'MorbidityMonth' => $onsetDate->format('n'),
+                'MorbidityWeek' => $getMw->mw,
+                'Year' => $getMw->year,
                 'NameOfDru' => $f->facility_name,
                 //'District',
                 //'ILHZ',
@@ -10512,8 +10528,9 @@ class PIDSRController extends Controller
                 'DateOfEntry' => $r->entry_date,
                 'AdmitToEntry' => $admitToEntry,
                 'OnsetToAdmit' => $OnsetToAdmit,
-                'MorbidityMonth' => $entry_date->format('n'),
-                'MorbidityWeek' => $entry_date->format('W'),
+                'MorbidityMonth' => $onsetDate->format('n'),
+                'MorbidityWeek' => $getMw->mw,
+                'Year' => $getMw->year,
                 'EPIID' => 'HFMD_MPSS_TEMP_'.mb_strtoupper(Str::random(10)),
                 //'ReportToInvestigation',
                 //'UniqueKey',
@@ -10557,7 +10574,6 @@ class PIDSRController extends Controller
                 'DCaseRep' => $r->entry_date,
                 'DCASEINV' => $r->edcs_investigateDate,
                 //'SentinelSite',
-                'Year' => $entry_date->format('Y'),
                 //'DeleteRecord',
                 'NameOfDru' => $f->facility_name,
                 //'District',
@@ -10736,9 +10752,9 @@ class PIDSRController extends Controller
                 'DCaseRep' => $r->entry_date,
                 'DCASEINV' => $r->edcs_investigateDate,
                 //'SentinelSite' => 
-                'MorbidityMonth' => $currentDate->format('n'),
-                'MorbidityWeek' => $currentDate->format('W'),
-                'Year' => $currentDate->format('Y'),
+                'MorbidityMonth' => $onsetDate->format('n'),
+                'MorbidityWeek' => $getMw->mw,
+                'Year' => $getMw->year,
                 //'DeleteRecord' => 
                 //'WBRubellaIgM' => 
                 //'WBMeaslesIgM' => 
@@ -10877,14 +10893,14 @@ class PIDSRController extends Controller
                 'DateOfEntry' => $r->entry_date,
                 'AdmitToEntry' => $admitToEntry,
                 'OnsetToAdmit' => $OnsetToAdmit,
-                'MorbidityMonth' => $entry_date->format('n'),
-                'MorbidityWeek' => $entry_date->format('W'),
+                'MorbidityMonth' => $onsetDate->format('n'),
+                'MorbidityWeek' => $getMw->mw,
+                'Year' => $getMw->year,
                 'EPIID' => 'LEPTOSPIROSIS_MPSS_TEMP_'.mb_strtoupper(Str::random(10)),
                 //'UniqueKey Index' => $r->asd,
                 //'RECSTATUS' => $r->asd,
                 //'SentinelSite' => $r->asd,
                 //'DeleteRecord' => $r->asd,
-                'Year' => $entry_date->format('Y'),
                 'NameOfDru' => $f->facility_name,
                 //'District' => $r->asd,
                 //'ILHZ' => $r->asd,
@@ -12023,6 +12039,17 @@ class PIDSRController extends Controller
         }
     }
 
+    public static function getWhatMw($date) { //Mostly for determining MW based on Symptoms onset
+        $date = Carbon::parse($date);
+
+        $d = MorbidityWeekCalendar::where('year', $date->year)
+        ->whereDate('start_date', '<=', $date->format('Y-m-d'))
+        ->whereDate('end_date', '>=', $date->format('Y-m-d'))
+        ->first();
+
+        return $d;
+    }
+
     public function facilityWeeklySubmissionViewer($facility_code) {
         $current_date = Carbon::now();
         
@@ -12984,11 +13011,16 @@ class PIDSRController extends Controller
 
     public function initializeMwCalendar(Request $r) {
         $reached_nextyear = false;
-
         $mw = 1;
 
         $start_date = Carbon::parse($r->start_date);
         $start_year = Carbon::parse($r->start_date)->year;
+
+        if($start_date->year != $r->year) {
+            return redirect()->back()
+            ->with('mw_msg', 'ERROR: Start Date should be equal to the selected year.')
+            ->with('mw_msgtype', 'warning');
+        }
 
         while(!$reached_nextyear) {
             if(!$start_date->isSunday()) {

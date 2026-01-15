@@ -51,6 +51,10 @@ class EdcsImport implements WithMultipleSheets, SkipsUnknownSheets
         }
     }
 
+    public static function getMorbMonth($date) {
+        return Carbon::parse($date)->format('n');
+    }
+
     /*
     public static function getMorbMonth($week, $year) {
         $date = Carbon::createFromDate($year, 1, 1);
@@ -317,6 +321,14 @@ class AbdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
             }
 
+            //Get Morb Month
+            if(!is_null($row['date_onse_of_illness'])) {
+                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_onse_of_illness']));
+            }
+            else {
+                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+            }
+
             $table_params = [
                 'Icd10Code' => NULL,
                 'RegionOFDrU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name) && EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL,
@@ -346,14 +358,14 @@ class AbdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'DateOfEntry' => date('Y-m-d'), //NO $row['timestamp']
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
                 'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
-                'MorbidityMonth' => Carbon::parse(date('Y-m-d'))->format('n'), //NO $row['timestamp']
+                'MorbidityMonth' => $getMorbidityMonth, //NO $row['timestamp']
                 'MorbidityWeek' => $row['morbidity_week'],
+                'Year' => $row['year'],
                 'EPIID' => $row['epi_id'],
                 'UniqueKey' => Abd::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
                 'RECSTATUS' => NULL,
                 'SentinelSite' => NULL,
                 'DeleteRecord' => NULL,
-                'Year' => $row['year'],
                 'NameOfDru' => $row['facilityname'],
                 'District' => 6,
                 'InterLocal' => NULL,
@@ -462,6 +474,14 @@ class AfpImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
             }
 
+            //Get Morb Month
+            if(!is_null($row['date_onset_paralysis'])) {
+                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_onset_paralysis']));
+            }
+            else {
+                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+            }
+
             $table_params = [
                 'Icd10Code' => NULL,
                 'RegionOFDrU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name) && EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL,
@@ -489,8 +509,9 @@ class AfpImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp']),
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
                 'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
-                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
+                'MorbidityMonth' => $getMorbidityMonth,
                 'MorbidityWeek' => $row['morbidity_week'],
+                'Year' => $row['year'],
                 'EPIID' => $row['epi_id'],
                 'UniqueKey' => Afp::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
                 'RECSTATUS' => NULL,
@@ -585,8 +606,6 @@ class AfpImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'SecndStoolSpec' => NULL,
                 'DateRep' => ($row['date_of_report'] != "" && !is_null($row['date_of_report'])) ? EdcsImport::tDate($row['date_of_report']) : NULL,
                 'DateInv' => ($row['date_of_investigation'] != "" && !is_null($row['date_of_investigation'])) ? EdcsImport::tDate($row['date_of_investigation']) : NULL,
-
-                'Year' => $row['year'],
                 'SentinelSite' => NULL,
                 'ClinicalSummary' => NULL,
                 'DeleteRecord' => NULL,
@@ -709,6 +728,14 @@ class AmesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
             }
 
+            //Get Morb Month
+            if(!is_null($row['date_onse_of_illness'])) {
+                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_onse_of_illness']));
+            }
+            else {
+                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+            }
+
             $table_params = [
                 'Icd10Code' => NULL,
                 'RegionOFDrU' => $getDruRegionText,
@@ -826,14 +853,14 @@ class AmesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'HAMA' => NULL,
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
                 'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
-                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
+                'MorbidityMonth' => $getMorbidityMonth,
                 'MorbidityWeek' => $row['morbidity_week'],
+                'Year' => $row['year'],
                 'EPIID' => $row['epi_id'],
                 'UniqueKey' => Ames::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
                 'RECSTATUS' => NULL,
                 'SentinelSite' => NULL,
                 'DeleteRecord' => NULL,
-                'Year' => $row['year'],
                 'NameOfDru' => $row['facilityname'],
                 'ILHZ' => 'GENTAMAR',
                 'District' => 6,
@@ -921,6 +948,14 @@ class HepaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             if(!$hf_check) {
                 EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
             }
+
+            //Get Morb Month
+            if(!is_null($row['date_onse_of_illness'])) {
+                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_onse_of_illness']));
+            }
+            else {
+                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+            }
             
             $table_params = [
                 'Icd10Code' => 'B15-17',
@@ -953,14 +988,14 @@ class HepaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp']),
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
                 'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
-                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
+                'MorbidityMonth' => $getMorbidityMonth,
                 'MorbidityWeek' => $row['morbidity_week'],
+                'Year' => $row['year'],
                 'EPIID' => $row['epi_id'],
                 'UniqueKey' => Hepatitis::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
                 'RECSTATUS' => NULL,
                 'SentinelSite' => NULL,
                 'DeleteRecord' => NULL,
-                'Year' => $row['year'],
                 'NameOfDru' => $row['facilityname'],
                 'ILHZ' => 'GENTAMAR',
                 'District' => 6,
@@ -1098,6 +1133,14 @@ class HfmdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 $exp_list[] = 'OTHERS';
             }
 
+            //Get Morb Month
+            if(!is_null($row['date_onset_of_fever'])) {
+                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_onset_of_fever']));
+            }
+            else {
+                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+            }
+
             $table_params = [
                 'Icd10Code' => NULL,
                 'RegionOFDrU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name) && EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL,
@@ -1149,8 +1192,9 @@ class HfmdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp']),
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
                 'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
-                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
+                'MorbidityMonth' => $getMorbidityMonth,
                 'MorbidityWeek' => $row['morbidity_week'],
+                'Year' => $row['year'],
                 'EPIID' => $row['epi_id'],
                 'ReportToInvestigation' => NULL,
                 'UniqueKey' => Hfmd::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
@@ -1194,7 +1238,6 @@ class HfmdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'DCaseRep' => NULL,
                 'DCASEINV' => EdcsImport::tDate($row['date_of_investigation']),
                 'SentinelSite' => NULL,
-                'Year' => $row['year'],
                 'DeleteRecord' => NULL,
                 'NameOfDru' => $row['facilityname'],
                 'District' => 6,
@@ -1286,6 +1329,14 @@ class LeptoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
             }
 
+            //Get Morb Month
+            if(!is_null($row['date_on_set_of_illness_first_symptoms'])) {
+                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_on_set_of_illness_first_symptoms']));
+            }
+            else {
+                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+            }
+
             $table_params = [
                 'Icd10Code' => 'A27',
                 'RegionOFDrU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name) && EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL,
@@ -1318,14 +1369,14 @@ class LeptoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp']),
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
                 'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
-                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
+                'MorbidityMonth' => $getMorbidityMonth,
                 'MorbidityWeek' => $row['morbidity_week'],
+                'Year' => $row['year'],
                 'EPIID' => $row['epi_id'],
                 'UniqueKey' => Leptospirosis::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
                 'RECSTATUS' => NULL,
                 'SentinelSite' => NULL,
                 'DeleteRecord' => NULL,
-                'Year' => $row['year'],
                 'NameOfDru' => $row['facilityname'],
                 'District' => 6,
                 'ILHZ' => 'GENTAMAR',
@@ -1427,6 +1478,14 @@ class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
             }
 
+            //Get Morb Month
+            if(!is_null($row['rash_date_onset'])) {
+                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['rash_date_onset']));
+            }
+            else {
+                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+            }
+
             $table_params = [
                 'Icd10Code' => 'B05',
                 'RegionOFDrU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name) && EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL,
@@ -1484,8 +1543,9 @@ class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp']),
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
                 'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
-                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
+                'MorbidityMonth' => $getMorbidityMonth,
                 'MorbidityWeek' => $row['morbidity_week'],
+                'Year' => $row['year'],
                 'EPIID' => $row['epi_id'],
                 'ReportToInvestigation' => NULL,
                 'UniqueKey' => Measles::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
@@ -1526,7 +1586,6 @@ class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'DCaseRep' => EdcsImport::tDate($row['date_of_report']),
                 'DCASEINV' => EdcsImport::tDate($row['date_of_investigation']),
                 'SentinelSite' => NULL,
-                'Year' => $row['year'],
                 'DeleteRecord' => NULL,
                 'WBRubellaIgM' => NULL,
                 'WBMeaslesIgM' => NULL,
@@ -1635,6 +1694,14 @@ class NntImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
             }
 
+            //Get Morb Month
+            if(!is_null($row['date_onse_of_illness'])) {
+                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_onse_of_illness']));
+            }
+            else {
+                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+            }
+
             $table_params = [
                 'Icd10Code' => 'A33',
                 'RegionOFDrU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name) && EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL,
@@ -1670,14 +1737,14 @@ class NntImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp']),
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
                 'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
-                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
+                'MorbidityMonth' => $getMorbidityMonth,
                 'MorbidityWeek' => $row['morbidity_week'],
+                'Year' => $row['year'],
                 'EPIID' => $row['epi_id'],
                 'UniqueKey' => Nnt::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
                 'RECSTATUS' => NULL,
                 'SentinelSite' => NULL,
                 'DeleteRecord' => NULL,
-                'Year' => $row['year'],
                 'NameOfDru' => $row['facilityname'],
                 'District' => 6,
                 'ILHZ' => 'GENTAMAR',
@@ -1763,6 +1830,14 @@ class RabiesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
             }
 
+            //Get Morb Month
+            if(!is_null($row['date_onset_of_illness'])) {
+                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_onset_of_illness']));
+            }
+            else {
+                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+            }
+
             $table_params = [
                 'Icd10Code' => 'A82',
                 'RegionOFDrU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name) && EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL,
@@ -1796,12 +1871,12 @@ class RabiesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'InvestigatorContactNum' => $row['contact_noinvestigator'],
                 'Outcome' => mb_strtoupper(substr($row['outcome'],0,1)),
                 'DateDied' => EdcsImport::tDate($row['date_died']),
-                'Year' => $row['year'],
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp']),
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
                 'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
-                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
+                'MorbidityMonth' => $getMorbidityMonth,
                 'MorbidityWeek' => $row['morbidity_week'],
+                'Year' => $row['year'],
                 'EPIID' => $row['epi_id'],
                 'UniqueKey' => Rabies::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
                 'RECSTATUS' => NULL,
@@ -1913,6 +1988,14 @@ class RotaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             if(!$hf_check) {
                 EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
             }
+
+            //Get Morb Month
+            if(!is_null($row['date_of_onset_of_diarrhea'])) {
+                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_of_onset_of_diarrhea']));
+            }
+            else {
+                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+            }
             
             $table_params = [
                 'Icd10Code' => NULL,
@@ -1979,14 +2062,14 @@ class RotaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp']),
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
                 'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
-                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
+                'MorbidityMonth' => $getMorbidityMonth,
                 'MorbidityWeek' => $row['morbidity_week'],
                 'EPIID' => $row['epi_id'],
+                'Year' => $row['year'],
                 'UniqueKey' => Rotavirus::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
                 'RECSTATUS' =>  NULL,
                 'SentinelSite' =>  NULL,
                 'DeleteRecord' =>  NULL,
-                'Year' => $row['year'],
                 'NameOfDru' => $row['facilityname'],
                 'ILHZ' => 'GENTAMAR',
                 'District' => 6,
@@ -2076,6 +2159,14 @@ class TyphoidImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
             }
 
+            //Get Morb Month
+            if(!is_null($row['date_onset_of_illness'])) {
+                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_onset_of_illness']));
+            }
+            else {
+                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+            }
+
             $table_params = [
                 'Icd10Code' => 'A01.0',
                 'RegionOFDrU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name) && EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL,
@@ -2106,14 +2197,14 @@ class TyphoidImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp']),
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
                 'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
-                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
+                'MorbidityMonth' => $getMorbidityMonth,
                 'MorbidityWeek' => $row['morbidity_week'],
+                'Year' => $row['year'],
                 'EPIID' => $row['epi_id'],
                 'UniqueKey' => Typhoid::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
                 'RECSTATUS' => NULL,
                 'SentinelSite' => NULL,
                 'DeleteRecord' => NULL,
-                'Year' => $row['year'],
                 'NameOfDru' => $row['facilityname'],
                 'District' =>  NULL,
                 'ILHZ' => 'GENTAMAR',
@@ -2255,6 +2346,14 @@ class DengueImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 }
             }
             else {
+                //Get Morb Month
+                if(!is_null($row['date_on_set_of_illness_first_symptoms'])) {
+                    $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_on_set_of_illness_first_symptoms']));
+                }
+                else {
+                    $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+                }
+
                 $table_params = [
                     'Icd10Code' => 'A90',
                     'RegionOFDrU' => $getDruRegionText,
@@ -2289,13 +2388,13 @@ class DengueImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                     'EPIID' => $row['epi_id'],
                     'DateDied' => EdcsImport::tDate($row['date_died']),
                     
-                    'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
+                    'MorbidityMonth' => $getMorbidityMonth,
                     'MorbidityWeek' => $row['morbidity_week'],
+                    'Year' => $row['year'],
                     'AdmitToEntry' => preg_replace('/[^0-9]/', '', $row['timelapse_dateadmittodateencode']),
                     'OnsetToAdmit' => preg_replace('/[^0-9]/', '', $row['timelapse_dateonsettodateencode']),
                     'SentinelSite' => NULL,
                     'DeleteRecord' => NULL,
-                    'Year' => $row['year'],
                     'Recstatus' => NULL,
                     'UniqueKey' => Dengue::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
                     
@@ -2397,7 +2496,13 @@ class DiphImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
             }
 
-            //Check Case Definition
+            //Get Morb Month
+            if(!is_null($row['date_onse_of_illness'])) {
+                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_onse_of_illness']));
+            }
+            else {
+                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+            }
 
             $table_params = [
                 'Icd10Code' => 'A36',
@@ -2443,10 +2548,10 @@ class DiphImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'UniqueKey' => Diph::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
                 'RECSTATUS' => NULL,
                 'TYPEHOSPITALCLINIC' => $row['verification_level'],
-                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
+                'MorbidityMonth' => $getMorbidityMonth,
                 'MorbidityWeek' => $row['morbidity_week'],
-                'EPIID' => $row['epi_id'],
                 'Year' => $row['year'],
+                'EPIID' => $row['epi_id'],
 
                 'middle_name' => ($row['middle_name'] != '' && !is_null($row['middle_name'] && $row['middle_name'] != 'NONE' && $row['middle_name'] != 'N/A') && $row['middle_name'] != 'N/A') ? $row['middle_name'] : NULL,
                 'suffix' => ($row['suffix_name'] != '' && !is_null($row['suffix_name']) && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != 'NONE') ? $row['suffix_name'] : NULL,
@@ -2522,6 +2627,14 @@ class ChikvImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
 
             if(!$hf_check) {
                 EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
+            }
+
+            //Get Morb Month
+            if(!is_null($row['date_onse_of_illness'])) {
+                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_onse_of_illness']));
+            }
+            else {
+                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
             }
 
             $table_params = [
@@ -2609,10 +2722,10 @@ class ChikvImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'UniqueKey' => Chikv::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
                 'Recstatus' => NULL,
                 'TYPEHOSPITALCLINIC' => $row['verification_level'],
-                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
+                'MorbidityMonth' => $getMorbidityMonth,
                 'MorbidityWeek' => $row['morbidity_week'],
-                'EPIID' => $row['epi_id'],
                 'Year' => $row['year'],
+                'EPIID' => $row['epi_id'],
 
                 'middle_name' => ($row['middle_name'] != '' && !is_null($row['middle_name'] && $row['middle_name'] != 'NONE' && $row['middle_name'] != 'N/A') && $row['middle_name'] != 'N/A') ? $row['middle_name'] : NULL,
                 'suffix' => ($row['suffix_name'] != '' && !is_null($row['suffix_name']) && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != 'NONE') ? $row['suffix_name'] : NULL,
@@ -2701,6 +2814,14 @@ class MeningoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
 
             if(!$hf_check) {
                 EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
+            }
+
+            //Get Morb Month
+            if(!is_null($row['date_onse_of_illness'])) {
+                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_onse_of_illness']));
+            }
+            else {
+                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
             }
 
             $table_params = [
@@ -2809,10 +2930,10 @@ class MeningoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'UniqueKey' => Meningo::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
                 'RECSTATUS' => NULL,
                 'TYPEHOSPITALCLINIC' => $row['verification_level'],
-                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
+                'MorbidityMonth' => $getMorbidityMonth,
                 'MorbidityWeek' => $row['morbidity_week'],
-                'EPIID' => $row['epi_id'],
                 'Year' => $row['year'],
+                'EPIID' => $row['epi_id'],
                 
                 'middle_name' => ($row['middle_name'] != '' && !is_null($row['middle_name'] && $row['middle_name'] != 'NONE' && $row['middle_name'] != 'N/A') && $row['middle_name'] != 'N/A') ? $row['middle_name'] : NULL,
                 'suffix' => ($row['suffix_name'] != '' && !is_null($row['suffix_name']) && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != 'NONE') ? $row['suffix_name'] : NULL,
@@ -2889,6 +3010,14 @@ class NtImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
 
             if(!$hf_check) {
                 EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
+            }
+
+            //Get Morb Month
+            if(!is_null($row['date_onse_of_illness'])) {
+                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_onse_of_illness']));
+            }
+            else {
+                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
             }
 
             $table_params = [
@@ -2970,11 +3099,11 @@ class NtImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'UniqueKey' => Nt::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
                 'RECSTATUS' => NULL,
                 'TYPEHOSPITALCLINIC' => $row['verification_level'],
-                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
+                'MorbidityMonth' => $getMorbidityMonth,
                 'MorbidityWeek' => $row['morbidity_week'],
-                'EPIID' => $row['epi_id'],
                 'Year' => $row['year'],
-
+                'EPIID' => $row['epi_id'],
+                
                 'middle_name' => ($row['middle_name'] != '' && !is_null($row['middle_name'] && $row['middle_name'] != 'NONE' && $row['middle_name'] != 'N/A') && $row['middle_name'] != 'N/A') ? $row['middle_name'] : NULL,
                 'suffix' => ($row['suffix_name'] != '' && !is_null($row['suffix_name']) && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != 'NONE') ? $row['suffix_name'] : NULL,
                 'edcs_caseid' => $row['case_id'],
@@ -3081,6 +3210,14 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
             }
 
+            //Get Morb Month
+            if(!is_null($row['date_onse_of_illness'])) {
+                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_onse_of_illness']));
+            }
+            else {
+                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+            }
+
             $table_params = [
                 'Icd10Code' => 'A37',
                 'RegionOFDrU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name) && EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL,
@@ -3159,10 +3296,10 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'UniqueKey' => Pert::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
                 'RECSTATUS' => NULL,
                 'TYPEHOSPITALCLINIC' => $row['verification_level'],
-                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
+                'MorbidityMonth' => $getMorbidityMonth,
                 'MorbidityWeek' => $row['morbidity_week'],
-                'EPIID' => $row['epi_id'],
                 'Year' => $row['year'],
+                'EPIID' => $row['epi_id'],
 
                 'middle_name' => ($row['middle_name'] != '' && !is_null($row['middle_name'] && $row['middle_name'] != 'NONE' && $row['middle_name'] != 'N/A') && $row['middle_name'] != 'N/A') ? $row['middle_name'] : NULL,
                 'suffix' => ($row['suffix_name'] != '' && !is_null($row['suffix_name']) && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != 'NONE') ? $row['suffix_name'] : NULL,
@@ -3252,6 +3389,14 @@ class CholeraImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
             }
 
+            //Get Morb Month
+            if(!is_null($row['date_onse_of_illness'])) {
+                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_onse_of_illness']));
+            }
+            else {
+                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+            }
+
             $table_params = [
                 'Icd10Code' => 'A00',
                 'RegionOFDrU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name) && EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL,
@@ -3296,10 +3441,10 @@ class CholeraImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'UniqueKey' => Pert::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
                 'RECSTATUS' => NULL,
                 'TYPEHOSPITALCLINIC' => $row['verification_level'],
-                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
+                'MorbidityMonth' => $getMorbidityMonth,
                 'MorbidityWeek' => $row['morbidity_week'],
-                'EPIID' => $row['epi_id'],
                 'Year' => $row['year'],
+                'EPIID' => $row['epi_id'],
 
                 'middle_name' => ($row['middle_name'] != '' && !is_null($row['middle_name'] && $row['middle_name'] != 'NONE' && $row['middle_name'] != 'N/A') && $row['middle_name'] != 'N/A') ? $row['middle_name'] : NULL,
                 'suffix' => ($row['suffix_name'] != '' && !is_null($row['suffix_name']) && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != 'NONE') ? $row['suffix_name'] : NULL,
@@ -3376,6 +3521,14 @@ class InfluenzaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow 
             if(!$hf_check) {
                 EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
             }
+            
+            //Get Morb Month
+            if(!is_null($row['date_on_set_of_illness'])) {
+                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_on_set_of_illness']));
+            }
+            else {
+                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
+            }
 
             $table_params = [
                 'Icd10Code' => 'J10, J11',
@@ -3422,10 +3575,10 @@ class InfluenzaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow 
                 //'UniqueKey' => Pert::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
                 'RECSTATUS' => NULL,
                 'TYPEHOSPITALCLINIC' => $row['verification_level'],
-                'MorbidityMonth' => Carbon::parse(EdcsImport::tDate($row['timestamp']))->format('n'),
+                'MorbidityMonth' => $getMorbidityMonth,
                 'MorbidityWeek' => $row['morbidity_week'],
-                'EPIID' => $row['epi_id'],
                 'Year' => $row['year'],
+                'EPIID' => $row['epi_id'],
 
                 'middle_name' => ($row['middle_name'] != '' && !is_null($row['middle_name'] && $row['middle_name'] != 'NONE' && $row['middle_name'] != 'N/A') && $row['middle_name'] != 'N/A') ? $row['middle_name'] : NULL,
                 'suffix' => ($row['suffix_name'] != '' && !is_null($row['suffix_name']) && $row['suffix_name'] != 'N/A' && $row['suffix_name'] != 'NONE') ? $row['suffix_name'] : NULL,
@@ -3645,6 +3798,14 @@ class SevereAcuteRespiratoryInfectionImport implements ToModel, WithHeadingRow, 
 
             if(!$hf_check) {
                 EdcsImport::createDohFacility($fac_name, $hfcode, $row['region_dru'], $row['province_dru'], $row['muncity_dru']);
+            }
+
+            //Get Morb Month
+            if(!is_null($row['date_onset_of_ill_ness'])) {
+                $getMorbidityMonth = $this->getMorbMonth(EdcsImport::tDate($row['date_onset_of_ill_ness']));
+            }
+            else {
+                $getMorbidityMonth = $this->getMorbMonth($currentDate->format('Y-m-d'));
             }
 
             $table_params = [
