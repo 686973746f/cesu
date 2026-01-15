@@ -33,16 +33,16 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('automw:daily')->dailyAt('16:03')->evenInMaintenanceMode();
 
-        $schedule->command('autoemailreport:daily')->dailyAt('16:06')->evenInMaintenanceMode();
+        //$schedule->command('autoemailreport:daily')->dailyAt('16:06')->evenInMaintenanceMode();
         $schedule->command('edcs_submission_weekly_reminder')->weeklyOn(1, '08:00')->evenInMaintenanceMode();
-        $schedule->command('autoemailcovidreport:weekly')->weeklyOn(5, '16:10')->evenInMaintenanceMode();
+        //$schedule->command('autoemailcovidreport:weekly')->weeklyOn(5, '16:10')->evenInMaintenanceMode();
         //$schedule->command('ayudaemail:daily')->dailyAt('16:09')->evenInMaintenanceMode();
         
-        $schedule->command('autoemailcoviddatabase:daily')->dailyAt('16:15')->evenInMaintenanceMode();
+        //$schedule->command('autoemailcoviddatabase:daily')->dailyAt('16:15')->evenInMaintenanceMode();
         $schedule->command('syndromicchecker:daily')->dailyAt('16:20')->evenInMaintenanceMode();
 
         $schedule->command('autosendencoderstats:daily')->dailyAt('16:40')->evenInMaintenanceMode();
-        $schedule->command('autoemailctreport:daily')->dailyAt('16:45')->evenInMaintenanceMode();
+        //$schedule->command('autoemailctreport:daily')->dailyAt('16:45')->evenInMaintenanceMode();
         $schedule->command('vpdnotifier:hourly')->hourly()->evenInMaintenanceMode();
         
         //$schedule->command('compositemeasurev2:on15and30')->monthlyOn(15, '16:50');
@@ -80,7 +80,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('edcscaseemailer:hourly')->everyFiveMinutes()->evenInMaintenanceMode();
         $schedule->command('taskgenerator_checker')->everyMinute()->evenInMaintenanceMode();
-        $schedule->command('taskgenerator_creator')->dailyAt('00:00')->evenInMaintenanceMode();
+        //$schedule->command('taskgenerator_creator')->dailyAt('00:00')->evenInMaintenanceMode();
 
         //$schedule->command('queue:work')->everyMinute()->withoutOverlapping();
         

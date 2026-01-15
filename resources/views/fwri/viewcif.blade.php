@@ -440,10 +440,17 @@
             }
         });
 
+        @if(!blank($d->brgy_id))
         var regionDefault = {{$d->brgy->city->province->region->id}};
         var provinceDefault = {{$d->brgy->city->province->id}};
         var cityDefault = {{$d->brgy->city->id}};
         var brgyDefault = {{$d->brgy->id}}
+        @else
+        var regionDefault = 1;
+        var provinceDefault = 18;
+        var cityDefault = 388;
+        @endif
+        
 
         $('#address_region_code').change(function (e) { 
             e.preventDefault();
@@ -573,10 +580,17 @@
             }, 3500); // Slight delay to ensure city is loaded
         }
 
-        var inj_regionDefault = {{$d->injurybrgy->city->province->region->id}};
-        var inj_provinceDefault = {{$d->injurybrgy->city->province->id}};
-        var inj_cityDefault = {{$d->injurybrgy->city->id}};
-        var inj_brgyDefault = {{$d->injurybrgy->id}}
+        @if(!blank($d->inj_brgy_id))
+            var inj_regionDefault = {{$d->injurybrgy->city->province->region->id}};
+            var inj_provinceDefault = {{$d->injurybrgy->city->province->id}};
+            var inj_cityDefault = {{$d->injurybrgy->city->id}};
+            var inj_brgyDefault = {{$d->injurybrgy->id}}
+        @else
+            var inj_regionDefault = 1;
+            var inj_provinceDefault = 18;
+            var inj_cityDefault = 388;
+        @endif
+        
 
         $('#injury_address_region_code').change(function (e) { 
             e.preventDefault();

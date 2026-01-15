@@ -456,17 +456,19 @@ class FwriController extends Controller
     public function export() {
         $currentDate = Carbon::now();
         
-        if ($currentDate->month === Carbon::DECEMBER) {
-            $date1 = Carbon::parse(date('Y-12-21'));
-            $date2 = Carbon::parse((date('Y') +1).'-01-10');
+        if(request()->input('year')) {
+            if(request()->input('year') > date('Y') + 1) {
+                return abort(401);
+            }
+
+            $input_year = request()->input('year');
         }
         else {
-            $date1 = Carbon::parse((date('Y')-1).'-12-21');
-            $date2 = Carbon::parse(date('Y-01-10'));
+            $input_year = date('Y');
         }
 
-        $list = FwInjury::whereBetween('created_at', [$date1, $date2])
-        ->where('status', 'ENABLED')
+        $list = FwInjury::where('status', 'ENABLED')
+        ->where('report_year', $input_year)
         ->get();
 
         $startCell1 = 8;

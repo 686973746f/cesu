@@ -8,13 +8,13 @@
                     <div><b>Fireworks-Related Injury (FWRI) - Home</b> (Total: {{$list->count()}})</div>
                     <div>
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#uploadModal">Upload</button>
-                        <a href="{{route('fwri_export')}}" class="btn btn-success">Export</a>
-                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#filterBtn">Filter</button>
+                        <a href="{{route('fwri_export', (request()->input('select_year')) ? ['year' => request()->input('select_year')] : '')}}" class="btn btn-success">Export</a>
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reportMod">Report</button>
                     </div>
                 </div>
             </div>
             <div class="card-body">
+                <button type="button" class="btn btn-secondary mb-3" data-toggle="modal" data-target="#filterBtn">Filter</button>
                 @if($list->count() != 0)
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped" id="mainTbl">
@@ -117,8 +117,8 @@
                         <div class="form-group">
                           <label for="">Select Year</label>
                           <select class="form-control" name="select_year" id="select_year" required>
-                            @foreach(range(date('Y'), 2019) as $y)
-                            <option value="{{$y}}" {{(request()->input('select_year') == $y) ? 'selected' : ''}}>{{$y}} (Dec. 1, {{$y}} to Jan. 10, {{$y+1}})</option>
+                            @foreach(range(date('Y') + 1, 2019) as $y)
+                            <option value="{{$y}}" {{(request()->input('select_year') == $y) ? 'selected' : ''}}>{{$y}} (Dec. 21, {{$y}} to Jan. 5, {{$y+1}})</option>
                             @endforeach
                           </select>
                         </div>
