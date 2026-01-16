@@ -829,7 +829,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
 
     Route::get('/pharmacy/process/patient/{id}', [PharmacyController::class, 'modifyStockPatientView'])->name('pharmacy_modify_patient_stock');
     Route::post('/pharmacy/process/patient/{id}/add_cart', [PharmacyController::class, 'addCartItem'])->name('pharmacy_patient_addcart');
-    Route::post('/pharmacy/process/patient/{id}/process_cart', [PharmacyController::class, 'processCartItem'])->name('pharmacy_patient_process_cart');
+    Route::post('/pharmacy/process/patient/{id}/process_cart', [PharmacyController::class, 'selectCartTransaction'])->name('pharmacy_patient_process_cart');
     //Route::post('/pharmacy/process/patient/{id}', [PharmacyController::class, 'modifyStockPatientProcess'])->name('pharmacy_modify_patient_stock_process');
 
     Route::get('/pharmacy/cart/branch/{branch_id}', [PharmacyController::class, 'modifyStockBranchView'])->name('pharmacy_viewBranchCart');

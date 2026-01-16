@@ -291,7 +291,7 @@
                         <div id="part2_5div" class="d-none">
                             <div class="form-group">
                                 <label for="qty_to_process"><b class="text-danger">*</b><span id="qty_label"></span></label>
-                                <input type="number" class="form-control" name="qty_to_process" id="qty_to_process" value="{{old('qty_to_process')}}">
+                                <input type="number" class="form-control" name="qty_to_process" id="qty_to_process" value="{{old('qty_to_process')}}" autocomplete="off">
                             </div>
                             <div id="transfer_div" class="d-none">
                                 <div class="form-group">

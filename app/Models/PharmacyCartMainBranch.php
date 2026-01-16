@@ -24,4 +24,8 @@ class PharmacyCartMainBranch extends Model
     public function pharmacycartsub() {
         return $this->hasMany(PharmacyCartSubBranch::class, 'main_cart_id');
     }
+
+    public function pharmacybranch() {
+        return $this->belongsTo(PharmacyBranch::class, 'branch_id');
+    }
 }

@@ -19,7 +19,7 @@ class CreatePharmacyCartSubsTable extends Migration
             $table->foreignId('subsupply_id')->nullable()->constrained('pharmacy_supply_subs')->onDelete('cascade');
 
             $table->integer('qty_to_process');
-            $table->string('type_to_process');
+            $table->string('type_to_process')->default('PIECE');
             $table->uuid('request_uuid')->nullable()->unique();
             $table->timestamps();
         });
