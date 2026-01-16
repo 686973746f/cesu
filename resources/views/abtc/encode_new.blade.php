@@ -284,7 +284,7 @@
                     <select class="form-control" name="vaccinator_id" id="vaccinator_id" required>
                         <option value="" disabled {{is_null(old('vaccinator_id')) ? 'selected' : ''}}>Choose...</option>
                         @foreach(App\Models\Employee::whereNotNull('abtc_vaccinator_branch')->get() as $v)
-                        <option value="{{$v->id}}" {{($v->id == old('vaccinator_id')) ? 'selected' : ''}}>{{$v->getNameWithPr()}}</option>
+                        <option value="{{$v->id}}" {{($v->id == old('vaccinator_id', auth()->user()->abtc_default_vaccinator_id)) ? 'selected' : ''}}>{{$v->getNameWithPr()}}</option>
                         @endforeach
                     </select>
                 </div>
