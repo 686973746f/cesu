@@ -26,6 +26,7 @@ use App\Models\PharmacyCartSubBranch;
 use App\Models\PharmacyCartMainBranch;
 use App\Models\PharmacySupplySubStock;
 use App\Models\PharmacyQtyLimitPatient;
+use Illuminate\Database\QueryException;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use OpenSpout\Common\Entity\Style\Style;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -133,8 +134,13 @@ class PharmacyController extends Controller
         ]);
 
         $batches = PharmacySupplySubStock::where('subsupply_id', $r->subsupply_id)
-        ->where('expiration_date', '>=', date('Y-m-d', strtotime('-1 Day')))
-        ->orderBy('expiration_date')
+        ->where('expiration_date', '>=', date('Y-m-d', strtotime('-1 Day')));
+
+        if($r->transfer_type == 'TRANSFER') {
+            $batches = $batches->where('current_piece_stock', '>', 0);
+        }
+
+        $batches = $batches->orderBy('expiration_date')
         ->get()
         ->map(function ($batch) {
             return [
@@ -1884,6 +1890,7 @@ class PharmacyController extends Controller
                 'remarks' => $r->nt_remarks,
                 'total_cost' => $r->total_cost,
                 'drsi_number' => $r->drsi_number,
+                'request_uuid' => $r->request_uuid,
             ];
 
             if($r->nt_transaction_type == 'RECEIVED') {
@@ -1935,7 +1942,13 @@ class PharmacyController extends Controller
                     }
                 }
 
-                $tsc = PharmacyStockCard::create($table_params);
+                try {
+                    $tsc = PharmacyStockCard::create($table_params);
+                } catch (QueryException $e) {
+                    return redirect()->back()
+                    ->with('nt_msg', 'Duplicate submission detected. Transaction already exists.')
+                    ->with('nt_msgtype', 'warning');
+                }
 
                 if(auth()->user()->isPharmacyBranchAdminOrMasterAdmin()) {
                     $this->performTransaction($tsc->id);
@@ -1973,7 +1986,13 @@ class PharmacyController extends Controller
                     ];
                 }
 
-                $tsc = PharmacyStockCard::create($table_params);
+                try {
+                    $tsc = PharmacyStockCard::create($table_params);
+                } catch (QueryException $e) {
+                    return redirect()->back()
+                    ->with('nt_msg', 'Duplicate submission detected. Transaction already exists.')
+                    ->with('nt_msgtype', 'warning');
+                }
                 
                 if(auth()->user()->isPharmacyBranchAdminOrMasterAdmin()) {
                     $this->performTransaction($tsc->id);
@@ -2314,16 +2333,23 @@ class PharmacyController extends Controller
                         ]
                     );
 
-                    $transfer_tsc = PharmacyStockCard::create([
-                        'stock_id' => $destSubStock->id,
-                        'type' => 'RECEIVED',
-                        'status' => 'PENDING',
-                        
-                        'qty_to_process' => $d->qty_to_process,
-                        'received_from_stc_id' => $d->id,
-                        
-                        'created_by' => auth()->id(),
-                    ]);
+                    $alreadyCreated = PharmacyStockCard::where('received_from_stc_id', $d->id)
+                    ->where('type', 'RECEIVED')
+                    ->exists();
+                    
+                    if (!$alreadyCreated) {
+                        $transfer_tsc = PharmacyStockCard::create([
+                            'stock_id' => $destSubStock->id,
+                            'type' => 'RECEIVED',
+                            'status' => 'PENDING',
+                            
+                            'qty_to_process' => $d->qty_to_process,
+                            'received_from_stc_id' => $d->id,
+                            
+                            'created_by' => auth()->id(),
+                            'request_uuid' => (string) Str::uuid(),
+                        ]);
+                    }
                 }
             }
             else if($d->type == 'RECEIVED') {

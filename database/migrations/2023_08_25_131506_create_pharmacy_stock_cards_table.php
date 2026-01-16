@@ -58,6 +58,11 @@ class CreatePharmacyStockCardsTable extends Migration
             
             $table->timestamps();
             $table->softDeletes();
+            $table->uuid('request_uuid')
+                  ->nullable()
+                  ->after('id');
+
+            $table->unique('request_uuid', 'uq_pharmacy_stock_cards_request_uuid');
         });
     }
 

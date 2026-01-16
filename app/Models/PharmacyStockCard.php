@@ -44,6 +44,7 @@ class PharmacyStockCard extends Model
         'rx_fromfacility',
         'rx_fromdoctor',
         'rx_fromdoctor_licenseno',
+        'request_uuid',
     ];  
 
     public function user() {

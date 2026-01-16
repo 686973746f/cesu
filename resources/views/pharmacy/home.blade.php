@@ -201,6 +201,7 @@
 
     <form action="{{ route('pharmacy_processtransactionv2') }}" method="POST">
         @csrf
+        <input type="hidden" name="request_uuid" value="{{ Str::uuid() }}">
         <div class="modal fade" id="newTransaction" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -463,7 +464,8 @@
                 );
 
                 $.get("{{ route('ajax.pharmacy-sub-stocks') }}", {
-                    subsupply_id: $('#nt_substock_id').val()
+                    subsupply_id: $('#nt_substock_id').val(),
+                    transfer_type: value,
                 }, function (data) {
 
                     $.each(data, function (i, batch) {
@@ -494,7 +496,8 @@
                 );
 
                 $.get("{{ route('ajax.pharmacy-sub-stocks') }}", {
-                    subsupply_id: $('#nt_substock_id').val()
+                    subsupply_id: $('#nt_substock_id').val(),
+                    transfer_type: value,
                 }, function (data) {
 
                     $.each(data, function (i, batch) {
