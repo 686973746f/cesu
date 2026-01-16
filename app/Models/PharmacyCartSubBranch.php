@@ -14,6 +14,7 @@ class PharmacyCartSubBranch extends Model
         'subsupply_id',
         'qty_to_process',
         'type_to_process',
+        'request_uuid',
     ];
 
     public function pharmacycartmain() {

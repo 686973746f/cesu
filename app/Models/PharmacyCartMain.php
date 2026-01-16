@@ -14,7 +14,18 @@ class PharmacyCartMain extends Model
         'patient_id',
         'branch_id',
         'prescription_id',
+        'processed_request_uuid',
     ];
+
+    /*
+    For Patients
+        -> PharmacyCartMain
+            ->PharmacyCartSub
+    
+    For Branches
+        -> PharmacyCartMainBranch
+            ->PharmacyCartSubBranch
+    */
 
     public function user() {
         return $this->belongsTo(User::class, 'created_by');

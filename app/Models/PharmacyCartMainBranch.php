@@ -14,6 +14,7 @@ class PharmacyCartMainBranch extends Model
         'branch_id',
         'processor_branch_id',
         'remarks',
+        'processed_request_uuid',
     ];
 
     public function user() {

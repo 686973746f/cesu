@@ -8,6 +8,7 @@
             <div class="col-md-6">
                 <form action="{{route('pharmacy_patient_addcart', $d->id)}}" method="POST" id="myForm">
                     @csrf
+                    <input type="hidden" name="request_uuid" value="{{ Str::uuid() }}">
                     <div class="card">
                         <div class="card-header"><b>Dispense to Patient</b> (Branch: {{auth()->user()->pharmacybranch->name}})</div>
                         <div class="card-body">
@@ -72,7 +73,11 @@
                               </select>
                             </div>
                             <hr>
-                            <div class="row">
+                            <div class="form-group">
+                                <label for="qty_to_process"><b class="text-danger">*</b>Quantity <span id="qty_span"></span></label>
+                                <input type="number" class="form-control" name="qty_to_process" id="qty_to_process" min="1" max="999" value="{{old('qty_to_process')}}" required autocomplete="off">
+                            </div>
+                            <div class="row d-none">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                       <label for="type_to_process"><b class="text-danger">*</b>Type to Process</label>
@@ -83,10 +88,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="qty_to_process"><b class="text-danger">*</b>Quantity <span id="qty_span"></span></label>
-                                        <input type="text" class="form-control" name="qty_to_process" id="qty_to_process" min="1" max="999" value="{{old('qty_to_process')}}" required>
-                                    </div>
+                                    
                                 </div>
                             </div>
                             <!--
@@ -106,6 +108,7 @@
             <div class="col-md-6">
                 <form action="{{route('pharmacy_patient_process_cart', $d->id)}}" method="POST">
                     @csrf
+                    <input type="hidden" name="request_uuid" value="{{ Str::uuid() }}">
                     <div class="card mb-3">
                         <div class="card-header">
                             <div class="d-flex justify-content-between">
@@ -115,6 +118,7 @@
                         </div>
                         <div class="card-body">
                             <input type="hidden" name="selected_maincart_id" value="{{$load_cart->id}}">
+
                             @if($load_subcart->count())
                             <div class="table-responsive">
                                 <table class="table table-bordered table-striped text-center">

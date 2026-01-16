@@ -20,6 +20,7 @@ class CreatePharmacyCartSubsTable extends Migration
 
             $table->integer('qty_to_process');
             $table->string('type_to_process');
+            $table->uuid('request_uuid')->nullable()->unique();
             $table->timestamps();
         });
     }

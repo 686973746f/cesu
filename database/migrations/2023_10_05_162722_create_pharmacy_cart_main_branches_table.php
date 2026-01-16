@@ -23,6 +23,7 @@ class CreatePharmacyCartMainBranchesTable extends Migration
             
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
+            $table->uuid('processed_request_uuid')->nullable()->unique();
             $table->timestamps();
         });
     }
