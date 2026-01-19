@@ -211,8 +211,8 @@
                             <label for="bls_typeofrescuer"><b class="text-danger">*</b>Type of Rescuer</label>
                             <select class="form-control" name="bls_typeofrescuer" id="bls_typeofrescuer" required>
                               <option value="" disabled {{(is_null(old('bls_typeofrescuer', $d->bls_typeofrescuer))) ? 'selected' : ''}}>Choose...</option>
-                              <option value="LR" {{(old('bls_typeofrescuer', $d->bls_typeofrescuer) == 'LR') ? 'selected' : ''}}>Lay Rescuer</option>
-                              <option value="HCP" {{(old('bls_typeofrescuer', $d->bls_typeofrescuer) == 'HCP') ? 'selected' : ''}}>Health Care Provider</option>
+                              <option value="LR" {{(old('bls_typeofrescuer', $d->bls_typeofrescuer) == 'LR') ? 'selected' : ''}}>Lay Rescuer (LR)</option>
+                              <option value="HCP" {{(old('bls_typeofrescuer', $d->bls_typeofrescuer) == 'HCP') ? 'selected' : ''}}>Health Care Provider (HCP)</option>
                             </select>
                         </div>
                         <div id="ifBlsTrainedDiv" class="d-none">

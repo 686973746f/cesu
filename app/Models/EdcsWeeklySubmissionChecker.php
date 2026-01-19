@@ -127,6 +127,28 @@ class EdcsWeeklySubmissionChecker extends Model
     }
 
     public function getAlreadySubmittedTypeSimplified() {
+        $fetchmw = MorbidityWeekCalendar::where('year', $this->year)
+        ->where('mw', $this->week)
+        ->first();
+
+        if(Carbon::parse($fetchmw->created_at)->dayOfWeek === Carbon::MONDAY) {
+            if($this->status == 'SUBMITTED') {
+                return '✔';
+            }
+            else {
+                return '✔Z';
+            }
+        }
+        else {
+            if($this->status == 'LATE ZERO CASE') {
+                return 'LZ';
+            }
+            else {
+                return 'L';
+            }
+        }
+
+        /*
         if($this->getAlreadySubmittedTypeFunction() == 'SUBMITTED_ONTIME') {
             if($this->status == 'SUBMITTED') {
                 return '✔';
@@ -143,6 +165,7 @@ class EdcsWeeklySubmissionChecker extends Model
                 return 'L';
             }
         }
+        */
     }
 
     public static function getAlreadySubmittedType($facility_code, $input_year, $input_mw) {
