@@ -12146,13 +12146,32 @@ class PIDSRController extends Controller
     }
 
     public function facilityWeeklySubmissionProcess($facility_code, $year, $mw, Request $r) {
+        $current_date = Carbon::now();
         $f = DohFacility::where('sys_code1', $facility_code)->first();
 
         if(!$f) {
             return abort(401);
         }
+        
+        $previousmw = $this->getMonitoringMw()->getPreviousWeek();
+        $currentmw = $this->getMonitoringMw();
 
-        $s_type = EdcsWeeklySubmissionChecker::getSubmissionType();
+        if($year == $previousmw->year && $mw == $currentmw->mw) {
+            if($current_date->dayOfWeek == Carbon::MONDAY) {
+                $s_type = 'CURRENT_WEEK';
+            }
+            else {
+                $s_type = 'LATE_CURRENT_WEEK';
+            }
+        }
+        else {
+            if($year > $previousmw->year || $mw > $previousmw->mw) {
+                return abort(401);
+            }
+            else {
+                $s_type = 'LATE';
+            }
+        }
 
         $check = EdcsWeeklySubmissionChecker::where('facility_name', $f->facility_name)
         ->where('year', $year)

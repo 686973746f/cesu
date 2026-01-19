@@ -785,7 +785,7 @@ class PharmacyController extends Controller
                                 
                                 $tsc = $r->user()->pharmacystockcard()->create($table_params);
                                 
-                                $this->performTransaction($tsc->id);
+                                PharmacyController::performTransaction($tsc->id);
 
                                 /*
                                 if($substock->isDirty()) {
