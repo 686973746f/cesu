@@ -107,7 +107,7 @@ class SyndromicController extends Controller
                     ->orWhere(DB::raw('CONCAT(lname," ",fname)'), 'LIKE', "%".str_replace(',','',mb_strtoupper($q))."%");
                 });
 
-                if(auth()->user()->itr_facility_id == 11730) {
+                if(auth()->user()->opdfacility->enable_customemr1 == 1) {
                     //Manggahan Search
                     $ll = (clone $base_search)->orWhere('facility_controlnumber', $q)->paginate(10);
                 }
@@ -576,7 +576,7 @@ class SyndromicController extends Controller
                 'selfie_file' => $selfie_filename,
             ];
 
-            if(auth()->user()->itr_facility_id == 11730) { //Manggahan Facility ID Checking
+            if(auth()->user()->opdfacility->enable_customemr1 == 1) { //Manggahan Facility ID Checking
                 $values_array = $values_array + [
                     'facility_controlnumber' => $request->facility_controlnumber,
                 ];
@@ -642,7 +642,7 @@ class SyndromicController extends Controller
 
         //check if record exist today
         if(!auth()->user()->isTbdotsEncoder()) {
-            if(auth()->user()->itr_facility_id == 11730) { //Multiple follow-up on same day on Manggahan
+            if(auth()->user()->opdfacility->enable_customemr1 == 1) { //Multiple follow-up on same day on Manggahan
                 $existing_record_count = SyndromicRecords::where('syndromic_patient_id', $patient->id)
                 ->where('facility_id', auth()->user()->itr_facility_id)
                 ->whereDate('created_at', date('Y-m-d'))
@@ -778,7 +778,7 @@ class SyndromicController extends Controller
 
         //check if record exist today
         if(!auth()->user()->isTbdotsEncoder()) {
-            if(auth()->user()->itr_facility_id == 11730) { //Multiple follow-up on same day on Manggahan
+            if(auth()->user()->opdfacility->enable_customemr1 == 1) { //Multiple follow-up on same day on Manggahan
                 $existing_record_count = SyndromicRecords::where('syndromic_patient_id', $p->id)
                 ->where('facility_id', auth()->user()->itr_facility_id)
                 ->whereDate('created_at', date('Y-m-d'))
@@ -1560,7 +1560,7 @@ class SyndromicController extends Controller
                 'selfie_file' => $selfie_filename,
             ];
 
-            if($getpatient->facility_id == 11730 && auth()->user()->itr_facility_id == 11730) { //Manggahan Facility ID Checking
+            if($getpatient->facility_id == 11730 && auth()->user()->opdfacility->enable_customemr1 == 1) { //Manggahan Facility ID Checking
                 $values_array = $values_array + [
                     'facility_controlnumber' => $request->facility_controlnumber,
                 ];

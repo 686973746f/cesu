@@ -15,7 +15,7 @@
                     <div class="alert alert-primary" role="alert">
                         <b class="text-danger">Note:</b> All fields marked with an Asterisk (<b class="text-danger">*</b>) are <b>REQUIRED</b> to be filled-out.
                     </div>
-                    @if(auth()->user()->itr_facility_id == 11730)
+                    @if(auth()->user()->opdfacility->enable_customemr1 == 1)
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">

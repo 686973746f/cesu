@@ -71,6 +71,7 @@ class CreateDohFacilitiesTable extends Migration
 
             $table->string('abtc_name')->nullable();
             $table->string('abtc_code')->nullable();
+            $table->integer('enable_customemr1')->default(0);
 
             $table->timestamps();
         });

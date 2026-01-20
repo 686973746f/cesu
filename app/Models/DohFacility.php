@@ -78,6 +78,7 @@ class DohFacility extends Model
 
         'abtc_name',
         'abtc_code',
+        'enable_customemr1',
     ];
 
     public function getRegionData() {

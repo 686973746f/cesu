@@ -50,7 +50,7 @@
                             @if(!is_null($d->unique_opdnumber) && auth()->user()->itr_facility_id ==10525)
                             <div><small>OPD No. {{$d->unique_opdnumber}}</small></div>
                             @endif
-                            @if($d->facility_id == 11730 && auth()->user()->itr_facility_id == 11730)
+                            @if($d->facility_id == 11730 && auth()->user()->opdfacility->enable_customemr1 == 1)
                             <div><small>Control No: {{$d->facility_controlnumber}}</small></div>
                             @endif
                         </td>
