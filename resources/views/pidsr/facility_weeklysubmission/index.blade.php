@@ -240,6 +240,7 @@
                             <li>✔ - Submitted</li>
                             <li>✔Z - Submitted (Zero Case)</li>
                             <li>L - Late Submission</li>
+                            <li>LZ - Late Submission (Zero Case)</li>
                             <li>X - No Submission</li>
                         </ul>
                     </div>
