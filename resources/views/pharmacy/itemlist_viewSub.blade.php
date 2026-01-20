@@ -145,7 +145,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex justify-content-between">
-                            <div><b>Latest Transactions</b></div>
+                            <div><b>Latest Transaction/s</b></div>
                             <div><button type="button" class="btn btn-success" data-toggle="modal" data-target="#stockcard">Download Stock Card (.XLSX)</button></div>
                         </div>
                     </div>

@@ -73,7 +73,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex justify-content-between">
-                        <div><b>Transactions</b></div>
+                        <div><b>Latest Transaction/s</b></div>
                         <div><a href="{{route('pharmacy_viewBranchCart', $d->id)}}" class="btn btn-success">+ Dispense</a></div>
                     </div>
                 </div>
@@ -88,6 +88,7 @@
                                     <th>Type</th>
                                     <th>Item</th>
                                     <th>Quantity</th>
+                                    <th>Batch Number</th>
                                     <th>Recipient/Remarks</th>
                                     <th>Processed By</th>
                                 </tr>
@@ -98,10 +99,13 @@
                                     <td>{{date('m/d/Y h:i A', strtotime($t->created_at))}}</td>
                                     <td>#{{$t->id}}</td>
                                     <td>{{$t->type}}</td>
+                                    @if($t->pharmacysub)
                                     <td>{{$t->pharmacysub->pharmacysupplymaster->name}}</td>
-                                    <td class="{{($t->type == 'ISSUED') ? 'text-danger' : 'text-success'}}">
-                                        <b>{{($t->type == 'ISSUED') ? '-' : '+'}} {{$t->getQtyAndType()}}</b>
-                                    </td>
+                                    @else
+                                    <td>{{$t->substock->pharmacysub->pharmacysupplymaster->name}}</td>
+                                    @endif
+                                    <td class="{{ ($t->getQtyType() == '+') ? 'text-success' : 'text-danger' }}">{{$t->getQtyType()}}{{$t->getTransactionAmount()}}</td>
+                                    <td>{{$t->substock->batch_number ?? NULL}}</td>
                                     <td>
                                         {{$t->getRecipientAndRemarks()}}
                                     </td>

@@ -865,7 +865,6 @@ class PharmacyController extends Controller
     }
 
     public function modifyStockBranchView($branch_id) {
-        dd('Wait lang inaayos ko pa. -Moi');
         $d = PharmacyBranch::findOrFail($branch_id);
 
         if($d->id == auth()->user()->pharmacy_branch_id) {
@@ -1805,9 +1804,14 @@ class PharmacyController extends Controller
         }
         else {
             $list = PharmacySupplySub::where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
-            ->whereHas('pharmacysupplymaster', function ($q) {
-                $q->orderBy('name', 'ASC');
-            })
+            ->orderBy(
+                PharmacySupplyMaster::select('name')
+                    ->whereColumn(
+                        'pharmacy_supply_masters.id',
+                        'pharmacy_supply_subs.supply_master_id'
+                    ),
+                'ASC'
+            )
             ->paginate(10);
         }
 
@@ -2013,17 +2017,28 @@ class PharmacyController extends Controller
                 $substock->current_piece_stock = $d->after_qty_piece;
 
                 //Receive the Stock to the Facility
-
                 if(!is_null($d->receiving_branch_id)) {
                     //Proceed to Facility Transfer
                     
                     //Locate the Stock ID of the Facility First
+                    /*
                     $destSubSupply = PharmacySupplySub::where(
                         'supply_master_id',
                         $d->substock->pharmacysub->pharmacysupplymaster->id
                     )
                     ->where('pharmacy_branch_id', $d->receiving_branch_id)
                     ->firstOrFail();
+                    */
+
+                    $destSubSupply = PharmacySupplySub::firstOrCreate(
+                        [
+                            'supply_master_id' => $d->substock->pharmacysub->pharmacysupplymaster->id,
+                            'pharmacy_branch_id' => $d->receiving_branch_id,
+                        ],
+                        [
+                            'created_by' => Auth::id(),
+                        ]
+                    );
 
                     $destSubStock = PharmacySupplySubStock::firstOrCreate(
                         [
@@ -2996,11 +3011,19 @@ class PharmacyController extends Controller
         })
         */
 
+        /*
         $get_transactions = PharmacyStockcard::WhereHas('user', function ($q) use ($id) {
             $q->where('pharmacy_branch_id', $id);
         })
         ->orWhereHas('pharmacysub', function ($q) use ($id) {
             $q->where('pharmacy_branch_id', $id);
+        })
+        ->orderBy('created_at', 'DESC')
+        ->paginate(10);
+        */
+
+        $get_transactions = PharmacyStockCard::WhereHas('substock.pharmacysub', function ($q) use ($d) {
+            $q->where('pharmacy_branch_id', $d->id);
         })
         ->orderBy('created_at', 'DESC')
         ->paginate(10);
