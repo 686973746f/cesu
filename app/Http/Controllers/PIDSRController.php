@@ -9633,59 +9633,17 @@ class PIDSRController extends Controller
             $week_array = [];
 
             for($i=1; $i <= $maxweek; $i++) {
-                $val = EdcsWeeklySubmissionChecker::where('facility_name', $f->facility_name)
+                $w_check = EdcsWeeklySubmissionChecker::where('facility_name', $f->facility_name)
                 ->where('year', $year)
                 ->where('week', $i)
                 ->first();
 
-                if($val) {
-                    $getType = $val->getAlreadySubmittedTypeFunction();
-                    
-                    if($val->consider_submitted_override != 'N') {
-                        $or_status = $val->consider_submitted_override;
-
-                        if($or_status == 'Y') {
-                            $stat_string = '✔';
-                        }
-                        else if($or_status == 'Z') {
-                            $stat_string = 'ZERO CASE';
-                        }
-                        else if($or_status == 'LS') {
-                            $stat_string = 'ZERO CASE';
-                        }
-                        else if($or_status == 'LZ') {
-                            $stat_string = 'LATE ZERO CASE';
-                        }
-                    }
-                    else if($getType == 'SUBMITTED_ONTIME') {
-                        if($val->status == 'SUBMITTED') {
-                            $stat_string = '✔';
-                        }
-                        else {
-                            $stat_string = 'ZERO CASE';
-                        }
-                    }
-                    else if($getType == 'AUTOSUBMIT_BUT_NOREPORT') {
-                        $stat_string = 'ENCODED BUT NO WEEKLY REPORT';
-                    }
-                    else if($getType == 'SUBMITTED_BUT_LATE') {
-                        if($val->status == 'LATE ZERO CASE') {
-                            $stat_string = 'LATE ZERO CASE';
-                        }
-                        else {
-                            $stat_string = 'LATE SUBMISSION';
-                        }
-                        
-                    }
-                    else if($getType == 'AUTO_NO_SUBMISSION') {
-                        $stat_string = 'X';
-                    }
+                if($w_check) {
+                    $week_array[] = $w_check->getAlreadySubmittedTypeSimplified();
                 }
                 else {
-                    $stat_string = 'X';
+                    $week_array[] = 'X';
                 }
-
-                $week_array[] = $stat_string;
             }
 
             $final_array[] = [
