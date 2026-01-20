@@ -12117,7 +12117,7 @@ class PIDSRController extends Controller
 
         //Fetch Weekly Submission Data
         $week_array = [];
-        for($i=1;$i < $maxWeek; $i++) {
+        for($i=1;$i <= $maxWeek; $i++) {
             $w_check = EdcsWeeklySubmissionChecker::where('year', $input_year)
             ->where('week', $i)
             ->where('facility_name', $f->facility_name)
@@ -12152,17 +12152,19 @@ class PIDSRController extends Controller
         if(!$f) {
             return abort(401);
         }
-        
+
         $previousmw = $this->getMonitoringMw()->getPreviousWeek();
         $currentmw = $this->getMonitoringMw();
 
-        if($year == $previousmw->year && $mw == $currentmw->mw) {
+        if($year == $previousmw->year && $mw == $previousmw->mw) {
             if($current_date->dayOfWeek == Carbon::MONDAY) {
                 $s_type = 'CURRENT_WEEK';
             }
             else {
                 $s_type = 'LATE_CURRENT_WEEK';
             }
+
+            $trigger_email = true;
         }
         else {
             if($year > $previousmw->year || $mw > $previousmw->mw) {
@@ -12171,6 +12173,8 @@ class PIDSRController extends Controller
             else {
                 $s_type = 'LATE';
             }
+
+            $trigger_email = false;
         }
 
         $check = EdcsWeeklySubmissionChecker::where('facility_name', $f->facility_name)
@@ -12242,7 +12246,7 @@ class PIDSRController extends Controller
             'excel_file' => ($r->status == 'SUBMITTED') ? $file_name : NULL,
         ];
 
-        $trigger_email = false;
+        //$trigger_email = false;
 
         if($s_type == 'EARLY_CURRENT_WEEK') {
             return abort(401);
@@ -12267,7 +12271,7 @@ class PIDSRController extends Controller
 
                 $import_id = $c->id;
 
-                $trigger_email = true;
+                //$trigger_email = true;
             }
         }
         else {
@@ -12295,9 +12299,11 @@ class PIDSRController extends Controller
 
                 $import_id = $c->id;
 
+                /*
                 if($s_type == 'LATE_CURRENT_WEEK') {
                     $trigger_email = true;
                 }
+                */
             }
         }
 

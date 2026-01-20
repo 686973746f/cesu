@@ -131,7 +131,7 @@ class EdcsWeeklySubmissionChecker extends Model
         ->where('mw', $this->week)
         ->first();
 
-        if(Carbon::parse($fetchmw->created_at)->dayOfWeek === Carbon::MONDAY) {
+        if(Carbon::parse($this->created_at)->dayOfWeek == Carbon::MONDAY) {
             if($this->status == 'SUBMITTED') {
                 return '✔';
             }
@@ -168,7 +168,15 @@ class EdcsWeeklySubmissionChecker extends Model
         */
     }
 
-    public static function getAlreadySubmittedType($facility_code, $input_year, $input_mw) {
+    public function getMwCalendar() {
+        $s = MorbidityWeekCalendar::whereDate('start_date', '<=', $current_date->format('Y-m-d'))
+        ->whereDate('end_date', '>=', $current_date->format('Y-m-d'))
+        ->first();
+
+        return $s;
+    }
+
+    public function getAlreadySubmittedType($facility_code, $input_year, $input_mw) {
         $f = DohFacility::where('sys_code1', $facility_code)->first();
         $current_date = Carbon::now();
 
@@ -178,7 +186,9 @@ class EdcsWeeklySubmissionChecker extends Model
         ->first();
 
         if($d) {
-            if(Carbon::parse($d->created_at)->dayOfWeek == Carbon::MONDAY) {
+            $start_date = ;
+            $start_date = $this->getMwCalendar()->start_date;
+            if(Carbon::parse($d->created_at)->dayOfWeek == Carbon::MONDAY && Carbon::parse($this->getMwCalendar()->start_date)->next(Carbon::MONDAY)->isSameDay($this->created_at)) {
                 return 'SUBMITTED_ONTIME';
             }
             else {

@@ -214,7 +214,7 @@
                                 <table class="table table-bordered text-center">
                                     <thead class="thead-light">
                                         <tr>
-                                            @for($i=1;$i < $maxWeek; $i++)
+                                            @for($i=1;$i <= $maxWeek; $i++)
                                             <th>MW {{$i}}</th>
                                             @endfor
                                         </tr>
