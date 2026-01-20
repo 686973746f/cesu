@@ -865,6 +865,7 @@ class PharmacyController extends Controller
     }
 
     public function modifyStockBranchView($branch_id) {
+        dd('Wait lang inaayos ko pa. -Moi');
         $d = PharmacyBranch::findOrFail($branch_id);
 
         if($d->id == auth()->user()->pharmacy_branch_id) {
