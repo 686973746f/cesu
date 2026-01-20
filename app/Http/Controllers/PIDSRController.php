@@ -5065,6 +5065,10 @@ class PIDSRController extends Controller
             $sel_year_minusfive = ($sel_year - 5);
             $sel_week = request()->input('mweek');
 
+            $mwcalendar = MorbidityWeekCalendar::where('year', $sel_year)
+            ->where('mw', $sel_week)
+            ->first();
+
             if($sel_disease == 'COVID') {
                 $modelClass = "App\\Models\\Forms";
             }
@@ -6521,6 +6525,13 @@ class PIDSRController extends Controller
                 $flavor_name = ucwords(strtolower($sel_disease));
             }
 
+            $startDate = Carbon::parse($mwcalendar->start_date);
+            $endDate = Carbon::parse($mwcalendar->end_date);
+            $last3mw_date = Carbon::parse($mwcalendar->getPreviousWeek()->getPreviousWeek()->getPreviousWeek()->start_date);
+
+            $flavor_enddate = $endDate;
+
+            /*
             // Get the start date of the week
             $startDate = Carbon::now()->isoWeekYear($sel_year)->isoWeek($sel_week)->startOfWeek();
 
@@ -6573,32 +6584,8 @@ class PIDSRController extends Controller
                 else {
                     $endDateBasedOnMw = Carbon::parse($sel_year.'-12-31')->format('M d, Y');
                 }
-                
-                /*
-                $getLastWeek = Carbon::parse($sel_year.'-01-01')->addDays(6 * ($sel_week - 1));
-
-                $getLastWeekStart = $getLastWeek->copy()->startOfWeek(Carbon::SUNDAY);
-                $getLastWeekEnd = $getLastWeek->copy()->endOfWeek(Carbon::SATURDAY);
-
-                $mWeekCalendarDate = Carbon::parse($sel_year.'-01-01')->addDays(6 * $sel_week);
-
-                if($mWeekCalendarDate->dayOfWeek == Carbon::SATURDAY) {
-                    $mWeekCalendarDate = $mWeekCalendarDate->addDay(1);
-                }
-                else if($mWeekCalendarDate->dayOfWeek == Carbon::SUNDAY) {
-                    $mWeekCalendarDate = $mWeekCalendarDate->addDay(1);
-                }
-                
-                if($getLastWeekStart->gte($mWeekCalendarDate) && $getLastWeekEnd->lte($mWeekCalendarDate)) {
-                    $mWeekCalendarDate = $mWeekCalendarDate->next(Carbon::MONDAY);
-                }
-
-                //dd($mWeekCalendarDate);
-
-                $startDateBasedOnMw = $mWeekCalendarDate->startOfWeek(Carbon::SUNDAY)->format('M d, Y');
-                $endDateBasedOnMw = $mWeekCalendarDate->startOfWeek(Carbon::SUNDAY)->addDays(6)->format('M d, Y');  
-                */
             }
+            */
 
             //Current Total vs Previous Year Total Percent and Compare (Higher/Lower)
             if($current_grand_total == $previous_grand_total) {
@@ -6668,9 +6655,9 @@ class PIDSRController extends Controller
                 'classification_titles' => $classification_titles,
                 'classification_counts' => $classification_counts,
                 'classification_colors' => $classification_colors,
-                'mWeekCalendarDate' => $mWeekCalendarDate,
-                'startDateBasedOnMw' => $startDateBasedOnMw,
-                'endDateBasedOnMw' => $endDateBasedOnMw,
+                //'mWeekCalendarDate' => $mWeekCalendarDate,
+                //'startDateBasedOnMw' => $startDateBasedOnMw,
+                //'endDateBasedOnMw' => $endDateBasedOnMw,
                 'set_display_params' => $set_display_params,
                 'flavor_name' => $flavor_name,
                 'age_display_string' => $age_display_string,

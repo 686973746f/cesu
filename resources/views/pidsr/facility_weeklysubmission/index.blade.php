@@ -203,7 +203,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card mt-3">
                 <div class="card-header"><b>View Weekly Submission Status Report ({{$year}})</b></div>
                 <div class="card-body">
                     <div class="table-responsive">
