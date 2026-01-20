@@ -5065,15 +5065,32 @@ class PIDSRController extends Controller
             $sel_year_minusfive = ($sel_year - 5);
             $sel_week = request()->input('mweek');
 
+            $city_id = 388;
+
             $mwcalendar = MorbidityWeekCalendar::where('year', $sel_year)
             ->where('mw', $sel_week)
             ->first();
 
-            if($sel_disease == 'COVID') {
-                $modelClass = "App\\Models\\Forms";
+            $modelClass = $sel_disease === 'COVID'
+            ? Forms::class
+            : "App\\Models\\{$sel_disease}";
+
+            if($sel_disease === 'COVID') {
+                $baseQuery = $modelClass::query()
+                ->with('records')
+                ->whereHas('records', function ($q) {
+                    $q->where('records.address_province', 'CAVITE')
+                    ->where('records.address_city', 'GENERAL TRIAS');
+                })
+                ->where('status', 'approved');
             }
             else {
-                $modelClass = "App\\Models\\$sel_disease";
+                $baseQuery = $modelClass::query()
+                ->whereHas('brgy', function ($q) use ($city_id) {
+                    $q->where('city_id', $city_id);
+                })
+                ->where('enabled', 1)
+                ->where('match_casedef', 1);
             }
             
 
@@ -5106,21 +5123,15 @@ class PIDSRController extends Controller
                 if($sel_year == date('Y')) {
                     if($x <= $sel_week) {
                         if($sel_disease == 'COVID') {
-                            ${'current_mw'.$x} = $modelClass::with('records')
-                            ->whereHas('records', function ($q) {
-                                $q->where('records.address_province', 'CAVITE')
-                                ->where('records.address_city', 'GENERAL TRIAS');
-                            })
-                            ->where('status', 'approved')
+                            ${'current_mw'.$x} = (clone $baseQuery)
                             ->whereIn('caseClassification', ['Probable', 'Confirmed'])
                             ->whereYear('morbidityMonth', $sel_year)
                             ->whereRaw('WEEK(morbidityMonth, 1) = ?', [$x])
                             ->count();
                         }
                         else {
-                            ${'current_mw'.$x} = $modelClass::where('Year', $sel_year)
-                            ->where('enabled', 1)
-                            ->where('match_casedef', 1)
+                            ${'current_mw'.$x} = (clone $baseQuery)
+                            ->where('Year', $sel_year)
                             ->where('MorbidityWeek', $x)
                             ->count();
                         }
@@ -5132,9 +5143,7 @@ class PIDSRController extends Controller
                 else {
                     if($x <= $sel_week) {
                         //${'current_mw'.$x} = PidsrThreshold::where('year', $sel_year)->where('disease', mb_strtoupper($sel_disease))->first()->{'mw'.$x};
-                        ${'current_mw'.$x} = $modelClass::where('Year', $sel_year)
-                        ->where('enabled', 1)
-                        ->where('match_casedef', 1)
+                        ${'current_mw'.$x} = (clone $baseQuery)
                         ->where('Year', $sel_year)
                         ->where('MorbidityWeek', $x)
                         ->count();
@@ -5154,43 +5163,23 @@ class PIDSRController extends Controller
             }
 
             if($sel_disease == 'COVID') {
-                $previous_grand_total = $modelClass::with('records')
-                ->whereHas('records', function ($q) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS');
-                })
-                ->where('status', 'approved')
+                $previous_grand_total = (clone $baseQuery)
                 ->whereIn('caseClassification', ['Probable', 'Confirmed'])
                 ->whereYear('morbidityMonth', $sel_year - 1)
                 ->count();
 
-                $hospitalized_count = $modelClass::with('records')
-                ->whereHas('records', function ($q) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS');
-                })
-                ->where('status', 'approved')
+                $hospitalized_count = (clone $baseQuery)
                 ->whereIn('caseClassification', ['Probable', 'Confirmed'])
                 ->whereYear('morbidityMonth', $sel_year)
                 ->count();
 
-                $previous_death_count = $modelClass::with('records')
-                ->whereHas('records', function ($q) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS');
-                })
-                ->where('status', 'approved')
+                $previous_death_count = (clone $baseQuery)
                 ->whereIn('caseClassification', ['Probable', 'Confirmed'])
                 ->where('outcomeCondition', 'Died')
                 ->whereYear('morbidityMonth', $sel_year - 1)
                 ->count();
                 
-                $death_count = $modelClass::with('records')
-                ->whereHas('records', function ($q) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS');
-                })
-                ->where('status', 'approved')
+                $death_count = (clone $baseQuery)
                 ->whereIn('caseClassification', ['Probable', 'Confirmed'])
                 ->where('outcomeCondition', 'Died')
                 ->whereYear('morbidityMonth', $sel_year)
@@ -5198,22 +5187,19 @@ class PIDSRController extends Controller
             }
             else {
                 if($sel_disease == 'Dengue') {
-                    $severe_total = $modelClass::where('enabled', 1)
-                    ->where('match_casedef', 1)
+                    $severe_total = (clone $baseQuery)
                     ->where('Year', $sel_year)
                     ->where('MorbidityWeek', '<=', $sel_week)
                     ->where('ClinClass', 'SEVERE DENGUE')
                     ->count();
 
-                    $withwarning_total = $modelClass::where('enabled', 1)
-                    ->where('match_casedef', 1)
+                    $withwarning_total = (clone $baseQuery)
                     ->where('Year', $sel_year)
                     ->where('MorbidityWeek', '<=', $sel_week)
                     ->where('ClinClass', 'WITH WARNING SIGNS')
                     ->count();
 
-                    $woutwarning_total = $modelClass::where('enabled', 1)
-                    ->where('match_casedef', 1)
+                    $woutwarning_total = (clone $baseQuery)
                     ->where('Year', $sel_year)
                     ->where('MorbidityWeek', '<=', $sel_week)
                     ->where('ClinClass', 'NO WARNING SIGNS')
@@ -5221,21 +5207,18 @@ class PIDSRController extends Controller
                 }
 
                 if($sel_disease == 'Rabies') {
-                    $previous_grand_total = $modelClass::where('enabled', 1)
-                    ->where('match_casedef', 1)
+                    $previous_grand_total = (clone $baseQuery)
                     ->where('Year', $sel_year - 1)
                     ->count();
                 }
                 else {
-                    $previous_grand_total = $modelClass::where('enabled', 1)
-                    ->where('match_casedef', 1)
+                    $previous_grand_total = (clone $baseQuery)
                     ->where('Year', $sel_year - 1)
                     ->where('MorbidityWeek', '<=', $sel_week)
                     ->count();
                 }
                 
-                $hospitalized_count = $modelClass::where('enabled', 1)
-                ->where('match_casedef', 1)
+                $hospitalized_count = (clone $baseQuery)
                 ->where('Year', $sel_year)
                 ->where('MorbidityWeek', '<=', $sel_week)
                 ->where('Admitted', 1)
@@ -5249,14 +5232,12 @@ class PIDSRController extends Controller
                 ->count();
                 */
 
-                $previous_death_count = $modelClass::where('enabled', 1)
-                ->where('match_casedef', 1)
+                $previous_death_count = (clone $baseQuery)
                 ->where('Year', $sel_year - 1)
                 ->where('Outcome', 'D')
                 ->count();
                 
-                $death_count = $modelClass::where('enabled', 1)
-                ->where('match_casedef', 1)
+                $death_count = (clone $baseQuery)
                 ->where('Year', $sel_year)
                 ->where('MorbidityWeek', '<=', $sel_week)
                 ->where('Outcome', 'D')
@@ -5292,21 +5273,15 @@ class PIDSRController extends Controller
             $year5_mw52_threshold = ($smw52) ? $smw52->mw52 : 0;
 
             if($sel_disease == 'COVID') {
-                $year1_mw1_threshold = $modelClass::with('records')
-                ->whereHas('records', function ($q) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS');
-                })
-                ->where('status', 'approved')
+                $year1_mw1_threshold = (clone $baseQuery)
                 ->whereIn('caseClassification', ['Probable', 'Confirmed'])
                 ->whereYear('morbidityMonth', $sel_year)
                 ->whereRaw('WEEK(morbidityMonth, 1) = ?', [1])
                 ->count();
             }
             else {
-                $year1_mw1_threshold = $modelClass::where('Year', $sel_year)
-                ->where('enabled', 1)
-                ->where('match_casedef', 1)
+                $year1_mw1_threshold = (clone $baseQuery)
+                ->where('Year', $sel_year)
                 ->where('MorbidityWeek', 1)
                 ->count();
             }
@@ -5366,8 +5341,8 @@ class PIDSRController extends Controller
 
             //TOP 10 BARANGAYS
             $brgys = Brgy::where('city_id', 1)
-            ->orderBy('brgyName', 'ASC')
             ->where('displayInList', 1)
+            ->orderBy('brgyName', 'ASC')
             ->get();
 
             $brgy_cases_array = [];
@@ -5378,7 +5353,7 @@ class PIDSRController extends Controller
             foreach($brgys as $brgy) {
                 if($sel_disease == 'COVID') {
                     if($sel_week == 1) {
-                        $brgy_last3mw = $modelClass::with('records')
+                        $brgy_last3mw = Forms::with('records')
                         ->whereHas('records', function ($q) use ($brgy) {
                             $q->where('records.address_province', 'CAVITE')
                             ->where('records.address_city', 'GENERAL TRIAS')
@@ -5391,7 +5366,7 @@ class PIDSRController extends Controller
                         ->count();
                     }
                     else if($sel_week == 2) {
-                        $brgy_last3mw = $modelClass::with('records')
+                        $brgy_last3mw = Forms::with('records')
                         ->whereHas('records', function ($q) use ($brgy) {
                             $q->where('records.address_province', 'CAVITE')
                             ->where('records.address_city', 'GENERAL TRIAS')
@@ -5407,7 +5382,7 @@ class PIDSRController extends Controller
                         $selrecentmw1 = $sel_week - 2;
                         $selrecentmw2 = $sel_week - 1;
     
-                        $brgy_last3mw = $modelClass::with('records')
+                        $brgy_last3mw = Forms::with('records')
                         ->whereHas('records', function ($q) use ($brgy) {
                             $q->where('records.address_province', 'CAVITE')
                             ->where('records.address_city', 'GENERAL TRIAS')
@@ -5422,18 +5397,16 @@ class PIDSRController extends Controller
                 }
                 else {
                     if($sel_week == 1) {
-                        $brgy_last3mw = $modelClass::where('Year', $sel_year)
+                        $brgy_last3mw = (clone $baseQuery)
+                        ->where('Year', $sel_year)
                         ->where('MorbidityWeek', 1)
-                        ->where('enabled', 1)
-                        ->where('match_casedef', 1)
                         ->where('Barangay', $brgy->brgyName)
                         ->count();
                     }
                     else if($sel_week == 2) {
-                        $brgy_last3mw = $modelClass::where('Year', $sel_year)
+                        $brgy_last3mw = (clone $baseQuery)
+                        ->where('Year', $sel_year)
                         ->whereIn('MorbidityWeek', [1,2])
-                        ->where('enabled', 1)
-                        ->where('match_casedef', 1)
                         ->where('Barangay', $brgy->brgyName)
                         ->count();
                     }
@@ -5441,10 +5414,9 @@ class PIDSRController extends Controller
                         $selrecentmw1 = $sel_week - 2;
                         $selrecentmw2 = $sel_week - 1;
     
-                        $brgy_last3mw = $modelClass::where('Year', $sel_year)
+                        $brgy_last3mw = (clone $baseQuery)
+                        ->where('Year', $sel_year)
                         ->whereIn('MorbidityWeek', [$selrecentmw1, $selrecentmw2, $sel_week])
-                        ->where('enabled', 1)
-                        ->where('match_casedef', 1)
                         ->where('Barangay', $brgy->brgyName)
                         ->count();
                     }
@@ -5456,7 +5428,7 @@ class PIDSRController extends Controller
                         $brgy_mw1 = 0;
                         $brgy_mw2 = 0;
                         $brgy_mw3 = 0;
-                        $brgy_mw4 = $modelClass::with('records')
+                        $brgy_mw4 = Forms::with('records')
                         ->whereHas('records', function ($q) use ($brgy) {
                             $q->where('records.address_province', 'CAVITE')
                             ->where('records.address_city', 'GENERAL TRIAS')
@@ -5471,7 +5443,7 @@ class PIDSRController extends Controller
                     else if($sel_week == 2) {
                         $brgy_mw1 = 0;
                         $brgy_mw2 = 0;
-                        $brgy_mw3 = $modelClass::with('records')
+                        $brgy_mw3 = Forms::with('records')
                         ->whereHas('records', function ($q) use ($brgy) {
                             $q->where('records.address_province', 'CAVITE')
                             ->where('records.address_city', 'GENERAL TRIAS')
@@ -5483,7 +5455,7 @@ class PIDSRController extends Controller
                         ->whereRaw('WEEK(morbidityMonth, 1) = ?', [2])
                         ->count();
                         
-                        $brgy_mw4 = $modelClass::with('records')
+                        $brgy_mw4 = Forms::with('records')
                         ->whereHas('records', function ($q) use ($brgy) {
                             $q->where('records.address_province', 'CAVITE')
                             ->where('records.address_city', 'GENERAL TRIAS')
@@ -5497,7 +5469,7 @@ class PIDSRController extends Controller
                     }
                     else if($sel_week == 3) {
                         $brgy_mw1 = 0;
-                        $brgy_mw2 = $modelClass::with('records')
+                        $brgy_mw2 = Forms::with('records')
                         ->whereHas('records', function ($q) use ($brgy) {
                             $q->where('records.address_province', 'CAVITE')
                             ->where('records.address_city', 'GENERAL TRIAS')
@@ -5509,7 +5481,7 @@ class PIDSRController extends Controller
                         ->whereRaw('WEEK(morbidityMonth, 1) = ?', [3])
                         ->count();
 
-                        $brgy_mw3 = $modelClass::with('records')
+                        $brgy_mw3 = Forms::with('records')
                         ->whereHas('records', function ($q) use ($brgy) {
                             $q->where('records.address_province', 'CAVITE')
                             ->where('records.address_city', 'GENERAL TRIAS')
@@ -5521,7 +5493,7 @@ class PIDSRController extends Controller
                         ->whereRaw('WEEK(morbidityMonth, 1) = ?', [2])
                         ->count();
 
-                        $brgy_mw4 = $modelClass::with('records')
+                        $brgy_mw4 = Forms::with('records')
                         ->whereHas('records', function ($q) use ($brgy) {
                             $q->where('records.address_province', 'CAVITE')
                             ->where('records.address_city', 'GENERAL TRIAS')
@@ -5534,7 +5506,7 @@ class PIDSRController extends Controller
                         ->count();
                     }
                     else {
-                        $brgy_mw1 = $modelClass::with('records')
+                        $brgy_mw1 = Forms::with('records')
                         ->whereHas('records', function ($q) use ($brgy) {
                             $q->where('records.address_province', 'CAVITE')
                             ->where('records.address_city', 'GENERAL TRIAS')
@@ -5546,7 +5518,7 @@ class PIDSRController extends Controller
                         ->whereRaw('WEEK(morbidityMonth, 1) = ?', [$sel_week - 3])
                         ->count();
 
-                        $brgy_mw2 = $modelClass::with('records')
+                        $brgy_mw2 = Forms::with('records')
                         ->whereHas('records', function ($q) use ($brgy) {
                             $q->where('records.address_province', 'CAVITE')
                             ->where('records.address_city', 'GENERAL TRIAS')
@@ -5558,7 +5530,7 @@ class PIDSRController extends Controller
                         ->whereRaw('WEEK(morbidityMonth, 1) = ?', [$sel_week - 2])
                         ->count();
                         
-                        $brgy_mw3 = $modelClass::with('records')
+                        $brgy_mw3 = Forms::with('records')
                         ->whereHas('records', function ($q) use ($brgy) {
                             $q->where('records.address_province', 'CAVITE')
                             ->where('records.address_city', 'GENERAL TRIAS')
@@ -5570,7 +5542,7 @@ class PIDSRController extends Controller
                         ->whereRaw('WEEK(morbidityMonth, 1) = ?', [$sel_week - 1])
                         ->count();
 
-                        $brgy_mw4 = $modelClass::with('records')
+                        $brgy_mw4 = Forms::with('records')
                         ->whereHas('records', function ($q) use ($brgy) {
                             $q->where('records.address_province', 'CAVITE')
                             ->where('records.address_city', 'GENERAL TRIAS')
@@ -5588,73 +5560,63 @@ class PIDSRController extends Controller
                         $brgy_mw1 = 0;
                         $brgy_mw2 = 0;
                         $brgy_mw3 = 0;
-                        $brgy_mw4 = $modelClass::where('Year', $sel_year)
+                        $brgy_mw4 = (clone $baseQuery)
+                        ->where('Year', $sel_year)
                         ->where('MorbidityWeek', 1)
-                        ->where('enabled', 1)
-                        ->where('match_casedef', 1)
                         ->where('Barangay', $brgy->brgyName)
                         ->count();
                     }
                     else if($sel_week == 2) {
                         $brgy_mw1 = 0;
                         $brgy_mw2 = 0;
-                        $brgy_mw3 = $modelClass::where('Year', $sel_year)
+                        $brgy_mw3 = (clone $baseQuery)
+                        ->where('Year', $sel_year)
                         ->where('MorbidityWeek', 2)
-                        ->where('enabled', 1)
-                        ->where('match_casedef', 1)
                         ->where('Barangay', $brgy->brgyName)
                         ->count();
-                        $brgy_mw4 = $modelClass::where('Year', $sel_year)
+                        $brgy_mw4 = (clone $baseQuery)
+                        ->where('Year', $sel_year)
                         ->where('MorbidityWeek', 1)
-                        ->where('enabled', 1)
-                        ->where('match_casedef', 1)
                         ->where('Barangay', $brgy->brgyName)
                         ->count();
                     }
                     else if($sel_week == 3) {
                         $brgy_mw1 = 0;
-                        $brgy_mw2 = $modelClass::where('Year', $sel_year)
+                        $brgy_mw2 = (clone $baseQuery)
+                        ->where('Year', $sel_year)
                         ->where('MorbidityWeek', 3)
-                        ->where('enabled', 1)
-                        ->where('match_casedef', 1)
                         ->where('Barangay', $brgy->brgyName)
                         ->count();
-                        $brgy_mw3 = $modelClass::where('Year', $sel_year)
+                        $brgy_mw3 = (clone $baseQuery)
+                        ->where('Year', $sel_year)
                         ->where('MorbidityWeek', 2)
-                        ->where('enabled', 1)
-                        ->where('match_casedef', 1)
                         ->where('Barangay', $brgy->brgyName)
                         ->count();
-                        $brgy_mw4 = $modelClass::where('Year', $sel_year)
+                        $brgy_mw4 = (clone $baseQuery)
+                        ->where('Year', $sel_year)
                         ->where('MorbidityWeek', 1)
-                        ->where('enabled', 1)
-                        ->where('match_casedef', 1)
                         ->where('Barangay', $brgy->brgyName)
                         ->count();
                     }
                     else {
-                        $brgy_mw1 = $modelClass::where('Year', $sel_year)
+                        $brgy_mw1 = (clone $baseQuery)
+                        ->where('Year', $sel_year)
                         ->where('MorbidityWeek', $sel_week-3)
-                        ->where('enabled', 1)
-                        ->where('match_casedef', 1)
                         ->where('Barangay', $brgy->brgyName)
                         ->count();
-                        $brgy_mw2 = $modelClass::where('Year', $sel_year)
+                        $brgy_mw2 = (clone $baseQuery)
+                        ->where('Year', $sel_year)
                         ->where('MorbidityWeek', $sel_week-2)
-                        ->where('enabled', 1)
-                        ->where('match_casedef', 1)
                         ->where('Barangay', $brgy->brgyName)
                         ->count();
-                        $brgy_mw3 = $modelClass::where('Year', $sel_year)
+                        $brgy_mw3 = (clone $baseQuery)
+                        ->where('Year', $sel_year)
                         ->where('MorbidityWeek', $sel_week-1)
-                        ->where('enabled', 1)
-                        ->where('match_casedef', 1)
                         ->where('Barangay', $brgy->brgyName)
                         ->count();
-                        $brgy_mw4 = $modelClass::where('Year', $sel_year)
+                        $brgy_mw4 = (clone $baseQuery)
+                        ->where('Year', $sel_year)
                         ->where('MorbidityWeek', $sel_week)
-                        ->where('enabled', 1)
-                        ->where('match_casedef', 1)
                         ->where('Barangay', $brgy->brgyName)
                         ->count();
                     }
@@ -5663,7 +5625,7 @@ class PIDSRController extends Controller
                 $attack_rate_array = [];
 
                 if($sel_disease == 'COVID') {
-                    $brgy_grand_total_cases = $modelClass::with('records')
+                    $brgy_grand_total_cases = Forms::with('records')
                     ->whereHas('records', function ($q) use ($brgy) {
                         $q->where('records.address_province', 'CAVITE')
                         ->where('records.address_city', 'GENERAL TRIAS')
@@ -5675,7 +5637,7 @@ class PIDSRController extends Controller
                     ->whereRaw('WEEK(morbidityMonth, 1) <= ?', [$sel_week])
                     ->count();
 
-                    $brgy_previousyear_total_cases = $modelClass::with('records')
+                    $brgy_previousyear_total_cases = Forms::with('records')
                     ->whereHas('records', function ($q) use ($brgy) {
                         $q->where('records.address_province', 'CAVITE')
                         ->where('records.address_city', 'GENERAL TRIAS')
@@ -5698,17 +5660,15 @@ class PIDSRController extends Controller
 
                     $population = $population_query->population_actual_total ?? $population_query->population_estimate_total ?? 0;
                     
-                    $brgy_total_cases_m = $modelClass::where('Year', $sel_year)
-                    ->where('enabled', 1)
-                    ->where('match_casedef', 1)
+                    $brgy_total_cases_m = (clone $baseQuery)
+                    ->where('Year', $sel_year)
                     ->where('MorbidityWeek', '<=', $sel_week)
                     ->where('Barangay', $brgy->brgyName)
                     ->where('Sex', 'M')
                     ->count();
 
-                    $brgy_total_cases_f = $modelClass::where('Year', $sel_year)
-                    ->where('enabled', 1)
-                    ->where('match_casedef', 1)
+                    $brgy_total_cases_f = (clone $baseQuery)
+                    ->where('Year', $sel_year)
                     ->where('MorbidityWeek', '<=', $sel_week)
                     ->where('Barangay', $brgy->brgyName)
                     ->where('Sex', 'F')
@@ -5732,9 +5692,8 @@ class PIDSRController extends Controller
                     ->count();
                     */
 
-                    $brgy_previousyear_total_cases = $modelClass::where('Year', $sel_year-1)
-                    ->where('enabled', 1)
-                    ->where('match_casedef', 1)
+                    $brgy_previousyear_total_cases = (clone $baseQuery)
+                    ->where('Year', $sel_year-1)
                     ->where('Barangay', $brgy->brgyName)
                     ->count();
                 }
@@ -5859,8 +5818,7 @@ class PIDSRController extends Controller
                     ->count();
                     */
 
-                    $ccount = $modelClass::where('enabled', 1)
-                    ->where('match_casedef', 1)
+                    $ccount = (clone $baseQuery)
                     ->where('Year', $sel_year)
                     ->where('MorbidityWeek', '<=', $sel_week)
                     ->where(function ($q) use ($ccstr) {
@@ -5869,8 +5827,7 @@ class PIDSRController extends Controller
                     })
                     ->count();
 
-                    $ccount_alive = $modelClass::where('enabled', 1)
-                    ->where('match_casedef', 1)
+                    $ccount_alive = (clone $baseQuery)
                     ->where('Year', $sel_year)
                     ->where('MorbidityWeek', '<=', $sel_week)
                     ->where(function ($q) use ($ccstr) {
@@ -5880,8 +5837,7 @@ class PIDSRController extends Controller
                     ->where('Outcome', 'A')
                     ->count();
 
-                    $ccount_died = $modelClass::where('enabled', 1)
-                    ->where('match_casedef', 1)
+                    $ccount_died = (clone $baseQuery)
                     ->where('Year', $sel_year)
                     ->where('MorbidityWeek', '<=', $sel_week)
                     ->where(function ($q) use ($ccstr) {
@@ -5893,35 +5849,27 @@ class PIDSRController extends Controller
                 }
                 else {
                     if($sel_disease == 'COVID') {
-                        $ccount = $modelClass::with('records')
-                        ->whereHas('records', function ($q) use ($brgy) {
-                            $q->where('records.address_province', 'CAVITE')
-                            ->where('records.address_city', 'GENERAL TRIAS');
-                        })
-                        ->where('status', 'approved')
+                        $ccount = (clone $baseQuery)
                         ->where($ccstr, $cclass)
                         ->whereYear('morbidityMonth', $sel_year)
                         ->whereRaw('WEEK(morbidityMonth, 1) = ?', [$sel_week])
                         ->count();
                     }
                     else {
-                        $ccount = $modelClass::where('enabled', 1)
-                        ->where('match_casedef', 1)
+                        $ccount = (clone $baseQuery)
                         ->where('Year', $sel_year)
                         ->where('MorbidityWeek', '<=', $sel_week)
                         ->where($ccstr, $cclass)
                         ->count();
                         
-                        $ccount_alive = $modelClass::where('enabled', 1)
-                        ->where('match_casedef', 1)
+                        $ccount_alive = (clone $baseQuery)
                         ->where('Year', $sel_year)
                         ->where('MorbidityWeek', '<=', $sel_week)
                         ->where($ccstr, $cclass)
                         ->where('Outcome', 'A')
                         ->count();
 
-                        $ccount_died = $modelClass::where('enabled', 1)
-                        ->where('match_casedef', 1)
+                        $ccount_died = (clone $baseQuery)
                         ->where('Year', $sel_year)
                         ->where('MorbidityWeek', '<=', $sel_week)
                         ->where($ccstr, $cclass)
@@ -5957,12 +5905,7 @@ class PIDSRController extends Controller
             //AGE GROUP
             //Search if there is Zero Age Years
             if($sel_disease == 'COVID') {
-                $search_zeroage = $modelClass::with('records')
-                ->whereHas('records', function ($q) use ($brgy) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS');
-                })
-                ->where('status', 'approved')
+                $search_zeroage = (clone $baseQuery)
                 ->whereIn('caseClassification', ['Probable', 'Confirmed'])
                 ->whereYear('morbidityMonth', $sel_year)
                 ->whereRaw('WEEK(morbidityMonth, 1) <= ?', [$sel_week])
@@ -5970,12 +5913,7 @@ class PIDSRController extends Controller
                 ->count();
 
                 if($search_zeroage) {
-                    $min_age = $modelClass::with('records')
-                    ->whereHas('records', function ($q) use ($brgy) {
-                        $q->where('records.address_province', 'CAVITE')
-                        ->where('records.address_city', 'GENERAL TRIAS');
-                    })
-                    ->where('status', 'approved')
+                    $min_age = (clone $baseQuery)
                     ->whereIn('caseClassification', ['Probable', 'Confirmed'])
                     ->whereYear('morbidityMonth', $sel_year)
                     ->whereRaw('WEEK(morbidityMonth, 1) <= ?', [$sel_week])
@@ -5984,12 +5922,7 @@ class PIDSRController extends Controller
                     $min_age = $min_age / 100;
                 }
                 else {
-                    $min_age = $modelClass::with('records')
-                    ->whereHas('records', function ($q) use ($brgy) {
-                        $q->where('records.address_province', 'CAVITE')
-                        ->where('records.address_city', 'GENERAL TRIAS');
-                    })
-                    ->where('status', 'approved')
+                    $min_age = (clone $baseQuery)
                     ->whereIn('caseClassification', ['Probable', 'Confirmed'])
                     ->whereYear('morbidityMonth', $sel_year)
                     ->whereRaw('WEEK(morbidityMonth, 1) <= ?', [$sel_week])
@@ -5997,24 +5930,21 @@ class PIDSRController extends Controller
                 }
             }
             else {
-                $search_zeroage = $modelClass::where('enabled', 1)
-                ->where('match_casedef', 1)
+                $search_zeroage = (clone $baseQuery)
                 ->where('Year', $sel_year)
                 ->where('MorbidityWeek', '<=', $sel_week)
                 ->where('AgeYears', 0)
                 ->first();
 
                 if($search_zeroage) {
-                    $search_zeromons = $modelClass::where('enabled', 1)
-                    ->where('match_casedef', 1)
+                    $search_zeromons = (clone $baseQuery)
                     ->where('Year', $sel_year)
                     ->where('MorbidityWeek', '<=', $sel_week)
                     ->where('AgeMons', 0)
                     ->first();
                     
                     if($search_zeromons) {
-                        $min_age =  $modelClass::where('enabled', 1)
-                        ->where('match_casedef', 1)
+                        $min_age =  (clone $baseQuery)
                         ->where('Year', $sel_year)
                         ->where('MorbidityWeek', '<=', $sel_week)
                         ->min('AgeDays');
@@ -6022,8 +5952,7 @@ class PIDSRController extends Controller
                         $min_age_display = $min_age.' '.Str::plural('day', $min_age).' old';
                     }
                     else {
-                        $min_age = $modelClass::where('enabled', 1)
-                        ->where('match_casedef', 1)
+                        $min_age = (clone $baseQuery)
                         ->where('Year', $sel_year)
                         ->where('MorbidityWeek', '<=', $sel_week)
                         ->min('AgeMons');
@@ -6068,8 +5997,7 @@ class PIDSRController extends Controller
                     }
                 }
                 else {
-                    $min_age = $modelClass::where('enabled', 1)
-                    ->where('match_casedef', 1)
+                    $min_age = (clone $baseQuery)
                     ->where('Year', $sel_year)
                     ->where('MorbidityWeek', '<=', $sel_week)
                     ->min('AgeYears');
@@ -6079,20 +6007,14 @@ class PIDSRController extends Controller
             }
 
             if($sel_disease == 'COVID') {
-                $max_age = $modelClass::with('records')
-                ->whereHas('records', function ($q) use ($brgy) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS');
-                })
-                ->where('status', 'approved')
+                $max_age = (clone $baseQuery)
                 ->whereIn('caseClassification', ['Probable', 'Confirmed'])
                 ->whereYear('morbidityMonth', $sel_year)
                 ->whereRaw('WEEK(morbidityMonth, 1) <= ?', [$sel_week])
                 ->max('age_years');
             }
             else {
-                $max_age = $modelClass::where('enabled', 1)
-                ->where('match_casedef', 1)
+                $max_age = (clone $baseQuery)
                 ->where('Year', $sel_year)
                 ->where('MorbidityWeek', '<=', $sel_week)
                 ->max('AgeYears');
@@ -6112,12 +6034,7 @@ class PIDSRController extends Controller
             $age_array = [];
 
             if($sel_disease == 'COVID') {
-                $fetch_age = $modelClass::with('records')
-                ->whereHas('records', function ($q) use ($brgy) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS');
-                })
-                ->where('status', 'approved')
+                $fetch_age =(clone $baseQuery)
                 ->whereIn('caseClassification', ['Probable', 'Confirmed'])
                 ->whereYear('morbidityMonth', $sel_year)
                 ->whereRaw('WEEK(morbidityMonth, 1) <= ?', [$sel_week])
@@ -6133,8 +6050,7 @@ class PIDSRController extends Controller
                 }
             }
             else {
-                $fetch_age = $modelClass::where('enabled', 1)
-                ->where('match_casedef', 1)
+                $fetch_age = (clone $baseQuery)
                 ->where('Year', $sel_year)
                 ->where('MorbidityWeek', '<=', $sel_week)
                 ->get();
@@ -6229,46 +6145,34 @@ class PIDSRController extends Controller
                 $age_display_string = ['>25', '21-25', '16-20', '11-15', '6-10', '1-5', '<1'];
                 $age_display_string = json_encode($age_display_string, JSON_UNESCAPED_UNICODE);
 
-                $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>', 25)->where('Sex', 'M')->count() * -1;
-                $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 21)->where('AgeYears', '<=', 25)->where('Sex', 'M')->count() * -1;
-                $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 16)->where('AgeYears', '<=', 20)->where('Sex', 'M')->count() * -1;
-                $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 11)->where('AgeYears', '<=', 15)->where('Sex', 'M')->count() * -1;
-                $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 6)->where('AgeYears', '<=', 10)->where('Sex', 'M')->count() * -1;
-                $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 1)->where('AgeYears', '<=', 5)->where('Sex', 'M')->count() * -1;
-                $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '<', 1)->where('Sex', 'M')->count() * -1;
+                $ag_male[] = (clone $baseQuery)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>', 25)->where('Sex', 'M')->count() * -1;
+                $ag_male[] = (clone $baseQuery)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 21)->where('AgeYears', '<=', 25)->where('Sex', 'M')->count() * -1;
+                $ag_male[] = (clone $baseQuery)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 16)->where('AgeYears', '<=', 20)->where('Sex', 'M')->count() * -1;
+                $ag_male[] = (clone $baseQuery)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 11)->where('AgeYears', '<=', 15)->where('Sex', 'M')->count() * -1;
+                $ag_male[] = (clone $baseQuery)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 6)->where('AgeYears', '<=', 10)->where('Sex', 'M')->count() * -1;
+                $ag_male[] = (clone $baseQuery)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 1)->where('AgeYears', '<=', 5)->where('Sex', 'M')->count() * -1;
+                $ag_male[] = (clone $baseQuery)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '<', 1)->where('Sex', 'M')->count() * -1;
             
-                $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>', 25)->where('Sex', 'F')->count();
-                $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 21)->where('AgeYears', '<=', 25)->where('Sex', 'F')->count();
-                $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 16)->where('AgeYears', '<=', 20)->where('Sex', 'F')->count();
-                $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 11)->where('AgeYears', '<=', 15)->where('Sex', 'F')->count();
-                $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 6)->where('AgeYears', '<=', 10)->where('Sex', 'F')->count();
-                $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 1)->where('AgeYears', '<=', 5)->where('Sex', 'F')->count();
-                $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '<', 1)->where('Sex', 'F')->count();
+                $ag_female[] = (clone $baseQuery)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>', 25)->where('Sex', 'F')->count();
+                $ag_female[] = (clone $baseQuery)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 21)->where('AgeYears', '<=', 25)->where('Sex', 'F')->count();
+                $ag_female[] = (clone $baseQuery)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 16)->where('AgeYears', '<=', 20)->where('Sex', 'F')->count();
+                $ag_female[] = (clone $baseQuery)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 11)->where('AgeYears', '<=', 15)->where('Sex', 'F')->count();
+                $ag_female[] = (clone $baseQuery)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 6)->where('AgeYears', '<=', 10)->where('Sex', 'F')->count();
+                $ag_female[] = (clone $baseQuery)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 1)->where('AgeYears', '<=', 5)->where('Sex', 'F')->count();
+                $ag_female[] = (clone $baseQuery)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '<', 1)->where('Sex', 'F')->count();
             }
             else if($sel_disease == 'COVID') {
                 $age_display_string = ['>50', '41-50', '31-40', '21-30', '11-20', '1-10', '<1'];
                 $age_display_string = json_encode($age_display_string, JSON_UNESCAPED_UNICODE);
 
-                $ag_male[] = $modelClass::with('records')
-                ->whereHas('records', function ($q) use ($brgy) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS')
-                    ->where('records.gender', 'MALE');
-                })
-                ->where('status', 'approved')
+                $ag_male[] = (clone $baseQuery)
                 ->whereIn('caseClassification', ['Probable', 'Confirmed'])
                 ->whereYear('morbidityMonth', $sel_year)
                 ->whereRaw('WEEK(morbidityMonth, 1) <= ?', [$sel_week])
                 ->where('age_years', '>', 50)
                 ->count() * -1;
 
-                $ag_male[] = $modelClass::with('records')
-                ->whereHas('records', function ($q) use ($brgy) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS')
-                    ->where('records.gender', 'MALE');
-                })
-                ->where('status', 'approved')
+                $ag_male[] = (clone $baseQuery)
                 ->whereIn('caseClassification', ['Probable', 'Confirmed'])
                 ->whereYear('morbidityMonth', $sel_year)
                 ->whereRaw('WEEK(morbidityMonth, 1) <= ?', [$sel_week])
@@ -6277,13 +6181,7 @@ class PIDSRController extends Controller
                 ->count() * -1;
                 
 
-                $ag_male[] = $modelClass::with('records')
-                ->whereHas('records', function ($q) use ($brgy) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS')
-                    ->where('records.gender', 'MALE');
-                })
-                ->where('status', 'approved')
+                $ag_male[] = (clone $baseQuery)
                 ->whereIn('caseClassification', ['Probable', 'Confirmed'])
                 ->whereYear('morbidityMonth', $sel_year)
                 ->whereRaw('WEEK(morbidityMonth, 1) <= ?', [$sel_week])
@@ -6291,13 +6189,7 @@ class PIDSRController extends Controller
                 ->where('age_years', '<=', 40)
                 ->count() * -1;
 
-                $ag_male[] = $modelClass::with('records')
-                ->whereHas('records', function ($q) use ($brgy) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS')
-                    ->where('records.gender', 'MALE');
-                })
-                ->where('status', 'approved')
+                $ag_male[] = (clone $baseQuery)
                 ->whereIn('caseClassification', ['Probable', 'Confirmed'])
                 ->whereYear('morbidityMonth', $sel_year)
                 ->whereRaw('WEEK(morbidityMonth, 1) <= ?', [$sel_week])
@@ -6305,13 +6197,7 @@ class PIDSRController extends Controller
                 ->where('age_years', '<=', 30)
                 ->count() * -1;
 
-                $ag_male[] = $modelClass::with('records')
-                ->whereHas('records', function ($q) use ($brgy) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS')
-                    ->where('records.gender', 'MALE');
-                })
-                ->where('status', 'approved')
+                $ag_male[] = (clone $baseQuery)
                 ->whereIn('caseClassification', ['Probable', 'Confirmed'])
                 ->whereYear('morbidityMonth', $sel_year)
                 ->whereRaw('WEEK(morbidityMonth, 1) <= ?', [$sel_week])
@@ -6319,13 +6205,7 @@ class PIDSRController extends Controller
                 ->where('age_years', '<=', 20)
                 ->count() * -1;
 
-                $ag_male[] = $modelClass::with('records')
-                ->whereHas('records', function ($q) use ($brgy) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS')
-                    ->where('records.gender', 'MALE');
-                })
-                ->where('status', 'approved')
+                $ag_male[] = (clone $baseQuery)
                 ->whereIn('caseClassification', ['Probable', 'Confirmed'])
                 ->whereYear('morbidityMonth', $sel_year)
                 ->whereRaw('WEEK(morbidityMonth, 1) <= ?', [$sel_week])
@@ -6333,39 +6213,21 @@ class PIDSRController extends Controller
                 ->where('age_years', '<=', 10)
                 ->count() * -1;
 
-                $ag_male[] = $modelClass::with('records')
-                ->whereHas('records', function ($q) use ($brgy) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS')
-                    ->where('records.gender', 'MALE');
-                })
-                ->where('status', 'approved')
+                $ag_male[] = (clone $baseQuery)
                 ->whereIn('caseClassification', ['Probable', 'Confirmed'])
                 ->whereYear('morbidityMonth', $sel_year)
                 ->whereRaw('WEEK(morbidityMonth, 1) <= ?', [$sel_week])
                 ->where('age_years', '<1', 50)
                 ->count() * -1;
             
-                $ag_female[] = $modelClass::with('records')
-                ->whereHas('records', function ($q) use ($brgy) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS')
-                    ->where('records.gender', 'FEMALE');
-                })
-                ->where('status', 'approved')
+                $ag_female[] = (clone $baseQuery)
                 ->whereIn('caseClassification', ['Probable', 'Confirmed'])
                 ->whereYear('morbidityMonth', $sel_year)
                 ->whereRaw('WEEK(morbidityMonth, 1) <= ?', [$sel_week])
                 ->where('age_years', '>', 50)
                 ->count();
 
-                $ag_female[] = $modelClass::with('records')
-                ->whereHas('records', function ($q) use ($brgy) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS')
-                    ->where('records.gender', 'FEMALE');
-                })
-                ->where('status', 'approved')
+                $ag_female[] = (clone $baseQuery)
                 ->whereIn('caseClassification', ['Probable', 'Confirmed'])
                 ->whereYear('morbidityMonth', $sel_year)
                 ->whereRaw('WEEK(morbidityMonth, 1) <= ?', [$sel_week])
@@ -6374,13 +6236,7 @@ class PIDSRController extends Controller
                 ->count();
                 
 
-                $ag_female[] = $modelClass::with('records')
-                ->whereHas('records', function ($q) use ($brgy) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS')
-                    ->where('records.gender', 'FEMALE');
-                })
-                ->where('status', 'approved')
+                $ag_female[] = (clone $baseQuery)
                 ->whereIn('caseClassification', ['Probable', 'Confirmed'])
                 ->whereYear('morbidityMonth', $sel_year)
                 ->whereRaw('WEEK(morbidityMonth, 1) <= ?', [$sel_week])
@@ -6388,13 +6244,7 @@ class PIDSRController extends Controller
                 ->where('age_years', '<=', 40)
                 ->count();
 
-                $ag_female[] = $modelClass::with('records')
-                ->whereHas('records', function ($q) use ($brgy) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS')
-                    ->where('records.gender', 'FEMALE');
-                })
-                ->where('status', 'approved')
+                $ag_female[] = (clone $baseQuery)
                 ->whereIn('caseClassification', ['Probable', 'Confirmed'])
                 ->whereYear('morbidityMonth', $sel_year)
                 ->whereRaw('WEEK(morbidityMonth, 1) <= ?', [$sel_week])
@@ -6402,13 +6252,7 @@ class PIDSRController extends Controller
                 ->where('age_years', '<=', 30)
                 ->count();
 
-                $ag_female[] = $modelClass::with('records')
-                ->whereHas('records', function ($q) use ($brgy) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS')
-                    ->where('records.gender', 'FEMALE');
-                })
-                ->where('status', 'approved')
+                $ag_female[] = (clone $baseQuery)
                 ->whereIn('caseClassification', ['Probable', 'Confirmed'])
                 ->whereYear('morbidityMonth', $sel_year)
                 ->whereRaw('WEEK(morbidityMonth, 1) <= ?', [$sel_week])
@@ -6416,13 +6260,7 @@ class PIDSRController extends Controller
                 ->where('age_years', '<=', 20)
                 ->count();
 
-                $ag_female[] = $modelClass::with('records')
-                ->whereHas('records', function ($q) use ($brgy) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS')
-                    ->where('records.gender', 'FEMALE');
-                })
-                ->where('status', 'approved')
+                $ag_female[] = (clone $baseQuery)
                 ->whereIn('caseClassification', ['Probable', 'Confirmed'])
                 ->whereYear('morbidityMonth', $sel_year)
                 ->whereRaw('WEEK(morbidityMonth, 1) <= ?', [$sel_week])
@@ -6430,13 +6268,7 @@ class PIDSRController extends Controller
                 ->where('age_years', '<=', 10)
                 ->count();
 
-                $ag_female[] = $modelClass::with('records')
-                ->whereHas('records', function ($q) use ($brgy) {
-                    $q->where('records.address_province', 'CAVITE')
-                    ->where('records.address_city', 'GENERAL TRIAS')
-                    ->where('records.gender', 'FEMALE');
-                })
-                ->where('status', 'approved')
+                $ag_female[] = (clone $baseQuery)
                 ->whereIn('caseClassification', ['Probable', 'Confirmed'])
                 ->whereYear('morbidityMonth', $sel_year)
                 ->whereRaw('WEEK(morbidityMonth, 1) <= ?', [$sel_week])
@@ -6447,21 +6279,21 @@ class PIDSRController extends Controller
                 $age_display_string = ['≥60', '50-59', '40-49', '30-39', '20-29', '10-19', '≤9'];
                 $age_display_string = json_encode($age_display_string, JSON_UNESCAPED_UNICODE);
                 
-                $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 60)->where('Sex', 'M')->count() * -1;
-                $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 50)->where('AgeYears', '<=', 59)->where('Sex', 'M')->count() * -1;
-                $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 40)->where('AgeYears', '<=', 49)->where('Sex', 'M')->count() * -1;
-                $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 30)->where('AgeYears', '<=', 39)->where('Sex', 'M')->count() * -1;
-                $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 20)->where('AgeYears', '<=', 29)->where('Sex', 'M')->count() * -1;
-                $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 10)->where('AgeYears', '<=', 19)->where('Sex', 'M')->count() * -1;
-                $ag_male[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '<=', 9)->where('Sex', 'M')->count() * -1;
+                $ag_male[] = (clone $baseQuery)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 60)->where('Sex', 'M')->count() * -1;
+                $ag_male[] = (clone $baseQuery)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 50)->where('AgeYears', '<=', 59)->where('Sex', 'M')->count() * -1;
+                $ag_male[] = (clone $baseQuery)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 40)->where('AgeYears', '<=', 49)->where('Sex', 'M')->count() * -1;
+                $ag_male[] = (clone $baseQuery)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 30)->where('AgeYears', '<=', 39)->where('Sex', 'M')->count() * -1;
+                $ag_male[] = (clone $baseQuery)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 20)->where('AgeYears', '<=', 29)->where('Sex', 'M')->count() * -1;
+                $ag_male[] = (clone $baseQuery)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 10)->where('AgeYears', '<=', 19)->where('Sex', 'M')->count() * -1;
+                $ag_male[] = (clone $baseQuery)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '<=', 9)->where('Sex', 'M')->count() * -1;
             
-                $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 60)->where('Sex', 'F')->count();
-                $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 50)->where('AgeYears', '<=', 59)->where('Sex', 'F')->count();
-                $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 40)->where('AgeYears', '<=', 49)->where('Sex', 'F')->count();
-                $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 30)->where('AgeYears', '<=', 39)->where('Sex', 'F')->count();
-                $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 20)->where('AgeYears', '<=', 29)->where('Sex', 'F')->count();
-                $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 10)->where('AgeYears', '<=', 19)->where('Sex', 'F')->count();
-                $ag_female[] = $modelClass::where('enabled', 1)->where('match_casedef', 1)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '<=', 9)->where('Sex', 'F')->count();
+                $ag_female[] = (clone $baseQuery)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 60)->where('Sex', 'F')->count();
+                $ag_female[] = (clone $baseQuery)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 50)->where('AgeYears', '<=', 59)->where('Sex', 'F')->count();
+                $ag_female[] = (clone $baseQuery)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 40)->where('AgeYears', '<=', 49)->where('Sex', 'F')->count();
+                $ag_female[] = (clone $baseQuery)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 30)->where('AgeYears', '<=', 39)->where('Sex', 'F')->count();
+                $ag_female[] = (clone $baseQuery)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 20)->where('AgeYears', '<=', 29)->where('Sex', 'F')->count();
+                $ag_female[] = (clone $baseQuery)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '>=', 10)->where('AgeYears', '<=', 19)->where('Sex', 'F')->count();
+                $ag_female[] = (clone $baseQuery)->where('Year', $sel_year)->where('MorbidityWeek', '<=', $sel_week)->where('AgeYears', '<=', 9)->where('Sex', 'F')->count();
             }
 
             $male_total = abs(array_sum($ag_male));
