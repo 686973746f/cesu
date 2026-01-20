@@ -50,7 +50,7 @@
                         <hr>
                         <div class="form-group">
                             <label for="qty_to_process"><b class="text-danger">*</b>Quantity <span id="qty_span"></span></label>
-                            <input type="number" class="form-control" name="qty_to_process" id="qty_to_process" min="1" max="999" value="{{old('qty_to_process')}}" required autocomplete="off">
+                            <input type="number" class="form-control" name="qty_to_process" id="qty_to_process" min="1" max="10000" value="{{old('qty_to_process')}}" required autocomplete="off">
                         </div>
                     </div>
                     <div class="card-footer">

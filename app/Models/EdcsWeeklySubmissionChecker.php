@@ -186,7 +186,6 @@ class EdcsWeeklySubmissionChecker extends Model
         ->first();
 
         if($d) {
-            $start_date = ;
             $start_date = $this->getMwCalendar()->start_date;
             if(Carbon::parse($d->created_at)->dayOfWeek == Carbon::MONDAY && Carbon::parse($this->getMwCalendar()->start_date)->next(Carbon::MONDAY)->isSameDay($this->created_at)) {
                 return 'SUBMITTED_ONTIME';

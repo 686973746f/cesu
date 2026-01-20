@@ -3022,8 +3022,11 @@ class PharmacyController extends Controller
         ->paginate(10);
         */
 
-        $get_transactions = PharmacyStockCard::WhereHas('substock.pharmacysub', function ($q) use ($d) {
+        $get_transactions = PharmacyStockCard::whereHas('substock.pharmacysub', function ($q) use ($d) {
             $q->where('pharmacy_branch_id', $d->id);
+        })
+        ->orWhereHas('pharmacysub', function ($q) use ($d) {
+            $q->where('pharmacy_branch_id', $d->id); 
         })
         ->orderBy('created_at', 'DESC')
         ->paginate(10);
