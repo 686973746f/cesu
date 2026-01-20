@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <p>Today is: {{date('M. d, Y')}} - Morbidity Week: {{date('W')}}</p>
+        <p>Today is: {{date('M. d, Y')}} - Morbidity Week: {{$mws_current_mw}}, Year {{$mws_current_year}}</p>
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
