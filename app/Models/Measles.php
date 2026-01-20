@@ -94,4 +94,8 @@ class Measles extends Model
             return NULL;
         }
     }
+
+    public function brgy() {
+        return $this->belongsTo(EdcsBrgy::class, 'brgy_id');
+    }
 }
