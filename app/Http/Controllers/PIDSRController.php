@@ -12113,7 +12113,7 @@ class PIDSRController extends Controller
             $d = new EdcsWeeklySubmissionChecker();
         }
 
-        $g_type = EdcsWeeklySubmissionChecker::getAlreadySubmittedType($facility_code, $input_year, $input_mw);
+        $g_type = $d->getAlreadySubmittedType($facility_code, $input_year, $input_mw);
 
         //Fetch Weekly Submission Data
         $week_array = [];

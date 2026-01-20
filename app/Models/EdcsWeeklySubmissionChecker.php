@@ -169,6 +169,8 @@ class EdcsWeeklySubmissionChecker extends Model
     }
 
     public function getMwCalendar() {
+        $current_date = Carbon::now();
+        
         $s = MorbidityWeekCalendar::whereDate('start_date', '<=', $current_date->format('Y-m-d'))
         ->whereDate('end_date', '>=', $current_date->format('Y-m-d'))
         ->first();
