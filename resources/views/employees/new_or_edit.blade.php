@@ -354,6 +354,7 @@
                                       <option value="CHO MAIN" {{(old('up_office') == 'CHO MAIN') ? 'selected' : ''}}>CHO Main</option>
                                       <option value="MANGGAHAN HEALTH CENTER" {{(old('up_office') == 'MANGGAHAN HEALTH CENTER') ? 'selected' : ''}}>Manggahan Health Center</option>
                                       <option value="SAN FRANCISCO SUPER HEALTH CENTER" {{(old('up_office') == 'SAN FRANCISCO SUPER HEALTH CENTER') ? 'selected' : ''}}>General Trias Super Health Center (San Francisco)</option>
+                                      <option value="PK2 SUPER HEALTH CENTER" {{(old('up_office') == 'PK2 SUPER HEALTH CENTER') ? 'selected' : ''}}>General Trias Super Health Center (PK2)</option>
                                       <option value="GENERAL TRIAS MEDICARE HOSPITAL" {{(old('up_office') == 'GENERAL TRIAS MEDICARE HOSPITAL') ? 'selected' : ''}}>General Trias Medicare Hospital</option>
                                       <option value="DOH-HRH" {{(old('up_office') == 'DOH-HRH') ? 'selected' : ''}}>DOH-HRH</option>
                                     </select>
