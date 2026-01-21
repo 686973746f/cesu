@@ -15,7 +15,7 @@ class CreateEmploymentStatusUpdatesTable extends Migration
     {
         Schema::create('employment_status_updates', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employee_id')->constrained('employees')->nullOnDelete();
+            $table->foreignId('employee_id')->constrained('employees')->onDelete('cascade');
             $table->string('status'); //ACTIVE, INACTIVE
 
             $table->string('update_type'); //INITIAL, CHANGE, PROMOTION, RESIGNED, RETIRED, END OF CONTRACT, TERMINATED, REHIRED
