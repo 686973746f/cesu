@@ -281,7 +281,7 @@
                         <td>{{ $eu->job_position }}</td>
                         <td>{{ $eu->job_type }}</td>
                         <td>{{ $eu->office }}</td>
-                        <td>{{ $eu->sub_office }}</td>
+                        <td>{{ $eu->sub_office ?? 'N/A' }}</td>
                     </tr>
                     @endforeach
                 </tbody>
