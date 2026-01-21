@@ -336,8 +336,10 @@
                                     <label for="up_job_type"><b class="text-danger">*</b>Employee Type</label>
                                     <select class="form-control" name="up_job_type" id="up_job_type">
                                       <option value="" disabled {{(is_null(old('up_job_type'))) ? 'selected' : ''}}>Choose...</option>
+                                      @if($d->employeestatus->where('job_type', 'REGULAR')->isEmpty())
                                       <option value="JOB ORDER" {{(old('up_job_type') == 'JOB ORDER') ? 'selected' : ''}}>Job Order (J.O)</option>
                                       <option value="CASUAL" {{(old('up_job_type') == 'CASUAL') ? 'selected' : ''}}>Casual</option>
+                                      @endif
                                       <option value="REGULAR" {{(old('up_job_type') == 'REGULAR') ? 'selected' : ''}}>Regular</option>
                                     </select>
                                 </div>
