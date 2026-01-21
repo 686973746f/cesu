@@ -270,6 +270,7 @@
                         <th>Position</th>
                         <th>Type</th>
                         <th>Office</th>
+                        <th>Sub-Office</th>
                     </tr>
                 </thead>
                 <tbody class="text-center">
@@ -280,6 +281,7 @@
                         <td>{{ $eu->job_position }}</td>
                         <td>{{ $eu->job_type }}</td>
                         <td>{{ $eu->office }}</td>
+                        <td>{{ $eu->sub_office }}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -356,7 +358,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="up_sub_office">Sub-Office</label>
-                                    <input type="text" class="form-control" name="up_sub_office" id="up_sub_office" value="{{old('up_sub_office')}}" style="text-transform: uppercase;">
+                                    <input type="text" class="form-control" name="up_sub_office" id="up_sub_office" value="{{old('up_sub_office')}}" style="text-transform: uppercase;" autocomplete="off">
                                 </div>
                             </div>
                         </div>
