@@ -166,11 +166,11 @@
                             <label for="office"><b class="text-danger">*</b>Office</label>
                             <select class="form-control" name="office" id="office" required>
                               <option value="" disabled {{(is_null(old('office', $d->office))) ? 'selected' : ''}}>Choose...</option>
-                              <option value="CHO MAIN" {{(old('type', $d->office) == 'CHO MAIN') ? 'selected' : ''}}>CHO Main</option>
+                              <option value="CHO MAIN" {{(old('office', $d->office) == 'CHO MAIN') ? 'selected' : ''}}>CHO Main</option>
                               <option value="MANGGAHAN HEALTH CENTER" {{(old('office', $d->type) == 'MANGGAHAN HEALTH CENTER') ? 'selected' : ''}}>Manggahan Health Center</option>
-                              <option value="SAN FRANCISCO SUPER HEALTH CENTER" {{(old('type', $d->office) == 'SAN FRANCISCO SUPER HEALTH CENTER') ? 'selected' : ''}}>General Trias Super Health Center (San Francisco)</option>
-                              <option value="GENERAL TRIAS MEDICARE HOSPITAL" {{(old('type', $d->office) == 'GENERAL TRIAS MEDICARE HOSPITAL') ? 'selected' : ''}}>General Trias Medicare Hospital</option>
-                              <option value="DOH-HRH" {{(old('type', $d->office) == 'DOH-HRH') ? 'selected' : ''}}>DOH-HRH</option>
+                              <option value="SAN FRANCISCO SUPER HEALTH CENTER" {{(old('office', $d->office) == 'SAN FRANCISCO SUPER HEALTH CENTER') ? 'selected' : ''}}>General Trias Super Health Center (San Francisco)</option>
+                              <option value="GENERAL TRIAS MEDICARE HOSPITAL" {{(old('office', $d->office) == 'GENERAL TRIAS MEDICARE HOSPITAL') ? 'selected' : ''}}>General Trias Medicare Hospital</option>
+                              <option value="DOH-HRH" {{(old('office', $d->office) == 'DOH-HRH') ? 'selected' : ''}}>DOH-HRH</option>
                             </select>
                         </div>
                     </div>
@@ -316,11 +316,10 @@
                 <button type="submit" class="btn btn-success btn-block" id="submitBtn">{{($mode == 'EDIT') ? 'Update' : 'Save'}} (CTRL + S)</button>
             </div>
         </div>
-    </div>
     </form>
 
     @if($mode == 'EDIT')
-    <div class="card">
+    <div class="card mt-3">
         <div class="card-header">
             <div class="d-flex justify-content-between">
                 <div><b>Employment Status</b></div>
@@ -328,8 +327,8 @@
             </div>
         </div>
         <div class="card-body">
-            <table class="table">
-                <thead>
+            <table class="table table-bordered table-striped">
+                <thead class="thead-light text-center">
                     <tr>
                         <th>Effectivity Date</th>
                         <th>Status</th>
@@ -340,10 +339,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
+    </div>
     </div>
     
     <form action="{{route('employees_update_employmentstatus', $d->id)}}" method="POST">
@@ -369,15 +376,55 @@
                             <option value="RETIRED">Retired</option>
                             <option value="END OF CONTRACT">End of Contract</option>
                             <option value="TERMINATED">Terminated</option>
-                            <option value="REHIRED">Rehired</option>
                           </select>
                         </div>
                         <div id="emp_part2" class="d-none">
-                            
+                            <div class="form-group">
+                                <label for="effective_date"><b class="text-danger">*</b>Date of Effectivity</label>
+                                <input type="date" class="form-control" name="effective_date" id="effective_date" value="{{old('effective_date')}}" max="{{date('Y-m-d')}}">
+                            </div>
+                            <div class="form-group" id="resigned_div">
+                              <label for="up_resigned_remarks">Resigned Remarks</label>
+                              <textarea class="form-control" name="up_resigned_remarks" id="up_resigned_remarks" rows="3">{{old('up_resigned_remarks')}}</textarea>
+                            </div>
+                            <div class="form-group" id="terminated_div">
+                                <label for="up_terminated_remarks">Terminated Remarks</label>
+                                <textarea class="form-control" name="up_terminated_remarks" id="up_terminated_remarks" rows="3">{{old('up_terminated_remarks')}}</textarea>
+                            </div>
+                            <div id="changeorpromote_div" class="d-none">
+                                <div class="form-group">
+                                    <label for="up_job_type"><b class="text-danger">*</b>Employee Type</label>
+                                    <select class="form-control" name="up_job_type" id="up_job_type">
+                                      <option value="" disabled {{(is_null(old('up_job_type'))) ? 'selected' : ''}}>Choose...</option>
+                                      <option value="JOB ORDER" {{(old('up_job_type') == 'JOB ORDER') ? 'selected' : ''}}>Job Order (J.O)</option>
+                                      <option value="CASUAL" {{(old('up_job_type') == 'CASUAL') ? 'selected' : ''}}>Casual</option>
+                                      <option value="REGULAR" {{(old('up_job_type') == 'REGULAR') ? 'selected' : ''}}>Regular</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="up_job_position"><b class="text-danger">*</b>Position</label>
+                                    <input type="text" class="form-control" name="up_job_position" id="up_job_position" value="{{old('up_job_position')}}" style="text-transform: uppercase;">
+                                </div>
+                                <div class="form-group">
+                                    <label for="up_office"><b class="text-danger">*</b>Office</label>
+                                    <select class="form-control" name="up_office" id="up_office">
+                                      <option value="" disabled {{(is_null(old('up_office'))) ? 'selected' : ''}}>Choose...</option>
+                                      <option value="CHO MAIN" {{(old('up_office') == 'CHO MAIN') ? 'selected' : ''}}>CHO Main</option>
+                                      <option value="MANGGAHAN HEALTH CENTER" {{(old('up_office') == 'MANGGAHAN HEALTH CENTER') ? 'selected' : ''}}>Manggahan Health Center</option>
+                                      <option value="SAN FRANCISCO SUPER HEALTH CENTER" {{(old('up_office') == 'SAN FRANCISCO SUPER HEALTH CENTER') ? 'selected' : ''}}>General Trias Super Health Center (San Francisco)</option>
+                                      <option value="GENERAL TRIAS MEDICARE HOSPITAL" {{(old('up_office') == 'GENERAL TRIAS MEDICARE HOSPITAL') ? 'selected' : ''}}>General Trias Medicare Hospital</option>
+                                      <option value="DOH-HRH" {{(old('up_office') == 'DOH-HRH') ? 'selected' : ''}}>DOH-HRH</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="up_sub_office">Sub-Office</label>
+                                    <input type="text" class="form-control" name="up_sub_office" id="up_sub_office" value="{{old('up_sub_office')}}" style="text-transform: uppercase;">
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-save btn-block">Update</button>
+                        <button type="submit" class="btn btn-success btn-block">Update</button>
                     </div>
                 </div>
             </div>
@@ -399,10 +446,34 @@
             }
         });
 
+        $('#emp_part2').addClass('d-none');
+        $('#effective_date').prop('required', false);
+
         $('#update_type').change(function (e) { 
             e.preventDefault();
-            $('#emp_part2').addClass('d-none');
+            $('#emp_part2').removeClass('d-none');
+            $('#effective_date').prop('required', true);
 
+            $('#resigned_div').addClass('d-none');
+            $('#terminated_div').addClass('d-none');
+            
+            $('#changeorpromote_div').addClass('d-none');
+            $('#up_job_type').prop('required', false);
+            $('#up_job_position').prop('required', false);
+            $('#up_office').prop('required', false);
+
+            if($(this).val() == 'CHANGE' || $(this).val() == 'PROMOTION') {
+                $('#changeorpromote_div').removeClass('d-none');
+                $('#up_job_type').prop('required', true);
+                $('#up_job_position').prop('required', true);
+                $('#up_office').prop('required', true);
+            }
+            else if($(this).val() == 'RESIGNED') {
+                $('#resigned_div').removeClass('d-none');
+            }
+            else if($(this).val() == 'TERMINATED') {
+                $('#terminated_div').removeClass('d-none');
+            }
         }).trigger('change');
 
         $('#emp_access_list').select2({

@@ -1215,9 +1215,40 @@ class EmployeesController extends Controller
     return redirect()->back()->with('success', 'Attendance saved successfully!');
     }
 
-    public function updateEmploymentStatus($id) {
-        $c = EmploymentStatusUpdate::create([
-            
-        ]);
+    public function updateEmploymentStatus($id, Request $r) {
+        $d = Employee::findOrFail($id);
+
+        $duplicate_check = EmploymentStatusUpdate::where('request_uuid', $r->request_uuid)->first();
+
+        if($duplicate_check) {
+            return redirect()->back()
+            ->with('msg', 'ERROR: Duplicate transaction detected.')
+            ->with('msgtype', 'warning');
+        }
+
+        $table_params = [
+            'request_uuid' => $r->request_uuid,
+
+            'employee_id' => $d->id,
+
+            'update_type' => $r->update_type,
+            'effective_date' => $r->effective_date,
+            'resigned_remarks' => ($r->update_type == "RESIGNED") ? mb_strtoupper($r->up_resigned_remarks) : NULL,
+            'terminated_remarks' => ($r->update_type == "TERMINATED") ? mb_strtoupper($r->up_terminated_remarks) : NULL,
+
+            //'source',
+            'created_by' => Auth::id(),
+        ];
+
+        if($r->update_type == 'CHANGED' || $r->update_type == 'PROMOTION') {
+            $table_params = $table_params + [
+                'job_type' => $r->up_job_type,
+                'job_position' => mb_strtoupper($r->up_job_position),
+                'office' => $r->up_office,
+                'sub_office' => ($r->filled('up_sub_office')) ? mb_strtoupper($r->up_sub_office) : NULL,
+            ];
+        }
+
+        $c = EmploymentStatusUpdate::create($table_params);
     }
 }
