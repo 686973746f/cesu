@@ -136,71 +136,6 @@
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                          <label for="type"><b class="text-danger">*</b>Employee Type</label>
-                          <select class="form-control" name="type" id="type" required>
-                            <option value="" disabled {{(is_null(old('type', $d->type))) ? 'selected' : ''}}>Choose...</option>
-                            <option value="JOB ORDER" {{(old('type', $d->type) == 'JOB ORDER') ? 'selected' : ''}}>Job Order (J.O)</option>
-                            <option value="CASUAL" {{(old('type', $d->type) == 'CASUAL') ? 'selected' : ''}}>Casual</option>
-                            <option value="REGULAR" {{(old('type', $d->type) == 'REGULAR') ? 'selected' : ''}}>Regular</option>
-                          </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="date_hired">Date Hired</label>
-                            <input type="date" class="form-control" name="date_hired" id="date_hired" value="{{old('date_hired', $d->date_hired)}}" max="{{date('Y-m-d')}}">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="job_position"><b class="text-danger">*</b>Position</label>
-                            <input type="text" class="form-control" name="job_position" id="job_position" value="{{old('job_position', $d->job_position)}}" style="text-transform: uppercase;" required>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="office"><b class="text-danger">*</b>Office</label>
-                            <select class="form-control" name="office" id="office" required>
-                              <option value="" disabled {{(is_null(old('office', $d->office))) ? 'selected' : ''}}>Choose...</option>
-                              <option value="CHO MAIN" {{(old('office', $d->office) == 'CHO MAIN') ? 'selected' : ''}}>CHO Main</option>
-                              <option value="MANGGAHAN HEALTH CENTER" {{(old('office', $d->type) == 'MANGGAHAN HEALTH CENTER') ? 'selected' : ''}}>Manggahan Health Center</option>
-                              <option value="SAN FRANCISCO SUPER HEALTH CENTER" {{(old('office', $d->office) == 'SAN FRANCISCO SUPER HEALTH CENTER') ? 'selected' : ''}}>General Trias Super Health Center (San Francisco)</option>
-                              <option value="GENERAL TRIAS MEDICARE HOSPITAL" {{(old('office', $d->office) == 'GENERAL TRIAS MEDICARE HOSPITAL') ? 'selected' : ''}}>General Trias Medicare Hospital</option>
-                              <option value="DOH-HRH" {{(old('office', $d->office) == 'DOH-HRH') ? 'selected' : ''}}>DOH-HRH</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="sub_office">Sub-Office</label>
-                            <input type="text" class="form-control" name="sub_office" id="sub_office" value="{{old('sub_office', $d->sub_office)}}" style="text-transform: uppercase;">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="employment_status"><b class="text-danger">*</b>Employment Status</label>
-                            <select class="form-control" name="employment_status" id="employment_status" required>
-                              <option value="ACTIVE" {{(old('employment_status', $d->employment_status) == 'ACTIVE') ? 'selected' : ''}}>Active</option>
-                              <option value="RESIGNED" {{(old('employment_status', $d->employment_status) == 'RESIGNED') ? 'selected' : ''}}>Resigned</option>
-                              <option value="RETIRED" {{(old('employment_status', $d->employment_status) == 'RETIRED') ? 'selected' : ''}}>Retired</option>
-                              <option value="END OF CONTRACT" {{(old('employment_status', $d->employment_status) == 'END OF CONTRACT') ? 'selected' : ''}}>End of Contract</option>
-                              <option value="TERMINATED" {{(old('employment_status', $d->employment_status) == 'TERMINATED') ? 'selected' : ''}}>Terminated</option>
-                            </select>
-                        </div>
-                        <div id="ifResignedRetiredDiv" class="d-none">
-                            <div class="form-group">
-                                <label for="date_resigned"><b class="text-danger">*</b>Date</label>
-                                <input type="date" class="form-control" name="date_resigned" id="date_resigned" value="{{old('date_resigned', $d->date_resigned)}}" max="{{date('Y-m-d')}}">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="is_blstrained"><b class="text-danger">*</b>Is BLS Trained?</label>
@@ -335,18 +270,18 @@
                         <th>Position</th>
                         <th>Type</th>
                         <th>Office</th>
-                        <th>Source</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="text-center">
+                    @foreach($employmentupdate_list as $eu)
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>{{ date('m/d/Y', strtotime($eu->effective_date)) }}</td>
+                        <td>{{ $eu->update_type }}</td>
+                        <td>{{ $eu->job_position }}</td>
+                        <td>{{ $eu->job_type }}</td>
+                        <td>{{ $eu->office }}</td>
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -370,6 +305,9 @@
                           <label for="update_type">Select Type</label>
                           <select class="form-control" name="update_type" id="update_type" required>
                             <option value="" disabled {{(is_null(old('update_type'))) ? 'selected' : ''}}>Choose...</option>
+                            @if($d->employeestatus->where('update_type', 'INITIAL')->isEmpty())
+                            <option value="INITIAL">Initial</option>
+                            @endif
                             <option value="CHANGE">Change</option>
                             <option value="PROMOTION">Promotion</option>
                             <option value="RESIGNED">Resigned</option>
@@ -403,7 +341,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="up_job_position"><b class="text-danger">*</b>Position</label>
-                                    <input type="text" class="form-control" name="up_job_position" id="up_job_position" value="{{old('up_job_position')}}" style="text-transform: uppercase;">
+                                    <input type="text" class="form-control" name="up_job_position" id="up_job_position" value="{{old('up_job_position')}}" style="text-transform: uppercase;" autocomplete="off">
                                 </div>
                                 <div class="form-group">
                                     <label for="up_office"><b class="text-danger">*</b>Office</label>
@@ -462,7 +400,7 @@
             $('#up_job_position').prop('required', false);
             $('#up_office').prop('required', false);
 
-            if($(this).val() == 'CHANGE' || $(this).val() == 'PROMOTION') {
+            if($(this).val() == 'INITIAL' || $(this).val() == 'CHANGE' || $(this).val() == 'PROMOTION') {
                 $('#changeorpromote_div').removeClass('d-none');
                 $('#up_job_type').prop('required', true);
                 $('#up_job_position').prop('required', true);

@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Employee extends Model
@@ -136,8 +137,8 @@ class Employee extends Model
     }
 
     public function getLengthOfService() {
-        if(!is_null($this->date_hired)) {
-            return Carbon::parse($this->date_hired)->age . ' ' . Str::plural('year', Carbon::parse($this->date_hired)->age);
+        if($this->oldEmploymentStatus) {
+            return Carbon::parse($this->oldEmploymentStatus->effective_date)->age . ' ' . Str::plural('year', Carbon::parse($this->oldEmploymentStatus->effective_date)->age);
         }
         else {
             return 'N/A';
@@ -189,5 +190,15 @@ class Employee extends Model
 
     public function employeestatus() {
         return $this->hasMany(EmploymentStatusUpdate::class, 'employee_id');
+    }
+
+    public function latestEmploymentStatus(): HasOne {
+        return $this->hasOne(EmploymentStatusUpdate::class, 'employee_id')
+        ->ofMany('effective_date', 'max');
+    }
+
+    public function oldEmploymentStatus(): HasOne {
+        return $this->hasOne(EmploymentStatusUpdate::class, 'employee_id')
+        ->ofMany('effective_date', 'min');
     }
 }

@@ -122,6 +122,8 @@ class EmployeesController extends Controller
     public function editEmployee($id) {
         $employee = Employee::findOrFail($id);
 
+        
+
         return $this->newOrEdit($employee, 'EDIT');
     }
 
@@ -129,11 +131,16 @@ class EmployeesController extends Controller
         $emp_access_list = Employee::getEmpAccessList();
         $atbc_branch_list = AbtcVaccinationSite::where('enabled', 1)->get();
 
+        if($mode == 'EDIT') {
+            $employmentupdate_list = $record->employeestatus()->orderBy('effective_date', 'DESC')->get();
+        }
+
         return view('employees.new_or_edit', [
             'd' => $record,
             'mode' => $mode,
             'emp_access_list' => $emp_access_list,
             'atbc_branch_list' => $atbc_branch_list,
+            'employmentupdate_list' => $employmentupdate_list ?? NULL,
         ]);
     }
 
@@ -1226,8 +1233,16 @@ class EmployeesController extends Controller
             ->with('msgtype', 'warning');
         }
 
+        if($r->update_type == 'RESIGNED' || $r->update_type == 'RETIRED' || $r->update_type == 'END OF CONTRACT' || $r->update_type == 'TERMINATED') {
+            $status = 'INACTIVE';
+        }
+        else {
+            $status = 'ACTIVE';
+        }
+
         $table_params = [
             'request_uuid' => $r->request_uuid,
+            'status' => $status,
 
             'employee_id' => $d->id,
 
@@ -1240,7 +1255,7 @@ class EmployeesController extends Controller
             'created_by' => Auth::id(),
         ];
 
-        if($r->update_type == 'CHANGED' || $r->update_type == 'PROMOTION') {
+        if($r->update_type == 'INITIAL' || $r->update_type == 'CHANGE' || $r->update_type == 'PROMOTION') {
             $table_params = $table_params + [
                 'job_type' => $r->up_job_type,
                 'job_position' => mb_strtoupper($r->up_job_position),
@@ -1250,5 +1265,9 @@ class EmployeesController extends Controller
         }
 
         $c = EmploymentStatusUpdate::create($table_params);
+
+        return redirect()->back()
+        ->with('msg', 'Employment Status Update request for '.$d->getName().' was successfully submitted.')
+        ->with('msgtype', 'success');
     }
 }

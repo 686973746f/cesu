@@ -12,6 +12,7 @@ class EmploymentStatusUpdate extends Model
     protected $fillable = [
         'employee_id',
 
+        'status',
         'update_type',
         'effective_date',
         'resigned_remarks',
@@ -24,6 +25,7 @@ class EmploymentStatusUpdate extends Model
         'source',
         'created_by',
         'updated_by',
+        'request_uuid',
     ];
 
     public function employee() {
