@@ -560,6 +560,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessE
     Route::post('employees/add/store', [EmployeesController::class, 'storeEmployee'])->name('employees_store');
     Route::get('employees/edit/{id}', [EmployeesController::class, 'editEmployee'])->name('employees_edit');
     Route::post('employees/edit/{id}/update', [EmployeesController::class, 'updateEmployee'])->name('employees_update');
+    Route::post('employees/edit/{id}/update_estatus', [EmployeesController::class, 'updateEmploymentStatus'])->name('employees_update_employmentstatus');
 
     Route::get('employees/dtr/{id}', [EmployeesController::class, 'viewAttendanceSheet'])->name('attendancesheet_create');
     Route::post('employees/dtr/{id}/post', [EmployeesController::class, 'storeAttendanceSheet'])->name('attendancesheet_store');

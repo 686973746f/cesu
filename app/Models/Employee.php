@@ -186,4 +186,8 @@ class Employee extends Model
 
         return $d;
     }
+
+    public function employeestatus() {
+        return $this->hasMany(EmploymentStatusUpdate::class, 'employee_id');
+    }
 }

@@ -19,6 +19,7 @@ use App\Models\AbtcVaccinationSite;
 use App\Models\AttendanceSheetEvents;
 use App\Models\BlsBatchParticipant;
 use App\Models\EmployeeAttendanceSheet;
+use App\Models\EmploymentStatusUpdate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -1212,5 +1213,11 @@ class EmployeesController extends Controller
         }
 
     return redirect()->back()->with('success', 'Attendance saved successfully!');
+    }
+
+    public function updateEmploymentStatus($id) {
+        $c = EmploymentStatusUpdate::create([
+            
+        ]);
     }
 }

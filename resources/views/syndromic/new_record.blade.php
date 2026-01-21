@@ -1041,7 +1041,7 @@
                           @endforeach
                         @else
                           @foreach($doclist as $dr)
-                          <option value="{{$dr->doctor_name}}" {{(old('name_of_physician', (auth()->user()->getItrDefaultDoctor()) ? auth()->user()->getItrDefaultDoctor()->doctor_name : NULL) == $dr->doctor_name) ? 'selected' : ''}} class="{{($dr->dru_name == 'CHO GENERAL TRIAS') ? 'official_drlist' : 'outside_drlist'}}">{{$dr->doctor_name}} ({{$dr->dru_name}})</option>
+                          <option value="{{$dr->doctor_name}}" {{(old('name_of_physician', (auth()->user()->getItrDefaultDoctor()) ? auth()->user()->getItrDefaultDoctor()->doctor_name : NULL) == $dr->doctor_name) ? 'selected' : ''}} class="{{(in_array($dr->dru_name, ['CHO GENERAL TRIAS', 'GENERAL TRIAS SUPER HEALTH CENTER'])) ? 'official_drlist' : 'outside_drlist'}}">{{$dr->doctor_name}} ({{$dr->dru_name}})</option>
                           @endforeach
                         @endif
                         <option value="OTHERS" {{old('name_of_physician')}}>OTHERS</option>

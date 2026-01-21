@@ -187,6 +187,8 @@
                               <option value="ACTIVE" {{(old('employment_status', $d->employment_status) == 'ACTIVE') ? 'selected' : ''}}>Active</option>
                               <option value="RESIGNED" {{(old('employment_status', $d->employment_status) == 'RESIGNED') ? 'selected' : ''}}>Resigned</option>
                               <option value="RETIRED" {{(old('employment_status', $d->employment_status) == 'RETIRED') ? 'selected' : ''}}>Retired</option>
+                              <option value="END OF CONTRACT" {{(old('employment_status', $d->employment_status) == 'END OF CONTRACT') ? 'selected' : ''}}>End of Contract</option>
+                              <option value="TERMINATED" {{(old('employment_status', $d->employment_status) == 'TERMINATED') ? 'selected' : ''}}>Terminated</option>
                             </select>
                         </div>
                         <div id="ifResignedRetiredDiv" class="d-none">
@@ -317,6 +319,73 @@
     </div>
     </form>
 
+    @if($mode == 'EDIT')
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <div><b>Employment Status</b></div>
+                <div><button type="button" class="btn btn-success" data-toggle="modal" data-target="#updateEmployeeStatus">Update Employment Status</button></div>
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Effectivity Date</th>
+                        <th>Status</th>
+                        <th>Position</th>
+                        <th>Type</th>
+                        <th>Office</th>
+                        <th>Source</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <form action="{{route('employees_update_employmentstatus', $d->id)}}" method="POST">
+        @csrf
+        <input type="hidden" name="request_uuid" value="{{ Str::uuid() }}">
+        <div class="modal fade" id="updateEmployeeStatus" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Update Employment Status</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                          <label for="update_type">Select Type</label>
+                          <select class="form-control" name="update_type" id="update_type" required>
+                            <option value="" disabled {{(is_null(old('update_type'))) ? 'selected' : ''}}>Choose...</option>
+                            <option value="CHANGE">Change</option>
+                            <option value="PROMOTION">Promotion</option>
+                            <option value="RESIGNED">Resigned</option>
+                            <option value="RETIRED">Retired</option>
+                            <option value="END OF CONTRACT">End of Contract</option>
+                            <option value="TERMINATED">Terminated</option>
+                            <option value="REHIRED">Rehired</option>
+                          </select>
+                        </div>
+                        <div id="emp_part2" class="d-none">
+                            
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-save btn-block">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    
+    @endif
+
     <script>
         $(document).bind('keydown', function(e) {
             if(e.ctrlKey && (e.which == 83)) {
@@ -329,6 +398,12 @@
                 return false;
             }
         });
+
+        $('#update_type').change(function (e) { 
+            e.preventDefault();
+            $('#emp_part2').addClass('d-none');
+
+        }).trigger('change');
 
         $('#emp_access_list').select2({
             theme: 'bootstrap',

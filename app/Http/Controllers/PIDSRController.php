@@ -9596,6 +9596,195 @@ class PIDSRController extends Controller
                 ->with('modalmsgtype', 'warning');
             }
         }
+        else if($disease == "SARI") {
+            $check = SevereAcuteRespiratoryInfection::where('lname', mb_strtoupper($lname))
+            ->where('fname', mb_strtoupper($fname))
+            ->where('year', $entry_date->format('Y'))
+            ->where('morbidity_month', $entry_date->format('n'))
+            ->first();
+
+            if(!$check) {
+                return $this->sariNewOrEdit(new SevereAcuteRespiratoryInfection())->with('mode', 'NEW');
+            }
+            else {
+                return redirect()->back()
+                ->withInput()
+                ->with('openEncodeModal', true)
+                ->with('modalmsg', "Error: $disease Case already exists in the database.")
+                ->with('modalmsgtype', 'warning');
+            }
+        }
+    }
+
+    public static function listReportableDiseasesBackEnd() {
+        $list = [
+            ['value' => 'DENGUE', 'text' => 'Dengue', 'edcs_importable' => true],
+            ['value' => 'MPOX', 'text' => 'MPox', 'edcs_importable' => false],
+            ['value' => 'INFLUENZA', 'text' => 'Influenza-Like Illness (ILI)', 'edcs_importable' => true],
+            ['value' => 'HFMD', 'text' => 'Hand, Foot and Mouth Disease (HFMD)', 'edcs_importable' => true],
+            ['value' => 'MEASLES', 'text' => 'Measles', 'edcs_importable' => true],
+            ['value' => 'LEPTOSPIROSIS', 'text' => 'Leptospirosis', 'edcs_importable' => true],
+            ['value' => 'SARI', 'text' => 'Severe Acute Respiratory Infection (SARI)', 'edcs_importable' => true],
+        ];
+
+        return collect($list)->sortBy('text', SORT_NATURAL | SORT_FLAG_CASE)->values();
+    }
+
+    //START OF INHOUSE EDCS
+    public function mPoxNewOrEdit(MonkeyPox $record) {
+        //Get Facility
+        $f = DohFacility::where('id', auth()->user()->itr_facility_id)->first();
+
+        return view('pidsr.mpox.cif', [
+            'd' => $record,
+            'f' => $f,
+            'mode' => 'EDIT',
+        ]);
+    }
+    
+    public function dengueNewOrEdit(Dengue $record) {
+        //Get Facility
+        if(request()->input('facility_code')) {
+            $f = DohFacility::where('sys_code1', request()->input('facility_code'))->first();
+
+            if(!$f) {
+                return abort(404);
+            }
+        }
+        else {
+            $f = DohFacility::where('id', auth()->user()->itr_facility_id)->first();
+        }
+        
+        //$brgy_list = EdcsBrgy::where('city_id', 388)->orderBy('name', 'ASC')->get();
+        $facility_list = DohFacility::where('address_muncity', 'CITY OF GENERAL TRIAS')->get();
+
+        return view('pidsr.inhouse_edcs.dengue', [
+            'd' => $record,
+            'f' => $f,
+            'mode' => 'EDIT',
+            //'brgy_list' => $brgy_list,
+            'facility_list' => $facility_list,
+        ]);
+    }
+
+    public function iliNewOrEdit(Influenza $record) {
+        //Get Facility
+        if(request()->input('facility_code')) {
+            $f = DohFacility::where('sys_code1', request()->input('facility_code'))->first();
+
+            if(!$f) {
+                return abort(404);
+            }
+        }
+        else {
+            $f = DohFacility::where('id', auth()->user()->itr_facility_id)->first();
+        }
+
+        $facility_list = DohFacility::where('address_muncity', 'CITY OF GENERAL TRIAS')->get();
+
+        return view('pidsr.inhouse_edcs.ili', [
+            'd' => $record,
+            'f' => $f,
+            'mode' => 'EDIT',
+            //'brgy_list' => $brgy_list,
+            'facility_list' => $facility_list,
+        ]);
+    }
+
+    public function hfmdNewOrEdit(Hfmd $record) {
+        //Get Facility
+        if(request()->input('facility_code')) {
+            $f = DohFacility::where('sys_code1', request()->input('facility_code'))->first();
+
+            if(!$f) {
+                return abort(404);
+            }
+        }
+        else {
+            $f = DohFacility::where('id', auth()->user()->itr_facility_id)->first();
+        }
+
+        $facility_list = DohFacility::where('address_muncity', 'CITY OF GENERAL TRIAS')->get();
+
+        return view('pidsr.inhouse_edcs.hfmd', [
+            'd' => $record,
+            'f' => $f,
+            'mode' => 'EDIT',
+            //'brgy_list' => $brgy_list,
+            'facility_list' => $facility_list,
+        ]);
+    }
+
+    public function measlesNewOrEdit(Measles $record) {
+        //Get Facility
+        if(request()->input('facility_code')) {
+            $f = DohFacility::where('sys_code1', request()->input('facility_code'))->first();
+
+            if(!$f) {
+                return abort(404);
+            }
+        }
+        else {
+            $f = DohFacility::where('id', auth()->user()->itr_facility_id)->first();
+        }
+
+        $facility_list = DohFacility::where('address_muncity', 'CITY OF GENERAL TRIAS')->get();
+
+        return view('pidsr.inhouse_edcs.measles', [
+            'd' => $record,
+            'f' => $f,
+            'mode' => 'EDIT',
+            //'brgy_list' => $brgy_list,
+            'facility_list' => $facility_list,
+        ]);
+    }
+
+    public function leptospirosisNewOrEdit(Leptospirosis $record) {
+        //Get Facility
+        if(request()->input('facility_code')) {
+            $f = DohFacility::where('sys_code1', request()->input('facility_code'))->first();
+
+            if(!$f) {
+                return abort(404);
+            }
+        }
+        else {
+            $f = DohFacility::where('id', auth()->user()->itr_facility_id)->first();
+        }
+
+        $facility_list = DohFacility::where('address_muncity', 'CITY OF GENERAL TRIAS')->get();
+
+        return view('pidsr.inhouse_edcs.leptospirosis', [
+            'd' => $record,
+            'f' => $f,
+            'mode' => 'EDIT',
+            //'brgy_list' => $brgy_list,
+            'facility_list' => $facility_list,
+        ]);
+    }
+
+    public function sariNewOrEdit(SevereAcuteRespiratoryInfection $record) {
+        //Get Facility
+        if(request()->input('facility_code')) {
+            $f = DohFacility::where('sys_code1', request()->input('facility_code'))->first();
+
+            if(!$f) {
+                return abort(404);
+            }
+        }
+        else {
+            $f = DohFacility::where('id', auth()->user()->itr_facility_id)->first();
+        }
+
+        $facility_list = DohFacility::where('address_muncity', 'CITY OF GENERAL TRIAS')->get();
+
+        return view('pidsr.inhouse_edcs.leptospirosis', [
+            'd' => $record,
+            'f' => $f,
+            'mode' => 'EDIT',
+            //'brgy_list' => $brgy_list,
+            'facility_list' => $facility_list,
+        ]);
     }
 
     public function addCaseStore($disease, Request $r) {
@@ -11535,140 +11724,6 @@ class PIDSRController extends Controller
 
     }
 
-    public function mPoxNewOrEdit(MonkeyPox $record) {
-        //Get Facility
-        $f = DohFacility::where('id', auth()->user()->itr_facility_id)->first();
-
-        return view('pidsr.mpox.cif', [
-            'd' => $record,
-            'f' => $f,
-            'mode' => 'EDIT',
-        ]);
-    }
-
-
-    //START OF INHOUSE EDCS
-    public function dengueNewOrEdit(Dengue $record) {
-        //Get Facility
-        if(request()->input('facility_code')) {
-            $f = DohFacility::where('sys_code1', request()->input('facility_code'))->first();
-
-            if(!$f) {
-                return abort(404);
-            }
-        }
-        else {
-            $f = DohFacility::where('id', auth()->user()->itr_facility_id)->first();
-        }
-        
-        //$brgy_list = EdcsBrgy::where('city_id', 388)->orderBy('name', 'ASC')->get();
-        $facility_list = DohFacility::where('address_muncity', 'CITY OF GENERAL TRIAS')->get();
-
-        return view('pidsr.inhouse_edcs.dengue', [
-            'd' => $record,
-            'f' => $f,
-            'mode' => 'EDIT',
-            //'brgy_list' => $brgy_list,
-            'facility_list' => $facility_list,
-        ]);
-    }
-
-    public function iliNewOrEdit(Influenza $record) {
-        //Get Facility
-        if(request()->input('facility_code')) {
-            $f = DohFacility::where('sys_code1', request()->input('facility_code'))->first();
-
-            if(!$f) {
-                return abort(404);
-            }
-        }
-        else {
-            $f = DohFacility::where('id', auth()->user()->itr_facility_id)->first();
-        }
-
-        $facility_list = DohFacility::where('address_muncity', 'CITY OF GENERAL TRIAS')->get();
-
-        return view('pidsr.inhouse_edcs.ili', [
-            'd' => $record,
-            'f' => $f,
-            'mode' => 'EDIT',
-            //'brgy_list' => $brgy_list,
-            'facility_list' => $facility_list,
-        ]);
-    }
-
-    public function hfmdNewOrEdit(Hfmd $record) {
-        //Get Facility
-        if(request()->input('facility_code')) {
-            $f = DohFacility::where('sys_code1', request()->input('facility_code'))->first();
-
-            if(!$f) {
-                return abort(404);
-            }
-        }
-        else {
-            $f = DohFacility::where('id', auth()->user()->itr_facility_id)->first();
-        }
-
-        $facility_list = DohFacility::where('address_muncity', 'CITY OF GENERAL TRIAS')->get();
-
-        return view('pidsr.inhouse_edcs.hfmd', [
-            'd' => $record,
-            'f' => $f,
-            'mode' => 'EDIT',
-            //'brgy_list' => $brgy_list,
-            'facility_list' => $facility_list,
-        ]);
-    }
-
-    public function measlesNewOrEdit(Measles $record) {
-        //Get Facility
-        if(request()->input('facility_code')) {
-            $f = DohFacility::where('sys_code1', request()->input('facility_code'))->first();
-
-            if(!$f) {
-                return abort(404);
-            }
-        }
-        else {
-            $f = DohFacility::where('id', auth()->user()->itr_facility_id)->first();
-        }
-
-        $facility_list = DohFacility::where('address_muncity', 'CITY OF GENERAL TRIAS')->get();
-
-        return view('pidsr.inhouse_edcs.measles', [
-            'd' => $record,
-            'f' => $f,
-            'mode' => 'EDIT',
-            //'brgy_list' => $brgy_list,
-            'facility_list' => $facility_list,
-        ]);
-    }
-
-    public function leptospirosisNewOrEdit(Leptospirosis $record) {
-        //Get Facility
-        if(request()->input('facility_code')) {
-            $f = DohFacility::where('sys_code1', request()->input('facility_code'))->first();
-
-            if(!$f) {
-                return abort(404);
-            }
-        }
-        else {
-            $f = DohFacility::where('id', auth()->user()->itr_facility_id)->first();
-        }
-
-        $facility_list = DohFacility::where('address_muncity', 'CITY OF GENERAL TRIAS')->get();
-
-        return view('pidsr.inhouse_edcs.leptospirosis', [
-            'd' => $record,
-            'f' => $f,
-            'mode' => 'EDIT',
-            //'brgy_list' => $brgy_list,
-            'facility_list' => $facility_list,
-        ]);
-    }
-
     public function mPoxViewer() {
         return view('pidsr.mpox.list');
     }
@@ -12097,19 +12152,6 @@ class PIDSRController extends Controller
         ->withInput()
         ->with('msg', $alert_str)
         ->with('msgtype', 'success');
-    }
-
-    public static function listReportableDiseasesBackEnd() {
-        $list = [
-            ['value' => 'DENGUE', 'text' => 'Dengue', 'edcs_importable' => true],
-            ['value' => 'MPOX', 'text' => 'MPox', 'edcs_importable' => false],
-            ['value' => 'INFLUENZA', 'text' => 'Influenza-Like Illness (ILI)', 'edcs_importable' => true],
-            ['value' => 'HFMD', 'text' => 'Hand, Foot and Mouth Disease (HFMD)', 'edcs_importable' => true],
-            ['value' => 'MEASLES', 'text' => 'Measles', 'edcs_importable' => true],
-            ['value' => 'LEPTOSPIROSIS', 'text' => 'Leptospirosis', 'edcs_importable' => true],
-        ];
-
-        return collect($list)->sortBy('text', SORT_NATURAL | SORT_FLAG_CASE)->values();
     }
 
     public static function getCaseModel($case_code) {
