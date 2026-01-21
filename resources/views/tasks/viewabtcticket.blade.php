@@ -143,7 +143,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="" class="text-danger">Consultation Date</label>
-                                <input type="date" class="form-control" name="" id="" value="{{date('Y-m-d', strtotime($d->created_at))}}" readonly>
+                                <input type="date" class="form-control" name="" id="" value="{{date('Y-m-d', strtotime($d->d0_date))}}" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="" class="text-danger">Consultation Time</label>

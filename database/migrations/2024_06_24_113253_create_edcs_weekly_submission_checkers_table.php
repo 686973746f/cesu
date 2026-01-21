@@ -47,6 +47,7 @@ class CreateEdcsWeeklySubmissionCheckersTable extends Migration
             $table->integer('typhoid_count')->nullable();
 
             $table->text('excel_file')->nullable();
+            $table->uuid('request_uuid')->nullable();
             $table->timestamps();
         });
     }
