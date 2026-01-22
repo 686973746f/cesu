@@ -52,6 +52,7 @@ use App\Models\PharmacySupplySub;
 use App\Models\SyndromicLabResult;
 use Illuminate\Support\Facades\DB;
 use App\Models\FhsisTbdotsMorbidity;
+use App\Models\InhouseFamilySerial;
 use App\Models\OpdControlNumber;
 use App\Models\PharmacyPrescription;
 use Illuminate\Support\Facades\Auth;
@@ -635,6 +636,15 @@ class SyndromicController extends Controller
                     'control_number' => $request->facility_controlnumber,
                     'patient_id' => $c->id,
                     'created_by' => auth()->user()->id,
+                ]);
+            }
+
+            if(!auth()->user()->isSyndromicHospitalLevelAccess()) {
+                //Create Household and Family Serial Number
+                $snc = InhouseFamilySerial::create([
+                    'patient_id' => $c->id,
+                    'inhouse_householdno' => $request->inhouse_householdno,
+                    'inhouse_familyserialno' => $request->inhouse_familyserialno,
                 ]);
             }
             

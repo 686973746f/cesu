@@ -178,27 +178,29 @@
                             </div>
                         </div>
                     </div>
+                    @if(!auth()->user()->isSyndromicHospitalLevelAccess())
                     <hr>
                     <div class="row">
                         <div class="col-md-6">
-                            <div>Facility Household No.</div>
+                            <div class="mb-2">Facility Household No.</div>
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control" value="{{old('inhouse_householdno')}}" id="inhouse_householdno" name="inhouse_householdno" readonly>
                                 <div class="input-group-append">
-                                  <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#household_search">Search</button>
+                                  <button class="btn btn-outline-primary" id="household_search_btn" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div>Family Serial No.</div>
+                            <div class="mb-2">Family Serial No.</div>
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control" value="{{old('inhouse_familyserialno')}}" id="inhouse_familyserialno" name="inhouse_familyserialno" readonly>
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#familyserial_search">Search</button>
+                                    <button class="btn btn-outline-primary" type="button" data-toggle="modal" data-target="#familyserial_search_modal"><i class="fa fa-search" aria-hidden="true"></i></button>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    @endif
                     @endif
                     <hr>
                     <div class="row">
@@ -409,7 +411,8 @@
         </div>
     </div>
 
-    <div class="modal fade" id="household_search" tabindex="-1" role="dialog">
+    @if(!auth()->user()->isSyndromicHospitalLevelAccess())
+    <div class="modal fade" id="household_search_modal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -419,7 +422,26 @@
                         </button>
                 </div>
                 <div class="modal-body">
-
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="household_search_input" placeholder="Type to search household no / family member name...">
+                    </div>
+              
+                      <div class="table-responsive">
+                        <table class="table table-sm table-bordered">
+                          <thead class="thead-light text-center">
+                            <tr>
+                              <th>Household No.</th>
+                              <th>Name</th>
+                              <th>Address</th>
+                            </tr>
+                          </thead>
+                          <tbody id="household_table_body">
+                            <tr><td colspan="3" class="text-center text-muted">Loading...</td></tr>
+                          </tbody>
+                        </table>
+                      </div>
+              
+                      <small class="text-muted">Click a household number to select.</small>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary btn-block" id="btn_generate_householdno">Generate New</button>
@@ -428,17 +450,36 @@
         </div>
     </div>
     
-    <div class="modal fade" id="familyserial_search" tabindex="-1" role="dialog">
+    <div class="modal fade" id="familyserial_search_modal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Modal title</h5>
+                    <h5 class="modal-title">Family Serial Search</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                 </div>
                 <div class="modal-body">
-                    Body
+                    <div class="table-responsive">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="family_search_input" placeholder="Type to search family serial no / family member name...">
+                        </div>
+
+                        <table class="table table-sm table-bordered">
+                            <thead class="thead-light text-center">
+                                <tr>
+                                    <th>Family Serial No.</th>
+                                    <th>Name</th>
+                                    <th>Address</th>
+                                </tr>
+                                </thead>
+                            <tbody id="familyserial_table_body">
+                                <tr><td colspan="3" class="text-center text-muted">Loading...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <small class="text-muted">Click a family serial number to select.</small>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary btn-block" id="btn_generate_familyno">Generate New</button>
@@ -446,8 +487,80 @@
             </div>
         </div>
     </div>
+    @endif
 
     <script>
+        @if(!auth()->user()->isSyndromicHospitalLevelAccess())
+        function escapeHtml(text) {
+            return $('<div/>').text(text ?? '').html();
+        }
+
+        function loadHouseholds(query) {
+            $('#household_table_body').html('<tr><td colspan="3" class="text-center text-muted">Loading...</td></tr>');
+
+            $.ajax({
+            url: "{{ route('inhouse_familyserials_search') }}",
+            method: "GET",
+            data: { q: query },
+            success: function(rows) {
+                if (!rows || rows.length === 0) {
+                $('#household_table_body').html('<tr><td colspan="3" class="text-center text-muted">No results</td></tr>');
+                return;
+                }
+
+                let html = '';
+                rows.forEach(function (r) {
+                let fullname = r.patient
+                    ? `${r.patient.lname}, ${r.patient.fname} ${r.patient.mname ?? ''}`
+                    : '—';
+
+                html += `
+                    <tr>
+                    <td>
+                        <a href="#" class="pick-household" data-householdno="${r.inhouse_householdno}">
+                        ${r.inhouse_householdno}
+                        </a>
+                    </td>
+                    <td>${fullname}</td>
+                    <td></td>
+                    </tr>
+                `;
+                });
+
+                $('#household_table_body').html(html);
+            },
+            error: function() {
+                $('#household_table_body').html('<tr><td colspan="3" class="text-center text-danger">Failed to load</td></tr>');
+            }
+            });
+        }
+
+        // Open modal on Search click
+        $('#household_search_btn').on('click', function() {
+            $('#household_search_modal').modal('toggle');
+            $('#household_search_input').val('');
+            loadHouseholds('');
+            setTimeout(() => $('#household_search_input').trigger('focus'), 200);
+        });
+
+        // Search as you type (simple debounce)
+        let householdTimer = null;
+        $('#household_search_input').on('keyup', function() {
+            clearTimeout(householdTimer);
+            const q = $(this).val();
+            householdTimer = setTimeout(function() {
+            loadHouseholds(q);
+            }, 300);
+        });
+
+        // Click household no -> set input then close modal
+        $(document).on('click', '.pick-household', function(e) {
+            e.preventDefault();
+            const householdno = $(this).data('householdno');
+            $('#inhouse_householdno').val(householdno);
+            $('#household_search_modal').modal('toggle');
+        });
+        
         $('#btn_generate_householdno').on('click', function () {
             $.ajax({
             url: "{{ route('inhouse_generate_householdno') }}",
@@ -460,7 +573,7 @@
                 $('#inhouse_householdno').val(res.householdno);
 
                 // optional: close modal
-                $('#household_search').modal('toggle');
+                $('#household_search_modal').modal('toggle');
                 }
             },
             error: function () {
@@ -481,7 +594,7 @@
                 $('#inhouse_familyserialno').val(res.familyserialno);
 
                 // optional: close modal
-                $('#familyserial_search').modal('toggle');
+                $('#familyserial_search_modal').modal('toggle');
                 }
             },
             error: function () {
@@ -489,6 +602,7 @@
             }
             });
         });
+        @endif
 
         let mediaStream = null;
 

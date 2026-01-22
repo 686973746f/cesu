@@ -50,4 +50,26 @@ class InhouseFamilySerialController extends Controller
             'familyserialno' => $familyserialno
         ]);
     }
+
+    public function searchFamilySerial(Request $request) {
+        $q = trim($request->q);
+
+        $rows = InhouseFamilySerial::with('patient')
+            ->when($q, function ($query) use ($q) {
+
+                $query->where('inhouse_householdno', 'like', "%{$q}%")
+
+                ->orWhereHas('patient', function ($p) use ($q) {
+                    $p->where('lname', 'like', "%{$q}%")
+                    ->orWhere('fname', 'like', "%{$q}%")
+                    ->orWhere('mname', 'like', "%{$q}%");
+                });
+
+            })
+            ->orderBy('created_at', 'DESC')
+            ->limit(50)
+            ->get();
+
+        return response()->json($rows);
+    }
 }

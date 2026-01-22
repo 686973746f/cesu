@@ -429,4 +429,8 @@ class SyndromicPatient extends Model
             return $f->control_number ?? NULL;
         }
     }
+
+    public function inhouseFamilySerials() {
+        return $this->hasOne(InhouseFamilySerial::class, 'patient_id');
+    }
 }

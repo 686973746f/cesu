@@ -539,6 +539,9 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessS
     Route::get('/syndromic/special_report', [SyndromicController::class, 'specialReport'])->name('opd_sp');
     Route::get('/syndromic/special_report/process', [SyndromicController::class, 'specialReportProcess'])->name('opd_sp_process');
 
+    Route::get('/inhouse-family-serials/search', [InhouseFamilySerialController::class, 'searchFamilySerial'])
+    ->name('inhouse_familyserials_search');
+
     Route::post('/inhouse-family-serials/generate-householdno', [InhouseFamilySerialController::class, 'generateHouseholdNo'])
     ->name('inhouse_generate_householdno');
     Route::post('/inhouse-family-serials/generate-familyserial', [InhouseFamilySerialController::class, 'generateFamilySerialNo'])

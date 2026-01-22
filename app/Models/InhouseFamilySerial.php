@@ -11,9 +11,13 @@ class InhouseFamilySerial extends Model
 
     protected $fillable = [
         'patient_id',
-        'facility_id',
-        'serial_number',
-        'created_by',
-        'updated_by',
+        'inhouse_householdno',
+        'inhouse_familyserialno',
+        'ics_householdno',
+        'ics_familyserialno',
     ];
+
+    public function patient() {
+        return $this->belongsTo(SyndromicPatient::class, 'patient_id');
+    }
 }
