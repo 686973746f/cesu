@@ -65,6 +65,7 @@ use App\Http\Controllers\ABTCUserSettingsController;
 use App\Http\Controllers\AcceptanceLetterController;
 use App\Http\Controllers\FacilityReportingController;
 use App\Http\Controllers\PregnancyTrackingController;
+use App\Http\Controllers\InhouseFamilySerialController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\ABTCWalkInRegistrationController;
 use App\Http\Controllers\SchoolBasedSurveillanceController;
@@ -537,6 +538,9 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessS
 
     Route::get('/syndromic/special_report', [SyndromicController::class, 'specialReport'])->name('opd_sp');
     Route::get('/syndromic/special_report/process', [SyndromicController::class, 'specialReportProcess'])->name('opd_sp_process');
+
+    Route::post('/inhouse-family-serials/generate-householdno', [InhouseFamilySerialController::class, 'generateHouseholdNo'])
+    ->name('inhouse_generate_householdno');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isGlobalAdmin']], function() {

@@ -17,7 +17,7 @@ class CreateInhouseFamilySerialsTable extends Migration
             $table->id();
             $table->foreignId('patient_id')->constrained('syndromic_patients')->cascadeOnDelete();
             $table->string('inhouse_householdno');
-            $table->string('inhouse_familyserialno')->nullable();
+            $table->string('inhouse_familyserialno');
 
             $table->string('ics_householdno')->nullable();
             $table->string('ics_familyserialno')->nullable();

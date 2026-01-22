@@ -178,6 +178,27 @@
                             </div>
                         </div>
                     </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div>Facility Household No.</div>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" value="{{old('inhouse_householdno')}}" id="inhouse_householdno" name="inhouse_householdno" readonly>
+                                <div class="input-group-append">
+                                  <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#household_search">Search</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div>Family Serial No.</div>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" value="{{old('inhouse_familyserialno')}}" id="inhouse_familyserialno" name="inhouse_familyserialno" readonly>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#familyserial_search">Search</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     @endif
                     <hr>
                     <div class="row">
@@ -383,6 +404,66 @@
                 </div>
                 <div class="modal-footer">
                     
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="household_search" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    Body
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="inhouse_familyserialno" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    Body
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    Body
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save</button>
                 </div>
             </div>
         </div>
