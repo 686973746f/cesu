@@ -1235,9 +1235,11 @@ class EmployeesController extends Controller
 
         if($r->update_type == 'RESIGNED' || $r->update_type == 'RETIRED' || $r->update_type == 'END OF CONTRACT' || $r->update_type == 'TERMINATED') {
             $status = 'INACTIVE';
+            $d->employment_status = 'INACTIVE';
         }
         else {
             $status = 'ACTIVE';
+            $d->employment_status = 'ACTIVE';
         }
 
         $table_params = [
@@ -1265,6 +1267,8 @@ class EmployeesController extends Controller
         }
 
         $c = EmploymentStatusUpdate::create($table_params);
+
+        $d->save();
 
         return redirect()->back()
         ->with('msg', 'Employment Status Update request for '.$d->getName().' was successfully submitted.')
