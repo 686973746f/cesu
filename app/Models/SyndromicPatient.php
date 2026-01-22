@@ -426,7 +426,7 @@ class SyndromicPatient extends Model
             return $this->facility_controlnumber;
         }
         else {
-            return $f->control_number;
+            return $f->control_number ?? NULL;
         }
     }
 }
