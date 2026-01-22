@@ -11,6 +11,7 @@
     @endif
     <form action="{{route('syndromic_storeRecord', $patient->id)}}" method="POST" onsubmit="return validateForm()">
         @csrf
+        <input type="hidden" name="request_uuid" value="{{ Str::uuid() }}">
         <div class="card">
             <div class="card-header">
               @if(Str::contains(request()->url(), 'new'))

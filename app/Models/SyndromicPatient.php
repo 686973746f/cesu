@@ -75,6 +75,7 @@ class SyndromicPatient extends Model
 
         'encodedfrom_tbdots',
         'facility_controlnumber',
+        'request_uuid',
     ];
 
     public function user() {

@@ -80,6 +80,7 @@ class CreateSyndromicPatientsTable extends Migration
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->text('shared_access_list')->nullable();
             $table->string('facility_controlnumber')->nullable();
+            $table->uuid('request_uuid')->unique();
         });
     }
 

@@ -227,6 +227,7 @@ class CreateSyndromicRecordsTable extends Migration
             $table->bigInteger('ec_familyhead_id')->nullable();
             $table->bigInteger('ec_familymember_id')->nullable();
             //$table->tinyInteger('transferredto_edcs')->default(0);
+            $table->uuid('request_uuid')->unique();
         });
     }
 

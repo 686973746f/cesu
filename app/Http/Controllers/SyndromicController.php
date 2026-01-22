@@ -437,6 +437,20 @@ class SyndromicController extends Controller
     }
 
     public function storePatient(Request $request) {
+        if (empty($request->request_uuid)) {
+            return back()
+                ->withInput()
+                ->with('msg', 'Request UUID is required.')
+                ->with('msgtype', 'danger');
+        }
+
+        if (SyndromicPatient::where('request_uuid', $request->request_uuid)->exists()) {
+            return back()
+                ->withInput()
+                ->with('msg', 'ERROR: Duplicate request detected. Request UUID already exists.')
+                ->with('msgtype', 'warning');
+        }
+
         if(!(SyndromicPatient::ifDuplicateFound($request->lname, $request->fname, $request->mname, $request->suffix, $request->date))) {
             if(date('n') == 1) {
                 $sc = 'A';
@@ -522,6 +536,7 @@ class SyndromicController extends Controller
             }
 
             $values_array = [
+                'request_uuid' => $request->request_uuid,
                 'lname' => mb_strtoupper($request->lname),
                 'fname' => mb_strtoupper($request->fname),
                 'mname' => ($request->filled('mname')) ? mb_strtoupper($request->mname) : NULL,
@@ -761,6 +776,20 @@ class SyndromicController extends Controller
     }
 
     public function storeRecord($patient_id, Request $r) {
+        if (empty($r->request_uuid)) {
+            return back()
+                ->withInput()
+                ->with('msg', 'Request UUID is required.')
+                ->with('msgtype', 'danger');
+        }
+
+        if (SyndromicRecords::where('request_uuid', $r->request_uuid)->exists()) {
+            return back()
+                ->withInput()
+                ->with('msg', 'ERROR: Duplicate request detected. Request UUID already exists.')
+                ->with('msgtype', 'warning');
+        }
+
         $p = SyndromicPatient::findOrFail($patient_id);
 
         $birthdate = Carbon::parse($p->bdate);
@@ -839,6 +868,7 @@ class SyndromicController extends Controller
 
         if(!$check1) {
             $values_array = [
+                'request_uuid' => $r->request_uuid,
                 'status' => 'approved',
                 'facility_id' => auth()->user()->itr_facility_id,
                 'medical_event_id' => (!is_null(auth()->user()->itr_medicalevent_id)) ? auth()->user()->itr_medicalevent_id : NULL,

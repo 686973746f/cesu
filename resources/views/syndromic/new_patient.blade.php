@@ -4,6 +4,7 @@
     <div class="container">
         <form action="{{route('syndromic_storePatient')}}" method="POST">
             @csrf
+            <input type="hidden" name="request_uuid" value="{{ Str::uuid() }}">
             <div class="card">
                 <div class="card-header"><b>New ITR - Step 2/3</b></div>
                 <div class="card-body">

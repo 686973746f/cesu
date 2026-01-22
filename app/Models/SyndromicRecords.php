@@ -212,6 +212,7 @@ class SyndromicRecords extends Model
         'disease_tag',
         'alreadyimported_disease_tag',
         'received_edcs_tag',
+        'request_uuid',
     ];
 
     public function displayAgeStringToReport() {
