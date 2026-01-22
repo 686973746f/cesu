@@ -663,12 +663,16 @@ class SyndromicController extends Controller
                 ->whereDate('created_at', date('Y-m-d'))
                 ->count();
 
+                /*
                 if($existing_record_count >= 2) {
                     $check = true;
                 }
                 else {
                     $check = false;
                 }
+                */
+
+                $check = false;
             }
             else {
                 $check = SyndromicRecords::where('syndromic_patient_id', $patient->id)
@@ -813,12 +817,16 @@ class SyndromicController extends Controller
                 ->whereDate('created_at', date('Y-m-d'))
                 ->count();
 
+                /*
                 if($existing_record_count >= 2) {
                     $check1 = true;
                 }
                 else {
                     $check1 = false;
                 }
+                */
+
+                $check1 = false;
             }
             else {
                 $check1 = SyndromicRecords::where('syndromic_patient_id', $p->id)
