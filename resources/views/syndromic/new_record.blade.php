@@ -274,7 +274,7 @@
                     </div>
                     <div class="form-group">
                       <label for="date_general_onset"><b class="text-danger">*</b>Date Onset of Illness (Kailan nag-simula ang sintomas)</label>
-                      <input type="date" class="form-control" name="date_general_onset" id="date_general_onset" value="{{old('date_general_onset')}}" min="{{date('Y-m-d', strtotime('-6 Months'))}}" max="{{date('Y-m-d')}}" required>
+                      <input type="date" class="form-control" name="date_general_onset" id="date_general_onset" value="{{old('date_general_onset')}}" max="{{date('Y-m-d')}}" required>
                     </div>
                   </div>
                   <div class="col-md-6">
