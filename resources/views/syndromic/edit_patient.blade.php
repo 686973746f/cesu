@@ -33,7 +33,7 @@
                     </div>
                     @endif
 
-                    @if($d->facility_id == 11730)
+                    @if(auth()->user()->opdfacility->enable_customemr1 == 1)
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -43,8 +43,8 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="facility_controlnumber"><b class="text-danger">*</b>ITR Control No.</label>
-                                <input type="text" class="form-control" name="facility_controlnumber" id="facility_controlnumber" value="{{old('facility_controlnumber', $d->facility_controlnumber)}}" style="text-transform: uppercase;" required>
+                                <label for="facility_controlnumber"><b class="text-danger">*</b>Control No. (Your Facility)</label>
+                                <input type="text" class="form-control" name="facility_controlnumber" id="facility_controlnumber" value="{{old('facility_controlnumber', $d->getControlNumber())}}" style="text-transform: uppercase;" autocomplete="off" required>
                             </div>
                         </div>
                     </div>

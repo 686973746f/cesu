@@ -416,4 +416,17 @@ class SyndromicPatient extends Model
         
         return $get_txt;
     }
+
+    public function getControlNumber() {
+        $f = OpdControlNumber::where('patient_id', $this->id)
+        ->where('facility_id', auth()->user()->itr_facility_id)
+        ->first();
+
+        if(!$f && auth()->user()->itr_facility_id == 11730) {
+            return $this->facility_controlnumber;
+        }
+        else {
+            return $f->control_number;
+        }
+    }
 }

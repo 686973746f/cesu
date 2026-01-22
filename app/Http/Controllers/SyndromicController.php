@@ -52,6 +52,7 @@ use App\Models\PharmacySupplySub;
 use App\Models\SyndromicLabResult;
 use Illuminate\Support\Facades\DB;
 use App\Models\FhsisTbdotsMorbidity;
+use App\Models\OpdControlNumber;
 use App\Models\PharmacyPrescription;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -451,6 +452,19 @@ class SyndromicController extends Controller
                 ->with('msgtype', 'warning');
         }
 
+        if(auth()->user()->opdfacility->enable_customemr1 == 1) {
+            $cnf = OpdControlNumber::where('facility_id', auth()->user()->itr_facility_id)
+            ->where('control_number', $request->facility_controlnumber)
+            ->first();
+
+            if($cnf) {
+                return redirect()->back()
+                ->withInput()
+                ->with('msg', "Error: Facility Control Number {$request->facility_controlnumber} is already used by other patient in your facility.")
+                ->with('msgtype', 'warning');
+            }
+        }
+
         if(!(SyndromicPatient::ifDuplicateFound($request->lname, $request->fname, $request->mname, $request->suffix, $request->date))) {
             if(date('n') == 1) {
                 $sc = 'A';
@@ -591,11 +605,13 @@ class SyndromicController extends Controller
                 'selfie_file' => $selfie_filename,
             ];
 
+            /*
             if(auth()->user()->opdfacility->enable_customemr1 == 1) { //Manggahan Facility ID Checking
                 $values_array = $values_array + [
                     'facility_controlnumber' => $request->facility_controlnumber,
                 ];
             }
+            */
 
             if(!auth()->user()->isSyndromicHospitalLevelAccess()) {
                 $values_array = $values_array + [
@@ -612,6 +628,13 @@ class SyndromicController extends Controller
             }
     
             $c = $request->user()->syndromicpatient()->create($values_array);
+            
+            $ctr_create = OpdControlNumber::create([
+                'facility_id' => auth()->user()->itr_facility_id,
+                'control_number' => $request->facility_controlnumber,
+                'syndromic_patient_id' => $c->id,
+                'created_by' => auth()->user()->id,
+            ]);
     
             return redirect()->route('syndromic_newRecord', $c->id)
             ->with('msg', 'Patient record successfully created. Proceed by completing the ITR of the patient.')
@@ -1482,6 +1505,38 @@ class SyndromicController extends Controller
 
         if(!($s)) {
             $getpatient = SyndromicPatient::findOrFail($patient_id);
+            
+            if(!auth()->user()->isSyndromicHospitalLevelAccess()) {
+                $ctr_search = OpdControlNumber::where('facility_id', auth()->user()->itr_facility_id)
+                ->where('patient_id', $getpatient->id)
+                ->first();
+
+                if($ctr_search) {
+                    //Check if control number was changed
+                    if($ctr_search->control_number != $request->facility_controlnumber) {
+                        $cn_check = OpdControlNumber::where('id', '!=', $ctr_search->id)
+                        ->where('facility_id', auth()->user()->itr_facility_id)
+                        ->where('control_number', $request->facility_controlnumber)
+                        ->first();
+                    }
+                    else {
+                        $cn_check = null;
+                    }
+                }
+                else {
+                    //Check if control number exists in the facility
+                    $cn_check = OpdControlNumber::where('facility_id', auth()->user()->itr_facility_id)
+                    ->where('control_number', $request->facility_controlnumber)
+                    ->first();
+                }
+
+                if($cn_check) {
+                    return redirect()->back()
+                    ->withInput()
+                    ->with('msg', 'Error: Facility Control Number already used by other patient. Kindly change and try again.')
+                    ->with('msgtype', 'warning');
+                }
+            }
 
             if($getpatient->userHasPermissionToShareAccess()) {
                 $sharedAccessList = (!is_null($request->shared_access_list)) ? implode(",", $request->shared_access_list) : NULL;
@@ -1598,11 +1653,13 @@ class SyndromicController extends Controller
                 'selfie_file' => $selfie_filename,
             ];
 
-            if($getpatient->facility_id == 11730 && auth()->user()->opdfacility->enable_customemr1 == 1) { //Manggahan Facility ID Checking
+            /*
+            if(auth()->user()->opdfacility->enable_customemr1 == 1) { //Manggahan Facility ID Checking
                 $values_array = $values_array + [
                     'facility_controlnumber' => $request->facility_controlnumber,
                 ];
             }
+            */
 
             if(!auth()->user()->isSyndromicHospitalLevelAccess()) {
                 $values_array = $values_array + [
@@ -1620,6 +1677,17 @@ class SyndromicController extends Controller
 
             $u = SyndromicPatient::where('id', $patient_id)
             ->update($values_array);
+
+            $ctr_update = OpdControlNumber::updateOrCreate(
+                [
+                    'facility_id' => auth()->user()->itr_facility_id,
+                    'patient_id' => $getpatient->id,
+                ],
+                [
+                    'control_number' => $request->facility_controlnumber,
+                    'updated_by' => auth()->user()->id,
+                ]
+            );
 
             //Also update Pharmacy Record
             $pharma_record = PharmacyPatient::where('itr_id', $patient_id)->first();
