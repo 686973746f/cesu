@@ -44,7 +44,7 @@ class InhouseFamilySerialController extends Controller
 
         $paddedId = str_pad($nextId, 10, '0', STR_PAD_LEFT);
 
-        $familyserialno = "{$f->healthfacility_code_short}-{$paddedId}";
+        $familyserialno = "DOH{$f->healthfacility_code_short}-{$paddedId}";
 
         return response()->json([
             'familyserialno' => $familyserialno

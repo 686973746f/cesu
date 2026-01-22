@@ -541,6 +541,8 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessS
 
     Route::post('/inhouse-family-serials/generate-householdno', [InhouseFamilySerialController::class, 'generateHouseholdNo'])
     ->name('inhouse_generate_householdno');
+    Route::post('/inhouse-family-serials/generate-familyserial', [InhouseFamilySerialController::class, 'generateFamilySerialNo'])
+    ->name('inhouse_generate_familyserial');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isGlobalAdmin']], function() {

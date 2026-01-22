@@ -633,7 +633,7 @@ class SyndromicController extends Controller
                 $ctr_create = OpdControlNumber::create([
                     'facility_id' => auth()->user()->itr_facility_id,
                     'control_number' => $request->facility_controlnumber,
-                    'syndromic_patient_id' => $c->id,
+                    'patient_id' => $c->id,
                     'created_by' => auth()->user()->id,
                 ]);
             }

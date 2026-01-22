@@ -413,23 +413,22 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Modal title</h5>
+                    <h5 class="modal-title">Household Search</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                 </div>
                 <div class="modal-body">
-                    Body
+
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-primary btn-block" id="btn_generate_householdno">Generate New</button>
                 </div>
             </div>
         </div>
     </div>
     
-    <div class="modal fade" id="inhouse_familyserialno" tabindex="-1" role="dialog">
+    <div class="modal fade" id="familyserial_search" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -442,34 +441,55 @@
                     Body
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Modal title</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                </div>
-                <div class="modal-body">
-                    Body
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-primary btn-block" id="btn_generate_familyno">Generate New</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
+        $('#btn_generate_householdno').on('click', function () {
+            $.ajax({
+            url: "{{ route('inhouse_generate_householdno') }}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}"
+            },
+            success: function (res) {
+                if (res.householdno) {
+                $('#inhouse_householdno').val(res.householdno);
+
+                // optional: close modal
+                $('#household_search').modal('toggle');
+                }
+            },
+            error: function () {
+                alert('Failed to generate household number.');
+            }
+            });
+        });
+
+        $('#btn_generate_familyno').on('click', function () {
+            $.ajax({
+            url: "{{ route('inhouse_generate_familyserial') }}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}"
+            },
+            success: function (res) {
+                if (res.familyserialno) {
+                $('#inhouse_familyserialno').val(res.familyserialno);
+
+                // optional: close modal
+                $('#familyserial_search').modal('toggle');
+                }
+            },
+            error: function () {
+                alert('Failed to generate family serial.');
+            }
+            });
+        });
+
         let mediaStream = null;
 
         // Function to start camera
