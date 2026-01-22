@@ -629,13 +629,15 @@ class SyndromicController extends Controller
     
             $c = $request->user()->syndromicpatient()->create($values_array);
             
-            $ctr_create = OpdControlNumber::create([
-                'facility_id' => auth()->user()->itr_facility_id,
-                'control_number' => $request->facility_controlnumber,
-                'syndromic_patient_id' => $c->id,
-                'created_by' => auth()->user()->id,
-            ]);
-    
+            if(auth()->user()->opdfacility->enable_customemr1 == 1) {
+                $ctr_create = OpdControlNumber::create([
+                    'facility_id' => auth()->user()->itr_facility_id,
+                    'control_number' => $request->facility_controlnumber,
+                    'syndromic_patient_id' => $c->id,
+                    'created_by' => auth()->user()->id,
+                ]);
+            }
+            
             return redirect()->route('syndromic_newRecord', $c->id)
             ->with('msg', 'Patient record successfully created. Proceed by completing the ITR of the patient.')
             ->with('msgtype', 'success');
@@ -1506,7 +1508,7 @@ class SyndromicController extends Controller
         if(!($s)) {
             $getpatient = SyndromicPatient::findOrFail($patient_id);
             
-            if(!auth()->user()->isSyndromicHospitalLevelAccess()) {
+            if(auth()->user()->opdfacility->enable_customemr1 == 1) {
                 $ctr_search = OpdControlNumber::where('facility_id', auth()->user()->itr_facility_id)
                 ->where('patient_id', $getpatient->id)
                 ->first();
@@ -1678,16 +1680,18 @@ class SyndromicController extends Controller
             $u = SyndromicPatient::where('id', $patient_id)
             ->update($values_array);
 
-            $ctr_update = OpdControlNumber::updateOrCreate(
-                [
-                    'facility_id' => auth()->user()->itr_facility_id,
-                    'patient_id' => $getpatient->id,
-                ],
-                [
-                    'control_number' => $request->facility_controlnumber,
-                    'updated_by' => auth()->user()->id,
-                ]
-            );
+            if(auth()->user()->opdfacility->enable_customemr1 == 1) {
+                $ctr_update = OpdControlNumber::updateOrCreate(
+                    [
+                        'facility_id' => auth()->user()->itr_facility_id,
+                        'patient_id' => $getpatient->id,
+                    ],
+                    [
+                        'control_number' => $request->facility_controlnumber,
+                        'updated_by' => auth()->user()->id,
+                    ]
+                );
+            }
 
             //Also update Pharmacy Record
             $pharma_record = PharmacyPatient::where('itr_id', $patient_id)->first();
