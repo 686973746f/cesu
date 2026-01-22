@@ -309,13 +309,14 @@
                             <option value="" disabled {{(is_null(old('update_type'))) ? 'selected' : ''}}>Choose...</option>
                             @if($d->employeestatus->where('update_type', 'INITIAL')->isEmpty())
                             <option value="INITIAL">Initial</option>
-                            @endif
+                            @else
                             <option value="CHANGE">Change</option>
                             <option value="PROMOTION">Promotion</option>
                             <option value="RESIGNED">Resigned</option>
                             <option value="RETIRED">Retired</option>
                             <option value="END OF CONTRACT">End of Contract</option>
                             <option value="TERMINATED">Terminated</option>
+                            @endif
                           </select>
                         </div>
                         <div id="emp_part2" class="d-none">

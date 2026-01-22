@@ -1714,7 +1714,7 @@ class FhsisController extends Controller
             if($check) {
                 return redirect()->route('fhsis_livebirth_check', ['year' => $year])
                 ->withInput()
-                ->with('msg', "ERROR :Registry No. {$registryno} ({$check->getName()}) already exists.")
+                ->with('msg', "ERROR: Registry No. {$registryno} ({$check->getName()}) already exists.")
                 ->with('msgtype', 'warning');
             }
 
@@ -1828,8 +1828,8 @@ class FhsisController extends Controller
             'multiple_delivery' => $r->multiple_delivery,
         ]);
 
-        return redirect()->back()
-        ->with('msg', 'Birth Certificate Registry No.: '.$r->registryno.' was successfully added.')
+        return redirect()->route('fhsis_livebirth_check', ['year' => $r->input_year])
+        ->with('msg', "Birth Certificate Registry No. {$c->registryno} ({$c->getName()}) was successfully added.")
         ->with('msgtype', 'success');
     }
 
