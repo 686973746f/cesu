@@ -127,7 +127,8 @@ class CreateInhouseMaternalCaresTable extends Migration
             $table->date('diabetes_date')->nullable();
             $table->char('diabetes_result', 1)->nullable();
 
-            $table->date('pregnancy_terminated_date')->nullable();
+            //$table->date('pregnancy_terminated_date')->nullable();
+            $table->dateTime('delivery_date')->nullable();
             $table->char('outcome', 2)->nullable();
             $table->char('delivery_type', 2)->nullable();
 
@@ -136,8 +137,10 @@ class CreateInhouseMaternalCaresTable extends Migration
             $table->string('place_of_delivery')->nullable();
             $table->string('facility_type')->nullable();
             $table->char('bcemoncapable', 1)->nullable();
+            $table->char('nonhealth_type', 1)->nullable();
             $table->string('attendant')->nullable();
-            $table->dateTime('delivery_date')->nullable();
+            $table->string('attendant_others')->nullable();
+            
 
             $table->date('pnc1')->nullable();
             $table->date('pnc2')->nullable();
@@ -163,6 +166,10 @@ class CreateInhouseMaternalCaresTable extends Migration
             $table->timestamps();
             $table->softDeletes();
             $table->uuid('request_uuid')->unique();
+
+            $table->integer('age_years')->nullable();
+            $table->integer('age_months')->nullable();
+            $table->integer('age_days')->nullable();
         });
     }
 
