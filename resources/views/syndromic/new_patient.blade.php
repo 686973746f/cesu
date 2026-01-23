@@ -195,7 +195,7 @@
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control" value="{{old('inhouse_familyserialno')}}" id="inhouse_familyserialno" name="inhouse_familyserialno" readonly>
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-primary" type="button" data-toggle="modal" data-target="#familyserial_search_modal"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                    <button class="btn btn-outline-primary" id="familyserial_search_btn" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -499,41 +499,109 @@
             $('#household_table_body').html('<tr><td colspan="3" class="text-center text-muted">Loading...</td></tr>');
 
             $.ajax({
-            url: "{{ route('inhouse_familyserials_search') }}",
-            method: "GET",
-            data: { q: query },
-            success: function(rows) {
-                if (!rows || rows.length === 0) {
-                $('#household_table_body').html('<tr><td colspan="3" class="text-center text-muted">No results</td></tr>');
-                return;
+                url: "{{ route('inhouse_familyserials_search') }}",
+                method: "GET",
+                data: { q: query },
+                success: function(rows) {
+                    if (!rows || rows.length === 0) {
+                    $('#household_table_body').html('<tr><td colspan="3" class="text-center text-muted">No results</td></tr>');
+                    return;
+                    }
+
+                    let html = '';
+                    rows.forEach(function (r) {
+                    let fullname = r.patient
+                        ? `${r.patient.lname}, ${r.patient.fname} ${r.patient.mname ?? ''}`
+                        : '—';
+
+                    html += `
+                        <tr>
+                        <td>
+                            <a href="#" class="pick-household" data-householdno="${r.inhouse_householdno}">
+                            ${r.inhouse_householdno}
+                            </a>
+                        </td>
+                        <td>${fullname}</td>
+                        <td></td>
+                        </tr>
+                    `;
+                    });
+
+                    $('#household_table_body').html(html);
+                },
+                error: function() {
+                    $('#household_table_body').html('<tr><td colspan="3" class="text-center text-danger">Failed to load</td></tr>');
                 }
-
-                let html = '';
-                rows.forEach(function (r) {
-                let fullname = r.patient
-                    ? `${r.patient.lname}, ${r.patient.fname} ${r.patient.mname ?? ''}`
-                    : '—';
-
-                html += `
-                    <tr>
-                    <td>
-                        <a href="#" class="pick-household" data-householdno="${r.inhouse_householdno}">
-                        ${r.inhouse_householdno}
-                        </a>
-                    </td>
-                    <td>${fullname}</td>
-                    <td></td>
-                    </tr>
-                `;
-                });
-
-                $('#household_table_body').html(html);
-            },
-            error: function() {
-                $('#household_table_body').html('<tr><td colspan="3" class="text-center text-danger">Failed to load</td></tr>');
-            }
             });
         }
+
+        function loadFamilySerials(query) {
+            $('#familyserial_table_body').html('<tr><td colspan="3" class="text-center text-muted">Loading...</td></tr>');
+
+            $.ajax({
+                url: "{{ route('inhouse_familyserials_search') }}",
+                method: "GET",
+                data: { q: query },
+                success: function(rows) {
+                    if (!rows || rows.length === 0) {
+                        $('#familyserial_table_body').html('<tr><td colspan="3" class="text-center text-muted">No results</td></tr>');
+                        return;
+                    }
+
+                    let html = '';
+                    rows.forEach(function (r) {
+                    let fullname = r.patient
+                        ? `${r.patient.lname}, ${r.patient.fname} ${r.patient.mname ?? ''}`
+                        : '—';
+
+                    html += `
+                        <tr>
+                        <td>
+                            <a href="#" class="pick-familyserial" data-familyserialno="${r.inhouse_familyserialno}">
+                            ${r.inhouse_familyserialno}
+                            </a>
+                        </td>
+                        <td>${fullname}</td>
+                        <td></td>
+                        </tr>
+                    `;
+                    });
+
+                    $('#familyserial_table_body').html(html);
+                },
+                error: function() {
+                    $('#familyserial_table_body').html('<tr><td colspan="3" class="text-center text-danger">Failed to load</td></tr>');
+                }
+            });
+        }
+
+        // Open modal on Search click
+        $('#familyserial_search_btn').on('click', function() {
+            $('#familyserial_search_modal').modal('toggle');
+            $('#family_search_input').val('');
+            loadFamilySerials('');
+            setTimeout(() => $('#family_search_input').trigger('focus'), 200);
+        });
+
+        // Search as you type (simple debounce)
+        let familySerialTimer = null;
+        $('#family_search_input').on('keyup', function() {
+            clearTimeout(familySerialTimer);
+            const q = $(this).val();
+            familySerialTimer = setTimeout(function() {
+            loadFamilySerials(q);
+            }, 300);
+        });
+
+        // Click household no -> set input then close modal
+        $(document).on('click', '.pick-familyserial', function(e) {
+            e.preventDefault();
+            const familyserialno = $(this).data('familyserialno');
+            $('#inhouse_familyserialno').val(familyserialno);
+            $('#familyserial_search_modal').modal('toggle');
+
+            $('#inhouse_householdno').prop('required', true);
+        });
 
         // Open modal on Search click
         $('#household_search_btn').on('click', function() {
@@ -559,6 +627,8 @@
             const householdno = $(this).data('householdno');
             $('#inhouse_householdno').val(householdno);
             $('#household_search_modal').modal('toggle');
+
+            $('#inhouse_familyserialno').prop('required', true);
         });
         
         $('#btn_generate_householdno').on('click', function () {

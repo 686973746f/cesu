@@ -1704,6 +1704,20 @@ class SyndromicController extends Controller
                     ]
                 );
             }
+            
+            if(!auth()->user()->isSyndromicHospitalLevelAccess()) {
+                if($request->filled('inhouse_householdno') || $request->filled('inhouse_familyserialno')) {
+                    $srn_update = InhouseFamilySerial::updateOrCreate(
+                        [
+                            'patient_id' => $getpatient->id,
+                        ],
+                        [
+                            'inhouse_householdno' => $request->inhouse_householdno,
+                            'inhouse_familyserialno' => $request->inhouse_familyserialno,
+                        ]
+                    );
+                }
+            }
 
             //Also update Pharmacy Record
             $pharma_record = PharmacyPatient::where('itr_id', $patient_id)->first();
