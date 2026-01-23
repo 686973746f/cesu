@@ -209,7 +209,7 @@
                         <div class="col-md-6">
                             <div class="mb-2">Facility Household No.</div>
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control" value="{{old('inhouse_householdno', $d->inhouseFamilySerials->inhouse_householdno)}}" id="inhouse_householdno" name="inhouse_householdno" readonly>
+                                <input type="text" class="form-control" value="{{old('inhouse_householdno', ($d->inhouseFamilySerials) ? $d->inhouseFamilySerials->inhouse_householdno : NULL)}}" id="inhouse_householdno" name="inhouse_householdno" readonly>
                                 <div class="input-group-append">
                                   <button class="btn btn-outline-primary" id="household_search_btn" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
                                 </div>
@@ -218,7 +218,7 @@
                         <div class="col-md-6">
                             <div class="mb-2">Family Serial No.</div>
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control" value="{{old('inhouse_familyserialno', $d->inhouseFamilySerials->inhouse_familyserialno)}}" id="inhouse_familyserialno" name="inhouse_familyserialno" readonly>
+                                <input type="text" class="form-control" value="{{old('inhouse_familyserialno', ($d->inhouseFamilySerials) ? $d->inhouseFamilySerials->inhouse_familyserialno : NULL)}}" id="inhouse_familyserialno" name="inhouse_familyserialno" readonly>
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-primary" type="button" data-toggle="modal" data-target="#familyserial_search_modal"><i class="fa fa-search" aria-hidden="true"></i></button>
                                 </div>
