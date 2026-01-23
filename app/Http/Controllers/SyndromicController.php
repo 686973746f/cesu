@@ -641,6 +641,7 @@ class SyndromicController extends Controller
 
             if(!auth()->user()->isSyndromicHospitalLevelAccess()) {
                 //Create Household and Family Serial Number
+                if($request->filled('inhouse_householdno') || $request->filled('inhouse_familyserialno')) {
                 $snc = InhouseFamilySerial::create([
                     'patient_id' => $c->id,
                     'inhouse_householdno' => $request->inhouse_householdno,
