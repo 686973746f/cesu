@@ -21,9 +21,9 @@
                     </div>
                     @if($has_record)
                     <hr>
-                    <a href="{{route('syndromic_viewItrList', $d->id)}}" class="btn btn-block btn-outline-primary">VIEW PREVIOUS CONSULTATION/S</a>
+                    <a href="{{route('syndromic_viewItrList', $d->id)}}" class="btn btn-block btn-primary">View Previous Consultation/s</a>
                     @else
-                    <a href="{{route('syndromic_newRecord', $d->id)}}" class="btn btn-block btn-outline-success">New ITR</a>
+                    <a href="{{route('syndromic_newRecord', $d->id)}}" class="btn btn-block btn-primary">New Consultation</a>
                     @endif
                 </div>
                 <div class="card-body">
@@ -33,6 +33,30 @@
                     </div>
                     @endif
 
+                    <!-- FHSIS Tools -->
+                    <div class="text-right">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fhsisModal">
+                          FHSIS Tools
+                        </button>
+
+                        <div class="modal fade" id="fhsisModal" tabindex="-1" role="dialog" aria-labelledby="fhsisModalTitle" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">FHSIS Tools</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        @if($d->gender == 'FEMALE' && $d->getAge() >= 10)
+                                        <a href="{{route('etcl_maternal_new', $d->id)}}" class="btn btn-primary btn-block">Create Maternal Care</a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     @if(auth()->user()->opdfacility->enable_customemr1 == 1)
                     <div class="row">
                         <div class="col-md-6">
@@ -54,7 +78,7 @@
                         <input type="text" class="form-control" name="" id="" value="{{(!is_null($d->facility_id)) ? $d->facility->facility_name : 'N/A'}}" readonly>
                     </div>
                     @endif
-                    <div class="row">
+                    <div class="row d-none">
                         <div class="col-md-6 text-center">
                             @if(!is_null($d->selfie_file))
                             <div><label for="">Patient Picture:</label></div>

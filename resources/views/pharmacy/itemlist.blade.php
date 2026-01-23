@@ -44,6 +44,7 @@
                         <th>Item Name</th>
                         <th>SKU Code</th>
                         <th>Current Stock</th>
+                        <th>Estimated Boxes</th>
                         <th>Date Added / By</th>
                         <th>Date Updated / By</th>
                     </tr>
@@ -55,6 +56,7 @@
                         <td><b><a href="{{route('pharmacy_itemlist_viewitem', $i->id)}}">{{$i->pharmacysupplymaster->name}}</a></b></td>
                         <td class="text-center">{{$i->pharmacysupplymaster->sku_code}}</td>
                         <td class="text-center">{{$i->displayQty()}}</td>
+                        <td class="text-center">{{($i->pharmacysupplymaster->config_piecePerBox == 0) ? 'Please specify pieces per box first in the master item settings.' : floor($i->getEstimatedBoxStock())}}</td>
                         <td class="text-center"><small>{{date('m/d/Y h:i A', strtotime($i->created_at))}} / {{$i->user->name}}</small></td>
                         <td class="text-center"><small>{{(!is_null($i->updated_by)) ? date('m/d/Y h:i A', strtotime($i->updated_at)).' / '.$i->getUpdatedBy->name : 'N/A'}}</small></td>
                     </tr>

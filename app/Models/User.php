@@ -72,6 +72,9 @@ EMPLOYEE_ACCESS
 
 NONCOMM_ENCODER
 NONCOMM_ADMIN
+
+ETCL_ENCODER
+ETCL_ADMIN
 */
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -774,6 +777,17 @@ class User extends Authenticatable implements MustVerifyEmail
         $plist = $this->getPermissions();
 
         if(in_array('GLOBAL_ADMIN', $plist) || in_array('SBDS_ADMIN', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function canAccessElectronicTcl() {
+        $plist = $this->getPermissions();
+
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('ETCL_ADMIN', $plist) || in_array('ETCL_ENCODER', $plist)) {
             return true;
         }
         else {

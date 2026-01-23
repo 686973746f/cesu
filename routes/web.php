@@ -68,6 +68,7 @@ use App\Http\Controllers\PregnancyTrackingController;
 use App\Http\Controllers\InhouseFamilySerialController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\ABTCWalkInRegistrationController;
+use App\Http\Controllers\ElectronicTclController;
 use App\Http\Controllers\SchoolBasedSurveillanceController;
 use App\Http\Controllers\SecondaryTertiaryRecordsController;
 
@@ -1100,6 +1101,13 @@ Route::get('hert_duty', [EmployeesController::class, 'viewEmployeesDutyOnline'])
 Route::get('/forms', function () {
     return redirect('https://drive.google.com/drive/folders/1LAff2uF1gPHQd7jI8cy4PX3q5xbtMqH4?usp=drive_link');
 });
+Route::middleware(['auth','verified', 'canAccessElectronicTcl'])->group(function () {
+    Route::get('/maternal_care/{patient_id}/new', [ElectronicTclController::class, 'newMaternalCare'])->name('etcl_maternal_new');
+    Route::post('/maternal_care/{patient_id}/store', [ElectronicTclController::class, 'storeMaternalCare'])->name('etcl_maternal_store');
+    Route::get('/maternal_care/{id}/view', [ElectronicTclController::class, 'editMaternalCare'])->name('etcl_maternal_view');
+    Route::post('/maternal_care/{id}/update', [ElectronicTclController::class, 'updateMaternalCare'])->name('etcl_maternal_update');
+});
+
 
 //Route::get('/vaxcert/import', [VaxcertController::class, 'remoteimport'])->name('vaxcert_import');
 

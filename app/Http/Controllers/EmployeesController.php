@@ -121,9 +121,7 @@ class EmployeesController extends Controller
 
     public function editEmployee($id) {
         $employee = Employee::findOrFail($id);
-
         
-
         return $this->newOrEdit($employee, 'EDIT');
     }
 

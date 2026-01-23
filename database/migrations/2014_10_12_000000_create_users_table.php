@@ -52,6 +52,8 @@ class CreateUsersTable extends Migration
             
             $table->foreignId('supervisor_id')->nullable()->constrained('employees')->onDelete('set null');
             $table->foreignId('depthead_id')->nullable()->constrained('employees')->onDelete('set null');
+
+            $table->foreignId('etcl_bhs_id')->nullable()->constrained('doh_facilities')->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

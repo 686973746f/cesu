@@ -217,4 +217,12 @@ class PharmacySupplySub extends Model
             }
         }
     }
+
+    public function getEstimatedBoxStock() {
+        $current_stock = $this->substock()
+        ->where('expiration_date', '>', now())
+        ->sum('current_piece_stock');
+
+        return $current_stock / $this->pharmacysupplymaster->config_piecePerBox;
+    }
 }

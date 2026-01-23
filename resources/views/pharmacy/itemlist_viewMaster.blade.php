@@ -73,15 +73,15 @@
                         <div class="form-group">
                             <label for="quantity_type"><b class="text-danger">*</b>Quantity Type</label>
                             <select class="form-control" name="quantity_type" id="quantity_type" required>
-                                <option value="BOX" {{(old('quantity_type', $d->quantity_type) == 'BOX') ? 'selected' : ''}}>PER BOX</option>
+                                <option value="" disabled {{(is_null(old('quantity_type', $d->quantity_type)) ? 'selected' : '')}}>Choose...</option>
                                 <option value="PIECE" {{(old('quantity_type', $d->quantity_type) == 'PIECE') ? 'selected' : ''}}>PER PIECE</option>
                             </select>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group d-none" id="maxpiece_div">
+                        <div class="form-group" id="maxpiece_div">
                             <label for="config_piecePerBox"><b class="text-danger">*</b>Max pieces inside per Box</label>
-                            <input type="number" class="form-control" name="config_piecePerBox" id="config_piecePerBox" min="1" value="{{old('config_piecePerBox', $d->config_piecePerBox)}}">
+                            <input type="number" class="form-control" name="config_piecePerBox" id="config_piecePerBox" min="1" value="{{old('config_piecePerBox', $d->config_piecePerBox)}}" required>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -149,17 +149,5 @@
     $('#usage_category').select2({
         theme: 'bootstrap',
     });
-
-    $('#quantity_type').change(function (e) { 
-        e.preventDefault();
-        if($(this).val() == 'BOX') {
-            $('#maxpiece_div').removeClass('d-none');
-            $('#config_piecePerBox').prop('required', true);
-        }
-        else {
-            $('#maxpiece_div').addClass('d-none');
-            $('#config_piecePerBox').prop('required', false);
-        }
-    }).trigger('change');
 </script>
 @endsection
