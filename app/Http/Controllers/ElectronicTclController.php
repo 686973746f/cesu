@@ -279,6 +279,12 @@ class ElectronicTclController extends Controller
     public function editMaternalCare($id) {
         $d = InhouseMaternalCare::findOrFail($id);
         
+        if(!auth()->user()->isGlobalAdmin()) {
+            if($d->facility_id != auth()->user()->etcl_bhs_id) {
+                return abort(403, 'Unauthorized access to this record.');
+            }
+        }
+        
         return $this->newOrEditMaternalCare($d, 'EDIT', $d->id);
     }
 
