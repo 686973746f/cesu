@@ -19,6 +19,7 @@ class CreateInhouseMaternalCaresTable extends Migration
             $table->foreignId('facility_id')->constrained('doh_facilities')->onDelete('cascade');
             $table->date('registration_date');
             $table->string('highrisk', 1);
+            $table->string('age_group', 20);
 
             $table->date('lmp')->nullable();
             $table->integer('gravida')->nullable();
@@ -49,9 +50,12 @@ class CreateInhouseMaternalCaresTable extends Migration
             $table->date('visit8_est')->nullable();
             $table->date('visit8')->nullable();
             $table->string('visit8_type')->nullable();
+            $table->char('completed_8anc', 1)->default('N');
 
             $table->double('height')->nullable();
             $table->double('weight')->nullable();
+            $table->double('bmi')->nullable();
+            $table->char('nutritional_assessment', 1)->nullable();
 
             $table->string('trans_remarks')->nullable();
 
@@ -65,6 +69,7 @@ class CreateInhouseMaternalCaresTable extends Migration
             $table->string('td4_type')->nullable();
             $table->date('td5')->nullable();
             $table->string('td5_type')->nullable();
+            $table->char('fim_status', 1)->default('N');
 
             $table->date('deworming_date')->nullable();
 
@@ -86,6 +91,7 @@ class CreateInhouseMaternalCaresTable extends Migration
             $table->date('ifa6_date')->nullable();
             $table->integer('ifa6_dosage')->nullable();
             $table->string('ifa6_type')->nullable();
+            $table->char('completed_ifa', 1)->default('N');
 
             $table->date('mms1_date')->nullable();
             $table->integer('mms1_dosage')->nullable();
@@ -105,6 +111,7 @@ class CreateInhouseMaternalCaresTable extends Migration
             $table->date('mms6_date')->nullable();
             $table->integer('mms6_dosage')->nullable();
             $table->string('mms6_type')->nullable();
+            $table->char('completed_mms', 1)->default('N');
 
             $table->date('calcium1_date')->nullable();
             $table->integer('calcium1_dosage')->nullable();
@@ -115,6 +122,7 @@ class CreateInhouseMaternalCaresTable extends Migration
             $table->date('calcium3_date')->nullable();
             $table->integer('calcium3_dosage')->nullable();
             $table->string('calcium3_type')->nullable();
+            $table->char('completed_calcium', 1)->default('N');
 
             $table->date('syphilis_date')->nullable();
             $table->char('syphilis_result', 1)->nullable();
@@ -133,6 +141,7 @@ class CreateInhouseMaternalCaresTable extends Migration
             $table->char('delivery_type', 2)->nullable();
 
             $table->double('birth_weight')->nullable();
+            $table->string('weight_status', 20)->default('N');
 
             $table->string('place_of_delivery')->nullable();
             $table->string('facility_type')->nullable();
@@ -140,12 +149,12 @@ class CreateInhouseMaternalCaresTable extends Migration
             $table->char('nonhealth_type', 1)->nullable();
             $table->string('attendant')->nullable();
             $table->string('attendant_others')->nullable();
-            
 
             $table->date('pnc1')->nullable();
             $table->date('pnc2')->nullable();
             $table->date('pnc3')->nullable();
             $table->date('pnc4')->nullable();
+            $table->char('completed_4pnc', 1)->default('N');
 
             $table->date('pp_td1')->nullable();
             $table->integer('pp_td1_dosage')->nullable();
@@ -155,6 +164,7 @@ class CreateInhouseMaternalCaresTable extends Migration
             $table->integer('pp_td3_dosage')->nullable();
             $table->date('pp_td4')->nullable();
             $table->integer('pp_td4_dosage')->nullable();
+            $table->char('completed_pp_ifa', 1)->default('N');
 
             $table->date('vita')->nullable();
             $table->string('pp_remarks')->nullable();

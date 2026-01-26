@@ -17,6 +17,12 @@
                             {{session('msg')}}
                         </div>
                         @endif
+                        @if(auth()->user()->canAccessElectronicTcl())
+                        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#eTclMenu">Electronic Target Client List (eTCL)</button>
+                        @endif
+
+                        @if(auth()->user()->canAccessFhsis())
+                        <hr>
                         <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#liveBirthModal">Encode Livebirths (LCR)/Natality</button>
                         <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#liveBirthReport">Natality Report</button>
                         <hr>
@@ -37,7 +43,28 @@
                         <a href="{{route('fhsis_icd10_searcher')}}" class="btn btn-primary btn-block">IDC10 Code Search</a>
                         <hr>
                         <a href="{{route('fhsis_pquery')}}" class="btn btn-secondary btn-block" onclick="return confirm('This will replace the existing eFHSIS Database on your system. Proceed with caution. Continue?')">Start MDB Import</a>
+                        @endif
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="eTclMenu" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Electronic Target Client List (eTCL) Menu</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    @foreach(\App\Http\Controllers\ElectronicTclController::viewListOfeTclBackend() as $item)
+                        @if($item['enabled'])
+                            <a href="{{route('etcl_home', ['type' => $item['value']])}}" class="btn btn-primary btn-block mb-3">{{$item['text']}}</a>
+                        @endif
+                    @endforeach
                 </div>
             </div>
         </div>

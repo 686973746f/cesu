@@ -720,7 +720,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
 });
 
 //FHSIS
-Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessFhsis']], function()
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessFhsisOrElectronicTcl']], function()
 {
     Route::get('/fhsis', [FhsisController::class, 'home'])->name('fhsis_home');
 
@@ -1102,10 +1102,13 @@ Route::get('/forms', function () {
     return redirect('https://drive.google.com/drive/folders/1LAff2uF1gPHQd7jI8cy4PX3q5xbtMqH4?usp=drive_link');
 });
 Route::middleware(['auth','verified', 'canAccessElectronicTcl'])->group(function () {
-    Route::get('/maternal_care/{patient_id}/new', [ElectronicTclController::class, 'newMaternalCare'])->name('etcl_maternal_new');
-    Route::post('/maternal_care/{patient_id}/store', [ElectronicTclController::class, 'storeMaternalCare'])->name('etcl_maternal_store');
-    Route::get('/maternal_care/{id}/view', [ElectronicTclController::class, 'editMaternalCare'])->name('etcl_maternal_view');
-    Route::post('/maternal_care/{id}/update', [ElectronicTclController::class, 'updateMaternalCare'])->name('etcl_maternal_update');
+    Route::get('/etcl', [ElectronicTclController::class, 'eTclHome'])->name('etcl_home');
+    Route::post('/etcl/generate_m1', [ElectronicTclController::class, 'generateM1'])->name('etcl_generatem1');
+
+    Route::get('/maternal_care/new/{patient_id}', [ElectronicTclController::class, 'newMaternalCare'])->name('etcl_maternal_new');
+    Route::post('/maternal_care/new/{patient_id}/store', [ElectronicTclController::class, 'storeMaternalCare'])->name('etcl_maternal_store');
+    Route::get('/maternal_care/view/{id}', [ElectronicTclController::class, 'editMaternalCare'])->name('etcl_maternal_view');
+    Route::post('/maternal_care/view/{id}/update', [ElectronicTclController::class, 'updateMaternalCare'])->name('etcl_maternal_update');
 });
 
 

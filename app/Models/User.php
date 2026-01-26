@@ -104,6 +104,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'abtc_default_vaccinator_id',
         'last_login_date',
         'permission_list',
+        'etcl_bhs_id',
     ];
 
     /**
@@ -793,6 +794,21 @@ class User extends Authenticatable implements MustVerifyEmail
         else {
             return false;
         }
+    }
+
+    public function canAccessFhsisOrElectronicTcl() {
+        $plist = $this->getPermissions();
+
+        if($this->canAccessFhsis() || $this->canAccessElectronicTcl()) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function tclbhs() {
+        return $this->belongsTo(DohFacility::class, 'etcl_bhs_id');
     }
 
     public static function getPermissionList() {

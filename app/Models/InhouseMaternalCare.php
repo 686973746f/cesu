@@ -18,6 +18,7 @@ class InhouseMaternalCare extends Model
         'gravida',
         'parity',
         'edc',
+        'age_group',
 
         'visit1_est',
         'visit1',
@@ -43,9 +44,12 @@ class InhouseMaternalCare extends Model
         'visit8_est',
         'visit8',
         'visit8_type',
+        'completed_8anc',
 
         'height',
         'weight',
+        'bmi',
+        'nutritional_assessment',
 
         'trans_remarks',
 
@@ -59,6 +63,7 @@ class InhouseMaternalCare extends Model
         'td4_type',
         'td5',
         'td5_type',
+        'fim_status',
         'deworming_date',
 
         'ifa1_date',
@@ -79,6 +84,7 @@ class InhouseMaternalCare extends Model
         'ifa6_date',
         'ifa6_dosage',
         'ifa6_type',
+        'completed_ifa',
 
         'mms1_date',
         'mms1_dosage',
@@ -98,6 +104,7 @@ class InhouseMaternalCare extends Model
         'mms6_date',
         'mms6_dosage',
         'mms6_type',
+        'completed_mms',
 
         'calcium1_date',
         'calcium1_dosage',
@@ -108,6 +115,7 @@ class InhouseMaternalCare extends Model
         'calcium3_date',
         'calcium3_dosage',
         'calcium3_type',
+        'completed_calcium',
 
         'syphilis_date',
         'syphilis_result',
@@ -120,22 +128,27 @@ class InhouseMaternalCare extends Model
         'diabetes_date',
         'diabetes_result',
 
-        'pregnancy_terminated_date',
+        //'pregnancy_terminated_date',
+        'delivery_date',
         'outcome',
         'delivery_type',
 
         'birth_weight',
+        'weight_status',
 
         'place_of_delivery',
         'facility_type',
         'bcemoncapable',
+        'nonhealth_type',
+
         'attendant',
-        'delivery_date',
+        'attendant_others',
 
         'pnc1',
         'pnc2',
         'pnc3',
         'pnc4',
+        'completed_4pnc',
 
         'pp_td1',
         'pp_td1_dosage',
@@ -145,6 +158,7 @@ class InhouseMaternalCare extends Model
         'pp_td3_dosage',
         'pp_td4',
         'pp_td4_dosage',
+        'completed_pp_ifa',
 
         'vita',
         'pp_remarks',
@@ -155,5 +169,17 @@ class InhouseMaternalCare extends Model
         'updated_by',
 
         'request_uuid',
+
+        'age_years',
+        'age_months',
+        'age_days',
     ];
+
+    public function patient() {
+        return $this->belongsTo(SyndromicPatient::class, 'patient_id');
+    }
+
+    public function facility() {
+        return $this->belongsTo(DohFacility::class, 'facility_id');
+    }
 }

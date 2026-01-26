@@ -40,7 +40,21 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for=""><b class="text-danger">*</b>Last Menstrual Period (LMP)</label>
-                            <input type="date" class="form-control" value="{{ old('lmp', $d->lmp) }}" max="{{date('Y-m-d')}}" required>
+                            <input type="date" class="form-control" name="lmp" id="lmp" value="{{ old('lmp', $d->lmp) }}" max="{{date('Y-m-d')}}" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for=""><b class="text-danger">*</b>Height (cm)</label>
+                                  <input type="number" class="form-control" name="height" id="height" step="0.1" value="{{old('height', $d->height)}}" min="1" max="900" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for=""><b class="text-danger">*</b>Weight (kg)</label>
+                                    <input type="number" class="form-control" name="weight" id="weight" step="0.1" value="{{old('weight', $d->weight)}}" min="1" max="900" required>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
@@ -60,12 +74,12 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="edc"><b class="text-danger">*</b>Expected Date of Delivery (EDD)</label>
-                            <input type="date" class="form-control" value="{{ old('edc', $d->edc) }}" max="{{date('Y-m-d', strtotime('+1 Year'))}}" required>
+                            <input type="date" id="edc" name="edc" class="form-control" value="{{ old('edc', $d->edc) }}" max="{{date('Y-m-d', strtotime('+1 Year'))}}" required>
                         </div>
 
                         <div class="form-group">
                           <label for=""><b class="text-danger">*</b>High Risk Pregnancy</label>
-                          <select class="form-control" name="highrisk" id="highrisk">
+                          <select class="form-control" name="highrisk" id="highrisk" required>
                             <option value="" disabled {{old('highrisk', $d->highrisk) ? '' : 'selected'}}>Choose...</option>
                             <option value="Y" {{old('highrisk', $d->highrisk) == 'Y' ? 'selected' : ''}}>Yes</option>
                             <option value="N" {{old('highrisk', $d->highrisk) == 'N' ? 'selected' : ''}}>No</option>
@@ -85,7 +99,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">Visit 1 (Actual)</label>
-                                    <input type="date" class="form-control" name="visit1" id="visit1" value="{{old('visit1', $d->visit1)}}" max="{{date('Y-m-d')}}">
+                                    <input type="date" class="form-control" name="visit1" id="visit1" value="{{old('visit1', $d->visit1)}}" max="{{date('Y-m-d')}}" required>
+                                    <small class="text-muted">8-13 weeks</small>
                                 </div>
                                 <div class="form-group">
                                   <label for="">Visit 1 Type</label>
@@ -99,12 +114,13 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for=""><b class="text-danger">*</b>Visit 2 (Estimated)</label>
-                                    <input type="date" class="form-control" name="visit2_est" id="visit2_est" value="{{old('visit2_est', $d->visit2_est)}}" required>
+                                    <label for="">Visit 2 (Estimated)</label>
+                                    <input type="date" class="form-control" name="visit2_est" id="visit2_est" value="{{old('visit2_est', $d->visit2_est)}}">
                                   </div>
                                   <div class="form-group">
                                       <label for="">Visit 2 (Actual)</label>
                                       <input type="date" class="form-control" name="visit2" id="visit2" value="{{old('visit2', $d->visit2)}}" max="{{date('Y-m-d')}}">
+                                      <small class="text-muted">14-20 weeks</small>
                                   </div>
                                   <div class="form-group">
                                     <label for="">Visit 2 Type</label>
@@ -118,12 +134,13 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for=""><b class="text-danger">*</b>Visit 3 (Estimated)</label>
-                                    <input type="date" class="form-control" name="visit3_est" id="visit3_est" value="{{old('visit3_est', $d->visit3_est)}}" required>
+                                    <label for="">Visit 3 (Estimated)</label>
+                                    <input type="date" class="form-control" name="visit3_est" id="visit3_est" value="{{old('visit3_est', $d->visit3_est)}}">
                                   </div>
                                   <div class="form-group">
                                       <label for="">Visit 3 (Actual)</label>
                                       <input type="date" class="form-control" name="visit3" id="visit3" value="{{old('visit3', $d->visit3)}}" max="{{date('Y-m-d')}}">
+                                      <small class="text-muted">21-27 weeks</small>
                                   </div>
                                   <div class="form-group">
                                     <label for="">Visit 3 Type</label>
@@ -137,12 +154,13 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for=""><b class="text-danger">*</b>Visit 4 (Estimated)</label>
-                                    <input type="date" class="form-control" name="visit4_est" id="visit4_est" value="{{old('visit4_est', $d->visit4_est)}}" required>
+                                    <label for="">Visit 4 (Estimated)</label>
+                                    <input type="date" class="form-control" name="visit4_est" id="visit4_est" value="{{old('visit4_est', $d->visit4_est)}}">
                                   </div>
                                   <div class="form-group">
                                       <label for="">Visit 4 (Actual)</label>
                                       <input type="date" class="form-control" name="visit4" id="visit4" value="{{old('visit4', $d->visit4)}}" max="{{date('Y-m-d')}}">
+                                      <small class="text-muted">28-30 weeks</small>
                                   </div>
                                   <div class="form-group">
                                     <label for="">Visit 4 Type</label>
@@ -154,14 +172,18 @@
                                     </select>
                                   </div>
                             </div>
+                        </div>
+                        <hr>
+                        <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for=""><b class="text-danger">*</b>Visit 5 (Estimated)</label>
-                                    <input type="date" class="form-control" name="visit5_est" id="visit5_est" value="{{old('visit5_est', $d->visit5_est)}}" required>
+                                    <label for="">Visit 5 (Estimated)</label>
+                                    <input type="date" class="form-control" name="visit5_est" id="visit5_est" value="{{old('visit5_est', $d->visit5_est)}}">
                                   </div>
                                   <div class="form-group">
                                       <label for="">Visit 5 (Actual)</label>
                                       <input type="date" class="form-control" name="visit5" id="visit5" value="{{old('visit5', $d->visit5)}}" max="{{date('Y-m-d')}}">
+                                      <small class="text-muted">31-34 weeks</small>
                                   </div>
                                   <div class="form-group">
                                     <label for="">Visit 5 Type</label>
@@ -175,12 +197,13 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for=""><b class="text-danger">*</b>Visit 6 (Estimated)</label>
-                                    <input type="date" class="form-control" name="visit6_est" id="visit6_est" value="{{old('visit6_est', $d->visit6_est)}}" required>
+                                    <label for="">Visit 6 (Estimated)</label>
+                                    <input type="date" class="form-control" name="visit6_est" id="visit6_est" value="{{old('visit6_est', $d->visit6_est)}}">
                                   </div>
                                   <div class="form-group">
                                       <label for="">Visit 6 (Actual)</label>
                                       <input type="date" class="form-control" name="visit6" id="visit6" value="{{old('visit6', $d->visit6)}}" max="{{date('Y-m-d')}}">
+                                      <small class="text-muted">35 weeks</small>
                                   </div>
                                   <div class="form-group">
                                     <label for="">Visit 6 Type</label>
@@ -194,12 +217,13 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for=""><b class="text-danger">*</b>Visit 7 (Estimated)</label>
-                                    <input type="date" class="form-control" name="visit7_est" id="visit7_est" value="{{old('visit7_est', $d->visit7_est)}}" required>
+                                    <label for="">Visit 7 (Estimated)</label>
+                                    <input type="date" class="form-control" name="visit7_est" id="visit7_est" value="{{old('visit7_est', $d->visit7_est)}}">
                                   </div>
                                   <div class="form-group">
                                       <label for="">Visit 7 (Actual)</label>
                                       <input type="date" class="form-control" name="visit7" id="visit7" value="{{old('visit7', $d->visit7)}}" max="{{date('Y-m-d')}}">
+                                      <small class="text-muted">36 weeks</small>
                                   </div>
                                   <div class="form-group">
                                     <label for="">Visit 7 Type</label>
@@ -213,12 +237,13 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for=""><b class="text-danger">*</b>Visit 8 (Estimated)</label>
-                                    <input type="date" class="form-control" name="visit8_est" id="visit8_est" value="{{old('visit8_est', $d->visit8_est)}}" required>
+                                    <label for="">Visit 8 (Estimated)</label>
+                                    <input type="date" class="form-control" name="visit8_est" id="visit8_est" value="{{old('visit8_est', $d->visit8_est)}}">
                                   </div>
                                   <div class="form-group">
                                       <label for="">Visit 8 (Actual)</label>
                                       <input type="date" class="form-control" name="visit8" id="visit8" value="{{old('visit8', $d->visit8)}}" max="{{date('Y-m-d')}}">
+                                      <small class="text-muted">37-40 weeks</small>
                                   </div>
                                   <div class="form-group">
                                     <label for="">Visit 8 Type</label>
@@ -715,28 +740,28 @@
                     </div>
                 </div>
 
-                <div class="row mt-3">
+                <div class="row mt-3" id="outcome_div">
                     <div class="col-md-4">
                         <div class="form-group">
-                          <label for="">Date and Time of Delivery</label>
-                          <input type="datetime-local" class="form-control" name="delivery_date" id="delivery_date" value="{{old('delivery_date', $d->delivery_date)}}">
+                            <label for=""><b class="text-danger">*</b>Outcome</label>
+                            <select class="form-control" name="outcome" id="outcome">
+                              <option value="" disabled {{old('outcome', $d->outcome) ? '' : 'selected'}}>Choose...</option>
+                              <option value="FT" {{old('outcome', $d->outcome) == 'FT' ? 'selected' : ''}}>Full Term</option>
+                              <option value="PT" {{old('outcome', $d->outcome) == 'PT' ? 'selected' : ''}}>Pre-term</option>
+                              <option value="FD" {{old('outcome', $d->outcome) == 'FD' ? 'selected' : ''}}>Fetal Death</option>
+                              <option value="AB" {{old('outcome', $d->outcome) == 'AB' ? 'selected' : ''}}>Abortion/Miscarriage</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                          <label for="">Outcome</label>
-                          <select class="form-control" name="outcome" id="outcome">
-                            <option value="" disabled {{old('outcome', $d->outcome) ? '' : 'selected'}}>Choose...</option>
-                            <option value="FT" {{old('outcome', $d->outcome) == 'FT' ? 'selected' : ''}}>Full Term</option>
-                            <option value="PT" {{old('outcome', $d->outcome) == 'PT' ? 'selected' : ''}}>Pre-term</option>
-                            <option value="FD" {{old('outcome', $d->outcome) == 'FD' ? 'selected' : ''}}>Fetal Death</option>
-                            <option value="AB" {{old('outcome', $d->outcome) == 'AB' ? 'selected' : ''}}>Abortion/Miscarriage</option>
-                          </select>
+                            <label for=""><b class="text-danger">*</b>Date and Time of Delivery</label>
+                            <input type="datetime-local" class="form-control" name="delivery_date" id="delivery_date" value="{{old('delivery_date', $d->delivery_date)}}">
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="">Delivery Type</label>
+                        <div class="form-group d-none" id="delivery_type_div">
+                            <label for=""><b class="text-danger">*</b>Delivery Type</label>
                             <select class="form-control" name="delivery_type" id="delivery_type">
                               <option value="" disabled {{old('delivery_type', $d->delivery_type) ? '' : 'selected'}}>Choose...</option>
                               <option value="CS" {{old('delivery_type', $d->delivery_type) == 'CS' ? 'selected' : ''}}>Caesarean Section</option>
@@ -747,7 +772,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="">Facility Type</label>
+                            <label for=""><b class="text-danger">*</b>Facility Type</label>
                             <select class="form-control" name="facility_type" id="facility_type">
                               <option value="" disabled {{old('facility_type', $d->facility_type) ? '' : 'selected'}}>Choose...</option>
                               <option value="PUBLIC" {{old('facility_type', $d->facility_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -757,7 +782,7 @@
                         </div>
                         <div id="nonhealth_div">
                             <div class="form-group">
-                                <label for="">Non-Health Facility Type</label>
+                                <label for=""><b class="text-danger">*</b>Non-Health Facility Type</label>
                                 <select class="form-control" name="nonhealth_type" id="nonhealth_type">
                                   <option value="" disabled {{old('nonhealth_type', $d->nonhealth_type) ? '' : 'selected'}}>Choose...</option>
                                   <option value="1" {{old('nonhealth_type', $d->nonhealth_type) == '1' ? 'selected' : ''}}>Home</option>
@@ -780,7 +805,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="">Birth Attendant</label>
+                            <label for=""><b class="text-danger">*</b>Birth Attendant</label>
                             <select class="form-control" name="attendant" id="attendant">
                               <option value="" disabled {{old('attendant', $d->attendant) ? '' : 'selected'}}>Choose...</option>
                               <option value="MD" {{old('attendant', $d->attendant) == 'MD' ? 'selected' : ''}}>Doctor</option>
@@ -789,7 +814,7 @@
                               <option value="O" {{old('attendant', $d->attendant) == 'O' ? 'selected' : ''}}>Others</option>
                             </select>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id="otherattendant_div">
                             <label for=""><b class="text-danger">*</b>Please specify</label>
                             <input type="text" class="form-control" name="attendant_others" id="attendant_others" value="{{old('attendant_others', $d->attendant_others)}}" style="text-transform: uppercase;">
                         </div>
@@ -799,7 +824,7 @@
                     </div>
                 </div>
 
-                <div class="card mt-3">
+                <div class="card mt-3 postnatal_div">
                     <div class="card-header"><b>Date of Postnatal Care</b></div>
                     <div class="card-body">
                         <div class="row">
@@ -831,7 +856,7 @@
                     </div>
                 </div>
 
-                <div class="card mt-3 mb-3">
+                <div class="card mt-3 mb-3 postnatal_div">
                     <div class="card-header">
                         <div><b>Postpartum Supplementation</b></div>
                         <div><b>Iron with Folic Acid Supplementation</b></div>
@@ -878,7 +903,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group postnatal_div mt-3">
                   <label for="">Remarks</label>
                   <select class="form-control" name="pp_remarks" id="pp_remarks">
                     <option value="" disabled {{old('pp_remarks', $d->pp_remarks) ? '' : 'selected'}}>Choose...</option>
@@ -886,15 +911,88 @@
                     <option value="B" {{old('pp_remarks', $d->pp_remarks) == 'B' ? 'selected' : ''}}>Trans Out before completing 4PNC</option>
                   </select>
                 </div>
+
+                <div class="form-group">
+                  <label for="">Notes/Remarks</label>
+                  <textarea class="form-control" name="system_remarks" id="system_remarks" rows="3">{{old('system_remarks', $d->system_remarks)}}</textarea>
+                </div>
             </div>
             <div class="card-footer">
-                <button type="submit" class="btn btn-success btn-block">Save</button>
+                <button type="submit" id="submitBtn" class="btn btn-success btn-block">Save (CTRL + S)</button>
             </div>
         </div>
     </div>
     </form>
 
     <script>
+        $(document).bind('keydown', function(e) {
+            if(e.ctrlKey && (e.which == 83)) {
+                e.preventDefault();
+                $('#submitBtn').trigger('click');
+                $('#submitBtn').prop('disabled', true);
+                setTimeout(function() {
+                    $('#submitBtn').prop('disabled', false);
+                }, 2000);
+                return false;
+            }
+        });
+
+        $(document).ready(function () {
+            $('#edc').on('change', function () {
+                if($(this).val() == '') {
+                    $('#outcome_div').hide();
+                }
+                else {
+                    let selectedDate = new Date($(this).val());
+                    let today = new Date();
+
+                    // Remove time portion
+                    selectedDate.setHours(0,0,0,0);
+                    today.setHours(0,0,0,0);
+
+                    if (selectedDate <= today) {
+                        $('#outcome_div').show();
+                    } else {
+                        $('#outcome_div').hide();
+                    }
+                }
+            });
+            
+            $('#edc').trigger('change');
+        });
+
+        $('#visit1').on('change', function () {
+            $('#visit1_type').prop('required', !!$(this).val());
+        }).trigger('change');
+
+        $('#visit2').on('change', function () {
+            $('#visit2_type').prop('required', !!$(this).val());
+        }).trigger('change');
+
+        $('#visit3').on('change', function () {
+            $('#visit3_type').prop('required', !!$(this).val());
+        }).trigger('change');
+
+        $('#visit4').on('change', function () {
+            $('#visit4_type').prop('required', !!$(this).val());
+        }).trigger('change');
+
+        $('#visit5').on('change', function () {
+            $('#visit5_type').prop('required', !!$(this).val());
+        }).trigger('change');
+
+        $('#visit6').on('change', function () {
+            $('#visit6_type').prop('required', !!$(this).val());
+        }).trigger('change');
+
+        $('#visit7').on('change', function () {
+            $('#visit7_type').prop('required', !!$(this).val());
+        }).trigger('change');
+
+        $('#visit8').on('change', function () {
+            $('#visit8_type').prop('required', !!$(this).val());
+        }).trigger('change');
+
         $('#highrisk').change(function (e) { 
             e.preventDefault();
             if($(this).val() == 'Y') {
@@ -902,6 +1000,59 @@
             }
             else {
                 $('#highrisk_div').addClass('d-none');
+            }
+        }).trigger('change');
+
+        $('#outcome').change(function (e) { 
+            e.preventDefault();
+            $('#delivery_type_div').addClass('d-none');
+            $('#delivery_date').prop('required', false);
+            $('#delivery_type').prop('required', false);
+            $('#facility_type').prop('required', false);
+            $('#attendant').prop('required', false);
+
+            $('.postnatal_div').hide();
+            $('#pp_remarks').prop('required', false);
+
+            if($(this).val() != null) {
+                $('#delivery_type_div').removeClass('d-none');
+                $('#delivery_date').prop('required', true);
+                $('#delivery_type').prop('required', true);
+                $('#facility_type').prop('required', true);
+                $('#attendant').prop('required', true);
+            }
+
+            if($(this).val() == 'FT' || $(this).val() == 'PT') {
+                $('.postnatal_div').show();
+                $('#pp_remarks').prop('required', true);
+            }
+        }).trigger('change');
+
+        $('#facility_type').change(function (e) { 
+            e.preventDefault();
+            $('#nonhealth_div').hide();
+            $('#publicprivate_div').hide();
+            $('#nonhealth_type').prop('required', false);
+            $('#place_of_delivery').prop('required', false);
+
+            if($(this).val() == 'NON/HEALTH FACILITY') {
+                $('#nonhealth_div').show();
+                $('#nonhealth_type').prop('required', true);
+            }
+            else if($(this).val() == 'PUBLIC' || $(this).val() == 'PRIVATE') {
+                $('#publicprivate_div').show();
+                $('#place_of_delivery').prop('required', true);
+            }
+        }).trigger('change');
+
+        $('#attendant').change(function (e) { 
+            e.preventDefault();
+            $('#otherattendant_div').hide();
+            $('#attendant_others').prop('required', false);
+
+            if($(this).val() == 'O') {
+                $('#otherattendant_div').show();
+                $('#attendant_others').prop('required', true);
             }
         }).trigger('change');
     </script>

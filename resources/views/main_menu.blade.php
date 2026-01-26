@@ -37,7 +37,7 @@
             @if(auth()->user()->canAccessPidsr())
             <a href="{{route('pidsr.home')}}" class="btn btn-block btn-primary btn-lg"><img src="{{asset('assets/images/pidsrlogo.png')}}" alt="" class="img-fluid mr-3" style="width: 2rem;"> Integrated PIDSR/EDCS</a>
             @endif
-            @if(auth()->user()->canAccessFhsis())
+            @if(auth()->user()->canAccessFhsisOrElectronicTcl())
             <a href="{{route('fhsis_home')}}" class="btn btn-block btn-primary btn-lg"><img src="{{asset('assets/images/efhsis_logo.jpg')}}" alt="" class="img-fluid mr-3" style="width: 2rem;"> Integrated eFHSIS</a>
             @endif
             @if(auth()->user()->canAccessPharmacy())

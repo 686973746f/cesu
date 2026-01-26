@@ -32,8 +32,7 @@
                         {{session('msg')}}
                     </div>
                     @endif
-
-                    <!-- FHSIS Tools -->
+                    
                     <div class="text-right">
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fhsisModal">
                           FHSIS Tools
@@ -49,7 +48,7 @@
                                             </button>
                                     </div>
                                     <div class="modal-body">
-                                        @if($d->gender == 'FEMALE' && $d->getAge() >= 10)
+                                        @if($d->gender == 'FEMALE' && $d->getAge() >= 11 && $d->getAge() <= 50)
                                         <a href="{{route('etcl_maternal_new', $d->id)}}" class="btn btn-primary btn-block">Create Maternal Care</a>
                                         @endif
                                     </div>
