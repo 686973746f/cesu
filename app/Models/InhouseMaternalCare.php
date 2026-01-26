@@ -182,4 +182,8 @@ class InhouseMaternalCare extends Model
     public function facility() {
         return $this->belongsTo(DohFacility::class, 'facility_id');
     }
+
+    public function runIndicatorUdpate() {
+        
+    }
 }

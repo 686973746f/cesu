@@ -745,7 +745,7 @@
                         <div class="form-group">
                             <label for=""><b class="text-danger">*</b>Outcome</label>
                             <select class="form-control" name="outcome" id="outcome">
-                              <option value="" disabled {{old('outcome', $d->outcome) ? '' : 'selected'}}>Choose...</option>
+                              <option value="" {{old('outcome', $d->outcome) ? '' : 'selected'}}>N/A</option>
                               <option value="FT" {{old('outcome', $d->outcome) == 'FT' ? 'selected' : ''}}>Full Term</option>
                               <option value="PT" {{old('outcome', $d->outcome) == 'PT' ? 'selected' : ''}}>Pre-term</option>
                               <option value="FD" {{old('outcome', $d->outcome) == 'FD' ? 'selected' : ''}}>Fetal Death</option>
@@ -912,7 +912,7 @@
                   </select>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group mt-3">
                   <label for="">Notes/Remarks</label>
                   <textarea class="form-control" name="system_remarks" id="system_remarks" rows="3">{{old('system_remarks', $d->system_remarks)}}</textarea>
                 </div>
@@ -1014,15 +1014,13 @@
             $('.postnatal_div').hide();
             $('#pp_remarks').prop('required', false);
 
-            if($(this).val() != null) {
+            if($(this).val() == 'FT' || $(this).val() == 'PT' || $(this).val() == 'FD' || $(this).val() == 'AB') {
                 $('#delivery_type_div').removeClass('d-none');
                 $('#delivery_date').prop('required', true);
                 $('#delivery_type').prop('required', true);
                 $('#facility_type').prop('required', true);
                 $('#attendant').prop('required', true);
-            }
 
-            if($(this).val() == 'FT' || $(this).val() == 'PT') {
                 $('.postnatal_div').show();
                 $('#pp_remarks').prop('required', true);
             }

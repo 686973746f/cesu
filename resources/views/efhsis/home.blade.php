@@ -65,6 +65,44 @@
                             <a href="{{route('etcl_home', ['type' => $item['value']])}}" class="btn btn-primary btn-block mb-3">{{$item['text']}}</a>
                         @endif
                     @endforeach
+                    <hr>
+                    <form action="{{route('etcl_generatem1')}}" method="POST">
+                        @csrf
+                    <h5><b>Generate M1</b></h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="year"><b class="text-danger">*</b>Year</label>
+                                    <select class="form-control" name="year" id="year" required>
+                                    @foreach(range(date('Y'), 2026) as $y)
+                                    <option value="{{$y}}">{{$y}}</option>
+                                    @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="month"><b class="text-danger">*</b>Month</label>
+                                    <select class="form-control" name="month" id="month" required>
+                                        <option value="" disabled selected>Choose...</option>
+                                        <option value="1">January</option>
+                                        <option value="2">February</option>
+                                        <option value="3">March</option>
+                                        <option value="4">April</option>
+                                        <option value="5">May</option>
+                                        <option value="6">June</option>
+                                        <option value="7">July</option>
+                                        <option value="8">August</option>
+                                        <option value="9">September</option>
+                                        <option value="10">October</option>
+                                        <option value="11">November</option>
+                                        <option value="12">December</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-block">Generate M1</button>
+                    </form>
                 </div>
             </div>
         </div>
