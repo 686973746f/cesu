@@ -15,6 +15,7 @@ class CreateInhouseChildCaresTable extends Migration
     {
         Schema::create('inhouse_child_cares', function (Blueprint $table) {
             $table->id();
+            $table->char('enabled', 1)->default('Y');
             $table->foreignId('patient_id')->constrained('syndromic_patients')->onDelete('cascade');
             $table->foreignId('facility_id')->constrained('doh_facilities')->onDelete('cascade');
             $table->date('registration_date');

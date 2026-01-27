@@ -15,6 +15,7 @@ class CreateInhouseMaternalCaresTable extends Migration
     {
         Schema::create('inhouse_maternal_cares', function (Blueprint $table) {
             $table->id();
+            $table->char('enabled', 1)->default('Y');
             $table->foreignId('patient_id')->constrained('syndromic_patients')->onDelete('cascade');
             $table->foreignId('facility_id')->constrained('doh_facilities')->onDelete('cascade');
             $table->date('registration_date');
@@ -58,6 +59,7 @@ class CreateInhouseMaternalCaresTable extends Migration
             $table->char('nutritional_assessment', 1)->nullable();
 
             $table->string('trans_remarks')->nullable();
+            $table->date('transout_date')->nullable();
 
             $table->date('td1')->nullable();
             $table->string('td1_type')->nullable();
@@ -69,6 +71,8 @@ class CreateInhouseMaternalCaresTable extends Migration
             $table->string('td4_type')->nullable();
             $table->date('td5')->nullable();
             $table->string('td5_type')->nullable();
+            $table->integer('td_lastdose_count')->nullable();
+            $table->date('td_lastdose_date')->nullable();
             $table->char('fim_status', 1)->default('N');
 
             $table->date('deworming_date')->nullable();
@@ -138,6 +142,8 @@ class CreateInhouseMaternalCaresTable extends Migration
             //$table->date('pregnancy_terminated_date')->nullable();
             $table->dateTime('delivery_date')->nullable();
             $table->char('outcome', 2)->nullable();
+            $table->integer('number_livebirths')->nullable();
+            $table->integer('number_livebirths_toencode')->nullable();
             $table->char('delivery_type', 2)->nullable();
 
             $table->double('birth_weight')->nullable();

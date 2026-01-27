@@ -256,6 +256,21 @@
                                   </div>
                             </div>
                         </div>
+                        <hr>
+                        <div class="form-group">
+                            <label for="trans_remarks">Remarks</label>
+                            <select class="form-control" name="trans_remarks" id="trans_remarks" required>
+                              <option value="" disabled {{old('trans_remarks', $d->trans_remarks) ? '' : 'selected'}}>Choose...</option>
+                              <option value="A" {{old('trans_remarks', $d->trans_remarks) == 'A' ? 'selected' : ''}}>Trans In</option>
+                              <option value="B" {{old('trans_remarks', $d->trans_remarks) == 'B' ? 'selected' : ''}}>Trans Out before receiving 8ANC</option>
+                            </select>
+                        </div>
+                        <div id="transout_div" class="d-none">
+                            <div class="form-group">
+                              <label for="transout_date"><b class="text-danger">*</b>Trans Out Date</label>
+                              <input type="date" class="form-control" name="transout_date" id="transout_date" value="{{old('transout_date', $d->transout_date)}}" max="{{date('Y-m-d')}}">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
@@ -766,6 +781,10 @@
                               <option value="CVCD" {{old('delivery_type', $d->delivery_type) == 'CVCD' ? 'selected' : ''}}>Combined Vaginal-Cesarean Delivery</option>
                             </select>
                         </div>
+                        <div class="form-group">
+                          <label for="number_livebirths"><b class="text-danger">*</b>Number of Livebirths</label>
+                          <input type="text" class="form-control" name="number_livebirths" id="number_livebirths" value="{{old('number_livebirths', $d->number_livebirths)}}">
+                        </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
@@ -816,7 +835,7 @@
                             <input type="text" class="form-control" name="attendant_others" id="attendant_others" value="{{old('attendant_others', $d->attendant_others)}}" style="text-transform: uppercase;">
                         </div>
                         <div class="form-group">
-                          <label for="birth_weight"><b class="text-danger">*</b>Birth Weight (grams)</label>
+                          <label for="birth_weight"><b class="text-danger" id="birth_weight_ast">*</b>Birth Weight (grams)</label>
                           <input type="number" class="form-control" name="birth_weight" id="birth_weight" step="0.01" value="{{old('birth_weight', $d->birth_weight)}}">
                         </div>
                     </div>
@@ -1013,6 +1032,7 @@
             $('#facility_type').prop('required', false);
             $('#attendant').prop('required', false);
             $('#birth_weight').prop('required', false);
+            $('#number_livebirths').prop('required', false);
 
             $('.postnatal_div').hide();
             $('#pp_remarks').prop('required', false);
@@ -1023,10 +1043,19 @@
                 $('#delivery_type').prop('required', true);
                 $('#facility_type').prop('required', true);
                 $('#attendant').prop('required', true);
-                $('#birth_weight').prop('required', true);
+                $('#number_livebirths').prop('required', true);
 
                 $('.postnatal_div').show();
                 $('#pp_remarks').prop('required', true);
+            }
+
+            if($(this).val() == 'AB' || $(this).val() == 'FD') {
+                $('#birth_weight').prop('required', false);
+                $('#birth_weight_ast').addClass('d-none');
+            }
+            else if($(this).val() == 'FT' || $(this).val() == 'PT') {
+                $('#birth_weight').prop('required', true);
+                $('#birth_weight_ast').removeClass('d-none');
             }
         }).trigger('change');
 
@@ -1055,6 +1084,17 @@
             if($(this).val() == 'O') {
                 $('#otherattendant_div').show();
                 $('#attendant_others').prop('required', true);
+            }
+        }).trigger('change');
+
+        $('#trans_remarks').change(function (e) { 
+            e.preventDefault();
+            $('#transout_div').addClass('d-none');
+            $('#transout_date').prop('required', false);
+
+            if($(this).val() == 'B') {
+                $('#transout_div').removeClass('d-none');
+                $('#transout_date').prop('required', true);
             }
         }).trigger('change');
     </script>

@@ -52,6 +52,7 @@ class InhouseMaternalCare extends Model
         'nutritional_assessment',
 
         'trans_remarks',
+        'transout_date',
 
         'td1',
         'td1_type',
@@ -64,6 +65,8 @@ class InhouseMaternalCare extends Model
         'td5',
         'td5_type',
         'fim_status',
+        'td_lastdose_count',
+        'td_lastdose_date',
         'deworming_date',
 
         'ifa1_date',
@@ -132,6 +135,8 @@ class InhouseMaternalCare extends Model
         'delivery_date',
         'outcome',
         'delivery_type',
+        'number_livebirths',
+        'number_livebirths_toencode',
 
         'birth_weight',
         'weight_status',
@@ -183,7 +188,27 @@ class InhouseMaternalCare extends Model
         return $this->belongsTo(DohFacility::class, 'facility_id');
     }
 
-    public function runIndicatorUdpate() {
-        
+    public function runIndicatorUpdate() {
+        //Td last dose detector
+        if(!is_null($this->td5)) {
+            $this->td_lastdose_count = 5;
+            $this->td_lastdose_date = $this->td5;
+        }
+        else if(!is_null($this->td4)) {
+            $this->td_lastdose_count = 4;
+            $this->td_lastdose_date = $this->td4;
+        }
+        else if(!is_null($this->td3)) {
+            $this->td_lastdose_count = 3;
+            $this->td_lastdose_date = $this->td3;
+        }
+        else if(!is_null($this->td2)) {
+            $this->td_lastdose_count = 2;
+            $this->td_lastdose_date = $this->td2;
+        }
+        else if(!is_null($this->td1)) {
+            $this->td_lastdose_count = 1;
+            $this->td_lastdose_date = $this->td1;
+        }
     }
 }

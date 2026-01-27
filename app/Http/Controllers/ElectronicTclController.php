@@ -148,6 +148,7 @@ class ElectronicTclController extends Controller
             'weight' => $r->weight,
 
             'trans_remarks' => $r->trans_remarks,
+            'transout_date' => ($r->trans_remarks == 'B') ? $r->transout_date : NULL,
 
             'td1' => $r->td1,
             'td1_type' => $r->td1_type,
@@ -239,6 +240,8 @@ class ElectronicTclController extends Controller
         if(!is_null($r->outcome)) {
             $table_params = $table_params + [
                 'outcome' => $r->outcome,
+                'number_livebirths' => $r->number_livebirths,
+                'number_livebirths_toencode' => $r->number_livebirths,
                 'delivery_date' => $r->delivery_date,
                 'delivery_type' => $r->delivery_type,
 
@@ -269,6 +272,10 @@ class ElectronicTclController extends Controller
         }
 
         $c = InhouseMaternalCare::create($table_params);
+        
+        $d = InhouseChildCare::findOrFail($c->id);
+        $d->runIndicatorUpdate();
+        $d->save();
 
         return redirect()
         ->route('etcl_home', ['type' => 'maternal_care'])
@@ -400,6 +407,7 @@ class ElectronicTclController extends Controller
             'weight' => $r->weight,
 
             'trans_remarks' => $r->trans_remarks,
+            'transout_date' => ($r->trans_remarks == 'B') ? $r->transout_date : NULL,
 
             'td1' => $r->td1,
             'td1_type' => $r->td1_type,
@@ -488,13 +496,30 @@ class ElectronicTclController extends Controller
             ];
         }
 
+        
+
         if(!is_null($r->outcome)) {
+            if(!is_null($r->birth_weight)) {
+                if($r->birth_weight < 2500) {
+                    $weight_status = 'L'; //Low Birth Weight
+                }
+                else {
+                    $weight_status = 'N'; //Normal Birth Weight
+                }
+            }
+            else {
+                $weight_status = 'U';
+            }
+
             $table_params = $table_params + [
                 'outcome' => $r->outcome,
+                'number_livebirths' => $r->number_livebirths,
+                'number_livebirths_toencode' => $r->number_livebirths,
                 'delivery_date' => $r->delivery_date,
                 'delivery_type' => $r->delivery_type,
 
                 'birth_weight' => $r->birth_weight,
+                'weight_status' => $weight_status,
 
                 'facility_type' => $r->facility_type,
                 'place_of_delivery' => ($r->facility_type == 'PUBLIC' || $r->facility_type == 'PRIVATE') ? $r->place_of_delivery : null,
@@ -521,6 +546,8 @@ class ElectronicTclController extends Controller
         }
 
         $d->update($table_params);
+        $d->runIndicatorUpdate();
+        $d->save();
 
         return redirect()
         ->route('etcl_home', ['type' => 'maternal_care'])
@@ -583,9 +610,225 @@ class ElectronicTclController extends Controller
             $monthText = 'December';
         }
 
-        $sheet->setCellValue('D1', "FHSIS REPORT for the Month {$monthText}, Year [{$r->year}]");
+        $sheet->setCellValue('D1', "FHSIS REPORT for the Month: {$monthText}, Year: {$r->year}");
+        $sheet->setCellValue('D2', "Name of Barangay: ".auth()->user()->tclbhs->address_barangay);
+        $sheet->setCellValue('D3', "Name of BHS: ".auth()->user()->tclbhs->facility_name);
+        $sheet->setCellValue('D4', "Name of Municipality/City: ".auth()->user()->tclbhs->address_muncity);
+        $sheet->setCellValue('D5', "Name of Province: ".auth()->user()->tclbhs->address_province);
 
-        //$sheet->setCellValue('A1', );
+        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        ->whereYear('delivery_date', $r->year)
+        ->whereMonth('delivery_date', $r->month)
+        ->whereNotNull('visit4');
+
+        $sheet->setCellValue('B39', (clone $qry)->where('age_group', 'A')->count());
+        $sheet->setCellValue('C39', (clone $qry)->where('age_group', 'B')->count());
+        $sheet->setCellValue('D39', (clone $qry)->where('age_group', 'C')->count());
+
+        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        ->whereYear('delivery_date', $r->year)
+        ->whereMonth('delivery_date', $r->month)
+        ->whereNotNull('visit8');
+
+        $sheet->setCellValue('B40', (clone $qry)->where('age_group', 'A')->count());
+        $sheet->setCellValue('C40', (clone $qry)->where('age_group', 'B')->count());
+        $sheet->setCellValue('D40', (clone $qry)->where('age_group', 'C')->count());
+
+        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        ->whereYear('delivery_date', $r->year)
+        ->whereMonth('delivery_date', $r->month)
+        ->whereNotNull('visit8')
+        ->where('visit1_type', '!=', 'OTHER RHU/BHS')
+        ->where('visit2_type', '!=', 'OTHER RHU/BHS')
+        ->where('visit3_type', '!=', 'OTHER RHU/BHS')
+        ->where('visit4_type', '!=', 'OTHER RHU/BHS')
+        ->where('visit5_type', '!=', 'OTHER RHU/BHS')
+        ->where('visit6_type', '!=', 'OTHER RHU/BHS')
+        ->where('visit7_type', '!=', 'OTHER RHU/BHS')
+        ->where('visit8_type', '!=', 'OTHER RHU/BHS');
+
+        $b41_value = (clone $qry)->where('age_group', 'A')->count();
+        $c41_value = (clone $qry)->where('age_group', 'B')->count();
+        $d41_value = (clone $qry)->where('age_group', 'C')->count();
+
+        $sheet->setCellValue('B41', $b41_value);
+        $sheet->setCellValue('C41', $c41_value);
+        $sheet->setCellValue('D41', $d41_value);
+
+        $sheet->setCellValue('B46', $b41_value);
+        $sheet->setCellValue('C46', $c41_value);
+        $sheet->setCellValue('D46', $d41_value);
+
+        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        ->whereYear('delivery_date', $r->year)
+        ->whereMonth('delivery_date', $r->month)
+        ->whereNotNull('visit8')
+        ->where('trans_remarks', 'A');
+
+        $sheet->setCellValue('B42', (clone $qry)->where('age_group', 'A')->count());
+        $sheet->setCellValue('C42', (clone $qry)->where('age_group', 'B')->count());
+        $sheet->setCellValue('D42', (clone $qry)->where('age_group', 'C')->count());
+
+        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        ->where('gravida', '>=', 2)
+        ->where('td_lastdose_count', '>=', 3)
+        ->whereYear('td_lastdose_date', $r->year)
+        ->whereMonth('td_lastdose_date', $r->month);
+
+        $sheet->setCellValue('Q39', (clone $qry)->where('age_group', 'A')->count());
+        $sheet->setCellValue('R39', (clone $qry)->where('age_group', 'B')->count());
+        $sheet->setCellValue('S39', (clone $qry)->where('age_group', 'C')->count());
+
+        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        ->whereNotNull('ifa6_date')
+        ->whereYear('ifa6_date', $r->year)
+        ->whereMonth('ifa6_date', $r->month);
+
+        $sheet->setCellValue('Q40', (clone $qry)->where('age_group', 'A')->count());
+        $sheet->setCellValue('R40', (clone $qry)->where('age_group', 'B')->count());
+        $sheet->setCellValue('S40', (clone $qry)->where('age_group', 'C')->count());
+
+        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        ->whereNotNull('mms6_date')
+        ->whereYear('mms6_date', $r->year)
+        ->whereMonth('mms6_date', $r->month);
+
+        $sheet->setCellValue('Q41', (clone $qry)->where('age_group', 'A')->count());
+        $sheet->setCellValue('R41', (clone $qry)->where('age_group', 'B')->count());
+        $sheet->setCellValue('S41', (clone $qry)->where('age_group', 'C')->count());
+
+        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        ->where('highrisk', 'Y')
+        ->whereNotNull('calcium3_date')
+        ->whereYear('calcium3_date', $r->year)
+        ->whereMonth('calcium3_date', $r->month);
+
+        $sheet->setCellValue('Q42', (clone $qry)->where('age_group', 'A')->count());
+        $sheet->setCellValue('R42', (clone $qry)->where('age_group', 'B')->count());
+        $sheet->setCellValue('S42', (clone $qry)->where('age_group', 'C')->count());
+
+        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        ->whereNotNull('deworming_date')
+        ->whereYear('deworming_date', $r->year)
+        ->whereMonth('deworming_date', $r->month);
+
+        $sheet->setCellValue('Q43', (clone $qry)->where('age_group', 'A')->count());
+        $sheet->setCellValue('R43', (clone $qry)->where('age_group', 'B')->count());
+        $sheet->setCellValue('S43', (clone $qry)->where('age_group', 'C')->count());
+        
+        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        ->whereNotNull('delivery_date')
+        ->whereYear('delivery_date', $r->year)
+        ->whereMonth('delivery_date', $r->month)
+        ->where('trans_remarks', 'A');
+
+        $sheet->setCellValue('B47', (clone $qry)->where('age_group', 'A')->count());
+        $sheet->setCellValue('C47', (clone $qry)->where('age_group', 'B')->count());
+        $sheet->setCellValue('D47', (clone $qry)->where('age_group', 'C')->count());
+
+        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        ->where('trans_remarks', 'B')
+        ->whereIsNull('visit8')
+        ->whereNotNull('transout_date')
+        ->whereYear('transout_date', $r->year)
+        ->whereMonth('transout_date', $r->month);
+
+        $sheet->setCellValue('B48', (clone $qry)->where('age_group', 'A')->count());
+        $sheet->setCellValue('C48', (clone $qry)->where('age_group', 'B')->count());
+        $sheet->setCellValue('D48', (clone $qry)->where('age_group', 'C')->count());
+
+        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        ->whereNotNull('visit1')
+        ->whereYear('visit1', $r->year)
+        ->whereMonth('visit1', $r->month);
+
+        $sheet->setCellValue('B49', (clone $qry)->where('nutritional_assessment', 'N')->where('age_group', 'A')->count());
+        $sheet->setCellValue('C49', (clone $qry)->where('nutritional_assessment', 'N')->where('age_group', 'B')->count());
+        $sheet->setCellValue('D49', (clone $qry)->where('nutritional_assessment', 'N')->where('age_group', 'C')->count());
+
+        $sheet->setCellValue('B50', (clone $qry)->where('nutritional_assessment', 'L')->where('age_group', 'A')->count());
+        $sheet->setCellValue('C50', (clone $qry)->where('nutritional_assessment', 'L')->where('age_group', 'B')->count());
+        $sheet->setCellValue('D50', (clone $qry)->where('nutritional_assessment', 'L')->where('age_group', 'C')->count());
+
+        $sheet->setCellValue('B51', (clone $qry)->where('nutritional_assessment', 'H')->where('age_group', 'A')->count());
+        $sheet->setCellValue('C51', (clone $qry)->where('nutritional_assessment', 'H')->where('age_group', 'B')->count());
+        $sheet->setCellValue('D51', (clone $qry)->where('nutritional_assessment', 'H')->where('age_group', 'C')->count());
+
+        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        ->where('gravida', 1)
+        ->where('td_lastdose_count', '>=', 2)
+        ->whereYear('td_lastdose_date', $r->year)
+        ->whereMonth('td_lastdose_date', $r->month);
+
+        $sheet->setCellValue('B52', (clone $qry)->where('age_group', 'A')->count());
+        $sheet->setCellValue('C52', (clone $qry)->where('age_group', 'B')->count());
+        $sheet->setCellValue('D52', (clone $qry)->where('age_group', 'C')->count());
+
+        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        ->whereNotNull('hb_date')
+        ->whereYear('hb_date', $r->year)
+        ->whereMonth('hb_date', $r->month);
+
+        $sheet->setCellValue('Q46', (clone $qry)->where('age_group', 'A')->count());
+        $sheet->setCellValue('R46', (clone $qry)->where('age_group', 'B')->count());
+        $sheet->setCellValue('S46', (clone $qry)->where('age_group', 'C')->count());
+
+        $sheet->setCellValue('Q47', (clone $qry)->where('hb_result', 1)->where('age_group', 'A')->count());
+        $sheet->setCellValue('R47', (clone $qry)->where('hb_result', 1)->where('age_group', 'B')->count());
+        $sheet->setCellValue('S47', (clone $qry)->where('hb_result', 1)->where('age_group', 'C')->count());
+
+        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        ->whereNotNull('cbc_date')
+        ->whereYear('cbc_date', $r->year)
+        ->whereMonth('cbc_date', $r->month);
+
+        $sheet->setCellValue('Q48', (clone $qry)->where('age_group', 'A')->count());
+        $sheet->setCellValue('R48', (clone $qry)->where('age_group', 'B')->count());
+        $sheet->setCellValue('S48', (clone $qry)->where('age_group', 'C')->count());
+
+        $sheet->setCellValue('Q49', (clone $qry)->where('cbc_result', 1)->where('age_group', 'A')->count());
+        $sheet->setCellValue('R49', (clone $qry)->where('cbc_result', 1)->where('age_group', 'B')->count());
+        $sheet->setCellValue('S49', (clone $qry)->where('cbc_result', 1)->where('age_group', 'C')->count());
+
+        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        ->whereNotNull('diabetes_date')
+        ->whereYear('diabetes_date', $r->year)
+        ->whereMonth('diabetes_date', $r->month);
+
+        $sheet->setCellValue('Q50', (clone $qry)->where('age_group', 'A')->count());
+        $sheet->setCellValue('R50', (clone $qry)->where('age_group', 'B')->count());
+        $sheet->setCellValue('S50', (clone $qry)->where('age_group', 'C')->count());
+
+        $sheet->setCellValue('Q51', (clone $qry)->where('diabetes_result', 1)->where('age_group', 'A')->count());
+        $sheet->setCellValue('R51', (clone $qry)->where('diabetes_result', 1)->where('age_group', 'B')->count());
+        $sheet->setCellValue('S51', (clone $qry)->where('diabetes_result', 1)->where('age_group', 'C')->count());
+
+        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        ->whereNotNull('delivery_date')
+        ->whereYear('delivery_date', $r->year)
+        ->whereMonth('delivery_date', $r->month);
+
+        $sheet->setCellValue('B56', (clone $qry)->where('age_group', 'A')->count());
+        $sheet->setCellValue('C56', (clone $qry)->where('age_group', 'B')->count());
+        $sheet->setCellValue('D56', (clone $qry)->where('age_group', 'C')->count());
+
+        $sheet->setCellValue('B57', (clone $qry)->where('age_group', 'A')->sum('number_livebirths'));
+        $sheet->setCellValue('C57', (clone $qry)->where('age_group', 'B')->sum('number_livebirths'));
+        $sheet->setCellValue('D57', (clone $qry)->where('age_group', 'C')->sum('number_livebirths'));
+
+        $sheet->setCellValue('B58', (clone $qry)->where('weight_status', 'N')->where('age_group', 'A')->count());
+        $sheet->setCellValue('C58', (clone $qry)->where('weight_status', 'N')->where('age_group', 'B')->count());
+        $sheet->setCellValue('D58', (clone $qry)->where('weight_status', 'N')->where('age_group', 'C')->count());
+
+        $sheet->setCellValue('B59', (clone $qry)->where('weight_status', 'L')->where('age_group', 'A')->count());
+        $sheet->setCellValue('C59', (clone $qry)->where('weight_status', 'L')->where('age_group', 'B')->count());
+        $sheet->setCellValue('D59', (clone $qry)->where('weight_status', 'L')->where('age_group', 'C')->count());
+
+        $sheet->setCellValue('B60', (clone $qry)->where('weight_status', 'U')->where('age_group', 'A')->count());
+        $sheet->setCellValue('C60', (clone $qry)->where('weight_status', 'U')->where('age_group', 'B')->count());
+        $sheet->setCellValue('D60', (clone $qry)->where('weight_status', 'U')->where('age_group', 'C')->count());
+
+        //Continue Here
 
         $fileName = 'M1_TEST.xlsx';
         ob_clean();
