@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
-            <label for="Admitted"><span class="text-danger font-weight-bold">*</span>Admitted?</label>
+            <label for="Admitted"><span class="text-danger font-weight-bold">*</span><span id="admitted_select_text">Admitted?</span></label>
             <select class="form-control" name="Admitted" id="Admitted" required>
                 <option value="" disabled {{(is_null(old('Admitted'))) ? 'selected' : ''}}>Choose...</option>
                 <option value="Y" {{(old('Admitted') == 'Y') ? 'selected' : ''}}>Yes</option>
@@ -34,7 +34,7 @@
     </div>
     <div class="col-md-6">
         <div class="form-group">
-            <label for="DOnset"><b class="text-danger">*</b>Date Onset of Illness (Kailan nagsimula ang sintomas)</label>
+            <label for="DOnset"><b class="text-danger">*</b><span id="onset_text">Date Onset of Illness (Kailan nagsimula ang sintomas)</span></label>
             <input type="date" class="form-control" name="DOnset" id="DOnset" value="{{old('DOnset')}}" min="{{date('Y-m-d', strtotime('-1 Year'))}}" max="{{date('Y-m-d')}}" required>
         </div>
     </div>

@@ -95,11 +95,11 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                   <label for=""><b class="text-danger">*</b>Visit 1 (Estimated)</label>
-                                  <input type="date" class="form-control" name="visit1_est" id="visit1_est" value="{{old('visit1_est', $d->visit1_est)}}" required>
+                                  <input type="date" class="form-control" name="visit1_est" id="visit1_est" value="{{old('visit1_est', $d->visit1_est)}}">
                                 </div>
                                 <div class="form-group">
                                     <label for="">Visit 1 (Actual)</label>
-                                    <input type="date" class="form-control" name="visit1" id="visit1" value="{{old('visit1', $d->visit1)}}" max="{{date('Y-m-d')}}" required>
+                                    <input type="date" class="form-control" name="visit1" id="visit1" value="{{old('visit1', $d->visit1)}}" max="{{date('Y-m-d')}}">
                                     <small class="text-muted">8-13 weeks</small>
                                 </div>
                                 <div class="form-group">
@@ -740,27 +740,24 @@
                     </div>
                 </div>
 
+                <div class="form-group mt-3">
+                    <label for="outcome">Outcome</label>
+                    <select class="form-control" name="outcome" id="outcome">
+                      <option value="" {{old('outcome', $d->outcome) ? '' : 'selected'}}>N/A</option>
+                      <option value="FT" {{old('outcome', $d->outcome) == 'FT' ? 'selected' : ''}}>Full Term</option>
+                      <option value="PT" {{old('outcome', $d->outcome) == 'PT' ? 'selected' : ''}}>Pre-term</option>
+                      <option value="FD" {{old('outcome', $d->outcome) == 'FD' ? 'selected' : ''}}>Fetal Death</option>
+                      <option value="AB" {{old('outcome', $d->outcome) == 'AB' ? 'selected' : ''}}>Abortion/Miscarriage</option>
+                    </select>
+                </div>
+
                 <div class="row mt-3" id="outcome_div">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for=""><b class="text-danger">*</b>Outcome</label>
-                            <select class="form-control" name="outcome" id="outcome">
-                              <option value="" {{old('outcome', $d->outcome) ? '' : 'selected'}}>N/A</option>
-                              <option value="FT" {{old('outcome', $d->outcome) == 'FT' ? 'selected' : ''}}>Full Term</option>
-                              <option value="PT" {{old('outcome', $d->outcome) == 'PT' ? 'selected' : ''}}>Pre-term</option>
-                              <option value="FD" {{old('outcome', $d->outcome) == 'FD' ? 'selected' : ''}}>Fetal Death</option>
-                              <option value="AB" {{old('outcome', $d->outcome) == 'AB' ? 'selected' : ''}}>Abortion/Miscarriage</option>
-                            </select>
-                        </div>
-                    </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for=""><b class="text-danger">*</b>Date and Time of Delivery</label>
                             <input type="datetime-local" class="form-control" name="delivery_date" id="delivery_date" value="{{old('delivery_date', $d->delivery_date)}}">
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group d-none" id="delivery_type_div">
+                        <div class="form-group d-none">
                             <label for=""><b class="text-danger">*</b>Delivery Type</label>
                             <select class="form-control" name="delivery_type" id="delivery_type">
                               <option value="" disabled {{old('delivery_type', $d->delivery_type) ? '' : 'selected'}}>Choose...</option>
@@ -792,7 +789,7 @@
                         </div>
                         <div id="publicprivate_div">
                             <div class="form-group">
-                                <label for=""><b class="text-danger">*</b>Specify BHS, RHU/UHU, government hospitals, public infirmaries, DOH-licensed ambulance</label>
+                                <label for="place_of_delivery"><b class="text-danger">*</b>Specify BHS, RHU/UHU, government hospitals, public infirmaries, DOH-licensed ambulance</label>
                                 <input type="text" class="form-control" name="place_of_delivery" id="place_of_delivery" value="{{old('place_of_delivery', $d->place_of_delivery)}}" style="text-transform: uppercase;">
                             </div>
                             <div class="form-check">
@@ -805,7 +802,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for=""><b class="text-danger">*</b>Birth Attendant</label>
+                            <label for="attendant"><b class="text-danger">*</b>Birth Attendant</label>
                             <select class="form-control" name="attendant" id="attendant">
                               <option value="" disabled {{old('attendant', $d->attendant) ? '' : 'selected'}}>Choose...</option>
                               <option value="MD" {{old('attendant', $d->attendant) == 'MD' ? 'selected' : ''}}>Doctor</option>
@@ -815,7 +812,7 @@
                             </select>
                         </div>
                         <div class="form-group" id="otherattendant_div">
-                            <label for=""><b class="text-danger">*</b>Please specify</label>
+                            <label for="attendant_others"><b class="text-danger">*</b>Please specify</label>
                             <input type="text" class="form-control" name="attendant_others" id="attendant_others" value="{{old('attendant_others', $d->attendant_others)}}" style="text-transform: uppercase;">
                         </div>
                     </div>
@@ -830,25 +827,25 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="">Contact 1 (within 24 hours after delivery)</label>
+                                    <label for="pnc1">Contact 1 (within 24 hours after delivery)</label>
                                     <input type="date" class="form-control" name="pnc1" id="pnc1" value="{{old('pnc1', $d->pnc1)}}" max="{{date('Y-m-d')}}">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="">Contact 2 (on day 3)</label>
+                                    <label for="pnc2">Contact 2 (on day 3)</label>
                                     <input type="date" class="form-control" name="pnc2" id="pnc2" value="{{old('pnc2', $d->pnc2)}}" max="{{date('Y-m-d')}}">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="">Contact 3 (between 7-14 days)</label>
+                                    <label for="pnc3">Contact 3 (between 7-14 days)</label>
                                     <input type="date" class="form-control" name="pnc3" id="pnc3" value="{{old('pnc3', $d->pnc3)}}" max="{{date('Y-m-d')}}">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="">Contact 4 (6 weeks after birth)</label>
+                                    <label for="pnc4">Contact 4 (6 weeks after birth)</label>
                                     <input type="date" class="form-control" name="pnc4" id="pnc4" value="{{old('pnc4', $d->pnc4)}}" max="{{date('Y-m-d')}}">
                                 </div>
                             </div>
@@ -865,37 +862,37 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="">1st Visit</label>
+                                    <label for="pp_td1">1st Visit</label>
                                     <input type="date" class="form-control" name="pp_td1" id="pp_td1" value="{{old('pp_td1', $d->pp_td1)}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Number of tablets given</label>
+                                    <label for="pp_td1_dosage">Number of tablets given</label>
                                     <input type="number" class="form-control" name="pp_td1_dosage" id="pp_td1_dosage" value="{{old('pp_td1_dosage', $d->pp_td1_dosage)}}">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="">2nd Visit</label>
+                                    <label for="pp_td2">2nd Visit</label>
                                     <input type="date" class="form-control" name="pp_td2" id="pp_td2" value="{{old('pp_td2', $d->pp_td2)}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Number of tablets given</label>
+                                    <label for="pp_td2_dosage">Number of tablets given</label>
                                     <input type="number" class="form-control" name="pp_td2_dosage" id="pp_td2_dosage" value="{{old('pp_td2_dosage', $d->pp_td2_dosage)}}">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="">3rd Visit</label>
+                                    <label for="pp_td3">3rd Visit</label>
                                     <input type="date" class="form-control" name="pp_td3" id="pp_td3" value="{{old('pp_td3', $d->pp_td3)}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Number of tablets given</label>
+                                    <label for="pp_td3_dosage">Number of tablets given</label>
                                     <input type="number" class="form-control" name="pp_td3_dosage" id="pp_td3_dosage" value="{{old('pp_td3_dosage', $d->pp_td3_dosage)}}">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="">Date Completed Vit. A Supplementation</label>
+                                    <label for="vita">Date Completed Vit. A Supplementation</label>
                                     <input type="date" class="form-control" name="vita" id="vita" value="{{old('vita', $d->vita)}}" max="{{date('Y-m-d')}}">
                                 </div>
                             </div>
@@ -904,7 +901,7 @@
                 </div>
 
                 <div class="form-group postnatal_div mt-3">
-                  <label for="">Remarks</label>
+                  <label for="pp_remarks">Remarks</label>
                   <select class="form-control" name="pp_remarks" id="pp_remarks">
                     <option value="" disabled {{old('pp_remarks', $d->pp_remarks) ? '' : 'selected'}}>Choose...</option>
                     <option value="A" {{old('pp_remarks', $d->pp_remarks) == 'A' ? 'selected' : ''}}>Trans In</option>
@@ -913,7 +910,7 @@
                 </div>
 
                 <div class="form-group mt-3">
-                  <label for="">Notes/Remarks</label>
+                  <label for="system_remarks">Notes/Remarks</label>
                   <textarea class="form-control" name="system_remarks" id="system_remarks" rows="3">{{old('system_remarks', $d->system_remarks)}}</textarea>
                 </div>
             </div>
@@ -935,30 +932,6 @@
                 }, 2000);
                 return false;
             }
-        });
-
-        $(document).ready(function () {
-            $('#edc').on('change', function () {
-                if($(this).val() == '') {
-                    $('#outcome_div').hide();
-                }
-                else {
-                    let selectedDate = new Date($(this).val());
-                    let today = new Date();
-
-                    // Remove time portion
-                    selectedDate.setHours(0,0,0,0);
-                    today.setHours(0,0,0,0);
-
-                    if (selectedDate <= today) {
-                        $('#outcome_div').show();
-                    } else {
-                        $('#outcome_div').hide();
-                    }
-                }
-            });
-            
-            $('#edc').trigger('change');
         });
 
         $('#visit1').on('change', function () {
@@ -1005,7 +978,7 @@
 
         $('#outcome').change(function (e) { 
             e.preventDefault();
-            $('#delivery_type_div').addClass('d-none');
+            $('#outcome_div').addClass('d-none');
             $('#delivery_date').prop('required', false);
             $('#delivery_type').prop('required', false);
             $('#facility_type').prop('required', false);
@@ -1015,7 +988,7 @@
             $('#pp_remarks').prop('required', false);
 
             if($(this).val() == 'FT' || $(this).val() == 'PT' || $(this).val() == 'FD' || $(this).val() == 'AB') {
-                $('#delivery_type_div').removeClass('d-none');
+                $('#outcome_div').removeClass('d-none');
                 $('#delivery_date').prop('required', true);
                 $('#delivery_type').prop('required', true);
                 $('#facility_type').prop('required', true);

@@ -9614,6 +9614,24 @@ class PIDSRController extends Controller
                 ->with('modalmsgtype', 'warning');
             }
         }
+        else if($disease == 'ROTAVIRUS') {
+            $check = Rotavirus::where('FamilyName', mb_strtoupper($lname))
+            ->where('FirstName', mb_strtoupper($fname))
+            ->where('Year', $entry_date->format('Y'))
+            ->where('MorbidityMonth', $entry_date->format('n'))
+            ->first();
+
+            if(!$check) {
+                return $this->rotavirusNewOrEdit(new Rotavirus())->with('mode', 'NEW');
+            }
+            else {
+                return redirect()->back()
+                ->withInput()
+                ->with('openEncodeModal', true)
+                ->with('modalmsg', "Error: $disease Case already exists in the database.")
+                ->with('modalmsgtype', 'warning');
+            }
+        }
     }
 
     public static function listReportableDiseasesBackEnd() {
@@ -9625,6 +9643,7 @@ class PIDSRController extends Controller
             ['value' => 'MEASLES', 'text' => 'Measles', 'edcs_importable' => true],
             ['value' => 'LEPTOSPIROSIS', 'text' => 'Leptospirosis', 'edcs_importable' => true],
             ['value' => 'SARI', 'text' => 'Severe Acute Respiratory Infection (SARI)', 'edcs_importable' => true],
+            ['value' => 'ROTAVIRUS', 'text' => 'Rotavirus', 'edcs_importable' => true],
         ];
 
         return collect($list)->sortBy('text', SORT_NATURAL | SORT_FLAG_CASE)->values();
@@ -9779,6 +9798,30 @@ class PIDSRController extends Controller
         $facility_list = DohFacility::where('address_muncity', 'CITY OF GENERAL TRIAS')->get();
 
         return view('pidsr.inhouse_edcs.leptospirosis', [
+            'd' => $record,
+            'f' => $f,
+            'mode' => 'EDIT',
+            //'brgy_list' => $brgy_list,
+            'facility_list' => $facility_list,
+        ]);
+    }
+
+    public function rotavirusNewOrEdit(Rotavirus $record) {
+        //Get Facility
+        if(request()->input('facility_code')) {
+            $f = DohFacility::where('sys_code1', request()->input('facility_code'))->first();
+
+            if(!$f) {
+                return abort(404);
+            }
+        }
+        else {
+            $f = DohFacility::where('id', auth()->user()->itr_facility_id)->first();
+        }
+
+        $facility_list = DohFacility::where('address_muncity', 'CITY OF GENERAL TRIAS')->get();
+
+        return view('pidsr.inhouse_edcs.rotavirus', [
             'd' => $record,
             'f' => $f,
             'mode' => 'EDIT',
@@ -10919,6 +10962,9 @@ class PIDSRController extends Controller
             ];
 
             $c = Leptospirosis::create($table_params);
+        }
+        else if($disease == 'ROTAVIRUS') {
+            //TO BE IMPLEMENTED LATER
         }
 
         if(!$r->facility_code) {

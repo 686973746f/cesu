@@ -338,6 +338,17 @@ class ElectronicTclController extends Controller
             $age_group = 'C'; //Adult
         }
 
+        if(!is_null($r->outcome)) {
+            $date_delivered = Carbon::parse($r->delivery_date);
+
+            if(Carbon::parse($r->lmp)->addWeeks(40)->lt($date_delivered)) {
+                return redirect()
+                ->back()
+                ->with('msg', 'Error: Delivery Date cannot be greater than the EDC (40 weeks from LMP).')
+                ->with('msgtype', 'warning');
+            }
+        }
+        
         $birthdate = Carbon::parse($d->patient->bdate);
         $currentDate = Carbon::parse($r->registration_date);
 
