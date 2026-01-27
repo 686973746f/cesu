@@ -757,7 +757,7 @@
                             <label for=""><b class="text-danger">*</b>Date and Time of Delivery</label>
                             <input type="datetime-local" class="form-control" name="delivery_date" id="delivery_date" value="{{old('delivery_date', $d->delivery_date)}}">
                         </div>
-                        <div class="form-group d-none">
+                        <div class="form-group">
                             <label for=""><b class="text-danger">*</b>Delivery Type</label>
                             <select class="form-control" name="delivery_type" id="delivery_type">
                               <option value="" disabled {{old('delivery_type', $d->delivery_type) ? '' : 'selected'}}>Choose...</option>
@@ -815,9 +815,10 @@
                             <label for="attendant_others"><b class="text-danger">*</b>Please specify</label>
                             <input type="text" class="form-control" name="attendant_others" id="attendant_others" value="{{old('attendant_others', $d->attendant_others)}}" style="text-transform: uppercase;">
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        
+                        <div class="form-group">
+                          <label for="birth_weight"><b class="text-danger">*</b>Birth Weight (grams)</label>
+                          <input type="number" class="form-control" name="birth_weight" id="birth_weight" step="0.01" value="{{old('birth_weight', $d->birth_weight)}}">
+                        </div>
                     </div>
                 </div>
 
@@ -901,7 +902,7 @@
                 </div>
 
                 <div class="form-group postnatal_div mt-3">
-                  <label for="pp_remarks">Remarks</label>
+                  <label for="pp_remarks"><b class="text-danger">*</b>Remarks</label>
                   <select class="form-control" name="pp_remarks" id="pp_remarks">
                     <option value="" disabled {{old('pp_remarks', $d->pp_remarks) ? '' : 'selected'}}>Choose...</option>
                     <option value="A" {{old('pp_remarks', $d->pp_remarks) == 'A' ? 'selected' : ''}}>Trans In</option>
@@ -932,6 +933,34 @@
                 }, 2000);
                 return false;
             }
+        });
+
+        $(document).ready(function () {
+            const dates = ['#visit1', '#visit2', '#visit3', '#visit4', '#visit5', '#visit6', '#visit7', '#visit8'];
+
+            function updateRequired() {
+                // Find the highest index that has a value
+                let lastFilledIndex = -1;
+
+                dates.forEach((selector, index) => {
+                    if ($(selector).val()) {
+                        lastFilledIndex = index;
+                    }
+                });
+
+                // Reset required attributes
+                dates.forEach(selector => {
+                    $(selector).prop('required', false);
+                });
+
+                // Make all previous dates required
+                for (let i = 0; i < lastFilledIndex; i++) {
+                    $(dates[i]).prop('required', true);
+                }
+            }
+
+            // Run on change of any date field
+            $('input[type="date"]').on('change', updateRequired);
         });
 
         $('#visit1').on('change', function () {
@@ -983,6 +1012,7 @@
             $('#delivery_type').prop('required', false);
             $('#facility_type').prop('required', false);
             $('#attendant').prop('required', false);
+            $('#birth_weight').prop('required', false);
 
             $('.postnatal_div').hide();
             $('#pp_remarks').prop('required', false);
@@ -993,6 +1023,7 @@
                 $('#delivery_type').prop('required', true);
                 $('#facility_type').prop('required', true);
                 $('#attendant').prop('required', true);
+                $('#birth_weight').prop('required', true);
 
                 $('.postnatal_div').show();
                 $('#pp_remarks').prop('required', true);

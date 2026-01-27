@@ -85,10 +85,10 @@ class ElectronicTclController extends Controller
             $nutritional_assessment = 'H';
         }
 
-        if($d->patient->getAge() <= 14) {
+        if($d->getAge() <= 14) {
             $age_group = 'A'; //Adolescent
         }
-        else if($d->patient->getAge() >= 15 && $d->patient->getAge() <= 19) { 
+        else if($d->getAge() >= 15 && $d->getAge() <= 19) { 
             $age_group = 'B'; //Young Adult
         }
         else {
@@ -348,7 +348,7 @@ class ElectronicTclController extends Controller
                 ->with('msgtype', 'warning');
             }
         }
-        
+
         $birthdate = Carbon::parse($d->patient->bdate);
         $currentDate = Carbon::parse($r->registration_date);
 
