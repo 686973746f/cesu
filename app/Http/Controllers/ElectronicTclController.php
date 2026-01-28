@@ -237,7 +237,7 @@ class ElectronicTclController extends Controller
             ];
         }
 
-        if(!is_null($r->outcome)) {
+        if(!is_null($r->outcome) && $r->trans_remarks == 'A') {
             $table_params = $table_params + [
                 'outcome' => $r->outcome,
                 'number_livebirths' => $r->number_livebirths,
@@ -313,8 +313,8 @@ class ElectronicTclController extends Controller
         $check = InhouseMaternalCare::where('request_uuid', $r->request_uuid)->first();
 
         if($check) {
-            return redirect()->
-            back()
+            return redirect()
+            ->back()
             ->with('msg', 'Error: This record has already been updated.')
             ->with('msgtype', 'warning');
         }
@@ -345,7 +345,7 @@ class ElectronicTclController extends Controller
             $age_group = 'C'; //Adult
         }
 
-        if(!is_null($r->outcome)) {
+        if(!is_null($r->outcome) && $r->trans_remarks == 'A') {
             $date_delivered = Carbon::parse($r->delivery_date);
 
             if(Carbon::parse($r->lmp)->addWeeks(40)->lt($date_delivered)) {
@@ -804,6 +804,8 @@ class ElectronicTclController extends Controller
         $sheet->setCellValue('S51', (clone $qry)->where('diabetes_result', 1)->where('age_group', 'C')->count());
 
         $qry = InhouseMaternalCare::where('enabled', 'Y')
+        ->where('trans_remarks', 'A')
+        ->whereNotNull('outcome')
         ->whereNotNull('delivery_date')
         ->whereYear('delivery_date', $r->year)
         ->whereMonth('delivery_date', $r->month);
@@ -828,7 +830,90 @@ class ElectronicTclController extends Controller
         $sheet->setCellValue('C60', (clone $qry)->where('weight_status', 'U')->where('age_group', 'B')->count());
         $sheet->setCellValue('D60', (clone $qry)->where('weight_status', 'U')->where('age_group', 'C')->count());
 
-        //Continue Here
+        $sheet->setCellValue('B56', (clone $qry)->where('attendant', '!=', 'O')->where('age_group', 'A')->count());
+        $sheet->setCellValue('C56', (clone $qry)->where('attendant', '!=', 'O')->where('age_group', 'B')->count());
+        $sheet->setCellValue('D56', (clone $qry)->where('attendant', '!=', 'O')->where('age_group', 'C')->count());
+
+        $sheet->setCellValue('B57', (clone $qry)->where('attendant', 'MD')->where('age_group', 'A')->count());
+        $sheet->setCellValue('C57', (clone $qry)->where('attendant', 'MD')->where('age_group', 'B')->count());
+        $sheet->setCellValue('D57', (clone $qry)->where('attendant', 'MD')->where('age_group', 'C')->count());
+
+        $sheet->setCellValue('B58', (clone $qry)->where('attendant', 'RN')->where('age_group', 'A')->count());
+        $sheet->setCellValue('C58', (clone $qry)->where('attendant', 'RN')->where('age_group', 'B')->count());
+        $sheet->setCellValue('D58', (clone $qry)->where('attendant', 'RN')->where('age_group', 'C')->count());
+
+        $sheet->setCellValue('B59', (clone $qry)->where('attendant', 'MW')->where('age_group', 'A')->count());
+        $sheet->setCellValue('C59', (clone $qry)->where('attendant', 'MW')->where('age_group', 'B')->count());
+        $sheet->setCellValue('D59', (clone $qry)->where('attendant', 'MW')->where('age_group', 'C')->count());
+
+        $sheet->setCellValue('Q57', (clone $qry)->where('facility_type', 'PUBLIC')->where('age_group', 'A')->count());
+        $sheet->setCellValue('R57', (clone $qry)->where('facility_type', 'PUBLIC')->where('age_group', 'B')->count());
+        $sheet->setCellValue('S57', (clone $qry)->where('facility_type', 'PUBLIC')->where('age_group', 'C')->count());
+
+        $sheet->setCellValue('Q58', (clone $qry)->where('facility_type', 'PRIVATE')->where('age_group', 'A')->count());
+        $sheet->setCellValue('R58', (clone $qry)->where('facility_type', 'PRIVATE')->where('age_group', 'B')->count());
+        $sheet->setCellValue('S58', (clone $qry)->where('facility_type', 'PRIVATE')->where('age_group', 'C')->count());
+
+        $sheet->setCellValue('Q59', (clone $qry)->where('delivery_type', 'VD')->where('age_group', 'A')->count());
+        $sheet->setCellValue('R59', (clone $qry)->where('delivery_type', 'VD')->where('age_group', 'B')->count());
+        $sheet->setCellValue('S59', (clone $qry)->where('delivery_type', 'VD')->where('age_group', 'C')->count());
+
+        $sheet->setCellValue('Q60', (clone $qry)->where('delivery_type', 'CS')->where('age_group', 'A')->count());
+        $sheet->setCellValue('R60', (clone $qry)->where('delivery_type', 'CS')->where('age_group', 'B')->count());
+        $sheet->setCellValue('S60', (clone $qry)->where('delivery_type', 'CS')->where('age_group', 'C')->count());
+
+        $sheet->setCellValue('Q61', (clone $qry)->where('delivery_type', 'CVCD')->where('age_group', 'A')->count());
+        $sheet->setCellValue('R61', (clone $qry)->where('delivery_type', 'CVCD')->where('age_group', 'B')->count());
+        $sheet->setCellValue('S61', (clone $qry)->where('delivery_type', 'CVCD')->where('age_group', 'C')->count());
+
+        $sheet->setCellValue('Q62', (clone $qry)->where('outcome', 'FT')->where('age_group', 'A')->count());
+        $sheet->setCellValue('R62', (clone $qry)->where('outcome', 'FT')->where('age_group', 'B')->count());
+        $sheet->setCellValue('S62', (clone $qry)->where('outcome', 'FT')->where('age_group', 'C')->count());
+
+        $sheet->setCellValue('Q63', (clone $qry)->where('outcome', 'PT')->where('age_group', 'A')->count());
+        $sheet->setCellValue('R63', (clone $qry)->where('outcome', 'PT')->where('age_group', 'B')->count());
+        $sheet->setCellValue('S63', (clone $qry)->where('outcome', 'PT')->where('age_group', 'C')->count());
+
+        $sheet->setCellValue('Q64', (clone $qry)->where('outcome', 'FD')->where('age_group', 'A')->count());
+        $sheet->setCellValue('R64', (clone $qry)->where('outcome', 'FD')->where('age_group', 'B')->count());
+        $sheet->setCellValue('S64', (clone $qry)->where('outcome', 'FD')->where('age_group', 'C')->count());
+
+        $sheet->setCellValue('Q65', (clone $qry)->where('outcome', 'AB')->where('age_group', 'A')->count());
+        $sheet->setCellValue('R65', (clone $qry)->where('outcome', 'AB')->where('age_group', 'B')->count());
+        $sheet->setCellValue('S65', (clone $qry)->where('outcome', 'AB')->where('age_group', 'C')->count());
+
+        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        ->where('trans_remarks', 'A')
+        ->whereNotNull('outcome')
+        ->whereNotNull('pnc2')
+        ->whereYear('pnc2', $r->year)
+        ->whereMonth('pnc2', $r->month);
+
+        $sheet->setCellValue('B69', (clone $qry)->where('age_group', 'A')->count());
+        $sheet->setCellValue('C69', (clone $qry)->where('age_group', 'B')->count());
+        $sheet->setCellValue('D69', (clone $qry)->where('age_group', 'C')->count());
+
+        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        ->where('trans_remarks', 'A')
+        ->whereNotNull('outcome')
+        ->whereNotNull('pp_td3')
+        ->whereYear('pp_td3', $r->year)
+        ->whereMonth('pp_td3', $r->month);
+
+        $sheet->setCellValue('Q69', (clone $qry)->where('age_group', 'A')->count());
+        $sheet->setCellValue('R69', (clone $qry)->where('age_group', 'B')->count());
+        $sheet->setCellValue('S69', (clone $qry)->where('age_group', 'C')->count());
+
+        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        ->where('trans_remarks', 'A')
+        ->whereNotNull('outcome')
+        ->whereNotNull('vita')
+        ->whereYear('vita', $r->year)
+        ->whereMonth('vita', $r->month);
+
+        $sheet->setCellValue('Q70', (clone $qry)->where('age_group', 'A')->count());
+        $sheet->setCellValue('R70', (clone $qry)->where('age_group', 'B')->count());
+        $sheet->setCellValue('S70', (clone $qry)->where('age_group', 'C')->count());
 
         $fileName = 'M1_TEST.xlsx';
         ob_clean();

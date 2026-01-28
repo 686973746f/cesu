@@ -168,8 +168,6 @@ class CreateInhouseMaternalCaresTable extends Migration
             $table->integer('pp_td2_dosage')->nullable();
             $table->date('pp_td3')->nullable();
             $table->integer('pp_td3_dosage')->nullable();
-            $table->date('pp_td4')->nullable();
-            $table->integer('pp_td4_dosage')->nullable();
             $table->char('completed_pp_ifa', 1)->default('N');
 
             $table->date('vita')->nullable();

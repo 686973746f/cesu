@@ -258,7 +258,7 @@
                         </div>
                         <hr>
                         <div class="form-group">
-                            <label for="trans_remarks">Remarks</label>
+                            <label for="trans_remarks"><b class="text-danger">*</b>Remarks</label>
                             <select class="form-control" name="trans_remarks" id="trans_remarks" required>
                               <option value="" disabled {{old('trans_remarks', $d->trans_remarks) ? '' : 'selected'}}>Choose...</option>
                               <option value="A" {{old('trans_remarks', $d->trans_remarks) == 'A' ? 'selected' : ''}}>Trans In</option>
@@ -755,7 +755,7 @@
                     </div>
                 </div>
 
-                <div class="form-group mt-3">
+                <div class="form-group mt-3 d-none" id="outcome_div">
                     <label for="outcome">Outcome</label>
                     <select class="form-control" name="outcome" id="outcome">
                       <option value="" {{old('outcome', $d->outcome) ? '' : 'selected'}}>N/A</option>
@@ -766,7 +766,7 @@
                     </select>
                 </div>
 
-                <div class="row mt-3" id="outcome_div">
+                <div class="row mt-3 d-none" id="outcome_div">
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for=""><b class="text-danger">*</b>Date and Time of Delivery</label>
@@ -1091,10 +1091,20 @@
             e.preventDefault();
             $('#transout_div').addClass('d-none');
             $('#transout_date').prop('required', false);
+            $('#outcome_div').addClass('d-none');
+            $('#outcome').prop('required', false);
 
             if($(this).val() == 'B') {
                 $('#transout_div').removeClass('d-none');
                 $('#transout_date').prop('required', true);
+
+                $('#outcome_div').addClass('d-none');
+                $('#outcome').prop('required', false);
+                $('#outcome').val('');
+                $('#outcome').trigger('change');
+            }
+            else if($(this).val() == 'A') {
+                $('#outcome_div').removeClass('d-none');
             }
         }).trigger('change');
     </script>

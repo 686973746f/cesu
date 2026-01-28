@@ -161,8 +161,6 @@ class InhouseMaternalCare extends Model
         'pp_td2_dosage',
         'pp_td3',
         'pp_td3_dosage',
-        'pp_td4',
-        'pp_td4_dosage',
         'completed_pp_ifa',
 
         'vita',
