@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Auth;
 use Rap2hpoutre\FastExcel\FastExcel;
 use App\Models\BarangayHealthStation;
 use App\Models\PharmacyCartSubBranch;
+use App\Jobs\CallPharmacyDispensaryV1;
 use App\Models\PharmacyCartMainBranch;
 use App\Models\PharmacySupplySubStock;
 use App\Models\PharmacyQtyLimitPatient;
@@ -34,6 +35,7 @@ use PhpOffice\PhpWord\TemplateProcessor;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Rap2hpoutre\FastExcel\SheetCollection;
 use App\Jobs\CallPharmacyAnnualInOutReport;
+use App\Jobs\CallPharmacyDispensaryV1Export;
 
 /*
 PERMISSION LIST
@@ -2645,7 +2647,7 @@ class PharmacyController extends Controller
                 'created_by' => auth()->user()->id,
                 'facility_id' => auth()->user()->itr_facility_id,
             ]);
-
+            //
             CallPharmacyAnnualInOutReport::dispatch(Auth::id(), $c->id, $start_date, $end_date, $selected_branch);
 
             return redirect()->route('export_index')
@@ -3275,56 +3277,26 @@ class PharmacyController extends Controller
     }
 
     public function generateMedicineDispensary(Request $r) {
-        set_time_limit(0);
-        ini_set('memory_limit', '512M');
-        
         $start = Carbon::parse($r->start_date)->startOfDay();
         $end   = Carbon::parse($r->end_date)->endOfDay();
 
         if($r->submit == 'generateV1') {
-            $q = PharmacyStockCard::query()
-            ->whereBetween('created_at', [$start, $end])
-            ->where('type', 'ISSUED');
-    
-            if ($r->select_branch !== 'ALL') {
-                $q->whereHas('pharmacysub', fn ($qq) => $qq->where('pharmacy_branch_id', $r->select_branch));
-            }
-    
-            $rows = (function () use ($q) {
-                foreach ($q->cursor() as $f) {
+            $c = ExportJobs::create([
+                'name' => 'Pharmacy Medicine Dispensary ('.date('m/d/Y', strtotime($r->start_date)).' to '.date('m/d/Y', strtotime($r->end_date)).')',
+                'for_module' => 'Pharmacy',
+                'type' => 'EXPORT',
+                'status' => 'pending',
+                //'date_finished'
+                //'filename',
+                'created_by' => auth()->user()->id,
+                'facility_id' => auth()->user()->itr_facility_id,
+            ]);
 
-                    if (!is_null($f->receiving_patient_id)) {
-                        $name = $f->getReceivingPatient->lname.', '.$f->getReceivingPatient->fname;
-                        $age = $f->getReceivingPatient->getAge();
-                        $sex = substr($f->getReceivingPatient->gender, 0, 1);
-                        $barangay = $f->getReceivingPatient->address_brgy_text;
-                    } else {
-                        $name = $f->getReceivingBranch->name;
-                        $age = 'N/A';
-                        $sex = 'N/A';
-                        $barangay = (!is_null($f->getReceivingBranch->if_bhs_id))
-                            ? $f->getReceivingBranch->bhs->brgy->brgyName
-                            : "N/A";
-                    }
+            CallPharmacyDispensaryV1Export::dispatch(Auth::id(), $c->id, $start->format('Y-m-d'), $end->format('Y-m-d'), $r->select_branch);
 
-                    yield [
-                        'DATE/TIME' => date('m/d/Y h:i A', strtotime($f->created_at)),
-                        'NAME' => $name,
-                        'AGE' => $age,
-                        'SEX' => $sex,
-                        'BARANGAY' => $barangay,
-                        'MEDICINE GIVEN' => $f->pharmacysub->pharmacysupplymaster->name,
-                        'QUANTITY' => $f->qty_to_process.' '.Str::plural($f->qty_type, $f->qty_to_process),
-                        'ENCODER' => $f->user->name,
-                    ];
-                }
-            })();
-
-            $file_name = 'PHARMACY_MEDICINE_DISPENSARY_'.date('mdY').'.xlsx';
-
-            return (new FastExcel($rows))
-                ->headerStyle((new Style())->setFontBold())
-                ->download($file_name);
+            return redirect()->route('export_index')
+            ->with('msg', 'Your download request is now being requested. The server will now prepare the file. Please refresh this page after 5-10 minutes or more until the status turns to completed.')
+            ->with('msgtype', 'success');
         }
         else if($r->submit == 'generateV2') {
             if(Carbon::parse($r->start_date)->isSameDay(Carbon::parse($r->end_date))) {
@@ -3413,7 +3385,6 @@ class PharmacyController extends Controller
                 $branches = PharmacyBranch::where('id', auth()->user()->pharmacy_branch_id)->get();
             }
             
-
             return view('pharmacy.stock_masterlist', compact('medicines', 'branches'));
         }
         else {
