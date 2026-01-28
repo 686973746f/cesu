@@ -3275,6 +3275,9 @@ class PharmacyController extends Controller
     }
 
     public function generateMedicineDispensary(Request $r) {
+        set_time_limit(0);
+        ini_set('memory_limit', '512M');
+        
         $start = Carbon::parse($r->start_date)->startOfDay();
         $end   = Carbon::parse($r->end_date)->endOfDay();
 
