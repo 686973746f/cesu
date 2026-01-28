@@ -57,12 +57,13 @@
                 </table>
                 @else
                 <table class="table table-bordered table-striped" id="mainTbl">
-                    <thead class="thead-light">
+                    <thead class="thead-light text-center">
                         <tr>
                             <th>#</th>
                             <th>Name</th>
                             <th>Category</th>
-                            <th>Current Stock</th>
+                            <th>Current Stock (Piece/s)</th>
+                            <th>Estimated Stock (in Box/es)</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -72,6 +73,7 @@
                             <td><a href="{{route('pharmacy_itemlist_viewitem', $l->id)}}">{{$l->pharmacysupplymaster->name}}</a></td>
                             <td class="text-center">{{$l->pharmacysupplymaster->category}}</td>
                             <td class="text-center">{{$l->displayQty()}}</td>
+                            <td class="text-center">{{($l->pharmacysupplymaster->config_piecePerBox == 0) ? 'Please specify pieces per box first in the master item settings.' : floor($l->getEstimatedBoxStock())}}</td>
                         </tr>
                         @endforeach
                     </tbody>
