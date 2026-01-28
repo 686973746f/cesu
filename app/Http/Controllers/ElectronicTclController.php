@@ -918,9 +918,15 @@ class ElectronicTclController extends Controller
         $sheet->setCellValue('C71', (clone $qry)->where('age_group', 'B')->count());
         $sheet->setCellValue('D71', (clone $qry)->where('age_group', 'C')->count());
 
-        $sheet->setCellValue('B72', (clone $qry)->where('pp_remarks', 'A')->where('age_group', 'A')->count());
-        $sheet->setCellValue('C72', (clone $qry)->where('pp_remarks', 'A')->where('age_group', 'B')->count());
-        $sheet->setCellValue('D72', (clone $qry)->where('pp_remarks', 'A')->where('age_group', 'C')->count());
+        $qry = (clone $base_qry)
+        ->whereNotNull('outcome')
+        ->whereNull('pp_remarks', 'A')
+        ->whereYear('pnc4', $r->year)
+        ->whereMonth('pnc4', $r->month);
+
+        $sheet->setCellValue('B72', (clone $qry)->where('age_group', 'A')->count());
+        $sheet->setCellValue('C72', (clone $qry)->where('age_group', 'B')->count());
+        $sheet->setCellValue('D72', (clone $qry)->where('age_group', 'C')->count());
 
         $qry = (clone $base_qry)
         ->whereNotNull('outcome')
