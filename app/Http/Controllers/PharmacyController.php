@@ -3297,15 +3297,15 @@ class PharmacyController extends Controller
             }
     
             $list_query = $list_query->orderBy('created_at', 'DESC');
-    
-            function queryGenerator($query) {
+
+            $queryGenerator = function ($query) {
                 foreach ($query->cursor() as $u) {
                     yield $u;
                 }
-            }
+            };
     
             $sheets = new SheetCollection([
-                'MAIN' => queryGenerator($list_query),
+                'MAIN' => $queryGenerator($list_query),
             ]);
     
             $header_style = (new Style())->setFontBold();
@@ -3356,14 +3356,14 @@ class PharmacyController extends Controller
 
             $list_query = $list_query->orderBy('created_at', 'DESC');
 
-            function queryGenerator($query) {
+            $queryGenerator = function ($query) {
                 foreach ($query->cursor() as $u) {
                     yield $u;
                 }
-            }
+            };
 
             $sheets = new SheetCollection([
-                'MAIN' => queryGenerator($list_query),
+                'MAIN' => $queryGenerator($list_query),
             ]);
 
             $header_style = (new Style())->setFontBold();
