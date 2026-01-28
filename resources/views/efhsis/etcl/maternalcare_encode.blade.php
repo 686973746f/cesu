@@ -94,16 +94,16 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                  <label for=""><b class="text-danger">*</b>Visit 1 (Estimated)</label>
+                                  <label for="visit1_est">Visit 1 (Estimated)</label>
                                   <input type="date" class="form-control" name="visit1_est" id="visit1_est" value="{{old('visit1_est', $d->visit1_est)}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Visit 1 (Actual)</label>
+                                    <label for="visit1" class="font-weight-bold">Visit 1 (Actual)</label>
                                     <input type="date" class="form-control" name="visit1" id="visit1" value="{{old('visit1', $d->visit1)}}" max="{{date('Y-m-d')}}">
                                     <small class="text-muted">8-13 weeks</small>
                                 </div>
                                 <div class="form-group">
-                                  <label for="">Visit 1 Type</label>
+                                  <label for="visit1_type">Visit 1 Type</label>
                                   <select class="form-control" name="visit1_type" id="visit1_type">
                                     <option value="" disabled {{old('visit1_type', $d->visit1_type) ? '' : 'selected'}}>Choose...</option>
                                     <option value="PUBLIC" {{old('visit1_type', $d->visit1_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -114,16 +114,16 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="">Visit 2 (Estimated)</label>
+                                    <label for="visit2_est">Visit 2 (Estimated)</label>
                                     <input type="date" class="form-control" name="visit2_est" id="visit2_est" value="{{old('visit2_est', $d->visit2_est)}}">
                                   </div>
                                   <div class="form-group">
-                                      <label for="">Visit 2 (Actual)</label>
+                                      <label for="visit2" class="font-weight-bold">Visit 2 (Actual)</label>
                                       <input type="date" class="form-control" name="visit2" id="visit2" value="{{old('visit2', $d->visit2)}}" max="{{date('Y-m-d')}}">
                                       <small class="text-muted">14-20 weeks</small>
                                   </div>
                                   <div class="form-group">
-                                    <label for="">Visit 2 Type</label>
+                                    <label for="visit2_type">Visit 2 Type</label>
                                     <select class="form-control" name="visit2_type" id="visit2_type">
                                       <option value="" disabled {{old('visit2_type', $d->visit2_type) ? '' : 'selected'}}>Choose...</option>
                                       <option value="PUBLIC" {{old('visit2_type', $d->visit2_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -134,16 +134,16 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="">Visit 3 (Estimated)</label>
+                                    <label for="visit3_est">Visit 3 (Estimated)</label>
                                     <input type="date" class="form-control" name="visit3_est" id="visit3_est" value="{{old('visit3_est', $d->visit3_est)}}">
                                   </div>
                                   <div class="form-group">
-                                      <label for="">Visit 3 (Actual)</label>
+                                      <label for="visit3" class="font-weight-bold">Visit 3 (Actual)</label>
                                       <input type="date" class="form-control" name="visit3" id="visit3" value="{{old('visit3', $d->visit3)}}" max="{{date('Y-m-d')}}">
                                       <small class="text-muted">21-27 weeks</small>
                                   </div>
                                   <div class="form-group">
-                                    <label for="">Visit 3 Type</label>
+                                    <label for="visit3_type">Visit 3 Type</label>
                                     <select class="form-control" name="visit3_type" id="visit3_type">
                                       <option value="" disabled {{old('visit3_type', $d->visit3_type) ? '' : 'selected'}}>Choose...</option>
                                       <option value="PUBLIC" {{old('visit3_type', $d->visit3_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -154,16 +154,16 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="">Visit 4 (Estimated)</label>
+                                    <label for="visit4_est">Visit 4 (Estimated)</label>
                                     <input type="date" class="form-control" name="visit4_est" id="visit4_est" value="{{old('visit4_est', $d->visit4_est)}}">
                                   </div>
                                   <div class="form-group">
-                                      <label for="">Visit 4 (Actual)</label>
+                                      <label for="visit4" class="font-weight-bold">Visit 4 (Actual)</label>
                                       <input type="date" class="form-control" name="visit4" id="visit4" value="{{old('visit4', $d->visit4)}}" max="{{date('Y-m-d')}}">
                                       <small class="text-muted">28-30 weeks</small>
                                   </div>
                                   <div class="form-group">
-                                    <label for="">Visit 4 Type</label>
+                                    <label for="visit4_type">Visit 4 Type</label>
                                     <select class="form-control" name="visit4_type" id="visit4_type">
                                       <option value="" disabled {{old('visit4_type', $d->visit4_type) ? '' : 'selected'}}>Choose...</option>
                                       <option value="PUBLIC" {{old('visit4_type', $d->visit4_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -177,16 +177,16 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="">Visit 5 (Estimated)</label>
+                                    <label for="visit5_est">Visit 5 (Estimated)</label>
                                     <input type="date" class="form-control" name="visit5_est" id="visit5_est" value="{{old('visit5_est', $d->visit5_est)}}">
                                   </div>
                                   <div class="form-group">
-                                      <label for="">Visit 5 (Actual)</label>
+                                      <label for="visit5" class="font-weight-bold">Visit 5 (Actual)</label>
                                       <input type="date" class="form-control" name="visit5" id="visit5" value="{{old('visit5', $d->visit5)}}" max="{{date('Y-m-d')}}">
                                       <small class="text-muted">31-34 weeks</small>
                                   </div>
                                   <div class="form-group">
-                                    <label for="">Visit 5 Type</label>
+                                    <label for="visit5_type">Visit 5 Type</label>
                                     <select class="form-control" name="visit5_type" id="visit5_type">
                                       <option value="" disabled {{old('visit5_type', $d->visit5_type) ? '' : 'selected'}}>Choose...</option>
                                       <option value="PUBLIC" {{old('visit5_type', $d->visit5_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -197,16 +197,16 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="">Visit 6 (Estimated)</label>
+                                    <label for="visit6_est">Visit 6 (Estimated)</label>
                                     <input type="date" class="form-control" name="visit6_est" id="visit6_est" value="{{old('visit6_est', $d->visit6_est)}}">
                                   </div>
                                   <div class="form-group">
-                                      <label for="">Visit 6 (Actual)</label>
+                                      <label for="visit6" class="font-weight-bold">Visit 6 (Actual)</label>
                                       <input type="date" class="form-control" name="visit6" id="visit6" value="{{old('visit6', $d->visit6)}}" max="{{date('Y-m-d')}}">
                                       <small class="text-muted">35 weeks</small>
                                   </div>
                                   <div class="form-group">
-                                    <label for="">Visit 6 Type</label>
+                                    <label for="visit6_type">Visit 6 Type</label>
                                     <select class="form-control" name="visit6_type" id="visit6_type">
                                       <option value="" disabled {{old('visit6_type', $d->visit6_type) ? '' : 'selected'}}>Choose...</option>
                                       <option value="PUBLIC" {{old('visit6_type', $d->visit6_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -217,16 +217,16 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="">Visit 7 (Estimated)</label>
+                                    <label for="visit7_est">Visit 7 (Estimated)</label>
                                     <input type="date" class="form-control" name="visit7_est" id="visit7_est" value="{{old('visit7_est', $d->visit7_est)}}">
                                   </div>
                                   <div class="form-group">
-                                      <label for="">Visit 7 (Actual)</label>
+                                      <label for="visit7" class="font-weight-bold">Visit 7 (Actual)</label>
                                       <input type="date" class="form-control" name="visit7" id="visit7" value="{{old('visit7', $d->visit7)}}" max="{{date('Y-m-d')}}">
                                       <small class="text-muted">36 weeks</small>
                                   </div>
                                   <div class="form-group">
-                                    <label for="">Visit 7 Type</label>
+                                    <label for="visit7_type">Visit 7 Type</label>
                                     <select class="form-control" name="visit7_type" id="visit7_type">
                                       <option value="" disabled {{old('visit7_type', $d->visit7_type) ? '' : 'selected'}}>Choose...</option>
                                       <option value="PUBLIC" {{old('visit7_type', $d->visit7_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -237,16 +237,16 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="">Visit 8 (Estimated)</label>
+                                    <label for="visit8_est">Visit 8 (Estimated)</label>
                                     <input type="date" class="form-control" name="visit8_est" id="visit8_est" value="{{old('visit8_est', $d->visit8_est)}}">
                                   </div>
                                   <div class="form-group">
-                                      <label for="">Visit 8 (Actual)</label>
+                                      <label for="visit8" class="font-weight-bold">Visit 8 (Actual)</label>
                                       <input type="date" class="form-control" name="visit8" id="visit8" value="{{old('visit8', $d->visit8)}}" max="{{date('Y-m-d')}}">
                                       <small class="text-muted">37-40 weeks</small>
                                   </div>
                                   <div class="form-group">
-                                    <label for="">Visit 8 Type</label>
+                                    <label for="visit8_type">Visit 8 Type</label>
                                     <select class="form-control" name="visit8_type" id="visit8_type">
                                       <option value="" disabled {{old('visit8_type', $d->visit8_type) ? '' : 'selected'}}>Choose...</option>
                                       <option value="PUBLIC" {{old('visit8_type', $d->visit8_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -258,8 +258,8 @@
                         </div>
                         <hr>
                         <div class="form-group">
-                            <label for="trans_remarks"><b class="text-danger">*</b>Remarks</label>
-                            <select class="form-control" name="trans_remarks" id="trans_remarks" required>
+                            <label for="trans_remarks">Remarks</label>
+                            <select class="form-control" name="trans_remarks" id="trans_remarks">
                               <option value="" {{old('trans_remarks', $d->trans_remarks) ? '' : 'selected'}}>N/A</option>
                               <option value="A" {{old('trans_remarks', $d->trans_remarks) == 'A' ? 'selected' : ''}}>Trans In</option>
                               <option value="B" {{old('trans_remarks', $d->trans_remarks) == 'B' ? 'selected' : ''}}>Trans Out before receiving 8ANC</option>
@@ -280,11 +280,11 @@
                         <div class="row justify-content-center">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="">Td1</label>
+                                    <label for="td1" class="font-weight-bold">Td1</label>
                                     <input type="date" class="form-control" name="td1" id="td1" value="{{old('td1', $d->td1)}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Td1 Type</label>
+                                    <label for="td1_type">Td1 Type</label>
                                     <select class="form-control" name="td1_type" id="td1_type">
                                       <option value="" disabled {{old('td1_type', $d->td1_type) ? '' : 'selected'}}>Choose...</option>
                                       <option value="PUBLIC" {{old('td1_type', $d->td1_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -295,11 +295,11 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="">Td2</label>
+                                    <label for="td2" class="font-weight-bold">Td2</label>
                                     <input type="date" class="form-control" name="td2" id="td2" value="{{old('td2', $d->td2)}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Td2 Type</label>
+                                    <label for="td2_type">Td2 Type</label>
                                     <select class="form-control" name="td2_type" id="td2_type">
                                       <option value="" disabled {{old('td2_type', $d->td2_type) ? '' : 'selected'}}>Choose...</option>
                                       <option value="PUBLIC" {{old('td2_type', $d->td2_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -310,11 +310,11 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="">Td3</label>
+                                    <label for="td3" class="font-weight-bold">Td3</label>
                                     <input type="date" class="form-control" name="td3" id="td3" value="{{old('td3', $d->td3)}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Td3 Type</label>
+                                    <label for="td3_type">Td3 Type</label>
                                     <select class="form-control" name="td3_type" id="td3_type">
                                       <option value="" disabled {{old('td3_type', $d->td3_type) ? '' : 'selected'}}>Choose...</option>
                                       <option value="PUBLIC" {{old('td3_type', $d->td3_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -327,11 +327,11 @@
                         <div class="row justify-content-center">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="">Td4</label>
+                                    <label for="td4" class="font-weight-bold">Td4</label>
                                     <input type="date" class="form-control" name="td4" id="td4" value="{{old('td4', $d->td4)}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Td4 Type</label>
+                                    <label for="td4_type">Td4 Type</label>
                                     <select class="form-control" name="td4_type" id="td4_type">
                                       <option value="" disabled {{old('td4_type', $d->td4_type) ? '' : 'selected'}}>Choose...</option>
                                       <option value="PUBLIC" {{old('td4_type', $d->td4_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -342,11 +342,11 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="">Td5</label>
+                                    <label for="td5" class="font-weight-bold">Td5</label>
                                     <input type="date" class="form-control" name="td5" id="td5" value="{{old('td5', $d->td5)}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Td5 Type</label>
+                                    <label for="td5_type">Td5 Type</label>
                                     <select class="form-control" name="td5_type" id="td5_type">
                                       <option value="" disabled {{old('td5_type', $d->td5_type) ? '' : 'selected'}}>Choose...</option>
                                       <option value="PUBLIC" {{old('td5_type', $d->td5_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -359,7 +359,7 @@
                     </div>
                 </div>
                 <div class="form-group mt-3">
-                    <label for="">Deworming Date</label>
+                    <label for="deworming_date" class="font-weight-bold">Deworming Date</label>
                     <input type="date" class="form-control" name="deworming_date" id="deworming_date" value="{{old('deworming_date', $d->deworming_date)}}" max="{{date('Y-m-d')}}">
                 </div>
 
@@ -369,15 +369,15 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="">1st Visit (1st tri)</label>
+                                    <label for="ifa1_date" class="font-weight-bold">1st Visit (1st tri)</label>
                                     <input type="date" class="form-control" name="ifa1_date" id="ifa1_date" value="{{old('ifa1_date', $d->ifa1_date)}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Number of tablets given</label>
+                                    <label for="ifa1_dosage">Number of tablets given</label>
                                     <input type="number" class="form-control" name="ifa1_dosage" id="ifa1_dosage" value="{{old('ifa1_dosage', $d->ifa1_dosage)}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Type</label>
+                                    <label for="ifa1_type">Type</label>
                                     <select class="form-control" name="ifa1_type" id="ifa1_type">
                                       <option value="" disabled {{old('ifa1_type', $d->ifa1_type) ? '' : 'selected'}}>Choose...</option>
                                       <option value="PUBLIC" {{old('ifa1_type', $d->ifa1_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -388,15 +388,15 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="">2nd Visit (2nd tri)</label>
+                                    <label for="ifa2_date" class="font-weight-bold">2nd Visit (2nd tri)</label>
                                     <input type="date" class="form-control" name="ifa2_date" id="ifa2_date" value="{{old('ifa2_date', $d->ifa2_date)}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Number of tablets given</label>
+                                    <label for="ifa2_dosage">Number of tablets given</label>
                                     <input type="number" class="form-control" name="ifa2_dosage" id="ifa2_dosage" value="{{old('ifa2_dosage', $d->ifa2_dosage)}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Type</label>
+                                    <label for="ifa2_type">Type</label>
                                     <select class="form-control" name="ifa2_type" id="ifa2_type">
                                       <option value="" disabled {{old('ifa2_type', $d->ifa2_type) ? '' : 'selected'}}>Choose...</option>
                                       <option value="PUBLIC" {{old('ifa2_type', $d->ifa2_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -407,15 +407,15 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="">3rd Visit (2nd tri)</label>
+                                    <label for="ifa3_date" class="font-weight-bold">3rd Visit (2nd tri)</label>
                                     <input type="date" class="form-control" name="ifa3_date" id="ifa3_date" value="{{old('ifa3_date', $d->ifa3_date)}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Number of tablets given</label>
+                                    <label for="ifa3_dosage">Number of tablets given</label>
                                     <input type="number" class="form-control" name="ifa3_dosage" id="ifa3_dosage" value="{{old('ifa3_dosage', $d->ifa3_dosage)}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Type</label>
+                                    <label for="ifa3_type">Type</label>
                                     <select class="form-control" name="ifa3_type" id="ifa3_type">
                                       <option value="" disabled {{old('ifa3_type', $d->ifa3_type) ? '' : 'selected'}}>Choose...</option>
                                       <option value="PUBLIC" {{old('ifa3_type', $d->ifa3_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -424,17 +424,20 @@
                                     </select>
                                 </div>
                             </div>
+                        </div>
+                        <hr>
+                        <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="">4th Visit (3rd tri)</label>
+                                    <label for="ifa4_date" class="font-weight-bold">4th Visit (3rd tri)</label>
                                     <input type="date" class="form-control" name="ifa4_date" id="ifa4_date" value="{{old('ifa4_date', $d->ifa4_date)}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Number of tablets given</label>
+                                    <label for="ifa4_dosage">Number of tablets given</label>
                                     <input type="number" class="form-control" name="ifa4_dosage" id="ifa4_dosage" value="{{old('ifa4_dosage', $d->ifa4_dosage)}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Type</label>
+                                    <label for="ifa4_type">Type</label>
                                     <select class="form-control" name="ifa4_type" id="ifa4_type">
                                       <option value="" disabled {{old('ifa4_type', $d->ifa4_type) ? '' : 'selected'}}>Choose...</option>
                                       <option value="PUBLIC" {{old('ifa4_type', $d->ifa4_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -445,15 +448,15 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="">5th Visit (3rd tri)</label>
+                                    <label for="ifa5_date" class="font-weight-bold">5th Visit (3rd tri)</label>
                                     <input type="date" class="form-control" name="ifa5_date" id="ifa5_date" value="{{old('ifa5_date', $d->ifa5_date)}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Number of tablets given</label>
+                                    <label for="ifa5_dosage">Number of tablets given</label>
                                     <input type="number" class="form-control" name="ifa5_dosage" id="ifa5_dosage" value="{{old('ifa5_dosage', $d->ifa5_dosage)}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Type</label>
+                                    <label for="ifa5_type">Type</label>
                                     <select class="form-control" name="ifa5_type" id="ifa5_type">
                                       <option value="" disabled {{old('ifa5_type', $d->ifa5_type) ? '' : 'selected'}}>Choose...</option>
                                       <option value="PUBLIC" {{old('ifa5_type', $d->ifa5_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -464,15 +467,15 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="">6th Visit (3rd tri)</label>
+                                    <label for="ifa6_date" class="font-weight-bold">6th Visit (3rd tri)</label>
                                     <input type="date" class="form-control" name="ifa6_date" id="ifa6_date" value="{{old('ifa6_date', $d->ifa6_date)}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Number of tablets given</label>
+                                    <label for="ifa6_dosage">Number of tablets given</label>
                                     <input type="number" class="form-control" name="ifa6_dosage" id="ifa6_dosage" value="{{old('ifa6_dosage', $d->ifa6_dosage)}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Type</label>
+                                    <label for="ifa6_type">Type</label>
                                     <select class="form-control" name="ifa6_type" id="ifa6_type">
                                       <option value="" disabled {{old('ifa6_type', $d->ifa6_type) ? '' : 'selected'}}>Choose...</option>
                                       <option value="PUBLIC" {{old('ifa6_type', $d->ifa6_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -491,15 +494,15 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="">1st Visit (1st tri)</label>
+                                    <label for="mms1_date" class="font-weight-bold">1st Visit (1st tri)</label>
                                     <input type="date" class="form-control" name="mms1_date" id="mms1_date" value="{{old('mms1_date', $d->mms1_date)}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Number of tablets given</label>
+                                    <label for="mms1_dosage">Number of tablets given</label>
                                     <input type="number" class="form-control" name="mms1_dosage" id="mms1_dosage" value="{{old('mms1_dosage', $d->mms1_dosage)}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Type</label>
+                                    <label for="mms1_type">Type</label>
                                     <select class="form-control" name="mms1_type" id="mms1_type">
                                       <option value="" disabled {{old('mms1_type', $d->mms1_type) ? '' : 'selected'}}>Choose...</option>
                                       <option value="PUBLIC" {{old('mms1_type', $d->mms1_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -510,15 +513,15 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="">2nd Visit (2nd tri)</label>
+                                    <label for="mms2_date" class="font-weight-bold">2nd Visit (2nd tri)</label>
                                     <input type="date" class="form-control" name="mms2_date" id="mms2_date" value="{{old('mms2_date', $d->mms2_date)}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Number of tablets given</label>
+                                    <label for="mms2_dosage">Number of tablets given</label>
                                     <input type="number" class="form-control" name="mms2_dosage" id="mms2_dosage" value="{{old('mms2_dosage', $d->mms2_dosage)}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Type</label>
+                                    <label for="mms2_type">Type</label>
                                     <select class="form-control" name="mms2_type" id="mms2_type">
                                       <option value="" disabled {{old('mms2_type', $d->mms2_type) ? '' : 'selected'}}>Choose...</option>
                                       <option value="PUBLIC" {{old('mms2_type', $d->mms2_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -529,15 +532,15 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="">3rd Visit (2nd tri)</label>
+                                    <label for="mms3_date" class="font-weight-bold">3rd Visit (2nd tri)</label>
                                     <input type="date" class="form-control" name="mms3_date" id="mms3_date" value="{{old('mms3_date', $d->mms3_date)}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Number of tablets given</label>
+                                    <label for="mms3_dosage">Number of tablets given</label>
                                     <input type="number" class="form-control" name="mms3_dosage" id="mms3_dosage" value="{{old('mms3_dosage', $d->mms3_dosage)}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Type</label>
+                                    <label for="mms3_type">Type</label>
                                     <select class="form-control" name="mms3_type" id="mms3_type">
                                       <option value="" disabled {{old('mms3_type', $d->mms3_type) ? '' : 'selected'}}>Choose...</option>
                                       <option value="PUBLIC" {{old('mms3_type', $d->mms3_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -546,17 +549,20 @@
                                     </select>
                                 </div>
                             </div>
+                        </div>
+                        <hr>
+                        <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="">4th Visit (3rd tri)</label>
+                                    <label for="mms4_date" class="font-weight-bold">4th Visit (3rd tri)</label>
                                     <input type="date" class="form-control" name="mms4_date" id="mms4_date" value="{{old('mms4_date', $d->mms4_date)}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Number of tablets given</label>
+                                    <label for="mms4_dosage">Number of tablets given</label>
                                     <input type="number" class="form-control" name="mms4_dosage" id="mms4_dosage" value="{{old('mms4_dosage', $d->mms4_dosage)}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Type</label>
+                                    <label for="mms4_type">Type</label>
                                     <select class="form-control" name="mms4_type" id="mms4_type">
                                       <option value="" disabled {{old('mms4_type', $d->mms4_type) ? '' : 'selected'}}>Choose...</option>
                                       <option value="PUBLIC" {{old('mms4_type', $d->mms4_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -567,15 +573,15 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="">5th Visit (3rd tri)</label>
+                                    <label for="mms5_date" class="font-weight-bold">5th Visit (3rd tri)</label>
                                     <input type="date" class="form-control" name="mms5_date" id="mms5_date" value="{{old('mms5_date', $d->mms5_date)}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Number of tablets given</label>
+                                    <label for="mms5_dosage">Number of tablets given</label>
                                     <input type="number" class="form-control" name="mms5_dosage" id="mms5_dosage" value="{{old('mms5_dosage', $d->mms5_dosage)}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Type</label>
+                                    <label for="mms5_type">Type</label>
                                     <select class="form-control" name="mms5_type" id="mms5_type">
                                       <option value="" disabled {{old('mms5_type', $d->mms5_type) ? '' : 'selected'}}>Choose...</option>
                                       <option value="PUBLIC" {{old('mms5_type', $d->mms5_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -586,15 +592,15 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="">6th Visit (3rd tri)</label>
+                                    <label for="mms6_date" class="font-weight-bold">6th Visit (3rd tri)</label>
                                     <input type="date" class="form-control" name="mms6_date" id="mms6_date" value="{{old('mms6_date', $d->mms6_date)}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Number of tablets given</label>
+                                    <label for="mms6_dosage">Number of tablets given</label>
                                     <input type="number" class="form-control" name="mms6_dosage" id="mms6_dosage" value="{{old('mms6_dosage', $d->mms6_dosage)}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Type</label>
+                                    <label for="mms6_type">Type</label>
                                     <select class="form-control" name="mms6_type" id="mms6_type">
                                       <option value="" disabled {{old('mms6_type', $d->mms6_type) ? '' : 'selected'}}>Choose...</option>
                                       <option value="PUBLIC" {{old('mms6_type', $d->mms6_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -618,15 +624,15 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="">2nd Visit (2nd tri)</label>
+                                    <label for="calcium1_date">2nd Visit (2nd tri)</label>
                                     <input type="date" class="form-control" name="calcium1_date" id="calcium1_date" value="{{old('calcium1_date', $d->calcium1_date)}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Number of tablets given</label>
+                                    <label for="calcium1_dosage">Number of tablets given</label>
                                     <input type="number" class="form-control" name="calcium1_dosage" id="calcium1_dosage" value="{{old('calcium1_dosage', $d->calcium1_dosage)}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Type</label>
+                                    <label for="calcium1_type">Type</label>
                                     <select class="form-control" name="calcium1_type" id="calcium1_type">
                                       <option value="" disabled {{old('calcium1_type', $d->calcium1_type) ? '' : 'selected'}}>Choose...</option>
                                       <option value="PUBLIC" {{old('calcium1_type', $d->calcium1_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -637,15 +643,15 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="">3rd Visit (3rd tri)</label>
+                                    <label for="calcium2_date">3rd Visit (3rd tri)</label>
                                     <input type="date" class="form-control" name="calcium2_date" id="calcium2_date" value="{{old('calcium2_date', $d->calcium2_date)}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Number of tablets given</label>
+                                    <label for="calcium2_dosage">Number of tablets given</label>
                                     <input type="number" class="form-control" name="calcium2_dosage" id="calcium2_dosage" value="{{old('calcium2_dosage', $d->calcium2_dosage)}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Type</label>
+                                    <label for="calcium2_type">Type</label>
                                     <select class="form-control" name="calcium2_type" id="calcium2_type">
                                       <option value="" disabled {{old('calcium2_type', $d->calcium2_type) ? '' : 'selected'}}>Choose...</option>
                                       <option value="PUBLIC" {{old('calcium2_type', $d->calcium2_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -656,15 +662,15 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="">4th Visit (3rd tri)</label>
+                                    <label for="calcium3_date">4th Visit (3rd tri)</label>
                                     <input type="date" class="form-control" name="calcium3_date" id="calcium3_date" value="{{old('calcium3_date', $d->calcium3_date)}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Number of tablets given</label>
+                                    <label for="calcium3_dosage">Number of tablets given</label>
                                     <input type="number" class="form-control" name="calcium3_dosage" id="calcium3_dosage" value="{{old('calcium3_dosage', $d->calcium3_dosage)}}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Type</label>
+                                    <label for="calcium3_type">Type</label>
                                     <select class="form-control" name="calcium3_type" id="calcium3_type">
                                       <option value="" disabled {{old('calcium3_type', $d->calcium3_type) ? '' : 'selected'}}>Choose...</option>
                                       <option value="PUBLIC" {{old('calcium3_type', $d->calcium3_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -697,7 +703,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="">HIV</label>
+                                    <label for="">HIV Date Screened</label>
                                     <input type="date" class="form-control" name="hiv_date" id="hiv_date" value="{{old('hiv_date', $d->hiv_date)}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="form-group">
@@ -711,7 +717,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="">Hepatitis B</label>
+                                    <label for="">Hepatitis B Date Screened</label>
                                     <input type="date" class="form-control" name="hb_date" id="hb_date" value="{{old('hb_date', $d->hb_date)}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="form-group">
@@ -725,7 +731,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="">CBC/Hgb&Hct Count</label>
+                                    <label for="">CBC/Hgb&Hct Date Screened</label>
                                     <input type="date" class="form-control" name="cbc_date" id="cbc_date" value="{{old('cbc_date', $d->cbc_date)}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="form-group">
@@ -739,7 +745,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="">Gestational Diabetes Mellitus</label>
+                                    <label for="">Gestational Diabetes Mellitus Date Screened</label>
                                     <input type="date" class="form-control" name="diabetes_date" id="diabetes_date" value="{{old('diabetes_date', $d->diabetes_date)}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="form-group">
@@ -766,7 +772,7 @@
                     </select>
                 </div>
 
-                <div class="row mt-3 d-none" id="outcome_div">
+                <div class="row mt-3 d-none" id="delivery_div">
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for=""><b class="text-danger">*</b>Date and Time of Delivery</label>
@@ -991,34 +997,202 @@
 
         $('#visit1').on('change', function () {
             $('#visit1_type').prop('required', !!$(this).val());
+            $('#visit2').prop('min', $(this).val());
         }).trigger('change');
 
         $('#visit2').on('change', function () {
             $('#visit2_type').prop('required', !!$(this).val());
+            $('#visit3').prop('min', $(this).val());
         }).trigger('change');
 
         $('#visit3').on('change', function () {
             $('#visit3_type').prop('required', !!$(this).val());
+            $('#visit4').prop('min', $(this).val());
         }).trigger('change');
 
         $('#visit4').on('change', function () {
             $('#visit4_type').prop('required', !!$(this).val());
+            $('#visit5').prop('min', $(this).val());
         }).trigger('change');
 
         $('#visit5').on('change', function () {
             $('#visit5_type').prop('required', !!$(this).val());
+            $('#visit6').prop('min', $(this).val());
         }).trigger('change');
 
         $('#visit6').on('change', function () {
             $('#visit6_type').prop('required', !!$(this).val());
+            $('#visit7').prop('min', $(this).val());
         }).trigger('change');
 
         $('#visit7').on('change', function () {
             $('#visit7_type').prop('required', !!$(this).val());
+            $('#visit8').prop('min', $(this).val());
         }).trigger('change');
 
         $('#visit8').on('change', function () {
             $('#visit8_type').prop('required', !!$(this).val());
+        }).trigger('change');
+
+        $('#td1').on('change', function () {
+            $('#td1_type').prop('required', !!$(this).val());
+            $('#td2').prop('min', $(this).val());
+        }).trigger('change');
+
+        $('#td2').on('change', function () {
+            $('#td2_type').prop('required', !!$(this).val());
+            $('#td3').prop('min', $(this).val());
+        }).trigger('change');
+
+        $('#td3').on('change', function () {
+            $('#td3_type').prop('required', !!$(this).val());
+            $('#td4').prop('min', $(this).val());
+        }).trigger('change');
+
+        $('#td4').on('change', function () {
+            $('#td4_type').prop('required', !!$(this).val());
+            $('#td5').prop('min', $(this).val());
+        }).trigger('change');
+
+        $('#td5').on('change', function () {
+            $('#td5_type').prop('required', !!$(this).val());
+        }).trigger('change');
+
+        $('#ifa1_date').on('change', function () {
+            $('#ifa1_dosage').prop('required', !!$(this).val());
+            $('#ifa1_type').prop('required', !!$(this).val());
+
+            $('#ifa2_date').prop('min', $(this).val());
+        }).trigger('change');
+
+        $('#ifa2_date').on('change', function () {
+            $('#ifa2_dosage').prop('required', !!$(this).val());
+            $('#ifa2_type').prop('required', !!$(this).val());
+
+            $('#ifa3_date').prop('min', $(this).val());
+        }).trigger('change');
+
+        $('#ifa3_date').on('change', function () {
+            $('#ifa3_dosage').prop('required', !!$(this).val());
+            $('#ifa3_type').prop('required', !!$(this).val());
+
+            $('#ifa4_date').prop('min', $(this).val());
+        }).trigger('change');
+
+        $('#ifa4_date').on('change', function () {
+            $('#ifa4_dosage').prop('required', !!$(this).val());
+            $('#ifa4_type').prop('required', !!$(this).val());
+
+            $('#ifa5_date').prop('min', $(this).val());
+        }).trigger('change');
+
+        $('#ifa5_date').on('change', function () {
+            $('#ifa5_dosage').prop('required', !!$(this).val());
+            $('#ifa5_type').prop('required', !!$(this).val());
+
+            $('#ifa6_date').prop('min', $(this).val());
+        }).trigger('change');
+
+        $('#ifa6_date').on('change', function () {
+            $('#ifa6_dosage').prop('required', !!$(this).val());
+            $('#ifa6_type').prop('required', !!$(this).val());
+        }).trigger('change');
+
+        $('#mms1_date').on('change', function () {
+            $('#mms1_dosage').prop('required', !!$(this).val());
+            $('#mms1_type').prop('required', !!$(this).val());
+
+            $('#mms2_date').prop('min', $(this).val());
+        }).trigger('change');
+
+        $('#mms2_date').on('change', function () {
+            $('#mms2_dosage').prop('required', !!$(this).val());
+            $('#mms2_type').prop('required', !!$(this).val());
+
+            $('#mms3_date').prop('min', $(this).val());
+        }).trigger('change');
+
+        $('#mms3_date').on('change', function () {
+            $('#mms3_dosage').prop('required', !!$(this).val());
+            $('#mms3_type').prop('required', !!$(this).val());
+
+            $('#mms4_date').prop('min', $(this).val());
+        }).trigger('change');
+
+        $('#mms4_date').on('change', function () {
+            $('#mms4_dosage').prop('required', !!$(this).val());
+            $('#mms4_type').prop('required', !!$(this).val());
+
+            $('#mms5_date').prop('min', $(this).val());
+        }).trigger('change');
+
+        $('#mms5_date').on('change', function () {
+            $('#mms5_dosage').prop('required', !!$(this).val());
+            $('#mms5_type').prop('required', !!$(this).val());
+
+            $('#mms6_date').prop('min', $(this).val());
+        }).trigger('change');
+
+        $('#mms6_date').on('change', function () {
+            $('#mms6_dosage').prop('required', !!$(this).val());
+            $('#mms6_type').prop('required', !!$(this).val());
+        }).trigger('change');
+
+        $('#calcium1_date').on('change', function () {
+            if($('#highrisk').val() == 'Y') {
+                $('#calcium1_dosage').prop('required', !!$(this).val());
+                $('#calcium1_type').prop('required', !!$(this).val());
+
+                $('#calcium2_date').prop('min', $(this).val());
+            }
+            else {
+                $('#calcium1_dosage').prop('required', false);
+                $('#calcium1_type').prop('required', false);
+            }
+        }).trigger('change');
+
+        $('#calcium2_date').on('change', function () {
+            if($('#highrisk').val() == 'Y') {
+                $('#calcium2_dosage').prop('required', !!$(this).val());
+                $('#calcium2_type').prop('required', !!$(this).val());
+
+                $('#calcium3_date').prop('min', $(this).val());
+            }
+            else {
+                $('#calcium2_dosage').prop('required', false);
+                $('#calcium2_type').prop('required', false);
+            }
+        }).trigger('change');
+
+        $('#calcium3_date').on('change', function () {
+            if($('#highrisk').val() == 'Y') {
+                $('#calcium3_dosage').prop('required', !!$(this).val());
+                $('#calcium3_type').prop('required', !!$(this).val());
+            }
+            else {
+                $('#calcium3_dosage').prop('required', false);
+                $('#calcium3_type').prop('required', false);
+            }
+        }).trigger('change');
+
+        $('#syphilis_date').on('change', function () {
+            $('#syphilis_result').prop('required', !!$(this).val());
+        }).trigger('change');
+
+        $('#hiv_date').on('change', function () {
+            $('#hiv_result').prop('required', !!$(this).val());
+        }).trigger('change');
+
+        $('#hb_date').on('change', function () {
+            $('#hb_result').prop('required', !!$(this).val());
+        }).trigger('change');
+
+        $('#cbc_date').on('change', function () {
+            $('#cbc_result').prop('required', !!$(this).val());
+        }).trigger('change');
+
+        $('#diabetes_date').on('change', function () {
+            $('#diabetes_result').prop('required', !!$(this).val());
         }).trigger('change');
 
         $('#highrisk').change(function (e) { 
@@ -1033,7 +1207,7 @@
 
         $('#outcome').change(function (e) { 
             e.preventDefault();
-            $('#outcome_div').addClass('d-none');
+            $('#delivery_div').addClass('d-none');
             $('#delivery_date').prop('required', false);
             $('#delivery_type').prop('required', false);
             $('#facility_type').prop('required', false);
@@ -1042,10 +1216,9 @@
             $('#number_livebirths').prop('required', false);
 
             $('.postnatal_div').hide();
-            $('#pp_remarks').prop('required', false);
 
             if($(this).val() == 'FT' || $(this).val() == 'PT' || $(this).val() == 'FD' || $(this).val() == 'AB') {
-                $('#outcome_div').removeClass('d-none');
+                $('#delivery_div').removeClass('d-none');
                 $('#delivery_date').prop('required', true);
                 $('#delivery_type').prop('required', true);
                 $('#facility_type').prop('required', true);
@@ -1053,7 +1226,6 @@
                 $('#number_livebirths').prop('required', true);
 
                 $('.postnatal_div').show();
-                $('#pp_remarks').prop('required', true);
             }
 
             if($(this).val() == 'AB' || $(this).val() == 'FD') {
@@ -1110,7 +1282,7 @@
                 $('#outcome').val('');
                 $('#outcome').trigger('change');
             }
-            else if($(this).val() == 'A') {
+            else if($(this).val() == 'A' || $(this).val() == '') {
                 $('#outcome_div').removeClass('d-none');
             }
         }).trigger('change');

@@ -237,7 +237,7 @@ class ElectronicTclController extends Controller
             ];
         }
 
-        if(!is_null($r->outcome) && $r->trans_remarks == 'A') {
+        if(!is_null($r->outcome) && $r->trans_remarks != 'B') {
             $table_params = $table_params + [
                 'outcome' => $r->outcome,
                 'number_livebirths' => $r->number_livebirths,
@@ -248,7 +248,7 @@ class ElectronicTclController extends Controller
                 'birth_weight' => $r->birth_weight,
 
                 'facility_type' => $r->facility_type,
-                'place_of_delivery' => ($r->facility_type == 'PUBLIC' || $r->facility_type == 'PRIVATE') ? $r->place_of_delivery : null,
+                'place_of_delivery' => ($r->facility_type == 'PUBLIC' || $r->facility_type == 'PRIVATE') ? mb_strtoupper($r->place_of_delivery) : null,
                 'bcemoncapable' => $r->bcemoncapable,
                 'attendant' => $r->attendant,
 
@@ -274,7 +274,7 @@ class ElectronicTclController extends Controller
 
         $c = InhouseMaternalCare::create($table_params);
         
-        $d = InhouseChildCare::findOrFail($c->id);
+        $d = InhouseMaternalCare::findOrFail($c->id);
         $d->runIndicatorUpdate();
         $d->save();
 
@@ -497,9 +497,7 @@ class ElectronicTclController extends Controller
             ];
         }
 
-        
-
-        if(!is_null($r->outcome)) {
+        if(!is_null($r->outcome) && $r->trans_remarks != 'B') {
             if(!is_null($r->birth_weight)) {
                 if($r->birth_weight < 2500) {
                     $weight_status = 'L'; //Low Birth Weight
@@ -523,7 +521,7 @@ class ElectronicTclController extends Controller
                 'weight_status' => $weight_status,
 
                 'facility_type' => $r->facility_type,
-                'place_of_delivery' => ($r->facility_type == 'PUBLIC' || $r->facility_type == 'PRIVATE') ? $r->place_of_delivery : null,
+                'place_of_delivery' => ($r->facility_type == 'PUBLIC' || $r->facility_type == 'PRIVATE') ? mb_strtoupper($r->place_of_delivery) : null,
                 'bcemoncapable' => $r->bcemoncapable,
                 'attendant' => $r->attendant,
 
