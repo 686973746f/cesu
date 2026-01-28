@@ -268,6 +268,7 @@ class ElectronicTclController extends Controller
 
                 'vita' => $r->vita,
                 'pp_remarks' => $r->pp_remarks,
+                'pp_transout_date' => ($r->pp_remarks == 'B') ? $r->pp_transout_date : NULL,
             ];
         }
 
@@ -542,6 +543,7 @@ class ElectronicTclController extends Controller
 
                 'vita' => $r->vita,
                 'pp_remarks' => $r->pp_remarks,
+                'pp_transout_date' => ($r->pp_remarks == 'B') ? $r->pp_transout_date : NULL,
             ];
         }
 
@@ -616,7 +618,24 @@ class ElectronicTclController extends Controller
         $sheet->setCellValue('D4', "Name of Municipality/City: ".auth()->user()->tclbhs->address_muncity);
         $sheet->setCellValue('D5', "Name of Province: ".auth()->user()->tclbhs->address_province);
 
-        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        if(auth()->user()->isMasterAdminEtcl()) {
+            if($r->filter_type == 'BHS') {
+                $base_qry = InhouseMaternalCare::where('enabled', 'Y')
+                ->where('facility_id', $r->selected_bhs_id);
+            }
+            else {
+                $base_qry = InhouseMaternalCare::where('enabled', 'Y')
+                ->whereHas('facility.brgy', function($q) use ($r) {
+                    $q->where('id', $r->selected_brgy_id);
+                });
+            }
+        }
+        else {
+            $base_qry = InhouseMaternalCare::where('enabled', 'Y')
+            ->where('facility_id', auth()->user()->etcl_bhs_id);
+        }
+
+        $qry = (clone $base_qry)
         ->whereYear('delivery_date', $r->year)
         ->whereMonth('delivery_date', $r->month)
         ->whereNotNull('visit4');
@@ -625,7 +644,7 @@ class ElectronicTclController extends Controller
         $sheet->setCellValue('C39', (clone $qry)->where('age_group', 'B')->count());
         $sheet->setCellValue('D39', (clone $qry)->where('age_group', 'C')->count());
 
-        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        $qry = (clone $base_qry)
         ->whereYear('delivery_date', $r->year)
         ->whereMonth('delivery_date', $r->month)
         ->whereNotNull('visit8');
@@ -634,7 +653,7 @@ class ElectronicTclController extends Controller
         $sheet->setCellValue('C40', (clone $qry)->where('age_group', 'B')->count());
         $sheet->setCellValue('D40', (clone $qry)->where('age_group', 'C')->count());
 
-        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        $qry = (clone $base_qry)
         ->whereYear('delivery_date', $r->year)
         ->whereMonth('delivery_date', $r->month)
         ->whereNotNull('visit8')
@@ -659,7 +678,7 @@ class ElectronicTclController extends Controller
         $sheet->setCellValue('C46', $c41_value);
         $sheet->setCellValue('D46', $d41_value);
 
-        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        $qry = (clone $base_qry)
         ->whereYear('delivery_date', $r->year)
         ->whereMonth('delivery_date', $r->month)
         ->whereNotNull('visit8')
@@ -669,7 +688,7 @@ class ElectronicTclController extends Controller
         $sheet->setCellValue('C42', (clone $qry)->where('age_group', 'B')->count());
         $sheet->setCellValue('D42', (clone $qry)->where('age_group', 'C')->count());
 
-        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        $qry = (clone $base_qry)
         ->where('gravida', '>=', 2)
         ->where('td_lastdose_count', '>=', 3)
         ->whereYear('td_lastdose_date', $r->year)
@@ -679,7 +698,7 @@ class ElectronicTclController extends Controller
         $sheet->setCellValue('R39', (clone $qry)->where('age_group', 'B')->count());
         $sheet->setCellValue('S39', (clone $qry)->where('age_group', 'C')->count());
 
-        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        $qry = (clone $base_qry)
         ->whereNotNull('ifa6_date')
         ->whereYear('ifa6_date', $r->year)
         ->whereMonth('ifa6_date', $r->month);
@@ -688,7 +707,7 @@ class ElectronicTclController extends Controller
         $sheet->setCellValue('R40', (clone $qry)->where('age_group', 'B')->count());
         $sheet->setCellValue('S40', (clone $qry)->where('age_group', 'C')->count());
 
-        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        $qry = (clone $base_qry)
         ->whereNotNull('mms6_date')
         ->whereYear('mms6_date', $r->year)
         ->whereMonth('mms6_date', $r->month);
@@ -697,7 +716,7 @@ class ElectronicTclController extends Controller
         $sheet->setCellValue('R41', (clone $qry)->where('age_group', 'B')->count());
         $sheet->setCellValue('S41', (clone $qry)->where('age_group', 'C')->count());
 
-        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        $qry = (clone $base_qry)
         ->where('highrisk', 'Y')
         ->whereNotNull('calcium3_date')
         ->whereYear('calcium3_date', $r->year)
@@ -707,7 +726,7 @@ class ElectronicTclController extends Controller
         $sheet->setCellValue('R42', (clone $qry)->where('age_group', 'B')->count());
         $sheet->setCellValue('S42', (clone $qry)->where('age_group', 'C')->count());
 
-        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        $qry = (clone $base_qry)
         ->whereNotNull('deworming_date')
         ->whereYear('deworming_date', $r->year)
         ->whereMonth('deworming_date', $r->month);
@@ -716,7 +735,7 @@ class ElectronicTclController extends Controller
         $sheet->setCellValue('R43', (clone $qry)->where('age_group', 'B')->count());
         $sheet->setCellValue('S43', (clone $qry)->where('age_group', 'C')->count());
         
-        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        $qry = (clone $base_qry)
         ->whereNotNull('delivery_date')
         ->whereYear('delivery_date', $r->year)
         ->whereMonth('delivery_date', $r->month)
@@ -726,9 +745,9 @@ class ElectronicTclController extends Controller
         $sheet->setCellValue('C47', (clone $qry)->where('age_group', 'B')->count());
         $sheet->setCellValue('D47', (clone $qry)->where('age_group', 'C')->count());
 
-        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        $qry = (clone $base_qry)
         ->where('trans_remarks', 'B')
-        ->whereIsNull('visit8')
+        ->whereNull('visit8')
         ->whereNotNull('transout_date')
         ->whereYear('transout_date', $r->year)
         ->whereMonth('transout_date', $r->month);
@@ -737,7 +756,7 @@ class ElectronicTclController extends Controller
         $sheet->setCellValue('C48', (clone $qry)->where('age_group', 'B')->count());
         $sheet->setCellValue('D48', (clone $qry)->where('age_group', 'C')->count());
 
-        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        $qry = (clone $base_qry)
         ->whereNotNull('visit1')
         ->whereYear('visit1', $r->year)
         ->whereMonth('visit1', $r->month);
@@ -754,7 +773,7 @@ class ElectronicTclController extends Controller
         $sheet->setCellValue('C51', (clone $qry)->where('nutritional_assessment', 'H')->where('age_group', 'B')->count());
         $sheet->setCellValue('D51', (clone $qry)->where('nutritional_assessment', 'H')->where('age_group', 'C')->count());
 
-        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        $qry = (clone $base_qry)
         ->where('gravida', 1)
         ->where('td_lastdose_count', '>=', 2)
         ->whereYear('td_lastdose_date', $r->year)
@@ -764,7 +783,7 @@ class ElectronicTclController extends Controller
         $sheet->setCellValue('C52', (clone $qry)->where('age_group', 'B')->count());
         $sheet->setCellValue('D52', (clone $qry)->where('age_group', 'C')->count());
 
-        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        $qry = (clone $base_qry)
         ->whereNotNull('hb_date')
         ->whereYear('hb_date', $r->year)
         ->whereMonth('hb_date', $r->month);
@@ -777,7 +796,7 @@ class ElectronicTclController extends Controller
         $sheet->setCellValue('R47', (clone $qry)->where('hb_result', 1)->where('age_group', 'B')->count());
         $sheet->setCellValue('S47', (clone $qry)->where('hb_result', 1)->where('age_group', 'C')->count());
 
-        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        $qry = (clone $base_qry)
         ->whereNotNull('cbc_date')
         ->whereYear('cbc_date', $r->year)
         ->whereMonth('cbc_date', $r->month);
@@ -790,7 +809,7 @@ class ElectronicTclController extends Controller
         $sheet->setCellValue('R49', (clone $qry)->where('cbc_result', 1)->where('age_group', 'B')->count());
         $sheet->setCellValue('S49', (clone $qry)->where('cbc_result', 1)->where('age_group', 'C')->count());
 
-        $qry = InhouseMaternalCare::where('enabled', 'Y')
+        $qry = (clone $base_qry)
         ->whereNotNull('diabetes_date')
         ->whereYear('diabetes_date', $r->year)
         ->whereMonth('diabetes_date', $r->month);
@@ -803,8 +822,7 @@ class ElectronicTclController extends Controller
         $sheet->setCellValue('R51', (clone $qry)->where('diabetes_result', 1)->where('age_group', 'B')->count());
         $sheet->setCellValue('S51', (clone $qry)->where('diabetes_result', 1)->where('age_group', 'C')->count());
 
-        $qry = InhouseMaternalCare::where('enabled', 'Y')
-        ->where('trans_remarks', 'A')
+        $qry = (clone $base_qry)
         ->whereNotNull('outcome')
         ->whereNotNull('delivery_date')
         ->whereYear('delivery_date', $r->year)
@@ -830,21 +848,21 @@ class ElectronicTclController extends Controller
         $sheet->setCellValue('C60', (clone $qry)->where('weight_status', 'U')->where('age_group', 'B')->count());
         $sheet->setCellValue('D60', (clone $qry)->where('weight_status', 'U')->where('age_group', 'C')->count());
 
-        $sheet->setCellValue('B56', (clone $qry)->where('attendant', '!=', 'O')->where('age_group', 'A')->count());
-        $sheet->setCellValue('C56', (clone $qry)->where('attendant', '!=', 'O')->where('age_group', 'B')->count());
-        $sheet->setCellValue('D56', (clone $qry)->where('attendant', '!=', 'O')->where('age_group', 'C')->count());
+        $sheet->setCellValue('B61', (clone $qry)->where('attendant', '!=', 'O')->where('age_group', 'A')->count());
+        $sheet->setCellValue('C61', (clone $qry)->where('attendant', '!=', 'O')->where('age_group', 'B')->count());
+        $sheet->setCellValue('D61', (clone $qry)->where('attendant', '!=', 'O')->where('age_group', 'C')->count());
 
-        $sheet->setCellValue('B57', (clone $qry)->where('attendant', 'MD')->where('age_group', 'A')->count());
-        $sheet->setCellValue('C57', (clone $qry)->where('attendant', 'MD')->where('age_group', 'B')->count());
-        $sheet->setCellValue('D57', (clone $qry)->where('attendant', 'MD')->where('age_group', 'C')->count());
+        $sheet->setCellValue('B63', (clone $qry)->where('attendant', 'MD')->where('age_group', 'A')->count());
+        $sheet->setCellValue('C63', (clone $qry)->where('attendant', 'MD')->where('age_group', 'B')->count());
+        $sheet->setCellValue('D63', (clone $qry)->where('attendant', 'MD')->where('age_group', 'C')->count());
 
-        $sheet->setCellValue('B58', (clone $qry)->where('attendant', 'RN')->where('age_group', 'A')->count());
-        $sheet->setCellValue('C58', (clone $qry)->where('attendant', 'RN')->where('age_group', 'B')->count());
-        $sheet->setCellValue('D58', (clone $qry)->where('attendant', 'RN')->where('age_group', 'C')->count());
+        $sheet->setCellValue('B64', (clone $qry)->where('attendant', 'RN')->where('age_group', 'A')->count());
+        $sheet->setCellValue('C64', (clone $qry)->where('attendant', 'RN')->where('age_group', 'B')->count());
+        $sheet->setCellValue('D64', (clone $qry)->where('attendant', 'RN')->where('age_group', 'C')->count());
 
-        $sheet->setCellValue('B59', (clone $qry)->where('attendant', 'MW')->where('age_group', 'A')->count());
-        $sheet->setCellValue('C59', (clone $qry)->where('attendant', 'MW')->where('age_group', 'B')->count());
-        $sheet->setCellValue('D59', (clone $qry)->where('attendant', 'MW')->where('age_group', 'C')->count());
+        $sheet->setCellValue('B65', (clone $qry)->where('attendant', 'MW')->where('age_group', 'A')->count());
+        $sheet->setCellValue('C65', (clone $qry)->where('attendant', 'MW')->where('age_group', 'B')->count());
+        $sheet->setCellValue('D65', (clone $qry)->where('attendant', 'MW')->where('age_group', 'C')->count());
 
         $sheet->setCellValue('Q57', (clone $qry)->where('facility_type', 'PUBLIC')->where('age_group', 'A')->count());
         $sheet->setCellValue('R57', (clone $qry)->where('facility_type', 'PUBLIC')->where('age_group', 'B')->count());
@@ -882,8 +900,7 @@ class ElectronicTclController extends Controller
         $sheet->setCellValue('R65', (clone $qry)->where('outcome', 'AB')->where('age_group', 'B')->count());
         $sheet->setCellValue('S65', (clone $qry)->where('outcome', 'AB')->where('age_group', 'C')->count());
 
-        $qry = InhouseMaternalCare::where('enabled', 'Y')
-        ->where('trans_remarks', 'A')
+        $qry = (clone $base_qry)
         ->whereNotNull('outcome')
         ->whereNotNull('pnc2')
         ->whereYear('pnc2', $r->year)
@@ -893,8 +910,21 @@ class ElectronicTclController extends Controller
         $sheet->setCellValue('C69', (clone $qry)->where('age_group', 'B')->count());
         $sheet->setCellValue('D69', (clone $qry)->where('age_group', 'C')->count());
 
-        $qry = InhouseMaternalCare::where('enabled', 'Y')
-        ->where('trans_remarks', 'A')
+        $qry = (clone $base_qry)
+        ->whereNotNull('outcome')
+        ->whereNull('pp_remarks')
+        ->whereYear('pnc4', $r->year)
+        ->whereMonth('pnc4', $r->month);
+
+        $sheet->setCellValue('B71', (clone $qry)->where('age_group', 'A')->count());
+        $sheet->setCellValue('C71', (clone $qry)->where('age_group', 'B')->count());
+        $sheet->setCellValue('D71', (clone $qry)->where('age_group', 'C')->count());
+
+        $sheet->setCellValue('B72', (clone $qry)->where('pp_remarks', 'A')->where('age_group', 'A')->count());
+        $sheet->setCellValue('C72', (clone $qry)->where('pp_remarks', 'A')->where('age_group', 'B')->count());
+        $sheet->setCellValue('D72', (clone $qry)->where('pp_remarks', 'A')->where('age_group', 'C')->count());
+
+        $qry = (clone $base_qry)
         ->whereNotNull('outcome')
         ->whereNotNull('pp_td3')
         ->whereYear('pp_td3', $r->year)
@@ -904,8 +934,7 @@ class ElectronicTclController extends Controller
         $sheet->setCellValue('R69', (clone $qry)->where('age_group', 'B')->count());
         $sheet->setCellValue('S69', (clone $qry)->where('age_group', 'C')->count());
 
-        $qry = InhouseMaternalCare::where('enabled', 'Y')
-        ->where('trans_remarks', 'A')
+        $qry = (clone $base_qry)
         ->whereNotNull('outcome')
         ->whereNotNull('vita')
         ->whereYear('vita', $r->year)
@@ -915,7 +944,27 @@ class ElectronicTclController extends Controller
         $sheet->setCellValue('R70', (clone $qry)->where('age_group', 'B')->count());
         $sheet->setCellValue('S70', (clone $qry)->where('age_group', 'C')->count());
 
-        $fileName = 'M1_TEST.xlsx';
+        $qry = (clone $base_qry)
+        ->whereNotNull('outcome')
+        ->where('pp_remarks', 'A')
+        ->whereYear('registration_date', $r->year)
+        ->whereMonth('registration_date', $r->month);
+
+        $sheet->setCellValue('B80', (clone $qry)->where('age_group', 'A')->count());
+        $sheet->setCellValue('C80', (clone $qry)->where('age_group', 'B')->count());
+        $sheet->setCellValue('D80', (clone $qry)->where('age_group', 'C')->count());
+
+        $qry = (clone $base_qry)
+        ->whereNotNull('outcome')
+        ->where('pp_remarks', 'B')
+        ->whereYear('pp_transout_date', $r->year)
+        ->whereMonth('pp_transout_date', $r->month);
+
+        $sheet->setCellValue('B81', (clone $qry)->where('age_group', 'A')->count());
+        $sheet->setCellValue('C81', (clone $qry)->where('age_group', 'B')->count());
+        $sheet->setCellValue('D81', (clone $qry)->where('age_group', 'C')->count());
+
+        $fileName = "FHSIS_M1_".$r->year."_".$r->month.".xlsx";
         ob_clean();
         $writer = new Xlsx($spreadsheet);
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');

@@ -260,7 +260,7 @@
                         <div class="form-group">
                             <label for="trans_remarks"><b class="text-danger">*</b>Remarks</label>
                             <select class="form-control" name="trans_remarks" id="trans_remarks" required>
-                              <option value="" disabled {{old('trans_remarks', $d->trans_remarks) ? '' : 'selected'}}>Choose...</option>
+                              <option value="" {{old('trans_remarks', $d->trans_remarks) ? '' : 'selected'}}>N/A</option>
                               <option value="A" {{old('trans_remarks', $d->trans_remarks) == 'A' ? 'selected' : ''}}>Trans In</option>
                               <option value="B" {{old('trans_remarks', $d->trans_remarks) == 'B' ? 'selected' : ''}}>Trans Out before receiving 8ANC</option>
                             </select>
@@ -923,10 +923,17 @@
                 <div class="form-group postnatal_div mt-3">
                   <label for="pp_remarks"><b class="text-danger">*</b>Remarks</label>
                   <select class="form-control" name="pp_remarks" id="pp_remarks">
-                    <option value="" disabled {{old('pp_remarks', $d->pp_remarks) ? '' : 'selected'}}>Choose...</option>
+                    <option value="" {{old('pp_remarks', $d->pp_remarks) ? '' : 'selected'}}>N/A</option>
                     <option value="A" {{old('pp_remarks', $d->pp_remarks) == 'A' ? 'selected' : ''}}>Trans In</option>
                     <option value="B" {{old('pp_remarks', $d->pp_remarks) == 'B' ? 'selected' : ''}}>Trans Out before completing 4PNC</option>
+                    <option value="C" {{old('pp_remarks', $d->pp_remarks) == 'C' ? 'selected' : ''}}>Trans In after completing 4PNC</option>
                   </select>
+                </div>
+                <div id="pp_transout_div" class="d-none">
+                    <div class="form-group">
+                        <label for="pp_transout_date"><b class="text-danger">*</b>Trans Out Date</label>
+                        <input type="date" class="form-control" name="pp_transout_date" id="pp_transout_date" value="{{old('pp_transout_date', $d->pp_transout_date)}}" max="{{date('Y-m-d')}}">
+                    </div>
                 </div>
 
                 <div class="form-group mt-3">
@@ -1105,6 +1112,18 @@
             }
             else if($(this).val() == 'A') {
                 $('#outcome_div').removeClass('d-none');
+            }
+        }).trigger('change');
+
+        $('#pp_remarks').change(function (e) { 
+            e.preventDefault();
+            if($(this).val() == 'B') {
+                $('#pp_transout_div').removeClass('d-none');
+                $('#pp_transout_date').prop('required', true);
+            }
+            else {
+                $('#pp_transout_div').addClass('d-none');
+                $('#pp_transout_date').prop('required', false);
             }
         }).trigger('change');
     </script>

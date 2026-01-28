@@ -165,6 +165,7 @@ class InhouseMaternalCare extends Model
 
         'vita',
         'pp_remarks',
+        'pp_transout_date',
 
         'system_remarks',
 

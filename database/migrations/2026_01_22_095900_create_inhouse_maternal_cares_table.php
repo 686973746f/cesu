@@ -172,6 +172,7 @@ class CreateInhouseMaternalCaresTable extends Migration
 
             $table->date('vita')->nullable();
             $table->string('pp_remarks')->nullable();
+            $table->date('pp_transout_date')->nullable();
 
             $table->text('system_remarks')->nullable();
 

@@ -79,6 +79,7 @@ class DohFacility extends Model
         'abtc_name',
         'abtc_code',
         'enable_customemr1',
+        'brgy_id',
     ];
 
     public function getRegionData() {
@@ -105,5 +106,9 @@ class DohFacility extends Model
 
     public function getAddress() {
         return 'BRGY. '.$this->address_barangay.', '.$this->address_muncity.', '.$this->address_province;
+    }
+
+    public function brgy() {
+        return $this->belongsTo(EdcsBrgy::class, 'brgy_id');
     }
 }

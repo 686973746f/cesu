@@ -75,6 +75,7 @@ NONCOMM_ADMIN
 
 ETCL_ENCODER
 ETCL_ADMIN
+ETCL_MASTER_ADMIN
 */
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -800,6 +801,17 @@ class User extends Authenticatable implements MustVerifyEmail
         $plist = $this->getPermissions();
 
         if($this->canAccessFhsis() || $this->canAccessElectronicTcl()) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function isMasterAdminEtcl() {
+        $plist = $this->getPermissions();
+
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('ETCL_MASTER_ADMIN', $plist)) {
             return true;
         }
         else {
