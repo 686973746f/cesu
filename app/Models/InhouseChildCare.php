@@ -77,6 +77,10 @@ class InhouseChildCare extends Model
         return $this->belongsTo(InhouseMaternalCare::class, 'maternalcare_id');
     }
 
+    public function facility() {
+        return $this->belongsTo(DohFacility::class, 'facility_id');
+    }
+
     public function isFic() {
 
     }

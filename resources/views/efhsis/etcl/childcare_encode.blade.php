@@ -86,7 +86,7 @@
                               </select>
                             </div>
                             <div class="form-group">
-                                <label for="cpab_type"><b class="text-danger">*</b>CPAB Type</label>
+                                <label for="cpab_type"><b class="text-danger">*</b>Specify Last TT/Td Dose</label>
                                 <input type="text" class="form-control" name="cpab_type" id="cpab_type" value="{{old('cpab_type', $d->cpab_type)}}" style="text-transform: uppercase">
                             </div>
                         </div>

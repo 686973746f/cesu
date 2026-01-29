@@ -776,9 +776,17 @@ class ElectronicTclController extends Controller
             if($r->filter_type == 'BHS') {
                 $base_qry = InhouseMaternalCare::where('enabled', 'Y')
                 ->where('facility_id', $r->selected_bhs_id);
+
+                $cc_base_qry = InhouseChildCare::where('enabled', 'Y')
+                ->where('facility_id', $r->selected_bhs_id);
             }
             else {
                 $base_qry = InhouseMaternalCare::where('enabled', 'Y')
+                ->whereHas('facility.brgy', function($q) use ($r) {
+                    $q->where('id', $r->selected_brgy_id);
+                });
+
+                $cc_base_qry = InhouseChildCare::where('enabled', 'Y')
                 ->whereHas('facility.brgy', function($q) use ($r) {
                     $q->where('id', $r->selected_brgy_id);
                 });
@@ -786,6 +794,9 @@ class ElectronicTclController extends Controller
         }
         else {
             $base_qry = InhouseMaternalCare::where('enabled', 'Y')
+            ->where('facility_id', auth()->user()->etcl_bhs_id);
+
+            $cc_base_qry = InhouseChildCare::where('enabled', 'Y')
             ->where('facility_id', auth()->user()->etcl_bhs_id);
         }
 
@@ -1123,6 +1134,19 @@ class ElectronicTclController extends Controller
         $sheet->setCellValue('B81', (clone $qry)->where('age_group', 'A')->count());
         $sheet->setCellValue('C81', (clone $qry)->where('age_group', 'B')->count());
         $sheet->setCellValue('D81', (clone $qry)->where('age_group', 'C')->count());
+
+        //CHILD CARE TCL
+        $qry = (clone $cc_base_qry)
+        ->whereIn('cpab', ['1', '2'])
+        ->whereYear('registration_date', $r->year)
+        ->whereMonth('registration_date', $r->month);
+
+        $sheet->setCellValue('B87', (clone $qry)->whereHas('patient', function ($q) {
+            $q->where('gender', 'MALE');
+        })->count());
+        $sheet->setCellValue('C87', (clone $qry)->whereHas('patient', function ($q) {
+            $q->where('gender', 'FEMALE');
+        })->count());
 
         $fileName = "FHSIS_M1_".$r->year."_".$r->month.".xlsx";
         ob_clean();
