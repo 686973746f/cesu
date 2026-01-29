@@ -547,6 +547,9 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessS
     ->name('inhouse_generate_householdno');
     Route::post('/inhouse-family-serials/generate-familyserial', [InhouseFamilySerialController::class, 'generateFamilySerialNo'])
     ->name('inhouse_generate_familyserial');
+
+    Route::get('/inhouse-maternalcare/search', [ElectronicTclController::class, 'searchMaternalCareMother'])
+    ->name('inhouse_maternalcare_search'); //Maternal Care Mother Search
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isGlobalAdmin']], function() {
@@ -1109,6 +1112,11 @@ Route::middleware(['auth','verified', 'canAccessElectronicTcl'])->group(function
     Route::post('/maternal_care/new/{patient_id}/store', [ElectronicTclController::class, 'storeMaternalCare'])->name('etcl_maternal_store');
     Route::get('/maternal_care/view/{id}', [ElectronicTclController::class, 'editMaternalCare'])->name('etcl_maternal_view');
     Route::post('/maternal_care/view/{id}/update', [ElectronicTclController::class, 'updateMaternalCare'])->name('etcl_maternal_update');
+
+    Route::get('/child_care/new/{patient_id}', [ElectronicTclController::class, 'newChildCare'])->name('etcl_childcare_new');
+    Route::post('/child_care/new/{patient_id}/store', [ElectronicTclController::class, 'storeChildCare'])->name('etcl_childcare_store');
+    Route::get('/child_care/view/{id}', [ElectronicTclController::class, 'editChildCare'])->name('etcl_childcare_view');
+    Route::post('/child_care/view/{id}/update', [ElectronicTclController::class, 'updateChildCare'])->name('etcl_childcare_update');
 });
 
 

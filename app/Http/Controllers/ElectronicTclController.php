@@ -558,15 +558,175 @@ class ElectronicTclController extends Controller
     public function newChildCare($patient_id) {
         $d = SyndromicPatient::findOrFail($patient_id);
 
-        return view('efhsis.etcl.childcare_encode', compact('d'));
+        if($d->getAge() >= 5) {
+            return redirect()
+            ->back()
+            ->with('msg', 'Error: Child Care can only be encoded for patients below 5 years old.')
+            ->with('msgtype', 'warning');
+        }
+        return $this->newOrEditChildCare(new InhouseChildCare(), 'NEW', $d->id);
+    }
+
+    public function newOrEditChildCare(InhouseChildCare $record, $mode, $patient_id = null) {
+        if($patient_id != null) {
+            $patient = SyndromicPatient::findOrFail($patient_id);
+        }
+
+        return view('efhsis.etcl.childcare_encode', [
+            'd' => $record,
+            'mode' => $mode,
+            'patient' => $patient,
+        ]);
+    }
+
+    public function editChildCare($id) {
+        $d = InhouseChildCare::findOrFail($id);
+        
+        if(!auth()->user()->isGlobalAdmin()) {
+            if($d->facility_id != auth()->user()->etcl_bhs_id) {
+                return abort(403, 'Unauthorized access to this record.');
+            }
+        }
+        
+        return $this->newOrEditChildCare($d, 'EDIT', $d->id);
+    }
+
+    public function searchMaternalCareMother(Request $request) {
+        $q = trim($request->q);
+
+        $rows = InhouseMaternalCare::with('patient')
+            ->when($q, function ($query) use ($q) {
+                $query->where('id', 'like', "%{$q}%")
+
+                ->orWhereHas('patient', function ($p) use ($q) {
+                    $p->where('lname', 'like', "%{$q}%")
+                    ->orWhere('fname', 'like', "%{$q}%")
+                    ->orWhere('mname', 'like', "%{$q}%");
+                });
+
+            })
+            ->where('enabled', 'Y')
+            ->orderBy('created_at', 'DESC')
+            ->limit(50)
+            ->get();
+
+        return response()->json($rows);
     }
 
     public function storeChildCare(Request $r, $patient_id) {
         $d = SyndromicPatient::findOrFail($patient_id);
 
-        $c = InhouseChildCare::create([
+        $check = InhouseChildCare::where('request_uuid', $r->request_uuid)->first();
 
-        ]);
+        if($check) {
+            return redirect()->
+            back()
+            ->with('msg', 'Error: This record has already been saved.')
+            ->with('msgtype', 'warning');
+        }
+
+        $table_params = [
+            'patient_id' => $d->id,
+            'facility_id' => auth()->user()->etcl_bhs_id,
+            'registration_date' => $r->registration_date,
+            'mother_type' => $r->mother_type,
+
+            'bcg1' => $r->bcg1,
+            'bcg1_type' => $r->bcg1_type,
+            'bcg2' => $r->bcg2,
+            'bcg2_type' => $r->bcg2_type,
+            'hepab1' => $r->hepab1,
+            'hepab1_type' => $r->hepab1_type,
+            'hepab2' => $r->hepab2,
+            'hepab2_type' => $r->hepab2_type,
+            'dpt1' => $r->dpt1,
+            'dpt1_type' => $r->dpt1_type,
+            'dpt2' => $r->dpt2,
+            'dpt2_type' => $r->dpt2_type,
+            'dpt3' => $r->dpt3,
+            'dpt3_type' => $r->dpt3_type,
+            'opv1' => $r->opv1,
+            'opv1_type' => $r->opv1_type,
+            'opv2' => $r->opv2,
+            'opv2_type' => $r->opv2_type,
+            'opv3' => $r->opv3,
+            'opv3_type' => $r->opv3_type,
+            'ipv1' => $r->ipv1,
+            'ipv1_type' => $r->ipv1_type,
+            'ipv2' => $r->ipv2,
+            'ipv2_type' => $r->ipv2_type,
+            'ipv3' => $r->ipv3,
+            'ipv3_type' => $r->ipv3_type,
+            'pcv1' => $r->pcv1,
+            'pcv1_type' => $r->pcv1_type,
+            'pcv2' => $r->pcv2,
+            'pcv2_type' => $r->pcv2_type,
+            'pcv3' => $r->pcv3,
+            'pcv3_type' => $r->pcv3_type,
+            'mmr1' => $r->mmr1,
+            'mmr1_type' => $r->mmr1_type,
+            'mmr2' => $r->mmr2,
+            'mmr2_type' => $r->mmr2_type,
+            'remarks' => $r->remarks,
+            'system_remarks' => $r->system_remarks,
+
+            'created_by' => auth()->user()->id,
+            'updated_by' => auth()->user()->id,
+            'request_uuid' => $r->request_uuid,
+
+            'age_years' => $r->age_years,
+            'age_months' => $r->age_months,
+            'age_days' => $r->age_days,
+        ];
+
+        if($r->mother_type == 'Y') {
+            //Search Mother
+            $mcr = InhouseMaternalCare::find($r->maternalcare_id);
+
+            if(!$mcr) {
+                return redirect()
+                ->back()
+                ->with('msg', 'Error: Mother\'s Maternal Care Record not found.')
+                ->with('msgtype', 'warning');
+            }
+
+            if(!is_null($mcr->td5)) {
+                $cpab2 = 'Y';
+                $cpab1 = 'N';
+            }
+            else if(!is_null($mcr->td2)) {
+                $cpab2 = 'N';
+                $cpab1 = 'Y';
+            }
+            else {
+                $cpab2 = 'N';
+                $cpab1 = 'N';
+            }
+
+            $table_params = $table_params + [
+                'maternalcare_id' => $r->maternalcare_id,
+            ];
+        }
+        else {
+            $cpab1 = 'N';
+            $cpab2 = 'N';
+
+            $table_params = $table_params + [
+                'mother_name' => mb_strtoupper($r->mother_name),
+            ];
+        }
+
+        $table_params = $table_params + [
+            'cpab1' => $cpab1,
+            'cpab2' => $cpab2,
+        ];
+
+        $c = InhouseChildCare::create($table_params);
+
+        return redirect()
+        ->route('etcl_home', ['type' => 'child_care'])
+        ->with('msg', 'Child Care Record successfully saved.')
+        ->with('msgtype', 'success');
     }
 
     public function generateM1(Request $r) {

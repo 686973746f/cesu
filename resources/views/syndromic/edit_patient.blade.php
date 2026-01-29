@@ -51,6 +51,9 @@
                                         @if($d->gender == 'FEMALE' && $d->getAge() >= 11 && $d->getAge() <= 50)
                                         <a href="{{route('etcl_maternal_new', $d->id)}}" class="btn btn-primary btn-block">Create Maternal Care</a>
                                         @endif
+                                        @if($d->getAge() <= 5)
+                                        <a href="{{route('etcl_childcare_new', $d->id)}}" class="btn btn-primary btn-block">Create Child Care</a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

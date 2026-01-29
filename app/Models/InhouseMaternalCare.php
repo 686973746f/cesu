@@ -187,6 +187,10 @@ class InhouseMaternalCare extends Model
         return $this->belongsTo(DohFacility::class, 'facility_id');
     }
 
+    public function childcares() {
+        return $this->hasMany(InhouseChildCare::class, 'maternalcare_id');
+    }
+
     public function runIndicatorUpdate() {
         //Td last dose detector
         if(!is_null($this->td5)) {

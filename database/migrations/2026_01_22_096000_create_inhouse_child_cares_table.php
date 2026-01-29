@@ -17,48 +17,57 @@ class CreateInhouseChildCaresTable extends Migration
             $table->id();
             $table->char('enabled', 1)->default('Y');
             $table->foreignId('patient_id')->constrained('syndromic_patients')->onDelete('cascade');
+            $table->string('mother_type', 1)->nullable();
+            $table->foreignId('maternalcare_id')->nullable()->constrained('inhouse_maternal_cares')->onDelete('cascade');
+            $table->string('mother_name')->nullable();
+            
             $table->foreignId('facility_id')->constrained('doh_facilities')->onDelete('cascade');
             $table->date('registration_date');
-
-            $table->foreignId('maternalcare_id')->nullable()->constrained('inhouse_maternal_cares')->onDelete('cascade');
 
             $table->string('cpab1', 1)->nullable();
             $table->string('cpab2', 1)->nullable();
             $table->date('bcg1')->nullable();
+            $table->string('bcg1_type')->nullable();
             $table->date('bcg2')->nullable();
+            $table->string('bcg2_type')->nullable();
             $table->date('hepab1')->nullable();
+            $table->string('hepab1_type')->nullable();
             $table->date('hepab2')->nullable();
-            $table->date('dpt1_est')->nullable();
+            $table->string('hepab2_type')->nullable();
             $table->date('dpt1')->nullable();
-            $table->date('dpt2_est')->nullable();
+            $table->string('dpt1_type')->nullable();
             $table->date('dpt2')->nullable();
-            $table->date('dpt3_est')->nullable();
+            $table->string('dpt2_type')->nullable();
             $table->date('dpt3')->nullable();
+            $table->string('dpt3_type')->nullable();
 
-            $table->date('opv1_est')->nullable();
             $table->date('opv1')->nullable();
-            $table->date('opv2_est')->nullable();
+            $table->string('opv1_type')->nullable();
             $table->date('opv2')->nullable();
-            $table->date('opv3_est')->nullable();
+            $table->string('opv2_type')->nullable();
             $table->date('opv3')->nullable();
+            $table->string('opv3_type')->nullable();
 
-            $table->date('ipv1_est')->nullable();
             $table->date('ipv1')->nullable();
-            $table->date('ipv2_est')->nullable();
+            $table->string('ipv1_type')->nullable();
             $table->date('ipv2')->nullable();
-            $table->date('ipv3_est')->nullable();
+            $table->string('ipv2_type')->nullable();
             $table->date('ipv3')->nullable();
+            $table->string('ipv3_type')->nullable();
             
-            $table->date('pcv1_est')->nullable();
             $table->date('pcv1')->nullable();
-            $table->date('pcv2_est')->nullable();
+            $table->string('pcv1_type')->nullable();
             $table->date('pcv2')->nullable();
-            $table->date('pcv3_est')->nullable();
+            $table->string('pcv2_type')->nullable();
             $table->date('pcv3')->nullable();
-            $table->date('mmr1_est')->nullable();
+            $table->string('pcv3_type')->nullable();
             $table->date('mmr1')->nullable();
-            $table->date('mmr2_est')->nullable();
+            $table->string('mmr1_type')->nullable();
             $table->date('mmr2')->nullable();
+            $table->string('mmr2_type')->nullable();
+
+            $table->date('fic')->nullable();
+            $table->date('cic')->nullable();
 
             $table->text('remarks')->nullable();
             $table->text('system_remarks')->nullable();
