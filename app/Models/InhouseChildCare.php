@@ -17,8 +17,8 @@ class InhouseChildCare extends Model
         'facility_id',
         'registration_date',
 
-        'cpab1',
-        'cpab2',
+        'cpab',
+        'cpab_type',
 
         'bcg1',
         'bcg1_type',

@@ -691,16 +691,13 @@ class ElectronicTclController extends Controller
             }
 
             if(!is_null($mcr->td5)) {
-                $cpab2 = 'Y';
-                $cpab1 = 'N';
+                $cpab = '2';
             }
             else if(!is_null($mcr->td2)) {
-                $cpab2 = 'N';
-                $cpab1 = 'Y';
+                $cpab = '1';
             }
             else {
-                $cpab2 = 'N';
-                $cpab1 = 'N';
+                $cpab = '0';
             }
 
             $table_params = $table_params + [
@@ -708,17 +705,16 @@ class ElectronicTclController extends Controller
             ];
         }
         else {
-            $cpab1 = 'N';
-            $cpab2 = 'N';
+            $cpab = $r->cpab_manual;
 
             $table_params = $table_params + [
                 'mother_name' => mb_strtoupper($r->mother_name),
+                'cpab_type' => mb_strtoupper($r->cpab_type),
             ];
         }
 
         $table_params = $table_params + [
-            'cpab1' => $cpab1,
-            'cpab2' => $cpab2,
+            'cpab' => $cpab,
         ];
 
         $c = InhouseChildCare::create($table_params);

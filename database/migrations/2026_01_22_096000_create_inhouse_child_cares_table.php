@@ -24,8 +24,8 @@ class CreateInhouseChildCaresTable extends Migration
             $table->foreignId('facility_id')->constrained('doh_facilities')->onDelete('cascade');
             $table->date('registration_date');
 
-            $table->string('cpab1', 1)->nullable();
-            $table->string('cpab2', 1)->nullable();
+            $table->string('cpab', 1)->nullable();
+            $table->string('cpab_type')->nullable(); //open text
             $table->date('bcg1')->nullable();
             $table->string('bcg1_type')->nullable();
             $table->date('bcg2')->nullable();

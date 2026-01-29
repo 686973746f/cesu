@@ -69,10 +69,26 @@
                                     <button class="btn btn-outline-primary" id="mother_search_btn" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
                                 </div>
                             </div>
+                            <small class="text-muted">Note: CPAB will be automatically checked based on the selected Maternal Care Record of the mother.</small>
                         </div>
-                        <div class="form-group d-none" id="mother_name_div">
-                            <label for="mother_name"><b class="text-danger">*</b>Name of Mother</label>
-                            <input type="text" class="form-control" name="mother_name" id="mother_name" style="text-transform: uppercase">
+                        <div id="mother_name_div" class="d-none">
+                            <div class="form-group">
+                                <label for="mother_name"><b class="text-danger">*</b>Name of Mother</label>
+                                <input type="text" class="form-control" name="mother_name" id="mother_name" style="text-transform: uppercase">
+                            </div>
+                            <div class="form-group">
+                              <label for="cpab_manual"><b class="text-danger">*</b>Child Protected at Birth (CPAB) from neonatal tetanus</label>
+                              <select class="form-control" name="cpab_manual" id="cpab_manual">
+                                <option value="" disabled {{old('cpab_manual', $d->cpab) ? '' : 'selected'}}>Choose...</option>
+                                <option value="0" {{old('cpab_manual', $d->cpab) == '0' ? 'selected' : ''}}>None</option>
+                                <option value="1" {{old('cpab_manual', $d->cpab) == '1' ? 'selected' : ''}}>Received at least 2 doses of Tetanus Toxoid (TT)-containing vaccine at least one month prior to delivery</option>
+                                <option value="2" {{old('cpab_manual', $d->cpab) == '2' ? 'selected' : ''}}>TT3/Td3 to TT5/Td5 (or TT1/Td1 to TT5/Td5) given to the mother anytime prior to delivery</option>
+                              </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="cpab_type"><b class="text-danger">*</b>CPAB Type</label>
+                                <input type="text" class="form-control" name="cpab_type" id="cpab_type" value="{{old('cpab_type', $d->cpab_type)}}" style="text-transform: uppercase">
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -598,6 +614,8 @@
         $('#display_maternal').prop('required', false);
         $('#mother_name_div').addClass('d-none');
         $('#mother_name').prop('required', false);
+        $('#cpab_manual').prop('required', false);
+        $('#cpab_type').prop('required', false);
             
         if($(this).val() == 'Y') {
             $('#maternalcare_div').removeClass('d-none');
@@ -607,6 +625,8 @@
             $('#maternalcare_id').val('');
             $('#mother_name_div').removeClass('d-none');
             $('#mother_name').prop('required', true);
+            $('#cpab_manual').prop('required', true);
+            $('#cpab_type').prop('required', true);
         }
     }).trigger('change');
 </script>
