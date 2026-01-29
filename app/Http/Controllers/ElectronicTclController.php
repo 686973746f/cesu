@@ -1148,7 +1148,7 @@ class ElectronicTclController extends Controller
             $q->where('gender', 'FEMALE');
         })->count());
 
-        $fileName = "FHSIS_M1_".$r->year."_".$r->month.".xlsx";
+        $fileName = "FHSIS_M1_".$r->year."_".$r->month."_".time().".xlsx";
         ob_clean();
         $writer = new Xlsx($spreadsheet);
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
