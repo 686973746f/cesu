@@ -1087,7 +1087,7 @@ class ElectronicTclController extends Controller
 
         $qry = (clone $base_qry)
         ->whereNotNull('outcome')
-        ->whereNull('pp_remarks', 'A')
+        ->whereNull('pp_remarks')
         ->whereYear('pnc4', $r->year)
         ->whereMonth('pnc4', $r->month);
 
