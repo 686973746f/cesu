@@ -210,8 +210,6 @@ class SyndromicPatient extends Model
         return $get_brgy_id;
     }
 
-    
-
     public static function ifDuplicateFound($lname, $fname, $mname, $suffix, $bdate) {
         $lname = mb_strtoupper(str_replace([' ','-'], '', $lname));
         $fname = mb_strtoupper(str_replace([' ','-'], '', $fname));

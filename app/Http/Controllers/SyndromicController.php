@@ -360,6 +360,23 @@ class SyndromicController extends Controller
         $writer->save('php://output');
     }
 
+    public function newPatientSearch() {
+        $list = SyndromicPatient::where('lname', 'LIKE', '%'.mb_strtoupper(request()->input('lname')).'%')
+        ->where('fname', 'LIKE', '%'.mb_strtoupper(request()->input('fname')).'%');
+
+        if(request()->input('mname')) {
+            $list = $list->where('mname', 'LIKE', '%'.mb_strtoupper(request()->input('mname')).'%');
+        }
+
+        if(request()->input('bdate')) {
+            $list = $list->whereDate('bdate', request()->input('bdate'));
+        }
+
+        return view('syndromic.newpatient_search', [
+            'list' => $list->get(),
+        ]);
+    }
+
     public function newPatient() {
         $lname = request()->input('lname');
         $fname = request()->input('fname');
