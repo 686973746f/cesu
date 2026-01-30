@@ -1655,4 +1655,8 @@ class ElectronicTclController extends Controller
         header('Content-Disposition: attachment; filename="'. urlencode($fileName).'"');
         $writer->save('php://output');
     }
+
+    public function generateTcl(Request $r) {
+        
+    }
 }

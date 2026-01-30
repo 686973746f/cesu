@@ -5,6 +5,9 @@
         <form action="{{route('syndromic_storePatient')}}" method="POST">
             @csrf
             <input type="hidden" name="request_uuid" value="{{ Str::uuid() }}">
+            @if(!is_null(request()->input('from_etcl')))
+            <input type="hidden" name="from_etcl" value="{{request()->input('from_etcl')}}">
+            @endif
             <div class="card">
                 <div class="card-header"><b>New ITR - Step 2/3</b></div>
                 <div class="card-body">
@@ -112,9 +115,13 @@
                             <div class="form-group">
                                 <label for="gender"><span class="text-danger font-weight-bold">*</span>Sex</label>
                                   <select class="form-control" name="gender" id="gender" required>
+                                    @if(!is_null(request()->input('from_etcl')) && request()->input('from_etcl') == 'maternal_care')
+                                    <option value="FEMALE" {{(old('gender') == 'FEMALE') ? 'selected' : ''}}>Female</option>
+                                    @else
                                       <option value="" disabled {{(is_null(old('gender'))) ? 'selected' : ''}}>Choose...</option>
                                       <option value="MALE" {{(old('gender') == 'MALE') ? 'selected' : ''}}>Male</option>
                                       <option value="FEMALE" {{(old('gender') == 'FEMALE') ? 'selected' : ''}}>Female</option>
+                                    @endif
                                   </select>
                             </div>
                             <div class="form-group">

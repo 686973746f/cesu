@@ -385,6 +385,27 @@ class SyndromicController extends Controller
             $getname = $getname.' '.$suffix;
         }
 
+        if(!is_null(request()->input('from_etcl'))) {
+            $from_etcl = request()->input('from_etcl');
+
+            if($from_etcl == 'child_care') {
+                if(Carbon::parse($bdate)->age > 5) {
+                    return redirect()->back()
+                    ->withInput()
+                    ->with('msg', 'ERROR: Patient Age is not applicable for Child Care (must be 0-5 years old).')
+                    ->with('msgtype', 'warning');
+                }
+            }
+            else if($from_etcl == 'maternal_care') {
+                if(Carbon::parse($bdate)->age < 10 || Carbon::parse($bdate)->age > 50) {
+                    return redirect()->back()
+                    ->withInput()
+                    ->with('msg', 'ERROR: Patient Age is not applicable for Maternal Care (must be 10-50 years old).')
+                    ->with('msgtype', 'warning');
+                }
+            }
+        }
+
         $s = SyndromicPatient::ifDuplicateFound($lname, $fname, $mname, $suffix, $bdate);
 
         if(!($s)) {
@@ -649,10 +670,26 @@ class SyndromicController extends Controller
                     ]);
                 }
             }
-            
-            return redirect()->route('syndromic_newRecord', $c->id)
-            ->with('msg', 'Patient record successfully created. Proceed by completing the ITR of the patient.')
-            ->with('msgtype', 'success');
+
+            if($request->filled('from_etcl')) {
+                if($request->from_etcl == 'maternal_care') {
+                    return redirect()
+                    ->route('etcl_maternal_new', $c->id)
+                    ->with('msg', 'Patient record successfully created. Proceed by completing the Maternal Care Record of the patient.')
+                    ->with('msgtype', 'success');
+                }
+                else if($request->from_etcl == 'child_care') {
+                    return redirect()
+                    ->route('etcl_childcare_new', $c->id)
+                    ->with('msg', 'Patient record successfully created. Proceed by completing the Child Care Record of the patient.')
+                    ->with('msgtype', 'success');
+                }
+            }
+            else {
+                return redirect()->route('syndromic_newRecord', $c->id)
+                ->with('msg', 'Patient record successfully created. Proceed by completing the ITR of the patient.')
+                ->with('msgtype', 'success');
+            }
         }
         else {
             return redirect()->back()
