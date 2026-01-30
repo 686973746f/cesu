@@ -558,12 +558,22 @@ class ElectronicTclController extends Controller
     public function newChildCare($patient_id) {
         $d = SyndromicPatient::findOrFail($patient_id);
 
+        $find = InhouseChildCare::where('patient_id', $d->id)->first();
+
+        if($find) {
+            return redirect()
+            ->route('etcl_childcare_view', $find->id)
+            ->with('msg', 'Existing Child Care record found for this patient. You can only encode one (1) Child Care record per patient.')
+            ->with('msgtype', 'info');
+        }
+
         if($d->getAge() >= 5) {
             return redirect()
             ->back()
             ->with('msg', 'Error: Child Care can only be encoded for patients below 5 years old.')
             ->with('msgtype', 'warning');
         }
+
         return $this->newOrEditChildCare(new InhouseChildCare(), 'NEW', $d->id);
     }
 

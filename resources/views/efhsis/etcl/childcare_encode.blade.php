@@ -12,6 +12,11 @@
         <div class="card">
             <div class="card-header"><b>Child Care</b></div>
             <div class="card-body">
+                @if(session('msg'))
+                  <div class="alert alert-{{session('msgtype')}}" role="alert">
+                    {{session('msg')}}
+                  </div>
+                @endif
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
