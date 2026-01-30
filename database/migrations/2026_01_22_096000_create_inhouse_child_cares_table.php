@@ -26,6 +26,7 @@ class CreateInhouseChildCaresTable extends Migration
 
             $table->string('cpab', 1)->nullable();
             $table->string('cpab_type')->nullable(); //open text
+
             $table->date('bcg1')->nullable();
             $table->string('bcg1_type')->nullable();
             $table->date('bcg2')->nullable();
@@ -34,37 +35,52 @@ class CreateInhouseChildCaresTable extends Migration
             $table->string('hepab1_type')->nullable();
             $table->date('hepab2')->nullable();
             $table->string('hepab2_type')->nullable();
+
             $table->date('dpt1')->nullable();
             $table->string('dpt1_type')->nullable();
+            $table->integer('dpt1_months')->nullable();
             $table->date('dpt2')->nullable();
             $table->string('dpt2_type')->nullable();
+            $table->integer('dpt2_months')->nullable();
             $table->date('dpt3')->nullable();
             $table->string('dpt3_type')->nullable();
+            $table->integer('dpt3_months')->nullable();
 
             $table->date('opv1')->nullable();
             $table->string('opv1_type')->nullable();
+            $table->integer('opv1_months')->nullable();
             $table->date('opv2')->nullable();
             $table->string('opv2_type')->nullable();
+            $table->integer('opv2_months')->nullable();
             $table->date('opv3')->nullable();
             $table->string('opv3_type')->nullable();
+            $table->integer('opv3_months')->nullable();
 
             $table->date('ipv1')->nullable();
             $table->string('ipv1_type')->nullable();
+            $table->integer('ipv1_months')->nullable();
             $table->date('ipv2')->nullable();
             $table->string('ipv2_type')->nullable();
+            $table->integer('ipv2_months')->nullable();
             $table->date('ipv3')->nullable();
             $table->string('ipv3_type')->nullable();
+            $table->integer('ipv3_months')->nullable();
             
             $table->date('pcv1')->nullable();
             $table->string('pcv1_type')->nullable();
+            $table->integer('pcv1_months')->nullable();
             $table->date('pcv2')->nullable();
             $table->string('pcv2_type')->nullable();
+            $table->integer('pcv2_months')->nullable();
             $table->date('pcv3')->nullable();
             $table->string('pcv3_type')->nullable();
+            $table->integer('pcv3_months')->nullable();
             $table->date('mmr1')->nullable();
             $table->string('mmr1_type')->nullable();
+            $table->integer('mmr1_months')->nullable();
             $table->date('mmr2')->nullable();
             $table->string('mmr2_type')->nullable();
+            $table->integer('mmr2_months')->nullable();
 
             $table->date('fic')->nullable();
             $table->date('cic')->nullable();

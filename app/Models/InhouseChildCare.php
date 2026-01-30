@@ -28,34 +28,49 @@ class InhouseChildCare extends Model
         'hepab1_type',
         'hepab2',
         'hepab2_type',
+
         'dpt1',
         'dpt1_type',
+        'dpt1_months',
         'dpt2',
         'dpt2_type',
+        'dpt2_months',
         'dpt3',
         'dpt3_type',
+        'dpt3_months',
         'opv1',
         'opv1_type',
+        'opv1_months',
         'opv2',
         'opv2_type',
+        'opv2_months',
         'opv3',
         'opv3_type',
+        'opv3_months',
         'ipv1',
         'ipv1_type',
+        'ipv1_months',
         'ipv2',
         'ipv2_type',
+        'ipv2_months',
         'ipv3',
         'ipv3_type',
+        'ipv3_months',
         'pcv1',
         'pcv1_type',
+        'pcv1_months',
         'pcv2',
         'pcv2_type',
+        'pcv2_months',
         'pcv3',
         'pcv3_type',
+        'pcv3_months',
         'mmr1',
         'mmr1_type',
+        'mmr1_months',
         'mmr2',
         'mmr2_type',
+        'mmr2_months',
 
         'system_remarks',
         'remarks',
@@ -81,11 +96,14 @@ class InhouseChildCare extends Model
         return $this->belongsTo(DohFacility::class, 'facility_id');
     }
 
-    public function isFic() {
-
-    }
-
-    public function isCic() {
-        
+    public function runIndicatorUpdate() {
+        if(!is_null($this->mmr2)) {
+            if($this->mmr2_months <= 12) {
+                $this->fic = $this->mmr2;
+            }
+            else {
+                $this->cic = $this->mmr2;
+            }
+        }
     }
 }

@@ -625,6 +625,13 @@ class ElectronicTclController extends Controller
             ->with('msgtype', 'warning');
         }
 
+        $birthdate = Carbon::parse($d->bdate);
+        $currentDate = Carbon::parse($r->registration_date);
+
+        $get_ageyears = $birthdate->diffInYears($currentDate);
+        $get_agemonths = $birthdate->diffInMonths($currentDate);
+        $get_agedays = $birthdate->diffInDays($currentDate);
+
         $table_params = [
             'patient_id' => $d->id,
             'facility_id' => auth()->user()->etcl_bhs_id,
@@ -639,34 +646,49 @@ class ElectronicTclController extends Controller
             'hepab1_type' => $r->hepab1_type,
             'hepab2' => $r->hepab2,
             'hepab2_type' => $r->hepab2_type,
+
             'dpt1' => $r->dpt1,
             'dpt1_type' => $r->dpt1_type,
+            'dpt1_months' => ($r->filled('dpt1')) ? Carbon::parse($r->dpt1)->diffInMonths($birthdate) : null,
             'dpt2' => $r->dpt2,
             'dpt2_type' => $r->dpt2_type,
+            'dpt2_months' => ($r->filled('dpt2')) ? Carbon::parse($r->dpt2)->diffInMonths($birthdate) : null,
             'dpt3' => $r->dpt3,
             'dpt3_type' => $r->dpt3_type,
+            'dpt3_months' => ($r->filled('dpt3')) ? Carbon::parse($r->dpt3)->diffInMonths($birthdate) : null,
             'opv1' => $r->opv1,
             'opv1_type' => $r->opv1_type,
+            'opv1_months' => ($r->filled('opv1')) ? Carbon::parse($r->opv1)->diffInMonths($birthdate) : null,
             'opv2' => $r->opv2,
             'opv2_type' => $r->opv2_type,
+            'opv2_months' => ($r->filled('opv2')) ? Carbon::parse($r->opv2)->diffInMonths($birthdate) : null,
             'opv3' => $r->opv3,
             'opv3_type' => $r->opv3_type,
+            'opv3_months' => ($r->filled('opv3')) ? Carbon::parse($r->opv3)->diffInMonths($birthdate) : null,
             'ipv1' => $r->ipv1,
             'ipv1_type' => $r->ipv1_type,
+            'ipv1_months' => ($r->filled('ipv1')) ? Carbon::parse($r->ipv1)->diffInMonths($birthdate) : null,
             'ipv2' => $r->ipv2,
             'ipv2_type' => $r->ipv2_type,
+            'ipv2_months' => ($r->filled('ipv2')) ? Carbon::parse($r->ipv2)->diffInMonths($birthdate) : null,
             'ipv3' => $r->ipv3,
             'ipv3_type' => $r->ipv3_type,
+            'ipv3_months' => ($r->filled('ipv3')) ? Carbon::parse($r->ipv3)->diffInMonths($birthdate) : null,
             'pcv1' => $r->pcv1,
             'pcv1_type' => $r->pcv1_type,
+            'pcv1_months' => ($r->filled('pcv1')) ? Carbon::parse($r->pcv1)->diffInMonths($birthdate) : null,
             'pcv2' => $r->pcv2,
             'pcv2_type' => $r->pcv2_type,
+            'pcv2_months' => ($r->filled('pcv2')) ? Carbon::parse($r->pcv2)->diffInMonths($birthdate) : null,
             'pcv3' => $r->pcv3,
             'pcv3_type' => $r->pcv3_type,
+            'pcv3_months' => ($r->filled('pcv3')) ? Carbon::parse($r->pcv3)->diffInMonths($birthdate) : null,
             'mmr1' => $r->mmr1,
             'mmr1_type' => $r->mmr1_type,
+            'mmr1_months' => ($r->filled('mmr1')) ? Carbon::parse($r->mmr1)->diffInMonths($birthdate) : null,
             'mmr2' => $r->mmr2,
             'mmr2_type' => $r->mmr2_type,
+            'mmr2_months' => ($r->filled('mmr2')) ? Carbon::parse($r->mmr2)->diffInMonths($birthdate) : null,
             'remarks' => $r->remarks,
             'system_remarks' => $r->system_remarks,
 
@@ -674,9 +696,9 @@ class ElectronicTclController extends Controller
             'updated_by' => auth()->user()->id,
             'request_uuid' => $r->request_uuid,
 
-            'age_years' => $r->age_years,
-            'age_months' => $r->age_months,
-            'age_days' => $r->age_days,
+            'age_years' => $get_ageyears,
+            'age_months' => $get_agemonths,
+            'age_days' => $get_agedays,
         ];
 
         if($r->mother_type == 'Y') {
@@ -718,6 +740,10 @@ class ElectronicTclController extends Controller
         ];
 
         $c = InhouseChildCare::create($table_params);
+
+        $d = InhouseChildCare::findOrFail($c->id);
+        $d->runIndicatorUpdate();
+        $d->save();
 
         return redirect()
         ->route('etcl_home', ['type' => 'child_care'])
@@ -1145,6 +1171,58 @@ class ElectronicTclController extends Controller
             $q->where('gender', 'MALE');
         })->count());
         $sheet->setCellValue('C87', (clone $qry)->whereHas('patient', function ($q) {
+            $q->where('gender', 'FEMALE');
+        })->count());
+
+        $qry = (clone $cc_base_qry)
+        ->whereNotNull('bcg1')
+        ->whereYear('bcg1', $r->year)
+        ->whereMonth('bcg1', $r->month)
+        ->where('bcg1_type', '!=', 'OTHER RHU/BHS');
+
+        $sheet->setCellValue('B88', (clone $qry)->whereHas('patient', function ($q) {
+            $q->where('gender', 'MALE');
+        })->count());
+        $sheet->setCellValue('C88', (clone $qry)->whereHas('patient', function ($q) {
+            $q->where('gender', 'FEMALE');
+        })->count());
+
+        $qry = (clone $cc_base_qry)
+        ->whereNotNull('bcg2')
+        ->whereYear('bcg2', $r->year)
+        ->whereMonth('bcg2', $r->month)
+        ->where('bcg2_type', '!=', 'OTHER RHU/BHS');
+
+        $sheet->setCellValue('B89', (clone $qry)->whereHas('patient', function ($q) {
+            $q->where('gender', 'MALE');
+        })->count());
+        $sheet->setCellValue('C89', (clone $qry)->whereHas('patient', function ($q) {
+            $q->where('gender', 'FEMALE');
+        })->count());
+
+        $qry = (clone $cc_base_qry)
+        ->whereNotNull('hepab1')
+        ->whereYear('hepab1', $r->year)
+        ->whereMonth('hepab1', $r->month)
+        ->where('hepab1_type', '!=', 'OTHER RHU/BHS');
+
+        $sheet->setCellValue('Q87', (clone $qry)->whereHas('patient', function ($q) {
+            $q->where('gender', 'MALE');
+        })->count());
+        $sheet->setCellValue('R87', (clone $qry)->whereHas('patient', function ($q) {
+            $q->where('gender', 'FEMALE');
+        })->count());
+
+        $qry = (clone $cc_base_qry)
+        ->whereNotNull('hepab2')
+        ->whereYear('hepab2', $r->year)
+        ->whereMonth('hepab2', $r->month)
+        ->where('hepab2_type', '!=', 'OTHER RHU/BHS');
+
+        $sheet->setCellValue('Q88', (clone $qry)->whereHas('patient', function ($q) {
+            $q->where('gender', 'MALE');
+        })->count());
+        $sheet->setCellValue('R88', (clone $qry)->whereHas('patient', function ($q) {
             $q->where('gender', 'FEMALE');
         })->count());
 
