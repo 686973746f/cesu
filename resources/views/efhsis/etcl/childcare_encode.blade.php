@@ -171,6 +171,7 @@
                         <div class="form-group">
                             <label for="dpt1">DPT-HiB-HepB 1st Dose</label>
                             <input type="date" class="form-control" name="dpt1" id="dpt1" value="{{old('dpt1', $d->dpt1)}}" max="{{date('Y-m-d')}}">
+                            <small class="text-muted">1 ½ mos</small>
                         </div>
                         <div class="form-group">
                             <label for="dpt1_type">Type</label>
@@ -187,6 +188,7 @@
                         <div class="form-group">
                             <label for="dpt2">DPT-HiB-HepB 2nd Dose</label>
                             <input type="date" class="form-control" name="dpt2" id="dpt2" value="{{old('dpt2', $d->dpt2)}}" max="{{date('Y-m-d')}}">
+                            <small class="text-muted">2 ½ mos</small>
                         </div>
                         <div class="form-group">
                             <label for="dpt2_type">Type</label>
@@ -203,6 +205,7 @@
                         <div class="form-group">
                             <label for="dpt3">DPT-HiB-HepB 3rd Dose</label>
                             <input type="date" class="form-control" name="dpt3" id="dpt3" value="{{old('dpt3', $d->dpt3)}}" max="{{date('Y-m-d')}}">
+                            <small class="text-muted">3 ½ mos</small>
                         </div>
                         <div class="form-group">
                             <label for="dpt3_type">Type</label>
@@ -222,6 +225,7 @@
                         <div class="form-group">
                             <label for="opv1">OPV 1st Dose</label>
                             <input type="date" class="form-control" name="opv1" id="opv1" value="{{old('opv1', $d->opv1)}}" max="{{date('Y-m-d')}}">
+                            <small class="text-muted">1 ½ mos</small>
                         </div>
                         <div class="form-group">
                             <label for="opv1_type">Type</label>
@@ -238,6 +242,7 @@
                         <div class="form-group">
                             <label for="opv2">OPV 2nd Dose</label>
                             <input type="date" class="form-control" name="opv2" id="opv2" value="{{old('opv2', $d->opv2)}}" max="{{date('Y-m-d')}}">
+                            <small class="text-muted">2 ½ mos</small>
                         </div>
                         <div class="form-group">
                             <label for="opv2_type">Type</label>
@@ -254,6 +259,7 @@
                         <div class="form-group">
                             <label for="opv3">OPV 3rd Dose</label>
                             <input type="date" class="form-control" name="opv3" id="opv3" value="{{old('opv3', $d->opv3)}}" max="{{date('Y-m-d')}}">
+                            <small class="text-muted">3 ½ mos</small>
                         </div>
                         <div class="form-group">
                             <label for="opv3_type">Type</label>
@@ -273,6 +279,7 @@
                         <div class="form-group">
                             <label for="ipv1">IPV 1st Dose</label>
                             <input type="date" class="form-control" name="ipv1" id="ipv1" value="{{old('ipv1', $d->ipv1)}}" max="{{date('Y-m-d')}}">
+                            <small class="text-muted">3 ½ mos</small>
                         </div>
                         <div class="form-group">
                             <label for="ipv1_type">Type</label>
@@ -289,6 +296,7 @@
                         <div class="form-group">
                             <label for="ipv2">IPV 2nd Dose</label>
                             <input type="date" class="form-control" name="ipv2" id="ipv2" value="{{old('ipv2', $d->ipv2)}}" max="{{date('Y-m-d')}}">
+                            <small class="text-muted">9 mos</small>
                         </div>
                         <div class="form-group">
                             <label for="ipv2_type">Type</label>
@@ -308,6 +316,7 @@
                         <div class="form-group">
                             <label for="pcv1">PCV 1st Dose</label>
                             <input type="date" class="form-control" name="pcv1" id="pcv1" value="{{old('pcv1', $d->pcv1)}}" max="{{date('Y-m-d')}}">
+                            <small class="text-muted">1 ½ mos</small>
                         </div>
                         <div class="form-group">
                             <label for="pcv1_type">Type</label>
@@ -324,6 +333,7 @@
                         <div class="form-group">
                             <label for="pcv2">PCV 2nd Dose</label>
                             <input type="date" class="form-control" name="pcv2" id="pcv2" value="{{old('pcv2', $d->pcv2)}}" max="{{date('Y-m-d')}}">
+                            <small class="text-muted">2 ½ mos</small>
                         </div>
                         <div class="form-group">
                             <label for="pcv2_type">Type</label>
@@ -340,6 +350,7 @@
                         <div class="form-group">
                             <label for="pcv3">PCV 3rd Dose</label>
                             <input type="date" class="form-control" name="pcv3" id="pcv3" value="{{old('pcv3', $d->pcv3)}}" max="{{date('Y-m-d')}}">
+                            <small class="text-muted">3 ½ mos</small>
                         </div>
                         <div class="form-group">
                             <label for="pcv3_type">Type</label>
@@ -359,6 +370,7 @@
                         <div class="form-group">
                             <label for="mmr1">MMR 1st Dose</label>
                             <input type="date" class="form-control" name="mmr1" id="mmr1" value="{{old('mmr1', $d->mmr1)}}" max="{{date('Y-m-d')}}">
+                            <small class="text-muted">9  mos</small>
                         </div>
                         <div class="form-group">
                             <label for="mmr1_type">Type</label>
@@ -375,6 +387,7 @@
                         <div class="form-group">
                             <label for="mmr2">MMR 2nd Dose</label>
                             <input type="date" class="form-control" name="mmr2" id="mmr2" value="{{old('mmr2', $d->mmr2)}}" max="{{date('Y-m-d')}}">
+                            <small class="text-muted">12 mos</small>
                         </div>
                         <div class="form-group">
                             <label for="mmr2_type">Type</label>
@@ -391,6 +404,9 @@
                 <div class="form-group">
                     <label for="remarks">Remarks/Actions Taken</label>
                     <input type="text" class="form-control" name="remarks" id="remarks" value="{{old('remarks', $d->remarks)}}">
+                </div>
+                <div class="alert alert-primary" role="alert">
+                    <strong class="text-danger">Note: </strong>FIC/CIC will be computed automatically based on the data entered.
                 </div>
                 <hr>
                 <div class="form-group">
