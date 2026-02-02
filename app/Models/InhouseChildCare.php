@@ -107,12 +107,22 @@ class InhouseChildCare extends Model
         }
     }
 
+    public function isFic(): bool {
+        return !is_null($this->fic);
+    }
+
+    public function isCic(): bool {
+        return !is_null($this->cic);
+    }
+
     public static function colorFromType(?string $type): string {
         return match ($type) {
             'YOUR BHS' => 'FF000000', // black
-            'PUBLIC'    => 'FFFFA500', // green
+            'PUBLIC'    => 'FF008000', // green
             'PRIVATE'  => 'FFFF0000', // red
-            'OTHER RHU/BHS' => 'FF808080', // blue
+            'OTHER RHU/BHS' => 'FF0000FF', // blue
+            null => 'FFFFFFFF', // white
+            default => 'FFFFFFFF', // white
         };
     }
 }

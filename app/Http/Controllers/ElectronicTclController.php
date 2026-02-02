@@ -753,6 +753,8 @@ class ElectronicTclController extends Controller
         ];
 
         $d->update($table_params);
+        $d->runIndicatorUpdate();
+        $d->save();
 
         return redirect()
         ->route('etcl_home', ['type' => 'child_care'])
@@ -1875,11 +1877,69 @@ class ElectronicTclController extends Controller
 
                 $sheet->setCellValue('I'.$row, $d->cpab == 1 ? '✔' : '');
                 $sheet->setCellValue('J'.$row, $d->cpab == 2 ? '✔' : '');
-
+                
                 $sheet->setCellValue('K'.$row, (!is_null($d->bcg1) ? Carbon::parse($d->bcg1)->format('m/d/Y') : ''));
                 $sheet->getStyle('K'.$row)->getFont()->getColor()
                 ->setARGB($d->colorFromType($d->bcg1_type));
-                $sheet->setCellValue('K'.$row, (!is_null($d->bcg1) ? Carbon::parse($d->bcg1)->format('m/d/Y') : ''));
+                $sheet->setCellValue('L'.$row, (!is_null($d->bcg2) ? Carbon::parse($d->bcg2)->format('m/d/Y') : ''));
+                $sheet->getStyle('L'.$row)->getFont()->getColor()
+                ->setARGB($d->colorFromType($d->bcg2_type));
+
+                $sheet->setCellValue('M'.$row, (!is_null($d->hepab1) ? Carbon::parse($d->hepab1)->format('m/d/Y') : ''));
+                $sheet->getStyle('M'.$row)->getFont()->getColor()
+                ->setARGB($d->colorFromType($d->hepab1_type));
+                $sheet->setCellValue('N'.$row, (!is_null($d->hepab2) ? Carbon::parse($d->hepab2)->format('m/d/Y') : ''));
+                $sheet->getStyle('N'.$row)->getFont()->getColor()
+                ->setARGB($d->colorFromType($d->hepab2_type));
+
+                $sheet->setCellValue('O'.$row, (!is_null($d->dpt1) ? Carbon::parse($d->dpt1)->format('m/d/Y') : ''));
+                $sheet->getStyle('O'.$row)->getFont()->getColor()
+                ->setARGB($d->colorFromType($d->dpt1_type));
+                $sheet->setCellValue('P'.$row, (!is_null($d->dpt2) ? Carbon::parse($d->dpt2)->format('m/d/Y') : ''));
+                $sheet->getStyle('P'.$row)->getFont()->getColor()
+                ->setARGB($d->colorFromType($d->dpt2_type));
+                $sheet->setCellValue('Q'.$row, (!is_null($d->dpt3) ? Carbon::parse($d->dpt3)->format('m/d/Y') : ''));
+                $sheet->getStyle('Q'.$row)->getFont()->getColor()
+                ->setARGB($d->colorFromType($d->dpt3_type));
+
+                $sheet->setCellValue('R'.$row, (!is_null($d->opv1) ? Carbon::parse($d->opv1)->format('m/d/Y') : ''));
+                $sheet->getStyle('R'.$row)->getFont()->getColor()
+                ->setARGB($d->colorFromType($d->opv1_type));
+                $sheet->setCellValue('S'.$row, (!is_null($d->opv2) ? Carbon::parse($d->opv2)->format('m/d/Y') : ''));
+                $sheet->getStyle('S'.$row)->getFont()->getColor()
+                ->setARGB($d->colorFromType($d->opv2_type));
+                $sheet->setCellValue('T'.$row, (!is_null($d->opv3) ? Carbon::parse($d->opv3)->format('m/d/Y') : ''));
+                $sheet->getStyle('T'.$row)->getFont()->getColor()
+                ->setARGB($d->colorFromType($d->opv3_type));
+
+                $sheet->setCellValue('U'.$row, (!is_null($d->ipv1) ? Carbon::parse($d->ipv1)->format('m/d/Y') : ''));
+                $sheet->getStyle('U'.$row)->getFont()->getColor()
+                ->setARGB($d->colorFromType($d->ipv1_type));
+                $sheet->setCellValue('V'.$row, (!is_null($d->ipv2) ? Carbon::parse($d->ipv2)->format('m/d/Y') : ''));
+                $sheet->getStyle('V'.$row)->getFont()->getColor()
+                ->setARGB($d->colorFromType($d->ipv2_type));
+
+                $sheet->setCellValue('W'.$row, (!is_null($d->pcv1) ? Carbon::parse($d->pcv1)->format('m/d/Y') : ''));
+                $sheet->getStyle('W'.$row)->getFont()->getColor()
+                ->setARGB($d->colorFromType($d->pcv1_type));
+                $sheet->setCellValue('X'.$row, (!is_null($d->pcv2) ? Carbon::parse($d->pcv2)->format('m/d/Y') : ''));
+                $sheet->getStyle('X'.$row)->getFont()->getColor()
+                ->setARGB($d->colorFromType($d->pcv2_type));
+                $sheet->setCellValue('Y'.$row, (!is_null($d->pcv3) ? Carbon::parse($d->pcv3)->format('m/d/Y') : ''));
+                $sheet->getStyle('Y'.$row)->getFont()->getColor()
+                ->setARGB($d->colorFromType($d->pcv3_type));
+
+                $sheet->setCellValue('Z'.$row, (!is_null($d->mmr1) ? Carbon::parse($d->mmr1)->format('m/d/Y') : ''));
+                $sheet->getStyle('Z'.$row)->getFont()->getColor()
+                ->setARGB($d->colorFromType($d->mmr1_type));
+                $sheet->setCellValue('AA'.$row, (!is_null($d->mmr2) ? Carbon::parse($d->mmr2)->format('m/d/Y') : ''));
+                $sheet->getStyle('AA'.$row)->getFont()->getColor()
+                ->setARGB($d->colorFromType($d->mmr2_type));
+
+                $sheet->setCellValue('AB'.$row,  $d->isFic() ? '✔' : '');
+                $sheet->setCellValue('AC'.$row,  $d->isCic() ? '✔' : '');
+
+                $sheet->setCellValue('AD'.$row,  $d->system_remarks);
 
                 $row++;
             }
