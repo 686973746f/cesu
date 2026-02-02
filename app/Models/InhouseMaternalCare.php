@@ -194,6 +194,47 @@ class InhouseMaternalCare extends Model
     }
 
     public function runIndicatorUpdate() {
+        //Completed 8ANC detector
+        if($this->visit1 && $this->visit2 && $this->visit3 && $this->visit4 &&
+           $this->visit5 && $this->visit6 && $this->visit7 && $this->visit8) {
+            $this->completed_8anc = 'Y';
+        }
+        else {
+            $this->completed_8anc = 'N';
+        }
+
+        if($this->td1 && $this->td2 && $this->td3 && $this->td4 && $this->td5) {
+            $this->fim_status = 'Y';
+        }
+        else {
+            $this->fim_status = 'N';
+        }
+
+        if($this->ifa1_date && $this->ifa2_date && $this->ifa3_date &&
+           $this->ifa4_date && $this->ifa5_date && $this->ifa6_date) {
+            $this->completed_ifa = 'Y';
+        }
+        else {
+            $this->completed_ifa = 'N';
+        }
+
+        if($this->mms1_date && $this->mms2_date && $this->mms3_date &&
+           $this->mms4_date && $this->mms5_date && $this->mms6_date) {
+            $this->completed_mms = 'Y';
+        }
+        else {
+            $this->completed_mms = 'N';
+        }
+
+        if($this->highrisk == 'Y') {
+            if($this->calcium1_date && $this->calcium2_date && $this->calcium3_date) {
+                $this->completed_calcium = 'Y';
+            }
+            else {
+                $this->completed_calcium = 'N';
+            }
+        }
+
         //Td last dose detector
         if(!is_null($this->td5)) {
             $this->td_lastdose_count = 5;
@@ -214,6 +255,20 @@ class InhouseMaternalCare extends Model
         else if(!is_null($this->td1)) {
             $this->td_lastdose_count = 1;
             $this->td_lastdose_date = $this->td1;
+        }
+
+        if($this->pnc1 && $this->pnc2 && $this->pnc3 && $this->pnc4) {
+            $this->completed_4pnc = 'Y';
+        }
+        else {
+            $this->completed_4pnc = 'N';
+        }
+
+        if($this->pp_td1 && $this->pp_td2 && $this->pp_td3) {
+            $this->completed_pp_ifa = 'Y';
+        }
+        else {
+            $this->completed_pp_ifa = 'N';
         }
     }
 

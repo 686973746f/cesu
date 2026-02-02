@@ -1980,7 +1980,8 @@ class ElectronicTclController extends Controller
                 $sheet->setCellValue('E'.$row, $d->patient->getFullAddress());
                 $sheet->setCellValue('F'.$row, $d->age_years);
                 $sheet->setCellValue('G'.$row, $d->age_group);
-                $sheet->setCellValue('H'.$row, Carbon::parse($d->lmp)->format('m/d/Y'));
+                $sheet->setCellValue('H'.$row, 'LMP: '.Carbon::parse($d->lmp)->format('m/d/Y'));
+                $sheet->setCellValue('H'.($row+1), 'G: '.$d->gravida.' P: '.$d->parity);
                 $sheet->setCellValue('I'.$row, Carbon::parse($d->edc)->format('m/d/Y'));
                 $sheet->setCellValue('J'.$row, (!is_null($d->visit1)) ? Carbon::parse($d->visit1)->format('m/d/Y') : '');
                 $sheet->setCellValue('K'.$row, (!is_null($d->visit2)) ? Carbon::parse($d->visit2)->format('m/d/Y') : '');
@@ -1991,11 +1992,156 @@ class ElectronicTclController extends Controller
                 $sheet->setCellValue('P'.$row, (!is_null($d->visit7)) ? Carbon::parse($d->visit7)->format('m/d/Y') : '');
                 $sheet->setCellValue('Q'.$row, (!is_null($d->visit8)) ? Carbon::parse($d->visit8)->format('m/d/Y') : '');
 
+                $sheet->getStyle('J'.$row)->getFont()->getColor()->setARGB($d->colorFromType($d->visit1_type));
+                $sheet->getStyle('K'.$row)->getFont()->getColor()->setARGB($d->colorFromType($d->visit2_type));
+                $sheet->getStyle('L'.$row)->getFont()->getColor()->setARGB($d->colorFromType($d->visit3_type));
+                $sheet->getStyle('M'.$row)->getFont()->getColor()->setARGB($d->colorFromType($d->visit4_type));
+                $sheet->getStyle('N'.$row)->getFont()->getColor()->setARGB($d->colorFromType($d->visit5_type));
+                $sheet->getStyle('O'.$row)->getFont()->getColor()->setARGB($d->colorFromType($d->visit6_type));
+                $sheet->getStyle('P'.$row)->getFont()->getColor()->setARGB($d->colorFromType($d->visit7_type));
+                $sheet->getStyle('Q'.$row)->getFont()->getColor()->setARGB($d->colorFromType($d->visit8_type));
+
+                $sheet->setCellValue('R'.$row, $d->completed_8anc == 'Y' ? '1' : '0');
+                
+                if($d->nutritional_assessment == 'L') {
+                    $sheet->setCellValue('S'.$row, $d->bmi);
+                }
+                else if($d->nutritional_assessment == 'N') {
+                    $sheet->setCellValue('T'.$row, $d->bmi);
+                }
+                else if($d->nutritional_assessment == 'H') {
+                    $sheet->setCellValue('U'.$row, $d->bmi);
+                }
+
+                $sheet->setCellValue('V'.$row, $d->trans_remarks);
+
+                $sheet->setCellValue('W'.$row, (!is_null($d->td1)) ? Carbon::parse($d->td1)->format('m/d/Y') : '');
+                $sheet->setCellValue('X'.$row, (!is_null($d->td2)) ? Carbon::parse($d->td2)->format('m/d/Y') : '');
+                $sheet->setCellValue('Y'.$row, (!is_null($d->td3)) ? Carbon::parse($d->td3)->format('m/d/Y') : '');
+                $sheet->setCellValue('Z'.$row, (!is_null($d->td4)) ? Carbon::parse($d->td4)->format('m/d/Y') : '');
+                $sheet->setCellValue('AA'.$row, (!is_null($d->td5)) ? Carbon::parse($d->td5)->format('m/d/Y') : '');
+
+                $sheet->getStyle('W'.$row)->getFont()->getColor()->setARGB($d->colorFromType($d->td1_type));
+                $sheet->getStyle('X'.$row)->getFont()->getColor()->setARGB($d->colorFromType($d->td2_type));
+                $sheet->getStyle('Y'.$row)->getFont()->getColor()->setARGB($d->colorFromType($d->td3_type));
+                $sheet->getStyle('Z'.$row)->getFont()->getColor()->setARGB($d->colorFromType($d->td4_type));
+                $sheet->getStyle('AA'.$row)->getFont()->getColor()->setARGB($d->colorFromType($d->td5_type));
+
+                $sheet->setCellValue('AB'.$row, $d->fim_status == 'Y' ? '✔' : 'X');
+
+                $sheet->setCellValue('AC'.$row, !is_null($d->deworming_date) ? 'Y' : 'N');
+                $sheet->setCellValue('AC'.($row+1), !is_null($d->deworming_date) ? Carbon::parse($d->deworming_date)->format('m/d/Y') : 'N/A');
+
+                $sheet->setCellValue('AD'.$row, !is_null($d->ifa1_date) ? '#: '.$d->ifa1_dosage : '#:');
+                $sheet->setCellValue('AD'.($row+1), !is_null($d->ifa1_date) ? 'd: '.Carbon::parse($d->ifa1_date)->format('m/d/Y') : 'd:');
+                $sheet->getStyle('AD'.($row+1))->getFont()->getColor()->setARGB($d->colorFromType($d->ifa1_type));
+                $sheet->setCellValue('AE'.$row, !is_null($d->ifa2_date) ? '#: '.$d->ifa2_dosage : '#:');
+                $sheet->setCellValue('AE'.($row+1), !is_null($d->ifa2_date) ? 'd: '.Carbon::parse($d->ifa2_date)->format('m/d/Y') : 'd:');
+                $sheet->getStyle('AE'.($row+1))->getFont()->getColor()->setARGB($d->colorFromType($d->ifa2_type));
+                $sheet->setCellValue('AF'.$row, !is_null($d->ifa3_date) ? '#: '.$d->ifa3_dosage : '#:');
+                $sheet->setCellValue('AF'.($row+1), !is_null($d->ifa3_date) ? 'd: '.Carbon::parse($d->ifa3_date)->format('m/d/Y') : 'd:');
+                $sheet->getStyle('AF'.($row+1))->getFont()->getColor()->setARGB($d->colorFromType($d->ifa3_type));
+                $sheet->setCellValue('AG'.$row, !is_null($d->ifa4_date) ? '#: '.$d->ifa4_dosage : '#:');
+                $sheet->setCellValue('AG'.($row+1), !is_null($d->ifa4_date) ? 'd: '.Carbon::parse($d->ifa4_date)->format('m/d/Y') : 'd:');
+                $sheet->getStyle('AG'.($row+1))->getFont()->getColor()->setARGB($d->colorFromType($d->ifa4_type));
+                $sheet->setCellValue('AH'.$row, !is_null($d->ifa5_date) ? '#: '.$d->ifa5_dosage : '#:');
+                $sheet->setCellValue('AH'.($row+1), !is_null($d->ifa5_date) ? 'd: '.Carbon::parse($d->ifa5_date)->format('m/d/Y') : 'd:');
+                $sheet->getStyle('AH'.($row+1))->getFont()->getColor()->setARGB($d->colorFromType($d->ifa5_type));
+                $sheet->setCellValue('AI'.$row, !is_null($d->ifa6_date) ? '#: '.$d->ifa6_dosage : '#:');
+                $sheet->setCellValue('AI'.($row+1), !is_null($d->ifa6_date) ? 'd: '.Carbon::parse($d->ifa6_date)->format('m/d/Y') : 'd:');
+                $sheet->getStyle('AI'.($row+1))->getFont()->getColor()->setARGB($d->colorFromType($d->ifa6_type));
+                $sheet->setCellValue('AJ'.$row, $d->completed_ifa == 'Y' ? '1' : '0');
+                $sheet->setCellValue('AJ'.($row+1), $d->completed_ifa == 'Y' ? 'd: '.Carbon::parse($d->ifa6_date)->format('m/d/Y') : 'd:');
+                
+                $sheet->setCellValue('AK'.$row, !is_null($d->mms1_date) ? '#: '.$d->mms1_dosage : '#:');
+                $sheet->setCellValue('AK'.($row+1), !is_null($d->mms1_date) ? 'd: '.Carbon::parse($d->mms1_date)->format('m/d/Y') : 'd:');
+                $sheet->getStyle('AK'.($row+1))->getFont()->getColor()->setARGB($d->colorFromType($d->mms1_type));
+                $sheet->setCellValue('AL'.$row, !is_null($d->mms2_date) ? '#: '.$d->mms2_dosage : '#:');
+                $sheet->setCellValue('AL'.($row+1), !is_null($d->mms2_date) ? 'd: '.Carbon::parse($d->mms2_date)->format('m/d/Y') : 'd:');
+                $sheet->getStyle('AL'.($row+1))->getFont()->getColor()->setARGB($d->colorFromType($d->mms2_type));
+                $sheet->setCellValue('AM'.$row, !is_null($d->mms3_date) ? '#: '.$d->mms3_dosage : '#:');
+                $sheet->setCellValue('AM'.($row+1), !is_null($d->mms3_date) ? 'd: '.Carbon::parse($d->mms3_date)->format('m/d/Y') : 'd:');
+                $sheet->getStyle('AM'.($row+1))->getFont()->getColor()->setARGB($d->colorFromType($d->mms3_type));
+                $sheet->setCellValue('AN'.$row, !is_null($d->mms4_date) ? '#: '.$d->mms4_dosage : '#:');
+                $sheet->setCellValue('AN'.($row+1), !is_null($d->mms4_date) ? 'd: '.Carbon::parse($d->mms4_date)->format('m/d/Y') : 'd:');
+                $sheet->getStyle('AN'.($row+1))->getFont()->getColor()->setARGB($d->colorFromType($d->mms4_type));
+                $sheet->setCellValue('AO'.$row, !is_null($d->mms5_date) ? '#: '.$d->mms5_dosage : '#:');
+                $sheet->setCellValue('AO'.($row+1), !is_null($d->mms5_date) ? 'd: '.Carbon::parse($d->mms5_date)->format('m/d/Y') : 'd:');
+                $sheet->getStyle('AO'.($row+1))->getFont()->getColor()->setARGB($d->colorFromType($d->mms5_type));
+                $sheet->setCellValue('AP'.$row, !is_null($d->mms6_date) ? '#: '.$d->mms6_dosage : '#:');
+                $sheet->setCellValue('AP'.($row+1), !is_null($d->mms6_date) ? 'd: '.Carbon::parse($d->mms6_date)->format('m/d/Y') : 'd:');
+                $sheet->getStyle('AP'.($row+1))->getFont()->getColor()->setARGB($d->colorFromType($d->mms6_type));
+                $sheet->setCellValue('AQ'.$row, $d->completed_mms == 'Y' ? '1' : '0');
+                $sheet->setCellValue('AQ'.($row+1), $d->completed_mms == 'Y' ? 'd: '.Carbon::parse($d->mms6_date)->format('m/d/Y') : 'd:');
+
+                if($d->highrisk == 'Y') {
+                    $sheet->setCellValue('AR'.$row, !is_null($d->calcium1_date) ? '#: '.$d->calcium1_dosage : '#:');
+                    $sheet->setCellValue('AR'.($row+1), !is_null($d->calcium1_date) ? 'd: '.Carbon::parse($d->calcium1_date)->format('m/d/Y') : 'd:');
+                    $sheet->getStyle('AR'.($row+1))->getFont()->getColor()->setARGB($d->colorFromType($d->calcium1_type));
+                    $sheet->setCellValue('AS'.$row, !is_null($d->calcium2_date) ? '#: '.$d->calcium2_dosage : '#:');
+                    $sheet->setCellValue('AS'.($row+1), !is_null($d->calcium2_date) ? 'd: '.Carbon::parse($d->calcium2_date)->format('m/d/Y') : 'd:');
+                    $sheet->getStyle('AS'.($row+1))->getFont()->getColor()->setARGB($d->colorFromType($d->calcium2_type));
+                    $sheet->setCellValue('AT'.$row, !is_null($d->calcium3_date) ? '#: '.$d->calcium3_dosage : '#:');
+                    $sheet->setCellValue('AT'.($row+1), !is_null($d->calcium3_date) ? 'd: '.Carbon::parse($d->calcium3_date)->format('m/d/Y') : 'd:');
+                    $sheet->getStyle('AT'.($row+1))->getFont()->getColor()->setARGB($d->colorFromType($d->calcium3_type));
+
+                    $sheet->setCellValue('AU'.$row, $d->completed_calcium == 'Y' ? '1' : '0');
+                    $sheet->setCellValue('AU'.($row+1), $d->completed_calcium == 'Y' ? 'd: '.Carbon::parse($d->calcium3_date)->format('m/d/Y') : 'd:');
+                }
+
+                $sheet->setCellValue('AV'.$row, !is_null($d->syphilis_date) ? Carbon::parse($d->syphilis_date)->format('m/d/Y') : '');
+                $sheet->setCellValue('AW'.$row, !is_null($d->syphilis_date) ? $d->syphilis_result : '');
+                $sheet->setCellValue('AX'.$row, !is_null($d->hiv_date) ? Carbon::parse($d->hiv_date)->format('m/d/Y') : '');
+                $sheet->setCellValue('AY'.$row, !is_null($d->hiv_date) ? $d->hiv_result : '');
+                $sheet->setCellValue('AZ'.$row, !is_null($d->hb_date) ? Carbon::parse($d->hb_date)->format('m/d/Y') : '');
+                $sheet->setCellValue('BA'.$row, !is_null($d->hb_date) ? $d->hb_result : '');
+                $sheet->setCellValue('BB'.$row, !is_null($d->cbc_date) ? Carbon::parse($d->cbc_date)->format('m/d/Y') : '');
+                $sheet->setCellValue('BC'.$row, !is_null($d->cbc_date) ? $d->cbc_result : '');
+                $sheet->setCellValue('BD'.$row, !is_null($d->diabetes_date) ? Carbon::parse($d->diabetes_date)->format('m/d/Y') : '');
+                $sheet->setCellValue('BE'.$row, !is_null($d->diabetes_date) ? $d->diabetes_result : '');
+
+                //Outcome
+                $sheet->setCellValue('BF'.$row, !is_null($d->delivery_date) ? Carbon::parse($d->delivery_date)->format('m/d/Y') : '');
+                $sheet->setCellValue('BG'.$row, $d->outcome);
+                $sheet->setCellValue('BH'.$row, $d->delivery_type);
+
+                $sheet->setCellValue('BI'.$row, $d->birth_weight);
+                $sheet->setCellValue('BJ'.$row, $d->weight_status);
+
+                $sheet->setCellValue('BK'.$row, ($d->facility_type != 'NON/HEALTH FACILITY') ? $d->place_of_delivery : '');
+                $sheet->setCellValue('BL'.$row, $d->bcemoncapable == 'Y' ? '✔' : '');
+
+                $sheet->setCellValue('BM'.$row, $d->facility_type);
+                $sheet->setCellValue('BN'.$row, $d->facility_type == 'NON/HEALTH FACILITY' ? $d->nonhealth_type : '');
+                $sheet->setCellValue('BO'.$row, $d->attendant != 'O' ? $d->attendant : 'O - '.$d->attendant_others);
+
+                $sheet->setCellValue('BP'.$row, !is_null($d->delivery_date) ? Carbon::parse($d->delivery_date)->format('m/d/Y') : '');
+                $sheet->setCellValue('BO'.$row, !is_null($d->delivery_date) ? Carbon::parse($d->delivery_date)->format('h:i A') : '');
+
+                $sheet->setCellValue('BR'.$row, !is_null($d->pnc1) ? Carbon::parse($d->pnc1)->format('m/d/Y') : '');
+                $sheet->setCellValue('BS'.$row, !is_null($d->pnc2) ? Carbon::parse($d->pnc2)->format('m/d/Y') : '');
+                $sheet->setCellValue('BT'.$row, !is_null($d->pnc3) ? Carbon::parse($d->pnc3)->format('m/d/Y') : '');
+                $sheet->setCellValue('BU'.$row, !is_null($d->pnc4) ? Carbon::parse($d->pnc4)->format('m/d/Y') : '');
+                $sheet->setCellValue('BV'.$row, $d->completed_4pnc == 'Y' ? '1' : '0');
+
+                $sheet->setCellValue('BW'.$row, !is_null($d->pp_td1) ? '#: '.$d->pp_td1_dosage : '#:');
+                $sheet->setCellValue('BW'.($row+1), !is_null($d->pp_td1) ? 'd: '.Carbon::parse($d->pp_td1)->format('m/d/Y') : 'd:');
+                $sheet->setCellValue('BX'.$row, !is_null($d->pp_td2) ? '#: '.$d->pp_td2_dosage : '#:');
+                $sheet->setCellValue('BX'.($row+1), !is_null($d->pp_td2) ? 'd: '.Carbon::parse($d->pp_td2)->format('m/d/Y') : 'd:');
+                $sheet->setCellValue('BY'.$row, !is_null($d->pp_td3) ? '#: '.$d->pp_td3_dosage : '#:');
+                $sheet->setCellValue('BY'.($row+1), !is_null($d->pp_td3) ? 'd: '.Carbon::parse($d->pp_td3)->format('m/d/Y') : 'd:');
+                $sheet->setCellValue('BZ'.$row, $d->completed_pp_ifa == 'Y' ? '1' : '0');
+                $sheet->setCellValue('BZ'.($row+1), $d->completed_pp_ifa == 'Y' ? 'd: '.Carbon::parse($d->pp_td3)->format('m/d/Y') : 'd:');
+                $sheet->setCellValue('CA'.$row, !is_null($d->vita) ? '1' : '0');
+                $sheet->setCellValue('CA'.($row+1), !is_null($d->vita) ? 'd: '.Carbon::parse($d->vita)->format('m/d/Y') : 'd:');
+
+                $sheet->setCellValue('CB'.$row, $d->pp_remarks);
+
                 $row = $row + 2;
             }
         }
 
-        $fileName = "FHSIS_TCL_".$r->year."_".$r->month."_".time().".xlsx";
+        $fileName = "FHSIS_TCL_{$r->etcl_type}_".time().".xlsx";
         ob_clean();
         $writer = new Xlsx($spreadsheet);
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
