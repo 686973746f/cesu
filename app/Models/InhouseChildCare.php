@@ -106,4 +106,13 @@ class InhouseChildCare extends Model
             }
         }
     }
+
+    public static function colorFromType(?string $type): string {
+        return match ($type) {
+            'YOUR BHS' => 'FF000000', // black
+            'PUBLIC'    => 'FFFFA500', // green
+            'PRIVATE'  => 'FFFF0000', // red
+            'OTHER RHU/BHS' => 'FF808080', // blue
+        };
+    }
 }

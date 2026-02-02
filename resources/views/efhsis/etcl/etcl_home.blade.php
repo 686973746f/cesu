@@ -62,6 +62,41 @@
                             </div>
                         </div>
                         <input type="hidden" name="etcl_type" value="{{$type}}">
+                        @if(auth()->user()->isMasterAdminEtcl())
+                        <div class="form-group">
+                          <label for="filter_type"><b class="text-danger">*</b>Filter Type</label>
+                          <select class="form-control" name="filter_type" id="filter_type" required>
+                            <option value="" disabled selected>Choose...</option>
+                            <option value="BHS">By BHS</option>
+                            <option value="Barangay">By Barangay</option>
+                          </select>
+                        </div>
+                        <div id="generate_bhs_div" class="d-none">
+                            <div class="form-group">
+                                <label for="selected_bhs_id"><b class="text-danger">*</b>Selected BHS</label>
+                                <select class="form-control" name="selected_bhs_id" id="selected_bhs_id">
+                                  @foreach(App\Models\DohFacility::where('facility_type', 'Barangay Health Station')
+                                  ->where('address_muncity', 'CITY OF GENERAL TRIAS')
+                                  ->orderBy('facility_name')
+                                  ->get() as $bhs)
+                                  <option value="{{$bhs->id}}">{{$bhs->facility_name}}</option>
+                                  @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div id="generate_brgy_div" class="d-none">
+                            <div class="form-group">
+                                <label for="selected_brgy_id"><b class="text-danger">*</b>Selected Barangay</label>
+                                <select class="form-control" name="selected_brgy_id" id="selected_brgy_id">
+                                  @foreach(App\Models\EdcsBrgy::where('city_id', 388)
+                                  ->orderBy('name')
+                                  ->get() as $brgy)
+                                  <option value="{{$brgy->id}}">{{$brgy->name}}</option>
+                                  @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        @endif
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success btn-block">Generate TCL Excel File</button>
@@ -74,6 +109,27 @@
     <script>
         $('#start_date').on('change', function () {
             $('#end_date').prop('min', $(this).val());
+        });
+
+        $('#filter_type').change(function (e) { 
+            e.preventDefault();
+            $('#generate_bhs_div').addClass('d-none');
+            $('#selected_bhs_id').prop('required', false);
+            $('#generate_brgy_div').addClass('d-none');
+            $('#selected_brgy_id').prop('required', false);
+            
+            if($(this).val() == 'BHS') {
+                $('#generate_bhs_div').removeClass('d-none');
+                $('#selected_bhs_id').prop('required', true);
+                $('#generate_brgy_div').addClass('d-none');
+                $('#selected_brgy_id').prop('required', false);
+            }
+            else if($(this).val() == 'Barangay') {
+                $('#generate_bhs_div').addClass('d-none');
+                $('#selected_bhs_id').prop('required', false);
+                $('#generate_brgy_div').removeClass('d-none');
+                $('#selected_brgy_id').prop('required', true);
+            }
         });
     </script>
 @endsection

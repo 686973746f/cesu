@@ -465,6 +465,14 @@ class User extends Authenticatable implements MustVerifyEmail
         }
     }
 
+    public function canAccessOpdPatients() {
+        //Patient List and Viewer
+    }
+
+    public function canAccessOpdRecords() {
+        //Patient ITR Records List and Viewer
+    }
+
     public function isStaffSyndromic() {
         $plist = explode(",", auth()->user()->permission_list);
 

@@ -9,6 +9,7 @@ use App\Models\SyndromicPatient;
 use App\Models\InhouseMaternalCare;
 use PhpOffice\PhpSpreadsheet\IOFactory as ExcelFactory;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Color;
 
 class ElectronicTclController extends Controller
 {
@@ -473,7 +474,7 @@ class ElectronicTclController extends Controller
 
             //'pregnancy_terminated_date',
 
-            'created_by' => auth()->user()->id,
+            //'created_by' => auth()->user()->id,
             'updated_by' => auth()->user()->id,
 
             'system_remarks' => $r->system_remarks,
@@ -600,6 +601,164 @@ class ElectronicTclController extends Controller
         
         return $this->newOrEditChildCare($d, 'EDIT', $d->id);
     }
+    
+    public function updateChildCare($id, Request $r) {
+        $d = InhouseChildCare::findOrFail($id);
+
+        $check = InhouseChildCare::where('request_uuid', $r->request_uuid)->first();
+
+        if($check) {
+            return redirect()
+            ->back()
+            ->with('msg', 'Error: This record has already been updated.')
+            ->with('msgtype', 'warning');
+        }
+
+        $birthdate = Carbon::parse($d->patient->bdate);
+        $currentDate = Carbon::parse($r->registration_date);
+
+        $get_ageyears = $birthdate->diffInYears($currentDate);
+        $get_agemonths = $birthdate->diffInMonths($currentDate);
+        $get_agedays = $birthdate->diffInDays($currentDate);
+
+        if($r->filled('ipv1')) {
+            if(!$r->filled('dpt3')) {
+                return redirect()
+                ->back()
+                ->withInput()
+                ->with('msg', 'Error: DPT-HiB-Hepb 3rd Dose must be filled before encoding IPV 1st Dose.')
+                ->with('msgtype', 'warning');
+            }
+            else if(!$r->filled('opv3')) {
+                return redirect()
+                ->back()
+                ->withInput()
+                ->with('msg', 'Error: OPV 3rd Dose must be filled before encoding IPV 1st Dose.')
+                ->with('msgtype', 'warning');
+            }
+            else if(!$r->filled('pcv3')) {
+                return redirect()
+                ->back()
+                ->withInput()
+                ->with('msg', 'Error: PCV 3rd Dose must be filled before encoding IPV 1st Dose.')
+                ->with('msgtype', 'warning');
+            }
+        }
+
+        $table_params = [
+            //'patient_id' => $d->id,
+            //'facility_id' => auth()->user()->etcl_bhs_id,
+            'registration_date' => $r->registration_date,
+            'mother_type' => $r->mother_type,
+
+            'bcg1' => $r->bcg1,
+            'bcg1_type' => $r->bcg1_type,
+            'bcg2' => $r->bcg2,
+            'bcg2_type' => $r->bcg2_type,
+            'hepab1' => $r->hepab1,
+            'hepab1_type' => $r->hepab1_type,
+            'hepab2' => $r->hepab2,
+            'hepab2_type' => $r->hepab2_type,
+
+            'dpt1' => $r->dpt1,
+            'dpt1_type' => $r->dpt1_type,
+            'dpt1_months' => ($r->filled('dpt1')) ? Carbon::parse($r->dpt1)->diffInMonths($birthdate) : null,
+            'dpt2' => $r->dpt2,
+            'dpt2_type' => $r->dpt2_type,
+            'dpt2_months' => ($r->filled('dpt2')) ? Carbon::parse($r->dpt2)->diffInMonths($birthdate) : null,
+            'dpt3' => $r->dpt3,
+            'dpt3_type' => $r->dpt3_type,
+            'dpt3_months' => ($r->filled('dpt3')) ? Carbon::parse($r->dpt3)->diffInMonths($birthdate) : null,
+            'opv1' => $r->opv1,
+            'opv1_type' => $r->opv1_type,
+            'opv1_months' => ($r->filled('opv1')) ? Carbon::parse($r->opv1)->diffInMonths($birthdate) : null,
+            'opv2' => $r->opv2,
+            'opv2_type' => $r->opv2_type,
+            'opv2_months' => ($r->filled('opv2')) ? Carbon::parse($r->opv2)->diffInMonths($birthdate) : null,
+            'opv3' => $r->opv3,
+            'opv3_type' => $r->opv3_type,
+            'opv3_months' => ($r->filled('opv3')) ? Carbon::parse($r->opv3)->diffInMonths($birthdate) : null,
+            'ipv1' => $r->ipv1,
+            'ipv1_type' => $r->ipv1_type,
+            'ipv1_months' => ($r->filled('ipv1')) ? Carbon::parse($r->ipv1)->diffInMonths($birthdate) : null,
+            'ipv2' => $r->ipv2,
+            'ipv2_type' => $r->ipv2_type,
+            'ipv2_months' => ($r->filled('ipv2')) ? Carbon::parse($r->ipv2)->diffInMonths($birthdate) : null,
+            'ipv3' => $r->ipv3,
+            'ipv3_type' => $r->ipv3_type,
+            'ipv3_months' => ($r->filled('ipv3')) ? Carbon::parse($r->ipv3)->diffInMonths($birthdate) : null,
+            'pcv1' => $r->pcv1,
+            'pcv1_type' => $r->pcv1_type,
+            'pcv1_months' => ($r->filled('pcv1')) ? Carbon::parse($r->pcv1)->diffInMonths($birthdate) : null,
+            'pcv2' => $r->pcv2,
+            'pcv2_type' => $r->pcv2_type,
+            'pcv2_months' => ($r->filled('pcv2')) ? Carbon::parse($r->pcv2)->diffInMonths($birthdate) : null,
+            'pcv3' => $r->pcv3,
+            'pcv3_type' => $r->pcv3_type,
+            'pcv3_months' => ($r->filled('pcv3')) ? Carbon::parse($r->pcv3)->diffInMonths($birthdate) : null,
+            'mmr1' => $r->mmr1,
+            'mmr1_type' => $r->mmr1_type,
+            'mmr1_months' => ($r->filled('mmr1')) ? Carbon::parse($r->mmr1)->diffInMonths($birthdate) : null,
+            'mmr2' => $r->mmr2,
+            'mmr2_type' => $r->mmr2_type,
+            'mmr2_months' => ($r->filled('mmr2')) ? Carbon::parse($r->mmr2)->diffInMonths($birthdate) : null,
+            'remarks' => $r->remarks,
+            'system_remarks' => $r->system_remarks,
+
+            //'created_by' => auth()->user()->id,
+            'updated_by' => auth()->user()->id,
+            'request_uuid' => $r->request_uuid,
+
+            'age_years' => $get_ageyears,
+            'age_months' => $get_agemonths,
+            'age_days' => $get_agedays,
+        ];
+
+        if($r->mother_type == 'Y') {
+            //Search Mother
+            $mcr = InhouseMaternalCare::find($r->maternalcare_id);
+
+            if(!$mcr) {
+                return redirect()
+                ->back()
+                ->with('msg', 'Error: Mother\'s Maternal Care Record not found.')
+                ->with('msgtype', 'warning');
+            }
+
+            if(!is_null($mcr->td5) || !is_null($mcr->td4) || !is_null($mcr->td3)) {
+                $cpab = '2';
+            }
+            else if(!is_null($mcr->td2)) {
+                $cpab = '1';
+            }
+            else {
+                $cpab = '0';
+            }
+
+            $table_params = $table_params + [
+                'maternalcare_id' => $r->maternalcare_id,
+            ];
+        }
+        else {
+            $cpab = $r->cpab_manual;
+
+            $table_params = $table_params + [
+                'mother_name' => mb_strtoupper($r->mother_name),
+                'cpab_type' => mb_strtoupper($r->cpab_type),
+            ];
+        }
+
+        $table_params = $table_params + [
+            'cpab' => $cpab,
+        ];
+
+        $d->update($table_params);
+
+        return redirect()
+        ->route('etcl_home', ['type' => 'child_care'])
+        ->with('msg', 'Child Care Record successfully updated.')
+        ->with('msgtype', 'success');
+    }
 
     public function searchMaternalCareMother(Request $request) {
         $q = trim($request->q);
@@ -633,6 +792,15 @@ class ElectronicTclController extends Controller
             back()
             ->with('msg', 'Error: This record has already been saved.')
             ->with('msgtype', 'warning');
+        }
+
+        $find = InhouseChildCare::where('patient_id', $d->id)->first();
+
+        if($find) {
+            return redirect()
+            ->back()
+            ->with('msg', 'Existing Child Care record found for this patient. You can only encode one (1) Child Care record per patient.')
+            ->with('msgtype', 'info');
         }
 
         $birthdate = Carbon::parse($d->bdate);
@@ -746,7 +914,7 @@ class ElectronicTclController extends Controller
                 ->with('msgtype', 'warning');
             }
 
-            if(!is_null($mcr->td5)) {
+            if(!is_null($mcr->td5) || !is_null($mcr->td4) || !is_null($mcr->td3)) {
                 $cpab = '2';
             }
             else if(!is_null($mcr->td2)) {
@@ -1657,6 +1825,75 @@ class ElectronicTclController extends Controller
     }
 
     public function generateTcl(Request $r) {
-        
+        $start_date = Carbon::parse($r->start_date);
+        $end_date = Carbon::parse($r->end_date);
+
+        if($r->etcl_type == 'child_care') {
+            $spreadsheet = ExcelFactory::load(storage_path('etcl_child_care.xlsx'));
+            $sheet = $spreadsheet->getActiveSheet();
+
+            $row = 9;
+
+            $base_qry = InhouseChildCare::whereBetween('registration_date', [$start_date->format('Y-m-d'), $end_date->format('Y-m-d')])
+            ->where('enabled', 'Y');
+
+            if(auth()->user()->isMasterAdminEtcl()) {
+                if($r->filter_type == 'BHS') {
+                    $qry = (clone $base_qry)
+                    ->where('facility_id', $r->selected_bhs_id)
+                    ->get();
+                }
+                else {
+                    $qry = (clone $base_qry)
+                    ->whereHas('facility.brgy', function($q) use ($r) {
+                        $q->where('id', $r->selected_brgy_id);
+                    })->get();
+                }
+            }
+            else {
+                $qry = (clone $base_qry)
+                ->where('facility_id', auth()->user()->etcl_bhs_id)
+                ->get();
+            }
+
+            foreach($qry as $ind => $d) {
+                $sheet->setCellValue('A'.$row, $ind + 1);
+                $sheet->setCellValue('B'.$row, Carbon::parse($d->registration_date)->format('m/d/Y'));
+                $sheet->setCellValue('C'.$row, '');
+                $sheet->setCellValue('D'.$row, $d->patient->getName());
+                $sheet->setCellValue('E'.$row, substr($d->patient->gender,0,1));
+                $sheet->setCellValue('F'.$row, Carbon::parse($d->patient->bdate)->format('m/d/Y'));
+
+                if($d->mother_type == 'Y') {
+                    $sheet->setCellValue('G'.$row, $d->maternalcare->patient->getName());
+                }
+                else {
+                    $sheet->setCellValue('G'.$row, $d->mother_name);
+                }
+
+                $sheet->setCellValue('H'.$row, $d->patient->getFullAddress());
+
+                $sheet->setCellValue('I'.$row, $d->cpab == 1 ? '✔' : '');
+                $sheet->setCellValue('J'.$row, $d->cpab == 2 ? '✔' : '');
+
+                $sheet->setCellValue('K'.$row, (!is_null($d->bcg1) ? Carbon::parse($d->bcg1)->format('m/d/Y') : ''));
+                $sheet->getStyle('K'.$row)->getFont()->getColor()
+                ->setARGB($d->colorFromType($d->bcg1_type));
+                $sheet->setCellValue('K'.$row, (!is_null($d->bcg1) ? Carbon::parse($d->bcg1)->format('m/d/Y') : ''));
+
+                $row++;
+            }
+        }
+        else if($r->etcl_type == 'maternal_care') {
+            $spreadsheet = ExcelFactory::load(storage_path('etcl_maternal_care.xlsx'));
+            $sheet = $spreadsheet->getActiveSheet();
+        }
+
+        $fileName = "FHSIS_TCL_".$r->year."_".$r->month."_".time().".xlsx";
+        ob_clean();
+        $writer = new Xlsx($spreadsheet);
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="'. urlencode($fileName).'"');
+        $writer->save('php://output');
     }
 }

@@ -27,7 +27,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="">Family Serial No.</label>
-                            <input type="text" class="form-control" value="{{ $patient->inhouseFamilySerials->inhouse_familyserialno ?? 'N/A' }}" readonly>
+                            <input type="text" class="form-control" value="{{ ($mode == 'EDIT') ?  $d->patient->inhouseFamilySerials->inhouse_familyserialno ?? 'N/A' : $patient->inhouseFamilySerials->inhouse_familyserialno ?? 'N/A' }}" readonly>
                           </div>
                     </div>
                 </div>
@@ -35,7 +35,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="">Name of Child</label>
-                            <input type="text" class="form-control" value="{{ $patient->getName() }}" readonly>
+                            <input type="text" class="form-control" value="{{ ($mode == 'EDIT') ? $d->patient->getName() : $patient->getName() }}" readonly>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -43,13 +43,13 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">Sex</label>
-                                    <input type="text" class="form-control" value="{{ $patient->gender }}" readonly>
+                                    <input type="text" class="form-control" value="{{ ($mode == 'EDIT') ?  $d->patient->gender : $patient->gender }}" readonly>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">Date of Birth</label>
-                                    <input type="text" class="form-control" value="{{ Carbon\Carbon::parse($patient->bdate)->format('m/d/Y') }}" readonly>
+                                    <input type="text" class="form-control" value="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->patient->bdate)->format('m/d/Y') : Carbon\Carbon::parse($patient->bdate)->format('m/d/Y') }}" readonly>
                                 </div>
                             </div>
                         </div>
@@ -79,7 +79,7 @@
                         <div id="mother_name_div" class="d-none">
                             <div class="form-group">
                                 <label for="mother_name"><b class="text-danger">*</b>Name of Mother</label>
-                                <input type="text" class="form-control" name="mother_name" id="mother_name" style="text-transform: uppercase">
+                                <input type="text" class="form-control" name="mother_name" id="mother_name" value="{{ old('mother_name', $d->mother_name) }}" style="text-transform: uppercase">
                             </div>
                             <div class="form-group">
                               <label for="cpab_manual"><b class="text-danger">*</b>Child Protected at Birth (CPAB) from neonatal tetanus</label>
@@ -99,7 +99,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="">Complete Address</label>
-                            <input type="text" class="form-control" value="{{ $patient->getFullAddress() }}" readonly>
+                            <input type="text" class="form-control" value="{{ ($mode == 'EDIT') ? $d->patient->getFullAddress() : $patient->getFullAddress() }}" readonly>
                         </div>
                     </div>
                 </div>
