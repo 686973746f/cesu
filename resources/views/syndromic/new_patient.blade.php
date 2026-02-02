@@ -40,6 +40,7 @@
                         <input type="text" class="form-control" name="" id="" value="{{auth()->user()->opdfacility->facility_name}}" readonly>
                     </div>
                     @endif
+                    @if(is_null(request()->input('from_etcl')))
                     <div class="row">
                         <div class="col-md-6 text-center">
                             <canvas id="canvas" width="640" height="480" class="d-none" style="width: 50%"></canvas>
@@ -51,6 +52,7 @@
 
                         </div>
                     </div>
+                    @endif
                     @if(auth()->user()->isSyndromicHospitalLevelAccess())
                     <div class="row">
                         <div class="col-md-6">
@@ -133,10 +135,14 @@
                             <div class="form-group">
                                 <label for="cs"><span class="text-danger font-weight-bold">*</span>Civil Status</label>
                                 <select class="form-control" id="cs" name="cs" required>
+                                    @if(!is_null(request()->input('from_etcl')) && request()->input('from_etcl') == 'child_care')
+                                    <option value="SINGLE" {{(old('cs') == 'SINGLE') ? 'selected' : ''}}>Single</option>
+                                    @else
                                     <option value="" disabled {{(is_null(old('cs'))) ? 'selected' : ''}}>Choose...</option>
                                     <option value="SINGLE" {{(old('cs') == 'SINGLE') ? 'selected' : ''}}>Single</option>
                                     <option value="MARRIED" {{(old('cs') == 'MARRIED') ? 'selected' : ''}}>Married</option>
                                     <option value="WIDOWED" {{(old('cs') == 'WIDOWED') ? 'selected' : ''}}>Widowed</option>
+                                    @endif
                                 </select>
                             </div>
                             <div class="form-group d-none" id="ifmarried_div">
@@ -209,6 +215,8 @@
                     </div>
                     @endif
                     @endif
+
+                    @if(is_null(request()->input('from_etcl')))
                     <hr>
                     <div class="row">
                         <div class="col-6">
@@ -225,11 +233,12 @@
                         </div>
                     </div>
                     <hr>
+                    @endif
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                               <label for="mother_name">Mother's Name</label>
-                              <input type="text" class="form-control" name="mother_name" id="mother_name" value="{{old('mother_name')}}" style="text-transform: uppercase;">
+                              <input type="text" class="form-control" name="mother_name" id="mother_name" value="{{old('mother_name')}}" style="text-transform: uppercase;" {{(!is_null(request()->input('from_etcl')) && request()->input('from_etcl') == 'child_care' ? 'required' : '')}}>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -239,7 +248,8 @@
                               </div>
                         </div>
                     </div>
-                    @if($getage <= 17)
+
+                    @if($getage <= 17 && is_null(request()->input('from_etcl')))
                     <hr>
                     <div class="row">
                         <div class="col-md-6">
@@ -358,7 +368,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group {{(auth()->user()->isSyndromicHospitalLevelAccess()) ? 'd-none' : ''}}">
+                    <div class="form-group {{(auth()->user()->isSyndromicHospitalLevelAccess() || !is_null(request()->input('from_etcl'))) ? 'd-none' : ''}}">
                         <hr>
                         <label for="is_lgustaff"><b class="text-danger">*</b>Is Patient a LGU/Government Employee?</label>
                         <select class="form-control" name="is_lgustaff" id="is_lgustaff" required>
@@ -681,6 +691,8 @@
         });
         @endif
 
+        @if(is_null(request()->input('from_etcl')))
+
         let mediaStream = null;
 
         // Function to start camera
@@ -736,6 +748,8 @@
             // Optionally stop the camera after capturing
             stopCamera();
         });
+
+        @endif
 
         $(document).bind('keydown', function(e) {
             if(e.ctrlKey && (e.which == 83)) {

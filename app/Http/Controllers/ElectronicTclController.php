@@ -1947,6 +1947,52 @@ class ElectronicTclController extends Controller
         else if($r->etcl_type == 'maternal_care') {
             $spreadsheet = ExcelFactory::load(storage_path('etcl_maternal_care.xlsx'));
             $sheet = $spreadsheet->getActiveSheet();
+
+            $row = 6;
+
+            $base_qry = InhouseMaternalCare::whereBetween('registration_date', [$start_date->format('Y-m-d'), $end_date->format('Y-m-d')])
+            ->where('enabled', 'Y');
+
+            if(auth()->user()->isMasterAdminEtcl()) {
+                if($r->filter_type == 'BHS') {
+                    $qry = (clone $base_qry)
+                    ->where('facility_id', $r->selected_bhs_id)
+                    ->get();
+                }
+                else {
+                    $qry = (clone $base_qry)
+                    ->whereHas('facility.brgy', function($q) use ($r) {
+                        $q->where('id', $r->selected_brgy_id);
+                    })->get();
+                }
+            }
+            else {
+                $qry = (clone $base_qry)
+                ->where('facility_id', auth()->user()->etcl_bhs_id)
+                ->get();
+            }
+
+            foreach($qry as $ind => $d) {
+                $sheet->setCellValue('A'.$row, $ind + 1);
+                $sheet->setCellValue('B'.$row, Carbon::parse($d->registration_date)->format('m/d/Y'));
+                $sheet->setCellValue('C'.$row, ($d->patient->inhouseFamilySerials) ? $d->patient->inhouseFamilySerials->inhouse_familyserialno : 'N/A');
+                $sheet->setCellValue('D'.$row, $d->patient->getName());
+                $sheet->setCellValue('E'.$row, $d->patient->getFullAddress());
+                $sheet->setCellValue('F'.$row, $d->age_years);
+                $sheet->setCellValue('G'.$row, $d->age_group);
+                $sheet->setCellValue('H'.$row, Carbon::parse($d->lmp)->format('m/d/Y'));
+                $sheet->setCellValue('I'.$row, Carbon::parse($d->edc)->format('m/d/Y'));
+                $sheet->setCellValue('J'.$row, (!is_null($d->visit1)) ? Carbon::parse($d->visit1)->format('m/d/Y') : '');
+                $sheet->setCellValue('K'.$row, (!is_null($d->visit2)) ? Carbon::parse($d->visit2)->format('m/d/Y') : '');
+                $sheet->setCellValue('L'.$row, (!is_null($d->visit3)) ? Carbon::parse($d->visit3)->format('m/d/Y') : '');
+                $sheet->setCellValue('M'.$row, (!is_null($d->visit4)) ? Carbon::parse($d->visit4)->format('m/d/Y') : '');
+                $sheet->setCellValue('N'.$row, (!is_null($d->visit5)) ? Carbon::parse($d->visit5)->format('m/d/Y') : '');
+                $sheet->setCellValue('O'.$row, (!is_null($d->visit6)) ? Carbon::parse($d->visit6)->format('m/d/Y') : '');
+                $sheet->setCellValue('P'.$row, (!is_null($d->visit7)) ? Carbon::parse($d->visit7)->format('m/d/Y') : '');
+                $sheet->setCellValue('Q'.$row, (!is_null($d->visit8)) ? Carbon::parse($d->visit8)->format('m/d/Y') : '');
+
+                $row = $row + 2;
+            }
         }
 
         $fileName = "FHSIS_TCL_".$r->year."_".$r->month."_".time().".xlsx";

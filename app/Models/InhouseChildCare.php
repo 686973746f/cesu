@@ -72,6 +72,9 @@ class InhouseChildCare extends Model
         'mmr2_type',
         'mmr2_months',
 
+        'fic',
+        'cic',
+
         'system_remarks',
         'remarks',
 
@@ -82,6 +85,8 @@ class InhouseChildCare extends Model
         'age_years',
         'age_months',
         'age_days',
+
+        'is_locked',
     ];
 
     public function patient() {
@@ -104,6 +109,8 @@ class InhouseChildCare extends Model
             else {
                 $this->cic = $this->mmr2;
             }
+
+            $this->is_locked = 'Y';
         }
     }
 

@@ -1337,5 +1337,23 @@
                 $('#pp_transout_date').prop('required', false);
             }
         }).trigger('change');
+
+        $('#lmp').on('change', function () {
+            let lmp = new Date($(this).val());
+            if (isNaN(lmp.getTime())) {
+                $('#edd').val('');
+                return;
+            }
+            let edd = new Date(lmp);
+            edd.setDate(edd.getDate() + 280); // Add 280 days
+            let month = '' + (edd.getMonth() + 1);
+            let day = '' + edd.getDate();
+            let year = edd.getFullYear();
+
+            if (month.length < 2) month = '0' + month;
+            if (day.length < 2) day = '0' + day;
+
+            $('#edc').val([year, month, day].join('-'));
+        });
     </script>
 @endsection

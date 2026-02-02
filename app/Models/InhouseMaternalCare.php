@@ -177,6 +177,8 @@ class InhouseMaternalCare extends Model
         'age_years',
         'age_months',
         'age_days',
+
+        'is_locked',
     ];
 
     public function patient() {
@@ -213,5 +215,16 @@ class InhouseMaternalCare extends Model
             $this->td_lastdose_count = 1;
             $this->td_lastdose_date = $this->td1;
         }
+    }
+
+    public static function colorFromType(?string $type): string {
+        return match ($type) {
+            'YOUR BHS' => 'FF000000', // black
+            'PUBLIC'    => 'FF008000', // green
+            'PRIVATE'  => 'FFFF0000', // red
+            'OTHER RHU/BHS' => 'FF0000FF', // blue
+            null => 'FFFFFFFF', // white
+            default => 'FFFFFFFF', // white
+        };
     }
 }

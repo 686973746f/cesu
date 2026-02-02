@@ -185,6 +185,8 @@ class CreateInhouseMaternalCaresTable extends Migration
             $table->integer('age_years')->nullable();
             $table->integer('age_months')->nullable();
             $table->integer('age_days')->nullable();
+
+            $table->char('is_locked')->default('N');
         });
     }
 

@@ -871,6 +871,10 @@ class SyndromicController extends Controller
     }
 
     public function storeRecord($patient_id, Request $r) {
+        $r->validate([
+            'consultation_date' => 'required|date',
+        ]);
+        
         if (empty($r->request_uuid)) {
             return back()
                 ->withInput()
