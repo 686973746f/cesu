@@ -2,9 +2,9 @@
 
 @section('content')
 @if($mode == 'EDIT')
-<form action="{{route('etcl_childcare_update', $d->id)}}" method="POST">
+<form action="{{route('etcl_childnutrition_store', $d->id)}}" method="POST">
 @else
-<form action="{{route('etcl_childcare_store', $patient->id)}}" method="POST">
+<form action="{{route('etcl_childnutrition_store', $patient->id)}}" method="POST">
 @endif
 @csrf
 <input type="hidden" name="request_uuid" value="{{Str::uuid()}}">
@@ -344,7 +344,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group mt-3">
                 <label for="remarks">Remarks/Actions Taken</label>
                 <input type="text" class="form-control" name="remarks" id="remarks" value="{{old('remarks', $d->remarks)}}">
             </div>

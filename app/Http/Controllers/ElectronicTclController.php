@@ -941,6 +941,72 @@ class ElectronicTclController extends Controller
         $get_ageyears = $birthdate->diffInYears($currentDate);
         $get_agemonths = $birthdate->diffInMonths($currentDate);
         $get_agedays = $birthdate->diffInDays($currentDate);
+
+        if(!is_null($r->weight_atbirth)) {
+            if($r->weight_atbirth < 2.5) {
+                $weight_status = 'L'; //Low Birth Weight
+            }
+            else {
+                $weight_status = 'N'; //Normal Birth Weight
+            }
+        }
+        else {
+            $weight_status = 'U';
+        }
+        
+        $table_params = [
+            //'patient_id' => $d->id,
+            //'registration_date' => $r->registration_date,
+            //'facility_id' => auth()->user()->etcl_bhs_id,
+            
+            'length_atbirth' => $r->length_atbirth,
+            'weight_atbirth' => $r->weight_atbirth,
+            'weight_status' => $weight_status,
+            'breastfeeding' => $r->breastfeeding,
+
+            'lb_iron1' => $r->lb_iron1,
+            'lb_iron2' => $r->lb_iron2,
+            'lb_iron3' => $r->lb_iron3,
+            'vita1' => $r->vita1,
+            'vita2' => $r->vita2,
+            'vita3' => $r->vita3,
+            'mnp1' => $r->mnp1,
+            'mnp2' => $r->mnp2,
+            'lns1' => $r->lns1,
+            'lns2' => $r->lns2,
+
+            'mam_identified' => $r->mam_identified,
+            'enrolled_sfp' => $r->enrolled_sfp,
+            'mam_cured' => $r->mam_cured,
+            'mam_noncured' => $r->mam_noncured,
+            'mam_defaulted' => $r->mam_defaulted,
+            'mam_died' => $r->mam_died,
+
+            'sam_identified' => $r->sam_identified,
+            'sam_complication' => $r->sam_complication,
+            'sam_cured' => $r->sam_cured,
+            'sam_noncured' => $r->sam_noncured,
+            'sam_defaulted' => $r->sam_defaulted,
+            'sam_died' => $r->sam_died,
+
+            'remarks' => $r->remarks,
+            'system_remarks' => $r->system_remarks,
+            //'created_by' => auth()->user()->id,
+            'updated_by' => auth()->user()->id,
+
+            'request_uuid' => $r->request_uuid,
+
+            'age_years' => $get_ageyears,
+            'age_months' => $get_agemonths,
+            'age_days' => $get_agedays,
+        ];
+
+        $d->update($table_params);
+
+        return redirect()
+        ->route('etcl_home', ['type' => 'child_nutrition'])
+        ->with('msg', 'Child Nutrition record successfully updated.')
+        ->with('msgtype', 'success');
     }
 
     public function newFamilyPlanning($patient_id) {
@@ -2387,6 +2453,9 @@ class ElectronicTclController extends Controller
                 $sheet->setCellValue('CA'.($row+1), !is_null($d->vita) ? 'd: '.Carbon::parse($d->vita)->format('m/d/Y') : 'd:');
 
                 $sheet->setCellValue('CB'.$row, $d->pp_remarks);
+
+                //Child Nutrition
+                
 
                 $row = $row + 2;
             }

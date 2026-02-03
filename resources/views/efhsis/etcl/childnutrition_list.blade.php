@@ -12,7 +12,7 @@
         <tr>
             <td scope="row">{{ $index + 1 }}</td>
             <td>{{ Carbon\Carbon::parse($record->created_at)->format('m/d/Y h:i A') }}</td>
-            <td><a href="{{route('etcl_childcare_view', $record->id)}}">{{ $record->patient->getName() }}</a></td>
+            <td><a href="{{route('etcl_childnutrition_view', $record->id)}}">{{ $record->patient->getName() }}</a></td>
             <td>{{ Carbon\Carbon::parse($record->date_registered)->format('M d, Y') }}</td>
         </tr>
         @endforeach

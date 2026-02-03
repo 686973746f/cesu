@@ -469,7 +469,7 @@ class FwriController extends Controller
         }
 
         $list = FwInjury::where('status', 'ENABLED')
-        ->where('report_year', $input_year)
+        ->where('reporting_year', $input_year)
         ->get();
 
         $startCell1 = 8;

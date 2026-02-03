@@ -701,6 +701,12 @@ class SyndromicController extends Controller
                     ->with('msg', 'Patient record successfully created. Proceed by completing the Child Care Record of the patient.')
                     ->with('msgtype', 'success');
                 }
+                else if($request->from_etcl == 'child_nutrition') {
+                    return redirect()
+                    ->route('etcl_childnutrition_new', $c->id)
+                    ->with('msg', 'Patient record successfully created. Proceed by completing the Child Nutrition Record of the patient.')
+                    ->with('msgtype', 'success');
+                }
             }
             else {
                 return redirect()->route('syndromic_newRecord', $c->id)

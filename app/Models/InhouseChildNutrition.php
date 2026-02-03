@@ -55,4 +55,12 @@ class InhouseChildNutrition extends Model
 
         'is_locked',
     ];
+
+    public function patient() {
+        return $this->belongsTo(SyndromicPatient::class, 'patient_id');
+    }
+
+    public function facility() {
+        return $this->belongsTo(DohFacility::class, 'facility_id');
+    }
 }
