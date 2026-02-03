@@ -10,7 +10,13 @@
     <input type="hidden" name="request_uuid" value="{{Str::uuid()}}">
     <div class="container">
         <div class="card">
-            <div class="card-header"><b>Maternal Care</b></div>
+            <div class="card-header">
+                @if($mode == 'EDIT')
+                <b>Edit Maternal Care (ID: {{ $d->id }})</b>
+                @else
+                <b>New Maternal Care</b>
+                @endif
+            </div>
             <div class="card-body">
                 @if(session('msg'))
                   <div class="alert alert-{{session('msgtype')}}" role="alert">
@@ -21,24 +27,24 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="registration_date"><b class="text-danger">*</b>Date of Registration</label>
-                            <input type="date" class="form-control" name="registration_date" id="registration_date" value="{{old('registration_date', $d->registration_date)}}" max="{{date('Y-m-d')}}" required>
+                            <input type="date" class="form-control" name="registration_date" id="registration_date" value="{{old('registration_date', $d->registration_date)}}" max="{{date('Y-m-d')}}" {{($mode == 'EDIT') ? 'disabled' : 'required'}}>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                          <label for="">Family Serial No.</label>
+                          <label for=""><b class="text-danger">*</b>Family Serial No.</label>
                           <input type="text" class="form-control" value="{{ $patient->inhouseFamilySerials->inhouse_familyserialno ?? 'N/A' }}" readonly>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="">Full Name / Age</label>
+                            <label for=""><b class="text-danger">*</b>Full Name / Age</label>
                             <input type="text" class="form-control" value="{{ $patient->getName() }} ({{$patient->getAge()}} {{Str::plural('year', $patient->getAge())}} old)" readonly>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="">Complete Address</label>
+                            <label for=""><b class="text-danger">*</b>Complete Address</label>
                             <input type="text" class="form-control" value="{{ $patient->getFullAddress() }}" readonly>
                         </div>
                     </div>
@@ -981,7 +987,7 @@
                 </div>
             </div>
             <div class="card-footer">
-                <button type="submit" id="submitBtn" class="btn btn-success btn-block">
+                <button type="submit" id="submitBtn" class="btn btn-success btn-block" {{($d->is_locked == 'Y') ? 'disabled' : ''}}>
                     @if($mode == 'EDIT')
                     Update (CTRL + S)
                     @else

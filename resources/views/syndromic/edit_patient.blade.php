@@ -53,6 +53,7 @@
                                         @endif
                                         @if($d->getAge() <= 5)
                                         <a href="{{route('etcl_childcare_new', $d->id)}}" class="btn btn-primary btn-block">Create Child Care</a>
+                                        <a href="{{route('etcl_childnutrition_new', $d->id)}}" class="btn btn-primary btn-block">Create Child Nutrition</a>
                                         @endif
                                     </div>
                                 </div>

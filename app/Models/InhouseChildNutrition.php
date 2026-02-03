@@ -11,6 +11,8 @@ class InhouseChildNutrition extends Model
 
     protected $fillable = [
         'patient_id',
+        'facility_id',
+        'registration_date',
         'length_atbirth',
         'weight_atbirth',
         'weight_status',

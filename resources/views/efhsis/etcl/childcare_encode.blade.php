@@ -10,7 +10,13 @@
 <input type="hidden" name="request_uuid" value="{{Str::uuid()}}">
     <div class="container">
         <div class="card">
-            <div class="card-header"><b>Child Care</b></div>
+            <div class="card-header">
+                @if($mode == 'EDIT')
+                <b>Edit Child Care (ID: {{ $d->id }})</b>
+                @else
+                <b>New Child Care</b>
+                @endif
+            </div>
             <div class="card-body">
                 @if(session('msg'))
                   <div class="alert alert-{{session('msgtype')}}" role="alert">
@@ -21,12 +27,12 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="registration_date"><b class="text-danger">*</b>Date of Registration</label>
-                            <input type="date" class="form-control" name="registration_date" id="registration_date" value="{{old('registration_date', $d->registration_date)}}" max="{{date('Y-m-d')}}" required>
+                            <input type="date" class="form-control" name="registration_date" id="registration_date" value="{{old('registration_date', $d->registration_date)}}" max="{{date('Y-m-d')}}" {{($mode == 'EDIT') ? 'disabled' : 'required'}}>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="">Family Serial No.</label>
+                            <label for=""><b class="text-danger">*</b>Family Serial No.</label>
                             <input type="text" class="form-control" value="{{ ($mode == 'EDIT') ?  $d->patient->inhouseFamilySerials->inhouse_familyserialno ?? 'N/A' : $patient->inhouseFamilySerials->inhouse_familyserialno ?? 'N/A' }}" readonly>
                           </div>
                     </div>
@@ -34,7 +40,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="">Name of Child</label>
+                            <label for=""><b class="text-danger">*</b>Name of Child / Age</label>
                             <input type="text" class="form-control" value="{{ ($mode == 'EDIT') ? $d->patient->getName() : $patient->getName() }}" readonly>
                         </div>
                     </div>
@@ -42,13 +48,13 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="">Sex</label>
+                                    <label for=""><b class="text-danger">*</b>Sex</label>
                                     <input type="text" class="form-control" value="{{ ($mode == 'EDIT') ?  $d->patient->gender : $patient->gender }}" readonly>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="">Date of Birth</label>
+                                    <label for=""><b class="text-danger">*</b>Date of Birth</label>
                                     <input type="text" class="form-control" value="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->patient->bdate)->format('m/d/Y') : Carbon\Carbon::parse($patient->bdate)->format('m/d/Y') }}" readonly>
                                 </div>
                             </div>
@@ -79,7 +85,7 @@
                         <div id="mother_name_div" class="d-none">
                             <div class="form-group">
                                 <label for="mother_name"><b class="text-danger">*</b>Name of Mother</label>
-                                <input type="text" class="form-control" name="mother_name" id="mother_name" value="{{ old('mother_name', $d->mother_name) }}" style="text-transform: uppercase">
+                                <input type="text" class="form-control" name="mother_name" id="mother_name" value="{{ ($mode == 'EDIT') ? $d->patient->mother_name : $patient->mother_name }}" style="text-transform: uppercase" readonly>
                             </div>
                             <div class="form-group">
                               <label for="cpab_manual"><b class="text-danger">*</b>Child Protected at Birth (CPAB) from neonatal tetanus</label>
@@ -420,7 +426,7 @@
                 </div>
             </div>
             <div class="card-footer">
-                <button type="submit" id="submitBtn" class="btn btn-success btn-block">
+                <button type="submit" id="submitBtn" class="btn btn-success btn-block" {{($d->is_locked == 'Y') ? 'disabled' : ''}}>
                     @if($mode == 'EDIT')
                     Update (CTRL + S)
                     @else

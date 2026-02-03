@@ -1119,6 +1119,16 @@ Route::middleware(['auth','verified', 'canAccessElectronicTcl'])->group(function
     Route::post('/child_care/new/{patient_id}/store', [ElectronicTclController::class, 'storeChildCare'])->name('etcl_childcare_store');
     Route::get('/child_care/view/{id}', [ElectronicTclController::class, 'editChildCare'])->name('etcl_childcare_view');
     Route::post('/child_care/view/{id}/update', [ElectronicTclController::class, 'updateChildCare'])->name('etcl_childcare_update');
+
+    Route::get('/child_nutrition/new/{patient_id}', [ElectronicTclController::class, 'newChildNutrition'])->name('etcl_childnutrition_new');
+    Route::post('/child_nutrition/new/{patient_id}/store', [ElectronicTclController::class, 'storeChildNutrition'])->name('etcl_childnutrition_store');
+    Route::get('/child_nutrition/view/{id}', [ElectronicTclController::class, 'editChildNutrition'])->name('etcl_childnutrition_view');
+    Route::post('/child_nutrition/view/{id}/update', [ElectronicTclController::class, 'updateChildNutrition'])->name('etcl_childnutrition_update');
+
+    Route::get('/family_planning/new/{patient_id}', [ElectronicTclController::class, 'newFamilyPlanning'])->name('etcl_familyplanning_new');
+    Route::post('/family_planning/new/{patient_id}/store', [ElectronicTclController::class, 'storeFamilyPlanning'])->name('etcl_familyplanning_store');
+    Route::get('/family_planning/view/{id}', [ElectronicTclController::class, 'editFamilyPlanning'])->name('etcl_familyplanning_view');
+    Route::post('/family_planning/view/{id}/update', [ElectronicTclController::class, 'updateFamilyPlanning'])->name('etcl_familyplanning_update');
 });
 
 

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\InhouseChildCare;
+use App\Models\InhouseChildNutrition;
+use App\Models\InhouseFamilyPlanning;
 use App\Models\SyndromicPatient;
 use App\Models\InhouseMaternalCare;
 use PhpOffice\PhpSpreadsheet\IOFactory as ExcelFactory;
@@ -17,6 +19,7 @@ class ElectronicTclController extends Controller
         $list = [
             ['value' => 'maternal_care', 'text' => 'Maternal Care', 'enabled' => true],
             ['value' => 'child_care', 'text' => 'Child Care', 'enabled' => true],
+            ['value' => 'child_nutrition', 'text' => 'Child Nutrition', 'enabled' => false],
         ];
 
         return collect($list)->sortBy('text', SORT_NATURAL | SORT_FLAG_CASE)->values();
@@ -30,6 +33,9 @@ class ElectronicTclController extends Controller
         }
         elseif($type == 'child_care') {
             $records = InhouseChildCare::where('facility_id', auth()->user()->etcl_bhs_id);
+        }
+        elseif($type == 'child_nutrition') {
+            $records = InhouseChildNutrition::where('facility_id', auth()->user()->etcl_bhs_id);
         }
         else {
             return abort(404);
@@ -367,7 +373,7 @@ class ElectronicTclController extends Controller
 
         $table_params = [
             'request_uuid' => $r->request_uuid,
-            'registration_date' => $r->registration_date,
+            //'registration_date' => $r->registration_date,
             'highrisk' => $r->highrisk,
             'lmp' => $r->lmp,
             'gravida' => $r->gravida,
@@ -559,6 +565,13 @@ class ElectronicTclController extends Controller
     public function newChildCare($patient_id) {
         $d = SyndromicPatient::findOrFail($patient_id);
 
+        if(is_null($d->mother_name)) {
+            return redirect()
+            ->back()
+            ->with('msg', 'Error: Name of Mother must be specified as part of the patient\'s record before encoding Child Care.')
+            ->with('msgtype', 'warning');
+        }
+
         $find = InhouseChildCare::where('patient_id', $d->id)->first();
 
         if($find) {
@@ -648,7 +661,7 @@ class ElectronicTclController extends Controller
         $table_params = [
             //'patient_id' => $d->id,
             //'facility_id' => auth()->user()->etcl_bhs_id,
-            'registration_date' => $r->registration_date,
+            //'registration_date' => $r->registration_date,
             'mother_type' => $r->mother_type,
 
             'bcg1' => $r->bcg1,
@@ -760,6 +773,244 @@ class ElectronicTclController extends Controller
         ->route('etcl_home', ['type' => 'child_care'])
         ->with('msg', 'Child Care Record successfully updated.')
         ->with('msgtype', 'success');
+    }
+
+    public function newChildNutrition($patient_id) {
+        $d = SyndromicPatient::findOrFail($patient_id);
+
+        if(is_null($d->mother_name)) {
+            return redirect()
+            ->back()
+            ->with('msg', 'Error: Name of Mother must be specified as part of the patient\'s record before encoding Child Care.')
+            ->with('msgtype', 'warning');
+        }
+
+        $find = InhouseChildNutrition::where('patient_id', $d->id)->first();
+
+        if($find) {
+            return redirect()
+            ->route('etcl_childnutrition_view', $find->id)
+            ->with('msg', 'Existing Child Nutrition record found for this patient. You can only encode one (1) Child Nutrition record per patient.')
+            ->with('msgtype', 'info');
+        }
+
+        if($d->getAge() >= 5) {
+            return redirect()
+            ->back()
+            ->with('msg', 'Error: Child Care can only be encoded for patients below 5 years old.')
+            ->with('msgtype', 'warning');
+        }
+
+        return $this->newOrEditChildNutrition(new InhouseChildNutrition(), 'NEW', $d->id);
+    }
+
+    public function storeChildNutrition($patient_id, Request $r) {
+        $d = SyndromicPatient::findOrFail($patient_id);
+
+        $check = InhouseChildNutrition::where('request_uuid', $r->request_uuid)->first();
+
+        if($check) {
+            return redirect()->
+            back()
+            ->with('msg', 'Error: This record has already been saved.')
+            ->with('msgtype', 'warning');
+        }
+
+        $find = InhouseChildNutrition::where('patient_id', $d->id)->first();
+
+        if($find) {
+            return redirect()
+            ->back()
+            ->with('msg', 'Existing Child Nutrition record found for this patient. You can only encode one (1) Child Nutrition record per patient.')
+            ->with('msgtype', 'info');
+        }
+
+        $birthdate = Carbon::parse($d->bdate);
+        $currentDate = Carbon::parse($r->registration_date);
+
+        $get_ageyears = $birthdate->diffInYears($currentDate);
+        $get_agemonths = $birthdate->diffInMonths($currentDate);
+        $get_agedays = $birthdate->diffInDays($currentDate);
+
+        if(!is_null($r->weight_atbirth)) {
+            if($r->weight_atbirth < 2.5) {
+                $weight_status = 'L'; //Low Birth Weight
+            }
+            else {
+                $weight_status = 'N'; //Normal Birth Weight
+            }
+        }
+        else {
+            $weight_status = 'U';
+        }
+        
+        $table_params = [
+            'patient_id' => $d->id,
+            'registration_date' => $r->registration_date,
+            'facility_id' => auth()->user()->etcl_bhs_id,
+            
+            'length_atbirth' => $r->length_atbirth,
+            'weight_atbirth' => $r->weight_atbirth,
+            'weight_status' => $weight_status,
+            'breastfeeding' => $r->breastfeeding,
+
+            'lb_iron1' => $r->lb_iron1,
+            'lb_iron2' => $r->lb_iron2,
+            'lb_iron3' => $r->lb_iron3,
+            'vita1' => $r->vita1,
+            'vita2' => $r->vita2,
+            'vita3' => $r->vita3,
+            'mnp1' => $r->mnp1,
+            'mnp2' => $r->mnp2,
+            'lns1' => $r->lns1,
+            'lns2' => $r->lns2,
+
+            'mam_identified' => $r->mam_identified,
+            'enrolled_sfp' => $r->enrolled_sfp,
+            'mam_cured' => $r->mam_cured,
+            'mam_noncured' => $r->mam_noncured,
+            'mam_defaulted' => $r->mam_defaulted,
+            'mam_died' => $r->mam_died,
+
+            'sam_identified' => $r->sam_identified,
+            'sam_complication' => $r->sam_complication,
+            'sam_cured' => $r->sam_cured,
+            'sam_noncured' => $r->sam_noncured,
+            'sam_defaulted' => $r->sam_defaulted,
+            'sam_died' => $r->sam_died,
+
+            'remarks' => $r->remarks,
+            'system_remarks' => $r->system_remarks,
+            'created_by' => auth()->user()->id,
+            'updated_by' => auth()->user()->id,
+
+            'request_uuid' => $r->request_uuid,
+
+            'age_years' => $get_ageyears,
+            'age_months' => $get_agemonths,
+            'age_days' => $get_agedays,
+        ];
+
+        $c = InhouseChildNutrition::create($table_params);
+
+        return redirect()
+        ->route('etcl_home', ['type' => 'child_nutrition'])
+        ->with('msg', 'Child Nutrition Record successfully saved.')
+        ->with('msgtype', 'success');
+    }
+
+    public function editChildNutrition($id) {
+        $d = InhouseChildNutrition::findOrFail($id);
+        
+        if(!auth()->user()->isGlobalAdmin()) {
+            if($d->facility_id != auth()->user()->etcl_bhs_id) {
+                return abort(403, 'Unauthorized access to this record.');
+            }
+        }
+        
+        return $this->newOrEditChildNutrition($d, 'EDIT', $d->id);
+    }
+
+    public function newOrEditChildNutrition(InhouseChildNutrition $record, $mode, $patient_id = null) {
+        if($patient_id != null) {
+            $patient = SyndromicPatient::findOrFail($patient_id);
+        }
+
+        return view('efhsis.etcl.childnutrition_encode', [
+            'd' => $record,
+            'mode' => $mode,
+            'patient' => $patient,
+        ]);
+    }
+
+    public function updateChildNutrition($id, Request $r) {
+        $d = InhouseChildNutrition::findOrFail($id);
+
+        $check = InhouseChildNutrition::where('request_uuid', $r->request_uuid)->first();
+
+        if($check) {
+            return redirect()
+            ->back()
+            ->with('msg', 'Error: This record has already been updated.')
+            ->with('msgtype', 'warning');
+        }
+
+        $birthdate = Carbon::parse($d->patient->bdate);
+        $currentDate = Carbon::parse($r->registration_date);
+
+        $get_ageyears = $birthdate->diffInYears($currentDate);
+        $get_agemonths = $birthdate->diffInMonths($currentDate);
+        $get_agedays = $birthdate->diffInDays($currentDate);
+    }
+
+    public function newFamilyPlanning($patient_id) {
+        $d = SyndromicPatient::findOrFail($patient_id);
+
+        $find = InhouseFamilyPlanning::where('patient_id', $d->id)->first();
+
+        if($find) {
+            return redirect()
+            ->route('etcl_familyplanning_view', $find->id)
+            ->with('msg', 'Existing Family Planning record found for this patient. You can only encode one (1) Family Planning record per patient.')
+            ->with('msgtype', 'info');
+        }
+
+        if($d->getAge() >= 5) {
+            return redirect()
+            ->back()
+            ->with('msg', 'Error: Family Planning can only be encoded for patients below 5 years old.')
+            ->with('msgtype', 'warning');
+        }
+
+        return $this->newOrEditFamilyPlanning(new InhouseFamilyPlanning(), 'NEW', $d->id);
+    }
+
+    public function storeFamilyPlanning($patient_id, Request $r) {
+        
+    }
+
+    public function editFamilyPlanning($id) {
+        $d = InhouseFamilyPlanning::findOrFail($id);
+        
+        if(!auth()->user()->isGlobalAdmin()) {
+            if($d->facility_id != auth()->user()->etcl_bhs_id) {
+                return abort(403, 'Unauthorized access to this record.');
+            }
+        }
+        
+        return $this->newOrEditFamilyPlanning($d, 'EDIT', $d->id);
+    }
+
+    public function newOrEditFamilyPlanning(InhouseFamilyPlanning $record, $mode, $patient_id = null) {
+        if($patient_id != null) {
+            $patient = SyndromicPatient::findOrFail($patient_id);
+        }
+
+        return view('efhsis.etcl.familyplanning_encode', [
+            'd' => $record,
+            'mode' => $mode,
+            'patient' => $patient,
+        ]);
+    }
+
+    public function updateFamilyPlanning($id, Request $r) {
+        $d = InhouseFamilyPlanning::findOrFail($id);
+
+        $check = InhouseFamilyPlanning::where('request_uuid', $r->request_uuid)->first();
+
+        if($check) {
+            return redirect()
+            ->back()
+            ->with('msg', 'Error: This record has already been updated.')
+            ->with('msgtype', 'warning');
+        }
+
+        $birthdate = Carbon::parse($d->patient->bdate);
+        $currentDate = Carbon::parse($r->registration_date);
+
+        $get_ageyears = $birthdate->diffInYears($currentDate);
+        $get_agemonths = $birthdate->diffInMonths($currentDate);
+        $get_agedays = $birthdate->diffInDays($currentDate);
     }
 
     public function searchMaternalCareMother(Request $request) {
