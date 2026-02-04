@@ -50,8 +50,8 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for=""><b class="text-danger">*</b>Date Reported</label>
-                                        <input type="date" class="form-control" name="report_date" id="report_date" value="{{old('report_date', date('Y-m-d'))}}" required>
+                                        <label for="report_date"><b class="text-danger">*</b>Date Reported</label>
+                                        <input type="date" class="form-control" name="report_date" id="report_date" value="{{old('report_date')}}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
