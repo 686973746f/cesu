@@ -11008,10 +11008,15 @@ class PIDSRController extends Controller
 
         $list = $modelClass::where('from_inhouse', 1)
         ->where('inhouse_exportedtocsv', 0)
-        ->where('edcs_healthFacilityCode', $health_facility_code)
         ->where('enabled', 1)
-        ->where('match_casedef', 1)
-        ->get();
+        ->where('match_casedef', 1);
+
+        if(auth()->check()) {
+            $list = $list->get();
+        }
+        else {
+            $list = $list->where('edcs_healthFacilityCode', $health_facility_code)->get();
+        }
 
         return view('pidsr.view_exportables', [
             'disease' => $disease,
