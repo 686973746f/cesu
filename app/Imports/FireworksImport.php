@@ -295,7 +295,7 @@ class FireworksImport implements ToModel, WithHeadingRow
                     'facility_reg' => $r['facility_reg'] ?? NULL,
                     'facility_prov' => $r['facility_prov'] ?? NULL,
                     'facility_citymun' => $r['facility_citymun'] ?? NULL,
-                    'reporting_year' => ($currentDate->month === Carbon::DECEMBER) ? $currentDate->year + 1 : $currentDate->year,
+                    'reporting_year' => ($currentDate->month === Carbon::DECEMBER) ? $currentDate->year : $currentDate->year - 1,
 
                     'qr' => $for_qr,
                 ]);
