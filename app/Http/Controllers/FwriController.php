@@ -78,7 +78,7 @@ class FwriController extends Controller
         }
         
         $birthdate = Carbon::parse($r->bdate);
-        $currentDate = Carbon::parse();
+        $currentDate = Carbon::parse($report_date);
 
         $get_ageyears = $birthdate->diffInYears($currentDate);
         $get_agemonths = $birthdate->diffInMonths($currentDate);
@@ -219,7 +219,7 @@ class FwriController extends Controller
 
             'remarks' => (request()->filled('remarks')) ? $r->remarks : NULL,
             'qr' => $for_qr,
-            'report_year' => (Carbon::now()->month === Carbon::DECEMBER) ? date('Y') + 1 : date('Y') + 1 - 1,
+            'report_year' => (Carbon::parse($report_date)->month === Carbon::DECEMBER) ? Carbon::parse($report_date)->year + 1 : Carbon::parse($report_date)->year,
         ];
 
         return $handle_array;

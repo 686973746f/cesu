@@ -18,9 +18,9 @@ class CreateInhouseFpVisitsTable extends Migration
             $table->char('enabled', 1)->default('Y');
             $table->foreignId('fp_tcl_id')->constrained('inhouse_family_plannings')->onDelete('cascade');
             $table->string('method_used')->nullable();
-            $table->date('visit_date')->nullable();
-
-            $table->date('next_visit')->nullable();
+            $table->date('visit_date_estimated')->nullable();
+            $table->date('visit_date_actual')->nullable();
+            $table->string('status')->nullable(); //PENDING, DONE, DROP-OUT
 
             $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('updated_by')->nullable()->constrained('users')->nullOnDelete();
@@ -28,6 +28,7 @@ class CreateInhouseFpVisitsTable extends Migration
             $table->integer('age_years')->nullable();
             $table->integer('age_months')->nullable();
             $table->integer('age_days')->nullable();
+
             $table->timestamps();
             $table->softDeletes();
             $table->uuid('request_uuid')->unique();
