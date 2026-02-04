@@ -117,7 +117,7 @@
                         <div class="form-group">
                           <label for="">Select Year</label>
                           <select class="form-control" name="select_year" id="select_year" required>
-                            @foreach(range(date('Y') + 1, 2019) as $y)
+                            SELECT * FROM `fw_injuries` WHERE reporting_year  = '2023';                            @foreach(range(date('Y'), 2018) as $y)
                             <option value="{{$y}}" {{(request()->input('select_year') == $y) ? 'selected' : ''}}>{{$y}} (Dec. 21, {{$y}} to Jan. 5, {{$y+1}})</option>
                             @endforeach
                           </select>

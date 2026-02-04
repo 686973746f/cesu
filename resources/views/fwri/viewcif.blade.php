@@ -704,6 +704,7 @@
             $('#injury_address_region_code').trigger('change'); // Automatically load provinces on page load
         }
 
+        @if(!blank($d->inj_brgy_id))
         if (inj_provinceDefault) {
             setTimeout(function() {
                 $('#injury_address_province_code').val(inj_provinceDefault).trigger('change');
@@ -719,6 +720,7 @@
                 $('#injury_address_brgy_code').val(inj_brgyDefault).trigger('change');
             }, 3500); // Slight delay to ensure city is loaded
         }
+        @endif
 
         $('#reffered_anotherhospital').change(function (e) { 
             e.preventDefault();
