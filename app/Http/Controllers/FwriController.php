@@ -380,10 +380,10 @@ class FwriController extends Controller
             'firework_illegal' => $r->firework_illegal,
             'liquor_intoxication' => $r->liquor_intoxication,
             'treatment_given' => $tr_given,
-            'disposition_after_consultation' => $r->disposition_after_consultation,
+            'disposition_after_consultation' => (!is_null($r->disposition_after_consultation)) ? mb_strtoupper($r->disposition_after_consultation) : NULL,
             'disposition_after_consultation_transferred_hospital' => ($r->disposition_after_consultation == 'TRANSFERRED TO ANOTHER HOSPITAL') ? mb_strtoupper($r->disposition_after_consultation_transferred_hospital) : NULL,
 
-            'disposition_after_admission' => $r->disposition_after_admission,
+            'disposition_after_admission' => (!is_null($r->disposition_after_admission)) ? mb_strtoupper($r->disposition_after_admission) : NULL,
             'disposition_after_admission_transferred_hospital' => ($r->disposition_after_admission == 'TRANSFERRED TO ANOTHER HOSPITAL') ? mb_strtoupper($r->disposition_after_admission_transferred_hospital) : NULL,
             
             'date_died' => ($r->disposition_after_admission == 'DIED DURING ADMISSION') ? $r->date_died : NULL,
