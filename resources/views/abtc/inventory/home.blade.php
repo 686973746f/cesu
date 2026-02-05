@@ -73,6 +73,7 @@
 
     <form action="{{route('abtcinv_process_transaction')}}" method="POST" autocomplete="off">
         @csrf
+        <input type="hidden" name="request_uuid" value="{{ Str::uuid() }}">
         <div class="modal fade" id="quickTransactionModal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">

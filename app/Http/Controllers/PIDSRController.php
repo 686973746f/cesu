@@ -77,6 +77,7 @@ use App\Jobs\EdcsWeeklySubmissionSendEmail;
 use App\Models\EdcsWeeklySubmissionChecker;
 use App\Models\EdcsWeeklySubmissionTrigger;
 use App\Jobs\CallEdcsWeeklySubmissionSendEmail;
+use App\Jobs\ProcessEdcsZip;
 use App\Models\SevereAcuteRespiratoryInfection;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
@@ -12947,6 +12948,21 @@ class PIDSRController extends Controller
 
         return redirect()->back()
         ->with('msg', 'Morbidity Week Calendar for '.date('Y').' has been initialized successfully.')
+        ->with('msgtype', 'success');
+    }
+
+    public function extractEdcsZip(Request $r) {
+        $r->validate([
+            'zip' => ['required', 'file', 'mimes:zip', 'max:51200'], // 50MB
+        ]);
+
+        // Store in storage/app/uploads/zips
+        $path = $r->file('zip')->store('uploads/zips');
+
+        // Dispatch async processing
+        ProcessEdcsZip::dispatch($path, auth()->id());
+
+        return back()->with('msg', 'ZIP uploaded. Processing started.')
         ->with('msgtype', 'success');
     }
 }

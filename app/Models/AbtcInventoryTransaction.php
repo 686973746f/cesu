@@ -24,6 +24,7 @@ class AbtcInventoryTransaction extends Model
         'received_qty',
         'remarks',
         'created_by',
+        'request_uuid',
     ];
 
     public function stock() {

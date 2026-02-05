@@ -207,6 +207,14 @@ class AbtcInventoryController extends Controller
             }
         }
 
+        $find = AbtcInventoryTransaction::where('request_uuid', $r->request_uuid)->first();
+
+        if($find) {
+            return redirect()->back()
+            ->with('msg', 'Error: This transaction request has already been processed. Duplicate transaction requests are not allowed.')
+            ->with('msgtype', 'warning');
+        }
+
         if($r->transaction_type == 'ISSUED') {
             $s = AbtcInventoryStock::findOrFail($r->stock_id);
 
@@ -242,6 +250,7 @@ class AbtcInventoryController extends Controller
                     'unit_price_amount' => ($r->current_qty * $r->unit_price),
                     'remarks' => ($r->remarks) ? mb_strtoupper($r->remarks) : NULL,
                     'created_by' => Auth::id(),
+                    'request_uuid' => $r->request_uuid,
                 ]);
             }
         }
@@ -298,6 +307,7 @@ class AbtcInventoryController extends Controller
                 'unit_price_amount' => ($r->current_qty * $r->unit_price),
                 'remarks' => ($r->remarks) ? mb_strtoupper($r->remarks) : NULL,
                 'created_by' => Auth::id(),
+                'request_uuid' => $r->request_uuid,
             ]);
         }
         else if($r->transaction_type == 'TRANSFERRED') {
@@ -332,11 +342,12 @@ class AbtcInventoryController extends Controller
                     'process_qty' => $r->qty_to_process,
                     'before_qty' => $before_qty,
                     'after_qty' => $after_qty,
-                    'po_number', ($r->po_number) ? mb_strtoupper($r->po_number) : NULL,
+                    'po_number' => ($r->po_number) ? mb_strtoupper($r->po_number) : NULL,
                     'unit_price' => $r->unit_price,
                     'unit_price_amount' => ($r->current_qty * $r->unit_price),
                     'remarks' => ($r->remarks) ? mb_strtoupper($r->remarks) : NULL,
                     'created_by' => Auth::id(),
+                    'request_uuid' => $r->request_uuid,
                 ]);
 
                 //Create Received Transaction
@@ -385,6 +396,7 @@ class AbtcInventoryController extends Controller
                     'unit_price_amount' => ($r->qty_to_process * $s->getOriginTransaction()->unit_price),
                     //'remarks' => ($r->remarks) ? mb_strtoupper($r->remarks) : NULL,
                     'created_by' => Auth::id(),
+                    'request_uuid' => Str::uuid(),
                 ]);
             }
         }

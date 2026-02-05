@@ -36,7 +36,7 @@ class CreateAbtcInventoryTransactionsTable extends Migration
             $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->timestamps();
             $table->dateTime('approved_at')->nullable();
-            $table->uuid('uuid')->unique();
+            $table->uuid('request_uuid')->unique();
         });
     }
 
