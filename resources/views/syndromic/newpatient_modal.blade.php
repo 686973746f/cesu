@@ -1,21 +1,24 @@
-<form action="{{route('syndromic_newPatient')}}" method="GET">
+<form action="{{route('syndromic_searchPatient')}}" method="GET">
     <div class="modal fade" id="newPatientModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Patient Search</h5>
+                    <h5 class="modal-title">New/Search Patient</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="lname"><b class="text-danger">*</b>Surname/Last Name/Apelyido</label>
-                        <input type="text" class="form-control" name="lname" id="lname" value="{{old('lname')}}" minlength="2" maxlength="50" placeholder="ex: DELA CRUZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" autocomplete="off" required>
+                    <div class="alert alert-info" role="alert">
+                        <div><b class="text-danger">Note:</b> You may input one or more of the following fields to search for an existing patient record.</div>
                     </div>
                     <div class="form-group">
-                        <label for="fname"><b class="text-danger">*</b>First Name</label>
-                        <input type="text" class="form-control" name="fname" id="fname" value="{{old('fname')}}" minlength="2" maxlength="50" placeholder="ex: JUAN" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" autocomplete="off" required>
+                        <label for="lname">Surname/Last Name/Apelyido</label>
+                        <input type="text" class="form-control" name="lname" id="lname" value="{{old('lname')}}" minlength="2" maxlength="50" placeholder="ex: DELA CRUZ" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="fname">First Name</label>
+                        <input type="text" class="form-control" name="fname" id="fname" value="{{old('fname')}}" minlength="2" maxlength="50" placeholder="ex: JUAN" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+" autocomplete="off">
                     </div>
                     <div class="row">
                         <div class="col-md-6">
@@ -32,8 +35,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="bdate"><b class="text-danger">*</b>Birthdate</label>
-                        <input type="date" class="form-control" name="bdate" id="bdate" value="{{old('bdate')}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}" required>
+                        <label for="bdate">Birthdate</label>
+                        <input type="date" class="form-control" name="bdate" id="bdate" value="{{old('bdate')}}" min="1900-01-01" max="{{date('Y-m-d', strtotime('yesterday'))}}">
                     </div>
                     @if(isset($type))
                     <input type="hidden" name="from_etcl" value="{{ $type }}">

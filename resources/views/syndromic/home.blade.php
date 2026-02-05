@@ -10,7 +10,7 @@
     </div>
     @endif
     <div class="text-right mb-3">
-        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#newPatientModal"><i class="fa fa-user-plus mr-2" aria-hidden="true"></i>New Patient</button>
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#newPatientModal"><i class="fa fa-user-plus mr-2" aria-hidden="true"></i>New/Search Patient</button>
         <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#report"><i class="fa fa-file mr-2" aria-hidden="true"></i>Report</button>
         @if(auth()->user()->isAdminSyndromic())
         <a href="{{route('syndromic_map')}}" class="btn btn-primary"><i class="fa fa-map mr-2" aria-hidden="true"></i>Map</a>

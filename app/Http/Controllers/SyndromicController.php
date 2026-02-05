@@ -361,20 +361,41 @@ class SyndromicController extends Controller
     }
 
     public function newPatientSearch() {
-        $list = SyndromicPatient::where('lname', 'LIKE', '%'.mb_strtoupper(request()->input('lname')).'%')
-        ->where('fname', 'LIKE', '%'.mb_strtoupper(request()->input('fname')).'%');
-
-        if(request()->input('mname')) {
-            $list = $list->where('mname', 'LIKE', '%'.mb_strtoupper(request()->input('mname')).'%');
+        if (
+            !request()->input('lname') &&
+            !request()->input('fname') &&
+            !request()->input('mname') &&
+            !request()->input('bdate') &&
+            !request()->input('suffix')
+        ) {
+            return back()->with('msg', 'Error: Please enter at least one field to search.')
+            ->with('msgtype', 'warning');
         }
 
-        if(request()->input('bdate')) {
-            $list = $list->whereDate('bdate', request()->input('bdate'));
-        }
+        $list = SyndromicPatient::query()
+        ->when(request()->input('lname'), function ($query) {
+            $query->where('lname', 'LIKE', '%'.mb_strtoupper(request()->input('lname')).'%');
+        })
+        ->when(request()->input('fname'), function ($query) {
+            $query->where('fname', 'LIKE', '%'.mb_strtoupper(request()->input('fname')).'%');
+        })
+        ->when(request()->input('mname'), function ($query) {
+            $query->where('mname', 'LIKE', '%'.mb_strtoupper(request()->input('mname')).'%');
+        })
+        ->when(request()->input('suffix'), function ($query) {
+            $query->where('suffix', 'LIKE', '%'.mb_strtoupper(request()->input('suffix')).'%');
+        })
+        ->when(request()->input('bdate'), function ($query) {
+            $query->whereDate('bdate', request()->input('bdate'));
+        })
+        ->get();
 
-        return view('syndromic.newpatient_search', [
-            'list' => $list->get(),
-        ]);
+        if($list->isEmpty() && request()->input('lname') && request()->input('fname') && request()->input('bdate')) {
+            return redirect()->route('syndromic_newPatient', request()->query());
+        }
+        else {
+            return view('syndromic.newpatient_search', compact('list'));
+        }
     }
 
     public function newPatient() {
@@ -423,8 +444,16 @@ class SyndromicController extends Controller
             }
         }
 
-        $s = SyndromicPatient::ifDuplicateFound($lname, $fname, $mname, $suffix, $bdate);
+        //$s = SyndromicPatient::ifDuplicateFound($lname, $fname, $mname, $suffix, $bdate);
 
+        $cbdate = Carbon::parse($bdate);
+        $getage = $cbdate->diffInYears(Carbon::now());
+        
+        return view('syndromic.new_patient', [
+            'getage' => $getage,
+        ]);
+
+        /*
         if(!($s)) {
             //getAge
             $cbdate = Carbon::parse($bdate);
@@ -452,38 +481,6 @@ class SyndromicController extends Controller
                 ->with('p', SyndromicPatient::find($s->id))
                 ->with('msgtype', 'warning');
             }
-        }
-
-        //new method of checking duplicate before storing records
-        /*
-        $s = SyndromicPatient::where(DB::raw("REPLACE(REPLACE(REPLACE(lname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $lname)))
-        ->where(DB::raw("REPLACE(REPLACE(REPLACE(fname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $fname)))
-        ->whereDate('bdate', $bdate);
-
-        if(request()->input('mname')) {
-            $getname = $lname.', '.$fname.' '.$mname;
-
-            $s = $s->where(DB::raw("REPLACE(REPLACE(REPLACE(mname,'.',''),'-',''),' ','')"), mb_strtoupper(str_replace([' ','-'], '', $mname)));
-        }
-        else {
-            $getname = $lname.', '.$fname;
-        }
-
-        if(request()->input('suffix')) {
-            $suffix = request()->input('suffix');
-            $getname = $getname.' '.$suffix;
-
-            $s = $s->where('suffix', $suffix)->first();
-        }
-        else {
-            $s = $s->first();
-        }
-
-        if($s) {
-            
-        }
-        else {
-            
         }
         */
     }
@@ -516,220 +513,219 @@ class SyndromicController extends Controller
             }
         }
 
-        if(!(SyndromicPatient::ifDuplicateFound($request->lname, $request->fname, $request->mname, $request->suffix, $request->date))) {
-            if(date('n') == 1) {
-                $sc = 'A';
+        if(SyndromicPatient::ifDuplicateFound($request->lname, $request->fname, $request->mname, $request->suffix, $request->date)) {
+            return redirect()->back()
+            ->with('msg', 'Error: Patient was already encoded and your input was blocked to avoid duplicate entries.')
+            ->with('msgtype', 'warning');
+        }
+        
+        if(date('n') == 1) {
+            $sc = 'A';
+        }
+        else if(date('n') == 2) {
+            $sc = 'B';
+        }
+        else if(date('n') == 3) {
+            $sc = 'C';
+        }
+        else if(date('n') == 4) {
+            $sc = 'D';
+        }
+        else if(date('n') == 5) {
+            $sc = 'E';
+        }
+        else if(date('n') == 6) {
+            $sc = 'F';
+        }
+        else if(date('n') == 7) {
+            $sc = 'G';
+        }
+        else if(date('n') == 8) {
+            $sc = 'H';
+        }
+        else if(date('n') == 9) {
+            $sc = 'I';
+        }
+        else if(date('n') == 10) {
+            $sc = 'J';
+        }
+        else if(date('n') == 11) {
+            $sc = 'K';
+        }
+        else if(date('n') == 12) {
+            $sc = 'L';
+        }
+        
+        $foundunique = false;
+
+        while(!$foundunique) {
+            $qr = date('Y').'-'.$sc.str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT).chr(mt_rand(65, 90)).chr(mt_rand(65, 90));
+
+            $search = SyndromicPatient::where('qr', $qr)->first();
+            $search2 = PharmacyPatient::where('qr', $qr)->first();
+
+            if(!$search && !$search2) {
+                $foundunique = true;
             }
-            else if(date('n') == 2) {
-                $sc = 'B';
+        }
+
+        //Check if Unique OPD Number Exist before Proceeding
+        if(auth()->user()->isSyndromicHospitalLevelAccess()) {
+            $ucheck = SyndromicPatient::where('unique_opdnumber', $request->unique_opdnumber)->first();
+
+            if($ucheck) {
+                return redirect()->back()
+                ->with('msg', 'Error: Unique Hospital Number already used by other patient.')
+                ->with('msgtype', 'danger');
             }
-            else if(date('n') == 3) {
-                $sc = 'C';
-            }
-            else if(date('n') == 4) {
-                $sc = 'D';
-            }
-            else if(date('n') == 5) {
-                $sc = 'E';
-            }
-            else if(date('n') == 6) {
-                $sc = 'F';
-            }
-            else if(date('n') == 7) {
-                $sc = 'G';
-            }
-            else if(date('n') == 8) {
-                $sc = 'H';
-            }
-            else if(date('n') == 9) {
-                $sc = 'I';
-            }
-            else if(date('n') == 10) {
-                $sc = 'J';
-            }
-            else if(date('n') == 11) {
-                $sc = 'K';
-            }
-            else if(date('n') == 12) {
-                $sc = 'L';
-            }
+        }
+
+        $ageToInt = Carbon::parse($request->bdate)->age;
+
+        //Selfie Algo
+        if($request->filled('selfie_image')) {
+            $imageData = $request->selfie_image;
             
-            $foundunique = false;
-    
-            while(!$foundunique) {
-                $qr = date('Y').'-'.$sc.str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT).chr(mt_rand(65, 90)).chr(mt_rand(65, 90));
-    
-                $search = SyndromicPatient::where('qr', $qr)->first();
-                $search2 = PharmacyPatient::where('qr', $qr)->first();
-    
-                if(!$search && !$search2) {
-                    $foundunique = true;
-                }
-            }
+            // Decode the base64 image
+            $image = str_replace('data:image/jpeg;base64,', '', $imageData);
+            $image = str_replace(' ', '+', $image);
+            $imageData = base64_decode($image);
 
-            //Check if Unique OPD Number Exist before Proceeding
-            if(auth()->user()->isSyndromicHospitalLevelAccess()) {
-                $ucheck = SyndromicPatient::where('unique_opdnumber', $request->unique_opdnumber)->first();
+            // Define the file path and name
+            $selfie_filename = 'captured_image_' . time() . '.jpg';
+            $path = 'patients/'.$selfie_filename;
 
-                if($ucheck) {
-                    return redirect()->back()
-                    ->with('msg', 'Error: Unique Hospital Number already used by other patient.')
-                    ->with('msgtype', 'danger');
-                }
-            }
+            // Save the image to the public/uploads folder
+            file_put_contents($path, $imageData);
+        }
+        else {
+            $selfie_filename = NULL;
+        }
 
-            $ageToInt = Carbon::parse($request->bdate)->age;
+        $values_array = [
+            'request_uuid' => $request->request_uuid,
+            'lname' => mb_strtoupper($request->lname),
+            'fname' => mb_strtoupper($request->fname),
+            'mname' => ($request->filled('mname')) ? mb_strtoupper($request->mname) : NULL,
+            'suffix' => ($request->filled('suffix')) ? mb_strtoupper($request->suffix) : NULL,
+            'bdate' => $request->bdate,
+            'gender' => $request->gender,
+            'cs' => $request->cs,
+            'spouse_name' => ($request->cs == 'MARRIED') ? $request->spouse_name : NULL,
+            'email' => $request->email,
+            'contact_number' => $request->contact_number,
+            'contact_number2' => $request->contact_number2,
 
-            //Selfie Algo
-            if($request->filled('selfie_image')) {
-                $imageData = $request->selfie_image;
-                
-                // Decode the base64 image
-                $image = str_replace('data:image/jpeg;base64,', '', $imageData);
-                $image = str_replace(' ', '+', $image);
-                $imageData = base64_decode($image);
+            'isph_member' => ($request->isph_member == 'Y') ? 1 : 0,
+            'philhealth' => ($request->filled('philhealth')) ? $request->philhealth : NULL,
 
-                // Define the file path and name
-                $selfie_filename = 'captured_image_' . time() . '.jpg';
-                $path = 'patients/'.$selfie_filename;
+            'occupation' => ($request->filled('occupation')) ? mb_strtoupper($request->occupation) : NULL,
+            'occupation_place' => ($request->filled('occupation') && request()->filled('occupation_place')) ? mb_strtoupper($request->occupation_place) : NULL,
 
-                // Save the image to the public/uploads folder
-                file_put_contents($path, $imageData);
-            }
-            else {
-                $selfie_filename = NULL;
-            }
+            'mother_name' => $request->mother_name,
+            'father_name' => $request->father_name,
 
-            $values_array = [
-                'request_uuid' => $request->request_uuid,
-                'lname' => mb_strtoupper($request->lname),
-                'fname' => mb_strtoupper($request->fname),
-                'mname' => ($request->filled('mname')) ? mb_strtoupper($request->mname) : NULL,
-                'suffix' => ($request->filled('suffix')) ? mb_strtoupper($request->suffix) : NULL,
-                'bdate' => $request->bdate,
-                'gender' => $request->gender,
-                'cs' => $request->cs,
-                'spouse_name' => ($request->cs == 'MARRIED') ? $request->spouse_name : NULL,
-                'email' => $request->email,
-                'contact_number' => $request->contact_number,
-                'contact_number2' => $request->contact_number2,
+            'is_indg' => ($request->is_indg == 'Y') ? 'Y' : 'N',
+            'is_4ps' => ($request->is_4ps == 'Y') ? 'Y' : 'N',
+            'is_nhts' => ($request->is_nhts == 'Y') ? 'Y' : 'N',
+            'is_seniorcitizen' => ($ageToInt >= 60) ? 'Y' : 'N',
+            'is_pwd' => ($request->is_pwd == 'Y') ? 'Y' : 'N',
+            'is_singleparent' => ($request->is_singleparent == 'Y') ? 'Y' : 'N',
+            'is_others' => ($request->is_others == 'Y') ? 'Y' : 'N',
+            'is_others_specify' => ($request->is_others == 'Y') ? mb_strtoupper($request->is_others_specify) : NULL,
 
-                'isph_member' => ($request->isph_member == 'Y') ? 1 : 0,
-                'philhealth' => ($request->filled('philhealth')) ? $request->philhealth : NULL,
+            'address_region_code' => $request->address_region_code,
+            'address_region_text' => $request->address_region_text,
+            'address_province_code' => $request->address_province_code,
+            'address_province_text' => $request->address_province_text,
+            'address_muncity_code' => $request->address_muncity_code,
+            'address_muncity_text' => $request->address_muncity_text,
+            'address_brgy_code' => $request->address_brgy_text,
+            'address_brgy_text' => $request->address_brgy_text,
+            'address_street' => $request->filled('address_street') ? mb_strtoupper($request->address_street) : NULL,
+            'address_houseno' => $request->filled('address_houseno') ? mb_strtoupper($request->address_houseno) : NULL,
 
-                'occupation' => ($request->filled('occupation')) ? mb_strtoupper($request->occupation) : NULL,
-                'occupation_place' => ($request->filled('occupation') && request()->filled('occupation_place')) ? mb_strtoupper($request->occupation_place) : NULL,
-    
-                'mother_name' => $request->mother_name,
-                'father_name' => $request->father_name,
+            'ifminor_resperson' => ($request->filled('ifminor_resperson')) ? mb_strtoupper($request->ifminor_resperson) : NULL,
+            'ifminor_resrelation' => ($request->filled('ifminor_resrelation')) ? mb_strtoupper($request->ifminor_resrelation) : NULL,
 
-                'is_indg' => ($request->is_indg == 'Y') ? 'Y' : 'N',
-                'is_4ps' => ($request->is_4ps == 'Y') ? 'Y' : 'N',
-                'is_nhts' => ($request->is_nhts == 'Y') ? 'Y' : 'N',
-                'is_seniorcitizen' => ($ageToInt >= 60) ? 'Y' : 'N',
-                'is_pwd' => ($request->is_pwd == 'Y') ? 'Y' : 'N',
-                'is_singleparent' => ($request->is_singleparent == 'Y') ? 'Y' : 'N',
-                'is_others' => ($request->is_others == 'Y') ? 'Y' : 'N',
-                'is_others_specify' => ($request->is_others == 'Y') ? mb_strtoupper($request->is_others_specify) : NULL,
-    
-                'address_region_code' => $request->address_region_code,
-                'address_region_text' => $request->address_region_text,
-                'address_province_code' => $request->address_province_code,
-                'address_province_text' => $request->address_province_text,
-                'address_muncity_code' => $request->address_muncity_code,
-                'address_muncity_text' => $request->address_muncity_text,
-                'address_brgy_code' => $request->address_brgy_text,
-                'address_brgy_text' => $request->address_brgy_text,
-                'address_street' => $request->filled('address_street') ? mb_strtoupper($request->address_street) : NULL,
-                'address_houseno' => $request->filled('address_houseno') ? mb_strtoupper($request->address_houseno) : NULL,
-    
-                'ifminor_resperson' => ($request->filled('ifminor_resperson')) ? mb_strtoupper($request->ifminor_resperson) : NULL,
-                'ifminor_resrelation' => ($request->filled('ifminor_resrelation')) ? mb_strtoupper($request->ifminor_resrelation) : NULL,
+            'is_lgustaff' => ($request->is_lgustaff == 'Y') ? 1 : 0,
+            'lgu_office_name' => ($request->is_lgustaff == 'Y' && $request->filled('lgu_office_name')) ? mb_strtoupper($request->lgu_office_name) : NULL,
 
-                'is_lgustaff' => ($request->is_lgustaff == 'Y') ? 1 : 0,
-                'lgu_office_name' => ($request->is_lgustaff == 'Y' && $request->filled('lgu_office_name')) ? mb_strtoupper($request->lgu_office_name) : NULL,
-    
-                'qr' => $qr,
-                'facility_id' => auth()->user()->itr_facility_id,
+            'qr' => $qr,
+            'facility_id' => auth()->user()->itr_facility_id,
 
-                'encodedfrom_tbdots' => (auth()->user()->isTbdotsEncoder()) ? 1 : 0,
-                'selfie_file' => $selfie_filename,
+            'encodedfrom_tbdots' => (auth()->user()->isTbdotsEncoder()) ? 1 : 0,
+            'selfie_file' => $selfie_filename,
+        ];
+
+        /*
+        if(auth()->user()->opdfacility->enable_customemr1 == 1) { //Manggahan Facility ID Checking
+            $values_array = $values_array + [
+                'facility_controlnumber' => $request->facility_controlnumber,
             ];
+        }
+        */
 
-            /*
-            if(auth()->user()->opdfacility->enable_customemr1 == 1) { //Manggahan Facility ID Checking
-                $values_array = $values_array + [
-                    'facility_controlnumber' => $request->facility_controlnumber,
-                ];
-            }
-            */
+        if(!auth()->user()->isSyndromicHospitalLevelAccess()) {
+            $values_array = $values_array + [
+                'philhealth_statustype' => ($request->isph_member == 'Y') ? $request->philhealth_statustype : NULL,
+                'family_member' => $request->family_member,
+            ];
+        }
 
-            if(!auth()->user()->isSyndromicHospitalLevelAccess()) {
-                $values_array = $values_array + [
-                    'philhealth_statustype' => ($request->isph_member == 'Y') ? $request->philhealth_statustype : NULL,
-                    'family_member' => $request->family_member,
-                ];
-            }
+        if(auth()->user()->isSyndromicHospitalLevelAccess()) {
+            $values_array = $values_array + [
+                'unique_opdnumber' => mb_strtoupper($request->unique_opdnumber),
+                'id_presented' => mb_strtoupper($request->id_presented),
+            ];
+        }
 
-            if(auth()->user()->isSyndromicHospitalLevelAccess()) {
-                $values_array = $values_array + [
-                    'unique_opdnumber' => mb_strtoupper($request->unique_opdnumber),
-                    'id_presented' => mb_strtoupper($request->id_presented),
-                ];
-            }
-    
-            $c = $request->user()->syndromicpatient()->create($values_array);
-            
-            if(auth()->user()->opdfacility->enable_customemr1 == 1) {
-                $ctr_create = OpdControlNumber::create([
-                    'facility_id' => auth()->user()->itr_facility_id,
-                    'control_number' => $request->facility_controlnumber,
+        $c = $request->user()->syndromicpatient()->create($values_array);
+        
+        if(auth()->user()->opdfacility->enable_customemr1 == 1) {
+            $ctr_create = OpdControlNumber::create([
+                'facility_id' => auth()->user()->itr_facility_id,
+                'control_number' => $request->facility_controlnumber,
+                'patient_id' => $c->id,
+                'created_by' => auth()->user()->id,
+            ]);
+        }
+
+        if(!auth()->user()->isSyndromicHospitalLevelAccess()) {
+            //Create Household and Family Serial Number
+            if($request->filled('inhouse_householdno') || $request->filled('inhouse_familyserialno')) {
+                $snc = InhouseFamilySerial::create([
                     'patient_id' => $c->id,
-                    'created_by' => auth()->user()->id,
+                    'inhouse_householdno' => $request->inhouse_householdno,
+                    'inhouse_familyserialno' => $request->inhouse_familyserialno,
                 ]);
             }
+        }
 
-            if(!auth()->user()->isSyndromicHospitalLevelAccess()) {
-                //Create Household and Family Serial Number
-                if($request->filled('inhouse_householdno') || $request->filled('inhouse_familyserialno')) {
-                    $snc = InhouseFamilySerial::create([
-                        'patient_id' => $c->id,
-                        'inhouse_householdno' => $request->inhouse_householdno,
-                        'inhouse_familyserialno' => $request->inhouse_familyserialno,
-                    ]);
-                }
+        if($request->filled('from_etcl')) {
+            if($request->from_etcl == 'maternal_care') {
+                return redirect()
+                ->route('etcl_maternal_new', $c->id)
+                ->with('msg', 'Patient record successfully created. Proceed by completing the Maternal Care Record of the patient.')
+                ->with('msgtype', 'success');
             }
-
-            if($request->filled('from_etcl')) {
-                if($request->from_etcl == 'maternal_care') {
-                    return redirect()
-                    ->route('etcl_maternal_new', $c->id)
-                    ->with('msg', 'Patient record successfully created. Proceed by completing the Maternal Care Record of the patient.')
-                    ->with('msgtype', 'success');
-                }
-                else if($request->from_etcl == 'child_care') {
-                    return redirect()
-                    ->route('etcl_childcare_new', $c->id)
-                    ->with('msg', 'Patient record successfully created. Proceed by completing the Child Care Record of the patient.')
-                    ->with('msgtype', 'success');
-                }
-                else if($request->from_etcl == 'child_nutrition') {
-                    return redirect()
-                    ->route('etcl_childnutrition_new', $c->id)
-                    ->with('msg', 'Patient record successfully created. Proceed by completing the Child Nutrition Record of the patient.')
-                    ->with('msgtype', 'success');
-                }
+            else if($request->from_etcl == 'child_care') {
+                return redirect()
+                ->route('etcl_childcare_new', $c->id)
+                ->with('msg', 'Patient record successfully created. Proceed by completing the Child Care Record of the patient.')
+                ->with('msgtype', 'success');
             }
-            else {
-                return redirect()->route('syndromic_newRecord', $c->id)
-                ->with('msg', 'Patient record successfully created. Proceed by completing the ITR of the patient.')
+            else if($request->from_etcl == 'child_nutrition') {
+                return redirect()
+                ->route('etcl_childnutrition_new', $c->id)
+                ->with('msg', 'Patient record successfully created. Proceed by completing the Child Nutrition Record of the patient.')
                 ->with('msgtype', 'success');
             }
         }
         else {
-            return redirect()->back()
-            ->with('msg', 'Error: Patient was already encoded and your input was blocked to avoid duplicate entries.')
-            ->with('msgtype', 'warning');
+            return redirect()->route('syndromic_newRecord', $c->id)
+            ->with('msg', 'Patient record successfully created. Proceed by completing the ITR of the patient.')
+            ->with('msgtype', 'success');
         }
     }
 

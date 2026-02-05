@@ -42,13 +42,13 @@ class ElectronicTclController extends Controller
             return abort(404);
         }
 
-        if(request()->input('year')) {
-            $records = (clone $records)->whereYear('registration_date', request()->input('year'))->orderBy('registration_date', 'DESC')->get();
-        }
-        else {
-            $records = (clone $records)->whereYear('registration_date', date('Y'))->orderBy('registration_date', 'DESC')->get();
-        }
-
+        $records = (clone $records)
+        ->when(request()->input('year'), function($q) {
+            $q->whereYear('registration_date', request()->input('year'));
+        }, function($q) {
+            $q->whereYear('registration_date', date('Y'));
+        })->get();
+        
         return view('efhsis.etcl.etcl_home', compact('type', 'records'));
     }
 

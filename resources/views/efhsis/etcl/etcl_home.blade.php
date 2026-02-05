@@ -7,7 +7,7 @@
                 <div class="d-flex justify-content-between">
                     <div><b>{{ $type }}</b></div>
                     <div>
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#newPatientModal">New Patient</button>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#newPatientModal">New/Search Patient</button>
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#printTcl">Print TCL</button>
                     </div>
                 </div>
@@ -17,12 +17,42 @@
                 @if(session('msg'))
                     <div class="alert alert-{{session('msgtype')}}">
                         <div>{{session('msg')}}</div>
-                        <hr>
                         @if(session('from_etcl'))
+                        <hr>
                         <div>To view the patient record, click <a href="{{route('syndromic_viewPatient', session('p'))}}">here</a>.</div>
                         @endif
                     </div>
                 @endif
+
+                <button type="button" class="btn btn-secondary mb-3" data-toggle="modal" data-target="#filterModal">Filter</button>
+
+                <form action="{{ url()->current() }}" method="GET">
+                    @foreach(request()->query() as $key => $value)
+                        <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                    @endforeach
+
+                    <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Filter</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                      <label for="year"><b class="text-warning">*</b>Select Year</label>
+                                      <input type="number" class="form-control" name="year" id="year" min="2024" max="{{date('Y')}}" value="{{date('Y')}}" required>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-success btn-block">Filter</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
     
                 @if($type == 'maternal_care')
                     @include('efhsis.etcl.maternalcare_list')
