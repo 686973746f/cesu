@@ -48,9 +48,13 @@
                             <select class="form-control" name="etcl_bhs_id" id="etcl_bhs_id">
                                 <option value="">N/A</option>
                                 @foreach($opd_branches as $b)
-                                <option value="{{$b->id}}" {{($d->etcl_bhs_id == $b->id) ? 'selected': ''}}>{{$b->facility_name}}</option>
+                                <option value="{{$b->id}}" {{($d->etcl_bhs_id == $b->id) ? 'selected': ''}}>{{$b->facility_name}} (#{{$b->id}})</option>
                                 @endforeach
                             </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="switch_bhs_list">Switch BHS List (For multiple BHS Handler)</label>
+                            <input type="text" class="form-control" name="switch_bhs_list" id="switch_bhs_list" value="{{old('switch_bhs_list', $d->switch_bhs_list)}}">
                         </div>
                     </div>
                     <div class="col-6">

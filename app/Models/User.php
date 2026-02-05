@@ -106,6 +106,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'last_login_date',
         'permission_list',
         'etcl_bhs_id',
+        'switch_bhs_list',
     ];
 
     /**

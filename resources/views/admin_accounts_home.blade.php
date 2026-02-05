@@ -79,15 +79,21 @@
                             @endforeach
                           </select>
                         </div>
+                        <hr>
                         <div class="form-group">
-                            <label for="etcl_bhs_id"><b class="text-danger">*</b>eTCL BHS ID</label>
+                            <label for="etcl_bhs_id">eTCL BHS ID</label>
                             <select class="form-control" name="etcl_bhs_id" id="etcl_bhs_id">
                               <option value="" disabled {{(is_null(old('etcl_bhs_id'))) ? 'selected' : ''}}>Choose...</option>
                               @foreach($facility_list as $fi)
-                              <option value="{{$fi->id}}">{{mb_strtoupper($fi->facility_name)}}</option>
+                              <option value="{{$fi->id}}">{{mb_strtoupper($fi->facility_name)}} (#{{$fi->id}})</option>
                               @endforeach
                             </select>
                         </div>
+                        <div class="form-group">
+                          <label for="switch_bhs_list">Switch BHS List (For multiple BHS Handler)</label>
+                          <input type="text" class="form-control" name="switch_bhs_list" id="switch_bhs_list" value="{{old('switch_bhs_list')}}">
+                        </div>
+                        <hr>
                         <div class="form-group">
                           <label for="itr_doctor_id">Set Default Consultation Doctor</label>
                           <select class="form-control" name="itr_doctor_id" id="itr_doctor_id">
