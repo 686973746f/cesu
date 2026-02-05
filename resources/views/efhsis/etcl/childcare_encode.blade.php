@@ -104,8 +104,8 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="">Complete Address</label>
-                            <input type="text" class="form-control" value="{{ ($mode == 'EDIT') ? $d->patient->getFullAddress() : $patient->getFullAddress() }}" readonly>
+                            <label for=""><b class="text-danger">*</b>Complete Address</label>
+                            <textarea class="form-control" rows="3" disabled>{{ ($mode == 'EDIT') ? $d->patient->getFullAddress() : $patient->getFullAddress() }}</textarea>
                         </div>
                     </div>
                 </div>

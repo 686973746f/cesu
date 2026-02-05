@@ -10,13 +10,13 @@
 <input type="hidden" name="request_uuid" value="{{Str::uuid()}}">
 <div class="container">
     <div class="card">
-        <b class="card-header">
+        <div class="card-header">
             @if($mode == 'EDIT')
             <b>Edit Child Nutrition (ID: {{ $d->id }})</b>
             @else
             <b>New Child Nutrition</b>
             @endif
-        </b>
+        </div>
         <div class="card-body">
             @if(session('msg'))
                 <div class="alert alert-{{session('msgtype')}}" role="alert">
@@ -33,29 +33,29 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                      <label for="">Family Serial No.</label>
-                      <input type="text" class="form-control" value="{{ $patient->inhouseFamilySerials->inhouse_familyserialno ?? 'N/A' }}" readonly>
+                      <label for=""><b class="text-danger">*</b>Family Serial No.</label>
+                      <input type="text" class="form-control" value="{{ ($mode == 'EDIT') ? $d->patient->inhouseFamilySerials->inhouse_familyserialno ?? 'N/A' : $patient->inhouseFamilySerials->inhouse_familyserialno ?? 'N/A' }}" readonly>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="">Name of Child / Age</label>
-                        <input type="text" class="form-control" value="{{ ($mode == 'EDIT') ? $d->patient->getName() : $patient->getName() }}" readonly>
+                        <label for=""><b class="text-danger">*</b>Name of Child / Age</label>
+                        <input type="text" class="form-control" value="{{ ($mode == 'EDIT') ? $d->patient->getName().' / '.$d->patient->getAge() : $patient->getName().' / '.$patient->getAge() }}" readonly>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="">Sex</label>
+                                <label for=""><b class="text-danger">*</b>Sex</label>
                                 <input type="text" class="form-control" value="{{ ($mode == 'EDIT') ?  $d->patient->gender : $patient->gender }}" readonly>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="">Date of Birth</label>
+                                <label for=""><b class="text-danger">*</b>Date of Birth</label>
                                 <input type="text" class="form-control" value="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->patient->bdate)->format('m/d/Y') : Carbon\Carbon::parse($patient->bdate)->format('m/d/Y') }}" readonly>
                             </div>
                         </div>
@@ -71,8 +71,8 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="">Complete Address</label>
-                        <input type="text" class="form-control" value="{{ ($mode == 'EDIT') ? $d->patient->getFullAddress() : $patient->getFullAddress() }}" readonly>
+                        <label for=""><b class="text-danger">*</b>Complete Address</label>
+                        <textarea class="form-control" rows="3" disabled>{{ ($mode == 'EDIT') ? $d->patient->getFullAddress() : $patient->getFullAddress() }}</textarea>
                     </div>
                 </div>
             </div>

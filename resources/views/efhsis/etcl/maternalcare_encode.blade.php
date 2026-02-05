@@ -33,19 +33,19 @@
                     <div class="col-md-6">
                         <div class="form-group">
                           <label for=""><b class="text-danger">*</b>Family Serial No.</label>
-                          <input type="text" class="form-control" value="{{ $patient->inhouseFamilySerials->inhouse_familyserialno ?? 'N/A' }}" readonly>
+                          <input type="text" class="form-control" value="{{ ($mode == 'EDIT') ? $d->patient->inhouseFamilySerials->inhouse_familyserialno ?? 'N/A' : $patient->inhouseFamilySerials->inhouse_familyserialno ?? 'N/A' }}" readonly>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for=""><b class="text-danger">*</b>Full Name / Age</label>
-                            <input type="text" class="form-control" value="{{ $patient->getName() }} ({{$patient->getAge()}} {{Str::plural('year', $patient->getAge())}} old)" readonly>
+                            <input type="text" class="form-control" value="{{ ($mode == 'EDIT') ? $d->patient->getName() : $patient->getName() }} ({{ ($mode == 'EDIT') ? $d->patient->getAge() : $patient->getAge() }} {{Str::plural('year', ($mode == 'EDIT') ? $d->patient->getAge() : $patient->getAge())}} old)" readonly>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for=""><b class="text-danger">*</b>Complete Address</label>
-                            <input type="text" class="form-control" value="{{ $patient->getFullAddress() }}" readonly>
+                          <label for=""><b class="text-danger">*</b>Complete Address</label>
+                          <textarea class="form-control" rows="3" disabled>{{ ($mode == 'EDIT') ? $d->patient->getFullAddress() : $patient->getFullAddress() }}</textarea>
                         </div>
                     </div>
                     <div class="col-md-6">
