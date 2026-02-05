@@ -203,6 +203,9 @@ class AdminPanelController extends Controller
             'permission_list' => implode(",", $r->permission_list),
         ]);
 
+        $c->email_verified_at = now();
+        $c->save();
+
         return redirect()
         ->back()
         ->with('msg', 'User '.$c->name.' was successfully created.')

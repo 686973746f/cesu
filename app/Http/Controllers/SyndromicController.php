@@ -435,11 +435,23 @@ class SyndromicController extends Controller
             ]);
         }
         else {
-            return redirect()->back()
-            ->withInput()
-            ->with('msg', 'Error: Patient ('.mb_strtoupper($getname).') already exists in the database.')
-            ->with('p', SyndromicPatient::find($s->id))
-            ->with('msgtype', 'warning');
+            if(!is_null(request()->input('from_etcl'))) {
+                $from_etcl = request()->input('from_etcl');
+
+                return redirect()->back()
+                ->withInput()
+                ->with('msg', 'Error: Patient ('.mb_strtoupper($getname).') already has a record in the patient masterlist.')
+                ->with('p', SyndromicPatient::find($s->id))
+                ->with('from_etcl', $from_etcl)
+                ->with('msgtype', 'warning');
+            }
+            else {
+                return redirect()->back()
+                ->withInput()
+                ->with('msg', 'Error: Patient ('.mb_strtoupper($getname).') already has a record in the patient masterlist.')
+                ->with('p', SyndromicPatient::find($s->id))
+                ->with('msgtype', 'warning');
+            }
         }
 
         //new method of checking duplicate before storing records

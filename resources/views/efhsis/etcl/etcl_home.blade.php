@@ -16,7 +16,11 @@
             <div class="card-body">
                 @if(session('msg'))
                     <div class="alert alert-{{session('msgtype')}}">
-                        {{session('msg')}}
+                        <div>{{session('msg')}}</div>
+                        <hr>
+                        @if(session('from_etcl'))
+                        <div>To view the patient record, click <a href="{{route('syndromic_viewPatient', session('p'))}}">here</a>.</div>
+                        @endif
                     </div>
                 @endif
     
