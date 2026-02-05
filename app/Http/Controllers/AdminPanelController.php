@@ -198,6 +198,7 @@ class AdminPanelController extends Controller
             'itr_doctor_id' => $r->itr_doctor_id,
             'pharmacy_branch_id' => $r->pharmacy_branch_id,
             'abtc_default_vaccinationsite_id' => $r->abtc_default_vaccinationsite_id,
+            'etcl_bhs_id' => $r->etcl_bhs_id,
 
             'permission_list' => implode(",", $r->permission_list),
         ]);
@@ -258,6 +259,7 @@ class AdminPanelController extends Controller
         $d->itr_doctor_id = ($r->itr_doctor_id != 'NONE') ? $r->itr_doctor_id : NULL;
         $d->abtc_default_vaccinationsite_id = ($r->abtc_default_vaccinationsite_id != 'NONE') ? $r->abtc_default_vaccinationsite_id : NULL;
         $d->permission_list = implode(",", $r->permission_list);
+        $d->etcl_bhs_id = $r->etcl_bhs_id;
 
         if($d->isDirty()) {
             $d->save();

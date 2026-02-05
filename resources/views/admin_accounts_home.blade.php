@@ -80,6 +80,15 @@
                           </select>
                         </div>
                         <div class="form-group">
+                            <label for="etcl_bhs_id"><b class="text-danger">*</b>eTCL BHS ID</label>
+                            <select class="form-control" name="etcl_bhs_id" id="etcl_bhs_id">
+                              <option value="" disabled {{(is_null(old('etcl_bhs_id'))) ? 'selected' : ''}}>Choose...</option>
+                              @foreach($facility_list as $fi)
+                              <option value="{{$fi->id}}">{{mb_strtoupper($fi->facility_name)}}</option>
+                              @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                           <label for="itr_doctor_id">Set Default Consultation Doctor</label>
                           <select class="form-control" name="itr_doctor_id" id="itr_doctor_id">
                             <option value="">N/A</option>

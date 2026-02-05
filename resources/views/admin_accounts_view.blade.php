@@ -43,6 +43,15 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label for="etcl_bhs_id">eTCL BHS ID</label>
+                            <select class="form-control" name="etcl_bhs_id" id="etcl_bhs_id">
+                                <option value="">N/A</option>
+                                @foreach($opd_branches as $b)
+                                <option value="{{$b->id}}" {{($d->etcl_bhs_id == $b->id) ? 'selected': ''}}>{{$b->facility_name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">

@@ -866,6 +866,9 @@ class User extends Authenticatable implements MustVerifyEmail
             'DISASTER_ADMIN',
             'DISASTER_ENCODER',
             'EMPLOYEE_ACCESS',
+            'ETCL_ENCODER',
+            'ETCL_ADMIN',
+            'ETCL_MASTER_ADMIN',
         ];
 
         sort($arr);
