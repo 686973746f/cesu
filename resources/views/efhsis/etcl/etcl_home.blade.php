@@ -5,7 +5,15 @@
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <div><b>{{ $type }}</b></div>
+                    <div>
+                        <div><b>{{ $type }}</b></div>
+                        <div><b>Facility:</b> {{auth()->user()->etclBhs->facility_name}}
+                        
+                        @if(!empty(auth()->user()->getBhsSwitchList()))
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modelId">Switch BHS</button>
+                        @endif
+                        </div>
+                    </div>
                     <div>
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#newPatientModal">New/Search Patient</button>
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#printTcl">Print TCL</button>
@@ -142,6 +150,41 @@
             </div>
         </div>
     </form>
+
+    @if(!empty(auth()->user()->getBhsSwitchList()))
+    <form action="{{ route('etcl_switchbhs') }}" method="POST">
+        @csrf
+        <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Switch BHS</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                          <label for="switch_bhs_list"><b class="text-danger">*</b>Select BHS</label>
+                          <select class="form-control" name="switch_bhs_list" id="switch_bhs_list" required>
+                            <option value="" disabled selected>Choose...</option>
+                            @foreach(App\Models\DohFacility::where('id', '!=',auth()->user()->etcl_bhs_id)
+                            ->whereIn('id', auth()->user()->getBhsSwitchList())
+                            ->get() as $bhs)
+                            <option value="{{ $bhs->id }}">{{ $bhs->facility_name }}</option>
+                            @endforeach
+                          </select>
+                        </div>
+                        <input type="hidden" name="etcl_type" value="{{$type}}">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    @endif
 
     <script>
         $('#start_date').on('change', function () {

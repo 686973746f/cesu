@@ -880,4 +880,17 @@ class User extends Authenticatable implements MustVerifyEmail
     public function abtcfacility() {
         return $this->belongsTo(AbtcVaccinationSite::class, 'abtc_default_vaccinationsite_id');
     }
+
+    public function etclbhs() {
+        return $this->belongsTo(DohFacility::class, 'etcl_bhs_id');
+    }
+
+    public function getBhsSwitchList() {
+        if(!is_null($this->switch_bhs_list)) {
+            return explode(",", $this->switch_bhs_list);
+        }
+        else {
+            return [];
+        }
+    }
 }

@@ -1107,6 +1107,7 @@ Route::get('/forms', function () {
 });
 Route::middleware(['auth','verified', 'canAccessElectronicTcl'])->group(function () {
     Route::get('/etcl', [ElectronicTclController::class, 'eTclHome'])->name('etcl_home');
+    Route::post('/etcl/switch_bhs', [ElectronicTclController::class, 'switchBhs'])->name('etcl_switchbhs');
     Route::post('/etcl/generate_m1', [ElectronicTclController::class, 'generateM1'])->name('etcl_generatem1');
     Route::post('/etcl/generate_tcl', [ElectronicTclController::class, 'generateTcl'])->name('etcl_generatetcl');
 

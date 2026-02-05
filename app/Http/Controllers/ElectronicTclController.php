@@ -3,15 +3,16 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\InhouseChildCare;
-use App\Models\InhouseChildNutrition;
-use App\Models\InhouseFamilyPlanning;
 use App\Models\SyndromicPatient;
 use App\Models\InhouseMaternalCare;
-use PhpOffice\PhpSpreadsheet\IOFactory as ExcelFactory;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use App\Models\InhouseChildNutrition;
+use App\Models\InhouseFamilyPlanning;
 use PhpOffice\PhpSpreadsheet\Style\Color;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\IOFactory as ExcelFactory;
 
 class ElectronicTclController extends Controller
 {
@@ -50,6 +51,22 @@ class ElectronicTclController extends Controller
         })->get();
         
         return view('efhsis.etcl.etcl_home', compact('type', 'records'));
+    }
+
+    public function switchBhs(Request $r) {
+            $r->validate([
+                'switch_bhs_list' => 'required|in:' . implode(',', auth()->user()->getBhsSwitchList()),
+            ]);
+
+            $d = User::findOrFail(auth()->user()->id);
+
+            $d->etcl_bhs_id = $r->switch_bhs_list;
+            $d->save();
+    
+            return redirect()
+            ->route('etcl_home', ['type' => $r->etcl_type])
+            ->with('msg', 'Successfully switched BHS.')
+            ->with('msgtype', 'success');
     }
 
     public function newMaternalCare($patient_id) {
