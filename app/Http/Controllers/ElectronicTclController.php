@@ -21,7 +21,7 @@ class ElectronicTclController extends Controller
             ['value' => 'maternal_care', 'text' => 'Maternal Care', 'enabled' => true],
             ['value' => 'child_care', 'text' => 'Child Care', 'enabled' => true],
             ['value' => 'child_nutrition', 'text' => 'Child Nutrition', 'enabled' => true],
-            ['value' => 'family_planning', 'text' => 'Family Planning', 'enabled' => true],
+            ['value' => 'family_planning', 'text' => 'Family Planning', 'enabled' => false],
         ];
 
         return collect($list)->sortBy('text', SORT_NATURAL | SORT_FLAG_CASE)->values();
