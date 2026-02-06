@@ -10,6 +10,7 @@ use App\Models\SyndromicPatient;
 use App\Models\InhouseMaternalCare;
 use App\Models\InhouseChildNutrition;
 use App\Models\InhouseFamilyPlanning;
+use Illuminate\Validation\Rules\In;
 use PhpOffice\PhpSpreadsheet\Style\Color;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\IOFactory as ExcelFactory;
@@ -38,6 +39,9 @@ class ElectronicTclController extends Controller
         }
         elseif($type == 'child_nutrition') {
             $records = InhouseChildNutrition::where('facility_id', auth()->user()->etcl_bhs_id);
+        }
+        elseif($type == 'family_planning') {
+            $records = InhouseFamilyPlanning::where('facility_id', auth()->user()->etcl_bhs_id);
         }
         else {
             return abort(404);
@@ -1050,7 +1054,75 @@ class ElectronicTclController extends Controller
     }
 
     public function storeFamilyPlanning($patient_id, Request $r) {
+        $d = SyndromicPatient::findOrFail($patient_id);
+
+        $check = InhouseFamilyPlanning::where('request_uuid', $r->request_uuid)->first();
+
+        if($check) {
+            return redirect()->
+            back()
+            ->with('msg', 'Error: This record has already been saved.')
+            ->with('msgtype', 'warning');
+        }
+
+        if($d->getAge() <= 14) {
+            $age_group = 'A'; //Adolescent
+        }
+        else if($d->getAge() >= 15 && $d->getAge() <= 19) { 
+            $age_group = 'B'; //Young Adult
+        }
+        else {
+            $age_group = 'C'; //Adult
+        }
+
+        $birthdate = Carbon::parse($d->bdate);
+        $currentDate = Carbon::parse($r->registration_date);
+
+        $get_ageyears = $birthdate->diffInYears($currentDate);
+        $get_agemonths = $birthdate->diffInMonths($currentDate);
+        $get_agedays = $birthdate->diffInDays($currentDate);
+
+        $table_params = [
+            'patient_id' => $d->id,
+            'facility_id' => auth()->user()->etcl_bhs_id,
+            'registration_date' => $r->registration_date,
+            'age_group' => $age_group,
+
+            'client_type' => $r->client_type,
+            'source' => $r->source,
+            'previous_method' => $r->previous_method,
+            'current_method' => $r->current_method,
+            //'is_permanent' => $r->is_permanent,
+            //'is_dropout' => $r->is_dropout,
+            //'dropout_date' => $r->dropout_date,
+            //'dropout_reason' => $r->dropout_reason,
+
+            'remarks' => $r->remarks,
+            'system_remarks' => $r->system_remarks,
+
+            'created_by' => auth()->user()->id,
+            'updated_by' => auth()->user()->id,
+            'request_uuid' => $r->request_uuid,
+            
+            'age_years' => $get_ageyears,
+            'age_months' => $get_agemonths,
+            'age_days' => $get_agedays,
+        ];
+
+        $c = InhouseFamilyPlanning::create($table_params);
+
+        return redirect()
+        ->route('etcl_familyplanning_view', $c->id)
+        ->with('msg', 'Family Planning Record successfully saved. You can now encode the client\'s family planning method details.')
+        ->with('msgtype', 'success');
+    }
+
+    public function initializeFamilyPlanning($tcl_fp_id, Request $r) {
         
+    }
+
+    public function updateFamilyPlanningVisit($visit_id, Request $r) {
+
     }
 
     public function editFamilyPlanning($id) {

@@ -23,4 +23,9 @@ class InhouseFpVisit extends Model
         'age_days',
         'request_uuid',
     ];
+    
+
+    public function familyplanning() {
+        return $this->belongsTo(InhouseFamilyPlanning::class, 'fp_tcl_id');
+    }
 }

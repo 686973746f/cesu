@@ -34,4 +34,16 @@ class InhouseFamilyPlanning extends Model
         'age_days',
         'is_locked',
     ];
+
+    public function patient() {
+        return $this->belongsTo(SyndromicPatient::class, 'patient_id');
+    }
+
+    public function facility() {
+        return $this->belongsTo(DohFacility::class, 'facility_id');
+    }
+
+    public function visits() {
+        return $this->hasMany(InhouseFpVisit::class, 'fp_tcl_id');
+    }
 }

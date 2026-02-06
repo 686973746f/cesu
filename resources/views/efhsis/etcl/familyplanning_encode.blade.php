@@ -1,6 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
+@if($mode == 'EDIT')
+<form action="{{route('etcl_familyplanning_update', $d->id)}}" method="POST">
+@else
+<form action="{{route('etcl_familyplanning_store', $patient->id)}}" method="POST">
+@endif
+@csrf
+<input type="hidden" name="request_uuid" value="{{Str::uuid()}}">
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">
@@ -101,9 +108,48 @@
                         </div>
                     </div>
                 </div>
+                @if($mode != 'EDIT')
                 <div class="alert alert-info" role="alert">
                     To encode visits, please save the record first.
                 </div>
+                @else
+                <hr>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between">
+                            <div><b>Follow-up Visits</b></div>
+                            <div>
+                                b4-modal
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Estimated Date</th>
+                                    <th>Actual Visit Date</th>
+                                    <th>Method</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td scope="row"></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td scope="row"></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                @endif
             </div>
             <div class="card-footer">
                 <button type="submit" id="submitBtn" class="btn btn-success btn-block" {{($d->is_locked == 'Y') ? 'disabled' : ''}}>
@@ -116,4 +162,5 @@
             </div>
         </div>
     </div>
+</form>
 @endsection
