@@ -484,13 +484,19 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
 });
 
 //SYNDROMIC
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessOpdPatients']], function() {
+    Route::get('/syndromic/patient/search', [SyndromicController::class, 'newPatientSearch'])->name('syndromic_searchPatient');
+    Route::get('/syndromic/patient/new', [SyndromicController::class, 'newPatient'])->name('syndromic_newPatient');
+    Route::post('/syndromic/patient/store', [SyndromicController::class, 'storePatient'])->name('syndromic_storePatient');
+
+    Route::get('/syndromic/patient/{patient_id}/view', [SyndromicController::class, 'viewPatient'])->name('syndromic_viewPatient');
+    Route::post('/syndromic/patient/{patient_id}/update', [SyndromicController::class, 'updatePatient'])->name('syndromic_updatePatient');
+});
+
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessSyndromic']], function() {
     Route::get('/syndromic', [SyndromicController::class, 'index'])->name('syndromic_home');
     Route::get('/syndromic/dengue', [SyndromicController::class, 'dengue'])->name('syndromic_dengue');
     Route::get('/syndromic/download_opd_excel', [SyndromicController::class, 'downloadOpdExcel'])->name('syndromic_download_opd_excel');
-    Route::get('/syndromic/patient/search', [SyndromicController::class, 'newPatientSearch'])->name('syndromic_searchPatient');
-    Route::get('/syndromic/patient/new', [SyndromicController::class, 'newPatient'])->name('syndromic_newPatient');
-    Route::post('/syndromic/patient/store', [SyndromicController::class, 'storePatient'])->name('syndromic_storePatient');
     Route::get('/syndromic/patient/{patient_id}/records/new', [SyndromicController::class, 'newRecord'])->name('syndromic_newRecord');
     Route::post('/syndromic/patient/{patient_id}/records/store', [SyndromicController::class, 'storeRecord'])->name('syndromic_storeRecord');
 
@@ -498,14 +504,12 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessS
     Route::get('/syndromic/icd10list/select/{code}', [SyndromicController::class, 'icd10list_getcode'])->name('syndromic_icd10list_getcode');
 
     Route::get('/syndromic/pharmacy/meds_list', [SyndromicController::class, 'pharmacyMedsList'])->name('syndromic_medsList');
-    
-    Route::get('/syndromic/patient/{patient_id}/view', [SyndromicController::class, 'viewPatient'])->name('syndromic_viewPatient');
+
     Route::post('/syndromic/patient/{patient_id}/delete', [SyndromicController::class, 'deletePatient'])->name('syndromic_deletePatient');
     Route::get('/syndromic/patient/{patient_id}/record_list', [SyndromicController::class, 'viewExistingRecordList'])->name('syndromic_viewItrList');
     Route::get('/syndromic/records/{records_id}/view', [SyndromicController::class, 'viewRecord'])->name('syndromic_viewRecord');
     Route::get('/syndromic/records/{records_id}/create_raf', [RiskAssessmentController::class, 'createFromSyndromic'])->name('syndromic_createRaf');
     Route::get('/syndromic/records/{records_id}/download_itr', [SyndromicController::class, 'downloadItrDocx'])->name('syndromic_downloadItr');
-    Route::post('/syndromic/patient/{patient_id}/update', [SyndromicController::class, 'updatePatient'])->name('syndromic_updatePatient');
     Route::post('/syndromic/records/{records_id}/update', [SyndromicController::class, 'updateRecord'])->name('syndromic_updateRecord');
     Route::post('/syndromic/records/{records_id}/delete', [SyndromicController::class, 'deleteRecord'])->name('syndromic_deleteRecord');
 

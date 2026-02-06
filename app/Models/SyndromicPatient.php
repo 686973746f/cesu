@@ -289,7 +289,7 @@ class SyndromicPatient extends Model
     }
 
     public function userHasPermissionToAccess() {
-        if(in_array("GLOBAL_ADMIN", auth()->user()->getPermissions()) || in_array("ITR_ADMIN", auth()->user()->getPermissions()) || in_array("ITR_ENCODER", auth()->user()->getPermissions()) || auth()->user()->isTbdotsEncoder()) {
+        if(auth()->user()->canAccessOpdPatients()) {
             return true;
         }
         else {

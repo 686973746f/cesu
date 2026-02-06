@@ -16,6 +16,10 @@ class canAccessOpdPatients
      */
     public function handle(Request $request, Closure $next)
     {
+        if(!$request->user()->canAccessOpdPatients()) {
+            return abort(401);
+        }
+        
         return $next($request);
     }
 }
