@@ -286,43 +286,6 @@
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="ipv1">IPV 1st Dose</label>
-                            <input type="date" class="form-control" name="ipv1" id="ipv1" value="{{old('ipv1', $d->ipv1)}}" max="{{date('Y-m-d')}}">
-                            <small class="text-muted">3 ½ mos</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="ipv1_type">Type</label>
-                            <select class="form-control" name="ipv1_type" id="ipv1_type">
-                              <option value="" disabled {{old('ipv1_type', $d->ipv1_type) ? '' : 'selected'}}>Choose...</option>
-                              <option value="YOUR BHS" {{old('ipv1_type', $d->ipv1_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                              <option value="PUBLIC" {{old('ipv1_type', $d->ipv1_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                              <option value="PRIVATE" {{old('ipv1_type', $d->ipv1_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                              <option value="OTHER RHU/BHS" {{old('ipv1_type', $d->ipv1_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="ipv2">IPV 2nd Dose</label>
-                            <input type="date" class="form-control" name="ipv2" id="ipv2" value="{{old('ipv2', $d->ipv2)}}" max="{{date('Y-m-d')}}">
-                            <small class="text-muted">9 mos</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="ipv2_type">Type</label>
-                            <select class="form-control" name="ipv2_type" id="ipv2_type">
-                              <option value="" disabled {{old('ipv2_type', $d->ipv2_type) ? '' : 'selected'}}>Choose...</option>
-                              <option value="YOUR BHS" {{old('ipv2_type', $d->ipv2_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                              <option value="PUBLIC" {{old('ipv2_type', $d->ipv2_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                              <option value="PRIVATE" {{old('ipv2_type', $d->ipv2_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                              <option value="OTHER RHU/BHS" {{old('ipv2_type', $d->ipv2_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="pcv1">PCV 1st Dose</label>
@@ -371,6 +334,43 @@
                               <option value="PUBLIC" {{old('pcv3_type', $d->pcv3_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
                               <option value="PRIVATE" {{old('pcv3_type', $d->pcv3_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
                               <option value="OTHER RHU/BHS" {{old('pcv3_type', $d->pcv3_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="ipv1">IPV 1st Dose</label>
+                            <input type="date" class="form-control" name="ipv1" id="ipv1" value="{{old('ipv1', $d->ipv1)}}" max="{{date('Y-m-d')}}">
+                            <small class="text-muted">3 ½ mos</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="ipv1_type">Type</label>
+                            <select class="form-control" name="ipv1_type" id="ipv1_type">
+                              <option value="" disabled {{old('ipv1_type', $d->ipv1_type) ? '' : 'selected'}}>Choose...</option>
+                              <option value="YOUR BHS" {{old('ipv1_type', $d->ipv1_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
+                              <option value="PUBLIC" {{old('ipv1_type', $d->ipv1_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
+                              <option value="PRIVATE" {{old('ipv1_type', $d->ipv1_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
+                              <option value="OTHER RHU/BHS" {{old('ipv1_type', $d->ipv1_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="ipv2">IPV 2nd Dose</label>
+                            <input type="date" class="form-control" name="ipv2" id="ipv2" value="{{old('ipv2', $d->ipv2)}}" max="{{date('Y-m-d')}}">
+                            <small class="text-muted">9 mos</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="ipv2_type">Type</label>
+                            <select class="form-control" name="ipv2_type" id="ipv2_type">
+                              <option value="" disabled {{old('ipv2_type', $d->ipv2_type) ? '' : 'selected'}}>Choose...</option>
+                              <option value="YOUR BHS" {{old('ipv2_type', $d->ipv2_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
+                              <option value="PUBLIC" {{old('ipv2_type', $d->ipv2_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
+                              <option value="PRIVATE" {{old('ipv2_type', $d->ipv2_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
+                              <option value="OTHER RHU/BHS" {{old('ipv2_type', $d->ipv2_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
                             </select>
                         </div>
                     </div>

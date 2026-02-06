@@ -466,8 +466,37 @@ class User extends Authenticatable implements MustVerifyEmail
         }
     }
 
+    public function canAccessElectronicTcl() {
+        $plist = $this->getPermissions();
+
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('ETCL_ADMIN', $plist) || in_array('ETCL_ENCODER', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function canAccessFhsisOrElectronicTcl() {
+        $plist = $this->getPermissions();
+
+        if($this->canAccessFhsis() || $this->canAccessElectronicTcl()) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     public function canAccessOpdPatients() {
-        //Patient List and Viewer
+        $plist = explode(",", auth()->user()->permission_list);
+
+        if($this->canAccessSyndromic() || $this->canAccessElectronicTcl()) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     public function canAccessOpdRecords() {
@@ -795,27 +824,7 @@ class User extends Authenticatable implements MustVerifyEmail
         }
     }
 
-    public function canAccessElectronicTcl() {
-        $plist = $this->getPermissions();
-
-        if(in_array('GLOBAL_ADMIN', $plist) || in_array('ETCL_ADMIN', $plist) || in_array('ETCL_ENCODER', $plist)) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
-    public function canAccessFhsisOrElectronicTcl() {
-        $plist = $this->getPermissions();
-
-        if($this->canAccessFhsis() || $this->canAccessElectronicTcl()) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
+    
 
     public function isMasterAdminEtcl() {
         $plist = $this->getPermissions();

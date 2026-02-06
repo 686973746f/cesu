@@ -48,7 +48,10 @@
                                             </button>
                                     </div>
                                     <div class="modal-body">
-                                        @if($d->gender == 'FEMALE' && $d->getAge() >= 11 && $d->getAge() <= 50)
+                                        @if($d->getAge() >= 10 && $d->getAge() <= 49)
+                                        <a href="{{route('etcl_familyplanning_new', $d->id)}}" class="btn btn-primary btn-block">Create Family Planning</a>
+                                        @endif
+                                        @if($d->gender == 'FEMALE' && $d->getAge() >= 11 && $d->getAge() <= 49)
                                         <a href="{{route('etcl_maternal_new', $d->id)}}" class="btn btn-primary btn-block">Create Maternal Care</a>
                                         @endif
                                         @if($d->getAge() <= 5)

@@ -21,7 +21,7 @@ class ElectronicTclController extends Controller
             ['value' => 'maternal_care', 'text' => 'Maternal Care', 'enabled' => true],
             ['value' => 'child_care', 'text' => 'Child Care', 'enabled' => true],
             ['value' => 'child_nutrition', 'text' => 'Child Nutrition', 'enabled' => true],
-            ['value' => 'family_planning', 'text' => 'Family Planning', 'enabled' => false],
+            ['value' => 'family_planning', 'text' => 'Family Planning', 'enabled' => true],
         ];
 
         return collect($list)->sortBy('text', SORT_NATURAL | SORT_FLAG_CASE)->values();
@@ -1039,10 +1039,10 @@ class ElectronicTclController extends Controller
             ->with('msgtype', 'info');
         }
 
-        if($d->getAge() >= 5) {
+        if($d->getAge() <= 9 || $d->getAge() >= 50) {
             return redirect()
             ->back()
-            ->with('msg', 'Error: Family Planning can only be encoded for patients below 5 years old.')
+            ->with('msg', 'Error: Family Planning can only be encoded for patients between 10 and 49 years old.')
             ->with('msgtype', 'warning');
         }
 
