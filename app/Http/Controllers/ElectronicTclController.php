@@ -117,10 +117,10 @@ class ElectronicTclController extends Controller
             $nutritional_assessment = 'H';
         }
 
-        if($d->getAge() <= 14) {
+        if($d->getAgeInt() <= 14) {
             $age_group = 'A'; //Adolescent
         }
-        else if($d->getAge() >= 15 && $d->getAge() <= 19) { 
+        else if($d->getAgeInt() >= 15 && $d->getAgeInt() <= 19) { 
             $age_group = 'B'; //Young Adult
         }
         else {
@@ -368,10 +368,10 @@ class ElectronicTclController extends Controller
             $nutritional_assessment = 'H';
         }
 
-        if($d->patient->getAge() <= 14) {
+        if($d->patient->getAgeInt() <= 14) {
             $age_group = 'A'; //Adolescent
         }
-        else if($d->patient->getAge() >= 15 && $d->patient->getAge() <= 19) { 
+        else if($d->patient->getAgeInt() >= 15 && $d->patient->getAgeInt() <= 19) { 
             $age_group = 'B'; //Young Adult
         }
         else {
@@ -606,7 +606,7 @@ class ElectronicTclController extends Controller
             ->with('msgtype', 'info');
         }
 
-        if($d->getAge() >= 5) {
+        if($d->getAgeInt() >= 5) {
             return redirect()
             ->back()
             ->with('msg', 'Error: Child Care can only be encoded for patients below 5 years old.')
@@ -819,7 +819,7 @@ class ElectronicTclController extends Controller
             ->with('msgtype', 'info');
         }
 
-        if($d->getAge() >= 5) {
+        if($d->getAgeInt() >= 5) {
             return redirect()
             ->back()
             ->with('msg', 'Error: Child Care can only be encoded for patients below 5 years old.')
@@ -1046,7 +1046,7 @@ class ElectronicTclController extends Controller
             ->with('msgtype', 'info');
         }
 
-        if($d->getAge() <= 9 || $d->getAge() >= 50) {
+        if($d->getAgeInt() <= 9 || $d->getAgeInt() >= 50) {
             return redirect()
             ->back()
             ->with('msg', 'Error: Family Planning can only be encoded for patients between 10 and 49 years old.')
@@ -1068,10 +1068,10 @@ class ElectronicTclController extends Controller
             ->with('msgtype', 'warning');
         }
 
-        if($d->getAge() <= 14) {
+        if($d->getAgeInt() <= 14) {
             $age_group = 'A'; //Adolescent
         }
-        else if($d->getAge() >= 15 && $d->getAge() <= 19) { 
+        else if($d->getAgeInt() >= 15 && $d->getAgeInt() <= 19) { 
             $age_group = 'B'; //Young Adult
         }
         else {
