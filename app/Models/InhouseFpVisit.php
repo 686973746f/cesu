@@ -12,10 +12,15 @@ class InhouseFpVisit extends Model
     protected $fillable = [
         'enabled',
         'fp_tcl_id',
+        'client_type',
         'method_used',
         'visit_date_estimated',
         'visit_date_actual',
         'status',
+
+        'dropout_date',
+        'dropout_reason',
+        
         'created_by',
         'updated_by',
         'age_years',

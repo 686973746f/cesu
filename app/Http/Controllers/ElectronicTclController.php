@@ -25,7 +25,7 @@ class ElectronicTclController extends Controller
             ['value' => 'maternal_care', 'text' => 'Maternal Care', 'enabled' => true],
             ['value' => 'child_care', 'text' => 'Child Care', 'enabled' => true],
             ['value' => 'child_nutrition', 'text' => 'Child Nutrition', 'enabled' => true],
-            ['value' => 'family_planning', 'text' => 'Family Planning', 'enabled' => false],
+            ['value' => 'family_planning', 'text' => 'Family Planning', 'enabled' => true],
         ];
 
         return collect($list)->sortBy('text', SORT_NATURAL | SORT_FLAG_CASE)->values();
@@ -86,7 +86,15 @@ class ElectronicTclController extends Controller
             ->with('msgtype', 'warning');
         }
 
-        return $this->newOrEditMaternalCare(new InhouseMaternalCare(), 'NEW', $d->id);
+        if($d->getAgeInt() >= 11 && $d->getAgeInt() <= 49) {
+            return $this->newOrEditMaternalCare(new InhouseMaternalCare(), 'NEW', $d->id);
+        }
+        else {
+            return redirect()
+            ->back()
+            ->with('msg', 'Error: Maternal Care can only be encoded for female patients between 11 and 49 years old.')
+            ->with('msgtype', 'warning');
+        }
     }
 
     public function storeMaternalCare(Request $r, $patient_id) {
@@ -1137,6 +1145,7 @@ class ElectronicTclController extends Controller
         else {
             $next_visit = new InhouseFpVisit();
             $next_visit->fp_tcl_id = $d->fp_tcl_id;
+            $next_visit->client_type = 'CU';
             $next_visit->method_used = $d->method_used;
             $next_visit->status = 'PENDING';
         }
@@ -1184,6 +1193,7 @@ class ElectronicTclController extends Controller
         if($d->visits->isEmpty()) {
             $visit = new InhouseFpVisit();
             $visit->fp_tcl_id = $d->id;
+            $visit->client_type = $d->client_type;
             $visit->method_used = $r->method;
             $visit->visit_date_estimated = $r->visit_date_actual;
             $visit->visit_date_actual = $r->visit_date_actual;
@@ -1208,18 +1218,56 @@ class ElectronicTclController extends Controller
         ->with('msgtype', 'success');
     }
 
-    public function updateFamilyPlanningVisit($visit_id, Request $r) {
-        $d = InhouseFpVisit::findOrFail($visit_id);
+    public function updateFamilyPlanningVisit($id, Request $r) {
+        $f = InhouseFamilyPlanning::findOrFail($id);
+
+        $check = InhouseFpVisit::where('request_uuid', $r->request_uuid)->first();
+
+        if($check) {
+            return redirect()->
+            back()
+            ->with('msg', 'Error: This record has already been saved.')
+            ->with('msgtype', 'warning');
+        }
+
+        $birthdate = Carbon::parse($f->patient->bdate);
+        $currentDate = Carbon::parse($r->visit_date_actual);
+
+        $get_ageyears = $birthdate->diffInYears($currentDate);
+        $get_agemonths = $birthdate->diffInMonths($currentDate);
+        $get_agedays = $birthdate->diffInDays($currentDate);
+
+        $d = $f->latestVisit;
 
         $d->update([
             'visit_date_actual' => $r->visit_date_actual,
-            'method_used' => $r->method_used,
-            'status' => 'DONE',
+            'status' => $r->status,
+
             'updated_by' => Auth::id(),
             'request_uuid' => $r->request_uuid,
         ]);
 
-        $this->makeNextVisit($d->id);
+        if($r->status == 'DONE') {
+            $this->makeNextVisit($d->id);
+        }
+        else if($r->status == 'DROP-OUT') {
+            $d->update([
+                'dropout_date' => $r->dropout_date,
+                'dropout_reason' => $r->dropout_reason,
+            ]);
+
+            $f->update([
+                'is_locked' => 'Y',
+                'is_dropout' => 'Y',
+                'dropout_date' => $r->dropout_date,
+                'dropout_reason' => $r->dropout_reason,
+            ]);
+        }
+
+        return redirect()
+        ->route('etcl_familyplanning_view', $f->id)
+        ->with('msg', 'Family Planning visit successfully updated.')
+        ->with('msgtype', 'success');
     }
 
     public function editFamilyPlanning($id) {
@@ -1264,6 +1312,8 @@ class ElectronicTclController extends Controller
         $get_ageyears = $birthdate->diffInYears($currentDate);
         $get_agemonths = $birthdate->diffInMonths($currentDate);
         $get_agedays = $birthdate->diffInDays($currentDate);
+
+
     }
 
     public function searchMaternalCareMother(Request $request) {

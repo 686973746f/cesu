@@ -46,4 +46,9 @@ class InhouseFamilyPlanning extends Model
     public function visits() {
         return $this->hasMany(InhouseFpVisit::class, 'fp_tcl_id')->orderByDesc('visit_date_estimated');;
     }
+
+    public function latestVisit() {
+        return $this->hasOne(InhouseFpVisit::class, 'fp_tcl_id')
+            ->latestOfMany('created_at');
+    }
 }
