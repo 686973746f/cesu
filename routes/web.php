@@ -1134,6 +1134,8 @@ Route::middleware(['auth','verified', 'canAccessElectronicTcl'])->group(function
     Route::post('/family_planning/new/{patient_id}/store', [ElectronicTclController::class, 'storeFamilyPlanning'])->name('etcl_familyplanning_store');
     Route::get('/family_planning/view/{id}', [ElectronicTclController::class, 'editFamilyPlanning'])->name('etcl_familyplanning_view');
     Route::post('/family_planning/view/{id}/update', [ElectronicTclController::class, 'updateFamilyPlanning'])->name('etcl_familyplanning_update');
+
+    Route::post('/family_planning/view/{id}/first_visit', [ElectronicTclController::class, 'initializeFamilyPlanning'])->name('etcl_familyplanning_first_visit');
 });
 
 

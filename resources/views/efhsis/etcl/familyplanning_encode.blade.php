@@ -88,22 +88,22 @@
                         <div class="form-group">
                             <label for="previous_method"><b class="text-danger">*</b>Previous Method</label>
                             <select class="form-control" name="previous_method" id="previous_method" required>
-                              <option value="" {{ old('previous_method', $d->previous_method) ? '' : 'selected' }}>None (New Acceptor)</option>
-                              <option value="BTL" {{ old('previous_method', $d->previous_method) == 'BTL' ? 'selected' : '' }}>Bilateral Tubal Ligation</option>
-                              <option value="NSV" {{ old('previous_method', $d->previous_method) == 'NSV' ? 'selected' : '' }}>No-Scalpel Vasectomy</option>
-                              <option value="CON" {{ old('previous_method', $d->previous_method) == 'CON' ? 'selected' : '' }}>Condom</option>
-                              <option value="PILLS-POP" {{ old('previous_method', $d->previous_method) == 'PILLS-POP' ? 'selected' : '' }}>Progestin Only Pills</option>
-                              <option value="PILLS-COC" {{ old('previous_method', $d->previous_method) == 'PILLS-COC' ? 'selected' : '' }}>Combined Oral Contraceptive Pills</option>
-                              <option value="INJ" {{ old('previous_method', $d->previous_method) == 'INJ' ? 'selected' : '' }}>DMPA or CIC</option>
-                              <option value="IMP-I" {{ old('previous_method', $d->previous_method) == 'IMP-I' ? 'selected' : '' }}>Single rod sub-dermal Implant (Interval)</option>
-                              <option value="IMP-PP" {{ old('previous_method', $d->previous_method) == 'IMP-PP' ? 'selected' : '' }}>Single rod sub-dermal Implant (Postpartum)</option>
-                              <option value="IUD-I" {{ old('previous_method', $d->previous_method) == 'IUD-I' ? 'selected' : '' }}>IUD Interval</option>
-                              <option value="IUD-PP" {{ old('previous_method', $d->previous_method) == 'IUD-PP' ? 'selected' : '' }}>IUD Postpartum</option>
-                              <option value="NFP-LAM" {{ old('previous_method', $d->previous_method) == 'NFP-LAM' ? 'selected' : '' }}>Lactational Amenorrhea Method</option>
-                              <option value="NFP-BBT" {{ old('previous_method', $d->previous_method) == 'NFP-BBT' ? 'selected' : '' }}>Basal Body Temperature</option>
-                              <option value="NFP-CMM" {{ old('previous_method', $d->previous_method) == 'NFP-CMM' ? 'selected' : '' }}>Cervical Mucus Method</option>
-                              <option value="NFP-STM" {{ old('previous_method', $d->previous_method) == 'NFP-STM' ? 'selected' : '' }}>Symptothermal Method</option>
-                              <option value="NFP-SDM" {{ old('previous_method', $d->previous_method) == 'NFP-SDM' ? 'selected' : '' }}>Standard Days Method</option>
+                                <option value="" disabled {{ old('previous_method', $d->previous_method) ? '' : 'selected' }}>Choose...</option>
+                                <option value="BTL" {{ old('previous_method', $d->previous_method) == 'BTL' ? 'selected' : '' }}>Bilateral Tubal Ligation</option>
+                                <option value="NSV" {{ old('previous_method', $d->previous_method) == 'NSV' ? 'selected' : '' }}>No-Scalpel Vasectomy</option>
+                                <option value="CON" {{ old('previous_method', $d->previous_method) == 'CON' ? 'selected' : '' }}>Condom</option>
+                                <option value="PILLS-POP" {{ old('previous_method', $d->previous_method) == 'PILLS-POP' ? 'selected' : '' }}>Progestin Only Pills</option>
+                                <option value="PILLS-COC" {{ old('previous_method', $d->previous_method) == 'PILLS-COC' ? 'selected' : '' }}>Combined Oral Contraceptive Pills</option>
+                                <option value="INJ" {{ old('previous_method', $d->previous_method) == 'INJ' ? 'selected' : '' }}>DMPA or CIC</option>
+                                <option value="IMP-I" {{ old('previous_method', $d->previous_method) == 'IMP-I' ? 'selected' : '' }}>Single rod sub-dermal Implant (Interval)</option>
+                                <option value="IMP-PP" {{ old('previous_method', $d->previous_method) == 'IMP-PP' ? 'selected' : '' }}>Single rod sub-dermal Implant (Postpartum)</option>
+                                <option value="IUD-I" {{ old('previous_method', $d->previous_method) == 'IUD-I' ? 'selected' : '' }}>IUD Interval</option>
+                                <option value="IUD-PP" {{ old('previous_method', $d->previous_method) == 'IUD-PP' ? 'selected' : '' }}>IUD Postpartum</option>
+                                <option value="NFP-LAM" {{ old('previous_method', $d->previous_method) == 'NFP-LAM' ? 'selected' : '' }}>Lactational Amenorrhea Method</option>
+                                <option value="NFP-BBT" {{ old('previous_method', $d->previous_method) == 'NFP-BBT' ? 'selected' : '' }}>Basal Body Temperature</option>
+                                <option value="NFP-CMM" {{ old('previous_method', $d->previous_method) == 'NFP-CMM' ? 'selected' : '' }}>Cervical Mucus Method</option>
+                                <option value="NFP-STM" {{ old('previous_method', $d->previous_method) == 'NFP-STM' ? 'selected' : '' }}>Symptothermal Method</option>
+                                <option value="NFP-SDM" {{ old('previous_method', $d->previous_method) == 'NFP-SDM' ? 'selected' : '' }}>Standard Days Method</option>
                             </select>
                         </div>
                     </div>
@@ -124,29 +124,36 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Estimated Date</th>
-                                    <th>Actual Visit Date</th>
-                                    <th>Method</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td scope="row"></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td scope="row"></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        @if($d->visits->isEmpty())
+                        <div class="alert alert-info" role="alert">
+                            No follow-up visits recorded.
+                        </div>
+
+                        <div class="text-center">
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#firstVisitModal">
+                                Add First Visit
+                            </button>
+                        </div>
+
+                        @else
+                        @foreach($d->visits as $visit)
+                        <div class="card mb-2">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <h6>Visit #{{ $loop->remaining + 1 }}</h6>
+                                        <h6><b>Method:</b> {{ $visit->method_used }}</h6>
+                                        <h6><b>Estimated Visit Date:</b> {{ $visit->visit_date_estimated }}</h6>
+                                        <h6><b>Actual Visit Date:</b> {{ $visit->visit_date_actual }}</h6>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <h6>Status:</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                        @endif
                     </div>
                 </div>
                 @endif
@@ -163,4 +170,64 @@
         </div>
     </div>
 </form>
+
+<form action="{{ route('etcl_familyplanning_first_visit', $d->id) }}" method="POST">
+    @csrf
+    <input type="hidden" name="request_uuid" value="{{Str::uuid()}}">
+    <div class="modal fade" id="firstVisitModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create First Visit</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="method"><b class="text-danger">*</b>Select Method</label>
+                        <select class="form-control" name="method" id="method" required>
+                            <option value="" disabled {{ old('method', $d->method) ? '' : 'selected' }}>Choose...</option>
+                            <option value="BTL" {{ old('method', $d->method) == 'BTL' ? 'selected' : '' }}>Bilateral Tubal Ligation</option>
+                            <option value="NSV" {{ old('method', $d->method) == 'NSV' ? 'selected' : '' }}>No-Scalpel Vasectomy</option>
+                            <option value="CON" {{ old('method', $d->method) == 'CON' ? 'selected' : '' }}>Condom</option>
+                            <option value="PILLS-POP" {{ old('method', $d->method) == 'PILLS-POP' ? 'selected' : '' }}>Progestin Only Pills</option>
+                            <option value="PILLS-COC" {{ old('method', $d->method) == 'PILLS-COC' ? 'selected' : '' }}>Combined Oral Contraceptive Pills</option>
+                            <option value="INJ" {{ old('method', $d->method) == 'INJ' ? 'selected' : '' }}>DMPA or CIC</option>
+                            <option value="IMP-I" {{ old('method', $d->method) == 'IMP-I' ? 'selected' : '' }}>Single rod sub-dermal Implant (Interval)</option>
+                            <option value="IMP-PP" {{ old('method', $d->method) == 'IMP-PP' ? 'selected' : '' }}>Single rod sub-dermal Implant (Postpartum)</option>
+                            <option value="IUD-I" {{ old('method', $d->method) == 'IUD-I' ? 'selected' : '' }}>IUD Interval</option>
+                            <option value="IUD-PP" {{ old('method', $d->method) == 'IUD-PP' ? 'selected' : '' }}>IUD Postpartum</option>
+                            <option value="NFP-LAM" {{ old('method', $d->method) == 'NFP-LAM' ? 'selected' : '' }}>Lactational Amenorrhea Method</option>
+                            <option value="NFP-BBT" {{ old('method', $d->method) == 'NFP-BBT' ? 'selected' : '' }}>Basal Body Temperature</option>
+                            <option value="NFP-CMM" {{ old('method', $d->method) == 'NFP-CMM' ? 'selected' : '' }}>Cervical Mucus Method</option>
+                            <option value="NFP-STM" {{ old('method', $d->method) == 'NFP-STM' ? 'selected' : '' }}>Symptothermal Method</option>
+                            <option value="NFP-SDM" {{ old('method', $d->method) == 'NFP-SDM' ? 'selected' : '' }}>Standard Days Method</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="visit_date_actual"><b class="text-danger">*</b>Actual Date of Visit</label>
+                        <input type="date" class="form-control" name="visit_date_actual" id="visit_date_actual" max="{{date('Y-m-d')}}" value="{{old('visit_date_actual')}}">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    $('#client_type').change(function (e) { 
+        e.preventDefault();
+        $('#previous_method').prop('disabled', false);
+        $('#previous_method').prop('required', true);
+        
+        if($(this).val() == 'NA') {
+            $('#previous_method').prop('disabled', true);
+            $('#previous_method').prop('required', false);
+            $('#previous_method').val('');
+        }
+    }).trigger('change');
+</script>
 @endsection

@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\InhouseFpVisit;
 use App\Models\InhouseChildCare;
 use App\Models\SyndromicPatient;
 use App\Models\InhouseMaternalCare;
+use Illuminate\Validation\Rules\In;
+use Illuminate\Support\Facades\Auth;
 use App\Models\InhouseChildNutrition;
 use App\Models\InhouseFamilyPlanning;
-use Illuminate\Validation\Rules\In;
 use PhpOffice\PhpSpreadsheet\Style\Color;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\IOFactory as ExcelFactory;
@@ -1117,12 +1120,106 @@ class ElectronicTclController extends Controller
         ->with('msgtype', 'success');
     }
 
+    public static function makeNextVisit($visit_id) {
+        $d = InhouseFpVisit::findOrFail($visit_id);
+
+        $d->familyplanning->update([
+            'current_method' => $d->method_used,
+        ]);
+
+        if($d->method_used == 'BTL' || $d->method_used == 'NSV') {
+            //Convert the FP Visit to Permanent Method Visit
+
+            $d->familyplanning->update([
+                'is_permanent' => 'Y',
+            ]);
+        }
+        else {
+            $next_visit = new InhouseFpVisit();
+            $next_visit->fp_tcl_id = $d->fp_tcl_id;
+            $next_visit->method_used = $d->method_used;
+            $next_visit->status = 'PENDING';
+        }
+
+        if($d->method_used == 'CON' || $d->method_used == 'PILLS-POP' || $d->method_used == 'PILLS-COC' || $d->method_used == 'NFP-BBT' ||  $d->method_used == 'NFP-CMM' ||  $d->method_used == 'NFP-STM' ||  $d->method_used == 'NFP-SDM') {
+            //Schedule next visit after 1 month
+            $next_visit->visit_date_estimated = Carbon::parse($d->visit_date_actual)->addMonthsNoOverflow(1);
+        }
+        else if($d->method_used == 'INJ') {
+            //Schedule next visit after 3 months
+            $next_visit->visit_date_estimated = Carbon::parse($d->visit_date_actual)->addMonthsNoOverflow(3);
+        }
+        else if($d->method_used == 'IMP-I' || $d->method_used == 'IMP-PP' || $d->method_used == 'IUD-I' || $d->method_used == 'IUD-PP') {
+            //Schedule next visit after 3 years
+            $next_visit->visit_date_estimated = Carbon::parse($d->visit_date_actual)->addYearsNoOverflow(3);
+        }
+        else if($d->method_used == 'NFP-LAM') {
+            //Schedule next visit after 6 months
+            $next_visit->visit_date_estimated = Carbon::parse($d->visit_date_actual)->addMonthsNoOverflow(6);
+        }
+
+        $next_visit->request_uuid = (string) Str::uuid();
+        $next_visit->save();
+    }
+
     public function initializeFamilyPlanning($tcl_fp_id, Request $r) {
-        
+        $d = InhouseFamilyPlanning::findOrFail($tcl_fp_id);
+
+        $check = InhouseFpVisit::where('request_uuid', $r->request_uuid)->first();
+
+        if($check) {
+            return redirect()->
+            back()
+            ->with('msg', 'Error: This record has already been saved.')
+            ->with('msgtype', 'warning');
+        }
+
+        $birthdate = Carbon::parse($d->patient->bdate);
+        $currentDate = Carbon::parse($r->visit_date_actual);
+
+        $get_ageyears = $birthdate->diffInYears($currentDate);
+        $get_agemonths = $birthdate->diffInMonths($currentDate);
+        $get_agedays = $birthdate->diffInDays($currentDate);
+
+        if($d->visits->isEmpty()) {
+            $visit = new InhouseFpVisit();
+            $visit->fp_tcl_id = $d->id;
+            $visit->method_used = $r->method;
+            $visit->visit_date_estimated = $r->visit_date_actual;
+            $visit->visit_date_actual = $r->visit_date_actual;
+            $visit->status = 'DONE';
+
+            $visit->created_by = Auth::id();
+            $visit->updated_by = Auth::id();
+
+            $visit->age_years = $get_ageyears;
+            $visit->age_months = $get_agemonths;
+            $visit->age_days = $get_agedays;
+            $visit->request_uuid = $r->request_uuid;
+
+            $visit->save();
+            
+            $this->makeNextVisit($visit->id);
+        }
+
+        return redirect()
+        ->route('etcl_familyplanning_view', $d->id)
+        ->with('msg', 'Family Planning first visit successfully initialized.')
+        ->with('msgtype', 'success');
     }
 
     public function updateFamilyPlanningVisit($visit_id, Request $r) {
+        $d = InhouseFpVisit::findOrFail($visit_id);
 
+        $d->update([
+            'visit_date_actual' => $r->visit_date_actual,
+            'method_used' => $r->method_used,
+            'status' => 'DONE',
+            'updated_by' => Auth::id(),
+            'request_uuid' => $r->request_uuid,
+        ]);
+
+        $this->makeNextVisit($d->id);
     }
 
     public function editFamilyPlanning($id) {
@@ -1437,6 +1534,7 @@ class ElectronicTclController extends Controller
             ->where('facility_id', auth()->user()->etcl_bhs_id);
         }
 
+        //Family Planning Indicators
         $qry = (clone $base_qry)
         ->whereYear('delivery_date', $r->year)
         ->whereMonth('delivery_date', $r->month)
