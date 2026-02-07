@@ -109,9 +109,7 @@
                     </div>
                 </div>
                 @if($mode != 'EDIT')
-                <div class="alert alert-info" role="alert">
-                    To encode visits, please save the record first.
-                </div>
+                
                 @else
                 <hr>
                 <div class="card">
@@ -178,6 +176,11 @@
                     <label for="system_remarks">System Remarks (Optional)</label>
                     <textarea class="form-control" name="system_remarks" id="system_remarks" rows="3">{{old('system_remarks', $d->system_remarks)}}</textarea>
                 </div>
+                @if($mode != 'EDIT')
+                <div class="alert alert-info" role="alert">
+                    To encode visits, please save the record first.
+                </div>
+                @endif
             </div>
             <div class="card-footer">
                 <button type="submit" id="submitBtn" class="btn btn-success btn-block" {{($d->is_locked == 'Y') ? 'disabled' : ''}}>
@@ -192,7 +195,7 @@
     </div>
 </form>
 
-@if($d->visits->isEmpty())
+@if($d->visits->isEmpty() && $mode == 'EDIT')
 <form action="{{ route('etcl_familyplanning_first_visit', $d->id) }}" method="POST">
     @csrf
     <input type="hidden" name="request_uuid" value="{{Str::uuid()}}">
@@ -240,7 +243,7 @@
     </div>
 </form>
 
-@else
+@elseif($mode == 'EDIT' && $d->latestVisit->status == 'PENDING')
 
 <form action="{{ route('etcl_familyplanning_process_next_visit', $d->id) }}" method="POST">
     @csrf
