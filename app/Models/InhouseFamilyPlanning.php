@@ -33,6 +33,7 @@ class InhouseFamilyPlanning extends Model
         'updated_by',
         'request_uuid',
 
+        'bdate_fixed',
         'age_years',
         'age_months',
         'age_days',

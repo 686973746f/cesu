@@ -260,6 +260,7 @@ class ElectronicTclController extends Controller
 
             'system_remarks' => $r->system_remarks,
 
+            'bdate_fixed' => $d->bdate,
             'age_years' => $get_ageyears,
             'age_months' => $get_agemonths,
             'age_days' => $get_agedays,
@@ -921,6 +922,7 @@ class ElectronicTclController extends Controller
 
             'request_uuid' => $r->request_uuid,
 
+            'bdate_fixed' => $d->bdate,
             'age_years' => $get_ageyears,
             'age_months' => $get_agemonths,
             'age_days' => $get_agedays,
@@ -1117,6 +1119,7 @@ class ElectronicTclController extends Controller
             'updated_by' => auth()->user()->id,
             'request_uuid' => $r->request_uuid,
             
+            'bdate_fixed' => $d->bdate,
             'age_years' => $get_ageyears,
             'age_months' => $get_agemonths,
             'age_days' => $get_agedays,
@@ -1133,26 +1136,26 @@ class ElectronicTclController extends Controller
     public static function makeNextVisit($visit_id) {
         $d = InhouseFpVisit::findOrFail($visit_id);
 
-        $d->familyplanning->update([
-            'current_method' => $d->method_used,
-        ]);
+        $next_visit = new InhouseFpVisit();
+        $next_visit->fp_tcl_id = $d->fp_tcl_id;
+        $next_visit->client_type = 'CU';
 
         if($d->method_used == 'BTL' || $d->method_used == 'NSV') {
-            //Convert the FP Visit to Permanent Method Visit
-
-            $d->familyplanning->update([
-                'is_permanent' => 'Y',
-            ]);
-        }
-        else {
-            $next_visit = new InhouseFpVisit();
-            $next_visit->fp_tcl_id = $d->fp_tcl_id;
-            $next_visit->client_type = 'CU';
-            $next_visit->method_used = $d->method_used;
+            $next_visit->is_permanent = 'Y';
+            $next_visit->is_visible = 'N';
             $next_visit->status = 'PENDING';
         }
+        else {
+            $next_visit->status = 'DONE';
+        }
 
-        if($d->method_used == 'CON' || $d->method_used == 'PILLS-POP' || $d->method_used == 'PILLS-COC' || $d->method_used == 'NFP-BBT' ||  $d->method_used == 'NFP-CMM' ||  $d->method_used == 'NFP-STM' ||  $d->method_used == 'NFP-SDM') {
+        $next_visit->method_used = $d->method_used;
+        
+        if($d->method_used == 'BTL' || $d->method_used == 'NSV') {
+            $next_visit->visit_date_estimated = Carbon::parse($d->visit_date_actual)->addMonthsNoOverflow(1);
+            $next_visit->visit_date_actual = Carbon::parse($d->visit_date_actual)->addMonthsNoOverflow(1);
+        }
+        else if($d->method_used == 'CON' || $d->method_used == 'PILLS-POP' || $d->method_used == 'PILLS-COC' || $d->method_used == 'NFP-BBT' ||  $d->method_used == 'NFP-CMM' ||  $d->method_used == 'NFP-STM' ||  $d->method_used == 'NFP-SDM') {
             //Schedule next visit after 1 month
             $next_visit->visit_date_estimated = Carbon::parse($d->visit_date_actual)->addMonthsNoOverflow(1);
         }
@@ -1168,6 +1171,17 @@ class ElectronicTclController extends Controller
             //Schedule next visit after 6 months
             $next_visit->visit_date_estimated = Carbon::parse($d->visit_date_actual)->addMonthsNoOverflow(6);
         }
+
+        $birthdate = Carbon::parse($d->bdate_fixed)->startOfDay();
+        $currentDate = Carbon::parse($next_visit->visit_date_estimated)->startOfDay();
+
+        $get_ageyears = $birthdate->diffInYears($currentDate);
+        $get_agemonths = $birthdate->diffInMonths($currentDate);
+        $get_agedays = $birthdate->diffInDays($currentDate);
+
+        $next_visit->age_years = $get_ageyears;
+        $next_visit->age_months = $get_agemonths;
+        $next_visit->age_days = $get_agedays;
 
         $next_visit->request_uuid = (string) Str::uuid();
         $next_visit->save();
@@ -1185,7 +1199,7 @@ class ElectronicTclController extends Controller
             ->with('msgtype', 'warning');
         }
 
-        $birthdate = Carbon::parse($d->patient->bdate);
+        $birthdate = Carbon::parse($d->bdate_fixed);
         $currentDate = Carbon::parse($r->visit_date_actual);
 
         $get_ageyears = $birthdate->diffInYears($currentDate);
@@ -1200,6 +1214,7 @@ class ElectronicTclController extends Controller
             $visit->visit_date_estimated = $r->visit_date_actual;
             $visit->visit_date_actual = $r->visit_date_actual;
             $visit->status = 'DONE';
+            $visit->is_permanent = ($r->method == 'BTL' || $r->method == 'NSV') ? 'Y' : 'N';
 
             $visit->created_by = Auth::id();
             $visit->updated_by = Auth::id();
@@ -1211,8 +1226,13 @@ class ElectronicTclController extends Controller
 
             $visit->save();
             
-            $this->makeNextVisit($visit->id);
+            if($r->method != 'BTL' && $r->method != 'NSV') {
+                $this->makeNextVisit($visit->id);
+            }
         }
+
+        $d->current_method = $r->method;
+        $d->save();
 
         return redirect()
         ->route('etcl_familyplanning_view', $d->id)
@@ -1483,6 +1503,7 @@ class ElectronicTclController extends Controller
             'updated_by' => auth()->user()->id,
             'request_uuid' => $r->request_uuid,
 
+            'bdate_fixed' => $d->bdate,
             'age_years' => $get_ageyears,
             'age_months' => $get_agemonths,
             'age_days' => $get_agedays,
@@ -1592,6 +1613,11 @@ class ElectronicTclController extends Controller
 
                 $cc_base_qry = InhouseChildCare::where('enabled', 'Y')
                 ->where('facility_id', $r->selected_bhs_id);
+
+                $fp_base_qry = InhouseFpVisit::where('enabled', 'Y')
+                ->whereHas('familyplanning', function($q) use ($r) {
+                    $q->where('facility_id', $r->selected_bhs_id);
+                });
             }
             else {
                 $base_qry = InhouseMaternalCare::where('enabled', 'Y')
@@ -1603,6 +1629,11 @@ class ElectronicTclController extends Controller
                 ->whereHas('facility.brgy', function($q) use ($r) {
                     $q->where('id', $r->selected_brgy_id);
                 });
+
+                $fp_base_qry = InhouseFpVisit::where('enabled', 'Y')
+                ->whereHas('familyplanning.facility.brgy', function($q) use ($r) {
+                    $q->where('id', $r->selected_brgy_id);
+                });
             }
         }
         else {
@@ -1611,9 +1642,88 @@ class ElectronicTclController extends Controller
 
             $cc_base_qry = InhouseChildCare::where('enabled', 'Y')
             ->where('facility_id', auth()->user()->etcl_bhs_id);
+
+            $fp_base_qry = InhouseFpVisit::where('enabled', 'Y')
+            ->whereHas('familyplanning', function($q) {
+                $q->where('facility_id', auth()->user()->etcl_bhs_id);
+            });
         }
 
         //Family Planning Indicators
+        $sheet->setCellValue('B16', (clone $qry)->where('current_method', 'BTL')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('C16', (clone $qry)->where('current_method', 'BTL')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('D16', (clone $qry)->where('current_method', 'BTL')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('B17', (clone $qry)->where('current_method', 'NSV')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('C17', (clone $qry)->where('current_method', 'NSV')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('D17', (clone $qry)->where('current_method', 'NSV')->whereBetween('age_years', [20,49])->count());
+
+        //CURRENT USERS (BEGGINNING OF MONTH)
+        $qry = (clone $fp_base_qry)
+        ->whereIn('client_type', ['CU', 'CU-CM', 'CU-CC', 'CU-RS'])
+        ->whereYear('visit_date_actual', $r->year)
+        ->whereMonth('visit_date_actual', $r->month)
+        ->whereIn('status', ['DONE', 'PENDING']);
+
+        $sheet->setCellValue('B18', (clone $qry)->where('method_used', 'CON')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('C18', (clone $qry)->where('method_used', 'CON')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('D18', (clone $qry)->where('method_used', 'CON')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('B20', (clone $qry)->where('method_used', 'PILLS-POP')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('C20', (clone $qry)->where('method_used', 'PILLS-POP')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('D20', (clone $qry)->where('method_used', 'PILLS-POP')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('B21', (clone $qry)->where('method_used', 'PILLS-COC')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('C21', (clone $qry)->where('method_used', 'PILLS-COC')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('D21', (clone $qry)->where('method_used', 'PILLS-COC')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('B22', (clone $qry)->where('method_used', 'INJ')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('C22', (clone $qry)->where('method_used', 'INJ')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('D22', (clone $qry)->where('method_used', 'INJ')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('B24', (clone $qry)->where('method_used', 'IMP-I')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('C24', (clone $qry)->where('method_used', 'IMP-I')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('D24', (clone $qry)->where('method_used', 'IMP-I')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('B25', (clone $qry)->where('method_used', 'IMP-PP')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('C25', (clone $qry)->where('method_used', 'IMP-PP')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('D25', (clone $qry)->where('method_used', 'IMP-PP')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('B27', (clone $qry)->where('method_used', 'IUD-I')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('C27', (clone $qry)->where('method_used', 'IUD-I')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('D27', (clone $qry)->where('method_used', 'IUD-I')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('B28', (clone $qry)->where('method_used', 'IUD-PP')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('C28', (clone $qry)->where('method_used', 'IUD-PP')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('D28', (clone $qry)->where('method_used', 'IUD-PP')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('B29', (clone $qry)->where('method_used', 'NFP-LAM')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('C29', (clone $qry)->where('method_used', 'NFP-LAM')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('D29', (clone $qry)->where('method_used', 'NFP-LAM')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('B30', (clone $qry)->where('method_used', 'NFP-BBT')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('C30', (clone $qry)->where('method_used', 'NFP-BBT')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('D30', (clone $qry)->where('method_used', 'NFP-BBT')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('B31', (clone $qry)->where('method_used', 'NFP-CMM')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('C31', (clone $qry)->where('method_used', 'NFP-CMM')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('D31', (clone $qry)->where('method_used', 'NFP-CMM')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('B32', (clone $qry)->where('method_used', 'NFP-STM')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('C32', (clone $qry)->where('method_used', 'NFP-STM')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('D32', (clone $qry)->where('method_used', 'NFP-STM')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('B33', (clone $qry)->where('method_used', 'NFP-SDM')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('C33', (clone $qry)->where('method_used', 'NFP-SDM')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('D33', (clone $qry)->where('method_used', 'NFP-SDM')->whereBetween('age_years', [20,49])->count());
+
+        //OTHER ACCEPTORS (PRESENT MONTH)
+        $qry = (clone $fp_base_qry)
+        ->where('client_type', 'OA')
+        ->whereYear('visit_date_actual', $r->year)
+        ->whereMonth('visit_date_actual', $r->month)
+        ->whereIn('status', ['DONE', 'PENDING']);
+
         $qry = (clone $base_qry)
         ->whereYear('delivery_date', $r->year)
         ->whereMonth('delivery_date', $r->month)

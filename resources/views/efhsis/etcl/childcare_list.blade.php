@@ -3,7 +3,7 @@
         <tr>
             <th>No.</th>
             <th>Encoded at</th>
-            <th>Patient</th>
+            <th>Patient ({{ request()->input('year') ?? date('Y')}})</th>
             <th>Date Registered</th>
         </tr>
     </thead>

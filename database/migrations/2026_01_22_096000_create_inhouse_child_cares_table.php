@@ -93,6 +93,7 @@ class CreateInhouseChildCaresTable extends Migration
             $table->softDeletes();
             $table->uuid('request_uuid')->unique();
 
+            $table->date('bdate_fixed')->nullable();
             $table->integer('age_years')->nullable();
             $table->integer('age_months')->nullable();
             $table->integer('age_days')->nullable();

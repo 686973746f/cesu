@@ -17,6 +17,8 @@ class InhouseFpVisit extends Model
         'visit_date_estimated',
         'visit_date_actual',
         'status',
+        'is_permanent',
+        'is_visible',
 
         'dropout_date',
         'dropout_reason',

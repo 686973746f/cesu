@@ -10,13 +10,13 @@
                         <div><b>Facility:</b> {{auth()->user()->etclBhs->facility_name}}
                         
                         @if(!empty(auth()->user()->getBhsSwitchList()) || auth()->user()->isMasterAdminEtcl())
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#switchBhs">Switch BHS</button>
+                        <button type="button" class="btn btn-primary ml-2" data-toggle="modal" data-target="#switchBhs"><i class="fa fa-exchange-alt mr-2" aria-hidden="true"></i> Switch BHS</button>
                         @endif
                         </div>
                     </div>
                     <div>
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#newPatientModal">New/Search Patient</button>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#printTcl">Print TCL</button>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#newPatientModal"><i class="fa fa-user mr-2" aria-hidden="true"></i> New/Search Patient</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#printTcl"><i class="fa fa-print mr-2" aria-hidden="true"></i> Print TCL</button>
                     </div>
                 </div>
                 
@@ -32,7 +32,7 @@
                     </div>
                 @endif
 
-                <button type="button" class="btn btn-secondary mb-3" data-toggle="modal" data-target="#filterModal">Filter</button>
+                <button type="button" class="btn btn-secondary mb-3" data-toggle="modal" data-target="#filterModal"><i class="fa fa-search mr-2" aria-hidden="true"></i> Filter</button>
 
                 <form action="{{ url()->current() }}" method="GET">
                     @foreach(request()->query() as $key => $value)
@@ -51,7 +51,7 @@
                                 <div class="modal-body">
                                     <div class="form-group">
                                       <label for="year"><b class="text-warning">*</b>Select Year</label>
-                                      <input type="number" class="form-control" name="year" id="year" min="2024" max="{{date('Y')}}" value="{{date('Y')}}" required>
+                                      <input type="number" class="form-control" name="year" id="year" min="2024" max="{{date('Y')}}" value="{{date('Y')}}" autocomplete="off" required>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -200,6 +200,7 @@
             $('#end_date').prop('min', $(this).val());
         });
 
+        @if(auth()->user()->isMasterAdminEtcl())
         $('#filter_type').change(function (e) { 
             e.preventDefault();
             $('#generate_bhs_div').addClass('d-none');
@@ -220,5 +221,6 @@
                 $('#selected_brgy_id').prop('required', true);
             }
         });
+        @endif
     </script>
 @endsection
