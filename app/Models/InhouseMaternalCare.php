@@ -194,6 +194,20 @@ class InhouseMaternalCare extends Model
         return $this->hasMany(InhouseChildCare::class, 'maternalcare_id');
     }
 
+    public function allowedToEdit() {
+        if(auth()->user()->isMasterAdminEtcl()) {
+            return true;
+        }
+        else {
+            if(auth()->user()->etcl_bhs_id == $this->facility_id) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
+
     public function runIndicatorUpdate() {
         //Completed 8ANC detector
         if($this->visit1 && $this->visit2 && $this->visit3 && $this->visit4 &&

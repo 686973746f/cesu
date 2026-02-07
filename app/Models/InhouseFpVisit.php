@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class InhouseFpVisit extends Model
 {
@@ -34,5 +35,15 @@ class InhouseFpVisit extends Model
 
     public function familyplanning() {
         return $this->belongsTo(InhouseFamilyPlanning::class, 'fp_tcl_id');
+    }
+
+    public function ifEligibleForUpdate() {
+        //Check if visit_date_estimated is 1 week before the current date
+        if(Carbon::parse($this->visit_date_estimated)->subDays(7)->lte(Carbon::now())) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

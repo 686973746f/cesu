@@ -133,4 +133,18 @@ class InhouseChildCare extends Model
             default => 'FFFFFFFF', // white
         };
     }
+
+    public function allowedToEdit() {
+        if(auth()->user()->isMasterAdminEtcl()) {
+            return true;
+        }
+        else {
+            if(auth()->user()->etcl_bhs_id == $this->facility_id) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
 }

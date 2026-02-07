@@ -257,6 +257,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                 </div>
+                @if($d->latestVisit->ifEligibleForUpdate())
                 <div class="modal-body">
                     <div class="form-group">
                         <label for=""><b class="text-danger">*</b>Method Used</label>
@@ -311,6 +312,12 @@
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success btn-block">Save</button>
                 </div>
+                @else
+                <div class="modal-body">
+                    <div class="alert alert-warning" role="alert">
+                        <b>Warning:</b> The next visit can only be updated within 7 days before the estimated visit date.
+                    </div>
+                @endif
             </div>
         </div>
     </div>

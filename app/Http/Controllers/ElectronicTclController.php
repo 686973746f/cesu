@@ -330,10 +330,8 @@ class ElectronicTclController extends Controller
     public function editMaternalCare($id) {
         $d = InhouseMaternalCare::findOrFail($id);
         
-        if(!auth()->user()->isGlobalAdmin()) {
-            if($d->facility_id != auth()->user()->etcl_bhs_id) {
-                return abort(403, 'Unauthorized access to this record.');
-            }
+        if(!$d->allowedToEdit()) {
+            return abort(403, 'Unauthorized access to this record.');
         }
         
         return $this->newOrEditMaternalCare($d, 'EDIT', $d->id);
@@ -642,10 +640,8 @@ class ElectronicTclController extends Controller
     public function editChildCare($id) {
         $d = InhouseChildCare::findOrFail($id);
         
-        if(!auth()->user()->isGlobalAdmin()) {
-            if($d->facility_id != auth()->user()->etcl_bhs_id) {
-                return abort(403, 'Unauthorized access to this record.');
-            }
+        if(!$d->allowedToEdit()) {
+            return abort(403, 'Unauthorized access to this record.');
         }
         
         return $this->newOrEditChildCare($d, 'EDIT');
@@ -939,10 +935,8 @@ class ElectronicTclController extends Controller
     public function editChildNutrition($id) {
         $d = InhouseChildNutrition::findOrFail($id);
         
-        if(!auth()->user()->isGlobalAdmin()) {
-            if($d->facility_id != auth()->user()->etcl_bhs_id) {
-                return abort(403, 'Unauthorized access to this record.');
-            }
+        if(!$d->allowedToEdit()) {
+            return abort(403, 'Unauthorized access to this record.');
         }
         
         return $this->newOrEditChildNutrition($d, 'EDIT');
@@ -1294,11 +1288,9 @@ class ElectronicTclController extends Controller
 
     public function editFamilyPlanning($id) {
         $d = InhouseFamilyPlanning::findOrFail($id);
-        
-        if(!auth()->user()->isGlobalAdmin()) {
-            if($d->facility_id != auth()->user()->etcl_bhs_id) {
-                return abort(403, 'Unauthorized access to this record.');
-            }
+
+        if(!$d->allowedToEdit()) {
+            return abort(403, 'Unauthorized access to this record.');
         }
         
         return $this->newOrEditFamilyPlanning($d, 'EDIT');
