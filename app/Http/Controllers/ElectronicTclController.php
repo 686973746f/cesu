@@ -1177,6 +1177,20 @@ class ElectronicTclController extends Controller
         $next_visit->age_months = $get_agemonths;
         $next_visit->age_days = $get_agedays;
 
+        if($d->familyplanning->patient->gender == 'FEMALE' && $next_visit->age_years >= 50 || 
+        $d->familyplanning->patient->is_deceased == 'Y') {
+            $next_visit->is_visible = 'Y';
+            $next_visit->status = 'DROP-OUT';
+            $next_visit->dropout_date = $next_visit->visit_date_estimated;
+        }
+
+        if($d->familyplanning->patient->gender == 'FEMALE' && $next_visit->age_years >= 50) {
+            $next_visit->dropout_reason = 'Age Limit Reached';
+        }
+        else if($d->familyplanning->patient->is_deceased == 'Y') {
+            $next_visit->dropout_reason = 'Patient Deceased';
+        }
+
         $next_visit->request_uuid = (string) Str::uuid();
         $next_visit->save();
     }
@@ -1642,79 +1656,350 @@ class ElectronicTclController extends Controller
         }
 
         //Family Planning Indicators
-        $sheet->setCellValue('B16', (clone $qry)->where('current_method', 'BTL')->whereBetween('age_years', [10,14])->count());
-        $sheet->setCellValue('C16', (clone $qry)->where('current_method', 'BTL')->whereBetween('age_years', [15,19])->count());
-        $sheet->setCellValue('D16', (clone $qry)->where('current_method', 'BTL')->whereBetween('age_years', [20,49])->count());
-
-        $sheet->setCellValue('B17', (clone $qry)->where('current_method', 'NSV')->whereBetween('age_years', [10,14])->count());
-        $sheet->setCellValue('C17', (clone $qry)->where('current_method', 'NSV')->whereBetween('age_years', [15,19])->count());
-        $sheet->setCellValue('D17', (clone $qry)->where('current_method', 'NSV')->whereBetween('age_years', [20,49])->count());
-
         //CURRENT USERS (BEGGINNING OF MONTH)
+        $fp_select_date = Carbon::create($r->year, $r->month, 1)->startOfDay();
+
+        $monthStart = $fp_select_date->copy()->startOfMonth();
+        $monthEnd   = $fp_select_date->copy()->endOfMonth();
+
+        $lastMonthStart = $fp_select_date->copy()->subMonthsNoOverflow(1)->startOfMonth();
+        $lastMonthEnd = $fp_select_date->copy()->subMonthsNoOverflow(1)->endOfMonth();
+
+        $threeMonthStart = $fp_select_date->copy()->subMonthsNoOverflow(3)->startOfMonth();
+        $sixMonthStart = $fp_select_date->copy()->subMonthsNoOverflow(6)->startOfMonth();
+        $threeYearStart = $fp_select_date->copy()->subYearsNoOverflow(3)->startOfMonth();
+
         $qry = (clone $fp_base_qry)
         ->whereIn('client_type', ['CU', 'CU-CM', 'CU-CC', 'CU-RS'])
-        ->whereYear('visit_date_actual', $r->year)
-        ->whereMonth('visit_date_actual', $r->month)
         ->whereIn('status', ['DONE', 'PENDING']);
 
-        $sheet->setCellValue('B18', (clone $qry)->where('method_used', 'CON')->whereBetween('age_years', [10,14])->count());
-        $sheet->setCellValue('C18', (clone $qry)->where('method_used', 'CON')->whereBetween('age_years', [15,19])->count());
-        $sheet->setCellValue('D18', (clone $qry)->where('method_used', 'CON')->whereBetween('age_years', [20,49])->count());
+        $sheet->setCellValue('B16', (clone $qry)->whereBetween('visit_date_estimated', [$monthStart, $monthEnd])->where('method_used', 'BTL')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('C16', (clone $qry)->whereBetween('visit_date_estimated', [$monthStart, $monthEnd])->where('method_used', 'BTL')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('D16', (clone $qry)->whereBetween('visit_date_estimated', [$monthStart, $monthEnd])->where('method_used', 'BTL')->whereBetween('age_years', [20,49])->count());
 
-        $sheet->setCellValue('B20', (clone $qry)->where('method_used', 'PILLS-POP')->whereBetween('age_years', [10,14])->count());
-        $sheet->setCellValue('C20', (clone $qry)->where('method_used', 'PILLS-POP')->whereBetween('age_years', [15,19])->count());
-        $sheet->setCellValue('D20', (clone $qry)->where('method_used', 'PILLS-POP')->whereBetween('age_years', [20,49])->count());
+        $sheet->setCellValue('B17', (clone $qry)->whereBetween('visit_date_estimated', [$monthStart, $monthEnd])->where('method_used', 'NSV')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('C17', (clone $qry)->whereBetween('visit_date_estimated', [$monthStart, $monthEnd])->where('method_used', 'NSV')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('D17', (clone $qry)->whereBetween('visit_date_estimated', [$monthStart, $monthEnd])->where('method_used', 'NSV')->whereBetween('age_years', [20,49])->count());
 
-        $sheet->setCellValue('B21', (clone $qry)->where('method_used', 'PILLS-COC')->whereBetween('age_years', [10,14])->count());
-        $sheet->setCellValue('C21', (clone $qry)->where('method_used', 'PILLS-COC')->whereBetween('age_years', [15,19])->count());
-        $sheet->setCellValue('D21', (clone $qry)->where('method_used', 'PILLS-COC')->whereBetween('age_years', [20,49])->count());
+        $sheet->setCellValue('B18', (clone $qry)->whereBetween('visit_date_estimated', [$monthStart, $monthEnd])->where('method_used', 'CON')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('C18', (clone $qry)->whereBetween('visit_date_estimated', [$monthStart, $monthEnd])->where('method_used', 'CON')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('D18', (clone $qry)->whereBetween('visit_date_estimated', [$monthStart, $monthEnd])->where('method_used', 'CON')->whereBetween('age_years', [20,49])->count());
 
-        $sheet->setCellValue('B22', (clone $qry)->where('method_used', 'INJ')->whereBetween('age_years', [10,14])->count());
-        $sheet->setCellValue('C22', (clone $qry)->where('method_used', 'INJ')->whereBetween('age_years', [15,19])->count());
-        $sheet->setCellValue('D22', (clone $qry)->where('method_used', 'INJ')->whereBetween('age_years', [20,49])->count());
+        $sheet->setCellValue('B20', (clone $qry)->whereBetween('visit_date_estimated', [$monthStart, $monthEnd])->where('method_used', 'PILLS-POP')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('C20', (clone $qry)->whereBetween('visit_date_estimated', [$monthStart, $monthEnd])->where('method_used', 'PILLS-POP')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('D20', (clone $qry)->whereBetween('visit_date_estimated', [$monthStart, $monthEnd])->where('method_used', 'PILLS-POP')->whereBetween('age_years', [20,49])->count());
 
-        $sheet->setCellValue('B24', (clone $qry)->where('method_used', 'IMP-I')->whereBetween('age_years', [10,14])->count());
-        $sheet->setCellValue('C24', (clone $qry)->where('method_used', 'IMP-I')->whereBetween('age_years', [15,19])->count());
-        $sheet->setCellValue('D24', (clone $qry)->where('method_used', 'IMP-I')->whereBetween('age_years', [20,49])->count());
+        $sheet->setCellValue('B21', (clone $qry)->whereBetween('visit_date_estimated', [$monthStart, $monthEnd])->where('method_used', 'PILLS-COC')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('C21', (clone $qry)->whereBetween('visit_date_estimated', [$monthStart, $monthEnd])->where('method_used', 'PILLS-COC')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('D21', (clone $qry)->whereBetween('visit_date_estimated', [$monthStart, $monthEnd])->where('method_used', 'PILLS-COC')->whereBetween('age_years', [20,49])->count());
 
-        $sheet->setCellValue('B25', (clone $qry)->where('method_used', 'IMP-PP')->whereBetween('age_years', [10,14])->count());
-        $sheet->setCellValue('C25', (clone $qry)->where('method_used', 'IMP-PP')->whereBetween('age_years', [15,19])->count());
-        $sheet->setCellValue('D25', (clone $qry)->where('method_used', 'IMP-PP')->whereBetween('age_years', [20,49])->count());
+        $sheet->setCellValue('B22', (clone $qry)->whereBetween('visit_date_estimated', [$threeMonthStart, $monthEnd])->where('method_used', 'INJ')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('C22', (clone $qry)->whereBetween('visit_date_estimated', [$threeMonthStart, $monthEnd])->where('method_used', 'INJ')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('D22', (clone $qry)->whereBetween('visit_date_estimated', [$threeMonthStart, $monthEnd])->where('method_used', 'INJ')->whereBetween('age_years', [20,49])->count());
 
-        $sheet->setCellValue('B27', (clone $qry)->where('method_used', 'IUD-I')->whereBetween('age_years', [10,14])->count());
-        $sheet->setCellValue('C27', (clone $qry)->where('method_used', 'IUD-I')->whereBetween('age_years', [15,19])->count());
-        $sheet->setCellValue('D27', (clone $qry)->where('method_used', 'IUD-I')->whereBetween('age_years', [20,49])->count());
+        $sheet->setCellValue('B24', (clone $qry)->whereBetween('visit_date_estimated', [$threeYearStart, $monthEnd])->where('method_used', 'IMP-I')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('C24', (clone $qry)->whereBetween('visit_date_estimated', [$threeYearStart, $monthEnd])->where('method_used', 'IMP-I')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('D24', (clone $qry)->whereBetween('visit_date_estimated', [$threeYearStart, $monthEnd])->where('method_used', 'IMP-I')->whereBetween('age_years', [20,49])->count());
 
-        $sheet->setCellValue('B28', (clone $qry)->where('method_used', 'IUD-PP')->whereBetween('age_years', [10,14])->count());
-        $sheet->setCellValue('C28', (clone $qry)->where('method_used', 'IUD-PP')->whereBetween('age_years', [15,19])->count());
-        $sheet->setCellValue('D28', (clone $qry)->where('method_used', 'IUD-PP')->whereBetween('age_years', [20,49])->count());
+        $sheet->setCellValue('B25', (clone $qry)->whereBetween('visit_date_estimated', [$threeYearStart, $monthEnd])->where('method_used', 'IMP-PP')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('C25', (clone $qry)->whereBetween('visit_date_estimated', [$threeYearStart, $monthEnd])->where('method_used', 'IMP-PP')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('D25', (clone $qry)->whereBetween('visit_date_estimated', [$threeYearStart, $monthEnd])->where('method_used', 'IMP-PP')->whereBetween('age_years', [20,49])->count());
 
-        $sheet->setCellValue('B29', (clone $qry)->where('method_used', 'NFP-LAM')->whereBetween('age_years', [10,14])->count());
-        $sheet->setCellValue('C29', (clone $qry)->where('method_used', 'NFP-LAM')->whereBetween('age_years', [15,19])->count());
-        $sheet->setCellValue('D29', (clone $qry)->where('method_used', 'NFP-LAM')->whereBetween('age_years', [20,49])->count());
+        $sheet->setCellValue('B27', (clone $qry)->whereBetween('visit_date_estimated', [$threeYearStart, $monthEnd])->where('method_used', 'IUD-I')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('C27', (clone $qry)->whereBetween('visit_date_estimated', [$threeYearStart, $monthEnd])->where('method_used', 'IUD-I')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('D27', (clone $qry)->whereBetween('visit_date_estimated', [$threeYearStart, $monthEnd])->where('method_used', 'IUD-I')->whereBetween('age_years', [20,49])->count());
 
-        $sheet->setCellValue('B30', (clone $qry)->where('method_used', 'NFP-BBT')->whereBetween('age_years', [10,14])->count());
-        $sheet->setCellValue('C30', (clone $qry)->where('method_used', 'NFP-BBT')->whereBetween('age_years', [15,19])->count());
-        $sheet->setCellValue('D30', (clone $qry)->where('method_used', 'NFP-BBT')->whereBetween('age_years', [20,49])->count());
+        $sheet->setCellValue('B28', (clone $qry)->whereBetween('visit_date_estimated', [$threeYearStart, $monthEnd])->where('method_used', 'IUD-PP')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('C28', (clone $qry)->whereBetween('visit_date_estimated', [$threeYearStart, $monthEnd])->where('method_used', 'IUD-PP')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('D28', (clone $qry)->whereBetween('visit_date_estimated', [$threeYearStart, $monthEnd])->where('method_used', 'IUD-PP')->whereBetween('age_years', [20,49])->count());
 
-        $sheet->setCellValue('B31', (clone $qry)->where('method_used', 'NFP-CMM')->whereBetween('age_years', [10,14])->count());
-        $sheet->setCellValue('C31', (clone $qry)->where('method_used', 'NFP-CMM')->whereBetween('age_years', [15,19])->count());
-        $sheet->setCellValue('D31', (clone $qry)->where('method_used', 'NFP-CMM')->whereBetween('age_years', [20,49])->count());
+        $sheet->setCellValue('B29', (clone $qry)->whereBetween('visit_date_estimated', [$sixMonthStart, $monthEnd])->where('method_used', 'NFP-LAM')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('C29', (clone $qry)->whereBetween('visit_date_estimated', [$sixMonthStart, $monthEnd])->where('method_used', 'NFP-LAM')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('D29', (clone $qry)->whereBetween('visit_date_estimated', [$sixMonthStart, $monthEnd])->where('method_used', 'NFP-LAM')->whereBetween('age_years', [20,49])->count());
 
-        $sheet->setCellValue('B32', (clone $qry)->where('method_used', 'NFP-STM')->whereBetween('age_years', [10,14])->count());
-        $sheet->setCellValue('C32', (clone $qry)->where('method_used', 'NFP-STM')->whereBetween('age_years', [15,19])->count());
-        $sheet->setCellValue('D32', (clone $qry)->where('method_used', 'NFP-STM')->whereBetween('age_years', [20,49])->count());
+        $sheet->setCellValue('B30', (clone $qry)->whereBetween('visit_date_estimated', [$monthStart, $monthEnd])->where('method_used', 'NFP-BBT')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('C30', (clone $qry)->whereBetween('visit_date_estimated', [$monthStart, $monthEnd])->where('method_used', 'NFP-BBT')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('D30', (clone $qry)->whereBetween('visit_date_estimated', [$monthStart, $monthEnd])->where('method_used', 'NFP-BBT')->whereBetween('age_years', [20,49])->count());
 
-        $sheet->setCellValue('B33', (clone $qry)->where('method_used', 'NFP-SDM')->whereBetween('age_years', [10,14])->count());
-        $sheet->setCellValue('C33', (clone $qry)->where('method_used', 'NFP-SDM')->whereBetween('age_years', [15,19])->count());
-        $sheet->setCellValue('D33', (clone $qry)->where('method_used', 'NFP-SDM')->whereBetween('age_years', [20,49])->count());
+        $sheet->setCellValue('B31', (clone $qry)->whereBetween('visit_date_estimated', [$monthStart, $monthEnd])->where('method_used', 'NFP-CMM')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('C31', (clone $qry)->whereBetween('visit_date_estimated', [$monthStart, $monthEnd])->where('method_used', 'NFP-CMM')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('D31', (clone $qry)->whereBetween('visit_date_estimated', [$monthStart, $monthEnd])->where('method_used', 'NFP-CMM')->whereBetween('age_years', [20,49])->count());
 
-        //OTHER ACCEPTORS (PRESENT MONTH)
+        $sheet->setCellValue('B32', (clone $qry)->whereBetween('visit_date_estimated', [$monthStart, $monthEnd])->where('method_used', 'NFP-STM')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('C32', (clone $qry)->whereBetween('visit_date_estimated', [$monthStart, $monthEnd])->where('method_used', 'NFP-STM')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('D32', (clone $qry)->whereBetween('visit_date_estimated', [$monthStart, $monthEnd])->where('method_used', 'NFP-STM')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('B33', (clone $qry)->whereBetween('visit_date_estimated', [$monthStart, $monthEnd])->where('method_used', 'NFP-SDM')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('C33', (clone $qry)->whereBetween('visit_date_estimated', [$monthStart, $monthEnd])->where('method_used', 'NFP-SDM')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('D33', (clone $qry)->whereBetween('visit_date_estimated', [$monthStart, $monthEnd])->where('method_used', 'NFP-SDM')->whereBetween('age_years', [20,49])->count());
+
+        //NEW ACCEPTORS (PREVIOUS MONTH)
+        $qry = (clone $fp_base_qry)
+        ->where('client_type', 'NA')
+        ->where('status', 'DONE')
+        ->whereBetween('visit_date_actual', [$lastMonthStart, $lastMonthEnd]);
+
+        $sheet->setCellValue('F16', (clone $qry)->where('method_used', 'BTL')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('G16', (clone $qry)->where('method_used', 'BTL')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('H16', (clone $qry)->where('method_used', 'BTL')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('F17', (clone $qry)->where('method_used', 'NSV')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('G17', (clone $qry)->where('method_used', 'NSV')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('H17', (clone $qry)->where('method_used', 'NSV')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('F18', (clone $qry)->where('method_used', 'CON')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('G18', (clone $qry)->where('method_used', 'CON')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('H18', (clone $qry)->where('method_used', 'CON')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('F20', (clone $qry)->where('method_used', 'PILLS-POP')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('G20', (clone $qry)->where('method_used', 'PILLS-POP')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('H20', (clone $qry)->where('method_used', 'PILLS-POP')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('F21', (clone $qry)->where('method_used', 'PILLS-COC')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('G21', (clone $qry)->where('method_used', 'PILLS-COC')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('H21', (clone $qry)->where('method_used', 'PILLS-COC')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('F22', (clone $qry)->where('method_used', 'INJ')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('G22', (clone $qry)->where('method_used', 'INJ')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('H22', (clone $qry)->where('method_used', 'INJ')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('F24', (clone $qry)->where('method_used', 'IMP-I')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('G24', (clone $qry)->where('method_used', 'IMP-I')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('H24', (clone $qry)->where('method_used', 'IMP-I')->whereBetween('age_years', [20,49])->count());
+        
+        $sheet->setCellValue('F25', (clone $qry)->where('method_used', 'IMP-PP')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('G25', (clone $qry)->where('method_used', 'IMP-PP')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('H25', (clone $qry)->where('method_used', 'IMP-PP')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('F27', (clone $qry)->where('method_used', 'IUD-I')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('G27', (clone $qry)->where('method_used', 'IUD-I')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('H27', (clone $qry)->where('method_used', 'IUD-I')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('F28', (clone $qry)->where('method_used', 'IUD-PP')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('G28', (clone $qry)->where('method_used', 'IUD-PP')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('H28', (clone $qry)->where('method_used', 'IUD-PP')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('F29', (clone $qry)->where('method_used', 'NFP-LAM')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('G29', (clone $qry)->where('method_used', 'NFP-LAM')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('H29', (clone $qry)->where('method_used', 'NFP-LAM')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('F30', (clone $qry)->where('method_used', 'NFP-BBT')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('G30', (clone $qry)->where('method_used', 'NFP-BBT')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('H30', (clone $qry)->where('method_used', 'NFP-BBT')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('F31', (clone $qry)->where('method_used', 'NFP-CMM')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('G31', (clone $qry)->where('method_used', 'NFP-CMM')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('H31', (clone $qry)->where('method_used', 'NFP-CMM')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('F32', (clone $qry)->where('method_used', 'NFP-STM')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('G32', (clone $qry)->where('method_used', 'NFP-STM')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('H32', (clone $qry)->where('method_used', 'NFP-STM')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('F33', (clone $qry)->where('method_used', 'NFP-SDM')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('G33', (clone $qry)->where('method_used', 'NFP-SDM')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('H33', (clone $qry)->where('method_used', 'NFP-SDM')->whereBetween('age_years', [20,49])->count());
+
+        //OTHER ACCEPTOR (PRESENT MONTH)
         $qry = (clone $fp_base_qry)
         ->where('client_type', 'OA')
-        ->whereYear('visit_date_actual', $r->year)
-        ->whereMonth('visit_date_actual', $r->month)
-        ->whereIn('status', ['DONE', 'PENDING']);
+        ->where('status', 'DONE')
+        ->whereBetween('visit_date_actual', [$monthStart, $monthEnd]);
+
+        $sheet->setCellValue('J16', (clone $qry)->where('method_used', 'BTL')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('K16', (clone $qry)->where('method_used', 'BTL')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('L16', (clone $qry)->where('method_used', 'BTL')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('J17', (clone $qry)->where('method_used', 'NSV')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('K17', (clone $qry)->where('method_used', 'NSV')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('L17', (clone $qry)->where('method_used', 'NSV')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('J18', (clone $qry)->where('method_used', 'CON')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('K18', (clone $qry)->where('method_used', 'CON')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('L18', (clone $qry)->where('method_used', 'CON')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('J20', (clone $qry)->where('method_used', 'PILLS-POP')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('K20', (clone $qry)->where('method_used', 'PILLS-POP')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('L20', (clone $qry)->where('method_used', 'PILLS-POP')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('J21', (clone $qry)->where('method_used', 'PILLS-COC')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('K21', (clone $qry)->where('method_used', 'PILLS-COC')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('L21', (clone $qry)->where('method_used', 'PILLS-COC')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('J22', (clone $qry)->where('method_used', 'INJ')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('K22', (clone $qry)->where('method_used', 'INJ')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('L22', (clone $qry)->where('method_used', 'INJ')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('J24', (clone $qry)->where('method_used', 'IMP-I')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('K24', (clone $qry)->where('method_used', 'IMP-I')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('L24', (clone $qry)->where('method_used', 'IMP-I')->whereBetween('age_years', [20,49])->count());
+        
+        $sheet->setCellValue('J25', (clone $qry)->where('method_used', 'IMP-PP')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('K25', (clone $qry)->where('method_used', 'IMP-PP')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('L25', (clone $qry)->where('method_used', 'IMP-PP')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('J27', (clone $qry)->where('method_used', 'IUD-I')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('K27', (clone $qry)->where('method_used', 'IUD-I')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('L27', (clone $qry)->where('method_used', 'IUD-I')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('J28', (clone $qry)->where('method_used', 'IUD-PP')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('K28', (clone $qry)->where('method_used', 'IUD-PP')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('L28', (clone $qry)->where('method_used', 'IUD-PP')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('J29', (clone $qry)->where('method_used', 'NFP-LAM')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('K29', (clone $qry)->where('method_used', 'NFP-LAM')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('L29', (clone $qry)->where('method_used', 'NFP-LAM')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('J30', (clone $qry)->where('method_used', 'NFP-BBT')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('K30', (clone $qry)->where('method_used', 'NFP-BBT')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('L30', (clone $qry)->where('method_used', 'NFP-BBT')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('J31', (clone $qry)->where('method_used', 'NFP-CMM')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('K31', (clone $qry)->where('method_used', 'NFP-CMM')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('L31', (clone $qry)->where('method_used', 'NFP-CMM')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('J32', (clone $qry)->where('method_used', 'NFP-STM')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('K32', (clone $qry)->where('method_used', 'NFP-STM')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('L32', (clone $qry)->where('method_used', 'NFP-STM')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('J33', (clone $qry)->where('method_used', 'NFP-SDM')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('K33', (clone $qry)->where('method_used', 'NFP-SDM')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('L33', (clone $qry)->where('method_used', 'NFP-SDM')->whereBetween('age_years', [20,49])->count());
+
+        //DROP-OUTS (PRESENT MONTH)
+        $qry = (clone $fp_base_qry)
+        ->where('status', 'DROP-OUT')
+        ->whereBetween('visit_date_estimated', [$monthStart, $monthEnd]);
+
+        $sheet->setCellValue('N16', (clone $qry)->where('method_used', 'BTL')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('O16', (clone $qry)->where('method_used', 'BTL')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('P16', (clone $qry)->where('method_used', 'BTL')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('N17', (clone $qry)->where('method_used', 'NSV')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('O17', (clone $qry)->where('method_used', 'NSV')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('P17', (clone $qry)->where('method_used', 'NSV')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('N18', (clone $qry)->where('method_used', 'CON')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('O18', (clone $qry)->where('method_used', 'CON')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('P18', (clone $qry)->where('method_used', 'CON')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('N20', (clone $qry)->where('method_used', 'PILLS-POP')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('O20', (clone $qry)->where('method_used', 'PILLS-POP')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('P20', (clone $qry)->where('method_used', 'PILLS-POP')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('N21', (clone $qry)->where('method_used', 'PILLS-COC')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('O21', (clone $qry)->where('method_used', 'PILLS-COC')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('P21', (clone $qry)->where('method_used', 'PILLS-COC')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('N22', (clone $qry)->where('method_used', 'INJ')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('O22', (clone $qry)->where('method_used', 'INJ')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('P22', (clone $qry)->where('method_used', 'INJ')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('N24', (clone $qry)->where('method_used', 'IMP-I')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('O24', (clone $qry)->where('method_used', 'IMP-I')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('P24', (clone $qry)->where('method_used', 'IMP-I')->whereBetween('age_years', [20,49])->count());
+        
+        $sheet->setCellValue('N25', (clone $qry)->where('method_used', 'IMP-PP')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('O25', (clone $qry)->where('method_used', 'IMP-PP')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('P25', (clone $qry)->where('method_used', 'IMP-PP')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('N27', (clone $qry)->where('method_used', 'IUD-I')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('O27', (clone $qry)->where('method_used', 'IUD-I')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('P27', (clone $qry)->where('method_used', 'IUD-I')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('N28', (clone $qry)->where('method_used', 'IUD-PP')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('O28', (clone $qry)->where('method_used', 'IUD-PP')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('P28', (clone $qry)->where('method_used', 'IUD-PP')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('N29', (clone $qry)->where('method_used', 'NFP-LAM')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('O29', (clone $qry)->where('method_used', 'NFP-LAM')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('P29', (clone $qry)->where('method_used', 'NFP-LAM')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('N30', (clone $qry)->where('method_used', 'NFP-BBT')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('O30', (clone $qry)->where('method_used', 'NFP-BBT')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('P30', (clone $qry)->where('method_used', 'NFP-BBT')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('N31', (clone $qry)->where('method_used', 'NFP-CMM')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('O31', (clone $qry)->where('method_used', 'NFP-CMM')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('P31', (clone $qry)->where('method_used', 'NFP-CMM')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('N32', (clone $qry)->where('method_used', 'NFP-STM')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('O32', (clone $qry)->where('method_used', 'NFP-STM')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('P32', (clone $qry)->where('method_used', 'NFP-STM')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('N33', (clone $qry)->where('method_used', 'NFP-SDM')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('O33', (clone $qry)->where('method_used', 'NFP-SDM')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('P33', (clone $qry)->where('method_used', 'NFP-SDM')->whereBetween('age_years', [20,49])->count());
+
+        //CURRENT USER (END OF MONTH)
+        /*
+        Automatic na nac-compute sa Excel
+        */
+
+        //NEW ACCEPTORS (PRESENT MONTH)
+        $qry = (clone $fp_base_qry)
+        ->where('client_type', 'NA')
+        ->where('status', 'DONE')
+        ->whereBetween('visit_date_actual', [$monthStart, $monthEnd]);
+
+        $sheet->setCellValue('V16', (clone $qry)->where('method_used', 'BTL')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('W16', (clone $qry)->where('method_used', 'BTL')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('X16', (clone $qry)->where('method_used', 'BTL')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('V17', (clone $qry)->where('method_used', 'NSV')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('W17', (clone $qry)->where('method_used', 'NSV')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('X17', (clone $qry)->where('method_used', 'NSV')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('V18', (clone $qry)->where('method_used', 'CON')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('W18', (clone $qry)->where('method_used', 'CON')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('X18', (clone $qry)->where('method_used', 'CON')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('V20', (clone $qry)->where('method_used', 'PILLS-POP')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('W20', (clone $qry)->where('method_used', 'PILLS-POP')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('X20', (clone $qry)->where('method_used', 'PILLS-POP')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('V21', (clone $qry)->where('method_used', 'PILLS-COC')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('W21', (clone $qry)->where('method_used', 'PILLS-COC')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('X21', (clone $qry)->where('method_used', 'PILLS-COC')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('V22', (clone $qry)->where('method_used', 'INJ')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('W22', (clone $qry)->where('method_used', 'INJ')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('X22', (clone $qry)->where('method_used', 'INJ')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('V24', (clone $qry)->where('method_used', 'IMP-I')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('W24', (clone $qry)->where('method_used', 'IMP-I')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('X24', (clone $qry)->where('method_used', 'IMP-I')->whereBetween('age_years', [20,49])->count());
+        
+        $sheet->setCellValue('V25', (clone $qry)->where('method_used', 'IMP-PP')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('W25', (clone $qry)->where('method_used', 'IMP-PP')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('X25', (clone $qry)->where('method_used', 'IMP-PP')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('V27', (clone $qry)->where('method_used', 'IUD-I')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('W27', (clone $qry)->where('method_used', 'IUD-I')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('X27', (clone $qry)->where('method_used', 'IUD-I')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('V28', (clone $qry)->where('method_used', 'IUD-PP')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('W28', (clone $qry)->where('method_used', 'IUD-PP')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('X28', (clone $qry)->where('method_used', 'IUD-PP')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('V29', (clone $qry)->where('method_used', 'NFP-LAM')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('W29', (clone $qry)->where('method_used', 'NFP-LAM')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('X29', (clone $qry)->where('method_used', 'NFP-LAM')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('V30', (clone $qry)->where('method_used', 'NFP-BBT')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('W30', (clone $qry)->where('method_used', 'NFP-BBT')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('X30', (clone $qry)->where('method_used', 'NFP-BBT')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('V31', (clone $qry)->where('method_used', 'NFP-CMM')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('W31', (clone $qry)->where('method_used', 'NFP-CMM')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('X31', (clone $qry)->where('method_used', 'NFP-CMM')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('V32', (clone $qry)->where('method_used', 'NFP-STM')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('W32', (clone $qry)->where('method_used', 'NFP-STM')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('X32', (clone $qry)->where('method_used', 'NFP-STM')->whereBetween('age_years', [20,49])->count());
+
+        $sheet->setCellValue('V33', (clone $qry)->where('method_used', 'NFP-SDM')->whereBetween('age_years', [10,14])->count());
+        $sheet->setCellValue('W33', (clone $qry)->where('method_used', 'NFP-SDM')->whereBetween('age_years', [15,19])->count());
+        $sheet->setCellValue('X33', (clone $qry)->where('method_used', 'NFP-SDM')->whereBetween('age_years', [20,49])->count());
 
         $qry = (clone $base_qry)
         ->whereYear('delivery_date', $r->year)

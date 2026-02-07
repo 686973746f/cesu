@@ -60,6 +60,9 @@ class SyndromicPatient extends Model
 
         'ifminor_resperson',
         'ifminor_resrelation',
+
+        'is_deceased',
+        'deceased_date',
         
         'qr',
         'unique_opdnumber',
