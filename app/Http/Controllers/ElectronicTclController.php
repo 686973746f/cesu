@@ -612,8 +612,8 @@ class ElectronicTclController extends Controller
         if($find) {
             return redirect()
             ->route('etcl_childcare_view', $find->id)
-            ->with('msg', 'Existing Child Care record found for this patient. You can only encode one (1) Child Care record per patient.')
-            ->with('msgtype', 'info');
+            ->with('msg', 'Warning: Existing Child Care record found for this patient. You can only encode one (1) Child Care record per patient.')
+            ->with('msgtype', 'warning');
         }
 
         if($d->getAgeInt() >= 5) {
