@@ -9,8 +9,8 @@
                         <div><b>{{ $type }}</b></div>
                         <div><b>Facility:</b> {{auth()->user()->etclBhs->facility_name}}
                         
-                        @if(!empty(auth()->user()->getBhsSwitchList()))
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modelId">Switch BHS</button>
+                        @if(!empty(auth()->user()->getBhsSwitchList()) || auth()->user()->isMasterAdminEtcl())
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#switchBhs">Switch BHS</button>
                         @endif
                         </div>
                     </div>
@@ -152,10 +152,10 @@
         </div>
     </form>
 
-    @if(!empty(auth()->user()->getBhsSwitchList()))
+    @if(!empty(auth()->user()->getBhsSwitchList()) || auth()->user()->isMasterAdminEtcl())
     <form action="{{ route('etcl_switchbhs') }}" method="POST">
         @csrf
-        <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal fade" id="switchBhs" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -169,11 +169,19 @@
                           <label for="switch_bhs_list"><b class="text-danger">*</b>Select BHS</label>
                           <select class="form-control" name="switch_bhs_list" id="switch_bhs_list" required>
                             <option value="" disabled selected>Choose...</option>
+                            @if(auth()->user()->isMasterAdminEtcl())
+                            @foreach(App\Models\DohFacility::where('id', '!=',auth()->user()->etcl_bhs_id)
+                            ->where('address_muncity', 'CITY OF GENERAL TRIAS')
+                            ->get() as $bhs)
+                            <option value="{{ $bhs->id }}">{{ $bhs->facility_name }}</option>
+                            @endforeach
+                            @else
                             @foreach(App\Models\DohFacility::where('id', '!=',auth()->user()->etcl_bhs_id)
                             ->whereIn('id', auth()->user()->getBhsSwitchList())
                             ->get() as $bhs)
                             <option value="{{ $bhs->id }}">{{ $bhs->facility_name }}</option>
                             @endforeach
+                            @endif
                           </select>
                         </div>
                         <input type="hidden" name="etcl_type" value="{{$type}}">

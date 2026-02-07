@@ -61,19 +61,21 @@ class ElectronicTclController extends Controller
     }
 
     public function switchBhs(Request $r) {
+        if(!auth()->user()->isMasterAdminEtcl()) {
             $r->validate([
                 'switch_bhs_list' => 'required|in:' . implode(',', auth()->user()->getBhsSwitchList()),
             ]);
+        }
+        
+        $d = User::findOrFail(auth()->user()->id);
 
-            $d = User::findOrFail(auth()->user()->id);
+        $d->etcl_bhs_id = $r->switch_bhs_list;
+        $d->save();
 
-            $d->etcl_bhs_id = $r->switch_bhs_list;
-            $d->save();
-    
-            return redirect()
-            ->route('etcl_home', ['type' => $r->etcl_type])
-            ->with('msg', 'Successfully switched BHS.')
-            ->with('msgtype', 'success');
+        return redirect()
+        ->route('etcl_home', ['type' => $r->etcl_type])
+        ->with('msg', 'Successfully switched BHS.')
+        ->with('msgtype', 'success');
     }
 
     public function newMaternalCare($patient_id) {
