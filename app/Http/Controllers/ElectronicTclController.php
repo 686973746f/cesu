@@ -1137,10 +1137,10 @@ class ElectronicTclController extends Controller
         if($d->method_used == 'BTL' || $d->method_used == 'NSV') {
             $next_visit->is_permanent = 'Y';
             $next_visit->is_visible = 'N';
-            $next_visit->status = 'PENDING';
+            $next_visit->status = 'DONE';
         }
         else {
-            $next_visit->status = 'DONE';
+            $next_visit->status = 'PENDING';
         }
 
         $next_visit->method_used = $d->method_used;

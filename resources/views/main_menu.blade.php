@@ -64,9 +64,12 @@
 
             @include('efhsis.riskassessment.modal_body')
             @endif
-            <hr>
             @endif
+
+            @if(auth()->user()->encoder_stats_visible == 1)
+            <hr>
             <a href="{{route('encoder_stats_index')}}" class="btn btn-block btn-secondary btn-lg">Daily Encoding Status</a>
+            @endif
         </div>
     </div>
 </div>
