@@ -346,7 +346,7 @@ class ElectronicTclController extends Controller
         return view('efhsis.etcl.maternalcare_encode', [
             'd' => $record,
             'mode' => $mode,
-            'patient' => $patient,
+            'patient' => $patient ?? null,
         ]);
     }
 
@@ -634,7 +634,7 @@ class ElectronicTclController extends Controller
         return view('efhsis.etcl.childcare_encode', [
             'd' => $record,
             'mode' => $mode,
-            'patient' => $patient,
+            'patient' => $patient ?? null,
         ]);
     }
 
@@ -647,7 +647,7 @@ class ElectronicTclController extends Controller
             }
         }
         
-        return $this->newOrEditChildCare($d, 'EDIT', $d->id);
+        return $this->newOrEditChildCare($d, 'EDIT');
     }
     
     public function updateChildCare($id, Request $r) {
@@ -943,7 +943,7 @@ class ElectronicTclController extends Controller
             }
         }
         
-        return $this->newOrEditChildNutrition($d, 'EDIT', $d->id);
+        return $this->newOrEditChildNutrition($d, 'EDIT');
     }
 
     public function newOrEditChildNutrition(InhouseChildNutrition $record, $mode, $patient_id = null) {
@@ -954,7 +954,7 @@ class ElectronicTclController extends Controller
         return view('efhsis.etcl.childnutrition_encode', [
             'd' => $record,
             'mode' => $mode,
-            'patient' => $patient,
+            'patient' => $patient ?? null,
         ]);
     }
 
@@ -1104,7 +1104,7 @@ class ElectronicTclController extends Controller
             'client_type' => $r->client_type,
             'source' => $r->source,
             'previous_method' => $r->previous_method,
-            'current_method' => $r->current_method,
+            //'current_method' => $r->current_method,
             //'is_permanent' => $r->is_permanent,
             //'is_dropout' => $r->is_dropout,
             //'dropout_date' => $r->dropout_date,
@@ -1281,7 +1281,7 @@ class ElectronicTclController extends Controller
             }
         }
         
-        return $this->newOrEditFamilyPlanning($d, 'EDIT', $d->id);
+        return $this->newOrEditFamilyPlanning($d, 'EDIT');
     }
 
     public function newOrEditFamilyPlanning(InhouseFamilyPlanning $record, $mode, $patient_id = null) {
@@ -1292,7 +1292,7 @@ class ElectronicTclController extends Controller
         return view('efhsis.etcl.familyplanning_encode', [
             'd' => $record,
             'mode' => $mode,
-            'patient' => $patient,
+            'patient' => $patient ?? null,
         ]);
     }
 
@@ -1314,8 +1314,35 @@ class ElectronicTclController extends Controller
         $get_ageyears = $birthdate->diffInYears($currentDate);
         $get_agemonths = $birthdate->diffInMonths($currentDate);
         $get_agedays = $birthdate->diffInDays($currentDate);
+        
 
+        $d->update([
+            //'registration_date' => $r->registration_date,
+            'client_type' => $r->client_type,
+            'source' => $r->source,
+            'previous_method' => $r->previous_method,
+            //'current_method' => $r->current_method,
+            //'is_permanent' => $r->is_permanent,
+            //'is_dropout' => $r->is_dropout,
+            //'dropout_date' => $r->dropout_date,
+            //'dropout_reason' => $r->dropout_reason,
 
+            'remarks' => $r->remarks,
+            'system_remarks' => $r->system_remarks,
+
+            //'created_by' => auth()->user()->id,
+            'updated_by' => auth()->user()->id,
+            'request_uuid' => $r->request_uuid,
+
+            'age_years' => $get_ageyears,
+            'age_months' => $get_agemonths,
+            'age_days' => $get_agedays,
+        ]);
+
+        return redirect()
+        ->route('etcl_familyplanning_view', $d->id)
+        ->with('msg', 'Family Planning record successfully updated.')
+        ->with('msgtype', 'success');
     }
 
     public function searchMaternalCareMother(Request $request) {
