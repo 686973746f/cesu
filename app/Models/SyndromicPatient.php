@@ -434,4 +434,20 @@ class SyndromicPatient extends Model
     public function inhouseFamilySerials() {
         return $this->hasOne(InhouseFamilySerial::class, 'patient_id');
     }
+
+    public function maternalcare() {
+        return $this->hasMany(InhouseMaternalCare::class, 'patient_id');
+    }
+
+    public function childcare() {
+        return $this->hasMany(InhouseChildCare::class, 'patient_id');
+    }
+
+    public function childnutrition() {
+        return $this->hasMany(InhouseChildNutrition::class, 'patient_id');
+    }
+
+    public function familyplanning() {
+        return $this->hasMany(InhouseFamilyPlanning::class, 'patient_id');
+    }
 }

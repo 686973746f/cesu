@@ -49,6 +49,12 @@ class InhouseFamilyPlanning extends Model
         return $this->belongsTo(DohFacility::class, 'facility_id');
     }
 
+    public function visibleVisits() {
+        return $this->hasMany(InhouseFpVisit::class, 'fp_tcl_id')
+            ->where('is_visible', 'Y')
+            ->orderByDesc('visit_date_estimated');
+    }
+
     public function visits() {
         return $this->hasMany(InhouseFpVisit::class, 'fp_tcl_id')->orderByDesc('visit_date_estimated');
     }

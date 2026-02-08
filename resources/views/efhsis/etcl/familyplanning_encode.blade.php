@@ -65,7 +65,9 @@
                             <label for="client_type"><b class="text-danger">*</b>Type of Client</label>
                             <select class="form-control" name="client_type" id="client_type" {{($mode == 'EDIT') ? 'disabled' : 'required'}}>
                               <option value="" disabled {{ old('client_type', $d->client_type) ? '' : 'selected' }}>Choose...</option>
+                              @if(!$d->familyplanning)
                               <option value="NA" {{ old('client_type', $d->client_type) == 'NA' ? 'selected' : '' }}>New Acceptors</option>
+                              @endif
                               <option value="CU" {{ old('client_type', $d->client_type) == 'CU' ? 'selected' : '' }}>Current Users</option>
                               <option value="OA" {{ old('client_type', $d->client_type) == 'OA' ? 'selected' : '' }}>Other Acceptors</option>
                               <option value="CU-CM" {{ old('client_type', $d->client_type) == 'CU-CM' ? 'selected' : '' }}>Changing Method</option>
@@ -134,7 +136,7 @@
                         </div>
                         @else
 
-                        @foreach($d->visits as $visit)
+                        @foreach($d->visibleVisits as $visit)
                         <div class="card mb-2">
                             <div class="card-body">
                                 <div class="row">

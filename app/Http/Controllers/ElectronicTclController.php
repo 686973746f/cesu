@@ -674,13 +674,6 @@ class ElectronicTclController extends Controller
                 ->with('msg', 'Error: DPT-HiB-Hepb 3rd Dose must be filled before encoding IPV 1st Dose.')
                 ->with('msgtype', 'warning');
             }
-            else if(!$r->filled('opv3')) {
-                return redirect()
-                ->back()
-                ->withInput()
-                ->with('msg', 'Error: OPV 3rd Dose must be filled before encoding IPV 1st Dose.')
-                ->with('msgtype', 'warning');
-            }
             else if(!$r->filled('pcv3')) {
                 return redirect()
                 ->back()
@@ -1043,20 +1036,35 @@ class ElectronicTclController extends Controller
     public function newFamilyPlanning($patient_id) {
         $d = SyndromicPatient::findOrFail($patient_id);
 
-        $find = InhouseFamilyPlanning::where('patient_id', $d->id)->first();
-
-        if($find) {
-            return redirect()
-            ->route('etcl_familyplanning_view', $find->id)
-            ->with('msg', 'Existing Family Planning record found for this patient. You can only encode one (1) Family Planning record per patient.')
-            ->with('msgtype', 'info');
-        }
-
         if($d->getAgeInt() <= 9 || $d->getAgeInt() >= 50) {
             return redirect()
             ->back()
             ->with('msg', 'Error: Family Planning can only be encoded for patients between 10 and 49 years old.')
             ->with('msgtype', 'warning');
+        }
+
+        $find = InhouseFamilyPlanning::where('patient_id', $d->id)->first();
+
+        if($find) {
+            if($find->latestVisit->status == 'DROP-OUT') {
+                //Proceed as New TCL (Not New Acceptor)
+
+                return $this->newOrEditFamilyPlanning(new InhouseFamilyPlanning(), 'NEW', $d->id);                
+            }
+            else {
+                if($find->facility_id != auth()->user()->etcl_bhs_id) {
+                    return redirect()
+                    ->back()
+                    ->with('msg', "Error: Existing Family Planning record found for this patient, but it is encoded under a different facility and is still active at " . $find->latestVisit->familyplanning->facility->facility_name . "). ")
+                    ->with('msgtype', 'warning');
+                }
+                else {
+                    return redirect()
+                    ->route('etcl_familyplanning_view', $find->id)
+                    ->with('msg', 'Error: Existing Ongoing Family Planning record found for this patient. To encode a new Family Planning record, the existing record must first be marked as Drop-out.')
+                    ->with('msgtype', 'warning');
+                }
+            }
         }
 
         return $this->newOrEditFamilyPlanning(new InhouseFamilyPlanning(), 'NEW', $d->id);
@@ -2797,6 +2805,7 @@ class ElectronicTclController extends Controller
         $writer->save('php://output');
     }
 
+    //Print TCL
     public function generateTcl(Request $r) {
         $start_date = Carbon::parse($r->start_date);
         $end_date = Carbon::parse($r->end_date);
@@ -2810,6 +2819,7 @@ class ElectronicTclController extends Controller
             $base_qry = InhouseChildCare::whereBetween('registration_date', [$start_date->format('Y-m-d'), $end_date->format('Y-m-d')])
             ->where('enabled', 'Y');
 
+            /*
             if(auth()->user()->isMasterAdminEtcl()) {
                 if($r->filter_type == 'BHS') {
                     $qry = (clone $base_qry)
@@ -2828,6 +2838,11 @@ class ElectronicTclController extends Controller
                 ->where('facility_id', auth()->user()->etcl_bhs_id)
                 ->get();
             }
+            */
+
+            $qry = (clone $base_qry)
+                ->where('facility_id', auth()->user()->etcl_bhs_id)
+                ->get();
 
             foreach($qry as $ind => $d) {
                 $sheet->setCellValue('A'.$row, $ind + 1);
@@ -2924,6 +2939,7 @@ class ElectronicTclController extends Controller
             $base_qry = InhouseMaternalCare::whereBetween('registration_date', [$start_date->format('Y-m-d'), $end_date->format('Y-m-d')])
             ->where('enabled', 'Y');
 
+            /*
             if(auth()->user()->isMasterAdminEtcl()) {
                 if($r->filter_type == 'BHS') {
                     $qry = (clone $base_qry)
@@ -2942,6 +2958,11 @@ class ElectronicTclController extends Controller
                 ->where('facility_id', auth()->user()->etcl_bhs_id)
                 ->get();
             }
+            */
+
+            $qry = (clone $base_qry)
+                ->where('facility_id', auth()->user()->etcl_bhs_id)
+                ->get();
 
             foreach($qry as $ind => $d) {
                 $sheet->setCellValue('A'.$row, $ind + 1);
@@ -3113,6 +3134,45 @@ class ElectronicTclController extends Controller
 
                 $row = $row + 2;
             }
+        }
+        else if($r->etcl_type == 'family_planning') {
+            $spreadsheet = ExcelFactory::load(storage_path('etcl_family_planning.xlsx'));
+            $sheet = $spreadsheet->getActiveSheet();
+
+            $base_qry = InhouseFamilyPlanning::whereBetween('registration_date', [$start_date->format('Y-m-d'), $end_date->format('Y-m-d')])
+            ->where('enabled', 'Y');
+
+            $qry = (clone $base_qry)
+                ->where('facility_id', auth()->user()->etcl_bhs_id)
+                ->get();
+
+            $row = 4;
+
+            foreach($qry as $ind => $d) {
+                $sheet->setCellValue('A'.$row, $ind + 1);
+                $sheet->setCellValue('B'.$row, Carbon::parse($d->registration_date)->format('m/d/Y'));
+                $sheet->setCellValue('C'.$row, ($d->patient->inhouseFamilySerials) ? $d->patient->inhouseFamilySerials->inhouse_familyserialno : 'N/A');
+                $sheet->setCellValue('D'.$row, $d->patient->getName());
+                $sheet->setCellValue('E'.$row, $d->patient->getFullAddress());
+                $sheet->setCellValue('F'.$row, $d->age_years);
+                $sheet->setCellValue('F'.($row+1), Carbon::parse($d->bdate_fixed)->format('m/d/Y'));
+                $sheet->setCellValue('G'.$row, $d->age_group);
+                $sheet->setCellValue('G'.$row, $d->client_type);
+                $sheet->setCellValue('H'.$row, $d->source);
+                $sheet->setCellValue('I'.$row, $d->previous_method ?? 'N/A');
+
+                $registration_year = Carbon::parse($d->registration_date)->format('Y');
+                $month = 1;
+                for($i = 1; $i <= 12; $i++) {
+                    $searchDate = Carbon::createFromDate($registration_year, $month, 1);
+
+                    
+                    $month++;
+                }
+            }
+        }
+        else if($r->etcl_type == 'child_nutrition') {
+
         }
 
         $fileName = "FHSIS_TCL_{$r->etcl_type}_".time().".xlsx";
