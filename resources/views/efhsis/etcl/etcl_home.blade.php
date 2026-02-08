@@ -92,6 +92,8 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                     </div>
+                    <input type="hidden" name="etcl_type" value="{{$type}}">
+                    @if(!$type == 'family_planning')
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6">
@@ -107,7 +109,6 @@
                                 </div>
                             </div>
                         </div>
-                        <input type="hidden" name="etcl_type" value="{{$type}}">
                         @if(auth()->user()->isMasterAdminEtcl())
                         <div class="form-group">
                           <label for="filter_type"><b class="text-danger">*</b>Filter Type</label>
@@ -144,6 +145,18 @@
                         </div>
                         @endif
                     </div>
+                    @else
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="year"><b class="text-danger">*</b>Year</label>
+                            <select class="form-control" name="year" id="year" required>
+                            @foreach(range(date('Y'), 2026) as $y)
+                            <option value="{{$y}}">{{$y}}</option>
+                            @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    @endif
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success btn-block">Generate TCL Excel File</button>
                     </div>

@@ -142,7 +142,7 @@
                                 <div class="row">
                                     <div class="col-md-8">
                                         <h6>Visit #{{ $loop->remaining + 1 }}</h6>
-                                        <h6><b>Method:</b> {{ $visit->method_used }} | <b>Type:</b> {{ $visit->client_type }}</h6>
+                                        <h6><b>Method:</b> {{ $visit->getMethod($visit->method_used) }} | <b>Type:</b> {{ $visit->getClientType($visit->client_type) }}</h6>
                                         <h6><b>Estimated Visit Date:</b> {{ Carbon\Carbon::parse($visit->visit_date_estimated)->format('F d, Y') }}</h6>
                                         @if($visit->visit_date_actual)
                                         <h6><b>Actual Visit Date:</b> {{ Carbon\Carbon::parse($visit->visit_date_actual)->format('F d, Y') }}</h6>

@@ -16,6 +16,7 @@ use App\Models\InhouseChildNutrition;
 use App\Models\InhouseFamilyPlanning;
 use PhpOffice\PhpSpreadsheet\Style\Color;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\IOFactory as ExcelFactory;
 
 class ElectronicTclController extends Controller
@@ -1291,14 +1292,14 @@ class ElectronicTclController extends Controller
         else if($r->status == 'DROP-OUT') {
             $d->update([
                 'dropout_date' => $r->dropout_date,
-                'dropout_reason' => $r->dropout_reason,
+                'dropout_reason' => mb_strtoupper($r->dropout_reason),
             ]);
 
             $f->update([
                 'is_locked' => 'Y',
                 'is_dropout' => 'Y',
                 'dropout_date' => $r->dropout_date,
-                'dropout_reason' => $r->dropout_reason,
+                'dropout_reason' => mb_strtoupper($r->dropout_reason),
             ]);
         }
 
@@ -3136,7 +3137,10 @@ class ElectronicTclController extends Controller
             $spreadsheet = ExcelFactory::load(storage_path('etcl_family_planning.xlsx'));
             $sheet = $spreadsheet->getActiveSheet();
 
-            $base_qry = InhouseFamilyPlanning::whereBetween('registration_date', [$start_date->format('Y-m-d'), $end_date->format('Y-m-d')])
+            $base_qry = InhouseFamilyPlanning::where(function ($q) use ($r) {
+                $q->whereYear('registration_date', $r->year)
+                ->orWhere('is_permanent', 'Y');
+            })
             ->where('enabled', 'Y');
 
             $qry = (clone $base_qry)
@@ -3154,22 +3158,50 @@ class ElectronicTclController extends Controller
                 $sheet->setCellValue('F'.$row, $d->age_years);
                 $sheet->setCellValue('F'.($row+1), Carbon::parse($d->bdate_fixed)->format('m/d/Y'));
                 $sheet->setCellValue('G'.$row, $d->age_group);
-                $sheet->setCellValue('G'.$row, $d->client_type);
-                $sheet->setCellValue('H'.$row, $d->source);
-                $sheet->setCellValue('I'.$row, $d->previous_method ?? 'N/A');
+                $sheet->setCellValue('H'.$row, $d->client_type);
+                $sheet->setCellValue('I'.$row, $d->source);
+                $sheet->setCellValue('J'.$row, $d->previous_method ?? 'N/A');
+                
+                $sheet->setCellValue('W'.$row, ($d->is_dropout == 'Y') ? Carbon::parse($d->dropout_date)->format('m/d/Y') : '');
+                $sheet->setCellValue('X'.$row, ($d->is_dropout == 'Y') ? $d->dropout_reason : '');
+
+                $sheet->setCellValue('Y'.$row, $d->remarks);
 
                 $registration_year = Carbon::parse($d->registration_date)->format('Y');
-                $month = 1;
-                for($i = 1; $i <= 12; $i++) {
-                    $searchDate = Carbon::createFromDate($registration_year, $month, 1);
-
-                    
-                    $month++;
+                if($d->is_permanent == 'Y') {
+                    $start_month = 1;
                 }
+                else {
+                    $month = 1;
+                    $startColumnIndex = 11; // J
+                    for($i = 1; $i <= 12; $i++) {
+                        $columnLetter = Coordinate::stringFromColumnIndex($startColumnIndex);
+
+                        if($d->is_permanent == 'Y') {
+                            
+                        }
+                        else {
+                            $searchVisit = InhouseFpVisit::where('fp_tcl_id', $d->id)
+                            ->whereYear('visit_date_estimated', $r->year)
+                            ->whereMonth('visit_date_estimated', $month)
+                            ->first();
+
+                            if($searchVisit) {
+                                $sheet->setCellValue($columnLetter.$row, Carbon::parse($searchVisit->visit_date_estimated)->format('m/d/Y'));
+                                $sheet->setCellValue($columnLetter.($row + 1), (!is_null($searchVisit->visit_date_actual)) ? Carbon::parse($searchVisit->visit_date_actual)->format('m/d/Y') : '');
+                            }
+                        }
+
+                        $month++;
+                        $startColumnIndex++;
+                    }
+                }
+
+                $row = $row + 2;
             }
         }
         else if($r->etcl_type == 'child_nutrition') {
-
+            
         }
 
         $fileName = "FHSIS_TCL_{$r->etcl_type}_".time().".xlsx";

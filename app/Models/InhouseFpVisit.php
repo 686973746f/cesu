@@ -46,4 +46,12 @@ class InhouseFpVisit extends Model
             return false;
         }
     }
+
+    public function getClientType() {
+        return $this->familyplanning->getClientType($this->client_type);
+    }
+
+    public function getMethod($method_code) {
+        return $this->familyplanning->getMethod($method_code);
+    }
 }
