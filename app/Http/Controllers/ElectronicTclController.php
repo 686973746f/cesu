@@ -137,7 +137,7 @@ class ElectronicTclController extends Controller
             $age_group = 'C'; //Adult
         }
 
-        $birthdate = Carbon::parse($d->bdate);
+        $birthdate = Carbon::parse($d->bdate_fixed);
         $currentDate = Carbon::parse($r->registration_date);
 
         $get_ageyears = $birthdate->diffInYears($currentDate);
@@ -398,7 +398,7 @@ class ElectronicTclController extends Controller
             }
         }
 
-        $birthdate = Carbon::parse($d->patient->bdate);
+        $birthdate = Carbon::parse($d->bdate_fixed);
         $currentDate = Carbon::parse($r->registration_date);
 
         $get_ageyears = $birthdate->diffInYears($currentDate);
@@ -659,7 +659,7 @@ class ElectronicTclController extends Controller
             ->with('msgtype', 'warning');
         }
 
-        $birthdate = Carbon::parse($d->patient->bdate);
+        $birthdate = Carbon::parse($d->bdate_fixed);
         $currentDate = Carbon::parse($r->registration_date);
 
         $get_ageyears = $birthdate->diffInYears($currentDate);
@@ -850,7 +850,7 @@ class ElectronicTclController extends Controller
             ->with('msgtype', 'info');
         }
 
-        $birthdate = Carbon::parse($d->bdate);
+        $birthdate = Carbon::parse($d->bdate_fixed);
         $currentDate = Carbon::parse($r->registration_date);
 
         $get_ageyears = $birthdate->diffInYears($currentDate);
@@ -959,7 +959,7 @@ class ElectronicTclController extends Controller
             ->with('msgtype', 'warning');
         }
 
-        $birthdate = Carbon::parse($d->patient->bdate);
+        $birthdate = Carbon::parse($d->bdate_fixed);
         $currentDate = Carbon::parse($r->registration_date);
 
         $get_ageyears = $birthdate->diffInYears($currentDate);
@@ -1092,7 +1092,7 @@ class ElectronicTclController extends Controller
             $age_group = 'C'; //Adult
         }
 
-        $birthdate = Carbon::parse($d->bdate);
+        $birthdate = Carbon::parse($d->bdate_fixed);
         $currentDate = Carbon::parse($r->registration_date);
 
         $get_ageyears = $birthdate->diffInYears($currentDate);
@@ -1342,7 +1342,7 @@ class ElectronicTclController extends Controller
             ->with('msgtype', 'warning');
         }
 
-        $birthdate = Carbon::parse($d->patient->bdate);
+        $birthdate = Carbon::parse($d->bdate_fixed);
         $currentDate = Carbon::parse($r->registration_date);
 
         $get_ageyears = $birthdate->diffInYears($currentDate);
@@ -1402,6 +1402,10 @@ class ElectronicTclController extends Controller
     }
 
     public function storeChildCare(Request $r, $patient_id) {
+        $r->validate([
+            'registration_date' => 'required|date',
+        ]);
+
         $d = SyndromicPatient::findOrFail($patient_id);
 
         $check = InhouseChildCare::where('request_uuid', $r->request_uuid)->first();
@@ -1422,7 +1426,7 @@ class ElectronicTclController extends Controller
             ->with('msgtype', 'info');
         }
 
-        $birthdate = Carbon::parse($d->bdate);
+        $birthdate = Carbon::parse($d->bdate_fixed);
         $currentDate = Carbon::parse($r->registration_date);
 
         $get_ageyears = $birthdate->diffInYears($currentDate);
@@ -2850,7 +2854,7 @@ class ElectronicTclController extends Controller
                 $sheet->setCellValue('C'.$row, '');
                 $sheet->setCellValue('D'.$row, $d->patient->getName());
                 $sheet->setCellValue('E'.$row, substr($d->patient->gender,0,1));
-                $sheet->setCellValue('F'.$row, Carbon::parse($d->patient->bdate)->format('m/d/Y'));
+                $sheet->setCellValue('F'.$row, Carbon::parse($d->bdate_fixed)->format('m/d/Y'));
 
                 if($d->mother_type == 'Y') {
                     $sheet->setCellValue('G'.$row, $d->maternalcare->patient->getName());
