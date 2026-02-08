@@ -27,7 +27,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="registration_date"><b class="text-danger">*</b>Date of Registration</label>
-                            <input type="date" class="form-control" name="registration_date" id="registration_date" value="{{old('registration_date', $d->registration_date)}}" max="{{date('Y-m-d')}}" {{($mode == 'EDIT') ? 'disabled' : 'required'}}>
+                            <input type="date" class="form-control" name="registration_date" id="registration_date" value="{{old('registration_date', $d->registration_date)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->registration_date)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}" {{($mode == 'EDIT') ? 'disabled' : 'required'}}>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -41,7 +41,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for=""><b class="text-danger">*</b>Name of Child / Age</label>
-                            <input type="text" class="form-control" value="{{ ($mode == 'EDIT') ? $d->patient->getName() : $patient->getName() }}" readonly>
+                            <input type="text" class="form-control" value="{{ ($mode == 'EDIT') ? $d->patient->getName().' / '.$d->patient->getAge() : $patient->getName().' / '.$patient->getAge() }}" readonly>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -114,7 +114,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                           <label for="bcg1">BCG (within 0-28 days)</label>
-                          <input type="date" class="form-control" name="bcg1" id="bcg1" value="{{old('bcg1', $d->bcg1)}}" max="{{date('Y-m-d')}}">
+                          <input type="date" class="form-control" name="bcg1" id="bcg1" value="{{old('bcg1', $d->bcg1)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->bcg1)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}"  max="{{date('Y-m-d')}}">
                         </div>
                         <div class="form-group">
                             <label for="bcg1_type">Type</label>
@@ -130,7 +130,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="bcg2">BCG (within 29 days to 1 year old)</label>
-                            <input type="date" class="form-control" name="bcg2" id="bcg2" value="{{old('bcg2', $d->bcg2)}}" max="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" name="bcg2" id="bcg2" value="{{old('bcg2', $d->bcg2)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->bcg2)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}">
                         </div>
                         <div class="form-group">
                             <label for="bcg2_type">Type</label>
@@ -146,7 +146,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="hepab1">Hepa B within 24 hours after birth</label>
-                            <input type="date" class="form-control" name="hepab1" id="hepab1" value="{{old('hepab1', $d->hepab1)}}" max="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" name="hepab1" id="hepab1" value="{{old('hepab1', $d->hepab1)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->hepab1)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}">
                         </div>
                         <div class="form-group">
                             <label for="hepab1_type">Type</label>
@@ -162,7 +162,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="hepab2">Hepa B more than 24 hours up to 14 days</label>
-                            <input type="date" class="form-control" name="hepab2" id="hepab2" value="{{old('hepab2', $d->hepab2)}}" max="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" name="hepab2" id="hepab2" value="{{old('hepab2', $d->hepab2)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->hepab2)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}">
                         </div>
                         <div class="form-group">
                             <label for="hepab2_type">Type</label>
@@ -181,7 +181,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="dpt1">DPT-HiB-HepB 1st Dose</label>
-                            <input type="date" class="form-control" name="dpt1" id="dpt1" value="{{old('dpt1', $d->dpt1)}}" max="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" name="dpt1" id="dpt1" value="{{old('dpt1', $d->dpt1)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->dpt1)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}">
                             <small class="text-muted">1 ½ mos</small>
                         </div>
                         <div class="form-group">
@@ -198,7 +198,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="dpt2">DPT-HiB-HepB 2nd Dose</label>
-                            <input type="date" class="form-control" name="dpt2" id="dpt2" value="{{old('dpt2', $d->dpt2)}}" max="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" name="dpt2" id="dpt2" value="{{old('dpt2', $d->dpt2)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->dpt2)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}">
                             <small class="text-muted">2 ½ mos</small>
                         </div>
                         <div class="form-group">
@@ -215,7 +215,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="dpt3">DPT-HiB-HepB 3rd Dose</label>
-                            <input type="date" class="form-control" name="dpt3" id="dpt3" value="{{old('dpt3', $d->dpt3)}}" max="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" name="dpt3" id="dpt3" value="{{old('dpt3', $d->dpt3)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->dpt3)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}">
                             <small class="text-muted">3 ½ mos</small>
                         </div>
                         <div class="form-group">
@@ -235,7 +235,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="opv1">OPV 1st Dose</label>
-                            <input type="date" class="form-control" name="opv1" id="opv1" value="{{old('opv1', $d->opv1)}}" max="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" name="opv1" id="opv1" value="{{old('opv1', $d->opv1)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->opv1)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}">
                             <small class="text-muted">1 ½ mos</small>
                         </div>
                         <div class="form-group">
@@ -252,7 +252,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="opv2">OPV 2nd Dose</label>
-                            <input type="date" class="form-control" name="opv2" id="opv2" value="{{old('opv2', $d->opv2)}}" max="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" name="opv2" id="opv2" value="{{old('opv2', $d->opv2)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->opv2)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}">
                             <small class="text-muted">2 ½ mos</small>
                         </div>
                         <div class="form-group">
@@ -269,7 +269,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="opv3">OPV 3rd Dose</label>
-                            <input type="date" class="form-control" name="opv3" id="opv3" value="{{old('opv3', $d->opv3)}}" max="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" name="opv3" id="opv3" value="{{old('opv3', $d->opv3)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->opv3)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}">
                             <small class="text-muted">3 ½ mos</small>
                         </div>
                         <div class="form-group">
@@ -289,7 +289,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="pcv1">PCV 1st Dose</label>
-                            <input type="date" class="form-control" name="pcv1" id="pcv1" value="{{old('pcv1', $d->pcv1)}}" max="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" name="pcv1" id="pcv1" value="{{old('pcv1', $d->pcv1)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->pcv1)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}">
                             <small class="text-muted">1 ½ mos</small>
                         </div>
                         <div class="form-group">
@@ -306,7 +306,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="pcv2">PCV 2nd Dose</label>
-                            <input type="date" class="form-control" name="pcv2" id="pcv2" value="{{old('pcv2', $d->pcv2)}}" max="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" name="pcv2" id="pcv2" value="{{old('pcv2', $d->pcv2)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->pcv2)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}">
                             <small class="text-muted">2 ½ mos</small>
                         </div>
                         <div class="form-group">
@@ -323,7 +323,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="pcv3">PCV 3rd Dose</label>
-                            <input type="date" class="form-control" name="pcv3" id="pcv3" value="{{old('pcv3', $d->pcv3)}}" max="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" name="pcv3" id="pcv3" value="{{old('pcv3', $d->pcv3)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->pcv3)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}">
                             <small class="text-muted">3 ½ mos</small>
                         </div>
                         <div class="form-group">
@@ -343,7 +343,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="ipv1">IPV 1st Dose</label>
-                            <input type="date" class="form-control" name="ipv1" id="ipv1" value="{{old('ipv1', $d->ipv1)}}" max="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" name="ipv1" id="ipv1" value="{{old('ipv1', $d->ipv1)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->ipv1)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}">
                             <small class="text-muted">3 ½ mos</small>
                         </div>
                         <div class="form-group">
@@ -360,7 +360,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="ipv2">IPV 2nd Dose</label>
-                            <input type="date" class="form-control" name="ipv2" id="ipv2" value="{{old('ipv2', $d->ipv2)}}" max="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" name="ipv2" id="ipv2" value="{{old('ipv2', $d->ipv2)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->ipv2)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}">
                             <small class="text-muted">9 mos</small>
                         </div>
                         <div class="form-group">
@@ -380,7 +380,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="mmr1">MMR 1st Dose</label>
-                            <input type="date" class="form-control" name="mmr1" id="mmr1" value="{{old('mmr1', $d->mmr1)}}" max="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" name="mmr1" id="mmr1" value="{{old('mmr1', $d->mmr1)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->mmr1)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}">
                             <small class="text-muted">9  mos</small>
                         </div>
                         <div class="form-group">
@@ -397,7 +397,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="mmr2">MMR 2nd Dose</label>
-                            <input type="date" class="form-control" name="mmr2" id="mmr2" value="{{old('mmr2', $d->mmr2)}}" max="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" name="mmr2" id="mmr2" value="{{old('mmr2', $d->mmr2)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->mmr2)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}">
                             <small class="text-muted">12 mos</small>
                         </div>
                         <div class="form-group">

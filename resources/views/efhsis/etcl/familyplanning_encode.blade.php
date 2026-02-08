@@ -27,7 +27,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="registration_date"><b class="text-danger">*</b>Date of Registration</label>
-                            <input type="date" class="form-control" name="registration_date" id="registration_date" value="{{old('registration_date', $d->registration_date)}}" max="{{date('Y-m-d')}}" {{($mode == 'EDIT') ? 'disabled' : 'required'}}>
+                            <input type="date" class="form-control" name="registration_date" id="registration_date" value="{{old('registration_date', $d->registration_date)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->registration_date)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}" {{($mode == 'EDIT') ? 'disabled' : 'required'}}>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -234,7 +234,7 @@
                     </div>
                     <div class="form-group">
                         <label for="visit_date_actual"><b class="text-danger">*</b>Actual Date of Visit</label>
-                        <input type="date" class="form-control" name="visit_date_actual" id="visit_date_actual" max="{{date('Y-m-d')}}" value="{{old('visit_date_actual')}}" required>
+                        <input type="date" class="form-control" name="visit_date_actual" id="visit_date_actual" min="{{ date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}" value="{{old('visit_date_actual')}}" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -280,13 +280,13 @@
                     <div class="d-none" id="done_div">
                         <div class="form-group">
                             <label for="visit_date_actual"><b class="text-danger">*</b>Actual Date of Visit</label>
-                            <input type="date" class="form-control" name="visit_date_actual" id="update_visit_date_actual" max="{{date('Y-m-d')}}" value="{{old('visit_date_actual')}}">
+                            <input type="date" class="form-control" name="visit_date_actual" id="update_visit_date_actual" min="{{ date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}" value="{{old('visit_date_actual')}}">
                         </div>
                     </div>
                     <div class="d-none" id="dropout_div">
                         <div class="form-group">
                             <label for="dropout_date"><b class="text-danger">*</b>Drop-out Date</label>
-                            <input type="date" class="form-control" name="dropout_date" id="update_dropout_date" max="{{date('Y-m-d')}}" value="{{old('dropout_date')}}">
+                            <input type="date" class="form-control" name="dropout_date" id="update_dropout_date" min="{{ date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}" value="{{old('dropout_date')}}">
                         </div>
                         <div class="form-group">
                             <label for="dropout_reason"><b class="text-danger">*</b>Drop-out Reason</label>
