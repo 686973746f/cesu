@@ -1441,13 +1441,6 @@ class ElectronicTclController extends Controller
                 ->with('msg', 'Error: DPT-HiB-Hepb 3rd Dose must be filled before encoding IPV 1st Dose.')
                 ->with('msgtype', 'warning');
             }
-            else if(!$r->filled('opv3')) {
-                return redirect()
-                ->back()
-                ->withInput()
-                ->with('msg', 'Error: OPV 3rd Dose must be filled before encoding IPV 1st Dose.')
-                ->with('msgtype', 'warning');
-            }
             else if(!$r->filled('pcv3')) {
                 return redirect()
                 ->back()
