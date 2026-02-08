@@ -3129,7 +3129,6 @@ class ElectronicTclController extends Controller
 
                 //Child Nutrition
                 
-
                 $row = $row + 2;
             }
         }
@@ -3201,7 +3200,68 @@ class ElectronicTclController extends Controller
             }
         }
         else if($r->etcl_type == 'child_nutrition') {
-            
+            $spreadsheet = ExcelFactory::load(storage_path('etcl_child_nutrition.xlsx'));
+            $sheet = $spreadsheet->getActiveSheet();
+
+            $base_qry = InhouseChildNutrition::whereBetween('registration_date', [$start_date->format('Y-m-d'), $end_date->format('Y-m-d')])
+            ->where('enabled', 'Y');
+
+            $qry = (clone $base_qry)
+                ->where('facility_id', auth()->user()->etcl_bhs_id)
+                ->get();
+
+            $row = 14;
+
+            foreach($qry as $ind => $d) {
+                $sheet->setCellValue('A'.$row, $ind + 1);
+                $sheet->setCellValue('B'.$row, Carbon::parse($d->registration_date)->format('m/d/Y'));
+                $sheet->setCellValue('C'.$row, ($d->patient->inhouseFamilySerials) ? $d->patient->inhouseFamilySerials->inhouse_familyserialno : 'N/A');
+                $sheet->setCellValue('D'.$row, $d->patient->getName());
+                $sheet->setCellValue('E'.$row, substr($d->patient->gender, 0, 1));
+                $sheet->setCellValue('F'.$row, Carbon::parse($d->bdate_fixed)->format('m/d/Y'));
+                $sheet->setCellValue('G'.$row, $d->age_months);
+                $sheet->setCellValue('H'.$row, $d->patient->mother_name);
+                $sheet->setCellValue('I'.$row, $d->patient->getFullAddress());
+
+                $sheet->setCellValue('J'.$row, $d->length_atbirth);
+                $sheet->setCellValue('K'.$row, $d->weight_atbirth);
+                $sheet->setCellValue('L'.$row, $d->weight_status);
+
+                $sheet->setCellValue('M'.$row, (!is_null($d->breastfeeding)) ? Carbon::parse($d->breastfeeding)->format('m/d/Y') : '');
+                $sheet->setCellValue('N'.$row, (!is_null($d->lb_iron1)) ? Carbon::parse($d->lb_iron1)->format('m/d/Y') : '');
+                $sheet->setCellValue('O'.$row, (!is_null($d->lb_iron2)) ? Carbon::parse($d->lb_iron2)->format('m/d/Y') : '');
+                $sheet->setCellValue('P'.$row, (!is_null($d->lb_iron3)) ? Carbon::parse($d->lb_iron3)->format('m/d/Y') : '');
+                $sheet->setCellValue('Q'.$row, (!is_null($d->lb_iron3)) ? '1' : '0');
+                $sheet->setCellValue('Q'.($row + 1), (!is_null($d->lb_iron3)) ? Carbon::parse($d->lb_iron3)->format('m/d/Y') : '');
+
+                $sheet->setCellValue('R'.$row, (!is_null($d->vita1)) ? Carbon::parse($d->vita1)->format('m/d/Y') : '');
+                $sheet->setCellValue('S'.$row, (!is_null($d->vita2)) ? Carbon::parse($d->vita2)->format('m/d/Y') : '');
+                $sheet->setCellValue('T'.$row, (!is_null($d->vita3)) ? Carbon::parse($d->vita3)->format('m/d/Y') : '');
+                $sheet->setCellValue('U'.$row, (!is_null($d->vita3)) ? '1' : '0');
+
+                $sheet->setCellValue('V'.$row, (!is_null($d->mnp1)) ? Carbon::parse($d->mnp1)->format('m/d/Y') : '');
+                $sheet->setCellValue('W'.$row, (!is_null($d->mnp2)) ? Carbon::parse($d->mnp2)->format('m/d/Y') : '');
+                $sheet->setCellValue('X'.$row, (!is_null($d->lns1)) ? Carbon::parse($d->lns1)->format('m/d/Y') : '');
+                $sheet->setCellValue('Y'.$row, (!is_null($d->lns2)) ? Carbon::parse($d->lns2)->format('m/d/Y') : '');
+
+                $sheet->setCellValue('Z'.$row, $d->mam_identified);
+                $sheet->setCellValue('AA'.$row, $d->enrolled_sfp);
+                $sheet->setCellValue('AB'.$row, $d->mam_cured);
+                $sheet->setCellValue('AC'.$row, $d->mam_noncured);
+                $sheet->setCellValue('AD'.$row, $d->mam_defaulted);
+                $sheet->setCellValue('AE'.$row, $d->mam_died);
+
+                $sheet->setCellValue('AF'.$row, $d->sam_identified);
+                $sheet->setCellValue('AG'.$row, $d->sam_complication);
+                $sheet->setCellValue('AH'.$row, $d->sam_cured);
+                $sheet->setCellValue('AI'.$row, $d->sam_noncured);
+                $sheet->setCellValue('AJ'.$row, $d->sam_defaulted);
+                $sheet->setCellValue('AK'.$row, $d->sam_died);
+
+                $sheet->setCellValue('AL'.$row, $d->remarks);
+
+                $row = $row + 2;
+            }
         }
 
         $fileName = "FHSIS_TCL_{$r->etcl_type}_".time().".xlsx";

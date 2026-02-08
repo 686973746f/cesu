@@ -1012,6 +1012,7 @@
             }
         });
 
+        /*
         $(document).ready(function () {
             const dates = ['#visit1', '#visit2', '#visit3', '#visit4', '#visit5', '#visit6', '#visit7', '#visit8'];
 
@@ -1039,6 +1040,7 @@
             // Run on change of any date field
             $('input[type="date"]').on('change', updateRequired);
         });
+        */
 
         $('#visit1').on('change', function () {
             $('#visit1_type').prop('required', !!$(this).val());

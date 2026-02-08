@@ -93,7 +93,18 @@
                             </button>
                     </div>
                     <input type="hidden" name="etcl_type" value="{{$type}}">
-                    @if(!$type == 'family_planning')
+                    @if($type == 'family_planning')
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="year"><b class="text-danger">*</b>Year</label>
+                            <select class="form-control" name="year" id="year" required>
+                            @foreach(range(date('Y'), 2026) as $y)
+                            <option value="{{$y}}">{{$y}}</option>
+                            @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    @else
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6">
@@ -109,7 +120,10 @@
                                 </div>
                             </div>
                         </div>
-                        @if(auth()->user()->isMasterAdminEtcl())
+                        @php
+                        $filter = false;
+                        @endphp
+                        @if(auth()->user()->isMasterAdminEtcl() && $filter)
                         <div class="form-group">
                           <label for="filter_type"><b class="text-danger">*</b>Filter Type</label>
                           <select class="form-control" name="filter_type" id="filter_type" required>
@@ -144,17 +158,6 @@
                             </div>
                         </div>
                         @endif
-                    </div>
-                    @else
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="year"><b class="text-danger">*</b>Year</label>
-                            <select class="form-control" name="year" id="year" required>
-                            @foreach(range(date('Y'), 2026) as $y)
-                            <option value="{{$y}}">{{$y}}</option>
-                            @endforeach
-                            </select>
-                        </div>
                     </div>
                     @endif
                     <div class="modal-footer">

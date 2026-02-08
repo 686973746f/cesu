@@ -39,12 +39,16 @@ class InhouseFpVisit extends Model
 
     public function ifEligibleForUpdate() {
         //Check if visit_date_estimated is 1 week before the current date
+        /*
         if(Carbon::parse($this->visit_date_estimated)->subDays(7)->lte(Carbon::now())) {
             return true;
         }
         else {
             return false;
         }
+        */
+
+        return true;
     }
 
     public function getClientType() {
