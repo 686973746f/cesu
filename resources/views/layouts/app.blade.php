@@ -81,6 +81,12 @@ else {
                             <a class="nav-link {{(Str::contains(request()->url(), 'main_menu')) ? 'active text-warning' : ''}}" href="{{route('home')}}"><b>MAIN MENU</b></a>
                         </li>
 
+                        @if(Str::contains(request()->url(), 'fhsis') || Str::contains(request()->url(), 'etcl'))
+                        <li class="nav-item">
+                            <a class="nav-link {{(Str::contains(request()->url(), 'fhsis')) ? 'active text-warning' : ''}}" href="{{route('fhsis_home')}}"><b>FHSIS Home</b></a>
+                        </li>
+                        @endif
+
                         @if(Str::contains(request()->url(), 'covid'))
                         <li class="nav-item">
                             <a class="nav-link {{(Str::contains(request()->url(), 'records')) ? 'active text-warning' : ''}}" href="{{route('records.index')}}"><b>Patients</b></a>

@@ -27,7 +27,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="registration_date"><b class="text-danger">*</b>Date of Registration</label>
-                            <input type="date" class="form-control" name="registration_date" id="registration_date" value="{{old('registration_date', $d->registration_date)}}" max="{{date('Y-m-d')}}" {{($mode == 'EDIT') ? 'disabled' : 'required'}}>
+                            <input type="date" class="form-control" name="registration_date" id="registration_date" value="{{old('registration_date', $d->registration_date)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->registration_date)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}" {{($mode == 'EDIT') ? 'disabled' : 'required'}}>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -1012,6 +1012,7 @@
             }
         });
 
+        /*
         $(document).ready(function () {
             const dates = ['#visit1', '#visit2', '#visit3', '#visit4', '#visit5', '#visit6', '#visit7', '#visit8'];
 
@@ -1039,6 +1040,7 @@
             // Run on change of any date field
             $('input[type="date"]').on('change', updateRequired);
         });
+        */
 
         $('#visit1').on('change', function () {
             $('#visit1_type').prop('required', !!$(this).val());

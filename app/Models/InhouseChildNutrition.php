@@ -49,6 +49,7 @@ class InhouseChildNutrition extends Model
 
         'request_uuid',
 
+        'bdate_fixed',
         'age_years',
         'age_months',
         'age_days',
@@ -62,5 +63,19 @@ class InhouseChildNutrition extends Model
 
     public function facility() {
         return $this->belongsTo(DohFacility::class, 'facility_id');
+    }
+
+    public function allowedToEdit() {
+        if(auth()->user()->isMasterAdminEtcl()) {
+            return true;
+        }
+        else {
+            if(auth()->user()->etcl_bhs_id == $this->facility_id) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
     }
 }

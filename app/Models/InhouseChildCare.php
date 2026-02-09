@@ -82,6 +82,7 @@ class InhouseChildCare extends Model
         'updated_by',
         'request_uuid',
 
+        'bdate_fixed',
         'age_years',
         'age_months',
         'age_days',
@@ -131,5 +132,19 @@ class InhouseChildCare extends Model
             null => 'FFFFFFFF', // white
             default => 'FFFFFFFF', // white
         };
+    }
+
+    public function allowedToEdit() {
+        if(auth()->user()->isMasterAdminEtcl()) {
+            return true;
+        }
+        else {
+            if(auth()->user()->etcl_bhs_id == $this->facility_id) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
     }
 }

@@ -1115,25 +1115,28 @@ Route::middleware(['auth','verified', 'canAccessElectronicTcl'])->group(function
     Route::post('/etcl/generate_m1', [ElectronicTclController::class, 'generateM1'])->name('etcl_generatem1');
     Route::post('/etcl/generate_tcl', [ElectronicTclController::class, 'generateTcl'])->name('etcl_generatetcl');
 
-    Route::get('/maternal_care/new/{patient_id}', [ElectronicTclController::class, 'newMaternalCare'])->name('etcl_maternal_new');
-    Route::post('/maternal_care/new/{patient_id}/store', [ElectronicTclController::class, 'storeMaternalCare'])->name('etcl_maternal_store');
-    Route::get('/maternal_care/view/{id}', [ElectronicTclController::class, 'editMaternalCare'])->name('etcl_maternal_view');
-    Route::post('/maternal_care/view/{id}/update', [ElectronicTclController::class, 'updateMaternalCare'])->name('etcl_maternal_update');
+    Route::get('/etcl/maternal_care/new/{patient_id}', [ElectronicTclController::class, 'newMaternalCare'])->name('etcl_maternal_new');
+    Route::post('/etcl/maternal_care/new/{patient_id}/store', [ElectronicTclController::class, 'storeMaternalCare'])->name('etcl_maternal_store');
+    Route::get('/etcl/maternal_care/view/{id}', [ElectronicTclController::class, 'editMaternalCare'])->name('etcl_maternal_view');
+    Route::post('/etcl/maternal_care/view/{id}/update', [ElectronicTclController::class, 'updateMaternalCare'])->name('etcl_maternal_update');
 
-    Route::get('/child_care/new/{patient_id}', [ElectronicTclController::class, 'newChildCare'])->name('etcl_childcare_new');
-    Route::post('/child_care/new/{patient_id}/store', [ElectronicTclController::class, 'storeChildCare'])->name('etcl_childcare_store');
-    Route::get('/child_care/view/{id}', [ElectronicTclController::class, 'editChildCare'])->name('etcl_childcare_view');
-    Route::post('/child_care/view/{id}/update', [ElectronicTclController::class, 'updateChildCare'])->name('etcl_childcare_update');
+    Route::get('/etcl/child_care/new/{patient_id}', [ElectronicTclController::class, 'newChildCare'])->name('etcl_childcare_new');
+    Route::post('/etcl/child_care/new/{patient_id}/store', [ElectronicTclController::class, 'storeChildCare'])->name('etcl_childcare_store');
+    Route::get('/etcl/child_care/view/{id}', [ElectronicTclController::class, 'editChildCare'])->name('etcl_childcare_view');
+    Route::post('/etcl/child_care/view/{id}/update', [ElectronicTclController::class, 'updateChildCare'])->name('etcl_childcare_update');
 
-    Route::get('/child_nutrition/new/{patient_id}', [ElectronicTclController::class, 'newChildNutrition'])->name('etcl_childnutrition_new');
-    Route::post('/child_nutrition/new/{patient_id}/store', [ElectronicTclController::class, 'storeChildNutrition'])->name('etcl_childnutrition_store');
-    Route::get('/child_nutrition/view/{id}', [ElectronicTclController::class, 'editChildNutrition'])->name('etcl_childnutrition_view');
-    Route::post('/child_nutrition/view/{id}/update', [ElectronicTclController::class, 'updateChildNutrition'])->name('etcl_childnutrition_update');
+    Route::get('/etcl/child_nutrition/new/{patient_id}', [ElectronicTclController::class, 'newChildNutrition'])->name('etcl_childnutrition_new');
+    Route::post('/etcl/child_nutrition/new/{patient_id}/store', [ElectronicTclController::class, 'storeChildNutrition'])->name('etcl_childnutrition_store');
+    Route::get('/etcl/child_nutrition/view/{id}', [ElectronicTclController::class, 'editChildNutrition'])->name('etcl_childnutrition_view');
+    Route::post('/etcl/child_nutrition/view/{id}/update', [ElectronicTclController::class, 'updateChildNutrition'])->name('etcl_childnutrition_update');
 
-    Route::get('/family_planning/new/{patient_id}', [ElectronicTclController::class, 'newFamilyPlanning'])->name('etcl_familyplanning_new');
-    Route::post('/family_planning/new/{patient_id}/store', [ElectronicTclController::class, 'storeFamilyPlanning'])->name('etcl_familyplanning_store');
-    Route::get('/family_planning/view/{id}', [ElectronicTclController::class, 'editFamilyPlanning'])->name('etcl_familyplanning_view');
-    Route::post('/family_planning/view/{id}/update', [ElectronicTclController::class, 'updateFamilyPlanning'])->name('etcl_familyplanning_update');
+    Route::get('/etcl/family_planning/new/{patient_id}', [ElectronicTclController::class, 'newFamilyPlanning'])->name('etcl_familyplanning_new');
+    Route::post('/etcl/family_planning/new/{patient_id}/store', [ElectronicTclController::class, 'storeFamilyPlanning'])->name('etcl_familyplanning_store');
+    Route::get('/etcl/family_planning/view/{id}', [ElectronicTclController::class, 'editFamilyPlanning'])->name('etcl_familyplanning_view');
+    Route::post('/etcl/family_planning/view/{id}/update', [ElectronicTclController::class, 'updateFamilyPlanning'])->name('etcl_familyplanning_update');
+
+    Route::post('/etcl/family_planning/view/{id}/first_visit', [ElectronicTclController::class, 'initializeFamilyPlanning'])->name('etcl_familyplanning_first_visit');
+    Route::post('/etcl/family_planning/view/{id}/process_next_visit', [ElectronicTclController::class, 'updateFamilyPlanningVisit'])->name('etcl_familyplanning_process_next_visit');
 });
 
 

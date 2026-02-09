@@ -9,14 +9,14 @@
                         <div><b>{{ $type }}</b></div>
                         <div><b>Facility:</b> {{auth()->user()->etclBhs->facility_name}}
                         
-                        @if(!empty(auth()->user()->getBhsSwitchList()))
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modelId">Switch BHS</button>
+                        @if(!empty(auth()->user()->getBhsSwitchList()) || auth()->user()->isMasterAdminEtcl())
+                        <button type="button" class="btn btn-primary ml-2" data-toggle="modal" data-target="#switchBhs"><i class="fa fa-exchange-alt mr-2" aria-hidden="true"></i> Switch BHS</button>
                         @endif
                         </div>
                     </div>
                     <div>
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#newPatientModal">New/Search Patient</button>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#printTcl">Print TCL</button>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#newPatientModal"><i class="fa fa-user mr-2" aria-hidden="true"></i> New/Search Patient</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#printTcl"><i class="fa fa-print mr-2" aria-hidden="true"></i> Print TCL</button>
                     </div>
                 </div>
                 
@@ -32,7 +32,7 @@
                     </div>
                 @endif
 
-                <button type="button" class="btn btn-secondary mb-3" data-toggle="modal" data-target="#filterModal">Filter</button>
+                <button type="button" class="btn btn-secondary mb-3" data-toggle="modal" data-target="#filterModal"><i class="fa fa-search mr-2" aria-hidden="true"></i> Filter</button>
 
                 <form action="{{ url()->current() }}" method="GET">
                     @foreach(request()->query() as $key => $value)
@@ -51,7 +51,7 @@
                                 <div class="modal-body">
                                     <div class="form-group">
                                       <label for="year"><b class="text-warning">*</b>Select Year</label>
-                                      <input type="number" class="form-control" name="year" id="year" min="2024" max="{{date('Y')}}" value="{{date('Y')}}" required>
+                                      <input type="number" class="form-control" name="year" id="year" min="2024" max="{{date('Y')}}" value="{{date('Y')}}" autocomplete="off" required>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -92,6 +92,19 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                     </div>
+                    <input type="hidden" name="etcl_type" value="{{$type}}">
+                    @if($type == 'family_planning')
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="year"><b class="text-danger">*</b>Year</label>
+                            <select class="form-control" name="year" id="year" required>
+                            @foreach(range(date('Y'), 2026) as $y)
+                            <option value="{{$y}}">{{$y}}</option>
+                            @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    @else
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6">
@@ -107,8 +120,10 @@
                                 </div>
                             </div>
                         </div>
-                        <input type="hidden" name="etcl_type" value="{{$type}}">
-                        @if(auth()->user()->isMasterAdminEtcl())
+                        @php
+                        $filter = false;
+                        @endphp
+                        @if(auth()->user()->isMasterAdminEtcl() && $filter)
                         <div class="form-group">
                           <label for="filter_type"><b class="text-danger">*</b>Filter Type</label>
                           <select class="form-control" name="filter_type" id="filter_type" required>
@@ -144,6 +159,7 @@
                         </div>
                         @endif
                     </div>
+                    @endif
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success btn-block">Generate TCL Excel File</button>
                     </div>
@@ -152,10 +168,10 @@
         </div>
     </form>
 
-    @if(!empty(auth()->user()->getBhsSwitchList()))
+    @if(!empty(auth()->user()->getBhsSwitchList()) || auth()->user()->isMasterAdminEtcl())
     <form action="{{ route('etcl_switchbhs') }}" method="POST">
         @csrf
-        <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal fade" id="switchBhs" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -169,11 +185,19 @@
                           <label for="switch_bhs_list"><b class="text-danger">*</b>Select BHS</label>
                           <select class="form-control" name="switch_bhs_list" id="switch_bhs_list" required>
                             <option value="" disabled selected>Choose...</option>
+                            @if(auth()->user()->isMasterAdminEtcl())
+                            @foreach(App\Models\DohFacility::where('id', '!=',auth()->user()->etcl_bhs_id)
+                            ->where('address_muncity', 'CITY OF GENERAL TRIAS')
+                            ->get() as $bhs)
+                            <option value="{{ $bhs->id }}">{{ $bhs->facility_name }}</option>
+                            @endforeach
+                            @else
                             @foreach(App\Models\DohFacility::where('id', '!=',auth()->user()->etcl_bhs_id)
                             ->whereIn('id', auth()->user()->getBhsSwitchList())
                             ->get() as $bhs)
                             <option value="{{ $bhs->id }}">{{ $bhs->facility_name }}</option>
                             @endforeach
+                            @endif
                           </select>
                         </div>
                         <input type="hidden" name="etcl_type" value="{{$type}}">
@@ -192,6 +216,7 @@
             $('#end_date').prop('min', $(this).val());
         });
 
+        @if(auth()->user()->isMasterAdminEtcl())
         $('#filter_type').change(function (e) { 
             e.preventDefault();
             $('#generate_bhs_div').addClass('d-none');
@@ -212,5 +237,6 @@
                 $('#selected_brgy_id').prop('required', true);
             }
         });
+        @endif
     </script>
 @endsection
