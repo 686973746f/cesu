@@ -469,7 +469,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function canAccessElectronicTcl() {
         $plist = $this->getPermissions();
 
-        if(in_array('GLOBAL_ADMIN', $plist) || in_array('ETCL_ADMIN', $plist) || in_array('ETCL_ENCODER', $plist)) {
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('ETCL_ADMIN', $plist) || in_array('ETCL_ENCODER', $plist) || in_array('ETCL_MASTER_ADMIN', $plist)) {
             return true;
         }
         else {
