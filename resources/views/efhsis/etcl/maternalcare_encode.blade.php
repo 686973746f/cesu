@@ -301,7 +301,7 @@
                         <div class="row justify-content-center">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="td1" class="font-weight-bold">Td1</label>
+                                    <label for="td1" class="font-weight-bold"><b class="text-danger d-none" id="td1_asterisk">*</b>Td1</label>
                                     <input type="date" class="form-control" name="td1" id="td1" value="{{old('td1', $d->td1)}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="form-group">
@@ -317,7 +317,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="td2" class="font-weight-bold">Td2</label>
+                                    <label for="td2" class="font-weight-bold"><b class="text-danger d-none" id="td2_asterisk">*</b>Td2</label>
                                     <input type="date" class="form-control" name="td2" id="td2" value="{{old('td2', $d->td2)}}" max="{{date('Y-m-d')}}">
                                 </div>
                                 <div class="form-group">
@@ -1043,6 +1043,22 @@
             $('input[type="date"]').on('change', updateRequired);
         });
         */
+
+        $('#gravida').change(function() {
+            $('#td1_asterisk').addClass('d-none');
+            $('#td2_asterisk').addClass('d-none');
+
+            $('#td1').prop('required', false);
+            $('#td2').prop('required', false);
+
+            if($(this).val() >= 2) {
+                $('#td1').prop('required', true);
+                $('#td2').prop('required', true);
+
+                $('#td1_asterisk').removeClass('d-none');
+                $('#td2_asterisk').removeClass('d-none');
+            }
+        }).trigger('change');
 
         $('#visit1').on('change', function () {
             $('#visit1_type').prop('required', !!$(this).val());

@@ -2345,16 +2345,15 @@ class ElectronicTclController extends Controller
         //CHILD CARE TCL
         $qry = (clone $cc_base_qry)
         ->whereYear('registration_date', $r->year)
-        ->whereMonth('registration_date', $r->month);
+        ->whereMonth('registration_date', $r->month)
+        ->whereIn('cpab', ['1', '2']);
 
         $sheet->setCellValue('B87', (clone $qry)
-        ->where('cpab', '1')
         ->whereHas('patient', function ($q) {
             $q->where('gender', 'MALE');
         })->count());
         
         $sheet->setCellValue('C87', (clone $qry)
-        ->where('cpab', '2')
         ->whereHas('patient', function ($q) {
             $q->where('gender', 'FEMALE');
         })->count());
