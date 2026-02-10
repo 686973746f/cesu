@@ -450,4 +450,8 @@ class SyndromicPatient extends Model
     public function familyplanning() {
         return $this->hasMany(InhouseFamilyPlanning::class, 'patient_id');
     }
+
+    public function death() {
+        return $this->hasOne(PatientDeath::class, 'patient_id');
+    }
 }
