@@ -28,7 +28,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="registration_date"><b class="text-danger">*</b>Date of Registration</label>
-                        <input type="date" class="form-control" name="registration_date" id="registration_date" value="{{old('registration_date', $d->registration_date)}}" max="{{date('Y-m-d')}}" {{($mode == 'EDIT') ? 'disabled' : 'required'}}>
+                        <input type="date" class="form-control" name="registration_date" id="registration_date" value="{{old('registration_date', $d->registration_date)}}" max="{{date('Y-m-d')}}" {{($mode == 'EDIT') ? (auth()->user()->isAdminEtcl() ? '' : 'disabled') : 'required'}}>
                     </div>
                 </div>
                 <div class="col-md-6">

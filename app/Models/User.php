@@ -477,6 +477,28 @@ class User extends Authenticatable implements MustVerifyEmail
         }
     }
 
+    public function isAdminEtcl() {
+        $plist = $this->getPermissions();
+
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('ETCL_ADMIN', $plist) || in_array('ETCL_MASTER_ADMIN', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function isMasterAdminEtcl() {
+        $plist = $this->getPermissions();
+
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('ETCL_MASTER_ADMIN', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     public function canAccessFhsisOrElectronicTcl() {
         $plist = $this->getPermissions();
 
@@ -826,16 +848,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     
 
-    public function isMasterAdminEtcl() {
-        $plist = $this->getPermissions();
-
-        if(in_array('GLOBAL_ADMIN', $plist) || in_array('ETCL_MASTER_ADMIN', $plist)) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
+    
 
     public function tclbhs() {
         return $this->belongsTo(DohFacility::class, 'etcl_bhs_id');

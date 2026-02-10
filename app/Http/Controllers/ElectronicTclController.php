@@ -408,7 +408,7 @@ class ElectronicTclController extends Controller
 
         $table_params = [
             'request_uuid' => $r->request_uuid,
-            //'registration_date' => $r->registration_date,
+            
             'highrisk' => $r->highrisk,
             'lmp' => $r->lmp,
             'gravida' => $r->gravida,
@@ -524,6 +524,12 @@ class ElectronicTclController extends Controller
             'age_months' => $get_agemonths,
             'age_days' => $get_agedays,
         ];
+
+        if(auth()->user()->isAdminEtcl()) {
+            $table_params = $table_params + [
+                'registration_date' => $r->registration_date,
+            ];
+        }
 
         if($r->highrisk == 'Y') {
             $table_params = $table_params + [
@@ -687,7 +693,6 @@ class ElectronicTclController extends Controller
         $table_params = [
             //'patient_id' => $d->id,
             //'facility_id' => auth()->user()->etcl_bhs_id,
-            //'registration_date' => $r->registration_date,
             'mother_type' => $r->mother_type,
 
             'bcg1' => $r->bcg1,
@@ -752,6 +757,12 @@ class ElectronicTclController extends Controller
             'age_months' => $get_agemonths,
             'age_days' => $get_agedays,
         ];
+
+        if(auth()->user()->isAdminEtcl()) {
+            $table_params = $table_params + [
+                'registration_date' => $r->registration_date,
+            ];
+        }
 
         if($r->mother_type == 'Y') {
             //Search Mother
@@ -1025,6 +1036,12 @@ class ElectronicTclController extends Controller
             'age_months' => $get_agemonths,
             'age_days' => $get_agedays,
         ];
+
+        if(auth()->user()->isAdminEtcl()) {
+            $table_params = $table_params + [
+                'registration_date' => $r->registration_date,
+            ];
+        }
 
         $d->update($table_params);
 
@@ -1373,6 +1390,12 @@ class ElectronicTclController extends Controller
             'age_months' => $get_agemonths,
             'age_days' => $get_agedays,
         ]);
+
+        if(auth()->user()->isAdminEtcl()) {
+            $d->update([
+                'registration_date' => $r->registration_date,
+            ]);
+        }
 
         return redirect()
         ->route('etcl_familyplanning_view', $d->id)
