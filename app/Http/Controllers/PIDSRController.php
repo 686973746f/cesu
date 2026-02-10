@@ -11187,7 +11187,7 @@ class PIDSRController extends Controller
                     $sheet->setCellValue('P'.$row, $d->brgy->city->alt_name ?: $d->brgy->city->name); //Permanent MunCity
                     $sheet->setCellValue('Q'.$row, $d->brgy->alt_name ?: $d->brgy->name); //Permanent Brgy
 
-                    $sheet->setCellValue('U'.$row, $d->edcs_healthFacilityCode); //Facility Code
+                    $sheet->setCellValue('U'.$row, $d->NameOfDru); //Facility Code (Facility Name)
                     $sheet->setCellValue('V'.$row, $dru_reg_code); //DRU Region Code
                     $sheet->setCellValue('W'.$row, $dru_pro_code); //DRU Province Code
                     $sheet->setCellValue('X'.$row, $dru_mun_code); //DRU MunCity Code
