@@ -3272,6 +3272,10 @@ class ElectronicTclController extends Controller
             }
         }
 
+        $protection = $sheet->getProtection();
+        //$protection->setPassword('1234'); // optional but recommended
+        $protection->setSheet(true);
+
         $fileName = "FHSIS_TCL_{$r->etcl_type}_".time().".xlsx";
         ob_clean();
         $writer = new Xlsx($spreadsheet);
