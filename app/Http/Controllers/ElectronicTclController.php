@@ -2799,6 +2799,10 @@ class ElectronicTclController extends Controller
             $q->where('gender', 'FEMALE');
         })->count());
 
+        $protection = $sheet->getProtection();
+        //$protection->setPassword('1234'); // optional but recommended
+        $protection->setSheet(true);
+
         $fileName = "FHSIS_M1_".$r->year."_".$r->month."_".time().".xlsx";
         ob_clean();
         $writer = new Xlsx($spreadsheet);
