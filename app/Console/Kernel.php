@@ -39,7 +39,7 @@ class Kernel extends ConsoleKernel
         //$schedule->command('ayudaemail:daily')->dailyAt('16:09')->evenInMaintenanceMode();
         
         //$schedule->command('autoemailcoviddatabase:daily')->dailyAt('16:15')->evenInMaintenanceMode();
-        $schedule->command('syndromicchecker:daily')->dailyAt('16:20')->evenInMaintenanceMode();
+        //$schedule->command('syndromicchecker:daily')->dailyAt('16:20')->evenInMaintenanceMode();
 
         $schedule->command('autosendencoderstats:daily')->dailyAt('16:40')->evenInMaintenanceMode();
         //$schedule->command('autoemailctreport:daily')->dailyAt('16:45')->evenInMaintenanceMode();
@@ -78,7 +78,7 @@ class Kernel extends ConsoleKernel
             return now()->format('m-d') === '01-01'; // Run on January 1st
         });
 
-        $schedule->command('edcscaseemailer:hourly')->everyFiveMinutes()->evenInMaintenanceMode();
+        $schedule->command('edcscaseemailer:hourly')->hourly()->evenInMaintenanceMode();
         $schedule->command('taskgenerator_checker')->everyMinute()->evenInMaintenanceMode();
         //$schedule->command('taskgenerator_creator')->dailyAt('00:00')->evenInMaintenanceMode();
 
