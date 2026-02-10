@@ -5315,18 +5315,30 @@ class PIDSRController extends Controller
                     ]);
                 }
 
-                //ALERT THRESHOLD
-                ${'alert_threshold_mw'.$i} = round($collect_nums->avg(), 0);
-                
+                //5 Year Average
+                ${'fiveyear_avg_mw'.$i} = round($collect_nums->avg(), 0);
+
                 $mean = $collect_nums->avg();
 
-                $squaredDifferences = $collect_nums->map(function ($item) use ($mean) {
-                    return pow($item - $mean, 2);
-                });
+                $variance = $collect_nums
+                    ->map(fn ($value) => pow($value - $mean, 2))
+                    ->avg();
+                ${'standard_deviation_mw'.$i} = round(sqrt($variance), 0);
 
-                $variance = $squaredDifferences->avg();
+                //ALERT THRESHOLD
+                //${'alert_threshold_mw'.$i} = round($collect_nums->avg(), 0);
+                ${'alert_threshold_mw'.$i} = ${'fiveyear_avg_mw'.$i} + 1 * ${'standard_deviation_mw'.$i};
+                
+                //$mean = $collect_nums->avg();
+                //$squaredDifferences = $collect_nums->map(function ($item) use ($mean) {
+                //    return pow($item - $mean, 2);
+                //});
 
-                ${'epidemic_threshold_mw'.$i} = round(${'alert_threshold_mw'.$i} + (2 * sqrt($variance)),0);
+                //$variance = $squaredDifferences->avg();
+
+                //${'epidemic_threshold_mw'.$i} = round(${'alert_threshold_mw'.$i} + (2 * sqrt($variance)),0);
+
+                ${'epidemic_threshold_mw'.$i} = ${'fiveyear_avg_mw'.$i} + 1.65 * (${'standard_deviation_mw'.$i});
             }
 
             //PUT THRESHOLDS INTO ARRAY
