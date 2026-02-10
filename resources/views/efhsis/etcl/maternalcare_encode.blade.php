@@ -71,13 +71,15 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for=""><b class="text-danger">*</b>Gravida</label>
-                                  <input type="number" class="form-control" name="gravida" id="gravida" value="{{old('gravida', $d->gravida)}}" required>
+                                    <input type="number" class="form-control" name="gravida" id="gravida" value="{{old('gravida', $d->gravida)}}" required>
+                                    <small class="text-muted">Total number of times a woman has been pregnant, regardless of the outcome.</small>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for=""><b class="text-danger">*</b>Parity</label>
                                   <input type="number" class="form-control" name="parity" id="parity" value="{{old('parity', $d->parity)}}" required>
+                                  <small class="text-muted">Number of pregnancies carried to a viable gestational age.</small>
                                 </div>
                             </div>
                         </div>
