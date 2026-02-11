@@ -145,7 +145,7 @@
                         </div>
                         <div class="form-group">
                             <label for="bcg2_type">Type</label>
-                            <select class="form-control" name="bcg2_type" id="bcg2_type">
+                            <select class="form-control" name="bcg2_type" id="bcg2_type" {{ ($age_in_days < 29) ? 'disabled' : '' }}>
                               <option value="" disabled {{old('bcg2_type', $d->bcg2_type) ? '' : 'selected'}}>Choose...</option>
                               <option value="YOUR BHS" {{old('bcg2_type', $d->bcg2_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
                               <option value="PUBLIC" {{old('bcg2_type', $d->bcg2_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
