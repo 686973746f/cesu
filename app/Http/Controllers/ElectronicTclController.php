@@ -813,6 +813,8 @@ class ElectronicTclController extends Controller
     }
 
     public function newChildNutrition($patient_id) {
+        return abort(403, 'Child Nutrition encoding is temporarily disabled.');
+        
         $d = SyndromicPatient::findOrFail($patient_id);
 
         if(is_null($d->mother_name)) {
