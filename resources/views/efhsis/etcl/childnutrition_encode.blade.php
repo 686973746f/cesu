@@ -2,7 +2,7 @@
 
 @section('content')
 @if($mode == 'EDIT')
-<form action="{{route('etcl_childnutrition_store', $d->id)}}" method="POST">
+<form action="{{route('etcl_childnutrition_update', $d->id)}}" method="POST">
 @else
 <form action="{{route('etcl_childnutrition_store', $patient->id)}}" method="POST">
 @endif
@@ -28,7 +28,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="registration_date"><b class="text-danger">*</b>Date of Registration</label>
-                        <input type="date" class="form-control" name="registration_date" id="registration_date" value="{{old('registration_date', $d->registration_date)}}" max="{{date('Y-m-d')}}" {{($mode == 'EDIT') ? (auth()->user()->isAdminEtcl() ? '' : 'disabled') : 'required'}}>
+                        <input type="date" class="form-control" name="registration_date" id="registration_date" value="{{old('registration_date', $d->registration_date)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->registration_date)->subYears(10)->format('Y-01-01') : date('Y-01-01', strtotime('-10 Years')) }}" max="{{date('Y-m-d')}}" {{($mode == 'EDIT') ? (auth()->user()->isAdminEtcl() ? '' : 'disabled') : 'required'}}>
                     </div>
                 </div>
                 <div class="col-md-6">
