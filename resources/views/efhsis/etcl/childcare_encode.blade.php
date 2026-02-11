@@ -3,8 +3,16 @@
 @section('content')
 @if($mode == 'EDIT')
 <form action="{{route('etcl_childcare_update', $d->id)}}" method="POST">
+    @php
+    $age_in_months = $d->patient->getAgeInMonths();
+    $age_in_days = $d->patient->getAgeInDays();
+    @endphp
 @else
 <form action="{{route('etcl_childcare_store', $patient->id)}}" method="POST">
+    @php
+    $age_in_months = $patient->getAgeInMonths();
+    $age_in_days = $patient->getAgeInDays();
+    @endphp
 @endif
 @csrf
 <input type="hidden" name="request_uuid" value="{{Str::uuid()}}">
@@ -39,9 +47,12 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label for=""><b class="text-danger">*</b>Name of Child / Age</label>
+                        <label for=""><b class="text-danger">*</b>Name of Child / Age</label>
+                        <div class="input-group mb-3">
                             <input type="text" class="form-control" value="{{ ($mode == 'EDIT') ? $d->patient->getName().' / '.$d->patient->getAge() : $patient->getName().' / '.$patient->getAge() }}" readonly>
+                            <div class="input-group-append">
+                              <a class="btn btn-outline-primary" href="{{ route('syndromic_viewPatient', [($mode == 'EDIT') ? $d->patient->id : $patient->id]) }}">View Patient Profile</a>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -91,9 +102,9 @@
                               <label for="cpab_manual"><b class="text-danger">*</b>Child Protected at Birth (CPAB) from neonatal tetanus</label>
                               <select class="form-control" name="cpab_manual" id="cpab_manual">
                                 <option value="" disabled {{old('cpab_manual', $d->cpab) ? '' : 'selected'}}>Choose...</option>
-                                <option value="0" {{old('cpab_manual', $d->cpab) == '0' ? 'selected' : ''}}>None</option>
-                                <option value="1" {{old('cpab_manual', $d->cpab) == '1' ? 'selected' : ''}}>Received at least 2 doses of Tetanus Toxoid (TT)-containing vaccine at least one month prior to delivery</option>
-                                <option value="2" {{old('cpab_manual', $d->cpab) == '2' ? 'selected' : ''}}>TT3/Td3 to TT5/Td5 (or TT1/Td1 to TT5/Td5) given to the mother anytime prior to delivery</option>
+                                <option value="0" {{old('cpab_manual', $d->cpab) === '0' ? 'selected' : ''}}>None</option>
+                                <option value="1" {{old('cpab_manual', $d->cpab) === '1' ? 'selected' : ''}}>Received at least 2 doses of Tetanus Toxoid (TT)-containing vaccine at least one month prior to delivery</option>
+                                <option value="2" {{old('cpab_manual', $d->cpab) === '2' ? 'selected' : ''}}>TT3/Td3 to TT5/Td5 (or TT1/Td1 to TT5/Td5) given to the mother anytime prior to delivery</option>
                               </select>
                             </div>
                             <div class="form-group">
@@ -114,7 +125,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                           <label for="bcg1">BCG (within 0-28 days)</label>
-                          <input type="date" class="form-control" name="bcg1" id="bcg1" value="{{old('bcg1', $d->bcg1)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->bcg1)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}"  max="{{date('Y-m-d')}}">
+                          <input type="date" class="form-control" name="bcg1" id="bcg1" value="{{old('bcg1', $d->bcg1)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->bcg1)->subYears(10)->format('Y-01-01') : date('Y-01-01', strtotime('-10 Years')) }}"  max="{{date('Y-m-d')}}" >
                         </div>
                         <div class="form-group">
                             <label for="bcg1_type">Type</label>
@@ -130,7 +141,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="bcg2">BCG (within 29 days to 1 year old)</label>
-                            <input type="date" class="form-control" name="bcg2" id="bcg2" value="{{old('bcg2', $d->bcg2)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->bcg2)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" name="bcg2" id="bcg2" value="{{old('bcg2', $d->bcg2)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->bcg2)->subYears(10)->format('Y-01-01') : date('Y-01-01', strtotime('-10 Years')) }}" max="{{date('Y-m-d')}}" {{ ($age_in_days < 29) ? 'disabled' : '' }}>
                         </div>
                         <div class="form-group">
                             <label for="bcg2_type">Type</label>
@@ -146,7 +157,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="hepab1">Hepa B within 24 hours after birth</label>
-                            <input type="date" class="form-control" name="hepab1" id="hepab1" value="{{old('hepab1', $d->hepab1)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->hepab1)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" name="hepab1" id="hepab1" value="{{old('hepab1', $d->hepab1)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->hepab1)->subYears(10)->format('Y-01-01') : date('Y-01-01', strtotime('-10 Years')) }}" max="{{date('Y-m-d')}}">
                         </div>
                         <div class="form-group">
                             <label for="hepab1_type">Type</label>
@@ -162,7 +173,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="hepab2">Hepa B more than 24 hours up to 14 days</label>
-                            <input type="date" class="form-control" name="hepab2" id="hepab2" value="{{old('hepab2', $d->hepab2)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->hepab2)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" name="hepab2" id="hepab2" value="{{old('hepab2', $d->hepab2)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->hepab2)->subYears(10)->format('Y-01-01') : date('Y-01-01', strtotime('-10 Years')) }}" max="{{date('Y-m-d')}}">
                         </div>
                         <div class="form-group">
                             <label for="hepab2_type">Type</label>
@@ -181,12 +192,12 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="dpt1">DPT-HiB-HepB 1st Dose</label>
-                            <input type="date" class="form-control" name="dpt1" id="dpt1" value="{{old('dpt1', $d->dpt1)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->dpt1)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" name="dpt1" id="dpt1" value="{{old('dpt1', $d->dpt1)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->dpt1)->subYears(10)->format('Y-01-01') : date('Y-01-01', strtotime('-10 Years')) }}" max="{{date('Y-m-d')}}" {{ ($age_in_months < 1) ? 'disabled' : '' }}>
                             <small class="text-muted">1 ½ mos</small>
                         </div>
                         <div class="form-group">
                             <label for="dpt1_type">Type</label>
-                            <select class="form-control" name="dpt1_type" id="dpt1_type">
+                            <select class="form-control" name="dpt1_type" id="dpt1_type" {{ ($age_in_months < 1) ? 'disabled' : '' }}>
                               <option value="" disabled {{old('dpt1_type', $d->dpt1_type) ? '' : 'selected'}}>Choose...</option>
                               <option value="YOUR BHS" {{old('dpt1_type', $d->dpt1_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
                               <option value="PUBLIC" {{old('dpt1_type', $d->dpt1_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -198,12 +209,12 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="dpt2">DPT-HiB-HepB 2nd Dose</label>
-                            <input type="date" class="form-control" name="dpt2" id="dpt2" value="{{old('dpt2', $d->dpt2)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->dpt2)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" name="dpt2" id="dpt2" value="{{old('dpt2', $d->dpt2)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->dpt2)->subYears(10)->format('Y-01-01') : date('Y-01-01', strtotime('-10 Years')) }}" max="{{date('Y-m-d')}}" {{ ($age_in_months < 2) ? 'disabled' : '' }}>
                             <small class="text-muted">2 ½ mos</small>
                         </div>
                         <div class="form-group">
                             <label for="dpt2_type">Type</label>
-                            <select class="form-control" name="dpt2_type" id="dpt2_type">
+                            <select class="form-control" name="dpt2_type" id="dpt2_type" {{ ($age_in_months < 2) ? 'disabled' : '' }}>
                               <option value="" disabled {{old('dpt2_type', $d->dpt2_type) ? '' : 'selected'}}>Choose...</option>
                               <option value="YOUR BHS" {{old('dpt2_type', $d->dpt2_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
                               <option value="PUBLIC" {{old('dpt2_type', $d->dpt2_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -215,12 +226,12 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="dpt3">DPT-HiB-HepB 3rd Dose</label>
-                            <input type="date" class="form-control" name="dpt3" id="dpt3" value="{{old('dpt3', $d->dpt3)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->dpt3)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" name="dpt3" id="dpt3" value="{{old('dpt3', $d->dpt3)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->dpt3)->subYears(10)->format('Y-01-01') : date('Y-01-01', strtotime('-10 Years')) }}" max="{{date('Y-m-d')}}" {{ ($age_in_months < 3) ? 'disabled' : '' }}>
                             <small class="text-muted">3 ½ mos</small>
                         </div>
                         <div class="form-group">
                             <label for="dpt3_type">Type</label>
-                            <select class="form-control" name="dpt3_type" id="dpt3_type">
+                            <select class="form-control" name="dpt3_type" id="dpt3_type" {{ ($age_in_months < 3) ? 'disabled' : '' }}>
                               <option value="" disabled {{old('dpt3_type', $d->dpt3_type) ? '' : 'selected'}}>Choose...</option>
                               <option value="YOUR BHS" {{old('dpt3_type', $d->dpt3_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
                               <option value="PUBLIC" {{old('dpt3_type', $d->dpt3_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -235,12 +246,12 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="opv1">OPV 1st Dose</label>
-                            <input type="date" class="form-control" name="opv1" id="opv1" value="{{old('opv1', $d->opv1)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->opv1)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" name="opv1" id="opv1" value="{{old('opv1', $d->opv1)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->opv1)->subYears(10)->format('Y-01-01') : date('Y-01-01', strtotime('-10 Years')) }}" max="{{date('Y-m-d')}}" {{ ($age_in_months < 1) ? 'disabled' : '' }}>
                             <small class="text-muted">1 ½ mos</small>
                         </div>
                         <div class="form-group">
                             <label for="opv1_type">Type</label>
-                            <select class="form-control" name="opv1_type" id="opv1_type">
+                            <select class="form-control" name="opv1_type" id="opv1_type" {{ ($age_in_months < 1) ? 'disabled' : '' }}>
                               <option value="" disabled {{old('opv1_type', $d->opv1_type) ? '' : 'selected'}}>Choose...</option>
                               <option value="YOUR BHS" {{old('opv1_type', $d->opv1_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
                               <option value="PUBLIC" {{old('opv1_type', $d->opv1_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -252,12 +263,12 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="opv2">OPV 2nd Dose</label>
-                            <input type="date" class="form-control" name="opv2" id="opv2" value="{{old('opv2', $d->opv2)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->opv2)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" name="opv2" id="opv2" value="{{old('opv2', $d->opv2)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->opv2)->subYears(10)->format('Y-01-01') : date('Y-01-01', strtotime('-10 Years')) }}" max="{{date('Y-m-d')}}" {{ ($age_in_months < 2) ? 'disabled' : '' }}>
                             <small class="text-muted">2 ½ mos</small>
                         </div>
                         <div class="form-group">
                             <label for="opv2_type">Type</label>
-                            <select class="form-control" name="opv2_type" id="opv2_type">
+                            <select class="form-control" name="opv2_type" id="opv2_type" {{ ($age_in_months < 2) ? 'disabled' : '' }}>
                               <option value="" disabled {{old('opv2_type', $d->opv2_type) ? '' : 'selected'}}>Choose...</option>
                               <option value="YOUR BHS" {{old('opv2_type', $d->opv2_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
                               <option value="PUBLIC" {{old('opv2_type', $d->opv2_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -269,12 +280,12 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="opv3">OPV 3rd Dose</label>
-                            <input type="date" class="form-control" name="opv3" id="opv3" value="{{old('opv3', $d->opv3)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->opv3)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" name="opv3" id="opv3" value="{{old('opv3', $d->opv3)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->opv3)->subYears(10)->format('Y-01-01') : date('Y-01-01', strtotime('-10 Years')) }}" max="{{date('Y-m-d')}}" {{ ($age_in_months < 3) ? 'disabled' : '' }}>
                             <small class="text-muted">3 ½ mos</small>
                         </div>
                         <div class="form-group">
                             <label for="opv3_type">Type</label>
-                            <select class="form-control" name="opv3_type" id="opv3_type">
+                            <select class="form-control" name="opv3_type" id="opv3_type" {{ ($age_in_months < 3) ? 'disabled' : '' }}>
                               <option value="" disabled {{old('opv3_type', $d->opv3_type) ? '' : 'selected'}}>Choose...</option>
                               <option value="YOUR BHS" {{old('opv3_type', $d->opv3_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
                               <option value="PUBLIC" {{old('opv3_type', $d->opv3_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -289,12 +300,12 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="pcv1">PCV 1st Dose</label>
-                            <input type="date" class="form-control" name="pcv1" id="pcv1" value="{{old('pcv1', $d->pcv1)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->pcv1)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" name="pcv1" id="pcv1" value="{{old('pcv1', $d->pcv1)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->pcv1)->subYears(10)->format('Y-01-01') : date('Y-01-01', strtotime('-10 Years')) }}" max="{{date('Y-m-d')}}" {{ ($age_in_months < 1) ? 'disabled' : '' }}>
                             <small class="text-muted">1 ½ mos</small>
                         </div>
                         <div class="form-group">
                             <label for="pcv1_type">Type</label>
-                            <select class="form-control" name="pcv1_type" id="pcv1_type">
+                            <select class="form-control" name="pcv1_type" id="pcv1_type" {{ ($age_in_months < 1) ? 'disabled' : '' }}>
                               <option value="" disabled {{old('pcv1_type', $d->pcv1_type) ? '' : 'selected'}}>Choose...</option>
                               <option value="YOUR BHS" {{old('pcv1_type', $d->pcv1_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
                               <option value="PUBLIC" {{old('pcv1_type', $d->pcv1_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -306,12 +317,12 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="pcv2">PCV 2nd Dose</label>
-                            <input type="date" class="form-control" name="pcv2" id="pcv2" value="{{old('pcv2', $d->pcv2)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->pcv2)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" name="pcv2" id="pcv2" value="{{old('pcv2', $d->pcv2)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->pcv2)->subYears(10)->format('Y-01-01') : date('Y-01-01', strtotime('-10 Years')) }}" max="{{date('Y-m-d')}}" {{ ($age_in_months < 2) ? 'disabled' : '' }}>
                             <small class="text-muted">2 ½ mos</small>
                         </div>
                         <div class="form-group">
                             <label for="pcv2_type">Type</label>
-                            <select class="form-control" name="pcv2_type" id="pcv2_type">
+                            <select class="form-control" name="pcv2_type" id="pcv2_type" {{ ($age_in_months < 2) ? 'disabled' : '' }}>
                               <option value="" disabled {{old('pcv2_type', $d->pcv2_type) ? '' : 'selected'}}>Choose...</option>
                               <option value="YOUR BHS" {{old('pcv2_type', $d->pcv2_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
                               <option value="PUBLIC" {{old('pcv2_type', $d->pcv2_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -323,12 +334,12 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="pcv3">PCV 3rd Dose</label>
-                            <input type="date" class="form-control" name="pcv3" id="pcv3" value="{{old('pcv3', $d->pcv3)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->pcv3)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" name="pcv3" id="pcv3" value="{{old('pcv3', $d->pcv3)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->pcv3)->subYears(10)->format('Y-01-01') : date('Y-01-01', strtotime('-10 Years')) }}" max="{{date('Y-m-d')}}" {{ ($age_in_months < 3) ? 'disabled' : '' }}>
                             <small class="text-muted">3 ½ mos</small>
                         </div>
                         <div class="form-group">
                             <label for="pcv3_type">Type</label>
-                            <select class="form-control" name="pcv3_type" id="pcv3_type">
+                            <select class="form-control" name="pcv3_type" id="pcv3_type" {{ ($age_in_months < 3) ? 'disabled' : '' }}>
                               <option value="" disabled {{old('pcv3_type', $d->pcv3_type) ? '' : 'selected'}}>Choose...</option>
                               <option value="YOUR BHS" {{old('pcv3_type', $d->pcv3_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
                               <option value="PUBLIC" {{old('pcv3_type', $d->pcv3_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -343,12 +354,12 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="ipv1">IPV 1st Dose</label>
-                            <input type="date" class="form-control" name="ipv1" id="ipv1" value="{{old('ipv1', $d->ipv1)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->ipv1)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" name="ipv1" id="ipv1" value="{{old('ipv1', $d->ipv1)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->ipv1)->subYears(10)->format('Y-01-01') : date('Y-01-01', strtotime('-10 Years')) }}" max="{{date('Y-m-d')}}" {{ ($age_in_months < 3) ? 'disabled' : '' }}>
                             <small class="text-muted">3 ½ mos</small>
                         </div>
                         <div class="form-group">
                             <label for="ipv1_type">Type</label>
-                            <select class="form-control" name="ipv1_type" id="ipv1_type">
+                            <select class="form-control" name="ipv1_type" id="ipv1_type" {{ ($age_in_months < 3) ? 'disabled' : '' }}>
                               <option value="" disabled {{old('ipv1_type', $d->ipv1_type) ? '' : 'selected'}}>Choose...</option>
                               <option value="YOUR BHS" {{old('ipv1_type', $d->ipv1_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
                               <option value="PUBLIC" {{old('ipv1_type', $d->ipv1_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -360,12 +371,12 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="ipv2">IPV 2nd Dose</label>
-                            <input type="date" class="form-control" name="ipv2" id="ipv2" value="{{old('ipv2', $d->ipv2)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->ipv2)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" name="ipv2" id="ipv2" value="{{old('ipv2', $d->ipv2)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->ipv2)->subYears(10)->format('Y-01-01') : date('Y-01-01', strtotime('-10 Years')) }}" max="{{date('Y-m-d')}}" {{ ($age_in_months < 9) ? 'disabled' : '' }}>
                             <small class="text-muted">9 mos</small>
                         </div>
                         <div class="form-group">
                             <label for="ipv2_type">Type</label>
-                            <select class="form-control" name="ipv2_type" id="ipv2_type">
+                            <select class="form-control" name="ipv2_type" id="ipv2_type" {{ ($age_in_months < 9) ? 'disabled' : '' }}>
                               <option value="" disabled {{old('ipv2_type', $d->ipv2_type) ? '' : 'selected'}}>Choose...</option>
                               <option value="YOUR BHS" {{old('ipv2_type', $d->ipv2_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
                               <option value="PUBLIC" {{old('ipv2_type', $d->ipv2_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -380,12 +391,12 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="mmr1">MMR 1st Dose</label>
-                            <input type="date" class="form-control" name="mmr1" id="mmr1" value="{{old('mmr1', $d->mmr1)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->mmr1)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}">
-                            <small class="text-muted">9  mos</small>
+                            <input type="date" class="form-control" name="mmr1" id="mmr1" value="{{old('mmr1', $d->mmr1)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->mmr1)->subYears(10)->format('Y-01-01') : date('Y-01-01', strtotime('-10 Years')) }}" max="{{date('Y-m-d')}}" {{ ($age_in_months < 9) ? 'disabled' : '' }}>
+                            <small class="text-muted">9 mos</small>
                         </div>
                         <div class="form-group">
                             <label for="mmr1_type">Type</label>
-                            <select class="form-control" name="mmr1_type" id="mmr1_type">
+                            <select class="form-control" name="mmr1_type" id="mmr1_type" {{ ($age_in_months < 9) ? 'disabled' : '' }}>
                               <option value="" disabled {{old('mmr1_type', $d->mmr1_type) ? '' : 'selected'}}>Choose...</option>
                               <option value="YOUR BHS" {{old('mmr1_type', $d->mmr1_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
                               <option value="PUBLIC" {{old('mmr1_type', $d->mmr1_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
@@ -397,12 +408,12 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="mmr2">MMR 2nd Dose</label>
-                            <input type="date" class="form-control" name="mmr2" id="mmr2" value="{{old('mmr2', $d->mmr2)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->mmr2)->subYears(2)->format('Y-01-01') : date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}">
+                            <input type="date" class="form-control" name="mmr2" id="mmr2" value="{{old('mmr2', $d->mmr2)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->mmr2)->subYears(10)->format('Y-01-01') : date('Y-01-01', strtotime('-10 Years')) }}" max="{{date('Y-m-d')}}" {{ ($age_in_months < 12) ? 'disabled' : '' }}>
                             <small class="text-muted">12 mos</small>
                         </div>
                         <div class="form-group">
                             <label for="mmr2_type">Type</label>
-                            <select class="form-control" name="mmr2_type" id="mmr2_type">
+                            <select class="form-control" name="mmr2_type" id="mmr2_type" {{ ($age_in_months < 12) ? 'disabled' : '' }}>
                               <option value="" disabled {{old('mmr2_type', $d->mmr2_type) ? '' : 'selected'}}>Choose...</option>
                               <option value="YOUR BHS" {{old('mmr2_type', $d->mmr2_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
                               <option value="PUBLIC" {{old('mmr2_type', $d->mmr2_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>

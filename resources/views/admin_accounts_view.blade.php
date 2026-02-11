@@ -16,8 +16,8 @@
                         <div class="form-group">
                           <label for="enabled"><b class="text-danger">*</b>Account Enabled</label>
                           <select class="form-control" name="enabled" id="enabled" required>
-                            <option value="0" {{(old('enabled', $d->enabled) == '0' ? 'selected' : '')}}>No</option>
-                            <option value="1" {{(old('enabled', $d->enabled) == '1' ? 'selected' : '')}}>Yes</option>
+                            <option value="0" {{(old('enabled', $d->enabled) === '0' ? 'selected' : '')}}>No</option>
+                            <option value="1" {{(old('enabled', $d->enabled) === '1' ? 'selected' : '')}}>Yes</option>
                           </select>
                         </div>
                     </div>
@@ -25,8 +25,8 @@
                         <div class="form-group">
                             <label for="encoder_stats_visible"><b class="text-danger">*</b>Included in Encoder Stats</label>
                             <select class="form-control" name="encoder_stats_visible" id="encoder_stats_visible" required>
-                              <option value="0" {{(old('encoder_stats_visible', $d->encoder_stats_visible) == '0' ? 'selected' : '')}}>No</option>
-                              <option value="1" {{(old('encoder_stats_visible', $d->encoder_stats_visible) == '1' ? 'selected' : '')}}>Yes</option>
+                              <option value="0" {{(old('encoder_stats_visible', $d->encoder_stats_visible) === '0' ? 'selected' : '')}}>No</option>
+                              <option value="1" {{(old('encoder_stats_visible', $d->encoder_stats_visible) === '1' ? 'selected' : '')}}>Yes</option>
                             </select>
                         </div>
                     </div>

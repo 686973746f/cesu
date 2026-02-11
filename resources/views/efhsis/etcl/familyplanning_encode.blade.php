@@ -39,9 +39,12 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="form-group">
-                            <label for=""><b class="text-danger">*</b>Name of Child / Age</label>
-                            <input type="text" class="form-control" value="{{ ($mode == 'EDIT') ? $d->patient->getName().' / '.$d->patient->getAge() : $patient->getName().' / '.$patient->getAge() }}" readonly>
+                        <label for=""><b class="text-danger">*</b>Full Name / Age</label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" value="{{ ($mode == 'EDIT') ? $d->patient->getName() : $patient->getName() }} ({{ ($mode == 'EDIT') ? $d->patient->getAge() : $patient->getAge() }} {{Str::plural('year', ($mode == 'EDIT') ? $d->patient->getAge() : $patient->getAge())}} old)" readonly>
+                            <div class="input-group-append">
+                              <a class="btn btn-outline-primary" href="{{ route('syndromic_viewPatient', [($mode == 'EDIT') ? $d->patient->id : $patient->id]) }}">View Patient Profile</a>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-4">

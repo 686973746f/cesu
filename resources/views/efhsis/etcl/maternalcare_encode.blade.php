@@ -37,9 +37,12 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label for=""><b class="text-danger">*</b>Full Name / Age</label>
+                        <label for=""><b class="text-danger">*</b>Full Name / Age</label>
+                        <div class="input-group mb-3">
                             <input type="text" class="form-control" value="{{ ($mode == 'EDIT') ? $d->patient->getName() : $patient->getName() }} ({{ ($mode == 'EDIT') ? $d->patient->getAge() : $patient->getAge() }} {{Str::plural('year', ($mode == 'EDIT') ? $d->patient->getAge() : $patient->getAge())}} old)" readonly>
+                            <div class="input-group-append">
+                              <a class="btn btn-outline-primary" href="{{ route('syndromic_viewPatient', [($mode == 'EDIT') ? $d->patient->id : $patient->id]) }}">View Patient Profile</a>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -737,8 +740,8 @@
                                     <label for="">Result</label>
                                     <select class="form-control" name="syphilis_result" id="syphilis_result">
                                       <option value="" disabled {{old('syphilis_result', $d->syphilis_result) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="1" {{old('syphilis_result', $d->syphilis_result) == '1' ? 'selected' : ''}}>Positive</option>
-                                      <option value="0" {{old('syphilis_result', $d->syphilis_result) == '0' ? 'selected' : ''}}>Negative</option>
+                                      <option value="1" {{old('syphilis_result', $d->syphilis_result) === '1' ? 'selected' : ''}}>Positive</option>
+                                      <option value="0" {{old('syphilis_result', $d->syphilis_result) === '0' ? 'selected' : ''}}>Negative</option>
                                     </select>
                                 </div>
                             </div>
@@ -751,8 +754,8 @@
                                     <label for="">Result</label>
                                     <select class="form-control" name="hiv_result" id="hiv_result">
                                       <option value="" disabled {{old('hiv_result', $d->hiv_result) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="1" {{old('hiv_result', $d->hiv_result) == '1' ? 'selected' : ''}}>Reactive</option>
-                                      <option value="0" {{old('hiv_result', $d->hiv_result) == '0' ? 'selected' : ''}}>Negative</option>
+                                      <option value="1" {{old('hiv_result', $d->hiv_result) === '1' ? 'selected' : ''}}>Reactive</option>
+                                      <option value="0" {{old('hiv_result', $d->hiv_result) === '0' ? 'selected' : ''}}>Negative</option>
                                     </select>
                                 </div>
                             </div>
@@ -765,8 +768,8 @@
                                     <label for="">Result</label>
                                     <select class="form-control" name="hb_result" id="hb_result">
                                       <option value="" disabled {{old('hb_result', $d->hb_result) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="1" {{old('hb_result', $d->hb_result) == '1' ? 'selected' : ''}}>Reactive</option>
-                                      <option value="0" {{old('hb_result', $d->hb_result) == '0' ? 'selected' : ''}}>Negative</option>
+                                      <option value="1" {{old('hb_result', $d->hb_result) === '1' ? 'selected' : ''}}>Reactive</option>
+                                      <option value="0" {{old('hb_result', $d->hb_result) === '0' ? 'selected' : ''}}>Negative</option>
                                     </select>
                                 </div>
                             </div>
@@ -779,8 +782,8 @@
                                     <label for="">Result</label>
                                     <select class="form-control" name="cbc_result" id="cbc_result">
                                       <option value="" disabled {{old('cbc_result', $d->cbc_result) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="1" {{old('cbc_result', $d->cbc_result) == '1' ? 'selected' : ''}}>With Anemia</option>
-                                      <option value="0" {{old('cbc_result', $d->cbc_result) == '0' ? 'selected' : ''}}>W/out Anemia</option>
+                                      <option value="1" {{old('cbc_result', $d->cbc_result) === '1' ? 'selected' : ''}}>With Anemia</option>
+                                      <option value="0" {{old('cbc_result', $d->cbc_result) === '0' ? 'selected' : ''}}>W/out Anemia</option>
                                     </select>
                                 </div>
                             </div>
@@ -793,8 +796,8 @@
                                     <label for="">Result</label>
                                     <select class="form-control" name="diabetes_result" id="diabetes_result">
                                       <option value="" disabled {{old('diabetes_result', $d->diabetes_result) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="1" {{old('diabetes_result', $d->diabetes_result) == '1' ? 'selected' : ''}}>Positive</option>
-                                      <option value="0" {{old('diabetes_result', $d->diabetes_result) == '0' ? 'selected' : ''}}>Negative</option>
+                                      <option value="1" {{old('diabetes_result', $d->diabetes_result) === '1' ? 'selected' : ''}}>Positive</option>
+                                      <option value="0" {{old('diabetes_result', $d->diabetes_result) === '0' ? 'selected' : ''}}>Negative</option>
                                     </select>
                                 </div>
                             </div>
@@ -848,8 +851,8 @@
                                 <label for=""><b class="text-danger">*</b>Non-Health Facility Type</label>
                                 <select class="form-control" name="nonhealth_type" id="nonhealth_type">
                                   <option value="" disabled {{old('nonhealth_type', $d->nonhealth_type) ? '' : 'selected'}}>Choose...</option>
-                                  <option value="1" {{old('nonhealth_type', $d->nonhealth_type) == '1' ? 'selected' : ''}}>Home</option>
-                                  <option value="2" {{old('nonhealth_type', $d->nonhealth_type) == '2' ? 'selected' : ''}}>Others (including emergency transport)</option>
+                                  <option value="1" {{old('nonhealth_type', $d->nonhealth_type) === '1' ? 'selected' : ''}}>Home</option>
+                                  <option value="2" {{old('nonhealth_type', $d->nonhealth_type) === '2' ? 'selected' : ''}}>Others (including emergency transport)</option>
                                 </select>
                             </div>
                         </div>

@@ -17,16 +17,43 @@ class InhouseChildNutrition extends Model
         'weight_atbirth',
         'weight_status',
         'breastfeeding',
+        
+        'nutrition2_date',
+        'length_atnutrition2',
+        'weight_atnutrition2',
+        'weight_status_atnutrition2',
+
         'lb_iron1',
         'lb_iron2',
         'lb_iron3',
+
+        'exclusive_breastfeeding1',
+        'exclusive_breastfeeding2',
+        'exclusive_breastfeeding3',
+
+        'nutrition3_date',
+        'length_atnutrition3',
+        'weight_atnutrition3',
+        'weight_status_atnutrition3',
+
+        'exclusive_breastfeeding_4',
+        'complementary_feeding',
+        'cf_type',
+
         'vita1',
         'vita2',
         'vita3',
+
         'mnp1',
         'mnp2',
+
         'lns1',
         'lns2',
+
+        'nutrition4_date',
+        'length_atnutrition4',
+        'weight_atnutrition4',
+        'weight_status_atnutrition4',
 
         'mam_identified',
         'enrolled_sfp',

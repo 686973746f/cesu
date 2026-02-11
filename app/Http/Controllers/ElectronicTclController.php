@@ -813,8 +813,6 @@ class ElectronicTclController extends Controller
     }
 
     public function newChildNutrition($patient_id) {
-        return abort(403, 'Child Nutrition encoding is temporarily disabled.');
-        
         $d = SyndromicPatient::findOrFail($patient_id);
 
         if(is_null($d->mother_name)) {
@@ -905,18 +903,7 @@ class ElectronicTclController extends Controller
             'lns2' => $r->lns2,
 
             'mam_identified' => $r->mam_identified,
-            'enrolled_sfp' => $r->enrolled_sfp,
-            'mam_cured' => $r->mam_cured,
-            'mam_noncured' => $r->mam_noncured,
-            'mam_defaulted' => $r->mam_defaulted,
-            'mam_died' => $r->mam_died,
-
             'sam_identified' => $r->sam_identified,
-            'sam_complication' => $r->sam_complication,
-            'sam_cured' => $r->sam_cured,
-            'sam_noncured' => $r->sam_noncured,
-            'sam_defaulted' => $r->sam_defaulted,
-            'sam_died' => $r->sam_died,
 
             'remarks' => $r->remarks,
             'system_remarks' => $r->system_remarks,
@@ -930,6 +917,61 @@ class ElectronicTclController extends Controller
             'age_months' => $get_agemonths,
             'age_days' => $get_agedays,
         ];
+
+        if($d->getAgeInMonths() >= 1) {
+            $table_params = $table_params + [
+                'nutrition2_date' => $r->nutrition2_date,
+                'length_atnutrition2' => $r->length_atnutrition2,
+                'weight_atnutrition2' => $r->weight_atnutrition2,
+                //'weight_status_atnutrition2',
+
+                'exclusive_breastfeeding1' => $r->exclusive_breastfeeding1,
+                'exclusive_breastfeeding2' => $r->exclusive_breastfeeding2,
+                'exclusive_breastfeeding3' => $r->exclusive_breastfeeding3,
+            ];
+        }
+
+        if($d->getAgeInMonths() >= 6) {
+            $table_params = $table_params + [
+                'nutrition3_date' => $r->nutrition3_date,
+                'length_atnutrition3' => $r->length_atnutrition3,
+                'weight_atnutrition3' => $r->weight_atnutrition3,
+                //'weight_status_atnutrition3',
+
+                'exclusive_breastfeeding_4' => $r->exclusive_breastfeeding_4,
+                'complementary_feeding' => $r->complementary_feeding,
+                'cf_type' => ($r->complementary_feeding == 'Y') ? $r->cf_type : null,
+            ];
+        }
+
+        if($d->getAgeInMonths() >= 12) {
+            $table_params = $table_params + [
+                'nutrition4_date' => $r->nutrition4_date,
+                'length_atnutrition4' => $r->length_atnutrition4,
+                'weight_atnutrition4' => $r->weight_atnutrition4,
+                //'weight_status_atnutrition4',
+            ];
+        }
+
+        if($r->mam_identified == '1') {
+            $table_params = $table_params + [
+                'enrolled_sfp' => $r->enrolled_sfp,
+                'mam_cured' => $r->mam_cured,
+                'mam_noncured' => $r->mam_noncured,
+                'mam_defaulted' => $r->mam_defaulted,
+                'mam_died' => $r->mam_died,
+            ];
+        }
+
+        if($r->sam_identified == '1' && $r->mam_died != 1) {
+            $table_params = $table_params + [
+                'sam_complication' => $r->sam_complication,
+                'sam_cured' => $r->sam_cured,
+                'sam_noncured' => $r->sam_noncured,
+                'sam_defaulted' => $r->sam_defaulted,
+                'sam_died' => $r->sam_died,
+            ];
+        }
 
         $c = InhouseChildNutrition::create($table_params);
 
@@ -1014,18 +1056,7 @@ class ElectronicTclController extends Controller
             'lns2' => $r->lns2,
 
             'mam_identified' => $r->mam_identified,
-            'enrolled_sfp' => $r->enrolled_sfp,
-            'mam_cured' => $r->mam_cured,
-            'mam_noncured' => $r->mam_noncured,
-            'mam_defaulted' => $r->mam_defaulted,
-            'mam_died' => $r->mam_died,
-
             'sam_identified' => $r->sam_identified,
-            'sam_complication' => $r->sam_complication,
-            'sam_cured' => $r->sam_cured,
-            'sam_noncured' => $r->sam_noncured,
-            'sam_defaulted' => $r->sam_defaulted,
-            'sam_died' => $r->sam_died,
 
             'remarks' => $r->remarks,
             'system_remarks' => $r->system_remarks,
@@ -1042,6 +1073,61 @@ class ElectronicTclController extends Controller
         if(auth()->user()->isAdminEtcl()) {
             $table_params = $table_params + [
                 'registration_date' => $r->registration_date,
+            ];
+        }
+
+        if($d->patient->getAgeInMonths() >= 1) {
+            $table_params = $table_params + [
+                'nutrition2_date' => $r->nutrition2_date,
+                'length_atnutrition2' => $r->length_atnutrition2,
+                'weight_atnutrition2' => $r->weight_atnutrition2,
+                //'weight_status_atnutrition2',
+
+                'exclusive_breastfeeding1' => $r->exclusive_breastfeeding1,
+                'exclusive_breastfeeding2' => $r->exclusive_breastfeeding2,
+                'exclusive_breastfeeding3' => $r->exclusive_breastfeeding3,
+            ];
+        }
+
+        if($d->patient->getAgeInMonths() >= 6) {
+            $table_params = $table_params + [
+                'nutrition3_date' => $r->nutrition3_date,
+                'length_atnutrition3' => $r->length_atnutrition3,
+                'weight_atnutrition3' => $r->weight_atnutrition3,
+                //'weight_status_atnutrition3',
+
+                'exclusive_breastfeeding_4' => $r->exclusive_breastfeeding_4,
+                'complementary_feeding' => $r->complementary_feeding,
+                'cf_type' => ($r->complementary_feeding == 'Y') ? $r->cf_type : null,
+            ];
+        }
+
+        if($d->patient->getAgeInMonths() >= 12) {
+            $table_params = $table_params + [
+                'nutrition4_date' => $r->nutrition4_date,
+                'length_atnutrition4' => $r->length_atnutrition4,
+                'weight_atnutrition4' => $r->weight_atnutrition4,
+                //'weight_status_atnutrition4',
+            ];
+        }
+
+        if($r->mam_identified == '1') {
+            $table_params = $table_params + [
+                'enrolled_sfp' => $r->enrolled_sfp,
+                'mam_cured' => $r->mam_cured,
+                'mam_noncured' => $r->mam_noncured,
+                'mam_defaulted' => $r->mam_defaulted,
+                'mam_died' => $r->mam_died,
+            ];
+        }
+
+        if($r->sam_identified == '1' && $r->mam_died != 1) {
+            $table_params = $table_params + [
+                'sam_complication' => $r->sam_complication,
+                'sam_cured' => $r->sam_cured,
+                'sam_noncured' => $r->sam_noncured,
+                'sam_defaulted' => $r->sam_defaulted,
+                'sam_died' => $r->sam_died,
             ];
         }
 
