@@ -217,6 +217,23 @@
                                     <option value="DEPENDENT" {{(old('philhealth_statustype', $d->philhealth_statustype) == 'DEPENDENT') ? 'selected' : ''}}>Dependent</option>
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label for="has_fe"><b class="text-danger">*</b>Has first encounter record this year ({{date('Y')}})</label>
+                                <select class="form-control" name="has_fe" id="has_fe" required>
+                                    <option value="Y" {{(old('has_fe', $has_fe) == 'Y' ) ? 'selected' : ''}}>Yes</option>
+                                    <option value="N" {{(old('has_fe', $has_fe) == 'N') ? 'selected' : ''}}>No</option>
+                                </select>
+                            </div>
+                            <div id="fe_div" class="d-none">
+                                <div class="form-group">
+                                    <label for="date_of_first_encounter">Date of First Encounter</label>
+                                    <input type="date" class="form-control" name="date_of_first_encounter" id="date_of_first_encounter" value="{{old('date_of_first_encounter', $fe_check->date_of_first_encounter)}}" max="{{date('Y-m-d')}}">
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="philhealth_pcu"><b class="text-danger">*</b>Philhealth Check Utility (PCU) Number</label>
+                                    <input type="text" class="form-control" name="philhealth_pcu" id="philhealth_pcu" value="{{old('philhealth_pcu', $fe_check->philhealth_pcu)}}" style="text-transform: uppercase;">
+                                </div>
+                            </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
@@ -1069,6 +1086,18 @@
             else {
                 $('#ifCheckboxOthersDiv').addClass('d-none');
                 $('#is_others_specify').prop('required', false);
+            }
+        }).trigger('change');
+
+        $('#has_fe').change(function (e) { 
+            e.preventDefault();
+            $("#fe_div").addClass('d-none');
+            $('#date_of_first_encounter').prop('required', false);
+            $('#philhealth_pcu').prop('required', false);
+
+            if($(this).val() == 'Y') {
+                $("#fe_div").removeClass('d-none');
+                $('#philhealth_pcu').prop('required', true);
             }
         }).trigger('change');
     </script>

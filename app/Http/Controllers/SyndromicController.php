@@ -54,6 +54,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\FhsisTbdotsMorbidity;
 use App\Models\InhouseFamilySerial;
 use App\Models\OpdControlNumber;
+use App\Models\OpdFirstEncounter;
 use App\Models\PharmacyPrescription;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -602,6 +603,20 @@ class SyndromicController extends Controller
             $selfie_filename = NULL;
         }
 
+        //Create First Encounter
+        if($request->has_fe == 'Y') {
+            $fe_check = OpdFirstEncounter::where('year', date('Y'))
+            ->where('philhealth_pcu', $request->philhealth_pcu)
+            ->first();
+            
+            if($fe_check) {
+                return redirect()->back()
+                ->withInput()
+                ->with('msg', 'Error: First Encounter for the year '.date('Y').' with PhilHealth PCU '.$request->philhealth_pcu.' already exists.')
+                ->with('msgtype', 'danger');
+            }
+        }
+
         $values_array = [
             'request_uuid' => $request->request_uuid,
             'lname' => mb_strtoupper($request->lname),
@@ -681,6 +696,16 @@ class SyndromicController extends Controller
         }
 
         $c = $request->user()->syndromicpatient()->create($values_array);
+
+        //Create first encounter if has_fe is yes
+        if($request->has_fe == 'Y') {
+            $fe_create = OpdFirstEncounter::create([
+                'patient_id' => $c->id, //Temporary Patient ID, will be updated after patient creation
+                'year' => date('Y'),
+                'date_of_first_encounter' => $request->date_of_first_encounter,
+                'philhealth_pcu' => $request->philhealth_pcu,
+            ]);
+        }
         
         if(auth()->user()->opdfacility->enable_customemr1 == 1) {
             $ctr_create = OpdControlNumber::create([
@@ -1564,11 +1589,24 @@ class SyndromicController extends Controller
             $has_record = false;
         }
 
+        $fe_check = OpdFirstEncounter::where('year', date('Y'))
+        ->where('patient_id', $d->id)
+        ->first();
+
+        if($fe_check) {
+            $has_fe = 'Y';
+        }
+        else {
+            $has_fe = 'N';
+        }
+
         if($d->userHasPermissionToAccess()) {
             return view('syndromic.edit_patient', [
                 'd' => $d,
                 'sal' => $sal,
                 'has_record' => $has_record,
+                'fe_check' => $fe_check,
+                'has_fe' => $has_fe,
             ]);
         }
         else {
@@ -1597,6 +1635,33 @@ class SyndromicController extends Controller
 
         if(!($s)) {
             $getpatient = SyndromicPatient::findOrFail($patient_id);
+
+            if($request->has_fe == 'Y') {
+                $fe_check = OpdFirstEncounter::where('year', date('Y'))
+                ->where('patient_id', '!=', $getpatient->id)
+                ->where('philhealth_pcu', $request->philhealth_pcu)
+                ->first();
+                
+                if($fe_check) {
+                    return redirect()->back()
+                    ->withInput()
+                    ->with('msg', 'Error: First Encounter for the year '.date('Y').' with PhilHealth PCU '.$request->philhealth_pcu.' already exists.')
+                    ->with('msgtype', 'danger');
+                }
+                else {
+                    $fe_update = OpdFirstEncounter::where('year', date('Y'))
+                    ->where('patient_id', $getpatient->id)
+                    ->first();
+
+                    if($fe_update) {
+                        $fe_update->date_of_first_encounter = $request->date_of_first_encounter;
+                        $fe_update->philhealth_pcu = $request->philhealth_pcu;
+                        if($fe_update->isDirty()) {
+                            $fe_update->save();
+                        }
+                    }
+                }
+            }
             
             if(auth()->user()->opdfacility->enable_customemr1 == 1) {
                 $ctr_search = OpdControlNumber::where('facility_id', auth()->user()->itr_facility_id)

@@ -454,4 +454,8 @@ class SyndromicPatient extends Model
     public function death() {
         return $this->hasOne(PatientDeath::class, 'patient_id');
     }
+
+    public function opdFirstEncounter() {
+        return $this->hasMany(OpdFirstEncounter::class, 'patient_id');
+    }
 }
