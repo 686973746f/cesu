@@ -227,11 +227,11 @@
                             <div id="fe_div" class="d-none">
                                 <div class="form-group">
                                     <label for="date_of_first_encounter">Date of First Encounter</label>
-                                    <input type="date" class="form-control" name="date_of_first_encounter" id="date_of_first_encounter" value="{{old('date_of_first_encounter', $fe_check->date_of_first_encounter)}}" max="{{date('Y-m-d')}}">
+                                    <input type="date" class="form-control" name="date_of_first_encounter" id="date_of_first_encounter" value="{{old('date_of_first_encounter', ($fe_check && $fe_check->date_of_first_encounter) ? $fe_check->date_of_first_encounter : '')}}" max="{{date('Y-m-d')}}">
                                   </div>
                                   <div class="form-group">
                                     <label for="philhealth_pcu"><b class="text-danger">*</b>Philhealth Check Utility (PCU) Number</label>
-                                    <input type="text" class="form-control" name="philhealth_pcu" id="philhealth_pcu" value="{{old('philhealth_pcu', $fe_check->philhealth_pcu)}}" style="text-transform: uppercase;">
+                                    <input type="text" class="form-control" name="philhealth_pcu" id="philhealth_pcu" value="{{old('philhealth_pcu', ($fe_check && $fe_check->philhealth_pcu) ? $fe_check->philhealth_pcu : '')}}" style="text-transform: uppercase;">
                                 </div>
                             </div>
                         </div>
@@ -573,6 +573,34 @@
     @endif
 
     <script>
+        // --- helper (put ABOVE $(document).ready) ---
+        const jsonCache = {};
+        function getJSONWithRetry(url, { retries = 3, timeout = 20000, backoff = 600 } = {}) {
+            if (jsonCache[url]) return jsonCache[url];
+
+            const attempt = (n) => $.ajax({ url, dataType: "json", cache: true, timeout })
+                .catch((jqxhr, textStatus, error) => {
+                if (n <= 0) return $.Deferred().reject(jqxhr, textStatus, error).promise();
+                const delay = backoff * Math.pow(2, (retries - n));
+                return $.Deferred(d => setTimeout(() => attempt(n - 1).then(d.resolve).catch(d.reject), delay)).promise();
+                });
+
+            jsonCache[url] = attempt(retries);
+            return jsonCache[url];
+        }
+
+        function setLoading($el, disabled = true) {
+            $el.empty()
+            .append('<option value="" selected disabled>Loading...</option>')
+            .prop('disabled', disabled);
+        }
+
+        function setChoose($el, disabled = false) {
+            $el.empty()
+            .append('<option value="" selected disabled>Choose...</option>')
+            .prop('disabled', disabled);
+        }
+        
         @if(!auth()->user()->isSyndromicHospitalLevelAccess())
         function escapeHtml(text) {
             return $('<div/>').text(text ?? '').html();
@@ -903,166 +931,143 @@
             theme: 'bootstrap',
         });
 
-        var rdefault = "{{old('address_region_code', $d->address_region_code)}}";
-        var pdefault = "{{old('address_province_code', $d->address_province_code)}}";
-        var cdefault = "{{old('address_muncity_code', $d->address_muncity_code)}}";
-        var bdefault = "{{old('address_brgy_text', $d->address_brgy_text)}}";
-
         $(document).ready(function () {
-            //Region Select Initialize
-            $.getJSON("{{asset('json/refregion.json')}}", function(data) {
-                var sorted = data.sort(function(a, b) {
-                    if (a.regDesc > b.regDesc) {
-                        return 1;
-                    }
-                    if (a.regDesc < b.regDesc) {
-                        return -1;
-                    }
+            // EDIT defaults (works also with old())
+            var rdefault = "{{ old('address_region_code', $d->address_region_code) }}";
+            var pdefault = "{{ old('address_province_code', $d->address_province_code) }}";
+            var cdefault = "{{ old('address_muncity_code', $d->address_muncity_code) }}";
+            var bdefault = "{{ strtoupper(old('address_brgy_text', $d->address_brgy_text)) }}";
 
-                    return 0;
+            const regionUrl  = "{{ asset('json/refregion.json') }}";
+            const provUrl    = "{{ asset('json/refprovince.json') }}";
+            const citymunUrl = "{{ asset('json/refcitymun.json') }}";
+            const brgyUrl    = "{{ asset('json/refbrgy.json') }}";
+
+            // Init placeholders
+            setLoading($('#address_region_code'), true);
+            setChoose($('#address_province_code'), true);
+            setChoose($('#address_muncity_code'), true);
+            setChoose($('#address_brgy_text'), true);
+
+            function loadRegions(selectedReg) {
+                return getJSONWithRetry(regionUrl).then(function (regions) {
+                const $reg = $('#address_region_code');
+                setChoose($reg, false);
+
+                regions.sort((a,b) => (a.regDesc||'').localeCompare(b.regDesc||''));
+                regions.forEach(r => $reg.append(new Option(r.regDesc, r.regCode)));
+
+                if (selectedReg) $reg.val(selectedReg);
+
+                $('#address_region_text').val($('#address_region_code option:selected').text() || '');
+                return $reg.val();
+                });
+            }
+
+            function loadProvinces(regCode, selectedProv) {
+                const $prov = $('#address_province_code');
+                const $city = $('#address_muncity_code');
+                const $brgy = $('#address_brgy_text');
+
+                setLoading($prov, false);
+                setChoose($city, true);
+                setChoose($brgy, true);
+
+                return getJSONWithRetry(provUrl).then(function (provinces) {
+                setChoose($prov, false);
+
+                provinces.sort((a,b) => (a.provDesc||'').localeCompare(b.provDesc||''));
+                provinces.forEach(p => {
+                    if (p.regCode == regCode) $prov.append(new Option(p.provDesc, p.provCode));
                 });
 
-                $.each(sorted, function(key, val) {
-                    $('#address_region_code').append($('<option>', {
-                        value: val.regCode,
-                        text: val.regDesc,
-                        selected: (val.regCode == rdefault) ? true : false, //default is Region IV-A
-                    }));
+                if (selectedProv) $prov.val(selectedProv);
+
+                $('#address_province_text').val($('#address_province_code option:selected').text() || '');
+                return $prov.val();
                 });
-            }).fail(function(jqxhr, textStatus, error) {
-                // Error callback
-                var err = textStatus + ", " + error;
-                console.log("Failed to load Region JSON: " + err);
-                window.location.reload(); // Reload the page
+            }
+
+            function loadCityMuns(provCode, selectedCity) {
+                const $city = $('#address_muncity_code');
+                const $brgy = $('#address_brgy_text');
+
+                setLoading($city, false);
+                setChoose($brgy, true);
+
+                return getJSONWithRetry(citymunUrl).then(function (cities) {
+                setChoose($city, false);
+
+                cities.sort((a,b) => (a.citymunDesc||'').localeCompare(b.citymunDesc||''));
+                cities.forEach(c => {
+                    if (c.provCode == provCode) $city.append(new Option(c.citymunDesc, c.citymunCode));
+                });
+
+                if (selectedCity) $city.val(selectedCity);
+
+                $('#address_muncity_text').val($('#address_muncity_code option:selected').text() || '');
+                return $city.val();
+                });
+            }
+
+            function loadBrgys(cityCode, selectedBrgyUpper) {
+                const $brgy = $('#address_brgy_text');
+
+                setLoading($brgy, false);
+
+                return getJSONWithRetry(brgyUrl).then(function (brgys) {
+                setChoose($brgy, false);
+
+                brgys.sort((a,b) => (a.brgyDesc||'').localeCompare(b.brgyDesc||''));
+                brgys.forEach(b => {
+                    if (b.citymunCode == cityCode) {
+                    const upper = (b.brgyDesc || '').toUpperCase();
+                    $brgy.append(new Option(upper, upper));
+                    }
+                });
+
+                if (selectedBrgyUpper) $brgy.val(selectedBrgyUpper);
+
+                return $brgy.val();
+                });
+            }
+
+            // ---- EDIT PAGE INITIAL LOAD (sequential) ----
+            loadRegions(rdefault)
+                .then(regCode => loadProvinces(regCode, pdefault))
+                .then(provCode => loadCityMuns(provCode, cdefault))
+                .then(cityCode => loadBrgys(cityCode, bdefault))
+                .catch(function (jqxhr, textStatus, error) {
+                console.log("Address JSON load failed:", textStatus, error);
+                alert("Failed to load address references. Please check internet and refresh.");
+                });
+
+            // ---- USER CHANGES (this is what you were missing) ----
+            $('#address_region_code').on('change', function () {
+                const regCode = $(this).val();
+                $('#address_region_text').val($('#address_region_code option:selected').text() || '');
+
+                // when user changes region, clear defaults downstream
+                loadProvinces(regCode, null)
+                .then(provCode => loadCityMuns(provCode, null))
+                .then(cityCode => loadBrgys(cityCode, null));
             });
 
-            $('#address_region_code').change(function (e) { 
-                e.preventDefault();
-                //Empty and Disable
-                $('#address_province_code').empty();
-                $("#address_province_code").append('<option value="" selected disabled>Choose...</option>');
+            $('#address_province_code').on('change', function () {
+                const provCode = $(this).val();
+                $('#address_province_text').val($('#address_province_code option:selected').text() || '');
 
-                $('#address_muncity_code').empty();
-                $("#address_muncity_code").append('<option value="" selected disabled>Choose...</option>');
+                loadCityMuns(provCode, null)
+                .then(cityCode => loadBrgys(cityCode, null));
+            });
 
-                //Re-disable Select
-                $('#address_muncity_code').prop('disabled', true);
-                $('#address_brgy_text').prop('disabled', true);
+            $('#address_muncity_code').on('change', function () {
+                const cityCode = $(this).val();
+                $('#address_muncity_text').val($('#address_muncity_code option:selected').text() || '');
 
-                //Set Values for Hidden Box
-                $('#address_region_text').val($('#address_region_code option:selected').text());
+                loadBrgys(cityCode, null);
+            });
 
-                $.getJSON("{{asset('json/refprovince.json')}}", function(data) {
-                    var sorted = data.sort(function(a, b) {
-                        if (a.provDesc > b.provDesc) {
-                        return 1;
-                        }
-                        if (a.provDesc < b.provDesc) {
-                        return -1;
-                        }
-                        return 0;
-                    });
-
-                    $.each(sorted, function(key, val) {
-                        if($('#address_region_code').val() == val.regCode) {
-                            $('#address_province_code').append($('<option>', {
-                                value: val.provCode,
-                                text: val.provDesc,
-                                selected: (val.provCode == pdefault) ? true : false, //default for Cavite
-                            }));
-                        }
-                    });
-                }).fail(function(jqxhr, textStatus, error) {
-                    // Error callback
-                    var err = textStatus + ", " + error;
-                    console.log("Failed to load Region JSON: " + err);
-                    window.location.reload(); // Reload the page
-                });
-            }).trigger('change');
-
-            $('#address_province_code').change(function (e) {
-                e.preventDefault();
-                //Empty and Disable
-                $('#address_muncity_code').empty();
-                $("#address_muncity_code").append('<option value="" selected disabled>Choose...</option>');
-
-                //Re-disable Select
-                $('#address_muncity_code').prop('disabled', false);
-                $('#address_brgy_text').prop('disabled', true);
-
-                //Set Values for Hidden Box
-                $('#address_province_text').val($('#address_province_code option:selected').text());
-
-                $.getJSON("{{asset('json/refcitymun.json')}}", function(data) {
-                    var sorted = data.sort(function(a, b) {
-                        if (a.citymunDesc > b.citymunDesc) {
-                            return 1;
-                        }
-                        if (a.citymunDesc < b.citymunDesc) {
-                            return -1;
-                        }
-                        return 0;
-                    });
-                    $.each(sorted, function(key, val) {
-                        if($('#address_province_code').val() == val.provCode) {
-                            $('#address_muncity_code').append($('<option>', {
-                                value: val.citymunCode,
-                                text: val.citymunDesc,
-                                selected: (val.citymunCode == cdefault) ? true : false, //default for General Trias
-                            })); 
-                        }
-                    });
-                }).fail(function(jqxhr, textStatus, error) {
-                    // Error callback
-                    var err = textStatus + ", " + error;
-                    console.log("Failed to load CityMun JSON: " + err);
-                    window.location.reload(); // Reload the page
-                });
-            }).trigger('change');
-
-            $('#address_muncity_code').change(function (e) {
-                e.preventDefault();
-                //Empty and Disable
-                $('#address_brgy_text').empty();
-                $("#address_brgy_text").append('<option value="" selected disabled>Choose...</option>');
-
-                //Re-disable Select
-                $('#address_muncity_code').prop('disabled', false);
-                $('#address_brgy_text').prop('disabled', false);
-
-                //Set Values for Hidden Box
-                $('#address_muncity_text').val($('#address_muncity_code option:selected').text());
-
-                $.getJSON("{{asset('json/refbrgy.json')}}", function(data) {
-                    var sorted = data.sort(function(a, b) {
-                        if (a.brgyDesc > b.brgyDesc) {
-                        return 1;
-                        }
-                        if (a.brgyDesc < b.brgyDesc) {
-                        return -1;
-                        }
-                        return 0;
-                    });
-                    $.each(sorted, function(key, val) {
-                        if($('#address_muncity_code').val() == val.citymunCode) {
-                            $('#address_brgy_text').append($('<option>', {
-                                value: val.brgyDesc.toUpperCase(),
-                                text: val.brgyDesc.toUpperCase(),
-                                selected: (val.brgyDesc.toUpperCase() == bdefault) ? true : false,
-                            }));
-                        }
-                    });
-                }).fail(function(jqxhr, textStatus, error) {
-                    // Error callback
-                    var err = textStatus + ", " + error;
-                    console.log("Failed to load Province BRGY: " + err);
-                    window.location.reload(); // Reload the page
-                });
-            }).trigger('change');
-
-            $('#address_region_text').val('{{$d->address_region_text}}');
-            $('#address_province_text').val('{{$d->address_province_text}}');
-            $('#address_muncity_text').val('{{$d->address_muncity_text}}');
         });
 
         $('#cs').change(function (e) { 
