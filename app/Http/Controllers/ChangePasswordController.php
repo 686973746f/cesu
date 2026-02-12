@@ -63,6 +63,12 @@ class ChangePasswordController extends Controller
             $usr->is_firsttimelogin = 0;
             $usr->lastpasswordchange_date = now();
 
+            if(Hash::check($r->newpw1, $usr->password)) {
+                return redirect()->route('first_changepw_view')
+                ->with('msg', 'Error: New password cannot be the same as the current password. Please try again.')
+                ->with('msgtype', 'warning');
+            }
+
             $usr->save();
 
             return redirect()->route('home')
@@ -71,7 +77,7 @@ class ChangePasswordController extends Controller
         }
         else {
             return redirect()->route('first_changepw_view')
-            ->with('msg', 'New password does not match. Please try again.')
+            ->with('msg', 'Error: New password does not match. Please try again.')
             ->with('msgtype', 'warning');
         }
     }
