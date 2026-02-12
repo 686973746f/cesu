@@ -146,11 +146,11 @@ class SyndromicPatient extends Model
     }
 
     public function getAgeInMonths() {
-        return Carbon::parse($this->attributes['bdate'])->diff(\Carbon\Carbon::now())->format('%m');
+        return Carbon::parse($this->attributes['bdate'])->diffInMonths(\Carbon\Carbon::now());
     }
 
     public function getAgeInDays() {
-        return Carbon::parse($this->attributes['bdate'])->diff(\Carbon\Carbon::now())->format('%d');
+        return Carbon::parse($this->attributes['bdate'])->diffInDays(\Carbon\Carbon::now());
     }
 
     public function sg() {
