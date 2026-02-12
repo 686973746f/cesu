@@ -59,16 +59,15 @@ class ChangePasswordController extends Controller
         if($r->newpw1 == $r->newpw2) {
             $usr = User::findOrFail(auth()->user()->id);
 
-            $usr->password = Hash::make($r->newpw1);
-            $usr->is_firsttimelogin = 0;
-            $usr->lastpasswordchange_date = now();
-
             if(Hash::check($r->newpw1, $usr->password)) {
                 return redirect()->route('first_changepw_view')
                 ->with('msg', 'Error: New password cannot be the same as the current password. Please try again.')
                 ->with('msgtype', 'warning');
             }
 
+            $usr->password = Hash::make($r->newpw1);
+            $usr->is_firsttimelogin = 0;
+            $usr->lastpasswordchange_date = now();
             $usr->save();
 
             return redirect()->route('home')
