@@ -128,7 +128,7 @@
                 </div>
             </div>
 
-            @if($d->patient->getAgeInMonths() >= 1)
+            @if($age_in_months >= 1)
             <div class="card mt-3">
                 <div class="card-header"><b>Newborn (1-3 Months old)</b></div>
                 <div class="card-body">
@@ -224,7 +224,7 @@
                 </div>
             </div>
 
-            @if($d->patient->getAgeInMonths() >= 6)
+            @if($age_in_months >= 6)
             <div class="card mt-3">
                 <div class="card-header"><b>Newborn (6-11 Months old)</b></div>
                 <div class="card-body">
@@ -380,7 +380,7 @@
                 </div>
             </div>
 
-            @if($d->patient->getAgeInMonths() >= 12)
+            @if($age_in_months >= 12)
             <div class="card mt-3">
                 <div class="card-header"><b>Newborn (12 Months old)</b></div>
                 <div class="card-body">
@@ -611,7 +611,7 @@
         $('#lns2').prop('min', $(this).val());
     }).trigger('change');
 
-    @if($d->patient->getAgeInMonths() >= 6)
+    @if($age_in_months >= 6)
     $('#complementary_feeding').change(function (e) { 
         e.preventDefault();
         $('#cf_div').addClass('d-none');
