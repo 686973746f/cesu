@@ -335,7 +335,7 @@ class ElectronicTclController extends Controller
             return abort(403, 'Unauthorized access to this record.');
         }
         
-        return $this->newOrEditMaternalCare($d, 'EDIT', $d->id);
+        return $this->newOrEditMaternalCare($d, 'EDIT');
     }
 
     public function newOrEditMaternalCare(InhouseMaternalCare $record, $mode, $patient_id = null) {
