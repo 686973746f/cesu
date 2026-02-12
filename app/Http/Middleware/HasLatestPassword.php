@@ -18,7 +18,9 @@ class HasLatestPassword
     public function handle(Request $request, Closure $next)
     {
         if(auth()->user()->is_firsttimelogin == 1) {
-            return redirect()->route('first_changepw_view');
+            return redirect()->route('first_changepw_view')
+            ->with('msg', 'This is your first time logging in. Please change your password to continue.')
+            ->with('msgtype', 'info');
         }
 
         //Check if lastpasswordchange_date is 3 months ago

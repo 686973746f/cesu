@@ -9,9 +9,11 @@
                     <div class="card">
                         <div class="card-header"><b>Change Password</b></div>
                         <div class="card-body">
-                            <div class="alert alert-info" role="alert">
-                                This is your first time logging in. Please change your password to continue.
-                            </div>
+                            @if(session('msg'))
+                                <div class="text-center alert alert-{{session('msgtype')}}" role="alert">
+                                    {{session('msg')}}
+                                </div>
+                            @endif
                             
                             <div class="form-group">
                                 <label for="newpw1"><b class="text-danger">*</b>New Password</label>
