@@ -320,7 +320,7 @@
                 @else
                 <div class="modal-body">
                     <div class="alert alert-warning" role="alert">
-                        <b>Warning:</b> The next visit can only be updated within 7 days before the estimated visit date.
+                        <b>Warning:</b> The next visit can only be updated within the month of the estimated visit date.
                     </div>
                 @endif
             </div>
@@ -329,6 +329,26 @@
 </form>
 @endif
 <script>
+    $(document).ready(function () {
+        $('form').on('submit', function () {
+            $('#submitBtn')
+                .prop('disabled', true)
+                .text('Please wait... Do not refresh or close the page.');
+        });
+    });
+
+    $(document).bind('keydown', function(e) {
+        if(e.ctrlKey && (e.which == 83)) {
+            e.preventDefault();
+            $('#submitBtn').trigger('click');
+            $('#submitBtn').prop('disabled', true);
+            setTimeout(function() {
+                $('#submitBtn').prop('disabled', false);
+            }, 2000);
+            return false;
+        }
+    });
+
     $('#client_type').change(function (e) { 
         e.preventDefault();
         $('#previous_method').prop('disabled', false);

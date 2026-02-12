@@ -487,6 +487,14 @@
 </div>
 
 <script>
+    $(document).ready(function () {
+        $('form').on('submit', function () {
+            $('#submitBtn')
+                .prop('disabled', true)
+                .text('Please wait... Do not refresh or close the page.');
+        });
+    });
+
     $(document).bind('keydown', function(e) {
         if(e.ctrlKey && (e.which == 83)) {
             e.preventDefault();
