@@ -1458,7 +1458,7 @@ class ElectronicTclController extends Controller
 
         $d->update([
             //'registration_date' => $r->registration_date,
-            'client_type' => $r->client_type,
+            //'client_type' => $r->client_type,
             'source' => $r->source,
             'previous_method' => $r->previous_method,
             //'current_method' => $r->current_method,
