@@ -121,7 +121,7 @@
                 @endif
 
                 <h4 class="bg-warning text-center">"THIS RESULT IS VALID FOR CITY OF GENERAL TRIAS-CITY HEALTH OFFICE ONLY."</h4>
-                <h4 class="text-center mt-3"><b><span class="text-primary">Let's Join Forces</span> <span class="text-success">For a Healthier</span> <span class="text-success">Gen</span><span class="text-primary">Tri</span></b></h4>
+                <h4 class="text-center mt-3"><b><span class="text-primary">Let's Join Forces For a Healthier GenTri</span></b></h4>
 
                 @elseif($p->ifMedicareRecord())
                 <div class="d-flex justify-content-between text-center">

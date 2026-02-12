@@ -1027,7 +1027,7 @@
             }
         }).trigger('change');
 
-        @if(!request()->input('from_etcl'))
+        @if(is_null(request()->input('from_etcl')))
         $('#has_fe').change(function (e) { 
             e.preventDefault();
             $("#fe_div").addClass('d-none');

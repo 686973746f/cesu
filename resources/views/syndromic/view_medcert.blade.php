@@ -194,7 +194,7 @@
                 
                 @endif
                 @if($d->facility_id == 10886 || $d->facility_id == 39708 || $d->facility_id == 11730)
-                <h4 class="text-center mt-3"><b><span class="text-primary">Let's Join Forces</span> For a Healthier <span class="text-success">Gen</span><span class="text-primary">Tri</span></b></h4>
+                <h4 class="text-center mt-3"><b><span class="text-primary">Let's Join Forces For a Healthier GenTri</span></b></h4>
                 @endif
                 @if($d->facility_id == 10886)
                 <div class="text-center">
