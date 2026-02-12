@@ -4,24 +4,19 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <form action="{{route('changepw.init')}}" method="POST">
+                <form action="{{route('first_changepw_init')}}" method="POST">
                     @csrf
                     <div class="card">
-                        <div class="card-header"><i class="fa fa-key mr-2" aria-hidden="true"></i>Change Password</div>
+                        <div class="card-header"><b>Change Password</b></div>
                         <div class="card-body">
-                            @if(session('msg'))
-                                <div class="text-center alert alert-{{session('msgtype')}}" role="alert">
-                                    {{session('msg')}}
-                                </div>
-                            @endif
-                            <div class="form-group">
-                            <label for="oldpw"><b class="text-danger">*</b>Input Old Password</label>
-                            <input type="password" class="form-control" name="oldpw" id="oldpw" minlength="8" required>
+                            <div class="alert alert-info" role="alert">
+                                This is your first time logging in. Please change your password to continue.
                             </div>
-                            <hr>
+                            
                             <div class="form-group">
                                 <label for="newpw1"><b class="text-danger">*</b>New Password</label>
                                 <input type="password" class="form-control" name="newpw1" id="newpw1" minlength="8" required>
+                                <small class="form-text text-muted">Your password must be at least 8 characters long.</small>
                             </div>
                             <div class="form-group">
                                 <label for="newpw2"><b class="text-danger">*</b>Repeat New Password</label>
@@ -29,7 +24,7 @@
                             </div>
                         </div>
                         <div class="card-footer text-right">
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-2"></i>Save</button>
+                            <button type="submit" class="btn btn-success">Save</button>
                         </div>
                     </div>
                 </form>

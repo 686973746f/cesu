@@ -44,4 +44,35 @@ class ChangePasswordController extends Controller
             ->with('msgtype', 'warning');
         }
     }
+
+    public function viewFirstTimeChangePw() {
+        return view('password_first_change');
+    }
+
+    public function initFirstTimeChangePw(Request $r) {
+        // This function will be used for first time login password change
+        $r->validate([
+            'newpw1' => 'required|min:8',
+            'newpw2' => 'required|min:8',
+        ]);
+
+        if($r->newpw1 == $r->newpw2) {
+            $usr = User::findOrFail(auth()->user()->id);
+
+            $usr->password = Hash::make($r->newpw1);
+            $usr->is_firsttimelogin = 0;
+            $usr->lastpasswordchange_date = now();
+
+            $usr->save();
+
+            return redirect()->route('home')
+            ->with('msg', 'Your password has been changed successfully. You may now continue to use the system.')
+            ->with('msgtype', 'success');
+        }
+        else {
+            return redirect()->route('first_changepw_view')
+            ->with('msg', 'New password does not match. Please try again.')
+            ->with('msgtype', 'warning');
+        }
+    }
 }

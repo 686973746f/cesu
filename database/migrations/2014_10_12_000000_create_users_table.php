@@ -55,6 +55,7 @@ class CreateUsersTable extends Migration
 
             $table->foreignId('etcl_bhs_id')->nullable()->constrained('doh_facilities')->onDelete('cascade');
             $table->text('switch_bhs_list')->nullable();
+            $table->date('lastpasswordchange_date')->nullable();
             
             $table->rememberToken();
             $table->timestamps();

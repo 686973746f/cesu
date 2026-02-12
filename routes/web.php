@@ -107,8 +107,13 @@ Route::post('/email/verification-notification', function (Request $request) {
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
+Route::group(['middleware' => ['auth', 'verified', 'isAccountEnabled']], function() {
+    Route::get('/account/first_changepw', [ChangePasswordController::class, 'viewFirstTimeChangePw'])->name('first_changepw_view');
+    Route::post('/account/first_changepw', [ChangePasswordController::class, 'initFirstTimeChangePw'])->name('first_changepw_init');
+});
+
 //MAIN LOGIN ROUTES
-Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function() {
+Route::group(['middleware' => ['auth', 'verified', 'isAccountEnabled', 'hasLatestPassword']], function() {
     Route::get('/main_menu', [HomeController::class, 'index'])->name('home');
     
     Route::get('/account/changepw', [ChangePasswordController::class, 'index'])->name('changepw.index');
@@ -133,7 +138,7 @@ Route::get('/ga/city/{province_id}', [AddressController::class, 'getCityMun'])->
 Route::get('/ga/brgy/{city_id}', [AddressController::class, 'getBrgy'])->name('address_get_brgy');
 
 //PASWAB INTERNAL
-Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isCesuOrBrgyAccount', 'canAccessCovid']], function() {
+Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isCesuOrBrgyAccount', 'canAccessCovid', 'hasLatestPassword']], function() {
     Route::post('/covid/forms/paswab/view', [PaSwabController::class, 'options'])->name('paswab.options');
     Route::get('/covid/forms/paswab/view', [PaSwabController::class, 'view'])->name('paswab.view');
     Route::get('/covid/forms/paswab/view/{id}', [PaSwabController::class, 'viewspecific'])->name('paswab.viewspecific');
@@ -270,7 +275,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'isLevel1'
 });
 
 //SYSTEM ADMIN
-Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']], function()
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin', 'hasLatestPassword']], function()
 {
     //Route::get('/exportcesu', [ReportV2Controller::class, 'exportdb'])->name('edb');
     Route::get('/admin/settings/home', [SiteSettingsController::class, 'settingsHome'])->name('settings_home');
@@ -295,7 +300,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin']]
     Route::post('/admin/accounts/{id}/options', [AdminPanelController::class, 'accountOptions'])->name('admin_account_options');
 });
 
-Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isMayor']], function()
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isMayor', 'hasLatestPassword']], function()
 {
     Route::get('/mayor/main_menu', [MayorController::class, 'mainMenu'])->name('mayor_main_menu');
     
@@ -312,7 +317,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isMayor']]
 });
 
 //COVID ADMIN
-Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin', 'canAccessCovid']], function()
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin', 'canAccessCovid', 'hasLatestPassword']], function()
 {
     //Admin Page
     Route::get('/covid/admin', [AdminPanelController::class, 'index'])->name('adminpanel.index');
@@ -362,12 +367,8 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin', 
     Route::post('/covid/settings/site', [SiteSettingsController::class, 'update'])->name('ss.update');
 });
 
-Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel2']], function() {
-    
-});
-
 //PIDSR
-Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessPidsr']], function() {
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessPidsr', 'hasLatestPassword']], function() {
     Route::get('/pidsr', [PIDSRController::class, 'home'])->name('pidsr.home');
     Route::post('/pidsr/initialize_mw', [PIDSRController::class, 'initializeMwCalendar'])->name('pidsr_initializemwcalendar');
     Route::get('/pidsr/threshold', [PIDSRController::class, 'threshold_index'])->name('pidsr.threshold');
@@ -465,13 +466,13 @@ Route::group(['middleware' => ['isLoggedInEdcsBrgyPortal']], function() {
     Route::post('/edcs/barangayportal/logout', [PIDSRController::class, 'brgyCaseViewerLogout'])->name('edcs_barangay_view_logout');
 });
 
-Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessPidsrAdminMode']], function() {
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessPidsrAdminMode', 'hasLatestPassword']], function() {
     Route::get('/pidsr/casechecker/action', [PIDSRController::class, 'casechecker_action'])->name('pidsr_casechecker_action');
     Route::get('/pidsr/reset_sent', [PIDSRController::class, 'resetSendingStatus'])->name('pidsr_reset_sent');
 });
 
 //PREGNANCY TRACKING
-Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessPregnancyTracking']], function() {
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessPregnancyTracking', 'hasLatestPassword']], function() {
     Route::get('/pregnancy_tracking', [PregnancyTrackingController::class, 'index'])->name('ptracking_index');
 
     Route::get('/pregnancy_tracking/new', [PregnancyTrackingController::class, 'new'])->name('ptracking_new');
@@ -484,7 +485,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessP
 });
 
 //SYNDROMIC
-Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessOpdPatients']], function() {
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessOpdPatients', 'hasLatestPassword']], function() {
     Route::get('/syndromic/patient/search', [SyndromicController::class, 'newPatientSearch'])->name('syndromic_searchPatient');
     Route::get('/syndromic/patient/new', [SyndromicController::class, 'newPatient'])->name('syndromic_newPatient');
     Route::post('/syndromic/patient/store', [SyndromicController::class, 'storePatient'])->name('syndromic_storePatient');
@@ -493,7 +494,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessO
     Route::post('/syndromic/patient/{patient_id}/update', [SyndromicController::class, 'updatePatient'])->name('syndromic_updatePatient');
 });
 
-Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessSyndromic']], function() {
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessSyndromic', 'hasLatestPassword']], function() {
     Route::get('/syndromic', [SyndromicController::class, 'index'])->name('syndromic_home');
     Route::get('/syndromic/dengue', [SyndromicController::class, 'dengue'])->name('syndromic_dengue');
     Route::get('/syndromic/download_opd_excel', [SyndromicController::class, 'downloadOpdExcel'])->name('syndromic_download_opd_excel');
@@ -557,7 +558,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessS
     ->name('inhouse_maternalcare_search'); //Maternal Care Mother Search
 });
 
-Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isGlobalAdmin']], function() {
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isGlobalAdmin', 'hasLatestPassword']], function() {
     //SYNDROMIC ADMIN
     Route::get('/syndromic/admin/doctors', [SyndromicAdminController::class, 'doctors_index'])->name('syndromic_admin_doctors_index');
     Route::post('/syndromic/admin/doctors/store', [SyndromicAdminController::class, 'doctors_store'])->name('syndromic_admin_doctors_store');
@@ -572,7 +573,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isGlobalAd
     Route::resource('taskgenerator', TaskGeneratorController::class);
 });
 
-Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessEmployees']], function() {
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessEmployees', 'hasLatestPassword']], function() {
     Route::get('employees', [EmployeesController::class, 'index'])->name('employees_index');
     Route::get('employees/add', [EmployeesController::class, 'addEmployee'])->name('employees_add');
     Route::post('employees/add/store', [EmployeesController::class, 'storeEmployee'])->name('employees_store');
@@ -618,7 +619,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessE
     Route::get('bls_home/{batch_id}/download_db', [EmployeesController::class, 'downloadBlsDatabase'])->name('bls_download_db');
 });
 
-Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel3']], function() {
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel3', 'hasLatestPassword']], function() {
     //Facility Account Middleware
     Route::get('facility/home', [FacilityController::class, 'index'])->name('facility.home');
     Route::get('facility/{id}/viewPatient', [FacilityController::class, 'viewPatient'])->name('faclity.viewdischarge');
@@ -628,7 +629,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isLevel3']
 
 
 //ANIMAL BITE ABTC
-Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessAbtc']], function () {
+Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessAbtc', 'hasLatestPassword']], function () {
     Route::get('/abtc', [ABTCPatientController::class, 'home'])->name('abtc_home');
     Route::post('/abtc/init_vbrand', [ABTCPatientController::class, 'initVaccineBrand'])->name('abtc_init_vbrand');
     Route::post('/abtc/init_stocks', [ABTCPatientController::class, 'initVaccineStocks'])->name('abtc_init_vstocks');
@@ -706,7 +707,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     Route::post('/abtc/financial/generate_report', [ABTCVaccinationController::class, 'generatePhilhealthReport'])->name('abtc_financial_generate_report');
 });
 
-Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessAbtcInventory']], function () {
+Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessAbtcInventory', 'hasLatestPassword']], function () {
     Route::get('/abtc_inventory', [AbtcInventoryController::class, 'home'])->name('abtcinv_home');
     Route::get('/abtc_inventory/masterlist', [AbtcInventoryController::class, 'masterInventoryHome'])->name('abtcinv_masterlist_home');
     Route::post('/abtc_inventory/masterlist/store', [AbtcInventoryController::class, 'storeMaster'])->name('abtcinv_masterlist_store');
@@ -728,7 +729,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
 });
 
 //FHSIS
-Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessFhsisOrElectronicTcl']], function()
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessFhsisOrElectronicTcl', 'hasLatestPassword']], function()
 {
     Route::get('/fhsis', [FhsisController::class, 'home'])->name('fhsis_home');
 
@@ -760,7 +761,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessF
 });
 
 //NONCOMM
-Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessNonComm']], function()
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessNonComm', 'hasLatestPassword']], function()
 {
     Route::get('/fhsis/noncomm/riskassess/create', [RiskAssessmentController::class, 'createFromScratch'])->name('raf_create');
     Route::post('/fhsis/noncomm/riskassess/store', [RiskAssessmentController::class, 'store'])->name('raf_store');
@@ -810,7 +811,7 @@ Route::group(['middleware' => ['guest']], function () {
 });
 
 //VAXCERT
-Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessVaxcert']], function() {
+Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessVaxcert', 'hasLatestPassword']], function() {
     Route::get('/vaxcert/home', [VaxcertController::class, 'home'])->name('vaxcert_home');
     Route::get('/vaxcert/vquery', [VaxcertController::class, 'vquery'])->name('vaxcert_vquery');
     Route::get('/vaxcert/report', [VaxcertController::class, 'report'])->name('vaxcert_report');
@@ -830,7 +831,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
 });
 
 //PHARMACY
-Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessPharmacy']], function() {
+Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessPharmacy', 'hasLatestPassword']], function() {
     Route::get('/pharmacy/home', [PharmacyController::class, 'home'])->name('pharmacy_home');
     Route::get('/ajax/pharmacy-supply-subs', [PharmacyController::class, 'listMedsByFacility'])->name('ajax.pharmacy-supply-subs');
     Route::get('/ajax/pharmacy-supply-substocks', [PharmacyController::class, 'listSubStocksByFacility'])->name('ajax.pharmacy-sub-stocks');
@@ -884,17 +885,17 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     Route::post('/pharmacy/prescription/{id}/update', [PharmacyController::class, 'updatePrescription'])->name('pharmacy_update_prescription');
 });
 
-Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessPharmacy', 'canAccessPharmacyBranchAdminOrMasterAdmin']], function() {
+Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessPharmacy', 'canAccessPharmacyBranchAdminOrMasterAdmin', 'hasLatestPassword']], function() {
     Route::get('/pharmacy/pending_transactions', [PharmacyController::class, 'viewPendingTransactions'])->name('pharmacy_pending_transaction_view');
     Route::post('/pharmacy/pending_transactions/{id}/process', [PharmacyController::class, 'processTransaction'])->name('pharmacy_pending_transaction_process');
 });
 
-Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessPharmacy', 'canAccessPharmacyMasterAdmin']], function() {
+Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessPharmacy', 'canAccessPharmacyMasterAdmin', 'hasLatestPassword']], function() {
     Route::post('/pharmacy/switch', [PharmacyController::class, 'switchPharmacy'])->name('switch_pharmacy');
 });
 
 
-Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessFwri']], function() {
+Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessFwri', 'hasLatestPassword']], function() {
     Route::get('fwri_admin/home', [FwriController::class, 'home'])->name('fwri_home');
     Route::get('fwri_admin/{id}/view', [FwriController::class, 'viewCif'])->name('fwri_view');
     Route::post('fwri_admin/{id}/update', [FwriController::class, 'updateCif'])->name('fwri_update');
@@ -906,7 +907,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
 });
 
 //QES DIARRHEA
-Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessQes']], function() {
+Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessQes', 'hasLatestPassword']], function() {
     Route::get('qes', [QesController::class, 'index'])->name('qes_home');
     Route::post('qes/store_main', [QesController::class, 'storeMain'])->name('qes_store_main');
     Route::get('qes/{main_id}/view', [QesController::class, 'viewMain'])->name('qes_view_main');
@@ -916,11 +917,11 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessQ
     Route::get('qes/{main_id}/report1', [QesController::class, 'report1'])->name('qes_report1');
 });
 
-Route::group(['middleware' => ['auth','verified', 'isAccountEnabled']], function() {
+Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'hasLatestPassword']], function() {
     Route::get('/pharmacy/patients/view/{id}/print_card', [PharmacyController::class, 'printPatientCard'])->name('pharmacy_print_patient_card');
 });
 
-Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessPharmacy', 'canAccessPharmacyMasterAdmin']], function() {
+Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccessPharmacy', 'canAccessPharmacyMasterAdmin', 'hasLatestPassword']], function() {
     Route::get('/pharmacy/master_item/', [PharmacyController::class, 'masterItemHome'])->name('pharmacy_masteritem_list');
     Route::get('/pharmacy/master_item/view/{id}', [PharmacyController::class, 'viewMasterItem'])->name('pharmacy_view_masteritem');
     Route::post('/pharmacy/master_item/view/{id}', [PharmacyController::class, 'updateMasterItem'])->name('pharmacy_update_masteritem');
@@ -933,7 +934,7 @@ Route::group(['middleware' => ['auth','verified', 'isAccountEnabled', 'canAccess
     Route::post('/pharmacy/branches/{id}', [PharmacyController::class, 'updateBranch'])->name('pharmacy_update_branch');
 });
 
-Route::group(['middleware' => ['auth','verified', 'canAccessTask']], function() {
+Route::group(['middleware' => ['auth','verified', 'canAccessTask', 'hasLatestPassword']], function() {
     Route::get('/tasks', [TaskController::class, 'index'])->name('task_index');
     Route::post('/tasks/grab_ticket', [TaskController::class, 'grabTicket'])->name('task_grab');
     Route::get('/tasks/work_tasks/view/{workTask}', [TaskController::class, 'viewWorkTicket'])->name('worktask_view');
@@ -951,7 +952,7 @@ Route::group(['middleware' => ['auth','verified', 'canAccessTask']], function() 
     Route::get('/mytask/view_more', [TaskController::class, 'viewMoreTask'])->name('mytask_viewmore');
 });
 
-Route::group(['middleware' => ['auth','verified', 'canAccessDisaster']], function() {
+Route::group(['middleware' => ['auth','verified', 'canAccessDisaster', 'hasLatestPassword']], function() {
     Route::get('/gtsecure', [DisasterController::class, 'index'])->name('gtsecure_index');
     Route::post('/gtsecure/disaster/store', [DisasterController::class, 'storeDisaster'])->name('gtsecure_storeDisaster');
     Route::get('/gtsecure/disaster/view/{id}', [DisasterController::class, 'viewDisaster'])->name('gtsecure_disaster_view');
@@ -1109,7 +1110,8 @@ Route::get('hert_duty', [EmployeesController::class, 'viewEmployeesDutyOnline'])
 Route::get('/forms', function () {
     return redirect('https://drive.google.com/drive/folders/1LAff2uF1gPHQd7jI8cy4PX3q5xbtMqH4?usp=drive_link');
 });
-Route::middleware(['auth','verified', 'canAccessElectronicTcl'])->group(function () {
+
+Route::middleware(['auth','verified', 'canAccessElectronicTcl', 'hasLatestPassword'])->group(function () {
     Route::get('/etcl', [ElectronicTclController::class, 'eTclHome'])->name('etcl_home');
     Route::post('/etcl/switch_bhs', [ElectronicTclController::class, 'switchBhs'])->name('etcl_switchbhs');
     Route::post('/etcl/generate_m1', [ElectronicTclController::class, 'generateM1'])->name('etcl_generatem1');
