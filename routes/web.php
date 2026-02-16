@@ -1142,6 +1142,13 @@ Route::middleware(['auth','verified', 'canAccessElectronicTcl', 'hasLatestPasswo
     Route::post('/etcl/family_planning/view/{id}/process_next_visit', [ElectronicTclController::class, 'updateFamilyPlanningVisit'])->name('etcl_familyplanning_process_next_visit');
 });
 
+Route::middleware(['auth','verified', 'canAccessElectronicTclMasterAdmin', 'hasLatestPassword'])->group(function () {
+    Route::delete('/etcl/child_care/view/{childCare}/delete', [ElectronicTclController::class, 'deleteChildCare'])->name('etcl_childcare_delete');
+    Route::delete('/etcl/child_nutrition/view/{childNutrition}/delete', [ElectronicTclController::class, 'deleteChildNutrition'])->name('etcl_childnutrition_delete');
+    Route::delete('/etcl/maternal_care/view/{maternalCare}/delete', [ElectronicTclController::class, 'deleteMaternalCare'])->name('etcl_maternal_delete');
+    Route::delete('/etcl/family_planning/view/{familyPlanning}/delete', [ElectronicTclController::class, 'deleteFamilyPlanning'])->name('etcl_familyplanning_delete');
+});
+
 
 //Route::get('/vaxcert/import', [VaxcertController::class, 'remoteimport'])->name('vaxcert_import');
 

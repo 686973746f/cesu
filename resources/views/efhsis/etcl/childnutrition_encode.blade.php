@@ -2,6 +2,18 @@
 
 @section('content')
 @if($mode == 'EDIT')
+<div class="container">
+    <div class="text-right">
+        <form action="{{route('etcl_childnutrition_delete', $d->id)}}" method="POST" onsubmit="return confirm('Are you sure you want to delete this record? This action cannot be undone.')">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger mb-3"><i class="fa fa-trash" aria-hidden="true"></i> Delete Record</button>
+        </form>
+    </div>
+</div>
+@endif
+
+@if($mode == 'EDIT')
 <form action="{{route('etcl_childnutrition_update', $d->id)}}" method="POST">
     @php
     $age_in_months = $d->patient->getAgeInMonths();

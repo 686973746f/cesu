@@ -95,6 +95,8 @@ class Kernel extends HttpKernel
         'school' => \App\Http\Middleware\SchoolAuth::class,
         'school_admin' => \App\Http\Middleware\SchoolAdmin::class,
         'canAccessElectronicTcl' => \App\Http\Middleware\canAccessElectronicTcl::class,
+        'canAccessElectronicTclAdmin' => \App\Http\Middleware\canAccessElectronicTclAdmin::class,
+        'canAccessElectronicTclMasterAdmin' => \App\Http\Middleware\canAccessElectronicTclMasterAdmin::class,
         'canAccessFhsisOrElectronicTcl' => \App\Http\Middleware\canAccessFhsisOrElectronicTcl::class,
         'canAccessOpdPatients' => \App\Http\Middleware\canAccessOpdPatients::class,
         'hasLatestPassword' => \App\Http\Middleware\HasLatestPassword::class,

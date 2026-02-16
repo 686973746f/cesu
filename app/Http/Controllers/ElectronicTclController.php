@@ -3395,4 +3395,36 @@ class ElectronicTclController extends Controller
         header('Content-Disposition: attachment; filename="'. urlencode($fileName).'"');
         $writer->save('php://output');
     }
+
+    public function deleteChildCare(InhouseChildCare $childCare) {
+        $childCare->delete();
+
+        return redirect()
+        ->route('etcl_home', ['type' => 'child_care'])
+        ->with('success', 'Child Care record deleted successfully.');
+    }
+
+    public function deleteMaternalCare(InhouseMaternalCare $maternalCare) {
+        $maternalCare->delete();
+
+        return redirect()
+        ->route('etcl_home', ['type' => 'maternal_care'])
+        ->with('success', 'Maternal Care record deleted successfully.');
+    }
+
+    public function deleteFamilyPlanning(InhouseFamilyPlanning $familyPlanning) {
+        $familyPlanning->delete();
+
+        return redirect()
+        ->route('etcl_home', ['type' => 'family_planning'])
+        ->with('success', 'Family Planning record deleted successfully.');
+    }
+
+    public function deleteChildNutrition(InhouseChildNutrition $childNutrition) {
+        $childNutrition->delete();
+
+        return redirect()
+        ->route('etcl_home', ['type' => 'child_nutrition'])
+        ->with('success', 'Child Nutrition record deleted successfully.');
+    }
 }
