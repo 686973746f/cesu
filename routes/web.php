@@ -298,6 +298,7 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isAdmin', 
     Route::post('/admin/accounts/view/{id}/update', [AdminPanelController::class, 'accountUpdate'])->name('admin_account_update');
     Route::post('/admin/accounts/create', [AdminPanelController::class, 'adminAccountCreate'])->name('admin_account_create');
     Route::post('/admin/accounts/{id}/options', [AdminPanelController::class, 'accountOptions'])->name('admin_account_options');
+    Route::post('/admin/accounts/{id}/reset_password', [AdminPanelController::class, 'resetPassword'])->name('admin_account_reset_password');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isMayor', 'hasLatestPassword']], function()
@@ -492,6 +493,17 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessO
 
     Route::get('/syndromic/patient/{patient_id}/view', [SyndromicController::class, 'viewPatient'])->name('syndromic_viewPatient');
     Route::post('/syndromic/patient/{patient_id}/update', [SyndromicController::class, 'updatePatient'])->name('syndromic_updatePatient');
+
+    Route::get('/inhouse-family-serials/search', [InhouseFamilySerialController::class, 'searchFamilySerial'])
+    ->name('inhouse_familyserials_search');
+
+    Route::post('/inhouse-family-serials/generate-householdno', [InhouseFamilySerialController::class, 'generateHouseholdNo'])
+    ->name('inhouse_generate_householdno');
+    Route::post('/inhouse-family-serials/generate-familyserial', [InhouseFamilySerialController::class, 'generateFamilySerialNo'])
+    ->name('inhouse_generate_familyserial');
+
+    Route::get('/inhouse-maternalcare/search', [ElectronicTclController::class, 'searchMaternalCareMother'])
+    ->name('inhouse_maternalcare_search'); //Maternal Care Mother Search
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessSyndromic', 'hasLatestPassword']], function() {
@@ -545,17 +557,6 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessS
 
     Route::get('/syndromic/special_report', [SyndromicController::class, 'specialReport'])->name('opd_sp');
     Route::get('/syndromic/special_report/process', [SyndromicController::class, 'specialReportProcess'])->name('opd_sp_process');
-
-    Route::get('/inhouse-family-serials/search', [InhouseFamilySerialController::class, 'searchFamilySerial'])
-    ->name('inhouse_familyserials_search');
-
-    Route::post('/inhouse-family-serials/generate-householdno', [InhouseFamilySerialController::class, 'generateHouseholdNo'])
-    ->name('inhouse_generate_householdno');
-    Route::post('/inhouse-family-serials/generate-familyserial', [InhouseFamilySerialController::class, 'generateFamilySerialNo'])
-    ->name('inhouse_generate_familyserial');
-
-    Route::get('/inhouse-maternalcare/search', [ElectronicTclController::class, 'searchMaternalCareMother'])
-    ->name('inhouse_maternalcare_search'); //Maternal Care Mother Search
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isGlobalAdmin', 'hasLatestPassword']], function() {

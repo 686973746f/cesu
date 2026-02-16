@@ -213,6 +213,20 @@ class AdminPanelController extends Controller
         ->with('msgtype', 'success');
     }
 
+    public function resetPassword($id, Request $r) {
+        $d = User::findOrFail($id);
+
+        $d->password = Hash::make('12345678');
+        $d->is_firsttimelogin = 1;
+
+        $d->save();
+
+        return redirect()
+        ->back()
+        ->with('msg', 'User '.$d->name.' ('.$d->email.') password was reset successfully.')
+        ->with('msgtype', 'success');
+    }
+
     public function accountView($id) {
         $d = User::findOrFail($id);
 

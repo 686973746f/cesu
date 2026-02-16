@@ -27,6 +27,7 @@
                                 <th>Email</th>
                                 <th>Type</th>
                                 <th>Status</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -37,6 +38,12 @@
                                     <td style="vertical-align: middle;">{{$list->email}}</td>
                                     <td class="text-center" style="vertical-align: middle;">{{($list->isAdmin == 1) ? 'Admin' : 'Encoder'}}</td>
                                     <td class="text-center {{($list->enabled == 1) ? 'text-success' : 'text-danger'}} font-weight-bold" style="vertical-align: middle;">{{($list->enabled == 1) ? 'Enabled': 'Disabled'}}</td>
+                                    <td class="text-center" style="vertical-align: middle;">
+                                        <form action="{{route('admin_account_reset_password', [$list->id])}}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-warning" onclick="return confirm('Are you sure you want to reset the password of {{$list->name}}?');"><i class="fa fa-key" aria-hidden="true"></i> Reset Password</button>
+                                        </form>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
