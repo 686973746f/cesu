@@ -1062,6 +1062,7 @@
             $('#td1').prop('required', false);
             $('#td2').prop('required', false);
 
+            /*
             if($(this).val() >= 2) {
                 $('#td1').prop('required', true);
                 $('#td2').prop('required', true);
@@ -1069,6 +1070,7 @@
                 $('#td1_asterisk').removeClass('d-none');
                 $('#td2_asterisk').removeClass('d-none');
             }
+            */
         }).trigger('change');
 
         $('#visit1').on('change', function () {
