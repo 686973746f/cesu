@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-@if($mode == 'EDIT')
+@if($mode == 'EDIT' && auth()->user()->isMasterAdminEtcl())
 <div class="container">
     <div class="text-right">
         <form action="{{route('etcl_childcare_delete', $d->id)}}" method="POST" onsubmit="return confirm('Are you sure you want to delete this record? This action cannot be undone.')">
