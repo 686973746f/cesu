@@ -187,6 +187,7 @@
                             <option value="" disabled selected>Choose...</option>
                             @if(auth()->user()->isMasterAdminEtcl())
                             @foreach(App\Models\DohFacility::where('id', '!=',auth()->user()->etcl_bhs_id)
+                            ->where('facility_type', 'Barangay Health Station')
                             ->where('address_muncity', 'CITY OF GENERAL TRIAS')
                             ->get() as $bhs)
                             <option value="{{ $bhs->id }}">{{ $bhs->facility_name }}</option>
