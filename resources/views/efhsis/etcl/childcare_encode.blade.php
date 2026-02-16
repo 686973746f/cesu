@@ -498,6 +498,8 @@
     </div>
 </div>
 
+@include('efhsis.etcl.confirm_bhs_modal')
+
 <script>
     $(document).ready(function () {
         $('form').on('submit', function () {
@@ -505,6 +507,8 @@
                 .prop('disabled', true)
                 .text('Please wait... Do not refresh or close the page.');
         });
+
+        
     });
 
     $(document).bind('keydown', function(e) {
