@@ -61,7 +61,7 @@
                                 <h5 class="text-center mt-3"><b>BRANCH:</b> <u>{{$d->pharmacybranch->name}}</u></h5>
                             </div>
                         </div>
-                        <h4 class="text-center mt-3"><b><span class="text-primary">Let's Join Forces For a Healthier GenTri</span></b></h4>
+                        <!-- <h4 class="text-center mt-3"><b><span class="text-primary">Let's Join Forces For a Healthier GenTri</span></b></h4> -->
                     </div>
                     
                 </div>

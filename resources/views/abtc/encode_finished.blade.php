@@ -198,7 +198,7 @@
                     <hr>
                     <div class="text-center">
                         <h4 style="color: blue"><i>Be a Responsible Pet Owner</i></h4>
-                        <h4 style="color: green"><i>Let's Join Forces for a Rabies-free Gentri</i></h4>
+                        <!-- <h4 style="color: green"><i>Let's Join Forces for a Rabies-free Gentri</i></h4> -->
                     </div>
                 </div>
                 <div class="card-footer text-center" id="divFoot">

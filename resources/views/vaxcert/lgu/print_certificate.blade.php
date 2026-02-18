@@ -247,7 +247,7 @@
                     </div>
                 </div>
                 
-                <h4 class="text-center mt-3"><b><span class="text-primary">Let's Join Forces</span> <span class="text-success">For a COVID-19 Free</span> <span class="text-success">Gen</span><span class="text-primary">Tri</span></b></h4>
+                <!-- <h4 class="text-center mt-3"><b><span class="text-primary">Let's Join Forces</span> <span class="text-success">For a COVID-19 Free</span> <span class="text-success">Gen</span><span class="text-primary">Tri</span></b></h4> -->
                 <hr>
                 <div class="text-center">
                     <h6><b>Office of the City Health Officer</b></h6>
