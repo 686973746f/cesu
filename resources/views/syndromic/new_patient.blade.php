@@ -224,9 +224,10 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="mb-2">Family Serial No.</div>
+                            <div>Family Serial No.</div>
+                            <div class="mb-2 text-muted"><b>Note:</b> You may input the family serial number manually or use the search button to generate.</div>
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control" value="{{old('inhouse_familyserialno')}}" id="inhouse_familyserialno" name="inhouse_familyserialno" readonly>
+                                <input type="text" class="form-control" value="{{old('inhouse_familyserialno')}}" id="inhouse_familyserialno" name="inhouse_familyserialno" autocomplete="off">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-primary" id="familyserial_search_btn" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
                                 </div>
