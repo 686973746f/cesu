@@ -111,9 +111,9 @@
                                 <option value="CON" {{ old('previous_method', $d->previous_method) == 'CON' ? 'selected' : '' }}>Condom</option>
                                 <option value="PILLS-POP" {{ old('previous_method', $d->previous_method) == 'PILLS-POP' ? 'selected' : '' }}>Progestin Only Pills</option>
                                 <option value="PILLS-COC" {{ old('previous_method', $d->previous_method) == 'PILLS-COC' ? 'selected' : '' }}>Combined Oral Contraceptive Pills</option>
-                                <option value="INJ" {{ old('previous_method', $d->previous_method) == 'INJ' ? 'selected' : '' }}>DMPA or CIC</option>
-                                <option value="IMP-I" {{ old('previous_method', $d->previous_method) == 'IMP-I' ? 'selected' : '' }}>Single rod sub-dermal Implant (Interval)</option>
-                                <option value="IMP-PP" {{ old('previous_method', $d->previous_method) == 'IMP-PP' ? 'selected' : '' }}>Single rod sub-dermal Implant (Postpartum)</option>
+                                <option value="INJ" {{ old('previous_method', $d->previous_method) == 'INJ' ? 'selected' : '' }}>DMPA </option>
+                                <option value="IMP-I" {{ old('previous_method', $d->previous_method) == 'IMP-I' ? 'selected' : '' }}>Implant (Interval)</option>
+                                <option value="IMP-PP" {{ old('previous_method', $d->previous_method) == 'IMP-PP' ? 'selected' : '' }}>Implant (Postpartum)</option>
                                 <option value="IUD-I" {{ old('previous_method', $d->previous_method) == 'IUD-I' ? 'selected' : '' }}>IUD Interval</option>
                                 <option value="IUD-PP" {{ old('previous_method', $d->previous_method) == 'IUD-PP' ? 'selected' : '' }}>IUD Postpartum</option>
                                 <option value="NFP-LAM" {{ old('previous_method', $d->previous_method) == 'NFP-LAM' ? 'selected' : '' }}>Lactational Amenorrhea Method</option>
@@ -235,9 +235,9 @@
                             <option value="CON" {{ old('method', $d->method) == 'CON' ? 'selected' : '' }}>Condom</option>
                             <option value="PILLS-POP" {{ old('method', $d->method) == 'PILLS-POP' ? 'selected' : '' }}>Progestin Only Pills</option>
                             <option value="PILLS-COC" {{ old('method', $d->method) == 'PILLS-COC' ? 'selected' : '' }}>Combined Oral Contraceptive Pills</option>
-                            <option value="INJ" {{ old('method', $d->method) == 'INJ' ? 'selected' : '' }}>DMPA or CIC</option>
-                            <option value="IMP-I" {{ old('method', $d->method) == 'IMP-I' ? 'selected' : '' }}>Single rod sub-dermal Implant (Interval)</option>
-                            <option value="IMP-PP" {{ old('method', $d->method) == 'IMP-PP' ? 'selected' : '' }}>Single rod sub-dermal Implant (Postpartum)</option>
+                            <option value="INJ" {{ old('method', $d->method) == 'INJ' ? 'selected' : '' }}>DMPA </option>
+                            <option value="IMP-I" {{ old('method', $d->method) == 'IMP-I' ? 'selected' : '' }}>Implant (Interval)</option>
+                            <option value="IMP-PP" {{ old('method', $d->method) == 'IMP-PP' ? 'selected' : '' }}>Implant (Postpartum)</option>
                             <option value="IUD-I" {{ old('method', $d->method) == 'IUD-I' ? 'selected' : '' }}>IUD Interval</option>
                             <option value="IUD-PP" {{ old('method', $d->method) == 'IUD-PP' ? 'selected' : '' }}>IUD Postpartum</option>
                             <option value="NFP-LAM" {{ old('method', $d->method) == 'NFP-LAM' ? 'selected' : '' }}>Lactational Amenorrhea Method</option>

@@ -30,27 +30,35 @@ class CreateInhouseMaternalCaresTable extends Migration
             $table->date('visit1_est')->nullable();
             $table->date('visit1')->nullable();
             $table->string('visit1_type')->nullable();
+            $table->string('visit1_bp')->nullable();
             $table->date('visit2_est')->nullable();
             $table->date('visit2')->nullable();
             $table->string('visit2_type')->nullable();
+            $table->string('visit2_bp')->nullable();
             $table->date('visit3_est')->nullable();
             $table->date('visit3')->nullable();
             $table->string('visit3_type')->nullable();
+            $table->string('visit3_bp')->nullable();
             $table->date('visit4_est')->nullable();
             $table->date('visit4')->nullable();
             $table->string('visit4_type')->nullable();
+            $table->string('visit4_bp')->nullable();
             $table->date('visit5_est')->nullable();
             $table->date('visit5')->nullable();
             $table->string('visit5_type')->nullable();
+            $table->string('visit5_bp')->nullable();
             $table->date('visit6_est')->nullable();
             $table->date('visit6')->nullable();
             $table->string('visit6_type')->nullable();
+            $table->string('visit6_bp')->nullable();
             $table->date('visit7_est')->nullable();
             $table->date('visit7')->nullable();
             $table->string('visit7_type')->nullable();
+            $table->string('visit7_bp')->nullable();
             $table->date('visit8_est')->nullable();
             $table->date('visit8')->nullable();
             $table->string('visit8_type')->nullable();
+            $table->string('visit8_bp')->nullable();
             $table->char('completed_8anc', 1)->default('N');
 
             $table->double('height')->nullable();
@@ -130,6 +138,9 @@ class CreateInhouseMaternalCaresTable extends Migration
 
             $table->date('syphilis_date')->nullable();
             $table->char('syphilis_result', 1)->nullable();
+            $table->date('syp_conf_date')->nullable();
+            $table->char('syp_conf_result', 1)->nullable();
+            $table->char('syp_conf_treat', 1)->nullable();
             $table->date('hiv_date')->nullable();
             $table->char('hiv_result', 1)->nullable();
             $table->date('hb_date')->nullable();
@@ -157,9 +168,13 @@ class CreateInhouseMaternalCaresTable extends Migration
             $table->string('attendant_others')->nullable();
 
             $table->date('pnc1')->nullable();
+            $table->string('pnc1_bp')->nullable(); 
             $table->date('pnc2')->nullable();
+            $table->string('pnc2_bp')->nullable();
             $table->date('pnc3')->nullable();
+            $table->string('pnc3_bp')->nullable();
             $table->date('pnc4')->nullable();
+            $table->string('pnc4_bp')->nullable();
             $table->char('completed_4pnc', 1)->default('N');
 
             $table->date('pp_td1')->nullable();

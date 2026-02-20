@@ -513,7 +513,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function canAccessOpdPatients() {
         $plist = explode(",", auth()->user()->permission_list);
 
-        if($this->canAccessSyndromic() || $this->canAccessElectronicTcl()) {
+        if($this->canAccessSyndromic() || $this->canAccessElectronicTcl() || $this->isTbdotsEncoder()) {
             return true;
         }
         else {
