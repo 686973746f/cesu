@@ -103,7 +103,12 @@ class ElectronicTclController extends Controller
     public function storeMaternalCare(Request $r, $patient_id) {
         $d = SyndromicPatient::findOrFail($patient_id);
 
-        $check = InhouseMaternalCare::where('request_uuid', $r->request_uuid)->first();
+        $check = InhouseMaternalCare::where('request_uuid', $r->request_uuid)
+        ->orWhere(function ($q) use ($d, $r) {
+            $q->where('patient_id', $d->id)
+            ->whereDate('registration_date', $r->registration_date);
+        })
+        ->first();
 
         if($check) {
             return redirect()->
@@ -844,7 +849,12 @@ class ElectronicTclController extends Controller
     public function storeChildNutrition($patient_id, Request $r) {
         $d = SyndromicPatient::findOrFail($patient_id);
 
-        $check = InhouseChildNutrition::where('request_uuid', $r->request_uuid)->first();
+        $check = InhouseChildNutrition::where('request_uuid', $r->request_uuid)
+        ->orWhere(function ($q) use ($d, $r) {
+            $q->where('patient_id', $d->id)
+            ->whereDate('registration_date', $r->registration_date);
+        })
+        ->first();
 
         if($check) {
             return redirect()->
@@ -1179,7 +1189,12 @@ class ElectronicTclController extends Controller
     public function storeFamilyPlanning($patient_id, Request $r) {
         $d = SyndromicPatient::findOrFail($patient_id);
 
-        $check = InhouseFamilyPlanning::where('request_uuid', $r->request_uuid)->first();
+        $check = InhouseFamilyPlanning::where('request_uuid', $r->request_uuid)
+        ->orWhere(function ($q) use ($d, $r) {
+            $q->where('patient_id', $d->id)
+            ->whereDate('registration_date', $r->registration_date);
+        })
+        ->first();
 
         if($check) {
             return redirect()->
@@ -1520,7 +1535,12 @@ class ElectronicTclController extends Controller
 
         $d = SyndromicPatient::findOrFail($patient_id);
 
-        $check = InhouseChildCare::where('request_uuid', $r->request_uuid)->first();
+        $check = InhouseChildCare::where('request_uuid', $r->request_uuid)
+        ->orWhere(function ($q) use ($d, $r) {
+            $q->where('patient_id', $d->id)
+            ->whereDate('registration_date', $r->registration_date);
+        })
+        ->first();
 
         if($check) {
             return redirect()->

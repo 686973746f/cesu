@@ -181,6 +181,10 @@ class CreateInhouseMaternalCaresTable extends Migration
             $table->date('pnc4')->nullable();
             $table->string('pnc4_bp')->nullable();
             $table->char('completed_4pnc', 1)->default('N');
+            $table->char('pnc_with_highbp', 1)->default('N');
+            $table->char('pnc_with_dangersign', 1)->default('N');
+            $table->char('pnc_dangersign_referred', 1)->default('N');
+            $table->date('pnc_dangersign_datereferred')->nullable();
 
             $table->date('pp_td1')->nullable();
             $table->integer('pp_td1_dosage')->nullable();

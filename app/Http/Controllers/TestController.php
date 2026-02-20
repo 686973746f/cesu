@@ -47,8 +47,6 @@ ALTER TABLE syndromic_records ADD CONSTRAINT `syndromic_records_facility_id_fore
 class TestController extends Controller
 {
     public function index() {
-        $d = InhouseChildCare::find(549);
-
-        dd(Carbon::parse($d->mmr2)->diffInMonths($d->bdate_fixed));
+        
     }
 }
