@@ -138,7 +138,7 @@ class ElectronicTclController extends Controller
             $age_group = 'C'; //Adult
         }
 
-        $birthdate = Carbon::parse($d->bdate_fixed);
+        $birthdate = Carbon::parse($d->bdate);
         $currentDate = Carbon::parse($r->registration_date);
 
         $get_ageyears = $birthdate->diffInYears($currentDate);
@@ -862,7 +862,7 @@ class ElectronicTclController extends Controller
             ->with('msgtype', 'info');
         }
 
-        $birthdate = Carbon::parse($d->bdate_fixed);
+        $birthdate = Carbon::parse($d->bdate);
         $currentDate = Carbon::parse($r->registration_date);
 
         $get_ageyears = $birthdate->diffInYears($currentDate);
@@ -1198,7 +1198,7 @@ class ElectronicTclController extends Controller
             $age_group = 'C'; //Adult
         }
 
-        $birthdate = Carbon::parse($d->bdate_fixed);
+        $birthdate = Carbon::parse($d->bdate);
         $currentDate = Carbon::parse($r->registration_date);
 
         $get_ageyears = $birthdate->diffInYears($currentDate);
@@ -1538,7 +1538,7 @@ class ElectronicTclController extends Controller
             ->with('msgtype', 'info');
         }
 
-        $birthdate = Carbon::parse($d->bdate_fixed);
+        $birthdate = Carbon::parse($d->bdate);
         $currentDate = Carbon::parse($r->registration_date);
 
         $get_ageyears = $birthdate->diffInYears($currentDate);
