@@ -16,7 +16,7 @@ class CreateInhouseFamilySerialsTable extends Migration
         Schema::create('inhouse_family_serials', function (Blueprint $table) {
             $table->id();
             $table->foreignId('patient_id')->constrained('syndromic_patients')->cascadeOnDelete();
-            $table->string('inhouse_householdno');
+            $table->string('inhouse_householdno')->nullable();
             $table->string('inhouse_familyserialno');
 
             $table->string('ics_householdno')->nullable();

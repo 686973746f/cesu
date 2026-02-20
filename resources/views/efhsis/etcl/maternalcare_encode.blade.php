@@ -130,6 +130,10 @@
                                     <input type="date" class="form-control" name="visit1" id="visit1" value="{{old('visit1', $d->visit1)}}" max="{{date('Y-m-d')}}">
                                     <small class="text-muted">8-13 weeks</small>
                                 </div>
+                                <div class="form-group d-none" id="visit1_bp_div">
+                                    <label for="visit1_bp">Visit 1 Blood Pressure</label>
+                                    <input type="text" class="form-control" name="visit1_bp" id="visit1_bp" value="{{old('visit1_bp', $d->visit1_bp)}}">
+                                </div>
                                 <div class="form-group">
                                   <label for="visit1_type">Visit 1 Type</label>
                                   <select class="form-control" name="visit1_type" id="visit1_type">
@@ -150,6 +154,10 @@
                                       <label for="visit2" class="font-weight-bold">Visit 2 (Actual)</label>
                                       <input type="date" class="form-control" name="visit2" id="visit2" value="{{old('visit2', $d->visit2)}}" max="{{date('Y-m-d')}}">
                                       <small class="text-muted">14-20 weeks</small>
+                                  </div>
+                                  <div class="form-group d-none" id="visit2_bp_div">
+                                    <label for="visit2_bp">Visit 2 Blood Pressure</label>
+                                    <input type="text" class="form-control" name="visit2_bp" id="visit2_bp" value="{{old('visit2_bp', $d->visit2_bp)}}">
                                   </div>
                                   <div class="form-group">
                                     <label for="visit2_type">Visit 2 Type</label>
@@ -172,6 +180,10 @@
                                       <input type="date" class="form-control" name="visit3" id="visit3" value="{{old('visit3', $d->visit3)}}" max="{{date('Y-m-d')}}">
                                       <small class="text-muted">21-27 weeks</small>
                                   </div>
+                                  <div class="form-group d-none" id="visit3_bp_div">
+                                    <label for="visit3_bp">Visit 3 Blood Pressure</label>
+                                    <input type="text" class="form-control" name="visit3_bp" id="visit3_bp" value="{{old('visit3_bp', $d->visit3_bp)}}">
+                                  </div>
                                   <div class="form-group">
                                     <label for="visit3_type">Visit 3 Type</label>
                                     <select class="form-control" name="visit3_type" id="visit3_type">
@@ -192,6 +204,10 @@
                                       <label for="visit4" class="font-weight-bold">Visit 4 (Actual)</label>
                                       <input type="date" class="form-control" name="visit4" id="visit4" value="{{old('visit4', $d->visit4)}}" max="{{date('Y-m-d')}}">
                                       <small class="text-muted">28-30 weeks</small>
+                                  </div>
+                                  <div class="form-group d-none" id="visit4_bp_div">
+                                    <label for="visit4_bp">Visit 4 Blood Pressure</label>
+                                    <input type="text" class="form-control" name="visit4_bp" id="visit4_bp" value="{{old('visit4_bp', $d->visit4_bp)}}">
                                   </div>
                                   <div class="form-group">
                                     <label for="visit4_type">Visit 4 Type</label>
@@ -217,6 +233,10 @@
                                       <input type="date" class="form-control" name="visit5" id="visit5" value="{{old('visit5', $d->visit5)}}" max="{{date('Y-m-d')}}">
                                       <small class="text-muted">31-34 weeks</small>
                                   </div>
+                                  <div class="form-group d-none" id="visit5_bp_div">
+                                    <label for="visit5_bp">Visit 5 Blood Pressure</label>
+                                    <input type="text" class="form-control" name="visit5_bp" id="visit5_bp" value="{{old('visit5_bp', $d->visit5_bp)}}">
+                                  </div>
                                   <div class="form-group">
                                     <label for="visit5_type">Visit 5 Type</label>
                                     <select class="form-control" name="visit5_type" id="visit5_type">
@@ -237,6 +257,10 @@
                                       <label for="visit6" class="font-weight-bold">Visit 6 (Actual)</label>
                                       <input type="date" class="form-control" name="visit6" id="visit6" value="{{old('visit6', $d->visit6)}}" max="{{date('Y-m-d')}}">
                                       <small class="text-muted">35 weeks</small>
+                                  </div>
+                                  <div class="form-group d-none" id="visit6_bp_div">
+                                    <label for="visit6_bp">Visit 6 Blood Pressure</label>
+                                    <input type="text" class="form-control" name="visit6_bp" id="visit6_bp" value="{{old('visit6_bp', $d->visit6_bp)}}">
                                   </div>
                                   <div class="form-group">
                                     <label for="visit6_type">Visit 6 Type</label>
@@ -259,6 +283,10 @@
                                       <input type="date" class="form-control" name="visit7" id="visit7" value="{{old('visit7', $d->visit7)}}" max="{{date('Y-m-d')}}">
                                       <small class="text-muted">36 weeks</small>
                                   </div>
+                                  <div class="form-group d-none" id="visit7_bp_div">
+                                    <label for="visit7_bp">Visit 7 Blood Pressure</label>
+                                    <input type="text" class="form-control" name="visit7_bp" id="visit7_bp" value="{{old('visit7_bp', $d->visit7_bp)}}">
+                                  </div>
                                   <div class="form-group">
                                     <label for="visit7_type">Visit 7 Type</label>
                                     <select class="form-control" name="visit7_type" id="visit7_type">
@@ -280,6 +308,10 @@
                                       <input type="date" class="form-control" name="visit8" id="visit8" value="{{old('visit8', $d->visit8)}}" max="{{date('Y-m-d')}}">
                                       <small class="text-muted">37-40 weeks</small>
                                   </div>
+                                  <div class="form-group d-none" id="visit8_bp_div">
+                                    <label for="visit8_bp">Visit 8 Blood Pressure</label>
+                                    <input type="text" class="form-control" name="visit8_bp" id="visit8_bp" value="{{old('visit8_bp', $d->visit8_bp)}}">
+                                  </div>
                                   <div class="form-group">
                                     <label for="visit8_type">Visit 8 Type</label>
                                     <select class="form-control" name="visit8_type" id="visit8_type">
@@ -297,8 +329,9 @@
                             <label for="trans_remarks">Remarks</label>
                             <select class="form-control" name="trans_remarks" id="trans_remarks">
                               <option value="" {{old('trans_remarks', $d->trans_remarks) ? '' : 'selected'}}>N/A</option>
-                              <option value="A" {{old('trans_remarks', $d->trans_remarks) == 'A' ? 'selected' : ''}}>Trans In</option>
-                              <option value="B" {{old('trans_remarks', $d->trans_remarks) == 'B' ? 'selected' : ''}}>Trans Out before receiving 8ANC</option>
+                              <option value="A" {{old('trans_remarks', $d->trans_remarks) == 'A' ? 'selected' : ''}}>Resident</option>
+                              <option value="B" {{old('trans_remarks', $d->trans_remarks) == 'B' ? 'selected' : ''}}>Trans In</option>
+                              <option value="C" {{old('trans_remarks', $d->trans_remarks) == 'C' ? 'selected' : ''}}>Trans Out before receiving 8ANC</option>
                             </select>
                         </div>
                         <div id="transout_div" class="d-none">
@@ -745,48 +778,6 @@
                         <div class="row justify-content-center">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="">Syphilis Date Screened</label>
-                                    <input type="date" class="form-control" name="syphilis_date" id="syphilis_date" value="{{old('syphilis_date', $d->syphilis_date)}}" max="{{date('Y-m-d')}}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Result</label>
-                                    <select class="form-control" name="syphilis_result" id="syphilis_result">
-                                      <option value="" disabled {{old('syphilis_result', $d->syphilis_result) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="1" {{old('syphilis_result', $d->syphilis_result) === '1' ? 'selected' : ''}}>Positive</option>
-                                      <option value="0" {{old('syphilis_result', $d->syphilis_result) === '0' ? 'selected' : ''}}>Negative</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="">HIV Date Screened</label>
-                                    <input type="date" class="form-control" name="hiv_date" id="hiv_date" value="{{old('hiv_date', $d->hiv_date)}}" max="{{date('Y-m-d')}}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Result</label>
-                                    <select class="form-control" name="hiv_result" id="hiv_result">
-                                      <option value="" disabled {{old('hiv_result', $d->hiv_result) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="1" {{old('hiv_result', $d->hiv_result) === '1' ? 'selected' : ''}}>Reactive</option>
-                                      <option value="0" {{old('hiv_result', $d->hiv_result) === '0' ? 'selected' : ''}}>Negative</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="">Hepatitis B Date Screened</label>
-                                    <input type="date" class="form-control" name="hb_date" id="hb_date" value="{{old('hb_date', $d->hb_date)}}" max="{{date('Y-m-d')}}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Result</label>
-                                    <select class="form-control" name="hb_result" id="hb_result">
-                                      <option value="" disabled {{old('hb_result', $d->hb_result) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="1" {{old('hb_result', $d->hb_result) === '1' ? 'selected' : ''}}>Reactive</option>
-                                      <option value="0" {{old('hb_result', $d->hb_result) === '0' ? 'selected' : ''}}>Negative</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
                                     <label for="">CBC/Hgb&Hct Date Screened</label>
                                     <input type="date" class="form-control" name="cbc_date" id="cbc_date" value="{{old('cbc_date', $d->cbc_date)}}" max="{{date('Y-m-d')}}">
                                 </div>
@@ -811,6 +802,70 @@
                                       <option value="1" {{old('diabetes_result', $d->diabetes_result) === '1' ? 'selected' : ''}}>Positive</option>
                                       <option value="0" {{old('diabetes_result', $d->diabetes_result) === '0' ? 'selected' : ''}}>Negative</option>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="">Hepatitis B Date Screened</label>
+                                    <input type="date" class="form-control" name="hb_date" id="hb_date" value="{{old('hb_date', $d->hb_date)}}" max="{{date('Y-m-d')}}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Result</label>
+                                    <select class="form-control" name="hb_result" id="hb_result">
+                                      <option value="" disabled {{old('hb_result', $d->hb_result) ? '' : 'selected'}}>Choose...</option>
+                                      <option value="1" {{old('hb_result', $d->hb_result) === '1' ? 'selected' : ''}}>Reactive</option>
+                                      <option value="0" {{old('hb_result', $d->hb_result) === '0' ? 'selected' : ''}}>Negative</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="">HIV Date Screened</label>
+                                    <input type="date" class="form-control" name="hiv_date" id="hiv_date" value="{{old('hiv_date', $d->hiv_date)}}" max="{{date('Y-m-d')}}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Result</label>
+                                    <select class="form-control" name="hiv_result" id="hiv_result">
+                                      <option value="" disabled {{old('hiv_result', $d->hiv_result) ? '' : 'selected'}}>Choose...</option>
+                                      <option value="1" {{old('hiv_result', $d->hiv_result) === '1' ? 'selected' : ''}}>Reactive</option>
+                                      <option value="0" {{old('hiv_result', $d->hiv_result) === '0' ? 'selected' : ''}}>Non-reactive</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="syphilis_date">Syphilis Date Screened</label>
+                                    <input type="date" class="form-control" name="syphilis_date" id="syphilis_date" value="{{old('syphilis_date', $d->syphilis_date)}}" max="{{date('Y-m-d')}}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="syphilis_result">Result</label>
+                                    <select class="form-control" name="syphilis_result" id="syphilis_result">
+                                      <option value="" disabled {{old('syphilis_result', $d->syphilis_result) ? '' : 'selected'}}>Choose...</option>
+                                      <option value="1" {{old('syphilis_result', $d->syphilis_result) === '1' ? 'selected' : ''}}>Positive</option>
+                                      <option value="0" {{old('syphilis_result', $d->syphilis_result) === '0' ? 'selected' : ''}}>Negative</option>
+                                    </select>
+                                </div>
+                                <div id="syph_confirmatory_div" class="d-none">
+                                    <div class="form-group">
+                                        <label for="syp_conf_date">Date of Confirmatory Test</label>
+                                        <input type="date" class="form-control" name="syp_conf_date" id="syp_conf_date" value="{{old('syp_conf_date', $d->syp_conf_date)}}" max="{{date('Y-m-d')}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="syp_conf_result">Confirmatory Test Result</label>
+                                        <select class="form-control" name="syp_conf_result" id="syp_conf_result">
+                                          <option value="" disabled {{old('syp_conf_result', $d->syp_conf_result) ? '' : 'selected'}}>Choose...</option>
+                                          <option value="1" {{old('syp_conf_result', $d->syp_conf_result) === '1' ? 'selected' : ''}}>Positive</option>
+                                          <option value="0" {{old('syp_conf_result', $d->syp_conf_result) === '0' ? 'selected' : ''}}>Negative</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group d-none" id="syph_conf_pos_div">
+                                        <label for="syp_conf_treat">Treatment: Given at least 1 dose of benzathine penicilin 2.4 m U at least 30 days prior to delivery</label>
+                                        <select class="form-control" name="syp_conf_treat" id="syp_conf_treat">
+                                          <option value="" disabled {{old('syp_conf_treat', $d->syp_conf_treat) ? '' : 'selected'}}>Choose...</option>
+                                          <option value="1" {{old('syp_conf_treat', $d->syp_conf_treat) === '1' ? 'selected' : ''}}>Yes</option>
+                                          <option value="0" {{old('syp_conf_treat', $d->syp_conf_treat) === '0' ? 'selected' : ''}}>No</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1017,6 +1072,19 @@
     </form>
 
     <script>
+        $('#registration_date').change(function (e) { 
+            e.preventDefault();
+            var regDate = $('#registration_date').val(); // format: YYYY-MM-DD
+
+            if (regDate) {
+                var year = new Date(regDate).getFullYear();
+                
+                if (year >= 2026) {
+
+                }
+            }
+        });
+
         $(document).ready(function () {
             $('form').on('submit', function () {
                 $('#submitBtn')

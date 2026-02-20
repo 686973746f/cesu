@@ -59,6 +59,10 @@ class CreateInhouseMaternalCaresTable extends Migration
             $table->date('visit8')->nullable();
             $table->string('visit8_type')->nullable();
             $table->string('visit8_bp')->nullable();
+            $table->char('with_highbp', 1)->default('N');
+            $table->char('with_dangersign', 1)->default('N');
+            $table->char('dangersign_referred', 1)->default('N');
+            $table->date('dangersign_datereferred')->nullable();
             $table->char('completed_8anc', 1)->default('N');
 
             $table->double('height')->nullable();
@@ -157,6 +161,7 @@ class CreateInhouseMaternalCaresTable extends Migration
             $table->integer('number_livebirths_toencode')->nullable();
             $table->char('delivery_type', 2)->nullable();
 
+            $table->char('birth_sex', 1)->nullable();
             $table->double('birth_weight')->nullable();
             $table->string('weight_status', 20)->default('N');
 

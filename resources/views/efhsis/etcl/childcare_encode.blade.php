@@ -501,14 +501,25 @@
 @include('efhsis.etcl.confirm_bhs_modal')
 
 <script>
+    $('#registration_date').change(function (e) { 
+        e.preventDefault();
+        var regDate = $('#registration_date').val(); // format: YYYY-MM-DD
+
+        if (regDate) {
+            var year = new Date(regDate).getFullYear();
+            
+            if (year >= 2026) {
+
+            }
+        }
+    });
+
     $(document).ready(function () {
         $('form').on('submit', function () {
             $('#submitBtn')
                 .prop('disabled', true)
                 .text('Please wait... Do not refresh or close the page.');
         });
-
-        
     });
 
     $(document).bind('keydown', function(e) {
