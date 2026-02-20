@@ -184,7 +184,7 @@ class EmployeesController extends Controller
             //'address_brgy_text',
             //'address_street',
             //'address_houseno',
-            'type' => $r->type,
+            //'type' => $r->type,
             'job_position' => ($r->job_position) ? mb_strtoupper($r->job_position) : NULL,
             'office' => $r->office,
             'sub_office' => ($r->sub_office) ? mb_strtoupper($r->sub_office) : NULL,
