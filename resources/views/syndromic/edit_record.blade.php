@@ -272,7 +272,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="bloodpressure">Blood Pressure (BP)</label>
-                            <input type="text" class="form-control" name="bloodpressure" id="bloodpressure" value="{{old('bloodpressure', $d->bloodpressure)}}" {{($required_bp) ? 'required' : ''}}>
+                            <input type="text" class="form-control bp-field" name="bloodpressure" id="bloodpressure" value="{{old('bloodpressure', $d->bloodpressure)}}" {{($required_bp) ? 'required' : ''}}>
                         </div>
                     </div>
                 </div>
@@ -1410,6 +1410,16 @@ $the_record_id = $d->id;
 
       return true; // Allow form submission if at least one checkbox is checked
   }
+
+  $('.bp-field').on('input', function () {
+    let value = $(this).val().replace(/\D/g, '');
+
+    if (value.length >= 2) {
+        value = value.substring(0, value.length - 2) + '/' + value.substring(value.length - 2);
+    }
+
+    $(this).val(value);
+  });
 
   $(document).bind('keydown', function(e) {
       if(e.ctrlKey && (e.which == 83)) {

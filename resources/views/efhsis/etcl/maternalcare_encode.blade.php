@@ -130,9 +130,9 @@
                                     <input type="date" class="form-control" name="visit1" id="visit1" value="{{old('visit1', $d->visit1)}}" max="{{date('Y-m-d')}}">
                                     <small class="text-muted">8-13 weeks</small>
                                 </div>
-                                <div class="form-group d-none" id="visit1_bp_div">
+                                <div class="form-group" id="visit1_bp_div">
                                     <label for="visit1_bp">Visit 1 Blood Pressure</label>
-                                    <input type="text" class="form-control" name="visit1_bp" id="visit1_bp" value="{{old('visit1_bp', $d->visit1_bp)}}">
+                                    <input type="text" class="form-control bp-field" name="visit1_bp" id="visit1_bp" value="{{old('visit1_bp', $d->visit1_bp)}}">
                                 </div>
                                 <div class="form-group">
                                   <label for="visit1_type">Visit 1 Type</label>
@@ -155,9 +155,9 @@
                                       <input type="date" class="form-control" name="visit2" id="visit2" value="{{old('visit2', $d->visit2)}}" max="{{date('Y-m-d')}}">
                                       <small class="text-muted">14-20 weeks</small>
                                   </div>
-                                  <div class="form-group d-none" id="visit2_bp_div">
+                                  <div class="form-group" id="visit2_bp_div">
                                     <label for="visit2_bp">Visit 2 Blood Pressure</label>
-                                    <input type="text" class="form-control" name="visit2_bp" id="visit2_bp" value="{{old('visit2_bp', $d->visit2_bp)}}">
+                                    <input type="text" class="form-control bp-field" name="visit2_bp" id="visit2_bp" value="{{old('visit2_bp', $d->visit2_bp)}}">
                                   </div>
                                   <div class="form-group">
                                     <label for="visit2_type">Visit 2 Type</label>
@@ -180,9 +180,9 @@
                                       <input type="date" class="form-control" name="visit3" id="visit3" value="{{old('visit3', $d->visit3)}}" max="{{date('Y-m-d')}}">
                                       <small class="text-muted">21-27 weeks</small>
                                   </div>
-                                  <div class="form-group d-none" id="visit3_bp_div">
+                                  <div class="form-group" id="visit3_bp_div">
                                     <label for="visit3_bp">Visit 3 Blood Pressure</label>
-                                    <input type="text" class="form-control" name="visit3_bp" id="visit3_bp" value="{{old('visit3_bp', $d->visit3_bp)}}">
+                                    <input type="text" class="form-control bp-field" name="visit3_bp" id="visit3_bp" value="{{old('visit3_bp', $d->visit3_bp)}}">
                                   </div>
                                   <div class="form-group">
                                     <label for="visit3_type">Visit 3 Type</label>
@@ -205,9 +205,9 @@
                                       <input type="date" class="form-control" name="visit4" id="visit4" value="{{old('visit4', $d->visit4)}}" max="{{date('Y-m-d')}}">
                                       <small class="text-muted">28-30 weeks</small>
                                   </div>
-                                  <div class="form-group d-none" id="visit4_bp_div">
+                                  <div class="form-group" id="visit4_bp_div">
                                     <label for="visit4_bp">Visit 4 Blood Pressure</label>
-                                    <input type="text" class="form-control" name="visit4_bp" id="visit4_bp" value="{{old('visit4_bp', $d->visit4_bp)}}">
+                                    <input type="text" class="form-control bp-field" name="visit4_bp" id="visit4_bp" value="{{old('visit4_bp', $d->visit4_bp)}}">
                                   </div>
                                   <div class="form-group">
                                     <label for="visit4_type">Visit 4 Type</label>
@@ -233,9 +233,9 @@
                                       <input type="date" class="form-control" name="visit5" id="visit5" value="{{old('visit5', $d->visit5)}}" max="{{date('Y-m-d')}}">
                                       <small class="text-muted">31-34 weeks</small>
                                   </div>
-                                  <div class="form-group d-none" id="visit5_bp_div">
+                                  <div class="form-group" id="visit5_bp_div">
                                     <label for="visit5_bp">Visit 5 Blood Pressure</label>
-                                    <input type="text" class="form-control" name="visit5_bp" id="visit5_bp" value="{{old('visit5_bp', $d->visit5_bp)}}">
+                                    <input type="text" class="form-control bp-field" name="visit5_bp" id="visit5_bp" value="{{old('visit5_bp', $d->visit5_bp)}}">
                                   </div>
                                   <div class="form-group">
                                     <label for="visit5_type">Visit 5 Type</label>
@@ -258,9 +258,9 @@
                                       <input type="date" class="form-control" name="visit6" id="visit6" value="{{old('visit6', $d->visit6)}}" max="{{date('Y-m-d')}}">
                                       <small class="text-muted">35 weeks</small>
                                   </div>
-                                  <div class="form-group d-none" id="visit6_bp_div">
+                                  <div class="form-group" id="visit6_bp_div">
                                     <label for="visit6_bp">Visit 6 Blood Pressure</label>
-                                    <input type="text" class="form-control" name="visit6_bp" id="visit6_bp" value="{{old('visit6_bp', $d->visit6_bp)}}">
+                                    <input type="text" class="form-control bp-field" name="visit6_bp" id="visit6_bp" value="{{old('visit6_bp', $d->visit6_bp)}}">
                                   </div>
                                   <div class="form-group">
                                     <label for="visit6_type">Visit 6 Type</label>
@@ -283,9 +283,9 @@
                                       <input type="date" class="form-control" name="visit7" id="visit7" value="{{old('visit7', $d->visit7)}}" max="{{date('Y-m-d')}}">
                                       <small class="text-muted">36 weeks</small>
                                   </div>
-                                  <div class="form-group d-none" id="visit7_bp_div">
+                                  <div class="form-group" id="visit7_bp_div">
                                     <label for="visit7_bp">Visit 7 Blood Pressure</label>
-                                    <input type="text" class="form-control" name="visit7_bp" id="visit7_bp" value="{{old('visit7_bp', $d->visit7_bp)}}">
+                                    <input type="text" class="form-control bp-field" name="visit7_bp" id="visit7_bp" value="{{old('visit7_bp', $d->visit7_bp)}}">
                                   </div>
                                   <div class="form-group">
                                     <label for="visit7_type">Visit 7 Type</label>
@@ -308,9 +308,9 @@
                                       <input type="date" class="form-control" name="visit8" id="visit8" value="{{old('visit8', $d->visit8)}}" max="{{date('Y-m-d')}}">
                                       <small class="text-muted">37-40 weeks</small>
                                   </div>
-                                  <div class="form-group d-none" id="visit8_bp_div">
+                                  <div class="form-group" id="visit8_bp_div">
                                     <label for="visit8_bp">Visit 8 Blood Pressure</label>
-                                    <input type="text" class="form-control" name="visit8_bp" id="visit8_bp" value="{{old('visit8_bp', $d->visit8_bp)}}">
+                                    <input type="text" class="form-control bp-field" name="visit8_bp" id="visit8_bp" value="{{old('visit8_bp', $d->visit8_bp)}}">
                                   </div>
                                   <div class="form-group">
                                     <label for="visit8_type">Visit 8 Type</label>
@@ -325,6 +325,37 @@
                             </div>
                         </div>
                         <hr>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="with_dangersign"><b class="text-danger">*</b>With Danger Signs</label>
+                                    <select class="form-control" name="with_dangersign" id="with_dangersign" required>
+                                      <option value="" disabled {{old('with_dangersign', $d->with_dangersign) ? '' : 'selected'}}>Choose...</option>
+                                      <option value="1" {{old('with_dangersign', $d->with_dangersign) === '1' ? 'selected' : ''}}>Yes</option>
+                                      <option value="2" {{old('with_dangersign', $d->with_dangersign) === '2' ? 'selected' : ''}}>No</option>
+                                    </select>
+                                </div>
+                                <div class="form-group d-none" id="dangersign_specify_div">
+                                    <label for="with_dangersign_specify"><b class="text-danger">*</b>Specify Danger Signs</label>
+                                    <input type="text" class="form-control" name="with_dangersign_specify" id="with_dangersign_specify" value="{{old('with_dangersign_specify', $d->with_dangersign_specify)}}" style="text-transform: uppercase">
+                                </div>
+                            </div>
+                            <div class="col-md-6 d-none" id="dangersign_referred_div">
+                                <div class="form-group">
+                                    <label for="dangersign_referred"><b class="text-danger">*</b>Identified with High BP/Danger Signs and referred?</label>
+                                    <select class="form-control" name="dangersign_referred" id="dangersign_referred">
+                                      <option value="" disabled {{old('dangersign_referred', $d->dangersign_referred) ? '' : 'selected'}}>Choose...</option>
+                                      <option value="1" {{old('dangersign_referred', $d->dangersign_referred) === '1' ? 'selected' : ''}}>Yes</option>
+                                      <option value="2" {{old('dangersign_referred', $d->dangersign_referred) === '2' ? 'selected' : ''}}>No</option>
+                                    </select>
+                                </div>
+                                <div class="form-group d-none" id="dangersign_datereferred_div">
+                                    <label for="dangersign_datereferred"><b class="text-danger">*</b>Date Referred</label>
+                                    <input type="date" class="form-control" name="dangersign_datereferred" id="dangersign_datereferred" value="{{old('dangersign_datereferred', $d->dangersign_datereferred)}}" max="{{date('Y-m-d')}}">
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <label for="trans_remarks">Remarks</label>
                             <select class="form-control" name="trans_remarks" id="trans_remarks">
@@ -958,7 +989,7 @@
                     </div>
                 </div>
 
-                <div class="card mt-3 postnatal_div">
+                <div class="card mt-3 postnatal_div" id="pnc_div">
                     <div class="card-header"><b>Date of Postnatal Care</b></div>
                     <div class="card-body">
                         <div class="row">
@@ -967,11 +998,19 @@
                                     <label for="pnc1">Contact 1 (within 24 hours after delivery)</label>
                                     <input type="date" class="form-control" name="pnc1" id="pnc1" value="{{old('pnc1', $d->pnc1)}}" max="{{date('Y-m-d')}}">
                                 </div>
+                                <div class="form-group" id="pnc1_bp_div">
+                                    <label for="pnc1_bp">Contact 1 Blood Pressure</label>
+                                    <input type="text" class="form-control bp-field" name="pnc1_bp" id="pnc1_bp" value="{{old('pnc1_bp', $d->pnc1_bp)}}">
+                                </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="pnc2">Contact 2 (on day 3)</label>
                                     <input type="date" class="form-control" name="pnc2" id="pnc2" value="{{old('pnc2', $d->pnc2)}}" max="{{date('Y-m-d')}}">
+                                </div>
+                                <div class="form-group" id="pnc2_bp_div">
+                                    <label for="pnc2_bp">Contact 2 Blood Pressure</label>
+                                    <input type="text" class="form-control bp-field" name="pnc2_bp" id="pnc2_bp" value="{{old('pnc2_bp', $d->pnc2_bp)}}">
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -979,11 +1018,50 @@
                                     <label for="pnc3">Contact 3 (between 7-14 days)</label>
                                     <input type="date" class="form-control" name="pnc3" id="pnc3" value="{{old('pnc3', $d->pnc3)}}" max="{{date('Y-m-d')}}">
                                 </div>
+                                <div class="form-group" id="pnc3_bp_div">
+                                    <label for="pnc3_bp">Contact 3 Blood Pressure</label>
+                                    <input type="text" class="form-control bp-field" name="pnc3_bp" id="pnc3_bp" value="{{old('pnc3_bp', $d->pnc3_bp)}}">
+                                </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="pnc4">Contact 4 (6 weeks after birth)</label>
                                     <input type="date" class="form-control" name="pnc4" id="pnc4" value="{{old('pnc4', $d->pnc4)}}" max="{{date('Y-m-d')}}">
+                                </div>
+                                <div class="form-group" id="pnc4_bp_div">
+                                    <label for="pnc4_bp">Contact 4 Blood Pressure</label>
+                                    <input type="text" class="form-control bp-field" name="pnc4_bp" id="pnc4_bp" value="{{old('pnc4_bp', $d->pnc4_bp)}}">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="pnc_with_dangersign"><b class="text-danger">*</b>With Danger Signs</label>
+                                    <select class="form-control" name="pnc_with_dangersign" id="pnc_with_dangersign">
+                                      <option value="" disabled {{old('pnc_with_dangersign', $d->pnc_with_dangersign) ? '' : 'selected'}}>Choose...</option>
+                                      <option value="1" {{old('pnc_with_dangersign', $d->pnc_with_dangersign) === '1' ? 'selected' : ''}}>Yes</option>
+                                      <option value="2" {{old('pnc_with_dangersign', $d->pnc_with_dangersign) === '2' ? 'selected' : ''}}>No</option>
+                                    </select>
+                                </div>
+                                <div class="form-group d-none" id="pnc_dangersign_specify_div">
+                                    <label for="pnc_with_dangersign_specify"><b class="text-danger">*</b>Specify Danger Signs</label>
+                                    <input type="text" class="form-control" name="pnc_with_dangersign_specify" id="pnc_with_dangersign_specify" value="{{old('pnc_with_dangersign_specify', $d->pnc_with_dangersign_specify)}}" style="text-transform: uppercase">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="pnc_dangersign_referred"><b class="text-danger">*</b>Identified with High BP/Danger Signs and referred?</label>
+                                    <select class="form-control" name="pnc_dangersign_referred" id="pnc_dangersign_referred">
+                                      <option value="" disabled {{old('pnc_dangersign_referred', $d->pnc_dangersign_referred) ? '' : 'selected'}}>Choose...</option>
+                                      <option value="1" {{old('pnc_dangersign_referred', $d->pnc_dangersign_referred) === '1' ? 'selected' : ''}}>Yes</option>
+                                      <option value="2" {{old('pnc_dangersign_referred', $d->pnc_dangersign_referred) === '2' ? 'selected' : ''}}>No</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="pnc_dangersign_datereferred"><b class="text-danger">*</b>Date Referred</label>
+                                    <input type="date" class="form-control" name="pnc_dangersign_datereferred" id="pnc_dangersign_datereferred" value="{{old('pnc_dangersign_datereferred', $d->pnc_dangersign_datereferred)}}" max="{{date('Y-m-d')}}">
                                 </div>
                             </div>
                         </div>
@@ -1080,7 +1158,16 @@
                 var year = new Date(regDate).getFullYear();
                 
                 if (year >= 2026) {
-
+                    /*
+                    $('#visit1_bp_div').removeClass('d-none');
+                    $('#visit2_bp_div').removeClass('d-none');
+                    $('#visit3_bp_div').removeClass('d-none');
+                    $('#visit4_bp_div').removeClass('d-none');
+                    $('#visit5_bp_div').removeClass('d-none');
+                    $('#visit6_bp_div').removeClass('d-none');
+                    $('#visit7_bp_div').removeClass('d-none');
+                    $('#visit8_bp_div').removeClass('d-none');
+                    */
                 }
             }
         });
@@ -1103,6 +1190,17 @@
                 }, 2000);
                 return false;
             }
+        });
+
+        $('.bp-field').on('input', function () {
+            let value = $(this).val().replace(/\D/g, '');
+
+            if (value.length >= 2) {
+                value = value.substring(0, value.length - 2) + '/' + value.substring(value.length - 2);
+            }
+
+            $(this).val(value);
+
         });
 
         /*
@@ -1155,41 +1253,113 @@
 
         $('#visit1').on('change', function () {
             $('#visit1_type').prop('required', !!$(this).val());
+            $('#visit1_bp').prop('required', !!$(this).val());
             $('#visit2').prop('min', $(this).val());
         }).trigger('change');
 
         $('#visit2').on('change', function () {
             $('#visit2_type').prop('required', !!$(this).val());
+            $('#visit2_bp').prop('required', !!$(this).val());
             $('#visit3').prop('min', $(this).val());
         }).trigger('change');
 
         $('#visit3').on('change', function () {
             $('#visit3_type').prop('required', !!$(this).val());
+            $('#visit3_bp').prop('required', !!$(this).val());
             $('#visit4').prop('min', $(this).val());
         }).trigger('change');
 
         $('#visit4').on('change', function () {
             $('#visit4_type').prop('required', !!$(this).val());
+            $('#visit4_bp').prop('required', !!$(this).val());
             $('#visit5').prop('min', $(this).val());
         }).trigger('change');
 
         $('#visit5').on('change', function () {
             $('#visit5_type').prop('required', !!$(this).val());
+            $('#visit5_bp').prop('required', !!$(this).val());
             $('#visit6').prop('min', $(this).val());
         }).trigger('change');
 
         $('#visit6').on('change', function () {
             $('#visit6_type').prop('required', !!$(this).val());
+            $('#visit6_bp').prop('required', !!$(this).val());
             $('#visit7').prop('min', $(this).val());
         }).trigger('change');
 
         $('#visit7').on('change', function () {
             $('#visit7_type').prop('required', !!$(this).val());
+            $('#visit7_bp').prop('required', !!$(this).val());
             $('#visit8').prop('min', $(this).val());
         }).trigger('change');
 
         $('#visit8').on('change', function () {
             $('#visit8_type').prop('required', !!$(this).val());
+            $('#visit8_bp').prop('required', !!$(this).val());
+        }).trigger('change');
+
+        $('#with_dangersign').change(function (e) { 
+            e.preventDefault();
+            $('#dangersign_specify_div').toggleClass('d-none', $(this).val() !== '1');
+            $('#with_dangersign_specify').prop('required', $(this).val() === '1');
+
+            $('#dangersign_referred_div').toggleClass('d-none', $(this).val() !== '1');
+        }).trigger('change');
+
+        $('#dangersign_referred').change(function (e) { 
+            e.preventDefault();
+            $('#dangersign_datereferred_div').toggleClass('d-none', $(this).val() !== '1');
+            $('#dangersign_datereferred').prop('required', $(this).val() === '1');
+        }).trigger('change');
+
+        $('#pnc1').on('change', function () {
+            $('#pnc1_bp').prop('required', false);
+
+            if ($('#pnc_div').data('status') === 'active') {
+                $('#pnc1_bp').prop('required', !!$(this).val());
+            }
+        }).trigger('change');
+
+        $('#pnc2').on('change', function () {
+            $('#pnc2_bp').prop('required', false);
+
+            if ($('#pnc_div').data('status') === 'active') {
+                $('#pnc2_bp').prop('required', !!$(this).val());
+            }
+        }).trigger('change');
+
+        $('#pnc3').on('change', function () {
+            $('#pnc3_bp').prop('required', false);
+
+            if ($('#pnc_div').data('status') === 'active') {
+                $('#pnc3_bp').prop('required', !!$(this).val());
+            }
+        }).trigger('change');
+
+        $('#pnc4').on('change', function () {
+            $('#pnc4_bp').prop('required', false);
+
+            if ($('#pnc_div').data('status') === 'active') {
+                $('#pnc4_bp').prop('required', !!$(this).val());
+            }
+        }).trigger('change');
+
+        $('#syphilis_result').change(function (e) { 
+            e.preventDefault();
+            
+            $('#syph_confirmatory_div').toggleClass('d-none', $(this).val() !== '1');
+        }).trigger('change');
+
+        $('#syp_conf_date').change(function (e) { 
+            e.preventDefault();
+            $('#syp_conf_result').prop('required', !!$(this).val());
+        });
+
+        $('#syp_conf_result').change(function (e) { 
+            e.preventDefault();
+            
+            $('#syph_conf_pos_div').toggleClass('d-none', $(this).val() !== '1');
+            $('#syp_conf_treat').prop('required', $(this).val() === '1');
         }).trigger('change');
 
         $('#td1').on('change', function () {
@@ -1374,6 +1544,7 @@
             $('#number_livebirths').prop('required', false);
 
             $('.postnatal_div').hide();
+            $('#pnc_div').data('status', 'inactive');
 
             if($(this).val() == 'FT' || $(this).val() == 'PT' || $(this).val() == 'FD' || $(this).val() == 'AB') {
                 $('#delivery_div').removeClass('d-none');
@@ -1384,6 +1555,7 @@
                 $('#number_livebirths').prop('required', true);
 
                 $('.postnatal_div').show();
+                $('#pnc_div').data('status', 'active');
             }
 
             if($(this).val() == 'AB' || $(this).val() == 'FD') {

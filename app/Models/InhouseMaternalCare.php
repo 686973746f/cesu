@@ -57,6 +57,7 @@ class InhouseMaternalCare extends Model
         'completed_8anc',
         'with_highbp',
         'with_dangersign',
+        'with_dangersign_specify',
         'dangersign_referred',
         'dangersign_datereferred',
 
@@ -178,6 +179,7 @@ class InhouseMaternalCare extends Model
         'completed_4pnc',
         'pnc_with_highbp',
         'pnc_with_dangersign',
+        'pnc_with_dangersign_specify',
         'pnc_dangersign_referred',
         'pnc_dangersign_datereferred',
 
