@@ -615,13 +615,13 @@ class ElectronicTclController extends Controller
                 'attendant' => $r->attendant,
 
                 'pnc1' => $r->pnc1,
-                'pnc2_bp' => ($r->pnc2) ? $r->pnc2_bp : NULL,
+                'pnc1_bp' => ($r->pnc1) ? $r->pnc1_bp : NULL,
                 'pnc2' => $r->pnc2,
                 'pnc2_bp' => ($r->pnc2) ? $r->pnc2_bp : NULL,
                 'pnc3' => $r->pnc3,
                 'pnc3_bp' => ($r->pnc3) ? $r->pnc3_bp : NULL,
                 'pnc4' => $r->pnc4,
-                'pnc2_bp' => ($r->pnc2) ? $r->pnc2_bp : NULL,
+                'pnc4_bp' => ($r->pnc4) ? $r->pnc4_bp : NULL,
                 
                 'pnc_with_dangersign' => $r->pnc_with_dangersign,
                 'pnc_with_dangersign_specify' => $r->pnc_with_dangersign == 1 ? $r->pnc_with_dangersign_specify : null,
