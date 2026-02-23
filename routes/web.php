@@ -71,6 +71,7 @@ use App\Http\Controllers\ABTCWalkInRegistrationController;
 use App\Http\Controllers\ElectronicTclController;
 use App\Http\Controllers\SchoolBasedSurveillanceController;
 use App\Http\Controllers\SecondaryTertiaryRecordsController;
+use App\Http\Controllers\SocialHygieneTclController;
 
 /*
 |--------------------------------------------------------------------------
@@ -1140,6 +1141,10 @@ Route::middleware(['auth','verified', 'canAccessElectronicTcl', 'hasLatestPasswo
 
     Route::post('/etcl/family_planning/view/{id}/first_visit', [ElectronicTclController::class, 'initializeFamilyPlanning'])->name('etcl_familyplanning_first_visit');
     Route::post('/etcl/family_planning/view/{id}/process_next_visit', [ElectronicTclController::class, 'updateFamilyPlanningVisit'])->name('etcl_familyplanning_process_next_visit');
+});
+
+Route::middleware(['auth','verified', 'canAccessElectronicTcl', 'hasLatestPassword'])->group(function () {
+    Route::get('/etcl/shc', [SocialHygieneTclController::class, 'index'])->name('etcl_shc_index');
 });
 
 Route::middleware(['auth','verified', 'canAccessElectronicTclMasterAdmin', 'hasLatestPassword'])->group(function () {

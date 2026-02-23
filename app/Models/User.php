@@ -78,6 +78,7 @@ ETCL_ADMIN
 ETCL_MASTER_ADMIN
 
 SHC_ENCODER
+SHC_ADMIN
 
 */
 
@@ -848,10 +849,17 @@ class User extends Authenticatable implements MustVerifyEmail
             return false;
         }
     }
-
     
+    public function canAccessSocialHygieneTcl() {
+        $plist = $this->getPermissions();
 
-    
+        if(in_array('GLOBAL_ADMIN', $plist) || in_array('SHC_ENCODER', $plist) || in_array('SHC_ADMIN', $plist) || in_array('ETCL_ENCODER', $plist) || in_array('ETCL_MASTER_ADMIN', $plist)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 
     public function tclbhs() {
         return $this->belongsTo(DohFacility::class, 'etcl_bhs_id');

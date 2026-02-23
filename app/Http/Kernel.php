@@ -100,5 +100,6 @@ class Kernel extends HttpKernel
         'canAccessFhsisOrElectronicTcl' => \App\Http\Middleware\canAccessFhsisOrElectronicTcl::class,
         'canAccessOpdPatients' => \App\Http\Middleware\canAccessOpdPatients::class,
         'hasLatestPassword' => \App\Http\Middleware\HasLatestPassword::class,
+        'canAccessShcTcl' => \App\Http\Middleware\canAccessShcTcl::class,
     ];
 }
