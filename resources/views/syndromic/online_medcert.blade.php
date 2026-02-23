@@ -20,7 +20,6 @@
                 </div>
                 <div>
                     <img src="{{asset('assets/images/gentri_icon_large.png')}}" alt="" style="width: 8rem;">
-                    <img src="{{asset('assets/images/ljf.png')}}" alt="" style="width: 8rem;">
                 </div>
             </div>
             @else
