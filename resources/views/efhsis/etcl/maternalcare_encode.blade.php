@@ -332,7 +332,7 @@
                                     <select class="form-control" name="with_dangersign" id="with_dangersign" required>
                                       <option value="" disabled {{old('with_dangersign', $d->with_dangersign) ? '' : 'selected'}}>Choose...</option>
                                       <option value="1" {{old('with_dangersign', $d->with_dangersign) === '1' ? 'selected' : ''}}>Yes</option>
-                                      <option value="2" {{old('with_dangersign', $d->with_dangersign) === '2' ? 'selected' : ''}}>No</option>
+                                      <option value="0" {{old('with_dangersign', $d->with_dangersign) === '0' ? 'selected' : ''}}>No</option>
                                     </select>
                                 </div>
                                 <div class="form-group d-none" id="dangersign_specify_div">
@@ -346,7 +346,7 @@
                                     <select class="form-control" name="dangersign_referred" id="dangersign_referred">
                                       <option value="" disabled {{old('dangersign_referred', $d->dangersign_referred) ? '' : 'selected'}}>Choose...</option>
                                       <option value="1" {{old('dangersign_referred', $d->dangersign_referred) === '1' ? 'selected' : ''}}>Yes</option>
-                                      <option value="2" {{old('dangersign_referred', $d->dangersign_referred) === '2' ? 'selected' : ''}}>No</option>
+                                      <option value="0" {{old('dangersign_referred', $d->dangersign_referred) === '0' ? 'selected' : ''}}>No</option>
                                     </select>
                                 </div>
                                 <div class="form-group d-none" id="dangersign_datereferred_div">
@@ -1042,7 +1042,7 @@
                                     <select class="form-control" name="pnc_with_dangersign" id="pnc_with_dangersign">
                                       <option value="" disabled {{old('pnc_with_dangersign', $d->pnc_with_dangersign) ? '' : 'selected'}}>Choose...</option>
                                       <option value="1" {{old('pnc_with_dangersign', $d->pnc_with_dangersign) === '1' ? 'selected' : ''}}>Yes</option>
-                                      <option value="2" {{old('pnc_with_dangersign', $d->pnc_with_dangersign) === '2' ? 'selected' : ''}}>No</option>
+                                      <option value="0" {{old('pnc_with_dangersign', $d->pnc_with_dangersign) === '0' ? 'selected' : ''}}>No</option>
                                     </select>
                                 </div>
                                 <div class="form-group d-none" id="pnc_dangersign_specify_div">
@@ -1051,15 +1051,15 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group">
+                                <div class="form-group" id="pnc_dangersign_referred_div">
                                     <label for="pnc_dangersign_referred"><b class="text-danger">*</b>Identified with High BP/Danger Signs and referred?</label>
                                     <select class="form-control" name="pnc_dangersign_referred" id="pnc_dangersign_referred">
                                       <option value="" disabled {{old('pnc_dangersign_referred', $d->pnc_dangersign_referred) ? '' : 'selected'}}>Choose...</option>
                                       <option value="1" {{old('pnc_dangersign_referred', $d->pnc_dangersign_referred) === '1' ? 'selected' : ''}}>Yes</option>
-                                      <option value="2" {{old('pnc_dangersign_referred', $d->pnc_dangersign_referred) === '2' ? 'selected' : ''}}>No</option>
+                                      <option value="0" {{old('pnc_dangersign_referred', $d->pnc_dangersign_referred) === '2' ? 'selected' : ''}}>No</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" id="pnc_dangersign_referred_yes_div">
                                     <label for="pnc_dangersign_datereferred"><b class="text-danger">*</b>Date Referred</label>
                                     <input type="date" class="form-control" name="pnc_dangersign_datereferred" id="pnc_dangersign_datereferred" value="{{old('pnc_dangersign_datereferred', $d->pnc_dangersign_datereferred)}}" max="{{date('Y-m-d')}}">
                                 </div>
@@ -1304,12 +1304,28 @@
             $('#with_dangersign_specify').prop('required', $(this).val() === '1');
 
             $('#dangersign_referred_div').toggleClass('d-none', $(this).val() !== '1');
+            $('#dangersign_referred').prop('required', $(this).val() === '1');
         }).trigger('change');
 
         $('#dangersign_referred').change(function (e) { 
             e.preventDefault();
             $('#dangersign_datereferred_div').toggleClass('d-none', $(this).val() !== '1');
             $('#dangersign_datereferred').prop('required', $(this).val() === '1');
+        }).trigger('change');
+
+        $('#pnc_with_dangersign').change(function (e) { 
+            e.preventDefault();
+            $('#pnc_dangersign_specify_div').toggleClass('d-none', $(this).val() !== '1');
+            $('#pnc_with_dangersign_specify').prop('required', $(this).val() === '1');
+
+            $('#pnc_dangersign_referred_div').toggleClass('d-none', $(this).val() !== '1');
+            $('#pnc_dangersign_referred').prop('required', $(this).val() === '1');
+        }).trigger('change');
+
+        $('#pnc_dangersign_referred').change(function (e) { 
+            e.preventDefault();
+            $('#pnc_dangersign_referred_yes_div').toggleClass('d-none', $(this).val() !== '1');
+            $('#pnc_dangersign_datereferred').prop('required', $(this).val() === '1');
         }).trigger('change');
 
         $('#pnc1').on('change', function () {

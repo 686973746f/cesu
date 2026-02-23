@@ -76,6 +76,9 @@ NONCOMM_ADMIN
 ETCL_ENCODER
 ETCL_ADMIN
 ETCL_MASTER_ADMIN
+
+SHC_ENCODER
+
 */
 
 class User extends Authenticatable implements MustVerifyEmail
