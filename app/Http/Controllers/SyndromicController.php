@@ -494,7 +494,20 @@ class SyndromicController extends Controller
                 ->with('msgtype', 'danger');
         }
 
-        if (SyndromicPatient::where('request_uuid', $request->request_uuid)->exists()) {
+        if (SyndromicPatient::where('request_uuid', $request->request_uuid)
+            ->orWhere(function ($q) use ($request) {
+                $q->where('lname', mb_strtoupper($request->lname))
+                ->where('fname', mb_strtoupper($request->fname))
+                ->when($request->mname, function ($q) use ($request) {
+                    $q->where('mname', mb_strtoupper($request->mname));
+                })
+                ->when($request->suffix, function ($q) use ($request) {
+                    $q->where('suffix', mb_strtoupper($request->suffix));
+                })
+                ->whereDate('bdate', $request->bdate)
+                ->whereDate('created_at', Carbon::now()->format('Y-m-d'));
+            })
+            ->exists()) {
             return back()
                 ->withInput()
                 ->with('msg', 'ERROR: Duplicate request detected. Request UUID already exists.')
