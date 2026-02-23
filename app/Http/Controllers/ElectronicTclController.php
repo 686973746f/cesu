@@ -200,10 +200,10 @@ class ElectronicTclController extends Controller
             'visit8_bp' => $r->visit8_bp,
             'visit8_type' => $r->visit8_type,
 
-            'pnc_with_dangersign' => $r->pnc_with_dangersign,
-            'pnc_with_dangersign_specify' => $r->pnc_with_dangersign == 1 ? $r->pnc_with_dangersign_specify : null,
-            'pnc_dangersign_referred' => $r->pnc_with_dangersign == 1 ? $r->pnc_dangersign_referred : null,
-            'pnc_dangersign_datereferred' => $r->pnc_dangersign_referred == 1 ? $r->pnc_dangersign_datereferred : null, 
+            'with_dangersign' => $r->with_dangersign,
+            'with_dangersign_specify' => $r->with_dangersign == 1 ? $r->with_dangersign_specify : null,
+            'dangersign_referred' => $r->with_dangersign == 1 ? $r->dangersign_referred : null,
+            'dangersign_datereferred' => $r->dangersign_referred == 1 ? $r->dangersign_datereferred : null, 
 
             'height' => $r->height,
             'weight' => $r->weight,
@@ -483,6 +483,10 @@ class ElectronicTclController extends Controller
             'visit8' => $r->visit8,
             'visit8_bp' => $r->visit8_bp,
             'visit8_type' => $r->visit8_type,
+            'with_dangersign' => $r->with_dangersign,
+            'with_dangersign_specify' => $r->with_dangersign == 1 ? $r->with_dangersign_specify : null,
+            'dangersign_referred' => $r->with_dangersign == 1 ? $r->dangersign_referred : null,
+            'dangersign_datereferred' => $r->dangersign_referred == 1 ? $r->dangersign_datereferred : null,
 
             'height' => $r->height,
             'weight' => $r->weight,

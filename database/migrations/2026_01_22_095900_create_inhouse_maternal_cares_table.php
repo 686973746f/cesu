@@ -61,6 +61,7 @@ class CreateInhouseMaternalCaresTable extends Migration
             $table->string('visit8_bp')->nullable();
             $table->char('with_highbp', 1)->default('N');
             $table->char('with_dangersign', 1)->default('N');
+            $table->text('with_dangersign_specify')->nullable();
             $table->char('dangersign_referred', 1)->default('N');
             $table->date('dangersign_datereferred')->nullable();
             $table->char('completed_8anc', 1)->default('N');
@@ -183,6 +184,7 @@ class CreateInhouseMaternalCaresTable extends Migration
             $table->char('completed_4pnc', 1)->default('N');
             $table->char('pnc_with_highbp', 1)->default('N');
             $table->char('pnc_with_dangersign', 1)->default('N');
+            $table->text('pnc_dangersign_specify')->nullable();
             $table->char('pnc_dangersign_referred', 1)->default('N');
             $table->date('pnc_dangersign_datereferred')->nullable();
 
