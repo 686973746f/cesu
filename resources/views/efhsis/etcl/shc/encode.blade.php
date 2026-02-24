@@ -47,7 +47,6 @@
                     @csrf
                     <input type="hidden" name="month" value="{{ $selectDate->month }}">
                     <input type="hidden" name="year" value="{{ $selectDate->year }}">
-                    <input type="hidden" name="request_uuid" value="{{ Str::uuid() }}">
 
                     <table class="table table-bordered table-striped">
                         <thead class="thead-light text-center">

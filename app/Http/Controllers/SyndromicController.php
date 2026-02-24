@@ -1954,7 +1954,7 @@ class SyndromicController extends Controller
             //also delete records associated with the patient
             $r = SyndromicRecords::where('syndromic_patient_id', $patient_id)->delete();
 
-            $d->delete();
+            $d->forceDelete();
             
             return redirect()->route('syndromic_home')
             ->with('msg', 'Patient data was deleted successfully.')
