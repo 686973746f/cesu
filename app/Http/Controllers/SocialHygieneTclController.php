@@ -17,11 +17,11 @@ class SocialHygieneTclController extends Controller
         ->get();
 
         if(request()->input('month') && request()->input('year')) {
-            $selectDate = Carbon::createFromDate(request()->input('year'), request()->input('month'), 1);
+            $selectDate = Carbon::createFromDate(request()->input('year'), request()->input('month'), 1)->startOfMonth();
 
             // Check if month and year selected is not greater than current month and year
             // how about equal to current month and year? it should be alowed since encoding for current month and year is also allowed
-            if($selectDate->greaterThan(Carbon::now()->startOfMonth())) {
+            if($selectDate->gt(Carbon::now()->startOfMonth())) {
                 return redirect()
                 ->back()
                 ->with('msg', 'Selected month and year cannot be greater than current month and year.')
@@ -29,14 +29,14 @@ class SocialHygieneTclController extends Controller
             }
         }
         else {
-            $selectDate = Carbon::now();
+            $selectDate = Carbon::now()->startOfMonth();
         }
         
         return view('efhsis.etcl.shc.encode', compact('list', 'selectDate'));
     }
 
     public function store(Request $r) {
-        $dateSelected = Carbon::createFromDate($r->year, $r->month, 1);
+        $dateSelected = Carbon::createFromDate($r->year, $r->month, 1)->startOfMonth();
 
         foreach($r->brgy_id as $index => $brgy_id) {
             $updateOrCreate = SocialHygieneTcl::updateOrCreate(

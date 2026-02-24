@@ -40,7 +40,7 @@
                     </div>
                 </form>
                 <hr>
-                <div class="alert alert-info" role="alert">
+                <div class="alert alert-info">
                     <h4>Encoding for the month of <b>{{ $selectDate->format('F') }}</b>, Year <b>{{ $selectDate->year }}</b></h4>
                 </div>
                 <form action="{{ route('etcl_shc_store') }}" method="POST">
