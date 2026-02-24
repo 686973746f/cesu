@@ -213,6 +213,11 @@
     @endif
 
     <script>
+        $('#mainTbl').DataTable({
+            "order": [[ 1, "desc" ]],
+            "pageLength": 50
+        });
+
         $('#start_date').on('change', function () {
             $('#end_date').prop('min', $(this).val());
         });

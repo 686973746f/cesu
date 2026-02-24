@@ -136,7 +136,8 @@
                             </div>
                         </div>
                         @endif
-                        <button type="submit" class="btn btn-success btn-block">Generate M1</button>
+                        <button type="submit" class="btn btn-success btn-block" name="submit" value="m1_2025">Generate M1</button>
+                        <button type="submit" class="btn btn-success btn-block" name="submit" value="m1_2026">Generate M1 (2026 version)</button>
                     </form>
                 </div>
             </div>

@@ -69,6 +69,7 @@ use App\Http\Controllers\InhouseFamilySerialController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\ABTCWalkInRegistrationController;
 use App\Http\Controllers\ElectronicTclController;
+use App\Http\Controllers\ElectronicTclReportController;
 use App\Http\Controllers\SchoolBasedSurveillanceController;
 use App\Http\Controllers\SecondaryTertiaryRecordsController;
 use App\Http\Controllers\SocialHygieneTclController;
@@ -1116,8 +1117,8 @@ Route::get('/forms', function () {
 Route::middleware(['auth','verified', 'canAccessElectronicTcl', 'hasLatestPassword'])->group(function () {
     Route::get('/etcl', [ElectronicTclController::class, 'eTclHome'])->name('etcl_home');
     Route::post('/etcl/switch_bhs', [ElectronicTclController::class, 'switchBhs'])->name('etcl_switchbhs');
-    Route::post('/etcl/generate_m1', [ElectronicTclController::class, 'generateM1'])->name('etcl_generatem1');
-    Route::post('/etcl/generate_tcl', [ElectronicTclController::class, 'generateTcl'])->name('etcl_generatetcl');
+    Route::post('/etcl/generate_m1', [ElectronicTclReportController::class, 'generateM1'])->name('etcl_generatem1');
+    Route::post('/etcl/generate_tcl', [ElectronicTclReportController::class, 'generateTcl'])->name('etcl_generatetcl');
 
     Route::get('/etcl/maternal_care/new/{patient_id}', [ElectronicTclController::class, 'newMaternalCare'])->name('etcl_maternal_new');
     Route::post('/etcl/maternal_care/new/{patient_id}/store', [ElectronicTclController::class, 'storeMaternalCare'])->name('etcl_maternal_store');

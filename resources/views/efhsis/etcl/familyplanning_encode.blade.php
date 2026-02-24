@@ -85,9 +85,14 @@
                               @endif
                               <option value="CU" {{ old('client_type', $d->client_type) == 'CU' ? 'selected' : '' }}>Current Users</option>
                               <option value="OA" {{ old('client_type', $d->client_type) == 'OA' ? 'selected' : '' }}>Other Acceptors</option>
-                              <option value="CU-CM" {{ old('client_type', $d->client_type) == 'CU-CM' ? 'selected' : '' }}>Changing Method</option>
-                              <option value="CU-CC" {{ old('client_type', $d->client_type) == 'CU-CC' ? 'selected' : '' }}>Changing Clinic</option>
-                              <option value="CU-RS" {{ old('client_type', $d->client_type) == 'CU-RS' ? 'selected' : '' }}>Restarter</option>
+                              <option value="CU-CM" {{ old('client_type', $d->client_type) == 'CU-CM' ? 'selected' : '' }} class="method_2025">Changing Method</option>
+                              <option value="CU-CC" {{ old('client_type', $d->client_type) == 'CU-CC' ? 'selected' : '' }} class="method_2025">Changing Clinic</option>
+                              <option value="CU-RS" {{ old('client_type', $d->client_type) == 'CU-RS' ? 'selected' : '' }} class="method_2025">Restarter</option>
+
+                              <option value="OA-CM" {{ old('client_type', $d->client_type) == 'OA-CM' ? 'selected' : '' }} class="method_2026">Changing Method</option>
+                              <option value="OA-CC" {{ old('client_type', $d->client_type) == 'OA-CC' ? 'selected' : '' }} class="method_2026">Changing Clinic</option>
+                              <option value="OA-RS" {{ old('client_type', $d->client_type) == 'OA-RS' ? 'selected' : '' }} class="method_2026">Restarter</option>
+                              <option value="OA-CA" {{ old('client_type', $d->client_type) == 'OA-CA' ? 'selected' : '' }} class="method_2026">Changing Age</option>
                             </select>
                         </div>
                     </div>
@@ -322,6 +327,7 @@
                                 <option value="M">No FP Commodity</option>
                                 <option value="N">Unknown</option>
                                 <option value="O">Age out for BTL</option>
+                                <option value="P" class="method_2026">Change of Age</option>
                             </select>
                         </div>
                     </div>
@@ -341,6 +347,24 @@
 </form>
 @endif
 <script>
+    $('#registration_date').change(function (e) { 
+        e.preventDefault();
+        var regDate = $('#registration_date').val(); // format: YYYY-MM-DD
+
+        if (regDate) {
+            var year = new Date(regDate).getFullYear();
+            
+            if (year >= 2026) {
+                $('.method_2025').hide();
+                $('.method_2026').show();
+            }
+            else {
+                $('.method_2026').hide();
+                $('.method_2025').show();
+            }
+        }
+    }).trigger('change');
+
     $(document).ready(function () {
         $('form').on('submit', function () {
             $('#submitBtn')

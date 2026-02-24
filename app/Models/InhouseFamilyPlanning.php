@@ -121,13 +121,13 @@ class InhouseFamilyPlanning extends Model
             return 'Combined Oral Contraceptives';
         }
         else if($method == 'INJ') {
-            return 'DMPA or CIC';
+            return 'Injectables (DMPA)';
         }
         else if($method == 'IMP-I') {
-            return 'Single rod sub-dermal Implant (Interval)';
+            return 'Implant (Interval)';
         }
         else if($method == 'IMP-PP') {
-            return 'Single rod sub-dermal Implant (Postpartum)';
+            return 'Implant (Postpartum)';
         }
         else if($method == 'IUD-I') {
             return 'IUD Interval';
