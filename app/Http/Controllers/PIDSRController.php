@@ -11445,7 +11445,7 @@ class PIDSRController extends Controller
 
                     $sheet->setCellValue('AA'.$row, Carbon::parse($d->DONSET)->format('m/d/Y')); //DateOnsetOfIllness
                     $sheet->getStyle('AA'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
-                    $sheet->setCellValue('AB'.$row, Carbon::parse($d->edcs_investigateDate)->format('m/d/Y')); //DateOfInvestigation
+                    $sheet->setCellValue('AB'.$row, Carbon::parse($d->DCASEINV)->format('m/d/Y')); //DateOfInvestigation
                     $sheet->getStyle('AB'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
 
                     $sheet->setCellValue('AC'.$row, $d->edcs_investigatorName); //NameOfInvestigators
