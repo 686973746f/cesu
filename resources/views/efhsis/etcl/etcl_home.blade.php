@@ -10,13 +10,13 @@
                         <div><b>Facility:</b> {{auth()->user()->etclBhs->facility_name}}
                         
                         @if(!empty(auth()->user()->getBhsSwitchList()) || auth()->user()->isMasterAdminEtcl())
-                        <button type="button" class="btn btn-primary ml-2" data-toggle="modal" data-target="#switchBhs"><i class="fa fa-exchange-alt mr-2" aria-hidden="true"></i> Switch BHS</button>
+                        <button type="button" class="btn btn-primary mt-3 ml-2" data-toggle="modal" data-target="#switchBhs"><i class="fa fa-exchange-alt mr-2" aria-hidden="true"></i> Switch BHS</button>
                         @endif
                         </div>
                     </div>
                     <div>
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#newPatientModal"><i class="fa fa-user mr-2" aria-hidden="true"></i> New/Search Patient</button>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#printTcl"><i class="fa fa-print mr-2" aria-hidden="true"></i> Print TCL</button>
+                        <button type="button" class="btn btn-success mb-3" data-toggle="modal" data-target="#newPatientModal"><i class="fa fa-user mr-2" aria-hidden="true"></i> New/Search Patient</button>
+                        <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#printTcl"><i class="fa fa-print mr-2" aria-hidden="true"></i> Print TCL</button>
                     </div>
                 </div>
                 
@@ -61,20 +61,22 @@
                         </div>
                     </div>
                 </form>
-    
-                @if($type == 'maternal_care')
-                    @include('efhsis.etcl.maternalcare_list')
-                @elseif($type == 'child_care')
-                    @include('efhsis.etcl.childcare_list')
-                @elseif($type == 'child_nutrition')
-                    @include('efhsis.etcl.childnutrition_list')
-                @elseif($type == 'family_planning')
-                    @include('efhsis.etcl.familyplanning_list')
-                @else
-                    <div class="alert alert-warning">
-                        Please select a valid eTCL module from the <a href="{{route('etcl_home')}}">eTCL Home</a>.
-                    </div>
-                @endif
+                <div class="table-responsive">
+                    @if($type == 'maternal_care')
+                        @include('efhsis.etcl.maternalcare_list')
+                    @elseif($type == 'child_care')
+                        @include('efhsis.etcl.childcare_list')
+                    @elseif($type == 'child_nutrition')
+                        @include('efhsis.etcl.childnutrition_list')
+                    @elseif($type == 'family_planning')
+                        @include('efhsis.etcl.familyplanning_list')
+                    @else
+                        <div class="alert alert-warning">
+                            Please select a valid eTCL module from the <a href="{{route('etcl_home')}}">eTCL Home</a>.
+                        </div>
+                    @endif
+                </div>
+                
             </div>
         </div>
     </div>

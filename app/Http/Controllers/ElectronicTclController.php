@@ -1346,7 +1346,7 @@ class ElectronicTclController extends Controller
             $next_visit->visit_date_estimated = Carbon::parse($d->visit_date_actual)->addMonthsNoOverflow(6);
         }
 
-        $birthdate = Carbon::parse($d->bdate_fixed)->startOfDay();
+        $birthdate = Carbon::parse($d->familyplanning->bdate_fixed)->startOfDay();
         $currentDate = Carbon::parse($next_visit->visit_date_estimated)->startOfDay();
 
         $get_ageyears = $birthdate->diffInYears($currentDate);
@@ -1373,6 +1373,16 @@ class ElectronicTclController extends Controller
 
         $next_visit->request_uuid = (string) Str::uuid();
         $next_visit->save();
+
+        if($d->method_used == 'BTL' || $d->method_used == 'NSV') {
+            //Chase next visits until current month
+            $start = Carbon::parse($d->visit_date_actual)->addMonthsNoOverflow(1)->startOfMonth();
+            $end = Carbon::now()->startOfMonth();
+
+            if($start->lt($end)) {
+                self::makeNextVisit($next_visit->id);
+            }
+        }
     }
 
     public function initializeFamilyPlanning($tcl_fp_id, Request $r) {
@@ -1414,9 +1424,7 @@ class ElectronicTclController extends Controller
 
             $visit->save();
             
-            if($r->method != 'BTL' && $r->method != 'NSV') {
-                $this->makeNextVisit($visit->id);
-            }
+            $this->makeNextVisit($visit->id);
         }
 
         $d->current_method = $r->method;

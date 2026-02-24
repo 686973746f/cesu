@@ -15,8 +15,14 @@
 
 @if($mode == 'EDIT')
 <form action="{{route('etcl_familyplanning_update', $d->id)}}" method="POST">
+    @php
+    $gender = substr($d->patient->gender, 0, 1);
+    @endphp
 @else
 <form action="{{route('etcl_familyplanning_store', $patient->id)}}" method="POST">
+    @php
+    $gender = substr($patient->gender, 0, 1);
+    @endphp
 @endif
 @csrf
 <input type="hidden" name="request_uuid" value="{{Str::uuid()}}">
@@ -111,8 +117,12 @@
                             <label for="previous_method"><b class="text-danger">*</b>Previous Method</label>
                             <select class="form-control" name="previous_method" id="previous_method" required>
                                 <option value="" disabled {{ old('previous_method', $d->previous_method) ? '' : 'selected' }}>Choose...</option>
+                                @if($gender == 'F')
                                 <option value="BTL" {{ old('previous_method', $d->previous_method) == 'BTL' ? 'selected' : '' }}>Bilateral Tubal Ligation</option>
+                                @endif
+                                @if($gender == 'M')
                                 <option value="NSV" {{ old('previous_method', $d->previous_method) == 'NSV' ? 'selected' : '' }}>No-Scalpel Vasectomy</option>
+                                @endif
                                 <option value="CON" {{ old('previous_method', $d->previous_method) == 'CON' ? 'selected' : '' }}>Condom</option>
                                 <option value="PILLS-POP" {{ old('previous_method', $d->previous_method) == 'PILLS-POP' ? 'selected' : '' }}>Progestin Only Pills</option>
                                 <option value="PILLS-COC" {{ old('previous_method', $d->previous_method) == 'PILLS-COC' ? 'selected' : '' }}>Combined Oral Contraceptive Pills</option>
@@ -235,8 +245,12 @@
                         <label for="method"><b class="text-danger">*</b>Select Method</label>
                         <select class="form-control" name="method" id="method" required>
                             <option value="" disabled {{ old('method', $d->method) ? '' : 'selected' }}>Choose...</option>
+                            @if($gender == 'F')
                             <option value="BTL" {{ old('method', $d->method) == 'BTL' ? 'selected' : '' }}>Bilateral Tubal Ligation</option>
+                            @endif
+                            @if($gender == 'M')
                             <option value="NSV" {{ old('method', $d->method) == 'NSV' ? 'selected' : '' }}>No-Scalpel Vasectomy</option>
+                            @endif
                             <option value="CON" {{ old('method', $d->method) == 'CON' ? 'selected' : '' }}>Condom</option>
                             <option value="PILLS-POP" {{ old('method', $d->method) == 'PILLS-POP' ? 'selected' : '' }}>Progestin Only Pills</option>
                             <option value="PILLS-COC" {{ old('method', $d->method) == 'PILLS-COC' ? 'selected' : '' }}>Combined Oral Contraceptive Pills</option>
