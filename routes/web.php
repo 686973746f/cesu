@@ -1143,8 +1143,9 @@ Route::middleware(['auth','verified', 'canAccessElectronicTcl', 'hasLatestPasswo
     Route::post('/etcl/family_planning/view/{id}/process_next_visit', [ElectronicTclController::class, 'updateFamilyPlanningVisit'])->name('etcl_familyplanning_process_next_visit');
 });
 
-Route::middleware(['auth','verified', 'canAccessElectronicTcl', 'hasLatestPassword'])->group(function () {
+Route::middleware(['auth','verified', 'canAccessShcTcl', 'hasLatestPassword'])->group(function () {
     Route::get('/etcl/shc', [SocialHygieneTclController::class, 'index'])->name('etcl_shc_index');
+    Route::post('/etcl/shc/store', [SocialHygieneTclController::class, 'store'])->name('etcl_shc_store');
 });
 
 Route::middleware(['auth','verified', 'canAccessElectronicTclMasterAdmin', 'hasLatestPassword'])->group(function () {

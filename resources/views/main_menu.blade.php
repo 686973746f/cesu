@@ -40,6 +40,9 @@
             @if(auth()->user()->canAccessFhsisOrElectronicTcl())
             <a href="{{route('fhsis_home')}}" class="btn btn-block btn-primary btn-lg"><img src="{{asset('assets/images/efhsis_logo.jpg')}}" alt="" class="img-fluid mr-3" style="width: 2rem;"> Integrated eFHSIS</a>
             @endif
+            @if(auth()->user()->canAccessFhsisOrElectronicTcl())
+            <a href="{{route('etcl_shc_index')}}" class="btn btn-block btn-primary btn-lg">Social Hygiene Target Client List (eTCL)</a>
+            @endif
             @if(auth()->user()->canAccessPharmacy())
             <a href="{{route('pharmacy_home')}}" class="btn btn-block btn-primary btn-lg">Pharmacy Inventory System</a>
                 @if(auth()->user()->isActualPharmacyUser())

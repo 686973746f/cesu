@@ -903,6 +903,8 @@ class User extends Authenticatable implements MustVerifyEmail
             'ETCL_ENCODER',
             'ETCL_ADMIN',
             'ETCL_MASTER_ADMIN',
+            'SHC_ENCODER',
+            'SHC_ADMIN',
         ];
 
         sort($arr);

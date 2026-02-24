@@ -43,8 +43,7 @@ class CreateSocialHygieneTclsTable extends Migration
             $table->integer('nr_preg_hiv_c')->default(0);
             $table->integer('r_preg_hepab_c')->default(0);
             $table->integer('nr_preg_hepab_c')->default(0);
-
-            $table->uuid('request_uuid')->unique();
+            
             $table->char('is_locked')->default('N');
             
             $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
