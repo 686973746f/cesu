@@ -1310,20 +1310,11 @@ class ElectronicTclController extends Controller
     public static function makeNextVisit($visit_id) {
         $d = InhouseFpVisit::findOrFail($visit_id);
 
+        $previous_ageyears = $d->age_years;
+
         $next_visit = new InhouseFpVisit();
         $next_visit->fp_tcl_id = $d->fp_tcl_id;
         $next_visit->client_type = 'CU';
-
-        if($d->method_used == 'BTL' || $d->method_used == 'NSV') {
-            $next_visit->is_permanent = 'Y';
-            $next_visit->is_visible = 'N';
-            $next_visit->status = 'DONE';
-        }
-        else {
-            $next_visit->status = 'PENDING';
-        }
-
-        $next_visit->method_used = $d->method_used;
         
         if($d->method_used == 'BTL' || $d->method_used == 'NSV') {
             $next_visit->visit_date_estimated = Carbon::parse($d->visit_date_actual)->addMonthsNoOverflow(1);
@@ -1346,6 +1337,17 @@ class ElectronicTclController extends Controller
             $next_visit->visit_date_estimated = Carbon::parse($d->visit_date_actual)->addMonthsNoOverflow(6);
         }
 
+        if($d->method_used == 'BTL' || $d->method_used == 'NSV') {
+            $next_visit->is_permanent = 'Y';
+            $next_visit->is_visible = 'N';
+            $next_visit->status = 'DONE';
+        }
+        else {
+            $next_visit->status = 'PENDING';
+        }
+
+        $next_visit->method_used = $d->method_used;
+
         $birthdate = Carbon::parse($d->familyplanning->bdate_fixed)->startOfDay();
         $currentDate = Carbon::parse($next_visit->visit_date_estimated)->startOfDay();
 
@@ -1357,20 +1359,74 @@ class ElectronicTclController extends Controller
         $next_visit->age_months = $get_agemonths;
         $next_visit->age_days = $get_agedays;
 
-        if($d->familyplanning->patient->gender == 'FEMALE' && $next_visit->age_years >= 50 || 
-        $d->familyplanning->patient->is_deceased == 'Y') {
+        //Will dropout and create new TCL if changed age
+        if($previous_ageyears == 14 && $get_ageyears == 15 || $previous_ageyears == 19 && $get_ageyears == 20) {
+            if($get_ageyears >= 15 && $get_ageyears <= 19) {
+                $age_group = 'B';
+            }
+            else if($get_ageyears >= 20) {
+                $age_group = 'C';
+            }
+
+            $next_visit->is_visible = 'Y';
+            $next_visit->status = 'DROP-OUT';
+            $next_visit->dropout_date = $next_visit->visit_date_estimated;
+            $next_visit->dropout_reason = 'P';
+
+            //Trigger Create TCL
+            $tcl = new InhouseFamilyPlanning();
+            $tcl->patient_id = $d->familyplanning->patient_id;
+            $tcl->facility_id = $d->familyplanning->facility_id;
+            $tcl->registration_date = $d->familyplanning->registration_date;
+            $tcl->age_group = $age_group;
+            $tcl->client_type = 'OA-CA';
+            $tcl->source = $d->familyplanning->source;
+            $tcl->previous_method = $d->method_used;
+            $tcl->created_by = Auth::id();
+            $tcl->updated_by = Auth::id();
+            $tcl->request_uuid = (string) Str::uuid();
+            $tcl->bdate_fixed = $d->familyplanning->bdate_fixed;
+            $tcl->age_years = $get_ageyears;
+            $tcl->age_months = $get_agemonths;
+            $tcl->age_days = $get_agedays;
+
+            $tcl->save();
+
+            //Create first visit for new TCL
+            $first_visit = new InhouseFpVisit();
+            $first_visit->fp_tcl_id = $tcl->id;
+            $first_visit->client_type = 'OA-CA';
+            $first_visit->method_used = $d->method_used;
+            $first_visit->visit_date_estimated = $next_visit->visit_date_estimated;
+            $first_visit->visit_date_actual = ($d->method_used == 'BTL' || $d->method_used == 'NSV') ? $next_visit->visit_date_estimated : NULL;
+            $first_visit->status = ($d->method_used == 'BTL' || $d->method_used == 'NSV') ? 'DONE' : 'PENDING';
+            $first_visit->is_permanent = ($d->method_used == 'BTL' || $d->method_used == 'NSV') ? 'Y' : 'N';
+            $first_visit->is_visible = 'Y';
+            $first_visit->created_by = Auth::id();
+            $first_visit->updated_by = Auth::id();
+
+            $first_visit->age_years = $get_ageyears;
+            $first_visit->age_months = $get_agemonths;
+            $first_visit->age_days = $get_agedays;
+            
+            $first_visit->request_uuid = (string) Str::uuid();
+            $first_visit->save();
+        }
+        else if($get_ageyears >= 50 || $d->familyplanning->patient->is_deceased == 'Y') {
             $next_visit->is_visible = 'Y';
             $next_visit->status = 'DROP-OUT';
             $next_visit->dropout_date = $next_visit->visit_date_estimated;
         }
 
-        if($d->familyplanning->patient->gender == 'FEMALE' && $next_visit->age_years >= 50) {
+        if($get_ageyears >= 50) {
             $next_visit->dropout_reason = 'Age Limit Reached';
         }
         else if($d->familyplanning->patient->is_deceased == 'Y') {
             $next_visit->dropout_reason = 'Patient Deceased';
         }
 
+        $next_visit->created_by = Auth::id();
+        $next_visit->updated_by = Auth::id();
         $next_visit->request_uuid = (string) Str::uuid();
         $next_visit->save();
 

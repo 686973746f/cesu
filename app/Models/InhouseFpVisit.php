@@ -39,8 +39,13 @@ class InhouseFpVisit extends Model
 
     public function ifEligibleForUpdate() {
         //Check if visit_date_estimated is on the same month and year as the current date, if it is then return true else return false
-        if(Carbon::parse($this->visit_date_estimated)->startOfMonth()->gt(Carbon::now()->startOfMonth())) {
-            return false;
+        if($this->method_used != 'NFP-LAM') {
+            if(Carbon::parse($this->visit_date_estimated)->startOfMonth()->gt(Carbon::now()->startOfMonth())) {
+                return false;
+            }
+            else {
+                return true;
+            }
         }
         else {
             return true;
@@ -53,5 +58,9 @@ class InhouseFpVisit extends Model
 
     public function getMethod($method_code) {
         return $this->familyplanning->getMethod($method_code);
+    }
+
+    public function getDropOutReason($reason_code) {
+        return $this->familyplanning->getDropOutReason($reason_code);
     }
 }

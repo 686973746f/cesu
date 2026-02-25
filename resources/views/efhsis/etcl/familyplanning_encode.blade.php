@@ -179,6 +179,7 @@
                                         @endif
                                         @if($visit->dropout_date)
                                         <h6><b class="text-danger">Drop-out Date:</b> {{ Carbon\Carbon::parse($visit->dropout_date)->format('F d, Y') }}</h6>
+                                        <h6><b>Reason:</b> {{ $visit->getDropOutReason($visit->dropout_reason) }}</h6>
                                         @endif
                                     </div>
                                     <div class="col-md-4 text-center">
@@ -245,12 +246,10 @@
                         <label for="method"><b class="text-danger">*</b>Select Method</label>
                         <select class="form-control" name="method" id="method" required>
                             <option value="" disabled {{ old('method', $d->method) ? '' : 'selected' }}>Choose...</option>
-                            @if($gender == 'F')
-                            <option value="BTL" {{ old('method', $d->method) == 'BTL' ? 'selected' : '' }}>Bilateral Tubal Ligation</option>
-                            @endif
                             @if($gender == 'M')
                             <option value="NSV" {{ old('method', $d->method) == 'NSV' ? 'selected' : '' }}>No-Scalpel Vasectomy</option>
-                            @endif
+                            @else
+                            <option value="BTL" {{ old('method', $d->method) == 'BTL' ? 'selected' : '' }}>Bilateral Tubal Ligation</option>
                             <option value="CON" {{ old('method', $d->method) == 'CON' ? 'selected' : '' }}>Condom</option>
                             <option value="PILLS-POP" {{ old('method', $d->method) == 'PILLS-POP' ? 'selected' : '' }}>Progestin Only Pills</option>
                             <option value="PILLS-COC" {{ old('method', $d->method) == 'PILLS-COC' ? 'selected' : '' }}>Combined Oral Contraceptive Pills</option>
@@ -264,6 +263,7 @@
                             <option value="NFP-CMM" {{ old('method', $d->method) == 'NFP-CMM' ? 'selected' : '' }}>Cervical Mucus Method</option>
                             <option value="NFP-STM" {{ old('method', $d->method) == 'NFP-STM' ? 'selected' : '' }}>Symptothermal Method</option>
                             <option value="NFP-SDM" {{ old('method', $d->method) == 'NFP-SDM' ? 'selected' : '' }}>Standard Days Method</option>
+                            @endif
                         </select>
                     </div>
                     <div class="form-group">
@@ -306,26 +306,37 @@
                     <div class="form-group">
                         <label for="status"><b class="text-danger">*</b>Status</label>
                         <select class="form-control" name="status" id="update_status" required>
+                            @if($d->latestVisit->method_used != 'NFP-LAM')
                             <option value="" disabled selected>Choose...</option>
                             <option value="DONE">Done</option>
                             <option value="DROP-OUT">Drop-out</option>
+                            @else
+                            <option value="DROP-OUT">Drop-out</option>
+                            @endif
                         </select>
                     </div> 
                     <div class="d-none" id="done_div">
                         <div class="form-group">
                             <label for="visit_date_actual"><b class="text-danger">*</b>Actual Date of Visit</label>
-                            <input type="date" class="form-control" name="visit_date_actual" id="update_visit_date_actual" min="{{ date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}" value="{{old('visit_date_actual')}}">
+                            <input type="date" class="form-control" name="visit_date_actual" id="update_visit_date_actual" min="{{ Carbon\Carbon::parse($d->latestVisit->visit_date_estimated)->subMonth(2)->format('Y-m-d') }}" max="{{date('Y-m-d')}}" value="{{old('visit_date_actual')}}">
                         </div>
                     </div>
                     <div class="d-none" id="dropout_div">
                         <div class="form-group">
                             <label for="dropout_date"><b class="text-danger">*</b>Drop-out Date</label>
-                            <input type="date" class="form-control" name="dropout_date" id="update_dropout_date" min="{{ date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}" value="{{old('dropout_date')}}">
+                            <input type="date" class="form-control" name="dropout_date" id="update_dropout_date" min="{{ Carbon\Carbon::parse($d->latestVisit->visit_date_estimated)->subMonth(2)->format('Y-m-d') }}" max="{{date('Y-m-d')}}" value="{{old('dropout_date')}}">
                         </div>
                         <div class="form-group">
                             <label for="dropout_reason"><b class="text-danger">*</b>Drop-out Reason</label>
                             <select class="form-control" name="dropout_reason" id="update_dropout_reason">
                                 <option value="" disabled selected>Choose...</option>
+                                @if($d->latestVisit->method_used == 'NFP-LAM')
+                                <optgroup label="FOR LAM">
+                                    <option value="LAM_A">Mother has a menstruation or not amenorrheic within 6 months</option>
+                                    <option value="LAM_B">No longer practicing fully/exclusive breastfeeding</option>
+                                    <option value="LAM_C">Baby is more than six (6) months old</option>
+                                </optgroup>
+                                @endif
                                 <option value="A">Pregnant</option>
                                 <option value="B">Desire to become pregnant</option>
                                 <option value="C">Medical complications</option>
@@ -429,6 +440,6 @@
             $('#update_dropout_date').prop('required', true);
             $('#update_dropout_reason').prop('required', true);
         }
-    });
+    }).trigger('change');
 </script>
 @endsection

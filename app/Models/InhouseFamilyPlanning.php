@@ -90,14 +90,17 @@ class InhouseFamilyPlanning extends Model
         else if($client_type == 'OA') {
             return 'Other Acceptor';
         }
-        else if($client_type == 'CU-CM') {
+        else if($client_type == 'CU-CM' || $client_type == 'OA-CM') {
             return 'Changing Method';
         }
-        else if($client_type == 'CU-CC') {
+        else if($client_type == 'CU-CC' || $client_type == 'OA-CC') {
             return 'Changing Clinic';
         }
-        else if($client_type == 'CU-RS') {
+        else if($client_type == 'CU-RS' || $client_type == 'OA-RS') {
             return 'Restarter';
+        }
+        else if($client_type == 'OA-CA') {
+            return 'Changing Age';
         }
         else {
             return 'None';
@@ -152,6 +155,69 @@ class InhouseFamilyPlanning extends Model
         }
         else {
             return 'None';
+        }
+    }
+
+    public function getDropOutReason($reason_code) {
+        if($reason_code == 'A') {
+            return 'Pregnant';
+        }
+        else if($reason_code == 'B') {
+            return 'Desire to become pregnant';
+        }
+        else if($reason_code == 'C') {
+            return 'Medical complications';
+        }
+        else if($reason_code == 'D') {
+            return 'Fear of side effects';
+        }
+        else if($reason_code == 'E') {
+            return 'Changed Clinic';
+        }
+        else if($reason_code == 'F') {
+            return 'Husband/Partner disapproves';
+        }
+        else if($reason_code == 'G') {
+            return 'Menopause';
+        }
+        else if($reason_code == 'H') {
+            return 'Lost or moved out of the area or residence';
+        }
+        else if($reason_code == 'I') {
+            return 'Failed to get supply';
+        }
+        else if($reason_code == 'J') {
+            return 'Change Method';
+        }
+        else if($reason_code == 'K') {
+            return 'Underwent hysterectomy';
+        }
+        else if($reason_code == 'L') {
+            return 'Underwent Bilateral Salpingo-oophorectomy';
+        }
+        else if($reason_code == 'M') {
+            return 'No FP commodity';
+        }
+        else if($reason_code == 'N') {
+            return 'Unknown';
+        }
+        else if($reason_code == 'O') {
+            return 'Age out for BTL';
+        }
+        else if($reason_code == 'P') {
+            return 'Change of Age';
+        }
+        else if($reason_code == 'LAM_A') {
+            return 'Mother has a menstruation or not amenorrheic within 6 months';
+        }
+        else if($reason_code == 'LAM_B') {
+            return 'No longer practicing fully/exclusively breastfeeding';
+        }
+        else if($reason_code == 'LAM_C') {
+            return 'Baby is more than six (6) months old';
+        }
+        else {
+            return $this->dropout_reason;
         }
     }
 }

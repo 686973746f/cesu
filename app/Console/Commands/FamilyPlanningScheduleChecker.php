@@ -53,12 +53,19 @@ class FamilyPlanningScheduleChecker extends Command
         foreach($list as $item) {
             $item->dropout_date = Carbon::now()->format('Y-m-d');
             $item->status = 'DROP-OUT';
-            $item->dropout_reason = 'I';
+            if($item->method_used == 'NFP-LAM') {
+                $dropout_reason = 'LAM_C';
+            }
+            else {
+                $dropout_reason = 'I';
+            }
+
+            $item->dropout_reason = $dropout_reason;
 
             $item->familyplanning->is_locked = 'Y';
             $item->familyplanning->is_dropout = 'Y';
             $item->familyplanning->dropout_date = Carbon::now()->format('Y-m-d');
-            $item->familyplanning->dropout_reason = 'I';
+            $item->familyplanning->dropout_reason = $dropout_reason;
             
             $item->save();
             $item->familyplanning->save();
@@ -66,7 +73,6 @@ class FamilyPlanningScheduleChecker extends Command
 
         $list = InhouseFpVisit::where('enabled', 'Y')
         ->where('is_permanent', 'Y')
-        ->where('is_visible', 'N')
         ->whereMonth('visit_date_estimated', now()->month)
         ->whereYear('visit_date_estimated', now()->year)
         ->get();
