@@ -1411,14 +1411,34 @@ $the_record_id = $d->id;
       return true; // Allow form submission if at least one checkbox is checked
   }
 
-  $('.bp-field').on('input', function () {
-    let value = $(this).val().replace(/\D/g, '');
+  $(document).on('input', '.bp-field', function () {
+    let value = $(this).val();
 
-    if (value.length >= 2) {
-        value = value.substring(0, value.length - 2) + '/' + value.substring(value.length - 2);
+    // Allow only digits and one slash
+    value = value.replace(/[^0-9\/]/g, '');
+
+    // Prevent multiple slashes
+    let parts = value.split('/');
+    if (parts.length > 2) {
+      value = parts[0] + '/' + parts[1];
     }
 
     $(this).val(value);
+  });
+
+  $(document).on('blur', '.bp-field', function () {
+
+    let parts = $(this).val().split('/');
+
+    if (parts.length === 2) {
+        let sys = parseInt(parts[0]);
+        let dia = parseInt(parts[1]);
+
+        if (sys < 70 || sys > 250 || dia < 40 || dia > 150) {
+            alert('Invalid Blood Pressure value.');
+            $(this).val('');
+        }
+    }
   });
 
   $(document).bind('keydown', function(e) {
