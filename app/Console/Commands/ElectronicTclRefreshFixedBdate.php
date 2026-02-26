@@ -75,39 +75,5 @@ class ElectronicTclRefreshFixedBdate extends Command
 
             $item->save();
         }
-
-        $list = InhouseChildCare::get();
-
-        foreach($list as $item) {
-            $birthdate = Carbon::parse($item->patient->bdate);
-            $currentDate = Carbon::parse($item->registration_date);
-
-            $get_ageyears = $birthdate->diffInYears($currentDate);
-            $get_agemonths = $birthdate->diffInMonths($currentDate);
-            $get_agedays = $birthdate->diffInDays($currentDate);
-            
-            $item->age_years = $get_ageyears;
-            $item->age_months = $get_agemonths;
-            $item->age_days = $get_agedays;
-
-            $item->save();
-        }
-
-        $list = InhouseChildNutrition::get();
-
-        foreach($list as $item) {
-            $birthdate = Carbon::parse($item->patient->bdate);
-            $currentDate = Carbon::parse($item->registration_date);
-
-            $get_ageyears = $birthdate->diffInYears($currentDate);
-            $get_agemonths = $birthdate->diffInMonths($currentDate);
-            $get_agedays = $birthdate->diffInDays($currentDate);
-            
-            $item->age_years = $get_ageyears;
-            $item->age_months = $get_agemonths;
-            $item->age_days = $get_agedays;
-
-            $item->save();
-        }
     }
 }
