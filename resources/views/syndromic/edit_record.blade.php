@@ -1412,33 +1412,48 @@ $the_record_id = $d->id;
   }
 
   $(document).on('input', '.bp-field', function () {
-    let value = $(this).val();
+      let value = $(this).val();
 
-    // Allow only digits and one slash
-    value = value.replace(/[^0-9\/]/g, '');
+      // Allow only digits and one slash
+      value = value.replace(/[^0-9\/]/g, '');
 
-    // Prevent multiple slashes
-    let parts = value.split('/');
-    if (parts.length > 2) {
-      value = parts[0] + '/' + parts[1];
-    }
+      // Prevent multiple slashes
+      let parts = value.split('/');
+      if (parts.length > 2) {
+          value = parts[0] + '/' + parts[1];
+      }
 
-    $(this).val(value);
+      $(this).val(value);
   });
 
   $(document).on('blur', '.bp-field', function () {
 
-    let parts = $(this).val().split('/');
+      let value = $(this).val();
 
-    if (parts.length === 2) {
-        let sys = parseInt(parts[0]);
-        let dia = parseInt(parts[1]);
+      // Error if no slash found
+      if (!value.includes('/')) {
+          alert('BP Must have a slash "/" separating systolic and diastolic values. Use 120/80');
+          $(this).val('');
+          return;
+      }
 
-        if (sys < 70 || sys > 250 || dia < 40 || dia > 150) {
-            alert('Invalid Blood Pressure value.');
-            $(this).val('');
-        }
-    }
+      let parts = value.split('/');
+
+      // Error if not exactly 2 values
+      if (parts.length !== 2 || parts[0] === '' || parts[1] === '') {
+          alert('Invalid Blood Pressure format. Use 120/80');
+          $(this).val('');
+          return;
+      }
+
+      let sys = parseInt(parts[0]);
+      let dia = parseInt(parts[1]);
+
+      // Error if outside valid range
+      if (isNaN(sys) || isNaN(dia) || sys < 70 || sys > 250 || dia < 40 || dia > 150) {
+          alert('Invalid Blood Pressure value.');
+          $(this).val('');
+      }
   });
 
   $(document).bind('keydown', function(e) {

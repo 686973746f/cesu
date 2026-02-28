@@ -130,19 +130,21 @@
                                     <input type="date" class="form-control" name="visit1" id="visit1" value="{{old('visit1', $d->visit1)}}" max="{{date('Y-m-d')}}">
                                     <small class="text-muted">8-13 weeks</small>
                                 </div>
-                                <div class="form-group" id="visit1_bp_div">
-                                    <label for="visit1_bp">Visit 1 Blood Pressure</label>
-                                    <input type="text" class="form-control bp-field" name="visit1_bp" id="visit1_bp" value="{{old('visit1_bp', $d->visit1_bp)}}">
-                                </div>
-                                <div class="form-group">
-                                  <label for="visit1_type">Visit 1 Type</label>
-                                  <select class="form-control" name="visit1_type" id="visit1_type">
-                                    <option value="" disabled {{old('visit1_type', $d->visit1_type) ? '' : 'selected'}}>Choose...</option>
-                                    <option value="YOUR BHS" {{old('visit1_type', $d->visit1_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                    <option value="PUBLIC" {{old('visit1_type', $d->visit1_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                    <option value="PRIVATE" {{old('visit1_type', $d->visit1_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                    <option value="OTHER RHU/BHS" {{old('visit1_type', $d->visit1_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
-                                  </select>
+                                <div id="visit1_div" class="d-none">
+                                    <div class="form-group" id="visit1_bp_div">
+                                        <label for="visit1_bp">Visit 1 Blood Pressure</label>
+                                        <input type="text" class="form-control bp-field" name="visit1_bp" id="visit1_bp" value="{{old('visit1_bp', $d->visit1_bp)}}">
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="visit1_type">Visit 1 Type</label>
+                                      <select class="form-control" name="visit1_type" id="visit1_type">
+                                        <option value="" disabled {{old('visit1_type', $d->visit1_type) ? '' : 'selected'}}>Choose...</option>
+                                        <option value="YOUR BHS" {{old('visit1_type', $d->visit1_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
+                                        <option value="PUBLIC" {{old('visit1_type', $d->visit1_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
+                                        <option value="PRIVATE" {{old('visit1_type', $d->visit1_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
+                                        <option value="OTHER RHU/BHS" {{old('visit1_type', $d->visit1_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                      </select>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -155,19 +157,21 @@
                                       <input type="date" class="form-control" name="visit2" id="visit2" value="{{old('visit2', $d->visit2)}}" max="{{date('Y-m-d')}}">
                                       <small class="text-muted">14-20 weeks</small>
                                   </div>
-                                  <div class="form-group" id="visit2_bp_div">
-                                    <label for="visit2_bp">Visit 2 Blood Pressure</label>
-                                    <input type="text" class="form-control bp-field" name="visit2_bp" id="visit2_bp" value="{{old('visit2_bp', $d->visit2_bp)}}">
-                                  </div>
-                                  <div class="form-group">
-                                    <label for="visit2_type">Visit 2 Type</label>
-                                    <select class="form-control" name="visit2_type" id="visit2_type">
-                                      <option value="" disabled {{old('visit2_type', $d->visit2_type) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="YOUR BHS" {{old('visit2_type', $d->visit2_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                      <option value="PUBLIC" {{old('visit2_type', $d->visit2_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                      <option value="PRIVATE" {{old('visit2_type', $d->visit2_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                      <option value="OTHER RHU/BHS" {{old('visit2_type', $d->visit2_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
-                                    </select>
+                                  <div id="visit2_div" class="d-none">
+                                    <div class="form-group" id="visit2_bp_div">
+                                        <label for="visit2_bp">Visit 2 Blood Pressure</label>
+                                        <input type="text" class="form-control bp-field" name="visit2_bp" id="visit2_bp" value="{{old('visit2_bp', $d->visit2_bp)}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="visit2_type">Visit 2 Type</label>
+                                        <select class="form-control" name="visit2_type" id="visit2_type">
+                                        <option value="" disabled {{old('visit2_type', $d->visit2_type) ? '' : 'selected'}}>Choose...</option>
+                                        <option value="YOUR BHS" {{old('visit2_type', $d->visit2_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
+                                        <option value="PUBLIC" {{old('visit2_type', $d->visit2_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
+                                        <option value="PRIVATE" {{old('visit2_type', $d->visit2_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
+                                        <option value="OTHER RHU/BHS" {{old('visit2_type', $d->visit2_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                        </select>
+                                    </div>
                                   </div>
                             </div>
                             <div class="col-md-3">
@@ -180,19 +184,21 @@
                                       <input type="date" class="form-control" name="visit3" id="visit3" value="{{old('visit3', $d->visit3)}}" max="{{date('Y-m-d')}}">
                                       <small class="text-muted">21-27 weeks</small>
                                   </div>
-                                  <div class="form-group" id="visit3_bp_div">
-                                    <label for="visit3_bp">Visit 3 Blood Pressure</label>
-                                    <input type="text" class="form-control bp-field" name="visit3_bp" id="visit3_bp" value="{{old('visit3_bp', $d->visit3_bp)}}">
-                                  </div>
-                                  <div class="form-group">
-                                    <label for="visit3_type">Visit 3 Type</label>
-                                    <select class="form-control" name="visit3_type" id="visit3_type">
-                                      <option value="" disabled {{old('visit3_type', $d->visit3_type) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="YOUR BHS" {{old('visit3_type', $d->visit3_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                      <option value="PUBLIC" {{old('visit3_type', $d->visit3_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                      <option value="PRIVATE" {{old('visit3_type', $d->visit3_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                      <option value="OTHER RHU/BHS" {{old('visit3_type', $d->visit3_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
-                                    </select>
+                                  <div id="visit3_div" class="d-none">
+                                    <div class="form-group" id="visit3_bp_div">
+                                        <label for="visit3_bp">Visit 3 Blood Pressure</label>
+                                        <input type="text" class="form-control bp-field" name="visit3_bp" id="visit3_bp" value="{{old('visit3_bp', $d->visit3_bp)}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="visit3_type">Visit 3 Type</label>
+                                        <select class="form-control" name="visit3_type" id="visit3_type">
+                                        <option value="" disabled {{old('visit3_type', $d->visit3_type) ? '' : 'selected'}}>Choose...</option>
+                                        <option value="YOUR BHS" {{old('visit3_type', $d->visit3_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
+                                        <option value="PUBLIC" {{old('visit3_type', $d->visit3_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
+                                        <option value="PRIVATE" {{old('visit3_type', $d->visit3_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
+                                        <option value="OTHER RHU/BHS" {{old('visit3_type', $d->visit3_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                        </select>
+                                    </div>
                                   </div>
                             </div>
                             <div class="col-md-3">
@@ -205,19 +211,21 @@
                                       <input type="date" class="form-control" name="visit4" id="visit4" value="{{old('visit4', $d->visit4)}}" max="{{date('Y-m-d')}}">
                                       <small class="text-muted">28-30 weeks</small>
                                   </div>
-                                  <div class="form-group" id="visit4_bp_div">
-                                    <label for="visit4_bp">Visit 4 Blood Pressure</label>
-                                    <input type="text" class="form-control bp-field" name="visit4_bp" id="visit4_bp" value="{{old('visit4_bp', $d->visit4_bp)}}">
-                                  </div>
-                                  <div class="form-group">
-                                    <label for="visit4_type">Visit 4 Type</label>
-                                    <select class="form-control" name="visit4_type" id="visit4_type">
-                                      <option value="" disabled {{old('visit4_type', $d->visit4_type) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="YOUR BHS" {{old('visit4_type', $d->visit4_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                      <option value="PUBLIC" {{old('visit4_type', $d->visit4_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                      <option value="PRIVATE" {{old('visit4_type', $d->visit4_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                      <option value="OTHER RHU/BHS" {{old('visit4_type', $d->visit4_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
-                                    </select>
+                                  <div id="visit4_div" class="d-none">
+                                    <div class="form-group" id="visit4_bp_div">
+                                        <label for="visit4_bp">Visit 4 Blood Pressure</label>
+                                        <input type="text" class="form-control bp-field" name="visit4_bp" id="visit4_bp" value="{{old('visit4_bp', $d->visit4_bp)}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="visit4_type">Visit 4 Type</label>
+                                        <select class="form-control" name="visit4_type" id="visit4_type">
+                                        <option value="" disabled {{old('visit4_type', $d->visit4_type) ? '' : 'selected'}}>Choose...</option>
+                                        <option value="YOUR BHS" {{old('visit4_type', $d->visit4_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
+                                        <option value="PUBLIC" {{old('visit4_type', $d->visit4_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
+                                        <option value="PRIVATE" {{old('visit4_type', $d->visit4_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
+                                        <option value="OTHER RHU/BHS" {{old('visit4_type', $d->visit4_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                        </select>
+                                    </div>
                                   </div>
                             </div>
                         </div>
@@ -233,19 +241,21 @@
                                       <input type="date" class="form-control" name="visit5" id="visit5" value="{{old('visit5', $d->visit5)}}" max="{{date('Y-m-d')}}">
                                       <small class="text-muted">31-34 weeks</small>
                                   </div>
-                                  <div class="form-group" id="visit5_bp_div">
-                                    <label for="visit5_bp">Visit 5 Blood Pressure</label>
-                                    <input type="text" class="form-control bp-field" name="visit5_bp" id="visit5_bp" value="{{old('visit5_bp', $d->visit5_bp)}}">
-                                  </div>
-                                  <div class="form-group">
-                                    <label for="visit5_type">Visit 5 Type</label>
-                                    <select class="form-control" name="visit5_type" id="visit5_type">
-                                      <option value="" disabled {{old('visit5_type', $d->visit5_type) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="YOUR BHS" {{old('visit5_type', $d->visit5_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                      <option value="PUBLIC" {{old('visit5_type', $d->visit5_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                      <option value="PRIVATE" {{old('visit5_type', $d->visit5_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                      <option value="OTHER RHU/BHS" {{old('visit5_type', $d->visit5_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
-                                    </select>
+                                  <div id="visit5_div" class="d-none">
+                                    <div class="form-group" id="visit5_bp_div">
+                                        <label for="visit5_bp">Visit 5 Blood Pressure</label>
+                                        <input type="text" class="form-control bp-field" name="visit5_bp" id="visit5_bp" value="{{old('visit5_bp', $d->visit5_bp)}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="visit5_type">Visit 5 Type</label>
+                                        <select class="form-control" name="visit5_type" id="visit5_type">
+                                        <option value="" disabled {{old('visit5_type', $d->visit5_type) ? '' : 'selected'}}>Choose...</option>
+                                        <option value="YOUR BHS" {{old('visit5_type', $d->visit5_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
+                                        <option value="PUBLIC" {{old('visit5_type', $d->visit5_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
+                                        <option value="PRIVATE" {{old('visit5_type', $d->visit5_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
+                                        <option value="OTHER RHU/BHS" {{old('visit5_type', $d->visit5_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                        </select>
+                                    </div>
                                   </div>
                             </div>
                             <div class="col-md-3">
@@ -258,19 +268,21 @@
                                       <input type="date" class="form-control" name="visit6" id="visit6" value="{{old('visit6', $d->visit6)}}" max="{{date('Y-m-d')}}">
                                       <small class="text-muted">35 weeks</small>
                                   </div>
-                                  <div class="form-group" id="visit6_bp_div">
-                                    <label for="visit6_bp">Visit 6 Blood Pressure</label>
-                                    <input type="text" class="form-control bp-field" name="visit6_bp" id="visit6_bp" value="{{old('visit6_bp', $d->visit6_bp)}}">
-                                  </div>
-                                  <div class="form-group">
-                                    <label for="visit6_type">Visit 6 Type</label>
-                                    <select class="form-control" name="visit6_type" id="visit6_type">
-                                      <option value="" disabled {{old('visit6_type', $d->visit6_type) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="YOUR BHS" {{old('visit6_type', $d->visit6_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                      <option value="PUBLIC" {{old('visit6_type', $d->visit6_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                      <option value="PRIVATE" {{old('visit6_type', $d->visit6_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                      <option value="OTHER RHU/BHS" {{old('visit6_type', $d->visit6_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
-                                    </select>
+                                  <div id="visit6_div" class="d-none">
+                                    <div class="form-group" id="visit6_bp_div">
+                                        <label for="visit6_bp">Visit 6 Blood Pressure</label>
+                                        <input type="text" class="form-control bp-field" name="visit6_bp" id="visit6_bp" value="{{old('visit6_bp', $d->visit6_bp)}}">
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="visit6_type">Visit 6 Type</label>
+                                        <select class="form-control" name="visit6_type" id="visit6_type">
+                                          <option value="" disabled {{old('visit6_type', $d->visit6_type) ? '' : 'selected'}}>Choose...</option>
+                                          <option value="YOUR BHS" {{old('visit6_type', $d->visit6_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
+                                          <option value="PUBLIC" {{old('visit6_type', $d->visit6_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
+                                          <option value="PRIVATE" {{old('visit6_type', $d->visit6_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
+                                          <option value="OTHER RHU/BHS" {{old('visit6_type', $d->visit6_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                        </select>
+                                      </div>
                                   </div>
                             </div>
                             <div class="col-md-3">
@@ -283,20 +295,22 @@
                                       <input type="date" class="form-control" name="visit7" id="visit7" value="{{old('visit7', $d->visit7)}}" max="{{date('Y-m-d')}}">
                                       <small class="text-muted">36 weeks</small>
                                   </div>
-                                  <div class="form-group" id="visit7_bp_div">
-                                    <label for="visit7_bp">Visit 7 Blood Pressure</label>
-                                    <input type="text" class="form-control bp-field" name="visit7_bp" id="visit7_bp" value="{{old('visit7_bp', $d->visit7_bp)}}">
-                                  </div>
-                                  <div class="form-group">
-                                    <label for="visit7_type">Visit 7 Type</label>
-                                    <select class="form-control" name="visit7_type" id="visit7_type">
-                                      <option value="" disabled {{old('visit7_type', $d->visit7_type) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="YOUR BHS" {{old('visit7_type', $d->visit7_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                      <option value="PUBLIC" {{old('visit7_type', $d->visit7_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                      <option value="PRIVATE" {{old('visit7_type', $d->visit7_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                      <option value="OTHER RHU/BHS" {{old('visit7_type', $d->visit7_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
-                                    </select>
-                                  </div>
+                                    <div id="visit7_div" class="d-none">
+                                        <div class="form-group" id="visit7_bp_div">
+                                            <label for="visit7_bp">Visit 7 Blood Pressure</label>
+                                            <input type="text" class="form-control bp-field" name="visit7_bp" id="visit7_bp" value="{{old('visit7_bp', $d->visit7_bp)}}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="visit7_type">Visit 7 Type</label>
+                                            <select class="form-control" name="visit7_type" id="visit7_type">
+                                            <option value="" disabled {{old('visit7_type', $d->visit7_type) ? '' : 'selected'}}>Choose...</option>
+                                            <option value="YOUR BHS" {{old('visit7_type', $d->visit7_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
+                                            <option value="PUBLIC" {{old('visit7_type', $d->visit7_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
+                                            <option value="PRIVATE" {{old('visit7_type', $d->visit7_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
+                                            <option value="OTHER RHU/BHS" {{old('visit7_type', $d->visit7_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                            </select>
+                                        </div>
+                                    </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
@@ -308,20 +322,22 @@
                                       <input type="date" class="form-control" name="visit8" id="visit8" value="{{old('visit8', $d->visit8)}}" max="{{date('Y-m-d')}}">
                                       <small class="text-muted">37-40 weeks</small>
                                   </div>
-                                  <div class="form-group" id="visit8_bp_div">
-                                    <label for="visit8_bp">Visit 8 Blood Pressure</label>
-                                    <input type="text" class="form-control bp-field" name="visit8_bp" id="visit8_bp" value="{{old('visit8_bp', $d->visit8_bp)}}">
-                                  </div>
-                                  <div class="form-group">
-                                    <label for="visit8_type">Visit 8 Type</label>
-                                    <select class="form-control" name="visit8_type" id="visit8_type">
-                                      <option value="" disabled {{old('visit8_type', $d->visit8_type) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="YOUR BHS" {{old('visit8_type', $d->visit8_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                      <option value="PUBLIC" {{old('visit8_type', $d->visit8_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                      <option value="PRIVATE" {{old('visit8_type', $d->visit8_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                      <option value="OTHER RHU/BHS" {{old('visit8_type', $d->visit8_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
-                                    </select>
-                                  </div>
+                                  <div id="visit8_div" class="d-none">
+                                    <div class="form-group" id="visit8_bp_div">
+                                        <label for="visit8_bp">Visit 8 Blood Pressure</label>
+                                        <input type="text" class="form-control bp-field" name="visit8_bp" id="visit8_bp" value="{{old('visit8_bp', $d->visit8_bp)}}">
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="visit8_type">Visit 8 Type</label>
+                                        <select class="form-control" name="visit8_type" id="visit8_type">
+                                          <option value="" disabled {{old('visit8_type', $d->visit8_type) ? '' : 'selected'}}>Choose...</option>
+                                          <option value="YOUR BHS" {{old('visit8_type', $d->visit8_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
+                                          <option value="PUBLIC" {{old('visit8_type', $d->visit8_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
+                                          <option value="PRIVATE" {{old('visit8_type', $d->visit8_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
+                                          <option value="OTHER RHU/BHS" {{old('visit8_type', $d->visit8_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                        </select>
+                                      </div>
+                                  </div> 
                             </div>
                         </div>
                         <hr>
@@ -1002,7 +1018,7 @@
                                     <label for="pnc1">Contact 1 (within 24 hours after delivery)</label>
                                     <input type="date" class="form-control" name="pnc1" id="pnc1" value="{{old('pnc1', $d->pnc1)}}" max="{{date('Y-m-d')}}">
                                 </div>
-                                <div class="form-group" id="pnc1_bp_div">
+                                <div class="form-group d-none" id="pnc1_bp_div">
                                     <label for="pnc1_bp">Contact 1 Blood Pressure</label>
                                     <input type="text" class="form-control bp-field" name="pnc1_bp" id="pnc1_bp" value="{{old('pnc1_bp', $d->pnc1_bp)}}">
                                 </div>
@@ -1012,7 +1028,7 @@
                                     <label for="pnc2">Contact 2 (on day 3)</label>
                                     <input type="date" class="form-control" name="pnc2" id="pnc2" value="{{old('pnc2', $d->pnc2)}}" max="{{date('Y-m-d')}}">
                                 </div>
-                                <div class="form-group" id="pnc2_bp_div">
+                                <div class="form-group d-none" id="pnc2_bp_div">
                                     <label for="pnc2_bp">Contact 2 Blood Pressure</label>
                                     <input type="text" class="form-control bp-field" name="pnc2_bp" id="pnc2_bp" value="{{old('pnc2_bp', $d->pnc2_bp)}}">
                                 </div>
@@ -1022,7 +1038,7 @@
                                     <label for="pnc3">Contact 3 (between 7-14 days)</label>
                                     <input type="date" class="form-control" name="pnc3" id="pnc3" value="{{old('pnc3', $d->pnc3)}}" max="{{date('Y-m-d')}}">
                                 </div>
-                                <div class="form-group" id="pnc3_bp_div">
+                                <div class="form-group d-none" id="pnc3_bp_div">
                                     <label for="pnc3_bp">Contact 3 Blood Pressure</label>
                                     <input type="text" class="form-control bp-field" name="pnc3_bp" id="pnc3_bp" value="{{old('pnc3_bp', $d->pnc3_bp)}}">
                                 </div>
@@ -1032,7 +1048,7 @@
                                     <label for="pnc4">Contact 4 (6 weeks after birth)</label>
                                     <input type="date" class="form-control" name="pnc4" id="pnc4" value="{{old('pnc4', $d->pnc4)}}" max="{{date('Y-m-d')}}">
                                 </div>
-                                <div class="form-group" id="pnc4_bp_div">
+                                <div class="form-group d-none" id="pnc4_bp_div">
                                     <label for="pnc4_bp">Contact 4 Blood Pressure</label>
                                     <input type="text" class="form-control bp-field" name="pnc4_bp" id="pnc4_bp" value="{{old('pnc4_bp', $d->pnc4_bp)}}">
                                 </div>
@@ -1212,15 +1228,49 @@
             }
         });
 
-        $('.bp-field').on('input', function () {
-            let value = $(this).val().replace(/\D/g, '');
+        $(document).on('input', '.bp-field', function () {
+            let value = $(this).val();
 
-            if (value.length >= 2) {
-                value = value.substring(0, value.length - 2) + '/' + value.substring(value.length - 2);
+            // Allow only digits and one slash
+            value = value.replace(/[^0-9\/]/g, '');
+
+            // Prevent multiple slashes
+            let parts = value.split('/');
+            if (parts.length > 2) {
+                value = parts[0] + '/' + parts[1];
             }
 
             $(this).val(value);
+        });
 
+        $(document).on('blur', '.bp-field', function () {
+
+            let value = $(this).val();
+
+            // Error if no slash found
+            if (!value.includes('/')) {
+                alert('BP Must have a slash "/" separating systolic and diastolic values. Use 120/80');
+                $(this).val('');
+                return;
+            }
+
+            let parts = value.split('/');
+
+            // Error if not exactly 2 values
+            if (parts.length !== 2 || parts[0] === '' || parts[1] === '') {
+                alert('Invalid Blood Pressure format. Use 120/80');
+                $(this).val('');
+                return;
+            }
+
+            let sys = parseInt(parts[0]);
+            let dia = parseInt(parts[1]);
+
+            // Error if outside valid range
+            if (isNaN(sys) || isNaN(dia) || sys < 70 || sys > 250 || dia < 40 || dia > 150) {
+                alert('Invalid Blood Pressure value.');
+                $(this).val('');
+            }
         });
 
         /*
@@ -1272,48 +1322,56 @@
         }).trigger('change');
 
         $('#visit1').on('change', function () {
+            $('#visit1_div').toggleClass('d-none', !$(this).val());
             $('#visit1_type').prop('required', !!$(this).val());
             $('#visit1_bp').prop('required', !!$(this).val());
             $('#visit2').prop('min', $(this).val());
         }).trigger('change');
 
         $('#visit2').on('change', function () {
+            $('#visit2_div').toggleClass('d-none', !$(this).val());
             $('#visit2_type').prop('required', !!$(this).val());
             $('#visit2_bp').prop('required', !!$(this).val());
             $('#visit3').prop('min', $(this).val());
         }).trigger('change');
 
         $('#visit3').on('change', function () {
+            $('#visit3_div').toggleClass('d-none', !$(this).val());
             $('#visit3_type').prop('required', !!$(this).val());
             $('#visit3_bp').prop('required', !!$(this).val());
             $('#visit4').prop('min', $(this).val());
         }).trigger('change');
 
         $('#visit4').on('change', function () {
+            $('#visit4_div').toggleClass('d-none', !$(this).val());
             $('#visit4_type').prop('required', !!$(this).val());
             $('#visit4_bp').prop('required', !!$(this).val());
             $('#visit5').prop('min', $(this).val());
         }).trigger('change');
 
         $('#visit5').on('change', function () {
+            $('#visit5_div').toggleClass('d-none', !$(this).val());
             $('#visit5_type').prop('required', !!$(this).val());
             $('#visit5_bp').prop('required', !!$(this).val());
             $('#visit6').prop('min', $(this).val());
         }).trigger('change');
 
         $('#visit6').on('change', function () {
+            $('#visit6_div').toggleClass('d-none', !$(this).val());
             $('#visit6_type').prop('required', !!$(this).val());
             $('#visit6_bp').prop('required', !!$(this).val());
             $('#visit7').prop('min', $(this).val());
         }).trigger('change');
 
         $('#visit7').on('change', function () {
+            $('#visit7_div').toggleClass('d-none', !$(this).val());
             $('#visit7_type').prop('required', !!$(this).val());
             $('#visit7_bp').prop('required', !!$(this).val());
             $('#visit8').prop('min', $(this).val());
         }).trigger('change');
 
         $('#visit8').on('change', function () {
+            $('#visit8_div').toggleClass('d-none', !$(this).val());
             $('#visit8_type').prop('required', !!$(this).val());
             $('#visit8_bp').prop('required', !!$(this).val());
         }).trigger('change');
@@ -1336,7 +1394,7 @@
         $('#pnc_with_dangersign').change(function (e) { 
             e.preventDefault();
 
-            if($('#outcome').val()) {
+            if($('#pnc_div').data('status') === 'active') {
                 $('#pnc_dangersign_specify_div').toggleClass('d-none', $(this).val() !== '1');
                 $('#pnc_dangersign_specify').prop('required', $(this).val() === '1');
 
@@ -1348,7 +1406,7 @@
         $('#pnc_dangersign_referred').change(function (e) { 
             e.preventDefault();
 
-            if($('#outcome').val()) {
+            if($('#pnc_div').data('status') === 'active') {
                 $('#pnc_dangersign_referred_yes_div').toggleClass('d-none', $(this).val() !== '1');
                 $('#pnc_dangersign_datereferred').prop('required', $(this).val() === '1');
             }
@@ -1358,6 +1416,7 @@
             $('#pnc1_bp').prop('required', false);
 
             if ($('#pnc_div').data('status') === 'active') {
+                $('#pnc1_bp_div').toggleClass('d-none', !$(this).val());
                 $('#pnc1_bp').prop('required', !!$(this).val());
             }
         }).trigger('change');
@@ -1366,6 +1425,7 @@
             $('#pnc2_bp').prop('required', false);
 
             if ($('#pnc_div').data('status') === 'active') {
+                $('#pnc2_bp_div').toggleClass('d-none', !$(this).val());
                 $('#pnc2_bp').prop('required', !!$(this).val());
             }
         }).trigger('change');
@@ -1374,6 +1434,7 @@
             $('#pnc3_bp').prop('required', false);
 
             if ($('#pnc_div').data('status') === 'active') {
+                $('#pnc3_bp_div').toggleClass('d-none', !$(this).val());
                 $('#pnc3_bp').prop('required', !!$(this).val());
             }
         }).trigger('change');
@@ -1382,6 +1443,7 @@
             $('#pnc4_bp').prop('required', false);
 
             if ($('#pnc_div').data('status') === 'active') {
+                $('#pnc4_bp_div').toggleClass('d-none', !$(this).val());
                 $('#pnc4_bp').prop('required', !!$(this).val());
             }
         }).trigger('change');
