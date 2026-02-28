@@ -1046,8 +1046,8 @@
                                     </select>
                                 </div>
                                 <div class="form-group d-none" id="pnc_dangersign_specify_div">
-                                    <label for="pnc_with_dangersign_specify"><b class="text-danger">*</b>Specify Danger Signs</label>
-                                    <input type="text" class="form-control" name="pnc_with_dangersign_specify" id="pnc_with_dangersign_specify" value="{{old('pnc_with_dangersign_specify', $d->pnc_with_dangersign_specify)}}" style="text-transform: uppercase">
+                                    <label for="pnc_dangersign_specify"><b class="text-danger">*</b>Specify Danger Signs</label>
+                                    <input type="text" class="form-control" name="pnc_dangersign_specify" id="pnc_dangersign_specify" value="{{old('pnc_dangersign_specify', $d->pnc_dangersign_specify)}}" style="text-transform: uppercase">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -1316,7 +1316,7 @@
         $('#pnc_with_dangersign').change(function (e) { 
             e.preventDefault();
             $('#pnc_dangersign_specify_div').toggleClass('d-none', $(this).val() !== '1');
-            $('#pnc_with_dangersign_specify').prop('required', $(this).val() === '1');
+            $('#pnc_dangersign_specify').prop('required', $(this).val() === '1');
 
             $('#pnc_dangersign_referred_div').toggleClass('d-none', $(this).val() !== '1');
             $('#pnc_dangersign_referred').prop('required', $(this).val() === '1');

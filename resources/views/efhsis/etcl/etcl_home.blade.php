@@ -191,12 +191,14 @@
                             @foreach(App\Models\DohFacility::where('id', '!=',auth()->user()->etcl_bhs_id)
                             ->where('facility_type', 'Barangay Health Station')
                             ->where('address_muncity', 'CITY OF GENERAL TRIAS')
+                            ->orderBy('facility_name', 'ASC')
                             ->get() as $bhs)
                             <option value="{{ $bhs->id }}">{{ $bhs->facility_name }}</option>
                             @endforeach
                             @else
                             @foreach(App\Models\DohFacility::where('id', '!=',auth()->user()->etcl_bhs_id)
                             ->whereIn('id', auth()->user()->getBhsSwitchList())
+                            ->orderBy('facility_name', 'ASC')
                             ->get() as $bhs)
                             <option value="{{ $bhs->id }}">{{ $bhs->facility_name }}</option>
                             @endforeach

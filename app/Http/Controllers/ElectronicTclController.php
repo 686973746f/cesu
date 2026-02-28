@@ -329,7 +329,7 @@ class ElectronicTclController extends Controller
                 'pnc4_bp' => ($r->pnc4) ? $r->pnc4_bp : NULL,
 
                 'pnc_with_dangersign' => $r->pnc_with_dangersign,
-                'pnc_with_dangersign_specify' => $r->pnc_with_dangersign == 1 ? $r->pnc_with_dangersign_specify : null,
+                'pnc_dangersign_specify' => $r->pnc_with_dangersign == 1 ? $r->pnc_dangersign_specify : null,
                 'pnc_dangersign_referred' => $r->pnc_with_dangersign == 1 ? $r->pnc_dangersign_referred : null,
                 'pnc_dangersign_datereferred' => $r->pnc_dangersign_referred == 1 ? $r->pnc_dangersign_datereferred : null,
 
@@ -630,7 +630,7 @@ class ElectronicTclController extends Controller
                 'pnc4_bp' => ($r->pnc4) ? $r->pnc4_bp : NULL,
                 
                 'pnc_with_dangersign' => $r->pnc_with_dangersign,
-                'pnc_with_dangersign_specify' => $r->pnc_with_dangersign == 1 ? $r->pnc_with_dangersign_specify : null,
+                'pnc_dangersign_specify' => $r->pnc_with_dangersign == 1 ? $r->pnc_dangersign_specify : null,
                 'pnc_dangersign_referred' => $r->pnc_with_dangersign == 1 ? $r->pnc_dangersign_referred : null,
                 'pnc_dangersign_datereferred' => $r->pnc_dangersign_referred == 1 ? $r->pnc_dangersign_datereferred : null,
 

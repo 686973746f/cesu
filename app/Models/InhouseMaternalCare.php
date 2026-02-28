@@ -179,7 +179,7 @@ class InhouseMaternalCare extends Model
         'completed_4pnc',
         'pnc_with_highbp',
         'pnc_with_dangersign',
-        'pnc_with_dangersign_specify',
+        'pnc_dangersign_specify',
         'pnc_dangersign_referred',
         'pnc_dangersign_datereferred',
 
