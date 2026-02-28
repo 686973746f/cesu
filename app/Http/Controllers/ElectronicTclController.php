@@ -203,7 +203,7 @@ class ElectronicTclController extends Controller
             'visit8_type' => $r->visit8_type,
 
             'with_dangersign' => $r->with_dangersign,
-            'with_dangersign_specify' => $r->with_dangersign == 1 ? $r->with_dangersign_specify : null,
+            'with_dangersign_specify' => $r->with_dangersign == 1 ? implode(',', $r->with_dangersign_specify ?? []) : null,
             'dangersign_referred' => $r->with_dangersign == 1 ? $r->dangersign_referred : null,
             'dangersign_datereferred' => $r->dangersign_referred == 1 ? $r->dangersign_datereferred : null, 
 
@@ -329,7 +329,7 @@ class ElectronicTclController extends Controller
                 'pnc4_bp' => ($r->pnc4) ? $r->pnc4_bp : NULL,
 
                 'pnc_with_dangersign' => $r->pnc_with_dangersign,
-                'pnc_dangersign_specify' => $r->pnc_with_dangersign == 1 ? $r->pnc_dangersign_specify : null,
+                'pnc_dangersign_specify' => $r->pnc_with_dangersign == 1 ? implode(',', $r->pnc_dangersign_specify ?? []) : null,
                 'pnc_dangersign_referred' => $r->pnc_with_dangersign == 1 ? $r->pnc_dangersign_referred : null,
                 'pnc_dangersign_datereferred' => $r->pnc_dangersign_referred == 1 ? $r->pnc_dangersign_datereferred : null,
 
@@ -486,7 +486,7 @@ class ElectronicTclController extends Controller
             'visit8_bp' => $r->visit8_bp,
             'visit8_type' => $r->visit8_type,
             'with_dangersign' => $r->with_dangersign,
-            'with_dangersign_specify' => $r->with_dangersign == 1 ? $r->with_dangersign_specify : null,
+            'with_dangersign_specify' => $r->with_dangersign == 1 ? implode(',', $r->with_dangersign_specify ?? []) : null,
             'dangersign_referred' => $r->with_dangersign == 1 ? $r->dangersign_referred : null,
             'dangersign_datereferred' => $r->dangersign_referred == 1 ? $r->dangersign_datereferred : null,
 
@@ -630,7 +630,7 @@ class ElectronicTclController extends Controller
                 'pnc4_bp' => ($r->pnc4) ? $r->pnc4_bp : NULL,
                 
                 'pnc_with_dangersign' => $r->pnc_with_dangersign,
-                'pnc_dangersign_specify' => $r->pnc_with_dangersign == 1 ? $r->pnc_dangersign_specify : null,
+                'pnc_dangersign_specify' => $r->pnc_with_dangersign == 1 ? implode(',', $r->pnc_dangersign_specify ?? []) : null,
                 'pnc_dangersign_referred' => $r->pnc_with_dangersign == 1 ? $r->pnc_dangersign_referred : null,
                 'pnc_dangersign_datereferred' => $r->pnc_dangersign_referred == 1 ? $r->pnc_dangersign_datereferred : null,
 

@@ -336,8 +336,12 @@
                                     </select>
                                 </div>
                                 <div class="form-group d-none" id="dangersign_specify_div">
-                                    <label for="with_dangersign_specify"><b class="text-danger">*</b>Specify Danger Signs</label>
-                                    <input type="text" class="form-control" name="with_dangersign_specify" id="with_dangersign_specify" value="{{old('with_dangersign_specify', $d->with_dangersign_specify)}}" style="text-transform: uppercase">
+                                    <label for="with_dangersign_specify"><b class="text-danger">*</b>Specify Danger Signs (Select at least 1)</label>
+                                    <select class="form-control choices-multi" name="with_dangersign_specify[]" id="with_dangersign_specify" multiple>
+                                        <option value="A" {{old('with_dangersign_specify', $d->with_dangersign_specify) && in_array('A', explode(',', old('with_dangersign_specify', $d->with_dangersign_specify))) ? 'selected' : ''}}>New-onset severe headache</option>
+                                        <option value="B" {{old('with_dangersign_specify', $d->with_dangersign_specify) && in_array('B', explode(',', old('with_dangersign_specify', $d->with_dangersign_specify))) ? 'selected' : ''}}>Visual disturbances</option>
+                                        <option value="C" {{old('with_dangersign_specify', $d->with_dangersign_specify) && in_array('C', explode(',', old('with_dangersign_specify', $d->with_dangersign_specify))) ? 'selected' : ''}}>Severe epigastric pain</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-6 d-none" id="dangersign_referred_div">
@@ -1046,8 +1050,12 @@
                                     </select>
                                 </div>
                                 <div class="form-group d-none" id="pnc_dangersign_specify_div">
-                                    <label for="pnc_dangersign_specify"><b class="text-danger">*</b>Specify Danger Signs</label>
-                                    <input type="text" class="form-control" name="pnc_dangersign_specify" id="pnc_dangersign_specify" value="{{old('pnc_dangersign_specify', $d->pnc_dangersign_specify)}}" style="text-transform: uppercase">
+                                    <label for="pnc_dangersign_specify"><b class="text-danger">*</b>Specify Danger Signs (Select at least 1)</label>
+                                    <select class="form-control choices-multi" name="pnc_dangersign_specify[]" id="pnc_dangersign_specify" multiple>
+                                        <option value="A" {{old('pnc_dangersign_specify', $d->pnc_dangersign_specify) && in_array('A', explode(',', old('pnc_dangersign_specify', $d->pnc_dangersign_specify))) ? 'selected' : ''}}>New-onset severe headache</option>
+                                        <option value="B" {{old('pnc_dangersign_specify', $d->pnc_dangersign_specify) && in_array('B', explode(',', old('pnc_dangersign_specify', $d->pnc_dangersign_specify))) ? 'selected' : ''}}>Visual disturbances</option>
+                                        <option value="C" {{old('pnc_dangersign_specify', $d->pnc_dangersign_specify) && in_array('C', explode(',', old('pnc_dangersign_specify', $d->pnc_dangersign_specify))) ? 'selected' : ''}}>Severe epigastric pain</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -1150,6 +1158,18 @@
     </form>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const elements = document.querySelectorAll('.choices-multi');
+
+            elements.forEach(function(element) {
+                new Choices(element, {
+                    removeItemButton: true,
+                    searchEnabled: false,
+                    itemSelectText: '',
+                });
+            });
+        });
+
         $('#registration_date').change(function (e) { 
             e.preventDefault();
             var regDate = $('#registration_date').val(); // format: YYYY-MM-DD
@@ -1315,17 +1335,23 @@
 
         $('#pnc_with_dangersign').change(function (e) { 
             e.preventDefault();
-            $('#pnc_dangersign_specify_div').toggleClass('d-none', $(this).val() !== '1');
-            $('#pnc_dangersign_specify').prop('required', $(this).val() === '1');
 
-            $('#pnc_dangersign_referred_div').toggleClass('d-none', $(this).val() !== '1');
-            $('#pnc_dangersign_referred').prop('required', $(this).val() === '1');
+            if($('#outcome').val()) {
+                $('#pnc_dangersign_specify_div').toggleClass('d-none', $(this).val() !== '1');
+                $('#pnc_dangersign_specify').prop('required', $(this).val() === '1');
+
+                $('#pnc_dangersign_referred_div').toggleClass('d-none', $(this).val() !== '1');
+                $('#pnc_dangersign_referred').prop('required', $(this).val() === '1');
+            }
         }).trigger('change');
 
         $('#pnc_dangersign_referred').change(function (e) { 
             e.preventDefault();
-            $('#pnc_dangersign_referred_yes_div').toggleClass('d-none', $(this).val() !== '1');
-            $('#pnc_dangersign_datereferred').prop('required', $(this).val() === '1');
+
+            if($('#outcome').val()) {
+                $('#pnc_dangersign_referred_yes_div').toggleClass('d-none', $(this).val() !== '1');
+                $('#pnc_dangersign_datereferred').prop('required', $(this).val() === '1');
+            }
         }).trigger('change');
 
         $('#pnc1').on('change', function () {
