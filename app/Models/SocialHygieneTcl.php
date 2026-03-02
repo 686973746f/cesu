@@ -39,6 +39,8 @@ class SocialHygieneTcl extends Model
         'nr_preg_hepab_c',
 
         'request_uuid',
+        'created_by',
+        'updated_by',
     ];
 
     public function brgy() {
