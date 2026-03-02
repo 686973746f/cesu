@@ -14,7 +14,7 @@ class FamilyPlanningScheduleChecker extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'fpchecker:monthly';
 
     /**
      * The console command description.
