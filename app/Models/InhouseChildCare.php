@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -148,5 +149,17 @@ class InhouseChildCare extends Model
                 return false;
             }
         }
+    }
+
+    public function getAgeDiff($date_vaccination) {
+        $registered = Carbon::parse($this->registration_date);
+        $vaccinated = Carbon::parse($date_vaccination);
+
+        $diff = $registered->diff($vaccinated);
+
+        $months = ($diff->y * 12) + $diff->m;
+        $weeks = floor($diff->d / 7);
+
+        return "{$months} months and {$weeks} weeks";
     }
 }
