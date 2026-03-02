@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DohFacility;
 use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Support\Str;
@@ -14,6 +15,7 @@ use Illuminate\Validation\Rules\In;
 use Illuminate\Support\Facades\Auth;
 use App\Models\InhouseChildNutrition;
 use App\Models\InhouseFamilyPlanning;
+use App\Models\SocialHygieneTcl;
 use PhpOffice\PhpSpreadsheet\Style\Color;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
@@ -77,16 +79,20 @@ class ElectronicTclReportController extends Controller
 
         if(auth()->user()->isMasterAdminEtcl()) {
             if($r->filter_type == 'BHS') {
+                $bhs_search = DohFacility::findOrFail($r->selected_bhs_id);
+
                 $base_qry = InhouseMaternalCare::where('enabled', 'Y')
-                ->where('facility_id', $r->selected_bhs_id);
+                ->where('facility_id', $bhs_search->id);
 
                 $cc_base_qry = InhouseChildCare::where('enabled', 'Y')
-                ->where('facility_id', $r->selected_bhs_id);
+                ->where('facility_id', $bhs_search->id);
 
                 $fp_base_qry = InhouseFpVisit::where('enabled', 'Y')
-                ->whereHas('familyplanning', function($q) use ($r) {
-                    $q->where('facility_id', $r->selected_bhs_id);
+                ->whereHas('familyplanning', function($q) use ($bhs_search) {
+                    $q->where('facility_id', $bhs_search->id);
                 });
+
+                $shc_base_qry = SocialHygieneTcl::where('address_brgy_code', $bhs_search->brgy->id);
             }
             else {
                 $base_qry = InhouseMaternalCare::where('enabled', 'Y')
@@ -103,6 +109,8 @@ class ElectronicTclReportController extends Controller
                 ->whereHas('familyplanning.facility.brgy', function($q) use ($r) {
                     $q->where('id', $r->selected_brgy_id);
                 });
+
+                $shc_base_qry = SocialHygieneTcl::where('address_brgy_code', $r->selected_brgy_id);
             }
         }
         else {
@@ -116,6 +124,8 @@ class ElectronicTclReportController extends Controller
             ->whereHas('familyplanning', function($q) {
                 $q->where('facility_id', auth()->user()->etcl_bhs_id);
             });
+
+            $shc_base_qry = SocialHygieneTcl::where('address_brgy_code', auth()->user()->etclbhs->brgy->id);
         }
 
         //Family Planning Indicators
@@ -1254,6 +1264,47 @@ class ElectronicTclReportController extends Controller
         $sheet->setCellValue('R105', (clone $qry)->whereHas('patient', function ($q) {
             $q->where('gender', 'FEMALE');
         })->count());
+
+        //SOCIAL HYGIENE TCL
+        $qry = (clone $shc_base_qry)
+        ->where('year', $r->year)
+        ->where('month', $r->month)
+        ->first();
+
+        $sheet->setCellValue('C366', $qry->r_preg_syphilis_a + $qry->r_preg_syphilis_b  + $qry->r_preg_syphilis_c);
+        $sheet->setCellValue('C367', $qry->r_preg_syphilis_a);
+        $sheet->setCellValue('C368', $qry->r_preg_syphilis_b);
+        $sheet->setCellValue('C369', $qry->r_preg_syphilis_c);
+
+        $sheet->setCellValue('C370', $qry->nr_preg_syphilis_a + $qry->nr_preg_syphilis_b  + $qry->nr_preg_syphilis_c);
+        $sheet->setCellValue('C371', $qry->nr_preg_syphilis_a);
+        $sheet->setCellValue('C372', $qry->nr_preg_syphilis_b);
+        $sheet->setCellValue('C373', $qry->nr_preg_syphilis_c);
+
+        $sheet->setCellValue('C374', $qry->treated_preg_syphilis_a + $qry->treated_preg_syphilis_b  + $qry->treated_preg_syphilis_c);
+        $sheet->setCellValue('C375', $qry->treated_preg_syphilis_a);
+        $sheet->setCellValue('C376', $qry->treated_preg_syphilis_b);
+        $sheet->setCellValue('C377', $qry->treated_preg_syphilis_c);
+
+        $sheet->setCellValue('C378', $qry->r_preg_hiv_a + $qry->r_preg_hiv_b  + $qry->r_preg_hiv_c);
+        $sheet->setCellValue('C379', $qry->r_preg_hiv_a);
+        $sheet->setCellValue('C380', $qry->r_preg_hiv_b);
+        $sheet->setCellValue('C381', $qry->r_preg_hiv_c);
+
+        $sheet->setCellValue('R366', $qry->nr_preg_hiv_a + $qry->nr_preg_hiv_b  + $qry->nr_preg_hiv_c);
+        $sheet->setCellValue('R367', $qry->nr_preg_hiv_a);
+        $sheet->setCellValue('R368', $qry->nr_preg_hiv_b);
+        $sheet->setCellValue('R369', $qry->nr_preg_hiv_c);
+
+        $sheet->setCellValue('R370', $qry->r_preg_hepab_a + $qry->r_preg_hepab_b  + $qry->r_preg_hepab_c);
+        $sheet->setCellValue('R371', $qry->r_preg_hepab_a);
+        $sheet->setCellValue('R372', $qry->r_preg_hepab_b);
+        $sheet->setCellValue('R373', $qry->r_preg_hepab_c);
+
+        $sheet->setCellValue('R374', $qry->nr_preg_hepab_a + $qry->nr_preg_hepab_b  + $qry->nr_preg_hepab_c);
+        $sheet->setCellValue('R375', $qry->nr_preg_hepab_a);
+        $sheet->setCellValue('R376', $qry->nr_preg_hepab_b);
+        $sheet->setCellValue('R377', $qry->nr_preg_hepab_c);
 
         $protection = $sheet->getProtection();
         //$protection->setPassword('1234'); // optional but recommended
