@@ -918,9 +918,9 @@ class ElectronicTclReportController extends Controller
             ->whereYear('deworming_date', $r->year)
             ->whereMonth('deworming_date', $r->month);
 
-            $sheet->setCellValue('Q49', (clone $qry)->where('age_group', 'A')->count());
-            $sheet->setCellValue('R49', (clone $qry)->where('age_group', 'B')->count());
-            $sheet->setCellValue('S49', (clone $qry)->where('age_group', 'C')->count());
+            $sheet->setCellValue('Q50', (clone $qry)->where('age_group', 'A')->count());
+            $sheet->setCellValue('R50', (clone $qry)->where('age_group', 'B')->count());
+            $sheet->setCellValue('S50', (clone $qry)->where('age_group', 'C')->count());
 
             $qry = (clone $base_qry)
             ->where('gravida', 1)
@@ -1010,6 +1010,20 @@ class ElectronicTclReportController extends Controller
             $sheet->setCellValue('Q67', (clone $qry)->where('weight_status', 'U')->where('age_group', 'A')->count());
             $sheet->setCellValue('R67', (clone $qry)->where('weight_status', 'U')->where('age_group', 'B')->count());
             $sheet->setCellValue('S67', (clone $qry)->where('weight_status', 'U')->where('age_group', 'C')->count());
+
+            $qry = (clone $base_qry)
+            ->whereNotNull('outcome')
+            ->whereNotNull('pnc4')
+            ->whereYear('pnc4', $r->year)
+            ->whereMonth('pnc4', $r->month);
+
+            $sheet->setCellValue('B75', (clone $qry)->where('pp_remarks', 'A')->where('age_group', 'A')->count());
+            $sheet->setCellValue('C75', (clone $qry)->where('pp_remarks', 'A')->where('age_group', 'B')->count());
+            $sheet->setCellValue('D75', (clone $qry)->where('pp_remarks', 'A')->where('age_group', 'C')->count());
+
+            $sheet->setCellValue('B75', (clone $qry)->where('pp_remarks', 'B')->where('age_group', 'A')->count());
+            $sheet->setCellValue('C75', (clone $qry)->where('pp_remarks', 'B')->where('age_group', 'B')->count());
+            $sheet->setCellValue('D75', (clone $qry)->where('pp_remarks', 'B')->where('age_group', 'C')->count());
         }
 
         //START OF CHILD CARE M1

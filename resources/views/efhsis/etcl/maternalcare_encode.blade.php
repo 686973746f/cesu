@@ -139,10 +139,10 @@
                                       <label for="visit1_type">Visit 1 Type</label>
                                       <select class="form-control" name="visit1_type" id="visit1_type">
                                         <option value="" disabled {{old('visit1_type', $d->visit1_type) ? '' : 'selected'}}>Choose...</option>
-                                        <option value="YOUR BHS" {{old('visit1_type', $d->visit1_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                        <option value="PUBLIC" {{old('visit1_type', $d->visit1_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                        <option value="PRIVATE" {{old('visit1_type', $d->visit1_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                        <option value="OTHER RHU/BHS" {{old('visit1_type', $d->visit1_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                        <option value="YOUR BHS" {{old('visit1_type', $d->visit1_type) == 'YOUR BHS' ? 'selected' : ''}}>Black - {{auth()->user()->tclbhs->facility_name}}</option>
+                                        <option value="PUBLIC" {{old('visit1_type', $d->visit1_type) == 'PUBLIC' ? 'selected' : ''}}>Green - Public</option>
+                                        <option value="PRIVATE" {{old('visit1_type', $d->visit1_type) == 'PRIVATE' ? 'selected' : ''}}>Red - Private</option>
+                                        <option value="OTHER RHU/BHS" {{old('visit1_type', $d->visit1_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Blue - Other RHU/BHS</option>
                                       </select>
                                     </div>
                                 </div>
@@ -166,10 +166,10 @@
                                         <label for="visit2_type">Visit 2 Type</label>
                                         <select class="form-control" name="visit2_type" id="visit2_type">
                                         <option value="" disabled {{old('visit2_type', $d->visit2_type) ? '' : 'selected'}}>Choose...</option>
-                                        <option value="YOUR BHS" {{old('visit2_type', $d->visit2_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                        <option value="PUBLIC" {{old('visit2_type', $d->visit2_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                        <option value="PRIVATE" {{old('visit2_type', $d->visit2_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                        <option value="OTHER RHU/BHS" {{old('visit2_type', $d->visit2_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                        <option value="YOUR BHS" {{old('visit2_type', $d->visit2_type) == 'YOUR BHS' ? 'selected' : ''}}>Black - {{auth()->user()->tclbhs->facility_name}}</option>
+                                        <option value="PUBLIC" {{old('visit2_type', $d->visit2_type) == 'PUBLIC' ? 'selected' : ''}}>Green - Public</option>
+                                        <option value="PRIVATE" {{old('visit2_type', $d->visit2_type) == 'PRIVATE' ? 'selected' : ''}}>Red - Private</option>
+                                        <option value="OTHER RHU/BHS" {{old('visit2_type', $d->visit2_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Blue - Other RHU/BHS</option>
                                         </select>
                                     </div>
                                   </div>
@@ -193,10 +193,10 @@
                                         <label for="visit3_type">Visit 3 Type</label>
                                         <select class="form-control" name="visit3_type" id="visit3_type">
                                         <option value="" disabled {{old('visit3_type', $d->visit3_type) ? '' : 'selected'}}>Choose...</option>
-                                        <option value="YOUR BHS" {{old('visit3_type', $d->visit3_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                        <option value="PUBLIC" {{old('visit3_type', $d->visit3_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                        <option value="PRIVATE" {{old('visit3_type', $d->visit3_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                        <option value="OTHER RHU/BHS" {{old('visit3_type', $d->visit3_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                        <option value="YOUR BHS" {{old('visit3_type', $d->visit3_type) == 'YOUR BHS' ? 'selected' : ''}}>Black - {{auth()->user()->tclbhs->facility_name}}</option>
+                                        <option value="PUBLIC" {{old('visit3_type', $d->visit3_type) == 'PUBLIC' ? 'selected' : ''}}>Green - Public</option>
+                                        <option value="PRIVATE" {{old('visit3_type', $d->visit3_type) == 'PRIVATE' ? 'selected' : ''}}>Red - Private</option>
+                                        <option value="OTHER RHU/BHS" {{old('visit3_type', $d->visit3_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Blue - Other RHU/BHS</option>
                                         </select>
                                     </div>
                                   </div>
@@ -220,10 +220,10 @@
                                         <label for="visit4_type">Visit 4 Type</label>
                                         <select class="form-control" name="visit4_type" id="visit4_type">
                                         <option value="" disabled {{old('visit4_type', $d->visit4_type) ? '' : 'selected'}}>Choose...</option>
-                                        <option value="YOUR BHS" {{old('visit4_type', $d->visit4_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                        <option value="PUBLIC" {{old('visit4_type', $d->visit4_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                        <option value="PRIVATE" {{old('visit4_type', $d->visit4_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                        <option value="OTHER RHU/BHS" {{old('visit4_type', $d->visit4_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                        <option value="YOUR BHS" {{old('visit4_type', $d->visit4_type) == 'YOUR BHS' ? 'selected' : ''}}>Black - {{auth()->user()->tclbhs->facility_name}}</option>
+                                        <option value="PUBLIC" {{old('visit4_type', $d->visit4_type) == 'PUBLIC' ? 'selected' : ''}}>Green - Public</option>
+                                        <option value="PRIVATE" {{old('visit4_type', $d->visit4_type) == 'PRIVATE' ? 'selected' : ''}}>Red - Private</option>
+                                        <option value="OTHER RHU/BHS" {{old('visit4_type', $d->visit4_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Blue - Other RHU/BHS</option>
                                         </select>
                                     </div>
                                   </div>
@@ -250,10 +250,10 @@
                                         <label for="visit5_type">Visit 5 Type</label>
                                         <select class="form-control" name="visit5_type" id="visit5_type">
                                         <option value="" disabled {{old('visit5_type', $d->visit5_type) ? '' : 'selected'}}>Choose...</option>
-                                        <option value="YOUR BHS" {{old('visit5_type', $d->visit5_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                        <option value="PUBLIC" {{old('visit5_type', $d->visit5_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                        <option value="PRIVATE" {{old('visit5_type', $d->visit5_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                        <option value="OTHER RHU/BHS" {{old('visit5_type', $d->visit5_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                        <option value="YOUR BHS" {{old('visit5_type', $d->visit5_type) == 'YOUR BHS' ? 'selected' : ''}}>Black - {{auth()->user()->tclbhs->facility_name}}</option>
+                                        <option value="PUBLIC" {{old('visit5_type', $d->visit5_type) == 'PUBLIC' ? 'selected' : ''}}>Green - Public</option>
+                                        <option value="PRIVATE" {{old('visit5_type', $d->visit5_type) == 'PRIVATE' ? 'selected' : ''}}>Red - Private</option>
+                                        <option value="OTHER RHU/BHS" {{old('visit5_type', $d->visit5_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Blue - Other RHU/BHS</option>
                                         </select>
                                     </div>
                                   </div>
@@ -277,10 +277,10 @@
                                         <label for="visit6_type">Visit 6 Type</label>
                                         <select class="form-control" name="visit6_type" id="visit6_type">
                                           <option value="" disabled {{old('visit6_type', $d->visit6_type) ? '' : 'selected'}}>Choose...</option>
-                                          <option value="YOUR BHS" {{old('visit6_type', $d->visit6_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                          <option value="PUBLIC" {{old('visit6_type', $d->visit6_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                          <option value="PRIVATE" {{old('visit6_type', $d->visit6_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                          <option value="OTHER RHU/BHS" {{old('visit6_type', $d->visit6_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                          <option value="YOUR BHS" {{old('visit6_type', $d->visit6_type) == 'YOUR BHS' ? 'selected' : ''}}>Black - {{auth()->user()->tclbhs->facility_name}}</option>
+                                          <option value="PUBLIC" {{old('visit6_type', $d->visit6_type) == 'PUBLIC' ? 'selected' : ''}}>Green - Public</option>
+                                          <option value="PRIVATE" {{old('visit6_type', $d->visit6_type) == 'PRIVATE' ? 'selected' : ''}}>Red - Private</option>
+                                          <option value="OTHER RHU/BHS" {{old('visit6_type', $d->visit6_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Blue - Other RHU/BHS</option>
                                         </select>
                                       </div>
                                   </div>
@@ -304,10 +304,10 @@
                                             <label for="visit7_type">Visit 7 Type</label>
                                             <select class="form-control" name="visit7_type" id="visit7_type">
                                             <option value="" disabled {{old('visit7_type', $d->visit7_type) ? '' : 'selected'}}>Choose...</option>
-                                            <option value="YOUR BHS" {{old('visit7_type', $d->visit7_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                            <option value="PUBLIC" {{old('visit7_type', $d->visit7_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                            <option value="PRIVATE" {{old('visit7_type', $d->visit7_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                            <option value="OTHER RHU/BHS" {{old('visit7_type', $d->visit7_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                            <option value="YOUR BHS" {{old('visit7_type', $d->visit7_type) == 'YOUR BHS' ? 'selected' : ''}}>Black - {{auth()->user()->tclbhs->facility_name}}</option>
+                                            <option value="PUBLIC" {{old('visit7_type', $d->visit7_type) == 'PUBLIC' ? 'selected' : ''}}>Green - Public</option>
+                                            <option value="PRIVATE" {{old('visit7_type', $d->visit7_type) == 'PRIVATE' ? 'selected' : ''}}>Red - Private</option>
+                                            <option value="OTHER RHU/BHS" {{old('visit7_type', $d->visit7_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Blue - Other RHU/BHS</option>
                                             </select>
                                         </div>
                                     </div>
@@ -331,10 +331,10 @@
                                         <label for="visit8_type">Visit 8 Type</label>
                                         <select class="form-control" name="visit8_type" id="visit8_type">
                                           <option value="" disabled {{old('visit8_type', $d->visit8_type) ? '' : 'selected'}}>Choose...</option>
-                                          <option value="YOUR BHS" {{old('visit8_type', $d->visit8_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                          <option value="PUBLIC" {{old('visit8_type', $d->visit8_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                          <option value="PRIVATE" {{old('visit8_type', $d->visit8_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                          <option value="OTHER RHU/BHS" {{old('visit8_type', $d->visit8_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                          <option value="YOUR BHS" {{old('visit8_type', $d->visit8_type) == 'YOUR BHS' ? 'selected' : ''}}>Black - {{auth()->user()->tclbhs->facility_name}}</option>
+                                          <option value="PUBLIC" {{old('visit8_type', $d->visit8_type) == 'PUBLIC' ? 'selected' : ''}}>Green - Public</option>
+                                          <option value="PRIVATE" {{old('visit8_type', $d->visit8_type) == 'PRIVATE' ? 'selected' : ''}}>Red - Private</option>
+                                          <option value="OTHER RHU/BHS" {{old('visit8_type', $d->visit8_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Blue - Other RHU/BHS</option>
                                         </select>
                                       </div>
                                   </div> 
@@ -407,10 +407,10 @@
                                     <label for="td1_type">Td1 Type</label>
                                     <select class="form-control" name="td1_type" id="td1_type">
                                       <option value="" disabled {{old('td1_type', $d->td1_type) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="YOUR BHS" {{old('td1_type', $d->td1_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                      <option value="PUBLIC" {{old('td1_type', $d->td1_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                      <option value="PRIVATE" {{old('td1_type', $d->td1_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                      <option value="OTHER RHU/BHS" {{old('td1_type', $d->td1_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                      <option value="YOUR BHS" {{old('td1_type', $d->td1_type) == 'YOUR BHS' ? 'selected' : ''}}>Black - {{auth()->user()->tclbhs->facility_name}}</option>
+                                      <option value="PUBLIC" {{old('td1_type', $d->td1_type) == 'PUBLIC' ? 'selected' : ''}}>Green - Public</option>
+                                      <option value="PRIVATE" {{old('td1_type', $d->td1_type) == 'PRIVATE' ? 'selected' : ''}}>Red - Private</option>
+                                      <option value="OTHER RHU/BHS" {{old('td1_type', $d->td1_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Blue - Other RHU/BHS</option>
                                     </select>
                                 </div>
                             </div>
@@ -423,10 +423,10 @@
                                     <label for="td2_type">Td2 Type</label>
                                     <select class="form-control" name="td2_type" id="td2_type">
                                       <option value="" disabled {{old('td2_type', $d->td2_type) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="YOUR BHS" {{old('td2_type', $d->td2_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                      <option value="PUBLIC" {{old('td2_type', $d->td2_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                      <option value="PRIVATE" {{old('td2_type', $d->td2_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                      <option value="OTHER RHU/BHS" {{old('td2_type', $d->td2_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                      <option value="YOUR BHS" {{old('td2_type', $d->td2_type) == 'YOUR BHS' ? 'selected' : ''}}>Black - {{auth()->user()->tclbhs->facility_name}}</option>
+                                      <option value="PUBLIC" {{old('td2_type', $d->td2_type) == 'PUBLIC' ? 'selected' : ''}}>Green - Public</option>
+                                      <option value="PRIVATE" {{old('td2_type', $d->td2_type) == 'PRIVATE' ? 'selected' : ''}}>Red - Private</option>
+                                      <option value="OTHER RHU/BHS" {{old('td2_type', $d->td2_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Blue - Other RHU/BHS</option>
                                     </select>
                                 </div>
                             </div>
@@ -439,10 +439,10 @@
                                     <label for="td3_type">Td3 Type</label>
                                     <select class="form-control" name="td3_type" id="td3_type">
                                       <option value="" disabled {{old('td3_type', $d->td3_type) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="YOUR BHS" {{old('td3_type', $d->td3_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                      <option value="PUBLIC" {{old('td3_type', $d->td3_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                      <option value="PRIVATE" {{old('td3_type', $d->td3_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                      <option value="OTHER RHU/BHS" {{old('td3_type', $d->td3_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                      <option value="YOUR BHS" {{old('td3_type', $d->td3_type) == 'YOUR BHS' ? 'selected' : ''}}>Black - {{auth()->user()->tclbhs->facility_name}}</option>
+                                      <option value="PUBLIC" {{old('td3_type', $d->td3_type) == 'PUBLIC' ? 'selected' : ''}}>Green - Public</option>
+                                      <option value="PRIVATE" {{old('td3_type', $d->td3_type) == 'PRIVATE' ? 'selected' : ''}}>Red - Private</option>
+                                      <option value="OTHER RHU/BHS" {{old('td3_type', $d->td3_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Blue - Other RHU/BHS</option>
                                     </select>
                                 </div>
                             </div>
@@ -457,10 +457,10 @@
                                     <label for="td4_type">Td4 Type</label>
                                     <select class="form-control" name="td4_type" id="td4_type">
                                       <option value="" disabled {{old('td4_type', $d->td4_type) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="YOUR BHS" {{old('td4_type', $d->td4_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                      <option value="PUBLIC" {{old('td4_type', $d->td4_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                      <option value="PRIVATE" {{old('td4_type', $d->td4_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                      <option value="OTHER RHU/BHS" {{old('td4_type', $d->td4_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                      <option value="YOUR BHS" {{old('td4_type', $d->td4_type) == 'YOUR BHS' ? 'selected' : ''}}>Black - {{auth()->user()->tclbhs->facility_name}}</option>
+                                      <option value="PUBLIC" {{old('td4_type', $d->td4_type) == 'PUBLIC' ? 'selected' : ''}}>Green - Public</option>
+                                      <option value="PRIVATE" {{old('td4_type', $d->td4_type) == 'PRIVATE' ? 'selected' : ''}}>Red - Private</option>
+                                      <option value="OTHER RHU/BHS" {{old('td4_type', $d->td4_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Blue - Other RHU/BHS</option>
                                     </select>
                                 </div>
                             </div>
@@ -473,10 +473,10 @@
                                     <label for="td5_type">Td5 Type</label>
                                     <select class="form-control" name="td5_type" id="td5_type">
                                       <option value="" disabled {{old('td5_type', $d->td5_type) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="YOUR BHS" {{old('td5_type', $d->td5_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                      <option value="PUBLIC" {{old('td5_type', $d->td5_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                      <option value="PRIVATE" {{old('td5_type', $d->td5_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                      <option value="OTHER RHU/BHS" {{old('td5_type', $d->td5_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                      <option value="YOUR BHS" {{old('td5_type', $d->td5_type) == 'YOUR BHS' ? 'selected' : ''}}>Black - {{auth()->user()->tclbhs->facility_name}}</option>
+                                      <option value="PUBLIC" {{old('td5_type', $d->td5_type) == 'PUBLIC' ? 'selected' : ''}}>Green - Public</option>
+                                      <option value="PRIVATE" {{old('td5_type', $d->td5_type) == 'PRIVATE' ? 'selected' : ''}}>Red - Private</option>
+                                      <option value="OTHER RHU/BHS" {{old('td5_type', $d->td5_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Blue - Other RHU/BHS</option>
                                     </select>
                                 </div>
                             </div>
@@ -505,10 +505,10 @@
                                     <label for="ifa1_type">Type</label>
                                     <select class="form-control" name="ifa1_type" id="ifa1_type">
                                       <option value="" disabled {{old('ifa1_type', $d->ifa1_type) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="YOUR BHS" {{old('ifa1_type', $d->ifa1_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                      <option value="PUBLIC" {{old('ifa1_type', $d->ifa1_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                      <option value="PRIVATE" {{old('ifa1_type', $d->ifa1_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                      <option value="OTHER RHU/BHS" {{old('ifa1_type', $d->ifa1_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                      <option value="YOUR BHS" {{old('ifa1_type', $d->ifa1_type) == 'YOUR BHS' ? 'selected' : ''}}>Black - {{auth()->user()->tclbhs->facility_name}}</option>
+                                      <option value="PUBLIC" {{old('ifa1_type', $d->ifa1_type) == 'PUBLIC' ? 'selected' : ''}}>Green - Public</option>
+                                      <option value="PRIVATE" {{old('ifa1_type', $d->ifa1_type) == 'PRIVATE' ? 'selected' : ''}}>Red - Private</option>
+                                      <option value="OTHER RHU/BHS" {{old('ifa1_type', $d->ifa1_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Blue - Other RHU/BHS</option>
                                     </select>
                                 </div>
                             </div>
@@ -525,10 +525,10 @@
                                     <label for="ifa2_type">Type</label>
                                     <select class="form-control" name="ifa2_type" id="ifa2_type">
                                       <option value="" disabled {{old('ifa2_type', $d->ifa2_type) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="YOUR BHS" {{old('ifa2_type', $d->ifa2_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                      <option value="PUBLIC" {{old('ifa2_type', $d->ifa2_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                      <option value="PRIVATE" {{old('ifa2_type', $d->ifa2_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                      <option value="OTHER RHU/BHS" {{old('ifa2_type', $d->ifa2_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                      <option value="YOUR BHS" {{old('ifa2_type', $d->ifa2_type) == 'YOUR BHS' ? 'selected' : ''}}>Black - {{auth()->user()->tclbhs->facility_name}}</option>
+                                      <option value="PUBLIC" {{old('ifa2_type', $d->ifa2_type) == 'PUBLIC' ? 'selected' : ''}}>Green - Public</option>
+                                      <option value="PRIVATE" {{old('ifa2_type', $d->ifa2_type) == 'PRIVATE' ? 'selected' : ''}}>Red - Private</option>
+                                      <option value="OTHER RHU/BHS" {{old('ifa2_type', $d->ifa2_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Blue - Other RHU/BHS</option>
                                     </select>
                                 </div>
                             </div>
@@ -545,10 +545,10 @@
                                     <label for="ifa3_type">Type</label>
                                     <select class="form-control" name="ifa3_type" id="ifa3_type">
                                       <option value="" disabled {{old('ifa3_type', $d->ifa3_type) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="YOUR BHS" {{old('ifa3_type', $d->ifa3_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                      <option value="PUBLIC" {{old('ifa3_type', $d->ifa3_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                      <option value="PRIVATE" {{old('ifa3_type', $d->ifa3_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                      <option value="OTHER RHU/BHS" {{old('ifa3_type', $d->ifa3_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                      <option value="YOUR BHS" {{old('ifa3_type', $d->ifa3_type) == 'YOUR BHS' ? 'selected' : ''}}>Black - {{auth()->user()->tclbhs->facility_name}}</option>
+                                      <option value="PUBLIC" {{old('ifa3_type', $d->ifa3_type) == 'PUBLIC' ? 'selected' : ''}}>Green - Public</option>
+                                      <option value="PRIVATE" {{old('ifa3_type', $d->ifa3_type) == 'PRIVATE' ? 'selected' : ''}}>Red - Private</option>
+                                      <option value="OTHER RHU/BHS" {{old('ifa3_type', $d->ifa3_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Blue - Other RHU/BHS</option>
                                     </select>
                                 </div>
                             </div>
@@ -568,10 +568,10 @@
                                     <label for="ifa4_type">Type</label>
                                     <select class="form-control" name="ifa4_type" id="ifa4_type">
                                       <option value="" disabled {{old('ifa4_type', $d->ifa4_type) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="YOUR BHS" {{old('ifa4_type', $d->ifa4_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                      <option value="PUBLIC" {{old('ifa4_type', $d->ifa4_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                      <option value="PRIVATE" {{old('ifa4_type', $d->ifa4_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                      <option value="OTHER RHU/BHS" {{old('ifa4_type', $d->ifa4_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                      <option value="YOUR BHS" {{old('ifa4_type', $d->ifa4_type) == 'YOUR BHS' ? 'selected' : ''}}>Black - {{auth()->user()->tclbhs->facility_name}}</option>
+                                      <option value="PUBLIC" {{old('ifa4_type', $d->ifa4_type) == 'PUBLIC' ? 'selected' : ''}}>Green - Public</option>
+                                      <option value="PRIVATE" {{old('ifa4_type', $d->ifa4_type) == 'PRIVATE' ? 'selected' : ''}}>Red - Private</option>
+                                      <option value="OTHER RHU/BHS" {{old('ifa4_type', $d->ifa4_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Blue - Other RHU/BHS</option>
                                     </select>
                                 </div>
                             </div>
@@ -588,10 +588,10 @@
                                     <label for="ifa5_type">Type</label>
                                     <select class="form-control" name="ifa5_type" id="ifa5_type">
                                       <option value="" disabled {{old('ifa5_type', $d->ifa5_type) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="YOUR BHS" {{old('ifa5_type', $d->ifa5_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                      <option value="PUBLIC" {{old('ifa5_type', $d->ifa5_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                      <option value="PRIVATE" {{old('ifa5_type', $d->ifa5_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                      <option value="OTHER RHU/BHS" {{old('ifa5_type', $d->ifa5_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                      <option value="YOUR BHS" {{old('ifa5_type', $d->ifa5_type) == 'YOUR BHS' ? 'selected' : ''}}>Black - {{auth()->user()->tclbhs->facility_name}}</option>
+                                      <option value="PUBLIC" {{old('ifa5_type', $d->ifa5_type) == 'PUBLIC' ? 'selected' : ''}}>Green - Public</option>
+                                      <option value="PRIVATE" {{old('ifa5_type', $d->ifa5_type) == 'PRIVATE' ? 'selected' : ''}}>Red - Private</option>
+                                      <option value="OTHER RHU/BHS" {{old('ifa5_type', $d->ifa5_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Blue - Other RHU/BHS</option>
                                     </select>
                                 </div>
                             </div>
@@ -608,10 +608,10 @@
                                     <label for="ifa6_type">Type</label>
                                     <select class="form-control" name="ifa6_type" id="ifa6_type">
                                       <option value="" disabled {{old('ifa6_type', $d->ifa6_type) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="YOUR BHS" {{old('ifa6_type', $d->ifa6_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                      <option value="PUBLIC" {{old('ifa6_type', $d->ifa6_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                      <option value="PRIVATE" {{old('ifa6_type', $d->ifa6_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                      <option value="OTHER RHU/BHS" {{old('ifa6_type', $d->ifa6_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                      <option value="YOUR BHS" {{old('ifa6_type', $d->ifa6_type) == 'YOUR BHS' ? 'selected' : ''}}>Black - {{auth()->user()->tclbhs->facility_name}}</option>
+                                      <option value="PUBLIC" {{old('ifa6_type', $d->ifa6_type) == 'PUBLIC' ? 'selected' : ''}}>Green - Public</option>
+                                      <option value="PRIVATE" {{old('ifa6_type', $d->ifa6_type) == 'PRIVATE' ? 'selected' : ''}}>Red - Private</option>
+                                      <option value="OTHER RHU/BHS" {{old('ifa6_type', $d->ifa6_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Blue - Other RHU/BHS</option>
                                     </select>
                                 </div>
                             </div>
@@ -636,10 +636,10 @@
                                     <label for="mms1_type">Type</label>
                                     <select class="form-control" name="mms1_type" id="mms1_type">
                                       <option value="" disabled {{old('mms1_type', $d->mms1_type) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="YOUR BHS" {{old('mms1_type', $d->mms1_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                      <option value="PUBLIC" {{old('mms1_type', $d->mms1_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                      <option value="PRIVATE" {{old('mms1_type', $d->mms1_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                      <option value="OTHER RHU/BHS" {{old('mms1_type', $d->mms1_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                      <option value="YOUR BHS" {{old('mms1_type', $d->mms1_type) == 'YOUR BHS' ? 'selected' : ''}}>Black - {{auth()->user()->tclbhs->facility_name}}</option>
+                                      <option value="PUBLIC" {{old('mms1_type', $d->mms1_type) == 'PUBLIC' ? 'selected' : ''}}>Green - Public</option>
+                                      <option value="PRIVATE" {{old('mms1_type', $d->mms1_type) == 'PRIVATE' ? 'selected' : ''}}>Red - Private</option>
+                                      <option value="OTHER RHU/BHS" {{old('mms1_type', $d->mms1_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Blue - Other RHU/BHS</option>
                                     </select>
                                 </div>
                             </div>
@@ -656,10 +656,10 @@
                                     <label for="mms2_type">Type</label>
                                     <select class="form-control" name="mms2_type" id="mms2_type">
                                       <option value="" disabled {{old('mms2_type', $d->mms2_type) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="YOUR BHS" {{old('mms2_type', $d->mms2_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                      <option value="PUBLIC" {{old('mms2_type', $d->mms2_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                      <option value="PRIVATE" {{old('mms2_type', $d->mms2_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                      <option value="OTHER RHU/BHS" {{old('mms2_type', $d->mms2_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                      <option value="YOUR BHS" {{old('mms2_type', $d->mms2_type) == 'YOUR BHS' ? 'selected' : ''}}>Black - {{auth()->user()->tclbhs->facility_name}}</option>
+                                      <option value="PUBLIC" {{old('mms2_type', $d->mms2_type) == 'PUBLIC' ? 'selected' : ''}}>Green - Public</option>
+                                      <option value="PRIVATE" {{old('mms2_type', $d->mms2_type) == 'PRIVATE' ? 'selected' : ''}}>Red - Private</option>
+                                      <option value="OTHER RHU/BHS" {{old('mms2_type', $d->mms2_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Blue - Other RHU/BHS</option>
                                     </select>
                                 </div>
                             </div>
@@ -675,11 +675,11 @@
                                 <div class="form-group">
                                     <label for="mms3_type">Type</label>
                                     <select class="form-control" name="mms3_type" id="mms3_type">
-                                      <option value="" disabled {{old('mms3_type', $d->mms3_type) ? '' : 'selected'}}>Choose...</option>\
-                                      <option value="YOUR BHS" {{old('mms3_type', $d->mms3_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                      <option value="PUBLIC" {{old('mms3_type', $d->mms3_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                      <option value="PRIVATE" {{old('mms3_type', $d->mms3_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                      <option value="OTHER RHU/BHS" {{old('mms3_type', $d->mms3_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                      <option value="" disabled {{old('mms3_type', $d->mms3_type) ? '' : 'selected'}}>Choose...</option>
+                                      <option value="YOUR BHS" {{old('mms3_type', $d->mms3_type) == 'YOUR BHS' ? 'selected' : ''}}>Black - {{auth()->user()->tclbhs->facility_name}}</option>
+                                      <option value="PUBLIC" {{old('mms3_type', $d->mms3_type) == 'PUBLIC' ? 'selected' : ''}}>Green - Public</option>
+                                      <option value="PRIVATE" {{old('mms3_type', $d->mms3_type) == 'PRIVATE' ? 'selected' : ''}}>Red - Private</option>
+                                      <option value="OTHER RHU/BHS" {{old('mms3_type', $d->mms3_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Blue - Other RHU/BHS</option>
                                     </select>
                                 </div>
                             </div>
@@ -699,10 +699,10 @@
                                     <label for="mms4_type">Type</label>
                                     <select class="form-control" name="mms4_type" id="mms4_type">
                                       <option value="" disabled {{old('mms4_type', $d->mms4_type) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="YOUR BHS" {{old('mms4_type', $d->mms4_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                      <option value="PUBLIC" {{old('mms4_type', $d->mms4_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                      <option value="PRIVATE" {{old('mms4_type', $d->mms4_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                      <option value="OTHER RHU/BHS" {{old('mms4_type', $d->mms4_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                      <option value="YOUR BHS" {{old('mms4_type', $d->mms4_type) == 'YOUR BHS' ? 'selected' : ''}}>Black - {{auth()->user()->tclbhs->facility_name}}</option>
+                                      <option value="PUBLIC" {{old('mms4_type', $d->mms4_type) == 'PUBLIC' ? 'selected' : ''}}>Green - Public</option>
+                                      <option value="PRIVATE" {{old('mms4_type', $d->mms4_type) == 'PRIVATE' ? 'selected' : ''}}>Red - Private</option>
+                                      <option value="OTHER RHU/BHS" {{old('mms4_type', $d->mms4_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Blue - Other RHU/BHS</option>
                                     </select>
                                 </div>
                             </div>
@@ -719,10 +719,10 @@
                                     <label for="mms5_type">Type</label>
                                     <select class="form-control" name="mms5_type" id="mms5_type">
                                       <option value="" disabled {{old('mms5_type', $d->mms5_type) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="YOUR BHS" {{old('mms5_type', $d->mms5_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                      <option value="PUBLIC" {{old('mms5_type', $d->mms5_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                      <option value="PRIVATE" {{old('mms5_type', $d->mms5_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                      <option value="OTHER RHU/BHS" {{old('mms5_type', $d->mms5_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                      <option value="YOUR BHS" {{old('mms5_type', $d->mms5_type) == 'YOUR BHS' ? 'selected' : ''}}>Black - {{auth()->user()->tclbhs->facility_name}}</option>
+                                      <option value="PUBLIC" {{old('mms5_type', $d->mms5_type) == 'PUBLIC' ? 'selected' : ''}}>Green - Public</option>
+                                      <option value="PRIVATE" {{old('mms5_type', $d->mms5_type) == 'PRIVATE' ? 'selected' : ''}}>Red - Private</option>
+                                      <option value="OTHER RHU/BHS" {{old('mms5_type', $d->mms5_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Blue - Other RHU/BHS</option>
                                     </select>
                                 </div>
                             </div>
@@ -739,10 +739,10 @@
                                     <label for="mms6_type">Type</label>
                                     <select class="form-control" name="mms6_type" id="mms6_type">
                                       <option value="" disabled {{old('mms6_type', $d->mms6_type) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="YOUR BHS" {{old('mms6_type', $d->mms6_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                      <option value="PUBLIC" {{old('mms6_type', $d->mms6_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                      <option value="PRIVATE" {{old('mms6_type', $d->mms6_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                      <option value="OTHER RHU/BHS" {{old('mms6_type', $d->mms6_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                      <option value="YOUR BHS" {{old('mms6_type', $d->mms6_type) == 'YOUR BHS' ? 'selected' : ''}}>Black - {{auth()->user()->tclbhs->facility_name}}</option>
+                                      <option value="PUBLIC" {{old('mms6_type', $d->mms6_type) == 'PUBLIC' ? 'selected' : ''}}>Green - Public</option>
+                                      <option value="PRIVATE" {{old('mms6_type', $d->mms6_type) == 'PRIVATE' ? 'selected' : ''}}>Red - Private</option>
+                                      <option value="OTHER RHU/BHS" {{old('mms6_type', $d->mms6_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Blue - Other RHU/BHS</option>
                                     </select>
                                 </div>
                             </div>
@@ -772,10 +772,10 @@
                                     <label for="calcium1_type">Type</label>
                                     <select class="form-control" name="calcium1_type" id="calcium1_type">
                                       <option value="" disabled {{old('calcium1_type', $d->calcium1_type) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="YOUR BHS" {{old('calcium1_type', $d->calcium1_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                      <option value="PUBLIC" {{old('calcium1_type', $d->calcium1_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                      <option value="PRIVATE" {{old('calcium1_type', $d->calcium1_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                      <option value="OTHER RHU/BHS" {{old('calcium1_type', $d->calcium1_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                      <option value="YOUR BHS" {{old('calcium1_type', $d->calcium1_type) == 'YOUR BHS' ? 'selected' : ''}}>Black - {{auth()->user()->tclbhs->facility_name}}</option>
+                                      <option value="PUBLIC" {{old('calcium1_type', $d->calcium1_type) == 'PUBLIC' ? 'selected' : ''}}>Green - Public</option>
+                                      <option value="PRIVATE" {{old('calcium1_type', $d->calcium1_type) == 'PRIVATE' ? 'selected' : ''}}>Red - Private</option>
+                                      <option value="OTHER RHU/BHS" {{old('calcium1_type', $d->calcium1_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Blue - Other RHU/BHS</option>
                                     </select>
                                 </div>
                             </div>
@@ -792,10 +792,10 @@
                                     <label for="calcium2_type">Type</label>
                                     <select class="form-control" name="calcium2_type" id="calcium2_type">
                                       <option value="" disabled {{old('calcium2_type', $d->calcium2_type) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="YOUR BHS" {{old('calcium2_type', $d->calcium2_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                      <option value="PUBLIC" {{old('calcium2_type', $d->calcium2_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                      <option value="PRIVATE" {{old('calcium2_type', $d->calcium2_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                      <option value="OTHER RHU/BHS" {{old('calcium2_type', $d->calcium2_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                      <option value="YOUR BHS" {{old('calcium2_type', $d->calcium2_type) == 'YOUR BHS' ? 'selected' : ''}}>Black - {{auth()->user()->tclbhs->facility_name}}</option>
+                                      <option value="PUBLIC" {{old('calcium2_type', $d->calcium2_type) == 'PUBLIC' ? 'selected' : ''}}>Green - Public</option>
+                                      <option value="PRIVATE" {{old('calcium2_type', $d->calcium2_type) == 'PRIVATE' ? 'selected' : ''}}>Red - Private</option>
+                                      <option value="OTHER RHU/BHS" {{old('calcium2_type', $d->calcium2_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Blue - Other RHU/BHS</option>
                                     </select>
                                 </div>
                             </div>
@@ -812,10 +812,10 @@
                                     <label for="calcium3_type">Type</label>
                                     <select class="form-control" name="calcium3_type" id="calcium3_type">
                                       <option value="" disabled {{old('calcium3_type', $d->calcium3_type) ? '' : 'selected'}}>Choose...</option>
-                                      <option value="YOUR BHS" {{old('calcium3_type', $d->calcium3_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                                      <option value="PUBLIC" {{old('calcium3_type', $d->calcium3_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                                      <option value="PRIVATE" {{old('calcium3_type', $d->calcium3_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                                      <option value="OTHER RHU/BHS" {{old('calcium3_type', $d->calcium3_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
+                                      <option value="YOUR BHS" {{old('calcium3_type', $d->calcium3_type) == 'YOUR BHS' ? 'selected' : ''}}>Black - {{auth()->user()->tclbhs->facility_name}}</option>
+                                      <option value="PUBLIC" {{old('calcium3_type', $d->calcium3_type) == 'PUBLIC' ? 'selected' : ''}}>Green - Public</option>
+                                      <option value="PRIVATE" {{old('calcium3_type', $d->calcium3_type) == 'PRIVATE' ? 'selected' : ''}}>Red - Private</option>
+                                      <option value="OTHER RHU/BHS" {{old('calcium3_type', $d->calcium3_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Blue - Other RHU/BHS</option>
                                     </select>
                                 </div>
                             </div>
@@ -1600,23 +1600,23 @@
         }).trigger('change');
 
         $('#syphilis_date').on('change', function () {
-            $('#syphilis_result').prop('required', !!$(this).val());
+            //$('#syphilis_result').prop('required', !!$(this).val());
         }).trigger('change');
 
         $('#hiv_date').on('change', function () {
-            $('#hiv_result').prop('required', !!$(this).val());
+            //$('#hiv_result').prop('required', !!$(this).val());
         }).trigger('change');
 
         $('#hb_date').on('change', function () {
-            $('#hb_result').prop('required', !!$(this).val());
+            //$('#hb_result').prop('required', !!$(this).val());
         }).trigger('change');
 
         $('#cbc_date').on('change', function () {
-            $('#cbc_result').prop('required', !!$(this).val());
+            //$('#cbc_result').prop('required', !!$(this).val());
         }).trigger('change');
 
         $('#diabetes_date').on('change', function () {
-            $('#diabetes_result').prop('required', !!$(this).val());
+            //$('#diabetes_result').prop('required', !!$(this).val());
         }).trigger('change');
 
         $('#highrisk').change(function (e) { 
@@ -1699,7 +1699,7 @@
             $('#outcome_div').addClass('d-none');
             $('#outcome').prop('required', false);
 
-            if($(this).val() == 'B') {
+            if($(this).val() == 'C') {
                 $('#transout_div').removeClass('d-none');
                 $('#transout_date').prop('required', true);
 
@@ -1708,7 +1708,7 @@
                 $('#outcome').val('');
                 $('#outcome').trigger('change');
             }
-            else if($(this).val() == 'A' || $(this).val() == '') {
+            else if($(this).val() == 'B' || $(this).val() == '') {
                 $('#outcome_div').removeClass('d-none');
             }
         }).trigger('change');
