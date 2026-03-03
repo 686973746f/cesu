@@ -992,7 +992,7 @@
                             <label for="attendant"><b class="text-danger">*</b>Birth Attendant</label>
                             <select class="form-control" name="attendant" id="attendant">
                               <option value="" disabled {{old('attendant', $d->attendant) ? '' : 'selected'}}>Choose...</option>
-                              <option value="MD" {{old('attendant', $d->attendant) == 'MD' ? 'selected' : ''}}>Doctor</option>
+                              <option value="MD" {{old('attendant', $d->attendant) == 'MD' ? 'selected' : ''}}>Doctor/Physician</option>
                               <option value="RN" {{old('attendant', $d->attendant) == 'RN' ? 'selected' : ''}}>Nurse</option>
                               <option value="MW" {{old('attendant', $d->attendant) == 'MW' ? 'selected' : ''}}>Midwife</option>
                               <option value="O" {{old('attendant', $d->attendant) == 'O' ? 'selected' : ''}}>Others</option>
@@ -1080,7 +1080,7 @@
                                     <select class="form-control" name="pnc_dangersign_referred" id="pnc_dangersign_referred">
                                       <option value="" disabled {{old('pnc_dangersign_referred', $d->pnc_dangersign_referred) ? '' : 'selected'}}>Choose...</option>
                                       <option value="1" {{old('pnc_dangersign_referred', $d->pnc_dangersign_referred) === '1' ? 'selected' : ''}}>Yes</option>
-                                      <option value="0" {{old('pnc_dangersign_referred', $d->pnc_dangersign_referred) === '2' ? 'selected' : ''}}>No</option>
+                                      <option value="0" {{old('pnc_dangersign_referred', $d->pnc_dangersign_referred) === '0' ? 'selected' : ''}}>No</option>
                                     </select>
                                 </div>
                                 <div class="form-group" id="pnc_dangersign_referred_yes_div">
@@ -1142,10 +1142,11 @@
                 <div class="form-group postnatal_div mt-3">
                   <label for="pp_remarks"><b class="text-danger">*</b>Remarks</label>
                   <select class="form-control" name="pp_remarks" id="pp_remarks">
-                    <option value="" {{old('pp_remarks', $d->pp_remarks) ? '' : 'selected'}}>N/A</option>
-                    <option value="A" {{old('pp_remarks', $d->pp_remarks) == 'A' ? 'selected' : ''}}>Trans In</option>
-                    <option value="B" {{old('pp_remarks', $d->pp_remarks) == 'B' ? 'selected' : ''}}>Trans Out before completing 4PNC</option>
-                    <option value="C" {{old('pp_remarks', $d->pp_remarks) == 'C' ? 'selected' : ''}}>Trans In after completing 4PNC</option>
+                    <option value="" disabled {{old('pp_remarks', $d->pp_remarks) ? '' : 'selected'}}>Choose...</option>
+                    <option value="A" {{old('pp_remarks', $d->pp_remarks) == 'A' ? 'selected' : ''}}>Resident</option>
+                    <option value="B" {{old('pp_remarks', $d->pp_remarks) == 'B' ? 'selected' : ''}}>Trans In</option>
+                    <option value="C" {{old('pp_remarks', $d->pp_remarks) == 'C' ? 'selected' : ''}}>Trans Out before completing 4PNC</option>
+                    <option value="D" {{old('pp_remarks', $d->pp_remarks) == 'D' ? 'selected' : ''}}>Trans In after completing 4PNC</option>
                   </select>
                 </div>
                 <div id="pp_transout_div" class="d-none">

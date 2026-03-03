@@ -942,7 +942,74 @@ class ElectronicTclReportController extends Controller
             $sheet->setCellValue('C55', (clone $qry)->where('age_group', 'B')->count());
             $sheet->setCellValue('D55', (clone $qry)->where('age_group', 'C')->count());
 
+            $qry = (clone $base_qry)
+            ->whereNotNull('outcome')
+            ->whereYear('delivery_date', $r->year)
+            ->whereMonth('delivery_date', $r->month);
             
+            $sheet->setCellValue('B58', (clone $qry)->where('age_group', 'A')->count());
+            $sheet->setCellValue('C58', (clone $qry)->where('age_group', 'B')->count());
+            $sheet->setCellValue('D58', (clone $qry)->where('age_group', 'C')->count());
+
+            $sheet->setCellValue('B60', (clone $qry)->where('attendant', 'MD')->where('age_group', 'A')->count());
+            $sheet->setCellValue('C60', (clone $qry)->where('attendant', 'MD')->where('age_group', 'B')->count());
+            $sheet->setCellValue('D60', (clone $qry)->where('attendant', 'MD')->where('age_group', 'C')->count());
+
+            $sheet->setCellValue('B61', (clone $qry)->where('attendant', 'RN')->where('age_group', 'A')->count());
+            $sheet->setCellValue('C61', (clone $qry)->where('attendant', 'RN')->where('age_group', 'B')->count());
+            $sheet->setCellValue('D61', (clone $qry)->where('attendant', 'RN')->where('age_group', 'C')->count());
+
+            $sheet->setCellValue('B62', (clone $qry)->where('attendant', 'MW')->where('age_group', 'A')->count());
+            $sheet->setCellValue('C62', (clone $qry)->where('attendant', 'MW')->where('age_group', 'B')->count());
+            $sheet->setCellValue('D62', (clone $qry)->where('attendant', 'MW')->where('age_group', 'C')->count());
+
+            $sheet->setCellValue('B64', (clone $qry)->where('facility_type', 'PUBLIC')->where('age_group', 'A')->count());
+            $sheet->setCellValue('C64', (clone $qry)->where('facility_type', 'PUBLIC')->where('age_group', 'B')->count());
+            $sheet->setCellValue('D64', (clone $qry)->where('facility_type', 'PUBLIC')->where('age_group', 'C')->count());
+
+            $sheet->setCellValue('B65', (clone $qry)->where('facility_type', 'PRIVATE')->where('age_group', 'A')->count());
+            $sheet->setCellValue('C65', (clone $qry)->where('facility_type', 'PRIVATE')->where('age_group', 'B')->count());
+            $sheet->setCellValue('D65', (clone $qry)->where('facility_type', 'PRIVATE')->where('age_group', 'C')->count());
+
+            $sheet->setCellValue('B67', (clone $qry)->where('delivery_type', 'VD')->where('age_group', 'A')->count());
+            $sheet->setCellValue('C67', (clone $qry)->where('delivery_type', 'VD')->where('age_group', 'B')->count());
+            $sheet->setCellValue('D67', (clone $qry)->where('delivery_type', 'VD')->where('age_group', 'C')->count());
+
+            $sheet->setCellValue('B68', (clone $qry)->where('delivery_type', 'CS')->where('age_group', 'A')->count());
+            $sheet->setCellValue('C68', (clone $qry)->where('delivery_type', 'CS')->where('age_group', 'B')->count());
+            $sheet->setCellValue('D68', (clone $qry)->where('delivery_type', 'CS')->where('age_group', 'C')->count());
+
+            $sheet->setCellValue('B69', (clone $qry)->where('delivery_type', 'CVCD')->where('age_group', 'A')->count());
+            $sheet->setCellValue('C69', (clone $qry)->where('delivery_type', 'CVCD')->where('age_group', 'B')->count());
+            $sheet->setCellValue('D69', (clone $qry)->where('delivery_type', 'CVCD')->where('age_group', 'C')->count());
+
+            $sheet->setCellValue('Q59', (clone $qry)->where('outcome', 'FT')->where('age_group', 'A')->count());
+            $sheet->setCellValue('R59', (clone $qry)->where('outcome', 'FT')->where('age_group', 'B')->count());
+            $sheet->setCellValue('S59', (clone $qry)->where('outcome', 'FT')->where('age_group', 'C')->count());
+
+            $sheet->setCellValue('Q60', (clone $qry)->where('outcome', 'PT')->where('age_group', 'A')->count());
+            $sheet->setCellValue('R60', (clone $qry)->where('outcome', 'PT')->where('age_group', 'B')->count());
+            $sheet->setCellValue('S60', (clone $qry)->where('outcome', 'PT')->where('age_group', 'C')->count());
+
+            $sheet->setCellValue('Q61', (clone $qry)->where('outcome', 'FD')->where('age_group', 'A')->count());
+            $sheet->setCellValue('R61', (clone $qry)->where('outcome', 'FD')->where('age_group', 'B')->count());
+            $sheet->setCellValue('S61', (clone $qry)->where('outcome', 'FD')->where('age_group', 'C')->count());
+
+            $sheet->setCellValue('Q62', (clone $qry)->where('outcome', 'AB')->where('age_group', 'A')->count());
+            $sheet->setCellValue('R62', (clone $qry)->where('outcome', 'AB')->where('age_group', 'B')->count());
+            $sheet->setCellValue('S62', (clone $qry)->where('outcome', 'AB')->where('age_group', 'C')->count());
+
+            $sheet->setCellValue('Q65', (clone $qry)->where('weight_status', 'N')->where('age_group', 'A')->count());
+            $sheet->setCellValue('R65', (clone $qry)->where('weight_status', 'N')->where('age_group', 'B')->count());
+            $sheet->setCellValue('S65', (clone $qry)->where('weight_status', 'N')->where('age_group', 'C')->count());
+
+            $sheet->setCellValue('Q66', (clone $qry)->where('weight_status', 'L')->where('age_group', 'A')->count());
+            $sheet->setCellValue('R66', (clone $qry)->where('weight_status', 'L')->where('age_group', 'B')->count());
+            $sheet->setCellValue('S66', (clone $qry)->where('weight_status', 'L')->where('age_group', 'C')->count());
+
+            $sheet->setCellValue('Q67', (clone $qry)->where('weight_status', 'U')->where('age_group', 'A')->count());
+            $sheet->setCellValue('R67', (clone $qry)->where('weight_status', 'U')->where('age_group', 'B')->count());
+            $sheet->setCellValue('S67', (clone $qry)->where('weight_status', 'U')->where('age_group', 'C')->count());
         }
 
         //START OF CHILD CARE M1
@@ -950,8 +1017,9 @@ class ElectronicTclReportController extends Controller
             $cc_cell1 = 'B87';
             $cc_cell2 = 'C87';
         }
-        else {
-
+        else if($r->submit == 'm1_2026') {
+            $cc_cell1 = 'B86';
+            $cc_cell2 = 'C87';
         }
 
         $qry = (clone $cc_base_qry)
