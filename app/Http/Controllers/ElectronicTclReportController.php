@@ -24,12 +24,13 @@ class ElectronicTclReportController extends Controller
     public function generateM1(Request $r) {
         if($r->submit == 'm1_2025') {
             $xlsfilename = 'FHSIS_M1.xlsx';
+            $spreadsheet = ExcelFactory::load(storage_path($xlsfilename));
         }
         else {
             $xlsfilename = 'FHSIS_M1_2026.xlsx';
+            $spreadsheet = ExcelFactory::load(storage_path('etcl_2026/' . $xlsfilename));
         }
 
-        $spreadsheet = ExcelFactory::load(storage_path($xlsfilename));
         $sheet = $spreadsheet->getActiveSheet();
 
         if($r->month == 1) {
@@ -132,8 +133,17 @@ class ElectronicTclReportController extends Controller
         $sixMonthStart = $fp_select_date->copy()->subMonthsNoOverflow(6)->startOfMonth();
         $threeYearStart = $fp_select_date->copy()->subYearsNoOverflow(3)->startOfMonth();
 
+        if($r->submit == 'm1_2025') {
+            $client_type_arr = ['CU', 'CU-CM', 'CU-CC', 'CU-RS'];
+            $other_acceptor_arr = ['OA'];
+        }
+        else {
+            $client_type_arr = ['CU'];
+            $other_acceptor_arr = ['OA', 'OA-CM', 'OA-CC', 'OA-RS', 'OA-CA'];
+        }
+
         $qry = (clone $fp_base_qry)
-        ->whereIn('client_type', ['CU', 'CU-CM', 'CU-CC', 'CU-RS'])
+        ->whereIn('client_type', $client_type_arr)
         ->whereIn('status', ['DONE', 'PENDING']);
 
         $sheet->setCellValue('B16', (clone $qry)->whereBetween('visit_date_estimated', [$monthStart, $monthEnd])->where('method_used', 'BTL')->whereBetween('age_years', [10,14])->count());
@@ -264,7 +274,7 @@ class ElectronicTclReportController extends Controller
 
         //OTHER ACCEPTOR (PRESENT MONTH)
         $qry = (clone $fp_base_qry)
-        ->where('client_type', 'OA')
+        ->whereIn('client_type', $other_acceptor_arr)
         ->where('status', 'DONE')
         ->whereBetween('visit_date_actual', [$monthStart, $monthEnd]);
 

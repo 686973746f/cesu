@@ -95,7 +95,7 @@ class Kernel extends ConsoleKernel
         //$schedule->command('edcsweeklysubmitfinalize')->weeklyOn(2, '15:00')->evenInMaintenanceMode();
         $schedule->command('foggingschedulemover:daily')->dailyAt('00:10')->evenInMaintenanceMode();
 
-        $schedule->command('fpchecker:monthly')->everyEndOfTheMont()->evenInMaintenanceMode();
+        $schedule->command('fpchecker:monthly')->lastDayOfMonth('23:00')->evenInMaintenanceMode();
     }
 
     /**
