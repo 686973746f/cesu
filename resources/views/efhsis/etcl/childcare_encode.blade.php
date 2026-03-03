@@ -134,10 +134,18 @@
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         <div class="form-group">
-                          <label for="bcg1">BCG (within 0-28 days)</label>
+                          <label for="bcg1">BCG Date</label>
                           <input type="date" class="form-control" name="bcg1" id="bcg1" value="{{old('bcg1', $d->bcg1)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->bcg1)->subYears(10)->format('Y-01-01') : date('Y-01-01', strtotime('-10 Years')) }}"  max="{{date('Y-m-d')}}" >
+                        </div>
+                        <div class="form-group">
+                            <label for="bcg_time">BCG Time Vaccinated</label>
+                            <select class="form-control" name="bcg_time" id="bcg_time">
+                              <option value="" disabled {{old('bcg_time', $d->bcg_time) ? '' : 'selected'}}>Choose...</option>
+                              <option value="WITHIN_24H" {{old('bcg_time', $d->bcg_time) == 'WITHIN_24H' ? 'selected' : ''}}>Within 24 hours</option>
+                              <option value="MORE_24H" {{old('bcg_time', $d->bcg_time) == 'MORE_24H' ? 'selected' : ''}}>More than 24 hours to 11 months and 29 days</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="bcg1_type">Type</label>
@@ -150,26 +158,18 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         <div class="form-group">
-                            <label for="bcg2">BCG (within 29 days to 1 year old)</label>
-                            <input type="date" class="form-control" name="bcg2" id="bcg2" value="{{old('bcg2', $d->bcg2)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->bcg2)->subYears(10)->format('Y-01-01') : date('Y-01-01', strtotime('-10 Years')) }}" max="{{date('Y-m-d')}}" {{ ($age_in_days < 29) ? 'disabled' : '' }}>
-                        </div>
-                        <div class="form-group">
-                            <label for="bcg2_type">Type</label>
-                            <select class="form-control" name="bcg2_type" id="bcg2_type" {{ ($age_in_days < 29) ? 'disabled' : '' }}>
-                              <option value="" disabled {{old('bcg2_type', $d->bcg2_type) ? '' : 'selected'}}>Choose...</option>
-                              <option value="YOUR BHS" {{old('bcg2_type', $d->bcg2_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                              <option value="PUBLIC" {{old('bcg2_type', $d->bcg2_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                              <option value="PRIVATE" {{old('bcg2_type', $d->bcg2_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                              <option value="OTHER RHU/BHS" {{old('bcg2_type', $d->bcg2_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="hepab1">Hepa B within 24 hours after birth</label>
+                            <label for="hepab1">Hepa B</label>
                             <input type="date" class="form-control" name="hepab1" id="hepab1" value="{{old('hepab1', $d->hepab1)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->hepab1)->subYears(10)->format('Y-01-01') : date('Y-01-01', strtotime('-10 Years')) }}" max="{{date('Y-m-d')}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="hepab_time">Time Vaccinated</label>
+                            <select class="form-control" name="hepab_time" id="hepab_time">
+                              <option value="" disabled {{old('hepab_time', $d->hepab_time) ? '' : 'selected'}}>Choose...</option>
+                              <option value="WITHIN_24H" {{old('hepab_time', $d->hepab_time) == 'WITHIN_24H' ? 'selected' : ''}}>Within 24 hours</option>
+                              <option value="MORE_24H" {{old('hepab_time', $d->hepab_time) == 'MORE_24H' ? 'selected' : ''}}>More than 24 hours up to 14 days</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="hepab1_type">Type</label>
@@ -179,22 +179,6 @@
                               <option value="PUBLIC" {{old('hepab1_type', $d->hepab1_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
                               <option value="PRIVATE" {{old('hepab1_type', $d->hepab1_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
                               <option value="OTHER RHU/BHS" {{old('hepab1_type', $d->hepab1_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="hepab2">Hepa B more than 24 hours up to 14 days</label>
-                            <input type="date" class="form-control" name="hepab2" id="hepab2" value="{{old('hepab2', $d->hepab2)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->hepab2)->subYears(10)->format('Y-01-01') : date('Y-01-01', strtotime('-10 Years')) }}" max="{{date('Y-m-d')}}">
-                        </div>
-                        <div class="form-group">
-                            <label for="hepab2_type">Type</label>
-                            <select class="form-control" name="hepab2_type" id="hepab2_type">
-                              <option value="" disabled {{old('hepab2_type', $d->hepab2_type) ? '' : 'selected'}}>Choose...</option>
-                              <option value="YOUR BHS" {{old('hepab2_type', $d->hepab2_type) == 'YOUR BHS' ? 'selected' : ''}}>{{auth()->user()->tclbhs->facility_name}}</option>
-                              <option value="PUBLIC" {{old('hepab2_type', $d->hepab2_type) == 'PUBLIC' ? 'selected' : ''}}>Public</option>
-                              <option value="PRIVATE" {{old('hepab2_type', $d->hepab2_type) == 'PRIVATE' ? 'selected' : ''}}>Private</option>
-                              <option value="OTHER RHU/BHS" {{old('hepab2_type', $d->hepab2_type) == 'OTHER RHU/BHS' ? 'selected' : ''}}>Other RHU/BHS</option>
                             </select>
                         </div>
                     </div>
@@ -604,22 +588,28 @@
     });
 
     $('#bcg1').on('change', function () {
+        $('#bcg_time').prop('required', !!$(this).val());
         $('#bcg1_type').prop('required', !!$(this).val());
-        $('#bcg2').prop('min', $(this).val());
+        //$('#bcg2').prop('min', $(this).val());
     }).trigger('change');
 
+    /*
     $('#bcg2').on('change', function () {
         $('#bcg2_type').prop('required', !!$(this).val());
     }).trigger('change');
+    */
 
     $('#hepab1').on('change', function () {
+        $('#hepab_time').prop('required', !!$(this).val());
         $('#hepab1_type').prop('required', !!$(this).val());
-        $('#hepab2').prop('min', $(this).val());
+        //$('#hepab2').prop('min', $(this).val());
     }).trigger('change');
 
+    /*
     $('#hepab2').on('change', function () {
         $('#hepab2_type').prop('required', !!$(this).val());
     }).trigger('change');
+    */
 
     $('#dpt1').on('change', function () {
         $('#dpt1_type').prop('required', !!$(this).val());

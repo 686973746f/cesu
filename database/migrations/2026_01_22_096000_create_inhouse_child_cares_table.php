@@ -28,13 +28,16 @@ class CreateInhouseChildCaresTable extends Migration
             $table->string('cpab_type')->nullable(); //open text
 
             $table->date('bcg1')->nullable();
+            $table->string('bcg_time')->nullable();
             $table->string('bcg1_type')->nullable();
-            $table->date('bcg2')->nullable();
-            $table->string('bcg2_type')->nullable();
+
+            //$table->date('bcg2')->nullable();
+            //$table->string('bcg2_type')->nullable();
             $table->date('hepab1')->nullable();
+            $table->string('hepab_time')->nullable();
             $table->string('hepab1_type')->nullable();
-            $table->date('hepab2')->nullable();
-            $table->string('hepab2_type')->nullable();
+            //$table->date('hepab2')->nullable();
+            //$table->string('hepab2_type')->nullable();
 
             $table->date('dpt1')->nullable();
             $table->string('dpt1_type')->nullable();
