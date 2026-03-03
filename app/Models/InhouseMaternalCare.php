@@ -313,6 +313,123 @@ class InhouseMaternalCare extends Model
         else {
             $this->completed_pp_ifa = 'N';
         }
+
+        $trigger_highbp = false;
+
+        if(!is_null($this->visit1) && !is_null($this->visit1_bp)) {
+            $bp_split = explode('/', $this->visit1_bp);
+
+            if($bp_split[0] >= 140 && $bp_split[1] >= 90) {
+                $trigger_highbp = true;
+            }
+        }
+
+        if(!is_null($this->visit2) && !is_null($this->visit2_bp)) {
+            $bp_split = explode('/', $this->visit2_bp);
+
+            if($bp_split[0] >= 140 && $bp_split[1] >= 90) {
+                $trigger_highbp = true;
+            }
+        }
+
+        if(!is_null($this->visit3) && !is_null($this->visit3_bp)) {
+            $bp_split = explode('/', $this->visit3_bp);
+
+            if($bp_split[0] >= 140 && $bp_split[1] >= 90) {
+                $trigger_highbp = true;
+            }
+        }
+
+        if(!is_null($this->visit4) && !is_null($this->visit4_bp)) {
+            $bp_split = explode('/', $this->visit4_bp);
+
+            if($bp_split[0] >= 140 && $bp_split[1] >= 90) {
+                $trigger_highbp = true;
+            }
+        }
+        
+        if(!is_null($this->visit5) && !is_null($this->visit5_bp)) {
+            $bp_split = explode('/', $this->visit5_bp);
+
+            if($bp_split[0] >= 140 && $bp_split[1] >= 90) {
+                $trigger_highbp = true;
+            }
+        }
+
+        if(!is_null($this->visit6) && !is_null($this->visit6_bp)) {
+            $bp_split = explode('/', $this->visit6_bp);
+
+            if($bp_split[0] >= 140 && $bp_split[1] >= 90) {
+                $trigger_highbp = true;
+            }
+        }
+
+        if(!is_null($this->visit7) && !is_null($this->visit7_bp)) {
+            $bp_split = explode('/', $this->visit7_bp);
+
+            if($bp_split[0] >= 140 && $bp_split[1] >= 90) {
+                $trigger_highbp = true;
+            }
+        }
+
+        if(!is_null($this->visit8) && !is_null($this->visit8_bp)) {
+            $bp_split = explode('/', $this->visit8_bp);
+
+            if($bp_split[0] >= 140 && $bp_split[1] >= 90) {
+                $trigger_highbp = true;
+            }
+        }
+
+        if($trigger_highbp) {
+            $this->with_highbp = 'Y';
+        }
+        else {
+            $this->with_highbp = 'N';
+        }
+
+
+        $trigger_highbp_pnc = false;
+
+        if(!is_null($this->outcome)) {
+            if(!is_null($this->pnc1) && !is_null($this->pnc1_bp)) {
+                $bp_split = explode('/', $this->pnc1_bp);
+    
+                if($bp_split[0] >= 140 && $bp_split[1] >= 90) {
+                    $trigger_highbp_pnc = true;
+                }
+            }
+
+            if(!is_null($this->pnc2) && !is_null($this->pnc2_bp)) {
+                $bp_split = explode('/', $this->pnc2_bp);
+    
+                if($bp_split[0] >= 140 && $bp_split[1] >= 90) {
+                    $trigger_highbp_pnc = true;
+                }
+            }
+
+            if(!is_null($this->pnc3) && !is_null($this->pnc3_bp)) {
+                $bp_split = explode('/', $this->pnc3_bp);
+    
+                if($bp_split[0] >= 140 && $bp_split[1] >= 90) {
+                    $trigger_highbp_pnc = true;
+                }
+            }
+
+            if(!is_null($this->pnc4) && !is_null($this->pnc4_bp)) {
+                $bp_split = explode('/', $this->pnc4_bp);
+    
+                if($bp_split[0] >= 140 && $bp_split[1] >= 90) {
+                    $trigger_highbp_pnc = true;
+                }
+            }
+
+            if($trigger_highbp_pnc) {
+                $this->pnc_with_highbp = 'Y';
+            }
+            else {
+                $this->pnc_with_highbp = 'N';
+            }
+        }
     }
 
     public static function colorFromType(?string $type): string {

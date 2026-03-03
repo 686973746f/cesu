@@ -353,7 +353,7 @@
                                 </div>
                                 <div class="form-group d-none" id="dangersign_specify_div">
                                     <label for="with_dangersign_specify"><b class="text-danger">*</b>Specify Danger Signs (Select at least 1)</label>
-                                    <select class="form-control choices-multi" name="with_dangersign_specify[]" id="with_dangersign_specify" multiple>
+                                    <select class="choices-multi" name="with_dangersign_specify[]" id="with_dangersign_specify" multiple>
                                         <option value="A" {{old('with_dangersign_specify', $d->with_dangersign_specify) && in_array('A', explode(',', old('with_dangersign_specify', $d->with_dangersign_specify))) ? 'selected' : ''}}>New-onset severe headache</option>
                                         <option value="B" {{old('with_dangersign_specify', $d->with_dangersign_specify) && in_array('B', explode(',', old('with_dangersign_specify', $d->with_dangersign_specify))) ? 'selected' : ''}}>Visual disturbances</option>
                                         <option value="C" {{old('with_dangersign_specify', $d->with_dangersign_specify) && in_array('C', explode(',', old('with_dangersign_specify', $d->with_dangersign_specify))) ? 'selected' : ''}}>Severe epigastric pain</option>
@@ -377,12 +377,12 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="trans_remarks">Remarks</label>
-                            <select class="form-control" name="trans_remarks" id="trans_remarks">
-                              <option value="" {{old('trans_remarks', $d->trans_remarks) ? '' : 'selected'}}>N/A</option>
-                              <option value="A" {{old('trans_remarks', $d->trans_remarks) == 'A' ? 'selected' : ''}}>Resident</option>
-                              <option value="B" {{old('trans_remarks', $d->trans_remarks) == 'B' ? 'selected' : ''}}>Trans In</option>
-                              <option value="C" {{old('trans_remarks', $d->trans_remarks) == 'C' ? 'selected' : ''}}>Trans Out before receiving 8ANC</option>
+                            <label for="trans_remarks"><b class="text-danger">*</b>Remarks</label>
+                            <select class="form-control" name="trans_remarks" id="trans_remarks" required>
+                                <option value="" disabled {{old('trans_remarks', $d->trans_remarks) ? '' : 'selected'}}>Choose...</option>
+                                <option value="A" {{old('trans_remarks', $d->trans_remarks) == 'A' ? 'selected' : ''}}>Resident</option>
+                                <option value="B" {{old('trans_remarks', $d->trans_remarks) == 'B' ? 'selected' : ''}}>Trans In</option>
+                                <option value="C" {{old('trans_remarks', $d->trans_remarks) == 'C' ? 'selected' : ''}}>Trans Out before receiving 8ANC</option>
                             </select>
                         </div>
                         <div id="transout_div" class="d-none">
@@ -1067,7 +1067,7 @@
                                 </div>
                                 <div class="form-group d-none" id="pnc_dangersign_specify_div">
                                     <label for="pnc_dangersign_specify"><b class="text-danger">*</b>Specify Danger Signs (Select at least 1)</label>
-                                    <select class="form-control choices-multi" name="pnc_dangersign_specify[]" id="pnc_dangersign_specify" multiple>
+                                    <select class="choices-multi" name="pnc_dangersign_specify[]" id="pnc_dangersign_specify" multiple>
                                         <option value="A" {{old('pnc_dangersign_specify', $d->pnc_dangersign_specify) && in_array('A', explode(',', old('pnc_dangersign_specify', $d->pnc_dangersign_specify))) ? 'selected' : ''}}>New-onset severe headache</option>
                                         <option value="B" {{old('pnc_dangersign_specify', $d->pnc_dangersign_specify) && in_array('B', explode(',', old('pnc_dangersign_specify', $d->pnc_dangersign_specify))) ? 'selected' : ''}}>Visual disturbances</option>
                                         <option value="C" {{old('pnc_dangersign_specify', $d->pnc_dangersign_specify) && in_array('C', explode(',', old('pnc_dangersign_specify', $d->pnc_dangersign_specify))) ? 'selected' : ''}}>Severe epigastric pain</option>
@@ -1174,17 +1174,8 @@
     </form>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const elements = document.querySelectorAll('.choices-multi');
-
-            elements.forEach(function(element) {
-                new Choices(element, {
-                    removeItemButton: true,
-                    searchEnabled: false,
-                    itemSelectText: '',
-                });
-            });
-        });
+        var settings = {};
+        new TomSelect('.choices-multi', settings);
 
         $('#registration_date').change(function (e) { 
             e.preventDefault();
