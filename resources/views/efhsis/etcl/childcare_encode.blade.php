@@ -119,7 +119,7 @@
                                 <option value="2" {{old('cpab_manual', $d->cpab) === '2' ? 'selected' : ''}}>TT3/Td3 to TT5/Td5 (or TT1/Td1 to TT5/Td5) given to the mother anytime prior to delivery</option>
                               </select>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group d-none" id="cpab_type_div">
                                 <label for="cpab_type"><b class="text-danger">*</b>Specify Last TT/Td Dose</label>
                                 <input type="text" class="form-control" name="cpab_type" id="cpab_type" value="{{old('cpab_type', $d->cpab_type)}}" style="text-transform: uppercase">
                             </div>
@@ -386,7 +386,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="mmr1">MMR 1st Dose</label>
+                            <label for="mmr1">MMR/MCV 1st Dose</label>
                             <input type="date" class="form-control" name="mmr1" id="mmr1" value="{{old('mmr1', $d->mmr1)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->mmr1)->subYears(10)->format('Y-01-01') : date('Y-01-01', strtotime('-10 Years')) }}" max="{{date('Y-m-d')}}" {{ ($age_in_months < 9) ? 'disabled' : '' }}>
                             <small class="text-muted">9 mos</small>
                         </div>
@@ -403,7 +403,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="mmr2">MMR 2nd Dose</label>
+                            <label for="mmr2">MMR/MCV 2nd Dose</label>
                             <input type="date" class="form-control" name="mmr2" id="mmr2" value="{{old('mmr2', $d->mmr2)}}" min="{{ ($mode == 'EDIT') ? Carbon\Carbon::parse($d->mmr2)->subYears(10)->format('Y-01-01') : date('Y-01-01', strtotime('-10 Years')) }}" max="{{date('Y-m-d')}}" {{ ($age_in_months < 12) ? 'disabled' : '' }}>
                             <small class="text-muted">12 mos</small>
                         </div>
@@ -678,7 +678,6 @@
         $('#mother_name_div').addClass('d-none');
         $('#mother_name').prop('required', false);
         $('#cpab_manual').prop('required', false);
-        $('#cpab_type').prop('required', false);
             
         if($(this).val() == 'Y') {
             $('#maternalcare_div').removeClass('d-none');
@@ -689,8 +688,21 @@
             $('#mother_name_div').removeClass('d-none');
             $('#mother_name').prop('required', true);
             $('#cpab_manual').prop('required', true);
-            $('#cpab_type').prop('required', true);
+            
         }
     }).trigger('change');
+
+    $('#cpab_manual').change(function (e) { 
+        e.preventDefault();
+        $('#cpab_type_div').addClass('d-none');
+        $('#cpab_type').prop('required', false);
+
+        if($(this).val() === '1' || $(this).val() === '2') {
+            $('#cpab_type_div').removeClass('d-none');
+            $('#cpab_type').prop('required', true);
+        } else {
+            $('#cpab_type').val('');
+        }
+    });
 </script>
 @endsection
