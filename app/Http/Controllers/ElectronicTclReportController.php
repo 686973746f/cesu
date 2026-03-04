@@ -944,44 +944,46 @@ class ElectronicTclReportController extends Controller
 
             $qry = (clone $base_qry)
             ->where(function($q) use ($r) {
-                $q->whereYear('visit1', $r->year)
-                ->whereMonth('visit1', $r->month)
-                ->whereNotNull('visit1_bp');
-            })
-            ->orWhere(function($q) use ($r) {
-                $q->whereYear('visit2', $r->year)
-                ->whereMonth('visit2', $r->month)
-                ->whereNotNull('visit2_bp');
-            })
-            ->orWhere(function($q) use ($r) {
-                $q->whereYear('visit3', $r->year)
-                ->whereMonth('visit3', $r->month)
-                ->whereNotNull('visit3_bp');
-            })
-            ->orWhere(function($q) use ($r) {
-                $q->whereYear('visit4', $r->year)
-                ->whereMonth('visit4', $r->month)
-                ->whereNotNull('visit4_bp');
-            })
-            ->orWhere(function($q) use ($r) {
-                $q->whereYear('visit5', $r->year)
-                ->whereMonth('visit5', $r->month)
-                ->whereNotNull('visit5_bp');
-            })
-            ->orWhere(function($q) use ($r) {
-                $q->whereYear('visit6', $r->year)
-                ->whereMonth('visit6', $r->month)
-                ->whereNotNull('visit6_bp');
-            })
-            ->orWhere(function($q) use ($r) {
-                $q->whereYear('visit7', $r->year)
-                ->whereMonth('visit7', $r->month)
-                ->whereNotNull('visit7_bp');
-            })
-            ->orWhere(function($q) use ($r) {
-                $q->whereYear('visit8', $r->year)
-                ->whereMonth('visit8', $r->month)
-                ->whereNotNull('visit8_bp');
+                $q->where(function($q) use ($r) {
+                    $q->whereYear('visit1', $r->year)
+                    ->whereMonth('visit1', $r->month)
+                    ->whereNotNull('visit1_bp');
+                })
+                ->orWhere(function($q) use ($r) {
+                    $q->whereYear('visit2', $r->year)
+                    ->whereMonth('visit2', $r->month)
+                    ->whereNotNull('visit2_bp');
+                })
+                ->orWhere(function($q) use ($r) {
+                    $q->whereYear('visit3', $r->year)
+                    ->whereMonth('visit3', $r->month)
+                    ->whereNotNull('visit3_bp');
+                })
+                ->orWhere(function($q) use ($r) {
+                    $q->whereYear('visit4', $r->year)
+                    ->whereMonth('visit4', $r->month)
+                    ->whereNotNull('visit4_bp');
+                })
+                ->orWhere(function($q) use ($r) {
+                    $q->whereYear('visit5', $r->year)
+                    ->whereMonth('visit5', $r->month)
+                    ->whereNotNull('visit5_bp');
+                })
+                ->orWhere(function($q) use ($r) {
+                    $q->whereYear('visit6', $r->year)
+                    ->whereMonth('visit6', $r->month)
+                    ->whereNotNull('visit6_bp');
+                })
+                ->orWhere(function($q) use ($r) {
+                    $q->whereYear('visit7', $r->year)
+                    ->whereMonth('visit7', $r->month)
+                    ->whereNotNull('visit7_bp');
+                })
+                ->orWhere(function($q) use ($r) {
+                    $q->whereYear('visit8', $r->year)
+                    ->whereMonth('visit8', $r->month)
+                    ->whereNotNull('visit8_bp');
+                });
             });
 
             $sheet->setCellValue('Q54', (clone $qry)->where('age_group', 'A')->count());
@@ -1067,9 +1069,9 @@ class ElectronicTclReportController extends Controller
             $sheet->setCellValue('C75', (clone $qry)->where('pp_remarks', 'A')->where('age_group', 'B')->count());
             $sheet->setCellValue('D75', (clone $qry)->where('pp_remarks', 'A')->where('age_group', 'C')->count());
 
-            $sheet->setCellValue('B75', (clone $qry)->where('pp_remarks', 'B')->where('age_group', 'A')->count());
-            $sheet->setCellValue('C75', (clone $qry)->where('pp_remarks', 'B')->where('age_group', 'B')->count());
-            $sheet->setCellValue('D75', (clone $qry)->where('pp_remarks', 'B')->where('age_group', 'C')->count());
+            $sheet->setCellValue('B76', (clone $qry)->where('pp_remarks', 'B')->where('age_group', 'A')->count());
+            $sheet->setCellValue('C76', (clone $qry)->where('pp_remarks', 'B')->where('age_group', 'B')->count());
+            $sheet->setCellValue('D76', (clone $qry)->where('pp_remarks', 'B')->where('age_group', 'C')->count());
         }
 
         //START OF CHILD CARE M1
@@ -1098,7 +1100,7 @@ class ElectronicTclReportController extends Controller
         })->count());
         
         if($r->submit == 'm1_2025') {
-
+            dd('bilat');
             $qry = (clone $cc_base_qry)
             ->whereNotNull('bcg1')
             ->whereYear('bcg1', $r->year)
@@ -1603,6 +1605,136 @@ class ElectronicTclReportController extends Controller
                 $q->where('gender', 'MALE');
             })->count());
             $sheet->setCellValue('C92', (clone $qry)->where('dpt2_months', '<=', 11)->whereHas('patient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->count());
+
+            $qry = (clone $cc_base_qry)
+            ->whereNotNull('dpt3')
+            ->whereYear('dpt3', $r->year)
+            ->whereMonth('dpt3', $r->month)
+            ->where('dpt3_type', '!=', 'OTHER RHU/BHS');
+
+            $sheet->setCellValue('B93', (clone $qry)->where('dpt3_months', '<=', 11)->whereHas('patient', function ($q) {
+                $q->where('gender', 'MALE');
+            })->count());
+            $sheet->setCellValue('C93', (clone $qry)->where('dpt3_months', '<=', 11)->whereHas('patient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->count());
+
+            $qry = (clone $cc_base_qry)
+            ->whereNotNull('opv1')
+            ->whereYear('opv1', $r->year)
+            ->whereMonth('opv1', $r->month)
+            ->where('opv1_type', '!=', 'OTHER RHU/BHS');
+
+            $sheet->setCellValue('B94', (clone $qry)->where('opv1_months', '<=', 11)->whereHas('patient', function ($q) {
+                $q->where('gender', 'MALE');
+            })->count());
+            $sheet->setCellValue('C94', (clone $qry)->where('opv1_months', '<=', 11)->whereHas('patient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->count());
+
+            $qry = (clone $cc_base_qry)
+            ->whereNotNull('opv2')
+            ->whereYear('opv2', $r->year)
+            ->whereMonth('opv2', $r->month)
+            ->where('opv2_type', '!=', 'OTHER RHU/BHS');
+
+            $sheet->setCellValue('Q86', (clone $qry)->where('opv2_months', '<=', 11)->whereHas('patient', function ($q) {
+                $q->where('gender', 'MALE');
+            })->count());
+            $sheet->setCellValue('R86', (clone $qry)->where('opv2_months', '<=', 11)->whereHas('patient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->count());
+
+            $qry = (clone $cc_base_qry)
+            ->whereNotNull('opv3')
+            ->whereYear('opv3', $r->year)
+            ->whereMonth('opv3', $r->month)
+            ->where('opv3_type', '!=', 'OTHER RHU/BHS');
+
+            $sheet->setCellValue('Q87', (clone $qry)->where('opv3_months', '<=', 11)->whereHas('patient', function ($q) {
+                $q->where('gender', 'MALE');
+            })->count());
+            $sheet->setCellValue('R87', (clone $qry)->where('opv3_months', '<=', 11)->whereHas('patient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->count());
+
+            $qry = (clone $cc_base_qry)
+            ->whereNotNull('ipv1')
+            ->whereYear('ipv1', $r->year)
+            ->whereMonth('ipv1', $r->month)
+            ->where('ipv1_type', '!=', 'OTHER RHU/BHS');
+
+            $sheet->setCellValue('Q88', (clone $qry)->where('ipv1_months', '<=', 11)->whereHas('patient', function ($q) {
+                $q->where('gender', 'MALE');
+            })->count());
+            $sheet->setCellValue('R88', (clone $qry)->where('ipv1_months', '<=', 11)->whereHas('patient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->count());
+
+            $qry = (clone $cc_base_qry)
+            ->whereNotNull('ipv2')
+            ->whereYear('ipv2', $r->year)
+            ->whereMonth('ipv2', $r->month)
+            ->where('ipv2_type', '!=', 'OTHER RHU/BHS');
+
+            $sheet->setCellValue('Q89', (clone $qry)->where('ipv2_months', '<=', 11)->whereHas('patient', function ($q) {
+                $q->where('gender', 'MALE');
+            })->count());
+            $sheet->setCellValue('R89', (clone $qry)->where('ipv2_months', '<=', 11)->whereHas('patient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->count());
+
+            $qry = (clone $cc_base_qry)
+            ->whereNotNull('pcv1')
+            ->whereYear('pcv1', $r->year)
+            ->whereMonth('pcv1', $r->month)
+            ->where('pcv1_type', '!=', 'OTHER RHU/BHS');
+
+            $sheet->setCellValue('Q90', (clone $qry)->where('pcv1_months', '<=', 11)->whereHas('patient', function ($q) {
+                $q->where('gender', 'MALE');
+            })->count());
+            $sheet->setCellValue('R90', (clone $qry)->where('pcv1_months', '<=', 11)->whereHas('patient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->count());
+
+            $qry = (clone $cc_base_qry)
+            ->whereNotNull('pcv2')
+            ->whereYear('pcv2', $r->year)
+            ->whereMonth('pcv2', $r->month)
+            ->where('pcv2_type', '!=', 'OTHER RHU/BHS');
+
+            $sheet->setCellValue('Q91', (clone $qry)->where('pcv2_months', '<=', 11)->whereHas('patient', function ($q) {
+                $q->where('gender', 'MALE');
+            })->count());
+            $sheet->setCellValue('R91', (clone $qry)->where('pcv2_months', '<=', 11)->whereHas('patient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->count());
+
+            $qry = (clone $cc_base_qry)
+            ->whereNotNull('pcv3')
+            ->whereYear('pcv3', $r->year)
+            ->whereMonth('pcv3', $r->month)
+            ->where('pcv3_type', '!=', 'OTHER RHU/BHS');
+
+            $sheet->setCellValue('Q92', (clone $qry)->where('pcv3_months', '<=', 11)->whereHas('patient', function ($q) {
+                $q->where('gender', 'MALE');
+            })->count());
+            $sheet->setCellValue('R92', (clone $qry)->where('pcv3_months', '<=', 11)->whereHas('patient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->count());
+
+            $qry = (clone $cc_base_qry)
+            ->whereNotNull('mmr1')
+            ->whereYear('mmr1', $r->year)
+            ->whereMonth('mmr1', $r->month)
+            ->where('mmr1_type', '!=', 'OTHER RHU/BHS');
+
+            $sheet->setCellValue('Q93', (clone $qry)->where('mmr1_months', '<=', 11)->whereHas('patient', function ($q) {
+                $q->where('gender', 'MALE');
+            })->count());
+            $sheet->setCellValue('R93', (clone $qry)->where('mmr1_months', '<=', 11)->whereHas('patient', function ($q) {
                 $q->where('gender', 'FEMALE');
             })->count());
         }

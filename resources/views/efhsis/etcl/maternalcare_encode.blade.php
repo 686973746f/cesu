@@ -1375,6 +1375,10 @@
 
             $('#dangersign_referred_div').toggleClass('d-none', $(this).val() !== '1');
             $('#dangersign_referred').prop('required', $(this).val() === '1');
+
+            if($(this).val() !== '1') {
+                $('#dangersign_referred').val('').trigger('change');
+            }
         }).trigger('change');
 
         $('#dangersign_referred').change(function (e) { 
@@ -1397,6 +1401,8 @@
 
         $('#pnc_dangersign_referred').change(function (e) { 
             e.preventDefault();
+            $('#pnc_dangersign_referred_yes_div').addClass('d-none');
+            $('#pnc_dangersign_datereferred').prop('required', false);
 
             if($('#pnc_div').data('status') === 'active') {
                 $('#pnc_dangersign_referred_yes_div').toggleClass('d-none', $(this).val() !== '1');
@@ -1708,7 +1714,7 @@
                 $('#outcome').val('');
                 $('#outcome').trigger('change');
             }
-            else if($(this).val() == 'B' || $(this).val() == '') {
+            else if($(this).val() == 'B' || $(this).val() == 'A') {
                 $('#outcome_div').removeClass('d-none');
             }
         }).trigger('change');
