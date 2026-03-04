@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Carbon\Carbon;
 use App\Models\Forms;
+use App\Models\InhouseMaternalCare;
 use Illuminate\Console\Command;
 
 class TestCommand extends Command
@@ -39,18 +40,17 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        $list = Forms::whereYear('morbidityMonth', 2024)->get();
+        $list = InhouseMaternalCare::whereNotNull('outcome')->get();
 
-        foreach($list as $d) {
-            $cFromDate = Carbon::parse($d->morbidityMonth);
+        foreach ($list as $item) {
+            $delivery_date = Carbon::parse($item->delivery_date);
 
-            $d->morb_week = $cFromDate->format('W');
-            $d->morb_month = $cFromDate->format('n');
-            $d->year = $cFromDate->format('Y');
+            $item->pnc1_est = $delivery_date->copy()->format('Y-m-d');
+            $item->pnc2_est = $delivery_date->copy()->addDays(3)->format('Y-m-d');
+            $item->pnc3_est = $delivery_date->copy()->addDays(7)->format('Y-m-d');
+            $item->pnc4_est = $delivery_date->copy()->addWeeks(6)->format('Y-m-d');
 
-            if($d->isDirty()) {
-                $d->save();
-            }
+            $item->save();
         }
     }
 }
