@@ -196,7 +196,7 @@
             <div class="card mt-3">
                 <div class="card-header"><b>LABORATORY DETAILS</b></div>
                 <div class="card-body">
-                    @if($lab_details->count() != 0)
+                    @if(!is_null($lab_details))
                     @foreach($lab_details as $ind => $lb)
                     <table class="table table-bordered mb-3">
                         <thead class="thead-light">

@@ -1492,7 +1492,7 @@ class ElectronicTclReportController extends Controller
                 $q->where('gender', 'FEMALE');
             })->count());
         }
-        else {
+        else if ($r->submit == 'm1_2026') {
             
         }
 
