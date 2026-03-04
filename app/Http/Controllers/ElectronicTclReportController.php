@@ -1503,40 +1503,42 @@ class ElectronicTclReportController extends Controller
             ->where('month', $r->month)
             ->first();
 
-            //$sheet->setCellValue('C366', $qry->r_preg_syphilis_a + $qry->r_preg_syphilis_b  + $qry->r_preg_syphilis_c);
-            $sheet->setCellValue('C367', $qry->r_preg_syphilis_a);
-            $sheet->setCellValue('C368', $qry->r_preg_syphilis_b);
-            $sheet->setCellValue('C369', $qry->r_preg_syphilis_c);
+            if($qry) {
+                //$sheet->setCellValue('C366', $qry->r_preg_syphilis_a + $qry->r_preg_syphilis_b  + $qry->r_preg_syphilis_c);
+                $sheet->setCellValue('C367', $qry->r_preg_syphilis_a);
+                $sheet->setCellValue('C368', $qry->r_preg_syphilis_b);
+                $sheet->setCellValue('C369', $qry->r_preg_syphilis_c);
 
-            //$sheet->setCellValue('C370', $qry->nr_preg_syphilis_a + $qry->nr_preg_syphilis_b  + $qry->nr_preg_syphilis_c);
-            $sheet->setCellValue('C371', $qry->nr_preg_syphilis_a);
-            $sheet->setCellValue('C372', $qry->nr_preg_syphilis_b);
-            $sheet->setCellValue('C373', $qry->nr_preg_syphilis_c);
+                //$sheet->setCellValue('C370', $qry->nr_preg_syphilis_a + $qry->nr_preg_syphilis_b  + $qry->nr_preg_syphilis_c);
+                $sheet->setCellValue('C371', $qry->nr_preg_syphilis_a);
+                $sheet->setCellValue('C372', $qry->nr_preg_syphilis_b);
+                $sheet->setCellValue('C373', $qry->nr_preg_syphilis_c);
 
-            //$sheet->setCellValue('C374', $qry->treated_preg_syphilis_a + $qry->treated_preg_syphilis_b  + $qry->treated_preg_syphilis_c);
-            $sheet->setCellValue('C375', $qry->treated_preg_syphilis_a);
-            $sheet->setCellValue('C376', $qry->treated_preg_syphilis_b);
-            $sheet->setCellValue('C377', $qry->treated_preg_syphilis_c);
+                //$sheet->setCellValue('C374', $qry->treated_preg_syphilis_a + $qry->treated_preg_syphilis_b  + $qry->treated_preg_syphilis_c);
+                $sheet->setCellValue('C375', $qry->treated_preg_syphilis_a);
+                $sheet->setCellValue('C376', $qry->treated_preg_syphilis_b);
+                $sheet->setCellValue('C377', $qry->treated_preg_syphilis_c);
 
-            //$sheet->setCellValue('C378', $qry->r_preg_hiv_a + $qry->r_preg_hiv_b  + $qry->r_preg_hiv_c);
-            $sheet->setCellValue('C379', $qry->r_preg_hiv_a);
-            $sheet->setCellValue('C380', $qry->r_preg_hiv_b);
-            $sheet->setCellValue('C381', $qry->r_preg_hiv_c);
+                //$sheet->setCellValue('C378', $qry->r_preg_hiv_a + $qry->r_preg_hiv_b  + $qry->r_preg_hiv_c);
+                $sheet->setCellValue('C379', $qry->r_preg_hiv_a);
+                $sheet->setCellValue('C380', $qry->r_preg_hiv_b);
+                $sheet->setCellValue('C381', $qry->r_preg_hiv_c);
 
-            //$sheet->setCellValue('R366', $qry->nr_preg_hiv_a + $qry->nr_preg_hiv_b  + $qry->nr_preg_hiv_c);
-            $sheet->setCellValue('R367', $qry->nr_preg_hiv_a);
-            $sheet->setCellValue('R368', $qry->nr_preg_hiv_b);
-            $sheet->setCellValue('R369', $qry->nr_preg_hiv_c);
+                //$sheet->setCellValue('R366', $qry->nr_preg_hiv_a + $qry->nr_preg_hiv_b  + $qry->nr_preg_hiv_c);
+                $sheet->setCellValue('R367', $qry->nr_preg_hiv_a);
+                $sheet->setCellValue('R368', $qry->nr_preg_hiv_b);
+                $sheet->setCellValue('R369', $qry->nr_preg_hiv_c);
 
-            //$sheet->setCellValue('R370', $qry->r_preg_hepab_a + $qry->r_preg_hepab_b  + $qry->r_preg_hepab_c);
-            $sheet->setCellValue('R371', $qry->r_preg_hepab_a);
-            $sheet->setCellValue('R372', $qry->r_preg_hepab_b);
-            $sheet->setCellValue('R373', $qry->r_preg_hepab_c);
+                //$sheet->setCellValue('R370', $qry->r_preg_hepab_a + $qry->r_preg_hepab_b  + $qry->r_preg_hepab_c);
+                $sheet->setCellValue('R371', $qry->r_preg_hepab_a);
+                $sheet->setCellValue('R372', $qry->r_preg_hepab_b);
+                $sheet->setCellValue('R373', $qry->r_preg_hepab_c);
 
-            //$sheet->setCellValue('R374', $qry->nr_preg_hepab_a + $qry->nr_preg_hepab_b  + $qry->nr_preg_hepab_c);
-            $sheet->setCellValue('R375', $qry->nr_preg_hepab_a);
-            $sheet->setCellValue('R376', $qry->nr_preg_hepab_b);
-            $sheet->setCellValue('R377', $qry->nr_preg_hepab_c);
+                //$sheet->setCellValue('R374', $qry->nr_preg_hepab_a + $qry->nr_preg_hepab_b  + $qry->nr_preg_hepab_c);
+                $sheet->setCellValue('R375', $qry->nr_preg_hepab_a);
+                $sheet->setCellValue('R376', $qry->nr_preg_hepab_b);
+                $sheet->setCellValue('R377', $qry->nr_preg_hepab_c);
+            }
         }
 
         $protection = $sheet->getProtection();
