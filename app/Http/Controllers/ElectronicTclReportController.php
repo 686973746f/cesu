@@ -1150,6 +1150,110 @@ class ElectronicTclReportController extends Controller
             $sheet->setCellValue('B76', (clone $qry)->where('pp_remarks', 'B')->where('age_group', 'A')->count());
             $sheet->setCellValue('C76', (clone $qry)->where('pp_remarks', 'B')->where('age_group', 'B')->count());
             $sheet->setCellValue('D76', (clone $qry)->where('pp_remarks', 'B')->where('age_group', 'C')->count());
+
+            $qry = (clone $base_qry)
+            ->whereNotNull('outcome')
+            ->where(function ($q) use ($r) {
+                $q->where(function ($q) use ($r) {
+                    $q->whereYear('pnc1_est', $r->year)
+                    ->whereMonth('pnc1_est', $r->month);
+                })
+                ->orWhere(function ($q) use ($r) {
+                    $q->whereYear('pnc2_est', $r->year)
+                    ->whereMonth('pnc2_est', $r->month);
+                })
+                ->orWhere(function ($q) use ($r) {
+                    $q->whereYear('pnc3_est', $r->year)
+                    ->whereMonth('pnc3_est', $r->month);
+                })
+                ->orWhere(function ($q) use ($r) {
+                    $q->whereYear('pnc4_est', $r->year)
+                    ->whereMonth('pnc4_est', $r->month);
+                });
+            });
+
+            $sheet->setCellValue('B78', (clone $qry)->where('pp_remarks', 'A')->where('age_group', 'A')->count());
+            $sheet->setCellValue('C78', (clone $qry)->where('pp_remarks', 'A')->where('age_group', 'B')->count());
+            $sheet->setCellValue('D78', (clone $qry)->where('pp_remarks', 'A')->where('age_group', 'C')->count());
+
+            $sheet->setCellValue('B79', (clone $qry)->where('pp_remarks', 'B')->where('age_group', 'A')->count());
+            $sheet->setCellValue('C79', (clone $qry)->where('pp_remarks', 'B')->where('age_group', 'B')->count());
+            $sheet->setCellValue('D79', (clone $qry)->where('pp_remarks', 'B')->where('age_group', 'C')->count());
+
+            $qry = (clone $base_qry)
+            ->whereNotNull('outcome')
+            ->where('pp_remarks', 'C')
+            ->whereYear('pp_transout_date', $r->year)
+            ->whereMonth('pp_transout_date', $r->month);
+
+            $sheet->setCellValue('B80', (clone $qry)->where('age_group', 'A')->count());
+            $sheet->setCellValue('C80', (clone $qry)->where('age_group', 'B')->count());
+            $sheet->setCellValue('D80', (clone $qry)->where('age_group', 'C')->count());
+
+            $qry = (clone $base_qry)
+            ->whereNotNull('outcome')
+            ->whereNotNull('pp_td3')
+            ->whereYear('pp_td3', $r->year)
+            ->whereMonth('pp_td3', $r->month);
+
+            $sheet->setCellValue('Q74', (clone $qry)->where('age_group', 'A')->count());
+            $sheet->setCellValue('R74', (clone $qry)->where('age_group', 'B')->count());
+            $sheet->setCellValue('S74', (clone $qry)->where('age_group', 'C')->count());
+
+            $qry = (clone $base_qry)
+            ->whereNotNull('outcome')
+            ->whereNotNull('vita')
+            ->whereYear('vita', $r->year)
+            ->whereMonth('vita', $r->month);
+
+            $sheet->setCellValue('Q75', (clone $qry)->where('age_group', 'A')->count());
+            $sheet->setCellValue('R75', (clone $qry)->where('age_group', 'B')->count());
+            $sheet->setCellValue('S75', (clone $qry)->where('age_group', 'C')->count());
+
+            $qry = (clone $base_qry)
+            ->whereNotNull('outcome')
+            ->where(function ($q) use ($r) {
+                $q->where(function ($q) use ($r) {
+                    $q->whereYear('pnc1', $r->year)
+                    ->whereMonth('pnc1', $r->month)
+                    ->whereNotNull('pnc1_bp');
+                })
+                ->orWhere(function ($q) use ($r) {
+                    $q->whereYear('pnc2', $r->year)
+                    ->whereMonth('pnc2', $r->month)
+                    ->whereNotNull('pnc2_bp');
+                })
+                ->orWhere(function ($q) use ($r) {
+                    $q->whereYear('pnc3', $r->year)
+                    ->whereMonth('pnc3', $r->month)
+                    ->whereNotNull('pnc3_bp');
+                })
+                ->orWhere(function ($q) use ($r) {
+                    $q->whereYear('pnc4', $r->year)
+                    ->whereMonth('pnc4', $r->month)
+                    ->whereNotNull('pnc4_bp');
+                });
+            });
+
+            $sheet->setCellValue('Q77', (clone $qry)->where('age_group', 'A')->count());
+            $sheet->setCellValue('R77', (clone $qry)->where('age_group', 'B')->count());
+            $sheet->setCellValue('S77', (clone $qry)->where('age_group', 'C')->count());
+
+            $qry = (clone $base_qry)
+            ->whereNotNull('outcome')
+            ->where('pnc_with_dangersign', '1')
+            ->where('pnc_dangersign_referred', '1')
+            ->whereYear('pnc_dangersign_datereferred', $r->year)
+            ->whereMonth('pnc_dangersign_datereferred', $r->month);
+
+            $sheet->setCellValue('Q78', (clone $qry)->where('age_group', 'A')->count());
+            $sheet->setCellValue('R78', (clone $qry)->where('age_group', 'B')->count());
+            $sheet->setCellValue('S78', (clone $qry)->where('age_group', 'C')->count());
+
+            $currYear = Carbon::createFromDate($r->year, $r->month, 1)->year;
+            $prevYear = $currYear - 1;
+
+            $endPrevYear = Carbon::create($prevYear, 12, 31)->endOfDay(); // cohort cutoff
         }
 
         //START OF CHILD CARE M1
