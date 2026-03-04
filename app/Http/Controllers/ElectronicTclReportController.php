@@ -990,6 +990,84 @@ class ElectronicTclReportController extends Controller
             $sheet->setCellValue('R54', (clone $qry)->where('age_group', 'B')->count());
             $sheet->setCellValue('S54', (clone $qry)->where('age_group', 'C')->count());
 
+            $sheet->setCellValue('Q56', (clone $qry)
+            ->where('with_dangersign', '1')
+            ->where('dangersign_referred', '1')
+            ->whereYear('dangersign_datereferred', $r->year)
+            ->whereMonth('dangersign_datereferred', $r->month)
+            ->where('age_group', 'A')
+            ->count());
+            $sheet->setCellValue('R56', (clone $qry)
+            ->where('with_dangersign', '1')
+            ->where('dangersign_referred', '1')
+            ->whereYear('dangersign_datereferred', $r->year)
+            ->whereMonth('dangersign_datereferred', $r->month)
+            ->where('age_group', 'B')
+            ->count());
+            $sheet->setCellValue('S56', (clone $qry)
+            ->where('with_dangersign', '1')
+            ->where('dangersign_referred', '1')
+            ->whereYear('dangersign_datereferred', $r->year)
+            ->whereMonth('dangersign_datereferred', $r->month)
+            ->where('age_group', 'C')
+            ->count());
+
+            $qry = (clone $base_qry)
+            ->where(function($q) use ($r) {
+                $q->where(function($q) use ($r) {
+                    $q->whereYear('visit1', $r->year)
+                    ->whereMonth('visit1', $r->month)
+                    ->whereNotNull('visit1_bp')
+                    ->where('visit1_ishighbp', 'Y');
+                })
+                ->orWhere(function($q) use ($r) {
+                    $q->whereYear('visit2', $r->year)
+                    ->whereMonth('visit2', $r->month)
+                    ->whereNotNull('visit2_bp')
+                    ->where('visit2_ishighbp', 'Y');
+                })
+                ->orWhere(function($q) use ($r) {
+                    $q->whereYear('visit3', $r->year)
+                    ->whereMonth('visit3', $r->month)
+                    ->whereNotNull('visit3_bp')
+                    ->where('visit3_ishighbp', 'Y');
+                })
+                ->orWhere(function($q) use ($r) {
+                    $q->whereYear('visit4', $r->year)
+                    ->whereMonth('visit4', $r->month)
+                    ->whereNotNull('visit4_bp')
+                    ->where('visit4_ishighbp', 'Y');
+                })
+                ->orWhere(function($q) use ($r) {
+                    $q->whereYear('visit5', $r->year)
+                    ->whereMonth('visit5', $r->month)
+                    ->whereNotNull('visit5_bp')
+                    ->where('visit5_ishighbp', 'Y');
+                })
+                ->orWhere(function($q) use ($r) {
+                    $q->whereYear('visit6', $r->year)
+                    ->whereMonth('visit6', $r->month)
+                    ->whereNotNull('visit6_bp')
+                    ->where('visit6_ishighbp', 'Y');
+                })
+                ->orWhere(function($q) use ($r) {
+                    $q->whereYear('visit7', $r->year)
+                    ->whereMonth('visit7', $r->month)
+                    ->whereNotNull('visit7_bp')
+                    ->where('visit7_ishighbp', 'Y');
+                })
+                ->orWhere(function($q) use ($r) {
+                    $q->whereYear('visit8', $r->year)
+                    ->whereMonth('visit8', $r->month)
+                    ->whereNotNull('visit8_bp')
+                    ->where('visit8_ishighbp', 'Y');
+                });
+            });
+
+            $sheet->setCellValue('Q55', (clone $qry)->where('age_group', 'A')->count());
+            $sheet->setCellValue('R55', (clone $qry)->where('age_group', 'B')->count());
+            $sheet->setCellValue('S55', (clone $qry)->where('age_group', 'C')->count());
+
             $qry = (clone $base_qry)
             ->whereNotNull('outcome')
             ->whereYear('delivery_date', $r->year)

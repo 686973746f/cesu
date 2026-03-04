@@ -305,11 +305,13 @@ class ElectronicTclController extends Controller
         }
 
         if(!is_null($r->outcome) && $r->trans_remarks != 'B') {
+            $delivery_date = Carbon::parse($r->delivery_date);
+
             $table_params = $table_params + [
                 'outcome' => $r->outcome,
                 'number_livebirths' => $r->number_livebirths,
                 'number_livebirths_toencode' => $r->number_livebirths,
-                'delivery_date' => $r->delivery_date,
+                'delivery_date' => $delivery_date->format('Y-m-d'),
                 'delivery_type' => $r->delivery_type,
 
                 'birth_weight' => $r->birth_weight,
@@ -320,12 +322,16 @@ class ElectronicTclController extends Controller
                 'attendant' => $r->attendant,
 
                 'pnc1' => $r->pnc1,
+                'pnc1_est' => $delivery_date->copy()->format('Y-m-d'),
                 'pnc1_bp' => ($r->pnc1) ? $r->pnc1_bp : NULL,
                 'pnc2' => $r->pnc2,
+                'pnc2_est' => $delivery_date->copy()->addDays(3)->format('Y-m-d'),
                 'pnc2_bp' => ($r->pnc2) ? $r->pnc2_bp : NULL,
                 'pnc3' => $r->pnc3,
+                'pnc3_est' => $delivery_date->copy()->addDays(7)->format('Y-m-d'),
                 'pnc3_bp' => ($r->pnc3) ? $r->pnc3_bp : NULL,
                 'pnc4' => $r->pnc4,
+                'pnc4_est' => $delivery_date->copy()->addWeeks(6)->format('Y-m-d'),
                 'pnc4_bp' => ($r->pnc4) ? $r->pnc4_bp : NULL,
 
                 'pnc_with_dangersign' => $r->pnc_with_dangersign,
@@ -605,6 +611,8 @@ class ElectronicTclController extends Controller
                 $weight_status = 'U';
             }
 
+            $delivery_date = Carbon::parse($r->delivery_date);
+
             $table_params = $table_params + [
                 'outcome' => $r->outcome,
                 'number_livebirths' => $r->number_livebirths,
@@ -621,12 +629,16 @@ class ElectronicTclController extends Controller
                 'attendant' => $r->attendant,
 
                 'pnc1' => $r->pnc1,
+                'pnc1_est' => $delivery_date->copy()->format('Y-m-d'),
                 'pnc1_bp' => ($r->pnc1) ? $r->pnc1_bp : NULL,
                 'pnc2' => $r->pnc2,
+                'pnc2_est' => $delivery_date->copy()->addDays(3)->format('Y-m-d'),
                 'pnc2_bp' => ($r->pnc2) ? $r->pnc2_bp : NULL,
                 'pnc3' => $r->pnc3,
+                'pnc3_est' => $delivery_date->copy()->addDays(7)->format('Y-m-d'),
                 'pnc3_bp' => ($r->pnc3) ? $r->pnc3_bp : NULL,
                 'pnc4' => $r->pnc4,
+                'pnc4_est' => $delivery_date->copy()->addWeeks(6)->format('Y-m-d'),
                 'pnc4_bp' => ($r->pnc4) ? $r->pnc4_bp : NULL,
                 
                 'pnc_with_dangersign' => $r->pnc_with_dangersign,

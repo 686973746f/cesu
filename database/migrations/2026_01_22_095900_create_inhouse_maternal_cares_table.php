@@ -183,18 +183,22 @@ class CreateInhouseMaternalCaresTable extends Migration
             $table->string('attendant_others')->nullable();
 
             $table->date('pnc1')->nullable();
+            $table->date('pnc1_est')->nullable();
             $table->string('pnc1_bp')->nullable();
             $table->char('pnc1_ishighbp', 1)->nullable();
             $table->date('pnc2')->nullable();
+            $table->date('pnc2_est')->nullable();
             $table->string('pnc2_bp')->nullable();
             $table->char('pnc2_ishighbp', 1)->nullable();
             $table->date('pnc3')->nullable();
+            $table->date('pnc3_est')->nullable();
             $table->string('pnc3_bp')->nullable();
             $table->char('pnc3_ishighbp', 1)->nullable();
             $table->date('pnc4')->nullable();
+            $table->date('pnc4_est')->nullable();
             $table->string('pnc4_bp')->nullable();
             $table->char('pnc4_ishighbp', 1)->nullable();
-            
+
             $table->char('completed_4pnc', 1)->default('N');
             $table->char('pnc_with_highbp', 1)->default('N');
             $table->char('pnc_with_dangersign', 1)->default('N');
