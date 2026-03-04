@@ -25,34 +25,42 @@ class InhouseMaternalCare extends Model
         'visit1_est',
         'visit1',
         'visit1_bp',
+        'visit1_ishighbp',
         'visit1_type',
         'visit2_est',
         'visit2',
         'visit2_bp',
+        'visit2_ishighbp',
         'visit2_type',
         'visit3_est',
         'visit3',
         'visit3_bp',
+        'visit3_ishighbp',
         'visit3_type',
         'visit4_est',
         'visit4',
         'visit4_bp',
+        'visit4_ishighbp',
         'visit4_type',
         'visit5_est',
         'visit5',
         'visit5_bp',
+        'visit5_ishighbp',
         'visit5_type',
         'visit6_est',
         'visit6',
         'visit6_bp',
+        'visit6_ishighbp',
         'visit6_type',
         'visit7_est',
         'visit7',
         'visit7_bp',
+        'visit7_ishighbp',
         'visit7_type',
         'visit8_est',
         'visit8',
         'visit8_bp',
+        'visit8_ishighbp',
         'visit8_type',
         'completed_8anc',
         'with_highbp',
@@ -170,12 +178,16 @@ class InhouseMaternalCare extends Model
 
         'pnc1',
         'pnc1_bp',
+        'pnc1_ishighbp',
         'pnc2',
         'pnc2_bp',
+        'pnc2_ishighbp',
         'pnc3',
         'pnc3_bp',
+        'pnc3_ishighbp',
         'pnc4',
         'pnc4_bp',
+        'pnc4_ishighbp',
         'completed_4pnc',
         'pnc_with_highbp',
         'pnc_with_dangersign',
@@ -321,6 +333,7 @@ class InhouseMaternalCare extends Model
 
             if($bp_split[0] >= 140 && $bp_split[1] >= 90) {
                 $trigger_highbp = true;
+                $this->visit1_ishighbp = 'Y';
             }
         }
 
@@ -329,6 +342,7 @@ class InhouseMaternalCare extends Model
 
             if($bp_split[0] >= 140 && $bp_split[1] >= 90) {
                 $trigger_highbp = true;
+                $this->visit2_ishighbp = 'Y';
             }
         }
 
@@ -337,6 +351,7 @@ class InhouseMaternalCare extends Model
 
             if($bp_split[0] >= 140 && $bp_split[1] >= 90) {
                 $trigger_highbp = true;
+                $this->visit3_ishighbp = 'Y';
             }
         }
 
@@ -345,6 +360,7 @@ class InhouseMaternalCare extends Model
 
             if($bp_split[0] >= 140 && $bp_split[1] >= 90) {
                 $trigger_highbp = true;
+                $this->visit4_ishighbp = 'Y';
             }
         }
         
@@ -353,6 +369,7 @@ class InhouseMaternalCare extends Model
 
             if($bp_split[0] >= 140 && $bp_split[1] >= 90) {
                 $trigger_highbp = true;
+                $this->visit5_ishighbp = 'Y';
             }
         }
 
@@ -361,6 +378,7 @@ class InhouseMaternalCare extends Model
 
             if($bp_split[0] >= 140 && $bp_split[1] >= 90) {
                 $trigger_highbp = true;
+                $this->visit6_ishighbp = 'Y';
             }
         }
 
@@ -369,6 +387,7 @@ class InhouseMaternalCare extends Model
 
             if($bp_split[0] >= 140 && $bp_split[1] >= 90) {
                 $trigger_highbp = true;
+                $this->visit7_ishighbp = 'Y';
             }
         }
 
@@ -377,6 +396,7 @@ class InhouseMaternalCare extends Model
 
             if($bp_split[0] >= 140 && $bp_split[1] >= 90) {
                 $trigger_highbp = true;
+                $this->visit8_ishighbp = 'Y';
             }
         }
 
@@ -396,6 +416,7 @@ class InhouseMaternalCare extends Model
     
                 if($bp_split[0] >= 140 && $bp_split[1] >= 90) {
                     $trigger_highbp_pnc = true;
+                    $this->pnc1_ishighbp = 'Y';
                 }
             }
 
@@ -404,6 +425,7 @@ class InhouseMaternalCare extends Model
     
                 if($bp_split[0] >= 140 && $bp_split[1] >= 90) {
                     $trigger_highbp_pnc = true;
+                    $this->pnc2_ishighbp = 'Y';
                 }
             }
 
@@ -412,6 +434,7 @@ class InhouseMaternalCare extends Model
     
                 if($bp_split[0] >= 140 && $bp_split[1] >= 90) {
                     $trigger_highbp_pnc = true;
+                    $this->pnc3_ishighbp = 'Y';
                 }
             }
 
@@ -420,6 +443,7 @@ class InhouseMaternalCare extends Model
     
                 if($bp_split[0] >= 140 && $bp_split[1] >= 90) {
                     $trigger_highbp_pnc = true;
+                    $this->pnc4_ishighbp = 'Y';
                 }
             }
 

@@ -1644,6 +1644,7 @@
             $('#attendant').prop('required', false);
             $('#birth_weight').prop('required', false);
             $('#number_livebirths').prop('required', false);
+            $('#pp_remarks').prop('required', false);
 
             $('.postnatal_div').hide();
             $('#pnc_div').data('status', 'inactive');
@@ -1658,6 +1659,7 @@
 
                 $('.postnatal_div').show();
                 $('#pnc_div').data('status', 'active');
+                $('#pp_remarks').prop('required', true);
             }
 
             if($(this).val() == 'AB' || $(this).val() == 'FD') {
