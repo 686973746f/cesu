@@ -2003,10 +2003,14 @@ class ElectronicTclReportController extends Controller
 
             $sheet->setCellValue('B116', (clone $qry)->whereHas('patient', function ($q) {
                 $q->where('gender', 'MALE');
-            })->count());
+            })
+            ->where('age_months', '<=', 59)
+            ->count());
             $sheet->setCellValue('C116', (clone $qry)->whereHas('patient', function ($q) {
                 $q->where('gender', 'FEMALE');
-            })->count());
+            })
+            ->where('age_months', '<=', 59)
+            ->count());
 
             $qry = (clone $cn_base_qry)
             ->whereYear('registration_date', $r->year)
