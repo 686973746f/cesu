@@ -7656,7 +7656,8 @@ class PIDSRController extends Controller
             return 'A01; Typhoid and paratyphoid fevers (ENTERIC FEVER)';
         }
         else if($disease == 'SevereAcuteRespiratoryInfection') {
-            return 'U04; Severe acute respiratory syndrome [SARS]';
+            //return 'U04; Severe acute respiratory syndrome [SARS]';
+            return 'J06.9; Acute upper respiratory infection, unspecified (Acute Upper Respiratory Tract Infection, VIRAL)';
         }
     }
 
