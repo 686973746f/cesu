@@ -47,6 +47,8 @@ ALTER TABLE syndromic_records ADD CONSTRAINT `syndromic_records_facility_id_fore
 class TestController extends Controller
 {
     public function index() {
+        $lastyeardate = Carbon::createFromDate(Carbon::parse($l->bdate_fixed), 12, 31);
+
         
     }
 }

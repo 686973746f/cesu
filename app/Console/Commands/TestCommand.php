@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Carbon\Carbon;
 use App\Models\Forms;
+use App\Models\InhouseChildCare;
 use App\Models\InhouseMaternalCare;
 use Illuminate\Console\Command;
 
@@ -40,17 +41,31 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        $list = InhouseMaternalCare::whereNotNull('outcome')->get();
+        $list = InhouseChildCare::get();
 
-        foreach ($list as $item) {
-            $delivery_date = Carbon::parse($item->delivery_date);
+        foreach($list as $l) {
+            $bdate = Carbon::parse($l->bdate_fixed);
 
-            $item->pnc1_est = $delivery_date->copy()->format('Y-m-d');
-            $item->pnc2_est = $delivery_date->copy()->addDays(3)->format('Y-m-d');
-            $item->pnc3_est = $delivery_date->copy()->addDays(7)->format('Y-m-d');
-            $item->pnc4_est = $delivery_date->copy()->addWeeks(6)->format('Y-m-d');
+            if($bdate->year == Carbon::parse($l->registration_date)->year - 1) {
+                $lastyeardate = Carbon::createFromDate(Carbon::parse($l->bdate_fixed)->year, 12, 31);
 
-            $item->save();
+                $l->dpt1_months_py = (!is_null($l->dpt1) && $lastyeardate->isSameYear(Carbon::parse($l->dpt1))) ? Carbon::parse($l->dpt1)->diffInMonths($lastyeardate) : null;
+                $l->dpt2_months_py = (!is_null($l->dpt2) && $lastyeardate->isSameYear(Carbon::parse($l->dpt2))) ? Carbon::parse($l->dpt2)->diffInMonths($lastyeardate) : null;
+                $l->dpt3_months_py = (!is_null($l->dpt3) && $lastyeardate->isSameYear(Carbon::parse($l->dpt3))) ? Carbon::parse($l->dpt3)->diffInMonths($lastyeardate) : null;
+                $l->opv1_months_py = (!is_null($l->opv1) && $lastyeardate->isSameYear(Carbon::parse($l->opv1))) ? Carbon::parse($l->opv1)->diffInMonths($lastyeardate) : null;
+                $l->opv2_months_py = (!is_null($l->opv2) && $lastyeardate->isSameYear(Carbon::parse($l->opv2))) ? Carbon::parse($l->opv2)->diffInMonths($lastyeardate) : null;
+                $l->opv3_months_py = (!is_null($l->opv3) && $lastyeardate->isSameYear(Carbon::parse($l->opv3))) ? Carbon::parse($l->opv3)->diffInMonths($lastyeardate) : null;
+                $l->ipv1_months_py = (!is_null($l->ipv1) && $lastyeardate->isSameYear(Carbon::parse($l->ipv1))) ? Carbon::parse($l->ipv1)->diffInMonths($lastyeardate) : null;
+                $l->ipv2_months_py = (!is_null($l->ipv2) && $lastyeardate->isSameYear(Carbon::parse($l->ipv2))) ? Carbon::parse($l->ipv2)->diffInMonths($lastyeardate) : null;
+                $l->ipv3_months_py = (!is_null($l->ipv3) && $lastyeardate->isSameYear(Carbon::parse($l->ipv3))) ? Carbon::parse($l->ipv3)->diffInMonths($lastyeardate) : null;
+                $l->pcv1_months_py = (!is_null($l->pcv1) && $lastyeardate->isSameYear(Carbon::parse($l->pcv1))) ? Carbon::parse($l->pcv1)->diffInMonths($lastyeardate) : null;
+                $l->pcv2_months_py = (!is_null($l->pcv2) && $lastyeardate->isSameYear(Carbon::parse($l->pcv2))) ? Carbon::parse($l->pcv2)->diffInMonths($lastyeardate) : null;
+                $l->pcv3_months_py = (!is_null($l->pcv3) && $lastyeardate->isSameYear(Carbon::parse($l->pcv3))) ? Carbon::parse($l->pcv3)->diffInMonths($lastyeardate) : null;
+                $l->mmr1_months_py = (!is_null($l->mmr1) && $lastyeardate->isSameYear(Carbon::parse($l->mmr1))) ? Carbon::parse($l->mmr1)->diffInMonths($lastyeardate) : null;
+                $l->mmr2_months_py = (!is_null($l->mmr2) && $lastyeardate->isSameYear(Carbon::parse($l->mmr2))) ? Carbon::parse($l->mmr2)->diffInMonths($lastyeardate) : null;
+
+                $l->save();
+            }
         }
     }
 }
