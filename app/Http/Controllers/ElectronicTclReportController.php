@@ -1312,7 +1312,6 @@ class ElectronicTclReportController extends Controller
         })->count());
         
         if($r->submit == 'm1_2025') {
-            dd('bilat');
             $qry = (clone $cc_base_qry)
             ->whereNotNull('bcg1')
             ->whereYear('bcg1', $r->year)
