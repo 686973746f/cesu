@@ -96,6 +96,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('foggingschedulemover:daily')->dailyAt('00:10')->evenInMaintenanceMode();
 
         $schedule->command('fpchecker:monthly')->lastDayOfMonth('23:00')->evenInMaintenanceMode();
+
+        $schedule->command('abtcinventory_checkexpiration')->dailyAt('00:00')->evenInMaintenanceMode();
     }
 
     /**

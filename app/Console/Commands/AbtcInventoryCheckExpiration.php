@@ -53,7 +53,7 @@ class AbtcInventoryCheckExpiration extends Command
             $d->current_qty = 0;
             
             $c = AbtcInventoryTransaction::create([
-                'transaction_date' => $yesterday->format('Y-m-d'),
+                'transaction_date' => $date->format('Y-m-d'),
                 'stock_id' => $d->id,
                 'type' => 'EXPIRED',
                 //'transferto_facility',
