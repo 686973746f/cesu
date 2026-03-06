@@ -828,6 +828,27 @@ class ElectronicTclController extends Controller
             'age_days' => $get_agedays,
         ];
 
+        if(Carbon::parse($d->bdate_fixed)->year == Carbon::parse($r->registration_date)->year - 1) {
+            $lastyeardate = Carbon::createFromDate(Carbon::parse($d->bdate_fixed), 12, 31);
+
+            $table_params = $table_params + [
+                'dpt1_months_py' => ($r->filled('dpt1')) ? Carbon::parse($r->dpt1)->diffInMonths($lastyeardate) : null,
+                'dpt2_months_py' => ($r->filled('dpt2')) ? Carbon::parse($r->dpt2)->diffInMonths($lastyeardate) : null,
+                'dpt3_months_py' => ($r->filled('dpt3')) ? Carbon::parse($r->dpt3)->diffInMonths($lastyeardate) : null,
+                'opv1_months_py' => ($r->filled('opv1')) ? Carbon::parse($r->opv1)->diffInMonths($lastyeardate) : null,
+                'opv2_months_py' => ($r->filled('opv2')) ? Carbon::parse($r->opv2)->diffInMonths($lastyeardate) : null,
+                'opv3_months_py' => ($r->filled('opv3')) ? Carbon::parse($r->opv3)->diffInMonths($lastyeardate) : null,
+                'ipv1_months_py' => ($r->filled('ipv1')) ? Carbon::parse($r->ipv1)->diffInMonths($lastyeardate) : null,
+                'ipv2_months_py' => ($r->filled('ipv2')) ? Carbon::parse($r->ipv2)->diffInMonths($lastyeardate) : null,
+                'ipv3_months_py' => ($r->filled('ipv3')) ? Carbon::parse($r->ipv3)->diffInMonths($lastyeardate) : null,
+                'pcv1_months_py' => ($r->filled('pcv1')) ? Carbon::parse($r->pcv1)->diffInMonths($lastyeardate) : null,
+                'pcv2_months_py' => ($r->filled('pcv2')) ? Carbon::parse($r->pcv2)->diffInMonths($lastyeardate) : null,
+                'pcv3_months_py' => ($r->filled('pcv3')) ? Carbon::parse($r->pcv3)->diffInMonths($lastyeardate) : null,
+                'mmr1_months_py' => ($r->filled('mmr1')) ? Carbon::parse($r->mmr1)->diffInMonths($lastyeardate) : null,
+                'mmr2_months_py' => ($r->filled('mmr2')) ? Carbon::parse($r->mmr2)->diffInMonths($lastyeardate) : null,
+            ];
+        }
+
         if(auth()->user()->isAdminEtcl()) {
             $table_params = $table_params + [
                 'registration_date' => $r->registration_date,
@@ -1784,6 +1805,27 @@ class ElectronicTclController extends Controller
             'age_months' => $get_agemonths,
             'age_days' => $get_agedays,
         ];
+
+        if($birthdate->year == Carbon::parse($r->registration_date)->year - 1) {
+            $lastyeardate = Carbon::createFromDate($birthdate->year, 12, 31);
+
+            $table_params = $table_params + [
+                'dpt1_months_py' => ($r->filled('dpt1')) ? Carbon::parse($r->dpt1)->diffInMonths($lastyeardate) : null,
+                'dpt2_months_py' => ($r->filled('dpt2')) ? Carbon::parse($r->dpt2)->diffInMonths($lastyeardate) : null,
+                'dpt3_months_py' => ($r->filled('dpt3')) ? Carbon::parse($r->dpt3)->diffInMonths($lastyeardate) : null,
+                'opv1_months_py' => ($r->filled('opv1')) ? Carbon::parse($r->opv1)->diffInMonths($lastyeardate) : null,
+                'opv2_months_py' => ($r->filled('opv2')) ? Carbon::parse($r->opv2)->diffInMonths($lastyeardate) : null,
+                'opv3_months_py' => ($r->filled('opv3')) ? Carbon::parse($r->opv3)->diffInMonths($lastyeardate) : null,
+                'ipv1_months_py' => ($r->filled('ipv1')) ? Carbon::parse($r->ipv1)->diffInMonths($lastyeardate) : null,
+                'ipv2_months_py' => ($r->filled('ipv2')) ? Carbon::parse($r->ipv2)->diffInMonths($lastyeardate) : null,
+                'ipv3_months_py' => ($r->filled('ipv3')) ? Carbon::parse($r->ipv3)->diffInMonths($lastyeardate) : null,
+                'pcv1_months_py' => ($r->filled('pcv1')) ? Carbon::parse($r->pcv1)->diffInMonths($lastyeardate) : null,
+                'pcv2_months_py' => ($r->filled('pcv2')) ? Carbon::parse($r->pcv2)->diffInMonths($lastyeardate) : null,
+                'pcv3_months_py' => ($r->filled('pcv3')) ? Carbon::parse($r->pcv3)->diffInMonths($lastyeardate) : null,
+                'mmr1_months_py' => ($r->filled('mmr1')) ? Carbon::parse($r->mmr1)->diffInMonths($lastyeardate) : null,
+                'mmr2_months_py' => ($r->filled('mmr2')) ? Carbon::parse($r->mmr2)->diffInMonths($lastyeardate) : null,
+            ];
+        }
 
         if($r->mother_type == 'Y') {
             //Search Mother
