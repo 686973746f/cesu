@@ -3,23 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\DohFacility;
-use Carbon\Carbon;
-use App\Models\User;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use App\Models\InhouseFpVisit;
+use App\Models\EdcsBrgy;
 use App\Models\InhouseChildCare;
-use App\Models\SyndromicPatient;
-use App\Models\InhouseMaternalCare;
-use Illuminate\Validation\Rules\In;
-use Illuminate\Support\Facades\Auth;
 use App\Models\InhouseChildNutrition;
 use App\Models\InhouseFamilyPlanning;
+use App\Models\InhouseFpVisit;
+use App\Models\InhouseMaternalCare;
 use App\Models\SocialHygieneTcl;
-use PhpOffice\PhpSpreadsheet\Style\Color;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use App\Models\SyndromicPatient;
+use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\In;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\IOFactory as ExcelFactory;
+use PhpOffice\PhpSpreadsheet\Style\Color;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class ElectronicTclReportController extends Controller
 {
@@ -72,15 +73,15 @@ class ElectronicTclReportController extends Controller
             $monthText = 'December';
         }
 
-        $sheet->setCellValue('D1', "FHSIS REPORT for the Month: {$monthText}, Year: {$r->year}");
-        $sheet->setCellValue('D2', "Name of Barangay: ".auth()->user()->tclbhs->address_barangay);
-        $sheet->setCellValue('D3', "Name of BHS: ".auth()->user()->tclbhs->facility_name);
-        $sheet->setCellValue('D4', "Name of Municipality/City: ".auth()->user()->tclbhs->address_muncity);
-        $sheet->setCellValue('D5', "Name of Province: ".auth()->user()->tclbhs->address_province);
-
         if(auth()->user()->isMasterAdminEtcl()) {
             if($r->filter_type == 'BHS') {
+                
                 $bhs_search = DohFacility::findOrFail($r->selected_bhs_id);
+
+                $display_bhs_name = $bhs_search->facility_name;
+                $display_bhs_brgy = $bhs_search->brgy->name;
+                $display_bhs_muncity = $bhs_search->brgy->city->name;
+                $display_bhs_province = $bhs_search->brgy->city->province->name;
 
                 $base_qry = InhouseMaternalCare::where('enabled', 'Y')
                 ->where('facility_id', $bhs_search->id);
@@ -99,6 +100,13 @@ class ElectronicTclReportController extends Controller
                 $shc_base_qry = SocialHygieneTcl::where('address_brgy_code', $bhs_search->brgy->id);
             }
             else {
+                $brgy_search = EdcsBrgy::findOrFail($r->selected_brgy_id);
+
+                $display_bhs_name = 'ALL BHS';
+                $display_bhs_brgy = $brgy_search->name;
+                $display_bhs_muncity = $brgy_search->city->name;
+                $display_bhs_province = $brgy_search->city->province->name;
+
                 $base_qry = InhouseMaternalCare::where('enabled', 'Y')
                 ->whereHas('facility.brgy', function($q) use ($r) {
                     $q->where('id', $r->selected_brgy_id);
@@ -123,6 +131,11 @@ class ElectronicTclReportController extends Controller
             }
         }
         else {
+            $display_bhs_name = 'ALL BHS';
+            $display_bhs_brgy = auth()->user()->etclbhs->brgy->name;
+            $display_bhs_muncity = auth()->user()->etclbhs->brgy->city->name;
+            $display_bhs_province = auth()->user()->etclbhs->brgy->city->province->name;
+
             $base_qry = InhouseMaternalCare::where('enabled', 'Y')
             ->where('facility_id', auth()->user()->etcl_bhs_id);
 
@@ -139,6 +152,12 @@ class ElectronicTclReportController extends Controller
 
             $shc_base_qry = SocialHygieneTcl::where('address_brgy_code', auth()->user()->etclbhs->brgy->id);
         }
+
+        $sheet->setCellValue('D1', "FHSIS REPORT for the Month: {$monthText}, Year: {$r->year}");
+        $sheet->setCellValue('D2', "Name of Barangay: ".$display_bhs_brgy);
+        $sheet->setCellValue('D3', "Name of BHS: ".$display_bhs_name);
+        $sheet->setCellValue('D4', "Name of Municipality/City: ".$display_bhs_muncity);
+        $sheet->setCellValue('D5', "Name of Province: ".$display_bhs_province);
 
         //START OF FAMILY PLANNING M1
         //CURRENT USERS (BEGGINNING OF MONTH)
