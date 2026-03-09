@@ -741,6 +741,7 @@ class ElectronicTclController extends Controller
         $get_agemonths = $birthdate->diffInMonths($currentDate);
         $get_agedays = $birthdate->diffInDays($currentDate);
 
+        /*
         if($r->filled('ipv1')) {
             if(!$r->filled('dpt3')) {
                 return redirect()
@@ -757,6 +758,7 @@ class ElectronicTclController extends Controller
                 ->with('msgtype', 'warning');
             }
         }
+        */
 
         $table_params = [
             //'patient_id' => $d->id,
