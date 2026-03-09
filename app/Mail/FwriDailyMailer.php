@@ -29,7 +29,7 @@ class FwriDailyMailer extends Mailable
     public function build()
     {
         return $this->view('email.fwridailyview')
-        ->from('admin@cesugentri.com', 'Christian James Historillo')
+        ->from('admin@cesugentri.com', 'General Trias CESU')
         ->subject('General Trias CESU - FWRI Daily Report '.date('M. d, Y'))
         ->attach(storage_path('app/fwri/CESUGENTRIAS_APIR_LINELIST_'.date('mdY', strtotime('-1 Day')).'.xlsx'))
         ->attach(storage_path('app/fwri/CESUGENTRIAS_FWRI_LINELIST_'.date('mdY', strtotime('-1 Day')).'.xlsx'));

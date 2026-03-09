@@ -29,7 +29,7 @@ class DilgReportExcel extends Mailable
     public function build()
     {
         return $this->view('email.dilgreport')
-        ->from('admin@cesugentri.com', 'Christian James Historillo')
+        ->from('admin@cesugentri.com', 'General Trias CESU')
         ->subject('CHO DILG '.date('F d, Y'))
         ->attach(public_path('GEN.TRIAS-DILG-CHO-REPORT-'.date('F-d-Y').'.xlsx'));
     }

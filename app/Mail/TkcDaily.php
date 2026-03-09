@@ -29,7 +29,7 @@ class TkcDaily extends Mailable
     public function build()
     {
         return $this->view('email.tkcmail')
-        ->from('admin@cesugentri.com', 'Christian James Historillo')
+        ->from('admin@cesugentri.com', 'General Trias CESU')
         ->subject('TKC Import CSV '.date('F d, Y'))
         ->attach(public_path('TKC_'.date('mdY').'.csv'));
     }

@@ -42,7 +42,7 @@ class VpdMailer extends Mailable
     public function build()
     {
         return $this->view('email.vpdsender')
-        ->from('admin@cesugentri.com', 'Christian James Historillo')
+        ->from('admin@cesugentri.com', 'General Trias CESU')
         ->subject('CESU Gen. Trias - VPD Cases Detected ('.date('H').')');
     }
 }

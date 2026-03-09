@@ -29,7 +29,7 @@ class CovidReportWordWeekly extends Mailable
     public function build()
     {
         return $this->view('email.covidreportweekly')
-        ->from('admin@cesugentri.com', 'Christian James Historillo')
+        ->from('admin@cesugentri.com', 'General Trias CESU')
         ->subject('COVID GenTri Weekly ('.date('m/d', strtotime('-6 Days')).' - '.date('m/d, Y').')')
         ->attach(storage_path('CITY-OF-GENERAL-TRIAS-WEEKLY-'.date('F-d-Y').'.docx'));
     }

@@ -31,7 +31,7 @@ class AbtcStockReportEmail extends Mailable
     public function build()
     {
         return $this->view('email.abtcstockreportview')
-        ->from('admin@cesugentri.com', 'Christian James Historillo')
+        ->from('admin@cesugentri.com', 'General Trias CESU')
         ->subject('GenTrias Rabies Control Program - Stock Report '.date('m/d/Y'));
     }
 }

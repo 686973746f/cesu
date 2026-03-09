@@ -31,7 +31,7 @@ class SyndromicEmailSender extends Mailable
     public function build()
     {
         return $this->view('email.syndromiclistsender')
-        ->from('admin@cesugentri.com', 'Christian James Historillo')
+        ->from('admin@cesugentri.com', 'General Trias CESU')
         ->subject('OPD Detection List - '.date('m/d/Y hA'));
     }
 }

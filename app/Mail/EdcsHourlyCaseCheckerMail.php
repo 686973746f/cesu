@@ -31,7 +31,7 @@ class EdcsHourlyCaseCheckerMail extends Mailable
     public function build()
     {
         return $this->view('email.edcs_hourlycasecheckerview')
-        ->from('admin@cesugentri.com', 'Christian James Historillo')
+        ->from('admin@cesugentri.com', 'General Trias CESU')
         ->subject('CESU Gen. Trias AutoMailer - EDCS Case/s Detected on '.date('m/d/Y h:i A'));
     }
 }

@@ -29,7 +29,7 @@ class FwriZeroCase extends Mailable
     public function build()
     {
         return $this->view('email.fwrizerocase')
-        ->from('admin@cesugentri.com', 'Christian James Historillo')
+        ->from('admin@cesugentri.com', 'General Trias CESU')
         ->subject('General Trias CESU - FWRI Zero Case Report '.date('M. d, Y'));
     }
 }

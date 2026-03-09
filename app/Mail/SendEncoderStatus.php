@@ -237,7 +237,7 @@ class SendEncoderStatus extends Mailable
         return $this->markdown('email.encoder_stats', [
             'arr' => $arr,
         ])
-        ->from('admin@cesugentri.com', 'Christian James Historillo')
+        ->from('admin@cesugentri.com', 'General Trias CESU')
         ->subject('CESU Gen. Trias - Encoder Status for '.date('F d, Y'));
     }
 }

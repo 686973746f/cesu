@@ -31,7 +31,7 @@ class SendAyudaList extends Mailable
     public function build()
     {
         return $this->view('email.ayudalist')
-        ->from('admin@cesugentri.com', 'Christian James Historillo')
+        ->from('admin@cesugentri.com', 'General Trias CESU')
         ->subject('COVID Ayuda List '.date('F d, Y'))
         ->attach(public_path('AyudaList_'.date('F_d_Y').'.xlsx'));
     }

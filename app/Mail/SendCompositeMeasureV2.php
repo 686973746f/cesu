@@ -36,7 +36,7 @@ class SendCompositeMeasureV2 extends Mailable
         }
         
         return $this->view('email.compositemeasurev2')
-        ->from('admin@cesugentri.com', 'Christian James Historillo')
+        ->from('admin@cesugentri.com', 'General Trias CESU')
         ->subject('Composite Measure for '.$period.' - City of General Trias, Cavite')
         ->attach(storage_path('COMPOSITE_MEASURE_'.date('F_d_Y').'.docx'));
     }

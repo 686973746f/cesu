@@ -33,7 +33,7 @@ class TestMail extends Mailable
         return $this->view('email.test', [
             'bilat' => '1324',
         ])
-        ->from('admin@cesugentri.com', 'Christian James Historillo')
+        ->from('admin@cesugentri.com', 'General Trias CESU')
         ->subject('Test Mail Queue');
     }
 }

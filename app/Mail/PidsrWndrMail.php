@@ -36,14 +36,14 @@ class PidsrWndrMail extends Mailable
     {
         /*
         return $this->view('email.pidsrwndr')
-        ->from('admin@cesugentri.com', 'Christian James Historillo')
+        ->from('admin@cesugentri.com', 'General Trias CESU')
         ->subject('CHO GENERAL TRIAS PIDSR Weekly Notifiable Diseases Report MW'.date('W', strtotime('-1 Week')))
         ->attach(public_path('PIDSR_GenTrias_MW'.date('W', strtotime('-1 Week')).'.pdf'))
         ->attach(public_path('EDCS_SUMMARY_GENERALTRIASCITY_MW'.date('W').'.xlsx'));
         */
 
         return $this->view('email.pidsrwndr')
-        ->from('admin@cesugentri.com', 'Christian James Historillo')
+        ->from('admin@cesugentri.com', 'General Trias CESU')
         ->subject("CESU GEN. TRIAS AutoMailer - EDCS WEEKLY Report for MW{$this->sel_week}, Year {$this->sel_year}")
         ->attach(public_path("EDCS_SUMMARY_GENERALTRIASCITY_MW{$this->sel_week}_{$this->sel_year}.xlsx"));
     }
