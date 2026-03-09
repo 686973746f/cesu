@@ -3421,20 +3421,20 @@ class FhsisController extends Controller
         //Group ICD10 Codes
 
         //Check if exists
-        $gcheck = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+        $gcheck = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
         ->where('pod_address_brgy_text', $brgy)
         ->first();
 
         $final_arr = [];
         
         if($gcheck) {
-            $list_group = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            $list_group = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
             ->where('pod_address_brgy_text', $brgy)
             ->groupBy('immediate_cause')
             ->pluck('immediate_cause')
             ->toArray();
 
-            $mat_deaths_finaltotal += DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+            $mat_deaths_finaltotal += DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
             ->where('pod_address_brgy_text', $brgy)
             ->where('gender', 'FEMALE')
             ->whereIn('maternal_condition', ['PREGNANT, IN LABOUR', 'LESS THAN 42 DAYS AFTER DELIVERY'])
@@ -3443,7 +3443,7 @@ class FhsisController extends Controller
 
             foreach($list_group as $l) {
                 //0-6 Days
-                $age1_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age1_m = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('if_fetaldeath', 0)
                 ->where('gender', 'MALE')
@@ -3456,7 +3456,7 @@ class FhsisController extends Controller
                 $infant_deaths_finaltotal_m += $age1_m;
                 $uf_deaths_finaltotal_m += $age1_m;
     
-                $age1_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age1_f = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('if_fetaldeath', 0)
                 ->where('gender', 'FEMALE')
@@ -3470,14 +3470,14 @@ class FhsisController extends Controller
                 $uf_deaths_finaltotal_f += $age1_f;
     
                 //Search Fetal Deaths
-                $fet_death_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $fet_death_m = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('if_fetaldeath', 1)
                 ->where('gender', 'MALE')
                 ->where('immediate_cause', $l)
                 ->count();
     
-                $fet_death_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $fet_death_f = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('if_fetaldeath', 1)
                 ->where('gender', 'FEMALE')
@@ -3498,7 +3498,7 @@ class FhsisController extends Controller
                 $uf_deaths_finaltotal_f += $fet_death_f;
 
                 //7-28 Days
-                $age2_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age2_m = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'MALE')
                 ->where('immediate_cause', $l)
@@ -3509,7 +3509,7 @@ class FhsisController extends Controller
                 $infant_deaths_finaltotal_m += $age2_m;
                 $uf_deaths_finaltotal_m += $age2_m;
     
-                $age2_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age2_f = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'FEMALE')
                 ->where('immediate_cause', $l)
@@ -3521,7 +3521,7 @@ class FhsisController extends Controller
                 $uf_deaths_finaltotal_f += $age2_f;
     
                 //29 Days - 11 Months
-                $age3_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age3_m = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'MALE')
                 ->where('immediate_cause', $l)
@@ -3529,7 +3529,7 @@ class FhsisController extends Controller
                 ->where('age_death_months', '<=', 11)
                 ->count();
     
-                $age3_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age3_f = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'FEMALE')
                 ->where('immediate_cause', $l)
@@ -3538,14 +3538,14 @@ class FhsisController extends Controller
                 ->count();
                 
                 //1-4
-                $age4_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age4_m = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'MALE')
                 ->where('immediate_cause', $l)
                 ->whereBetween('age_death_years', [1, 4])
                 ->count();
     
-                $age4_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age4_f = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'FEMALE')
                 ->where('immediate_cause', $l)
@@ -3553,14 +3553,14 @@ class FhsisController extends Controller
                 ->count();
     
                 //5-9
-                $age5_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age5_m = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'MALE')
                 ->where('immediate_cause', $l)
                 ->whereBetween('age_death_years', [5, 9])
                 ->count();
     
-                $age5_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age5_f = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'FEMALE')
                 ->where('immediate_cause', $l)
@@ -3568,14 +3568,14 @@ class FhsisController extends Controller
                 ->count();
     
                 //10-14
-                $age6_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age6_m = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'MALE')
                 ->where('immediate_cause', $l)
                 ->whereBetween('age_death_years', [10,14])
                 ->count();
     
-                $age6_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age6_f = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'FEMALE')
                 ->where('immediate_cause', $l)
@@ -3583,14 +3583,14 @@ class FhsisController extends Controller
                 ->count();
     
                 //15-19
-                $age7_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age7_m = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'MALE')
                 ->where('immediate_cause', $l)
                 ->whereBetween('age_death_years', [15,19])
                 ->count();
     
-                $age7_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age7_f = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'FEMALE')
                 ->where('immediate_cause', $l)
@@ -3599,14 +3599,14 @@ class FhsisController extends Controller
                 //ss
     
                 //20-24
-                $age8_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age8_m = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'MALE')
                 ->where('immediate_cause', $l)
                 ->whereBetween('age_death_years', [20,24])
                 ->count();
     
-                $age8_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age8_f = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'FEMALE')
                 ->where('immediate_cause', $l)
@@ -3614,14 +3614,14 @@ class FhsisController extends Controller
                 ->count();
                 
                 //25-29
-                $age9_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age9_m = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'MALE')
                 ->where('immediate_cause', $l)
                 ->whereBetween('age_death_years', [25,29])
                 ->count();
     
-                $age9_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age9_f = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'FEMALE')
                 ->where('immediate_cause', $l)
@@ -3629,14 +3629,14 @@ class FhsisController extends Controller
                 ->count();
     
                 //30-34
-                $age10_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age10_m = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'MALE')
                 ->where('immediate_cause', $l)
                 ->whereBetween('age_death_years', [30,34])
                 ->count();
     
-                $age10_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age10_f = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'FEMALE')
                 ->where('immediate_cause', $l)
@@ -3644,14 +3644,14 @@ class FhsisController extends Controller
                 ->count();
     
                 //35-39
-                $age11_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age11_m = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'MALE')
                 ->where('immediate_cause', $l)
                 ->whereBetween('age_death_years', [35,39])
                 ->count();
     
-                $age11_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age11_f = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'FEMALE')
                 ->where('immediate_cause', $l)
@@ -3659,14 +3659,14 @@ class FhsisController extends Controller
                 ->count();
     
                 //40-44
-                $age12_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age12_m = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'MALE')
                 ->where('immediate_cause', $l)
                 ->whereBetween('age_death_years', [40,44])
                 ->count();
     
-                $age12_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age12_f = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'FEMALE')
                 ->where('immediate_cause', $l)
@@ -3674,14 +3674,14 @@ class FhsisController extends Controller
                 ->count();
     
                 //45-49
-                $age13_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age13_m = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'MALE')
                 ->where('immediate_cause', $l)
                 ->whereBetween('age_death_years', [45,49])
                 ->count();
     
-                $age13_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age13_f = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'FEMALE')
                 ->where('immediate_cause', $l)
@@ -3689,14 +3689,14 @@ class FhsisController extends Controller
                 ->count();
     
                 //50-54
-                $age14_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age14_m = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'MALE')
                 ->where('immediate_cause', $l)
                 ->whereBetween('age_death_years', [50,54])
                 ->count();
     
-                $age14_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age14_f = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'FEMALE')
                 ->where('immediate_cause', $l)
@@ -3704,14 +3704,14 @@ class FhsisController extends Controller
                 ->count();
     
                 //55-59
-                $age15_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age15_m = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'MALE')
                 ->where('immediate_cause', $l)
                 ->whereBetween('age_death_years', [55,59])
                 ->count();
     
-                $age15_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age15_f = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'FEMALE')
                 ->where('immediate_cause', $l)
@@ -3719,14 +3719,14 @@ class FhsisController extends Controller
                 ->count();
     
                 //60-64
-                $age16_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age16_m = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'MALE')
                 ->where('immediate_cause', $l)
                 ->whereBetween('age_death_years', [60,64])
                 ->count();
     
-                $age16_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age16_f = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'FEMALE')
                 ->where('immediate_cause', $l)
@@ -3734,14 +3734,14 @@ class FhsisController extends Controller
                 ->count();
     
                 //65-69
-                $age17_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age17_m = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'MALE')
                 ->where('immediate_cause', $l)
                 ->whereBetween('age_death_years', [65,69])
                 ->count();
     
-                $age17_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age17_f = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'FEMALE')
                 ->where('immediate_cause', $l)
@@ -3749,14 +3749,14 @@ class FhsisController extends Controller
                 ->count();
     
                 //70 and above
-                $age18_m = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age18_m = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'MALE')
                 ->where('immediate_cause', $l)
                 ->where('age_death_years', '>=', 70)
                 ->count();
     
-                $age18_f = DeathCertificate::whereBetween('created_at', [$start->format('Y-m-d'), $end->format('Y-m-d')])
+                $age18_f = DeathCertificate::whereBetween('date_died', [$start->format('Y-m-d'), $end->format('Y-m-d')])
                 ->where('pod_address_brgy_text', $brgy)
                 ->where('gender', 'FEMALE')
                 ->where('immediate_cause', $l)
