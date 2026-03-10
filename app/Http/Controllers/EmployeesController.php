@@ -36,8 +36,14 @@ class EmployeesController extends Controller
         else {
             //$list = Employee::where('employment_status', 'ACTIVE')->get();
 
-            $list = Employee::whereHas('latestEmploymentStatus', function ($q) {
-                $q->where('status', 'ACTIVE'); //change column name if different
+            $list = Employee::where(function ($q) {
+                $q->whereHas('latestEmploymentStatus', function ($q2) {
+                    $q2->where('employment_status', 'ACTIVE');
+                })
+                ->orWhere(function ($q2) {
+                    $q2->whereDoesntHave('latestEmploymentStatus')
+                       ->where('employment_status', 'ACTIVE');
+                });
             })->get();
         }
     
