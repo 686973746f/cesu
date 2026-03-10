@@ -103,6 +103,7 @@
 
 <script>
     $('#mainTbl').dataTable({
+        order : [[1, 'asc']],
         dom: 'QBfritp',
         buttons: [
             {
