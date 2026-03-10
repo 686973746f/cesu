@@ -1147,7 +1147,7 @@ class EmployeesController extends Controller
             $team_c = NULL;
             $team_d = NULL;
 
-            $list = Employee::->where(function ($q) {
+            $list = Employee::where(function ($q) {
                 $q->whereHas('latestEmploymentStatus', function ($q2) {
                     $q2->where('status', 'ACTIVE');
                 })
@@ -1158,7 +1158,7 @@ class EmployeesController extends Controller
             ->get();
         }
 
-        $duty_qry = Employee::->where(function ($q) {
+        $duty_qry = Employee::where(function ($q) {
             $q->whereHas('latestEmploymentStatus', function ($q2) {
                 $q2->where('status', 'ACTIVE');
             })
