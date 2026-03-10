@@ -131,7 +131,7 @@ class ElectronicTclController extends Controller
         else if($bmi >= 18.5 && $bmi <= 22.9) {
             $nutritional_assessment = 'N'; //Normal
         }
-        else($bmi >= 23) {
+        else {
             $nutritional_assessment = 'H';
         }
 
@@ -412,7 +412,7 @@ class ElectronicTclController extends Controller
         else if($bmi >= 18.5 && $bmi <= 22.9) {
             $nutritional_assessment = 'N'; //Normal
         }
-        else if($bmi >= 23) {
+        else {
             $nutritional_assessment = 'H';
         }
 
