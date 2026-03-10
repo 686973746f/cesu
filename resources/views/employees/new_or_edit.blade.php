@@ -239,7 +239,7 @@
                     <input type="text" class="form-control" name="remarks" id="remarks" value="{{old('remarks', $d->remarks)}}" style="text-transform: uppercase;">
                 </div>
                 <div class="form-group">
-                  <label for="emp_access_list">Employee Access List</label>
+                  <label for="emp_access_list">Employee Access List (for Demographics Use)</label>
                   <select class="form-control" name="emp_access_list[]" id="emp_access_list" multiple>
                     @foreach($emp_access_list as $e)
                     <option value="{{$e}}" {{(in_array($e, explode(',', $d->emp_access_list))) ? 'selected' : ''}}>{{$e}}</option>
