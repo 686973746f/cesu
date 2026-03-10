@@ -38,11 +38,11 @@ class EmployeesController extends Controller
 
             $list = Employee::where(function ($q) {
                 $q->whereHas('latestEmploymentStatus', function ($q2) {
-                    $q2->where('employment_status', 'ACTIVE');
+                    $q2->where('status', 'ACTIVE');
                 })
                 ->orWhere(function ($q2) {
                     $q2->whereDoesntHave('latestEmploymentStatus')
-                       ->where('employment_status', 'ACTIVE');
+                       ->where('status', 'ACTIVE');
                 });
             })->get();
         }
