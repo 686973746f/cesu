@@ -40,10 +40,7 @@ class EmployeesController extends Controller
                 $q->whereHas('latestEmploymentStatus', function ($q2) {
                     $q2->where('status', 'ACTIVE');
                 })
-                ->orWhere(function ($q2) {
-                    $q2->whereDoesntHave('latestEmploymentStatus')
-                       ->where('status', 'ACTIVE');
-                });
+                ->orWhereDoesntHave('latestEmploymentStatus');
             })->get();
         }
     
