@@ -5,7 +5,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <div class="font-weight-bold">Admin Accounts ({{number_format($lists->total())}})</div>
+                    <div><b>Admin Accounts</b> (Results found: {{number_format($lists->total())}})</div>
                     <div>
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#createadmin"><i class="fa fa-plus-circle mr-2" aria-hidden="true"></i>Add Admin Account</button>
                     </div>
@@ -17,12 +17,21 @@
                     {{session('msg')}}
                 </div>
                 @endif
+
+                <form method="GET" action="">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Search by name or email..." name="q" value="{{request()->input('q')}}" autocomplete="off">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+                </form>
                 
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">
                         <thead class="text-center bg-light">
                             <tr>
-                                <th>#</th>
+                                <th>Account ID</th>
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Type</th>
@@ -33,7 +42,7 @@
                         <tbody>
                             @foreach($lists as $key => $list)
                                 <tr>
-                                    <td class="text-center" style="vertical-align: middle;">{{$lists->firstItem() + $key}}</td>
+                                    <td class="text-center" style="vertical-align: middle;">{{$list->id}}</td>
                                     <td style="vertical-align: middle;"><a href="{{route('admin_account_view', ['id' => $list->id])}}">{{$list->name}}</a></td>
                                     <td style="vertical-align: middle;">{{$list->email}}</td>
                                     <td class="text-center" style="vertical-align: middle;">{{($list->isAdmin == 1) ? 'Admin' : 'Encoder'}}</td>

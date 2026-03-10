@@ -141,7 +141,16 @@ class AdminPanelController extends Controller
     }
 
     public function accountIndex() {
-        $lists = User::paginate(10);
+        if(request()->input('q')) {
+            $search = request()->input('q');
+
+            $lists = User::where('name', 'LIKE', '%'.$search.'%')
+            ->orWhere('email', 'LIKE', '%'.$search.'%')
+            ->paginate(10);
+        }
+        else {
+            $lists = User::paginate(10);
+        }
 
         $facility_list = DohFacility::where('enabled', 'Y')
         ->where('address_muncity', config('custom.default_city_name'))
