@@ -40,7 +40,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="mname">Middle Name</label>
+                            <label for="mname">Middle Name (Not Initial)</label>
                             <input type="text" class="form-control" name="mname" id="mname" value="{{old('mname', $d->mname)}}" minlength="2" maxlength="50" style="text-transform: uppercase;" pattern="[A-Za-z\- 'Ññ]+">
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="profession_suffix">Profession</label>
+                            <label for="profession_suffix">Post-nominal Title</label>
                             <input type="text" class="form-control" name="profession_suffix" id="profession_suffix" value="{{old('profession_suffix', $d->profession_suffix)}}" minlength="2" maxlength="30" placeholder="RN/MD/RMT/RM/MPH, etc.">
                         </div>
                     </div>

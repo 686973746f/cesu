@@ -226,7 +226,12 @@ class EmployeesController extends Controller
     }
 
     public function dutyIndex() {
-        $duty_qry = Employee::where('employment_status', 'ACTIVE')
+        $duty_qry = Employee::where(function ($q) {
+            $q->whereHas('latestEmploymentStatus', function ($q2) {
+                $q2->where('status', 'ACTIVE');
+            })
+            ->orWhereDoesntHave('latestEmploymentStatus');
+        })
         ->where('duty_canbedeployed', 'Y')
         ->whereNotNull('duty_team');
 
@@ -323,7 +328,12 @@ class EmployeesController extends Controller
             }
 
             //Increase Count of Duty Balance sa mga di dumuty last cycle
-            $u2 = Employee::where('employment_status', 'ACTIVE')
+            $u2 = Employee::where(function ($q) {
+                $q->whereHas('latestEmploymentStatus', function ($q2) {
+                    $q2->where('status', 'ACTIVE');
+                })
+                ->orWhereDoesntHave('latestEmploymentStatus');
+            })
             ->where('duty_canbedeployed', 'Y')
             ->where('duty_completedcycle', 'N')
             ->where('excess_duty', 0)
@@ -333,7 +343,12 @@ class EmployeesController extends Controller
             ]);
 
             //Kapag may Excess Duty tapos hindi dumuty sa current cycle, hindi madadagdagan ng duty_balance pero mababawasan ng excess_duty
-            $u3 = Employee::where('employment_status', 'ACTIVE')
+            $u3 = Employee::where(function ($q) {
+                $q->whereHas('latestEmploymentStatus', function ($q2) {
+                    $q2->where('status', 'ACTIVE');
+                })
+                ->orWhereDoesntHave('latestEmploymentStatus');
+            })
             ->where('duty_canbedeployed', 'Y')
             ->where('duty_completedcycle', 'N')
             ->where('excess_duty', '>', 0)
@@ -358,7 +373,12 @@ class EmployeesController extends Controller
     public function viewDuty($duty_id) {
         $d = HertDuty::findOrFail($duty_id);
 
-        $duty_qry = Employee::where('employment_status', 'ACTIVE')
+        $duty_qry = Employee::where(function ($q) {
+            $q->whereHas('latestEmploymentStatus', function ($q2) {
+                $q2->where('status', 'ACTIVE');
+            })
+            ->orWhereDoesntHave('latestEmploymentStatus');
+        })
         ->where('duty_canbedeployed', 'Y');
 
         if(!request()->input('override')) {
@@ -1011,7 +1031,12 @@ class EmployeesController extends Controller
                     ->orWhere('id', $search);
                 });
             })
-            ->where('employment_status', 'ACTIVE')
+            ->where(function ($q) {
+                $q->whereHas('latestEmploymentStatus', function ($q2) {
+                    $q2->where('status', 'ACTIVE');
+                })
+                ->orWhereDoesntHave('latestEmploymentStatus');
+            })
             ->get();
 
             foreach($data as $item) {
@@ -1071,25 +1096,45 @@ class EmployeesController extends Controller
     public function viewEmployeesDutyOnline() {
         if(is_null(request()->input('masterlistView'))) {
             $team_a = Employee::where('duty_team', 'A')
-            ->where('employment_status', 'ACTIVE')
+            ->where(function ($q) {
+                $q->whereHas('latestEmploymentStatus', function ($q2) {
+                    $q2->where('status', 'ACTIVE');
+                })
+                ->orWhereDoesntHave('latestEmploymentStatus');
+            })
             ->where('duty_canbedeployed', 'Y')
             ->orderBy('lname', 'ASC')
             ->get();
 
             $team_b = Employee::where('duty_team', 'B')
-            ->where('employment_status', 'ACTIVE')
+            ->where(function ($q) {
+                $q->whereHas('latestEmploymentStatus', function ($q2) {
+                    $q2->where('status', 'ACTIVE');
+                })
+                ->orWhereDoesntHave('latestEmploymentStatus');
+            })
             ->where('duty_canbedeployed', 'Y')
             ->orderBy('lname', 'ASC')
             ->get();
 
             $team_c = Employee::where('duty_team', 'C')
-            ->where('employment_status', 'ACTIVE')
+            ->where(function ($q) {
+                $q->whereHas('latestEmploymentStatus', function ($q2) {
+                    $q2->where('status', 'ACTIVE');
+                })
+                ->orWhereDoesntHave('latestEmploymentStatus');
+            })
             ->where('duty_canbedeployed', 'Y')
             ->orderBy('lname', 'ASC')
             ->get();
 
             $team_d = Employee::where('duty_team', 'D')
-            ->where('employment_status', 'ACTIVE')
+            ->where(function ($q) {
+                $q->whereHas('latestEmploymentStatus', function ($q2) {
+                    $q2->where('status', 'ACTIVE');
+                })
+                ->orWhereDoesntHave('latestEmploymentStatus');
+            })
             ->where('duty_canbedeployed', 'Y')
             ->orderBy('lname', 'ASC')
             ->get();
@@ -1102,13 +1147,23 @@ class EmployeesController extends Controller
             $team_c = NULL;
             $team_d = NULL;
 
-            $list = Employee::where('employment_status', 'ACTIVE')
+            $list = Employee::->where(function ($q) {
+                $q->whereHas('latestEmploymentStatus', function ($q2) {
+                    $q2->where('status', 'ACTIVE');
+                })
+                ->orWhereDoesntHave('latestEmploymentStatus');
+            })
             ->where('duty_canbedeployed', 'Y')
             ->orderBy('lname', 'ASC')
             ->get();
         }
 
-        $duty_qry = Employee::where('employment_status', 'ACTIVE')
+        $duty_qry = Employee::->where(function ($q) {
+            $q->whereHas('latestEmploymentStatus', function ($q2) {
+                $q2->where('status', 'ACTIVE');
+            })
+            ->orWhereDoesntHave('latestEmploymentStatus');
+        })
         ->where('duty_canbedeployed', 'Y')
         ->whereNotNull('duty_team');
 
