@@ -11030,7 +11030,7 @@ class PIDSRController extends Controller
 
                 'IVTherapy' => ($r->Admitted == 'Y') ? $r->received_iv : 'N',
                 'Vomiting' => $r->vomiting,
-                'V_ONSET' => ($r->vomiting == '1Y') ? $r->vomiting_date : NULL,
+                'V_ONSET' => ($r->vomiting == 'Y') ? $r->vomiting_date : NULL,
                 'AdmDx' => ($r->filled('admitting_diagnosis')) ? mb_strtoupper($r->admitting_diagnosis) : NULL,
                 'FinalDx' => ($r->filled('final_diagnosis')) ? mb_strtoupper($r->final_diagnosis) : NULL,
                 'DegDehy' => $r->dehydration_degree,
@@ -11041,7 +11041,7 @@ class PIDSRController extends Controller
                 
                 'RotaVirus' => $r->received_rotavaccine,
                 'RVDose' => ($r->received_rotavaccine == 'Y') ? $r->rv_dose : NULL,
-                'D8RV1stDose' => ($r->received_rotavaccine == 'Y') ? $r->rvrv_dose1_date_dose : NULL,
+                'D8RV1stDose' => ($r->received_rotavaccine == 'Y') ? $r->rv_dose1_date : NULL,
                 'D8RVLastDose' => ($r->received_rotavaccine == 'Y') ? $r->rv_dose2_date : NULL,
                 'StoolColl' => $r->stool_collected,
                 'D8StoolTaken' => ($r->stool_collected == 'Y') ? $r->stool_date : NULL,
@@ -11091,7 +11091,7 @@ class PIDSRController extends Controller
                 //'edcs_caseid'
                 'edcs_healthFacilityCode' => $health_facility_code,
                 'edcs_investigatorName' => mb_strtoupper($r->sys_interviewer_name),
-                'edcs_investigateDate' => $r->edcs_investigateDate,
+                'edcs_investigateDate' => $r->entry_date,
                 'edcs_contactNo' => $r->sys_interviewer_contactno,
                 //'edcs_ageGroup'
                 //'edcs_verificationLevel'
@@ -11207,6 +11207,10 @@ class PIDSRController extends Controller
         else if($disease == 'LEPTOSPIROSIS') {
             $className = 'Leptospirosis';
             $csvName = 'leptospirosis';
+        }
+        else if($disease == 'ROTAVIRUS') {
+            $className = 'Rotavirus';
+            $csvName = 'rotavirus';
         }
         else {
             return abort(401);
@@ -11347,6 +11351,7 @@ class PIDSRController extends Controller
                 $sheet->setCellValue('H'.$row, Carbon::parse($d->DOB)->age); //Age
 
                 if($convert_flat) {
+                    //laravel log
                     $sheet->setCellValue('I'.$row, $d->brgy->city->province->region->regionName); //Current Region
                     $sheet->setCellValue('J'.$row, $d->brgy->city->province->name); //Current Province
                     $sheet->setCellValue('K'.$row, $d->brgy->city->alt_name ?: $d->brgy->city->name); //Current MunCity
@@ -11850,6 +11855,178 @@ class PIDSRController extends Controller
                     $sheet->setCellValue('AY'.$row, ''); //DateofTestingbyRITMorSNL
                     $sheet->setCellValue('AZ'.$row, ''); //DateofResultbyRITMorSNL
                     $sheet->setCellValue('BA'.$row, ''); //LaboratoryRemarks
+                }
+                else if($disease == 'ROTAVIRUS') {
+                    // Map values according to storage/edcs_template/rotavirus.csv
+                    if($d->classification == 'S') {
+                        $caseClass = 'SUS';
+                    }
+                    else if($d->classification == 'C') {
+                        $caseClass = 'CON';
+                    }
+                    else {
+                        $caseClass = 'SUS';
+                    }
+
+                    $diarr_cases = [];
+
+                    if($d->DiarrCases == 'Y') {
+                        if($d->Community == 'Y') {
+                            $diarr_cases[] = 'COM';
+                        }
+                        if($d->HHold == 'Y') {
+                            $diarr_cases[] = 'HOU';
+                        }
+                        if($d->School == 'Y') {
+                            $diarr_cases[] = 'SCH';
+                        }
+                    }
+
+                    // Y - DateOnsetDiarrhea
+                    $sheet->setCellValue('Y'.$row, ($d->D_ONSET) ? Carbon::parse($d->D_ONSET)->format('m/d/Y') : '');
+                    $sheet->getStyle('Y'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+
+                    // Z - PatientAdmittedDiarrhea
+                    $sheet->setCellValue('Z'.$row, ($d->Admitted == 1) ? 'Y' : 'N');
+
+                    // AA - DatePatientAdmitted
+                    if($d->Admitted == 1 && $d->DAdmit) {
+                        $sheet->setCellValue('AA'.$row, Carbon::parse($d->DAdmit)->format('m/d/Y'));
+                        $sheet->getStyle('AA'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    }
+                    else {
+                        $sheet->setCellValue('AA'.$row, '');
+                    }
+
+                    // AB - RehydrationTherapy
+                    $sheet->setCellValue('AB'.$row, $d->IVTherapy);
+
+                    // AC - PreviousHospitalization
+                    $sheet->setCellValue('AC'.$row, $d->hospdiarrhea);
+
+                    // AD - DatePreviousHospitalization
+                    $sheet->setCellValue('AD'.$row, ($d->Datehosp) ? Carbon::parse($d->Datehosp)->format('m/d/Y') : '');
+                    $sheet->getStyle('AD'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+
+                    // AE - Vomitting
+                    $sheet->setCellValue('AE'.$row, $d->Vomiting);
+
+                    // AF - DateOnsetVomitting
+                    $sheet->setCellValue('AF'.$row, ($d->V_ONSET) ? Carbon::parse($d->V_ONSET)->format('m/d/Y') : '');
+                    $sheet->getStyle('AF'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+
+                    // AG - DehydrationDegree
+                    $sheet->setCellValue('AG'.$row, $d->DegDehy);
+
+                    // AH - Fever
+                    $sheet->setCellValue('AH'.$row, $d->Fever);
+
+                    // AI - AdmittingDiagnosis
+                    $sheet->setCellValue('AI'.$row, $d->AdmDx);
+
+                    // AJ - FinalDiagnosis
+                    $sheet->setCellValue('AJ'.$row, $d->FinalDx);
+
+                    // AK - DiarrheaCases
+                    $sheet->setCellValue('AK'.$row, $d->DiarrCases);
+
+                    // AL - DiarrheaCasesLocation
+                    $sheet->setCellValue('AL'.$row, ($d->DiarrCases == 'Y') ? implode(',', $diarr_cases) : '');
+
+                    // AM - RotavirusVaccine
+                    $sheet->setCellValue('AM'.$row, $d->RotaVirus);
+
+                    // AN - RotavirusVaccineDoses
+                    $sheet->setCellValue('AN'.$row, $d->RVDose);
+
+                    // AO - DateFirstDoseReceived
+                    $sheet->setCellValue('AO'.$row, ($d->D8RV1stDose) ? Carbon::parse($d->D8RV1stDose)->format('m/d/Y') : '');
+                    $sheet->getStyle('AO'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+
+                    // AP - DateLastDoseReceived
+                    $sheet->setCellValue('AP'.$row, ($d->D8RVLastDose) ? Carbon::parse($d->D8RVLastDose)->format('m/d/Y') : '');
+                    $sheet->getStyle('AP'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+
+                    // AQ - InvestigatorName
+                    $sheet->setCellValue('AQ'.$row, $d->Investigator);
+
+                    // AR - InvestigatorPosition
+                    $sheet->setCellValue('AR'.$row, $d->InvDesignation);
+
+                    // AS - InvestigatorContact
+                    $sheet->setCellValue('AS'.$row, $d->ContactNum);
+
+                    // AT - DateOfInvestigation
+                    $sheet->setCellValue('AT'.$row, ($d->DateInv) ? Carbon::parse($d->DateInv)->format('m/d/Y') : '');
+                    $sheet->getStyle('AT'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+
+                    // AU - DateReport
+                    $sheet->setCellValue('AU'.$row, ($d->DateRep) ? Carbon::parse($d->DateRep)->format('m/d/Y') : '');
+                    $sheet->getStyle('AU'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+
+                    // AV - CaseClassification
+                    $sheet->setCellValue('AV'.$row, $caseClass);
+
+                    // AW - Outcome
+                    $sheet->setCellValue('AW'.$row, $d->Outcome);
+
+                    // AX - DateDied
+                    $sheet->setCellValue('AX'.$row, ($d->DateDied) ? Carbon::parse($d->DateDied)->format('m/d/Y') : '');
+                    $sheet->getStyle('AX'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+
+                    // AY - SpecimenType
+                    $sheet->setCellValue('AY'.$row, ($d->D8StoolTaken) ? 'STL' : '');
+
+                    // AZ - DateSpecimenCollected
+                    $sheet->setCellValue('AZ'.$row, ($d->D8StoolTaken) ? Carbon::parse($d->D8StoolTaken)->format('m/d/Y') : '');
+                    $sheet->getStyle('AZ'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+
+                    // BA - LaboratorySenttoRITM
+                    $sheet->setCellValue('BA'.$row, ($d->D8StoolSent) ? 'Y' : 'N');
+
+                    // BB - DateSenttoRITM
+                    $sheet->setCellValue('BB'.$row, ($d->D8StoolSent) ? Carbon::parse($d->D8StoolSent)->format('m/d/Y') : '');
+                    $sheet->getStyle('BB'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+
+                    // BC - DateReceivedRITM
+                    $sheet->setCellValue('BC'.$row, ($d->D8StoolRecvd) ? Carbon::parse($d->D8StoolRecvd)->format('m/d/Y') : '');
+                    $sheet->getStyle('BC'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+
+                    // BD - LaboratoryResult
+                    $sheet->setCellValue('BD'.$row, '');
+
+                    // BE - TypeofOrganism
+                    $sheet->setCellValue('BE'.$row, '');
+
+                    // BF - TypeofTestConducted
+                    $sheet->setCellValue('BF'.$row, '');
+
+                    // BG - Interpretation
+                    $sheet->setCellValue('BG'.$row, '');
+
+                    // BH - SpecimenCondition_QtyIcePacks
+                    $sheet->setCellValue('BH'.$row, '');
+
+                    // BI - SpecimenCondition_NoIcePacks
+                    $sheet->setCellValue('BI'.$row, '');
+
+                    // BJ - SpecimenCondition_QtyofStool
+                    $sheet->setCellValue('BJ'.$row, '');
+
+                    // BK - PCRResults
+                    $sheet->setCellValue('BK'.$row, '');
+
+                    // BL - TimeReceivedbyRITMorSNL
+                    $sheet->setCellValue('BL'.$row, '');
+
+                    // BM - DateofTestingbyRITMorSNL
+                    $sheet->setCellValue('BM'.$row, '');
+
+                    // BN - DateofResultbyRITMorSNL
+                    $sheet->setCellValue('BN'.$row, '');
+
+                    // BO - LaboratoryRemarks
+                    $sheet->setCellValue('BO'.$row, '');
                 }
 
                 if($type == 'downloadCsv' || $export_unsubmitted) {
