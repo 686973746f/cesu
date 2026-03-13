@@ -156,6 +156,11 @@ ALTER TABLE leptospirosis
   DROP PRIMARY KEY,
   MODIFY COLUMN UniqueKey BIGINT UNSIGNED NOT NULL,
   ADD COLUMN id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST;
+
+  **ADDING FOREIGN KEY BRGY
+  ALTER TABLE rotavirus ADD brgy_id bigint UNSIGNED DEFAULT NULL AFTER Barangay;
+  ALTER TABLE rotavirus ADD KEY `rotavirus_brgy_id_foreign` (`brgy_id`);
+  ALTER TABLE rotavirus ADD CONSTRAINT `rotavirus_brgy_id_foreign` FOREIGN KEY (`brgy_id`) REFERENCES `edcs_brgies` (`id`) ON DELETE CASCADE;
 */
 
 class PIDSRController extends Controller
@@ -10979,7 +10984,149 @@ class PIDSRController extends Controller
             $c = Leptospirosis::create($table_params);
         }
         else if($disease == 'ROTAVIRUS') {
-            //TO BE IMPLEMENTED LATER
+            $match_casedef = 1;
+
+            $table_params = [
+                'RegionOfDrU' => $f->address_region,
+                'ProvOfDRU' => $f->address_province,
+                'MunCityOfDRU' => $f->address_muncity,
+                'DRU' => $f->getFacilityTypeShort(),
+                //'AddressOfDRU'
+                //'DRUContactNum'
+                'PatientNumber' => $r->PatientNumber,
+                'FullName' => $fullName,
+                'FirstName' => mb_strtoupper($r->fname),
+                'middle_name' => (!is_null($r->mname)) ? mb_strtoupper($r->mname) : NULL,
+                'suffix' => (!is_null($r->suffix)) ? mb_strtoupper($r->suffix) : NULL,
+                'FamilyName' => mb_strtoupper($r->lname),
+
+                //'MidName'
+                'AgeYears' => $get_ageyears,
+                'AgeMons' => $get_agemonths,
+                'AgeDays' => $get_agedays,
+                'Sex' => $r->sex,
+                'DOB' => $r->bdate,
+                'Region' => $b->city->province->region->short_name1,
+                'Province' => $b->city->province->name,
+                'Muncity' => $b->city->alt_name ?: $b->city->name,
+                'Barangay' => $b->alt_name ?: $b->name,
+                'brgy_id' => $b->id,
+                'Streetpurok' => mb_strtoupper($r->Streetpurok),
+                //'NHTS'
+                
+                'Admitted' => $r->Admitted,
+                'DAdmit' => ($r->Admitted == 'Y') ? $r->DAdmit : NULL,
+                'D_ONSET' => $r->DOnset,
+                'DateRep' => $r->entry_date,
+                'DateInv' => $r->entry_date,
+                'Investigator' => $r->sys_interviewer_name,
+                'ContactNum' => $r->sys_interviewer_contactno,
+                'InvDesignation' => $r->InvDesignation,
+
+                'Fever' => $r->fever,
+                //'Temp'
+                'hospdiarrhea' => $r->previous_hospitalization,
+                'Datehosp' => ($r->previous_hospitalization == 'Y') ? $r->prevhosp_date : NULL,
+
+                'IVTherapy' => ($r->Admitted == 'Y') ? $r->received_iv : 'N',
+                'Vomiting' => $r->vomiting,
+                'V_ONSET' => ($r->vomiting == '1Y') ? $r->vomiting_date : NULL,
+                'AdmDx' => ($r->filled('admitting_diagnosis')) ? mb_strtoupper($r->admitting_diagnosis) : NULL,
+                'FinalDx' => ($r->filled('final_diagnosis')) ? mb_strtoupper($r->final_diagnosis) : NULL,
+                'DegDehy' => $r->dehydration_degree,
+                'DiarrCases' => $r->more_diarrheacases,
+                'Community' => ($r->more_diarrheacases == 'Y' && in_array('COMMUNITY', $r->mdiarrhea)) ? 'Y' : 'N',
+                'HHold' => ($r->more_diarrheacases == 'Y' && in_array('HOUSEHOLD', $r->mdiarrhea)) ? 'Y' : 'N',
+                'School' => ($r->more_diarrheacases == 'Y' && in_array('SCHOOL', $r->mdiarrhea)) ? 'Y' : 'N',
+                
+                'RotaVirus' => $r->received_rotavaccine,
+                'RVDose' => ($r->received_rotavaccine == 'Y') ? $r->rv_dose : NULL,
+                'D8RV1stDose' => ($r->received_rotavaccine == 'Y') ? $r->rvrv_dose1_date_dose : NULL,
+                'D8RVLastDose' => ($r->received_rotavaccine == 'Y') ? $r->rv_dose2_date : NULL,
+                'StoolColl' => $r->stool_collected,
+                'D8StoolTaken' => ($r->stool_collected == 'Y') ? $r->stool_date : NULL,
+                'D8StoolSent' => ($r->stool_collected == 'Y') ? $r->stool_ritm_date : NULL,
+                //'D8StoolRecvd',
+                //'Amount',
+                //'StoolQty',
+                //'ElisaRes',
+                //'D8ElisaRes',
+                //'PCRRes',
+                //'OthPCRRes',
+                //'Genotype',
+                //'D8PCRRes',
+                //'SpecCond',
+                
+                'Outcome' => $r->outcome,
+                'DateDisch' => ($r->outcome == 'A') ? $r->outcome_date : NULL,
+                'DateDied' => ($r->outcome == 'D') ? $r->outcome_date : NULL,
+
+                'DateOfEntry' => $r->entry_date,
+                'AdmitToEntry' => $admitToEntry,
+                'OnsetToAdmit' => $OnsetToAdmit,
+                'MorbidityMonth' => $onsetDate->format('n'),
+                'MorbidityWeek' => $getMw->mw,
+                'Year' => $getMw->year,
+                'EPIID' => 'ROTAVIRUS_MPSS_TEMP_'.mb_strtoupper(Str::random(10)),
+                //'UniqueKey'
+                //'RECSTATUS'
+                //'SentinelSite'
+                //'DeleteRecord'
+                
+                'NameOfDru' => $f->facility_name,
+                //'ILHZ'
+                //'District'
+                //'TYPEHOSPITALCLINIC'
+                
+                'classification' => $r->classification,
+                'SENT' => 'Y',
+                'ip' => $r->ip,
+                'ipgroup' => ($r->ip == 'Y') ? mb_strtoupper($r->ipgroup) : NULL,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'systemsent' => 0,
+                //'enabled'
+                
+                
+                //'edcs_caseid'
+                'edcs_healthFacilityCode' => $health_facility_code,
+                'edcs_investigatorName' => mb_strtoupper($r->sys_interviewer_name),
+                'edcs_investigateDate' => $r->edcs_investigateDate,
+                'edcs_contactNo' => $r->sys_interviewer_contactno,
+                //'edcs_ageGroup'
+                //'edcs_verificationLevel'
+                'from_edcs' => 0,
+                'from_inhouse' => 1,
+                //'inhouse_exportedtocsv'
+                //'inhouse_exported_date'
+                //'encoded_mw'
+                'match_casedef' => $match_casedef,
+                //'system_notified'
+                //'edcs_userid'
+                //'edcs_last_modifiedby'
+                //'edcs_last_modified_date'
+                //'notify_email_sent'
+                //'notify_email_sent_datetime'
+                'edcs_patientcontactnum' => $r->contact_number,
+                'system_remarks' => $r->system_remarks,
+                //'brgy_remarks'
+                //'system_subdivision_id'
+                //'system_subdivision_name'
+                //'subdivision_group'
+                //'sys_coordinate_x'
+                //'sys_coordinate_y'
+                //'created_by'
+                //'cif_url'
+                //'labresult_url'
+                //'medicalchart_url'
+                //'otherattachments_url'
+                //'edcs_customgroup'
+                'dru_reg_code' => $dru_reg_code,
+                'dru_pro_code' => $dru_pro_code,
+                'dru_mun_code' => $dru_mun_code,
+            ];
+
+            $c = Rotavirus::create($table_params);
         }
 
         if(!$r->facility_code) {

@@ -2074,7 +2074,7 @@ class RotaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'SENT' => 'Y',
                 'hospdiarrhea' => ($row['did_patient_have_previous_hospitalization_due_to_diarrhea'] == 'Y') ? 'Y' : 'N',
                 'Datehosp' => EdcsImport::tDate($row['if_yes_date_of_hospitalization_health_facility']),
-                'classification' => $row['case_classification'],
+                'classification' => substr(mb_strtoupper($row['case_classification']),0,1),
                 'ip' => 'N',
                 'ipgroup' => NULL,
 

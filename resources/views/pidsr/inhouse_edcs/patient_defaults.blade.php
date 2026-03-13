@@ -10,6 +10,12 @@
             <label for="sys_interviewer_name"><b class="text-danger">*</b>Name of Reporter/Interviewer</label>
             <input type="text" class="form-control" name="sys_interviewer_name" id="sys_interviewer_name" value="{{old('sys_interviewer_name', $f->edcs_defaultreporter_name)}}" style="text-transform: uppercase;" required>
         </div>
+        @if(request()->input('disease') == 'ROTAVIRUS')
+        <div class="form-group">
+            <label for="InvDesignation"><b class="text-danger">*</b>Designation</label>
+            <input type="text" class="form-control" name="InvDesignation" id="InvDesignation" value="{{old('InvDesignation', $f->InvDesignation)}}" style="text-transform: uppercase;" required>
+        </div>
+        @endif
     </div>
     <div class="col-md-4">
         <div class="form-group">
