@@ -36,7 +36,7 @@ class AutoEmailCovidReportWeekly extends Command
     public function __construct()
     {
         parent::__construct();
-        DB::setDefaultConnection('cesureport2');
+        //DB::setDefaultConnection('cesureport2');
     }
 
     /**
