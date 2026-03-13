@@ -68,6 +68,10 @@
                           <label class="form-check-label">
                             <input type="checkbox" class="form-check-input" name="convert_flat" id="convert_flat" value="Y" checked>Download as Flat File <small>(This will make the address code as readable text form)</small></label>
                         </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="export_unsubmitted" id="export_unsubmitted" value="Y">Export Unsubmitted Records Only</label>
+                        </div>
                     </div>
                     
                     <div class="modal-footer">

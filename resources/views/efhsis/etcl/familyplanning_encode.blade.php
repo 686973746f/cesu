@@ -268,7 +268,7 @@
                     </div>
                     <div class="form-group">
                         <label for="visit_date_actual"><b class="text-danger">*</b>Actual Date of Visit</label>
-                        <input type="date" class="form-control" name="visit_date_actual" id="visit_date_actual" min="{{ date('Y-01-01', strtotime('-2 Years')) }}" max="{{date('Y-m-d')}}" value="{{old('visit_date_actual')}}" required>
+                        <input type="date" class="form-control" name="visit_date_actual" id="visit_date_actual" min="{{ Carbon\Carbon::parse($d->registration_date)->subYears(2)->format('Y-m-d') }}" max="{{date('Y-m-d')}}" value="{{old('visit_date_actual')}}" required>
                     </div>
                 </div>
                 <div class="modal-footer">

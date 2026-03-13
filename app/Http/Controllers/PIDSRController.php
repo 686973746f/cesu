@@ -10874,6 +10874,7 @@ class PIDSRController extends Controller
                     }
                 }
             }
+
             $table_params = [
                 //'Icd10Code' => $r->asd,
                 'RegionOfDrU' => $f->address_region,
@@ -11734,7 +11735,7 @@ class PIDSRController extends Controller
             return abort(404);
         }
 
-        return $this->callCsvTemplateMaker($disease, 'downloadCsv', $f, $r, false);
+        return $this->callCsvTemplateMaker($disease, 'downloadCsv', $f, $r, false, false);
     }
 
     public function processCsvTemplateDownloadEncoder(Request $r) {
@@ -11745,9 +11746,16 @@ class PIDSRController extends Controller
             $convert_flat = false;
         }
 
+        if($r->has('export_unsubmitted')) {
+            $export_unsubmitted = true;
+        }
+        else {
+            $export_unsubmitted = false;
+        }
+
         $f = DohFacility::where('sys_code1', auth()->user()->opdfacility->sys_code1)->first();
 
-        return $this->callCsvTemplateMaker($r->disease, 'extractAll', $f, $r, $convert_flat);
+        return $this->callCsvTemplateMaker($r->disease, 'extractAll', $f, $r, $convert_flat, $export_unsubmitted);
     }
 
     public function processCsvTemplateDownload($facility_code, Request $r) {
