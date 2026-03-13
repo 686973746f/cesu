@@ -77,6 +77,7 @@ return [
                 PDO::ATTR_PERSISTENT => false,
             ],
         ],
+        /*
 
         'mysqlforjson' => [
             'driver' => 'mysql',
@@ -157,7 +158,7 @@ return [
                 PDO::ATTR_PERSISTENT => false,
             ],
         ],
-
+        
         'cesusyndromic' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),
@@ -197,6 +198,7 @@ return [
                 PDO::ATTR_PERSISTENT => false,
             ],
         ],
+        */
 
         'pgsql' => [
             'driver' => 'pgsql',

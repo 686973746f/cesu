@@ -38,7 +38,7 @@ class AutoEmailCovidDatabase extends Command
     public function __construct()
     {
         parent::__construct();
-        DB::setDefaultConnection('mysqlcesuexp');
+        //DB::setDefaultConnection('mysqlcesuexp');
     }
 
     /**

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 class JsonReportController extends Controller
 {
     public function __construct() {
-        DB::setDefaultConnection('mysqlforjson');
+        //DB::setDefaultConnection('mysqlforjson');
     }
     
     public function totalCases() {

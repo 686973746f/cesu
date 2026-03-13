@@ -40,7 +40,7 @@ class AutoEmailReport extends Command
     public function __construct()
     {
         parent::__construct();
-        DB::setDefaultConnection('cesureport1');
+        //DB::setDefaultConnection('cesureport1');
     }
 
     /**

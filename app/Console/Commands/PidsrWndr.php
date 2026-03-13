@@ -69,7 +69,7 @@ class PidsrWndr extends Command
     public function __construct()
     {
         parent::__construct();
-        DB::setDefaultConnection('cesusyndromic');
+        //DB::setDefaultConnection('cesusyndromic');
     }
 
     /**
