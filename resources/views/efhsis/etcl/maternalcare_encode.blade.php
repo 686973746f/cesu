@@ -24,7 +24,8 @@
         <div class="card">
             <div class="card-header">
                 @if($mode == 'EDIT')
-                <b>Edit Maternal Care (ID: {{ $d->id }})</b>
+                <div><b>Edit Maternal Care (ID: {{ $d->id }})</b></div>
+                <div><b>BHS:</b> {{$d->facility->facility_name}}</div>
                 @else
                 <b>New Maternal Care</b>
                 @endif

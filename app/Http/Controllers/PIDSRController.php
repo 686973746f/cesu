@@ -11040,7 +11040,7 @@ class PIDSRController extends Controller
         ]);
     }
 
-    public static function callCsvTemplateMaker($disease, $type, $f, $r, $convert_flat) {
+    public static function callCsvTemplateMaker($disease, $type, $f, $r, $convert_flat, $export_unsubmitted = false) {
         if($disease == 'DENGUE') {
             $className = 'Dengue';
             $csvName = 'dengue';
@@ -11078,21 +11078,30 @@ class PIDSRController extends Controller
             ->get();
         }
         else if($type == 'extractAll') {
-            if(Auth::check()) {
-                $list = $modelClass::whereBetween('DateOfEntry', [$r->startDate, $r->endDate])
-                ->where('enabled', 1)
-                ->where('match_casedef', 1)
-                ->where(function ($q) {
-                    $q->where('Muncity', 'GENERAL TRIAS')
-                    ->orWhere('Muncity', 'CITY OF GENERAL TRIAS');
-                })
-                ->get();
+            if(!$export_unsubmitted) {
+                if(Auth::check()) {
+                    $list = $modelClass::whereBetween('DateOfEntry', [$r->startDate, $r->endDate])
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->where(function ($q) {
+                        $q->where('Muncity', 'GENERAL TRIAS')
+                        ->orWhere('Muncity', 'CITY OF GENERAL TRIAS');
+                    })
+                    ->get();
+                }
+                else {
+                    $list = $modelClass::where('edcs_healthFacilityCode', $f->healthfacility_code)
+                    ->whereBetween('DateOfEntry', [$r->startDate, $r->endDate])
+                    ->where('enabled', 1)
+                    ->where('match_casedef', 1)
+                    ->get();
+                }
             }
             else {
-                $list = $modelClass::where('edcs_healthFacilityCode', $f->healthfacility_code)
-                ->whereBetween('DateOfEntry', [$r->startDate, $r->endDate])
-                ->where('enabled', 1)
+                $list = $modelClass::where('enabled', 1)
                 ->where('match_casedef', 1)
+                ->where('inhouse_exportedtocsv', 0)
+                ->whereBetween('DateOfEntry', [$r->startDate, $r->endDate])
                 ->get();
             }
         }
@@ -11696,7 +11705,7 @@ class PIDSRController extends Controller
                     $sheet->setCellValue('BA'.$row, ''); //LaboratoryRemarks
                 }
 
-                if($type == 'downloadCsv') {
+                if($type == 'downloadCsv' || $export_unsubmitted) {
                     $d->inhouse_exportedtocsv = 1;
                     $d->inhouse_exported_date = date('Y-m-d H:i:s');
 
@@ -11712,7 +11721,12 @@ class PIDSRController extends Controller
                 $fileName = $disease.'_template_'.strtolower(Str::random(5)).'.csv';
             }
             else {
-                $fileName = $disease.'_database_'.strtolower(Str::random(5)).'.csv';
+                if($export_unsubmitted) {
+                    $fileName = $disease.'_template_'.strtolower(Str::random(5)).'.csv';
+                }
+                else {
+                    $fileName = $disease.'_database_'.strtolower(Str::random(5)).'.csv';
+                }
             }
             
             ob_clean();
@@ -11768,7 +11782,7 @@ class PIDSRController extends Controller
 
         $f = DohFacility::where('sys_code1', $facility_code)->first();
 
-        return $this->callCsvTemplateMaker($r->disease, 'extractAll', $f, $r, $convert_flat);
+        return $this->callCsvTemplateMaker($r->disease, 'extractAll', $f, $r, $convert_flat, false);
     }
 
     public function caseViewEditV2($disease, $id) {

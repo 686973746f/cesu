@@ -20,7 +20,6 @@
             @endif
 
             <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#downloadCsv">Download CSV Templates</button>
-            <a href="" class="btn btn-success btn-lg btn-block">View For Uploading</a>
             <hr>
             @include('pidsr.epdrone_body')
         </div>
@@ -75,7 +74,7 @@
                     </div>
                     
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success btn-block">Download</button>
+                        <button type="submit" class="btn btn-success btn-block" onclick="return confirm('Are you sure you want to download this report in this format? Kindly double check the details before proceeding.')">Download</button>
                     </div>
                 </div>
             </div>

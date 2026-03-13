@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+@php
+$disabled_export = true;
+@endphp
     <div class="container">
         <p>Today is: {{date('M. d, Y')}} - Morbidity Week: {{$mws_current_mw}}, Year {{$mws_current_year}}</p>
         <div class="card">
@@ -25,12 +28,12 @@
                 </div>
                 @endif
 
-                @if(Str::contains(request()->url(), 'facility_report'))
+                @if(Str::contains(request()->url(), 'facility_report') && !$disabled_export)
                 <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#edcsImportModal">View List of For Import to EDCS</button>
                 <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#downloadCsv">Download as CSV</button>
+                <hr>
                 @endif
                 
-                <hr>
                 <button type="button" class="btn btn-secondary mb-3" data-toggle="modal" data-target="#filterModal">Filter</button>
                 @include('pidsr.epdrone_body')
             </div>
@@ -136,6 +139,7 @@
         </div>
     </form>
 
+    @if(!$disabled_export)
     <div class="modal fade" id="edcsImportModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -204,4 +208,5 @@
             </div>
         </div>
     </form>
+    @endif
 @endsection
