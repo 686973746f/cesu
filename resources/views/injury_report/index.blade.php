@@ -10,10 +10,22 @@
                     <div><b>Injury Reporting Tool</b></div>
                 </div>
                 <div>
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addCase">New Injury/Vehicular Accident</button>
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#fwcsvmodal">Upload Fireworks Injury CSV (FWRI)</button>
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#injurymodal">Upload Injury CSV</button>
-                    <a href="{{route('fwri_index', $f->sys_code1)}}" class="btn btn-success">New Fireworks-Related Injury</a>
+                    <div>
+                        <div><b>For Manual Encoding:</b></div>
+                        <div>
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addCase">Add Injury/Vehicular Accident</button>
+                            <a href="{{route('fwri_index', $f->sys_code1)}}" class="btn btn-success">Add Fireworks-Related Injury</a>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <div><b>For Uploading (CSV):</b></div>
+                        <div>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fwcsvmodal">Upload Fireworks Injury CSV (FWRI)</button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#injurymodal">Upload Injury CSV</button>
+                        </div>
+                    </div>
+                    
+                    
                 </div>
             </div>
         </div>
