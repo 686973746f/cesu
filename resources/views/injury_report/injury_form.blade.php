@@ -3,13 +3,20 @@
 @section('content')
     <form action="{{ route('injury_add_store', $f->sys_code1) }}" method="POST">
         @csrf
+        <input type="hidden" name="request_uuid" value="{{Str::uuid()}}">
         <div class="container">
             <div class="card">
                 <div class="card-header"><b>New Injury</b></div>
                 <div class="card-body">
+                    @if(session('msg'))
+                    <div class="alert alert-{{ session('msgtype') }}" role="alert">
+                        {{ session('msg') }}
+                    </div>
+                    @endif
                     <div class="card">
                         <div class="card-header"><b>General Data</b></div>
                         <div class="card-body">
+                            <input type="hidden" name="age_in" value="{{request()->input('age_in')}}" name="age_in">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -43,7 +50,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="patient_type"><b class="text-danger">*</b>Type of Patient</label>
-                                        <select class="form-control" name="patient_type" id="sex" required>
+                                        <select class="form-control" name="patient_type" id="patient_type" required>
                                             <option value="" disabled {{(is_null(old('patient_type'))) ? 'selected' : ''}}>Choose...</option>
                                             <option value="ER" {{(old('patient_type') == 'ER') ? 'selected' : ''}}>ER</option>
                                             <option value="OPD" {{(old('patient_type') == 'OPD') ? 'selected' : ''}}>OPD</option>
@@ -113,6 +120,20 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="contact_no">Patient Contact Number</label>
+                                        <input type="text" class="form-control" id="contact_no" name="contact_no" value="{{old('contact_no')}}" pattern="[0-9]{11}" placeholder="09*********">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="contact_no2">Alternative Contact Number</label>
+                                        <input type="text" class="form-control" id="contact_no2" name="contact_no2" value="{{old('contact_no2')}}" pattern="[0-9]{11}" placeholder="09*********">
+                                    </div>
+                                </div>
+                            </div>
                             <hr>
                             <div class="row">
                                 <div class="col-md-6">
@@ -141,6 +162,10 @@
                                                 <label for="address_brgy_code"><b class="text-danger">*</b>Barangay</label>
                                                 <select class="form-control" name="perm_brgy_code" id="address_brgy_code" required disabled>
                                                 </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="perm_streetpurok">Street/Purok</label>
+                                                <input type="text" class="form-control" name="perm_streetpurok" id="perm_streetpurok" style="text-transform: uppercase;" value="{{old('perm_streetpurok')}}" required>
                                             </div>
                                         </div>
                                     </div>
@@ -181,6 +206,10 @@
                                                     <select class="form-control" name="temp_brgy_code" id="temp_address_brgy_code" disabled>
                                                     </select>
                                                 </div>
+                                                <div class="form-group">
+                                                    <label for="temp_streetpurok">Street/Purok</label>
+                                                    <input type="text" class="form-control" name="temp_streetpurok" id="temp_streetpurok" style="text-transform: uppercase;" value="{{old('temp_streetpurok')}}">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -217,11 +246,20 @@
                                         <select class="form-control" name="injury_city_code" id="inj_address_muncity_code" required disabled>
                                         </select>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="inj_address_brgy_code">Injury Barangay</label>
+                                        <select class="form-control" name="inj_address_brgy_code" id="inj_address_brgy_code" disabled>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="injury_place">Injury Place (Street/Purok/Subdivision)</label>
+                                      <input type="text" class="form-control" name="injury_place" id="injury_place" style="text-transform: uppercase;" value="{{old('injury_place')}}">
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="consultation_datetime"><b class="text-danger">*</b>Date of Consultation</label>
-                                        <input type="datetime-local" class="form-control" name="consultation_datetime" id="consultation_datetime" value="{{request()->input('consultation_datetime')}}" readonly required>
+                                        <input type="datetime-local" class="form-control" name="consultation_datetime" id="consultation_datetime" value="{{request()->input('consultation_datetime')}}" tabindex="-1" readonly required>
                                     </div>
                                 </div>
                             </div>
@@ -1050,6 +1088,11 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="form-group">
+                      <label for="remarks">Notes/Remarks (Optional)</label>
+                      <textarea class="form-control" name="remarks" id="remarks" rows="3">{{old('remarks')}}</textarea>
+                    </div>
                 </div>
                 <div class="card-footer">
                     <button type="submit" class="btn btn-success btn-block">Submit</button>
@@ -1582,6 +1625,41 @@
             }
         });
 
+        $('#inj_address_muncity_code').change(function (e) { 
+            e.preventDefault();
+
+            var cityId = $(this).val();
+            var getBrgyUrl = "{{ route('address_get_brgy', ['city_id' => ':cityId']) }}";
+
+            if (cityId) {
+                $('#inj_address_province_code').prop('disabled', false);
+                $('#inj_address_muncity_code').prop('disabled', false);
+                $('#inj_address_brgy_code').prop('disabled', false);
+
+                $('#inj_address_brgy_code').empty();
+
+                $.ajax({
+                    url: getBrgyUrl.replace(':cityId', cityId),
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#inj_address_brgy_code').empty();
+                        $('#inj_address_brgy_code').append('<option value="" disabled selected>Select Barangay</option>');
+
+                        let sortedData = Object.entries(data).sort((a, b) => {
+                            return a[1].localeCompare(b[1]); // Compare province names (values)
+                        });
+
+                        $.each(sortedData, function(key, value) {
+                            $('#inj_address_brgy_code').append('<option value="' + value[0] + '">' + value[1] + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#inj_address_brgy_code').empty();
+            }
+        });
+
         $('#sys_occupationtype').change(function (e) { 
             e.preventDefault();
             if($(this).val() == 'WORKING' || $(this).val() == 'STUDENT') {
@@ -1626,6 +1704,7 @@
             $('#temp_address_province_code').prop('required', false);
             $('#temp_address_muncity_code').prop('required', false);
             $('#temp_brgy_code').prop('required', false);
+            $('#temp_streetpurok').prop('required', false);
 
             if($(this).val() == 'N') {
                 $('#temp_div').removeClass('d-none');
@@ -1633,6 +1712,7 @@
                 $('#temp_address_province_code').prop('required', true);
                 $('#temp_address_muncity_code').prop('required', true);
                 $('#temp_brgy_code').prop('required', true);
+                $('#temp_streetpurok').prop('required', true);
             }
         }).trigger('change');
 
@@ -1930,7 +2010,7 @@
             $('#inp_disposition').prop('required', false);
             $('#inp_outcome').prop('required', false);
 
-            if($(this).val() == 'OTHERS') {
+            if($(this).val() == 'TRANSFERRED TO ANOTHER FACILITY/HOSPITAL') {
                 $('#dispo_div').removeClass('d-none');
                 $('#disposition_transferred').prop('required', true);
             }
@@ -1963,11 +2043,11 @@
         $('#transfer_hospital').change(function (e) { 
             e.preventDefault();
             
-            $('#otherhp_div').removeClass('d-none');
+            $('#otherhp_div').addClass('d-none');
             $('#orig_hospital').prop('required', false);
 
             if($(this).val() == 'Y' || $('#referred_hospital').val() == 'Y') {
-                $('#otherhp_div').addClass('d-none');
+                $('#otherhp_div').removeClass('d-none');
                 $('#orig_hospital').prop('required', true);
             }
         }).trigger('change');
@@ -1975,11 +2055,11 @@
         $('#referred_hospital').change(function (e) { 
             e.preventDefault();
             
-            $('#otherhp_div').removeClass('d-none');
+            $('#otherhp_div').addClass('d-none');
             $('#orig_hospital').prop('required', false);
 
             if($(this).val() == 'Y' || $('#transfer_hospital').val() == 'Y') {
-                $('#otherhp_div').addClass('d-none');
+                $('#otherhp_div').removeClass('d-none');
                 $('#orig_hospital').prop('required', true);
             }
         }).trigger('change');

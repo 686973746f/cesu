@@ -62,12 +62,12 @@ class CreateInjuriesTable extends Migration
             //PRE-ADMISSION DATA
             $table->foreignId('injury_city_code')->constrained('edcs_cities')->onDelete('cascade');
             $table->foreignId('injury_brgy_code')->nullable()->constrained('edcs_brgies')->onDelete('cascade');
+            $table->string('injury_place')->nullable();
 
             $table->dateTime('injury_datetime')->nullable();
             $table->dateTime('encounter_datetime')->nullable();
 
             $table->string('injury_intent');
-            $table->string('vawc', 1);
             $table->string('firstaid_given', 1);
             $table->string('firstaid_type')->nullable();
             $table->string('firstaid_bywho')->nullable();
@@ -180,6 +180,7 @@ class CreateInjuriesTable extends Migration
             //$table->integer('report_month');
             //$table->integer('report_week');
             $table->timestamps();
+            $table->uuid('request_uuid')->unique();
         });
     }
 

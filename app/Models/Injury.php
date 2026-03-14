@@ -26,6 +26,7 @@ class Injury extends Model
         'oneiss_patfacilityno',
         'oneiss_regno',
         'oneiss_tempregno',
+        
         'hosp_no',
         'hosp_reg_no',
         'hosp_cas_no',
@@ -39,11 +40,12 @@ class Injury extends Model
         'age_years',
         'age_months',
         'age_days',
+
         'perm_streetpurok',
         'perm_city_code',
         'perm_brgy_code',
-        'tempaddress_sameasperm',
 
+        'tempaddress_sameasperm',
         'temp_streetpurok',
         'temp_city_code',
         'temp_brgy_code',
@@ -53,6 +55,7 @@ class Injury extends Model
         'philhealth',
         'injury_city_code',
         'injury_brgy_code',
+        'injury_place',
         'injury_datetime',
         'consultation_datetime',
         'injury_intent',
@@ -150,5 +153,6 @@ class Injury extends Model
         'remarks',
         'qr',
         'created_by',
+        'request_uuid',
     ];
 }
