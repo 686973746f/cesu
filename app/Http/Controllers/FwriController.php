@@ -16,6 +16,28 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class FwriController extends Controller
 {
     public function index($code) {
+        $currentDate = Carbon::now();
+
+        if($currentDate->month == 12) {
+            if($currentDate->day >= 21 && $currentDate->day <= 31) {
+            
+            }
+            else {
+                return abort(403, 'Not currently on reporting period.');
+            }
+        }
+        else if($currentDate->month == 1) {
+            if($currentDate->day >= 1 && $currentDate->day <= 5) {
+            
+            }
+            else {
+                return abort(403, 'Not currently on reporting period.');
+            }
+        }
+        else {
+            return abort(403, 'Not currently on reporting period.');
+        }
+
         $s = BarangayHealthStation::where('sys_code1', $code)->first();
         
         if(!($s)) {
