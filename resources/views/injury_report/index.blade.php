@@ -18,7 +18,7 @@
                         </div>
                     </div>
                     <div class="mt-3">
-                        <div><b>For Uploading (CSV):</b></div>
+                        <div><b>For Uploading (ONEISS CSV):</b></div>
                         <div>
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fwcsvmodal">Upload Fireworks Injury CSV (FWRI)</button>
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#injurymodal">Upload Injury CSV</button>
@@ -52,9 +52,10 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach($list as $l)
                         <tr>
-                            <td></td>
-                            <td></td>
+                            <td class="text-center"></td>
+                            <td>{{$l->getName()}}</td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -63,6 +64,7 @@
                             <td></td>
                             <td></td>
                         </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

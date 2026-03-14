@@ -20,7 +20,9 @@ class InjuryController extends Controller
         $f = DohFacility::where('sys_code1', $code)->first();
 
         if($f) {
-            return view('injury_report.index', compact('f'));
+            $list = Injury::where('oneiss_patfacilityno', $f->facility_name)->paginate(10);
+
+            return view('injury_report.index', compact('f', 'list'));
         }
         else {
             return abort(401);
@@ -163,6 +165,7 @@ class InjuryController extends Controller
         }
         
         $table_params = [
+            'oneiss_patfacilityno' => $f->facility_name,
             'date_report' => Carbon::parse($r->consulation_datetime)->format('Y-m-d H:i:s'),
             'facility_id' => $f->id,
             'reported_by' => $r->sys_interviewer_name,

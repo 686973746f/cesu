@@ -155,4 +155,19 @@ class Injury extends Model
         'created_by',
         'request_uuid',
     ];
+
+    public function getName() {
+        $fullname = $this->lname.", ".$this->fname;
+
+        if(!is_null($this->mname)) {
+            $fullname = $fullname." ".$this->mname;
+        }
+
+        if(!is_null($this->suffix)) {
+            $fullname = $fullname." ".$this->suffix;
+        }
+
+        return $fullname;
+        //return $this->lname.", ".$this->fname.' '.$this->suffix." ".$this->mname;
+    }
 }
