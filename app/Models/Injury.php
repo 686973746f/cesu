@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Injury extends Model
 {
@@ -59,7 +61,6 @@ class Injury extends Model
         'injury_datetime',
         'consultation_datetime',
         'injury_intent',
-        'vawc',
         'firstaid_given',
         'firstaid_type',
         'firstaid_bywho',
@@ -169,5 +170,91 @@ class Injury extends Model
 
         return $fullname;
         //return $this->lname.", ".$this->fname.' '.$this->suffix." ".$this->mname;
+    }
+
+    public function getAgeString() {
+        if(!is_null($this->bdate)) {
+            if(Carbon::parse($this->attributes['bdate'])->age > 0) {
+                return Carbon::parse($this->attributes['bdate'])->age .' '. Str::plural('year', $this->age_years);
+            }
+            else {
+                if (Carbon::parse($this->attributes['bdate'])->diff(\Carbon\Carbon::now())->format('%m') == 0) {
+                    return Carbon::parse($this->attributes['bdate'])->diff(\Carbon\Carbon::now())->format('%d DAYS');
+                }
+                else {
+                    return Carbon::parse($this->attributes['bdate'])->diff(\Carbon\Carbon::now())->format('%m MOS');
+                }
+            }
+        }
+        else {
+            if(!is_null($this->age_years)) {
+                return $this->age_years .' '. Str::plural('year', $this->age_years);
+            }
+            else if(!is_null($this->age_months)) {
+                return $this->age_months .' '. Str::plural('month', $this->age_months);
+            }
+            else if(!is_null($this->age_days)) {
+                return $this->age_days .' '. Str::plural('month', $this->age_days);
+            }
+        }
+    }
+
+    public function brgy() {
+        return $this->belongsTo(EdcsBrgy::class, 'perm_brgy_code');
+    }
+
+    public function tempbrgy() {
+        return $this->belongsTo(EdcsBrgy::class, 'temp_brgy_code');
+    }
+
+    public function injurybrgy() {
+        return $this->belongsTo(EdcsBrgy::class, 'injury_brgy_code');
+    }
+
+    public function injurycity() {
+        return $this->belongsTo(EdcsCity::class, 'injury_city_code');
+    }
+
+    public function getInjuriesList() {
+        $array = [];
+
+        if($this->abrasion == 'Y') {
+            $array[] = 'Abrasion';
+        }
+        if($this->avulsion == 'Y') {
+            $array[] = 'Avulsion';
+        }
+        if($this->burn == 'Y') {
+            $array[] = 'Burn';
+        }
+        if($this->concussion == 'Y') {
+            $array[] = 'Concussion';
+        }
+        if($this->contusion == 'Y') {
+            $array[] = 'Contusion';
+        }
+        if($this->fracture == 'Y') {
+            $array[] = 'Fracture';
+        }
+        if($this->open_wound == 'Y') {
+            $array[] = 'Open Wound';
+        }
+        if($this->traumatic_amputation == 'Y') {
+            $array[] = 'Traumatic Amputation';
+        }
+        if($this->others == 'Y') {
+            $array[] = "Others ($this->others_site)";
+        }
+
+        return implode(', ', $array);
+    }
+
+    public function getInjuryBrgy() {
+        if(!is_null($this->injury_brgy_code)) {
+            return $this->injurybrgy->name;
+        }
+        else {
+            return 'N/A';
+        }
     }
 }

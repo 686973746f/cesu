@@ -20,7 +20,9 @@ class InjuryController extends Controller
         $f = DohFacility::where('sys_code1', $code)->first();
 
         if($f) {
-            $list = Injury::where('oneiss_patfacilityno', $f->facility_name)->paginate(10);
+            $list = Injury::where('oneiss_patfacilityno', $f->facility_name)
+            ->orderBy('created_at', 'DESC')
+            ->paginate(10);
 
             return view('injury_report.index', compact('f', 'list'));
         }

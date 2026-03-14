@@ -49,24 +49,44 @@
                             <th>Injury Location</th>
                             <th>Involvement Type</th>
                             <th>Type of Injury</th>
+                            <th>Disposition</th>
+                            <th>Outcome</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($list as $l)
                         <tr>
-                            <td class="text-center"></td>
+                            <td class="text-center">{{Carbon\Carbon::parse($l->created_at)->format('m/d/Y h:i A')}}</td>
                             <td>{{$l->getName()}}</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td class="text-center">{{$l->getAgeString()}}</td>
+                            <td class="text-center">{{$l->sex}}</td>
+                            <td class="text-center">
+                                <small>
+                                    <div>Street/Purok: {{$l->perm_streetpurok}}</div>
+                                    <div>Barangay: {{$l->brgy->name}}</div>
+                                    <div>City/Province: {{$l->brgy->city->name}}, {{$l->brgy->city->province->name}}</div>
+                                </small>
+                            </td>
+                            <td class="text-center">{{Carbon\Carbon::parse($l->injury_datetime)->format('m/d/Y h:i A')}}</td>
+                            <td class="text-center">
+                                <small>
+                                    <div>Street/Purok: {{$l->perm_streetpurok}}</div>
+                                    <div>Barangay: {{$l->getInjuryBrgy()}}</div>
+                                    <div>City/Province: {{$l->injurycity->name}}, {{$l->injurycity->province->name}}</div>
+                                </small>
+                            </td>
+                            <td class="text-center">{{$l->injury_intent}}</td>
+                            <td class="text-center">{{$l->getInjuriesList()}}</td>
+                            <td class="text-center">{{$l->disposition}}</td>
+                            <td class="text-center">{{$l->outcome}}</td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
+
+                <div class="pagination justify-content-center mt-3">
+                    {{$list->appends(request()->input())->links()}}
+                </div>
             </div>
         </div>
     </div>
