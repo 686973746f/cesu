@@ -219,17 +219,20 @@
                                 <tr>
                                     @foreach($week_array as $w)
                                     @php
-                                    if($w == '✔' || $w == '✔Z') {
+                                    if($w['type'] == '✔' || $w['type'] == '✔Z') {
                                         $text_color = 'bg-success';
                                     }
-                                    else if($w == 'X') {
+                                    else if($w['type'] == 'X') {
                                         $text_color = 'bg-danger';
                                     }
                                     else {
                                         $text_color = 'bg-warning';
                                     }
                                     @endphp
-                                    <td class="{{$text_color}}">{{$w}}</td>
+                                    <td class="{{$text_color}}">
+                                        <div>{{$w['type']}}</div>
+                                        <div><small>{{$w['date_submitted']}}</small></div>
+                                    </td>
                                     @endforeach
                                 </tr>
                             </tbody>

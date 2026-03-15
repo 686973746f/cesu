@@ -12367,10 +12367,16 @@ class PIDSRController extends Controller
             ->first();
 
             if($w_check) {
-                $week_array[] = $w_check->getAlreadySubmittedTypeSimplified();
+                $week_array[] = [
+                    'type' => $w_check->getAlreadySubmittedTypeSimplified(),
+                    'date_submitted' => Carbon::parse($w_check->created_at)->format('m/d/Y (D) h:i A'),
+                ];
             }
             else {
-                $week_array[] = 'X';
+                $week_array[] = [
+                    'type' => 'X',
+                    'date_submitted' => null,
+                ];
             }
         }
 
