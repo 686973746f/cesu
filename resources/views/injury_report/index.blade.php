@@ -63,8 +63,8 @@
                             <td class="text-center">
                                 <small>
                                     <div>Street/Purok: {{$l->perm_streetpurok}}</div>
-                                    <div>Barangay: {{$l->brgy->name}}</div>
-                                    <div>City/Province: {{$l->brgy->city->name}}, {{$l->brgy->city->province->name}}</div>
+                                    <div>Barangay: {{($l->brgy) ? $l->brgy->name : 'N/A'}}</div>
+                                    <div>City/Province: {{($l->brgy) ? $l->brgy->city->name.', '.$l->brgy->city->province->name : 'N/A'}}</div>
                                 </small>
                             </td>
                             <td class="text-center">{{Carbon\Carbon::parse($l->injury_datetime)->format('m/d/Y h:i A')}}</td>
