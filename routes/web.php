@@ -91,7 +91,7 @@ Auth::routes(['verify' => true]);
 
 Route::get('/verify/{qr}', [OutsideController::class, 'qrcodeverify'])->name('qrcodeverify.index');
 
-Route::get('/test', [TestController::class, 'index']);
+Route::get('/test-wdym', [TestController::class, 'index']);
 
 Route::get('/email/verify', function () {
     return view('auth.verify');
