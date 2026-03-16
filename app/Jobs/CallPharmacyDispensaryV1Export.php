@@ -60,7 +60,7 @@ class CallPharmacyDispensaryV1Export implements ShouldQueue
             $q = $q->where('type', 'ISSUED');
 
             if ($this->select_branch !== 'ALL') {
-                $q->whereHas('pharmacysub', fn ($qq) => $qq->where('pharmacy_branch_id', $this->select_branch));
+                $q = $q->whereHas('pharmacysub', fn ($qq) => $qq->where('pharmacy_branch_id', $this->select_branch));
             }
 
             $fileName = 'PHARMACY_MEDICINE_DISPENSARY_V1_' . $start->format('Ymd') . '_' . $end->format('Ymd') . '_' . now()->format('His') . '.xlsx';
