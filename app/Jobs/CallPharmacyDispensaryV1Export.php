@@ -54,7 +54,7 @@ class CallPharmacyDispensaryV1Export implements ShouldQueue
                 $q = PharmacyStockCard::whereDate('created_at', $start->format('Y-m-d'));
             }
             else {
-                $q = PharmacyStockCard::whereBetween('created_at', [$start->fomat('Y-m-d H:i:s'), $end->format('Y-m-d H:i:s')]);
+                $q = PharmacyStockCard::whereBetween('created_at', [$start->format('Y-m-d H:i:s'), $end->format('Y-m-d H:i:s')]);
             }
 
             $q = $q->where('status', 'APPROVED')
@@ -112,7 +112,6 @@ class CallPharmacyDispensaryV1Export implements ShouldQueue
                 'filename' => $fileName,
                 'date_finished' => date('Y-m-d H:i:s'),
             ]);
-            
         } catch (\Exception $e) {
             // Update job status to failed
             ExportJobs::where('id', $this->task_id)->update([
