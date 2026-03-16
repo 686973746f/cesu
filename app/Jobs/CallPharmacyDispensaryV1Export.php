@@ -75,6 +75,8 @@ class CallPharmacyDispensaryV1Export implements ShouldQueue
                     });
                 });
             }
+            
+            $q = $q->orderBy('created_at', 'DESC');
 
             $fileName = 'PHARMACY_MEDICINE_DISPENSARY_V1_' . $start->format('Ymd') . '_' . $end->format('Ymd') . '_' . now()->format('His') . '.xlsx';
             $directory = storage_path('export_jobs');
