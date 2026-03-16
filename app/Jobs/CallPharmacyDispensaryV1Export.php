@@ -93,7 +93,7 @@ class CallPharmacyDispensaryV1Export implements ShouldQueue
                         'AGE' => $age,
                         'SEX' => $sex,
                         'BARANGAY' => $barangay,
-                        'MEDICINE GIVEN' => $f->pharmacysub->pharmacysupplymaster->name,
+                        'MEDICINE GIVEN' => $f->substock->pharmacysub->pharmacysupplymaster->name,
                         'QUANTITY' => $f->qty_to_process.' '.Str::plural($f->qty_type, $f->qty_to_process),
                         'ENCODER' => $f->user->name,
                     ];
