@@ -51,16 +51,19 @@ class CallPharmacyDispensaryV1Export implements ShouldQueue
             $end   = Carbon::parse($this->end)->endOfDay();
 
             if(Carbon::parse($start)->isSameDay(Carbon::parse($end))) {
-                $q = PharmacyStockCard::where('created_at', $start->format('Y-m-d'));
+                $q = PharmacyStockCard::whereDate('created_at', $start->format('Y-m-d'));
             }
             else {
-                $q = PharmacyStockCard::whereBetween('created_at', [$start->fomat('Y-m-d H:i:s', $end->format('Y-m-d H:i:s'))]);
+                $q = PharmacyStockCard::whereBetween('created_at', [$start->fomat('Y-m-d H:i:s'), $end->format('Y-m-d H:i:s')]);
             }
 
-            $q = $q->where('type', 'ISSUED');
+            $q = $q->where('status', 'APPROVED')
+            ->where('type', 'ISSUED');
 
             if ($this->select_branch !== 'ALL') {
-                $q = $q->whereHas('pharmacysub', fn ($qq) => $qq->where('pharmacy_branch_id', $this->select_branch));
+                $q = $q->whereHas('substock.pharmacysub', function ($r) {
+                    $r->where('pharmacy_branch_id', $this->select_branch);
+                });
             }
 
             $fileName = 'PHARMACY_MEDICINE_DISPENSARY_V1_' . $start->format('Ymd') . '_' . $end->format('Ymd') . '_' . now()->format('His') . '.xlsx';
