@@ -20,6 +20,7 @@ class CreateExportJobsTable extends Migration
             $table->string('type');
             $table->string('status');
             $table->dateTime('date_finished')->nullable();
+            $table->text('error_message')->nullable();
             $table->text('filename')->nullable();
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreignId('facility_id')->nullable()->constrained('doh_facilities')->onDelete('cascade');

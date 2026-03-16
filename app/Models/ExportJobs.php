@@ -15,6 +15,7 @@ class ExportJobs extends Model
         'type',
         'status',
         'date_finished',
+        'error_message',
         'filename',
         'created_by',
         'facility_id',

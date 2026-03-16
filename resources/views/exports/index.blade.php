@@ -49,13 +49,16 @@
                                     @endphp
 
                                     <div><i>Finished on: {{$minutesToFinish}} minutes</i></div>
+                                    @elseif($d->status == 'failed')
+                                    <div><i>Error: {{$d->error_message}}</i></div>
                                     @endif
+                                    
                                 </td>
                                 <td class="text-center">
-                                    @if($d->for_module != 'COVID')
+                                    @if($d->for_module != 'COVID' )
                                     <form action="{{route('export_download_file', $d->id)}}" method="POST">
                                         @csrf
-                                        <button type="submit" class="btn btn-success" {{($d->status == 'pending') ? 'disabled' : ''}}>Download</button>
+                                        <button type="submit" class="btn btn-success" {{($d->status == 'pending' || $d->status == 'failed') ? 'disabled' : ''}}>Download</button>
                                     </form>
                                     @else
                                     -

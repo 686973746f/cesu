@@ -49,10 +49,15 @@ class CallPharmacyDispensaryV1Export implements ShouldQueue
         try {
             $start = Carbon::parse($this->start)->startOfDay();
             $end   = Carbon::parse($this->end)->endOfDay();
-            
-            $q = PharmacyStockCard::query()
-            ->whereBetween('created_at', [$this->start, $this->end])
-            ->where('type', 'ISSUED');
+
+            if(Carbon::parse($start)->isSameDay(Carbon::parse($end))) {
+                $q = PharmacyStockCard::where('created_at', $start->format('Y-m-d'));
+            }
+            else {
+                $q = PharmacyStockCard::whereBetween('created_at', [$start->fomat('Y-m-d H:i:s', $end->format('Y-m-d H:i:s'))]);
+            }
+
+            $q = $q->where('type', 'ISSUED');
 
             if ($this->select_branch !== 'ALL') {
                 $q->whereHas('pharmacysub', fn ($qq) => $qq->where('pharmacy_branch_id', $this->select_branch));
