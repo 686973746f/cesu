@@ -61,8 +61,18 @@ class CallPharmacyDispensaryV1Export implements ShouldQueue
             ->where('type', 'ISSUED');
 
             if ($this->select_branch !== 'ALL') {
+                /*
                 $q = $q->whereHas('substock.pharmacysub', function ($r) {
                     $r->where('pharmacy_branch_id', $this->select_branch);
+                });
+                */
+                $q = $q->where(function ($r) {
+                    $r->whereHas('substock.pharmacysub', function ($s) {
+                        $s->where('pharmacy_branch_id', $this->select_branch);
+                    })
+                    ->orWhereHas('pharmacysub', function ($s) {
+                        $s->where('pharmacy_branch_id', $this->select_branch);
+                    });
                 });
             }
 
@@ -93,7 +103,7 @@ class CallPharmacyDispensaryV1Export implements ShouldQueue
                         'AGE' => $age,
                         'SEX' => $sex,
                         'BARANGAY' => $barangay,
-                        'MEDICINE GIVEN' => $f->substock->pharmacysub->pharmacysupplymaster->name,
+                        'MEDICINE GIVEN' => (!is_null($f->stock_id)) ? $f->substock->pharmacysub->pharmacysupplymaster->name : $f->pharmacysub->pharmacysupplymaster->name,
                         'QUANTITY' => $f->qty_to_process.' '.Str::plural($f->qty_type, $f->qty_to_process),
                         'ENCODER' => $f->user->name,
                     ];
