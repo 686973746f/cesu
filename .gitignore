@@ -14,3 +14,4 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 public/images/vendor/flag-icon-css/flags/
+storage/export_jobs/
