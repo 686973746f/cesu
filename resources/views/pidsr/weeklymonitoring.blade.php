@@ -23,7 +23,9 @@
                             @foreach($final_array as $ind => $i)
                             <tr>
                                 <td class="text-center">{{$ind + 1}}</td>
-                                <td><b>{{$i['name']}}</b></td>
+                                <td>
+                                    <a href="{{route('facility_report_index', [$i['sys_code1']])}}" target="_blank"><b>{{$i['name']}}</b></a>
+                                </td>
                                 @foreach($i['weeks'] as $w)
                                 @php
                                 if($w == 'ZERO CASE') {

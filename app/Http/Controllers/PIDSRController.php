@@ -9486,6 +9486,7 @@ class PIDSRController extends Controller
 
             $final_array[] = [
                 'name' => $f->facility_name,
+                'sys_code1' => $f->sys_code1,
                 'weeks' => $week_array,
             ];
         }
