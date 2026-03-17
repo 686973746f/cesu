@@ -203,6 +203,7 @@ class CallPharmacyAnnualInOutReport implements ShouldQueue
         $branch_id = $this->branch_id;
 
         $cstart_date = Carbon::parse($start_date);
+        $cyear = $cstart_date->year;
         $cend_date = Carbon::parse($end_date);
         
         $input_year = $cend_date->format('Y');
@@ -252,8 +253,52 @@ class CallPharmacyAnnualInOutReport implements ShouldQueue
             $monthlyStocks = [];
 
             for($i = 1; $i <= $maxValMonth; $i++) {
-                $nomonth = Carbon::create()->month($i)->format('n');
+                $start_month = Carbon::createFromDate($cyear, $i, 1)->startOfDay();
+                $end_month = $start_month->copy()->endOfMonth()->endOfDay();
 
+                $issued_count = PharmacyStockCard::where(function ($q) use ($item) {
+                    $q->where('subsupply_id', $item['id'])
+                    ->orWhereHas('substock', function ($r) use ($item) {
+                        $r->where('subsupply_id', $item['id']);
+                    });
+                })
+                ->whereBetween('created_at', [$start_month->format('Y-m-d H:i:s'), $end_month->format('Y-m-d H:i:s')])
+                ->where('status', 'approved')
+                ->where('type', 'ISSUED')
+                ->sum('qty_to_process');
+
+                $received_count = PharmacyStockCard::where(function ($q) use ($item) {
+                    $q->where('subsupply_id', $item['id'])
+                    ->orWhereHas('substock', function ($r) use ($item) {
+                        $r->where('subsupply_id', $item['id']);
+                    });
+                })
+                ->whereBetween('created_at', [$start_month->format('Y-m-d H:i:s'), $end_month->format('Y-m-d H:i:s')])
+                ->where('status', 'approved')
+                ->where('type', 'RECEIVED')
+                ->sum('qty_to_process');
+
+                if($issued_count == 0) {
+                    $issued_txt = '';
+                }
+                else {
+                    $issued_txt = '- '.$issued_count.' '.Str::plural('PC', $issued_count);
+                }
+
+                if($received_count == 0) {
+                    $received_txt = '';
+                }
+                else {
+                    $received_txt = '+ '.$received_count.' '.Str::plural('PC', $received_count);
+                }
+                
+                $monthlyStocks[] = [
+                    'month' => Carbon::create()->month($i)->format('F'),
+                    'issued' => $issued_txt,
+                    'received' => $received_txt,
+                ];
+
+                /*
                 if($item['unit'] == 'BOX') {
                     $issued_count = PharmacyStockCard::where('subsupply_id', $item['id'])
                     ->whereBetween('created_at', [$start_date, $end_date])
@@ -322,38 +367,11 @@ class CallPharmacyAnnualInOutReport implements ShouldQueue
                     
                 }
                 else {
-                    $issued_count = PharmacyStockCard::where('subsupply_id', $item['id'])
-                    ->whereBetween('created_at', [$start_date, $end_date])
-                    ->where('status', 'approved')
-                    ->where('type', 'ISSUED')
-                    ->sum('qty_to_process');
-
-                    $received_count = PharmacyStockCard::where('subsupply_id', $item['id'])
-                    ->whereBetween('created_at', [$start_date, $end_date])
-                    ->where('status', 'approved')
-                    ->where('type', 'RECEIVED')
-                    ->sum('qty_to_process');
-
-                    if($issued_count == 0) {
-                        $issued_txt = '';
-                    }
-                    else {
-                        $issued_txt = '- '.$issued_count.' '.Str::plural('PC', $issued_count);
-                    }
-
-                    if($received_count == 0) {
-                        $received_txt = '';
-                    }
-                    else {
-                        $received_txt = '+ '.$received_count.' '.Str::plural('PC', $received_count);
-                    }
+                    
                 }
+                */
+
                 
-                $monthlyStocks[] = [
-                    'month' => Carbon::create()->month($i)->format('F'),
-                    'issued' => $issued_txt,
-                    'received' => $received_txt,
-                ];
             }
 
             $si_array[] = [
