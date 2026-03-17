@@ -2089,157 +2089,157 @@ class PIDSRController extends Controller
         if(request()->input('dtr')) {
             $date_to_rr = request()->input('dtr');
 
-            $qry1 = Abd::whereDate('created_at', $date_to_rr)
+            $qry1 = Abd::whereDate('notify_email_sent_datetime', $date_to_rr)
             ->where('systemsent', 1)
             ->update([
                 'systemsent' => 0,
             ]);
 
-            $qry1 = Aefi::whereDate('created_at', $date_to_rr)
+            $qry1 = Aefi::whereDate('notify_email_sent_datetime', $date_to_rr)
             ->where('systemsent', 1)
             ->update([
                 'systemsent' => 0,
             ]);
 
-            $qry1 = Aes::whereDate('created_at', $date_to_rr)
+            $qry1 = Aes::whereDate('notify_email_sent_datetime', $date_to_rr)
             ->where('systemsent', 1)
             ->update([
                 'systemsent' => 0,
             ]);
 
-            $qry1 = Afp::whereDate('created_at', $date_to_rr)
+            $qry1 = Afp::whereDate('notify_email_sent_datetime', $date_to_rr)
             ->where('systemsent', 1)
             ->update([
                 'systemsent' => 0,
             ]);
 
-            $qry1 = Ahf::whereDate('created_at', $date_to_rr)
+            $qry1 = Ahf::whereDate('notify_email_sent_datetime', $date_to_rr)
             ->where('systemsent', 1)
             ->update([
                 'systemsent' => 0,
             ]);
 
-            $qry1 = Ames::whereDate('created_at', $date_to_rr)
+            $qry1 = Ames::whereDate('notify_email_sent_datetime', $date_to_rr)
             ->where('systemsent', 1)
             ->update([
                 'systemsent' => 0,
             ]);
 
-            $qry1 = Anthrax::whereDate('created_at', $date_to_rr)
+            $qry1 = Anthrax::whereDate('notify_email_sent_datetime', $date_to_rr)
             ->where('systemsent', 1)
             ->update([
                 'systemsent' => 0,
             ]);
 
-            $qry1 = Chikv::whereDate('created_at', $date_to_rr)
+            $qry1 = Chikv::whereDate('notify_email_sent_datetime', $date_to_rr)
             ->where('systemsent', 1)
             ->update([
                 'systemsent' => 0,
             ]);
 
-            $qry1 = Cholera::whereDate('created_at', $date_to_rr)
+            $qry1 = Cholera::whereDate('notify_email_sent_datetime', $date_to_rr)
             ->where('systemsent', 1)
             ->update([
                 'systemsent' => 0,
             ]);
 
-            $qry1 = Dengue::whereDate('created_at', $date_to_rr)
+            $qry1 = Dengue::whereDate('notify_email_sent_datetime', $date_to_rr)
             ->where('systemsent', 1)
             ->update([
                 'systemsent' => 0,
             ]);
 
-            $qry1 = Diph::whereDate('created_at', $date_to_rr)
+            $qry1 = Diph::whereDate('notify_email_sent_datetime', $date_to_rr)
             ->where('systemsent', 1)
             ->update([
                 'systemsent' => 0,
             ]);
 
-            $qry1 = Hepatitis::whereDate('created_at', $date_to_rr)
+            $qry1 = Hepatitis::whereDate('notify_email_sent_datetime', $date_to_rr)
             ->where('systemsent', 1)
             ->update([
                 'systemsent' => 0,
             ]);
 
-            $qry1 = Hfmd::whereDate('created_at', $date_to_rr)
+            $qry1 = Hfmd::whereDate('notify_email_sent_datetime', $date_to_rr)
             ->where('systemsent', 1)
             ->update([
                 'systemsent' => 0,
             ]);
 
-            $qry1 = Influenza::whereDate('created_at', $date_to_rr)
+            $qry1 = Influenza::whereDate('notify_email_sent_datetime', $date_to_rr)
             ->where('systemsent', 1)
             ->update([
                 'systemsent' => 0,
             ]);
 
-            $qry1 = Leptospirosis::whereDate('created_at', $date_to_rr)
+            $qry1 = Leptospirosis::whereDate('notify_email_sent_datetime', $date_to_rr)
             ->where('systemsent', 1)
             ->update([
                 'systemsent' => 0,
             ]);
 
-            $qry1 = Malaria::whereDate('created_at', $date_to_rr)
+            $qry1 = Malaria::whereDate('notify_email_sent_datetime', $date_to_rr)
             ->where('systemsent', 1)
             ->update([
                 'systemsent' => 0,
             ]);
 
-            $qry1 = Measles::whereDate('created_at', $date_to_rr)
+            $qry1 = Measles::whereDate('notify_email_sent_datetime', $date_to_rr)
             ->where('systemsent', 1)
             ->update([
                 'systemsent' => 0,
             ]);
 
-            $qry1 = Meningitis::whereDate('created_at', $date_to_rr)
+            $qry1 = Meningitis::whereDate('notify_email_sent_datetime', $date_to_rr)
             ->where('systemsent', 1)
             ->update([
                 'systemsent' => 0,
             ]);
 
-            $qry1 = Meningo::whereDate('created_at', $date_to_rr)
+            $qry1 = Meningo::whereDate('notify_email_sent_datetime', $date_to_rr)
             ->where('systemsent', 1)
             ->update([
                 'systemsent' => 0,
             ]);
 
-            $qry1 = Nnt::whereDate('created_at', $date_to_rr)
+            $qry1 = Nnt::whereDate('notify_email_sent_datetime', $date_to_rr)
             ->where('systemsent', 1)
             ->update([
                 'systemsent' => 0,
             ]);
 
-            $qry1 = Nt::whereDate('created_at', $date_to_rr)
+            $qry1 = Nt::whereDate('notify_email_sent_datetime', $date_to_rr)
             ->where('systemsent', 1)
             ->update([
                 'systemsent' => 0,
             ]);
 
-            $qry1 = Pert::whereDate('created_at', $date_to_rr)
+            $qry1 = Pert::whereDate('notify_email_sent_datetime', $date_to_rr)
             ->where('systemsent', 1)
             ->update([
                 'systemsent' => 0,
             ]);
 
-            $qry1 = Psp::whereDate('created_at', $date_to_rr)
+            $qry1 = Psp::whereDate('notify_email_sent_datetime', $date_to_rr)
             ->where('systemsent', 1)
             ->update([
                 'systemsent' => 0,
             ]);
 
-            $qry1 = Rabies::whereDate('created_at', $date_to_rr)
+            $qry1 = Rabies::whereDate('notify_email_sent_datetime', $date_to_rr)
             ->where('systemsent', 1)
             ->update([
                 'systemsent' => 0,
             ]);
 
-            $qry1 = Rotavirus::whereDate('created_at', $date_to_rr)
+            $qry1 = Rotavirus::whereDate('notify_email_sent_datetime', $date_to_rr)
             ->where('systemsent', 1)
             ->update([
                 'systemsent' => 0,
             ]);
 
-            $qry1 = Typhoid::whereDate('created_at', $date_to_rr)
+            $qry1 = Typhoid::whereDate('notify_email_sent_datetime', $date_to_rr)
             ->where('systemsent', 1)
             ->update([
                 'systemsent' => 0,
