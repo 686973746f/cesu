@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 
 class Hfmd extends Model
 {
@@ -65,6 +66,49 @@ class Hfmd extends Model
         }
         else {
             return 'Street/Purok not Encoded';
+        }
+    }
+
+    public function getDateOnset() {
+        if(!is_null($this->DONSET)) {
+            return $this->DONSET;
+        }
+        else {
+            if(!is_null($this->FeverOnset)) {
+                if(!is_null($this->SoreOnset)) {
+                    $fever_onset = Carbon::parse($this->FeverOnset);
+                    $rash_onset = Carbon::parse($this->SoreOnset);
+
+                    if($fever_onset->gt($rash_onset)) {
+                        return $fever_onset->format('Y-m-d');
+                    }
+                    else {
+                        return $rash_onset->format('Y-m-d');
+                    }
+                }
+                else {
+                    return $this->FeverOnset;
+                }
+            }
+            else if(!is_null($this->SoreOnset)) {
+                if(!is_null($this->FeverOnset)) {
+                    $fever_onset = Carbon::parse($this->FeverOnset);
+                    $rash_onset = Carbon::parse($this->SoreOnset);
+
+                    if($fever_onset->gt($rash_onset)) {
+                        return $fever_onset->format('Y-m-d');
+                    }
+                    else {
+                        return $rash_onset->format('Y-m-d');
+                    }
+                }
+                else {
+                    return $this->SoreOnset;
+                }
+            }
+            else {
+                return null;
+            }
         }
     }
 }

@@ -10529,7 +10529,7 @@ class PIDSRController extends Controller
                 'DAdmit' => ($r->Admitted == 'Y') ? $r->DAdmit : NULL,
                 'sys_hospitalized_dateend' => ($r->Admitted == 'Y') ? $r->sys_hospitalized_dateend : NULL,
                 'sys_hospitalized_name' => ($r->Admitted == 'Y') ? $r->sys_hospitalized_name : NULL,
-                'DOnset' => ($r->sys_fever) ? $r->DOnset : NULL,
+                'DONSET' => $r->DOnset,
                 'Fever' => ($r->has('Fever')) ? 'Y' : 'N',
                 'FeverOnset' => ($r->has('Fever')) ? $r->FeverOnset : NULL,
                 'RashSores' => ($r->has('RashSores')) ? 'Y' : 'N',
@@ -11608,7 +11608,7 @@ class PIDSRController extends Controller
                         $sheet->setCellValue('Z'.$row, ''); //DateAdmitted
                     }
 
-                    $sheet->setCellValue('AA'.$row, Carbon::parse($d->DONSET)->format('m/d/Y')); //DateOnsetOfIllness
+                    $sheet->setCellValue('AA'.$row, (!is_null($d->getDateOnset())) ? Carbon::parse($d->getDateOnset())->format('m/d/Y') : ''); //DateOnsetOfIllness
                     $sheet->getStyle('AA'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
                     $sheet->setCellValue('AB'.$row, Carbon::parse($d->DCASEINV)->format('m/d/Y')); //DateOfInvestigation
                     $sheet->getStyle('AB'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
