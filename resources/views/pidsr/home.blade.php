@@ -39,9 +39,10 @@
                     @endif
                     <a href="{{route('pidsr_laboratory_home')}}" class="btn btn-block btn-primary">Lab Results Encoding</a>
                     @if(auth()->user()->canAccessFwri())
-                    <a href="{{route('fwri_home')}}" class="btn btn-block btn-primary">Fireworks-Related Injury (FWRI)</a>
-                    <hr>
+                    <a href="{{route('fwri_home')}}" class="btn btn-block btn-primary"><i class="fa-solid fa-explosion mr-2"></i>Fireworks-Related Injury (FWRI)</a>
                     @endif
+                    <a href="{{route('facility_report_injury_index', auth()->user()->opdfacility->sys_code1)}}" class="btn btn-primary btn-block"><i class="fas fa-car mr-2"></i>Injury/Vehicular Accident Reporting</a>
+                    <hr>
                     <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#report">Report</button>
                     <div class="row mt-3">
                         <div class="col-md-6">
