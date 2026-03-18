@@ -47,6 +47,7 @@ class CreateInhouseChildNutritionTable extends Migration
             $table->char('mam_noncured', 1)->nullable();
             $table->char('mam_defaulted', 1)->nullable();
             $table->char('mam_died', 1)->nullable();
+            $table->date('mam_datedied')->nullable();
 
             $table->char('sam_identified', 1)->nullable();
             $table->date('sam_dateidentified')->nullable();
@@ -55,6 +56,7 @@ class CreateInhouseChildNutritionTable extends Migration
             $table->char('sam_noncured', 1)->nullable();
             $table->char('sam_defaulted', 1)->nullable();
             $table->char('sam_died', 1)->nullable();
+            $table->date('sam_datedied')->nullable();
 
             $table->text('remarks')->nullable();
             $table->text('system_remarks')->nullable();

@@ -1219,6 +1219,7 @@ class ElectronicTclController extends Controller
                 'mam_noncured' => $r->mam_noncured,
                 'mam_defaulted' => $r->mam_defaulted,
                 'mam_died' => $r->mam_died,
+                'mam_datedied' => ($r->mam_died == 1) ? $r->mam_datedied : null,
             ];
         }
 
@@ -1230,6 +1231,7 @@ class ElectronicTclController extends Controller
                 'sam_noncured' => $r->sam_noncured,
                 'sam_defaulted' => $r->sam_defaulted,
                 'sam_died' => $r->sam_died,
+                'sam_datedied' => ($r->sam_died == '1') ? $r->sam_datedied : null,
             ];
         }
 

@@ -64,6 +64,7 @@ class InhouseChildNutrition extends Model
         'mam_noncured',
         'mam_defaulted',
         'mam_died',
+        'mam_datedied',
 
         'sam_identified',
         'sam_dateidentified',
@@ -72,6 +73,7 @@ class InhouseChildNutrition extends Model
         'sam_noncured',
         'sam_defaulted',
         'sam_died',
+        'sam_datedied',
 
         'remarks',
         'system_remarks',

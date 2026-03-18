@@ -492,6 +492,12 @@
                                       <option value="0" {{ old('mam_died', $d->mam_died) === '0' ? 'selected' : '' }}>No</option>
                                     </select>
                                 </div>
+                                <div id="mamdied_div" class="d-none">
+                                    <div class="form-group">
+                                        <label for="mam_datedied"><b class="text-danger">*</b>Date Died</label>
+                                        <input type="date" class="form-control" name="mam_datedied" id="mam_datedied" max="{{date('Y-m-d')}}" value="{{old('mam_datedied', $d->mam_datedied)}}">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -554,6 +560,12 @@
                                       <option value="1" {{ old('sam_died', $d->sam_died) === '1' ? 'selected' : '' }}>Yes</option>
                                       <option value="0" {{ old('sam_died', $d->sam_died) === '0' ? 'selected' : '' }}>No</option>
                                     </select>
+                                </div>
+                                <div id="samdied_div" class="d-none">
+                                    <div class="form-group">
+                                        <label for="sam_datedied"><b class="text-danger">*</b>Date Died</label>
+                                        <input type="date" class="form-control" name="sam_datedied" id="sam_datedied" max="{{date('Y-m-d')}}" value="{{old('sam_datedied', $d->sam_datedied)}}">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -677,11 +689,16 @@
     $('#mam_died').change(function (e) { 
         e.preventDefault();
         $('#sam_main_div').removeClass('d-none');
+        $('#mamdied_div').addClass('d-none');
+        $('#mam_datedied').prop('required', false);
 
-        if ($(this).val() == '1') {
+        if ($(this).val() == '1' && $('#mam_identified').val() == '1') {
             $('#sam_main_div').addClass('d-none');
             $('#sam_identified').prop('required', false);
             $('#sam_identified').val('').trigger('change');
+
+            $('#mamdied_div').addClass('d-none');
+            $('#mam_datedied').prop('required', false);
         }
     }).trigger('change');
 
@@ -703,6 +720,17 @@
             $('#sam_defaulted').prop('required', true);
             $('#sam_died').prop('required', true);
             $('#sam_dateidentified').prop('required', true);
+        }
+    }).trigger('change');
+
+    $('#sam_died').change(function (e) { 
+        e.preventDefault();
+        $('#samdied_div').addClass('d-none');
+        $('#sam_datedied').prop('required', false);
+
+        if($(this).val() == '1' && $('#sam_identified').val() == '1') {
+            $('#samdied_div').addClass('d-none');
+            $('#sam_datedied').prop('required', false);
         }
     }).trigger('change');
 </script>

@@ -2259,10 +2259,10 @@ class ElectronicTclReportController extends Controller
             ->whereMonth('registration_date', $r->month)
             ->whereNotNull('registration_date');
 
-            $sheet->setCellValue('B123', (clone $qry)->whereHas('patient', function ($q) {
+            $sheet->setCellValue('B125', (clone $qry)->whereHas('patient', function ($q) {
                 $q->where('gender', 'MALE');
             })->count());
-            $sheet->setCellValue('C123', (clone $qry)->whereHas('patient', function ($q) {
+            $sheet->setCellValue('C125', (clone $qry)->whereHas('patient', function ($q) {
                 $q->where('gender', 'FEMALE');
             })->count());
         }
