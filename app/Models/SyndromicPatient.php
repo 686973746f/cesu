@@ -466,4 +466,13 @@ class SyndromicPatient extends Model
     public function opdFirstEncounter() {
         return $this->hasMany(OpdFirstEncounter::class, 'patient_id');
     }
+
+    protected static function booted() {
+        static::deleting(function ($patient) {
+            $patient->childcare()->delete();
+            $patient->maternalcare()->delete();
+            $patient->childnutrition()->delete();
+            $patient->familyplanning()->delete();
+        });
+    }
 }
