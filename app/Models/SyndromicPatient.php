@@ -439,6 +439,10 @@ class SyndromicPatient extends Model
         }
     }
 
+    public function syndromicrecords() {
+        return $this->hasMany(SyndromicRecords::class, 'syndromic_patient_id');
+    }
+
     public function inhouseFamilySerials() {
         return $this->hasOne(InhouseFamilySerial::class, 'patient_id');
     }
@@ -473,6 +477,7 @@ class SyndromicPatient extends Model
             $patient->maternalcare()->delete();
             $patient->childnutrition()->delete();
             $patient->familyplanning()->delete();
+            $patient->syndromicrecords()->delete();
         });
     }
 }

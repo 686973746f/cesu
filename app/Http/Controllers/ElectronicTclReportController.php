@@ -2271,10 +2271,10 @@ class ElectronicTclReportController extends Controller
             ->whereMonth('registration_date', $r->month)
             ->whereNotNull('registration_date');
 
-            $sheet->setCellValue('B125', (clone $qry)->whereHas('patient', function ($q) {
+            $sheet->setCellValue('B125', (clone $qry)->where('age_months', '<=', 59)->whereHas('patient', function ($q) {
                 $q->where('gender', 'MALE');
             })->count());
-            $sheet->setCellValue('C125', (clone $qry)->whereHas('patient', function ($q) {
+            $sheet->setCellValue('C125', (clone $qry)->where('age_months', '<=', 59)->whereHas('patient', function ($q) {
                 $q->where('gender', 'FEMALE');
             })->count());
 
@@ -2461,10 +2461,9 @@ class ElectronicTclReportController extends Controller
             ->count());
 
             $qry = (clone $cn_base_qry)
-            ->whereYear('registration_date', $r->year)
-            ->whereMonth('registration_date', $r->month)
-            ->whereNotNull('registration_date')
-            ->where('mam_identified', '1');
+            ->where('mam_identified', '1')
+            ->whereYear('mam_dateidentified', $r->year)
+            ->whereMonth('mam_dateidentified', $r->month);
 
             $sheet->setCellValue('B117', (clone $qry)->whereHas('patient', function ($q) {
                 $q->where('gender', 'MALE');
@@ -2517,22 +2516,25 @@ class ElectronicTclReportController extends Controller
             ->where('mam_defaulted', '1')
             ->count());
 
+            $qry = (clone $cn_base_qry)
+            ->where('mam_identified', '1')
+            ->where('mam_died', '1')
+            ->whereYear('mam_datedied', $r->year)
+            ->whereMonth('mam_datedied', $r->month);
+
             $sheet->setCellValue('Q116', (clone $qry)->whereHas('patient', function ($q) {
                 $q->where('gender', 'MALE');
             })
-            ->where('mam_died', '1')
             ->count());
             $sheet->setCellValue('R116', (clone $qry)->whereHas('patient', function ($q) {
                 $q->where('gender', 'FEMALE');
             })
-            ->where('mam_died', '1')
             ->count());
 
             $qry = (clone $cn_base_qry)
-            ->whereYear('registration_date', $r->year)
-            ->whereMonth('registration_date', $r->month)
-            ->whereNotNull('registration_date')
-            ->where('sam_identified', '1');
+            ->where('sam_identified', '1')
+            ->whereYear('sam_dateidentified', $r->year)
+            ->whereMonth('sam_dateidentified', $r->month);
 
             $sheet->setCellValue('B118', (clone $qry)->whereHas('patient', function ($q) {
                 $q->where('gender', 'MALE');
@@ -2585,15 +2587,19 @@ class ElectronicTclReportController extends Controller
             ->where('sam_defaulted', '1')
             ->count());
 
+            $qry = (clone $cn_base_qry)
+            ->where('sam_identified', '1')
+            ->where('sam_died', '1')
+            ->whereYear('sam_datedied', $r->year)
+            ->whereMonth('sam_datedied', $r->month);
+
             $sheet->setCellValue('Q121', (clone $qry)->whereHas('patient', function ($q) {
                 $q->where('gender', 'MALE');
             })
-            ->where('sam_died', '1')
             ->count());
             $sheet->setCellValue('R121', (clone $qry)->whereHas('patient', function ($q) {
                 $q->where('gender', 'FEMALE');
             })
-            ->where('sam_died', '1')
             ->count());
 
             $qry = (clone $cn_base_qry)
