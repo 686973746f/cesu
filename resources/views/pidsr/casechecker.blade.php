@@ -100,6 +100,11 @@
                       <input type="checkbox" class="form-check-input" name="showNonMatchCaseDef" id="showNonMatchCaseDef" value="1" {{(request()->input('showNonMatchCaseDef')) ? 'checked' : ''}}> Show NOT Match on Case Def.
                     </label>
                 </div>
+                <div class="form-check">
+                    <label class="form-check-label">
+                      <input type="checkbox" class="form-check-input" name="showOtherCity" id="showOtherCity" value="1" {{(request()->input('showOtherCity')) ? 'checked' : ''}}> Include cases encoded from other Cities
+                    </label>
+                </div>
             </form>
             @if(isset($list) || $ajaxMode)
             <hr>

@@ -2152,7 +2152,45 @@ class ElectronicTclReportController extends Controller
 
         //START OF CHILD NUTRITION M1
         if($r->submit == 'm1_2025') {
-        
+            $qry = (clone $cn_base_qry)
+            ->whereYear('breastfeeding', $r->year)
+            ->whereMonth('breastfeeding', $r->month);
+
+            $sheet->setCellValue('B115', (clone $qry)->whereHas('patient', function ($q) {
+                $q->where('gender', 'MALE');
+            })->count());
+            $sheet->setCellValue('C115', (clone $qry)->whereHas('patient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->count());
+
+            $qry = (clone $cn_base_qry)
+            ->where('weight_status', 'L')
+            ->whereYear('lb_iron3', $r->year)
+            ->whereMonth('lb_iron3', $r->month);
+
+            $sheet->setCellValue('B116', (clone $qry)->whereHas('patient', function ($q) {
+                $q->where('gender', 'MALE');
+            })->count());
+            $sheet->setCellValue('C116', (clone $qry)->whereHas('patient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->count());
+
+            $qry = (clone $cn_base_qry)
+            ->where('exclusive_breastfeeding_4', 'Y')
+            ->where('complementary_feeding', 'Y')
+            ->whereYear('nutrition3_date', $r->year)
+            ->whereMonth('nutrition3_date', $r->month);
+
+            $sheet->setCellValue('B118', (clone $qry)->whereHas('patient', function ($q) {
+                $q->where('gender', 'MALE');
+            })->count());
+            $sheet->setCellValue('C118', (clone $qry)->whereHas('patient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->count());
+
+            $qry = (clone $cn_base_qry)
+            ->whereYear('mnp1', $r->year)
+            ->whereMonth('mnp1', $r->month);
         }
         else if($r->submit == 'm1_2026') {
             $qry = (clone $cn_base_qry)

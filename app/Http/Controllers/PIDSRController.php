@@ -1465,24 +1465,25 @@ class PIDSRController extends Controller
                 }, $c);
             }
             
-
-            if($case == 'SARI') {
-                $query = $query->where('muncity', 'GENERAL TRIAS')
-                ->where('province', 'CAVITE');
-            }
-            else if($case == 'MPOX') {
-                $query = $query->where('address_muncity_text', 'GENERAL TRIAS')
-                ->where('address_province_text', 'CAVITE');
-            }
-            else if($case == 'COVID') {
-                $query = $query->whereHas('records', function ($q) {
-                    $q->where('address_city', 'GENERAL TRIAS')
-                    ->where('address_province', 'CAVITE');
-                });
-            }
-            else {
-                $query = $query->where('Muncity', 'GENERAL TRIAS')
-                ->where('Province', 'CAVITE');
+            if(!requestt()->input('showOtherCity')) {
+                if($case == 'SARI') {
+                    $query = $query->where('muncity', 'GENERAL TRIAS')
+                    ->where('province', 'CAVITE');
+                }
+                else if($case == 'MPOX') {
+                    $query = $query->where('address_muncity_text', 'GENERAL TRIAS')
+                    ->where('address_province_text', 'CAVITE');
+                }
+                else if($case == 'COVID') {
+                    $query = $query->whereHas('records', function ($q) {
+                        $q->where('address_city', 'GENERAL TRIAS')
+                        ->where('address_province', 'CAVITE');
+                    });
+                }
+                else {
+                    $query = $query->where('Muncity', 'GENERAL TRIAS')
+                    ->where('Province', 'CAVITE');
+                }
             }
 
             if(!request()->input('showDisabled')) {
