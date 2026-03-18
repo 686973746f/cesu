@@ -3056,7 +3056,7 @@ class ElectronicTclReportController extends Controller
         else if($r->etcl_type == 'family_planning') {
             //TCL 2025 and 2026 the same
             if($r->submit == 'tcl_2025') {
-                $spreadsheet = ExcelFactory::load(storage_path('etcl_2026etcl_family_planning.xlsx'));
+                $spreadsheet = ExcelFactory::load(storage_path('etcl_family_planning.xlsx'));
             }
             else if($r->submit == 'tcl_2026') {
                 $spreadsheet = ExcelFactory::load(storage_path('etcl_2026/familyplanning.xlsx'));
