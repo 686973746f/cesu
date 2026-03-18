@@ -47,12 +47,6 @@ ALTER TABLE syndromic_records ADD CONSTRAINT `syndromic_records_facility_id_fore
 class TestController extends Controller
 {
     public function index() {
-        CallEdcsWeeklySubmissionSendEmail::dispatch(10892, 733);
-
-        CallEdcsWeeklySubmissionSendEmail::dispatch(10716, 734);
-
-        CallEdcsWeeklySubmissionSendEmail::dispatch(10524, 735);
         
-        CallEdcsWeeklySubmissionSendEmail::dispatch(10888, 739);
     }
 }
