@@ -697,8 +697,8 @@
             $('#sam_identified').prop('required', false);
             $('#sam_identified').val('').trigger('change');
 
-            $('#mamdied_div').addClass('d-none');
-            $('#mam_datedied').prop('required', false);
+            $('#mamdied_div').removeClass('d-none');
+            $('#mam_datedied').prop('required', true);
         }
     }).trigger('change');
 
@@ -729,8 +729,8 @@
         $('#sam_datedied').prop('required', false);
 
         if($(this).val() == '1' && $('#sam_identified').val() == '1') {
-            $('#samdied_div').addClass('d-none');
-            $('#sam_datedied').prop('required', false);
+            $('#samdied_div').removeClass('d-none');
+            $('#sam_datedied').prop('required', true);
         }
     }).trigger('change');
 </script>

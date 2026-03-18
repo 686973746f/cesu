@@ -2176,6 +2176,18 @@ class ElectronicTclReportController extends Controller
             })->count());
 
             $qry = (clone $cn_base_qry)
+            ->whereYear('nutrition2_date', $r->year)
+            ->whereMonth('nutrition2_date', $r->month)
+            ->where('exclusive_breastfeeding3', 'Y');
+
+            $sheet->setCellValue('B117', (clone $qry)->whereHas('patient', function ($q) {
+                $q->where('gender', 'MALE');
+            })->count());
+            $sheet->setCellValue('C117', (clone $qry)->whereHas('patient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->count());
+
+            $qry = (clone $cn_base_qry)
             ->where('exclusive_breastfeeding_4', 'Y')
             ->where('complementary_feeding', 'Y')
             ->whereYear('nutrition3_date', $r->year)
@@ -2263,6 +2275,112 @@ class ElectronicTclReportController extends Controller
                 $q->where('gender', 'MALE');
             })->count());
             $sheet->setCellValue('C125', (clone $qry)->whereHas('patient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->count());
+
+            $qry = (clone $cn_base_qry)
+            ->where('mam_identified', 1)
+            ->whereYear('mam_dateidentified', $r->year)
+            ->whereMonth('mam_dateidentified', $r->month);
+
+            $sheet->setCellValue('B126', (clone $qry)->whereHas('patient', function ($q) {
+                $q->where('gender', 'MALE');
+            })->count());
+            $sheet->setCellValue('C126', (clone $qry)->whereHas('patient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->count());
+
+            $sheet->setCellValue('B128', (clone $qry)->where('mam_enrolled_sfp', 1)->whereHas('patient', function ($q) {
+                $q->where('gender', 'MALE');
+            })->count());
+            $sheet->setCellValue('C128', (clone $qry)->where('mam_enrolled_sfp', 1)->whereHas('patient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->count());
+
+            $sheet->setCellValue('B129', (clone $qry)->where('mam_cured', 1)->whereHas('patient', function ($q) {
+                $q->where('gender', 'MALE');
+            })->count());
+            $sheet->setCellValue('C129', (clone $qry)->where('mam_cured', 1)->whereHas('patient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->count());
+
+            $sheet->setCellValue('B130', (clone $qry)->where('mam_noncured', 1)->whereHas('patient', function ($q) {
+                $q->where('gender', 'MALE');
+            })->count());
+            $sheet->setCellValue('C130', (clone $qry)->where('mam_noncured', 1)->whereHas('patient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->count());
+
+            $sheet->setCellValue('B131', (clone $qry)->where('mam_defaulted', 1)->whereHas('patient', function ($q) {
+                $q->where('gender', 'MALE');
+            })->count());
+            $sheet->setCellValue('C131', (clone $qry)->where('mam_defaulted', 1)->whereHas('patient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->count());
+
+            $qry = (clone $cn_base_qry)
+            ->where('mam_identified', 1)
+            ->where('mam_died', 1)
+            ->whereYear('mam_datedied', $r->year)
+            ->whereMonth('mam_datedied', $r->month);
+
+            $sheet->setCellValue('Q125', (clone $qry)->whereHas('patient', function ($q) {
+                $q->where('gender', 'MALE');
+            })->count());
+            $sheet->setCellValue('R125', (clone $qry)->whereHas('patient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->count());
+
+            $qry = (clone $cn_base_qry)
+            ->where('sam_identified', 1)
+            ->whereYear('sam_dateidentified', $r->year)
+            ->whereMonth('sam_dateidentified', $r->month);
+
+            $sheet->setCellValue('B127', (clone $qry)->whereHas('patient', function ($q) {
+                $q->where('gender', 'MALE');
+            })->count());
+            $sheet->setCellValue('C127', (clone $qry)->whereHas('patient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->count());
+
+            $sheet->setCellValue('Q126', (clone $qry)->where('sam_complication', 1)->whereHas('patient', function ($q) {
+                $q->where('gender', 'MALE');
+            })->count());
+            $sheet->setCellValue('R126', (clone $qry)->where('sam_complication', 1)->whereHas('patient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->count());
+
+            $sheet->setCellValue('Q127', (clone $qry)->where('sam_cured', 1)->whereHas('patient', function ($q) {
+                $q->where('gender', 'MALE');
+            })->count());
+            $sheet->setCellValue('R127', (clone $qry)->where('sam_cured', 1)->whereHas('patient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->count());
+            
+            $sheet->setCellValue('Q128', (clone $qry)->where('sam_noncured', 1)->whereHas('patient', function ($q) {
+                $q->where('gender', 'MALE');
+            })->count());
+            $sheet->setCellValue('R128', (clone $qry)->where('sam_noncured', 1)->whereHas('patient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->count());
+
+            $sheet->setCellValue('Q129', (clone $qry)->where('sam_defaulted', 1)->whereHas('patient', function ($q) {
+                $q->where('gender', 'MALE');
+            })->count());
+            $sheet->setCellValue('R129', (clone $qry)->where('sam_defaulted', 1)->whereHas('patient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->count());
+
+            $qry = (clone $cn_base_qry)
+            ->where('sam_identified', 1)
+            ->where('sam_died', 1)
+            ->whereYear('sam_datedied', $r->year)
+            ->whereMonth('sam_datedied', $r->month);
+
+            $sheet->setCellValue('Q130', (clone $qry)->whereHas('patient', function ($q) {
+                $q->where('gender', 'MALE');
+            })->count());
+            $sheet->setCellValue('R130', (clone $qry)->whereHas('patient', function ($q) {
                 $q->where('gender', 'FEMALE');
             })->count());
         }
