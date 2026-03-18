@@ -25,20 +25,35 @@ class CreateInhouseChildNutritionTable extends Migration
             $table->string('weight_status')->nullable(); //L, N, U
 
             $table->date('breastfeeding')->nullable();
+            $table->string('place_breastfeed')->nullable();
 
             $table->date('lb_iron1')->nullable();
             $table->date('lb_iron2')->nullable();
             $table->date('lb_iron3')->nullable();
 
             $table->date('vita1')->nullable();
+            
             $table->date('vita2')->nullable();
             $table->date('vita3')->nullable();
 
+            $table->date('vita4')->nullable();
+            $table->date('vita5')->nullable();
+
+            $table->date('vita6')->nullable();
+            $table->date('vita7')->nullable();
+
+            $table->date('vita8')->nullable();
+            $table->date('vita9')->nullable();
+
             $table->date('mnp1')->nullable();
+            $table->date('mnp1_completed')->nullable();
             $table->date('mnp2')->nullable();
+            $table->date('mnp2_completed')->nullable();
 
             $table->date('lns1')->nullable();
+            $table->date('lns1_completed')->nullable();
             $table->date('lns2')->nullable();
+            $table->date('lns2_completed')->nullable();
 
             $table->char('mam_identified', 1)->nullable();
             $table->date('mam_dateidentified')->nullable();

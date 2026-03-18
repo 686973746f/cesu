@@ -19,6 +19,7 @@ class InhouseChildNutrition extends Model
         'weight_atbirth',
         'weight_status',
         'breastfeeding',
+        'place_breastfeed',
         
         'nutrition2_date',
         'length_atnutrition2',
@@ -43,14 +44,28 @@ class InhouseChildNutrition extends Model
         'cf_type',
 
         'vita1',
+
         'vita2',
         'vita3',
 
+        'vita4',
+        'vita5',
+
+        'vita6',
+        'vita7',
+
+        'vita8',
+        'vita9',
+
         'mnp1',
+        'mnp1_completed',
         'mnp2',
+        'mnp1_completed',
 
         'lns1',
+        'lns1_completed',
         'lns2',
+        'lns2_completed',
 
         'nutrition4_date',
         'length_atnutrition4',

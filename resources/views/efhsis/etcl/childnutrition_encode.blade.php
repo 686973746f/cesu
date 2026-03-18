@@ -136,6 +136,11 @@
                               </label>
                               <input type="date" class="form-control" name="breastfeeding" id="breastfeeding" max="{{date('Y-m-d')}}" value="{{old('breastfeeding', $d->breastfeeding)}}" required>
                             </div>
+                            
+                            <div class="form-group">
+                              <label for="place_breastfeed"><b class="text-danger">*</b>Place of Delivery for Initiated Breastfeeding</label>
+                              <input type="text" class="form-control" name="place_breastfeed" id="place_breastfeed" style="text-transform: uppercase" required>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -308,59 +313,156 @@
             <div class="card mt-3">
                 <div class="card-header"><b>Supplementation</b></div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="vita1">
-                                    <div>Vitamin A</div>
-                                    <div>6-11 months (100,000 IU)</div>
-                                </label>
-                                <input type="date" class="form-control" name="vita1" id="vita1" max="{{date('Y-m-d')}}" value="{{old('vita1', $d->vita1)}}" {{ ($age_in_months < 6) ? 'disabled' : '' }}>
-                            </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div><b>Vitamin A</b></div>
+                            <div>Note: With 6 months interval</div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="vita2">
-                                    <div>Vitamin A</div>
-                                    <div>12-59 months (200,000 IU)</div>
-                                    <div>1st Dose</div>
-                                </label>
-                                <input type="date" class="form-control" name="vita2" id="vita2" max="{{date('Y-m-d')}}" value="{{old('vita2', $d->vita2)}}" {{ ($age_in_months < 12) ? 'disabled' : '' }}>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="card-header"><b>6-11 months</b></div>
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <label for="vita1">
+                                                    <div>Vitamin A</div>
+                                                    <div>6-11 months (100,000 IU)</div>
+                                                </label>
+                                                <input type="date" class="form-control" name="vita1" id="vita1" max="{{date('Y-m-d')}}" value="{{old('vita1', $d->vita1)}}" {{ ($age_in_months < 6) ? 'disabled' : '' }}>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="card-header"><b>12-23 months old</b></div>
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <label for="vita2">
+                                                    <div>Vitamin A</div>
+                                                    <div>12-59 months (200,000 IU)</div>
+                                                    <div>1st Dose</div>
+                                                </label>
+                                                <input type="date" class="form-control" name="vita2" id="vita2" max="{{date('Y-m-d')}}" value="{{old('vita2', $d->vita2)}}" {{ ($age_in_months <= 12) ? 'disabled' : '' }}>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="vita3">
+                                                    <div>Vitamin A</div>
+                                                    <div>12-59 months (200,000 IU)</div>
+                                                    <div>2nd Dose</div>
+                                                </label>
+                                              <input type="date" class="form-control" name="vita3" id="vita3" max="{{date('Y-m-d')}}" value="{{old('vita3', $d->vita3)}}" {{ ($age_in_months <= 12) ? 'disabled' : '' }}>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="card-header"><b>24-35 months old</b></div>
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <label for="vita4">
+                                                    <div>Vitamin A</div>
+                                                    <div>12-59 months (200,000 IU)</div>
+                                                    <div>1st Dose</div>
+                                                </label>
+                                                <input type="date" class="form-control" name="vita4" id="vita4" max="{{date('Y-m-d')}}" value="{{old('vita4', $d->vita4)}}" {{ ($age_in_months <= 24) ? 'disabled' : '' }}>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="vita5">
+                                                    <div>Vitamin A</div>
+                                                    <div>12-59 months (200,000 IU)</div>
+                                                    <div>2nd Dose</div>
+                                                </label>
+                                              <input type="date" class="form-control" name="vita5" id="vita5" max="{{date('Y-m-d')}}" value="{{old('vita5', $d->vita5)}}" {{ ($age_in_months <= 24) ? 'disabled' : '' }}>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="vita3">
-                                    <div>Vitamin A</div>
-                                    <div>12-59 months (200,000 IU)</div>
-                                    <div>2nd Dose</div>
-                                </label>
-                              <input type="date" class="form-control" name="vita3" id="vita3" max="{{date('Y-m-d')}}" value="{{old('vita3', $d->vita3)}}" {{ ($age_in_months < 12) ? 'disabled' : '' }}>
+                            <div class="row justify-content-center mt-3">
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="card-header"><b>36-47 months old</b></div>
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <label for="vita6">
+                                                    <div>Vitamin A</div>
+                                                    <div>12-59 months (200,000 IU)</div>
+                                                    <div>1st Dose</div>
+                                                </label>
+                                                <input type="date" class="form-control" name="vita6" id="vita6" max="{{date('Y-m-d')}}" value="{{old('vita6', $d->vita6)}}" {{ ($age_in_months <= 36) ? 'disabled' : '' }}>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="vita7">
+                                                    <div>Vitamin A</div>
+                                                    <div>12-59 months (200,000 IU)</div>
+                                                    <div>2nd Dose</div>
+                                                </label>
+                                              <input type="date" class="form-control" name="vita7" id="vita7" max="{{date('Y-m-d')}}" value="{{old('vita7', $d->vita7)}}" {{ ($age_in_months <= 36) ? 'disabled' : '' }}>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="card-header"><b>48-59 months old</b></div>
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <label for="vita8">
+                                                    <div>Vitamin A</div>
+                                                    <div>12-59 months (200,000 IU)</div>
+                                                    <div>1st Dose</div>
+                                                </label>
+                                                <input type="date" class="form-control" name="vita8" id="vita8" max="{{date('Y-m-d')}}" value="{{old('vita8', $d->vita8)}}" {{ ($age_in_months <= 48) ? 'disabled' : '' }}>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="vita9">
+                                                    <div>Vitamin A</div>
+                                                    <div>12-59 months (200,000 IU)</div>
+                                                    <div>2nd Dose</div>
+                                                </label>
+                                              <input type="date" class="form-control" name="vita9" id="vita9" max="{{date('Y-m-d')}}" value="{{old('vita9', $d->vita9)}}" {{ ($age_in_months <= 48) ? 'disabled' : '' }}>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <hr>
-                    <div class="row">
+
+                    <div class="row mt-3">
                         <div class="col-md-6">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="mnp1">
-                                            <div>MNP</div>
+                                            <div>MNP - Date Provided</div>
                                             <div>6-11 months</div>
                                             <div>90 sachets over a period of 6 months</div>
                                         </label>
                                       <input type="date" class="form-control" name="mnp1" id="mnp1" max="{{date('Y-m-d')}}" value="{{old('mnp1', $d->mnp1)}}" {{ ($age_in_months < 6) ? 'disabled' : '' }}>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label for="mnp1_completed">MNP - Date Completed</label>
+                                        <input type="date" class="form-control" name="mnp1_completed" id="mnp1_completed" max="{{date('Y-m-d')}}" value="{{old('mnp1_completed', $d->mnp1_completed)}}" {{ ($age_in_months < 6) ? 'disabled' : '' }}>
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="mnp2">
-                                            <div>MNP</div>
+                                            <div>MNP - Date Provided</div>
                                             <div>12-23 months (200,000 IU)</div>
                                             <div>90 sachets every 6 months for a total of 180 sachets in a year</div>
                                         </label>
                                       <input type="date" class="form-control" name="mnp2" id="mnp2" max="{{date('Y-m-d')}}" value="{{old('mnp2', $d->mnp2)}}" {{ ($age_in_months < 12) ? 'disabled' : '' }}>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="mnp1_completed">MNP - Date Completed</label>
+                                        <input type="date" class="form-control" name="mnp1_completed" id="mnp1_completed" max="{{date('Y-m-d')}}" value="{{old('mnp1_completed', $d->mnp1_completed)}}" {{ ($age_in_months < 12) ? 'disabled' : '' }}>
                                     </div>
                                 </div>
                             </div>
@@ -370,21 +472,31 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="lns1">
-                                            <div>LNS-SQ</div>
+                                            <div>LNS-SQ - Date Provided</div>
                                             <div>6-11 months</div>
                                             <div>1 sachet per day for 120 days</div>
                                         </label>
                                       <input type="date" class="form-control" name="lns1" id="lns1" max="{{date('Y-m-d')}}" value="{{old('lns1', $d->lns1)}}" {{ ($age_in_months < 6) ? 'disabled' : '' }}>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label for="lns1_completed">LNS-SQ - Date Completed</label>
+                                        <input type="date" class="form-control" name="lns1_completed" id="lns1_completed" max="{{date('Y-m-d')}}" value="{{old('lns1_completed', $d->lns1_completed)}}" {{ ($age_in_months < 6) ? 'disabled' : '' }}>
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="lns2">
-                                            <div>LNS-SQ</div>
+                                            <div>LNS-SQ - Date Provided</div>
                                             <div>12-23 months</div>
                                             <div>1 sachet per day for 120 days</div>
                                         </label>
                                       <input type="date" class="form-control" name="lns2" id="lns2" max="{{date('Y-m-d')}}" value="{{old('lns2', $d->lns2)}}" {{ ($age_in_months < 12) ? 'disabled' : '' }}>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="lns2_completed">LNS-SQ - Date Completed</label>
+                                        <input type="date" class="form-control" name="lns2_completed" id="lns2_completed" max="{{date('Y-m-d')}}" value="{{old('lns2_completed', $d->lns2_completed)}}" {{ ($age_in_months < 12) ? 'disabled' : '' }}>
                                     </div>
                                 </div>
                             </div>

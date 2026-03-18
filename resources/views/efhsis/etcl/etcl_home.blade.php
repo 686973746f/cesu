@@ -163,7 +163,8 @@
                     </div>
                     @endif
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success btn-block">Generate TCL Excel File</button>
+                        <button type="submit" class="btn btn-success btn-block" name="submit" value="tcl_2025">Generate TCL (2025)</button>
+                        <button type="submit" class="btn btn-success btn-block" name="submit" value="tcl_2026">Generate TCL (2025)</button>
                     </div>
                 </div>
             </div>
