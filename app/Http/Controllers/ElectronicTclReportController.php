@@ -2290,10 +2290,10 @@ class ElectronicTclReportController extends Controller
                 $q->where('gender', 'FEMALE');
             })->count());
 
-            $sheet->setCellValue('B128', (clone $qry)->where('mam_enrolled_sfp', 1)->whereHas('patient', function ($q) {
+            $sheet->setCellValue('B128', (clone $qry)->where('enrolled_sfp', 1)->whereHas('patient', function ($q) {
                 $q->where('gender', 'MALE');
             })->count());
-            $sheet->setCellValue('C128', (clone $qry)->where('mam_enrolled_sfp', 1)->whereHas('patient', function ($q) {
+            $sheet->setCellValue('C128', (clone $qry)->where('enrolled_sfp', 1)->whereHas('patient', function ($q) {
                 $q->where('gender', 'FEMALE');
             })->count());
 
