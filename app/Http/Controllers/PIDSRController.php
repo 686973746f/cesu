@@ -1465,7 +1465,7 @@ class PIDSRController extends Controller
                 }, $c);
             }
             
-            if(!requestt()->input('showOtherCity')) {
+            if(!request()->input('showOtherCity')) {
                 if($case == 'SARI') {
                     $query = $query->where('muncity', 'GENERAL TRIAS')
                     ->where('province', 'CAVITE');
