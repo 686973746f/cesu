@@ -446,6 +446,10 @@
                             </div>
                             <div id="mam_div" class="d-none">
                                 <div class="form-group">
+                                    <label for="mam_dateidentified"><b class="text-danger">*</b>MAM Date Identified</label>
+                                    <input type="date" class="form-control" name="mam_dateidentified" id="mam_dateidentified" max="{{date('Y-m-d')}}" value="{{old('mam_dateidentified', $d->mam_dateidentified)}}">
+                                </div>
+                                <div class="form-group">
                                     <label for="mam_enrolled_sfp"><b class="text-danger">*</b>Enrolled to SFP</label>
                                     <select class="form-control" name="mam_enrolled_sfp" id="mam_enrolled_sfp">
                                       <option value="" disabled {{ old('mam_enrolled_sfp', $d->mam_enrolled_sfp) ? '' : 'selected' }}>Choose...</option>
@@ -504,6 +508,10 @@
                                 </select>
                             </div>
                             <div id="sam_div" class="d-none">
+                                <div class="form-group">
+                                    <label for="sam_dateidentified"><b class="text-danger">*</b>SAM Date Identified</label>
+                                    <input type="date" class="form-control" name="sam_dateidentified" id="sam_dateidentified" max="{{date('Y-m-d')}}" value="{{old('sam_dateidentified', $d->sam_dateidentified)}}">
+                                </div>
                                 <div class="form-group">
                                     <label for="sam_complication"><b class="text-danger">*</b>Without complication admitted to OTC</label>
                                     <select class="form-control" name="sam_complication" id="sam_complication">
@@ -653,9 +661,11 @@
         $('#mam_noncured').prop('required', false);
         $('#mam_defaulted').prop('required', false);
         $('#mam_died').prop('required', false);
+        $('#mam_dateidentified').prop('required', false);
 
         if ($(this).val() == '1') {
             $('#mam_div').removeClass('d-none');
+            $('#mam_dateidentified').prop('required', true);
             $('#mam_enrolled_sfp').prop('required', true);
             $('#mam_cured').prop('required', true);
             $('#mam_noncured').prop('required', true);
@@ -683,6 +693,7 @@
         $('#sam_noncured').prop('required', false);
         $('#sam_defaulted').prop('required', false);
         $('#sam_died').prop('required', false);
+        $('#sam_dateidentified').prop('required', false);
 
         if ($(this).val() == '1') {
             $('#sam_div').removeClass('d-none');
@@ -691,6 +702,7 @@
             $('#sam_noncured').prop('required', true);
             $('#sam_defaulted').prop('required', true);
             $('#sam_died').prop('required', true);
+            $('#sam_dateidentified').prop('required', true);
         }
     }).trigger('change');
 </script>

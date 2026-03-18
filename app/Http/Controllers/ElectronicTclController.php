@@ -1053,6 +1053,7 @@ class ElectronicTclController extends Controller
 
         if($r->mam_identified == '1') {
             $table_params = $table_params + [
+                'mam_dateidentified' => $r->mam_dateidentified,
                 'enrolled_sfp' => $r->enrolled_sfp,
                 'mam_cured' => $r->mam_cured,
                 'mam_noncured' => $r->mam_noncured,
@@ -1063,6 +1064,7 @@ class ElectronicTclController extends Controller
 
         if($r->sam_identified == '1' && $r->mam_died != 1) {
             $table_params = $table_params + [
+                'sam_dateidentified' => $r->sam_dateidentified,
                 'sam_complication' => $r->sam_complication,
                 'sam_cured' => $r->sam_cured,
                 'sam_noncured' => $r->sam_noncured,

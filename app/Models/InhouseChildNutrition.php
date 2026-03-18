@@ -58,6 +58,7 @@ class InhouseChildNutrition extends Model
         'weight_status_atnutrition4',
 
         'mam_identified',
+        'mam_dateidentified',
         'enrolled_sfp',
         'mam_cured',
         'mam_noncured',
@@ -65,6 +66,7 @@ class InhouseChildNutrition extends Model
         'mam_died',
 
         'sam_identified',
+        'sam_dateidentified',
         'sam_complication',
         'sam_cured',
         'sam_noncured',

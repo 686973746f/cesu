@@ -2191,6 +2191,80 @@ class ElectronicTclReportController extends Controller
             $qry = (clone $cn_base_qry)
             ->whereYear('mnp1', $r->year)
             ->whereMonth('mnp1', $r->month);
+
+            $sheet->setCellValue('Q115', (clone $qry)->whereHas('patient', function ($q) {
+                $q->where('gender', 'MALE');
+            })->count());
+            $sheet->setCellValue('R115', (clone $qry)->whereHas('patient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->count());
+
+            $qry = (clone $cn_base_qry)
+            ->whereYear('mnp2', $r->year)
+            ->whereMonth('mnp2', $r->month);
+
+            $sheet->setCellValue('Q116', (clone $qry)->whereHas('patient', function ($q) {
+                $q->where('gender', 'MALE');
+            })->count());
+            $sheet->setCellValue('R116', (clone $qry)->whereHas('patient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->count());
+
+            $qry = (clone $cn_base_qry)
+            ->whereYear('lns1', $r->year)
+            ->whereMonth('lns1', $r->month);
+
+            $sheet->setCellValue('Q117', (clone $qry)->whereHas('patient', function ($q) {
+                $q->where('gender', 'MALE');
+            })->count());
+            $sheet->setCellValue('R117', (clone $qry)->whereHas('patient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->count());
+
+            $qry = (clone $cn_base_qry)
+            ->whereYear('lns2', $r->year)
+            ->whereMonth('lns2', $r->month);
+
+            $sheet->setCellValue('Q118', (clone $qry)->whereHas('patient', function ($q) {
+                $q->where('gender', 'MALE');
+            })->count());
+            $sheet->setCellValue('R118', (clone $qry)->whereHas('patient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->count());
+
+            $qry = (clone $cn_base_qry)
+            ->whereYear('vita1', $r->year)
+            ->whereMonth('vita1', $r->month);
+
+            $sheet->setCellValue('B121', (clone $qry)->whereHas('patient', function ($q) {
+                $q->where('gender', 'MALE');
+            })->count());
+            $sheet->setCellValue('C121', (clone $qry)->whereHas('patient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->count());
+
+            $qry = (clone $cn_base_qry)
+            ->whereYear('vita3', $r->year)
+            ->whereMonth('vita3', $r->month);
+
+            $sheet->setCellValue('B122', (clone $qry)->whereHas('patient', function ($q) {
+                $q->where('gender', 'MALE');
+            })->count());
+            $sheet->setCellValue('C122', (clone $qry)->whereHas('patient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->count());
+
+            $qry = (clone $cn_base_qry)
+            ->whereYear('registration_date', $r->year)
+            ->whereMonth('registration_date', $r->month)
+            ->whereNotNull('registration_date');
+
+            $sheet->setCellValue('B123', (clone $qry)->whereHas('patient', function ($q) {
+                $q->where('gender', 'MALE');
+            })->count());
+            $sheet->setCellValue('C123', (clone $qry)->whereHas('patient', function ($q) {
+                $q->where('gender', 'FEMALE');
+            })->count());
         }
         else if($r->submit == 'm1_2026') {
             $qry = (clone $cn_base_qry)
