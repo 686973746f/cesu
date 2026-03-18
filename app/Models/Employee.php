@@ -56,6 +56,8 @@ class Employee extends Model
         'bls_typeofrescuer',
         'bls_codename',
         'duty_canbedeployed',
+        'cantduty_datelisted',
+        'cantduty_remarks',
         'duty_canbedeployedagain',
         'duty_team',
         'duty_completedcycle',

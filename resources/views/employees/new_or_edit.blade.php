@@ -199,7 +199,18 @@
                               <option value="" disabled {{(is_null(old('duty_canbedeployed', $d->duty_canbedeployed))) ? 'selected' : ''}}>Choose...</option>
                               <option value="Y" {{(old('duty_canbedeployed', $d->duty_canbedeployed) == 'Y') ? 'selected' : ''}}>Yes</option>
                               <option value="N" {{(old('duty_canbedeployed', $d->duty_canbedeployed) == 'N') ? 'selected' : ''}}>No</option>
+                              <option value="U" {{(old('duty_canbedeployed', $d->duty_canbedeployed) == 'U') ? 'selected' : ''}}>Unable to Duty Anymore</option>
                             </select>
+                        </div>
+                        <div id="cantduty_div" class="d-none">
+                            <div class="form-group">
+                                <label for="cantduty_datelisted"><b class="text-danger">*</b>Date Listed</label>
+                                <input type="date" class="form-control" name="cantduty_datelisted" id="cantduty_datelisted" value="{{old('cantduty_datelisted', $d->cantduty_datelisted)}}" max="{{date('Y-m-d')}}">
+                            </div>
+                            <div class="form-group">
+                                <label for="cantduty_remarks"><b class="text-danger">*</b>Specify Reason</label>
+                                <input type="text" class="form-control" name="cantduty_remarks" id="cantduty_remarks" value="{{old('cantduty_remarks', $d->cantduty_remarks)}}" style="text-transform: uppercase;">
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="duty_team">HERT Duty Team</label>
@@ -443,6 +454,19 @@
             }
             else {
                 $('#ifBlsTrainedDiv').addClass('d-none');
+            }
+        }).trigger('change');
+
+        $('#duty_canbedeployed').change(function (e) { 
+            e.preventDefault();
+            $('#cantduty_div').addClass('d-none');
+            $('#cantduty_remarks').prop('required', false);
+            $('#cantduty_datelisted').prop('required', false);
+
+            if($(this).val() == 'U') {
+                $('#cantduty_div').removeClass('d-none');
+                $('#cantduty_remarks').prop('required', true);
+                $('#cantduty_datelisted').prop('required', true);
             }
         }).trigger('change');
     </script>

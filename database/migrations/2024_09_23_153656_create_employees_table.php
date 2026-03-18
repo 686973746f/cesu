@@ -65,6 +65,8 @@ class CreateEmployeesTable extends Migration
             $table->string('bls_typeofrescuer')->nullable();
             $table->string('bls_codename')->nullable();
             $table->string('duty_canbedeployed', 1);
+            $table->date('cantduty_datelisted')->nullable();
+            $table->text('cantduty_remarks')->nullable();
             $table->string('duty_team')->nullable();
             $table->string('duty_completedcycle', 1)->default('N');
             $table->string('duty_canbedeployedagain', 1)->default('N');
