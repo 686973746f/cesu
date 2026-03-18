@@ -262,6 +262,15 @@ class EmployeesController extends Controller
         $td_deployed = (clone $duty_qry)->where('duty_team', 'D')->where('duty_completedcycle', 'Y')->count();
         $td_notdeployed = $td_total - $td_deployed;
 
+        $cantduty_list = Employee::where(function ($q) {
+            $q->whereHas('latestEmploymentStatus', function ($q2) {
+                $q2->where('status', 'ACTIVE');
+            })
+            ->orWhereDoesntHave('latestEmploymentStatus');
+        })
+        ->where('duty_canbedeployed', 'U')
+        ->get();
+
         $list = HertDuty::orderBy('created_at', 'DESC')->paginate(10);
 
         $cycle_count = DutyCycle::count() + 3;
@@ -288,6 +297,7 @@ class EmployeesController extends Controller
             'tc_notdeployed' => $tc_notdeployed,
             'td_deployed' => $td_deployed,
             'td_notdeployed' => $td_notdeployed,
+            'cantduty_list' => $cantduty_list,
         ]);
     }
 
@@ -1194,6 +1204,15 @@ class EmployeesController extends Controller
         $td_deployed = (clone $duty_qry)->where('duty_team', 'D')->where('duty_completedcycle', 'Y')->count();
         $td_notdeployed = $td_total - $td_deployed;
 
+        $cantduty_list = Employee::where(function ($q) {
+            $q->whereHas('latestEmploymentStatus', function ($q2) {
+                $q2->where('status', 'ACTIVE');
+            })
+            ->orWhereDoesntHave('latestEmploymentStatus');
+        })
+        ->where('duty_canbedeployed', 'U')
+        ->get();
+
         $cycle_count = DutyCycle::count() + 3;
 
         return view('employees.duty_online_view', [
@@ -1222,6 +1241,7 @@ class EmployeesController extends Controller
             'tc_notdeployed' => $tc_notdeployed,
             'td_deployed' => $td_deployed,
             'td_notdeployed' => $td_notdeployed,
+            'cantduty_list' => $cantduty_list,
 
             'list' => $list,
         ]);

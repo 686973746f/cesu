@@ -292,6 +292,46 @@
                 </table>
             </div>
             @endif
+
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card mt-3">
+                        <div class="card-header">
+                            <div><b>List of Unable to Duty (w/ Signed Office Order from City Health Officer and Office of the Mayor)</b></div>
+                            <div>Total: {{$cantduty_list->count()}}</div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped table-bordered" id="tbl5">
+                                <thead class="thead-light text-center">
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Name</th>
+                                        <th>Date Listed</th>
+                                        <th>Reason</th>
+                                    </tr>
+                                </thead>
+                                @foreach($cantduty_list as $ind => $d)
+                                <tr>
+                                    <td class="text-center">{{$ind + 1}}</td>
+                                    <td>
+                                        {{$d->getName()}}
+                                        @if($d->is_blstrained == 'Y')
+                                        @if($d->bls_typeofrescuer == 'LR')
+                                        <span class="badge badge-primary">LR</span>
+                                        @else
+                                        <span class="badge badge-success">HCP</span>
+                                        @endif
+                                        @endif
+                                    </td>
+                                    <td class="text-center">{{Carbon\Carbon::parse($d->cantduty_datelisted)->format('m/d/Y')}}</td>
+                                    <td class="text-center">{{$d->cantduty_remarks}}</td>
+                                </tr>
+                                @endforeach
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
