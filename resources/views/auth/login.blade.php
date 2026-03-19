@@ -30,8 +30,8 @@
                 <img src="{{asset('assets/images/cesu_icon.png')}}" class="mb-3" style="width: 12rem;">
             </div>
             <div class="text-center">
-                <h1 class="text-sucess"><b>Project: IDRIS</b></h1>
-                <h3>CESU General Trias Integrated Disease Reporting and Information System</h3>
+                <h1 class="text-sucess"><b>Project: IDRISH</b></h1>
+                <h3>CESU General Trias Integrated Disease Reporting and Information System for Health</h3>
             </div>
             <div class="accordion" id="accordionExample">
                 <div class="card">
