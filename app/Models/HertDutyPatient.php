@@ -50,4 +50,17 @@ class HertDutyPatient extends Model
     public function user() {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+    public function listDiagnosis() {
+        $complaints = explode(',', $this->chief_complaint);
+        $complaints = array_map('trim', $complaints);
+
+        foreach ($complaints as &$complaint) {
+            if ($complaint === 'OTHERS') {
+                $complaint = 'OTHERS (' . $this->other_complains . ')';
+            }
+        }
+
+        return implode(', ', $complaints);
+    }
 }

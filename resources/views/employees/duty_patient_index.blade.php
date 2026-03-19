@@ -45,7 +45,7 @@
                             <td class="text-center">{{$l->age_years}}</td>
                             <td class="text-center">{{$l->sex}}</td>
                             <td class="text-center">{{($l->address_brgy_code) ? $l->brgy->name : 'N/A'}}</td>
-                            <td class="text-center">{{$l->chief_complaint}}</td>
+                            <td class="text-center">{{$l->listDiagnosis()}}</td>
                             <td class="text-center">{{$l->bp ?: 'N/A'}}</td>
                             <td class="text-center">{{$l->lastmeal_taken}}</td>
                             <td class="text-center">{{$l->diagnosis}}</td>
