@@ -29,6 +29,10 @@
                 <img src="{{asset('assets/images/cho_icon_large.png')}}" class="mb-3" style="width: 12rem;">
                 <img src="{{asset('assets/images/cesu_icon.png')}}" class="mb-3" style="width: 12rem;">
             </div>
+            <div class="text-center">
+                <h1 class="text-sucess"><b>Project: IDRIS</b></h1>
+                <h3>CESU General Trias Integrated Disease Reporting and Information System</h3>
+            </div>
             <div class="accordion" id="accordionExample">
                 <div class="card">
                   <div class="card-header" id="headingOne">
@@ -146,7 +150,7 @@
             </div>
             <p class="text-center mt-3">For inquiries: 0919 066 43 24/25/27 | (046) 509 - 5289 | <a>cesu.gentrias@gmail.com</a> | <a href="https://www.facebook.com/cesugentrias">Facebook Page</a></p>
             <hr>
-            <p class="mt-3 text-center">©2021 Developed and Maintained by <u>CJH</u> for CESU Gen. Trias, Cavite</p>
+            <p class="mt-3 text-center">©2021 Developed and Maintained by <u>CJH</u> for General Trias City Epidemiology and Surveillance Unit - General Trias City Health Office - City Government of General Trias</p>
         </div>
     </div>
 </div>
