@@ -281,6 +281,7 @@ class AbdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
     public function model(array $row) {
         $epi_id = $row['epi_id'] ?? $row['epiid'];
         $dob = $row['date_of_birth'] ?? $row['dob'];
+        $patientnumber = $row['patient_no'] ?? $row['patientnumber'];
 
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite' && $epi_id) {
             $birthdate = Carbon::parse(EdcsImport::tDate($dob));
@@ -341,9 +342,11 @@ class AbdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'MuncityOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity : NULL,
                 'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
                 'AddressOfDRU' => NULL,
-                'PatientNumber' => $row['patient_no'] ?? $row['patientnumber'],
-                'FirstName' => $fname,
+                'PatientNumber' => $patientnumber,
                 'FamilyName' => $lname,
+                'FirstName' => $fname,
+                'middle_name' => ($mname != '' && !is_null($mname && $mname != 'NONE' && $mname != 'N/A') && $mname != 'N/A') ? $mname : NULL,
+                'suffix' => ($suffix != '' && !is_null($suffix) && $suffix != 'N/A' && $suffix != 'NONE') ? $suffix : NULL,
                 'FullName' => $getFullName,
                 'AgeYears' => $row['age_in_years'] ?? $row['ageyears'],
                 'AgeMons' => $getAgeMonths,
@@ -359,7 +362,7 @@ class AbdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'StoolCulture' => NULL,
                 'Organism' => NULL,
                 'Outcome' => mb_strtoupper(substr($row['outcome'],0,1)),
-                'DateDied' => EdcsImport::tDate($row['date_died']),
+                'DateDied' => EdcsImport::tDate($row['datedied'] ?? $row['date_died']),
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp'] ?? $row['timestamp_disease']),
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'] ?? $row['admittoentry'],
                 'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
@@ -381,8 +384,6 @@ class AbdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'ip' => 'N',
                 'ipgroup' => NULL,
 
-                'middle_name' => ($mname != '' && !is_null($mname && $mname != 'NONE' && $mname != 'N/A') && $mname != 'N/A') ? $mname : NULL,
-                'suffix' => ($suffix != '' && !is_null($suffix) && $suffix != 'N/A' && $suffix != 'NONE') ? $suffix : NULL,
                 'edcs_caseid' => $row['case_id'],
                 'edcs_healthFacilityCode' => $row['health_facility_code'],
                 'edcs_verificationLevel' => $row['verification_level'] ?? null,
@@ -391,7 +392,7 @@ class AbdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_ageGroup' => isset($row['age_group']) ? $row['age_group'] : NULL,
                 'from_edcs' => 1,
 
-                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'],
+                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'] ?? $row['userid'],
                 'edcs_last_modifiedby' => $row['last_modified_by'] ?? $row['lastmodifiedby'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date'] ?? $row['lastmodifieddate']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
@@ -402,6 +403,10 @@ class AbdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
                 'timestamp_patient' => EdcsImport::tDate($row['timestamp_patient']),
                 'timestamp_laboratory' => EdcsImport::tDate($row['timestamp_laboratory']),
+
+                'timelapse_dateonsettodateencode' => $row['timelapse_dateonsettodateencode'],
+                'timelapse_dateencodetodatevalidatedresu' => $row['timelapse_dateencodetodatevalidatedresu'],
+                'labid' => $row['labid'],
             ];
 
             $exist_check = Abd::where('EPIID', $epi_id)->first();
@@ -448,6 +453,7 @@ class AfpImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
     {
         $epi_id = $row['epi_id'] ?? $row['epiid'];
         $dob = $row['date_of_birth'] ?? $row['dob'];
+        $patientnumber = $row['patient_no'] ?? $row['patientnumber'];
 
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite' && $epi_id) {
             $birthdate = Carbon::parse(EdcsImport::tDate($dob));
@@ -505,7 +511,7 @@ class AfpImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'MuncityOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity : NULL,
                 'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
                 'AddressOfDRU' => NULL,
-                'PatientNumber' => $row['patient_no'] ?? $row['patientnumber'],
+                'PatientNumber' => $patientnumber,
                 'FirstName' => $fname,
                 'FamilyName' => $lname,
                 'FullName' => $getFullName,
@@ -587,7 +593,7 @@ class AfpImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'ActDffp' => ($row['if_yes_actual_date_of_follow_up_conducted'] != "" && !is_null($row['if_yes_actual_date_of_follow_up_conducted'])) ? EdcsImport::tDate($row['if_yes_actual_date_of_follow_up_conducted']) : NULL,
                 'PhyExam' => ($row['pe_done'] == 'Y') ? 1 : 0,
                 'ReasonND' => ($row['pe_done'] == 'No') ? $row['if_no_reason_for_no_pe'] : NULL,
-                'DateDied' => ($row['date_died'] != "" && !is_null($row['date_died'])) ? EdcsImport::tDate($row['date_died']) : NULL,
+                'DateDied' => EdcsImport::tDate($row['date_died'] ?? $row['datedied']),
                 'OtherReasonND' => $row['others_specify'],
                 'ResPara' => $row['residual_paralysis_at_60_days'],
                 'ResParaType' => $row['if_yes_specify'],
@@ -636,7 +642,7 @@ class AfpImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'ip' => 'N', 
                 'ipgroup' => NULL,
                 'Outcome' => 'A',
-                'DateOutcomeDied' => ($row['date_died'] != "" && !is_null($row['date_died'])) ? EdcsImport::tDate($row['date_died']) : NULL,
+                'DateOutcomeDied' => EdcsImport::tDate($row['date_died'] ?? $row['datedied']),
 
                 'middle_name' => ($mname != '' && !is_null($mname && $mname != 'NONE') && $mname != 'N/A') ? $mname : NULL,
                 'suffix' => ($suffix != '' && !is_null($suffix) && $suffix != 'N/A' && $suffix != 'NONE') ? $suffix : NULL,
@@ -648,7 +654,7 @@ class AfpImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_ageGroup' => isset($row['age_group']) ? $row['age_group'] : NULL,
                 'from_edcs' => 1,
 
-                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'],
+                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'] ?? $row['userid'],
                 'edcs_last_modifiedby' => $row['last_modified_by'] ?? $row['lastmodifiedby'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date'] ?? $row['lastmodifieddate']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
@@ -660,6 +666,10 @@ class AfpImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
                 'timestamp_patient' => EdcsImport::tDate($row['timestamp_patient']),
                 'timestamp_laboratory' => EdcsImport::tDate($row['timestamp_laboratory']),
+
+                'timelapse_dateonsettodateencode' => $row['timelapse_dateonsettodateencode'],
+                'timelapse_dateencodetodatevalidatedresu' => $row['timelapse_dateencodetodatevalidatedresu'],
+                'labid' => $row['labid'],
             ];
 
             $exist_check = Afp::where('EPIID', $epi_id)->first();
@@ -694,6 +704,7 @@ class AmesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
     {
         $epi_id = $row['epi_id'] ?? $row['epiid'];
         $dob = $row['date_of_birth'] ?? $row['dob'];
+        $patientnumber = $row['patient_no'] ?? $row['patientnumber'];
 
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite' && $epi_id) {
             $birthdate = Carbon::parse(EdcsImport::tDate($dob));
@@ -739,8 +750,12 @@ class AmesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             $match_casedef = 1;
 
             //AMES Case Definition
+            $changeinmentalstatus = $row['change_in_mental_status'] ?? $row['changeinmentalstatus'];
+            $neckstiffness = $row['neck_stiffness'] ?? $row['neckstiffness'];
+            $meningealsigns = $row['meningeal_signs'] ?? $row['meningealsigns'];
+
             if($row['fever'] == 'Y') {
-                if($row['change_in_mental_status'] ?? $row['changeinmentalstatus'] == 'Y' || $row['neck_stiffness'] ?? $row['neckstiffness'] == 'Y' || $row['meningeal_signs'] ?? $row['meningealsigns'] == 'Y') {
+                if($changeinmentalstatus == 'Y' || $neckstiffness == 'Y' || $meningealsigns == 'Y') {
                     $match_casedef = 1;
                 }
                 else {
@@ -770,9 +785,11 @@ class AmesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'MuncityOfDRU' => $getDruMuncityText,
                 'DRU' => $getDruFacilityTypeText,
                 'AddressOfDRU' => NULL,
-                'PatientNumber' => $row['patient_no'] ?? $row['patientnumber'],
-                'FirstName' => $fname,
+                'PatientNumber' => $patientnumber,
                 'FamilyName' => $lname,
+                'FirstName' => $fname,
+                'middle_name' => ($mname != '' && !is_null($mname && $mname != 'NONE' && $mname != 'N/A') && $mname != 'N/A') ? $mname : NULL,
+                'suffix' => ($suffix != '' && !is_null($suffix) && $suffix != 'N/A' && $suffix != 'NONE') ? $suffix : NULL,
                 'FullName' => $getFullName,
                 'AgeYears' => $row['age_in_years'] ?? $row['ageyears'],
                 'AgeMons' => $getAgeMonths,
@@ -783,8 +800,8 @@ class AmesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'Province' => 'CAVITE',
                 'Muncity' => 'GENERAL TRIAS',
                 'NHTS' => NULL,
-                'Admitted' => ($row['patient_admitted'] ?? $row['admitted'] == 'Y') ? 1 : 0,
-                'DAdmit' => (isset($row['date_admitted'])) ? EdcsImport::tDate($row['date_admitted']) : EdcsImport::tDate($row['admitted']),
+                'Admitted' => (!is_null($row['admitted'])) ? 1 : 0,
+                'DAdmit' => EdcsImport::tDate($row['date_admitted'] ?? $row['admitted']),
                 'DOnset' => EdcsImport::tDate($row['date_onse_of_illness'] ?? $row['donset']),
                 'DateRep' => EdcsImport::tDate($row['timestamp'] ?? $row['timestamp_disease']),
                 'DateInv' => EdcsImport::tDate($row['date_of_investigation'] ?? $row['dateinv']),
@@ -792,11 +809,11 @@ class AmesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'ContactNum' => $row['contact_no'] ?? $row['contactno'],
                 'InvDesig' => $row['designation'] ?? $row['invdesig'],
                 'Fever' => ($row['fever'] == 'Y') ? 'Y' : 'N',
-                'BehaviorChng' => ($row['change_in_mental_status'] ?? $row['changeinmentalstatus'] == 'Y') ? 'Y' : 'N',
+                'BehaviorChng' => ($changeinmentalstatus == 'Y') ? 'Y' : 'N',
                 'Seizure' => ($row['new_onset_seizures'] ?? $row['newonsetseizures'] == 'Y') ? 'Y' : 'N',
-                'Stiffneck' => ($row['neck_stiffness'] ?? $row['neckstiffness'] == 'Y') ? 'Y' : 'N',
+                'Stiffneck' => ($neckstiffness == 'Y') ? 'Y' : 'N',
                 'bulgefontanel' => NULL,
-                'MenSign' => ($row['meningeal_signs'] ?? $row['meningealsigns'] == 'Y') ? 'Y' : 'N',
+                'MenSign' => ($meningealsigns == 'Y') ? 'Y' : 'N',
                 'ClinDiag' => $row['cnsinfection'],
                 'OtherDiag' => $row['cns_others_specify'] ?? $row['cnsothersspecify'],
                 'JE' => ($row['je'] == 'Y') ? 'Y' : 'N',
@@ -805,34 +822,40 @@ class AmesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'Hib' => ($row['penta_hib'] ?? $row['pentahib'] == 'Y') ? 'Y' : 'N',
                 'VacHibDate' => EdcsImport::tDate($row['penta_hib_date_last_dose'] ?? $row['pentahibdatelastdose']),
                 'HibDose' => $row['penta_hib_no_of_doses'] ?? $row['pentahibnoofdoses'],
+                'MeasVacc' => ($row['measles'] ?? $row['measles'] == 'Y') ? 'Y' : 'N',
+                'VacMeasDate' => EdcsImport::tDate($row['measles_date_last_dose'] ?? $row['measlesdatelastdose']),
+                'MeasVaccDose' => $row['measles_no_of_doses'] ?? $row['measlesnoofdoses'],
+                'MeningoVacc' => ($row['meningococcal'] ?? $row['meningococcal'] == 'Y') ? 'Y' : 'N',
+                'VacMeningoDate' => EdcsImport::tDate($row['meningococcal_date_last_dose'] ?? $row['meningococcaldatelastdose']),
+                'MeningoVaccDose' => $row['meningococcal_no_of_doses'] ?? $row['meningococcalnoofdoses'],
                 'PCV10' => ($row['pcv10'] == 'Y') ? 'Y' : 'N',
                 'VacPCV10Date' => EdcsImport::tDate($row['pcv10_date_last_dose'] ?? $row['pcv10datelastdose']),
                 'PCV10Dose' => $row['pcv_10_no_of_doses'] ?? $row['pcv10noofdoses'],
                 'PCV13' => ($row['pcv13'] ?? $row['pcv13'] == 'Y') ? 'Y' : 'N',
                 'VacPCV13Date' => EdcsImport::tDate($row['pcv13_date_last_dose'] ?? $row['pcv13datelastdose']),
                 'PCV13Dose' => $row['pcv13_no_of_doses'] ?? $row['pcv13noofdoses'],
-                'MeningoVacc' => ($row['meningococcal'] ?? $row['meningococcal'] == 'Y') ? 'Y' : 'N',
-                'VacMeningoDate' => EdcsImport::tDate($row['meningococcal_date_last_dose'] ?? $row['meningococcaldatelastdose']),
-                'MeningoVaccDose' => $row['meningococcal_no_of_doses'] ?? $row['meningococcalnoofdoses'],
-                'MeasVacc' => ($row['measles'] ?? $row['measles'] == 'Y') ? 'Y' : 'N',
-                'VacMeasDate' => EdcsImport::tDate($row['measles_date_last_dose'] ?? $row['measlesdatelastdose']),
-                'MeasVaccDose' => $row['measles_no_of_doses'] ?? $row['measlesnoofdoses'],
+                
                 'MMR' => NULL,
                 'VacMMRDate' => NULL,
                 'MMRDose' => NULL,
-                'plcDaycare' => ($row['day_care'] == 'Y') ? 'Y' : 'N',
+                'pneumococcal' => $row['pneumococcal'],
+                'pneumococcaldatelastdose' => EdcsImport::tDate($row['pneumococcaldatelastdose']),
+                'pneumococcalnoofdoses' => $row['pneumococcalnoofdoses'],
+
+                'plcDaycare' => ($row['day_care'] ?? $row['daycare'] == 'Y') ? 'Y' : 'N',
                 'plcBrgy' => ($row['barangay'] == 'Y') ? 'Y' : 'N',
                 'plcHome' => ($row['home'] == 'Y') ? 'Y' : 'N',
                 'plcSchool' => ($row['school'] == 'Y') ? 'Y' : 'N',
                 'plcdormitory' => ($row['dormitory'] == 'Y') ? 'Y' : 'N',
-                'plcHC' => ($row['health_care_facility'] == 'Y') ? 'Y' : 'N',
+                'plcHC' => ($row['health_care_facility'] ?? $row['healthcarefacility'] == 'Y') ? 'Y' : 'N',
                 'plcWorkplace' => ($row['workplace'] == 'Y') ? 'Y' : 'N',
-                'plcOther' => ($row['other_exposure'] == 'Y') ? 'Y' : 'N',
-                'Travel' => ($row['if_yes_specify_place'] == 'Y') ? 'Y' : 'N',
-                'PlaceTravelled' => $row['if_yes_specify_place'],
-                'FrmTrvlDate' => EdcsImport::tDate($row['date_traveled_from']),
-                'ToTrvlDate' => EdcsImport::tDate($row['date_traveled_to']),
-                'CSFColl' => ($row['were_bloodcsf_extracted_before_the_first_dose_of_antibiotics_was_given_to_the_patient'] == 'Y') ? 'Y' : 'N',
+                'plcOther' => ($row['other_exposure'] ?? $row['otherexposure'] == 'Y') ? 'Y' : 'N',
+                'otherexposurespecify' => $row['otherexposurespecify'],
+                'Travel' => ($row['if_yes_specify_place'] ?? $row['didthepatienttraveloutsideofthep'] == 'Y') ? 'Y' : 'N',
+                'PlaceTravelled' => $row['if_yes_specify_place'] ?? $row['ifyesspecifyplace'],
+                'FrmTrvlDate' => EdcsImport::tDate($row['date_traveled_from'] ?? $row['datetraveledfrom']),
+                'ToTrvlDate' => EdcsImport::tDate($row['date_traveled_to'] ?? $row['datetraveledto']),
+                'CSFColl' => ($row['were_bloodcsf_extracted_before_the_first_dose_of_antibiotics_was_given_to_the_patient'] ?? $row['werebloodcsfextractedbeforethefi'] == 'Y') ? 'Y' : 'N',
                 'D8CSFTaken' => NULL,
                 'TymCSFTaken' => NULL,
                 'D8CSFHospLab' => NULL,
@@ -865,21 +888,23 @@ class AmesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'Serum2SampVol' => NULL,
                 'D8Serum2testing' => NULL,
                 'Serum2Result' => NULL,
-                'AESCaseClass' => $row['caseclassification_aes'],
-                'BmCaseClass' => $row['caseclassification_bm'],
-                'AESOtherAgent' => $row['aes_other_agent'],
-                'ConfirmBMTest' => $row['if_confirmed_case_please_state_confirmatory_test'],
-                'FinalDiagnosis' => $row['final_diagnosis'],
+                'AESCaseClass' => $row['caseclassification_aes'] ?? $row['caseclassificationaes'],
+                'AESOtherAgent' => $row['aes_other_agent'] ?? $row['aesotheragent'],
+                'BmCaseClass' => $row['caseclassification_bm'] ?? $row['caseclassificationbm'],
+                'ConfirmBMTest' => $row['if_confirmed_case_please_state_confirmatory_test'] ?? $row['ifconfirmedcasepleasestateconfir'],
+                'FinalDiagnosis' => $row['final_diagnosis'] ?? $row['finaldiagnosis'],
                 'Outcome' => mb_strtoupper(substr($row['outcome'],0,1)),
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp'] ?? $row['timestamp_disease']),
                 'DateDisch' => NULL,
-                'DateDied' => EdcsImport::tDate($row['date_died']),
+                'DateDied' => EdcsImport::tDate($row['date_died'] ?? $row['datedied']),
+                'dateofffup' => EdcsImport::tDate($row['dateofffup']),
+                'statusatffup' => $row['statusatffup'],
                 'RecoverSequelae' => NULL,
                 'SequelaeSpecs' => NULL,
                 'TransTo' => NULL,
                 'HAMA' => NULL,
-                'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
-                'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
+                'AdmitToEntry' => $row['timelapse_dateadmittodateencode'] ?? $row['admittoentry'],
+                'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'] ?? null,
                 'MorbidityMonth' => $getMorbidityMonth,
                 'MorbidityWeek' => $row['morbidity_week'] ?? $row['mw'],
                 'Year' => $row['year'],
@@ -898,8 +923,6 @@ class AmesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'ip' => 'N',
                 'ipgroup' => NULL,
 
-                'middle_name' => ($mname != '' && !is_null($mname && $mname != 'NONE' && $mname != 'N/A') && $mname != 'N/A') ? $mname : NULL,
-                'suffix' => ($suffix != '' && !is_null($suffix) && $suffix != 'N/A' && $suffix != 'NONE') ? $suffix : NULL,
                 'edcs_caseid' => $row['case_id'],
                 'edcs_healthFacilityCode' => $row['health_facility_code'],
                 'edcs_verificationLevel' => $row['verification_level'] ?? null,
@@ -909,7 +932,7 @@ class AmesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'from_edcs' => 1,
                 'match_casedef' => $match_casedef,
 
-                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'],
+                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'] ?? $row['userid'],
                 'edcs_last_modifiedby' => $row['last_modified_by'] ?? $row['lastmodifiedby'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date'] ?? $row['lastmodifieddate']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
@@ -920,6 +943,10 @@ class AmesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
                 'timestamp_patient' => EdcsImport::tDate($row['timestamp_patient']),
                 'timestamp_laboratory' => EdcsImport::tDate($row['timestamp_laboratory']),
+
+                'timelapse_dateonsettodateencode' => $row['timelapse_dateonsettodateencode'],
+                'timelapse_dateencodetodatevalidatedresu' => $row['timelapse_dateencodetodatevalidatedresu'],
+                'labid' => $row['labid'],
             ];
 
             $exist_check = Ames::where('EPIID', $epi_id)->first();
@@ -953,6 +980,7 @@ class HepaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
     public function model(array $row) {
         $epi_id = $row['epi_id'] ?? $row['epiid'];
         $dob = $row['date_of_birth'] ?? $row['dob'];
+        $patientnumber = $row['patient_no'] ?? $row['patientnumber'];
 
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite' && $epi_id) {
             $birthdate = Carbon::parse(EdcsImport::tDate($dob));
@@ -1002,7 +1030,7 @@ class HepaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'MuncityOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity : NULL,
                 'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
                 'AddressOfDRU' => NULL,
-                'PatientNumber' => $row['patient_no'] ?? $row['patientnumber'],
+                'PatientNumber' => $patientnumber,
                 'FirstName' => $fname,
                 'FamilyName' => $lname,
                 'FullName' => $getFullName,
@@ -1021,7 +1049,7 @@ class HepaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'Type' => NULL,
                 'LabResult' => NULL,
                 'Outcome' => mb_strtoupper(substr($row['outcome'],0,1)),
-                'DateDied' => EdcsImport::tDate($row['date_died']),
+                'DateDied' => EdcsImport::tDate($row['date_died'] ?? $row['datedied']),
                 'TypeOfHepatitis' => NULL,
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp'] ?? $row['timestamp_disease']),
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
@@ -1054,7 +1082,7 @@ class HepaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_ageGroup' => isset($row['age_group']) ? $row['age_group'] : NULL,
                 'from_edcs' => 1,
 
-                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'],
+                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'] ?? $row['userid'],
                 'edcs_last_modifiedby' => $row['last_modified_by'] ?? $row['lastmodifiedby'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date'] ?? $row['lastmodifieddate']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
@@ -1065,6 +1093,10 @@ class HepaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
                 'timestamp_patient' => EdcsImport::tDate($row['timestamp_patient']),
                 'timestamp_laboratory' => EdcsImport::tDate($row['timestamp_laboratory']),
+
+                'timelapse_dateonsettodateencode' => $row['timelapse_dateonsettodateencode'],
+                'timelapse_dateencodetodatevalidatedresu' => $row['timelapse_dateencodetodatevalidatedresu'],
+                'labid' => $row['labid'],
             ];
 
             $exist_check = Hepatitis::where('EPIID', $epi_id)->first();
@@ -1098,6 +1130,7 @@ class HfmdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
     public function model(array $row) {
         $epi_id = $row['epi_id'] ?? $row['epiid'];
         $dob = $row['date_of_birth'] ?? $row['dob'];
+        $patientnumber = $row['patient_no'] ?? $row['patientnumber'];
 
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite' && $epi_id) {
             $birthdate = Carbon::parse(EdcsImport::tDate($dob));
@@ -1126,9 +1159,12 @@ class HfmdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             }
             
             //CHECK CASE DEF
-            if($row['sore_throat'] == 'Y') {
+            $sorethroat = $row['sore_throat'] ?? $row['sorethroat'] ?? 'N';
+            $maculopapularrash = $row['maculopapular'] ?? $row['maculopapularrash'] ?? 'N';
+            $papulovesicularrash = $row['papulovesicular'] ?? $row['papulovesicularrash'] ?? 'N';
+            if($sorethroat == 'Y') {
                 if($row['fever'] == 'Y' && $row['rash'] == 'Y') {
-                    if($row['rash'] == 'Y' || $row['maculopapular'] == 'Y' || $row['papulovesicular'] == 'Y') {
+                    if($row['rash'] == 'Y' || $maculopapularrash == 'Y' || $papulovesicularrash == 'Y') {
                         $match_casedef = 1;
                     }
                     else {
@@ -1144,7 +1180,7 @@ class HfmdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             }
 
             //CUSTOM CASE CLASS
-            if($row['case_classification'] == 'Suspected case of Hand, Foot and Mouth Disease') {
+            if($row['case_classification'] == 'Suspected case of Hand, Foot and Mouth Disease' || $row['case_classification'] == 'Suspect case of Hand, Foot and Mouth Disease') {
                 $get_class = 'SUSPECTED CASE OF HFMD';
             }
             else if($row['case_classification'] == 'Probable case of Hand, Foot and Mouth Disease') {
@@ -1159,187 +1195,248 @@ class HfmdImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
             //Exposure Encoding
             $exp_list = [];
+            
+            $exposuredaycare = $row['day_care'] ?? $row['exposuredaycare'];
+            $exposurehome = $row['home'] ?? $row['exposurehome'];
+            $exposurecommunity = $row['community'] ?? $row['exposurecommunity'];
+            $exposurehealthfacility = $row['healthcare_facilities'] ?? $row['exposurehealthfacility'];
+            $exposureschool = $row['school'] ?? $row['exposureschool'];
+            $exposuredormitory = $row['dormitory'] ?? $row['exposuredormitory'];
+            $exposureothers = $row['other_exposure'] ?? $row['exposureothers'];
 
-            if($row['day_care'] == 'Y') {
+            if($exposuredaycare == 'Y') {
                 $exp_list[] = 'DAY CARE';
             }
-            if($row['home'] == 'Y') {
+            if($exposurehome == 'Y') {
                 $exp_list[] = 'HOME';
             }
-            if($row['community'] == 'Y') {
+            if($exposurecommunity == 'Y') {
                 $exp_list[] = 'COMMUNITY';
             }
-            if($row['healthcare_facilities'] == 'Y') {
+            if($exposurehealthfacility == 'Y') {
                 $exp_list[] = 'HEALTHCARE FACILITIES';
             }
-            if($row['school'] == 'Y') {
+            if($exposureschool == 'Y') {
                 $exp_list[] = 'SCHOOL';
             }
-            if($row['dormitory'] == 'Y') {
+            if($exposuredormitory == 'Y') {
                 $exp_list[] = 'DORMITORY';
             }
-            if($row['other_exposure'] == 'Y') {
+            if($exposureothers == 'Y') {
                 $exp_list[] = 'OTHERS';
             }
 
-            //Get Morb Month
-            if(!is_null($row['date_onset_of_fever'])) {
-                $getMorbidityMonth = EdcsImport::getMorbMonth(EdcsImport::tDate($row['date_onset_of_fever']));
+            if(Str::startsWith($patientnumber, 'MPSS_') && Str::endsWith($patientnumber, 'E')) {
+                preg_match('/\d+/', $patientnumber, $matches);
+
+                $extracted_id = $matches[0];
+
+                /*
+                $model = Dengue::where('id', $extracted_id)
+                ->where('from_edcs', 0)
+                ->where('from_inhouse', 1)
+                ->update([
+                    'from_edcs' => 1,
+                    'EPIID' => $epi_id,
+                ]);
+                */
+
+                $model = Hfmd::where('id', $extracted_id)->first();
+
+                if($model) {
+                    if($model->from_edcs == 0) {
+                        $model->from_edcs = 1;
+                        $model->EPIID = $epi_id;
+                        $model->edcs_caseid = $row['case_id'];
+    
+                        if($model->isDirty()) {
+                            $model->save();
+                        }
+                    }
+                }
             }
             else {
-                $getMorbidityMonth = EdcsImport::getMorbMonth($currentDate->format('Y-m-d'));
-            }
-
-            $table_params = [
-                'Icd10Code' => NULL,
-                'RegionOFDrU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name) && EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL,
-                'ProvOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province : NULL,
-                'MuncityOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity : NULL,
-                'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
-                'AddressOfDRU' => NULL,
-                'PatientNumber' => $row['patient_no'] ?? $row['patientnumber'],
-                'FirstName' => $fname,
-                'FamilyName' => $lname,
-                'FullName' => $getFullName,
-                'Region' => '04A',
-                'Province' => 'CAVITE',
-                'Muncity' => 'GENERAL TRIAS',
-                
-                'Sex' => strtoupper(substr($row['sex'],0,1)),
-                'DOB' => EdcsImport::tDate($dob),
-                'AgeYears' => $row['age_in_years'],
-                'AgeMons' => $getAgeMonths,
-                'AgeDays' => $getAgeDays,
-                'Admitted' => ($row['patient_admitted'] ?? $row['admitted'] == 'Y') ? 1 : 0,
-                'DAdmit' => EdcsImport::tDate($row['date_admitted_seen_consult']),
-                'DONSET' => EdcsImport::tDate($row['date_onset']),
-                'Fever' => ($row['fever'] == 'Y') ? 'Y' : 'N',
-                'FeverOnset' => EdcsImport::tDate($row['date_onset_of_fever']),
-                'RashChar' => NULL,
-                'RashSores' => ($row['rash'] == 'Y') ? 'Y' : 'N',
-                'Maculopapular' => ($row['maculopapular'] == 'Y') ? 'Y' : 'N',
-                'Papulovesicular' => ($row['papulovesicular'] == 'Y') ? 'Y' : 'N',
-                'SoreOnset' => EdcsImport::tDate($row['date_onset_of_rash']),
-                'Palms' => ($row['palms'] == 'Y') ? 'Y' : 'N',
-                'Fingers' => ($row['fingers'] == 'Y') ? 'Y' : 'N',
-                'FootSoles' => ($row['soles_of_feet'] == 'Y') ? 'Y' : 'N',
-                'Buttocks' => ($row['buttocks'] == 'Y') ? 'Y' : 'N',
-                'MouthUlcers' => ($row['mouth_ulcers'] == 'Y') ? 'Y' : 'N',
-                'Pain' => ($row['painful'] == 'Y') ? 'Y' : 'N',
-                'Anorexia' => ($row['loss_of_appetite'] == 'Y') ? 'Y' : 'N',
-                'BM' => ($row['body_malaise'] == 'Y') ? 'Y' : 'N',
-                'SoreThroat' => ($row['sore_throat'] == 'Y') ? 'Y' : 'N',
-                'NausVom' => ($row['nause_or_vomiting'] == 'Y') ? 'Y' : 'N',
-                'DiffBreath' => ($row['difficulty_of_breathing'] == 'Y') ? 'Y' : 'N',
-                'Paralysis' => ($row['acute_flaccid_paralysis'] == 'Y') ? 'Y' : 'N',
-                'MeningLes' => ($row['meningea_lirritation'] == 'Y') ? 'Y' : 'N',
-                'OthSymptoms' => ($row['others_symptoms'] == 'Y') ? 'Y' : 'N',
-                'AnyComp' => ($row['are_there_any_complications'] == 'Y') ? 'Y' : 'N',
-                'Complic8' => $row['if_yes_specify_complication'],
-                'Investigator' => $row['name_of_investigators'],
-                'ContactNum' => $row['contact_numbers'],
-                'DateOfEntry' => EdcsImport::tDate($row['timestamp'] ?? $row['timestamp_disease']),
-                'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
-                'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
-                'MorbidityMonth' => $getMorbidityMonth,
-                'MorbidityWeek' => $row['morbidity_week'] ?? $row['mw'],
-                'Year' => $row['year'],
-                'EPIID' => $epi_id,
-                'ReportToInvestigation' => NULL,
-                'UniqueKey' => Hfmd::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
-                'RECSTATUS' => NULL,
-                'Travel' => $row['historytravelwithin2weeks'],
-                'OtherCase' => $row['casesincommunity'],
-                'ProbExposure' => (!empty($exp_list)) ? implode(",", $exp_list) : NULL,
-                'OthExposure' => ($row['other_exposure'] == 'Y') ? 'Y' : 'N',
-                'RectalSwabColl' => NULL,
-                'VesicFluidColl' => NULL,
-                'StoolColl' => NULL,
-                'ThroatSwabColl' => NULL,
-                'DateStooltaken' => NULL,
-                'DateStoolsent' => NULL,
-                'DateStoolRecvd' => NULL,
-                'StoolResult' => NULL,
-                'StoolOrg' => NULL,
-                'StoolResultD8' => NULL,
-                'VFSwabtaken' => NULL,
-                'VFSwabsent' => NULL,
-                'VFSwabRecvd' => NULL,
-                'VesicFluidRes' => NULL,
-                'VesicFluidOrg' => NULL,
-                'VFSwabResultD8' => NULL,
-                'ThroatSwabtaken' => NULL,
-                'ThroatSwabsent' => NULL,
-                'ThroatSwabRecvd' => NULL,
-                'ThroatSwabResult' => NULL,
-                'ThroatSwabOrg' => NULL,
-                'ThroatSwabResultD8' => NULL,
-                'RectalSwabtaken' => NULL,
-                'RectalSwabsent' => NULL,
-                'RectalSwabRecvd' => NULL,
-                'RectalSwabResult' => NULL,
-                'RectalSwabOrg' => NULL,
-                'RectalSwabResultD8' => NULL,
-                'CaseClass' => $get_class,
-                'Outcome' => mb_strtoupper(substr($row['outcome'],0,1)),
-                'WFDiag' => $row['workingfinal_diagnosis'],
-                'Death' => EdcsImport::tDate($row['date_died']),
-                'DCaseRep' => NULL,
-                'DCASEINV' => EdcsImport::tDate($row['date_of_investigation'] ?? $row['dateinv']),
-                'SentinelSite' => NULL,
-                'DeleteRecord' => NULL,
-                'NameOfDru' => $fac_name,
-                'District' => 6,
-                'ILHZ' => 'GENTAMAR',
-                
-                'TYPEHOSPITALCLINIC' => $row['verification_level'] ?? null,
-                'SENT' => 'Y',
-                'ip' => 'N',
-                'ipgroup' => NULL,
-
-                'middle_name' => ($mname != '' && !is_null($mname && $mname != 'NONE' && $mname != 'N/A') && $mname != 'N/A') ? $mname : NULL,
-                'suffix' => ($suffix != '' && !is_null($suffix) && $suffix != 'N/A' && $suffix != 'NONE') ? $suffix : NULL,
-                'edcs_caseid' => $row['case_id'],
-                'edcs_healthFacilityCode' => $row['health_facility_code'],
-                'edcs_verificationLevel' => $row['verification_level'] ?? null,
-                'edcs_investigatorName' => $row['name_of_investigator'] ?? $row['investigator'] ?? null,
-                'edcs_contactNo' => isset($row['contact_no']) ? $row['contact_no'] : NULL,
-                'edcs_ageGroup' => isset($row['age_group']) ? $row['age_group'] : NULL,
-                'from_edcs' => 1,
-
-                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'],
-                'edcs_last_modifiedby' => $row['last_modified_by'] ?? $row['lastmodifiedby'],
-                'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date'] ?? $row['lastmodifieddate']),
-                'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
-
-                'dru_reg_code' => $row['region_dru'],
-                'dru_pro_code' => $row['province_dru'],
-                'dru_mun_code' => $row['muncity_dru'],
-
-                'timestamp_patient' => EdcsImport::tDate($row['timestamp_patient']),
-                'timestamp_laboratory' => EdcsImport::tDate($row['timestamp_laboratory']),
-            ];
-
-            $exist_check = Hfmd::where('EPIID', $epi_id)->first();
-
-            if($exist_check) {
-                $old_modified_date = $exist_check->edcs_last_modified_date;
-                $new_modified_date = EdcsImport::tDate($row['last_modified_date']);
-                if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
-                    $model = $exist_check->update($table_params);
+                //Get Morb Month
+                $feveronset = $row['date_onset_of_fever'] ?? $row['feveronset'];
+                if(!is_null($feveronset)) {
+                    $getMorbidityMonth = EdcsImport::getMorbMonth(EdcsImport::tDate($feveronset));
+                }
+                else {
+                    $getMorbidityMonth = EdcsImport::getMorbMonth($currentDate->format('Y-m-d'));
                 }
 
-                $model = $exist_check;
-            }
-            else {
-                $table_params = $table_params + [
-                    'match_casedef' => $match_casedef,
-                    'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
-                    'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
-                    'created_by' => auth()->user()->id,
+                $table_params = [
+                    'Icd10Code' => NULL,
+                    'RegionOFDrU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name) && EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->getRegionData()->short_name1 : NULL,
+                    'ProvOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_province : NULL,
+                    'MuncityOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity : NULL,
+                    'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
+                    'AddressOfDRU' => NULL,
+                    'PatientNumber' => $patientnumber,
+                    'FamilyName' => $lname,
+                    'FirstName' => $fname,               
+                    'middle_name' => ($mname != '' && !is_null($mname && $mname != 'NONE' && $mname != 'N/A') && $mname != 'N/A') ? $mname : NULL,
+                    'suffix' => ($suffix != '' && !is_null($suffix) && $suffix != 'N/A' && $suffix != 'NONE') ? $suffix : NULL,
+                    'FullName' => $getFullName,
+                    'Region' => '04A',
+                    'Province' => 'CAVITE',
+                    'Muncity' => 'GENERAL TRIAS',
+                    
+                    'Sex' => strtoupper(substr($row['sex'],0,1)),
+                    'DOB' => EdcsImport::tDate($dob),
+                    'AgeYears' => $row['age_in_years'] ?? $row['ageyears'],
+                    'AgeMons' => $row['agemons'],
+                    'AgeDays' => $row['agedays'],
+                    'Admitted' => ($row['patient_admitted'] ?? $row['admitted'] == 'Y') ? 1 : 0,
+                    'DAdmit' => EdcsImport::tDate($row['date_admitted_seen_consult'] ?? $row['dadmit']),
+                    'DONSET' => EdcsImport::tDate($row['date_onset'] ?? $row['donset']),
+                    'DCASEINV' => EdcsImport::tDate($row['date_of_investigation'] ?? $row['dateinv'] ?? $row['dateinvestigation']),
+                    'Investigator' => $row['name_of_investigators'] ?? $row['nameinvestigator'],
+                    'ContactNum' => $row['contact_numbers'] ?? $row['contactnumbersinvestigator'],
+                    'Fever' => ($row['fever'] == 'Y') ? 'Y' : 'N',
+                    'FeverOnset' => EdcsImport::tDate($feveronset),
+                    //'RashChar' => NULL,
+                    'RashSores' => ($row['rash'] == 'Y') ? 'Y' : 'N',
+                    'SoreOnset' => EdcsImport::tDate($row['date_onset_of_rash'] ?? $row['rashonset']),
+
+                    'Palms' => ($row['palms'] == 'Y') ? 'Y' : 'N',
+                    'Fingers' => ($row['fingers'] == 'Y') ? 'Y' : 'N',
+                    'FootSoles' => ($row['soles_of_feet'] ?? $row['footsoles'] == 'Y') ? 'Y' : 'N',
+                    'Buttocks' => ($row['buttocks'] == 'Y') ? 'Y' : 'N',
+                    'MouthUlcers' => ($row['mouth_ulcers'] ?? $row['mouthulcer'] == 'Y') ? 'Y' : 'N',
+                    'Pain' => ($row['painful'] ?? $row['pain'] == 'Y') ? 'Y' : 'N',
+                    'Maculopapular' => $maculopapularrash,
+                    'Papulovesicular' => $papulovesicularrash,
+                    
+                    'Anorexia' => ($row['loss_of_appetite'] ?? $row['lossappetite'] == 'Y') ? 'Y' : 'N',
+                    'BM' => ($row['body_malaise'] ?? $row['bodymalaise'] == 'Y') ? 'Y' : 'N',
+                    'SoreThroat' => $sorethroat,
+                    'NausVom' => ($row['nause_or_vomiting'] ?? $row['nauseavotiming'] == 'Y') ? 'Y' : 'N',
+                    'DiffBreath' => ($row['difficulty_of_breathing'] ?? $row['diffbreath'] == 'Y') ? 'Y' : 'N',
+                    'Paralysis' => ($row['acute_flaccid_paralysis'] ?? $row['afp'] == 'Y') ? 'Y' : 'N',
+                    'MeningLes' => ($row['meningea_lirritation'] ?? $row['meningealirritation'] == 'Y') ? 'Y' : 'N',
+                    'OthSymptoms' => ($row['others_symptoms'] ?? $row['othersymptoms'] == 'Y') ? 'Y' : 'N',
+                    'specifyothersymptoms' => $row['specifyothersymptoms'],
+                    'AnyComp' => ($row['are_there_any_complications'] ?? $row['complication'] == 'Y') ? 'Y' : 'N',
+                    'Complic8' => $row['if_yes_specify_complication'] ?? $row['specifycomplication'],
+                    'WFDiag' => $row['workingfinal_diagnosis'] ?? $row['wfdiag'],
+                    'Travel' => $row['historytravelwithin2weeks'] ?? $row['historytravelwithin2weeks'],
+                    'OtherCase' => $row['casesincommunity'] ?? $row['casesincommunity'],
+                    'ProbExposure' => (!empty($exp_list)) ? implode(",", $exp_list) : NULL,
+                    'OthExposure' => ($exposureothers == 'Y') ? 'Y' : 'N',
+
+                    //'RectalSwabColl' => NULL,
+                    //'VesicFluidColl' => NULL,
+                    //'StoolColl' => NULL,
+                    //'ThroatSwabColl' => NULL,
+                    //'DateStooltaken' => NULL,
+                    //'DateStoolsent' => NULL,
+                    //'DateStoolRecvd' => NULL,
+                    //'StoolResult' => NULL,
+                    //'StoolOrg' => NULL,
+                    //'StoolResultD8' => NULL,
+                    //'VFSwabtaken' => NULL,
+                    //'VFSwabsent' => NULL,
+                    //'VFSwabRecvd' => NULL,
+                    //'VesicFluidRes' => NULL,
+                    //'VesicFluidOrg' => NULL,
+                    //'VFSwabResultD8' => NULL,
+                    //'ThroatSwabtaken' => NULL,
+                    //'ThroatSwabsent' => NULL,
+                    //'ThroatSwabRecvd' => NULL,
+                    //'ThroatSwabResult' => NULL,
+                    //'ThroatSwabOrg' => NULL,
+                    //'ThroatSwabResultD8' => NULL,
+                    //'RectalSwabtaken' => NULL,
+                    //'RectalSwabsent' => NULL,
+                    //'RectalSwabRecvd' => NULL,
+                    //'RectalSwabResult' => NULL,
+                    //'RectalSwabOrg' => NULL,
+                    //'RectalSwabResultD8' => NULL,
+
+                    'CaseClass' => $get_class,
+                    'Outcome' => mb_strtoupper(substr($row['outcome'],0,1)),
+                    'Death' => EdcsImport::tDate($row['date_died'] ?? $row['datedied']),
+
+                    'DateOfEntry' => EdcsImport::tDate($row['timestamp'] ?? $row['timestamp_disease']),
+                    'AdmitToEntry' => $row['timelapse_dateadmittodateencode'] ?? $row['admittoentry'],
+                    'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'] ?? null,
+                    'MorbidityMonth' => $getMorbidityMonth,
+                    'MorbidityWeek' => $row['morbidity_week'] ?? $row['mw'],
+                    'Year' => $row['year'],
+                    'EPIID' => $epi_id,
+                    'ReportToInvestigation' => NULL,
+                    'UniqueKey' => Hfmd::orderBy('UniqueKey', 'DESC')->pluck('UniqueKey')->first() + 1,
+                    'RECSTATUS' => NULL,
+                    'DCaseRep' => NULL,
+                    
+                    'SentinelSite' => NULL,
+                    'DeleteRecord' => NULL,
+                    'NameOfDru' => $fac_name,
+                    'District' => 6,
+                    'ILHZ' => 'GENTAMAR',
+                    
+                    'TYPEHOSPITALCLINIC' => $row['verification_level'] ?? null,
+                    'SENT' => 'Y',
+                    'ip' => 'N',
+                    'ipgroup' => NULL,
+
+                    'edcs_caseid' => $row['case_id'],
+                    'edcs_healthFacilityCode' => $row['health_facility_code'],
+                    'edcs_verificationLevel' => $row['verification_level'] ?? null,
+                    'edcs_investigatorName' => $row['name_of_investigator'] ?? $row['investigator'] ?? null,
+                    'edcs_contactNo' => isset($row['contact_no']) ? $row['contact_no'] : NULL,
+                    'edcs_ageGroup' => isset($row['age_group']) ? $row['age_group'] : NULL,
+                    'from_edcs' => 1,
+
+                    'edcs_userid' => $row['user_id'] ?? $row['encoded_by'] ?? $row['userid'],
+                    'edcs_last_modifiedby' => $row['last_modified_by'] ?? $row['lastmodifiedby'],
+                    'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date'] ?? $row['lastmodifieddate']),
+                    'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
+
+                    'dru_reg_code' => $row['region_dru'] ?? $row['regionofdru'],
+                    'dru_pro_code' => $row['province_dru'] ?? $row['provofdru'],
+                    'dru_mun_code' => $row['muncity_dru'] ?? $row['muncityofdru'],
+
+                    'timestamp_patient' => EdcsImport::tDate($row['timestamp_patient']),
+                    'timestamp_laboratory' => EdcsImport::tDate($row['timestamp_laboratory']),
+
+                    'timelapse_dateonsettodateencode' => $row['timelapse_dateonsettodateencode'],
+                    'timelapse_dateencodetodatevalidatedresu' => $row['timelapse_dateencodetodatevalidatedresu'],
+                    'labid' => $row['labid'],
+
+                    'specimen_type' => $row['specimen_type'],
+                    'date_specimen_collected' => EdcsImport::tDate($row['date_specimen_collected']),
+                    'laboratory_sent_to_ritm' => $row['laboratory_sent_to_ritm'],
+                    'date_sent_to_ritmsnl' => EdcsImport::tDate($row['date_sent_to_ritmsnl']),
+                    'date_received_ritmsnl' => EdcsImport::tDate($row['date_received_ritmsnl']),
+                    'laboratory_result' => $row['laboratory_result'],
+                    'type_of_organism' => $row['type_of_organism'],
+                    'type_of_test_conducted' => $row['type_of_test_conducted'],
+                    'interpretation' => $row['interpretation'],
                 ];
 
-                $model = Hfmd::create($table_params);
+                $exist_check = Hfmd::where('EPIID', $epi_id)->first();
+
+                if($exist_check) {
+                    $old_modified_date = $exist_check->edcs_last_modified_date;
+                    $new_modified_date = EdcsImport::tDate($row['last_modified_date']);
+                    if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
+                        $model = $exist_check->update($table_params);
+                    }
+
+                    $model = $exist_check;
+                }
+                else {
+                    $table_params = $table_params + [
+                        'match_casedef' => $match_casedef,
+                        'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
+                        'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && $row['current_address_sitio_purok_street_name'] != 'N/A') ? mb_strtoupper($row['current_address_sitio_purok_street_name']) : NULL,
+                        'created_by' => auth()->user()->id,
+                    ];
+
+                    $model = Hfmd::create($table_params);
+                }
             }
 
             return $model;
@@ -1352,6 +1449,7 @@ class LeptoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
     public function model(array $row) {
         $epi_id = $row['epi_id'] ?? $row['epiid'];
         $dob = $row['date_of_birth'] ?? $row['dob'];
+        $patientnumber = $row['patient_no'] ?? $row['patientnumber'];
 
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite' && $epi_id) {
             $birthdate = Carbon::parse(EdcsImport::tDate($dob));
@@ -1404,7 +1502,7 @@ class LeptoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'MuncityOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity : NULL,
                 'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
                 'AddressOfDRU' => NULL,
-                'PatientNumber' => $row['patient_no'] ?? $row['patientnumber'],
+                'PatientNumber' => $patientnumber,
                 'FirstName' => $fname,
                 'FamilyName' => $lname,
                 'FullName' => $getFullName,
@@ -1424,7 +1522,7 @@ class LeptoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'Serovar' => NULL,
                 'CaseClassification' => substr($row['case_classification'],0,1),
                 'Outcome' => mb_strtoupper(substr($row['outcome'],0,1)),
-                'DateDied' => EdcsImport::tDate($row['date_died']),
+                'DateDied' => EdcsImport::tDate($row['date_died'] ?? $row['datedied']),
                 'Occupation' => $row['occupation'],
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp'] ?? $row['timestamp_disease']),
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
@@ -1456,7 +1554,7 @@ class LeptoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_ageGroup' => isset($row['age_group']) ? $row['age_group'] : NULL,
                 'from_edcs' => 1,
                 
-                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'],
+                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'] ?? $row['userid'],
                 'edcs_last_modifiedby' => $row['last_modified_by'] ?? $row['lastmodifiedby'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date'] ?? $row['lastmodifieddate']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
@@ -1467,6 +1565,10 @@ class LeptoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
                 'timestamp_patient' => EdcsImport::tDate($row['timestamp_patient']),
                 'timestamp_laboratory' => EdcsImport::tDate($row['timestamp_laboratory']),
+
+                'timelapse_dateonsettodateencode' => $row['timelapse_dateonsettodateencode'],
+                'timelapse_dateencodetodatevalidatedresu' => $row['timelapse_dateencodetodatevalidatedresu'],
+                'labid' => $row['labid'],
             ];
 
             $exist_check = Leptospirosis::where('EPIID', $epi_id)->first();
@@ -1500,6 +1602,7 @@ class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
     public function model(array $row) {
         $epi_id = $row['epi_id'] ?? $row['epiid'];
         $dob = $row['date_of_birth'] ?? $row['dob'];
+        $patientnumber = $row['patient_no'] ?? $row['patientnumber'];
 
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite' && $epi_id) {
             $birthdate = Carbon::parse(EdcsImport::tDate($dob));
@@ -1564,7 +1667,7 @@ class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'MuncityOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity : NULL,
                 'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
                 'AddressOfDRU' => NULL,
-                'PatientNumber' => $row['patient_no'] ?? $row['patientnumber'],
+                'PatientNumber' => $patientnumber,
                 'FirstName' => $fname,
                 'FamilyName' => $lname,
                 'FullName' => $getFullName,
@@ -1653,7 +1756,7 @@ class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'InfectionSource' => $row['source_infection'],
                 'Outcome' => mb_strtoupper(substr($row['outcome'],0,1)),
                 'FinalDx' => $row['final_diagnosis'],
-                'Death' => EdcsImport::tDate($row['date_died']),
+                'Death' => EdcsImport::tDate($row['date_died'] ?? $row['datedied']),
                 'DCaseRep' => EdcsImport::tDate($row['date_of_report']),
                 'DCASEINV' => EdcsImport::tDate($row['date_of_investigation'] ?? $row['dateinv']),
                 'SentinelSite' => NULL,
@@ -1697,7 +1800,7 @@ class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'from_edcs' => 1,
                 'match_casedef' => $match_casedef,
                 
-                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'],
+                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'] ?? $row['userid'],
                 'edcs_last_modifiedby' => $row['last_modified_by'] ?? $row['lastmodifiedby'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date'] ?? $row['lastmodifieddate']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
@@ -1708,6 +1811,10 @@ class MeaslesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
                 'timestamp_patient' => EdcsImport::tDate($row['timestamp_patient']),
                 'timestamp_laboratory' => EdcsImport::tDate($row['timestamp_laboratory']),
+
+                'timelapse_dateonsettodateencode' => $row['timelapse_dateonsettodateencode'],
+                'timelapse_dateencodetodatevalidatedresu' => $row['timelapse_dateencodetodatevalidatedresu'],
+                'labid' => $row['labid'],
             ];
 
             $exist_check = Measles::where('EPIID', $epi_id)->first();
@@ -1742,6 +1849,7 @@ class NntImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
     public function model(array $row) {
         $epi_id = $row['epi_id'] ?? $row['epiid'];
         $dob = $row['date_of_birth'] ?? $row['dob'];
+        $patientnumber = $row['patient_no'] ?? $row['patientnumber'];
 
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite' && $epi_id && $row['case_code'] == 'NON_NTETANUS') {
             $birthdate = Carbon::parse(EdcsImport::tDate($dob));
@@ -1791,7 +1899,7 @@ class NntImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'MuncityOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity : NULL,
                 'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
                 'AddressOfDRU' => NULL,
-                'PatientNumber' => $row['patient_no'] ?? $row['patientnumber'],
+                'PatientNumber' => $patientnumber,
                 'FirstName' => $fname,
                 'FamilyName' => $lname,
                 'FullName' => $getFullName,
@@ -1815,7 +1923,7 @@ class NntImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'TetanusAntitoxin' => ($row['recieved_aniti_tetanus_anti_toxin_or_tig'] == 'Y') ? 'Y' : 'N',
                 'SkinLesion' => ($row['with_recent_wound'] == 'Y') ? 'Y' : 'N',
                 'Outcome' => mb_strtoupper(substr($row['outcome'],0,1)),
-                'DateDied' => EdcsImport::tDate($row['date_died']),
+                'DateDied' => EdcsImport::tDate($row['date_died'] ?? $row['datedied']),
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp'] ?? $row['timestamp_disease']),
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
                 'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
@@ -1845,7 +1953,7 @@ class NntImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_ageGroup' => $row['age_group'],
                 'from_edcs' => 1,
                 
-                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'],
+                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'] ?? $row['userid'],
                 'edcs_last_modifiedby' => $row['last_modified_by'] ?? $row['lastmodifiedby'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date'] ?? $row['lastmodifieddate']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
@@ -1856,6 +1964,10 @@ class NntImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
                 'timestamp_patient' => EdcsImport::tDate($row['timestamp_patient']),
                 'timestamp_laboratory' => EdcsImport::tDate($row['timestamp_laboratory']),
+
+                'timelapse_dateonsettodateencode' => $row['timelapse_dateonsettodateencode'],
+                'timelapse_dateencodetodatevalidatedresu' => $row['timelapse_dateencodetodatevalidatedresu'],
+                'labid' => $row['labid'],
             ];
 
             $exist_check = Nnt::where('EPIID', $epi_id)->first();
@@ -1889,6 +2001,7 @@ class RabiesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
     public function model(array $row) {
         $epi_id = $row['epi_id'] ?? $row['epiid'];
         $dob = $row['date_of_birth'] ?? $row['dob'];
+        $patientnumber = $row['patient_no'] ?? $row['patientnumber'];
 
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite' && $epi_id) {
             $birthdate = Carbon::parse(EdcsImport::tDate($dob));
@@ -1939,7 +2052,7 @@ class RabiesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
                 'AddressOfDRU' => NULL,
                 'SentinelSite' => NULL,
-                'PatientNumber' => $row['patient_no'] ?? $row['patientnumber'],
+                'PatientNumber' => $patientnumber,
                 'FirstName' => $fname,
                 'FamilyName' => $lname,
                 'FullName' => $getFullName,
@@ -1963,7 +2076,7 @@ class RabiesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'NameOfInvestigator' => mb_strtoupper($row['name_of_investigator'] ?? $row['investigator']),
                 'InvestigatorContactNum' => $row['contact_noinvestigator'],
                 'Outcome' => mb_strtoupper(substr($row['outcome'],0,1)),
-                'DateDied' => EdcsImport::tDate($row['date_died']),
+                'DateDied' => EdcsImport::tDate($row['date_died'] ?? $row['datedied']),
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp'] ?? $row['timestamp_disease']),
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
                 'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
@@ -2015,7 +2128,7 @@ class RabiesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_ageGroup' => isset($row['age_group']) ? $row['age_group'] : NULL,
                 'from_edcs' => 1,
                 
-                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'],
+                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'] ?? $row['userid'],
                 'edcs_last_modifiedby' => $row['last_modified_by'] ?? $row['lastmodifiedby'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date'] ?? $row['lastmodifieddate']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
@@ -2026,6 +2139,10 @@ class RabiesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
                 'timestamp_patient' => EdcsImport::tDate($row['timestamp_patient']),
                 'timestamp_laboratory' => EdcsImport::tDate($row['timestamp_laboratory']),
+
+                'timelapse_dateonsettodateencode' => $row['timelapse_dateonsettodateencode'],
+                'timelapse_dateencodetodatevalidatedresu' => $row['timelapse_dateencodetodatevalidatedresu'],
+                'labid' => $row['labid'],
             ];
 
             $exist_check = Rabies::where('EPIID', $epi_id)->first();
@@ -2059,6 +2176,7 @@ class RotaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
     public function model(array $row) {
         $epi_id = $row['epi_id'] ?? $row['epiid'];
         $dob = $row['date_of_birth'] ?? $row['dob'];
+        $patientnumber = $row['patient_no'] ?? $row['patientnumber'];
 
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite' && $epi_id) {
             $birthdate = Carbon::parse(EdcsImport::tDate($dob));
@@ -2109,7 +2227,7 @@ class RotaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
                 'AddressOfDRU' => NULL,
                 'DRUContactNum' => NULL,
-                'PatientNumber' => $row['patient_no'] ?? $row['patientnumber'],
+                'PatientNumber' => $patientnumber,
                 'FirstName' => $fname,
                 'FamilyName' => $lname,
                 'FullName' => $getFullName,
@@ -2162,7 +2280,7 @@ class RotaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'SpecCond' => NULL,
                 'DateDisch' => EdcsImport::tDate($row['date_of_discharge_health_facility']),
                 'Outcome' => mb_strtoupper(substr($row['outcome'],0,1)),
-                'DateDied' => EdcsImport::tDate($row['date_died']),
+                'DateDied' => EdcsImport::tDate($row['date_died'] ?? $row['datedied']),
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp'] ?? $row['timestamp_disease']),
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
                 'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
@@ -2196,7 +2314,7 @@ class RotaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_ageGroup' => $row['age_group'],
                 'from_edcs' => 1,
                 
-                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'],
+                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'] ?? $row['userid'],
                 'edcs_last_modifiedby' => $row['last_modified_by'] ?? $row['lastmodifiedby'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date'] ?? $row['lastmodifieddate']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
@@ -2207,6 +2325,10 @@ class RotaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
                 'timestamp_patient' => EdcsImport::tDate($row['timestamp_patient']),
                 'timestamp_laboratory' => EdcsImport::tDate($row['timestamp_laboratory']),
+
+                'timelapse_dateonsettodateencode' => $row['timelapse_dateonsettodateencode'],
+                'timelapse_dateencodetodatevalidatedresu' => $row['timelapse_dateencodetodatevalidatedresu'],
+                'labid' => $row['labid'],
             ];
 
             $exist_check = Rotavirus::where('EPIID', $epi_id)->first();
@@ -2240,6 +2362,7 @@ class TyphoidImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
     public function model(array $row) {
         $epi_id = $row['epi_id'] ?? $row['epiid'];
         $dob = $row['date_of_birth'] ?? $row['dob'];
+        $patientnumber = $row['patient_no'] ?? $row['patientnumber'];
 
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite' && $epi_id) {
             $birthdate = Carbon::parse(EdcsImport::tDate($dob));
@@ -2289,7 +2412,7 @@ class TyphoidImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'MuncityOfDRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->address_muncity : NULL,
                 'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
                 'AddressOfDRU' => NULL,
-                'PatientNumber' => $row['patient_no'] ?? $row['patientnumber'],
+                'PatientNumber' => $patientnumber,
                 'FirstName' => $fname,
                 'FamilyName' => $lname,
                 'FullName' => $getFullName,
@@ -2308,7 +2431,7 @@ class TyphoidImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'LabResult' => NULL,
                 'Organism' => NULL,
                 'Outcome' => mb_strtoupper(substr($row['outcome'],0,1)),
-                'DateDied' => EdcsImport::tDate($row['date_died']),
+                'DateDied' => EdcsImport::tDate($row['date_died'] ?? $row['datedied']),
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp'] ?? $row['timestamp_disease']),
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
                 'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
@@ -2339,7 +2462,7 @@ class TyphoidImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 'edcs_ageGroup' => isset($row['age_group']) ? $row['age_group'] : NULL,
                 'from_edcs' => 1,
                 
-                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'],
+                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'] ?? $row['userid'],
                 'edcs_last_modifiedby' => $row['last_modified_by'] ?? $row['lastmodifiedby'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date'] ?? $row['lastmodifieddate']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
@@ -2350,6 +2473,10 @@ class TyphoidImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
                 'timestamp_patient' => EdcsImport::tDate($row['timestamp_patient']),
                 'timestamp_laboratory' => EdcsImport::tDate($row['timestamp_laboratory']),
+
+                'timelapse_dateonsettodateencode' => $row['timelapse_dateonsettodateencode'],
+                'timelapse_dateencodetodatevalidatedresu' => $row['timelapse_dateencodetodatevalidatedresu'],
+                'labid' => $row['labid'],
             ];
 
             $exist_check = Typhoid::where('EPIID', $epi_id)->first();
@@ -2382,6 +2509,7 @@ class DengueImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
     public function model(array $row) {
         $epi_id = $row['epi_id'] ?? $row['epiid'];
         $dob = $row['date_of_birth'] ?? $row['dob'];
+        $patientnumber = $row['patient_no'] ?? $row['patientnumber'];
 
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite' && $epi_id) {
             $birthdate = Carbon::parse(EdcsImport::tDate($dob));
@@ -2410,14 +2538,15 @@ class DengueImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             }
 
             //CLASSIFICATION FIX
-            if($row['clinical_classification'] == 'Dengue Without Warning Signs') {
+            $clinclass = $row['clinical_classification'] ?? $row['clinclass'];
+            if($clinclass == 'Dengue Without Warning Signs') {
                 $get_classi = 'NO WARNING SIGNS';
             }
-            else if($row['clinical_classification'] == 'Dengue With Warning Signs' || $row['clinical_classification'] == 'Dengue With Warning ') {
+            else if($clinclass == 'Dengue With Warning Signs' || $clinclass == 'Dengue With Warning ') {
                 $get_classi = 'WITH WARNING SIGNS';
             }
             else {
-                $get_classi = mb_strtoupper($row['clinical_classification']);
+                $get_classi = mb_strtoupper($clinclass);
             }
 
             //Check Facility Code if Existing in the DOH Facilities Database
@@ -2442,8 +2571,8 @@ class DengueImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                 $getDruFacilityTypeText = EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type;
             }
 
-            if(Str::startsWith($row['patient_no'], 'MPSS_') && Str::endsWith($row['patient_no'], 'E')) {
-                preg_match('/\d+/', $row['patient_no'], $matches);
+            if(Str::startsWith($patientnumber, 'MPSS_') && Str::endsWith($patientnumber, 'E')) {
+                preg_match('/\d+/', $patientnumber, $matches);
 
                 $extracted_id = $matches[0];
 
@@ -2473,8 +2602,8 @@ class DengueImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
             }
             else {
                 //Get Morb Month
-                if(!is_null($row['date_on_set_of_illness_first_symptoms'])) {
-                    $getMorbidityMonth = EdcsImport::getMorbMonth(EdcsImport::tDate($row['date_on_set_of_illness_first_symptoms']));
+                if(!is_null($row['date_on_set_of_illness_first_symptoms'] ?? $row['donset'])) {
+                    $getMorbidityMonth = EdcsImport::getMorbMonth(EdcsImport::tDate($row['date_on_set_of_illness_first_symptoms'] ?? $row['donset']));
                 }
                 else {
                     $getMorbidityMonth = EdcsImport::getMorbMonth($currentDate->format('Y-m-d'));
@@ -2494,31 +2623,39 @@ class DengueImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                     'Muncity' => 'GENERAL TRIAS',
                     'DateOfEntry' => EdcsImport::tDate($row['timestamp'] ?? $row['timestamp_disease']),
                     
-                    'PatientNumber' => $row['patient_no'] ?? $row['patientnumber'],
-                    'FirstName' => $fname,
+                    'PatientNumber' => $patientnumber,
                     'FamilyName' => $lname,
+                    'FirstName' => $fname,
+                    'middle_name' => ($mname != '' && !is_null($mname && $mname != 'NONE' && $mname != 'N/A') && $mname != 'N/A') ? $mname : NULL,
+                    'suffix' => ($suffix != '' && !is_null($suffix) && $suffix != 'N/A' && $suffix != 'NONE') ? $suffix : NULL,
                     'FullName' => $getFullName,
                     'AgeYears' => $row['age_in_years'] ?? $row['ageyears'],
                     'AgeMons' => $getAgeMonths,
                     'AgeDays' => $getAgeDays,
                     'Sex' => strtoupper(substr($row['sex'],0,1)),
                     'DOB' => EdcsImport::tDate($dob),
+                    'consulted' => $row['consulted'],
+                    'date_consulted' => EdcsImport::tDate($row['date_consulted']),
+                    'place_consulted' => $row['place_consulted'],
                     'Admitted' => ($row['patient_admitted'] ?? $row['admitted'] == 'Y') ? 1 : 0,
-                    'DAdmit' => EdcsImport::tDate($row['date_admitted_seen']),
-                    'DOnset' => EdcsImport::tDate($row['date_on_set_of_illness_first_symptoms']),
+                    'DAdmit' => EdcsImport::tDate($row['date_admitted_seen'] ?? $row['dadmit']),
+                    'DOnset' => EdcsImport::tDate($row['date_on_set_of_illness_first_symptoms'] ?? $row['donset']),
+                    'no_of_dengue_vaccine_received' => $row['no_of_dengue_vaccine_received'],
+                    'date_first_vaccinated_with_dengue_vaccine' => EdcsImport::tDate($row['date_first_vaccinated_with_dengue_vaccine']),
+                    'date_last_vaccinated_with_dengue_vaccine' => EdcsImport::tDate($row['date_last_vaccinated_with_dengue_vaccine']),
                     'Type' => 'DF',
                     'LabTest' => NULL,
                     'LabRes' => NULL,
                     'ClinClass' => $get_classi,
                     'Outcome' => (isset($row['outcome'])) ? mb_strtoupper(substr($row['outcome'],0,1)) : mb_strtoupper(substr($row['outcome2'],0,1)),
                     'EPIID' => $epi_id,
-                    'DateDied' => EdcsImport::tDate($row['date_died']),
+                    'DateDied' => EdcsImport::tDate($row['date_died'] ?? $row['datedied']),
                     
                     'MorbidityMonth' => $getMorbidityMonth,
                     'MorbidityWeek' => $row['morbidity_week'] ?? $row['mw'],
                     'Year' => $row['year'],
-                    'AdmitToEntry' => preg_replace('/[^0-9]/', '', $row['timelapse_dateadmittodateencode']),
-                    'OnsetToAdmit' => preg_replace('/[^0-9]/', '', $row['timelapse_dateonsettodateencode']),
+                    'AdmitToEntry' => $row['admittoentry'],
+                    'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'] ?? null,
                     'SentinelSite' => NULL,
                     'DeleteRecord' => NULL,
                     'Recstatus' => NULL,
@@ -2532,9 +2669,7 @@ class DengueImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                     'ip' => 'N',
                     'ipgroup' => NULL,
     
-                    'middle_name' => ($mname != '' && !is_null($mname && $mname != 'NONE' && $mname != 'N/A') && $mname != 'N/A') ? $mname : NULL,
-                    'suffix' => ($suffix != '' && !is_null($suffix) && $suffix != 'N/A' && $suffix != 'NONE') ? $suffix : NULL,
-                    'edcs_caseid' => (isset($row['case_id'])) ? $row['case_id'] : $row['21'],
+                    'edcs_caseid' => $row['case_id'] ?? $row['21'],
                     'edcs_healthFacilityCode' => $row['health_facility_code'],
                     'edcs_verificationLevel' => $row['verification_level'] ?? null,
                     'edcs_investigatorName' => $row['name_of_investigator'] ?? $row['investigator'] ?? null,
@@ -2542,7 +2677,7 @@ class DengueImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                     'edcs_ageGroup' => isset($row['age_group']) ? $row['age_group'] : NULL,
                     'from_edcs' => 1,
     
-                    'edcs_userid' => $row['user_id'] ?? $row['encoded_by'],
+                    'edcs_userid' => $row['user_id'] ?? $row['encoded_by'] ?? $row['userid'],
                     'edcs_last_modifiedby' => $row['last_modified_by'] ?? $row['lastmodifiedby'],
                     'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date'] ?? $row['lastmodifieddate']),
                     'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
@@ -2552,7 +2687,21 @@ class DengueImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                     'dru_mun_code' => $row['muncity_dru'],
 
                     'timestamp_patient' => EdcsImport::tDate($row['timestamp_patient']),
-                'timestamp_laboratory' => EdcsImport::tDate($row['timestamp_laboratory']),
+                    'timestamp_laboratory' => EdcsImport::tDate($row['timestamp_laboratory']),
+
+                    'timelapse_dateonsettodateencode' => $row['timelapse_dateonsettodateencode'],
+                    'timelapse_dateencodetodatevalidatedresu' => $row['timelapse_dateencodetodatevalidatedresu'],
+                    'labid' => $row['labid'],
+
+                    'specimen_type' => $row['specimen_type'],
+                    'date_specimen_collected' => EdcsImport::tDate($row['date_specimen_collected']),
+                    'laboratory_sent_to_ritm' => $row['laboratory_sent_to_ritm'],
+                    'date_sent_to_ritmsnl' => EdcsImport::tDate($row['date_sent_to_ritmsnl']),
+                    'date_received_ritmsnl' => EdcsImport::tDate($row['date_received_ritmsnl']),
+                    'laboratory_result' => $row['laboratory_result'],
+                    'type_of_organism' => $row['type_of_organism'],
+                    'type_of_test_conducted' => $row['type_of_test_conducted'],
+                    'interpretation' => $row['interpretation'],
                 ];
 
                 $exist_check = Dengue::where('EPIID', $epi_id)->first();
@@ -2599,6 +2748,7 @@ class DiphImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
     public function model(array $row) {
         $epi_id = $row['epi_id'] ?? $row['epiid'];
         $dob = $row['date_of_birth'] ?? $row['dob'];
+        $patientnumber = $row['patient_no'] ?? $row['patientnumber'];
 
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite' && $epi_id) {
             $birthdate = Carbon::parse(EdcsImport::tDate($dob));
@@ -2649,7 +2799,7 @@ class DiphImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
                 'NameOfDru' => $fac_name,
                 'AddressOfDRU' => NULL,
-                'PatientNumber' => $row['patient_no'] ?? $row['patientnumber'],
+                'PatientNumber' => $patientnumber,
                 'FirstName' => $fname,
                 'FamilyName' => $lname,
                 'FullName' => $getFullName,
@@ -2700,7 +2850,7 @@ class DiphImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'edcs_ageGroup' => isset($row['age_group']) ? $row['age_group'] : NULL,
                 'from_edcs' => 1,
 
-                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'],
+                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'] ?? $row['userid'],
                 'edcs_last_modifiedby' => $row['last_modified_by'] ?? $row['lastmodifiedby'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date'] ?? $row['lastmodifieddate']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
@@ -2711,6 +2861,10 @@ class DiphImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
 
                 'timestamp_patient' => EdcsImport::tDate($row['timestamp_patient']),
                 'timestamp_laboratory' => EdcsImport::tDate($row['timestamp_laboratory']),
+
+                'timelapse_dateonsettodateencode' => $row['timelapse_dateonsettodateencode'],
+                'timelapse_dateencodetodatevalidatedresu' => $row['timelapse_dateencodetodatevalidatedresu'],
+                'labid' => $row['labid'],
             ];
 
             $exist_check = Diph::where('EPIID', $epi_id)->first();
@@ -2743,6 +2897,7 @@ class ChikvImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
     public function model(array $row) {
         $epi_id = $row['epi_id'] ?? $row['epiid'];
         $dob = $row['date_of_birth'] ?? $row['dob'];
+        $patientnumber = $row['patient_no'] ?? $row['patientnumber'];
 
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite' && $epi_id) {
             $birthdate = Carbon::parse(EdcsImport::tDate($dob));
@@ -2793,7 +2948,7 @@ class ChikvImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
                 'NameOfDru' => $fac_name,
                 'AddressOfDRU' => NULL,
-                'PatientNumber' => $row['patient_no'] ?? $row['patientnumber'],
+                'PatientNumber' => $patientnumber,
                 'FirstName' => $fname,
                 'FamilyName' => $lname,
                 'FullName' => $getFullName,
@@ -2855,7 +3010,7 @@ class ChikvImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'Reporter' => $row['user_id'],
                 'ReporterContNum' => NULL,
                 'Outcome' => mb_strtoupper(substr($row['outcome'],0,1)),
-                'DateDied' => EdcsImport::tDate($row['date_died']),
+                'DateDied' => EdcsImport::tDate($row['date_died'] ?? $row['datedied']),
 
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp'] ?? $row['timestamp_disease']),
                 'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
@@ -2885,7 +3040,7 @@ class ChikvImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'edcs_ageGroup' => isset($row['age_group']) ? $row['age_group'] : NULL,
                 'from_edcs' => 1,
 
-                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'],
+                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'] ?? $row['userid'],
                 'edcs_last_modifiedby' => $row['last_modified_by'] ?? $row['lastmodifiedby'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date'] ?? $row['lastmodifieddate']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
@@ -2896,6 +3051,10 @@ class ChikvImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
 
                 'timestamp_patient' => EdcsImport::tDate($row['timestamp_patient']),
                 'timestamp_laboratory' => EdcsImport::tDate($row['timestamp_laboratory']),
+
+                'timelapse_dateonsettodateencode' => $row['timelapse_dateonsettodateencode'],
+                'timelapse_dateencodetodatevalidatedresu' => $row['timelapse_dateencodetodatevalidatedresu'],
+                'labid' => $row['labid'],
             ];
 
             $exist_check = Chikv::where('EPIID', $epi_id)->first();
@@ -2928,6 +3087,7 @@ class MeningoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
     public function model(array $row) {
         $epi_id = $row['epi_id'] ?? $row['epiid'];
         $dob = $row['date_of_birth'] ?? $row['dob'];
+        $patientnumber = $row['patient_no'] ?? $row['patientnumber'];
 
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite' && $epi_id) {
             $birthdate = Carbon::parse(EdcsImport::tDate($dob));
@@ -2991,7 +3151,7 @@ class MeningoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
                 'NameOfDru' => $fac_name,
                 'AddressOfDRU' => NULL,
-                'PatientNumber' => $row['patient_no'] ?? $row['patientnumber'],
+                'PatientNumber' => $patientnumber,
                 'FirstName' => $fname,
                 'FamilyName' => $lname,
                 'FullName' => $getFullName,
@@ -3035,7 +3195,7 @@ class MeningoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'ClinicalPres' => $row['clinical_presentation'],
                 'CaseClassification' => $row['case_classification'],
                 'Outcome' => mb_strtoupper(substr($row['outcome'],0,1)),
-                'DateDied' => EdcsImport::tDate($row['date_died']),
+                'DateDied' => EdcsImport::tDate($row['date_died'] ?? $row['datedied']),
                 'Bld_CSF' => ($row['were_bloodcsf_extracted_before_the_first_dose_of_antibiotics_was_given_to_the_patient'] == 'Y') ? 1 : 0,
                 'Antibiotics' => ($row['administered_antibiotic_therapy'] == 'Y') ? 1 : 0,
                 'CSFSpecimen' => NULL,
@@ -3104,7 +3264,7 @@ class MeningoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'edcs_ageGroup' => isset($row['age_group']) ? $row['age_group'] : NULL,
                 'from_edcs' => 1,
                 
-                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'],
+                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'] ?? $row['userid'],
                 'edcs_last_modifiedby' => $row['last_modified_by'] ?? $row['lastmodifiedby'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date'] ?? $row['lastmodifieddate']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
@@ -3116,6 +3276,10 @@ class MeningoImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
 
                 'timestamp_patient' => EdcsImport::tDate($row['timestamp_patient']),
                 'timestamp_laboratory' => EdcsImport::tDate($row['timestamp_laboratory']),
+
+                'timelapse_dateonsettodateencode' => $row['timelapse_dateonsettodateencode'],
+                'timelapse_dateencodetodatevalidatedresu' => $row['timelapse_dateencodetodatevalidatedresu'],
+                'labid' => $row['labid'],
             ];
 
             $exist_check = Meningo::where('EPIID', $epi_id)->first();
@@ -3148,6 +3312,7 @@ class NtImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
     public function model(array $row) {
         $epi_id = $row['epi_id'] ?? $row['epiid'];
         $dob = $row['date_of_birth'] ?? $row['dob'];
+        $patientnumber = $row['patient_no'] ?? $row['patientnumber'];
 
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite' && $epi_id) {
             $birthdate = Carbon::parse(EdcsImport::tDate($dob));
@@ -3198,7 +3363,7 @@ class NtImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
                 'NameOfDru' => $fac_name,
                 'AddressOfDRU' => NULL,
-                'PatientNumber' => $row['patient_no'] ?? $row['patientnumber'],
+                'PatientNumber' => $patientnumber,
                 'FirstName' => $fname,
                 'FamilyName' => $lname,
                 'FullName' => $getFullName,
@@ -3251,7 +3416,7 @@ class NtImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'OtherMaterials' => $row['cord_was_cut_using_others_specify'],
                 'FinalClass' => $row['caseclassification'],
                 'Outcome' => mb_strtoupper(substr($row['outcome'],0,1)),
-                'DateDied' => EdcsImport::tDate($row['date_died']),
+                'DateDied' => EdcsImport::tDate($row['date_died'] ?? $row['datedied']),
                 
                 'Mother' => NULL,
                 'DOBtoOnset' => NULL,
@@ -3284,7 +3449,7 @@ class NtImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'edcs_ageGroup' => isset($row['age_group']) ? $row['age_group'] : NULL,
                 'from_edcs' => 1,
                 
-                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'],
+                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'] ?? $row['userid'],
                 'edcs_last_modifiedby' => $row['last_modified_by'] ?? $row['lastmodifiedby'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date'] ?? $row['lastmodifieddate']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
@@ -3295,6 +3460,10 @@ class NtImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
 
                 'timestamp_patient' => EdcsImport::tDate($row['timestamp_patient']),
                 'timestamp_laboratory' => EdcsImport::tDate($row['timestamp_laboratory']),
+
+                'timelapse_dateonsettodateencode' => $row['timelapse_dateonsettodateencode'],
+                'timelapse_dateencodetodatevalidatedresu' => $row['timelapse_dateencodetodatevalidatedresu'],
+                'labid' => $row['labid'],
             ];
 
             $exist_check = Nt::where('EPIID', $epi_id)->first();
@@ -3327,6 +3496,7 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
     public function model(array $row) {
         $epi_id = $row['epi_id'] ?? $row['epiid'];
         $dob = $row['date_of_birth'] ?? $row['dob'];
+        $patientnumber = $row['patient_no'] ?? $row['patientnumber'];
 
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite' && $epi_id) {
             $birthdate = Carbon::parse(EdcsImport::tDate($dob));
@@ -3407,7 +3577,7 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
                 'NameOfDru' => $fac_name,
                 'AddressOfDRU' => NULL,
-                'PatientNumber' => $row['patient_no'] ?? $row['patientnumber'],
+                'PatientNumber' => $patientnumber,
                 'FirstName' => $fname,
                 'FamilyName' => $lname,
                 'FullName' => $getFullName,
@@ -3458,7 +3628,7 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'others_specify' => $row['others_specify'],
                 
                 'date_of_discharge' => EdcsImport::tDate($row['date_of_discharge']),
-                'DateDied' => EdcsImport::tDate($row['date_died']),
+                'DateDied' => EdcsImport::tDate($row['date_died'] ?? $row['datedied']),
 
                 'administered_antibiotic_therapy' => $row['administered_antibiotic_therapy'],
                 'if_yes_date_health_facility' => EdcsImport::tDate($row['if_yes_date_health_facility']),
@@ -3492,7 +3662,7 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'edcs_ageGroup' => isset($row['age_group']) ? $row['age_group'] : NULL,
                 'from_edcs' => 1,
                 
-                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'],
+                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'] ?? $row['userid'],
                 'edcs_last_modifiedby' => $row['last_modified_by'] ?? $row['lastmodifiedby'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date'] ?? $row['lastmodifieddate']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
@@ -3505,6 +3675,10 @@ class PertImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
 
                 'timestamp_patient' => EdcsImport::tDate($row['timestamp_patient']),
                 'timestamp_laboratory' => EdcsImport::tDate($row['timestamp_laboratory']),
+
+                'timelapse_dateonsettodateencode' => $row['timelapse_dateonsettodateencode'],
+                'timelapse_dateencodetodatevalidatedresu' => $row['timelapse_dateencodetodatevalidatedresu'],
+                'labid' => $row['labid'],
             ];
 
             $exist_check = Pert::where('EPIID', $epi_id)->first();
@@ -3547,6 +3721,7 @@ class CholeraImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
     public function model(array $row) {
         $epi_id = $row['epi_id'] ?? $row['epiid'];
         $dob = $row['date_of_birth'] ?? $row['dob'];
+        $patientnumber = $row['patient_no'] ?? $row['patientnumber'];
 
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite' && $epi_id) {
             $birthdate = Carbon::parse(EdcsImport::tDate($dob));
@@ -3597,7 +3772,7 @@ class CholeraImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
                 'NameOfDru' => $fac_name,
                 'AddressOfDRU' => NULL,
-                'PatientNumber' => $row['patient_no'] ?? $row['patientnumber'],
+                'PatientNumber' => $patientnumber,
                 'FirstName' => $fname,
                 'FamilyName' => $lname,
                 'FullName' => $getFullName,
@@ -3617,7 +3792,7 @@ class CholeraImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'StoolCulture' => NULL,
                 'Organism' => NULL,
                 'Outcome' => mb_strtoupper(substr($row['outcome'],0,1)),
-                'DateDied' => EdcsImport::tDate($row['date_died']),
+                'DateDied' => EdcsImport::tDate($row['date_died'] ?? $row['datedied']),
                 'CASECLASS' => mb_strtoupper(substr($row['caseclassification'],0,1)),
 
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp'] ?? $row['timestamp_disease']),
@@ -3648,7 +3823,7 @@ class CholeraImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
                 'edcs_ageGroup' => isset($row['age_group']) ? $row['age_group'] : NULL,
                 'from_edcs' => 1,
                 
-                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'],
+                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'] ?? $row['userid'],
                 'edcs_last_modifiedby' => $row['last_modified_by'] ?? $row['lastmodifiedby'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date'] ?? $row['lastmodifieddate']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
@@ -3659,6 +3834,10 @@ class CholeraImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
 
                 'timestamp_patient' => EdcsImport::tDate($row['timestamp_patient']),
                 'timestamp_laboratory' => EdcsImport::tDate($row['timestamp_laboratory']),
+
+                'timelapse_dateonsettodateencode' => $row['timelapse_dateonsettodateencode'],
+                'timelapse_dateencodetodatevalidatedresu' => $row['timelapse_dateencodetodatevalidatedresu'],
+                'labid' => $row['labid'],
             ];
 
             $exist_check = Cholera::where('EPIID', $epi_id)->first();
@@ -3691,6 +3870,7 @@ class InfluenzaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow 
     public function model(array $row) {
         $epi_id = $row['epi_id'] ?? $row['epiid'];
         $dob = $row['date_of_birth'] ?? $row['dob'];
+        $patientnumber = $row['patient_no'] ?? $row['patientnumber'];
 
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite' && $epi_id) {
             $birthdate = Carbon::parse(EdcsImport::tDate($dob));
@@ -3741,7 +3921,7 @@ class InfluenzaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow 
                 'DRU' => (EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)) ? EdcsImport::getEdcsFacilityDetails($hfcode, $fac_name)->facility_type : NULL,
                 'NameOfDru' => $fac_name,
                 'AddressOfDRU' => NULL,
-                'PatientNumber' => $row['patient_no'] ?? $row['patientnumber'],
+                'PatientNumber' => $patientnumber,
                 'FirstName' => $fname,
                 'FamilyName' => $lname,
                 'FullName' => $getFullName,
@@ -3760,7 +3940,7 @@ class InfluenzaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow 
                 'DOnset' => EdcsImport::tDate($row['date_on_set_of_illness']),
                 'LabResult' => NULL,
                 'Outcome' => mb_strtoupper(substr($row['outcome'],0,1)),
-                'DateDied' => EdcsImport::tDate($row['date_died']),
+                'DateDied' => EdcsImport::tDate($row['date_died'] ?? $row['datedied']),
                 'CASECLASS' => $row['case_classification'],
                 'SARI' => NULL,
                 'Organism' => NULL,
@@ -3793,7 +3973,7 @@ class InfluenzaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow 
                 'edcs_ageGroup' => isset($row['age_group']) ? $row['age_group'] : NULL,
                 'from_edcs' => 1,
                 
-                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'],
+                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'] ?? $row['userid'],
                 'edcs_last_modifiedby' => $row['last_modified_by'] ?? $row['lastmodifiedby'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date'] ?? $row['lastmodifieddate']),
                 'system_subdivision_id' => EdcsImport::autoMateSubdivision($row['current_address_barangay']),
@@ -3804,6 +3984,10 @@ class InfluenzaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow 
 
                 'timestamp_patient' => EdcsImport::tDate($row['timestamp_patient']),
                 'timestamp_laboratory' => EdcsImport::tDate($row['timestamp_laboratory']),
+
+                'timelapse_dateonsettodateencode' => $row['timelapse_dateonsettodateencode'],
+                'timelapse_dateencodetodatevalidatedresu' => $row['timelapse_dateencodetodatevalidatedresu'],
+                'labid' => $row['labid'],
             ];
             
             $exist_check = Influenza::where('EPIID', $epi_id)->first();
@@ -3834,9 +4018,10 @@ class InfluenzaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow 
 
 class LaboratoryImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow {
     public function model(array $row) {
-        $user_id = $row['user_id'] ?: 'cesu.gentrias';
+        $user_id = $row['user_id'] ?? $row['encoded_by'] ?? $row['userid'];
         $epi_id = $row['epi_id'] ?? $row['epiid'];
         $dob = $row['date_of_birth'] ?? $row['dob'];
+        $patientnumber = $row['patient_no'] ?? $row['patientnumber'];
 
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite' && $epi_id && $row['date_specimen_collected']) {
             //Search for duplicate to avoid duplicate
@@ -3986,6 +4171,7 @@ class SevereAcuteRespiratoryInfectionImport implements ToModel, WithHeadingRow, 
     public function model(array $row) {
         $epi_id = $row['epi_id'] ?? $row['epiid'];
         $dob = $row['date_of_birth'] ?? $row['dob'];
+        $patientnumber = $row['patient_no'] ?? $row['patientnumber'];
 
         if($row['current_address_city_municipality'] == 'City of General Trias' && $row['current_address_province'] == 'Cavite' && $epi_id) {
             $birthdate = Carbon::parse(EdcsImport::tDate($dob));
@@ -4031,7 +4217,7 @@ class SevereAcuteRespiratoryInfectionImport implements ToModel, WithHeadingRow, 
             $table_params = [
                 'edcs_caseid' => $row['case_id'],
                 'epi_id' => $epi_id,
-                'patient_number' => $row['patient_no'] ?? $row['patientnumber'],
+                'patient_number' => $patientnumber,
                 'lname' => $lname,
                 'fname' => $fname,
                 'middle_name' => ($mname != '' && !is_null($mname && $mname != 'NONE' && $mname != 'N/A') && $mname != 'N/A') ? $mname : NULL,
@@ -4039,8 +4225,8 @@ class SevereAcuteRespiratoryInfectionImport implements ToModel, WithHeadingRow, 
                 'sex' => mb_strtoupper(substr($row['sex'],0,1)),
                 'birthdate' => EdcsImport::tDate($dob),
                 'age_years' => $row['age_in_years'] ?? $row['ageyears'],
-                'age_months' => $getAgeMonths,
-                'age_days' => $getAgeDays,
+                'age_months' => $row['agemons'],
+                'age_days' => $row['agedays'],
                 'region' => '04A',
                 'province' => 'CAVITE',
                 'muncity' => 'GENERAL TRIAS',
@@ -4049,46 +4235,47 @@ class SevereAcuteRespiratoryInfectionImport implements ToModel, WithHeadingRow, 
                 'perm_province' => mb_strtoupper($row['permanent_address_province']),
                 'perm_muncity' => mb_strtoupper($row['permanent_address_city_municipality']),
                 'perm_barangay' => (!is_null($row['permanent_address_barangay'])) ? EdcsImport::brgySetter($row['permanent_address_barangay']) : NULL,
-                'perm_streetpurok' => (!is_null($row['permanent_address_sitio_purok_street_name'])) ? mb_strtoupper($row['permanent_address_sitio_purok_street_name']) : NULL,
+                'perm_streetpurok' => mb_strtoupper($row['permanent_address_sitio_purok_street_name'] ?? $row['permanent_address_streetpurok']),
                 'facility_name' => $fac_name,
                 'edcs_healthFacilityCode' => $hfcode,
                 'admitted' => $row['patient_admitted'] ?? $row['admitted'],
-                'date_admitted' => EdcsImport::tDate($row['date_admittedseenconsult']),
+                'date_admitted' => EdcsImport::tDate($row['date_admittedseenconsult'] ?? $row['dadmit']),
                 'date_onset' => EdcsImport::tDate($row['date_onset_of_ill_ness']),
                 'ranitidine' => $row['ranitidine'],
                 'zanamivir' => $row['zanamivir'],
                 'amantidine' => $row['amantidine'],
                 'oseltamivir' => $row['oseltamivir'],
+                'medication_prior' => $row['medication_prior'],
                 'others_medicine' => $row['others_please_specify'],
-                'arethereinfluenzaduringtheweek' => $row['are_there_any_influenza_like_illness_during_the_week_in_yourbrhousehold'],
-                'school_daycare_workplace' => $row['schooldaycareworkplace'],
-                'receiveinfluenzavaccinepastyear' => $row['did_you_receive_an_anti_influenza_vaccine_in_the_past_year'],
-                'date_vaccinated' => EdcsImport::tDate($row['if_yes_date_of_vaccination']),
-                'bats' => $row['history_of_exposure_to_any_of_the_ffbrbats'],
-                'camels' => $row['camels'],
-                'horses' => $row['horses'],
-                'poultry_birds' => $row['poultrymigratory_birds'],
-                'pigs' => $row['pigs'],
-                'other_animal' => $row['others'],
-                'history_of_travel' => $row['history_of_travel'],
-                'date_of_travel' => $row['if_yes_date_of_travel'],
-                'specify_countries' => $row['specify_countryies'],
-                'chestxray_done' => $row['chest_x_ray_done'],
-                'chestxray_result' => $row['chest_x_ray_result'],
-                'temperature_at_consultation' => $row['temperature_at_consultation'],
-                'fever' => $row['fever_feverish'],
-                'fever_duration' => $row['fever_duration_daysweeks'],
+                'arethereinfluenzaduringtheweek' => $row['are_there_any_influenza_like_illness_during_the_week_in_yourbrhousehold'] ?? $row['ili_house_hold'],
+                'school_daycare_workplace' => $row['schooldaycareworkplace'] ?? $row['ili_school'],
+                'receiveinfluenzavaccinepastyear' => $row['did_you_receive_an_anti_influenza_vaccine_in_the_past_year'] ?? $row['vaccine_past_year'],
+                'date_vaccinated' => EdcsImport::tDate($row['if_yes_date_of_vaccination'] ?? $row['vaccine_past_year_date']),
+                'bats' => $row['history_of_exposure_to_any_of_the_ffbrbats'] ?? $row['exposure_bats'],
+                'camels' => $row['camels'] ?? $row['exposure_camels'],
+                'horses' => $row['horses'] ?? $row['exposure_horses'],
+                'poultry_birds' => $row['poultrymigratory_birds'] ?? $row['exposure_brids'] ?? $row['exposure_birds'],
+                'pigs' => $row['pigs'] ?? $row['exposure_pigs'],
+                'other_animal' => $row['others'] ?? $row['exposure_others'],
+                'history_of_travel' => $row['history_of_travel'] ?? $row['history_travel_21days'],
+                'date_of_travel' => EdcsImport::tDate($row['if_yes_date_of_travel'] ?? $row['date_travel']),
+                'specify_countries' => $row['specify_countryies'] ?? $row['specify_country'],
+                'chestxray_done' => $row['chest_x_ray_done'] ?? $row['chest_xray'],
+                'chestxray_result' => $row['chest_x_ray_result'] ?? $row['chest_xray_results'],
+                'temperature_at_consultation' => $row['temperature_at_consultation'] ?? $row['temperature_at_counsultation'],
+                'fever' => $row['fever_feverish'] ?? $row['feverish'],
+                'fever_duration' => $row['fever_duration_daysweeks'] ?? $row['duration'],
                 'headache' => $row['headache'],
                 'cough' => $row['cough'],
                 'sorethroat' => $row['sore_throat'],
                 'difficultyofbreathing' => $row['difficulty_of_breathing'],
-                'requires_hospital_admission' => $row['requires_hospital_admission'][0],
-                //'others' => $row['others_please_specify'][1],
+                'requires_hospital_admission' => $row['requires_hospital_admission'][0] ?? $row['requires_hospital_admission'],
+                'others' => $row['others_please_specify'][1] ?? $row['others_please_specify'],
                 'any_twomonthstofiveyears_age_withcoughordob' => $row['any_2_months_to_5_years_of_age_with_cough_or_difficult_breathing'],
                 'bftsixtybreaths_infants' => $row['breathing_faster_than_60_breathsmin_infants_2_months'],
                 'bftfiftybreaths_twototwelvemonths' => $row['breathing_faster_than_50_breathsmin_2_12_months'],
                 'bftfortybreaths_onetofiveyo' => $row['breathing_faster_than_40_breathsmin_1_5_years_old'],
-                'requires_hospital_admission2' => $row['requires_hospital_admission'][1],
+                'requires_hospital_admission2' => $row['requires_hospital_admission'][1] ?? $row['5_requires_hospital_admission'],
                 'any_twomonthstofiveyears_age_withcoughordob2' => $row['any_child_2_months_to_5_years_of_age_with_cough_or_difficult_breathing'],
                 'unabletodrinkorbreastfeed' => $row['unable_to_drink_or_breastfeed'],
                 'vomitseverything' => $row['vomits_everything'],
@@ -4104,7 +4291,7 @@ class SevereAcuteRespiratoryInfectionImport implements ToModel, WithHeadingRow, 
                 'diabetes' => $row['diabetes'],
                 'haematologicdisorders' => $row['haematologic_disorders'],
                 'immunodeficiencydiseases' => $row['immunodeficiency_diseases'],
-                'pregnancy' => $row['prenancy'],
+                'pregnancy' => $row['prenancy'] ?? $row['pregnancy'],
                 'antibiotics' => $row['antibiotics'],
                 'specify_antibiotics' => $row['specify_antibiotics'],
                 'antivirals' => $row['antivirals'],
@@ -4120,16 +4307,16 @@ class SevereAcuteRespiratoryInfectionImport implements ToModel, WithHeadingRow, 
                 'othertherapeutic' => $row['other_therapeutic_procedures'],
                 'specify_othertherapeutic' => $row['specify_other_therapeutic_procedures'],
                 'final_diagnosis' => $row['final_diagnosis'],
-                'outcome' => $row['outcome'],
+                'outcome' => substr($row['outcome'] ?? $row['outcome_of_the_patient'],0,1),
                 'date_discharged' => EdcsImport::tDate($row['date_of_discharge']),
-                'date_died' => EdcsImport::tDate($row['date_died']),
+                'date_died' => EdcsImport::tDate($row['date_died'] ?? $row['datedied']),
                 'case_classification' => $row['case_classification'],
 
                 'year' => $row['year'],
                 'morbidity_month' => Carbon::parse(EdcsImport::tDate($row['timestamp'] ?? $row['timestamp_disease']))->format('n'),
                 'morbidity_week' => $row['morbidity_week'] ?? $row['mw'],
-                'admit_to_entry' => $row['timelapse_dateadmittodateencode'],
-                'onset_to_admit' => $row['timelapse_dateonsettodateencode'],
+                'admit_to_entry' => $row['timelapse_dateadmittodateencode'] ?? $row['admittoentry'],
+                'onset_to_admit' => $row['timelapse_dateonsettodateencode'] ?? null,
                 
                 //'edcs_investigatorName' => $row['edcs_caseid'],
                 //'edcs_contactNo' => $row['edcs_caseid'],
@@ -4138,7 +4325,7 @@ class SevereAcuteRespiratoryInfectionImport implements ToModel, WithHeadingRow, 
                 'from_edcs' => 1,
                 //'encoded_mw' => $row['edcs_caseid'],
                 
-                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'],
+                'edcs_userid' => $row['user_id'] ?? $row['encoded_by'] ?? $row['userid'],
                 'edcs_last_modifiedby' => $row['last_modified_by'] ?? $row['lastmodifiedby'],
                 'edcs_last_modified_date' => EdcsImport::tDate($row['last_modified_date'] ?? $row['lastmodifieddate']),
                 
@@ -4147,12 +4334,26 @@ class SevereAcuteRespiratoryInfectionImport implements ToModel, WithHeadingRow, 
                 //'system_remarks' => $row['edcs_caseid'],
                 //'system_subdivision_id' => $row['edcs_caseid'],
 
-                'dru_reg_code' => $row['region_dru'],
-                'dru_pro_code' => $row['province_dru'],
-                'dru_mun_code' => $row['muncity_dru'],
+                'dru_reg_code' => $row['region_dru'] ?? $row['regionofdru'],
+                'dru_pro_code' => $row['province_dru'] ?? $row['provofdru'],
+                'dru_mun_code' => $row['muncity_dru'] ?? $row['muncityofdru'],
 
                 'timestamp_patient' => EdcsImport::tDate($row['timestamp_patient']),
                 'timestamp_laboratory' => EdcsImport::tDate($row['timestamp_laboratory']),
+
+                'timelapse_dateonsettodateencode' => $row['timelapse_dateonsettodateencode'],
+                'timelapse_dateencodetodatevalidatedresu' => $row['timelapse_dateencodetodatevalidatedresu'],
+                'labid' => $row['labid'],
+
+                'specimen_type' => $row['specimen_type'],
+                'date_specimen_collected' => EdcsImport::tDate($row['date_specimen_collected']),
+                'laboratory_sent_to_ritm' => $row['laboratory_sent_to_ritm'],
+                'date_sent_to_ritmsnl' => EdcsImport::tDate($row['date_sent_to_ritmsnl']),
+                'date_received_ritmsnl' => EdcsImport::tDate($row['date_received_ritmsnl']),
+                'laboratory_result' => $row['laboratory_result'],
+                'type_of_organism' => $row['type_of_organism'],
+                'type_of_test_conducted' => $row['type_of_test_conducted'],
+                'interpretation' => $row['interpretation'],
             ];
 
             $exist_check = SevereAcuteRespiratoryInfection::where('epi_id', $epi_id)->first();
