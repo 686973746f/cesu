@@ -28,6 +28,7 @@
         "phpoffice/phpspreadsheet": "^1.29",
         "phpoffice/phpword": "^1.1",
         "pragmarx/countries": "^0.7.2",
+        "predis/predis": "^3.4",
         "rap2hpoutre/fast-excel": "5.2",
         "rebasedata/php-client": "^1.0",
         "simplesoftwareio/simple-qrcode": "^4.2",
