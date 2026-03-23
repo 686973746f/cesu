@@ -9667,7 +9667,7 @@ class PIDSRController extends Controller
             ['value' => 'SARI', 'text' => 'Severe Acute Respiratory Infection (SARI)', 'edcs_importable' => true],
             ['value' => 'ROTAVIRUS', 'text' => 'Rotavirus', 'edcs_importable' => true],
             ['value' => 'ABD', 'text' => 'Acute Bloody Diarrhea (ABD)', 'edcs_importable' => true],
-            ['values' => 'AMES', 'text' => 'Acute Meningitis Encephalitis Syndrome (AMES)', 'edcs_importable' => true],
+            ['value' => 'AMES', 'text' => 'Acute Meningitis Encephalitis Syndrome (AMES)', 'edcs_importable' => true],
         ];
 
         return collect($list)->sortBy('text', SORT_NATURAL | SORT_FLAG_CASE)->values();
