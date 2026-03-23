@@ -12356,7 +12356,7 @@ class PIDSRController extends Controller
                         $case_class = 'SUS';
                     }
 
-                    $sheet->setCellValue('A'.$row, 'MPSS_'.$d->id.'S'); //Patient ID
+                    $sheet->setCellValue('A'.$row, 'MPSS_'.$d->id.'E'); //Patient ID
                     $sheet->setCellValue('B'.$row, $d->syndromic_patient->fname); //First Name
                     $sheet->setCellValue('C'.$row, $d->syndromic_patient->mname); //Middle Name
                     $sheet->setCellValue('D'.$row, $d->syndromic_patient->lname); //Last Name
