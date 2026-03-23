@@ -67,4 +67,8 @@ class Abd extends Model
             return 'Street/Purok not Encoded';
         }
     }
+
+    public function brgy() {
+        return $this->belongsTo(EdcsBrgy::class, 'brgy_id');
+    }
 }

@@ -9666,6 +9666,8 @@ class PIDSRController extends Controller
             ['value' => 'LEPTOSPIROSIS', 'text' => 'Leptospirosis', 'edcs_importable' => true],
             ['value' => 'SARI', 'text' => 'Severe Acute Respiratory Infection (SARI)', 'edcs_importable' => true],
             ['value' => 'ROTAVIRUS', 'text' => 'Rotavirus', 'edcs_importable' => true],
+            ['value' => 'ABD', 'text' => 'Acute Bloody Diarrhea (ABD)', 'edcs_importable' => true],
+            ['values' => 'AMES', 'text' => 'Acute Meningitis Encephalitis Syndrome (AMES)', 'edcs_importable' => true],
         ];
 
         return collect($list)->sortBy('text', SORT_NATURAL | SORT_FLAG_CASE)->values();
@@ -11191,6 +11193,8 @@ class PIDSRController extends Controller
     }
 
     public static function callCsvTemplateMaker($disease, $type, $f, $r, $convert_flat, $export_unsubmitted = false) {
+        $dateofentry = 'DateOfEntry';
+
         if($disease == 'DENGUE') {
             $className = 'Dengue';
             $csvName = 'dengue';
@@ -11215,6 +11219,20 @@ class PIDSRController extends Controller
             $className = 'Rotavirus';
             $csvName = 'rotavirus';
         }
+        else if($disease == 'AMES') {
+            $className = 'Ames';
+            $csvName = 'ames';
+        }
+        else if($disease == 'ABD') {
+            $className = 'Abd';
+            $csvName = 'abd';
+        }
+        else if($disease == 'SARI') {
+            $className = 'SevereAcuteRespiratoryInfection';
+            $csvName = 'sari';
+
+            $dateofentry = 'created_at';
+        }
         else {
             return abort(401);
         }
@@ -11234,7 +11252,7 @@ class PIDSRController extends Controller
         else if($type == 'extractAll') {
             if(!$export_unsubmitted) {
                 if(Auth::check()) {
-                    $list = $modelClass::whereBetween('DateOfEntry', [$r->startDate, $r->endDate])
+                    $list = $modelClass::whereBetween($dateofentry, [$r->startDate, $r->endDate])
                     ->where('enabled', 1)
                     ->where('match_casedef', 1)
                     ->where(function ($q) {
@@ -11245,7 +11263,7 @@ class PIDSRController extends Controller
                 }
                 else {
                     $list = $modelClass::where('edcs_healthFacilityCode', $f->healthfacility_code)
-                    ->whereBetween('DateOfEntry', [$r->startDate, $r->endDate])
+                    ->whereBetween($dateofentry, [$r->startDate, $r->endDate])
                     ->where('enabled', 1)
                     ->where('match_casedef', 1)
                     ->get();
@@ -11255,7 +11273,7 @@ class PIDSRController extends Controller
                 $list = $modelClass::where('enabled', 1)
                 ->where('match_casedef', 1)
                 ->where('inhouse_exportedtocsv', 0)
-                ->whereBetween('DateOfEntry', [$r->startDate, $r->endDate])
+                ->whereBetween($dateofentry, [$r->startDate, $r->endDate])
                 ->get();
             }
         }
@@ -11277,7 +11295,7 @@ class PIDSRController extends Controller
 
                 $cf = DohFacility::where('healthfacility_code', $d->edcs_healthFacilityCode)->first();
 
-                if(is_null($d->brgy_id) && $d->Muncity == 'GENERAL TRIAS') {
+                if(is_null($d->brgy_id)) {
                     $brgy = EdcsBrgy::where('city_id', 388)
                     ->where(function ($q) use ($d) {
                         $q->where('name', trim($d->Barangay))
@@ -11354,7 +11372,6 @@ class PIDSRController extends Controller
                 $sheet->setCellValue('H'.$row, Carbon::parse($d->DOB)->age); //Age
 
                 if($convert_flat) {
-                    //laravel log
                     $sheet->setCellValue('I'.$row, $d->brgy->city->province->region->regionName); //Current Region
                     $sheet->setCellValue('J'.$row, $d->brgy->city->province->name); //Current Province
                     $sheet->setCellValue('K'.$row, $d->brgy->city->alt_name ?: $d->brgy->city->name); //Current MunCity
@@ -12030,6 +12047,141 @@ class PIDSRController extends Controller
 
                     // BO - LaboratoryRemarks
                     $sheet->setCellValue('BO'.$row, '');
+                }
+                else if($disease == 'AMES') {
+                    
+                }
+                else if($disease == 'ABD') {
+                    if($d->CASECLASS == 'S') {
+                        $caseclass = 'SUS';
+                    }
+                    else if($d->CASECLASS == 'C') {
+                        $caseclass = 'CON';
+                    }
+
+                    $sheet->setCellValue('Y'.$row, $d->Consulted);
+                    $sheet->setCellValue('Z'.$row, ($d->DateConsulted) ? Carbon::parse($d->DateConsulted)->format('m/d/Y') : '');
+                    $sheet->getStyle('Z'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    $sheet->setCellValue('AA'.$row, $d->PlaceConsulted);
+                    $sheet->setCellValue('AA'.$row, $d->Admitted);
+                    $sheet->setCellValue('AC'.$row, ($d->DAdmit) ? Carbon::parse($d->DAdmit)->format('m/d/Y') : '');
+                    $sheet->getStyle('AC'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    $sheet->setCellValue('AD'.$row, ($d->DOnset) ? Carbon::parse($d->DOnset)->format('m/d/Y') : '');
+                    $sheet->getStyle('AD'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    $sheet->setCellValue('AE'.$row, $d->Outcome);
+                    $sheet->setCellValue('AF'.$row, ($d->DateDied) ? Carbon::parse($d->DateDied)->format('m/d/Y') : '');
+                    $sheet->getStyle('AF'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    $sheet->setCellValue('AG'.$row, $caseclass);
+                    $sheet->setCellValue('AH'.$row, $d->SpecimenType);
+                    $sheet->setCellValue('AI'.$row, ($d->DateSpecimenCollected) ? Carbon::parse($d->DateSpecimenCollected)->format('m/d/Y') : '');
+                    $sheet->getStyle('AI'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    $sheet->setCellValue('AJ'.$row, $d->LaboratorySenttoRITM);
+                    $sheet->setCellValue('AK'.$row, ($d->DateSenttoRITM) ? Carbon::parse($d->DateSenttoRITM)->format('m/d/Y') : '');
+                    $sheet->getStyle('AK'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    $sheet->setCellValue('AL'.$row, ($d->DateReceivedRITM) ? Carbon::parse($d->DateReceivedRITM)->format('m/d/Y') : '');
+                    $sheet->getStyle('AL'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    $sheet->setCellValue('AM'.$row, $d->LaboratoryResult);
+                    $sheet->setCellValue('AN'.$row, $d->TypeofOrganism);
+                    $sheet->setCellValue('AO'.$row, $d->TypeofTestConducted);
+                    $sheet->setCellValue('AP'.$row, $d->Interpretation);
+                    $sheet->setCellValue('AQ'.$row, ($d->DateReceivedRITM) ? Carbon::parse($d->DateReceivedRITM)->format('H:i:s') : '');
+                    $sheet->getStyle('AQ'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    $sheet->setCellValue('AR'.$row, ($d->DateofTestingbyRITMorSNL) ? Carbon::parse($d->DateofTestingbyRITMorSNL)->format('m/d/Y') : '');
+                    $sheet->getStyle('AR'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    $sheet->setCellValue('AS'.$row, ($d->DateofResultbyRITMorSNL) ? Carbon::parse($d->DateofResultbyRITMorSNL)->format('m/d/Y') : '');
+                    $sheet->getStyle('AS'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    $sheet->setCellValue('AT'.$row, $d->LaboratoryRemarks);
+                }
+                else if($disease == 'SARI') {
+                    if($d->case_classification == 'S') {
+                        $case_classification = 'SUSPECT ILI';
+                    }
+                    if($d->case_classification == 'P') {
+                        $case_classification = 'PROBABLE ILI';
+                    }
+                    if($d->case_classification == 'S') {
+                        $case_classification = 'CONFIRMED ILI';
+                    }
+
+                    $sheet->setCellValue('Y'.$row, $d->admitted);
+                    $sheet->setCellValue('Z'.$row, ($d->date_admitted) ? Carbon::parse($d->date_admitted)->format('m/d/Y') : '');
+                    $sheet->getStyle('Z'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    $sheet->setCellValue('AA'.$row, ($d->date_onset) ? Carbon::parse($d->date_onset)->format('m/d/Y') : '');
+                    $sheet->getStyle('AA'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    $sheet->setCellValue('AB'.$row, $d->ranitidine);
+                    $sheet->setCellValue('AC'.$row, $d->amantidine);
+                    $sheet->setCellValue('AD'.$row, $d->zanamivir);
+                    $sheet->setCellValue('AE'.$row, $d->oseltamivir);
+                    $sheet->setCellValue('AF'.$row, $d->others_medicine);
+                    $sheet->setCellValue('AG'.$row, $d->arethereinfluenzaduringtheweek);
+                    $sheet->setCellValue('AH'.$row, $d->school_daycare_workplace);
+                    $sheet->setCellValue('AI'.$row, $d->receiveinfluenzavaccinepastyear);
+                    $sheet->setCellValue('AJ'.$row, ($d->date_vaccinated) ? Carbon::parse($d->date_vaccinated)->format('m/d/Y') : '');
+                    $sheet->getStyle('AJ'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    $sheet->setCellValue('AK'.$row, $d->bats);
+                    $sheet->setCellValue('AL'.$row, $d->camels);
+                    $sheet->setCellValue('AM'.$row, $d->horses);
+                    $sheet->setCellValue('AN'.$row, $d->poultry_birds);
+                    $sheet->setCellValue('AO'.$row, $d->pigs);
+                    $sheet->setCellValue('AP'.$row, $d->other_animal);
+
+                    $sheet->setCellValue('AQ'.$row, $d->history_of_travel);
+                    $sheet->setCellValue('AR'.$row, ($d->date_of_travel) ? Carbon::parse($d->date_of_travel)->format('m/d/Y') : '');
+                    $sheet->getStyle('AR'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    $sheet->setCellValue('AS'.$row, $d->specify_countries);
+                    $sheet->setCellValue('AT'.$row, $d->chestxray_done);
+                    $sheet->setCellValue('AU'.$row, $d->chestxray_result);
+                    $sheet->setCellValue('AV'.$row, $d->temperature_at_consultation);
+                    $sheet->setCellValue('AW'.$row, $d->fever);
+                    $sheet->setCellValue('AX'.$row, $d->fever_duration);
+                    $sheet->setCellValue('AY'.$row, $d->headache);
+                    $sheet->setCellValue('AZ'.$row, $d->cough);
+                    $sheet->setCellValue('BA'.$row, $d->sorethroat);
+                    $sheet->setCellValue('BB'.$row, $d->difficultyofbreathing);
+                    $sheet->setCellValue('BC'.$row, $d->requires_hospital_admission);
+                    $sheet->setCellValue('BD'.$row, $d->others);
+                    $sheet->setCellValue('BE'.$row, $d->any_twomonthstofiveyears_age_withcoughordob);
+                    $sheet->setCellValue('BF'.$row, $d->bftsixtybreaths_infants);
+                    $sheet->setCellValue('BG'.$row, $d->bftfiftybreaths_twototwelvemonths);
+                    $sheet->setCellValue('BH'.$row, $d->bftfortybreaths_onetofiveyo);
+                    $sheet->setCellValue('BI'.$row, $d->requires_hospital_admission2);
+                    $sheet->setCellValue('BJ'.$row, $d->any_twomonthstofiveyears_age_withcoughordob2);
+                    $sheet->setCellValue('BK'.$row, $d->unabletodrinkorbreastfeed);
+                    $sheet->setCellValue('BL'.$row, $d->vomitseverything);
+                    $sheet->setCellValue('BM'.$row, $d->convulsions);
+                    $sheet->setCellValue('BN'.$row, $d->lethargic_unconscious);
+                    $sheet->setCellValue('BO'.$row, $d->stridor);
+                    $sheet->setCellValue('BP'.$row, $d->requires_hospital_admission3);
+                    $sheet->setCellValue('BQ'.$row, $d->asthma);
+                    $sheet->setCellValue('BR'.$row, $d->chroniccardiacdisease);
+                    $sheet->setCellValue('BS'.$row, $d->chronicliverdisesae);
+                    $sheet->setCellValue('BT'.$row, $d->chronicneurological);
+                    $sheet->setCellValue('BU'.$row, $d->chronicrenal);
+                    $sheet->setCellValue('BV'.$row, $d->diabetes);
+                    $sheet->setCellValue('BW'.$row, $d->haematologicdisorders);
+                    $sheet->setCellValue('BX'.$row, $d->immunodeficiencydiseases);
+                    $sheet->setCellValue('BY'.$row, $d->pregnancy);
+                    $sheet->setCellValue('BZ'.$row, $d->antibiotics);
+                    $sheet->setCellValue('CA'.$row, $d->specify_antibiotics);
+                    $sheet->setCellValue('CB'.$row, $d->antivirals);
+                    $sheet->setCellValue('CC'.$row, $d->specify_antivirals);
+                    $sheet->setCellValue('CD'.$row, $d->fluid_theraphy);
+                    $sheet->setCellValue('CE'.$row, $d->specify_fluidtherapy);
+                    $sheet->setCellValue('CF'.$row, $d->oxygen);
+                    $sheet->setCellValue('CG'.$row, $d->specify_oxygen);
+                    $sheet->setCellValue('CH'.$row, $d->intubation);
+                    $sheet->setCellValue('CI'.$row, $d->specify_intubation);
+                    $sheet->setCellValue('CJ'.$row, $d->bacterialtesting);
+                    $sheet->setCellValue('CK'.$row, $d->specify_bacterialtesting);
+                    $sheet->setCellValue('CL'.$row, $d->othertherapeutic);
+                    $sheet->setCellValue('CM'.$row, $d->specify_othertherapeutic);
+                    $sheet->setCellValue('CN'.$row, $d->final_diagnosis);
+                    $sheet->setCellValue('CO'.$row, $case_classification);
+                    $sheet->setCellValue('CP'.$row, $d->outcome);
+                    $sheet->setCellValue('CQ'.$row, ($d->date_died) ? Carbon::parse($d->date_died)->format('m/d/Y') : '');
+                    $sheet->getStyle('CQ'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
+                    $sheet->setCellValue('CR'.$row, ($d->date_discharged) ? Carbon::parse($d->date_discharged)->format('m/d/Y') : '');
+                    $sheet->getStyle('CR'.$row)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_MMDDYYYYSLASH);
                 }
 
                 if($type == 'downloadCsv' || $export_unsubmitted) {
