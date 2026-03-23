@@ -12093,14 +12093,14 @@ class PIDSRController extends Controller
                     $sheet->setCellValue('AT'.$row, $d->LaboratoryRemarks);
                 }
                 else if($disease == 'SARI') {
-                    if($d->case_classification == 'S') {
-                        $case_classification = 'SUSPECT ILI';
+                    if($d->case_classification == 'Suspect Severe Acute Respiratory Infection') {
+                        $case_classification = 'SUS';
                     }
-                    if($d->case_classification == 'P') {
-                        $case_classification = 'PROBABLE ILI';
+                    if($d->case_classification == 'Probable Severe Acute Respiratory Infection') {
+                        $case_classification = 'PROB';
                     }
-                    if($d->case_classification == 'S') {
-                        $case_classification = 'CONFIRMED ILI';
+                    if($d->case_classification == 'Confirmed Severe Acute Respiratory Infection') {
+                        $case_classification = 'CON';
                     }
 
                     $sheet->setCellValue('Y'.$row, $d->admitted);
