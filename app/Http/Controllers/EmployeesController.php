@@ -2,30 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
-use App\Models\BlsMain;
-use App\Models\Employee;
-use App\Models\HertDuty;
-use Carbon\CarbonPeriod;
-use App\Models\BlsMember;
-use App\Models\DutyCycle;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use App\Models\HertDutyMember;
-use App\Models\AttendanceSheet;
-use App\Models\HertDutyPatient;
-use Illuminate\Support\Facades\DB;
 use App\Models\AbtcVaccinationSite;
+use App\Models\AttendanceSheet;
 use App\Models\AttendanceSheetEvents;
 use App\Models\BlsBatchParticipant;
+use App\Models\BlsMain;
+use App\Models\BlsMember;
+use App\Models\DutyCycle;
+use App\Models\Employee;
 use App\Models\EmployeeAttendanceSheet;
+use App\Models\EmployeeTraining;
 use App\Models\EmploymentStatusUpdate;
+use App\Models\HertDuty;
+use App\Models\HertDutyMember;
+use App\Models\HertDutyPatient;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class EmployeesController extends Controller
 {
@@ -140,6 +141,8 @@ class EmployeesController extends Controller
 
         if($mode == 'EDIT') {
             $employmentupdate_list = $record->employeestatus()->orderBy('effective_date', 'DESC')->get();
+
+            $employeetraining_list = $record->employeetraining()->orderBy('training_date_from', 'DESC')->get();
         }
 
         return view('employees.new_or_edit', [
@@ -148,6 +151,7 @@ class EmployeesController extends Controller
             'emp_access_list' => $emp_access_list,
             'atbc_branch_list' => $atbc_branch_list,
             'employmentupdate_list' => $employmentupdate_list ?? NULL,
+            'employeetraining_list' => $employeetraining_list ?? NULL,
         ]);
     }
 
@@ -1356,6 +1360,40 @@ class EmployeesController extends Controller
 
         return redirect()->back()
         ->with('msg', 'Employment Status Update request for '.$d->getName().' was successfully submitted.')
+        ->with('msgtype', 'success');
+    }
+
+    public function storeEmployeeTraining(Request $r, $id) {
+        $employee = Employee::find($id);
+
+        $check = EmployeeTraining::where('employee_id', $employee->id)
+            ->where('training_name', mb_strtoupper($r->training_name))
+            ->whereDate('training_date_from', $r->training_date_from)
+            ->whereDate('created_at', date('Y-m-d'))
+            ->first();
+
+        if($check) {
+            return redirect()->back()
+                ->with('msg', 'Training request for '.$employee->getName().' was already submitted.')
+                ->with('msgtype', 'warning');
+        }
+
+        $table_params = [
+            'employee_id' => $employee->id,
+            'training_name' => mb_strtoupper($r->training_name),
+            'training_date_from' => $r->training_date_from,
+            'training_date_to' => $r->training_date_to,
+            'training_hours' => $r->training_hours,
+            'training_type' => $r->training_type,
+            'training_type_others' => ($r->training_type == 'OTHERS') ? mb_strtoupper($r->training_type_others) : null,
+            'training_provider' => mb_strtoupper($r->training_provider),
+            'created_by' => Auth::id(),
+        ];
+
+        $c = EmployeeTraining::create($table_params);
+
+        return redirect()->back()
+        ->with('msg', 'Training request for '.$employee->getName().' was successfully added.')
         ->with('msgtype', 'success');
     }
 }

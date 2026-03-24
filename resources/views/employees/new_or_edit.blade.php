@@ -299,7 +299,6 @@
             </table>
         </div>
     </div>
-    </div>
     
     <form action="{{route('employees_update_employmentstatus', $d->id)}}" method="POST">
         @csrf
@@ -385,7 +384,130 @@
             </div>
         </div>
     </form>
+
+    <div class="card mt-3">
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <div><b>Learning and Development (L&D) Interventions/Training Programs Attended</b></div>
+                <div><button type="button" class="btn btn-success" data-toggle="modal" data-target="#newTraining">Add Training</button></div>
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-striped">
+                <thead class="thead-light text-center">
+                    <tr>
+                        <th>Training Title</th>
+                        <th>Inclusive Dates</th>
+                        <th>Number of Hours</th>
+                        <th>Type</th>
+                        <th>Conducted/Sponsored by</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($employeetraining_list as $et)
+                    <tr class="text-center">
+                        <td scope="row">{{ $et->training_name }}</td>
+                        <td>{{ date('m/d/Y', strtotime($et->training_date_from)) }} - {{ date('m/d/Y', strtotime($et->training_date_to)) }}</td>
+                        <td>{{ $et->training_hours }}</td>
+                        <td>{{ $et->training_type }}</td>
+                        <td>{{ $et->training_provider }}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+
     
+    
+    <form action="{{ route('employee_store_training', $d->id) }}" method="POST">
+        @csrf
+        <div class="modal fade" id="newTraining" tabindex="-1" role="dialog" aria-labelledby="newTrainingTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add Training</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                          <label for="training_name"><b class="text-danger">*</b>Training Title</label>
+                          <input type="text" class="form-control" name="training_name" id="training_name" style="text-transform: uppercase" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="training_date_from"><b class="text-danger">*</b>Training Date From</label>
+                                  <input type="date" class="form-control" name="training_date_from" id="training_date_from" min="{{date('Y-01-01', strtotime('-5 Years'))}}" max="{{date('Y-m-d')}}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="training_date_to"><b class="text-danger">*</b>Training Date To</label>
+                                  <input type="date" class="form-control" name="training_date_to" id="training_date_to" min="{{date('Y-01-01', strtotime('-5 Years'))}}" max="{{date('Y-m-d')}}" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="training_hours"><b class="text-danger">*</b>Training Hours</label>
+                                    <input type="number" class="form-control" name="training_hours" id="training_hours" min="1" max="999" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="training_type"><b class="text-danger">*</b>Training Type</label>
+                                    <select class="form-control" name="training_type" id="training_type" required>
+                                      <option value="" disabled selected>Choose...</option>
+                                      <option value="MANAGERIAL">Managerial</option>
+                                      <option value="SUPERVISORY">Supervisory</option>
+                                      <option value="TECHNICAL">Technical</option>
+                                      <option value="OTHERS">Others</option>
+                                    </select>
+                                </div>
+                                <div id="other_training_type_container" class="d-none">
+                                    <div class="form-group">
+                                        <label for="training_type_others"><b class="text-danger">*</b>Other Training Type</label>
+                                        <input type="text" class="form-control" name="training_type_others" id="training_type_others" style="text-transform: uppercase">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="training_provider"><b class="text-danger">*</b>Conducted/Sponsored by</label>
+                            <input type="text" class="form-control" name="training_provider" id="training_provider" style="text-transform: uppercase" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success btn-block">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        $('#training_date_from').change(function (e) { 
+            e.preventDefault();
+            var fromDate = $(this).val();
+            $('#training_date_to').attr('min', fromDate);
+        });
+
+        $('#training_type').change(function (e) { 
+            e.preventDefault();
+            
+            if($(this).val() == 'OTHERS') {
+                $('#other_training_type_container').removeClass('d-none');
+                $('#training_type_others').prop('required', true);
+            } else {
+                $('#other_training_type_container').addClass('d-none');
+                $('#training_type_others').prop('required', false);
+            }
+        }).trigger('change');
+    </script>
     @endif
 
     <script>
@@ -434,18 +556,6 @@
         $('#emp_access_list').select2({
             theme: 'bootstrap',
         });
-
-        $('#employment_status').change(function (e) { 
-            e.preventDefault();
-            if($(this).val() == 'RESIGNED' || $(this).val() == 'RETIRED') {
-                $('#ifResignedRetiredDiv').removeClass('d-none');
-                $('#date_resigned').prop('required', true);
-            }
-            else {
-                $('#ifResignedRetiredDiv').addClass('d-none');
-                $('#date_resigned').prop('required', false);
-            }
-        }).trigger('change');
 
         $('#is_blstrained').change(function (e) { 
             e.preventDefault();

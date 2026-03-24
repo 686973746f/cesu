@@ -194,6 +194,10 @@ class Employee extends Model
         return $this->hasMany(EmploymentStatusUpdate::class, 'employee_id');
     }
 
+    public function employeetraining() {
+        return $this->hasMany(EmployeeTraining::class, 'employee_id');
+    }
+
     public function latestEmploymentStatus(): HasOne {
         return $this->hasOne(EmploymentStatusUpdate::class, 'employee_id')
         ->ofMany('effective_date', 'max');
