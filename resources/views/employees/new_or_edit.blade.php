@@ -408,7 +408,7 @@
                     <tr class="text-center">
                         <td scope="row">{{ $et->training_name }}</td>
                         <td>{{ date('m/d/Y', strtotime($et->training_date_from)) }} - {{ date('m/d/Y', strtotime($et->training_date_to)) }}</td>
-                        <td>{{ $et->training_hours }}</td>
+                        <td>{{ $et->training_hours ?? 'N/A'}}</td>
                         <td>{{ $et->training_type }}</td>
                         <td>{{ $et->training_provider }}</td>
                     </tr>
@@ -453,8 +453,8 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="training_hours"><b class="text-danger">*</b>Training Hours</label>
-                                    <input type="number" class="form-control" name="training_hours" id="training_hours" min="1" max="999" required>
+                                    <label for="training_hours">Training Hours</label>
+                                    <input type="number" class="form-control" name="training_hours" id="training_hours" min="1" max="999">
                                 </div>
                             </div>
                             <div class="col-md-6">
