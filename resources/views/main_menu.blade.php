@@ -92,7 +92,7 @@
                 <p>Thank you for your cooperation and diligence in preserving the privacy and security of the data we handle.</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">I Understand</button>
+                <button type="button" class="btn btn-primary btn-block" data-dismiss="modal" id="closedpBtn">I Understand</button>
             </div>
         </div>
     </div>
@@ -180,6 +180,18 @@
     @if($showmodal)
     $('#privacymodal').modal({backdrop: 'static', keyboard: false});
     $('#privacymodal').modal('show');
+    
+    $('#closedpBtn').prop('disabled', true);
+    var countdown = 5;
+    var countdownInterval = setInterval(function() {
+        countdown--;
+        $('#closedpBtn').text('Please wait for ' + countdown + ' seconds before closing the modal');
+        if (countdown <= 0) {
+            clearInterval(countdownInterval);
+            $('#closedpBtn').prop('disabled', false);
+            $('#closedpBtn').text('I Understand');
+        }
+    }, 1000);
     @endif
 </script>
 @endsection
