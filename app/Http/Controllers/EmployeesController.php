@@ -44,9 +44,12 @@ class EmployeesController extends Controller
                 ->orWhereDoesntHave('latestEmploymentStatus');
             })->get();
         }
+
+        $demographic_query = Employee::query();
     
         return view('employees.index', [
             'list' => $list,
+            'demographic_query' => $demographic_query,
         ]);
     }
 

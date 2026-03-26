@@ -17,11 +17,10 @@ class CreateEmployeeTrainingsTable extends Migration
             $table->id();
 
             $table->foreignId('employee_id')->constrained('employees')->onDelete('cascade');
-
             $table->string('training_name');
             $table->date('training_date_from');
             $table->date('training_date_to');
-            $table->integer('training_hours');
+            $table->integer('training_hours')->nullable();
             $table->string('training_type');
             $table->string('training_type_others')->nullable();
             $table->string('training_provider');

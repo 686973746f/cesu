@@ -15,6 +15,34 @@
                 {{session('msg')}}
             </div>
             @endif
+            <div class="alert alert-info" role="alert">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Permanent: {{$demographic_query->whereHas('latestEmploymentStatus', function($q) {
+                            $q->where('job_type', 'REGULAR')
+                            ->where('status', 'ACTIVE');
+                        })->count()}}</h5>
+                        <h5>Casual: {{$demographic_query->whereHas('latestEmploymentStatus', function($q) {
+                            $q->where('job_type', 'CASUAL')
+                            ->where('status', 'ACTIVE');
+                        })->count()}}</h5>
+                        <h5>Job Order: {{$demographic_query->whereHas('latestEmploymentStatus', function($q) {
+                            $q->where('job_type', 'JOB ORDER')
+                            ->where('status', 'ACTIVE');
+                        })->count()}}</h5>
+                        <h5>Contractual: {{$demographic_query->whereHas('latestEmploymentStatus', function($q) {
+                            $q->where('job_type', 'CONTRACTUAL')
+                            ->where('status', 'ACTIVE');
+                        })->count()}}</h5>
+                        <h5><b>Total: {{$demographic_query->whereHas('latestEmploymentStatus', function($q) {
+                            $q->where('status', 'ACTIVE');
+                        })->count()}}</b></h5>
+                    </div>
+                    <div class="col-md-6">
+                        Filtered: {{$list->count()}}
+                    </div>
+                </div>
+            </div>
             <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#filterModal">Filter</button>
 
             <div class="table-responsive">

@@ -350,8 +350,9 @@
                                       @if($d->employeestatus->where('job_type', 'REGULAR')->isEmpty())
                                       <option value="JOB ORDER" {{(old('up_job_type') == 'JOB ORDER') ? 'selected' : ''}}>Job Order (J.O)</option>
                                       <option value="CASUAL" {{(old('up_job_type') == 'CASUAL') ? 'selected' : ''}}>Casual</option>
+                                      <option value="CONTRACTUAL" {{(old('up_job_type') == 'CONTRACTUAL') ? 'selected' : ''}}>Contractual/Consultant</option>
                                       @endif
-                                      <option value="REGULAR" {{(old('up_job_type') == 'REGULAR') ? 'selected' : ''}}>Regular</option>
+                                      <option value="REGULAR" {{(old('up_job_type') == 'REGULAR') ? 'selected' : ''}}>Regular/Permanent</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
