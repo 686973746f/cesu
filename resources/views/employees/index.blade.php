@@ -18,25 +18,23 @@
             <div class="alert alert-info" role="alert">
                 <div class="row">
                     <div class="col-md-6">
-                        <h5>Permanent: {{$demographic_query->whereHas('latestEmploymentStatus', function($q) {
+                        <h5>Permanent: {{$emp1 = (clone $demographic_query)->whereHas('latestEmploymentStatus', function($q) {
                             $q->where('job_type', 'REGULAR')
                             ->where('status', 'ACTIVE');
                         })->count()}}</h5>
-                        <h5>Casual: {{$demographic_query->whereHas('latestEmploymentStatus', function($q) {
+                        <h5>Casual: {{$emp2 = (clone $demographic_query)->whereHas('latestEmploymentStatus', function($q) {
                             $q->where('job_type', 'CASUAL')
                             ->where('status', 'ACTIVE');
                         })->count()}}</h5>
-                        <h5>Job Order: {{$demographic_query->whereHas('latestEmploymentStatus', function($q) {
+                        <h5>Job Order: {{$emp3 = (clone $demographic_query)->whereHas('latestEmploymentStatus', function($q) {
                             $q->where('job_type', 'JOB ORDER')
                             ->where('status', 'ACTIVE');
                         })->count()}}</h5>
-                        <h5>Contractual: {{$demographic_query->whereHas('latestEmploymentStatus', function($q) {
+                        <h5>Contractual: {{$emp4 = (clone $demographic_query)->whereHas('latestEmploymentStatus', function($q) {
                             $q->where('job_type', 'CONTRACTUAL')
                             ->where('status', 'ACTIVE');
                         })->count()}}</h5>
-                        <h5><b>Total: {{$demographic_query->whereHas('latestEmploymentStatus', function($q) {
-                            $q->where('status', 'ACTIVE');
-                        })->count()}}</b></h5>
+                        <h5><b>Total: {{$emp1 + $emp2 + $emp3 + $emp4}}</b></h5>
                     </div>
                     <div class="col-md-6">
                         Filtered: {{$list->count()}}
