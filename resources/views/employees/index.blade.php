@@ -5,7 +5,7 @@
     <div class="card">
         <div class="card-header">
             <div class="d-flex justify-content-between">
-                <div><b>Employees</b></div>
+                <div><b>Employees as of {{date('F d, Y')}}</b></div>
                 <div><a href="{{route('employees_add')}}" class="btn btn-success">Add</a></div>
             </div>
         </div>
@@ -17,7 +17,7 @@
             @endif
             <div class="alert alert-info" role="alert">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <h5>Permanent: {{$emp1 = (clone $demographic_query)->whereHas('latestEmploymentStatus', function($q) {
                             $q->where('job_type', 'REGULAR')
                             ->where('status', 'ACTIVE');
@@ -30,14 +30,122 @@
                             $q->where('job_type', 'JOB ORDER')
                             ->where('status', 'ACTIVE');
                         })->count()}}</h5>
-                        <h5>Contractual: {{$emp4 = (clone $demographic_query)->whereHas('latestEmploymentStatus', function($q) {
+                        <h5>Contractual/Consultant: {{$emp4 = (clone $demographic_query)->whereHas('latestEmploymentStatus', function($q) {
                             $q->where('job_type', 'CONTRACTUAL')
                             ->where('status', 'ACTIVE');
                         })->count()}}</h5>
                         <h5><b>Total: {{$emp1 + $emp2 + $emp3 + $emp4}}</b></h5>
+                        <hr>
+                        <h5>HRH-NDP: {{(clone $demographic_query)->whereHas('latestEmploymentStatus', function($q) {
+                            $q->where('status', 'ACTIVE');
+                        })
+                        ->whereRaw("FIND_IN_SET(?, emp_access_list)", ['HRH-NDP'])
+                        ->count()}}</h5>
+                        <h5>DOH-SHC: {{(clone $demographic_query)->whereHas('latestEmploymentStatus', function($q) {
+                            $q->where('status', 'ACTIVE');
+                        })
+                        ->whereRaw("FIND_IN_SET(?, emp_access_list)", ['DOH-SHC'])
+                        ->count()}}</h5>
                     </div>
-                    <div class="col-md-6">
-                        Filtered: {{$list->count()}}
+                    <div class="col-md-4">
+                        @php
+                        $demographic2 = (clone $demographic_query)->whereHas('latestEmploymentStatus', function($q) {
+                            $q->where('job_type', 'REGULAR')
+                            ->where('status', 'ACTIVE');
+                        });
+                        @endphp
+                        <h5><b>PERMANENT</b></h5>
+                        <ul>
+                            <li><h5>RN: {{ (clone $demographic2)
+                            ->whereRaw("FIND_IN_SET(?, emp_access_list)", ['NURSE'])
+                            ->count()}}</h5></li>
+                            <li><h5>RM: {{ (clone $demographic2)
+                            ->whereRaw("FIND_IN_SET(?, emp_access_list)", ['MIDWIFE'])
+                            ->count()}}</h5></li>
+                            <li><h5>RMT: {{ (clone $demographic2)
+                            ->whereRaw("FIND_IN_SET(?, emp_access_list)", ['MEDTECH'])
+                            ->count()}}</h5></li>
+                            <li><h5>DMD: {{ (clone $demographic2)
+                            ->whereRaw("FIND_IN_SET(?, emp_access_list)", ['DENTIST'])
+                            ->count()}}</h5></li>
+                            <li><h5>MD: {{ (clone $demographic2)
+                            ->whereRaw("FIND_IN_SET(?, emp_access_list)", ['PHYSICIAN'])
+                            ->count()}}</h5></li>
+                            <li><h5>RPH: {{ (clone $demographic2)
+                            ->whereRaw("FIND_IN_SET(?, emp_access_list)", ['PHARMACIST'])
+                            ->count()}}</h5></li>
+                            <li><h5>RT: {{ (clone $demographic2)
+                            ->whereRaw("FIND_IN_SET(?, emp_access_list)", ['RADIO TECHNOLOGIST'])
+                            ->count()}}</h5></li>
+                            <li><h5>OB-GYN: {{ (clone $demographic2)
+                            ->whereRaw("FIND_IN_SET(?, emp_access_list)", ['OB-GYN'])
+                            ->count()}}</h5></li>
+                            <li><h5>Psychometrician: {{ (clone $demographic2)
+                            ->whereRaw("FIND_IN_SET(?, emp_access_list)", ['PSYCHOMETRICIAN'])
+                            ->count()}}</h5></li>
+                            <li><h5>Psychologist: {{ (clone $demographic2)
+                            ->whereRaw("FIND_IN_SET(?, emp_access_list)", ['PSYCHOLOGIST'])
+                            ->count()}}</h5></li>
+                            <li><h5>RPH: {{ (clone $demographic2)
+                            ->whereRaw("FIND_IN_SET(?, emp_access_list)", ['PHARMACIST'])
+                            ->count()}}</h5></li>
+                            <li><h5>Ambulance Driver: {{ (clone $demographic2)
+                            ->whereRaw("FIND_IN_SET(?, emp_access_list)", ['AMBULANCE DRIVER'])
+                            ->count()}}</h5></li>
+                            <li><h5>Driver: {{ (clone $demographic2)
+                            ->whereRaw("FIND_IN_SET(?, emp_access_list)", ['DRIVER'])
+                            ->count()}}</h5></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        @php
+                        $demographic3 = (clone $demographic_query)->whereHas('latestEmploymentStatus', function($q) {
+                            $q->where('job_type', 'JOB ORDER')
+                            ->where('status', 'ACTIVE');
+                        });
+                        @endphp
+                        <h5><b>JOB ORDER</b></h5>
+                        <ul>
+                            <li><h5>RN: {{ (clone $demographic3)
+                            ->whereRaw("FIND_IN_SET(?, emp_access_list)", ['NURSE'])
+                            ->count()}}</h5></li>
+                            <li><h5>RM: {{ (clone $demographic3)
+                            ->whereRaw("FIND_IN_SET(?, emp_access_list)", ['MIDWIFE'])
+                            ->count()}}</h5></li>
+                            <li><h5>RMT: {{ (clone $demographic3)
+                            ->whereRaw("FIND_IN_SET(?, emp_access_list)", ['MEDTECH'])
+                            ->count()}}</h5></li>
+                            <li><h5>DMD: {{ (clone $demographic3)
+                            ->whereRaw("FIND_IN_SET(?, emp_access_list)", ['DENTIST'])
+                            ->count()}}</h5></li>
+                            <li><h5>MD: {{ (clone $demographic3)
+                            ->whereRaw("FIND_IN_SET(?, emp_access_list)", ['PHYSICIAN'])
+                            ->count()}}</h5></li>
+                            <li><h5>RPH: {{ (clone $demographic3)
+                            ->whereRaw("FIND_IN_SET(?, emp_access_list)", ['PHARMACIST'])
+                            ->count()}}</h5></li>
+                            <li><h5>RT: {{ (clone $demographic3)
+                            ->whereRaw("FIND_IN_SET(?, emp_access_list)", ['RADIO TECHNOLOGIST'])
+                            ->count()}}</h5></li>
+                            <li><h5>OB-GYN: {{ (clone $demographic3)
+                            ->whereRaw("FIND_IN_SET(?, emp_access_list)", ['OB-GYN'])
+                            ->count()}}</h5></li>
+                            <li><h5>Psychometrician: {{ (clone $demographic3)
+                            ->whereRaw("FIND_IN_SET(?, emp_access_list)", ['PSYCHOMETRICIAN'])
+                            ->count()}}</h5></li>
+                            <li><h5>Psychologist: {{ (clone $demographic3)
+                            ->whereRaw("FIND_IN_SET(?, emp_access_list)", ['PSYCHOLOGIST'])
+                            ->count()}}</h5></li>
+                            <li><h5>RPH: {{ (clone $demographic3)
+                            ->whereRaw("FIND_IN_SET(?, emp_access_list)", ['PHARMACIST'])
+                            ->count()}}</h5></li>
+                            <li><h5>Ambulance Driver: {{ (clone $demographic3)
+                            ->whereRaw("FIND_IN_SET(?, emp_access_list)", ['AMBULANCE DRIVER'])
+                            ->count()}}</h5></li>
+                            <li><h5>Driver: {{ (clone $demographic3)
+                            ->whereRaw("FIND_IN_SET(?, emp_access_list)", ['DRIVER'])
+                            ->count()}}</h5></li>
+                        </ul>
                     </div>
                 </div>
             </div>

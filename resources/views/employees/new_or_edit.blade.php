@@ -314,7 +314,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                          <label for="update_type">Select Type</label>
+                          <label for="update_type"><b class="text-danger">*</b>Select Type</label>
                           <select class="form-control" name="update_type" id="update_type" required>
                             <option value="" disabled {{(is_null(old('update_type'))) ? 'selected' : ''}}>Choose...</option>
                             @if($d->employeestatus->where('update_type', 'INITIAL')->isEmpty())

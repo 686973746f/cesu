@@ -118,24 +118,36 @@ class Employee extends Model
     }
 
     public static function getEmpAccessList() {
-        return [
+        $array = [
             'PHYSICIAN',
             'SPECIALIST MEDICAL DOCTOR',
             'DENTIST',
             'DENTAL HYGIENIST/AIDE',
             'AMBULANCE DRIVER',
+            'DRIVER',
             'MEDTECH',
             'MEDICAL LAB TECHNICIAN',
             'NURSE',
             'MIDWIFE',
+            'PSYCHOLOGIST',
             'PSYCHOMETRICIAN',
             'RADIO TECHNOLOGIST',
             'IT OFFICER',
             'SANITARY INSPECTOR/OFFICER',
             'ADMIN STAFF',
             'PHARMACIST',
-            'ABTC_DOCTOR',
+            'OB-GYN',
+            'HRH-NDP',
+            'DOH-SHC',
         ];
+
+        if(auth()->user()->isGlobalAdmin()) {
+            $array[] = 'ABTC_DOCTOR';
+        }
+        
+        sort($array);
+
+        return $array;
     }
 
     public function getLengthOfService() {
