@@ -194,7 +194,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="duty_canbedeployed"><b class="text-danger">*</b>Deployable in Duties?</label>
+                            <label for="duty_canbedeployed"><b class="text-danger">*</b>Deployable in HERT Duties?</label>
                             <select class="form-control" name="duty_canbedeployed" id="duty_canbedeployed" required>
                               <option value="" disabled {{(is_null(old('duty_canbedeployed', $d->duty_canbedeployed))) ? 'selected' : ''}}>Choose...</option>
                               <option value="Y" {{(old('duty_canbedeployed', $d->duty_canbedeployed) == 'Y') ? 'selected' : ''}}>Yes</option>
@@ -212,8 +212,8 @@
                                 <input type="text" class="form-control" name="cantduty_remarks" id="cantduty_remarks" value="{{old('cantduty_remarks', $d->cantduty_remarks)}}" style="text-transform: uppercase;">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="duty_team">HERT Duty Team</label>
+                        <div class="form-group d-none" id="canduty_div">
+                            <label for="duty_team"><b class="text-danger">*</b>HERT Duty Team</label>
                             <select class="form-control" name="duty_team" id="duty_team">
                               <option value="" {{(is_null(old('duty_team', $d->duty_team))) ? 'selected' : ''}}>N/A</option>
                               <option value="A" {{(old('duty_team', $d->duty_team) == 'A') ? 'selected' : ''}}>Team A</option>
@@ -225,14 +225,24 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="duty_canbedeployedagain"><b class="text-danger">*</b>Can be Repeatedly Deployed? (For Drivers, Team Leaders)</label>
+                            <label for="duty_canbedeployedagain"><b class="text-danger">*</b>Can be Repeatedly Deployed in HERT Duties? (For Drivers, Team Leaders)</label>
                             <select class="form-control" name="duty_canbedeployedagain" id="duty_canbedeployedagain" required>
                               <option value="N" {{(old('duty_canbedeployedagain', $d->duty_canbedeployedagain) == 'N') ? 'selected' : ''}}>No</option>
                               <option value="Y" {{(old('duty_canbedeployedagain', $d->duty_canbedeployedagain) == 'Y') ? 'selected' : ''}}>Yes</option>
                             </select>
                         </div>
+                        @if(auth()->user()->isGlobalAdmin())
+                        <div class="form-group">
+                            <label for="temp_exempt_from_duty"><b class="text-danger">*</b>Temporarily Exempt from Duty (for Admin Use)</label>
+                            <select class="form-control" name="temp_exempt_from_duty" id="temp_exempt_from_duty" required>
+                              <option value="N" {{(old('temp_exempt_from_duty', $d->temp_exempt_from_duty) == 'N') ? 'selected' : ''}}>No</option>
+                              <option value="Y" {{(old('temp_exempt_from_duty', $d->temp_exempt_from_duty) == 'Y') ? 'selected' : ''}}>Yes</option>
+                            </select>
+                        </div>
+                        @endif
                     </div>
                     <div class="col-md-4">
+                        @if(auth()->user()->isGlobalAdmin())
                         <div class="form-group">
                             <label for="abtc_vaccinator_branch">ABTC Vaccination Branch</label>
                             <select class="form-control" name="abtc_vaccinator_branch" id="abtc_vaccinator_branch">
@@ -242,6 +252,7 @@
                               @endforeach
                             </select>
                         </div>
+                        @endif
                     </div>
                 </div>
                 <hr>
@@ -332,7 +343,7 @@
                         <div id="emp_part2" class="d-none">
                             <div class="form-group">
                                 <label for="effective_date"><b class="text-danger">*</b>Date of Effectivity</label>
-                                <input type="date" class="form-control" name="effective_date" id="effective_date" value="{{old('effective_date')}}" max="{{date('Y-m-d')}}">
+                                <input type="date" class="form-control" name="effective_date" id="effective_date" value="{{old('effective_date')}}" min="1900-01-01" max="{{date('Y-m-d')}}">
                             </div>
                             <div class="form-group" id="resigned_div">
                               <label for="up_resigned_remarks">Resigned Remarks</label>
@@ -573,11 +584,17 @@
             $('#cantduty_div').addClass('d-none');
             $('#cantduty_remarks').prop('required', false);
             $('#cantduty_datelisted').prop('required', false);
-
+            $('#duty_team').prop('required', false);
+            $('#canduty_div').addClass('d-none');
+            
             if($(this).val() == 'U') {
                 $('#cantduty_div').removeClass('d-none');
                 $('#cantduty_remarks').prop('required', true);
                 $('#cantduty_datelisted').prop('required', true);
+            }
+            else if($(this).val() == 'Y') {
+                $('#duty_team').prop('required', true);
+                $('#canduty_div').removeClass('d-none');
             }
         }).trigger('change');
     </script>

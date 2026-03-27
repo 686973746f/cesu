@@ -123,6 +123,7 @@ class EmployeesController extends Controller
             'duty_completedcycle' => 'N',
             'abtc_vaccinator_branch' => $r->abtc_vaccinator_branch,
             'created_by' => auth()->user()->id,
+            'temp_exempt_from_duty' => (auth()->user()->isGlobalAdmin()) ? $r->temp_exempt_from_duty : 'N',
 
             'emp_access_list' => (!is_null($r->emp_access_list)) ? implode(",", $r->emp_access_list) : NULL,
         ]);
@@ -223,6 +224,8 @@ class EmployeesController extends Controller
             'cantduty_remarks' => ($r->duty_canbedeployed == 'U') ? mb_strtoupper($r->cantduty_remarks) : null,
             'duty_canbedeployedagain' => $r->duty_canbedeployedagain,
             'duty_team' => $r->duty_team,
+            'temp_exempt_from_duty' => (auth()->user()->isGlobalAdmin()) ? $r->temp_exempt_from_duty : 'N',
+
             'abtc_vaccinator_branch' => $r->abtc_vaccinator_branch,
             //'duty_completedcycle' => 'N',
             //'created_by' => auth()->user()->id,
@@ -359,6 +362,7 @@ class EmployeesController extends Controller
             ->where('duty_completedcycle', 'N')
             ->where('excess_duty', 0)
             ->whereNotNull('duty_team')
+            ->where('temp_exempt_from_duty', 'N')
             ->update([
                 'duty_balance' => DB::raw('duty_balance + 1'),
             ]);
@@ -373,6 +377,7 @@ class EmployeesController extends Controller
             ->where('duty_canbedeployed', 'Y')
             ->where('duty_completedcycle', 'N')
             ->where('excess_duty', '>', 0)
+            ->where('temp_exempt_from_duty', 'N')
             ->whereNotNull('duty_team')
             ->update([
                 'duty_balance' => DB::raw('excess_duty - 1'),
@@ -380,6 +385,7 @@ class EmployeesController extends Controller
 
             $u = Employee::query()->update([
                 'duty_completedcycle' => 'N',
+                'temp_exempt_from_duty' => 'N',
             ]);
 
             return redirect()->back()

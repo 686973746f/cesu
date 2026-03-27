@@ -73,6 +73,7 @@ class CreateEmployeesTable extends Migration
             $table->string('duty_canbedeployedagain', 1)->default('N');
             $table->integer('duty_balance')->default(0);
             $table->integer('excess_duty')->default(0);
+            $table->char('temp_exempt_from_duty', 1)->default('N');
 
             $table->string('prc_license_no')->nullable();
             $table->string('tin_no')->nullable();

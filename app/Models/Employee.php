@@ -63,6 +63,7 @@ class Employee extends Model
         'duty_completedcycle',
         'duty_balance',
         'excess_duty',
+        'temp_exempt_from_duty',
 
         'prc_license_no',
         'tin_no',
