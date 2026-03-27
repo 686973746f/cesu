@@ -239,6 +239,16 @@ class EmployeesController extends Controller
         ->with('msgtype', 'success');
     }
 
+    public function deleteEmployee(Employee $employee) {
+        $employee->employeestatus()->delete();
+        $employee->employeetraining()->delete();
+        $employee->delete();
+
+        return redirect()->route('employees_index')
+        ->with('msg', 'Employee ID: '.$employee->id.' - '.$employee->lname.', '.$employee->fname.' was deleted successfully.')
+        ->with('msgtype', 'success');
+    }
+
     public function dutyIndex() {
         $duty_qry = Employee::where(function ($q) {
             $q->whereHas('latestEmploymentStatus', function ($q2) {

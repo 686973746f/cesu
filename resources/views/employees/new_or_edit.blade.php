@@ -2,6 +2,18 @@
 
 @section('content')
     @if($mode == 'EDIT')
+    @if(auth()->user()->isGlobalAdmin())
+    <div class="container mb-3">
+        <div class="text-right">
+            <form action="{{route('employee_delete', $d->id)}}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger"><i class="fa fa-trash mr-2" aria-hidden="true"></i> Delete Employee</button>
+            </form>
+        </div>
+    </div>
+    @endif
+
     <form action="{{route('employees_update', $d->id)}}" method="POST">
     @else
     <form action="{{route('employees_store')}}" method="POST">

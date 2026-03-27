@@ -574,6 +574,8 @@ Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'isGlobalAd
 
     //TASKS ADMIN
     Route::resource('taskgenerator', TaskGeneratorController::class);
+
+    Route::delete('employees/edit/{employee}/delete', [EmployeesController::class, 'deleteEmployee'])->name('employee_delete');
 });
 
 Route::group(['middleware' => ['auth','verified','isAccountEnabled', 'canAccessEmployees', 'hasLatestPassword']], function() {
