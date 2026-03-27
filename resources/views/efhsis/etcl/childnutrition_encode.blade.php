@@ -448,12 +448,12 @@
                                             <div>12-23 months (200,000 IU)</div>
                                             <div>90 sachets every 6 months for a total of 180 sachets in a year</div>
                                         </label>
-                                      <input type="date" class="form-control" name="mnp2" id="mnp2" max="{{date('Y-m-d')}}" value="{{old('mnp2', $d->mnp2)}}" {{ ($age_in_months < 12) ? 'disabled' : '' }}>
+                                      <input type="date" class="form-control" name="mnp2" id="mnp2" max="{{date('Y-m-d')}}" value="{{old('mnp2', $d->mnp2)}}" {{ ($age_in_months >= 12) ? '' : 'disabled' }}>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="mnp1_completed">MNP - Date Completed</label>
-                                        <input type="date" class="form-control" name="mnp1_completed" id="mnp1_completed" max="{{date('Y-m-d')}}" value="{{old('mnp1_completed', $d->mnp1_completed)}}" {{ ($age_in_months < 12) ? 'disabled' : '' }}>
+                                        <input type="date" class="form-control" name="mnp1_completed" id="mnp1_completed" max="{{date('Y-m-d')}}" value="{{old('mnp1_completed', $d->mnp1_completed)}}" {{ ($age_in_months >= 12) ? '' : 'disabled' }}>
                                     </div>
                                 </div>
                             </div>
@@ -482,12 +482,12 @@
                                             <div>12-23 months</div>
                                             <div>1 sachet per day for 120 days</div>
                                         </label>
-                                      <input type="date" class="form-control" name="lns2" id="lns2" max="{{date('Y-m-d')}}" value="{{old('lns2', $d->lns2)}}" {{ ($age_in_months < 12) ? 'disabled' : '' }}>
+                                      <input type="date" class="form-control" name="lns2" id="lns2" max="{{date('Y-m-d')}}" value="{{old('lns2', $d->lns2)}}" {{ ($age_in_months >= 12) ? '' : 'disabled' }}>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="lns2_completed">LNS-SQ - Date Completed</label>
-                                        <input type="date" class="form-control" name="lns2_completed" id="lns2_completed" max="{{date('Y-m-d')}}" value="{{old('lns2_completed', $d->lns2_completed)}}" {{ ($age_in_months < 12) ? 'disabled' : '' }}>
+                                        <input type="date" class="form-control" name="lns2_completed" id="lns2_completed" max="{{date('Y-m-d')}}" value="{{old('lns2_completed', $d->lns2_completed)}}" {{ ($age_in_months >= 12) ? '' : 'disabled' }}>
                                     </div>
                                 </div>
                             </div>
