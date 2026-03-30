@@ -116,6 +116,7 @@
                               <select class="form-control" name="cpab_manual" id="cpab_manual">
                                 <option value="" disabled {{old('cpab_manual', $d->cpab) ? '' : 'selected'}}>Choose...</option>
                                 <option value="0" {{old('cpab_manual', $d->cpab) === '0' ? 'selected' : ''}}>None</option>
+                                <option value="3" {{old('cpab_manual', $d->cpab) === '3' ? 'selected' : ''}}>Received TT1 Only</option>
                                 <option value="1" {{old('cpab_manual', $d->cpab) === '1' ? 'selected' : ''}}>Received at least 2 doses of Tetanus Toxoid (TT)-containing vaccine at least one month prior to delivery</option>
                                 <option value="2" {{old('cpab_manual', $d->cpab) === '2' ? 'selected' : ''}}>TT3/Td3 to TT5/Td5 (or TT1/Td1 to TT5/Td5) given to the mother anytime prior to delivery</option>
                               </select>
