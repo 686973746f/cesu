@@ -13,7 +13,7 @@ class SevereAcuteRespiratoryInfection extends Model
     public $guarded = [];
     
     public function getFullName() {
-        $getFullName = $this->lname.', '.$this->fname;
+        $getFullName = $this->FamilyName.', '.$this->FirstName;
 
         if(!is_null($this->middle_name)) {
             $getFullName = $getFullName.' '.$this->middle_name;
@@ -27,7 +27,7 @@ class SevereAcuteRespiratoryInfection extends Model
     }
 
     public function getName() {
-        $getFullName = $this->lname.', '.$this->fname;
+        $getFullName = $this->FamilyName.', '.$this->FirstName;
 
         if(!is_null($this->middle_name)) {
             $getFullName = $getFullName.' '.$this->middle_name;
@@ -55,8 +55,8 @@ class SevereAcuteRespiratoryInfection extends Model
     }
 
     public function getStreetPurok() {
-        if(!is_null($this->streetpurok)) {
-            return $this->streetpurok;
+        if(!is_null($this->Streetpurok)) {
+            return $this->Streetpurok;
         }
         else {
             return 'Street/Purok not Encoded';
