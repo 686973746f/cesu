@@ -145,6 +145,7 @@
                 $('#processing_div').removeClass('d-none');
                 $('#ics_transmittalno').prop('required', true);
                 $('#ics_claims_seriesno').prop('required', true);
+                $('#ics_claims_seriesno').prop('disabled', false);
             }
         }).trigger('change');
     </script>
