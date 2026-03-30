@@ -22,7 +22,7 @@
 </div>
 
     <div class="container-fluid">
-        <p>Today is: {{date('M. d, Y')}} - Morbidity Week: {{date('W')}}</p>
+        <p>Today is: {{date('M. d, Y')}} - Morbidity Week: {{$mws_current_mw}}</p>
         @if(Str::contains(request()->url(), 'facility_report'))
         <a href="{{route('facility_report_case_checker', $f->sys_code1)}}" class="btn btn-secondary mb-3">Back</a>
         @else
@@ -66,34 +66,28 @@
                         <tbody>
                             @foreach($list as $ind => $l)
                             @php
+                            $epi_id = $l->EPIID;
+                            $dob = $l->DOB;
+                            $streetpurok = $l->Streetpurok;
+                            $brgy = $l->Barangay;
+                            $facility_name = $l->NameOfDru;
+                            $sex = $l->Sex;
+
                             if($case == 'SevereAcuteRespiratoryInfection') {
-                                $epi_id = $l->epi_id;
                                 $mw = $l->morbidity_week;
                                 $mm = $l->morbidity_month;
                                 $my = $l->year;
                                 
-
-                                $dob = $l->birthdate;
                                 $age_years = $l->age_years;
-                                $sex = $l->sex;
-                                $streetpurok = $l->streetpurok;
-                                $brgy = $l->barangay;
-                                $facility_name = $l->facility_name;
                                 $outcome = $l->outcome;
                                 $cc = $l->case_classification;
                             }
                             else {
-                                $epi_id = $l->EPIID;
                                 $mw = $l->MorbidityWeek;
                                 $mm = $l->MorbidityMonth;
                                 $my = $l->Year;
 
-                                $dob = $l->DOB;
                                 $age_years = $l->AgeYears;
-                                $sex = $l->Sex;
-                                $streetpurok = $l->Streetpurok;
-                                $brgy = $l->Barangay;
-                                $facility_name = $l->NameOfDru;
                                 $outcome = $l->Outcome;
                                 $cc = $l->CaseClassification;
                             }
