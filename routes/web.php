@@ -1168,6 +1168,16 @@ Route::get('/', function () {
         return redirect()->route('home');
     }
     else {
+        return view('landing');
+    }
+    
+})->name('main');
+
+Route::get('/auth_login', function () {
+    if(auth()->check()) {
+        return redirect()->route('home');
+    }
+    else {
         return view('auth.login');
     }
     
