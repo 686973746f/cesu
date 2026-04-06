@@ -86,7 +86,7 @@ use App\Http\Controllers\Auth\LoginController;
 |
 */
 
-Route::post('/cesu-login', [LoginController::class, 'login'])->name('cesu.login');
+Route::post('/cesu-login', [LoginController::class, 'login'])->middleware('throttle:5,1')->name('cesu.login');
 Route::post('/cesu-logout', [LoginController::class, 'logout'])->name('cesu.logout');
 
 //Route::get('/referral', [RegisterCodeController::class, 'index'])->name('rcode.index');
