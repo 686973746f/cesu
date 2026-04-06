@@ -39,7 +39,12 @@ else if(Str::contains(request()->url(), 'syndromic')) {
     $homelink = route('syndromic_home');
 }
 else {
-    $homelink = route('home');
+    if(auth()->check()){
+        $homelink = route('home');
+    }
+    else {
+        $homelink = route('login');
+    }
 }
 @endphp
 <body style="font-family: Arial, Helvetica, sans-serif">
