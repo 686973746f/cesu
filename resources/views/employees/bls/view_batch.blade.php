@@ -81,7 +81,7 @@
                         @foreach($member_list as $ind => $l)
                         <tr>
                             <td class="text-center">{{$ind+1}}</td>
-                            <td><a href="{{route('bls_viewparticipant', $l->id)}}"><b>{{$l->member->getName()}}</b></a></td>
+                            <td><a href="{{route('bls_viewparticipant', $l->id)}}"><b>{{$l->member->getNameJustInitials()}}</b></a></td>
                             <td class="text-center">{{$l->member->provider_type}}</td>
                             <td class="text-center">{{$l->member->position}}</td>
                             <td class="text-center">{{$l->member->institution}}</td>

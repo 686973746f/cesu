@@ -780,7 +780,11 @@ class EmployeesController extends Controller
 
         $qry = BlsBatchParticipant::where('batch_id', $batch_id);
 
-        $member_list = (clone $qry)->get();
+        $member_list = BlsBatchParticipant::where('batch_id', $batch_id)
+        ->join('bls_members', 'bls_batch_participants.member_id', '=', 'bls_members.id')
+        ->orderBy('bls_members.lname', 'ASC')
+        ->select('bls_batch_participants.*') // important to avoid column conflicts
+        ->get();
 
         if($member_list->count() != 0) {
             $exclude_ids = (clone $qry)->pluck('member_id')->toArray();

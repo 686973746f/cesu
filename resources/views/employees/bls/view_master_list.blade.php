@@ -61,7 +61,7 @@
                         @if($d->getLastTrainingData()->bls_finalremarks == 'P')
                         <tr>
                             <td class="text-center">{{$ind + 1}}</td>
-                            <td>{{$d->getName()}}</td>
+                            <td>{{$d->getNameJustInitials()}}</td>
                             <td class="text-center">{{$d->getAge()}}</td>
                             <td class="text-center">{{$d->gender}}</td>
                             <td class="text-center">{{Carbon\Carbon::parse($d->bdate)->format('m/d/Y')}}</td>

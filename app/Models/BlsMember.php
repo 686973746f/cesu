@@ -67,6 +67,23 @@ class BlsMember extends Model
         //return $this->lname.", ".$this->fname.' '.$this->suffix." ".$this->mname;
     }
 
+    public function getNameJustInitials() {
+        $fullname = $this->lname;
+
+        if(!is_null($this->suffix)) {
+            $fullname = $fullname." ".$this->suffix;
+        }
+
+        $fullname = $fullname.", ".$this->fname;
+
+        if(!is_null($this->mname)) {
+            $fullname = $fullname." ".substr($this->mname, 0, 1).".";
+        }
+        
+        return $fullname;
+        //return $this->lname.", ".$this->fname.' '.$this->suffix." ".$this->mname;
+    }
+
     public function getAge() {
         if(!is_null($this->bdate)) {
             if(Carbon::parse($this->attributes['bdate'])->age > 0) {
