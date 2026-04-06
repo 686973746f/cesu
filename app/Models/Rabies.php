@@ -41,6 +41,10 @@ class Rabies extends Model
         return $full;
     }
 
+    public function brgy() {
+        return $this->belongsTo(EdcsBrgy::class, 'brgy_id');
+    }
+
     public function displayAgeStringToReport() {
         if($this->AgeYears == 0) {
             if($this->AgeMons == 0) {
