@@ -43,7 +43,7 @@ else {
         $homelink = route('home');
     }
     else {
-        $homelink = route('login');
+        $homelink = route('main');
     }
 }
 @endphp
