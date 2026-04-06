@@ -73,6 +73,7 @@ use App\Http\Controllers\ElectronicTclReportController;
 use App\Http\Controllers\SchoolBasedSurveillanceController;
 use App\Http\Controllers\SecondaryTertiaryRecordsController;
 use App\Http\Controllers\SocialHygieneTclController;
+use App\Http\Controllers\Auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,7 +86,9 @@ use App\Http\Controllers\SocialHygieneTclController;
 |
 */
 
-Auth::routes(['verify' => true]);
+Route::post('/cesu-login', [LoginController::class, 'login'])->name('cesu.login');
+Route::post('/cesu-logout', [LoginController::class, 'logout'])->name('cesu.logout');
+
 //Route::get('/referral', [RegisterCodeController::class, 'index'])->name('rcode.index');
 //Route::get('/referral/check', [RegisterCodeController::class, 'refCodeCheck'])->name('rcode.check');
 

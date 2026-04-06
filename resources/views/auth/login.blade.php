@@ -57,7 +57,7 @@
                             @endforeach
                         </div>
                         @endif
-                        <form method="POST" action="{{ route('login') }}" id="loginForm">
+                        <form method="POST" action="{{ route('cesu.login') }}" id="loginForm">
                             @csrf
                             <div class="form-group row">
                                 <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>

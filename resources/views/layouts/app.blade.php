@@ -123,13 +123,13 @@ else {
                                     <a class="dropdown-item" href="{{route('export_index')}}"><i class="fa fa-download mr-2 text-success" aria-hidden="true"></i>My Exports</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{route('changepw.index')}}"><i class="fa fa-key mr-2 text-warning" aria-hidden="true"></i>Change Password</a>
-                                    <a class="dropdown-item text-danger font-weight-bold" href="{{ route('logout') }}"
+                                    <a class="dropdown-item text-danger font-weight-bold" href="{{ route('cesu.logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         <i class="fas fa-sign-out-alt mr-2" aria-hidden="true"></i>{{ __('Logout') }}
                                     </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    <form id="logout-form" action="{{ route('cesu.logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
                                 </div>
