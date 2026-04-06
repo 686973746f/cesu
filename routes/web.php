@@ -1168,7 +1168,7 @@ Route::get('/', function () {
         return redirect()->route('home');
     }
     else {
-        return view('landing');
+        return redirect('https://cesu.uni.ph');
     }
     
 })->name('main');

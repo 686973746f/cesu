@@ -956,7 +956,7 @@ class AmesImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
             if($exist_check) {
                 $old_modified_date = $exist_check->edcs_last_modified_date;
-                $new_modified_date = EdcsImport::tDate($row['last_modified_date']);
+                $new_modified_date = EdcsImport::tDate($row['last_modified_date'] ?? $row['lastmodifieddate']);
                 if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
                     $model = $exist_check->update($table_params);
                 }
@@ -2711,7 +2711,7 @@ class DengueImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
 
                 if($exist_check) {
                     $old_modified_date = $exist_check->edcs_last_modified_date;
-                    $new_modified_date = EdcsImport::tDate($row['last_modified_date']);
+                    $new_modified_date = EdcsImport::tDate($row['last_modified_date'] ?? $row['lastmodifieddate']);
                     if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
                         $model = $exist_check->update($table_params);
                     }
@@ -3909,8 +3909,8 @@ class InfluenzaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow 
             }
             
             //Get Morb Month
-            if(!is_null($row['date_on_set_of_illness'])) {
-                $getMorbidityMonth = EdcsImport::getMorbMonth(EdcsImport::tDate($row['date_on_set_of_illness']));
+            if(!is_null($row['date_on_set_of_illness'] ?? $row['date_onset'])) {
+                $getMorbidityMonth = EdcsImport::getMorbMonth(EdcsImport::tDate($row['date_on_set_of_illness'] ?? $row['date_onset']));
             }
             else {
                 $getMorbidityMonth = EdcsImport::getMorbMonth($currentDate->format('Y-m-d'));
@@ -3939,17 +3939,17 @@ class InfluenzaImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow 
                 'AgeDays' => $getAgeDays,
 
                 'Admitted' => ($row['patient_admitted'] ?? $row['admitted'] == 'Y') ? 1 : 0,
-                'DAdmit' => EdcsImport::tDate($row['date_admitted_seen_consulted']),
-                'DOnset' => EdcsImport::tDate($row['date_on_set_of_illness']),
+                'DAdmit' => EdcsImport::tDate($row['date_admitted_seen_consulted'] ?? $row['date_admitted']),
+                'DOnset' => EdcsImport::tDate($row['date_on_set_of_illness'] ?? $row['date_onset']),
                 'LabResult' => NULL,
                 'Outcome' => mb_strtoupper(substr($row['outcome'],0,1)),
-                'DateDied' => EdcsImport::tDate($row['date_died'] ?? $row['datedied']),
+                'DateDied' => EdcsImport::tDate($row['date_died'] ?? $row['datedied'] ?? null),
                 'CASECLASS' => $row['case_classification'],
                 'SARI' => NULL,
                 'Organism' => NULL,
 
                 'DateOfEntry' => EdcsImport::tDate($row['timestamp'] ?? $row['timestamp_disease']),
-                'AdmitToEntry' => $row['timelapse_dateadmittodateencode'],
+                'AdmitToEntry' => $row['timelapse_dateadmittodateencode'] ?? null,
                 'OnsetToAdmit' => $row['timelapse_dateonsettodateencode'],
                 'SentinelSite' => NULL,
                 'DeleteRecord' => NULL,
@@ -4238,7 +4238,7 @@ class SevereAcuteRespiratoryInfectionImport implements ToModel, WithHeadingRow, 
                 'perm_province' => mb_strtoupper($row['permanent_address_province']),
                 'perm_muncity' => mb_strtoupper($row['permanent_address_city_municipality']),
                 'perm_barangay' => (!is_null($row['permanent_address_barangay'])) ? EdcsImport::brgySetter($row['permanent_address_barangay']) : NULL,
-                'perm_streetpurok' => (!is_null($row['permanent_address_sitio_purok_street_name'])) ? mb_strtoupper($row['permanent_address_sitio_purok_street_name']) : NULL,
+                'perm_streetpurok' => (!is_null($row['permanent_address_sitio_purok_street_name'] ?? $row['permanent_address_streetpurok'])) ? mb_strtoupper($row['permanent_address_sitio_purok_street_name'] ?? $row['permanent_address_streetpurok']) : NULL,
                 'NameOfDru' => $fac_name,
                 'edcs_healthFacilityCode' => $hfcode,
                 'admitted' => $row['patient_admitted'] ?? $row['admitted'],
@@ -4360,11 +4360,11 @@ class SevereAcuteRespiratoryInfectionImport implements ToModel, WithHeadingRow, 
                 'interpretation' => $row['interpretation'],
             ];
 
-            $exist_check = SevereAcuteRespiratoryInfection::where('epi_id', $epi_id)->first();
+            $exist_check = SevereAcuteRespiratoryInfection::where('EPIID', $epi_id)->first();
 
             if($exist_check) {
                 $old_modified_date = $exist_check->edcs_last_modified_date;
-                $new_modified_date = EdcsImport::tDate($row['last_modified_date']);
+                $new_modified_date = EdcsImport::tDate($row['last_modified_date'] ?? $row['lastmodifieddate']);
                 if(is_null($exist_check->edcs_last_modified_date) || Carbon::parse($new_modified_date)->gte(Carbon::parse($old_modified_date))) {
                     $model = $exist_check->update($table_params);
                 }
