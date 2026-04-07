@@ -174,8 +174,7 @@ class EmployeesController extends Controller
             ->with('msgtype', 'warning');
         }
 
-        $u = Employee::where('id', $id)
-        ->update([
+        $table_params = [
             'lname' => $lname,
             'fname' => $fname,
             'mname' => ($r->mname) ? mb_strtoupper($r->mname) : NULL,
@@ -225,14 +224,22 @@ class EmployeesController extends Controller
             'duty_canbedeployedagain' => $r->duty_canbedeployedagain,
             'duty_team' => $r->duty_team,
             'temp_exempt_from_duty' => (auth()->user()->isGlobalAdmin()) ? $r->temp_exempt_from_duty : 'N',
-
-            'abtc_vaccinator_branch' => $r->abtc_vaccinator_branch,
+            
             //'duty_completedcycle' => 'N',
             //'created_by' => auth()->user()->id,
             'updated_by' => auth()->user()->id,
 
             'emp_access_list' => (!is_null($r->emp_access_list)) ? implode(",", $r->emp_access_list) : NULL,
-        ]);
+        ];
+
+        if(auth()->user()->isGlobalAdmin()) {
+            $table_params = $table_params + [
+                'abtc_vaccinator_branch' => $r->abtc_vaccinator_branch,
+            ];
+        }
+
+        $u = Employee::where('id', $id)
+        ->update($table_params);
 
         return redirect()->route('employees_index')
         ->with('msg', 'Employee ID: '.$id.' - '.$lname.', '.$fname.' was updated successfully.')
