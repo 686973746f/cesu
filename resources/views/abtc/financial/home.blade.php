@@ -55,7 +55,7 @@
                             <td>{{$d->patient->getName()}}</td>
                             <td class="text-center">{{$d->patient->philhealth}}</td>
                             <td class="text-center">{{$d->patient->getNameFormalOfPhilhealthMember()}}</td>
-                            <td class="text-center">{{$d->linkphilhealth_phnumber}}</td>
+                            <td class="text-center">{{$d->patient->linkphilhealth_phnumber}}</td>
                             <td class="text-center">{{$d->vaccinationsite->site_name}}</td>
                             <td class="text-center">{{date('m/d/Y', strtotime($d->d0_date))}}</td>
                             <td class="text-center">{{date('m/d/Y', strtotime($d->d7_date))}}</td>
