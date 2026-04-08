@@ -139,7 +139,7 @@
                             
                             <div class="form-group">
                               <label for="place_breastfeed"><b class="text-danger">*</b>Place of Delivery for Initiated Breastfeeding</label>
-                              <input type="text" class="form-control" name="place_breastfeed" id="place_breastfeed" style="text-transform: uppercase" required>
+                              <input type="text" class="form-control" name="place_breastfeed" id="place_breastfeed" value="{{old('place_breastfeed', $d->place_breastfeed)}}" style="text-transform: uppercase" required>
                             </div>
                         </div>
                     </div>
