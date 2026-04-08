@@ -34,7 +34,10 @@
                     <thead class="text-center thead-light">
                         <tr>
                             <th>Record ID</th>
-                            <th>Name</th>
+                            <th>Patient Name</th>
+                            <th>Patient Philhealth PIN</th>
+                            <th>Member Name</th>
+                            <th>Member Philhealth PIN</th>
                             <th>Facility</th>
                             <th>Date Admitted</th>
                             <th>Date Discharged</th>
@@ -50,6 +53,9 @@
                         <tr>
                             <td class="text-center">#{{$d->id}}</td>
                             <td>{{$d->patient->getName()}}</td>
+                            <td class="text-center">{{$d->patient->philhealth}}</td>
+                            <td>{{$d->patient->getNameFormalOfPhilhealthMember()}}</td>
+                            <td class="text-center">{{$d->linkphilhealth_phnumber}}</td>
                             <td class="text-center">{{$d->vaccinationsite->site_name}}</td>
                             <td class="text-center">{{date('m/d/Y', strtotime($d->d0_date))}}</td>
                             <td class="text-center">{{date('m/d/Y', strtotime($d->d7_date))}}</td>
