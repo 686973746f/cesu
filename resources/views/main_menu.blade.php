@@ -182,7 +182,7 @@
     $('#privacymodal').modal('show');
     
     $('#closedpBtn').prop('disabled', true);
-    var countdown = 5;
+    var countdown = 10;
     var countdownInterval = setInterval(function() {
         countdown--;
         $('#closedpBtn').text('Please wait for ' + countdown + ' seconds before closing the modal');
