@@ -202,6 +202,39 @@
 </form>
 
 <script>
+    // --- JSON retry helper (put this ABOVE $(document).ready) ---
+    const jsonCache = {};
+
+    function getJSONWithRetry(url, { retries = 3, timeout = 20000, backoff = 600 } = {}) {
+        if (jsonCache[url]) return jsonCache[url]; // same promise (prevents multiple downloads)
+
+        const attempt = (n) => {
+            return $.ajax({
+            url: url,
+            dataType: "json",
+            cache: true,
+            timeout: timeout
+            }).catch((jqxhr, textStatus, error) => {
+            if (n <= 0) return $.Deferred().reject(jqxhr, textStatus, error).promise();
+
+            const delay = backoff * Math.pow(2, (retries - n)); // exponential backoff
+            return $.Deferred(function (d) {
+                setTimeout(() => attempt(n - 1).then(d.resolve).catch(d.reject), delay);
+            }).promise();
+            });
+        };
+
+        jsonCache[url] = attempt(retries);
+        return jsonCache[url];
+    }
+
+    function showJsonLoadError(msg) {
+        console.log(msg);
+        // IMPORTANT: avoid window.location.reload() loop
+        alert(msg + "\n\nCheck your internet then click OK to retry.");
+    }
+
+
     $(document).bind('keydown', function(e) {
 		if(e.ctrlKey && (e.which == 83)) {
 			e.preventDefault();
@@ -219,159 +252,126 @@
         theme: 'bootstrap',
     });
 
-    //Region Select Initialize
-    $.getJSON("{{asset('json/refregion.json')}}", function(data) {
-        var sorted = data.sort(function(a, b) {
-            if (a.regDesc > b.regDesc) {
-                return 1;
-            }
-            if (a.regDesc < b.regDesc) {
-                return -1;
-            }
+    $(document).ready(function () {
+        const regionUrl  = "{{ asset('json/refregion.json') }}";
+        const provUrl    = "{{ asset('json/refprovince.json') }}";
+        const citymunUrl = "{{ asset('json/refcitymun.json') }}";
+        const brgyUrl    = "{{ asset('json/refbrgy.json') }}";
 
-            return 0;
-        });
+        // Prepare select placeholders
+        $('#address_region_code').empty().append('<option value="" selected disabled>Choose...</option>');
+        $('#address_province_code').empty().append('<option value="" selected disabled>Choose...</option>');
+        $('#address_muncity_code').empty().append('<option value="" selected disabled>Choose...</option>').prop('disabled', true);
+        $('#address_brgy_text').empty().append('<option value="" selected disabled>Choose...</option>').prop('disabled', true);
 
-        $.each(sorted, function(key, val) {
-            $('#address_region_code').append($('<option>', {
+        // 1) Load regions first (with retry)
+        getJSONWithRetry(regionUrl).then(function (data) {
+            var sorted = data.sort((a,b) => (a.regDesc || '').localeCompare(b.regDesc || ''));
+
+            sorted.forEach(function (val) {
+                $('#address_region_code').append($('<option>', {
                 value: val.regCode,
-                text: val.regDesc,
-                selected: (val.regCode == '04') ? true : false, //default is Region IV-A
-            }));
-        });
-    }).fail(function(jqxhr, textStatus, error) {
-        // Error callback
-        var err = textStatus + ", " + error;
-        console.log("Failed to load Region JSON: " + err);
-        window.location.reload(); // Reload the page
-    });
-
-    $('#address_region_code').change(function (e) { 
-        e.preventDefault();
-        //Empty and Disable
-        $('#address_province_code').empty();
-        $("#address_province_code").append('<option value="" selected disabled>Choose...</option>');
-
-        $('#address_muncity_code').empty();
-        $("#address_muncity_code").append('<option value="" selected disabled>Choose...</option>');
-
-        //Re-disable Select
-        $('#address_muncity_code').prop('disabled', true);
-        $('#address_brgy_text').prop('disabled', true);
-
-        //Set Values for Hidden Box
-        $('#address_region_text').val($('#address_region_code option:selected').text());
-
-        $.getJSON("{{asset('json/refprovince.json')}}", function(data) {
-            var sorted = data.sort(function(a, b) {
-                if (a.provDesc > b.provDesc) {
-                return 1;
-                }
-                if (a.provDesc < b.provDesc) {
-                return -1;
-                }
-                return 0;
+                text: val.regDesc
+                }));
             });
 
-            $.each(sorted, function(key, val) {
-                if($('#address_region_code').val() == val.regCode) {
+            // default Region IV-A
+            $('#address_region_code').val('04').trigger('change');
+            $('#address_region_text').val('REGION IV-A (CALABARZON)');
+        })
+        .catch(function (jqxhr, textStatus, error) {
+            showJsonLoadError("Failed to load Region JSON (" + textStatus + ").");
+        });
+
+        // 2) On region change -> load provinces
+        $('#address_region_code').off('change.addr').on('change.addr', function (e) {
+            e.preventDefault();
+
+            $('#address_province_code').empty().append('<option value="" selected disabled>Choose...</option>');
+            $('#address_muncity_code').empty().append('<option value="" selected disabled>Choose...</option>').prop('disabled', true);
+            $('#address_brgy_text').empty().append('<option value="" selected disabled>Choose...</option>').prop('disabled', true);
+
+            $('#address_region_text').val($('#address_region_code option:selected').text());
+
+            getJSONWithRetry(provUrl)
+            .then(function (data) {
+                var sorted = data.sort((a,b) => (a.provDesc || '').localeCompare(b.provDesc || ''));
+
+                sorted.forEach(function (val) {
+                if ($('#address_region_code').val() == val.regCode) {
                     $('#address_province_code').append($('<option>', {
-                        value: val.provCode,
-                        text: val.provDesc,
-                        selected: (val.provCode == '0421') ? true : false, //default for Cavite
+                    value: val.provCode,
+                    text: val.provDesc
                     }));
                 }
+                });
+
+                // default Cavite
+                $('#address_province_code').val('0421').trigger('change');
+                $('#address_province_text').val('CAVITE');
+            })
+            .catch(function (jqxhr, textStatus, error) {
+                showJsonLoadError("Failed to load Province JSON (" + textStatus + ").");
             });
-        }).fail(function(jqxhr, textStatus, error) {
-            // Error callback
-            var err = textStatus + ", " + error;
-            console.log("Failed to load Region JSON: " + err);
-            window.location.reload(); // Reload the page
         });
-    }).trigger('change');
 
-    $('#address_province_code').change(function (e) {
-        e.preventDefault();
-        //Empty and Disable
-        $('#address_muncity_code').empty();
-        $("#address_muncity_code").append('<option value="" selected disabled>Choose...</option>');
+        // 3) On province change -> load city/mun
+        $('#address_province_code').off('change.addr').on('change.addr', function (e) {
+            e.preventDefault();
 
-        //Re-disable Select
-        $('#address_muncity_code').prop('disabled', false);
-        $('#address_brgy_text').prop('disabled', true);
+            $('#address_muncity_code').empty().append('<option value="" selected disabled>Choose...</option>').prop('disabled', false);
+            $('#address_brgy_text').empty().append('<option value="" selected disabled>Choose...</option>').prop('disabled', true);
 
-        //Set Values for Hidden Box
-        $('#address_province_text').val($('#address_province_code option:selected').text());
+            $('#address_province_text').val($('#address_province_code option:selected').text());
 
-        $.getJSON("{{asset('json/refcitymun.json')}}", function(data) {
-            var sorted = data.sort(function(a, b) {
-                if (a.citymunDesc > b.citymunDesc) {
-                    return 1;
-                }
-                if (a.citymunDesc < b.citymunDesc) {
-                    return -1;
-                }
-                return 0;
-            });
-            $.each(sorted, function(key, val) {
-                if($('#address_province_code').val() == val.provCode) {
+            getJSONWithRetry(citymunUrl)
+            .then(function (data) {
+                var sorted = data.sort((a,b) => (a.citymunDesc || '').localeCompare(b.citymunDesc || ''));
+
+                sorted.forEach(function (val) {
+                if ($('#address_province_code').val() == val.provCode) {
                     $('#address_muncity_code').append($('<option>', {
-                        value: val.citymunCode,
-                        text: val.citymunDesc,
-                        selected: (val.citymunCode == '042108') ? true : false, //default for General Trias
-                    })); 
-                }
-            });
-        }).fail(function(jqxhr, textStatus, error) {
-            // Error callback
-            var err = textStatus + ", " + error;
-            console.log("Failed to load CityMun JSON: " + err);
-            window.location.reload(); // Reload the page
-        });
-    }).trigger('change');
-
-    $('#address_muncity_code').change(function (e) {
-        e.preventDefault();
-        //Empty and Disable
-        $('#address_brgy_text').empty();
-        $("#address_brgy_text").append('<option value="" selected disabled>Choose...</option>');
-
-        //Re-disable Select
-        $('#address_muncity_code').prop('disabled', false);
-        $('#address_brgy_text').prop('disabled', false);
-
-        //Set Values for Hidden Box
-        $('#address_muncity_text').val($('#address_muncity_code option:selected').text());
-
-        $.getJSON("{{asset('json/refbrgy.json')}}", function(data) {
-            var sorted = data.sort(function(a, b) {
-                if (a.brgyDesc > b.brgyDesc) {
-                return 1;
-                }
-                if (a.brgyDesc < b.brgyDesc) {
-                return -1;
-                }
-                return 0;
-            });
-            $.each(sorted, function(key, val) {
-                if($('#address_muncity_code').val() == val.citymunCode) {
-                    $('#address_brgy_text').append($('<option>', {
-                        value: val.brgyDesc.toUpperCase(),
-                        text: val.brgyDesc.toUpperCase(),
+                    value: val.citymunCode,
+                    text: val.citymunDesc
                     }));
                 }
-            });
-        }).fail(function(jqxhr, textStatus, error) {
-            // Error callback
-            var err = textStatus + ", " + error;
-            console.log("Failed to load Province BRGY: " + err);
-            window.location.reload(); // Reload the page
-        });
-    }).trigger('change');
+                });
 
-    $('#address_region_text').val('REGION IV-A (CALABARZON)');
-    $('#address_province_text').val('CAVITE');
-    $('#address_muncity_text').val('GENERAL TRIAS');
+                // default General Trias
+                $('#address_muncity_code').val('042108').trigger('change');
+                $('#address_muncity_text').val('GENERAL TRIAS');
+            })
+            .catch(function (jqxhr, textStatus, error) {
+                showJsonLoadError("Failed to load CityMun JSON (" + textStatus + ").");
+            });
+        });
+
+        // 4) On city/mun change -> load barangays
+        $('#address_muncity_code').off('change.addr').on('change.addr', function (e) {
+            e.preventDefault();
+
+            $('#address_brgy_text').empty().append('<option value="" selected disabled>Choose...</option>').prop('disabled', false);
+
+            $('#address_muncity_text').val($('#address_muncity_code option:selected').text());
+
+            getJSONWithRetry(brgyUrl)
+            .then(function (data) {
+                var sorted = data.sort((a,b) => (a.brgyDesc || '').localeCompare(b.brgyDesc || ''));
+
+                sorted.forEach(function (val) {
+                if ($('#address_muncity_code').val() == val.citymunCode) {
+                    $('#address_brgy_text').append($('<option>', {
+                    value: (val.brgyDesc || '').toUpperCase(),
+                    text: (val.brgyDesc || '').toUpperCase()
+                    }));
+                }
+                });
+            })
+            .catch(function (jqxhr, textStatus, error) {
+                showJsonLoadError("Failed to load Barangay JSON (" + textStatus + ").");
+            });
+        });
+    });
 
     var patientAge = {{Carbon\Carbon::parse(request()->input('bdate'))->age}};
 
