@@ -867,6 +867,11 @@
             }
         }
 
+        $('#gender').blur(function (e) { 
+            e.preventDefault();
+            checkBdate();
+        });
+
         $('#bdate').change(function (e) { 
             e.preventDefault();
             checkBdate();

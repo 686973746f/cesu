@@ -2022,7 +2022,7 @@ class ABTCVaccinationController extends Controller
                     $templateProcessor->setValue('day3', 'N/A');
                     $templateProcessor->setValue('day7', date('m/d/Y', strtotime($b->d7_date)));
                     $templateProcessor->setValue('day14', 'N/A');
-                    $templateProcessor->setValue('day28', 'N/A');
+                    $templateProcessor->setValue('day28', date('m/d/Y', strtotime($b->d28_date)));
                 }
                 else {
                     $templateProcessor->setValue('day3', date('m/d/Y', strtotime($b->d3_date)));
