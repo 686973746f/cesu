@@ -4005,7 +4005,8 @@ class FhsisController extends Controller
                     'MUN_CODE' => 'GENERAL TRIAS',
                     'BGY_CODE' => $brgyNameFhsis,
                     'DATE' => $start->format('m/d/y'),
-                    'DISEASE' => '000',
+                    //'DISEASE' => '000',
+                    'DISEASE' => '000; Zero Report',
                     'UNDER1_M' => 0,
                     'UNDER1_F' => 0,
                     '1_4_M' => 0,
@@ -4222,8 +4223,8 @@ class FhsisController extends Controller
             */
 
             $sheets = new SheetCollection([
-                'MORT BHS' => array_column($farr_final, 'total'),
-                'MORTALITY' => array_merge(...array_column($farr_final, 'diseases_list')),
+                'MORTALITY' => array_column($farr_final, 'total'),
+                'MORT BHS' => array_merge(...array_column($farr_final, 'diseases_list')),
             ]);
 
             $header_style = (new Style())->setFontBold();
