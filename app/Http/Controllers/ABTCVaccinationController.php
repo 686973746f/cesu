@@ -735,6 +735,7 @@ class ABTCVaccinationController extends Controller
                         'd' => $btwo->patient,
                         'vblist' => $vblist,
                         'vslist' => $vslist,
+                        'is_booster' => 'N',
                     ]);
                 }
                 else {
