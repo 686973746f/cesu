@@ -2,19 +2,20 @@
 
 namespace App\Jobs;
 
-use Carbon\Carbon;
 use App\Models\ExportJobs;
-use Illuminate\Support\Str;
-use Illuminate\Bus\Queueable;
 use App\Models\PharmacyStockCard;
 use App\Models\PharmacySupplySub;
-use Illuminate\Queue\SerializesModels;
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use Illuminate\Queue\InteractsWithQueue;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Carbon\Carbon;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Str;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class CallPharmacyAnnualInOutReport implements ShouldQueue
 {
@@ -49,155 +50,6 @@ class CallPharmacyAnnualInOutReport implements ShouldQueue
      */
     public function handle()
     {
-        /*
-        //STOCKS MASTERLIST
-        $list_subitem = PharmacySupplySub::where('pharmacy_branch_id', $selected_branch)
-        ->get();
-
-        $si_array = [];
-
-        foreach($list_subitem as $key => $si) {
-            $items_list[] = [
-                'name' => $si->pharmacysupplymaster->name,
-                'category' => $si->pharmacysupplymaster->category,
-                'unit' => $si->pharmacysupplymaster->quantity_type,
-                'current_stock' => $si->displayQty(),
-                'id' => $si->id,
-            ];
-        }
-
-        foreach($items_list as $item) {
-            $monthlyStocks = [];
-
-            for($i=1;$i<=12;$i++) {
-                $nomonth = Carbon::create()->month($i)->format('m');
-
-                if($item['unit'] == 'BOX') {
-                    $issued_count = PharmacyStockCard::where('subsupply_id', $item['id'])
-                    ->whereYear('created_at', $input_year)
-                    ->whereMonth('created_at', $nomonth)
-                    ->where('status', 'approved')
-                    ->where('type', 'ISSUED')
-                    ->where('qty_type', 'BOX')
-                    ->sum('qty_to_process');
-
-                    $received_count = PharmacyStockCard::where('subsupply_id', $item['id'])
-                    ->whereYear('created_at', $input_year)
-                    ->whereMonth('created_at', $nomonth)
-                    ->where('status', 'approved')
-                    ->where('type', 'RECEIVED')
-                    ->where('qty_type', 'BOX')
-                    ->sum('qty_to_process');
-
-                    $issued_count_piece = PharmacyStockCard::where('subsupply_id', $item['id'])
-                    ->whereYear('created_at', $input_year)
-                    ->whereMonth('created_at', $nomonth)
-                    ->where('status', 'approved')
-                    ->where('type', 'ISSUED')
-                    ->where('qty_type', 'PIECE')
-                    ->sum('qty_to_process');
-
-                    $received_count_piece = PharmacyStockCard::where('subsupply_id', $item['id'])
-                    ->whereYear('created_at', $input_year)
-                    ->whereMonth('created_at', $nomonth)
-                    ->where('status', 'approved')
-                    ->where('type', 'RECEIVED')
-                    ->where('qty_type', 'PIECE')
-                    ->sum('qty_to_process');
-
-                    if($issued_count == 0 && $issued_count_piece == 0) {
-                        $issued_txt = '';
-                        $received_txt = '';
-                    }
-                    else {
-                        if($issued_count == 0) {
-                            $issued_txt = '';
-
-                            if($issued_count_piece != 0) {
-                                $issued_txt = '- ';
-                            }
-                        }
-                        else {
-                            $issued_txt = '- '.$issued_count.' '.Str::plural('BOX', $issued_count);
-                        }
-
-                        if($received_count == 0) {
-                            $received_txt = '';
-                            
-                            if($received_count_piece != 0) {
-                                $received_txt = '+ ';
-                            }
-                        }
-                        else {
-                            $received_txt = '+ '.$received_count.' '.Str::plural('BOX', $received_count);
-                        }
-
-                        if($issued_count_piece != 0) {
-                            $issued_txt = $issued_txt.' '.$issued_count_piece.' '.Str::plural('PC', $issued_count_piece);
-                        }
-
-                        if($received_count_piece != 0) {
-                            $received_txt = $received_txt.' '.$received_count_piece.' '.Str::plural('PC', $received_count_piece);
-                        }
-                    }
-                    
-                }
-                else {
-                    $issued_count = PharmacyStockCard::where('subsupply_id', $item['id'])
-                    ->whereYear('created_at', $input_year)
-                    ->whereMonth('created_at', $nomonth)
-                    ->where('status', 'approved')
-                    ->where('type', 'ISSUED')
-                    ->sum('qty_to_process');
-
-                    $received_count = PharmacyStockCard::where('subsupply_id', $item['id'])
-                    ->whereYear('created_at', $input_year)
-                    ->whereMonth('created_at', $nomonth)
-                    ->where('status', 'approved')
-                    ->where('type', 'RECEIVED')
-                    ->sum('qty_to_process');
-
-                    if($issued_count == 0) {
-                        $issued_txt = '';
-                    }
-                    else {
-                        $issued_txt = '- '.$issued_count.' '.Str::plural('PC', $issued_count);
-                    }
-
-                    if($received_count == 0) {
-                        $received_txt = '';
-                    }
-                    else {
-                        $received_txt = '+ '.$received_count.' '.Str::plural('PC', $received_count);
-                    }
-                }
-                
-                $monthlyStocks[] = [
-                    'month' => Carbon::create()->month($i)->format('F'),
-                    'issued' => $issued_txt,
-                    'received' => $received_txt,
-                ];
-            }
-
-            $si_array[] = [
-                'name' => $item['name'],
-                'category' => $item['category'],
-                'unit' => $item['unit'],
-                'id' => $item['id'],
-                'current_stock' => $item['current_stock'],
-                'monthly_stocks' => $monthlyStocks,
-            ];
-        }
-
-        $filename = 'FHSIS_IMPORT_M2 BHS_'.$start->format('M_Y').'_'.Str::random(5).'.xlsx';
-
-        $exp = (new FastExcel($sheets))
-        ->headerStyle($header_style)
-        ->rowsStyle($rows_style)
-        ->export(storage_path('export_jobs/'.$filename));
-        */
-
-        
         $start_date = $this->start_date;
         $end_date = $this->end_date;
         $branch_id = $this->branch_id;
@@ -215,20 +67,26 @@ class CallPharmacyAnnualInOutReport implements ShouldQueue
 
         $sRow = 4;
 
-        if($input_year == date('Y')) {
-            /*
-            if(date('n') == 2) {
-                $maxValMonth = 1;
-            }
-            else {
-                $maxValMonth = date('n');
-            }
-            */
+        $maxValMonth = ($input_year == date('Y')) 
+        ? $cend_date->format('n') 
+        : 12;
 
-            $maxValMonth = $cend_date->format('n');
-        }
-        else {
-            $maxValMonth = 12;
+        $stockData = PharmacyStockCard::selectRaw("
+            COALESCE(pharmacy_stock_cards.subsupply_id, substock.subsupply_id) as item_id,
+            MONTH(pharmacy_stock_cards.created_at) as month,
+            pharmacy_stock_cards.type,
+            SUM(pharmacy_stock_cards.qty_to_process) as total
+        ")
+        ->leftJoin('pharmacy_stock_cards as substock', 'substock.id', '=', 'pharmacy_stock_cards.substock_id')
+        ->whereBetween('pharmacy_stock_cards.created_at', [$start_date, $end_date])
+        ->where('pharmacy_stock_cards.status', 'approved')
+        ->groupBy('item_id', 'month', 'pharmacy_stock_cards.type')
+        ->get();
+
+        $grouped = [];
+
+        foreach ($stockData as $row) {
+            $grouped[$row->item_id][$row->month][$row->type] = $row->total;
         }
 
         //STOCKS MASTERLIST
@@ -253,125 +111,23 @@ class CallPharmacyAnnualInOutReport implements ShouldQueue
             $monthlyStocks = [];
 
             for($i = 1; $i <= $maxValMonth; $i++) {
-                $start_month = Carbon::createFromDate($cyear, $i, 1)->startOfDay();
-                $end_month = $start_month->copy()->endOfMonth()->endOfDay();
 
-                $issued_count = PharmacyStockCard::where(function ($q) use ($item) {
-                    $q->where('subsupply_id', $item['id'])
-                    ->orWhereHas('substock', function ($r) use ($item) {
-                        $r->where('subsupply_id', $item['id']);
-                    });
-                })
-                ->whereBetween('created_at', [$start_month->format('Y-m-d H:i:s'), $end_month->format('Y-m-d H:i:s')])
-                ->where('status', 'approved')
-                ->where('type', 'ISSUED')
-                ->sum('qty_to_process');
+                $issued_count = $grouped[$item['id']][$i]['ISSUED'] ?? 0;
+                $received_count = $grouped[$item['id']][$i]['RECEIVED'] ?? 0;
 
-                $received_count = PharmacyStockCard::where(function ($q) use ($item) {
-                    $q->where('subsupply_id', $item['id'])
-                    ->orWhereHas('substock', function ($r) use ($item) {
-                        $r->where('subsupply_id', $item['id']);
-                    });
-                })
-                ->whereBetween('created_at', [$start_month->format('Y-m-d H:i:s'), $end_month->format('Y-m-d H:i:s')])
-                ->where('status', 'approved')
-                ->where('type', 'RECEIVED')
-                ->sum('qty_to_process');
+                $issued_txt = $issued_count 
+                    ? '- '.$issued_count.' '.Str::plural('PC', $issued_count) 
+                    : '';
 
-                if($issued_count == 0) {
-                    $issued_txt = '';
-                }
-                else {
-                    $issued_txt = '- '.$issued_count.' '.Str::plural('PC', $issued_count);
-                }
+                $received_txt = $received_count 
+                    ? '+ '.$received_count.' '.Str::plural('PC', $received_count) 
+                    : '';
 
-                if($received_count == 0) {
-                    $received_txt = '';
-                }
-                else {
-                    $received_txt = '+ '.$received_count.' '.Str::plural('PC', $received_count);
-                }
-                
                 $monthlyStocks[] = [
                     'month' => Carbon::create()->month($i)->format('F'),
                     'issued' => $issued_txt,
                     'received' => $received_txt,
                 ];
-
-                /*
-                if($item['unit'] == 'BOX') {
-                    $issued_count = PharmacyStockCard::where('subsupply_id', $item['id'])
-                    ->whereBetween('created_at', [$start_date, $end_date])
-                    ->where('status', 'approved')
-                    ->where('type', 'ISSUED')
-                    ->where('qty_type', 'BOX')
-                    ->sum('qty_to_process');
-
-                    $received_count = PharmacyStockCard::where('subsupply_id', $item['id'])
-                    ->whereBetween('created_at', [$start_date, $end_date])
-                    ->where('status', 'approved')
-                    ->where('type', 'RECEIVED')
-                    ->where('qty_type', 'BOX')
-                    ->sum('qty_to_process');
-
-                    $issued_count_piece = PharmacyStockCard::where('subsupply_id', $item['id'])
-                    ->whereBetween('created_at', [$start_date, $end_date])
-                    ->where('status', 'approved')
-                    ->where('type', 'ISSUED')
-                    ->where('qty_type', 'PIECE')
-                    ->sum('qty_to_process');
-
-                    $received_count_piece = PharmacyStockCard::where('subsupply_id', $item['id'])
-                    ->whereBetween('created_at', [$start_date, $end_date])
-                    ->whereMonth('created_at', $nomonth)
-                    ->where('status', 'approved')
-                    ->where('type', 'RECEIVED')
-                    ->where('qty_type', 'PIECE')
-                    ->sum('qty_to_process');
-
-                    if($issued_count == 0 && $issued_count_piece == 0) {
-                        $issued_txt = '';
-                        $received_txt = '';
-                    }
-                    else {
-                        if($issued_count == 0) {
-                            $issued_txt = '';
-
-                            if($issued_count_piece != 0) {
-                                $issued_txt = '- ';
-                            }
-                        }
-                        else {
-                            $issued_txt = '- '.$issued_count.' '.Str::plural('BOX', $issued_count);
-                        }
-
-                        if($received_count == 0) {
-                            $received_txt = '';
-                            
-                            if($received_count_piece != 0) {
-                                $received_txt = '+ ';
-                            }
-                        }
-                        else {
-                            $received_txt = '+ '.$received_count.' '.Str::plural('BOX', $received_count);
-                        }
-
-                        if($issued_count_piece != 0) {
-                            $issued_txt = $issued_txt.' '.$issued_count_piece.' '.Str::plural('PC', $issued_count_piece);
-                        }
-
-                        if($received_count_piece != 0) {
-                            $received_txt = $received_txt.' '.$received_count_piece.' '.Str::plural('PC', $received_count_piece);
-                        }
-                    }
-                    
-                }
-                else {
-                    
-                }
-                */
-
-                
             }
 
             $si_array[] = [
@@ -390,13 +146,14 @@ class CallPharmacyAnnualInOutReport implements ShouldQueue
             $sheet->setCellValue("B{$sRow}", $si['unit']);
             $sheet->setCellValue("C{$sRow}", $si['current_stock']);
 
-            $columnIndex = 3; // Start at 0 (corresponds to 'A')
+            $columnIndex = 4; // Start at 3 (corresponds to 'D')
             foreach($si['monthly_stocks'] as $ms) {
-                $columnLetter = chr(65 + $columnIndex); // 65 is ASCII for 'A'
+                //$columnLetter = chr(65 + $columnIndex); // 65 is ASCII for 'A'
+                $columnLetter = Coordinate::stringFromColumnIndex($columnIndex);
                 $sheet->setCellValue($columnLetter . $sRow, $ms['received']);
 
                 $columnIndex++;
-                $columnLetter = chr(65 + $columnIndex);
+                $columnLetter = Coordinate::stringFromColumnIndex($columnIndex + 1);
                 $sheet->setCellValue($columnLetter . $sRow, $ms['issued']);
                 
                 $columnIndex++;
