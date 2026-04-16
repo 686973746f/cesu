@@ -1184,4 +1184,4 @@ Route::get('/auth_login', function () {
         return view('auth.login');
     }
     
-})->name('main');
+})->name('login');

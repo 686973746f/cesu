@@ -402,7 +402,7 @@ class CallPharmacyAnnualInOutReport implements ShouldQueue
                 $columnIndex++;
             }
 
-            $sheet->setCellValue('AA'.$sRow, $si['yearend_stock']);
+            $sheet->setCellValue('AB'.$sRow, $si['yearend_stock']);
 
             $sRow++;
         }
