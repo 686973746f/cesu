@@ -77,7 +77,7 @@ class CallPharmacyAnnualInOutReport implements ShouldQueue
             pharmacy_stock_cards.type,
             SUM(pharmacy_stock_cards.qty_to_process) as total
         ")
-        ->leftJoin('pharmacy_stock_cards as substock', 'substock.id', '=', 'pharmacy_stock_cards.substock_id')
+        ->leftJoin('pharmacy_stock_cards as substock', 'substock.id', '=', 'pharmacy_stock_cards.stock_id')
         ->whereBetween('pharmacy_stock_cards.created_at', [$start_date, $end_date])
         ->where('pharmacy_stock_cards.status', 'approved')
         ->groupBy('item_id', 'month', 'pharmacy_stock_cards.type')
@@ -153,7 +153,7 @@ class CallPharmacyAnnualInOutReport implements ShouldQueue
                 $sheet->setCellValue($columnLetter . $sRow, $ms['received']);
 
                 $columnIndex++;
-                $columnLetter = Coordinate::stringFromColumnIndex($columnIndex + 1);
+                $columnLetter = Coordinate::stringFromColumnIndex($columnIndex);
                 $sheet->setCellValue($columnLetter . $sRow, $ms['issued']);
                 
                 $columnIndex++;
