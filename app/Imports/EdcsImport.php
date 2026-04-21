@@ -2650,9 +2650,7 @@ class DengueImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                     'LabTest' => NULL,
                     'LabRes' => NULL,
                     'ClinClass' => $get_classi,
-                    'Outcome' => (isset($row['outcome'])) ? mb_strtoupper(substr($row['outcome'],0,1)) : mb_strtoupper(substr($row['outcome2'],0,1)),
                     'EPIID' => $epi_id,
-                    'DateDied' => EdcsImport::tDate($row['date_died'] ?? $row['datedied']),
                     
                     'MorbidityMonth' => $getMorbidityMonth,
                     'MorbidityWeek' => $row['morbidity_week'] ?? $row['mw'],
@@ -2724,6 +2722,9 @@ class DengueImport implements ToModel, WithHeadingRow, WithGroupedHeadingRow
                         'Streetpurok' => ($row['current_address_sitio_purok_street_name'] != '' && !is_null($row['current_address_sitio_purok_street_name']) && mb_strtoupper($row['current_address_sitio_purok_street_name']) != 'N/A') ? $row['current_address_sitio_purok_street_name'] : NULL,
                         'Barangay' => EdcsImport::brgySetter($row['current_address_barangay']),
                         'created_by' => auth()->user()->id,
+
+                        'Outcome' => (isset($row['outcome'])) ? mb_strtoupper(substr($row['outcome'],0,1)) : mb_strtoupper(substr($row['outcome2'],0,1)),
+                        'DateDied' => EdcsImport::tDate($row['date_died'] ?? $row['datedied']),
                     ];
 
                     $model = Dengue::create($table_params);
