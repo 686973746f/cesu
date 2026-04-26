@@ -1861,7 +1861,12 @@ class PharmacyController extends Controller
         $item = PharmacySupplySub::findOrFail($item_id);
 
         if($item->pharmacy_branch_id == auth()->user()->pharmacy_branch_id) {
-            $list = PharmacyStockCard::where('subsupply_id', $item->id)
+            $list = PharmacyStockCard::where(function ($q) use ($item) {
+                $q->where('subsupply_id', $item->id)
+                ->orWhereHas('substock.pharmacysub', function ($r) use ($item) {
+                    $r->where('id', $item->id);
+                });
+            })
             ->orderBy('created_at', 'DESC')
             ->paginate(10);
 
@@ -2196,7 +2201,13 @@ class PharmacyController extends Controller
         $sheet->setCellValue('G11', ($d->mode_of_procurement) ? $d->mode_of_procurement : 'N/A');
         $sheet->setCellValue('G13', ($d->end_user) ? $d->end_user : 'N/A');
 
-        $transaction = PharmacyStockCard::where('subsupply_id', $d->id)
+        $transaction = PharmacyStockCard::where(function ($q) use ($d) {
+            $q->where('subsupply_id', $d->id)
+            ->orWhereHas('substock.pharmacysub', function ($r) use ($d) {
+                $r->where('id', $d->id);
+            });
+        })
+        ->whereYear('created_at', $r->year)
         ->orderBy('created_at', 'ASC')
         ->get();
 
