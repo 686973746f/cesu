@@ -157,7 +157,7 @@
                                         <button type="submit" class="btn btn-primary btn-block" name="submit" value="view_report">Submit</button>
                                         <button type="submit" class="btn btn-primary btn-block" name="submit" value="generate_inoutreport">
                                             <div>Generate In/Out Report</div>
-                                            <div><small>(might take 30-40 minutes to generate)</small></div>
+                                            <div><small>(might take 2-5 minutes to generate)</small></div>
                                         </button>
                                     </div>
                                 </div>
