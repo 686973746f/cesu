@@ -598,7 +598,7 @@ class ElectronicTclController extends Controller
             ];
         }
 
-        if(!is_null($r->outcome) && $r->trans_remarks != 'B') {
+        if(!is_null($r->outcome) && $r->trans_remarks != 'C') {
             if(!is_null($r->birth_weight)) {
                 if($r->birth_weight < 2500) {
                     $weight_status = 'L'; //Low Birth Weight
