@@ -5067,6 +5067,13 @@ class PIDSRController extends Controller
 
     public function snaxVersionTwoController() {
         if(request()->input('disease') && request()->input('year') && request()->input('mweek')) {
+
+            if(is_null(auth()->user()->link_employee_id)) {
+                return redirect()->back()
+                ->with('msg', 'Error: You are not linked through an Employee ID yet. Please contact your administrator.')
+                ->with('msgtype', 'warning');
+            }
+
             $sel_disease = request()->input('disease');
             $sel_year = request()->input('year');
             $sel_year_minusone = ($sel_year - 1);

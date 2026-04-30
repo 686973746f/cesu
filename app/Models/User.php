@@ -111,6 +111,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'permission_list',
         'etcl_bhs_id',
         'switch_bhs_list',
+        'link_employee_id',
     ];
 
     /**
