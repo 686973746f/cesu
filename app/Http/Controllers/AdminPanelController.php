@@ -2,27 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Brgy;
-use App\Models\City;
-use App\Models\User;
-use App\Models\Forms;
-use App\Models\WorkTask;
-use App\Models\BrgyCodes;
-use App\Models\LiveBirth;
-use App\Models\DohFacility;
-use App\Models\Interviewers;
-use Illuminate\Http\Request;
-use App\Models\PharmacyBranch;
-use App\Models\VaxcertConcern;
-use App\Models\SyndromicDoctor;
-use App\Models\DeathCertificate;
-use App\Models\SyndromicRecords;
 use App\Models\AbtcBakunaRecords;
 use App\Models\AbtcVaccinationSite;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use App\Models\Brgy;
+use App\Models\BrgyCodes;
+use App\Models\City;
+use App\Models\DeathCertificate;
+use App\Models\DohFacility;
+use App\Models\Employee;
 use App\Models\EvacuationCenterFamilyHead;
 use App\Models\EvacuationCenterFamilyMember;
+use App\Models\Forms;
+use App\Models\Interviewers;
+use App\Models\LiveBirth;
+use App\Models\PharmacyBranch;
+use App\Models\SyndromicDoctor;
+use App\Models\SyndromicRecords;
+use App\Models\User;
+use App\Models\VaxcertConcern;
+use App\Models\WorkTask;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use IlluminateAgnostic\Collection\Support\Str;
 
 class AdminPanelController extends Controller
@@ -253,6 +254,8 @@ class AdminPanelController extends Controller
 
         $abtc_branches = AbtcVaccinationSite::where('enabled', 1)->get();
 
+        $linkemployee_list = Employee::get();
+
         if(!is_null($d->itr_facility_id)) {
             $opd_doctors = SyndromicDoctor::where('facility_id', $d->itr_facility_id)
             ->where('active_in_service', 'Y')
@@ -272,6 +275,7 @@ class AdminPanelController extends Controller
             'abtc_branches' => $abtc_branches,
             'opd_doctors' => $opd_doctors,
             'perm_list' => $perm_list,
+            'linkemployee_list' => $linkemployee_list,
         ]);
     }
 
@@ -288,6 +292,7 @@ class AdminPanelController extends Controller
         $d->permission_list = implode(",", $r->permission_list);
         $d->etcl_bhs_id = $r->etcl_bhs_id;
         $d->switch_bhs_list = $r->switch_bhs_list;
+        $d->link_employee_id = ($r->link_employee_id != 'NONE') ? $r->link_employee_id : NULL;
 
         if($d->isDirty()) {
             $d->save();

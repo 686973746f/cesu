@@ -3388,7 +3388,10 @@ class PharmacyController extends Controller
             return view('pharmacy.stock_masterlist', compact('medicines', 'branches'));
         }
         else {
-            $list = PharmacySupplySub::where('pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
+            $list = PharmacySupplySub::select('pharmacy_supply_subs.*')
+            ->join('pharmacy_supply_masters', 'pharmacy_supply_subs.supply_master_id', '=', 'pharmacy_supply_masters.id')
+            ->where('pharmacy_supply_subs.pharmacy_branch_id', auth()->user()->pharmacy_branch_id)
+            ->orderBy('pharmacy_supply_masters.name', 'asc')
             ->get();
 
             return view('pharmacy.stock_masterlist', compact('list'));
