@@ -692,8 +692,8 @@
                                     <tr>
                                         <td>Prepared by:</td>
                                         <td>
-                                            <h6><b><u>ANALYN C. BARZAGA</u></b></h6>
-                                            <h6><small>PIDSR J.O Encoder</small></h6>
+                                            <h6 class="mt-5"><b><u>{{auth()->user()->employee->getNameWithPr()}}</u></b></h6>
+                                            <h6><small>{{auth()->user()->employee->latestEmploymentStatus->job_position}}</small></h6>
                                         </td>
                                     </tr>
                                     <tr>

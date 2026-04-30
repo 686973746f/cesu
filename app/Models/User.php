@@ -928,4 +928,8 @@ class User extends Authenticatable implements MustVerifyEmail
             return [];
         }
     }
+
+    public function employee() {
+        return $this->belongsTo(Employee::class, 'link_employee_id');
+    }
 }
