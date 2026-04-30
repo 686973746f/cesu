@@ -254,7 +254,7 @@ class AdminPanelController extends Controller
 
         $abtc_branches = AbtcVaccinationSite::where('enabled', 1)->get();
 
-        $linkemployee_list = Employee::get();
+        $linkemployee_list = Employee::orderBy('lname', 'ASC')->get();
 
         if(!is_null($d->itr_facility_id)) {
             $opd_doctors = SyndromicDoctor::where('facility_id', $d->itr_facility_id)
