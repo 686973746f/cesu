@@ -692,9 +692,8 @@
                                     <tr>
                                         <td>Prepared by:</td>
                                         <td>
-                                            <img src="{{asset('assets/images/ANALYN_PIRMA.png')}}" class="img-fluid" style="margin-bottom:-60px;width: 20rem;margin-left:-100px;" id="signature1">
-                                            <h6><b><u>ANALYN C. BARZAGA</u></b></h6>
-                                            <h6><small>PIDSR J.O Encoder</small></h6>
+                                            <h6 class="mt-5"><b><u>{{auth()->user()->employee->getNameWithPr()}}</u></b></h6>
+                                            <h6><small>{{auth()->user()->employee->latestEmploymentStatus->job_position}}</small></h6>
                                         </td>
                                     </tr>
                                     <tr>
@@ -722,12 +721,6 @@
         </div>
     </div>
     <div class="{{($sel_disease == 'Pert') ? 'd-none' : ''}}">
-        <div class="form-check">
-            <label class="form-check-label">
-              <input type="checkbox" class="form-check-input" name="checker1" id="checker1" value="checkedValue" checked>
-              Signature 1 (Prepared by)
-            </label>
-        </div>
         <div class="form-check">
             <label class="form-check-label">
               <input type="checkbox" class="form-check-input" name="checker2" id="checker2" value="checkedValue" checked>

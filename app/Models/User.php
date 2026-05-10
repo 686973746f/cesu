@@ -111,6 +111,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'permission_list',
         'etcl_bhs_id',
         'switch_bhs_list',
+        'link_employee_id',
     ];
 
     /**
@@ -930,5 +931,9 @@ class User extends Authenticatable implements MustVerifyEmail
         else {
             return [];
         }
+    }
+
+    public function employee() {
+        return $this->belongsTo(Employee::class, 'link_employee_id');
     }
 }

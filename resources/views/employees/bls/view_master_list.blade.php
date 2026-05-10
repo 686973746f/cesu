@@ -82,7 +82,7 @@
                                 <div>N/A</div>
                                 @endif
                             </td>
-                            <td class="text-center">{{($d->getLastTrainingData()) ? Carbon\Carbon::parse($d->getLastTrainingData()->batch->training_date_start)->format('m/d/Y') : 'N/A'}}</td>
+                            <td class="text-center">{{($d->getLastTrainingData()) ? Carbon\Carbon::parse($d->getLastTrainingData()->batch->training_date_end)->format('m/d/Y') : 'N/A'}}</td>
                             <td class="text-center">{{($d->getLastTrainingData()) ? Carbon\Carbon::parse($d->getLastTrainingData()->batch->training_date_start)->format('Y') : 'N/A'}}</td>
                             <td class="text-center">{{$d->ifForRefresher()}}</td>
                             <td class="text-center"></td>

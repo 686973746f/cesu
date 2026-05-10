@@ -59,6 +59,15 @@
                     </div>
                     <div class="col-6">
                         <div class="form-group">
+                            <label for="link_employee_id"><b class="text-danger">*</b>Link Employee ID</label>
+                            <select class="form-control" name="link_employee_id" id="link_employee_id" required>
+                                <option value="NONE">N/A</option>
+                                @foreach($linkemployee_list as $e)
+                                <option value="{{$e->id}}" {{($d->link_employee_id == $e->id) ? 'selected': ''}}>{{$e->getName()}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="pharmacy_branch_id"><b class="text-danger">*</b>Link Pharmacy Branch ID</label>
                             <select class="form-control" name="pharmacy_branch_id" id="pharmacy_branch_id" required>
                                 <option value="NONE">N/A</option>

@@ -49,6 +49,8 @@ class CreateUsersTable extends Migration
             $table->text('permission_list')->nullable();
             $table->timestamp('last_login_date')->nullable();
             $table->tinyInteger('is_firsttimelogin')->default(1);
+
+            $table->foreignId('link_employee_id')->nullable()->constrained('employees')->onDelete('set null');
             
             $table->foreignId('supervisor_id')->nullable()->constrained('employees')->onDelete('set null');
             $table->foreignId('depthead_id')->nullable()->constrained('employees')->onDelete('set null');
