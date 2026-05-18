@@ -124,6 +124,7 @@ class EmployeesController extends Controller
             'abtc_vaccinator_branch' => $r->abtc_vaccinator_branch,
             'created_by' => auth()->user()->id,
             'temp_exempt_from_duty' => (auth()->user()->isGlobalAdmin()) ? $r->temp_exempt_from_duty : 'N',
+            'biometrics_id' => $r->biometrics_id,
 
             'emp_access_list' => (!is_null($r->emp_access_list)) ? implode(",", $r->emp_access_list) : NULL,
         ]);
@@ -224,6 +225,7 @@ class EmployeesController extends Controller
             'duty_canbedeployedagain' => $r->duty_canbedeployedagain,
             'duty_team' => $r->duty_team,
             'temp_exempt_from_duty' => (auth()->user()->isGlobalAdmin()) ? $r->temp_exempt_from_duty : 'N',
+            'biometrics_id' => $r->biometrics_id,
             
             //'duty_completedcycle' => 'N',
             //'created_by' => auth()->user()->id,

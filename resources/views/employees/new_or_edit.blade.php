@@ -265,6 +265,11 @@
                             </select>
                         </div>
                         @endif
+                        
+                        <div class="form-group">
+                          <label for="biometrics_id">Biometrics ID</label>
+                          <input type="number" min="0" max="999999999" name="biometrics_id" id="biometrics_id" class="form-control" value="{{old('biometrics_id', $d->biometrics_id)}}">
+                        </div>
                     </div>
                 </div>
                 <hr>
