@@ -11699,7 +11699,7 @@ class PIDSRController extends Controller
                     if($d->FinalClass == 'MEASLES COMPATIBLE') {
                         $finalClass = 'MEASLES';
                     }
-                    else if($d->FinalClass == 'LABORATORY CONFIRMED MEASLES') {
+                    else if($d->FinalClass == 'LABORATORY CONFIRMED MEASLES' || $d->FinalClass == 'MEASLES EQUIVOCAL') {
                         $finalClass = 'LCM';
                     }
                     else if($d->FinalClass == 'LABORATORY CONFIRMED RUBELLA') {
