@@ -3227,6 +3227,8 @@ class FhsisController extends Controller
             $age_death_months = NULL;
             $age_death_days = NULL;
 
+            $maternal_condition = 'N/A';
+
             if(!is_null($lname) && !is_null($fname)) {
                 $exist_check = DeathCertificate::where('lname', $lname)
                 ->where('fname', $fname)
