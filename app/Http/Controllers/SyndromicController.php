@@ -2779,13 +2779,23 @@ class SyndromicController extends Controller
             ->orWhere('ICD10_DESC', 'LIKE', "%".$s."%")
             ->get();
 
-            foreach($data as $item) {
+            if($s == 'NONE' || $s == 'N/A') {
                 array_push($list, [
-                    'id' => $item->ICD10_CODE,
-                    'text' => $item->ICD10_CODE.' - '.$item->ICD10_DESC,
-                    'desc' => $item->ICD10_CODE.'; '.$item->ICD10_DESC,
+                    'id' => 'N/A',
+                    'text' => 'N/A: NONE',
+                    'desc' => 'N/A: NONE',
                 ]);
             }
+            else {
+                foreach($data as $item) {
+                    array_push($list, [
+                        'id' => $item->ICD10_CODE,
+                        'text' => $item->ICD10_CODE.' - '.$item->ICD10_DESC,
+                        'desc' => $item->ICD10_CODE.'; '.$item->ICD10_DESC,
+                    ]);
+                }
+            }
+            
         }
 
         return response()->json($list);
