@@ -39,13 +39,20 @@ class EmployeesController extends Controller
 
             $list = Employee::where(function ($q) {
                 $q->whereHas('latestEmploymentStatus', function ($q2) {
-                    $q2->where('status', 'ACTIVE');
+                    $q2->where('status', 'ACTIVE')
+                    ->whereIn('office', ['CHO MAIN', 'SAN FRANCISCO SUPER HEALTH CENTER', 'MANGGAHAN HEALTH CENTER', 'PK2 SUPER HEALTH CENTER', 'DOH-HRH']);
                 })
                 ->orWhereDoesntHave('latestEmploymentStatus');
-            })->get();
+            })
+            ->where('enabled', 'Y')
+            ->get();
         }
 
-        $demographic_query = Employee::query();
+        $demographic_query = Employee::query()
+        ->where('enabled', 'Y')
+        ->whereHas('latestEmploymentStatus', function ($q2) {
+            $q2->whereIn('office', ['CHO MAIN', 'SAN FRANCISCO SUPER HEALTH CENTER', 'MANGGAHAN HEALTH CENTER', 'PK2 SUPER HEALTH CENTER', 'DOH-HRH']);
+        });
     
         return view('employees.index', [
             'list' => $list,
@@ -176,6 +183,7 @@ class EmployeesController extends Controller
         }
 
         $table_params = [
+            'enabled' => $r->enabled,
             'lname' => $lname,
             'fname' => $fname,
             'mname' => ($r->mname) ? mb_strtoupper($r->mname) : NULL,
@@ -261,10 +269,12 @@ class EmployeesController extends Controller
     public function dutyIndex() {
         $duty_qry = Employee::where(function ($q) {
             $q->whereHas('latestEmploymentStatus', function ($q2) {
-                $q2->where('status', 'ACTIVE');
+                $q2->where('status', 'ACTIVE')
+                ->whereIn('office', ['CHO MAIN', 'SAN FRANCISCO SUPER HEALTH CENTER', 'MANGGAHAN HEALTH CENTER', 'PK2 SUPER HEALTH CENTER', 'DOH-HRH']);
             })
             ->orWhereDoesntHave('latestEmploymentStatus');
         })
+        ->where('enabled', 'Y')
         ->where('duty_canbedeployed', 'Y')
         ->whereNotNull('duty_team');
 
@@ -373,10 +383,12 @@ class EmployeesController extends Controller
             //Increase Count of Duty Balance sa mga di dumuty last cycle
             $u2 = Employee::where(function ($q) {
                 $q->whereHas('latestEmploymentStatus', function ($q2) {
-                    $q2->where('status', 'ACTIVE');
+                    $q2->where('status', 'ACTIVE')
+                    ->whereIn('office', ['CHO MAIN', 'SAN FRANCISCO SUPER HEALTH CENTER', 'MANGGAHAN HEALTH CENTER', 'PK2 SUPER HEALTH CENTER', 'DOH-HRH']);
                 })
                 ->orWhereDoesntHave('latestEmploymentStatus');
             })
+            ->where('enabled', 'Y')
             ->where('duty_canbedeployed', 'Y')
             ->where('duty_completedcycle', 'N')
             ->where('excess_duty', 0)
@@ -389,10 +401,12 @@ class EmployeesController extends Controller
             //Kapag may Excess Duty tapos hindi dumuty sa current cycle, hindi madadagdagan ng duty_balance pero mababawasan ng excess_duty
             $u3 = Employee::where(function ($q) {
                 $q->whereHas('latestEmploymentStatus', function ($q2) {
-                    $q2->where('status', 'ACTIVE');
+                    $q2->where('status', 'ACTIVE')
+                    ->whereIn('office', ['CHO MAIN', 'SAN FRANCISCO SUPER HEALTH CENTER', 'MANGGAHAN HEALTH CENTER', 'PK2 SUPER HEALTH CENTER', 'DOH-HRH']);
                 })
                 ->orWhereDoesntHave('latestEmploymentStatus');
             })
+            ->where('enabled', 'Y')
             ->where('duty_canbedeployed', 'Y')
             ->where('duty_completedcycle', 'N')
             ->where('excess_duty', '>', 0)
@@ -421,10 +435,12 @@ class EmployeesController extends Controller
 
         $duty_qry = Employee::where(function ($q) {
             $q->whereHas('latestEmploymentStatus', function ($q2) {
-                $q2->where('status', 'ACTIVE');
+                $q2->where('status', 'ACTIVE')
+                ->whereIn('office', ['CHO MAIN', 'SAN FRANCISCO SUPER HEALTH CENTER', 'MANGGAHAN HEALTH CENTER', 'PK2 SUPER HEALTH CENTER', 'DOH-HRH']);
             })
             ->orWhereDoesntHave('latestEmploymentStatus');
         })
+        ->where('enabled', 'Y')
         ->where('duty_canbedeployed', 'Y');
 
         if(!request()->input('override')) {

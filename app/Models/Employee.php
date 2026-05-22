@@ -13,6 +13,7 @@ class Employee extends Model
     use HasFactory;
 
     protected $fillable = [
+        'enabled',
         'lname',
         'fname',
         'mname',

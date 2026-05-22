@@ -25,9 +25,6 @@
                 <div class="d-flex justify-content-between">
                     <div><b>Employee</b></div>
                     <div>
-                        @if($mode == 'EDIT')
-                        <a href="{{route('attendancesheet_create', $d->id)}}?month={{date('m')}}&year={{date('Y')}}" class="btn btn-primary">Create DTR</a>
-                        @endif
                     </div>
                 </div>
             </div>
@@ -35,6 +32,16 @@
                 @if(session('msg'))
                 <div class="alert alert-{{session('msgtype')}} text-center" role="alert">
                     {{session('msg')}}
+                </div>
+                @endif
+
+                @if($mode == 'EDIT')
+                <div class="form-group">
+                  <label for="enabled"><b class="text-danger">*</b>Enabled</label>
+                  <select class="form-control" name="enabled" id="enabled" required>
+                    <option value="Y">Yes</option>
+                    <option value="N">No</option>
+                  </select>
                 </div>
                 @endif
                 <div class="row">
