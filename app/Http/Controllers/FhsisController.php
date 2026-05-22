@@ -3364,8 +3364,9 @@ class FhsisController extends Controller
                 //'address_houseno',
                 'maternal_condition' => $maternal_condition,
                 'immediate_cause' => $r->immediate_cause,
-                //'antecedent_cause',
-                //'underlying_cause',
+                'antecedent_cause' => $r->antecedent_cause,
+                'underlying_cause' => $r->underlying_cause,
+                'other_cause' => $r->other_cause,
                 'created_by' => Auth::id(),
             ];
 

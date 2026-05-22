@@ -324,6 +324,23 @@
                             <select class="form-control" name="immediate_cause" id="immediate_cause" required>
                             </select>
                         </div>
+
+                        <div class="form-group mt-3">
+                            <label for="antecedent_cause"><b class="text-danger">*</b>Antecedent Cause</label>
+                            <select class="form-control" name="antecedent_cause" id="antecedent_cause" required>
+                            </select>
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <label for="underlying_cause"><b class="text-danger">*</b>Underlying Cause</label>
+                            <select class="form-control" name="underlying_cause" id="underlying_cause" required>
+                            </select>
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <label for="other_cause">Other Cause</label>
+                            <input type="text" class="form-control" name="other_cause" id="other_cause">
+                        </div>
                     </div>
                     
                 </div>
@@ -894,7 +911,7 @@
         });
         */
 
-        $('#immediate_cause').select2({
+        $('#immediate_cause, #antecedent_cause, #underlying_cause').select2({
             theme: "bootstrap",
             placeholder: 'Input ICD10 Code or Description',
             ajax: {

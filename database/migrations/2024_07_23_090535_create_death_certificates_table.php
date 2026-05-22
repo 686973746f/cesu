@@ -73,6 +73,7 @@ class CreateDeathCertificatesTable extends Migration
             $table->text('immediate_cause');
             $table->text('antecedent_cause')->nullable();
             $table->text('underlying_cause')->nullable();
+            $table->text('other_cause')->nullable();
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('cascade');
             $table->timestamps();

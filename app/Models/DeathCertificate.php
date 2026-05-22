@@ -59,6 +59,7 @@ class DeathCertificate extends Model
         'immediate_cause',
         'antecedent_cause',
         'underlying_cause',
+        'other_cause',
         'created_by',
         'updated_by',
     ];
